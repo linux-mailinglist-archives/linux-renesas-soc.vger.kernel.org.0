@@ -2,217 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F81189926
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 11:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D97EE189CE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 14:25:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727703AbgCRKTl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 06:19:41 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37147 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727698AbgCRKTl (ORCPT
+        id S1727066AbgCRNZn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 09:25:43 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:24633 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727078AbgCRNZn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 06:19:41 -0400
-Received: by mail-lj1-f195.google.com with SMTP id r24so26387974ljd.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2020 03:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=gzym+ypZqpjWmWKa4VJKBMKo9LIO59BdQoueTVn41OM=;
-        b=zOTIH/VOJopsLS0rZHxSVfiTGkCoEaq9QcfoXQf9O9MFBO+oNrnrouGTC2y6Pv4zll
-         RNva8BANBr2Y5cEndoEbedTZQEQmM25pJbjU7o/gLWKCVD5AdD+e0vNteSlI3aBq2/gN
-         U6QoRwbpoJ3H8KhzKfKBimcoprdAhvhgWfFfSJwwAzDzDSnruLL9JeocTicsbraAJ9Aj
-         QC4rLBrsMX63siPSOunTGHKZPVg89mPn/1DW2BCtUvOQhFtYSzR9/dOCdGDDtitd3r0S
-         wFwgzhcInX3rXZWgjf6Up6rSjvxQ8XlMKVMCPk/1boTeRDRGHDkVIaaZeN0/5F0TbcmM
-         F+Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=gzym+ypZqpjWmWKa4VJKBMKo9LIO59BdQoueTVn41OM=;
-        b=X8sBPyKr1rZtWZzjYltHHOIR9MgFd5ymzUqCzvkbeEo0vOEiXhMBbgEcmmj96cSBve
-         Uij5DRuMYDdtn8w0Z7W7VeTHw+DCUnPg2XJqJOB/279cVD3n/G7UT0QZztZWo9QP1GL5
-         CrB8/K+x58XfeBQMqGgrrbxk95g/Dhg3wH09kIeSoirxWHxbntq7eMXHWEqXrp0yzJaJ
-         +K7eUKTC9AopWD9sNRizsuehfTWYdNqeWs/xv70sQ16+1hEEtchlO8sqc+gUzQ3MwtFW
-         seeOuEmFZc9/8PvWwGDV4c2dRQLz8CB2grP9OpRMLlmIEmGmNdHnlE5Bi7IWNuTTp1+R
-         JrHA==
-X-Gm-Message-State: ANhLgQ2b+ykj6EXqgBW2Jp+Ltdw2emzGKo9npeRRrJBpd95224kYcjO/
-        SizW9o2z5QU93uL3gR1+Qch9tg==
-X-Google-Smtp-Source: ADFU+vvzt0BbIXxDJbV9xAGI8ELBnSE73Mm5oRWePbKFm4alzRuwENpzZQgxE+sl7zMNsxenhANutw==
-X-Received: by 2002:a2e:9b93:: with SMTP id z19mr1922902lji.64.1584526777495;
-        Wed, 18 Mar 2020 03:19:37 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id t6sm3537154ljc.50.2020.03.18.03.19.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2020 03:19:36 -0700 (PDT)
-Date:   Wed, 18 Mar 2020 11:19:36 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Suresh Udipi <sudipi@jp.adit-jv.com>
-Cc:     akiyama@nds-osk.co.jp, efriedrich@de.adit-jv.com,
-        erosca@de.adit-jv.com, hverkuil-cisco@xs4all.nl,
-        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, mrodin@de.adit-jv.com,
-        securitycheck@denso.co.jp
-Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
- hsfreqrange
-Message-ID: <20200318101936.GA2667161@oden.dyn.berto.se>
-References: <20200316130247.GA2258968@oden.dyn.berto.se>
- <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
- <20200317103756.GC2496015@oden.dyn.berto.se>
- <20200318090029.GA22842@jp-u0004>
+        Wed, 18 Mar 2020 09:25:43 -0400
+X-Halon-ID: e0a9da5c-691b-11ea-9f40-0050569116f7
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id e0a9da5c-691b-11ea-9f40-0050569116f7;
+        Wed, 18 Mar 2020 14:25:07 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v5 0/4] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Date:   Wed, 18 Mar 2020 14:25:09 +0100
+Message-Id: <20200318132513.3089234-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200318090029.GA22842@jp-u0004>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Suresh,
+Hi,
 
-Thanks for your feedback.
+This series aims to reduce the amount of boiler plate code in video
+device drivers who's inputs and/or outputs are controlled by the Media
+Controller instead of the V4L2 API.
 
-On 2020-03-18 18:00:29 +0900, Suresh Udipi wrote:
-> On Tue, Mar 17, 2020 at 11:37:56AM +0100, Niklas Söderlund wrote:
-> > Hi Suresh,
-> > 
-> > Thanks for your work.
-> > 
-> > On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
-> > > hsfreqrange should be chosen based on the calculated mbps which
-> > > is closer to the default bit rate  and within the range as per
-> > > table[1]. But current calculation always selects first value which
-> > > is greater than or equal to the calculated mbps which may lead
-> > > to chosing a wrong range in some cases.
-> > > 
-> > > For example for 360 mbps for H3/M3N
-> > > Existing logic selects
-> > > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
-> > > 
-> > > This hsfreqrange is out of range.
-> > > 
-> > > The logic is changed to get the default value which is closest to the
-> > > calculated value [1]
-> > > 
-> > > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
-> > > 
-> > > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
-> > > 
-> > > There is one exectpion value 227Mbps, which may cause out of
-> > > range.
-> > 
-> > Then something else is needed I think :-)
-> > 
-> > I liked v1 of this RFC more, where you added a u16 min and max to struct 
-> > rcsi2_mbps_reg. I think that is the right solution.
-> > 
-> > What I tried to express in my review of v1 was
-> > 
-> > - You should remove the mbps member from struct rcsi2_mbps_reg.
-> > - Update the walk of the array in rcsi2_set_phypll() so that it finds 
-> >   the first entry where the calculated target value is between min and 
-> >   max and use the reg setting for that entry.
-> > 
-> > Would that solution make sens too you? Sorry if I expressed myself a but 
-> > muddy in v1 about this.
->  
-> Thank you for your feedback. Checking the range make more sense.
-> 
-> We can further optimize it, by checking only the Max range value.
-> 
-> - Remove mbps and min member from struct rcsi2_mbps_reg.
-> - Update the walk of the array in rcsi2_set_phypll() so that it finds
->   the first entry where the calculated bit rate is less than the max.
-> 
-> Lower bit rates less than 80Mbps 
-> like 48Mbps(Raspberry pi camera 640x480 connected to Kingfisher)
-> can also be supported by selecting the lowest default bit rate 80Mbps
-> as done before this fix.
+Patch 1/4 adds a new video device capability flag V4L2_CAP_IO_MC which
+if set provides helper implementations for the enum inputs and outputs
+ioctls freeing the video device driver from the need to implement them.
 
-I think this approach sounds nice.
+Patch 2/4, 3/4 and 4/4 converts the R-Car VIN, Intel IPU3 and VIMC 
+drivers to use the new default handlers and capability flag and delete 
+the now redundant boiler plate code. I'm sure more video device drivers
+can make use of this new flag but as I can only test on these two
+platforms I have limited my changes to those.
 
-> 
-> Please let me know your opinion on the same.
-> Meanwhile iam working on creating the patch, test it and update the same.
+A separate patch to v4l-utils will be posted separately as [1] to add a 
+test for this feature to v4l2-compliance.
 
-Looking forward to it!
+1. [PATCH 0/2] v4l2-compliance: add tests for V4L2_CAP_IO_MC
 
-> > > 
-> > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > > 
-> > > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-> > > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-> > > ---
-> > > Changes in v2:
-> > >   - Added the boundary check for the maximum bit rate.
-> > >   
-> > >   - Simplified the logic by remmoving range check 
-> > >     as only the closest default value covers most 
-> > >     of the use cases.
-> > > 
-> > >   - Aligning the commit message based on the above change
-> > > 
-> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
-> > >  1 file changed, 13 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > index faa9fb2..6573625 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
-> > >  /* PHY Frequency Control */
-> > >  #define PHYPLL_REG			0x68
-> > >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
-> > > +#define PHYPLL_HSFREQRANGE_MAX		1500
-> > >  
-> > >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
-> > >  	{ .mbps =   80, .reg = 0x00 },
-> > > @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> > >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> > >  {
-> > >  	const struct rcsi2_mbps_reg *hsfreq;
-> > > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> > >  
-> > > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-> > > -		if (hsfreq->mbps >= mbps)
-> > > -			break;
-> > > -
-> > > -	if (!hsfreq->mbps) {
-> > > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
-> > >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> > >  		return -ERANGE;
-> > >  	}
-> > >  
-> > > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > > +		if (hsfreq->mbps >= mbps)
-> > > +			break;
-> > > +		hsfreq_prev = hsfreq;
-> > > +	}
-> > > +
-> > > +	if (hsfreq_prev &&
-> > > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > > +		hsfreq = hsfreq_prev;
-> > > +
-> > >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> > >  
-> > >  	return 0;
-> > > -- 
-> > > 2.7.4
-> > > 
-> > 
-> > -- 
-> > Regards,
-> > Niklas Söderlund
-> 
-> -- 
-> Best Regards,
-> Suresh Udipi.
+Niklas SÃ¶derlund (4):
+  v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+  rcar-vin: Make use of V4L2_CAP_IO_MC
+  staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
+  vimc: Make use of V4L2_CAP_IO_MC
+
+ .../media/uapi/v4l/vidioc-querycap.rst        |  6 ++
+ .../media/videodev2.h.rst.exceptions          |  1 +
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   | 17 +-----
+ drivers/media/platform/vimc/vimc-capture.c    |  2 +-
+ drivers/media/v4l2-core/v4l2-dev.c            | 25 ++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 57 ++++++++++++++++--
+ drivers/staging/media/ipu3/ipu3-v4l2.c        | 58 +------------------
+ include/uapi/linux/videodev2.h                |  2 +
+ 8 files changed, 84 insertions(+), 84 deletions(-)
 
 -- 
-Regards,
-Niklas Söderlund
+2.25.1
+
