@@ -2,90 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40B9618A331
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 20:33:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B8DB18A38D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 21:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbgCRTdI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 15:33:08 -0400
-Received: from sauhun.de ([88.99.104.3]:50466 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726619AbgCRTdI (ORCPT
+        id S1726781AbgCRUN2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 16:13:28 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42414 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726647AbgCRUN1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 15:33:08 -0400
-Received: from localhost (p54B333FA.dip0.t-ipconnect.de [84.179.51.250])
-        by pokefinder.org (Postfix) with ESMTPSA id B636F2C097D;
-        Wed, 18 Mar 2020 20:33:05 +0100 (CET)
-Date:   Wed, 18 Mar 2020 20:33:02 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-        fabrizio.castro@bp.renesas.com,
-        ramesh.shanmugasundaram@bp.renesas.com, magnus.damm@gmail.com
-Subject: Re: [PATCH v2 0/3] clk: renesas: cpg-mssr: add ignore-unused option
-Message-ID: <20200318193302.GA13309@ninjato>
-References: <1584376479-25258-1-git-send-email-uli+renesas@fpond.eu>
+        Wed, 18 Mar 2020 16:13:27 -0400
+Received: by mail-oi1-f194.google.com with SMTP id 13so158390oiy.9;
+        Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
+        b=EdyaXSK/9dSzcuY7KwTimocBCtQucM4yN4ilyd0nhsZPKf/UZPVgHsa27qIqIEWXnQ
+         cPh0Eqo1ASE1ekQGfsFtJNbZhhy1L/klvGKLYsRpvUQhWP06l5H7cwN0ynA4d7cnjgB9
+         +mSQIHNkMZW8leB3bfjIIfD9iUaGIpkiVUeiZ526JEb9RorazGGJUyLQGtYJ1Rp9Vngi
+         XiuI7qVILh/vxu/878w2zvYPf99V8I/i1Fon1swKN8rVHN1BILMMtig7NlQzyC2xR3Vl
+         90HSAqD4+MRRWe0jOLDzen4quH5t9LZP3htJmM24EpiC7E4DvRe4sti7AhcEdUghPqIK
+         ZVag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
+        b=ekdjUyFQv2TSMcoOYLYe9YJcq4hwSQZM4jcNX3jjjug/alRE/pMZGcnMhKi6qxWYm8
+         s19DRdCoZAjj++czh1IdTQIPfulOAFIO0pjmoUogbRutOvo3P9zmoFuhJIScr9yuIM7H
+         LiPFmlt3bLaEsfVe9Io0UP1sMtlOr297ax5ZdBhvP6JpYKexSVx8h7Z19P+hFHT0uQ5U
+         0TbLIKFECs2B99Stk787Ox7zS2QZEIuPJAwUvXrLcbNv9M3JfR9iDm643kOniuCaP3rC
+         GXvs6NE8BFXUyxA5E+JtjfsodSJnTih8OvHzSR/EAFh5iNlVJ27OsLztNL8VIsy6+Tnw
+         AC9Q==
+X-Gm-Message-State: ANhLgQ3CT6GATjWRYXWJgU3Y5G2ceYxba5LOOu3bFvru0B56hu1ruLgn
+        +4u4eD5MZpgdKJ1k4jg/+CQUuaZoPPNeiR0ls4M=
+X-Google-Smtp-Source: ADFU+vufu0AMNL2diBAQJHFss43B9g2oEZMBku7DzmuqAqCY+mQmcA2SGVTBSVyu9mf3O/z+lZkGA1kzO8O/MIO5lqs=
+X-Received: by 2002:aca:7512:: with SMTP id q18mr4630250oic.71.1584562407110;
+ Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
-Content-Disposition: inline
-In-Reply-To: <1584376479-25258-1-git-send-email-uli+renesas@fpond.eu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200313212012.GL4751@pendragon.ideasonboard.com> <OSBPR01MB35905D6D72DCBF154FCF7C88AAFA0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+ <20200313212717.GO4751@pendragon.ideasonboard.com>
+In-Reply-To: <20200313212717.GO4751@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 18 Mar 2020 20:13:00 +0000
+Message-ID: <CA+V-a8veXbwMrda8UEu2mN6gGgrBJA8Mp7gdN7Q3-iXNw9c4pg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to assigned-clock-rates
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent,
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Mar 13, 2020 at 9:27 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, Mar 13, 2020 at 09:25:01PM +0000, Prabhakar Mahadev Lad wrote:
+> > On Sent: 13 March 2020 21:20, Laurent Pinchart wrote:
+> > > On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
+> > > > Use assigned-clock-rates to specify the clock rate. Also mark
+> > > > clock-frequency property as deprecated.
+> > >
+> > > I would phrase it the other way around, this patch mainly deprecates clock-
+> > > frequency, and as a side effect recommends usage of assigned-clock-rates.
+> > >
+> > > "Deprecate usage of the clock-frequency propertly. The preferred method
+> > > to set clock rates is to use assigned-clock-rates."
+> >
+> > Agreed will do that.
+> >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
+> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > index 72ad992..e62fe82 100644
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > @@ -8,7 +8,7 @@ Required Properties:
+> > > >  - compatible: Value should be "ovti,ov5645".
+> > > >  - clocks: Reference to the xclk clock.
+> > > >  - clock-names: Should be "xclk".
+> > > > -- clock-frequency: Frequency of the xclk clock.
+> > > > +- clock-frequency (deprecated): Frequency of the xclk clock.
+> > >
+> > > I would drop this completely. Drivers need to ensure backward compatibility,
+> > > but DT bindings should only document the latest version, the history is
+> > > available in git.
+> > >
+> > Sure will drop it.
+> >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >
+> > > While at it, can I enlist you to convert these bindings to yaml ? :-)
+> > >
+> > Sure will do the honours , will make sure yaml patch is ontop of this patch too.
+>
+Shall I enlist you as the maintainer  in the json-schema ?
+dt_binding_check says  'maintainers' is a required property.
 
+Cheers,
+--Prabhakar Lad
 
-> The point of this is to allow a WDT that has been enabled by the bootload=
-er
-> to survive these events:
->=20
-> - deferred probing of the WDT device, which can lead the clock driver
->   to disable the WDT clock until the WDT is re-probed, giving it a
->   blind spot
-> - probe failure in the WDT driver
-
-So, I was trying to test this with the watchdog driver and my patch[1].
-To make the watchdog_register_device() call fail, I cleared the ident
-struct:
-
-	priv->wdev.info =3D NULL; //&rwdt_ident;
-
-Sadly, the watchdog does not fire after the driver bailed out of probe.
-clk_summary rightfully says that the clock is neither prepared nor
-enabled.
-
-Did I miss something? I will try some more tomorrow.
-
-Uli, how did you test the ignore_unused feature?
-
-[1] https://patchwork.kernel.org/patch/11101573/
-   "[PATCH v2] watchdog: renesas_wdt: support handover from bootloader"
-
---UlVJffcvxoiEqYs2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5yd2oACgkQFA3kzBSg
-KbZo/g/9GGbgRGL2gf47GQdmiSGb6bI5SU0EQoSNv7asIxRiEx/VKlpts1v1Fk2E
-dTE9q/uMUpayvIe2NAgcgFrhkVFfCpnExIM47WsgznMyMLqAtq6xFKIhUmOnTpyr
-xPJze7aVBUm3ykf+MCmfSodyq7Pisc6uGYdDJGwvcO6+AcvuzP90WyJxdpvHF5GM
-7gi4v4kakydGvJ1vvry8au7+Q6lumd2vfILw3A8hKHNNfOcUpewpxytChn8qinpj
-T/N+SQk1TpFMTAx6k6YTOXyBz3sb9ZHAfH13dEHdsPG2ZX1f24CFE9TMmAJMSOBZ
-mQyFrIHZi1HPQgXTww+1UblAo4sS8tVqfxXQ9gvr/FS06oCE6tu3M+q3+Mjf7JIS
-i/mbqacX5IQm+GlVJVotJrcXA0DzHyLrnELup3MZ52mGysVnY4EIv4L+A8jrTwx1
-50jf/p6e/zRpJAALgHfI4aafGVHbIypbmCJkiWHGfWySwq3okJrBpK/VI2fxCv3S
-vP059hi6bRPN0AjwYS/TRkVcjZZyPKNO1c3GhSRjJTR/7WePkeVwAAlivZyYmoiA
-Ux/cL5yQPMkdnLOMb84KGsFxbBbjeA6H73Z1FZqNc3puwlSR+jIh2jPnvoGuM0rX
-fPG2NA9b8v4M7BPrEfpKiRgTcwu/ECMZf3NmOTom0cgJlD1+I5s=
-=LWN9
------END PGP SIGNATURE-----
-
---UlVJffcvxoiEqYs2--
+> Thank you :-)
+>
+> > > >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> > > >    to the hardware pin PWDNB which is physically active low.
+> > > >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> > > > @@ -37,7 +37,8 @@ Example:
+> > > >
+> > > >  clocks = <&clks 200>;
+> > > >  clock-names = "xclk";
+> > > > -clock-frequency = <24000000>;
+> > > > +assigned-clocks = <&clks 200>;
+> > > > +assigned-clock-rates = <24000000>;
+> > > >
+> > > >  vdddo-supply = <&camera_dovdd_1v8>;
+> > > >  vdda-supply = <&camera_avdd_2v8>;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
