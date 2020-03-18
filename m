@@ -2,160 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B8DB18A38D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 21:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 209B618A705
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 22:31:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbgCRUN2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 16:13:28 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42414 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726647AbgCRUN1 (ORCPT
+        id S1726950AbgCRVbG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 17:31:06 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:8099 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726747AbgCRVbG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 16:13:27 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 13so158390oiy.9;
-        Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
-        b=EdyaXSK/9dSzcuY7KwTimocBCtQucM4yN4ilyd0nhsZPKf/UZPVgHsa27qIqIEWXnQ
-         cPh0Eqo1ASE1ekQGfsFtJNbZhhy1L/klvGKLYsRpvUQhWP06l5H7cwN0ynA4d7cnjgB9
-         +mSQIHNkMZW8leB3bfjIIfD9iUaGIpkiVUeiZ526JEb9RorazGGJUyLQGtYJ1Rp9Vngi
-         XiuI7qVILh/vxu/878w2zvYPf99V8I/i1Fon1swKN8rVHN1BILMMtig7NlQzyC2xR3Vl
-         90HSAqD4+MRRWe0jOLDzen4quH5t9LZP3htJmM24EpiC7E4DvRe4sti7AhcEdUghPqIK
-         ZVag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TTrA+tMwfg5GaaL0pTTB4SX2vmA9Q9FMRW/WsoCZ0JE=;
-        b=ekdjUyFQv2TSMcoOYLYe9YJcq4hwSQZM4jcNX3jjjug/alRE/pMZGcnMhKi6qxWYm8
-         s19DRdCoZAjj++czh1IdTQIPfulOAFIO0pjmoUogbRutOvo3P9zmoFuhJIScr9yuIM7H
-         LiPFmlt3bLaEsfVe9Io0UP1sMtlOr297ax5ZdBhvP6JpYKexSVx8h7Z19P+hFHT0uQ5U
-         0TbLIKFECs2B99Stk787Ox7zS2QZEIuPJAwUvXrLcbNv9M3JfR9iDm643kOniuCaP3rC
-         GXvs6NE8BFXUyxA5E+JtjfsodSJnTih8OvHzSR/EAFh5iNlVJ27OsLztNL8VIsy6+Tnw
-         AC9Q==
-X-Gm-Message-State: ANhLgQ3CT6GATjWRYXWJgU3Y5G2ceYxba5LOOu3bFvru0B56hu1ruLgn
-        +4u4eD5MZpgdKJ1k4jg/+CQUuaZoPPNeiR0ls4M=
-X-Google-Smtp-Source: ADFU+vufu0AMNL2diBAQJHFss43B9g2oEZMBku7DzmuqAqCY+mQmcA2SGVTBSVyu9mf3O/z+lZkGA1kzO8O/MIO5lqs=
-X-Received: by 2002:aca:7512:: with SMTP id q18mr4630250oic.71.1584562407110;
- Wed, 18 Mar 2020 13:13:27 -0700 (PDT)
+        Wed, 18 Mar 2020 17:31:06 -0400
+X-Halon-ID: aad7aa7e-695f-11ea-9f40-0050569116f7
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id aad7aa7e-695f-11ea-9f40-0050569116f7;
+        Wed, 18 Mar 2020 22:30:30 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [RFC 0/5] media-device: Report if graph is complete or not
+Date:   Wed, 18 Mar 2020 22:30:46 +0100
+Message-Id: <20200318213051.3200981-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200313212012.GL4751@pendragon.ideasonboard.com> <OSBPR01MB35905D6D72DCBF154FCF7C88AAFA0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <20200313212717.GO4751@pendragon.ideasonboard.com>
-In-Reply-To: <20200313212717.GO4751@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 18 Mar 2020 20:13:00 +0000
-Message-ID: <CA+V-a8veXbwMrda8UEu2mN6gGgrBJA8Mp7gdN7Q3-iXNw9c4pg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to assigned-clock-rates
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Fri, Mar 13, 2020 at 9:27 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> On Fri, Mar 13, 2020 at 09:25:01PM +0000, Prabhakar Mahadev Lad wrote:
-> > On Sent: 13 March 2020 21:20, Laurent Pinchart wrote:
-> > > On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
-> > > > Use assigned-clock-rates to specify the clock rate. Also mark
-> > > > clock-frequency property as deprecated.
-> > >
-> > > I would phrase it the other way around, this patch mainly deprecates clock-
-> > > frequency, and as a side effect recommends usage of assigned-clock-rates.
-> > >
-> > > "Deprecate usage of the clock-frequency propertly. The preferred method
-> > > to set clock rates is to use assigned-clock-rates."
-> >
-> > Agreed will do that.
-> >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
-> > > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > index 72ad992..e62fe82 100644
-> > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > @@ -8,7 +8,7 @@ Required Properties:
-> > > >  - compatible: Value should be "ovti,ov5645".
-> > > >  - clocks: Reference to the xclk clock.
-> > > >  - clock-names: Should be "xclk".
-> > > > -- clock-frequency: Frequency of the xclk clock.
-> > > > +- clock-frequency (deprecated): Frequency of the xclk clock.
-> > >
-> > > I would drop this completely. Drivers need to ensure backward compatibility,
-> > > but DT bindings should only document the latest version, the history is
-> > > available in git.
-> > >
-> > Sure will drop it.
-> >
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >
-> > > While at it, can I enlist you to convert these bindings to yaml ? :-)
-> > >
-> > Sure will do the honours , will make sure yaml patch is ontop of this patch too.
->
-Shall I enlist you as the maintainer  in the json-schema ?
-dt_binding_check says  'maintainers' is a required property.
+This series is an attempt to scratch an old itch, it's problematic to 
+support unbind and then a second call to complete in v4l2-async. When 
+the second complete call happens a lot of things can go wrong.
 
-Cheers,
---Prabhakar Lad
+When v4l2-async complete callback is called multiple video devices are 
+registered with video_register_device(). Then if a v4l2-async unbind 
+happens they are unregistered with video_unregister_device().
 
-> Thank you :-)
->
-> > > >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> > > >    to the hardware pin PWDNB which is physically active low.
-> > > >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > > > @@ -37,7 +37,8 @@ Example:
-> > > >
-> > > >  clocks = <&clks 200>;
-> > > >  clock-names = "xclk";
-> > > > -clock-frequency = <24000000>;
-> > > > +assigned-clocks = <&clks 200>;
-> > > > +assigned-clock-rates = <24000000>;
-> > > >
-> > > >  vdddo-supply = <&camera_dovdd_1v8>;
-> > > >  vdda-supply = <&camera_avdd_2v8>;
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Their are multiple problems with this, specially for R-Car VIN.
+
+1. Defending on which subdevice is unbound parts of the video pipeline 
+   can still function. There are for example two CSI-2 receivers 
+   connected to two different CSI-2 buses in the pipeline. If one of the 
+   receivers are unbound the other can still function perfectly well.  
+   But with the current setup everything goes away, this is bad for 
+   operational safety.
+
+2. The struct video_device contains a static struct device, which in 
+   turn contains a static struct kref. When the kref is release by 
+   calling video_unregister_device() and then later trying to 
+   re-register the video device video_register_device() the kref life 
+   time management kicks in and produces warnings in later kernels or 
+   OOPS in older ones.
+
+It has been discussed in the past at various conferences that it could 
+be OK to not video_unregister_device() if a v4l2-async unbind happens.  
+The argument against it was that user-space needed a way to check if a 
+pipeline was completely probed or not. And this used to be that the 
+video devices where only present if everything was available.
+
+It was agreed in principle that if an alternate way for media controller 
+centric devices could be found to inform user-space of this fact could 
+be found it would be OK to not unregister video devices in case of an 
+unbind or even allow registering the video devices at probe time instead 
+of at v4l2-async complete time.
+
+This series aims to provide such a mechanism using the media device 
+itself to (optionally) report if the media graph is complete or not.
+
+Patch 1/5, 2/5 and 3/5 adds the plumbing inside the core to carry such 
+information from a driver to user-space. Patch 4/5 and 5/5 implements 
+the new media device callback to report graph status and stops 
+registering the video devices in case an v4l2-async unbind happens.
+
+A complementary series to v4l2-utils is posted as [1] which demonstrates 
+the usage of this series from user-space.
+
+1. [PATCH 0/2] v4l-utils: media-ctl: Print media graph completes if 
+   available
+
+Niklas Söderlund (5):
+  uapi/linux/media.h: add flag field to struct media_device_info
+  media-device: Add a graph_complete callback to struct media_device_ops
+  mc-device.c: If graph completes status is available report it to
+    user-space
+  rcar-vin: Report the completeness of the media graph
+  rcar-vin: Do not unregister video device when a subdevice is unbound
+
+ drivers/media/mc/mc-device.c                |  4 ++++
+ drivers/media/platform/rcar-vin/rcar-core.c | 18 +++++++++++++-----
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  4 ++++
+ include/media/media-device.h                |  3 +++
+ include/uapi/linux/media.h                  |  9 ++++++++-
+ 5 files changed, 32 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
+
