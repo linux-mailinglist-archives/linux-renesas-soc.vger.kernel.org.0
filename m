@@ -2,65 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2354B1896A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 09:09:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 58DB4189778
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 09:58:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbgCRIJo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 04:09:44 -0400
-Received: from mga05.intel.com ([192.55.52.43]:23169 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726513AbgCRIJo (ORCPT
+        id S1726513AbgCRI6Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 04:58:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39978 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbgCRI6Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 04:09:44 -0400
-IronPort-SDR: xr1h9kt92B+Eu9zL4V2G7UaCg+FyJWN51Gqq1M4dFh1s+X+6aux4skrrcMCTh0OEnFzW9sb8rV
- YtJeX6P4oa1w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2020 01:09:43 -0700
-IronPort-SDR: SYeGGI/zMfxiDiUqCzYhWZ+2jm1KNnPSyWfZxkCXU8ZO37cfu22TERAlTZtbtDlD+M/pjATiZW
- VdULDqwXNogw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,566,1574150400"; 
-   d="scan'208";a="238130765"
-Received: from jsowinsk-mobl.ger.corp.intel.com (HELO mara.localdomain) ([10.249.156.87])
-  by fmsmga008.fm.intel.com with ESMTP; 18 Mar 2020 01:09:41 -0700
-Received: from sailus by mara.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1jETli-0000YQ-Ou; Wed, 18 Mar 2020 10:09:38 +0200
-Date:   Wed, 18 Mar 2020 10:09:38 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
+        Wed, 18 Mar 2020 04:58:25 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FAD5AC0;
+        Wed, 18 Mar 2020 09:58:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584521903;
+        bh=x5zGzRONpHqEkfSriHxYKBj7PMtKs3boofmcluqhrMk=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=hMaw+w2HfpkmqY3Ccm9XGbDHug3FSrVG1XpNnQRYcjyZQtXVBu3KJg6Dhnx+67ASJ
+         qyKQk4QNtwzkThI/TW5tR2B8nzlGYAz+zSN/ZNmyj7WETjMfKMjIW3ZH0eNV7NWy0N
+         zibjIHClhBN8+P7gG4tU5OTJmwm5wVtqTPOagLl8=
+Subject: Re: [PATCH v2 2/4] media: v4l2-async: Pass notifier pointer to match
+ functions
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Lad Prabhakar <prabhakar.csengg@gmail.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: v4l2-async: Pass notifier pointer to match
- functions
-Message-ID: <20200318080937.GB2101@mara.localdomain>
 References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
  <20200318002507.30336-3-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <d82c9908-f527-9406-b666-f130b8ede2ee@ideasonboard.com>
+Date:   Wed, 18 Mar 2020 08:58:19 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20200318002507.30336-3-laurent.pinchart+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 02:25:05AM +0200, Laurent Pinchart wrote:
+Hi Laurent,
+
+On 18/03/2020 00:25, Laurent Pinchart wrote:
 > The notifier is useful to match functions to access information about
 > the device matching a subdev. This will be used to print messages using
 > the correct struct device and driver name.
-> 
+
+The number of times I've added debug prints in these match functions
+debugging issues already, I should have done this too!
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 995e5464cba7..224b39a7aeb1 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -50,7 +50,8 @@ static int v4l2_async_notifier_call_complete(struct v4l2_async_notifier *n)
+>  	return n->ops->complete(n);
+>  }
+>  
+> -static bool match_i2c(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +static bool match_i2c(struct v4l2_async_notifier *notifier,
+> +		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  {
+>  #if IS_ENABLED(CONFIG_I2C)
+>  	struct i2c_client *client = i2c_verify_client(sd->dev);
+> @@ -63,13 +64,14 @@ static bool match_i2c(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  #endif
+>  }
+>  
+> -static bool match_devname(struct v4l2_subdev *sd,
+> -			  struct v4l2_async_subdev *asd)
+> +static bool match_devname(struct v4l2_async_notifier *notifier,
+> +			  struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  {
+>  	return !strcmp(asd->match.device_name, dev_name(sd->dev));
+>  }
+>  
+> -static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +static bool match_fwnode(struct v4l2_async_notifier *notifier,
+> +			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  {
+>  	struct fwnode_handle *other_fwnode;
+>  	struct fwnode_handle *dev_fwnode;
+> @@ -114,7 +116,8 @@ static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  	return dev_fwnode == other_fwnode;
+>  }
+>  
+> -static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+> +static bool match_custom(struct v4l2_async_notifier *notifier,
+> +			 struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  {
+>  	if (!asd->match.custom.match)
+>  		/* Match always */
+> @@ -131,7 +134,8 @@ static struct v4l2_async_subdev *
+>  v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+>  		      struct v4l2_subdev *sd)
+>  {
+> -	bool (*match)(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd);
+> +	bool (*match)(struct v4l2_async_notifier *notifier,
+> +		      struct v4l2_subdev *sd, struct v4l2_async_subdev *asd);
+>  	struct v4l2_async_subdev *asd;
+>  
+>  	list_for_each_entry(asd, &notifier->waiting, list) {
+> @@ -156,7 +160,7 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
+>  		}
+>  
+>  		/* match cannot be NULL here */
+> -		if (match(sd, asd))
+> +		if (match(notifier, sd, asd))
+>  			return asd;
+>  	}
+>  
+> 
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
--- 
-Sakari Ailus
