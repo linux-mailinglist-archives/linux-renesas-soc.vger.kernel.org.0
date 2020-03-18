@@ -2,95 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16E6B1897FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62C081897F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:32:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727355AbgCRJfg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 05:35:36 -0400
-Received: from mail-pj1-f47.google.com ([209.85.216.47]:56086 "EHLO
-        mail-pj1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726994AbgCRJfg (ORCPT
+        id S1727501AbgCRJcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 05:32:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41838 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726994AbgCRJcu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 05:35:36 -0400
-Received: by mail-pj1-f47.google.com with SMTP id mj6so1084200pjb.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2020 02:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:date:message-id:subject;
-        bh=6+L0FIU2A+7B4LV7MqEmMouLnYI7ObBztyd+zUMY9rw=;
-        b=CWRVpgxhdoN+lMWVml4YxQDkNh0vkY7jj/kRybowThG3SKIFL3YvF4GHPIbz3D63PK
-         4XCb5x0AmjnnatvZDp1tL8nKnlI7IIoQRDgYZY01jHURYVLRPfGPdyLCTjqMfHKoIaKW
-         lux4FfEABJbjitIuafY0bLc/gGaL5phY/kgzrpey3Ae0uxWwU06UQXBGiE4T3CnZqrrY
-         oCGzEraFLkZgRKpjbzUnMxjQCA88xDfwAC75B1XZfVL0f/jLKCPU6n5CG9eaNET6cER+
-         78OwZVRXTgo2mtkz0CxI3vM7qkhoWnpiyGwa03ojjXlCTRHevY0ufZce/qcswV36wmmX
-         Yu3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:date:message-id:subject;
-        bh=6+L0FIU2A+7B4LV7MqEmMouLnYI7ObBztyd+zUMY9rw=;
-        b=eusvjJPenJO+dGRitWHwrnX7mEDBDcYq61ASi3xq5WunsGKsX8lFExLiX6Ey+PZrbx
-         FJDOhj/gLsOXqioTa43KhqBsUy9GnAUfOCgKgMF2PxFsxhTHfDjhAGCsJ+oMylOaw7Je
-         GQ4Oa51Mz7f8ylxh4w4x0sIZiIOa+vwPayYdwn16maaynSnaqlrTH5PN/pI0/Z31oMx3
-         Vce4DNb5FPisDc556AcdZihyzuN5IO9CFVlyzEijX8qLo6jOtrqHuyg8L1VGvZNtsVvL
-         r5i4SG/6Nt9O3T2cEZ1Rx/wjjUMDLRByP+NV4/Cjvethm1HVmS0zFlFQ4hgp9Ctf4YDk
-         ZKEg==
-X-Gm-Message-State: ANhLgQ3Q9o04VfOP1p+gter0Idp5dPmxLv8O8CPjc7SkzK3h+muEZKOe
-        2A1+j0GoyVMjH9NYgLVzMWTQqWLP
-X-Google-Smtp-Source: ADFU+vudpofHWhcu10ig89GG/clY0KsX2/E3ODE/59IQoQWq37wN7ijDZ5IDnMjVnouEo4/KCdazlQ==
-X-Received: by 2002:a17:90a:240a:: with SMTP id h10mr3639997pje.123.1584524134878;
-        Wed, 18 Mar 2020 02:35:34 -0700 (PDT)
-Received: from [127.0.0.1] (s214090.ppp.asahi-net.or.jp. [220.157.214.90])
-        by smtp.gmail.com with ESMTPSA id y22sm6141394pfr.68.2020.03.18.02.35.31
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Mar 2020 02:35:33 -0700 (PDT)
-From:   Magnus Damm <magnus.damm@gmail.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Magnus Damm <magnus.damm@gmail.com>, geert@glider.be
-Date:   Wed, 18 Mar 2020 18:27:51 +0900
-Message-Id: <158452367157.23699.16109085564905174396.sendpatchset@octo>
-Subject: [PATCH/RFC] arm64: dts: renesas: salvator-common: gpio-leds prototype
+        Wed, 18 Mar 2020 05:32:50 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52990F9;
+        Wed, 18 Mar 2020 10:32:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584523968;
+        bh=V1vGHCG6nj/+sFqo3Tifzj6GrulkPC5XvOQ+GLH3G2Y=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=IHTFfYZVzZ1Ju2eCFnCbpURMBCC1VooEqr8vsZeq5ktZ1jQzAh5hGtVYsX4DlnozU
+         9c8yWlIVEnhz1E5IDxR4hIGqwBUq4XGjyH60itEfHE2nhCl15OL5ENt2raPWIOQv94
+         gLm/9rmn6CA8AGrLBwiRLFbXxuJQNcOKG2DyapeY=
+Subject: Re: [PATCH 1/5] media: i2c: max9286: Put of node on error
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com
+Cc:     hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-2-jacopo+renesas@jmondi.org>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <09e74f7c-932b-fe63-c234-166b6ebe89f6@ideasonboard.com>
+Date:   Wed, 18 Mar 2020 09:32:45 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
+MIME-Version: 1.0
+In-Reply-To: <20200316202757.529740-2-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Magnus Damm <damm+renesas@opensource.se>
+Hi Jacopo
 
-This patch adds support for a couple of LEDs on Salvator-X and XS boards.
+On 16/03/2020 20:27, Jacopo Mondi wrote:
+> Put the device of node in case of dt parsing error.
+> 
 
-I've verified that LED4, LED5 and LED6 work by exporting GPIOs for GP6_11,
-GP6_12 and GP6_13 on the board on port 9011. This patch has not yet been
-tested though. Also to make matters slightly more complicated, even if LEDs
-might work with this patch as-is, the code in this patch is most likely not
-suitable for upstream consumption. This since SW20, SW21 and SW22 are also
-using the same GPIOs as the LEDs.
+Ooops, it does look like this probably leaks - but isn't it also leaking
+in other code paths in this function too?
 
-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
----
+If we fix here, we should fix all leaks of this usage. (and perhaps
+identify if there are leaks of other refcnts too ;-S )
 
- arch/arm64/boot/dts/renesas/salvator-common.dtsi |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
 
---- 0001/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-+++ work/arch/arm64/boot/dts/renesas/salvator-common.dtsi	2020-03-18 16:18:44.234040458 +0900
-@@ -166,6 +166,20 @@
- 		};
- 	};
- 
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led4 {
-+			gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
-+		};
-+		led5 {
-+			gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
-+		};
-+		led6 {
-+			gpios = <&gpio6 13 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
- 	reg_1p8v: regulator0 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
+> Fixes: 9eed4185c7a0 ("media: i2c: Add MAX9286 driver")
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index a20829297ef6..06edd8bd3e82 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -1046,6 +1046,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>  	if (!i2c_mux) {
+>  		dev_err(dev, "Failed to find i2c-mux node\n");
+> +		of_node_put(dev->of_node);
+>  		return -EINVAL;
+>  	}
+>  
+> 
+
