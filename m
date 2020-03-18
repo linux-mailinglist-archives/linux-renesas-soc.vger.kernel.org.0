@@ -2,110 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B611897D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16E6B1897FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:35:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726994AbgCRJW0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 05:22:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41776 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgCRJW0 (ORCPT
+        id S1727355AbgCRJfg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 05:35:36 -0400
+Received: from mail-pj1-f47.google.com ([209.85.216.47]:56086 "EHLO
+        mail-pj1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726994AbgCRJfg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 05:22:26 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9BC6F9;
-        Wed, 18 Mar 2020 10:22:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584523344;
-        bh=UcboyiqbUa5HovPakxxqQp2CczdAAe9uedzabdNBloM=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=K9o2+J79czRW2VAZvDJmiCe0/Y9J6m7wiYTVc0OySFghoyrBME2qrUx5kQEwZL2GF
-         C6vQdwIanMMtlBbiLGeMJwULinMMTbCkDQ7sJ1+laZCM8iaqu/5srFzDKvR5/t4fz9
-         GHIJVnH9VVZnugNH+IvERL4/fKGqqBR6Lp0vk2lA=
-Subject: Re: [PATCH v2 4/4] media: v4l2-async: Don't check fwnode name to
- detect endpoint
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200318002507.30336-5-laurent.pinchart+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <42d4269d-7498-b5f8-d966-86ecb75e7999@ideasonboard.com>
-Date:   Wed, 18 Mar 2020 09:22:21 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <20200318002507.30336-5-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        Wed, 18 Mar 2020 05:35:36 -0400
+Received: by mail-pj1-f47.google.com with SMTP id mj6so1084200pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2020 02:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:date:message-id:subject;
+        bh=6+L0FIU2A+7B4LV7MqEmMouLnYI7ObBztyd+zUMY9rw=;
+        b=CWRVpgxhdoN+lMWVml4YxQDkNh0vkY7jj/kRybowThG3SKIFL3YvF4GHPIbz3D63PK
+         4XCb5x0AmjnnatvZDp1tL8nKnlI7IIoQRDgYZY01jHURYVLRPfGPdyLCTjqMfHKoIaKW
+         lux4FfEABJbjitIuafY0bLc/gGaL5phY/kgzrpey3Ae0uxWwU06UQXBGiE4T3CnZqrrY
+         oCGzEraFLkZgRKpjbzUnMxjQCA88xDfwAC75B1XZfVL0f/jLKCPU6n5CG9eaNET6cER+
+         78OwZVRXTgo2mtkz0CxI3vM7qkhoWnpiyGwa03ojjXlCTRHevY0ufZce/qcswV36wmmX
+         Yu3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:date:message-id:subject;
+        bh=6+L0FIU2A+7B4LV7MqEmMouLnYI7ObBztyd+zUMY9rw=;
+        b=eusvjJPenJO+dGRitWHwrnX7mEDBDcYq61ASi3xq5WunsGKsX8lFExLiX6Ey+PZrbx
+         FJDOhj/gLsOXqioTa43KhqBsUy9GnAUfOCgKgMF2PxFsxhTHfDjhAGCsJ+oMylOaw7Je
+         GQ4Oa51Mz7f8ylxh4w4x0sIZiIOa+vwPayYdwn16maaynSnaqlrTH5PN/pI0/Z31oMx3
+         Vce4DNb5FPisDc556AcdZihyzuN5IO9CFVlyzEijX8qLo6jOtrqHuyg8L1VGvZNtsVvL
+         r5i4SG/6Nt9O3T2cEZ1Rx/wjjUMDLRByP+NV4/Cjvethm1HVmS0zFlFQ4hgp9Ctf4YDk
+         ZKEg==
+X-Gm-Message-State: ANhLgQ3Q9o04VfOP1p+gter0Idp5dPmxLv8O8CPjc7SkzK3h+muEZKOe
+        2A1+j0GoyVMjH9NYgLVzMWTQqWLP
+X-Google-Smtp-Source: ADFU+vudpofHWhcu10ig89GG/clY0KsX2/E3ODE/59IQoQWq37wN7ijDZ5IDnMjVnouEo4/KCdazlQ==
+X-Received: by 2002:a17:90a:240a:: with SMTP id h10mr3639997pje.123.1584524134878;
+        Wed, 18 Mar 2020 02:35:34 -0700 (PDT)
+Received: from [127.0.0.1] (s214090.ppp.asahi-net.or.jp. [220.157.214.90])
+        by smtp.gmail.com with ESMTPSA id y22sm6141394pfr.68.2020.03.18.02.35.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 18 Mar 2020 02:35:33 -0700 (PDT)
+From:   Magnus Damm <magnus.damm@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Magnus Damm <magnus.damm@gmail.com>, geert@glider.be
+Date:   Wed, 18 Mar 2020 18:27:51 +0900
+Message-Id: <158452367157.23699.16109085564905174396.sendpatchset@octo>
+Subject: [PATCH/RFC] arm64: dts: renesas: salvator-common: gpio-leds prototype
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+From: Magnus Damm <damm+renesas@opensource.se>
 
-On 18/03/2020 00:25, Laurent Pinchart wrote:
-> Use the presence of a "remote-endpoint" property to detect if a fwnode
-> is an endpoint node, as checking the node name won't work on ACPI-based
-> implementations.
+This patch adds support for a couple of LEDs on Salvator-X and XS boards.
 
-Technically, won't this property only detect that the endpoint is
-connected to another endpoint, and 'un-connected' endpoints wont' match?
+I've verified that LED4, LED5 and LED6 work by exporting GPIOs for GP6_11,
+GP6_12 and GP6_13 on the board on port 9011. This patch has not yet been
+tested though. Also to make matters slightly more complicated, even if LEDs
+might work with this patch as-is, the code in this patch is most likely not
+suitable for upstream consumption. This since SW20, SW21 and SW22 are also
+using the same GPIOs as the LEDs.
 
-Of course in this instance - an unconnected endpoint is likely not much
-use and probably even shouldn't match ;-) ~(but it may still 'be' an
-endpoint).
+Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+---
 
-Also - would this patch be squashed into 1/4?
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi |   14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-I'll leave it to Sakari to comment on the actual validity of this
-approach all the same :-)
-
---
-Kieran
-
-
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 9f393a7be455..a5f83ba502df 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -78,7 +78,6 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	bool asd_fwnode_is_ep;
->  	bool sd_fwnode_is_ep;
->  	struct device *dev;
-> -	const char *name;
->  
->  	/*
->  	 * Both the subdev and the async subdev can provide either an endpoint
-> @@ -92,10 +91,10 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
->  	 * endpoint or a device. If they're of the same type, there's no match.
->  	 */
-> -	name = fwnode_get_name(sd->fwnode);
-> -	sd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> -	name = fwnode_get_name(asd->match.fwnode);
-> -	asd_fwnode_is_ep = name && strstarts(name, "endpoint");
-> +	sd_fwnode_is_ep = fwnode_property_present(sd->fwnode,
-> +						  "remote-endpoint");
-> +	asd_fwnode_is_ep = fwnode_property_present(asd->match.fwnode,
-> +						   "remote-endpoint");
->  
->  	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
->  		return false;
-> 
-
+--- 0001/arch/arm64/boot/dts/renesas/salvator-common.dtsi
++++ work/arch/arm64/boot/dts/renesas/salvator-common.dtsi	2020-03-18 16:18:44.234040458 +0900
+@@ -166,6 +166,20 @@
+ 		};
+ 	};
+ 
++	leds {
++		compatible = "gpio-leds";
++
++		led4 {
++			gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
++		};
++		led5 {
++			gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
++		};
++		led6 {
++			gpios = <&gpio6 13 GPIO_ACTIVE_HIGH>;
++		};
++	};
++
+ 	reg_1p8v: regulator0 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "fixed-1.8V";
