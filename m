@@ -2,93 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47B9618A125
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 18:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A481918A172
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 18:23:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgCRRGz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 13:06:55 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:47036 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgCRRGy (ORCPT
+        id S1726783AbgCRRXo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 13:23:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49948 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbgCRRXo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 13:06:54 -0400
-Received: by mail-wr1-f68.google.com with SMTP id w16so14972748wrv.13;
-        Wed, 18 Mar 2020 10:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dzFJiKd50+r7JmSCvXFkX7Q5ndGmo0yxcfITWT8k4UU=;
-        b=hBXiS9NY0oY2qPkAhvl50YQTCoXtoj3/8zrutzdEPom7kEPOguLiTOXJJO9vQL/OAF
-         dUH7Oc02I09oFiOtrfHoq756ga41Ef2xsIAJvudJGpFqifbiMMSCAFH9IazDkQuhRlLA
-         aOEh8ZDvinijqtGb0BHFXcAIhwd56mzyARd+wk1UfcgUodhh8fl+sNbBCRT6EYIUTzF6
-         Co2UKaogJgOSni8hL6eGuhdj7GSU9OcFEDDHn8Zq0LKMZMgnt3WpZqRdswW9Bdx6jJHg
-         rGbXHNi7HG3ipGSmhxKR2yksSL54Az9d07+lV6BrdmBw7UtYDCaHgB7Y4iANsG8BazUc
-         NGaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dzFJiKd50+r7JmSCvXFkX7Q5ndGmo0yxcfITWT8k4UU=;
-        b=MNuLIgSEsTvYVpaeHU9cNOZf8GmrTiiYLmhWR+uFsxf+6F5da9AeTdCneAJI8uctet
-         CSeKVgZzwUux1hPk9t88Z9e4Z9Ck2fDvSQeVrNkTZKmkj2Tn3MPOXa9mYCNg7sRghNFW
-         9UMS4kxxSxo8ZR4ITfy7xZPs8gXTsARbZA9eRA0khFBvI503vp6QjflNPaibO4opTu17
-         eYSdT0FnECJHvueyDZ+dNrwMZ4Wkqwanr0H61qq5av0DSAvkMyDmrz6zWGc9+wlF42F6
-         CPIY7EVYXoz0L1BHzh8ycoOyz7MOJG1727PhVVZh/yHHrGEsBj/7XHX6DTfG3Uw/vxEx
-         bYzA==
-X-Gm-Message-State: ANhLgQ2TKRhNBAlYsN8I/WpmpIw0DJEQqDkXdO5B1lpLl9yRkVVt06Dp
-        M7UTs5/nwYudW1uiqbpp08E=
-X-Google-Smtp-Source: ADFU+vu1BVAFQDoGbXbxQoYORYxzmLSmHAwkyNsRY00vGVDzoZh+U3zhY5IRv5YwhescANtKfyF1Kw==
-X-Received: by 2002:adf:fdc6:: with SMTP id i6mr6560649wrs.414.1584551211485;
-        Wed, 18 Mar 2020 10:06:51 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2510:d000:caa:1f1f:ffe5:ef76])
-        by smtp.gmail.com with ESMTPSA id k5sm4661283wmj.18.2020.03.18.10.06.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2020 10:06:49 -0700 (PDT)
-From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 2/2] media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-Date:   Wed, 18 Mar 2020 17:06:38 +0000
-Message-Id: <20200318170638.18562-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 18 Mar 2020 13:23:44 -0400
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 532375F;
+        Wed, 18 Mar 2020 18:23:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584552222;
+        bh=/4/bLOSqyH+IXMmkxCbhoBOtpiP3tgIMK9bMqMDqjjk=;
+        h=From:To:Subject:Date:From;
+        b=Rbbb9ziXQiWh+unVOCNhudxbhqgBAthvzIXQeXHK3O4DJF1/TPuxNjUUCgtd8nL9Y
+         41sDBBeI+lC85JRzY9yOoAbca9Fvddb9lonFrOv48XbNDf4cDbKEaVaurX0YRxXZZH
+         rSePoBf+W4I86R+sCsPO1l+Ba+EUEateYGC/ZoQg=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH RFC] media: platform: fcp: Set appropriate DMA parameters
+Date:   Wed, 18 Mar 2020 17:23:38 +0000
+Message-Id: <20200318172338.20132-1-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200318170638.18562-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200318170638.18562-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for CSI2
-input.
+Enabling CONFIG_DMA_API_DEBUG=y and CONFIG_DMA_API_DEBUG_SG=y will
+enable extra validation on DMA operations ensuring that the size
+restraints are met.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+When using the FCP in conjunction with the VSP1/DU, and display frames,
+the size of the DMA operations is larger than the default maximum
+segment size reported by the DMA core (64K). With the DMA debug enabled,
+this produces a warning such as the following:
+
+"DMA-API: rcar-fcp fea27000.fcp: mapping sg segment longer than device"
+
+We have no specific limitation on the segment size which isn't already
+handled by the VSP1/DU which actually handles the DMA allcoations and
+buffer management, so define a maximum segment size of up to 4GB (a 32
+bit mask).
+
+Fixes: 7b49235e83b2 ("[media] v4l: Add Renesas R-Car FCP driver")
+
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index faa9fb23a2e9..3d1945d7996c 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -320,6 +320,7 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
- 	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8,     .datatype = 0x2a, .bpp = 8 },
+I see no reference to any specific limitation on the FCP in regards to
+DMA operation size, but there are limitations on the supported image
+sizes at 8190*8190 pixels. (smaller for FCPC at 3190) As that could be at
+various BPP which is unkown to the FCP driver, and because any maximum
+limitation should already be provided elsewhere, I don't think we need
+to arbitrarly define a maximum segment size here, so defaulting to a '32
+bit maximum' to prevent uneccessary warnings from being printed.
+
+Alternatively, we could assume a 4BPP, and define maximum segment sizes
+based upon the maximum capabilities of each FCP instance, but I'm not
+sure if that will be
+
+Interestingly though, the FCP should have an alignment of 256 byte
+boundarys on buffers, but I don't yet see a means to validate that
+through CONFIG_DMA_API_DEBUG/CONFIG_DMA_API_DEBUG_SG.
+---
+ drivers/media/platform/rcar-fcp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 43c78620c9d8..5c6b00737fe7 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/device.h>
++#include <linux/dma-mapping.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/mod_devicetable.h>
+@@ -21,6 +22,7 @@
+ struct rcar_fcp_device {
+ 	struct list_head list;
+ 	struct device *dev;
++	struct device_dma_parameters dma_parms;
  };
  
- static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
+ static LIST_HEAD(fcp_devices);
+@@ -136,6 +138,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+ 
+ 	fcp->dev = &pdev->dev;
+ 
++	fcp->dev->dma_parms = &fcp->dma_parms;
++	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
++
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	mutex_lock(&fcp_lock);
 -- 
 2.20.1
 
