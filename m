@@ -2,171 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE2E8189DDB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 15:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA4D4189DEF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 15:33:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbgCROaA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 10:30:00 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:48835 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726596AbgCROaA (ORCPT
+        id S1727189AbgCROdZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 10:33:25 -0400
+Received: from sauhun.de ([88.99.104.3]:48226 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726596AbgCROdY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 10:30:00 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 123A9200015;
-        Wed, 18 Mar 2020 14:29:53 +0000 (UTC)
-Date:   Wed, 18 Mar 2020 15:32:50 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com,
-        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 5/5] media: i2c: max9286: Parse channel amplitude
-Message-ID: <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
-References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
- <20200316202757.529740-6-jacopo+renesas@jmondi.org>
- <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+        Wed, 18 Mar 2020 10:33:24 -0400
+Received: from localhost (p54B333FA.dip0.t-ipconnect.de [84.179.51.250])
+        by pokefinder.org (Postfix) with ESMTPSA id 039522C097D;
+        Wed, 18 Mar 2020 15:33:21 +0100 (CET)
+Date:   Wed, 18 Mar 2020 15:33:21 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i3c@lists.infradead.org,
+        Kieran Bingham <kieran@ksquared.org.uk>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [RFC PATCH 6/7] i2c: of: mark a whole array of regs as reserved
+Message-ID: <20200318143321.GB8300@ninjato>
+References: <20200220172403.26062-1-wsa+renesas@sang-engineering.com>
+ <20200220172403.26062-7-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUvADDozCX6Bd0dDVejpTY-k42naEnB7Q5Z6w7Yg94_Vw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aVD9QWMuhilNxW9f"
 Content-Disposition: inline
-In-Reply-To: <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+In-Reply-To: <CAMuHMdUvADDozCX6Bd0dDVejpTY-k42naEnB7Q5Z6w7Yg94_Vw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
 
-On Wed, Mar 18, 2020 at 09:57:48AM +0000, Kieran Bingham wrote:
-> Hi Jacopo,
->
-> On 16/03/2020 20:27, Jacopo Mondi wrote:
-> > Parse the 'maxim,reverse-channel-amplitude' property value and cache its
-> > content to later program the initial reverse channel amplitude.
-> >
-> > Only support 100mV and 170mV values for the moment. The property could
-> > be easily expanded to support more values.
->
-> Can we (in the future) support arbitrary values from a range, or only
-> from a fixed list?
+--aVD9QWMuhilNxW9f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good question. The 0x3b register of the deserializer is not documented
-in my datasheet version, I got this from the application developer
-guide that reports
 
-        Increase reverse amplitude from 100mV to
-        170mV. This compensates for the higher
-        threshold of step 5.
-
-and reports the following list of supported values in the 0x3b
-register description.
-
-        Reverse channel amplitude
-        000 = 30mV
-        001 = 40mV
-        010 = 50mV
-        011 = 60mV
-        100 = 70mV
-        101 = 80mV
-        110 = 90mV
-        111 = 100mV
-
-with an optional +100mV boost option.
-
-Going forward we can add more values to the list of supported ones in
-the bindings and control their configuration in the driver.
-
-Maybe worth noting it down with a fixme note ?
-
->
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/max9286.c | 39 ++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 34 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 0357515860b2..24af8002535e 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -168,6 +168,7 @@ struct max9286_priv {
-> >  	struct max9286_source sources[MAX9286_NUM_GMSL];
-> >  	struct v4l2_async_notifier notifier;
-> >
-> > +	u32 reverse_chan_amp;
-> >  	u32 overlap_window;
-> >  };
-> >
-> > @@ -479,10 +480,15 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> >  	 * All enabled sources have probed and enabled their reverse control
-> >  	 * channels:
-> >  	 *
-> > -	 * - Verify all configuration links are properly detected
-> > +	 * - Increase reverse channel amplitude to 170mV if not initially
-> > +	 *   compensated
-> >  	 * - Disable auto-ack as communication on the control channel are now
-> >  	 *   stable.
-> >  	 */
-> > +	if (priv->reverse_chan_amp == 100)
-> > +		max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) |
-> > +			      MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X);
+> > +int of_i2c_get_board_info(struct device_node *node, struct i2c_board_i=
+nfo *info)
+> > +{
+> > +       u32 addr;
+> > +       int ret;
 > > +
-> >  	max9286_check_config_link(priv, priv->source_mask);
-> >
-> >  	/*
-> > @@ -830,6 +836,8 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
-> >
-> >  static int max9286_setup(struct max9286_priv *priv)
-> >  {
-> > +	u8 chan_amp = MAX9286_REV_TRF(1);
-> > +
-> >  	/*
-> >  	 * Link ordering values for all enabled links combinations. Orders must
-> >  	 * be assigned sequentially from 0 to the number of enabled links
-> > @@ -869,12 +877,18 @@ static int max9286_setup(struct max9286_priv *priv)
-> >  	 *
-> >  	 * - Enable custom reverse channel configuration (through register 0x3f)
-> >  	 *   and set the first pulse length to 35 clock cycles.
-> > -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> > -	 *   high threshold enabled by the serializer driver.
-> > +	 * - Set initial reverse channel amplitude according the DTS property.
-> > +	 *   If the initial channel amplitude is 100mV it should be increase
-> > +	 *   later after the serializers high threshold have been enabled.
-> > +	 *   If the initial value is 170mV the serializer has been
-> > +	 *   pre-programmed and we can compensate immediately.>  	 */
-> >  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> > -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> > -		      MAX9286_REV_AMP_X);
-> > +	if (priv->reverse_chan_amp == 100)
-> > +		chan_amp |= MAX9286_REV_AMP(100);
-> > +	else
-> > +		chan_amp |= MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X;
-> > +	max9286_write(priv, 0x3b, chan_amp);
-> >  	usleep_range(2000, 2500);
-> >
-> >  	/*
-> > @@ -1069,6 +1083,21 @@ static int max9286_parse_dt(struct max9286_priv *priv)
-> >  		return -EINVAL;
-> >  	}
-> >
-> > +	ret = of_property_read_u32(dev->of_node, "maxim,reverse-channel-amplitude",
-> > +				   &priv->reverse_chan_amp);
-> > +	if (ret) {
-> > +		dev_err(dev,
-> > +			"Missing property \"maxim,reverse-channel-amplitude\"\n");
-> > +		of_node_put(dev->of_node);
-> > +		return -EINVAL;
-> > +	}
-> > +	if (priv->reverse_chan_amp != 100 && priv->reverse_chan_amp != 170) {
-> > +		dev_err(dev, "Unsupported  channel amplitude %umV\n",
-> > +			priv->reverse_chan_amp);
-> > +		of_node_put(dev->of_node);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> >  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> >  	if (!i2c_mux) {
-> >  		dev_err(dev, "Failed to find i2c-mux node\n");
-> >
->
+> > +       ret =3D of_property_read_u32(node, "reg", &addr);
+>=20
+> Perhaps the time is ripe to start considering #address-cells, instead
+> of assuming 1, here ...
+
+I think here it is okay because we really want the first entry of the
+first tuple.
+
+> > +       of_property_for_each_u32(node, "reg", prop, cur, reg) {
+>=20
+> ... and especially here, if this code can ever be reused for i3c, which u=
+ses 3.
+
+But here I agree. I reimplemented the code to handle it, and it worked
+with '#address-cells =3D <2>;' as expected. Here is the diff to this
+patch:
+
+@@ -16,6 +16,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/of_address.h>
+ #include <linux/of_device.h>
+ #include <linux/sysfs.h>
+=20
+@@ -75,13 +76,14 @@ static struct i2c_client *of_i2c_register_device(struct=
+ i2c_adapter *adap,
+ 	struct i2c_client *client, *first_client =3D ERR_PTR(-ENOENT);
+ 	struct i2c_board_info info;
+ 	bool first_reg =3D true;
+-	struct property *prop;
+-	const __be32 *cur;
+-	u32 reg;
++	unsigned int i =3D 0;
++	const __be32 *prop;
++	u16 reg;
+=20
+ 	pr_debug("register %pOF\n", node);
+=20
+-	of_property_for_each_u32(node, "reg", prop, cur, reg) {
++	while ((prop =3D of_get_address(node, i++, NULL, NULL))) {
++		reg =3D of_read_number(prop, 1);
+ 		of_i2c_decode_board_info(node, reg, first_reg, &info);
+=20
+ 		client =3D i2c_new_client_device(adap, &info);
+
+Thanks, Geert! I will send out the new version in a few minutes.
+
+
+--aVD9QWMuhilNxW9f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5yMS0ACgkQFA3kzBSg
+KbYtfRAAil0f+6TG3T06kRnSNoNLPpEoqabj0ip7Vz7+gSloBvl8lszjT7CP//7R
+9gnjhLFvr6hPVbC64dzimreCL1JGYUtFOhKDl/pPSA+TrEFEARbOCxIbdhgieFC0
+DrSN2Ed+jK7ZRTPdTuT2y6DNf6bbDHo3ihnzd57I2wy6cEsTMdyIJSAnsxfn5QVf
+6EKTCLAeBI9hPd3jDB38ICvQ0Vf9/F9lHRZNOQo1hQwSkUbnyyqf26k8kt/VAnm9
+Ipcvlz8krmqY2FWnC/FlzhKV5lSc9i7VSZJTQOjtO39RHxRAsOytbzc6erlTp9Pz
+V1+Uw8HGIVMbQe1+kpaaJvomxTApQ2HqjTOPTQc/2h9qXUdCdeWFi56oaJzCl7hp
+WHCgqmUCfs4a1V75vuHk2Fj3mPMQsvmjiWrvW5Sz5nvto2GTjKsg2m/v6bdabTxk
+iMFjwBfQVun1ziMQOad0zycEFF+sBtQafAg4zmS/FAyrhGAVI9YQ57Z93dlk7D1L
+YLFvxifo+L5a6/ny1uEL0xrjMoYfiUCTXlySSuywl5dD5jsqBoUWduFXeHo0DezA
+Pe/Vht7ChN7WlI3kDt3X+zCVGmf5WnObEJPrzm39gUNjod7UpW39zgoKQWuF4Rpp
+JCKxZe174onb36K3lz83DRTkg5v5NU1AdVgwqrKM6RjakOs1aXM=
+=Ku4u
+-----END PGP SIGNATURE-----
+
+--aVD9QWMuhilNxW9f--
