@@ -2,139 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE4B318B97B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 15:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D55318BD74
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 18:05:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbgCSOfx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Mar 2020 10:35:53 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45633 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726795AbgCSOfx (ORCPT
+        id S1727698AbgCSRFd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Mar 2020 13:05:33 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:41048 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727252AbgCSRFd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Mar 2020 10:35:53 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y17so2706400ljk.12;
-        Thu, 19 Mar 2020 07:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bmjG9gaaQ2TjqqhPacVxow1nIQ7XMOuiMUqsv40Ng6o=;
-        b=XmpgI+Y+l0jFiu9RRFFVsx/fMRXN5RVp8hXzK6areAV3SA9pKJhzAzFVKD+ZIz7Lac
-         EDmMON+ML0dOFfhjj/aTkKoHI+PottLANy4nY7oyXJUZqzhRMJ3OU29lPITiEsvZMN2B
-         TbA1StSWy8tSPAbdO4ZqQ9CYLUh0y5P6mLMg4DsiZRcLkrwQJmzpZbZmybOKXBOUEKGz
-         A2Os30veyozq2yz57qv9ssa8gGlDrMJ5mfaQ3E4hboHejlF7WkZ+42yB8koqSN4Z8QMB
-         DPvr3al6Il0yL46//2Cctu3+X6OpgxnEzxwA0Wkq/l8aZYmMsblNhAXzmrcj+kbfKOhs
-         jJuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bmjG9gaaQ2TjqqhPacVxow1nIQ7XMOuiMUqsv40Ng6o=;
-        b=GIHaVyOtMfpX9NF4B4kl4jfRZij1u1OVL/zdn2jhbZOYBUYX8/g/W0RzCJAFih6vJQ
-         YfD/0ODwFsrqrCzvqCkQOo6Lq+GbmOxsUGjhrXF5UmNwcfJW+uF3r8t/QBCaNfxMdW/s
-         D4L+yjx2q73JoKNZUh3V/StdbZNCh6KKT0e0fw9XIA1qimDqWCitVJTLjtw5KqYybYw5
-         Coy1/MxZwrZp/gcqA8lVFyshEIn3h0i5ww143HgutJNnqlCXvwPYCKU/h3Vk2m3GejI1
-         tJ+VZfrNQtGt5R5x6gJu+wTNVJAPcZ7za9W9tMQtOy3extX0GGloPn/cbkav8iOz2nP5
-         pQMQ==
-X-Gm-Message-State: ANhLgQ1xww0/+LXysR8ISBLWLZFExX7BqRUL3DZmgN1SqJeyLmSqG4KV
-        lcVDeoKpQnliOx7hl1/en4HxyO28
-X-Google-Smtp-Source: ADFU+vvNHbniIt/Exu9Z3WwVvwUgASZbwJ83WhaQpJ0IQvhX+ql2mCobw2XN+J+nC1eqItfvQIw9hg==
-X-Received: by 2002:a2e:984d:: with SMTP id e13mr2255298ljj.275.1584628551316;
-        Thu, 19 Mar 2020 07:35:51 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
-        by smtp.googlemail.com with ESMTPSA id i13sm1619509lja.73.2020.03.19.07.35.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Mar 2020 07:35:50 -0700 (PDT)
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be>
- <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
- <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
- <20200319092535.GB25745@shell.armlinux.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <86239143-b7de-3385-5288-82ac94e7e5db@gmail.com>
-Date:   Thu, 19 Mar 2020 17:35:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 19 Mar 2020 13:05:33 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 1AAD32002D;
+        Thu, 19 Mar 2020 18:05:24 +0100 (CET)
+Date:   Thu, 19 Mar 2020 18:05:22 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        David Airlie <airlied@linux.ie>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Jose Roberto de Souza <jose.souza@intel.com>,
+        virtualization@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-mediatek@lists.infradead.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        linux-amlogic@lists.infradead.org, linux-tegra@vger.kernel.org,
+        Dave Airlie <airlied@redhat.com>,
+        amd-gfx@lists.freedesktop.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Emil Velikov <emil.velikov@collabora.com>
+Subject: Re: [PATCH v1 0/3] drm: drm_encoder_init() =>
+ drm_encoder_init_funcs()
+Message-ID: <20200319170522.GA29213@ravnborg.org>
+References: <20200313201744.19773-1-sam@ravnborg.org>
+ <20200319141954.GA25036@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200319092535.GB25745@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319141954.GA25036@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8
+        a=9MVmhzcSsuuJt3ktV8oA:9 a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-19.03.2020 12:25, Russell King - ARM Linux admin пишет:
-> On Thu, Mar 19, 2020 at 04:11:00AM +0300, Dmitry Osipenko wrote:
->> 25.02.2020 14:40, Geert Uytterhoeven пишет:
->>> Hi Marek,
->>>
->>> On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
->>> <m.szyprowski@samsung.com> wrote:
->>>> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
->>>>> Currently, the start address of physical memory is obtained by masking
->>>>> the program counter with a fixed mask of 0xf8000000.  This mask value
->>>>> was chosen as a balance between the requirements of different platforms.
->>>>> However, this does require that the start address of physical memory is
->>>>> a multiple of 128 MiB, precluding booting Linux on platforms where this
->>>>> requirement is not fulfilled.
->>>>>
->>>>> Fix this limitation by obtaining the start address from the DTB instead,
->>>>> if available (either explicitly passed, or appended to the kernel).
->>>>> Fall back to the traditional method when needed.
->>>>>
->>>>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
->>>>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
->>>>> i.e. not at a multiple of 128 MiB.
->>>>>
->>>>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
->>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
->>>>> ---
->>>>> Against arm/for-next.
->>>>
->>>> This patch landed recently in linux-next. It breaks legacy booting from
->>>> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
->>>> will debug it further once I find some spare time. What I noticed so
->>>> far, the cmdline/memory info is not read from the ATAGs, only the values
->>>> provided via appended DT are used.
->>>
->>> Oops, something happening like this was one of my biggest worries when
->>> posting this patch... Sorry for the breakage.
->>>
->>> IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
->>>
->>> I'll have a closer look later today.
->>> In the mean time, I've sent some debug code I used when developing
->>> this patch, which may be useful, hopefully.
->>
->> Hello,
->>
->> NVIDIA Tegra is also affected by this patch. A week ago an updated
->> version of the patch was pushed into linux-next and now machine doesn't
->> boot at all.
->>
->> I couldn't find v3 on the ML, so replying to the v2. Please take a look
->> and fix the problem, or revert/drop the offending patch, thanks in advance.
+On Thu, Mar 19, 2020 at 03:19:54PM +0100, Sam Ravnborg wrote:
+> On Fri, Mar 13, 2020 at 09:17:41PM +0100, Sam Ravnborg wrote:
+> > Thomas Zimmermann had made a nice patch-set that introduced
+> > drm_simple_encoder_init() which is already present in drm-misc-next.
+> > 
+> > While looking at this it was suddenly obvious to me that
+> > this was functionalty that really should be included in drm_encoder.c
+> > The case where the core could handle the callback is pretty
+> > common and not part of the simple pipe line.
+> > 
+> > So after some dialog on dri-devel the conclusion was to go for
+> > a change like this:
+> > 
+> >     drm_encoder_init_funcs() for all users that specified a
+> >     drm_encoder_funcs to extend the functionality.
+> > 
+> >     drm_encoder_init() for all users that did not
+> >     need to extend the basic functionality with
+> >     drm_encoder_funcs.
+> > 
+> > A similar approach with a _funcs() prefix is used elsewhere in drm/
+> > 
+> > This required a rename of the existing users, and
+> > a follow-up patch that moves drm_simple_encoder_init()
+> > to drm_encoder.c
+> > 
+> > Patches 3 in this set demonstrate the use of drm_encoder_init().
+> > There are many more drivers that can be converted as Thomas
+> > has already demonstrated.
+> > 
+> > This is all based on work done by Thomas Zimmermann,
+> > I just wanted to implement my suggestion so
+> > we could select the best way forward.
+> > 
+> > Note: Daniel Vetter has hinted the approach implemented
+> > here smelled like middle-layer.
+> > IMO this is not so, it is just a way to handle cleanup
+> > for the simple cases.
 > 
-> I'll drop the patch. It's clear that this is going to be difficult,
-> so I would ask you to test the next version, rather than waiting for
-> it to appear in linux-next.
+> We discussed this patch-set briefly on irc.
+Just to clarify, we in this context was Daniel Vetter & me.
 
-Thank you very much! I'll be happy to try v4, please feel free to CC me.
+	Sam
+
+> With the upcoming drmm_ changes and such this is bad timing..
+> And in the end this may be pointless code-chrunch.
+> 
+> Patch-set shelfed for now - may re-visit it later.
+> 
+> 	Sam
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
