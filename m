@@ -2,132 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D85618AE3A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 09:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C14C818AE47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 09:25:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726366AbgCSITG convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Mar 2020 04:19:06 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39542 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbgCSITG (ORCPT
+        id S1726151AbgCSIZ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Mar 2020 04:25:29 -0400
+Received: from mga01.intel.com ([192.55.52.88]:59668 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725767AbgCSIZ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Mar 2020 04:19:06 -0400
-Received: by mail-oi1-f196.google.com with SMTP id d63so1783856oig.6;
-        Thu, 19 Mar 2020 01:19:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PHHOTMHAVr2S4KOOH2EanfmchrOEz8G+tJOrFqdCMMU=;
-        b=E6HFKMoxUSOjy2TqjjPMsIfHMT66MzVqUSc04C26KZEU0hgADIUz0oJIb/Ctcluz7K
-         j5BouVk2UgTT/o+ZUvtBWwUwCtYyrAqPjzpDtnFX3rtkf0iEIZ/K9gDo+htBrvDVQkla
-         BDtplAUFbraJL36v4XQhX9QzI2PKMdp/eKMNR2V59yv9xH4tg6o922cFmFLqCWWHdFC2
-         KwY6T5zyTfMakbvnOXGZU+ngesyKnFc45w4GBnMKYrrngghVdLgkD0CxTF+pIdaTqXT8
-         W16qnF/PGYJe4/w69U+xh6DGvnHRSuJtYH4uw0Rh/YcbG/4+NO83IMqbzUlOCXc2ti7g
-         E1aQ==
-X-Gm-Message-State: ANhLgQ1gS66II8Vsj5mJGCvRx8zRKU5fhSJsZ3indgyTioLCIVUw3PHb
-        hHt5P46KTXNNDjdoM6qBrrpaliU91Sdc8Sh0LGw=
-X-Google-Smtp-Source: ADFU+vtVCuX/dlfREDf0wEJ5KirUT/mS2m1kp334SMVECxLAz8K7WxnAxWoq4sfqUY/ZxPO8apzvfDLyc+E4G9+G0LM=
-X-Received: by 2002:aca:5ed4:: with SMTP id s203mr1531329oib.102.1584605944151;
- Thu, 19 Mar 2020 01:19:04 -0700 (PDT)
+        Thu, 19 Mar 2020 04:25:28 -0400
+IronPort-SDR: V3xDiXuuevIVLB7rkD/bAG0tUnQSRz+bzwLHpOotGZUh8/ttrUFROpDkRdIwfT//c8gO+B+4Yi
+ ZkzOrdn2EYBg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 01:25:27 -0700
+IronPort-SDR: ezbv3nHIeBj2vCjcfUBDzlqMZOQMonkuN95wzIjc5khHr1d7LoLhYNYf1VjzwhtvPMe1an8B1n
+ HtcDG62vKheA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,570,1574150400"; 
+   d="scan'208";a="238857769"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 19 Mar 2020 01:25:16 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jEqUL-0004jm-7R; Thu, 19 Mar 2020 16:25:13 +0800
+Date:   Thu, 19 Mar 2020 16:24:40 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v6 2/5] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <202003191623.S2BkroWn%lkp@intel.com>
+References: <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be> <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com> <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
-In-Reply-To: <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 Mar 2020 09:18:52 +0100
-Message-ID: <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dmitry,
+Hi Laurent,
 
-On Thu, Mar 19, 2020 at 2:11 AM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 25.02.2020 14:40, Geert Uytterhoeven пишет:
-> > On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
-> >>> Currently, the start address of physical memory is obtained by masking
-> >>> the program counter with a fixed mask of 0xf8000000.  This mask value
-> >>> was chosen as a balance between the requirements of different platforms.
-> >>> However, this does require that the start address of physical memory is
-> >>> a multiple of 128 MiB, precluding booting Linux on platforms where this
-> >>> requirement is not fulfilled.
-> >>>
-> >>> Fix this limitation by obtaining the start address from the DTB instead,
-> >>> if available (either explicitly passed, or appended to the kernel).
-> >>> Fall back to the traditional method when needed.
-> >>>
-> >>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> >>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> >>> i.e. not at a multiple of 128 MiB.
-> >>>
-> >>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> >>> ---
-> >>> Against arm/for-next.
-> >>
-> >> This patch landed recently in linux-next. It breaks legacy booting from
-> >> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
-> >> will debug it further once I find some spare time. What I noticed so
-> >> far, the cmdline/memory info is not read from the ATAGs, only the values
-> >> provided via appended DT are used.
-> >
-> > Oops, something happening like this was one of my biggest worries when
-> > posting this patch... Sorry for the breakage.
-> >
-> > IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
-> >
-> > I'll have a closer look later today.
-> > In the mean time, I've sent some debug code I used when developing
-> > this patch, which may be useful, hopefully.
->
-> NVIDIA Tegra is also affected by this patch. A week ago an updated
-> version of the patch was pushed into linux-next and now machine doesn't
-> boot at all.
+I love your patch! Perhaps something to improve:
 
-I'm sorry to hear that.
+[auto build test WARNING on v5.6-rc6]
+[also build test WARNING on next-20200318]
+[cannot apply to linuxtv-media/master]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-Did v2 work for you?
-Are you sure this updated version is the culprit? There are several other
-recent changes to head.S in arm/for-next.
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/v4l2-dev-ioctl-Add-V4L2_CAP_IO_MC/20200319-084846
+base:    fb33c6510d5595144d585aa194d377cf74d31911
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-181-g83789bbc-dirty
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-Do you boot a separate DTB or an appended DTB?
-Do you use ATAGS?
-
-> I couldn't find v3 on the ML, so replying to the v2. Please take a look
-> and fix the problem, or revert/drop the offending patch, thanks in advance.
-
-V3 is v2 combined with "[PATCH] ARM: boot: Fix ATAGs with appended DTB"
-(https://lore.kernel.org/linux-renesas-soc/20200225144749.19815-1-geert+renesas@glider.be/).
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
-Gr{oetje,eeting}s,
+sparse warnings: (new ones prefixed by >>)
 
-                        Geert
-
+>> drivers/media/pci/ivtv/ivtv-ioctl.c:925:17: sparse: sparse: bogus scalar initializer
+   drivers/media/pci/ivtv/ivtv-ioctl.c:930:17: sparse: sparse: bogus scalar initializer
+   drivers/media/pci/ivtv/ivtv-ioctl.c:951:17: sparse: sparse: bogus scalar initializer
+   drivers/media/pci/ivtv/ivtv-ioctl.c:956:17: sparse: sparse: bogus scalar initializer
 --
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>> drivers/media/pci/cx18/cx18-ioctl.c:470:58: sparse: sparse: bogus scalar initializer
+   drivers/media/pci/cx18/cx18-ioctl.c:473:46: sparse: sparse: bogus scalar initializer
+   drivers/media/pci/cx18/cx18-ioctl.c:476:52: sparse: sparse: bogus scalar initializer
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+vim +925 drivers/media/pci/ivtv/ivtv-ioctl.c
+
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  919  
+3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  920  static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdesc *fmt)
+3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  921  {
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  922  	static const struct v4l2_fmtdesc hm12 = {
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  923  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
+368f080b6870e65 drivers/media/video/ivtv/ivtv-ioctl.c Ian Armstrong 2007-11-05  924  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27 @925  		{ 0, 0, 0, 0 }
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  926  	};
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  927  	static const struct v4l2_fmtdesc mpeg = {
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  928  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  929  		"MPEG", V4L2_PIX_FMT_MPEG,
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  930  		{ 0, 0, 0, 0 }
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  931  	};
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  932  	struct ivtv *itv = fh2id(fh)->itv;
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  933  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  934  
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  935  	if (fmt->index)
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  936  		return -EINVAL;
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  937  	if (s->type == IVTV_ENC_STREAM_TYPE_MPG)
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  938  		*fmt = mpeg;
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  939  	else if (s->type == IVTV_ENC_STREAM_TYPE_YUV)
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  940  		*fmt = hm12;
+bfd063cebb75d33 drivers/media/pci/ivtv/ivtv-ioctl.c   Hans Verkuil  2012-10-01  941  	else
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  942  		return -EINVAL;
+3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  943  	return 0;
+1a0adaf37c30e89 drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2007-04-27  944  }
+3f038d80039f60e drivers/media/video/ivtv/ivtv-ioctl.c Hans Verkuil  2008-05-29  945  
+
+:::::: The code at line 925 was first introduced by commit
+:::::: 1a0adaf37c30e89e44d1470ef604a930999a5826 V4L/DVB (5345): ivtv driver for Conexant cx23416/cx23415 MPEG encoder/decoder
+
+:::::: TO: Hans Verkuil <hverkuil@xs4all.nl>
+:::::: CC: Mauro Carvalho Chehab <mchehab@infradead.org>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
