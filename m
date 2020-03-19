@@ -2,147 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E601818B820
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 14:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6BF218B786
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 14:34:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727574AbgCSNGG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Mar 2020 09:06:06 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45521 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727563AbgCSNGE (ORCPT
+        id S1727658AbgCSNdp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Mar 2020 09:33:45 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38015 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728615AbgCSNNQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Mar 2020 09:06:04 -0400
-Received: by mail-ot1-f65.google.com with SMTP id e9so2215397otr.12;
-        Thu, 19 Mar 2020 06:06:04 -0700 (PDT)
+        Thu, 19 Mar 2020 09:13:16 -0400
+Received: by mail-lj1-f193.google.com with SMTP id w1so2411177ljh.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Mar 2020 06:13:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JNrzJ43ADUGKGgcYIYmm8uAsAxVnbPxCKcqomy6wzR8=;
-        b=TVp42mYXKeI+CzEDqNdIZ8OSjOYd/x2BHF3WQsRwUplFoeXvhUkRzymLKfdlVKXVgS
-         GzwUg2Q7ho8ZvC7uyy7SUT28MucxF4UxCJ/qO2fnyTsnua7SxjrDkXe0e99BVkOpALLL
-         iX+Nfz8vqxrVET+CnfJyBGbZP9aENhotFEL8cWKt0rx0UXQxhpJcqzqqhY1hbF4XQMVh
-         hUW+v4bgFd5HlN+csF5pQThvddNw+lZumxBcb3eP9pq7feovGzeBUf7Mthvx/0+wAbcr
-         6u5pwajrtYTDgDnYY4EI1S3xWl1jc0aoSPYiQM1i+Ngl1EVzCXMzYw/esdw5gERxe7wM
-         leBw==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=lihn5FzD/6idQ4+0vgu8K5La8l3gtXOBL1sBTYbHOu8=;
+        b=UmhrWCo0xu/Iq1kPHHScxdzVFt26NhhlfDA3ZyotUREhHVnpR1ZlE+119e7SXfs/i4
+         S2Px3omtSK1ZeOlrOfuiNEHy9LgQciycw3xEN0+k7OhECVhpAP2SpiUh+j7yY7O8Sct4
+         8fiSr71XyQk3aT2MPv/nmE3kWZhUQk8LBp5y/HgQ9QZdsb9MGrsQHhfrfvouYnRX/lKE
+         RbQRZm41lBjPwKegDkYHW1D34ZO0HEGX8Sdy5QZYUgE+WSnZA7RJU/ws/M0hF3VI9zyx
+         PkNsTAQcL0U8dxztd9Xurhy9wZ0/2h5j+FClMG980PoPp85GgwVkGDLQWODB1rHY0dSC
+         CtLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JNrzJ43ADUGKGgcYIYmm8uAsAxVnbPxCKcqomy6wzR8=;
-        b=DYznvXksrBeUHZ2YVSNV0phgaGurg+o4bMY5MKslsMP1VksI+Wiq2V4MfnzPpKkEpe
-         d+ogyHTovUwoT/jjDPXka1vYqqigt0VYFG+PNqJmfJuP84PfJZEHVqhH7/stO2r3jDw/
-         SKGVIoWW0ohF5BwP34dINXuwhRto4KxCF/dbs87kOOy8Idhp9PGP5kFUFMFBr09hb43I
-         X2Eo/rgUyrLBj87Q1cTX6ifilrFLa/8Tko4FJ1J4ZDSMLFJXr2VeF3jcv7aJdmJn7Ci1
-         jARiTLML3r1cS/KqRNruggY54qeykLpF12akiYsQh6jijR3HUgGoOCd/NGHnpnXVUYh/
-         YbaQ==
-X-Gm-Message-State: ANhLgQ1rTNoxibZJ92Shld0XqEy9egsypr7+mq53mdQ8ufbOj9Am73xV
-        4bv903AD+VLekBMqekg6XyzLw+rfzerFSVeNobo=
-X-Google-Smtp-Source: ADFU+vu6TgclLFcGUTWCKylwKuQ1xUKX/i4NckoB5Lg2bmpS65EzGwsKNTO9xiLZkksGH2ZBHR96INCeNIhBb87zs70=
-X-Received: by 2002:a9d:264a:: with SMTP id a68mr2250727otb.176.1584623163859;
- Thu, 19 Mar 2020 06:06:03 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=lihn5FzD/6idQ4+0vgu8K5La8l3gtXOBL1sBTYbHOu8=;
+        b=H6BPQmw5eHfF4mE01RNK6BOeRcK/zD0dPwMGIoxyf0vWjVhczq0gQC2qc/9r6K+D50
+         NRlnh6WpdwWnvGUIxozuQxjFRGUgDuJOUPnqt3JJ1+Gy6BeHSUqLjrcU78RS9Nm3on6J
+         UH913CA0A5Yw0ri6dP/zpK3PDDTgFhwX0wVmMZTx7wnzfz09n62p29c0HaHh/tIaIWzf
+         MEKnuO5QKUk3cL/Y/hchjandne1ybVjig912bKsgHqqyHzSzz1uREFVDDeH6yy4DAJY+
+         llv2HIpk+iJjvRsgehsc5dHqyOnUwgzuFg8VDiV1Nt9OBe/RqZ9qwtwroQD+tJl9Shb4
+         uJag==
+X-Gm-Message-State: ANhLgQ1HfYldj0mrOOPrl17hZswoEcDe8BMSwHGEF4cQ0L04Pj1eB8wW
+        laU5jHezBJkPW6BhQbGjiQSXYQ==
+X-Google-Smtp-Source: ADFU+vvKmsJWPuEArtXUSGljtHsqGmwv3cSwtVkRt6RHNyyFzpUewTuRsRvpi/ruvaKboBgg/rFQRA==
+X-Received: by 2002:a2e:804b:: with SMTP id p11mr2185641ljg.50.1584623594050;
+        Thu, 19 Mar 2020 06:13:14 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id g20sm1523376lfj.88.2020.03.19.06.13.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2020 06:13:13 -0700 (PDT)
+Date:   Thu, 19 Mar 2020 14:13:12 +0100
+From:   Niklas <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 1/2] media: rcar-vin: Add support for
+ MEDIA_BUS_FMT_SRGGB8_1X8 format
+Message-ID: <20200319131312.GA3192108@oden.dyn.berto.se>
+References: <20200318170638.18562-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200318170638.18562-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200319124452.3yfcvq754vi4q2rv@gilmour.lan>
-In-Reply-To: <20200319124452.3yfcvq754vi4q2rv@gilmour.lan>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 19 Mar 2020 13:05:37 +0000
-Message-ID: <CA+V-a8vH+wJoC1SL0nuk8ypAH3Mosd+K1dLNDA5wwgP4W6A=CQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to assigned-clock-rates
-To:     Maxime Ripard <maxime@cerno.tech>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Fabio Estevam <festevam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200318170638.18562-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Maxime,
+Hi Prabhakar,
 
-Thank you for the review.
+Thanks for your work.
 
-On Thu, Mar 19, 2020 at 12:45 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
-> > Use assigned-clock-rates to specify the clock rate. Also mark
-> > clock-frequency property as deprecated.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > index 72ad992..e62fe82 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > @@ -8,7 +8,7 @@ Required Properties:
-> >  - compatible: Value should be "ovti,ov5645".
-> >  - clocks: Reference to the xclk clock.
-> >  - clock-names: Should be "xclk".
-> > -- clock-frequency: Frequency of the xclk clock.
-> > +- clock-frequency (deprecated): Frequency of the xclk clock.
-> >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> >    to the hardware pin PWDNB which is physically active low.
-> >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > @@ -37,7 +37,8 @@ Example:
-> >
-> >                       clocks = <&clks 200>;
-> >                       clock-names = "xclk";
-> > -                     clock-frequency = <24000000>;
-> > +                     assigned-clocks = <&clks 200>;
-> > +                     assigned-clock-rates = <24000000>;
-> >
-> >                       vdddo-supply = <&camera_dovdd_1v8>;
-> >                       vdda-supply = <&camera_avdd_2v8>;
->
-> clock-frequency is quite different from assigned-clock-rates though,
-> semantically speaking. clock-frequency is only about what the clock
-> frequency is, while assigned-clock-rates will change the rate as well,
-> and you have no idea how long it will last.
->
-Agreed clock-frequency tells whats the clock frequency, wrt ov5645 driver
-this property was read and and the clock rate was changed accordingly as per
-the value being passed. So switching  to assigned-clock-rates does bypass
-of clock rate being set in the ov5645 driver [1] as the framework does it.
+On 2020-03-18 17:06:37 +0000, Lad Prabhakar wrote:
+> Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by setting
+> format type to RAW8 in VNMC register and appropriately setting the
+> bpp, bytesperline to enable V4L2_PIX_FMT_SRGGB8.
 
-> If you want to retrieve that through the clock framework, then just
-> making clock-frequency optional is enough and falling back to
-> clk_get_rate on the clocks property already provided is enough.
->
-As done in patch [1] ?
+> For RAW8 format data is transferred by 4-Byte unit so VnIS register is
+> configured accordingly.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c |  1 +
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 11 ++++++++++-
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+>  3 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 7440c8965d27..76daf2fe5bcd 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+>  		case MEDIA_BUS_FMT_UYVY8_2X8:
+>  		case MEDIA_BUS_FMT_UYVY10_2X10:
+>  		case MEDIA_BUS_FMT_RGB888_1X24:
+> +		case MEDIA_BUS_FMT_SRGGB8_1X8:
 
-Fyi I have posted a v4 [2] to ML.
+This is wrong RAW formats are only supported on the CSI-2 interface and 
+not the parallel one. This line shall be dropped.
 
-[1] https://patchwork.linuxtv.org/patch/62378/
-[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=1990
+>  			vin->mbus_code = code.code;
+>  			vin_dbg(vin, "Found media bus format for %s: %d\n",
+>  				subdev->name, vin->mbus_code);
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 1a30cd036371..ec7b49c0b281 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -85,6 +85,7 @@
+>  #define VNMC_INF_YUV8_BT601	(1 << 16)
+>  #define VNMC_INF_YUV10_BT656	(2 << 16)
+>  #define VNMC_INF_YUV10_BT601	(3 << 16)
+> +#define VNMC_INF_RAW8		(4 << 16)
+>  #define VNMC_INF_YUV16		(5 << 16)
+>  #define VNMC_INF_RGB888		(6 << 16)
+>  #define VNMC_VUP		(1 << 10)
+> @@ -587,13 +588,14 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+>  	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
+>  
+> -
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+>  		rvin_crop_scale_comp_gen2(vin);
+>  
+>  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+>  	stride = vin->format.bytesperline / fmt->bpp;
+> +	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
+> +		stride /= 2;
 
-Cheers,
---Prabhakar
+I'm sorry this makes no sens to me.
 
-> Maxime
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+- The width of the image is number of pixels in the raw format.
+- In memory each row is either is either RGRGRG... or GBGBGB...
+- The pixel size is 1 byte per pixel.
+- We calculate bytesperline as ALIGN(width, align) * bpp, where align is 
+  how much we need to "adjust" the width to match the VNIS_REG reg 
+  value.  We do this in rvin_format_bytesperline().
+- We then remove bpp from bytesperline and we have a unit in pixels 
+  which is our stride.
+
+I can't see why you need to cut the stride in half. In my view you 
+should add a check for V4L2_PIX_FMT_SRGGB8 in rvin_format_bytesperline() 
+and pick an alignment value that matches the restrictions.
+
+I might miss something, but then I wish to learn.
+
+>  	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
+> @@ -676,6 +678,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  
+>  		input_is_yuv = true;
+>  		break;
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +		vnmc |= VNMC_INF_RAW8;
+> +		break;
+
+Here and ...
+
+>  	default:
+>  		break;
+>  	}
+> @@ -737,6 +742,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  	case V4L2_PIX_FMT_ABGR32:
+>  		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+>  		break;
+> +	case V4L2_PIX_FMT_SRGGB8:
+> +		dmr = 0;
+> +		break;
+
+... here we have a new problem, sorry for not thinking of it before.
+
+Up until now the VIN was capable to convert any of its supported input 
+mbus formats to any of it's supported output pixel formats. With the 
+addition of RAW formats this is no longer true. This new restriction 
+needs to be added to the driver.
+
+Luck has it we can fix ...
+
+>  	default:
+>  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+>  			vin->format.pixelformat);
+> @@ -1110,6 +1118,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  	case MEDIA_BUS_FMT_UYVY8_2X8:
+>  	case MEDIA_BUS_FMT_UYVY10_2X10:
+>  	case MEDIA_BUS_FMT_RGB888_1X24:
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+>  		vin->mbus_code = fmt.format.code;
+
+... this here by changes this to
+
+        switch (fmt.format.code) {
+        case MEDIA_BUS_FMT_YUYV8_1X16:
+        case MEDIA_BUS_FMT_UYVY8_1X16:
+        case MEDIA_BUS_FMT_UYVY8_2X8:
+        case MEDIA_BUS_FMT_UYVY10_2X10:
+                break;
+        case MEDIA_BUS_FMT_RGB888_1X24:
+                if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
+                    return -EPIPE:
+                break;
+        default:
+                return -EPIPE;
+	}
+
+        vin->mbus_code = fmt.format.code;
+
+>  		break;
+>  	default:
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 5151a3cd8a6e..ca542219e8ae 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
+>  		.fourcc			= V4L2_PIX_FMT_ABGR32,
+>  		.bpp			= 4,
+>  	},
+> +	{
+> +		.fourcc			= V4L2_PIX_FMT_SRGGB8,
+> +		.bpp			= 1,
+> +	},
+>  };
+>  
+>  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+> -- 
+> 2.20.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
