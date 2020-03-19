@@ -2,126 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB4AF18B020
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 10:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D8718B225
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 12:13:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbgCSJ0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Mar 2020 05:26:01 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:41600 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725767AbgCSJ0A (ORCPT
+        id S1726188AbgCSLN3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Mar 2020 07:13:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41512 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbgCSLN3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Mar 2020 05:26:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Yb/xjLK1ui2j4hUNbhZagNJyXnbqQ+joMlyaDUNd3FM=; b=DDdZRk/eS5AQ/lCDPOwBAGNZx
-        rmNqgJZFXL9pV819W/fxoEfzt9A4Tl+xIQRjOmQ1TxKcLh4bqPj137R2jYlNtfJw2ccGPLGwsooM2
-        zW85Yr7KkEx/jwWJYmcXSnfkxdoXLQrcxvPVs643O1wrGJTkJvGtFR2bX8KiKNkzD0OMATYnrT7uZ
-        A9SbTd3luF5DISAJkO3L3H4uWKzpZ9Smbg5qtb5kcPXU17QzADSAWYIoqmqq1jHyrM/p3MsxTTC8d
-        aJVKexv8S73aD7bWnEl5LnnI8gjpdiskScrcUW3HrhuaUQUYqDAhy5MJveIbIDxDv8lRd+hkKDrKY
-        NLaz6hM5Q==;
-Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:55058)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jErQt-0001LT-TO; Thu, 19 Mar 2020 09:25:44 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jErQl-0004f3-RZ; Thu, 19 Mar 2020 09:25:35 +0000
-Date:   Thu, 19 Mar 2020 09:25:35 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-Message-ID: <20200319092535.GB25745@shell.armlinux.org.uk>
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be>
- <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
- <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
- <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
+        Thu, 19 Mar 2020 07:13:29 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CACBDA53;
+        Thu, 19 Mar 2020 12:13:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584616406;
+        bh=dwk50ZmP4DkI3ZDxDB4OuJRFsIgPz3laRgR7dhUkL7s=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=kfbQqzegTOBSbgR0SnX6q3I+XTHbQu9TITiMBIR7Kv9HjVUKl/U7dz6PUGiKIuNFA
+         RJt5T8tX0Pu8oTJ1Y0+xwh+6cBYxgGo+5qKSe7KJTqMFyY4RHXyyYd4CgD6JNGuQbF
+         y4TwyWdaXRLr5b2T4+JTVc7sefk26yDHZRX0OcYs=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 5/5] media: i2c: max9286: Parse channel amplitude
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com,
+        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+References: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+ <20200316202757.529740-6-jacopo+renesas@jmondi.org>
+ <0de21347-4c06-50a1-0393-a1f4c1efad28@ideasonboard.com>
+ <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <f33f3ed4-28b6-aa53-eb4a-bd796e69f1b4@ideasonboard.com>
+Date:   Thu, 19 Mar 2020 11:13:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
+In-Reply-To: <20200318143250.tfz3frapsq2s2lyu@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 19, 2020 at 04:11:00AM +0300, Dmitry Osipenko wrote:
-> 25.02.2020 14:40, Geert Uytterhoeven пишет:
-> > Hi Marek,
-> > 
-> > On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
-> >>> Currently, the start address of physical memory is obtained by masking
-> >>> the program counter with a fixed mask of 0xf8000000.  This mask value
-> >>> was chosen as a balance between the requirements of different platforms.
-> >>> However, this does require that the start address of physical memory is
-> >>> a multiple of 128 MiB, precluding booting Linux on platforms where this
-> >>> requirement is not fulfilled.
-> >>>
-> >>> Fix this limitation by obtaining the start address from the DTB instead,
-> >>> if available (either explicitly passed, or appended to the kernel).
-> >>> Fall back to the traditional method when needed.
-> >>>
-> >>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> >>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> >>> i.e. not at a multiple of 128 MiB.
-> >>>
-> >>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> >>> ---
-> >>> Against arm/for-next.
-> >>
-> >> This patch landed recently in linux-next. It breaks legacy booting from
-> >> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
-> >> will debug it further once I find some spare time. What I noticed so
-> >> far, the cmdline/memory info is not read from the ATAGs, only the values
-> >> provided via appended DT are used.
-> > 
-> > Oops, something happening like this was one of my biggest worries when
-> > posting this patch... Sorry for the breakage.
-> > 
-> > IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
-> > 
-> > I'll have a closer look later today.
-> > In the mean time, I've sent some debug code I used when developing
-> > this patch, which may be useful, hopefully.
+On 18/03/2020 14:32, Jacopo Mondi wrote:
+> Hi Kieran,
 > 
-> Hello,
+> On Wed, Mar 18, 2020 at 09:57:48AM +0000, Kieran Bingham wrote:
+>> Hi Jacopo,
+>>
+>> On 16/03/2020 20:27, Jacopo Mondi wrote:
+>>> Parse the 'maxim,reverse-channel-amplitude' property value and cache its
+>>> content to later program the initial reverse channel amplitude.
+>>>
+>>> Only support 100mV and 170mV values for the moment. The property could
+>>> be easily expanded to support more values.
+>>
+>> Can we (in the future) support arbitrary values from a range, or only
+>> from a fixed list?
 > 
-> NVIDIA Tegra is also affected by this patch. A week ago an updated
-> version of the patch was pushed into linux-next and now machine doesn't
-> boot at all.
+> Good question. The 0x3b register of the deserializer is not documented
+> in my datasheet version, I got this from the application developer
+> guide that reports
 > 
-> I couldn't find v3 on the ML, so replying to the v2. Please take a look
-> and fix the problem, or revert/drop the offending patch, thanks in advance.
+>         Increase reverse amplitude from 100mV to
+>         170mV. This compensates for the higher
+>         threshold of step 5.
+> 
+> and reports the following list of supported values in the 0x3b
+> register description.
+> 
+>         Reverse channel amplitude
+>         000 = 30mV
+>         001 = 40mV
+>         010 = 50mV
+>         011 = 60mV
+>         100 = 70mV
+>         101 = 80mV
+>         110 = 90mV
+>         111 = 100mV
+> 
+> with an optional +100mV boost option.
 
-I'll drop the patch. It's clear that this is going to be difficult,
-so I would ask you to test the next version, rather than waiting for
-it to appear in linux-next.
+Ok, so we have two supported 'ranges'
+ 30-100mV and 130-200mV.
 
-Thanks.
+Indeed it's probably best not to express that as a single range :-)
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+
+> Going forward we can add more values to the list of supported ones in
+> the bindings and control their configuration in the driver.
+> 
+> Maybe worth noting it down with a fixme note ?
+
+I wonder if it should be expressed as a supported range, with a boost,
+which matches the hardware, and presumably will match the requirements
+on the serializer side too ?
+
+Presumably if the boost is needed, we 'know' when it's needed? although
+that doesn't quite fit either. I see you're going from 100mV to 70mV so
+you're actually onnly applying a 'boost' of 70mV not 100 ?
+
+Hrm ... I'll have to do more digging to understand what's going here.
+
+--
+Kieran
+
+
+> 
+>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  drivers/media/i2c/max9286.c | 39 ++++++++++++++++++++++++++++++++-----
+>>>  1 file changed, 34 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+>>> index 0357515860b2..24af8002535e 100644
+>>> --- a/drivers/media/i2c/max9286.c
+>>> +++ b/drivers/media/i2c/max9286.c
+>>> @@ -168,6 +168,7 @@ struct max9286_priv {
+>>>  	struct max9286_source sources[MAX9286_NUM_GMSL];
+>>>  	struct v4l2_async_notifier notifier;
+>>>
+>>> +	u32 reverse_chan_amp;
+>>>  	u32 overlap_window;
+>>>  };
+>>>
+>>> @@ -479,10 +480,15 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>>>  	 * All enabled sources have probed and enabled their reverse control
+>>>  	 * channels:
+>>>  	 *
+>>> -	 * - Verify all configuration links are properly detected
+>>> +	 * - Increase reverse channel amplitude to 170mV if not initially
+>>> +	 *   compensated
+>>>  	 * - Disable auto-ack as communication on the control channel are now
+>>>  	 *   stable.
+>>>  	 */
+>>> +	if (priv->reverse_chan_amp == 100)
+>>> +		max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) |
+>>> +			      MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X);
+>>> +
+>>>  	max9286_check_config_link(priv, priv->source_mask);
+>>>
+>>>  	/*
+>>> @@ -830,6 +836,8 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>>>
+>>>  static int max9286_setup(struct max9286_priv *priv)
+>>>  {
+>>> +	u8 chan_amp = MAX9286_REV_TRF(1);
+>>> +
+>>>  	/*
+>>>  	 * Link ordering values for all enabled links combinations. Orders must
+>>>  	 * be assigned sequentially from 0 to the number of enabled links
+>>> @@ -869,12 +877,18 @@ static int max9286_setup(struct max9286_priv *priv)
+>>>  	 *
+>>>  	 * - Enable custom reverse channel configuration (through register 0x3f)
+>>>  	 *   and set the first pulse length to 35 clock cycles.
+>>> -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+>>> -	 *   high threshold enabled by the serializer driver.
+>>> +	 * - Set initial reverse channel amplitude according the DTS property.
+>>> +	 *   If the initial channel amplitude is 100mV it should be increase
+>>> +	 *   later after the serializers high threshold have been enabled.
+>>> +	 *   If the initial value is 170mV the serializer has been
+>>> +	 *   pre-programmed and we can compensate immediately.>  	 */
+>>>  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+>>> -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+>>> -		      MAX9286_REV_AMP_X);
+>>> +	if (priv->reverse_chan_amp == 100)
+>>> +		chan_amp |= MAX9286_REV_AMP(100);
+>>> +	else
+>>> +		chan_amp |= MAX9286_REV_AMP(70) | MAX9286_REV_AMP_X;
+>>> +	max9286_write(priv, 0x3b, chan_amp);
+>>>  	usleep_range(2000, 2500);
+>>>
+>>>  	/*
+>>> @@ -1069,6 +1083,21 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>>  		return -EINVAL;
+>>>  	}
+>>>
+>>> +	ret = of_property_read_u32(dev->of_node, "maxim,reverse-channel-amplitude",
+>>> +				   &priv->reverse_chan_amp);
+>>> +	if (ret) {
+>>> +		dev_err(dev,
+>>> +			"Missing property \"maxim,reverse-channel-amplitude\"\n");
+>>> +		of_node_put(dev->of_node);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +	if (priv->reverse_chan_amp != 100 && priv->reverse_chan_amp != 170) {
+>>> +		dev_err(dev, "Unsupported  channel amplitude %umV\n",
+>>> +			priv->reverse_chan_amp);
+>>> +		of_node_put(dev->of_node);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>>  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>>>  	if (!i2c_mux) {
+>>>  		dev_err(dev, "Failed to find i2c-mux node\n");
+>>>
+>>
+
