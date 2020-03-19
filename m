@@ -2,107 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C09B518B937
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 15:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED9318B979
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Mar 2020 15:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgCSOUD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Mar 2020 10:20:03 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:57220 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726817AbgCSOUD (ORCPT
+        id S1727222AbgCSOfu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Mar 2020 10:35:50 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42206 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbgCSOfu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Mar 2020 10:20:03 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id E0EAA8052B;
-        Thu, 19 Mar 2020 15:19:55 +0100 (CET)
-Date:   Thu, 19 Mar 2020 15:19:54 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        David Airlie <airlied@linux.ie>,
-        Jose Roberto de Souza <jose.souza@intel.com>,
-        virtualization@lists.linux-foundation.org,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Emil Velikov <emil.velikov@collabora.com>,
-        linux-samsung-soc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Dave Airlie <airlied@redhat.com>,
-        linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v1 0/3] drm: drm_encoder_init() =>
- drm_encoder_init_funcs()
-Message-ID: <20200319141954.GA25036@ravnborg.org>
-References: <20200313201744.19773-1-sam@ravnborg.org>
+        Thu, 19 Mar 2020 10:35:50 -0400
+Received: by mail-lj1-f196.google.com with SMTP id q19so2721392ljp.9;
+        Thu, 19 Mar 2020 07:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GnY66tiLgnT7uMr9518ZV493aERIdx8VHWwveyXTDnk=;
+        b=YYp40Z4MW214HarFNMtj5EpZt9aUZRpAORwA8owUWeLF0UsNemk7FjcHkPFuQiF08X
+         ivBCgbgNnQ0YC7l6wjb+ZFkZNtOobgpQzTm1wL6D/F1v5n/b5P4qWBkQpx6JIa3edoOz
+         opPN04Owd9irRArSPfanBTsmxKfYek7pOVgc1Zz4e04aNvBhxj0KlwED8IFgdhx+GouC
+         oWUJ/CgDY8TefgdMdGj6hAt1SbSZaihMXN1zkPH0df8jR/Mc817Wi+6Ehv+MXU15IYex
+         XvF9hax7N2kjQSjR1Yg88RRl27MlSdn6Esk4HYtn7+mOpP7gXpCZFmWlVsmRqBlpxep9
+         HKrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GnY66tiLgnT7uMr9518ZV493aERIdx8VHWwveyXTDnk=;
+        b=BnK0UIyr6H+2QTRwKFnqTudgeuqohusgSh2jHtT8YDCJ5ikPLkmzWhCrNUGFU2NrMe
+         oENWfx32IqT4XjhJfSikj+5zbI379hZ3Aq8R+pRm0qYXDr7Kb7Q4wOMdpR2hSbcBuLzX
+         VsiT9RkdK/SYax70HRrv7MLxd4Jgn7NaFPZSDQ5CIfNlcT9dsfdbQPypYxFWhQV49MRs
+         Vg3W82y9ZBCNsbQ1UEvJtrEFIHv+/vlJhpGEvKKu10IMpszExoMiSs03cV2moqoKk9+O
+         CEfsUO/OHrG2TFUwHxdYKGhls67y2ocseKju12AE6mOMcmDccBHHvm9sPzcnon2jGiBI
+         b+HQ==
+X-Gm-Message-State: ANhLgQ0PFAQPJKoqpAQUYTSkgKXhMLa1/6iqB4uJxxlego+bOzxwRUlF
+        I8H629tOKmRpElgGLnxrgSrX3ZBr
+X-Google-Smtp-Source: ADFU+vsUQgj771kWpKIfgPuGmuo6zRMZpbLT62dCa0mQsjR5QPKNN7fglR+T4EukdOBYFNyWQCJ38w==
+X-Received: by 2002:a2e:8ec7:: with SMTP id e7mr2304748ljl.36.1584628545819;
+        Thu, 19 Mar 2020 07:35:45 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-39-224.dynamic.spd-mgts.ru. [94.29.39.224])
+        by smtp.googlemail.com with ESMTPSA id g20sm1654655lfj.88.2020.03.19.07.35.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2020 07:35:45 -0700 (PDT)
+Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
+ <20200127140716.15673-1-geert+renesas@glider.be>
+ <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
+ <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
+ <90c006f2-8c13-2976-008f-37139ca49f37@gmail.com>
+ <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <75358399-c292-4e60-abdc-bd0729cf5c08@gmail.com>
+Date:   Thu, 19 Mar 2020 17:35:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200313201744.19773-1-sam@ravnborg.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=MgBhUfZuEF2DRmvJ2N4A:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <CAMuHMdVkhf+4CQwpf9tn3UfaMb=qoRRYS2XpwcgBMciTVmXjHA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Mar 13, 2020 at 09:17:41PM +0100, Sam Ravnborg wrote:
-> Thomas Zimmermann had made a nice patch-set that introduced
-> drm_simple_encoder_init() which is already present in drm-misc-next.
+19.03.2020 11:18, Geert Uytterhoeven пишет:
+> Hi Dmitry,
 > 
-> While looking at this it was suddenly obvious to me that
-> this was functionalty that really should be included in drm_encoder.c
-> The case where the core could handle the callback is pretty
-> common and not part of the simple pipe line.
+> On Thu, Mar 19, 2020 at 2:11 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+>> 25.02.2020 14:40, Geert Uytterhoeven пишет:
+>>> On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
+>>> <m.szyprowski@samsung.com> wrote:
+>>>> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
+>>>>> Currently, the start address of physical memory is obtained by masking
+>>>>> the program counter with a fixed mask of 0xf8000000.  This mask value
+>>>>> was chosen as a balance between the requirements of different platforms.
+>>>>> However, this does require that the start address of physical memory is
+>>>>> a multiple of 128 MiB, precluding booting Linux on platforms where this
+>>>>> requirement is not fulfilled.
+>>>>>
+>>>>> Fix this limitation by obtaining the start address from the DTB instead,
+>>>>> if available (either explicitly passed, or appended to the kernel).
+>>>>> Fall back to the traditional method when needed.
+>>>>>
+>>>>> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+>>>>> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+>>>>> i.e. not at a multiple of 128 MiB.
+>>>>>
+>>>>> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+>>>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>>> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+>>>>> ---
+>>>>> Against arm/for-next.
+>>>>
+>>>> This patch landed recently in linux-next. It breaks legacy booting from
+>>>> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
+>>>> will debug it further once I find some spare time. What I noticed so
+>>>> far, the cmdline/memory info is not read from the ATAGs, only the values
+>>>> provided via appended DT are used.
+>>>
+>>> Oops, something happening like this was one of my biggest worries when
+>>> posting this patch... Sorry for the breakage.
+>>>
+>>> IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
+>>>
+>>> I'll have a closer look later today.
+>>> In the mean time, I've sent some debug code I used when developing
+>>> this patch, which may be useful, hopefully.
+>>
+>> NVIDIA Tegra is also affected by this patch. A week ago an updated
+>> version of the patch was pushed into linux-next and now machine doesn't
+>> boot at all.
 > 
-> So after some dialog on dri-devel the conclusion was to go for
-> a change like this:
+> I'm sorry to hear that.
 > 
->     drm_encoder_init_funcs() for all users that specified a
->     drm_encoder_funcs to extend the functionality.
-> 
->     drm_encoder_init() for all users that did not
->     need to extend the basic functionality with
->     drm_encoder_funcs.
-> 
-> A similar approach with a _funcs() prefix is used elsewhere in drm/
-> 
-> This required a rename of the existing users, and
-> a follow-up patch that moves drm_simple_encoder_init()
-> to drm_encoder.c
-> 
-> Patches 3 in this set demonstrate the use of drm_encoder_init().
-> There are many more drivers that can be converted as Thomas
-> has already demonstrated.
-> 
-> This is all based on work done by Thomas Zimmermann,
-> I just wanted to implement my suggestion so
-> we could select the best way forward.
-> 
-> Note: Daniel Vetter has hinted the approach implemented
-> here smelled like middle-layer.
-> IMO this is not so, it is just a way to handle cleanup
-> for the simple cases.
+> Did v2 work for you?
 
-We discussed this patch-set briefly on irc.
-With the upcoming drmm_ changes and such this is bad timing..
-And in the end this may be pointless code-chrunch.
+Same as it was for Marek.
 
-Patch-set shelfed for now - may re-visit it later.
+> Are you sure this updated version is the culprit? There are several other
+> recent changes to head.S in arm/for-next.
 
-	Sam
+Yes
+
+> Do you boot a separate DTB or an appended DTB?
+
+Appended
+
+> Do you use ATAGS?
+
+Yes
+
+>> I couldn't find v3 on the ML, so replying to the v2. Please take a look
+>> and fix the problem, or revert/drop the offending patch, thanks in advance.
+> 
+> V3 is v2 combined with "[PATCH] ARM: boot: Fix ATAGs with appended DTB"
+> (https://lore.kernel.org/linux-renesas-soc/20200225144749.19815-1-geert+renesas@glider.be/).
+
+Thank you for the clarification.
+
+I recalled that CONFIG_THUMB2_KERNEL=y is set in my kernel's config and
+disabling thumb2 build fixes the problem. Please correct it in the next
+version of the patch, thanks in advance.
