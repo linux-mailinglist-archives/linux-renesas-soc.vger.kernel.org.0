@@ -2,162 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCDB218CB0A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2020 11:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B340418CB44
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2020 11:12:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgCTKCz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Mar 2020 06:02:55 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:38406 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726527AbgCTKCy (ORCPT
+        id S1726690AbgCTKM0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Mar 2020 06:12:26 -0400
+Received: from foss.arm.com ([217.140.110.172]:46940 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726527AbgCTKMZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Mar 2020 06:02:54 -0400
-Received: by mail-ed1-f66.google.com with SMTP id h5so6445707edn.5;
-        Fri, 20 Mar 2020 03:02:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yKhEFD0HDc489I3cxzxcRx7nCJ4icJCiGjR0lWOPd2k=;
-        b=m0yWlKwpPPS1pBzUL5NnkA5mvuLbPIDdPqWMwWiDARWIoLNWkrc7SIYeRA+xASdqMC
-         KxCWT1RUD9yR+r5rzYrf4ZaxO1JMtYsYT2rrAohor/ptAzgmtvW4+8WlngVxGhhN+MdT
-         Fh+llBMH0889nhVKUbx+xTZiK2/I2BZ2EqnLSvBT5XliZVDAzKQxl1jZp6keYHBnV3XE
-         DvuVC/c9xRZTb2HKs5JJLZc7wY8vrP3F+S6rtRuJCZ1BZAJFUEmrcF8dJRJiHkSpvFFp
-         NHFLabftPUjMyH54qtF7YYAUnqgE11mPpCFrJMMXISZedAK42TcEPotSCk+UjnQZJt9O
-         +IBw==
-X-Gm-Message-State: ANhLgQ1IZts2jDJQKOKJ2qcCw7VAIZzOMMMJyg2Zb6FfZlVF+ZVvFFF/
-        Z1UJm4df8341Wdyvbjs+2qk=
-X-Google-Smtp-Source: ADFU+vtTJo8GuuHT33eJ8VISdzNZK+dw+AG9XHRSiOF+v3/TwxvILo+kc3y2aVtBOdqG/TC06c4U9g==
-X-Received: by 2002:a17:906:80d5:: with SMTP id a21mr7612042ejx.240.1584698571643;
-        Fri, 20 Mar 2020 03:02:51 -0700 (PDT)
-Received: from pi3 ([194.230.155.125])
-        by smtp.googlemail.com with ESMTPSA id e16sm319824ejx.53.2020.03.20.03.02.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 03:02:50 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 11:02:43 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
-Cc:     devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Paul Barker <pbarker@konsulko.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Igor Opaniuk <igor.opaniuk@toradex.com>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        David Lechner <david@lechnology.com>,
-        Fabio Estevam <festevam@gmail.com>,
+        Fri, 20 Mar 2020 06:12:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A57931B;
+        Fri, 20 Mar 2020 03:12:25 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9D9F3F305;
+        Fri, 20 Mar 2020 03:12:23 -0700 (PDT)
+Date:   Fri, 20 Mar 2020 10:12:17 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Peter Rosin <peda@axentia.se>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Sekhar Nori <nsekhar@ti.com>, Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Tony Lindgren <tony@atomide.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: Re: [RFC PATCH 7/7] arm: dts: pwm: replace polarity constant with
- macro
-Message-ID: <20200320100243.GA16931@pi3>
-References: <20200317123231.2843297-1-oleksandr.suvorov@toradex.com>
- <20200317123231.2843297-8-oleksandr.suvorov@toradex.com>
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
+Message-ID: <20200320101217.GA22055@e121166-lin.cambridge.arm.com>
+References: <20200314191232.3122290-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200317123231.2843297-8-oleksandr.suvorov@toradex.com>
+In-Reply-To: <20200314191232.3122290-1-marek.vasut@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 02:32:31PM +0200, Oleksandr Suvorov wrote:
-> There is the PWM_POLARITY_NORMAL defined and describled in
-> <dt-bindings/pwm/pwm.h> and used by pwm drivers.
+On Sat, Mar 14, 2020 at 08:12:32PM +0100, marek.vasut@gmail.com wrote:
+> From: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
 > 
-> This patch converts all '0' constant in pwms parameters into
-> PWM_POLARITY_NORMAL.
+> This adds the suspend/resume supports for pcie-rcar. The resume handler
+> reprograms the hardware based on the software state kept in specific
+> device structures. Also it doesn't need to save any registers.
 > 
-> Replace with sed regexp:
-> 's/(pwms = <&[a-zA-Z_0-9]+ [0-9]+ [0-9]+) 0>/\1 PWM_POLARITY_NORMAL>/'
-> 
-> Then:
-> - included pwm.h in some dts/dtsi to fix building errors about undefined
->   symbols.
-> - fixed the patman warnings about the code format;
-> 
-> Signed-off-by: Oleksandr Suvorov <oleksandr.suvorov@toradex.com>
+> Signed-off-by: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
+> Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Phil Edworthy <phil.edworthy@renesas.com>
+> Cc: Simon Horman <horms+renesas@verge.net.au>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: linux-renesas-soc@vger.kernel.org
 > ---
+> V2: - Change return type of rcar_pcie_hw_enable() to void
+>     - Drop default: case in switch statement in rcar_pcie_hw_enable()
+>     - Sort variables in rcar_pcie_resume()
+> V3: - Update on top of next-20200313
+> ---
+>  drivers/pci/controller/pcie-rcar.c | 86 +++++++++++++++++++++++++-----
+>  1 file changed, 74 insertions(+), 12 deletions(-)
 > 
->  arch/arm/boot/dts/am335x-cm-t335.dts               | 2 +-
->  arch/arm/boot/dts/am335x-evm.dts                   | 2 +-
->  arch/arm/boot/dts/am3517-evm.dts                   | 2 +-
->  arch/arm/boot/dts/at91-dvk_su60_somc_lcm.dtsi      | 2 +-
->  arch/arm/boot/dts/at91-kizbox2-common.dtsi         | 6 +++---
->  arch/arm/boot/dts/at91-kizbox3_common.dtsi         | 8 ++++----
->  arch/arm/boot/dts/at91-kizboxmini-common.dtsi      | 6 +++---
->  arch/arm/boot/dts/at91-nattis-2-natte-2.dts        | 2 +-
->  arch/arm/boot/dts/at91-sama5d4_ma5d4evk.dts        | 2 +-
->  arch/arm/boot/dts/at91sam9n12ek.dts                | 2 +-
->  arch/arm/boot/dts/at91sam9x5dm.dtsi                | 2 +-
->  arch/arm/boot/dts/berlin2cd-google-chromecast.dts  | 4 ++--
->  arch/arm/boot/dts/da850-evm.dts                    | 2 +-
->  arch/arm/boot/dts/da850-lego-ev3.dts               | 4 ++--
->  arch/arm/boot/dts/exynos4412-midas.dtsi            | 2 +-
->  arch/arm/boot/dts/exynos4412-odroidu3.dts          | 2 +-
->  arch/arm/boot/dts/exynos5250-snow-common.dtsi      | 2 +-
->  arch/arm/boot/dts/exynos5410-odroidxu.dts          | 2 +-
->  arch/arm/boot/dts/exynos5420-peach-pit.dts         | 2 +-
->  arch/arm/boot/dts/exynos5422-odroidhc1.dts         | 2 +-
->  arch/arm/boot/dts/exynos5422-odroidxu3-common.dtsi | 2 +-
->  arch/arm/boot/dts/exynos5422-odroidxu4.dts         | 2 +-
->  arch/arm/boot/dts/exynos54xx-odroidxu-leds.dtsi    | 4 ++--
->  arch/arm/boot/dts/exynos5800-peach-pi.dts          | 2 +-
->  arch/arm/boot/dts/imx53-tx53-x13x.dts              | 5 +++--
->  arch/arm/boot/dts/imx6dl-tx6dl-comtft.dts          | 2 +-
->  arch/arm/boot/dts/imx6q-display5.dtsi              | 2 +-
->  arch/arm/boot/dts/imx6q-tx6q-1010-comtft.dts       | 2 +-
->  arch/arm/boot/dts/imx6q-tx6q-1020-comtft.dts       | 2 +-
->  arch/arm/boot/dts/imx6qdl-tx6-lvds.dtsi            | 4 ++--
->  arch/arm/boot/dts/imx7-colibri.dtsi                | 4 +++-
->  arch/arm/boot/dts/imx7d-nitrogen7.dts              | 3 ++-
->  arch/arm/boot/dts/imx7d-pico.dtsi                  | 3 ++-
->  arch/arm/boot/dts/imx7d-sdb.dts                    | 3 ++-
->  arch/arm/boot/dts/imx7ulp-evk.dts                  | 3 ++-
->  arch/arm/boot/dts/iwg20d-q7-common.dtsi            | 2 +-
->  arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi   | 2 +-
->  arch/arm/boot/dts/meson8b-ec100.dts                | 4 ++--
->  arch/arm/boot/dts/meson8b-mxq.dts                  | 4 ++--
->  arch/arm/boot/dts/meson8b-odroidc1.dts             | 4 ++--
->  arch/arm/boot/dts/motorola-mapphone-common.dtsi    | 3 ++-
->  arch/arm/boot/dts/omap3-gta04.dtsi                 | 2 +-
->  arch/arm/boot/dts/omap3-n900.dts                   | 2 +-
->  arch/arm/boot/dts/rk3288-veyron-edp.dtsi           | 2 +-
->  arch/arm/boot/dts/rk3288-veyron.dtsi               | 2 +-
->  arch/arm/boot/dts/rv1108-evb.dts                   | 2 +-
->  arch/arm/boot/dts/s3c6410-mini6410.dts             | 2 +-
->  arch/arm/boot/dts/s5pv210-aries.dtsi               | 2 +-
->  arch/arm/boot/dts/s5pv210-smdkv210.dts             | 2 +-
+> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+> index 759c6542c5c8..f86513638b8a 100644
+> --- a/drivers/pci/controller/pcie-rcar.c
+> +++ b/drivers/pci/controller/pcie-rcar.c
+> @@ -452,6 +452,32 @@ static void rcar_pcie_force_speedup(struct rcar_pcie *pcie)
+>  		 (macsr & LINK_SPEED) == LINK_SPEED_5_0GTS ? "5" : "2.5");
+>  }
+>  
+> +static void rcar_pcie_hw_enable(struct rcar_pcie *pci)
+> +{
+> +	struct resource_entry *win;
+> +	LIST_HEAD(res);
+> +	int i = 0;
+> +
+> +	/* Try setting 5 GT/s link speed */
+> +	rcar_pcie_force_speedup(pci);
+> +
+> +	/* Setup PCI resources */
+> +	resource_list_for_each_entry(win, &pci->resources) {
+> +		struct resource *res = win->res;
+> +
+> +		if (!res->flags)
+> +			continue;
+> +
+> +		switch (resource_type(res)) {
+> +		case IORESOURCE_IO:
+> +		case IORESOURCE_MEM:
+> +			rcar_pcie_setup_window(i, pci, win);
+> +			i++;
+> +			break;
+> +		}
+> +	}
+> +}
+> +
+>  static int rcar_pcie_enable(struct rcar_pcie *pcie)
+>  {
+>  	struct device *dev = pcie->dev;
+> @@ -891,11 +917,25 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie *pcie)
+>  	irq_domain_remove(msi->domain);
+>  }
+>  
+> +static void rcar_pcie_hw_enable_msi(struct rcar_pcie *pcie)
+> +{
+> +	struct rcar_msi *msi = &pcie->msi;
+> +	unsigned long base;
+> +
+> +	/* setup MSI data target */
+> +	base = virt_to_phys((void *)msi->pages);
+> +
+> +	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+> +	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
+> +
+> +	/* enable all MSI interrupts */
+> +	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+> +}
+> +
+>  static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+>  {
+>  	struct device *dev = pcie->dev;
+>  	struct rcar_msi *msi = &pcie->msi;
+> -	phys_addr_t base;
+>  	int err, i;
+>  
+>  	mutex_init(&msi->lock);
+> @@ -934,17 +974,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+>  
+>  	/* setup MSI data target */
+>  	msi->pages = __get_free_pages(GFP_KERNEL, 0);
+> -	if (!msi->pages) {
+> -		err = -ENOMEM;
+> -		goto err;
+> -	}
+> -	base = virt_to_phys((void *)msi->pages);
+> -
+> -	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+> -	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
+> -
+> -	/* enable all MSI interrupts */
+> -	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+> +	rcar_pcie_hw_enable_msi(pcie);
+>  
+>  	return 0;
+>  
+> @@ -1219,6 +1249,37 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>  	return err;
+>  }
+>  
+> +static int rcar_pcie_resume(struct device *dev)
+> +{
+> +	struct rcar_pcie *pcie = dev_get_drvdata(dev);
+> +	int (*hw_init_fn)(struct rcar_pcie *);
+> +	unsigned int data;
+> +	int err;
+> +
+> +	err = rcar_pcie_parse_map_dma_ranges(pcie);
+> +	if (err)
+> +		return 0;
+> +
+> +	/* Failure to get a link might just be that no cards are inserted */
+> +	hw_init_fn = of_device_get_match_data(dev);
 
-For Exynos/S3C/S5P:
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Hi Marek,
 
-Best regards,
-Krzysztof
+happy to apply it as is, I was wondering if it is work taking this
+look-up out of the resume path, it is not supposed to change anyway,
+you can even save the function pointer at probe.
+
+Again, happy to apply it as-is, just let me know please.
+
+Thanks,
+Lorenzo
+
+> +	err = hw_init_fn(pcie);
+> +	if (err) {
+> +		dev_info(dev, "PCIe link down\n");
+> +		return 0;
+> +	}
+> +
+> +	data = rcar_pci_read_reg(pcie, MACSR);
+> +	dev_info(dev, "PCIe x%d: link up\n", (data >> 20) & 0x3f);
+> +
+> +	/* Enable MSI */
+> +	if (IS_ENABLED(CONFIG_PCI_MSI))
+> +		rcar_pcie_hw_enable_msi(pcie);
+> +
+> +	rcar_pcie_hw_enable(pcie);
+> +
+> +	return 0;
+> +}
+> +
+>  static int rcar_pcie_resume_noirq(struct device *dev)
+>  {
+>  	struct rcar_pcie *pcie = dev_get_drvdata(dev);
+> @@ -1234,6 +1295,7 @@ static int rcar_pcie_resume_noirq(struct device *dev)
+>  }
+>  
+>  static const struct dev_pm_ops rcar_pcie_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, rcar_pcie_resume)
+>  	.resume_noirq = rcar_pcie_resume_noirq,
+>  };
+>  
+> -- 
+> 2.25.0
+> 
