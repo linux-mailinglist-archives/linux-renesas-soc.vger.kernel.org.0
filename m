@@ -2,95 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5C5618C929
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2020 09:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEFC018C958
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Mar 2020 09:58:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726726AbgCTIs1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Mar 2020 04:48:27 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:38642 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgCTIs0 (ORCPT
+        id S1726631AbgCTI6I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Mar 2020 04:58:08 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:60111 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgCTI6I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Mar 2020 04:48:26 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k21so5701747oij.5;
-        Fri, 20 Mar 2020 01:48:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=r20INFdy7c88gDnE8p93UG+z/HnHRIMdNoDb/T153Dk=;
-        b=eetNd92+QHCzwMwIExa+dOG89N27YT60kOLduTUztYrJSCAm8zt5TRchD6rC3e0ttK
-         RyVwTzFhVTu5cyFulgFZmd/Hh5mWm8ir338ne0HTv6Sz05wmjmZuSd1RZMj81l4qr4FK
-         ltJhRW5jPB1/8oikJX8RWyVCBFHUIJnAzG3tOPoXeXqQNP9qektmkJhvbf6ORqmACkCH
-         aqiZMqtknATxdkFvN/x9QOjIRjq7ZcXmciSe+jCRkdIg7Zei8/n8PrqtEPSuVz2FK54+
-         oxw9lI+87TTsI4wJ4bIbO0sHbxTQB3onO2QruJh/YKlCGRjeHIgB6xzA694CO+ARGJyl
-         9s7g==
-X-Gm-Message-State: ANhLgQ0V0cSwCqmFxVEDjnvC9jOD89yTH3GKr1PMyZj2qMvlGLgiblZS
-        nJ+khveqdfmubZXHFkQUta8QwPzdDiaZsyejSOXOHA==
-X-Google-Smtp-Source: ADFU+vuodlM7mvUF+rTQ9nef3TgHryKYhBbHdZc1CmVWQ2CDidna4tAYWLd1J2bx8M6xmj0E3O52PNbuj3QsnGbiDSk=
-X-Received: by 2002:aca:4e57:: with SMTP id c84mr5311062oib.148.1584694105840;
- Fri, 20 Mar 2020 01:48:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1584639664.git.alexander.riesen@cetitec.com>
- <c9ff553f804f178a247dca356306948e971432fb.1584639664.git.alexander.riesen@cetitec.com>
- <20200319180125.GJ14585@pendragon.ideasonboard.com> <20200320084406.GB4344@pflmari>
-In-Reply-To: <20200320084406.GB4344@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Mar 2020 09:48:14 +0100
-Message-ID: <CAMuHMdUdVb0LwZDx-MH2FLYYPvgq=uj_3Nrzo9obWAi-Q-2ZnA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] dt-bindings: adv748x: add information about
- serial audio interface (I2S/TDM)
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Fri, 20 Mar 2020 04:58:08 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mo7if-1jeAAm1Fxz-00pewW; Fri, 20 Mar 2020 09:57:51 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id D01EF64E13A;
+        Fri, 20 Mar 2020 08:57:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8WVdriKV_24H; Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 88A6664E076;
+        Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.8.5.41) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 20 Mar 2020 09:57:49 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id 03CEB80524; Fri, 20 Mar 2020 09:57:49 +0100 (CET)
+Date:   Fri, 20 Mar 2020 09:57:48 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v2 05/10] media: adv748x: add support for HDMI audio
+Message-ID: <20200320085748.GC4344@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         driverdevel <devel@driverdev.osuosl.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Device Tree Mailing List <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+References: <cover.1584639664.git.alexander.riesen@cetitec.com>
+ <252bb433f47b0ccb61bb077abdbd892091abc550.1584639664.git.alexander.riesen@cetitec.com>
+ <CAMuHMdXOAQtuxCAfb=sZKodyJWwSrf-GO-pdV3HYkOytQW4ENg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXOAQtuxCAfb=sZKodyJWwSrf-GO-pdV3HYkOytQW4ENg@mail.gmail.com>
+X-Originating-IP: [10.8.5.41]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536A6D7764
+X-Provags-ID: V03:K1:wVJ3OvhV0Lvry0hgcgROi8Lpbax9cgifbiymKG7FRbbbjAK1rX0
+ Is0O+5SFuT17dvunKoqEGCwkjWmyvRAwfuARYtS+7Hfh785pgLXdL6dcbIOi6sp+zn7cFrT
+ lwdJU/vpOTIFoz3tYZKAhrUG8jPAGIhmJumC2obezAomNKeWhJ91+U2KXS752GQWo3q5RJU
+ RLerO04OwjnEpPnGC9Vzg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uNMETWAQjQg=:vLEFwoWAelStQ0k7nCUVNT
+ aCVw9ozlhp45UIJqEh/USKF9RgevErT2upztWoeYjACvqVIBIEEogFQakTQsiipMm1CDW6MoB
+ XnAqzycEx64LZ7rmN470XIj0avElWBShMm+zyN0K2t+JFt5vKLHhwY7YGPIMVwy+yTdTjg/rP
+ 99SU4WMGxUt8ulLUdPsgVEGgnLsdBnoVsblpGsM+gwxjCXNLDMNREKAGv8ixgE+UJZtJIfRp+
+ FpZKH0yADUGcZxKDOKzCCeNPxN0YgxIrGG5Jpz3pek3PLzaZW/GCxen9LZuQhsV4LyeuXWL5C
+ F576r7CXv9zaxd9eScgDaeta68I2xklolW2cfo0R4Ks2azs4lyo2BAkuJb5xRbKL7j2RSYcKS
+ plEGX4KSs1je913qrf44VhgZKzN8GmeC8GlJTcn+Xt24pyfb922HVEBfsMSm/caWpBiXsino+
+ yJhgeuycnrseXlpENT78oBd+OW6/ocUNj/XmiQXkJfISAfriZTRLYjdCQsNoaZsq0MtbRwPxN
+ qesn7vFjAbM9aEbZsHF2ePInrD4g1ESAVo4Re5KPNpOHY60kZ/RJx2mh+tCTTWkjPnT3BVTk/
+ A9y363R6OQ707Kn37QjqY+ed8vOBKtMCvnzGzwAoI9rA5iggSnPcK3MPYm+764GfEistE89xM
+ 6+jnmggijWTyUVottTgIJw4aW3JloGlsTJTHmzylgjb350BLxlpBR3rljcJsUiah7j4LfJuOG
+ ey9WEan1X3myyUZLH9tZ0LbI5sPAoaMMPYSvSkuAXMxp/UqhPsJecI5Q4wLpY2OLfUdQWZDui
+ u+GNLb6zZ5GFBuSzElEldypinSlBLkPjv80wi8buFIT3E1KE8Qi5vo6jIGuBv9llBUigJ87
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi Geert,
 
-On Fri, Mar 20, 2020 at 9:44 AM Alex Riesen
-<alexander.riesen@cetitec.com> wrote:
-> Laurent Pinchart, Thu, Mar 19, 2020 19:01:25 +0100:
-> > On Thu, Mar 19, 2020 at 06:42:36PM +0100, Alex Riesen wrote:
-> > > As the driver has some support for the audio interface of the device,
-> > > the bindings file should mention it.
+Geert Uytterhoeven, Fri, Mar 20, 2020 09:43:29 +0100:
+> CC linux-clk for the clock provider.
 
-> > > @@ -16,6 +18,8 @@ Required Properties:
-> > >      slave device on the I2C bus. The main address is mandatory, others are
-> > >      optional and remain at default values if not specified.
-> > >
-> > > +  - #clock-cells: must be <0> if the I2S port is used
-> >
-> > Wouldn't it be simpler to set it to 0 unconditionally ?
->
-> Would it? If the port itself is optional, shouldn't the clock be an option
-> too?
+Thanks!
 
-You'd be surprised how many board designers would consider this a cheap
-12.288 MHz clock source, without using the I2S port ;-)
+> > +int adv748x_dai_init(struct adv748x_dai *dai)
+> > +{
+> > +       int ret;
+> > +       struct adv748x_state *state = adv748x_dai_to_state(dai);
+> > +
+> > +       dai->mclk = clk_register_fixed_rate(state->dev,
+> > +                                           "adv748x-hdmi-i2s-mclk",
+> 
+> I assume there can be multiple adv748x instances in the system?
+> Hence the clock name should be unique for each instance.
 
-Gr{oetje,eeting}s,
+I think that can happen.
 
-                        Geert
+Is it alright to derive the clock name from the device name? E.g.:
+adv748x.4-0070-mclk? Where "adv748x.4-0070" is a struct device->name.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
+Alex
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
