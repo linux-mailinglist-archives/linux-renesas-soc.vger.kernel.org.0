@@ -2,108 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA4018F27C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 11:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0FC918F524
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 13:59:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbgCWKM5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Mar 2020 06:12:57 -0400
-Received: from mga01.intel.com ([192.55.52.88]:31838 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727816AbgCWKM5 (ORCPT
+        id S1728323AbgCWM7k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Mar 2020 08:59:40 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35856 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728253AbgCWM7k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Mar 2020 06:12:57 -0400
-IronPort-SDR: kI7hjC5B2LQROY5wef/k1KYLcT0Vm2/lK1QxzXnaHCimixW2rsjV09FfN4rpJmOTSl7fdSbk/2
- z/HP80e08VrA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2020 03:12:56 -0700
-IronPort-SDR: t1zgyaZwCvr/MEys3Q70J1eusWikkaNBQSVGY4zPCM+Yz7N18dBORL95jIpkmcwYsC9stVp1x/
- 1Rqyd7aaVVMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,296,1580803200"; 
-   d="scan'208";a="239354031"
-Received: from sciuca-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.47.6])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Mar 2020 03:12:54 -0700
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id C874221EF2; Mon, 23 Mar 2020 12:12:50 +0200 (EET)
-Date:   Mon, 23 Mar 2020 12:12:50 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v6 2/5] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200323101250.GB20664@kekkonen.localdomain>
-References: <20200319004701.30416-1-laurent.pinchart@ideasonboard.com>
- <20200319004701.30416-3-laurent.pinchart@ideasonboard.com>
- <20200323100328.GA20664@kekkonen.localdomain>
- <20200323100727.GA4768@pendragon.ideasonboard.com>
+        Mon, 23 Mar 2020 08:59:40 -0400
+Received: by mail-ot1-f67.google.com with SMTP id l23so3146683otf.3;
+        Mon, 23 Mar 2020 05:59:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LcL7NFf1VbOFbGi8gEHkrb48EWgx8x6fvvv1OFivXUI=;
+        b=FEEtucAk3US5lzQQfXq0g9jyX12UKe590yUuXn+oZA9WdhZHVlzqMtak6uqDMdgcIR
+         mA+OmRqIGjV63PLoKEE+osD/n/MVliMuIoY2nkQMcDkGCVIO/hoFp5JambLzc7RV5qAA
+         +IX8cWC5n0FW3zs8GD5N7tG/mzbm0Om8AMbDnRNorV7c80Ht+uH0IoAzsFxfj9tsBNKq
+         Xt7RmAG374Cz2fdkzMd32RXxGEfK2rw9Cm8HpLfj46pSevW865k3I7UNgUd7gc7zaSHG
+         iFw0PFXPO8uNvIB/11qLJITvhsxg5ZDiEgtoyVWF/BtK2pcw5V+I0vUg+VUOspJAa6WT
+         M4Lg==
+X-Gm-Message-State: ANhLgQ2kkklA7IIHNdmv6QY2XpN7JUFoEG9lJKNWOWSUI1+OT3MV72Oo
+        OpTQ1XMrUjP+TvwxqcBYJNFV9NycMD0uFaX+RAjokKii
+X-Google-Smtp-Source: ADFU+vtlscBXntlDAGbV/+TxW4lI+OzrZDwDWjdF9xH8uOdxeSQhyOOvhhe7o5cQXkIKVUyPm1Fkfh8mHO3x96VeB2A=
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr16969045otf.107.1584968377832;
+ Mon, 23 Mar 2020 05:59:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200323100727.GA4768@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200318172338.20132-1-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20200318172338.20132-1-kieran.bingham+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 Mar 2020 13:59:26 +0100
+Message-ID: <CAMuHMdXhVpSdZautUc-64fALN+_n-3Vy4iUTU+ODo_1K4OmDwA@mail.gmail.com>
+Subject: Re: [PATCH RFC] media: platform: fcp: Set appropriate DMA parameters
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 12:07:27PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Mar 23, 2020 at 12:03:28PM +0200, Sakari Ailus wrote:
-> > On Thu, Mar 19, 2020 at 02:46:58AM +0200, Laurent Pinchart wrote:
-> > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > > with drivers implementing one of the following behaviours:
-> > > 
-> > > - No support for VIDIOC_ENUM_FMT at all
-> > > - Enumerating all formats supported by the video node, regardless of the
-> > >   configuration of the pipeline
-> > > - Enumerating formats supported by the video node for the active
-> > >   configuration of the connected subdevice
-> > > 
-> > > The first behaviour is obviously useless for applications. The second
-> > > behaviour provides the most information, but doesn't offer a way to find
-> > > what formats are compatible with a given pipeline configuration. The
-> > > third behaviour fixes that, but with the drawback that applications
-> > > can't enumerate all supported formats anymore, and have to modify the
-> > > active configuration of the pipeline to enumerate formats.
-> > > 
-> > > The situation is messy as none of the implemented behaviours are ideal,
-> > > and userspace can't predict what will happen as the behaviour is
-> > > driver-specific.
-> > > 
-> > > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> > > enumerating pixel formats for a given media bus code. The media bus code
-> > > is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> > > (repurposed from the reserved fields). With this capability in place,
-> > > applications can enumerate pixel formats for a given media bus code
-> > > without modifying the active configuration of the device.
-> > > 
-> > > The current behaviour of the ioctl is preserved when the new mbus_code
-> > > field is set to 0, ensuring compatibility with existing userspace. The
-> > > API extension is documented as mandatory for MC-centric devices (as
-> > > advertised through the V4L2_CAP_IO_MC capability), allowing applications
-> > > and compliance tools to easily determine the availability of the
-> > > VIDIOC_ENUM_FMT extension.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > I'd address setting the reserved fields explicitly in a separate patch,
-> > simply by removing them. As another field in the struct is assigned, the
-> > memory is zeroed and explicit assignment is redundant.
-> 
-> I'm not sure to follow you, what code are you referring to ?
+Hi Kieran,
 
-Have you seen the e-mails from the kbuild bot?
+On Wed, Mar 18, 2020 at 6:23 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> Enabling CONFIG_DMA_API_DEBUG=y and CONFIG_DMA_API_DEBUG_SG=y will
+> enable extra validation on DMA operations ensuring that the size
+> restraints are met.
+>
+> When using the FCP in conjunction with the VSP1/DU, and display frames,
+> the size of the DMA operations is larger than the default maximum
+> segment size reported by the DMA core (64K). With the DMA debug enabled,
+> this produces a warning such as the following:
+>
+> "DMA-API: rcar-fcp fea27000.fcp: mapping sg segment longer than device"
+
+... claims to support [len=3145728] [max=65536]
+
+> We have no specific limitation on the segment size which isn't already
+> handled by the VSP1/DU which actually handles the DMA allcoations and
+> buffer management, so define a maximum segment size of up to 4GB (a 32
+> bit mask).
+
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> Fixes: 7b49235e83b2 ("[media] v4l: Add Renesas R-Car FCP driver")
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+The warning is gone, so:
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Haven't tested the actual display, though.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Sakari Ailus
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
