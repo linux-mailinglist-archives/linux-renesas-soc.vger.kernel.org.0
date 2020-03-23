@@ -2,133 +2,249 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7752F18F75B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 15:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F0BF18FA1C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 17:42:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgCWOu4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Mar 2020 10:50:56 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40446 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgCWOu4 (ORCPT
+        id S1727562AbgCWQmQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Mar 2020 12:42:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34812 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727357AbgCWQmQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Mar 2020 10:50:56 -0400
-Received: by mail-wm1-f65.google.com with SMTP id a81so9382775wmf.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Mar 2020 07:50:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Za1bF6q9SnbLT2dlG9RacEv7dXITfnV43EwkE571pzA=;
-        b=F/JRVml+NXMQzY6pwDvbYqXy3GO+gx7CHiglakobw5tixXcqmzpQa8YL78kKowYqY+
-         vHSwi0sU1F9WAE8DSYUwc4Ew9t9JCUcPbSizGCnV0/rFJFnTMh2XsgVwa9319Y03gTJq
-         ChDI/VpEAzdjd+iXHEfp+ZPvTFcGtogNszBxg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Za1bF6q9SnbLT2dlG9RacEv7dXITfnV43EwkE571pzA=;
-        b=kLgbw5qXBcKO1/3IaUU0TRWGL/aV9/yykUcPzJB8OKWvSRdltSnVExXaYFL48XmZhQ
-         rogGZ3Ap5Qx6gklndY6YWXHa75Zz1yXxHLR9HG4V8R1Pl+RUahhdvFhNL3wuMRTKpOCU
-         ansMri4bO+r7fyNbgLCriAmZELBO0lNGqGmL9RbBZlIFzC80O4946dTdDomTmZ5MyRU9
-         oF33Juw/xZqChvQbUrWefLC/L+9SbUTcPrSVrkRqsh2IRQerFaFgyLCKynwLc0Y2Igk6
-         hlrQO/QcHPWPFzg0ogkvMroGA8uMtXuW7yPfMeHJpA/qgPPLs3AFn+z309bCMe2ildlr
-         Tbzw==
-X-Gm-Message-State: ANhLgQ3JgH12VADKkQbomxZk3GHuI5kq2KmF897N6R/lX65gbx5+sX3z
-        iCiNsoeBTX4zA2dXzXKYA6g7kw==
-X-Google-Smtp-Source: ADFU+vtG5OpGrjZlPOoT2PK7yv6S1SZWX0aj0+3nc4cGeOC5PoRvBL6VZZs/WwMmGgIhAsKrO+XdBQ==
-X-Received: by 2002:a1c:48c1:: with SMTP id v184mr27635278wma.20.1584975052499;
-        Mon, 23 Mar 2020 07:50:52 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s22sm20376522wmc.16.2020.03.23.07.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2020 07:50:51 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 39/51] drm/shmob: Drop explicit drm_mode_config_cleanup call
-Date:   Mon, 23 Mar 2020 15:49:38 +0100
-Message-Id: <20200323144950.3018436-40-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
-References: <20200323144950.3018436-1-daniel.vetter@ffwll.ch>
+        Mon, 23 Mar 2020 12:42:16 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1913520753;
+        Mon, 23 Mar 2020 16:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584981735;
+        bh=02Kf9WpideHAeaiUmNJrBUV6bHi5stRkRbsCThccRjY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xy/iuWM40CuwjgUhDnwM+XDKVxozGS0WmZMOgQxw9RqDiEqEqioIiXCYjZGKNcjk1
+         gK13WjTc25DhsJ79xjkIYPHLlsa5ZSSizfr6AWviYxM4yEysjYxrddozASa7JFHzNc
+         NSYhlsjcbNt0oseXfHSHdG+rg3CwXbaOPurqXKXc=
+Received: by mail-qt1-f174.google.com with SMTP id f20so12239371qtq.6;
+        Mon, 23 Mar 2020 09:42:15 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3aBxlfpoHQAHKnomoI+ngiWlX+V2SGOZuuCOzrsfPaRLLJoWDY
+        5zXbMX1+ZJYAhaSCj4jiwaWSgalqyg9tqIHLhA==
+X-Google-Smtp-Source: ADFU+vv7cTGvxC9hMAYxTeAIEH2A++JcPRe510U2M7ukQfSAPh0pK3/2XZwYvglTSrY49qlGUNpWYFGRxCL1cyLzmVU=
+X-Received: by 2002:aed:3461:: with SMTP id w88mr22287799qtd.143.1584981733920;
+ Mon, 23 Mar 2020 09:42:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200306090720.9365-1-geert+renesas@glider.be>
+ <20200312200523.GA17854@bogus> <CAMuHMdWoRSE7VQ5o575Ocjfh+y1yH-ciFE1BUqqPVO9oukwgNw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWoRSE7VQ5o575Ocjfh+y1yH-ciFE1BUqqPVO9oukwgNw@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 23 Mar 2020 10:41:59 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL5CmL6M_njeHHYA21zs2jTQxENet+q=BJNVuz8K7Jubw@mail.gmail.com>
+Message-ID: <CAL_JsqL5CmL6M_njeHHYA21zs2jTQxENet+q=BJNVuz8K7Jubw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: serial: sh-sci: Convert to json-schema
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-It's right above the drm_dev_put().
+On Mon, Mar 23, 2020 at 8:38 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Rob,
+>
+> Thanks a lot for your comments!
+>
+> On Thu, Mar 12, 2020 at 9:05 PM Rob Herring <robh@kernel.org> wrote:
+> > On Fri, Mar 06, 2020 at 10:07:20AM +0100, Geert Uytterhoeven wrote:
+> > > Convert the Renesas Serial Communication Interface ((H)SCI(F)(A|B))
+> > > Device Tree binding documentation to json-schema.
+> > >
+> > > Split the bindings in 5 files, one per major type, to ease expressing
+> > > constraints.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/serial/renesas,sci.yaml
+>
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - const: renesas,sci
+> >
+> > Do you plan to add to this? It can be simplified to just
+>
+> Not really. I just used the same construct for consistency with the other
+> SCI variants.
+>
+> > 'const: renesas,sci'.
+>
+> OK.  I guess no other H8 and SuperH variants will pop up anytime soon.
+> Oops, RZ/A1 has SCI, and RZ/A2 has SCIg (they keep on inventing new
+> names, to be seen how compatible).
+>
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > > @@ -0,0 +1,168 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: "http://devicetree.org/schemas/serial/renesas,scif.yaml#"
+> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> > > +
+> > > +title: Renesas Serial Communication Interface with FIFO (SCIF)
+> > > +
+> > > +maintainers:
+> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> > > +
+> > > +description:
+> > > +  Each enabled UART may have an optional "serialN" alias in the "aliases" node,
+> > > +  where N is the port number (non-negative decimal integer) as printed on the
+> > > +  label next to the physical port.
+> >
+> > That's every serial port...
+>
+> So you suggest to just remove this paragraph from all files?
 
-This is made possible by a preceeding patch which added a drmm_
-cleanup action to drm_mode_config_init(), hence all we need to do to
-ensure that drm_mode_config_cleanup() is run on final drm_device
-cleanup is check the new error code for _init().
+Yes.
 
-Aside: Another driver with a bit much devm_kzalloc, which should
-probably use drmm_kzalloc instead ...
+> Shall I add it to serial.yaml instead?
 
-v2: Explain why this cleanup is possible (Laurent).
+Sure. I'd really like to get to having a registry of alias names we can check.
 
-v3: Use drmm_mode_config_init() for more clarity (Sam, Thomas)
+>
+> > > +  interrupts:
+> > > +    description: |
+> > > +      Must contain one or more interrupt-specifiers for the serial interface.
+> > > +      If a single interrupt is expressed, then all events are
+> > > +      multiplexed into this single interrupt.
+> > > +
+> > > +      If multiple interrupts are provided by the hardware, the order
+> > > +      in which the interrupts are listed must match order below. Note
+> > > +      that some HW interrupt events may be muxed together resulting
+> > > +      in duplicate entries.
+> > > +    minItems: 1
+> > > +    maxItems: 6
+> >
+> > This allows 2, 3, 4, or 5 interrupts. Is that valid? If not, then you
+>
+> 1, 4, and 6 are valid.
+>
+> > should do something like this:
+> >
+> > oneOf:
+> >   - items:
+> >       description: A combined interrupt
+> >   - items:
+> >       - description: Error interrupt
+> >       - ...
+>
+> So I tried:
+>
+>   interrupts:
+>     oneOf:
+>       - items:
+>           description: A combined interrupt
 
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v2)
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 2 --
- drivers/gpu/drm/shmobile/shmob_drm_kms.c | 6 +++++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+You're missing a '-' here.
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index b8c0930959c7..ae9d6b8d3ca8 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -192,7 +192,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(ddev);
- 	drm_kms_helper_poll_fini(ddev);
--	drm_mode_config_cleanup(ddev);
- 	drm_irq_uninstall(ddev);
- 	drm_dev_put(ddev);
- 
-@@ -288,7 +287,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	drm_irq_uninstall(ddev);
- err_modeset_cleanup:
- 	drm_kms_helper_poll_fini(ddev);
--	drm_mode_config_cleanup(ddev);
- err_free_drm_dev:
- 	drm_dev_put(ddev);
- 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-index c51197b6fd85..7a866d6ce6bb 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-@@ -126,7 +126,11 @@ static const struct drm_mode_config_funcs shmob_drm_mode_config_funcs = {
- 
- int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
- {
--	drm_mode_config_init(sdev->ddev);
-+	int ret;
-+
-+	ret = drmm_mode_config_init(sdev->ddev);
-+	if (ret)
-+		return ret;
- 
- 	shmob_drm_crtc_create(sdev);
- 	shmob_drm_encoder_create(sdev);
--- 
-2.25.1
+>       - items:
+>           - description: Error interrupt
+>           - description: Receive buffer full interrupt
+>           - description: Transmit buffer empty interrupt
+>           - description: Transmit End interrupt
+>       - items:
+>           - description: Error interrupt
+>           - description: Receive buffer full interrupt
+>           - description: Transmit buffer empty interrupt
+>           - description: Break interrupt
+>           - description: Data Ready interrupt
+>           - description: Transmit End interrupt
+>
+> That fails for devices with 4 or 6 interrupts, e.g.:
+>
+>     arch/arm/boot/dts/r7s9210-rza2mevb.dt.yaml: serial@e8007000:
+> interrupts: [[0, 265, 4], [0, 266, 4], [0, 267, 4], [0, 265, 4], [0,
+> 268, 4], [0, 268, 4]] is valid under each of {'additionalItems':
+> False, 'items': [{}, {}, {}, {}, {}, {}], 'maxItems': 6, 'minItems':
+> 6, 'type': 'array'}, {'items': {}, 'type': 'array'}
+>
+> Note that initially I forgot to cater for the 4-interrupt case used in
+> arch/arm/boot/dts/r7s72100.dtsi, and "make dtbs_check" did not complain.
+>
+> > > +
+> > > +  interrupt-names:
+> > > +    minItems: 1
+> > > +    maxItems: 6
+> > > +    items:
+> > > +      enum:
+> > > +        - eri # Error
+> > > +        - rxi # Receive buffer full
+> > > +        - txi # Transmit buffer empty
+> > > +        - bri # Break
+> > > +        - dri # Data Ready
+> > > +        - tei # Transmit End
+> >
+> > Based on above, you probably want 'items' to be a list, not a
+> > dict(schema).
+>
+> Like
+>
+>   interrupt-names:
+>     oneOf:
+>       - items:
+>           - const: eri
+>           - const: rxi
+>           - const: txi
+>           - const: tei
+>       - items:
+>           - const: eri
+>           - const: rxi
+>           - const: txi
+>           - const: bri
+>           - const: dri
+>           - const: tei
+>
+> ?
+> Seems to work, but needs the duplication as the 4-interrupt case is not
+> just the 4 first entries of the 6-interrupt case (tei is always last).
 
+Yes, that looks right. No name for the single irq case?
+
+>
+> > > +
+> > > +  clocks:
+> > > +    minItems: 1
+> > > +    maxItems: 4
+> > > +
+> > > +  clock-names:
+> > > +    minItems: 1
+> > > +    maxItems: 4
+> > > +    items:
+> > > +      enum:
+> > > +        - fck # UART functional clock
+> > > +        - sck # optional external clock input
+> > > +        - brg_int # optional internal clock source for BRG frequency divider
+> > > +        - scif_clk # optional external clock source for BRG frequency divider
+> >
+> > Same issue again...
+>
+> The order is not fixed for the three optional clocks, as they may or
+> may not be wired (for sck and scif_clk), or the BRG may not be present.
+> Hence unlike for interrupts, I cannot drop the "enum", IIUIC?
+
+Well, you could list out every possible combination, but the above is
+fine I guess.
+
+Rob
