@@ -2,221 +2,255 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F5DD18FFFA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 22:04:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16710190036
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Mar 2020 22:24:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgCWVD7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Mar 2020 17:03:59 -0400
-Received: from mga12.intel.com ([192.55.52.136]:55494 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726143AbgCWVD7 (ORCPT
+        id S1726643AbgCWVYe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Mar 2020 17:24:34 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:39839 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbgCWVYe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Mar 2020 17:03:59 -0400
-IronPort-SDR: vOL2TOh3C2vPo6BxPBJE0GZpLj1W4WXFsF8XzI9d/66hDqSsHUlO7GbNxG7cKotVdtdRlFnjCU
- LIl27n7/dmtA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2020 14:03:58 -0700
-IronPort-SDR: 2JWSrNK/z7axk8hgL5jzRIsLMRcLJxFERWGnHfzl/Vlzl3DUQhIX7tfClSxyOrUsK8ql7OcK8i
- tnOxqZZsRNpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,297,1580803200"; 
-   d="scan'208";a="419642313"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 Mar 2020 14:03:56 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jGUEm-000B0L-5n; Tue, 24 Mar 2020 05:03:56 +0800
-Date:   Tue, 24 Mar 2020 05:03:14 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 26ae58d0d584334dfb3f240f6e4b682fa92f2539
-Message-ID: <5e792412.u1G35r2HDZHxCRcM%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 23 Mar 2020 17:24:34 -0400
+Received: by mail-io1-f66.google.com with SMTP id c19so15956034ioo.6;
+        Mon, 23 Mar 2020 14:24:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=IRECHsQOOrgQyWV/3xEmgvKFUSzN/LifFmNxePf9bz8=;
+        b=uKGm7zPcnM4WWCnrobKZwG9jWkyW0BDdPZt2WZqlcTjJ41g2Uho8Sk64ffeS1h6qLX
+         LMCR98J4zMiOcdrTpKnLZeBhX6JDnXgBMDjTOQHVpLZUpj4TF7rwFBLMtL+IhY9LqRUn
+         Kmh8NVarXsG1egtZw9chvst3ldCpUIJBkjtV9r4+1zPO4GxJEEc1gPU9xMkLO0qRckNx
+         qSIeQgAAJ9Hs5+DbCs7EXvnhRkoYfj7N0IhPIii1Q5SJsLcgJbODRlL3cRWd9zx2spcM
+         R0wmLX9RA93E6DZhimxiuBfoe6uMC3Rw6mC08VzpC6+5Fcel9yHOXtb4ogotFS6o6/3l
+         QcMQ==
+X-Gm-Message-State: ANhLgQ3QqOIO7gccniE1gnZtUhFodNzw+wzp2mQYH9nEwdWvleWJuG99
+        /veI+xWS4wAWzCpFaVPcAA==
+X-Google-Smtp-Source: ADFU+vvmF4CWObCriC4Olv0j6Sf6BBLPzdfMZD6B8Y4E7nrkdF7M2+1ItVHAuvZeWVlMi2eKDAPNoA==
+X-Received: by 2002:a05:6638:24c:: with SMTP id w12mr8177512jaq.42.1584998672760;
+        Mon, 23 Mar 2020 14:24:32 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id u77sm5662926ili.35.2020.03.23.14.24.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2020 14:24:32 -0700 (PDT)
+Received: (nullmailer pid 6554 invoked by uid 1000);
+        Mon, 23 Mar 2020 21:24:30 -0000
+Date:   Mon, 23 Mar 2020 15:24:30 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: thermal: rcar-gen3-thermal: Convert
+ bindings to json-schema
+Message-ID: <20200323212430.GA11881@bogus>
+References: <20200310001255.1425662-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200310001255.1425662-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: 26ae58d0d584334dfb3f240f6e4b682fa92f2539  Merge tag 'v5.6-rc7' into renesas-devel
+On Tue, Mar 10, 2020 at 01:12:55AM +0100, Niklas Söderlund wrote:
+> Convert Renesas R-Car Gen3 Thermal bindings documentation to
+> json-schema.
 
-elapsed time: 482m
+Mostly looks fine, but I'd like to make sure this works with the common 
+binding Amit is converting. I see one issue with that.
 
-configs tested: 161
-configs skipped: 0
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/thermal/rcar-gen3-thermal.txt    | 59 ------------
+>  .../bindings/thermal/rcar-gen3-thermal.yaml   | 96 +++++++++++++++++++
+>  2 files changed, 96 insertions(+), 59 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt
+>  create mode 100644 Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt
+> deleted file mode 100644
+> index 12c740b975f78690..0000000000000000
+> --- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt
+> +++ /dev/null
+> @@ -1,59 +0,0 @@
+> -* DT bindings for Renesas R-Car Gen3 Thermal Sensor driver
+> -
+> -On R-Car Gen3 SoCs, the thermal sensor controllers (TSC) control the thermal
+> -sensors (THS) which are the analog circuits for measuring temperature (Tj)
+> -inside the LSI.
+> -
+> -Required properties:
+> -- compatible		: "renesas,<soctype>-thermal",
+> -			  Examples with soctypes are:
+> -			    - "renesas,r8a774a1-thermal" (RZ/G2M)
+> -			    - "renesas,r8a774b1-thermal" (RZ/G2N)
+> -			    - "renesas,r8a7795-thermal" (R-Car H3)
+> -			    - "renesas,r8a7796-thermal" (R-Car M3-W)
+> -			    - "renesas,r8a77965-thermal" (R-Car M3-N)
+> -			    - "renesas,r8a77980-thermal" (R-Car V3H)
+> -- reg			: Address ranges of the thermal registers. Each sensor
+> -			  needs one address range. Sorting must be done in
+> -			  increasing order according to datasheet, i.e.
+> -			  TSC1, TSC2, ...
+> -- clocks		: Must contain a reference to the functional clock.
+> -- #thermal-sensor-cells : must be <1>.
+> -
+> -Optional properties:
+> -
+> -- interrupts		: interrupts routed to the TSC (must be 3).
+> -- power-domain		: Must contain a reference to the power domain. This
+> -			  property is mandatory if the thermal sensor instance
+> -			  is part of a controllable power domain.
+> -
+> -Example:
+> -
+> -	tsc: thermal@e6198000 {
+> -		compatible = "renesas,r8a7795-thermal";
+> -		reg = <0 0xe6198000 0 0x100>,
+> -		      <0 0xe61a0000 0 0x100>,
+> -		      <0 0xe61a8000 0 0x100>;
+> -		interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+> -		clocks = <&cpg CPG_MOD 522>;
+> -		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> -		#thermal-sensor-cells = <1>;
+> -	};
+> -
+> -	thermal-zones {
+> -		sensor_thermal1: sensor-thermal1 {
+> -			polling-delay-passive = <250>;
+> -			polling-delay = <1000>;
+> -			thermal-sensors = <&tsc 0>;
+> -
+> -			trips {
+> -				sensor1_crit: sensor1-crit {
+> -					temperature = <90000>;
+> -					hysteresis = <2000>;
+> -					type = "critical";
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> new file mode 100644
+> index 0000000000000000..4b605482f3e38735
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright (C) 2020 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/thermal/rcar-gen3-thermal.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car Gen3 Thermal Sensor
+> +
+> +description:
+> +  On R-Car Gen3 SoCs, the thermal sensor controllers (TSC) control the thermal
+> +  sensors (THS) which are the analog circuits for measuring temperature (Tj)
+> +  inside the LSI.
+> +
+> +maintainers:
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a774a1-thermal # RZ/G2M
+> +      - renesas,r8a774b1-thermal # RZ/G2N
+> +      - renesas,r8a7795-thermal  # R-Car H3
+> +      - renesas,r8a7796-thermal  # R-Car M3-W
+> +      - renesas,r8a77965-thermal # R-Car M3-N
+> +      - renesas,r8a77980-thermal # R-Car V3H
+> +  reg:
+> +    description:
+> +      Address ranges of the thermal registers. Each sensor needs one address
+> +      range. Sorting must be done in increasing order according to datasheet,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Generally, the order should be by function. I guess if each entry has 
+the same set of registers (i.e. is homogeneous), then it doesn't matter.
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-sparc64                          allyesconfig
-powerpc                           allnoconfig
-h8300                       h8s-sim_defconfig
-microblaze                    nommu_defconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-m68k                             allmodconfig
-h8300                    h8300h-sim_defconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-arc                                 defconfig
-arc                              allyesconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-i386                 randconfig-a002-20200322
-i386                 randconfig-a001-20200322
-x86_64               randconfig-a002-20200322
-x86_64               randconfig-a001-20200322
-i386                 randconfig-a003-20200322
-x86_64               randconfig-a003-20200322
-alpha                randconfig-a001-20200323
-m68k                 randconfig-a001-20200323
-mips                 randconfig-a001-20200323
-nds32                randconfig-a001-20200323
-parisc               randconfig-a001-20200323
-riscv                randconfig-a001-20200323
-c6x                  randconfig-a001-20200323
-h8300                randconfig-a001-20200323
-microblaze           randconfig-a001-20200323
-nios2                randconfig-a001-20200323
-sparc64              randconfig-a001-20200323
-s390                 randconfig-a001-20200323
-xtensa               randconfig-a001-20200323
-csky                 randconfig-a001-20200323
-openrisc             randconfig-a001-20200323
-sh                   randconfig-a001-20200323
-x86_64               randconfig-b001-20200323
-x86_64               randconfig-b002-20200323
-x86_64               randconfig-b003-20200323
-i386                 randconfig-b001-20200323
-i386                 randconfig-b002-20200323
-i386                 randconfig-b003-20200323
-x86_64               randconfig-c001-20200323
-x86_64               randconfig-c002-20200323
-x86_64               randconfig-c003-20200323
-i386                 randconfig-c001-20200323
-i386                 randconfig-c002-20200323
-i386                 randconfig-c003-20200323
-i386                 randconfig-d003-20200323
-i386                 randconfig-d001-20200323
-x86_64               randconfig-d002-20200323
-i386                 randconfig-d002-20200323
-x86_64               randconfig-d001-20200323
-x86_64               randconfig-d003-20200323
-x86_64               randconfig-e001-20200323
-x86_64               randconfig-e002-20200323
-x86_64               randconfig-e003-20200323
-i386                 randconfig-e001-20200323
-i386                 randconfig-e002-20200323
-i386                 randconfig-e003-20200323
-i386                 randconfig-f001-20200323
-i386                 randconfig-f003-20200323
-i386                 randconfig-f002-20200323
-x86_64               randconfig-f002-20200323
-x86_64               randconfig-f001-20200323
-x86_64               randconfig-g001-20200323
-x86_64               randconfig-g002-20200323
-x86_64               randconfig-g003-20200323
-i386                 randconfig-g001-20200323
-i386                 randconfig-g002-20200323
-i386                 randconfig-g003-20200323
-x86_64               randconfig-h002-20200323
-i386                 randconfig-h003-20200323
-i386                 randconfig-h001-20200323
-i386                 randconfig-h002-20200323
-arm                  randconfig-a001-20200323
-powerpc              randconfig-a001-20200323
-arm64                randconfig-a001-20200323
-ia64                 randconfig-a001-20200323
-sparc                randconfig-a001-20200323
-arc                  randconfig-a001-20200323
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+> +      i.e. TSC1, TSC2, ...
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  interrupts:
+> +    minItems: 3
+> +    maxItems: 3
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Need to define what each one is.
+
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  "#thermal-sensor-cells":
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +  - "#thermal-sensor-cells"
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    tsc: thermal@e6198000 {
+> +            compatible = "renesas,r8a7795-thermal";
+> +            reg = <0 0xe6198000 0 0x100>,
+> +                  <0 0xe61a0000 0 0x100>,
+> +                  <0 0xe61a8000 0 0x100>;
+> +            interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 522>;
+> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +            resets = <&cpg 522>;
+> +            #thermal-sensor-cells = <1>;
+> +    };
+> +
+> +    thermal-zones {
+> +            sensor_thermal1: sensor-thermal1 {
+
+Node names should end in '-thermal'.
+
+> +                    polling-delay-passive = <250>;
+> +                    polling-delay = <1000>;
+> +                    thermal-sensors = <&tsc 0>;
+> +
+> +                    trips {
+> +                            sensor1_crit: sensor1-crit {
+> +                                    temperature = <90000>;
+> +                                    hysteresis = <2000>;
+> +                                    type = "critical";
+> +                            };
+> +                    };
+> +            };
+> +    };
+> -- 
+> 2.25.1
+> 
