@@ -2,96 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8302B191221
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2020 14:57:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E13191252
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2020 15:00:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727890AbgCXN5I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Mar 2020 09:57:08 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:36946 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727580AbgCXN5I (ORCPT
+        id S1727161AbgCXOAm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Mar 2020 10:00:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51044 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727084AbgCXOAm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Mar 2020 09:57:08 -0400
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id JDwu2200N5USYZQ01Dwulv; Tue, 24 Mar 2020 14:57:05 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jGk34-0006Ow-PZ; Tue, 24 Mar 2020 14:56:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jGk34-0001kr-Nf; Tue, 24 Mar 2020 14:56:54 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v6 8/8] MAINTAINERS: Add GPIO Aggregator section
-Date:   Tue, 24 Mar 2020 14:56:53 +0100
-Message-Id: <20200324135653.6676-8-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200324135653.6676-1-geert+renesas@glider.be>
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be>
+        Tue, 24 Mar 2020 10:00:42 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585058442;
+        bh=9+vjlzxOfuyZ+dGEo93ulsoBuMrn8hwyMJ4EGLE6k1w=;
+        h=Subject:From:Date:To:From;
+        b=0OUTRApgtF5rxKapmH78kZfN2hij+sTrkmyCdSCUYEHdhA4j01PgATRVfkCxx6Vty
+         cUwaWlQz/5HBA8bzaFJBSdZj3TLpueFg2Nub1f2Nc/lcyE5Qw+8lqC0sYzDrmDkOuK
+         zZ/5PCyIUd76hpXpSsc7wcKPvGHyy5/7S+G4G9Nk=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158505844196.20961.3213519801357647857.git-patchwork-housekeeping@kernel.org>
+Date:   Tue, 24 Mar 2020 14:00:41 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a maintainership section for the GPIO Aggregator, covering
-documentation and driver source code.
+Latest series: [v6] gpio: Add GPIO Aggregator (2020-03-24T13:53:28)
+  Superseding: [v5] gpio: Add GPIO Aggregator (2020-02-18T15:18:12):
+    [v5,1/5] gpiolib: Add support for gpiochipN-based table lookup
+    [v5,2/5] gpiolib: Add support for GPIO line table lookup
+    [v5,3/5] gpio: Add GPIO Aggregator
+    [v5,4/5] docs: gpio: Add GPIO Aggregator documentation
+    [v5,5/5] MAINTAINERS: Add GPIO Aggregator section
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
-v6:
-  - No changes,
 
-v5:
-  - Add Reviewed-by, Tested-by,
-
-v4:
-  - Drop controversial GPIO repeater,
-
-v3:
-  - New.
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fcd79fc38928fafc..1fad69b956df1162 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7127,6 +7127,13 @@ F:	Documentation/firmware-guide/acpi/gpio-properties.rst
- F:	drivers/gpio/gpiolib-acpi.c
- F:	drivers/gpio/gpiolib-acpi.h
- 
-+GPIO AGGREGATOR
-+M:	Geert Uytterhoeven <geert+renesas@glider.be>
-+L:	linux-gpio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-+F:	drivers/gpio/gpio-aggregator.c
-+
- GPIO IR Transmitter
- M:	Sean Young <sean@mess.org>
- L:	linux-media@vger.kernel.org
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
