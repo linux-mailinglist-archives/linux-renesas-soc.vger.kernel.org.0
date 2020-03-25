@@ -2,140 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55B3D1915D0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Mar 2020 17:13:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6F41920A3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2020 06:32:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728956AbgCXQMi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Mar 2020 12:12:38 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45828 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728910AbgCXQM0 (ORCPT
+        id S1725832AbgCYFcS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Mar 2020 01:32:18 -0400
+Received: from mga07.intel.com ([134.134.136.100]:5627 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725781AbgCYFcS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Mar 2020 12:12:26 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CB43308;
-        Tue, 24 Mar 2020 17:12:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585066344;
-        bh=h9AU8lIpV7OHn82ip0Jw12bYSRW82NU8UY8yuWnDD/A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jhEyVSolpqtVGQVGQ7ZsK5akEab88MiGhWEvbC4a6HAJothOGvP7rBw4+LTm2kv0x
-         y1e8bNcrGWMkklZyBCMKRgPkxOhFV4YXN0t5YMPn8WIZ9z+KUQsjYmK/kUnZKeJZNw
-         oyuI3ypKkx8sJze7gPlnVR/a+roJIFn2QjyRGBCw=
-Date:   Tue, 24 Mar 2020 18:12:21 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to
- assigned-clock-rates
-Message-ID: <20200324161221.GA27805@pendragon.ideasonboard.com>
-References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200319124452.3yfcvq754vi4q2rv@gilmour.lan>
- <20200319130348.GC4872@pendragon.ideasonboard.com>
- <CA+V-a8s-GZsYuBLyGnzURZfGD42f0c+QEan6FSwb2ew1=7Gj3g@mail.gmail.com>
- <20200324154045.whiy6uvlg2mrjv5a@gilmour.lan>
- <CA+V-a8tMVoJOdgM_S0sJ0WEGhwBirCC4mi-TtxLCn1SKVXXiBQ@mail.gmail.com>
+        Wed, 25 Mar 2020 01:32:18 -0400
+IronPort-SDR: 4G4lcnMw91elbhupnSAx0GYIHnOFOJ2k9HblRIot2aZ5RU90Zsdripp8yQjMkf2V2PCPx0ncuy
+ 4/ysujr7z6YA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2020 22:32:17 -0700
+IronPort-SDR: nabwOXmYbrDD/nVM5Kp1ELKmwmQemme86iSWcq8i5zYUKwWf6+858az2ra2yyQOj7+4VlDOk2V
+ axKiJjChzkSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,303,1580803200"; 
+   d="scan'208";a="448159491"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 24 Mar 2020 22:32:16 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jGyeG-00078l-1s; Wed, 25 Mar 2020 13:32:16 +0800
+Date:   Wed, 25 Mar 2020 13:31:22 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
+ 82748f22999f4240044ee40f4c34e3f3da6fe46c
+Message-ID: <5e7aecaa.x5sn9ezEnd1D7YKd%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8tMVoJOdgM_S0sJ0WEGhwBirCC4mi-TtxLCn1SKVXXiBQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/renesas-overlays
+branch HEAD: 82748f22999f4240044ee40f4c34e3f3da6fe46c  ARM: dts: koelsch: Add overlay for GPIO-operated device example
 
-On Tue, Mar 24, 2020 at 04:04:43PM +0000, Lad, Prabhakar wrote:
-> On Tue, Mar 24, 2020 at 3:40 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Thu, Mar 19, 2020 at 01:17:51PM +0000, Lad, Prabhakar wrote:
-> > > On Thu, Mar 19, 2020 at 1:04 PM Laurent Pinchart wrote:
-> > > > On Thu, Mar 19, 2020 at 01:44:52PM +0100, Maxime Ripard wrote:
-> > > > > On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
-> > > > > > Use assigned-clock-rates to specify the clock rate. Also mark
-> > > > > > clock-frequency property as deprecated.
-> > > > > >
-> > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > ---
-> > > > > >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
-> > > > > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > > > > >
-> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > > > index 72ad992..e62fe82 100644
-> > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
-> > > > > > @@ -8,7 +8,7 @@ Required Properties:
-> > > > > >  - compatible: Value should be "ovti,ov5645".
-> > > > > >  - clocks: Reference to the xclk clock.
-> > > > > >  - clock-names: Should be "xclk".
-> > > > > > -- clock-frequency: Frequency of the xclk clock.
-> > > > > > +- clock-frequency (deprecated): Frequency of the xclk clock.
-> > > > > >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
-> > > > > >    to the hardware pin PWDNB which is physically active low.
-> > > > > >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
-> > > > > > @@ -37,7 +37,8 @@ Example:
-> > > > > >
-> > > > > >                     clocks = <&clks 200>;
-> > > > > >                     clock-names = "xclk";
-> > > > > > -                   clock-frequency = <24000000>;
-> > > > > > +                   assigned-clocks = <&clks 200>;
-> > > > > > +                   assigned-clock-rates = <24000000>;
-> > > > > >
-> > > > > >                     vdddo-supply = <&camera_dovdd_1v8>;
-> > > > > >                     vdda-supply = <&camera_avdd_2v8>;
-> > > > >
-> > > > > clock-frequency is quite different from assigned-clock-rates though,
-> > > > > semantically speaking. clock-frequency is only about what the clock
-> > > > > frequency is, while assigned-clock-rates will change the rate as well,
-> > > > > and you have no idea how long it will last.
-> > > >
-> > > > The driver currently reads the clock-frequency property and then calls
-> > > > clk_set_rate(). I agree tht assigned-clock-rates isn't a panacea, but I
-> > > > think it's less of a hack than what we currently have.
-> > > >
-> > > > As discussed on IRC, maybe the best option in this specific case is to
-> > > > drop clock-frequency and assigned-clok-rates, and call clk_set_rate()
-> > > > with a hardcoded frequency of 24MHz in the driver, as that's the only
-> > > > frequency the driver supports.
-> > > >
-> > > Does this mean any driver which has a fixed clock requirement shouldn't be a
-> > > DT property and should be just handled by the drivers internally ?
-> >
-> > It's hard to give a generic policy, but here, the hardware is pretty
-> > flexible since it can deal with anything between 6MHz to 50-something
-> > MHz, it's the driver that chooses to enforce a 24MHz and be pedantic
-> > about it, so it's up to the driver to enforce that policy, not to the
-> > DT since it's essentially a software limitation, not a hardware one.
->
-> Thank you for the clarification, Ill drop patches 1-4 from this series.
+elapsed time: 1095m
 
-That's the whole series... :-) I think you should keep patch 1/4 but
-just remove the clock-frequency from the bindings, then remove it from
-the DT files, and patch the driver to set the clock rate to 24MHz
-unconditionally in patch 4/4.
+configs tested: 151
+configs skipped: 0
 
--- 
-Regards,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Laurent Pinchart
+arm64                            allyesconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm                              allmodconfig
+arm64                             allnoconfig
+arm                               allnoconfig
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm64                               defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                           sunxi_defconfig
+arm                        multi_v7_defconfig
+parisc                            allnoconfig
+nios2                         3c120_defconfig
+openrisc                 simple_smp_defconfig
+sh                                allnoconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+ia64                                defconfig
+powerpc                             defconfig
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+openrisc                    or1ksim_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+x86_64               randconfig-a001-20200324
+x86_64               randconfig-a002-20200324
+x86_64               randconfig-a003-20200324
+i386                 randconfig-a001-20200324
+i386                 randconfig-a002-20200324
+i386                 randconfig-a003-20200324
+alpha                randconfig-a001-20200324
+m68k                 randconfig-a001-20200324
+mips                 randconfig-a001-20200324
+nds32                randconfig-a001-20200324
+parisc               randconfig-a001-20200324
+riscv                randconfig-a001-20200324
+c6x                  randconfig-a001-20200324
+h8300                randconfig-a001-20200324
+microblaze           randconfig-a001-20200324
+nios2                randconfig-a001-20200324
+sparc64              randconfig-a001-20200324
+s390                 randconfig-a001-20200324
+csky                 randconfig-a001-20200324
+xtensa               randconfig-a001-20200324
+openrisc             randconfig-a001-20200324
+sh                   randconfig-a001-20200324
+i386                 randconfig-b003-20200324
+i386                 randconfig-b001-20200324
+i386                 randconfig-b002-20200324
+x86_64               randconfig-b001-20200324
+x86_64               randconfig-b002-20200324
+x86_64               randconfig-b003-20200324
+x86_64               randconfig-c001-20200324
+x86_64               randconfig-c002-20200324
+x86_64               randconfig-c003-20200324
+i386                 randconfig-c001-20200324
+i386                 randconfig-c002-20200324
+i386                 randconfig-c003-20200324
+x86_64               randconfig-d001-20200324
+x86_64               randconfig-d002-20200324
+x86_64               randconfig-d003-20200324
+i386                 randconfig-d001-20200324
+i386                 randconfig-d002-20200324
+i386                 randconfig-d003-20200324
+x86_64               randconfig-f001-20200324
+x86_64               randconfig-f002-20200324
+x86_64               randconfig-f003-20200324
+i386                 randconfig-f001-20200324
+i386                 randconfig-f002-20200324
+i386                 randconfig-f003-20200324
+x86_64               randconfig-h001-20200324
+x86_64               randconfig-h002-20200324
+x86_64               randconfig-h003-20200324
+i386                 randconfig-h001-20200324
+i386                 randconfig-h002-20200324
+i386                 randconfig-h003-20200324
+arm                  randconfig-a001-20200324
+arm64                randconfig-a001-20200324
+ia64                 randconfig-a001-20200324
+arc                  randconfig-a001-20200324
+sparc                randconfig-a001-20200324
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
