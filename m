@@ -2,196 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 491C41932E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2020 22:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D59193313
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2020 22:52:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgCYVid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Mar 2020 17:38:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40328 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726081AbgCYVid (ORCPT
+        id S1727395AbgCYVwd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Mar 2020 17:52:33 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36392 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgCYVwd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Mar 2020 17:38:33 -0400
-Received: from coco.lan (ip5f5ad4e9.dynamic.kabel-deutschland.de [95.90.212.233])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 763422070A;
-        Wed, 25 Mar 2020 21:38:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585172311;
-        bh=3+dpAoOv7A1uXPuzYk/E8xWPmf3tvl7RGk+7W4aJi9w=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mDzXsP6JuUukx2jZSjZDL2ZsbuMKEDVqljIYtReZ2EeJEErznCWdmSUMf6s7qveF+
-         M+xl4vT8LBDvqJE9SBPuEz1cPE0Xw65b6OH7KCycC9E9wYg63J9AhQSRlVLAPw733e
-         +HqMmE+2KyPSMyNUiJN5X4I0TGoQBGn3CBZLSsAE=
-Date:   Wed, 25 Mar 2020 22:38:20 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Yong Deng <yong.deng@magewell.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-Message-ID: <20200325223820.1c74aed3@coco.lan>
-In-Reply-To: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
-        <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Wed, 25 Mar 2020 17:52:33 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k18so3665257oib.3;
+        Wed, 25 Mar 2020 14:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QpLQfLACDAI5Uwkm+eP7UpguGefdvlXbhKdJDjEQTmA=;
+        b=nkNMTRqQhaFfQGLpH84h7Vb2cSQt2qMH5rYjL1EjXbTqkj1gYy/jeefNn5V/GRB41J
+         3JseCw2FRy+v359OZdF7/WrkZSvl5FKPK6PvwxkHsFpFj5q0807yBa5LEND5Yi/V+uIJ
+         UgPLECDpmaTBRbQnkU5L25l7CSmB8VRX6yxGQ73fiMN2zuw7d1kC2RhLeMDGbz6wg/v8
+         0VdQB7onLpyihmfY6oRo/EvYNfQun75wU913a98Zfv2yzTFyD741aIqe9jXvr0t/V0rJ
+         +0hL1y91Hepv2WHh6mqREvu78/rb6/aUWw2U685nvVDmNiLkAz7simG2NmeF/erOMWsM
+         soVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QpLQfLACDAI5Uwkm+eP7UpguGefdvlXbhKdJDjEQTmA=;
+        b=lUK5/O/GR8w8QYimZv5WbKEjGBLkoeGm8tYR/arKRqx99ubO63e9Ok8idXw9A9Dnon
+         82win2Dm2YsKKG83WqxeT2u7Zhmsued/wfS11WltD+lHUhX22izA0jfl/aWUpqbgpRbF
+         NpvZUujGL2E1IVGOaWvl7oS/pL/iZlLI/8EUwuDjaoIXJDLxl2KXRSRGEK8O+ANzi0qI
+         BmLpZvPESTIraDhKB9C3Uze033phMKNFzMuDLUUnFsVQSXyP+dCv3TODrOCpQPVq3xnB
+         9/eszBAuCjHkTfkWN19g/7vw6XFgXvUbR4LD5TF2kMGXSEIRUDCcQOUk0ew4413S81vE
+         MicQ==
+X-Gm-Message-State: ANhLgQ2lp6dzirKvKWrqYWgMaN2nDGXK4dH0t0enCalkq7hyfjvz7NWs
+        lKgRihT1K+umq7nuLvpj+ZtbJtOVS/EYB1JveoA=
+X-Google-Smtp-Source: ADFU+vt678gX2VsVQQpCTNMxR/ZEy9sOGed2BFdU0XnvfqmjfHdK180DMJmfexTYtkXu+tyuQ3CLR9198ESyMdFsYk0=
+X-Received: by 2002:aca:5444:: with SMTP id i65mr3865876oib.101.1585173152034;
+ Wed, 25 Mar 2020 14:52:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <1584133954-6953-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1584133954-6953-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200319124452.3yfcvq754vi4q2rv@gilmour.lan> <20200319130348.GC4872@pendragon.ideasonboard.com>
+ <CA+V-a8s-GZsYuBLyGnzURZfGD42f0c+QEan6FSwb2ew1=7Gj3g@mail.gmail.com>
+ <20200324154045.whiy6uvlg2mrjv5a@gilmour.lan> <CA+V-a8tMVoJOdgM_S0sJ0WEGhwBirCC4mi-TtxLCn1SKVXXiBQ@mail.gmail.com>
+ <20200324161221.GA27805@pendragon.ideasonboard.com>
+In-Reply-To: <20200324161221.GA27805@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 25 Mar 2020 21:52:05 +0000
+Message-ID: <CA+V-a8uL+VQysPTj6m=W=Y7_eK-p4HOY0a16-F=v3q3KyvCX_g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] media: dt-bindings: media: i2c: Switch to assigned-clock-rates
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Maxime Ripard <maxime@cerno.tech>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Em Wed, 25 Mar 2020 16:36:31 -0300
-Helen Koike <helen.koike@collabora.com> escreveu:
+Hi Laurent,
 
-> Hello,
-> 
-> On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
-> > That's the second part of media Kconfig changes. The entire series is
-> > at:
-> > 
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig  
-> 
-> I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-> I asked him to enable Vimc (from default configs, where multimedia starts disabled).
-> He knows that Vimc is a virtual camera driver, and this is how he behaved:
-> 
-> === Start of experiment:
-> 
-> * He pressed '/' and searched for vimc to see the location path.
-> * Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
-> * He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
-> * He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
-> * He seemed a bit lost, going back and forth in the menus a couple of times.
-> * Then he pressed '/' again to search for vimc and see the location path, and he realized that there
-> should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
-> * He went back to "Media device types" again and start re-reading the options.
-> * He selected "Cameras and video grabbers" ant went back to "Media drivers".
-> * He sees "V4L test drivers", selects it, and enter this menu.
-> * He selects "Virtual Media Controller Driver".
-> 
-> I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
-> to combine "Test drivers" with "Cameras and video grabbers".
-> He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
-> 
-> Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
-> realized by himself until that moment, nor tried it out to see what would happen).
-> 
-> He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
-> He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.
+On Tue, Mar 24, 2020 at 4:12 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, Mar 24, 2020 at 04:04:43PM +0000, Lad, Prabhakar wrote:
+> > On Tue, Mar 24, 2020 at 3:40 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Thu, Mar 19, 2020 at 01:17:51PM +0000, Lad, Prabhakar wrote:
+> > > > On Thu, Mar 19, 2020 at 1:04 PM Laurent Pinchart wrote:
+> > > > > On Thu, Mar 19, 2020 at 01:44:52PM +0100, Maxime Ripard wrote:
+> > > > > > On Fri, Mar 13, 2020 at 09:12:31PM +0000, Lad Prabhakar wrote:
+> > > > > > > Use assigned-clock-rates to specify the clock rate. Also mark
+> > > > > > > clock-frequency property as deprecated.
+> > > > > > >
+> > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > ---
+> > > > > > >  Documentation/devicetree/bindings/media/i2c/ov5645.txt | 5 +++--
+> > > > > > >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645.txt b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > > > > index 72ad992..e62fe82 100644
+> > > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5645.txt
+> > > > > > > @@ -8,7 +8,7 @@ Required Properties:
+> > > > > > >  - compatible: Value should be "ovti,ov5645".
+> > > > > > >  - clocks: Reference to the xclk clock.
+> > > > > > >  - clock-names: Should be "xclk".
+> > > > > > > -- clock-frequency: Frequency of the xclk clock.
+> > > > > > > +- clock-frequency (deprecated): Frequency of the xclk clock.
+> > > > > > >  - enable-gpios: Chip enable GPIO. Polarity is GPIO_ACTIVE_HIGH. This corresponds
+> > > > > > >    to the hardware pin PWDNB which is physically active low.
+> > > > > > >  - reset-gpios: Chip reset GPIO. Polarity is GPIO_ACTIVE_LOW. This corresponds to
+> > > > > > > @@ -37,7 +37,8 @@ Example:
+> > > > > > >
+> > > > > > >                     clocks = <&clks 200>;
+> > > > > > >                     clock-names = "xclk";
+> > > > > > > -                   clock-frequency = <24000000>;
+> > > > > > > +                   assigned-clocks = <&clks 200>;
+> > > > > > > +                   assigned-clock-rates = <24000000>;
+> > > > > > >
+> > > > > > >                     vdddo-supply = <&camera_dovdd_1v8>;
+> > > > > > >                     vdda-supply = <&camera_avdd_2v8>;
+> > > > > >
+> > > > > > clock-frequency is quite different from assigned-clock-rates though,
+> > > > > > semantically speaking. clock-frequency is only about what the clock
+> > > > > > frequency is, while assigned-clock-rates will change the rate as well,
+> > > > > > and you have no idea how long it will last.
+> > > > >
+> > > > > The driver currently reads the clock-frequency property and then calls
+> > > > > clk_set_rate(). I agree tht assigned-clock-rates isn't a panacea, but I
+> > > > > think it's less of a hack than what we currently have.
+> > > > >
+> > > > > As discussed on IRC, maybe the best option in this specific case is to
+> > > > > drop clock-frequency and assigned-clok-rates, and call clk_set_rate()
+> > > > > with a hardcoded frequency of 24MHz in the driver, as that's the only
+> > > > > frequency the driver supports.
+> > > > >
+> > > > Does this mean any driver which has a fixed clock requirement shouldn't be a
+> > > > DT property and should be just handled by the drivers internally ?
+> > >
+> > > It's hard to give a generic policy, but here, the hardware is pretty
+> > > flexible since it can deal with anything between 6MHz to 50-something
+> > > MHz, it's the driver that chooses to enforce a 24MHz and be pedantic
+> > > about it, so it's up to the driver to enforce that policy, not to the
+> > > DT since it's essentially a software limitation, not a hardware one.
+> >
+> > Thank you for the clarification, Ill drop patches 1-4 from this series.
+>
+> That's the whole series... :-) I think you should keep patch 1/4 but
+> just remove the clock-frequency from the bindings, then remove it from
+> the DT files, and patch the driver to set the clock rate to 24MHz
+> unconditionally in patch 4/4.
+>
+My bad I was referring to v4 series patch 5/5 which converts dt
+bindings to json schema.
+I'll shall post a v5 as suggested above.
 
-That's easy to solve: all it needs is to add something similar
-to this at drivers/media/Kconfig:
+Cheers,
+--Prabhakar
 
-	+	comment "Drivers are filtered by MEDIA_SUPPORT_FILTER"
-	+		visible if MEDIA_SUPPORT_FILTER
-	+
-	+	comment "All available drivers are shown below"
-	+		visible if !MEDIA_SUPPORT_FILTER
-	+
-	menu "Media drivers"
-
-	source "drivers/media/usb/Kconfig"
-
-> === End of experiment
-> 
-> This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
-> and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
-> kernel development (kernel dev newbies for instance).
-> 
-> Just another remark from me:
-> 
-> From the default config, "Media drivers" shows USB and PCI, 
-
-Well, assuming that there are 2 billion computers, 1% with Linux
-installed, and 10% of them have a media device (camera or TV),
-we have about 2 millions of people running Linux. That excludes
-Android and Embedded devices, where people usually don't touch.
-
-During an entire year, there are about 4000 of Kernel developers 
-that has at least one patch accepted upstream (this number
-includes developers for Android and other SoCs). Also, the 
-number of Kernel developers submitting patches upstream for the
-media subsystem is around 20-40 people along an year.
-
-So, about 99,9998% of the users using the media subsystems aren't
-Kernel hackers. I bet that almost all of those will either need
-to enable USB or a PCI driver.
-
-Granted, 99,9998% seems too optimistic, but, assuming that this
-would reduce to something like 80% (e. g. only 200 users
-would ever try to build a media driver, with is a *very conservative*
-number) this is still a lot more than the number of media Kernel
-developers.
-
-Also, a Kernel hacker will sooner or later find a way to enable it.
-A normal user may find it a lot more trickier and will very likely
-require more support, if the menus are too technical and the
-default options are wrong.
-
--
-
-Even with that, based on your small experiment (of someone from the
-area), I suspect that, if you had asked him to enable, for example,
-em28xx or dvbsky (with are some of the most popular drivers
-those days), he would be able to enable it a lot faster.
-
-> and selecting those doesn't do anything, and people can even think
-> that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
-> shows up.
-
-It is hard to comment on individual experiments. In the past, our
-Kconfig system were like that: written for technical people with
-background on computer engineering and some experience building the
-Kernel.
-
-E.g. people that knows that "/" activates a search mechanism at
-the Kernel building system.
-
-We usually had to spend *a lot of time* both on IRC and on e-mail
-explaining people that just want to have their card supported,
-how to do that. After the reorg (with added those more user-faced
-interfaces), the number of people with problems reduced a lot.
-
-Btw, if one tries to compile from media-build (with lots of users
-do), this is even more relevant.
-
-Thanks,
-Mauro
+> --
+> Regards,
+>
+> Laurent Pinchart
