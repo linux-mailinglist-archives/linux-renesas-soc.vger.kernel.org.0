@@ -2,156 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C0D192EAF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2020 17:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE67B193135
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Mar 2020 20:36:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727275AbgCYQyN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Mar 2020 12:54:13 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46030 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726102AbgCYQyN (ORCPT
+        id S1727328AbgCYTgs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Mar 2020 15:36:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38494 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727281AbgCYTgr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Mar 2020 12:54:13 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 8AAE9AC19;
-        Wed, 25 Mar 2020 16:54:10 +0000 (UTC)
-Subject: Re: [PATCH 04/40] libata: move ata_{port,link,dev}_dbg to standard
- dev_XXX() macros
-To:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jens Axboe <axboe@kernel.dk>, Tejun Heo <tj@kernel.org>,
-        linux-ide@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20200303093813.18523-1-hare@suse.de>
- <20200303093813.18523-5-hare@suse.de>
- <CGME20200324132651eucas1p2e1570d1edf07101d29addd27df69d0e7@eucas1p2.samsung.com>
- <alpine.DEB.2.21.2003241414490.21582@ramsan.of.borg>
- <49e11382-5fa7-f858-97de-feb1e6033f33@samsung.com>
- <CAMuHMdVMLBOOau9YAGo5WoQUwdU7nKZY2Yy_YEQqbypKojcczg@mail.gmail.com>
- <787989d3-b969-df37-3da2-f4405476bd55@samsung.com>
-From:   Hannes Reinecke <hare@suse.de>
-Message-ID: <0dc64715-b3c1-c208-c032-6f1e10715757@suse.de>
-Date:   Wed, 25 Mar 2020 17:54:07 +0100
+        Wed, 25 Mar 2020 15:36:47 -0400
+Received: from [IPv6:2804:431:e7cc:972:9d5e:9691:eec8:dd70] (unknown [IPv6:2804:431:e7cc:972:9d5e:9691:eec8:dd70])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CE96129718F;
+        Wed, 25 Mar 2020 19:36:36 +0000 (GMT)
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+Date:   Wed, 25 Mar 2020 16:36:31 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <787989d3-b969-df37-3da2-f4405476bd55@samsung.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <cover.1585151701.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/25/20 4:45 PM, Bartlomiej Zolnierkiewicz wrote:
+Hello,
+
+On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
+> That's the second part of media Kconfig changes. The entire series is
+> at:
 > 
-> On 3/25/20 4:34 PM, Geert Uytterhoeven wrote:
->> Hi Bartl,
->>
->> On Wed, Mar 25, 2020 at 3:56 PM Bartlomiej Zolnierkiewicz
->> <b.zolnierkie@samsung.com> wrote:
->>> On 3/24/20 2:26 PM, Geert Uytterhoeven wrote:
->>>> On Tue, 3 Mar 2020, Hannes Reinecke wrote:
->>>>> Use standard dev_{dbg,info,notice,warn,err} macros instead of the
->>>>> hand-crafted printk helpers.
->>>>>
->>>>> Signed-off-by: Hannes Reinecke <hare@suse.de>
->>>>> Reviewed-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
->>>>
->>>> This is now commit ad9f23bd12e1d721 ("libata: move
->>>> ata_{port,link,dev}_dbg to standard dev_XXX() macros") in
->>>> linux-block/for-next.
->>>>
->>>> This patch causes an intriguing change in boot messages, adding a space
->>>> at the beginning of each printed line:
->>>>
->>>>       scsi host0: sata_rcar
->>>>      -ata1: SATA max UDMA/133 irq 117
->>>>      + ata1: SATA max UDMA/133 irq 117
->>>>
->>>>      -ata1: link resume succeeded after 1 retries
->>>>      + link1: link resume succeeded after 1 retries
->>>>
->>>>      -ata1: SATA link down (SStatus 0 SControl 300)
->>>>      + link1: SATA link down (SStatus 0 SControl 300)
->>>>
->>>> It turns out dev_driver_string(&link->tdev) returns an empty string, as
->>>> its driver field is NULL, so __dev_printk() prints the empty string and
->>>> the device name, separated by a space.
->>>>
->>>> At first I thought this was a bug in rcar-sata, lacking some setup that
->>>> was harmless before, but it turns out other drivers (e.g. pata-falcon)
->>>> show the same issue:
->>>>
->>>>       scsi host0: pata_falcon
->>>>      -ata1: PATA max PIO4 cmd 0xfff00000 ctl 0xfff00039
->>>>      + ata1: PATA max PIO4 cmd 0xfff00000 ctl 0xfff00039
->>>>
->>>>      -ata1.01: NODEV after polling detection
->>>>      -ata1.00: ATA-2: Sarge m68k, , max PIO2
->>>>      -ata1.00: 2118816 sectors, multi 0: LBA
->>>>      -ata1.00: configured for PIO
->>>>      + dev1.0: ATA-2: Sarge m68k, , max PIO2
->>>>      + dev1.0: 2118816 sectors, multi 0: LBA
->>>>      + dev1.0: configured for PIO
->>>
->>> I'm more worried about change of ATA devices and ATA links names
->>> (unfortunately we cannot change the ones used in libata-transport.c
->>> as they are a part of ABI exposed through sysfs).
->>
->> True.
->>
->>> One way to improve the situation is to use transport classes names
->>> for dev_printk() when no other means are available, please see/try
->>> the patch below (compile tested only). It also includes fixup for
->>> extra space issue (change to __dev_printk()).
->>
->> Thanks for the suggestion!
->>
-Well, the space can (should?) be fixed with a simple patch to 
-__dev_printk() but just checking if 'dev_driver_string()' returns a 
-value or not:
+> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index dbb0f9130f42..a84f170a1a1f 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3635,10 +3635,15 @@ EXPORT_SYMBOL(dev_printk_emit);
-  static void __dev_printk(const char *level, const struct device *dev,
-                         struct va_format *vaf)
-  {
--       if (dev)
--               dev_printk_emit(level[1] - '0', dev, "%s %s: %pV",
--                               dev_driver_string(dev), dev_name(dev), vaf);
--       else
-+       if (dev) {
-+               if (dev_string_string(dev))
-+                       dev_printk_emit(level[1] - '0', dev, "%s %s: %pV",
-+                                       dev_driver_string(dev), 
-dev_name(dev),
-+                                       vaf);
-+               else
-+                       dev_printk_emit(level[1] - '0', dev, "%s: %pV",
-+                                       dev_name(dev), vaf);
-+       } else
-                 printk("%s(NULL device *): %pV", level, vaf);
-  }
+I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+He knows that Vimc is a virtual camera driver, and this is how he behaved:
 
-which actually makes sense on its own.
-As for the name change, yes, I'm not that happy with it, either.
+=== Start of experiment:
 
-I'll see if we can do some transport class magic such that the
-names do not change.
+* He pressed '/' and searched for vimc to see the location path.
+* Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
+* He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
+* He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
+* He seemed a bit lost, going back and forth in the menus a couple of times.
+* Then he pressed '/' again to search for vimc and see the location path, and he realized that there
+should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
+* He went back to "Media device types" again and start re-reading the options.
+* He selected "Cameras and video grabbers" ant went back to "Media drivers".
+* He sees "V4L test drivers", selects it, and enter this menu.
+* He selects "Virtual Media Controller Driver".
 
-(And no-one is to mention 'cake' and 'eat it' ...)
+I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
+to combine "Test drivers" with "Cameras and video grabbers".
+He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
 
-Cheers,
+Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
+realized by himself until that moment, nor tried it out to see what would happen).
 
-Hannes
--- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare@suse.de                               +49 911 74053 688
-SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
+He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
+He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.
+
+=== End of experiment
+
+This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
+and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
+kernel development (kernel dev newbies for instance).
+
+Just another remark from me:
+
+From the default config, "Media drivers" shows USB and PCI, and selecting those doesn't do anything, and people can even think
+that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
+shows up.
+
+I hope this helps
+Helen
+
+
+> 
+> It addresses some issues I noticed when reviewing the series, and do
+> some changes on how things will be displayed.
+> 
+> It also simplify dependencencies on media-controller-dependent drivers,
+> by auto-selecting the needed deps.
+> 
+> It should be noticed that the media controller may also optionally
+> selected for several other drivers, so there is still a prompt to allow
+> manually enabling it, in the case it was not auto-selected.
+> 
+> PS.: While not needed anymore, because all dependent drivers auto
+> select, at least for now, I opted to keep the prompt for:
+> 
+> - VIDEO_V4L2_SUBDEV_API
+> 
+>   The rationale is that there are a few drivers that can optionally depend
+>   on it (like tvp5150). So, better to keep the dependency, in order to be
+>   able to test those drivers with and without the option.
+> 
+> - MEDIA_CONTROLLER_REQUEST_API
+> 
+>   The rationale is that there are some warnings at the Request API, and
+>   it would be good to keep it, at least while drivers are on staging.
+> 
+> Mauro Carvalho Chehab (4):
+>   media: dvb-core: Kconfig: default to use dynamic minors
+>   media: Kconfig files: use select for V4L2 subdevs and MC
+>   media: i2c/Kconfig: reorganize items there
+>   media: Kconfig: don't use visible for device type select
+> 
+>  drivers/media/Kconfig                         |  25 +-
+>  drivers/media/dvb-core/Kconfig                |   1 +
+>  drivers/media/i2c/Kconfig                     | 406 +++++++++++-------
+>  drivers/media/i2c/et8ek8/Kconfig              |   4 +-
+>  drivers/media/i2c/m5mols/Kconfig              |   5 +-
+>  drivers/media/i2c/smiapp/Kconfig              |   5 +-
+>  drivers/media/pci/cobalt/Kconfig              |   4 +-
+>  drivers/media/pci/intel/ipu3/Kconfig          |   4 +-
+>  drivers/media/pci/sta2x11/Kconfig             |   6 +-
+>  drivers/media/platform/Kconfig                |  28 +-
+>  drivers/media/platform/am437x/Kconfig         |   4 +-
+>  drivers/media/platform/atmel/Kconfig          |   4 +-
+>  drivers/media/platform/cadence/Kconfig        |   8 +-
+>  drivers/media/platform/exynos4-is/Kconfig     |   5 +-
+>  drivers/media/platform/rcar-vin/Kconfig       |   8 +-
+>  .../media/platform/sunxi/sun4i-csi/Kconfig    |   4 +-
+>  .../media/platform/sunxi/sun6i-csi/Kconfig    |   4 +-
+>  drivers/media/platform/xilinx/Kconfig         |   4 +-
+>  drivers/media/spi/Kconfig                     |   4 +-
+>  drivers/media/test_drivers/vimc/Kconfig       |   4 +-
+>  drivers/staging/media/hantro/Kconfig          |   5 +-
+>  drivers/staging/media/imx/Kconfig             |   5 +-
+>  drivers/staging/media/ipu3/Kconfig            |   3 +-
+>  drivers/staging/media/omap4iss/Kconfig        |   4 +-
+>  drivers/staging/media/rkisp1/Kconfig          |   4 +-
+>  drivers/staging/media/sunxi/cedrus/Kconfig    |   5 +-
+>  26 files changed, 349 insertions(+), 214 deletions(-)
+> 
