@@ -2,144 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A268193B61
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 10:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D8A193C87
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 11:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbgCZJAD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Mar 2020 05:00:03 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37812 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbgCZJAC (ORCPT
+        id S1726590AbgCZKHc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Mar 2020 06:07:32 -0400
+Received: from sauhun.de ([88.99.104.3]:48446 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726270AbgCZKHc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Mar 2020 05:00:02 -0400
-Received: by mail-oi1-f193.google.com with SMTP id u20so85384oic.4;
-        Thu, 26 Mar 2020 02:00:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pfBoZ6XWbQ4KrliwGJFyfFIGFoQRaKutoj2iGGBbZ/8=;
-        b=PjgH72PTZxyHhiNPl+U6nqCtGjvFzor94e8Bn+QveG6NE6SyNYIIDFIEoQF/AVlM4c
-         vfmclA5kQfZpKucrTJHQQpYb4nRlCTQfmFHJFboDXNgHmlWzHe6Jdq4C66Aq+85vSuZv
-         4aYJsWzbCe6bB9iryyrUksRnhzRGfxx1yFf5myMJU3gQxO5Iipup3gsFLxmzE0VRWB10
-         Zb4YUvMmSBuYP7XHgHZgubhBbNzQdGNIRbEQefx+DpvCDm8CGN4Yog6StJoqDD4eGGvu
-         9FNRcC2PyollbVv48jxfcXZdWWk0X8zJRRCK3FBY3mgMczd3YDMmdvO+ghDMCp01McZz
-         lzQA==
-X-Gm-Message-State: ANhLgQ2ypIyuOFgKxw44jsjWA/K4hjUtE8eW4HzzTgCY7iMCo1drQpje
-        TH8jToLztvK/4Tw1cJP34t+y3zh9lQ6xJZFN+oQ=
-X-Google-Smtp-Source: ADFU+vunNPMm7n4lDtng9ONOCC+CUOSNaxldESCtYKuWG26njMdjPZls8Bkeas3fZwolEuBeS6R5akyYkDNpy9/Z57M=
-X-Received: by 2002:aca:ad93:: with SMTP id w141mr1128472oie.54.1585213200541;
- Thu, 26 Mar 2020 02:00:00 -0700 (PDT)
+        Thu, 26 Mar 2020 06:07:32 -0400
+Received: from localhost (p54B3331F.dip0.t-ipconnect.de [84.179.51.31])
+        by pokefinder.org (Postfix) with ESMTPSA id 0028F2C08C2;
+        Thu, 26 Mar 2020 11:07:29 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: rcar: clean up after refactoring i2c_timings
+Date:   Thu, 26 Mar 2020 11:07:21 +0100
+Message-Id: <20200326100721.1265-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1585200559-30033-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1585200559-30033-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1585200559-30033-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Mar 2020 09:59:49 +0100
-Message-ID: <CAMuHMdVuiAqqERf_ZEAqkhuTfOrn-VUj8rpuAHMwL=QdRNi3qg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: phy: renesas: usb2-phy: convert
- bindings to json-schema
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+The pointer is not really needed anymore since we have the timings
+struct available in the function itself now. Remove the pointer and
+access the struct directly.
 
-On Thu, Mar 26, 2020 at 6:30 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
-> to json-schema.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/busses/i2c-rcar.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-
-I think Rob would prefer to see
-
-    # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-
-> +  reg:
-> +    # base address and length of the registers block for the PHY.
-
-The comment is not needed.
-
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    # clock phandle and specifier pair(s).
-
-Likewise.
-
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    # for RZ/A2
-
-if:
-  properties:
-    compatible:
-      items:
-        enum:
-          - renesas,usb2-phy-r7s9210
-
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: fck
-> +      - const: usb_x1
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    usb-phy@ee080200 {
-> +        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
-> +        reg = <0 0xee080200 0 0x700>;
-
-Examples are built with #{address,size}-cells = <1>, so
-
-    reg = <0xee080200 0x700>;
-
-> +        interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_MOD 703>;
-> +        #phy-cells = <1>;
-> +    };
-> +
-> +    usb-phy@ee0a0200 {
-> +        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
-> +        reg = <0 0xee0a0200 0 0x700>;
-
-reg = <0xee0a0200 0x700>;
-
-> +        clocks = <&cpg CPG_MOD 702>;
-> +        #phy-cells = <1>;
-> +    };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 25013641a85d..3b5397aa4ca6 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -240,15 +240,15 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
+ 	u32 scgd, cdf, round, ick, sum, scl, cdf_width;
+ 	unsigned long rate;
+ 	struct device *dev = rcar_i2c_priv_to_dev(priv);
+-	struct i2c_timings i2c_t = {
++	struct i2c_timings t = {
+ 		.bus_freq_hz		= I2C_MAX_STANDARD_MODE_FREQ,
+ 		.scl_fall_ns		= 35,
+ 		.scl_rise_ns		= 200,
+ 		.scl_int_delay_ns	= 50,
+-	}, *t = &i2c_t;
++	};
+ 
+ 	/* Fall back to previously used values if not supplied */
+-	i2c_parse_fw_timings(dev, &i2c_t, false);
++	i2c_parse_fw_timings(dev, &t, false);
+ 
+ 	switch (priv->devtype) {
+ 	case I2C_RCAR_GEN1:
+@@ -294,7 +294,7 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
+ 	 *  = F[sum * ick / 1000000000]
+ 	 *  = F[(ick / 1000000) * sum / 1000]
+ 	 */
+-	sum = t->scl_fall_ns + t->scl_rise_ns + t->scl_int_delay_ns;
++	sum = t.scl_fall_ns + t.scl_rise_ns + t.scl_int_delay_ns;
+ 	round = (ick + 500000) / 1000000 * sum;
+ 	round = (round + 500) / 1000;
+ 
+@@ -312,7 +312,7 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
+ 	 */
+ 	for (scgd = 0; scgd < 0x40; scgd++) {
+ 		scl = ick / (20 + (scgd * 8) + round);
+-		if (scl <= t->bus_freq_hz)
++		if (scl <= t.bus_freq_hz)
+ 			goto scgd_find;
+ 	}
+ 	dev_err(dev, "it is impossible to calculate best SCL\n");
+@@ -320,7 +320,7 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv)
+ 
+ scgd_find:
+ 	dev_dbg(dev, "clk %d/%d(%lu), round %u, CDF:0x%x, SCGD: 0x%x\n",
+-		scl, t->bus_freq_hz, rate, round, cdf, scgd);
++		scl, t.bus_freq_hz, rate, round, cdf, scgd);
+ 
+ 	/* keep icccr value */
+ 	priv->icccr = scgd << cdf_width | cdf;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
