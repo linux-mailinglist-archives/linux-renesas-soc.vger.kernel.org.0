@@ -2,74 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80ED4193DC2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 12:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74507193DC6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 12:20:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727697AbgCZLQe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Mar 2020 07:16:34 -0400
-Received: from mga14.intel.com ([192.55.52.115]:46569 "EHLO mga14.intel.com"
+        id S1727697AbgCZLUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Mar 2020 07:20:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55086 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727688AbgCZLQe (ORCPT
+        id S1727560AbgCZLUl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Mar 2020 07:16:34 -0400
-IronPort-SDR: e3VbePad0nW/e8dEObwaoQFs7tUT6Op1T9D0PpBC1b5fgdTBotJPYmHSEEaY0WMij3uE16xA0L
- JQKvxaKk/7cQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 04:16:34 -0700
-IronPort-SDR: 5pfhECZ6Nxh72iWXLJEwEXaPfH6xptg85128w4PSREmlSgIhXeW9aQp2rQWd/qEE+gX9O1icjZ
- v1Y+URlohs0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,308,1580803200"; 
-   d="scan'208";a="247515749"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 26 Mar 2020 04:16:32 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jHQV1-00D6Iq-4v; Thu, 26 Mar 2020 13:16:35 +0200
-Date:   Thu, 26 Mar 2020 13:16:35 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [RFC PATCH] i2c: refactor parsing of timings
-Message-ID: <20200326111635.GO1922688@smile.fi.intel.com>
-References: <20200326101647.1756-1-wsa+renesas@sang-engineering.com>
- <20200326104701.GM1922688@smile.fi.intel.com>
- <20200326110042.GB1538@ninjato>
+        Thu, 26 Mar 2020 07:20:41 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585221641;
+        bh=WPzuIFYcXqOxiU0BB4TQVmdanVf2K8/ORq4b/E6cEms=;
+        h=Subject:From:Date:To:From;
+        b=T3ReUzSV3PrrU9tBNk7JX69zxmBrBtdrTdT352sEDJM54NxGbu1mW0XHY3t/OU/Un
+         Q2NqxFW4FgUxZNvlwSdaO0qezVb/dxdEjaFxfWWUL/8zF3gOVkF1ZdN/j8xIOS4xC0
+         EpqvoqocskI4ZbMW0XAlYw3GJb4I4BcjURfq/cfs=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200326110042.GB1538@ninjato>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158522164136.27533.13015651185594045985.git-patchwork-housekeeping@kernel.org>
+Date:   Thu, 26 Mar 2020 11:20:41 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 12:00:42PM +0100, Wolfram Sang wrote:
-> 
-> > However, looking into the code, I would go a bit further (perhaps as a separate
-> > change) and export parsing of clock-frequency, because tons of drivers only
-> > need one property, i.e. clock-frequency out of firmware.
-> 
-> Cool idea. Could be easily something like this (typed from the top of my
-> head):
-> 
-> static inline u32 i2c_parse_fw_bus_speed(struct device *dev)
-> {
-> 	u32 speed;
-> 
-> 	i2c_parse_timing(dev, "clock-frequency", &speed, I2C_MAX_STANDARD_MODE_FREQ, true);
-> 
-> 	return speed;
-> }
+Latest series: [v4] media: adv748x: add support for HDMI audio (2020-03-26T10:34:54)
+  Superseding: [v3] media: adv748x: add support for HDMI audio (2020-03-20T16:11:40):
+    [v3,01/11] media: adv748x: fix end-of-line terminators in diagnostic statements
+    [v3,02/11] media: adv748x: include everything adv748x.h needs into the file
+    [v3,03/11] media: adv748x: reduce amount of code for bitwise modifications of device registers
+    [v3,04/11] media: adv748x: add definitions for audio output related registers
+    [v3,05/11] media: adv748x: add support for HDMI audio
+    [v3,06/11] media: adv748x: prepare/enable mclk when the audio is used
+    [v3,07/11] media: adv748x: only activate DAI if it is described in device tree
+    [v3,08/11] dt-bindings: adv748x: add information about serial audio interface (I2S/TDM)
+    [v3,09/11] arm64: dts: renesas: salvator: add a connection from adv748x codec (HDMI input) to the R-Car SoC
+    [v3,10/11] media: adv748x: add support for log_status ioctl
+    [v3,11/11] media: adv748x: allow the HDMI sub-device to accept EDID
 
-Yes, looks like this, thanks!
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
