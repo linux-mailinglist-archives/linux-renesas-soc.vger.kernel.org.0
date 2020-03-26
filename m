@@ -2,108 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB35C193CBF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 11:13:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3BC5193CD2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 11:16:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726298AbgCZKNq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Mar 2020 06:13:46 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35485 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727855AbgCZKNq (ORCPT
+        id S1727721AbgCZKQ6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Mar 2020 06:16:58 -0400
+Received: from sauhun.de ([88.99.104.3]:48566 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726292AbgCZKQ5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Mar 2020 06:13:46 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t25so5007499oij.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2020 03:13:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KySq9vbRqSVaUMQfJYnT/cg7WphNRu+W69gTqNBjRGw=;
-        b=XZBJpxCfAhJmT/m2l+JEgrVCuNUuCwNNKyl9JEtiHIqLR4UONGL37OhaLdWOg96rCZ
-         93ZIwW64I94CsBkMNRRwUONLnElm7hVURS3S0JvdI4BR5xQI19TgDH99DDvv1XHci6FS
-         UpRqWgvT17rRgL5FTofINQUUTCQsHDW/suX57CdL4rOe9iVbPxGqpbltJ1j6kv/JawnJ
-         344TAhYpLeMkbCyrGWaSBGc65xJM5OlLqErZhdT7bSFB3nyre8PuDHqdV9AHZHDQS0HN
-         rn+Rf4aEdeliB9GXQp8pGz/wTigQmV0oWODMBKKASmEKgHvboSQX91EDxzAOr+6SSLNO
-         1TWg==
-X-Gm-Message-State: ANhLgQ2eUNdbMr9ZfEFkv5aghyt61DSzEryu56abSyLK5ms8uKWDp19y
-        L1Ns3CNsIiIOf8wiMhz8oLkLXVyOO3qXVb/O5j7nKw==
-X-Google-Smtp-Source: ADFU+vuwkSL3YLUNjEl230qgAOyjrsI3Ea64++0TBk6yds46R859Jr71wp2CbhwqgI9v1S15Z50ms4LbGIcP2KOpVNI=
-X-Received: by 2002:aca:cdd1:: with SMTP id d200mr1168268oig.153.1585217625245;
- Thu, 26 Mar 2020 03:13:45 -0700 (PDT)
+        Thu, 26 Mar 2020 06:16:57 -0400
+Received: from localhost (p54B3331F.dip0.t-ipconnect.de [84.179.51.31])
+        by pokefinder.org (Postfix) with ESMTPSA id 8D5912C08C2;
+        Thu, 26 Mar 2020 11:16:55 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH] i2c: refactor parsing of timings
+Date:   Thu, 26 Mar 2020 11:16:47 +0100
+Message-Id: <20200326101647.1756-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200320144348.12865-1-geert+renesas@glider.be> <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
-In-Reply-To: <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Mar 2020 11:13:34 +0100
-Message-ID: <CAMuHMdVLA6aEzyudPkR=RP5MV9R4eiRUngAj9wymMv1hJ+uTuA@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ard,
+When I wanted to print the chosen values to debug output, I concluded
+that a helper function to parse one timing would be helpful.
 
-On Wed, Mar 25, 2020 at 5:40 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Currently, the start address of physical memory is obtained by masking
-> > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > was chosen as a balance between the requirements of different platforms.
-> > However, this does require that the start address of physical memory is
-> > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > requirement is not fulfilled.
-> >
-> > Fix this limitation by obtaining the start address from the DTB instead,
-> > if available (either explicitly passed, or appended to the kernel).
-> > Fall back to the traditional method when needed.
-> >
-> > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > i.e. not at a multiple of 128 MiB.
-> >
-> > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > ---
-> > v4:
-> >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-> >     decompressor: factor out routine to obtain the inflated image
-> >     size"),
-> >
->
-> Apologies for the breakage. I was aware of the existence of this
-> patch, but I didn't realize it was accessing LC0 early on to find the
-> stack pointer value.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-No problem, you sent your PR on the same day I posted v2, which was
-the first version to access LC0.
+I am not entirely happy because 'dev' and 'u' is the same for each call.
+Then again, we can't use a for-loop over an array of parameters, because
+some default values depend on previously obtained timings.
 
-> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+Looking for opinions here...
 
-Thanks!
+ drivers/i2c/i2c-core-base.c | 78 ++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 40 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 474baaf8c9e7..60b0aa246af2 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -1609,6 +1609,18 @@ void i2c_del_adapter(struct i2c_adapter *adap)
+ }
+ EXPORT_SYMBOL(i2c_del_adapter);
+ 
++static void i2c_parse_timing(struct device *dev, char *prop_name, u32 *cur_val_p,
++			    u32 def_val, bool use_def)
++{
++	int ret;
++
++	ret = device_property_read_u32(dev, prop_name, cur_val_p);
++	if (ret && use_def)
++		*cur_val_p = def_val;
++
++	dev_dbg(dev, "%s: %u\n", prop_name, *cur_val_p);
++}
++
+ /**
+  * i2c_parse_fw_timings - get I2C related timing parameters from firmware
+  * @dev: The device to scan for I2C timing properties
+@@ -1627,49 +1639,35 @@ EXPORT_SYMBOL(i2c_del_adapter);
+  */
+ void i2c_parse_fw_timings(struct device *dev, struct i2c_timings *t, bool use_defaults)
+ {
+-	int ret;
+-
+-	ret = device_property_read_u32(dev, "clock-frequency", &t->bus_freq_hz);
+-	if (ret && use_defaults)
+-		t->bus_freq_hz = I2C_MAX_STANDARD_MODE_FREQ;
+-
+-	ret = device_property_read_u32(dev, "i2c-scl-rising-time-ns", &t->scl_rise_ns);
+-	if (ret && use_defaults) {
+-		if (t->bus_freq_hz <= I2C_MAX_STANDARD_MODE_FREQ)
+-			t->scl_rise_ns = 1000;
+-		else if (t->bus_freq_hz <= I2C_MAX_FAST_MODE_FREQ)
+-			t->scl_rise_ns = 300;
+-		else
+-			t->scl_rise_ns = 120;
+-	}
+-
+-	ret = device_property_read_u32(dev, "i2c-scl-falling-time-ns", &t->scl_fall_ns);
+-	if (ret && use_defaults) {
+-		if (t->bus_freq_hz <= I2C_MAX_FAST_MODE_FREQ)
+-			t->scl_fall_ns = 300;
+-		else
+-			t->scl_fall_ns = 120;
+-	}
++	bool u = use_defaults;
++	u32 d;
+ 
+-	ret = device_property_read_u32(dev, "i2c-scl-internal-delay-ns", &t->scl_int_delay_ns);
+-	if (ret && use_defaults)
+-		t->scl_int_delay_ns = 0;
++	i2c_parse_timing(dev, "clock-frequency", &t->bus_freq_hz,
++			 I2C_MAX_STANDARD_MODE_FREQ, u);
+ 
+-	ret = device_property_read_u32(dev, "i2c-sda-falling-time-ns", &t->sda_fall_ns);
+-	if (ret && use_defaults)
+-		t->sda_fall_ns = t->scl_fall_ns;
+-
+-	ret = device_property_read_u32(dev, "i2c-sda-hold-time-ns", &t->sda_hold_ns);
+-	if (ret && use_defaults)
+-		t->sda_hold_ns = 0;
+-
+-	ret = device_property_read_u32(dev, "i2c-digital-filter-width-ns", &t->digital_filter_width_ns);
+-	if (ret && use_defaults)
+-		t->digital_filter_width_ns = 0;
++	if (t->bus_freq_hz <= I2C_MAX_STANDARD_MODE_FREQ)
++		d = 1000;
++	else if (t->bus_freq_hz <= I2C_MAX_FAST_MODE_FREQ)
++		d = 300;
++	else
++		d = 120;
++	i2c_parse_timing(dev, "i2c-scl-rising-time-ns", &t->scl_rise_ns, d, u);
+ 
+-	ret = device_property_read_u32(dev, "i2c-analog-filter-cutoff-frequency", &t->analog_filter_cutoff_freq_hz);
+-	if (ret && use_defaults)
+-		t->analog_filter_cutoff_freq_hz = 0;
++	if (t->bus_freq_hz <= I2C_MAX_FAST_MODE_FREQ)
++		d = 300;
++	else
++		d = 120;
++	i2c_parse_timing(dev, "i2c-scl-falling-time-ns", &t->scl_fall_ns, d, u);
++
++	i2c_parse_timing(dev, "i2c-scl-internal-delay-ns",
++			 &t->scl_int_delay_ns, 0, u);
++	i2c_parse_timing(dev, "i2c-sda-falling-time-ns", &t->sda_fall_ns,
++			 t->scl_fall_ns, u);
++	i2c_parse_timing(dev, "i2c-sda-hold-time-ns", &t->sda_hold_ns, 0, u);
++	i2c_parse_timing(dev, "i2c-digital-filter-width-ns",
++			 &t->digital_filter_width_ns, 0, u);
++	i2c_parse_timing(dev, "i2c-analog-filter-cutoff-frequency",
++			 &t->analog_filter_cutoff_freq_hz, 0, u);
+ }
+ EXPORT_SYMBOL_GPL(i2c_parse_fw_timings);
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
