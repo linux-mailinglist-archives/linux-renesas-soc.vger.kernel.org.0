@@ -2,84 +2,263 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF776193AC9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 09:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 885C0193ACD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 09:28:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727701AbgCZI02 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Mar 2020 04:26:28 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:41713 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727611AbgCZI02 (ORCPT
+        id S1727775AbgCZI2p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Mar 2020 04:28:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45828 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727772AbgCZI2p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:26:28 -0400
-Received: by mail-ot1-f68.google.com with SMTP id f52so4944680otf.8;
-        Thu, 26 Mar 2020 01:26:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=osutZtQfmkoMd5HWFtAhQGhwew2bnQtv9ZFwUibnqd4=;
-        b=N6F6/AQITXFd2Xj/jQKtIafOCYwDas2uY11YXaHoTooDC+yn6ORuzSN9qQa0rR/Spe
-         tC+gRVORP4OJO12uvSAnqZ25U1r/sdDQBXjZIMSuFukZHYPfxN5wFiFKnV00ZmeXR2Qz
-         XY57fkud4oZ8GyC2qv+iVOjbG1+uerqdQ3b52fqDbAfJSoFogwVhvYgP2FFJ+btt2V5v
-         cfOMv/nNzrtEC7+6ASSx+MK6aIvLwL9oOZQsZiXy3vjEt2DyWX9JLcy0bgY4/vOksEDQ
-         ZIx0I3MI9eDlKx/VmGWtN3vfep0ANTvVre9Ck2+EwnhwyEcG33WD7TQKfCa4cQzWCblc
-         KNyQ==
-X-Gm-Message-State: ANhLgQ21ITkjWJrZ4ZXwEjLe/xUPTvP05rGNSqShuSbWkO1RxW6iHyOE
-        KeRQHCFJ3LADoL79oOHXmX2gYUDepYF3B2rP9xM=
-X-Google-Smtp-Source: ADFU+vvVCUIr0w2DcIAQGME8zhwaTi9rVFKYS1NWtRKkqP3JP+1WstkOo8rfIHfl8dLQfUHujLppoQMiNK9gMaxZbMQ=
-X-Received: by 2002:a05:6830:15c2:: with SMTP id j2mr5147028otr.107.1585211187149;
- Thu, 26 Mar 2020 01:26:27 -0700 (PDT)
+        Thu, 26 Mar 2020 04:28:45 -0400
+Received: from coco.lan (x2f7f9e9.dyn.telefonica.de [2.247.249.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B6C32070A;
+        Thu, 26 Mar 2020 08:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585211324;
+        bh=ReDk69Qo37KGy5ASDUUx4h0c+v4mtaJXcZof+Spm6f8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cEKU4NWO3blZyQDp6TDlbUH4YgHggIHDgjZhGXM9W+34CNHB6B+UmI9Ie5EYGBW2p
+         bMBWfeoXZXL7xAQDrudpzEMD9rHD73/y5qEoyuMq6xsXcoC0aL/Zkj83aHRFE9lwO/
+         1ARof01IFCY54Qj2o3g1kW5vPx6rPRmAbqxCmQBo=
+Date:   Thu, 26 Mar 2020 09:28:32 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Yong Deng <yong.deng@magewell.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund@ragnatech.se>
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200326092832.069a4d17@coco.lan>
+In-Reply-To: <20200325221343.GW19171@pendragon.ideasonboard.com>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+        <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+        <20200325223820.1c74aed3@coco.lan>
+        <20200325221343.GW19171@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <1585200608-30103-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1585200608-30103-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Mar 2020 09:26:16 +0100
-Message-ID: <CAMuHMdWDBN3GHvJWp3FkoiWxJMNLi=LZAiUhmvBZtKGC0_jxOg@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: clock: renesas,rcar-usb2-clock-sel: add
- r8a77961 support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Em Thu, 26 Mar 2020 00:13:43 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-On Thu, Mar 26, 2020 at 6:30 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> This patch adds support for r8a77961 (R-Car M3-W+).
->
-> To avoid confusion between R-Car M3-W (R8A77960) and R-Car M3-W+
-> (R8A77961), this patch also updates the comment of
-> "renesas,r8a7796-rcar-usb2-clock-sel".
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Changes from v1:
->  - Update the comment of "renesas,r8a7796-rcar-usb2-clock-sel" for r8a77960.
->  - Add Reviewed-by.
->  https://patchwork.kernel.org/patch/11457021/
+> Hi Mauro,
+> 
+> On Wed, Mar 25, 2020 at 10:38:20PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Wed, 25 Mar 2020 16:36:31 -0300 Helen Koike escreveu:  
+> > > On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:  
+> > > > That's the second part of media Kconfig changes. The entire series is
+> > > > at:
+> > > > 
+> > > > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig    
+> > > 
+> > > I made a quick experiment (using this branch) with someone who works with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> > > I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+> > > He knows that Vimc is a virtual camera driver, and this is how he behaved:
+> > > 
+> > > === Start of experiment:
+> > > 
+> > > * He pressed '/' and searched for vimc to see the location path.
+> > > * Then he enabled "Multimedia support" and went straight to "Media drivers" (which just shows USB and PCI).
+> > > * He went back to "Multimedia support", entered "Media device types" and enabled "Test drivers".
+> > > * He went back to "Media drivers" again and didn't find Vimc (nothing changed in this menu).
+> > > * He seemed a bit lost, going back and forth in the menus a couple of times.
+> > > * Then he pressed '/' again to search for vimc and see the location path, and he realized that there
+> > > should be an option called "V4L test drivers" under "Media drivers" that is not showing up.
+> > > * He went back to "Media device types" again and start re-reading the options.
+> > > * He selected "Cameras and video grabbers" ant went back to "Media drivers".
+> > > * He sees "V4L test drivers", selects it, and enter this menu.
+> > > * He selects "Virtual Media Controller Driver".
+> > > 
+> > > I asked his impressions, and he mentioned that he thought that enabling just "Test drivers" would be enough, without need
+> > > to combine "Test drivers" with "Cameras and video grabbers".
+> > > He also asked me why virtual drivers should be hidden, and he mentioned that the word "Virtual" in front would be enough.
+> > > 
+> > > Then I showed him he could have disabled the option "Filter devices by their types" to see everything at one (which he didn't
+> > > realized by himself until that moment, nor tried it out to see what would happen).
+> > > 
+> > > He mentioned that hiding is nice, because it shows less options, but not very nice to search for something.
+> > > He also mentioned that if he had understood the filter mechanism from the start, he would have disabled "Filter devices by their types" sooner.  
+> > 
+> > That's easy to solve: all it needs is to add something similar
+> > to this at drivers/media/Kconfig:
+> > 
+> > 	+	comment "Drivers are filtered by MEDIA_SUPPORT_FILTER"
+> > 	+		visible if MEDIA_SUPPORT_FILTER
+> > 	+
+> > 	+	comment "All available drivers are shown below"
+> > 	+		visible if !MEDIA_SUPPORT_FILTER
+> > 	+
+> > 	menu "Media drivers"
+> > 
+> > 	source "drivers/media/usb/Kconfig"
+> >   
+> > > === End of experiment
+> > > 
+> > > This was just one experiment from one person, I'll see if I can get some other people from lkcamp.dev group to also check
+> > > and send us their impressions. I think it would be nice to get more data about user experience, from people that are not used to
+> > > kernel development (kernel dev newbies for instance).
+> > > 
+> > > Just another remark from me:
+> > > 
+> > > From the default config, "Media drivers" shows USB and PCI,   
+> > 
+> > Well, assuming that there are 2 billion computers, 1% with Linux
+> > installed, and 10% of them have a media device (camera or TV),
+> > we have about 2 millions of people running Linux. That excludes
+> > Android and Embedded devices, where people usually don't touch.
+> > 
+> > During an entire year, there are about 4000 of Kernel developers 
+> > that has at least one patch accepted upstream (this number
+> > includes developers for Android and other SoCs). Also, the 
+> > number of Kernel developers submitting patches upstream for the
+> > media subsystem is around 20-40 people along an year.  
+> 
+> $ git log --since 2019-01-01 --until 2020-01-01 --no-merges -- drivers/media/ | grep '^Author: ' | sort | uniq -c | wc -l   
+> 215
+> 
+> There's some duplication of e-mail addresses, but it's still roughly an
+> order or magnitude bigger (and it's not counting staging, headers or
+> documentation).
+> 
+> > So, about 99,9998% of the users using the media subsystems aren't
+> > Kernel hackers. I bet that almost all of those will either need
+> > to enable USB or a PCI driver.  
+> 
+> And the extremely vast majority of these will never enable a kernel
+> option because they will never compile a kernel. They don't even know
+> what a kernel is :-)
+> 
+> > Granted, 99,9998% seems too optimistic, but, assuming that this
+> > would reduce to something like 80% (e. g. only 200 users
+> > would ever try to build a media driver, with is a *very conservative*
+> > number) this is still a lot more than the number of media Kernel
+> > developers.
+> > 
+> > Also, a Kernel hacker will sooner or later find a way to enable it.
+> > A normal user may find it a lot more trickier and will very likely
+> > require more support, if the menus are too technical and the
+> > default options are wrong.  
+> 
+> I'm not sure to follow you. Are you implying that this patch series,
+> which Helen has tested against a real user, not an experienced kernel
+> hacker, may make the configuration options more difficult for kernel
+> hackers, but improves the situation for users ?
 
-Thanks for the update!
+Come on, it is not harder for Kernel hackers. It is just different than
+what it used to be before the changes. At the above experience, at the
+very first time this Kernel hacker looked on it, it was able to figure
+out how to enable the driver. I bet that, if you now repeat the experiment
+with the same guy, he would be able to enable another driver a lot quicker.
 
-Will queue in clk-renesas-for-v5.8.
+My view is that, with the option of either enable or disable the
+filtering mechanism, it will be easier for everybody:
 
-Gr{oetje,eeting}s,
+- Distro maintainers for PCs can just disable platform and
+  test drivers, and keep the other drivers enabled;
 
-                        Geert
+- An experienced Kernel hacker will disable the filter and select
+  the needed drivers directly.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+- An user wanting to test a driver with new patches (or a new driver)
+  use the filters to select the USB driver he needs (probably using the
+  media_tree.git, in order to see only the media options).
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+> > -
+> > 
+> > Even with that, based on your small experiment (of someone from the
+> > area), I suspect that, if you had asked him to enable, for example,
+> > em28xx or dvbsky (with are some of the most popular drivers
+> > those days), he would be able to enable it a lot faster.  
+> 
+> This is the *only* real piece of evidence we have, let's not assume we
+> know better.
+> 
+> > > and selecting those doesn't do anything, and people can even think
+> > > that, if they want to enable an USB device, just enabling the USB option there is enough (which is not), since no drivers
+> > > shows up.  
+> > 
+> > It is hard to comment on individual experiments. In the past, our
+> > Kconfig system were like that: written for technical people with
+> > background on computer engineering and some experience building the
+> > Kernel.
+> > 
+> > E.g. people that knows that "/" activates a search mechanism at
+> > the Kernel building system.
+> > 
+> > We usually had to spend *a lot of time* both on IRC and on e-mail
+> > explaining people that just want to have their card supported,
+> > how to do that. After the reorg (with added those more user-faced
+> > interfaces), the number of people with problems reduced a lot.  
+> 
+> Don't you think that could come mainly from better support for media
+> devices in distributions ?
+> 
+> > Btw, if one tries to compile from media-build (with lots of users
+> > do), this is even more relevant.  
+> 
+> Can you quantify "lots of users" ?
+
+Enough to make us to decide that re-working the Kconfig menus and 
+add the MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT would worth the
+efforts.
+
+Guess what? The efforts were fully paid, as it reduced a lot the
+amount of time we had to weekly spend helping people to build their
+Kernels in order to test support for their new hardware.
+
+It also helped a lot to set the right Kconfig options on distros.
+I did my contributions on that time by improving Fedora and on RHEL,
+making their build rely on MEDIA_SUPPORT_* and MEDIA_SUBDRV_AUTOSELECT.
+
+See, for some random distro maintainer, new Kconfig symbols pops up
+every time. Enabling all of them is usually a very bad idea. So, a
+filtering mechanism that would, for example, hide test and skeleton
+drivers to be built is a very nice feat, as it means a lot less
+symbols for them to study and decide whether such new options should
+be enabled or not
+
+Thanks,
+Mauro
