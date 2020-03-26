@@ -2,116 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D267C193D50
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 11:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D63F193DA2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Mar 2020 12:08:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbgCZKwo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Mar 2020 06:52:44 -0400
-Received: from sauhun.de ([88.99.104.3]:48862 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727560AbgCZKwo (ORCPT
+        id S1728077AbgCZLIz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Mar 2020 07:08:55 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:50817 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727688AbgCZLIz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Mar 2020 06:52:44 -0400
-Received: from localhost (p54B3331F.dip0.t-ipconnect.de [84.179.51.31])
-        by pokefinder.org (Postfix) with ESMTPSA id 9144A2C08C2;
-        Thu, 26 Mar 2020 11:52:41 +0100 (CET)
-Date:   Thu, 26 Mar 2020 11:52:41 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [RFC PATCH] i2c: refactor parsing of timings
-Message-ID: <20200326105241.GA1538@ninjato>
-References: <20200326101647.1756-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdXVy1acwXxD9C==gGve-Xb-oPbF7BOpu1BaT=1gvUTdQQ@mail.gmail.com>
+        Thu, 26 Mar 2020 07:08:55 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MuDPh-1jVurQ2ec9-00uclg for <linux-renesas-soc@vger.kernel.org>; Thu, 26
+ Mar 2020 12:08:53 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 6417E64FD25
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2020 11:08:53 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id uIV8B1SyGEks for <linux-renesas-soc@vger.kernel.org>;
+        Thu, 26 Mar 2020 12:08:53 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 0626E64F787
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Mar 2020 12:08:53 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.8.5.79) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 26 Mar 2020 12:08:52 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id 5049380500; Thu, 26 Mar 2020 11:35:23 +0100 (CET)
+Date:   Thu, 26 Mar 2020 11:35:23 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        <devel@driverdev.osuosl.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: [PATCH v4 3/9] media: adv748x: reduce amount of code for bitwise
+ modifications of device registers
+Message-ID: <88950969b1d16ff5fcd1b3458356c4cf5a9e6cff.1585218857.git.alexander.riesen@cetitec.com>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1585218857.git.alexander.riesen@cetitec.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXVy1acwXxD9C==gGve-Xb-oPbF7BOpu1BaT=1gvUTdQQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <cover.1585218857.git.alexander.riesen@cetitec.com>
+X-Originating-IP: [10.8.5.79]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536A6D7C67
+X-Provags-ID: V03:K1:dEnU+TJY/EQ47A/QYMKKfg5/dkYLXo2nZHHvjkx3AwN5Kxf4opd
+ bWKWtMZ8mCgt5mGsl6hX0nUw+cwUcqETOUPwQedlHaMoBc4joXqDtBp2A28mk5GyKAS2r2m
+ A94nC4iUirx523BXau0jZ8lmJLJ8cnAyLlqCdHJIGnJ1HKu6psTZwJutTicLhimSLBOYIpr
+ 2K/ioqSi4xNPvadIhLDxA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OC04nKps/AI=:oU4CeL4wkxD1fVZSind9K3
+ qC+t6O97FqcYfX/OYaJGm6Uk8u5txUGzuq+i9Qbhf1ECuogHW+Ze7oeHDi8SNX2Jl6Wh/QLMu
+ UY72c7JEayn+IqXGoxIfYiKCooCOxV98lDC/+V9ROAJQypXtQLYNkfa0I8lJnVY1amo8W8Lrh
+ 0skAUgWqzibF5pvAIUI0kDDmbs1xjkhGS2EKJ6ShG7obXTbPQCsQOHhunZQJ+J3ozT+nQTWwi
+ WAaTnTpuIQW6sKp1OPgCCHQ2Mo8fgqJJdK2quL3SAXLLja9TX3lC6irDeOqKSmTiMXKr1RW7d
+ DaDnlMzi53nGRT1KrGbpEiiYSzC5QG6Bs2EPPQXlYumcYPRxCC7EqXGbDFRvsCfcBxAAVGBeC
+ coLA9+eM+XiD3Qpx4NkozYHLjnUoSlD7QAXfux68yMNcnzRB7S7QxFgyvM1TKMa90cgKHknsH
+ v5tvcu1s0/Q4say8TVx85wyH2fHz5YsbMbLbBmBwnRLV+MfQn2UxIEk1Q9xwUvPMEzQvBCFbj
+ d8+RoWJgEtQ/wEIUWgq6NdoprpatYHFv8gj4nZiAnsTP+Sl3h+k+Qtlla4isoiFpy4CYvWpPO
+ BMJph88mfar7wEbMXvNpgDc/TKKUdQbeH6AbIVFSi6iVB6mt7V0pWPKV0j3lvGXmE+jorYQxW
+ XdqbPRwzl+iVLCcF9XloHMfyvRocqrkMox3F0cvpK2xjzIjQATYcuNWWQnuivsJzpQphD0sFM
+ hiThj4irCZrrt04WVf2zz/SzxVyKvkopZJm3B8y3/+soD0x12CF+oCxXYtTSp5ykf+kzmiJQu
+ YqcOtaVGzPm/ceEjoH1Igj3VUyalD7ELA8ChtZVtipEborIwO9weiOzcNcC6nqBtGXue3Uu
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The regmap provides a convenient utility for this.
+The hdmi_* and dpll_* register modification macros added for symmetry
+with the existing operations (io_*, sdp_*).
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Hi Geert,
+--
+v3: remove _update name in favor of existing _clrset
+---
+ drivers/media/i2c/adv748x/adv748x-core.c |  6 ++++++
+ drivers/media/i2c/adv748x/adv748x.h      | 14 +++++++++++---
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-> > +{
-> > +       int ret;
-> > +
-> > +       ret =3D device_property_read_u32(dev, prop_name, cur_val_p);
-> > +       if (ret && use_def)
-> > +               *cur_val_p =3D def_val;
->=20
-> Alternatively, you could just preinitialize the value with the default va=
-lue
-> before calling this function, and ignoring ret.
-> That would remove the need for both the def_val and use_def parameters.
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 5c59aad319d1..8580e6624276 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -133,6 +133,12 @@ static int adv748x_write_check(struct adv748x_state *state, u8 page, u8 reg,
+ 	return *error;
+ }
+ 
++int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg, u8 mask,
++			u8 value)
++{
++	return regmap_update_bits(state->regmap[page], reg, mask, value);
++}
++
+ /* adv748x_write_block(): Write raw data with a maximum of I2C_SMBUS_BLOCK_MAX
+  * size to one or more registers.
+  *
+diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+index 09aab4138c3f..0a9d78c2870b 100644
+--- a/drivers/media/i2c/adv748x/adv748x.h
++++ b/drivers/media/i2c/adv748x/adv748x.h
+@@ -393,25 +393,33 @@ int adv748x_write(struct adv748x_state *state, u8 page, u8 reg, u8 value);
+ int adv748x_write_block(struct adv748x_state *state, int client_page,
+ 			unsigned int init_reg, const void *val,
+ 			size_t val_len);
++int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg,
++			u8 mask, u8 value);
+ 
+ #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
+ #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
+-#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
++#define io_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_IO, r, m, v)
+ 
+ #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
+ #define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, (r)+1)) & (m))
+ #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
++#define hdmi_clrset(s, r, m, v) \
++	adv748x_update_bits(s, ADV748X_PAGE_HDMI, r, m, v)
++
++#define dpll_read(s, r) adv748x_read(s, ADV748X_PAGE_DPLL, r)
++#define dpll_clrset(s, r, m, v) \
++	adv748x_update_bits(s, ADV748X_PAGE_DPLL, r, m, v)
+ 
+ #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
+ #define repeater_write(s, r, v) adv748x_write(s, ADV748X_PAGE_REPEATER, r, v)
+ 
+ #define sdp_read(s, r) adv748x_read(s, ADV748X_PAGE_SDP, r)
+ #define sdp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_SDP, r, v)
+-#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~(m)) | (v))
++#define sdp_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_SDP, r, m, v)
+ 
+ #define cp_read(s, r) adv748x_read(s, ADV748X_PAGE_CP, r)
+ #define cp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_CP, r, v)
+-#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~(m)) | (v))
++#define cp_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_CP, r, m, v)
+ 
+ #define tx_read(t, r) adv748x_read(t->state, t->page, r)
+ #define tx_write(t, r, v) adv748x_write(t->state, t->page, r, v)
+-- 
+2.25.1.25.g9ecbe7eb18
 
-I can't do that because if !use_def and ret, then the value must not be
-changed.
 
-> > +       if (t->bus_freq_hz <=3D I2C_MAX_STANDARD_MODE_FREQ)
-> > +               d =3D 1000;
-> > +       else if (t->bus_freq_hz <=3D I2C_MAX_FAST_MODE_FREQ)
-> > +               d =3D 300;
-> > +       else
-> > +               d =3D 120;
-> > +       i2c_parse_timing(dev, "i2c-scl-rising-time-ns", &t->scl_rise_ns=
-, d, u);
-> >
-> > -       ret =3D device_property_read_u32(dev, "i2c-analog-filter-cutoff=
--frequency", &t->analog_filter_cutoff_freq_hz);
-> > -       if (ret && use_defaults)
-> > -               t->analog_filter_cutoff_freq_hz =3D 0;
-> > +       if (t->bus_freq_hz <=3D I2C_MAX_FAST_MODE_FREQ)
-> > +               d =3D 300;
-> > +       else
-> > +               d =3D 120;
->=20
-> Is the difference with above intentional, or an oversight?
-
-If this is an oversight, then it is also in the I2C specs ;)
-
-> if the former, I like the dreaded ternary operator (only) for cases like =
-this:
->=20
->     d =3D t->bus_freq_hz <=3D I2C_MAX_FAST_MODE_FREQ ? 300 : 120
-
-Yup, that would be an improvement!
-
-Thanks,
-
-   Wolfram
-
-
---xHFwDpU9dbj6ez1V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl58iXUACgkQFA3kzBSg
-KbbIzBAAhhw+Kfs/Md54VSm2PEe4Z/RzaoAUY0Wyq+zy6iW5LVQQQqdkko72vvr7
-3hFmjk02TmDRdMPWmMaAv4mlTRv3TnNgs4zHxyAnEYODMHh0eswEji6BK4QTQq7k
-qQ9cz3rAhgKSfHhSzLzahFED+3K3fPLGwKuRcNksXaZpZcKWoMa2Bv7NbYOINAnt
-GFRqBaMSMz9VxOb9jjN/pqPMD8/lt2i30+zKiFbCgt2MaNe9UHWiEPp6eXpvJ215
-DBjOL9vT3VLc1c0x8K8cJI1RfeJ+U61aGJVeifsaZRTnqAo17xF1ceqItcL5x9FN
-ta4jAmfE9TCx2Beq5IE254Oet7eJP7mqpD+XMctFgRoHbUvh+X5scfC755O2Yvx8
-acCtsZo+P3/d26QPJ+V8z5gyiDtlzjUnxiYfc/maIp2aenIOUOw3vKEQoYGnaosJ
-uU/2FDolkkwU3N/MEDijgNv39yvF6nilcbHi8O5PwwjvRMOt75zj+L+7G036eM8T
-0odXxgyYl8hmmC30MUUmVaZm4koi51J3tGkNOpaZpIdrZWj48gGCzKI3NXncfFZq
-tZFIRJP6+EBnTuI5Y+JZiylvtHWb7x9fH9+EGv+Jqy+g+hcSektbD+VAc6l9xfXy
-tLGkxKI4qkxXvlyEBe+9fG2MWs5MbHBkSf5wrL7+yOrEhe6mP+Y=
-=9+b4
------END PGP SIGNATURE-----
-
---xHFwDpU9dbj6ez1V--
