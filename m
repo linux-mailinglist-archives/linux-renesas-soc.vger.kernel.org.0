@@ -2,108 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 090B119532E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2020 09:45:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3DB319535D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2020 09:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726118AbgC0IpX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Mar 2020 04:45:23 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40997 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbgC0IpX (ORCPT
+        id S1726096AbgC0IzV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Mar 2020 04:55:21 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35641 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725946AbgC0IzV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Mar 2020 04:45:23 -0400
-Received: by mail-ot1-f68.google.com with SMTP id f52so8906097otf.8;
-        Fri, 27 Mar 2020 01:45:22 -0700 (PDT)
+        Fri, 27 Mar 2020 04:55:21 -0400
+Received: by mail-ot1-f67.google.com with SMTP id v2so4400551oto.2;
+        Fri, 27 Mar 2020 01:55:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eOBjyRt4JV8Fw0zzDZumBm7LVivMqi17PPfNiqHh3qk=;
-        b=nNNtvb5JIc83n6idKlCJmdznoRwgO2XqukBnIqMVHR2iYiS1c0eQbQxNV+khns1Etz
-         4a19wgV6Bu+yyQykC346Oc4laIsycpZmkDZQ0pAcfB7Tbbt/rWcA0IHWz6GZc4OK6RMH
-         Tel2tXBp7fRhFyuFxu2Hh4l0hxBSQ+6kK6e0mQjk5I5SFffAaGKUCbxNcbeyzT+kCZFB
-         TAVpLLmGR4zveD8PAUUZAp5yjfQmOs74roa7w2JDayt1VpGBdyhZdHgL4T2fRsOI0H3f
-         QmTNvvo0o3CMGcyz2wtZWaabIwwkAwHjyuMDpl+xGCNnA+rR6ThX9QppUZPlgRaeVZPH
-         V8Qg==
-X-Gm-Message-State: ANhLgQ2yJ40qSCH3ljnZDz/B3IlhkWOVH4uThm15uwGHNJx/erY3xT64
-        6UQMHcA8JUP371nKFCQblVc83c4CQTK89rUxvok=
-X-Google-Smtp-Source: ADFU+vtagf4b+RAfGcuiioWln2gooMsQamKP8V2Ub80rkt/+u/ChxOOa1j8Iz++kwA+q3IcKZA+D0S4VCVlwIW0ISTU=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr9385922otk.250.1585298722494;
- Fri, 27 Mar 2020 01:45:22 -0700 (PDT)
+        bh=D46z9tNyEwtB4r2ilezd68LjnjQ7ZyQLw368VCk74Os=;
+        b=NBOEjREtos5J4SioliSeBGAmmPe0QdBfdzzHfUkoLJRP9QS59XcCUeSUZLLhbAU9G9
+         +0fSeX+rAhekPcssCJq8odL/hsdOhej6o4EbK6KR5dKmtwXw+FSKvplzzxaQazZEo7pA
+         8FnAxqiBdFvv22k5pOCt8DzYHE9Jme/zenzzebSzbat1mjGe3KDIwAwfe/95edKC5hOl
+         7QSkw36oek9hax00aaJgLUPL5D4A14fPblsBNduc1QLV2VQfzy9M5mOckqslkNHbKFJs
+         T/He8mv/1CglE2sVAy7i6YQvftThAVEAoCVTcM4HK8H6+YxgRjQneMcL3oaAH0fSIoOz
+         yNvw==
+X-Gm-Message-State: ANhLgQ2vH9Em8ZbTY86j8Vf3T0ezP34wJe9agr6gYRZohvmZVYAS8nK9
+        aQ0cVYhe8Gd8X8e/h88VwexkO/ZoksGj0rvGlTibBg==
+X-Google-Smtp-Source: ADFU+vsvbZDYQtwnEXPnDPJRl59UQ/joKED/Ns1jpjG4Fy355gqjn1pegySbmFbk6eTulJSAJ1ORhk8Ny/ILjPjaATs=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr9487286otk.145.1585299318781;
+ Fri, 27 Mar 2020 01:55:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be> <20200324135653.6676-5-geert+renesas@glider.be>
- <CACRpkdZuQrPqFPyoop9pv6MVwqwz_C6ZNKMxWqSFXdAMkhbsvQ@mail.gmail.com>
-In-Reply-To: <CACRpkdZuQrPqFPyoop9pv6MVwqwz_C6ZNKMxWqSFXdAMkhbsvQ@mail.gmail.com>
+References: <1585286923-11740-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1585286923-11740-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1585286923-11740-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Mar 2020 09:45:11 +0100
-Message-ID: <CAMuHMdVpiO+KGRTF=83kubuuJF2p8TJhWe_X32amSTa6bXsCxg@mail.gmail.com>
-Subject: Re: [PATCH v6 5/8] gpiolib: Introduce gpiod_set_config()
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Date:   Fri, 27 Mar 2020 09:55:07 +0100
+Message-ID: <CAMuHMdV+kPei=4tBb8FGC1oE2+sRffXRz2KZtKU7svyz=22AGg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: phy: renesas: usb2-phy: convert
+ bindings to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hi Shimoda-san,
 
-On Thu, Mar 26, 2020 at 10:26 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Mar 24, 2020 at 2:57 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > The GPIO Aggregator will need a method to forward a .set_config() call
-> > to its parent gpiochip.  This requires obtaining the gpio_chip and
-> > offset for a given gpio_desc.  While gpiod_to_chip() is public,
-> > gpio_chip_hwgpio() is not, so there is currently no method to obtain the
-> > needed GPIO offset parameter.
-> >
-> > Hence introduce a public gpiod_set_config() helper, which invokes the
-> > .set_config() callback through a gpio_desc pointer, like is done for
-> > most other gpio_chip callbacks.
-> >
-> > Rewrite the existing gpiod_set_debounce() helper as a wrapper around
-> > gpiod_set_config(), to avoid duplication.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > v6:
-> >   - New.
+On Fri, Mar 27, 2020 at 6:29 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
+> to json-schema.
 >
-> This is nice, I tried to actually just apply this (you also sent some
-> two cleanups that I tried to apply) byt Yue's cleanup patch
-> commit d18fddff061d2796525e6d4a958cb3d30aed8efd
-> "gpiolib: Remove duplicated function gpio_do_set_config()"
-> makes none of them apply :/
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-/me confused.
+Thanks for the update!
 
-That commit was reverted later, so it shouldn't matter.
+> --- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+> +++ /dev/null
 
-I have just verified, and both my full series and just this single
-patch, do apply fine to all of current gpio/for-next, linus/master, and
-next-20200327.  They even apply fine to gpio/for-next before or after
-the two cleanups I sent, too.
+> -The phandle's argument in the PHY specifier is the INT_STATUS bit of controller:
+> -- 1 = USBH_INTA (OHCI)
+> -- 2 = USBH_INTB (EHCI)
+> -- 3 = UCOM_INT (OTG and BC)
 
-What am I missing?
-Thanks!
+Sorry, I failed to notice during my previous review that the above information
+is lost during the conversion.  I think it would be good to retain it in the
+description for #phy-cells.
+
+With that added:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
