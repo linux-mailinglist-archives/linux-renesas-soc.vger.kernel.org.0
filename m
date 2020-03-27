@@ -2,72 +2,255 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D030195781
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2020 13:50:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A887919579F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Mar 2020 13:59:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbgC0Muj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Mar 2020 08:50:39 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:32788 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726959AbgC0Muj (ORCPT
+        id S1727254AbgC0M7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Mar 2020 08:59:39 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:39038 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726742AbgC0M7j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Mar 2020 08:50:39 -0400
-Received: by mail-oi1-f196.google.com with SMTP id m14so8689082oic.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Mar 2020 05:50:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EuR4ExW0QEHAw9w3r+CrqRDs53paMiuVaVAIxRQP7MQ=;
-        b=AC3Po985W8w9qLyzv0AYtjZND5Fxd8J2+bA0G/YZ3/MSglDiDw38cfz3ggZ/JbzFwt
-         Ci1oKKNIA6W5mqH2C4DcyENDOspYHJKTE4vIQQVe/hopotLKzaDSThr0b2RJ3+oHsa88
-         +O74HlJcxXxj43wuFloS20HARl8Z/08FuSsSBpj0kNieJ1uZHp+K5kJ5vQO1XGFL5zUh
-         6Q79l1fvbZ1VK6KQB1brmzNxKxXukaaPDoH+S38bhR04O3Ei8Mpop0/5d3pRyJaSHBma
-         lHtfeCcmuIuSkFQW6bgfmj4/uAF0JWfp4aO0tlgFCKjyjwmj+KRm+uZGfz4+dCitE/m4
-         kf4Q==
-X-Gm-Message-State: ANhLgQ0aI3c+GkaKcYFPvCmHS8LNUvwOk9b2bcZD8fWGYshvU+UFd+xa
-        9dZhp3sqmoq1OCvlIrRyZq3tMUaySDlaece3mAo=
-X-Google-Smtp-Source: ADFU+vtR7lDkLp3LbZVL1DeIek+c7PqLjgxLJEtWJav9ulvvu+cWE6RiXAeTw8UmWeUFhIjbOkM8qP2yS4p21txrHq0=
-X-Received: by 2002:aca:cdd1:: with SMTP id d200mr3599364oig.153.1585313438789;
- Fri, 27 Mar 2020 05:50:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <1585117470-8625-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1585117470-8625-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Mar 2020 13:50:27 +0100
-Message-ID: <CAMuHMdWV04DbtY2bcsciqdbDT6pHV3UYNc+8iueKZCF_b8vCtg@mail.gmail.com>
-Subject: Re: [PATCH/RFC 0/2] arm64: dts: renesas: add USB2.0/3.0 device nodes
- for r8a77961
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 27 Mar 2020 08:59:39 -0400
+Received: from ramsan ([84.195.182.253])
+        by albert.telenet-ops.be with bizsmtp
+        id KQzV220095USYZQ06QzVhT; Fri, 27 Mar 2020 13:59:36 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jHoa9-0000X0-3p; Fri, 27 Mar 2020 13:59:29 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jHoa9-0005yY-1J; Fri, 27 Mar 2020 13:59:29 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a77961: Add SCIF and HSCIF nodes
+Date:   Fri, 27 Mar 2020 13:59:26 +0100
+Message-Id: <20200327125926.22927-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Add the device nodes for all SCIF and HSCIF serial ports on R-Car M3-W+.
+Add the missing DMA properties to the already-present SCIF2 node.
 
-On Wed, Mar 25, 2020 at 7:24 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> This patch adds USB2.0/3.0 device nodes for r8a77961(R-Car M3-W+).
-> The dt-bindings of these devices are not merged yet. So, I marked
-> RFC on this patch series.
->
-> Yoshihiro Shimoda (2):
->   arm64: dts: renesas: add USB2.0 device nodes for r8a77961
->   arm64: dts: renesas: add USB3.0 device nodes for r8a77961
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Tested with HSCIF1 on Salvator-XS.
 
-Thank you, will queue in renesas-devel for-v5.8.
+To be queued in renesas-devel for v5.8.
+---
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 167 +++++++++++++++++++++-
+ 1 file changed, 165 insertions(+), 2 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index de27b2fa506c51ba..180e0f3a0e3e5994 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -626,10 +626,92 @@
+ 			status = "disabled";
+ 		};
+ 
++		hscif0: serial@e6540000 {
++			compatible = "renesas,hscif-r8a77961",
++				     "renesas,rcar-gen3-hscif",
++				     "renesas,hscif";
++			reg = <0 0xe6540000 0 0x60>;
++			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 520>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x31>, <&dmac1 0x30>,
++			       <&dmac2 0x31>, <&dmac2 0x30>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 520>;
++			status = "disabled";
++		};
+ 
+ 		hscif1: serial@e6550000 {
++			compatible = "renesas,hscif-r8a77961",
++				     "renesas,rcar-gen3-hscif",
++				     "renesas,hscif";
+ 			reg = <0 0xe6550000 0 0x60>;
+-			/* placeholder */
++			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 519>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x33>, <&dmac1 0x32>,
++			       <&dmac2 0x33>, <&dmac2 0x32>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 519>;
++			status = "disabled";
++		};
++
++		hscif2: serial@e6560000 {
++			compatible = "renesas,hscif-r8a77961",
++				     "renesas,rcar-gen3-hscif",
++				     "renesas,hscif";
++			reg = <0 0xe6560000 0 0x60>;
++			interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 518>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x35>, <&dmac1 0x34>,
++			       <&dmac2 0x35>, <&dmac2 0x34>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 518>;
++			status = "disabled";
++		};
++
++		hscif3: serial@e66a0000 {
++			compatible = "renesas,hscif-r8a77961",
++				     "renesas,rcar-gen3-hscif",
++				     "renesas,hscif";
++			reg = <0 0xe66a0000 0 0x60>;
++			interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 517>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac0 0x37>, <&dmac0 0x36>;
++			dma-names = "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 517>;
++			status = "disabled";
++		};
++
++		hscif4: serial@e66b0000 {
++			compatible = "renesas,hscif-r8a77961",
++				     "renesas,rcar-gen3-hscif",
++				     "renesas,hscif";
++			reg = <0 0xe66b0000 0 0x60>;
++			interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 516>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac0 0x39>, <&dmac0 0x38>;
++			dma-names = "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 516>;
++			status = "disabled";
+ 		};
+ 
+ 		hsusb: usb@e6590000 {
+@@ -852,9 +934,38 @@
+ 			/* placeholder */
+ 		};
+ 
++		scif0: serial@e6e60000 {
++			compatible = "renesas,scif-r8a77961",
++				     "renesas,rcar-gen3-scif", "renesas,scif";
++			reg = <0 0xe6e60000 0 64>;
++			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 207>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x51>, <&dmac1 0x50>,
++			       <&dmac2 0x51>, <&dmac2 0x50>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 207>;
++			status = "disabled";
++		};
++
+ 		scif1: serial@e6e68000 {
++			compatible = "renesas,scif-r8a77961",
++				     "renesas,rcar-gen3-scif", "renesas,scif";
+ 			reg = <0 0xe6e68000 0 64>;
+-			/* placeholder */
++			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 206>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x53>, <&dmac1 0x52>,
++			       <&dmac2 0x53>, <&dmac2 0x52>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 206>;
++			status = "disabled";
+ 		};
+ 
+ 		scif2: serial@e6e88000 {
+@@ -866,11 +977,63 @@
+ 				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
+ 				 <&scif_clk>;
+ 			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x13>, <&dmac1 0x12>,
++			       <&dmac2 0x13>, <&dmac2 0x12>;
++			dma-names = "tx", "rx", "tx", "rx";
+ 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
+ 			resets = <&cpg 310>;
+ 			status = "disabled";
+ 		};
+ 
++		scif3: serial@e6c50000 {
++			compatible = "renesas,scif-r8a77961",
++				     "renesas,rcar-gen3-scif", "renesas,scif";
++			reg = <0 0xe6c50000 0 64>;
++			interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 204>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac0 0x57>, <&dmac0 0x56>;
++			dma-names = "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 204>;
++			status = "disabled";
++		};
++
++		scif4: serial@e6c40000 {
++			compatible = "renesas,scif-r8a77961",
++				     "renesas,rcar-gen3-scif", "renesas,scif";
++			reg = <0 0xe6c40000 0 64>;
++			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 203>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac0 0x59>, <&dmac0 0x58>;
++			dma-names = "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 203>;
++			status = "disabled";
++		};
++
++		scif5: serial@e6f30000 {
++			compatible = "renesas,scif-r8a77961",
++				     "renesas,rcar-gen3-scif", "renesas,scif";
++			reg = <0 0xe6f30000 0 64>;
++			interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 202>,
++				 <&cpg CPG_CORE R8A77961_CLK_S3D1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			dmas = <&dmac1 0x5b>, <&dmac1 0x5a>,
++			       <&dmac2 0x5b>, <&dmac2 0x5a>;
++			dma-names = "tx", "rx", "tx", "rx";
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 202>;
++			status = "disabled";
++		};
++
+ 		vin0: video@e6ef0000 {
+ 			reg = <0 0xe6ef0000 0 0x1000>;
+ 			/* placeholder */
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
