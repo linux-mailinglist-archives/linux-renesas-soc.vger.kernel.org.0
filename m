@@ -2,88 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96BEC19636A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Mar 2020 04:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69FA4197134
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2020 02:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbgC1Duk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Mar 2020 23:50:40 -0400
-Received: from sauhun.de ([88.99.104.3]:46254 "EHLO pokefinder.org"
+        id S1727048AbgC3AXG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 29 Mar 2020 20:23:06 -0400
+Received: from sauhun.de ([88.99.104.3]:43912 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726225AbgC1Duj (ORCPT
+        id S1726403AbgC3AXG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Mar 2020 23:50:39 -0400
-Received: from localhost (p5486CEA0.dip0.t-ipconnect.de [84.134.206.160])
-        by pokefinder.org (Postfix) with ESMTPSA id 404F02C1F87;
-        Sat, 28 Mar 2020 04:50:37 +0100 (CET)
-Date:   Sat, 28 Mar 2020 04:50:36 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-i3c@lists.infradead.org,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vladimir Zapolskiy <vz@mleia.com>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v2 0/6] i2c: of: reserve unknown and ancillary
- addresses
-Message-ID: <20200328035036.GA1017@kunai>
-References: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
+        Sun, 29 Mar 2020 20:23:06 -0400
+Received: from localhost (p5486C514.dip0.t-ipconnect.de [84.134.197.20])
+        by pokefinder.org (Postfix) with ESMTPSA id C96C92C0195;
+        Mon, 30 Mar 2020 02:23:02 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: regroup documentation of bindings
+Date:   Mon, 30 Mar 2020 02:22:20 +0200
+Message-Id: <20200330002220.3575-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="EVF5PPMfhYS0aIcm"
-Content-Disposition: inline
-In-Reply-To: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Some bindings are for the bus master, some are for the slaves.
+Regroup them and give them seperate headings to make it clear.
 
---EVF5PPMfhYS0aIcm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/devicetree/bindings/i2c/i2c.txt | 63 +++++++++++--------
+ 1 file changed, 38 insertions(+), 25 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Documentation/devicetree/bindings/i2c/i2c.txt
+index 9a53df4243c6..aa74dd0e63e3 100644
+--- a/Documentation/devicetree/bindings/i2c/i2c.txt
++++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+@@ -2,10 +2,10 @@ Generic device tree bindings for I2C busses
+ ===========================================
+ 
+ This document describes generic bindings which can be used to describe I2C
+-busses in a device tree.
++busses and their child devices in a device tree.
+ 
+-Required properties
+--------------------
++Required properties (per bus)
++-----------------------------
+ 
+ - #address-cells  - should be <1>. Read more about addresses below.
+ - #size-cells     - should be <0>.
+@@ -16,18 +16,13 @@ For other required properties e.g. to describe register sets,
+ clocks, etc. check the binding documentation of the specific driver.
+ 
+ The cells properties above define that an address of children of an I2C bus
+-are described by a single value. This is usually a 7 bit address. However,
+-flags can be attached to the address. I2C_TEN_BIT_ADDRESS is used to mark a 10
+-bit address. It is needed to avoid the ambiguity between e.g. a 7 bit address
+-of 0x50 and a 10 bit address of 0x050 which, in theory, can be on the same bus.
+-Another flag is I2C_OWN_SLAVE_ADDRESS to mark addresses on which we listen to
+-be devices ourselves.
++are described by a single value.
+ 
+-Optional properties
+--------------------
++Optional properties (per bus)
++-----------------------------
+ 
+ These properties may not be supported by all drivers. However, if a driver
+-wants to support one of the below features, it should adapt the bindings below.
++wants to support one of the below features, it should adapt these bindings.
+ 
+ - clock-frequency
+ 	frequency of bus clock in Hz.
+@@ -73,31 +68,49 @@ wants to support one of the below features, it should adapt the bindings below.
+ 	i2c bus clock frequency (clock-frequency).
+ 	Specified in Hz.
+ 
+-- interrupts
+-	interrupts used by the device.
+-
+-- interrupt-names
+-	"irq", "wakeup" and "smbus_alert" names are recognized by I2C core,
+-	other names are	left to individual drivers.
+-
+-- host-notify
+-	device uses SMBus host notify protocol instead of interrupt line.
+-
+ - multi-master
+ 	states that there is another master active on this bus. The OS can use
+ 	this information to adapt power management to keep the arbitration awake
+ 	all the time, for example.
+ 
+-- wakeup-source
+-	device can be used as a wakeup source.
++Required properties (per child device)
++--------------------------------------
++
++- compatible
++	name of I2C slave device following generic names recommended practice.
+ 
+ - reg
+-	I2C slave addresses
++	One or many I2C slave addresses. These are usually a 7 bit addresses.
++	However, flags can be attached to an address. I2C_TEN_BIT_ADDRESS is
++	used to mark a 10 bit address. It is needed to avoid the ambiguity
++	between e.g. a 7 bit address of 0x50 and a 10 bit address of 0x050
++	which, in theory, can be on the same bus.
++	Another flag is I2C_OWN_SLAVE_ADDRESS to mark addresses on which we
++	listen to be devices ourselves.
++
++Optional properties (per child device)
++--------------------------------------
++
++These properties may not be supported by all drivers. However, if a driver
++wants to support one of the below features, it should adapt these bindings.
++
++- host-notify
++	device uses SMBus host notify protocol instead of interrupt line.
++
++- interrupts
++	interrupts used by the device.
++
++- interrupt-names
++	"irq", "wakeup" and "smbus_alert" names are recognized by I2C core,
++	other names are	left to individual drivers.
+ 
+ - reg-names
+ 	Names of map programmable addresses.
+ 	It can contain any map needing another address than default one.
+ 
++- wakeup-source
++	device can be used as a wakeup source.
++
+ Binding may contain optional "interrupts" property, describing interrupts
+ used by the device. I2C core will assign "irq" interrupt (or the very first
+ interrupt if not using interrupt names) as primary interrupt for the slave.
+-- 
+2.20.1
 
-> There is only one thing giving me some headache now. There is a danger
-> of a regression maybe. If someone has multiple 'reg' entries in the DT
-> but never used i2c_new_ancillary_device but i2c_new_dummy_device, then
-> things will break now because i2c_new_dummy_device has not enough
-> information to convert a "reserved" device to a "dummy" one. It will
-> just see the address as busy. However, all binding documentations I
-> found which use 'reg' as an array correctly use
-> i2c_new_ancillary_device. On the other hand, my search strategy for
-> finding such bindings and DTs do not feel perfect to me. Maybe there are
-> also some more corner cases in this area, so this series is still RFC.
-
-So, I used another search strategy: I checked every
-i2c_new_dummy_device() caller in the kernel tree and made sure they
-don't get the address to use from DT. I can confirm this is not the
-case. That gives me enough trust to say the above issue is a non-issue.
-
-Still open for comments, of course...
-
-
---EVF5PPMfhYS0aIcm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5+yYcACgkQFA3kzBSg
-KbZ9Ng//dnoXJcsOM/i5HdaeoT4RtiKz8dQZpX6hMND/LRLTrKeuk7QYfcmHGD5O
-mTZkGIQJh2TcLPIb3fJ2457+c2rJvDY9UBdFlaoRNgn/X5Dgvp7wW7Nilq1GVHZV
-w/+aPpL8rRM5Bty7W+kSWWUisECdGjVNEOPbD6O1klsb2Cq61rdvmGqCivHHjTFV
-5Y/AeqZEIUWyA9Ga5LUg7EX/qOhCG+i5qVsYDj66qb19jITb6VY8/VLdZqLPPzIa
-xtGipLEwe+JmfdBSUWY7OX34nMz2xLe3wWMyMtVHLvG+tqk81YJD5E4nNfzZObSK
-Myi3F7X1hO3Vid0GBkB56xhwU3ZezIm+cGJA407hcCHO8GimbRxXax+3fR6GsIBQ
-ihTUG1ZkUBfuakm0JvW0tE75qS1cR0nlcIyLwFKPXo0nrPaLmQvY+VtlLwxU+lp1
-+dtKxOHUEuQpUxCKBu3gRMI7f/OizK78nytTc5HDkWf/tJ2X3qhXWIdiFak7GF9L
-dR6DSB3WCXhAqNQiMjeCQfQDYMf04bqzknr+Y+Xqo2ltP2oGtNvr+8Vdn3+ajEob
-KYdfDZvTaQBJe/NrS6poQdRX/UqydVJh1dgKwsRNMEnG6+2y3w4SrVzZsyvahAx7
-DPlpG5Sxfm5/jpf6NaC1GQ7/rppzXjm/m56e6aXxGQ4yDsVbiuM=
-=scYs
------END PGP SIGNATURE-----
-
---EVF5PPMfhYS0aIcm--
