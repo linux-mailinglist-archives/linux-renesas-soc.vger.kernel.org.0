@@ -2,110 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60921197658
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2020 10:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 385A7197685
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Mar 2020 10:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729623AbgC3IUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Mar 2020 04:20:42 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35529 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729576AbgC3IUm (ORCPT
+        id S1729680AbgC3Ic7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Mar 2020 04:32:59 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41144 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729623AbgC3Ic7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Mar 2020 04:20:42 -0400
-Received: by mail-lj1-f194.google.com with SMTP id k21so17105926ljh.2;
-        Mon, 30 Mar 2020 01:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=FLZ+NG1wdQZ/qjkMH527FZGQHZbq+EwwCn4uJZaDInk=;
-        b=uwCapJDAj0Bl5VjtKDau23EU7c0ZBDf2eSSOYAS5ZKxQtpRd7DKd1mXjwZZapM2huO
-         GpUI1mjRh8rCz81GaKPP+0465Xu0AR1PzYQmDJZ5kU3tVx4p4mkUiHEbQ2tmE3ng4nFG
-         pgreSFpwXiIp454dg6vdWMV4PTYgOLWszBTss41mDF6iysabrBgjgMaNP53fHlB6lQyd
-         woyzkGD20dqAdKCn0bjtPy/kgieoWtv08M7eNHt7GgUmpw/0f8bGnmlg5cQ1uYknFJQ+
-         pGaPQV/Uq270iYoCNTCWSwvk8lHmgS5gkKzwf2hKmsKvKQJ2eW4XcCTN7tmDLqnPShul
-         mwaA==
+        Mon, 30 Mar 2020 04:32:59 -0400
+Received: by mail-ot1-f65.google.com with SMTP id f52so17129875otf.8;
+        Mon, 30 Mar 2020 01:32:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=FLZ+NG1wdQZ/qjkMH527FZGQHZbq+EwwCn4uJZaDInk=;
-        b=g7BlYcq+9P+hR+DBR7St4w2U+6ox9mwqm+d7ZRdamCwNV4TC7R5QpJQT5Enq5z3Heu
-         q0tIwudL+nGzuiP5/nD2ldyVzRwrK4hhHQR6bzzkogI/Od7jmb9V6knq4v+mFYrUpaAB
-         YM/AaqMOG2Yb6WXGjFfD1Z1iCSEvL5EWrfhex0Pp7RjGlkUVv36YUFcTRHrX6/6+0Xyr
-         kXvO/rhAqUVhiyWSjyYIxnMPgiZ3oO3VMKbFdD16mh0tw4f3rycRzvEwjSw378mGVMth
-         ixYy0hnLs+zNQa521/r8S68BatpDbqooZS7eoGmpH2UMfrgvLRfj8hFsfcr50/lB6v6R
-         3z5Q==
-X-Gm-Message-State: AGi0Pua+Q+IfbYo1Ch1n4mkCnNU2WF7eTRKbpVbxT0KYuKHUkadcvrmO
-        g8ovQEpK5LpVQZVbbS9SnTc=
-X-Google-Smtp-Source: APiQypIvqSkCWRFpeGx0VgbWzSLtaopBfQIx6KI7sHtr+D7EVvS4k7wIxqBMRiJWc5X5GelkRzK5nA==
-X-Received: by 2002:a2e:988c:: with SMTP id b12mr6494651ljj.138.1585556439073;
-        Mon, 30 Mar 2020 01:20:39 -0700 (PDT)
-Received: from saruman (91-155-214-58.elisa-laajakaista.fi. [91.155.214.58])
-        by smtp.gmail.com with ESMTPSA id i2sm7577233ljj.72.2020.03.30.01.20.38
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 30 Mar 2020 01:20:38 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v2 0/3] dt-bindings: usb: add r8a77961 support
-In-Reply-To: <1585200410-28841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1585200410-28841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Date:   Mon, 30 Mar 2020 11:20:33 +0300
-Message-ID: <87eeta2qzy.fsf@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=Gel9b97+smELIFrYMFWtxb4iAAaZuDZrq93k+9Vr7r4=;
+        b=NlYBAmp1jCwwq1vNfI79j7ng4FcxAiexvVZEYP2mDRgxOkLDSvs70CgV3w0O13Z7s5
+         qA8i66eoOYXxKm1z1lqoe39p//KwKVg+IsMBc2RrVmQVzTShaKtXr/c1xEtp+wgiynDR
+         JHn5fEXNaehKrfw+eR95Mn0VBeTv0WgvlFxHBZ8ZlmmcYRIAdSlr2Ci7MIDUf0lblLhG
+         Tr2c5zRwFF3qvfVd51IkW4Tg+aCboIL2bmCQBn0Ejylil9qAeQO0w0QqggNIpYDuKTUn
+         X0K7qkjdKE82hvYKpl76ZXmsQKCtMsPfQ1r1t6y7s2/NXO02b2+XkJuqd6Bgw30nZKZk
+         9FdQ==
+X-Gm-Message-State: ANhLgQ1HGqvKIlJ77VdfwD0i6Jnfq7dIRUBF9TuV/xpq8/KMXq3fzB87
+        s/TX9WYs/ElzJnp0N7rVRDqwP8r5z2S9Hn/3YN8=
+X-Google-Smtp-Source: ADFU+vsqb9g7ydmxPiqUUnhhqa6SbE8Ps8XkrQDmUFKt73Iz/YKOQFjnoHB8Y6abBUc6tZj75G8C2+Fn3ZS8XPvCGPY=
+X-Received: by 2002:a05:6830:15c2:: with SMTP id j2mr7847135otr.107.1585557178365;
+ Mon, 30 Mar 2020 01:32:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <cover.1585218857.git.alexander.riesen@cetitec.com> <ad15f80df51c95a7c24498bb0bd3a46f55fbb62e.1585218857.git.alexander.riesen@cetitec.com>
+In-Reply-To: <ad15f80df51c95a7c24498bb0bd3a46f55fbb62e.1585218857.git.alexander.riesen@cetitec.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 30 Mar 2020 10:32:47 +0200
+Message-ID: <CAMuHMdV+joeNWJotKySVPHNW9OoT8+iODBwhK5fACspq2SX_eg@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] arm64: dts: renesas: salvator: add a connection
+ from adv748x codec (HDMI input) to the R-Car SoC
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi Alex,
 
-Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> writes:
-
-> This patch adds USB 2.0/3.0 devices support for r8a77961
-> (R-Car M3-W+).
+On Thu, Mar 26, 2020 at 11:55 AM Alex Riesen
+<alexander.riesen@cetitec.com> wrote:
+> As all known variants of the Salvator board have the HDMI decoder
+> chip (the ADV7482) connected to the SSI4 on R-Car SoC, the ADV7482
+> endpoint and the connection definitions are placed in the common board
+> file.
 >
-> Changes from v1:
->  - Update the comment of "renesas,xhci-r8a77961" for r8a77960.
->  - Add Reviewed-by.
->  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D26=
-1191
+> For the same reason, the CLK_C clock line and I2C configuration (similar
+> to the ak4613, on the same interface) are added into the common file.
 >
-> Yoshihiro Shimoda (3):
->   dt-bindings: usb: usb-xhci: add r8a77961 support
->   dt-bindings: usb: renesas,usbhs: add r8a77961 support
->   dt-bindings: usb: renesas,usb3-peri: add r8a77961 support
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
 
-All in testing/fixes now. Thank you
+Thanks for your patch!
 
-=2D-=20
-balbi
+> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+> @@ -460,7 +460,7 @@ pca9654: gpio@20 {
+>                 #gpio-cells = <2>;
+>         };
+>
+> -       video-receiver@70 {
+> +       adv7482_hdmi_in: video-receiver@70 {
+>                 compatible = "adi,adv7482";
+>                 reg = <0x70 0x71 0x72 0x73 0x74 0x75
+>                        0x60 0x61 0x62 0x63 0x64 0x65>;
+> @@ -469,6 +469,7 @@ video-receiver@70 {
+>
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+> +               #clock-cells = <0>; /* the MCLK for I2S output */
+>
+>                 interrupt-parent = <&gpio6>;
+>                 interrupt-names = "intrq1", "intrq2";
+> @@ -510,6 +511,15 @@ adv7482_txb: endpoint {
+>                                 remote-endpoint = <&csi20_in>;
+>                         };
+>                 };
+> +
+> +               port@c {
+> +                       reg = <12>;
+> +
+> +                       adv7482_i2s: endpoint {
+> +                               remote-endpoint = <&rsnd_endpoint3>;
+> +                               system-clock-direction-out;
+> +                       };
+> +               };
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+As the adv748x driver just ignores "invalid" endpoints...
 
------BEGIN PGP SIGNATURE-----
+> @@ -733,8 +744,8 @@ &rcar_sound {
+>         pinctrl-0 = <&sound_pins &sound_clk_pins>;
+>         pinctrl-names = "default";
+>
+> -       /* Single DAI */
+> -       #sound-dai-cells = <0>;
+> +       /* multi DAI */
+> +       #sound-dai-cells = <1>;
+>
+>         /* audio_clkout0/1/2/3 */
+>         #clock-cells = <1>;
+> @@ -758,8 +769,19 @@ &rcar_sound {
+>                  <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
+>                  <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
+>                  <&audio_clk_a>, <&cs2000>,
+> -                <&audio_clk_c>,
+> +                <&adv7482_hdmi_in>,
+>                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl6Bq9EACgkQzL64meEa
-mQagKw//XQ8qAVrkhsFlPKd3BaxDvIFS5iZCearaNXGq9luOBXZxZEJM0sPwyw82
-SET6P3fZCoYfR1e+TD/DUi3ixAKPP54iF8N28oXvFZwW7Fe7Y5ifxhEjPCEn/0CX
-BSU6/xqP9y02+65wY28morys5/hMrxMVjKBP0PUA6FAx7nWEIMWDQn5SzwgpOnAK
-t8z7GwfZfNGR9vpLtj22X09WaEaGlWv1cGTmw5nAdj8JQQO7mYTjet5Ih4HPz9Co
-afrhe8XHlkzrAmidJIQZASdZpYk0pXsmxN4d6WU64GXAN9P7RKOdBdYPEjsBWCsB
-tBWrz9fsCliR4edOpTO8uqmE88jIhgu+us8PuPnzullJWARtMN1QyKbf6Vr5HSS+
-iPQGFH3Vw76ZhNq+CAwKiqwrFKgNdV3BhBpG880ht14QXv4XRIbR5OsCkDrGnZQC
-b6CdrG+ayeT43Tij+e73NLysGZaIgKK9zC0wjeYk8lNlhoWJ0y9h/CJiuz5isL8o
-Su16YqKO/wXnSqIXYu24jVccXh4zmG2IXfwoGocijM3ptgzmjxz36Le6kU+Cnqc1
-xkYw5vzoZTi0o1sW4QnyGZyfjdkz3NwXtMBKsJC/SUeKnNL84UZ9IyppYAhRp6MX
-PsAQ1FR3t2LGS5L/Vh3yaOAcrrFxzVfzoRF0IvDAaAGVqO7XuZ8=
-=8Qwp
------END PGP SIGNATURE-----
---=-=-=--
+... and the rsnd driver ignores nonexistent-clocks, the DT change has no
+hard dependency on the driver change, and won't introduce regressions
+when included, right?
+
+> @@ -777,6 +799,21 @@ rsnd_endpoint0: endpoint {
+>                                 capture  = <&ssi1 &src1 &dvc1>;
+>                         };
+>                 };
+> +               rsnd_port3: port@3 {
+> +                       reg = <3>;
+> +                       rsnd_endpoint3: endpoint {
+> +                               remote-endpoint = <&adv7482_i2s>;
+> +
+> +                               dai-tdm-slot-num = <8>;
+> +                               dai-tdm-slot-width = <32>;
+> +                               dai-format = "left_j";
+> +                               mclk-fs = <256>;
+> +                               bitclock-master = <&adv7482_i2s>;
+> +                               frame-master = <&adv7482_i2s>;
+> +
+> +                               capture = <&ssi4>;
+> +                       };
+> +               };
+>         };
+>  };
+
+However, as salvator-common.dtsi is shared by all Salvator-X(S) variants,
+you'll have to add a dummy ssi4 node to r8a77961.dtsi first.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
