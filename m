@@ -2,125 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28321199EA5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2020 21:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 388AA19A0C4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Mar 2020 23:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727830AbgCaTHZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Mar 2020 15:07:25 -0400
-Received: from mail-eopbgr1400132.outbound.protection.outlook.com ([40.107.140.132]:29728
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726315AbgCaTHZ (ORCPT
+        id S1728493AbgCaV3C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Mar 2020 17:29:02 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:45430 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727852AbgCaV3C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Mar 2020 15:07:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BtulbrudrUi3EZxWeMcJLKH0bMACuM3j52T52G2UHBXSE+2+/aXZpv8CRgjeLMo6C+hbben7T57FQxhp18rQnepfwZYECKCSeFVFi/1L2rOxVT4K+0vYCoQ5BeXOqnvnCRlfOAizu93kIeDnEwP/CHhu+/y7qGl8YrQtVrf68Z6p2UQtBLu8n4zqD+AtxW4go3s8xCbmB1ObiANok55dRPmbxIVKxNOh42veBhPVxct9dG1uH7g5KyEZRtzONjmzRfclyEA6muzSVwKCWg4ZcnzohLxXMab2S7y1qlJxlv3s+Bf4PeMMQt9mwrrWFKnhJQGU8xceRi7FIm5LzJOkvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0kEbQqCt4aTiNCEMnkH910syExpNJ1sXT584F6+R858=;
- b=J7qiKS0xiDj6wctN6mRvMss9CmNbEMVDMlZBcO3REma82blkyI9/LV+AxAcCnC6OMafpQEGZMx1ENwXSGmD+9eHJrxpt92iAbBDuH9GC9ej45qgr4p0/ZcxYHeZZ2z9vOKlkJo6iE+9hAqBP1NO8bK/LyGZE5q9zmrZRolP/YUlcQ1CoVyo/VrSksoHa5m3klG0f96MOZqDCtdSVXSc770GehQ+0sZ4vU6h1YcCHNAzr+dUiKQ2uwmZySBiOvOgZGcdCBTBNX50dPyj95iWGdPOMIkzHniUudrpCTe8ExEOx9vaJQAqjnzFtDx1Qct5svInNq5SUUrtSuhWIsDBcFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0kEbQqCt4aTiNCEMnkH910syExpNJ1sXT584F6+R858=;
- b=TZZ9tlKuw65FNtAhs1lyNr4SncqnkbjJvr4puApiZ9nNG2nqgOirYm6mbTor7vcHjV0iNztRUrpBwNF+1rhu3ZPHy/4oTbT9ZgkIcJ8shU2nXgbibpy0S82ADzLUAzGmDIOJB/pqK5waEMXDNa9e1Wh/as3yPv6tQhYvQD55WIY=
-Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com (52.133.166.145) by
- TYXPR01MB1613.jpnprd01.prod.outlook.com (52.133.166.13) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.15; Tue, 31 Mar 2020 19:07:18 +0000
-Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com
- ([fe80::e9ac:8933:9767:9c69]) by TYXPR01MB1568.jpnprd01.prod.outlook.com
- ([fe80::e9ac:8933:9767:9c69%2]) with mapi id 15.20.2856.019; Tue, 31 Mar 2020
- 19:07:18 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hao Bui <hao.bui.yg@renesas.com>,
-        KAZUMI HARADA <kazumi.harada.rh@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: RE: [PATCH] serial: sh-sci: Make sure status register SCxSR is read
- in correct sequence
-Thread-Topic: [PATCH] serial: sh-sci: Make sure status register SCxSR is read
- in correct sequence
-Thread-Index: AQHWBGQGJbDUemPUNEWeRBL+Vpn8T6hi1j+AgAA+RsA=
-Date:   Tue, 31 Mar 2020 19:07:18 +0000
-Message-ID: <TYXPR01MB15688F7D17F54C908C562AE38AC80@TYXPR01MB1568.jpnprd01.prod.outlook.com>
-References: <1585333048-31828-1-git-send-email-kazuhiro.fujita.jg@renesas.com>
- <CAMuHMdW+u5r6zyxFJsVzj21BYDrKCr=Q6Ojk5VeN+mkhvXX9Jw@mail.gmail.com>
-In-Reply-To: <CAMuHMdW+u5r6zyxFJsVzj21BYDrKCr=Q6Ojk5VeN+mkhvXX9Jw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctZDU1MGM4MjEtNzM4Mi0xMWVhLWFhNjAtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XGQ1NTBjODIzLTczODItMTFlYS1hYTYwLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMTQzOSIgdD0iMTMyMzAxNTUyMzYwNDk4NjQwIiBoPSJrVmVmZkVBSEdMOHI3MllIVXdGT01sUDRDbXc9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1e05e618-7049-4b1c-e836-08d7d5a6bbcf
-x-ms-traffictypediagnostic: TYXPR01MB1613:|TYXPR01MB1613:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB16133D716B16EA07257FD4278AC80@TYXPR01MB1613.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0359162B6D
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYXPR01MB1568.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(396003)(39860400002)(346002)(136003)(376002)(366004)(110136005)(54906003)(76116006)(8676002)(4326008)(66556008)(64756008)(66446008)(478600001)(7696005)(86362001)(9686003)(2906002)(55016002)(33656002)(81156014)(81166006)(8936002)(6506007)(26005)(316002)(186003)(66946007)(6636002)(52536014)(71200400001)(66476007)(5660300002);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rqKvvyHwMgiti5deadlVXGpOvoB3fGfWuwENQ8Vr0RHYOI4J/vy34/SBEGFb4BCv7e89iA3B7YHDTdpAXbLw2YnTwouXu2qcN3CPXx5Pi9TdO3r120zimBUAKr0LtsuKG4H3pi41PdW4GgcCQN9ToPujp6hB/KJM6c8VkoJtIvmMrvTK9xuvQLJp6rnM05xIzcLz9z1v8VtVekI32S/BYH4l0Cr1ghar2VIT8dHQpZNjhxnR9YN6HVu9MSfgNH4erS6d8cISPwABAvb0J022RUeRNw8kl2boe42ytnTgXJepMXbLzKi+Flaxc+bYqSwDaKGw5PG5BV57oOkhYUzmEYpvL11GMLjX4ofCnpMWa1YykARIDWrz7u26dyrptYgK0zMiftimwqSBEISdtHAr0mNvKkYVxsuZGav2Mn8fz4Eyy2NsOUlX4kVWYdVljjuL
-x-ms-exchange-antispam-messagedata: Tp2mdY5wSFZkpPxqHdbLI7SnbT8mxZL5gqVDDQIIWryuwBQXKYaEEowC81r+a4qoj5tDHCa1yYAEEX5LMbT2LwTMn3OWVbM/U+A/Wh86H/rWdISTj72tgNZtitufhaYKxzzjSuWHDHJbjWRO3X4+Rg==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 31 Mar 2020 17:29:02 -0400
+Received: by mail-il1-f196.google.com with SMTP id x16so20981916ilp.12;
+        Tue, 31 Mar 2020 14:29:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=kkvlt8/Qu8L0FOjwQCAMUHyd9CkHdAVLhm7bVH6k0Os=;
+        b=FuosEFuDaIGv1JZ8vwuATRx2ma6Z8EpGSBeg7hzO+StfKLUI98+T6n4n47NMCsqj8i
+         c5qKHQ8ZUz/Xgr3lxk04B8IJvoTDwXpnrfyJ/xElr+KvwT8BT6O/MLzsFm3GmWXHsdZU
+         Un/rTWCeChuVH/csQqTp3Gy4XqKLjhsy80IIzglIz7USjigiqnmw0nkhSzV5jpL23UKw
+         ZSVdLothR24FIGHVtDimY58MqRAGwjyiktgJ56PtKdwqjEYEzmkLFkb6APNt9zlJ4inD
+         Ycii1P+D445hM13RD5lMFzRv69SebnQgBJo9aQf0fVWzU52ReRuN55p2Nw+u+IhabWrq
+         /e6g==
+X-Gm-Message-State: ANhLgQ0sSK7ZHoMfLEwDiWFjHHqiiAMHLE9Tb/pCguOxA5xgKTRL4Yx9
+        VTTTr+CCMmMgdpQGGyEurw==
+X-Google-Smtp-Source: ADFU+vs8rrwwBfgqZsedXMcfqhov0x+4IQyETdV1XOaXEzpLKlk5hqcbe40ixwQa4QeSisLTDzecaw==
+X-Received: by 2002:a92:8517:: with SMTP id f23mr19418072ilh.106.1585690141676;
+        Tue, 31 Mar 2020 14:29:01 -0700 (PDT)
+Received: from rob-hp-laptop ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id c28sm25422ilf.26.2020.03.31.14.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2020 14:29:00 -0700 (PDT)
+Received: (nullmailer pid 27765 invoked by uid 1000);
+        Tue, 31 Mar 2020 21:28:57 -0000
+Date:   Tue, 31 Mar 2020 15:28:57 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>, linux-serial@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-sh@vger.kernel.org, uclinux-h8-devel@lists.sourceforge.jp,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2] dt-bindings: serial: sh-sci: Convert to json-schema
+Message-ID: <20200331212857.GA27690@bogus>
+References: <20200325095721.11946-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1e05e618-7049-4b1c-e836-08d7d5a6bbcf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2020 19:07:18.6397
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZGBgoSMXeqqx8HxqSt1ZCcedyu3Ip5fkXgU5+Lo/qF8FqOXHbP9LqxzwKhh+OAkxFpOIdB8NpWYs6ZaJZCQsFUMwT1hVSQBVLjSTcSETKrM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1613
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200325095721.11946-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCk9uIFR1ZSwgTWFyIDMxLCAyMDIwIDEsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3
-cm90ZToNCj4gSG93ZXZlciwgdGhlIGRvY3VtZW50YXRpb24gZm9yICJTQ0lGQSIgb24gUlovQTIg
-KGZvciB3aGljaCB3ZSB1c2UNCj4gUE9SVF9TQ0lGLCBub3QgUE9SVF9TQ0lGQSwgaW4gdGhlIGRy
-aXZlcikgaGFzIGNvbmZsaWN0aW5nIGluZm9ybWF0aW9uOg0KPiAgIDEuIFNlY3Rpb24gMTcuMi43
-ICJTZXJpYWwgU3RhdHVzIFJlZ2lzdGVyIChGU1IpIiBzYXlzOg0KPiAgICAgICAgLSBBIHJlY2Vp
-dmUgZnJhbWluZy9wYXJpdHkgZXJyb3Igb2NjdXJyZWQgaW4gdGhlICJuZXh0IHJlY2VpdmUNCj4g
-ICAgICAgICAgZGF0YSByZWFkIiBmcm9tIHRoZSBGSUZPLA0KPiAgICAgICAgLSBJbmRpY2F0ZXMg
-d2hldGhlciB0aGVyZSBpcyBhIGZyYW1pbmcvcGFyaXR5IGVycm9yIGluIHRoZSBkYXRhDQo+ICAg
-ICAgICAgICJyZWFkIiBmcm9tIHRoZSBGSUZPLg0KPiAgIDIuIEZpZ3VyZSAxNy44ICJTYW1wbGUg
-Rmxvd2NoYXJ0IGZvciBSZWNlaXZpbmcgU2VyaWFsIERhdGEgaW4NCj4gICAgICBBc3luY2hyb25v
-dXMgTW9kZSAoMikiLg0KPiAgICAgICAgLSBXaGV0aGVyIGEgZnJhbWluZyBlcnJvciBvciBwYXJp
-dHkgZXJyb3IgaGFzIG9jY3VycmVkIGluIHRoZQ0KPiAgICAgICAgICByZWNlaXZlZCBkYXRhIHRo
-YXQgaXMgInJlYWQiIGZyb20gdGhlIEZJRk8uDQo+IA0KPiBTbyB3aGlsZSB0aGUgY2hhbmdlIGxv
-b2tzIE9LIGZvciBtb3N0IFJlbmVzYXMgQVJNIFNvQ3MsIHRoZSBzaXR1YXRpb24NCj4gZm9yIFJa
-L0EyIGlzIHVuY2xlYXIuDQo+IE5vdGUgdGhhdCB0aGUgYWJvdmUgZG9lcyBub3QgdGFrZSBpbnRv
-IGFjY291bnQgdmFyaWFudHMgdXNlZCBvbiBTdXBlckgNCj4gU29Dcy4NCg0KRm9yIHRoZSBSWi9B
-Mk0sIGl0IGlzIE5PVCBhICJTQ0lGQSIuLi5ldmVuIHRob3VnaCBpdCBzYXlzIHRoYXQgaW4gdGhl
-IA0KaGFyZHdhcmUgbWFudWFsLg0KDQpBbmQgaG9uZXN0bHksIEkgY291bGQgbm90IHRyYWNlIGJh
-Y2sgd2hlcmUgdGhhdCBJUCBjYW1lIGZyb20uIEl0IHdhcyANCmZyb20gc29tZXdoZXJlIGluIHRo
-ZSBNQ1UgZGVzaWduIHNlY3Rpb24gKG5vdCB0aGUgU29DIGRlc2lnbiBzZWN0aW9uKS4gDQpTb21l
-b25lIG1vZGlmaWVkIHRoZSBJUCBzbyB0aGV5IHB1dCBhbiAiQSIgYXQgdGhlIGVuZCB0byBzaG93
-IGl0IHdhcyANCmRpZmZlcmVudC4gUmVnYXJkbGVzcywgaXQgaGFzIGEgZGlmZmVyZW50IGhpc3Rv
-cnkgdGhhbiBhbGwgdGhlIG90aGVyIElQIA0Kc3VwcG9ydGVkIGJ5IHRoZSBTQ0kgZHJpdmVyLg0K
-DQpDaHJpcw0KDQo=
+On Wed, 25 Mar 2020 10:57:21 +0100, Geert Uytterhoeven wrote:
+> Convert the Renesas Serial Communication Interface ((H)SCI(F)(A|B))
+> Device Tree binding documentation to json-schema.
+> 
+> Split the bindings in 5 files, one per major type, to ease expressing
+> constraints.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - Drop paragraph about aliases,
+>   - Fix power-domains and resets to maxItems 1,
+>   - Use a single const compatible value for SCI,
+>   - Use lists of descriptions and const values for interrupts resp.
+>     interrupt-names for SCI and SCIF,
+>   - Use multiple possible lists of descriptions and const values for
+>     interrupts resp. interrupt-names for SCIF.
+> ---
+>  .../bindings/serial/renesas,hscif.yaml        | 135 ++++++++++++++
+>  .../bindings/serial/renesas,sci-serial.txt    | 150 ---------------
+>  .../bindings/serial/renesas,sci.yaml          |  69 +++++++
+>  .../bindings/serial/renesas,scif.yaml         | 172 ++++++++++++++++++
+>  .../bindings/serial/renesas,scifa.yaml        | 107 +++++++++++
+>  .../bindings/serial/renesas,scifb.yaml        |  98 ++++++++++
+>  6 files changed, 581 insertions(+), 150 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/serial/renesas,hscif.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/serial/renesas,sci-serial.txt
+>  create mode 100644 Documentation/devicetree/bindings/serial/renesas,sci.yaml
+>  create mode 100644 Documentation/devicetree/bindings/serial/renesas,scif.yaml
+>  create mode 100644 Documentation/devicetree/bindings/serial/renesas,scifa.yaml
+>  create mode 100644 Documentation/devicetree/bindings/serial/renesas,scifb.yaml
+> 
+
+Applied, thanks.
+
+Rob
