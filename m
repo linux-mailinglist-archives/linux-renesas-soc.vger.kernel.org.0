@@ -2,104 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EE3819A51C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 08:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4492D19A8C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 11:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731842AbgDAGLk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Apr 2020 02:11:40 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:39227 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731589AbgDAGLj (ORCPT
+        id S1732158AbgDAJml (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Apr 2020 05:42:41 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41930 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731544AbgDAJml (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Apr 2020 02:11:39 -0400
-Received: by mail-pl1-f194.google.com with SMTP id k18so4388384pll.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Mar 2020 23:11:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=JayHWFzs8K9spXx+a+w0iimVf8NsVIwUpkN4OO5nc2s=;
-        b=l4ubtL/84hAJ4uKzle0u/iYkeZ0ZvAmMOJpWmC0/xNYc3JbrrzJc3UYf7rGXSXHWQo
-         11AI8YIMjrsNv1VynR/WoizloRJj67r5dlg7OQnEUkWz+1eQEckb8fBzbZc0ZzkyKmIG
-         c5yyFpZWGxFBg8t8fvUVRKDY/umApsS4fiMp9+5x1DDXHnku6x2RihlP8VHf0RWbbLqf
-         CQ4GWnyeRBr1xJVQDY03rLo9VHjKY7EMy6XIEdCMqbAVqdgsAX8G2MnMms2FWJ5wsDEh
-         kDo3mvijce9aPaasrgAEw8FXU2N1saSf8ogPHMZYRK4bOOrbCPFyUWxRInO0qAWxhxJt
-         91sw==
+        Wed, 1 Apr 2020 05:42:41 -0400
+Received: by mail-ot1-f68.google.com with SMTP id f52so25240221otf.8;
+        Wed, 01 Apr 2020 02:42:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JayHWFzs8K9spXx+a+w0iimVf8NsVIwUpkN4OO5nc2s=;
-        b=cZQP+0788dwpMlt/e5JXw/9acllOyJ/UauwAphUAeBfR6cOKkO0rAgfIYUS67u2YvG
-         bIwavjeySv7gGS6V9vTzKZqiWp4ToTr9itk40TTjvDNKLM1VFNjDXmPf9ve505FupTQX
-         g1+1losef9isuiJmxy1aEf/NB/W6okR2T6xsCAOpRLUzFDBR7llaLjF+gtYPUCLogbJM
-         tj86Un1LM7Kt5kxC4uAKDKaSkBMnccZ6dddzG6Px00EdU3bpzxJ9MYzZWv53DA+hdsuH
-         zyYi0sPfnsFeEJcgSSgpOQWMh11bOrOSXcPrs4Ya32QaZfd1ar7QNb3whDFISXQj/NFT
-         uj3w==
-X-Gm-Message-State: AGi0PuZ+hICFBucMQ+KoezatmHPuUx61aDdoW81SeXu3xZEsW9rZ6UWK
-        KnxKmBn+OPEjqsS7pcQXB+iyLm8jTiI=
-X-Google-Smtp-Source: APiQypIxE6aeadAHIzMVO/9nXk413wD3Iz9wt0n9bGgn+dVdpet53CJcTJJ7aQ6bhjDrKDnjNynO+A==
-X-Received: by 2002:a17:902:b60d:: with SMTP id b13mr12289110pls.324.1585721498537;
-        Tue, 31 Mar 2020 23:11:38 -0700 (PDT)
-Received: from aqua.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id l22sm743148pjq.15.2020.03.31.23.11.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 23:11:37 -0700 (PDT)
-From:   Tomohito Esaki <etom@igel.co.jp>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Tomohito Esaki <etom@igel.co.jp>
-Subject: [PATCH] drm: rcar-du: Set primary plane zpos immutably at initializing
-Date:   Wed,  1 Apr 2020 15:11:00 +0900
-Message-Id: <20200401061100.7379-1-etom@igel.co.jp>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9NFB4A2CPVwSz9Sg1U5/CRoks4HY24v+VcMc1LJYhlA=;
+        b=p1WRaOvxvULH8ETXZWUa2OKQudPCObw8EmvnL7gmHglr6xirhDFra5OFJqOh4iP94/
+         l3YFXm2BRljkuXohvkeRMQMMo1k9wohT5Ds3OEShcqfs7hkXHJkfd1YTtJq5X2+hxgNM
+         V19sT2eM4pcmDr24KvWP//l6XaJ3YCKyNSaXcxp3AbUxXAJJVS3667eziHptQVg9UTTA
+         1QWlQ0FbZ7BEkgvdMh+OQzhGKSmbHW4Npte2e5mcE17pnkDQl0gvrOk1cNiHU7hnXdr3
+         pgomRw8EREWcbAk6LY89/zI2J0iRb9/7B7U+NkRqq7pW9t1x2zrEWgTmODmbY3hKvEzR
+         voIg==
+X-Gm-Message-State: ANhLgQ3z56mS8WqiuuPgVFSXvAV/nGlVIbNOJJiuZjdfH4+WNKZDXSP/
+        bsknkJyGroQeuT6wXsN/Q9EwjXMATaAlXUeEeV0=
+X-Google-Smtp-Source: ADFU+vvaJkvIXHbATb21lCcc0MJLscOCEDsiXUahQfh8sCQeWQkEkYa7KZWVyEhPq2xVAduTUBjZdSJVtLeQCzJ8nlk=
+X-Received: by 2002:a9d:7590:: with SMTP id s16mr16100426otk.250.1585734160600;
+ Wed, 01 Apr 2020 02:42:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <1584886352-4132-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1584886352-4132-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 1 Apr 2020 11:42:29 +0200
+Message-ID: <CAMuHMdXhi_1rxpB3zXO+KwtY+36dh+_O8NqVfyLs5mU1+Vy6Og@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a774c0-cat874: Add support for
+ AISTARVISION MIPI Adapter V2.1
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to drm_plane_create_zpos_property() function documentation,
-all planes zpos range should be set if zpos property is supported.
-However, the rcar-du driver didn't set primary plane zpos range. Since
-the primary plane's zpos is fixed, set i immutably.
+Hi Prabhakar,
 
-Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
----
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 5 ++++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+On Sun, Mar 22, 2020 at 3:13 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> This patch adds support for AISTARVISION MIPI Adapter V2.1 board connected
+> to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
+> which have the camera endpoint nodes for imx219 and ov5645 so that this can
+> be re-used with other G2x platforms.
+>
+> r8a774c0-ek874-mipi-2.1.dts file enables the required VIN/CSI nodes and by
+> default ties ov5645 camera endpoint to CSI2.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Changes for v2:
+>  * Dropped #{address,size}-cells
+>  * Dropped unit address and reg for port
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index c6430027169f..9a499be45c45 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -785,8 +785,11 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
- 
- 		drm_plane_create_alpha_property(&plane->plane);
- 
--		if (type == DRM_PLANE_TYPE_PRIMARY)
-+		if (type == DRM_PLANE_TYPE_PRIMARY) {
-+			drm_plane_create_zpos_immutable_property(&plane->plane,
-+								 0);
- 			continue;
-+		}
- 
- 		drm_object_attach_property(&plane->plane.base,
- 					   rcdu->props.colorkey,
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 5e4faf258c31..382b720edc09 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -392,8 +392,11 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 		drm_plane_helper_add(&plane->plane,
- 				     &rcar_du_vsp_plane_helper_funcs);
- 
--		if (type == DRM_PLANE_TYPE_PRIMARY)
-+		if (type == DRM_PLANE_TYPE_PRIMARY) {
-+			drm_plane_create_zpos_immutable_property(&plane->plane,
-+								 0);
- 			continue;
-+		}
- 
- 		drm_plane_create_alpha_property(&plane->plane);
- 		drm_plane_create_zpos_property(&plane->plane, 1, 1,
+Thanks for the update!
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> @@ -0,0 +1,75 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
+> + * connected with aistarvision-mipi-v2-adapter board
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include "r8a774c0-ek874.dts"
+> +#define MIPI_PARENT_I2C i2c3
+> +#include "aistarvision-mipi-adapter-2.1.dtsi"
+> +
+> +/ {
+> +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
+> +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
+> +};
+> +
+> +&i2c3 {
+> +       status = "okay";
+> +};
+> +
+> +&vin4 {
+> +       status = "okay";
+> +};
+> +
+> +&vin5 {
+> +       status = "okay";
+> +};
+> +
+> +&csi40 {
+> +       status = "okay";
+> +
+> +       ports {
+> +               port {
+> +                       csi40_in: endpoint {
+> +                               clock-lanes = <0>;
+> +                               data-lanes = <1 2>;
+> +                               remote-endpoint = <&ov5645_ep>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&ov5645 {
+> +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
+> +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+> +
+> +       clocks = <&cpg CPG_MOD 716>;
+
+I'm still a bit puzzled here.
+
+CPG_MOD 716 is the CSI40 module clock, which runs at 25 MHz, and is
+presumably output to the CSI0_CLKP/N pair? Or is its rate controlled
+by the CSI driver?
+On the MIPI board[*], that signal becomes MIPI1_CP/N.
+However, the MIPI board also has a "Clock Source Selection" header,
+which allows you to choose one of:
+  1. The fixed 24 MHz crystal, which is apparently used for the imx219
+     camera, as described by imx219_clk above, and matches the wanted
+     clock rate specified below?
+  2. CSI1_CLK,
+  3. CSI2_CLK.
+The last two become CLK0/1 on the CAT874 board, which are driven by
+TPU0TO0/1.
+
+Which setting do you use for the ov5645 camera?
+
+> +       clock-frequency = <24000000>;
+
+After your patch for the ov5645 driver, this should be replaced by
+assigned-clock-rates?
+
+The rest looks good to me, but I'm not a multi-media/camera expert.
+
+[*] https://github.com/Kevin-WSCU/96Boards-Camera
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
