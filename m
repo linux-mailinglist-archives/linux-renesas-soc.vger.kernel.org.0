@@ -2,137 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A45FF19A9E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 13:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44D5119ABE7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 14:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731343AbgDALBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Apr 2020 07:01:16 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:60672 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732026AbgDALBP (ORCPT
+        id S1732438AbgDAMnn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Apr 2020 08:43:43 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40614 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732396AbgDAMnn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Apr 2020 07:01:15 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Aqijs155882;
-        Wed, 1 Apr 2020 11:00:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=k/zLhrZsADjqzq+3QwgvoWL1MmcxznVBM92vxIE2puw=;
- b=ONdjM18avmW5dE+LLNFwYJoAAf8ZcTTxtrswiZj9Chf4Ukg35sdE5LaQNyZPIdnF57su
- rNKvBN5B8oAGEUdJBq6uMPAyIVRYctUKe+0FKp7+7y/tFbqasY/4kTGVUJKvY2yHN9j1
- DozpO8Yibrjf7wtChKBzlmYDAipeGswqfWSUMN2qQuUwtppVwbg3mft5tX5fQimrTV1I
- Hzl6BEm73VTbikMd7HxqnIabVego5iqh4N/YbE0oPL0pjj5FFAw2/8ilVAQrRGjreYAv
- 1Vuek17GiklF0NZBBKNvbUMVAyhDY12/j938imRsUalvfbg0PRDnkQvrExOJvQb6Ozll Kg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 303aqhn75f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 01 Apr 2020 11:00:18 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Ar08g045201;
-        Wed, 1 Apr 2020 11:00:18 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3020.oracle.com with ESMTP id 304sjk0hsg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 01 Apr 2020 11:00:17 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 031B07RP031187;
-        Wed, 1 Apr 2020 11:00:07 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 01 Apr 2020 04:00:06 -0700
-Date:   Wed, 1 Apr 2020 13:59:49 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Yong Deng <yong.deng@magewell.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Heungjun Kim <riverful.kim@samsung.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
-Message-ID: <20200401105949.GB2001@kadam>
-References: <cover.1585151701.git.mchehab+huawei@kernel.org>
- <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+        Wed, 1 Apr 2020 08:43:43 -0400
+Received: by mail-ot1-f66.google.com with SMTP id r19so19880795otn.7;
+        Wed, 01 Apr 2020 05:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1vh+DX2tAhYs6+PDevSpb/NO4sCDEVuknd0dV8w8BSo=;
+        b=dHejEFlOZZqs9L6Gk64zWthaUn5ws44bC4Y++S+HOLsbPSU0m9j0ffl5rbC2bU+n2Q
+         moZEcPFkQ7HvijhIKiy4DYif4Su7gusLcWgfMqwEf0MyMcoz4kxe3GXjY54ja03BWPVW
+         JN9sRE1QTnW0fBIJ68QOTUQ4je6VOZU08EABs1tKnS/1J42myYjY545/gNoeNzYFW2za
+         M3F+AwTJGqEf/3fpgtFHcBsS2px/1da6hrPDjRRXNzrn159b9HCPfuoEd3A70Zeq4l8D
+         3U3LCpTs9+a07n+oHNj+gBjj1Jd/A4N9haS76mXU0M5LTv9bNKB9q62zJ7iRjcjaqg6B
+         IWYw==
+X-Gm-Message-State: ANhLgQ2Q+YlShRaBBJ9luL1wFyrG8WcRAZH6pVE1kbL9RHqa9aQ5TYTn
+        LWUfX0yJC9isLgwcj2Wg/0Kwgp/FuM1YCj7y47g=
+X-Google-Smtp-Source: ADFU+vtUz+RY34REyRl5kqWjcWR1CgcXAs9LuKt2og/SMgqD/vMvp/yuphIzJ2k9nfoyLINce3qtBY5U6892Ch95JjQ=
+X-Received: by 2002:a9d:7590:: with SMTP id s16mr16595986otk.250.1585745022432;
+ Wed, 01 Apr 2020 05:43:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004010100
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1011
- malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2004010100
+References: <1585333048-31828-1-git-send-email-kazuhiro.fujita.jg@renesas.com>
+ <CAMuHMdW+u5r6zyxFJsVzj21BYDrKCr=Q6Ojk5VeN+mkhvXX9Jw@mail.gmail.com> <OSBPR01MB3590E3D12546BC6711CEB542AAC80@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB3590E3D12546BC6711CEB542AAC80@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 1 Apr 2020 14:43:31 +0200
+Message-ID: <CAMuHMdXmfQ0x7mCZ-E7OPQFv2z-=mFDT20hJ2_JKax=OePB8eA@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Make sure status register SCxSR is read
+ in correct sequence
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hao Bui <hao.bui.yg@renesas.com>,
+        KAZUMI HARADA <kazumi.harada.rh@renesas.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
-> Hello,
-> 
-> On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
-> > That's the second part of media Kconfig changes. The entire series is
-> > at:
-> > 
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
-> 
-> I made a quick experiment (using this branch) with someone who works
-> with the kernel for his master degree, but doesn't have much experience in kernel development in general.
-> I asked him to enable Vimc (from default configs, where multimedia starts disabled).
+Hi Prabhakar,
 
-The whole config system is really outdated.
+On Tue, Mar 31, 2020 at 5:58 PM Prabhakar Mahadev Lad
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > -----Original Message-----
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Fri, Mar 27, 2020 at 7:17 PM Kazuhiro Fujita
+> > <kazuhiro.fujita.jg@renesas.com> wrote:
+> > > For SCIF and HSCIF interfaces the SCxSR register holds the status of
+> > > data that is to be read next from SCxRDR register, But where as for
+> > > SCIFA and SCIFB interfaces SCxSR register holds status of data that is
+> > > previously read from SCxRDR register.
+> > >
+> > > This patch makes sure the status register is read depending on the port
+> > > types so that errors are caught accordingly.
+> > >
+> > > Cc: <stable@vger.kernel.org>
+> > > Signed-off-by: Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>
+> > > Signed-off-by: Hao Bui <hao.bui.yg@renesas.com>
+> > > Signed-off-by: KAZUMI HARADA <kazumi.harada.rh@renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-It should be that this task was done with a command like "kconfig enable
-vimc".  It would ask necessary questions and pull in the dependencies
-automatically.
+> > Nevertheless, this patch will need some testing on various hardware.
+> > Do you have a test case to verify the broken/fixed behavior?
+> >
+> Agreed, its been tested on RZ/G2x & RZ/G1x  by doing a loopback test, configure one interface as CS8 mode(8-bits data, No parity) and other as CS7 mode (7-bits data, 1-bit Parity) and parity errors should be detected.
 
-Twenty years ago it made sense to go through the menus and select things
-one by one.  Does anyone really start from defconfig any more?  Surely
-everyone starts with a known working config and just enables specific
-options.
+This can easily be tested on the console.  Basic testing can even be
+done with an unmodified kernel, as there is already a "parity error"
+notice message in the driver.
 
-I started to hack together some code to create a kconfig program to
-enable and disable options.  The problem is that all library code
-assumes we want to display menus so it was a lot of work and I gave up.
+Enable even parity on the console:
 
-regards,
-dan carpenter
+$ stty evenp
 
+(use "oddp" for odd parity, and invert all below)
+
+Typing e.g. a single "p" should trigger a parity error.
+Typing "o" shouldn't.
+Without this patch, no parity error is detected on SCIF.
+
+Likewise, pasting a sequence of "p" characters should trigger a lot of
+parity errors, "o" shouldn't.
+Without this patch, parity errors are detected on SCIF, except for the
+first character.
+
+For more advanced testing, make the following change to the driver:
+
+- dev_notice(port->dev, "parity error\n");
++ dev_notice(port->dev, "parity error for char 0x%02x hweight %u\n",
+c, hweight8(c));
+
+Pasting an alternating sequence of "p" and "o" characters should trigger
+parity errors for the "p" characters.
+Without this patch, they are triggered for the "o" characters instead.
+
+With this patch, the issues above are fixed on SCIF.
+This has been verified on:
+  1. SCIF on R-Car Gen 2,
+  2. SCIF on R-Car Gen3
+  3. SCIF on RZ/A1H,
+  4. SCIF on RZ/A2M.
+
+However, I also tried this on HSCIF on R-Car Gen3, where I cannot
+trigger parity errors at all.
+Parabhakar: have you tried HSCIF on RZ/G1 and RZ/G2? Can you trigger
+parity errors on HSCIF?
+
+This has been regression-tested on:
+  1. SCIFA on SH-Mobile AG5, R-Mobile A1, and R-Mobile APE6.
+
+I haven't tested it yet on:
+  1. SCIFB on SH/R-Mobile (needs wiring up),
+  2. SCIFA, SCIFB, and HSCIF on R-Car Gen2 (needs wiring up),
+  3. (H)SCIF on R-Car Gen1 (remote boards unaccessible at the moment),
+  4. SuperH (only remote Migo-R available, but unaccessible).
+
+I can test 1 and 2 (and perhaps 3 and 4) later, if needed.
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
