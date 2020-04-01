@@ -2,149 +2,200 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D5119ABE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 14:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C24B319B4C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 19:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732438AbgDAMnn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Apr 2020 08:43:43 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40614 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732396AbgDAMnn (ORCPT
+        id S1732262AbgDARhs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Apr 2020 13:37:48 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44522 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726901AbgDARhs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Apr 2020 08:43:43 -0400
-Received: by mail-ot1-f66.google.com with SMTP id r19so19880795otn.7;
-        Wed, 01 Apr 2020 05:43:42 -0700 (PDT)
+        Wed, 1 Apr 2020 13:37:48 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v134so192760oie.11;
+        Wed, 01 Apr 2020 10:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zsQ+CdOVb24V2BAprd8p1XllEy9+EN0Dhep/xWpJ87Q=;
+        b=ajprIKKwv+dueHWTPMNqkQe2LuNgg4lh96IinPEFHmrCeJTFtViEZUxW9z2QWE/PDH
+         Sx2D3ZDf1DwThSCl3I+xZUXxOdQM3YS1LnSnwaYyvUYYoH36qP/eq5tzoUwnhHdBX8Yn
+         su38DI78spLbvC8/1PSh6bzXv0uCioZLfkNVZpHiWsYMnzPdt2Clt8yVEXQw1zdIFrRV
+         lvA9OQ5fuHszWv7f+yfgmhzfwTdEK2OwfBNcOVcnM12x5l2e7gDjIcq2isr/61mT7f6U
+         7f9cfk1IiIY4ss1cNbtcbQjYupvAkuPlgDLmbUqg5KQ4+DbjusR80Fpb129eS5AwN/u4
+         1Bsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1vh+DX2tAhYs6+PDevSpb/NO4sCDEVuknd0dV8w8BSo=;
-        b=dHejEFlOZZqs9L6Gk64zWthaUn5ws44bC4Y++S+HOLsbPSU0m9j0ffl5rbC2bU+n2Q
-         moZEcPFkQ7HvijhIKiy4DYif4Su7gusLcWgfMqwEf0MyMcoz4kxe3GXjY54ja03BWPVW
-         JN9sRE1QTnW0fBIJ68QOTUQ4je6VOZU08EABs1tKnS/1J42myYjY545/gNoeNzYFW2za
-         M3F+AwTJGqEf/3fpgtFHcBsS2px/1da6hrPDjRRXNzrn159b9HCPfuoEd3A70Zeq4l8D
-         3U3LCpTs9+a07n+oHNj+gBjj1Jd/A4N9haS76mXU0M5LTv9bNKB9q62zJ7iRjcjaqg6B
-         IWYw==
-X-Gm-Message-State: ANhLgQ2Q+YlShRaBBJ9luL1wFyrG8WcRAZH6pVE1kbL9RHqa9aQ5TYTn
-        LWUfX0yJC9isLgwcj2Wg/0Kwgp/FuM1YCj7y47g=
-X-Google-Smtp-Source: ADFU+vtUz+RY34REyRl5kqWjcWR1CgcXAs9LuKt2og/SMgqD/vMvp/yuphIzJ2k9nfoyLINce3qtBY5U6892Ch95JjQ=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr16595986otk.250.1585745022432;
- Wed, 01 Apr 2020 05:43:42 -0700 (PDT)
+        bh=zsQ+CdOVb24V2BAprd8p1XllEy9+EN0Dhep/xWpJ87Q=;
+        b=KHYrTz1eVv6O5+hVfSgMtVKGg7+mIuixqY0jb4rIOGU5Bf1Ef/21M+StWaVid2fXaP
+         L9eioU5321tBWAqwBBftu2/IxM5JyZIXYLBrxyOXdFcANZfowbFMMStomE5F4k9XO6/u
+         CeS/MuR2IgHWW48I2MEjwiB1uFtiSRwfwYhRl4SByQ+EMsV2QeWSf+SW1XrHYwQbp/Yb
+         J2uC0de5q+AafCKL9AZr1eX/Qd7ww7mYFx325W8ZZytaLTAS8iq93tRF+15tMffQkjNa
+         G6cDEt3h0asMixRnAkg3SzlTcHBd1QZsrRUuHwAJSDI1jXCsfR92CbIBbJF6awMe8DiM
+         qVTA==
+X-Gm-Message-State: AGi0PubgAEpbnD56REQg/eMudRorwKAP++DGSQgyuQzBL2YEXmVTELnm
+        PkxJKgC0gZKoKxz6oeJ+OY7AO1TMsdDSdW4BXjU=
+X-Google-Smtp-Source: APiQypLVoagopL2LC5fv3WBtfUn4dJ6lfyRk+nZW8iJ4g+qJWR3D3El0wlnEgwGCNQ77KzGiyo/Iso2KZOY63vUG27E=
+X-Received: by 2002:aca:cf0d:: with SMTP id f13mr3508187oig.162.1585762666999;
+ Wed, 01 Apr 2020 10:37:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <1585333048-31828-1-git-send-email-kazuhiro.fujita.jg@renesas.com>
- <CAMuHMdW+u5r6zyxFJsVzj21BYDrKCr=Q6Ojk5VeN+mkhvXX9Jw@mail.gmail.com> <OSBPR01MB3590E3D12546BC6711CEB542AAC80@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB3590E3D12546BC6711CEB542AAC80@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 1 Apr 2020 14:43:31 +0200
-Message-ID: <CAMuHMdXmfQ0x7mCZ-E7OPQFv2z-=mFDT20hJ2_JKax=OePB8eA@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Make sure status register SCxSR is read
- in correct sequence
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+References: <1584886352-4132-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdXhi_1rxpB3zXO+KwtY+36dh+_O8NqVfyLs5mU1+Vy6Og@mail.gmail.com>
+In-Reply-To: <CAMuHMdXhi_1rxpB3zXO+KwtY+36dh+_O8NqVfyLs5mU1+Vy6Og@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 1 Apr 2020 18:37:20 +0100
+Message-ID: <CA+V-a8ujOD1k+Oc2f+tSHPvt128oO9hT3zEFHghnxq5RAOMb7w@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a774c0-cat874: Add support for
+ AISTARVISION MIPI Adapter V2.1
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hao Bui <hao.bui.yg@renesas.com>,
-        KAZUMI HARADA <kazumi.harada.rh@renesas.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Tue, Mar 31, 2020 at 5:58 PM Prabhakar Mahadev Lad
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > -----Original Message-----
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Fri, Mar 27, 2020 at 7:17 PM Kazuhiro Fujita
-> > <kazuhiro.fujita.jg@renesas.com> wrote:
-> > > For SCIF and HSCIF interfaces the SCxSR register holds the status of
-> > > data that is to be read next from SCxRDR register, But where as for
-> > > SCIFA and SCIFB interfaces SCxSR register holds status of data that is
-> > > previously read from SCxRDR register.
-> > >
-> > > This patch makes sure the status register is read depending on the port
-> > > types so that errors are caught accordingly.
-> > >
-> > > Cc: <stable@vger.kernel.org>
-> > > Signed-off-by: Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>
-> > > Signed-off-by: Hao Bui <hao.bui.yg@renesas.com>
-> > > Signed-off-by: KAZUMI HARADA <kazumi.harada.rh@renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for the review.
 
-> > Nevertheless, this patch will need some testing on various hardware.
-> > Do you have a test case to verify the broken/fixed behavior?
+
+On Wed, Apr 1, 2020 at 10:45 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Sun, Mar 22, 2020 at 3:13 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > This patch adds support for AISTARVISION MIPI Adapter V2.1 board connected
+> > to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
+> > which have the camera endpoint nodes for imx219 and ov5645 so that this can
+> > be re-used with other G2x platforms.
 > >
-> Agreed, its been tested on RZ/G2x & RZ/G1x  by doing a loopback test, configure one interface as CS8 mode(8-bits data, No parity) and other as CS7 mode (7-bits data, 1-bit Parity) and parity errors should be detected.
+> > r8a774c0-ek874-mipi-2.1.dts file enables the required VIN/CSI nodes and by
+> > default ties ov5645 camera endpoint to CSI2.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  Changes for v2:
+> >  * Dropped #{address,size}-cells
+> >  * Dropped unit address and reg for port
+>
+> Thanks for the update!
+>
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> > @@ -0,0 +1,75 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
+> > + * connected with aistarvision-mipi-v2-adapter board
+> > + *
+> > + * Copyright (C) 2020 Renesas Electronics Corp.
+> > + */
+> > +
+> > +/dts-v1/;
+> > +#include "r8a774c0-ek874.dts"
+> > +#define MIPI_PARENT_I2C i2c3
+> > +#include "aistarvision-mipi-adapter-2.1.dtsi"
+> > +
+> > +/ {
+> > +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
+> > +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
+> > +};
+> > +
+> > +&i2c3 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&vin4 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&vin5 {
+> > +       status = "okay";
+> > +};
+> > +
+> > +&csi40 {
+> > +       status = "okay";
+> > +
+> > +       ports {
+> > +               port {
+> > +                       csi40_in: endpoint {
+> > +                               clock-lanes = <0>;
+> > +                               data-lanes = <1 2>;
+> > +                               remote-endpoint = <&ov5645_ep>;
+> > +                       };
+> > +               };
+> > +       };
+> > +};
+> > +
+> > +&ov5645 {
+> > +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
+> > +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+> > +
+> > +       clocks = <&cpg CPG_MOD 716>;
+>
+> I'm still a bit puzzled here.
+>
+> CPG_MOD 716 is the CSI40 module clock, which runs at 25 MHz, and is
+> presumably output to the CSI0_CLKP/N pair? Or is its rate controlled
+> by the CSI driver?
+> On the MIPI board[*], that signal becomes MIPI1_CP/N.
+> However, the MIPI board also has a "Clock Source Selection" header,
+> which allows you to choose one of:
+>   1. The fixed 24 MHz crystal, which is apparently used for the imx219
+>      camera, as described by imx219_clk above, and matches the wanted
+>      clock rate specified below?
+>   2. CSI1_CLK,
+>   3. CSI2_CLK.
+> The last two become CLK0/1 on the CAT874 board, which are driven by
+> TPU0TO0/1.
+>
+Yes my bad for not looking into this earlier, for both ov5645 and
+imx219 I do short
+pins 3-4 and 5-6 of J14, so for both the sensors the clocks should be
+fixed clock
+of 24Mhz, so I changed it imx219_clk to osc25250_clk and passed the same to
+ov5645 node. (imx219 sensor can take in a external clock from 6-27Mhz [2])
 
-This can easily be tested on the console.  Basic testing can even be
-done with an unmodified kernel, as there is already a "parity error"
-notice message in the driver.
+> Which setting do you use for the ov5645 camera?
+>
+> > +       clock-frequency = <24000000>;
+>
+> After your patch for the ov5645 driver, this should be replaced by
+> assigned-clock-rates?
+>
+After v4 [1] it was decided that the frequency should be set by driver itself,
+so I'll be revisiting ov5645 driver.
 
-Enable even parity on the console:
+[1] https://patchwork.linuxtv.org/patch/62185/
+[2] https://publiclab.org/system/images/photos/000/023/294/original/RASPBERRY_PI_CAMERA_V2_DATASHEET_IMX219PQH5_7.0.0_Datasheet_XXX.PDF
 
-$ stty evenp
+Cheers,
+--Prabhakar
 
-(use "oddp" for odd parity, and invert all below)
-
-Typing e.g. a single "p" should trigger a parity error.
-Typing "o" shouldn't.
-Without this patch, no parity error is detected on SCIF.
-
-Likewise, pasting a sequence of "p" characters should trigger a lot of
-parity errors, "o" shouldn't.
-Without this patch, parity errors are detected on SCIF, except for the
-first character.
-
-For more advanced testing, make the following change to the driver:
-
-- dev_notice(port->dev, "parity error\n");
-+ dev_notice(port->dev, "parity error for char 0x%02x hweight %u\n",
-c, hweight8(c));
-
-Pasting an alternating sequence of "p" and "o" characters should trigger
-parity errors for the "p" characters.
-Without this patch, they are triggered for the "o" characters instead.
-
-With this patch, the issues above are fixed on SCIF.
-This has been verified on:
-  1. SCIF on R-Car Gen 2,
-  2. SCIF on R-Car Gen3
-  3. SCIF on RZ/A1H,
-  4. SCIF on RZ/A2M.
-
-However, I also tried this on HSCIF on R-Car Gen3, where I cannot
-trigger parity errors at all.
-Parabhakar: have you tried HSCIF on RZ/G1 and RZ/G2? Can you trigger
-parity errors on HSCIF?
-
-This has been regression-tested on:
-  1. SCIFA on SH-Mobile AG5, R-Mobile A1, and R-Mobile APE6.
-
-I haven't tested it yet on:
-  1. SCIFB on SH/R-Mobile (needs wiring up),
-  2. SCIFA, SCIFB, and HSCIF on R-Car Gen2 (needs wiring up),
-  3. (H)SCIF on R-Car Gen1 (remote boards unaccessible at the moment),
-  4. SuperH (only remote Migo-R available, but unaccessible).
-
-I can test 1 and 2 (and perhaps 3 and 4) later, if needed.
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> The rest looks good to me, but I'm not a multi-media/camera expert.
+>
+> [*] https://github.com/Kevin-WSCU/96Boards-Camera
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
