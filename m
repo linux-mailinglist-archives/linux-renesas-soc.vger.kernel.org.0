@@ -2,164 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4492D19A8C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 11:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A45FF19A9E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Apr 2020 13:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732158AbgDAJml (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Apr 2020 05:42:41 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:41930 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731544AbgDAJml (ORCPT
+        id S1731343AbgDALBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Apr 2020 07:01:16 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:60672 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732026AbgDALBP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Apr 2020 05:42:41 -0400
-Received: by mail-ot1-f68.google.com with SMTP id f52so25240221otf.8;
-        Wed, 01 Apr 2020 02:42:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9NFB4A2CPVwSz9Sg1U5/CRoks4HY24v+VcMc1LJYhlA=;
-        b=p1WRaOvxvULH8ETXZWUa2OKQudPCObw8EmvnL7gmHglr6xirhDFra5OFJqOh4iP94/
-         l3YFXm2BRljkuXohvkeRMQMMo1k9wohT5Ds3OEShcqfs7hkXHJkfd1YTtJq5X2+hxgNM
-         V19sT2eM4pcmDr24KvWP//l6XaJ3YCKyNSaXcxp3AbUxXAJJVS3667eziHptQVg9UTTA
-         1QWlQ0FbZ7BEkgvdMh+OQzhGKSmbHW4Npte2e5mcE17pnkDQl0gvrOk1cNiHU7hnXdr3
-         pgomRw8EREWcbAk6LY89/zI2J0iRb9/7B7U+NkRqq7pW9t1x2zrEWgTmODmbY3hKvEzR
-         voIg==
-X-Gm-Message-State: ANhLgQ3z56mS8WqiuuPgVFSXvAV/nGlVIbNOJJiuZjdfH4+WNKZDXSP/
-        bsknkJyGroQeuT6wXsN/Q9EwjXMATaAlXUeEeV0=
-X-Google-Smtp-Source: ADFU+vvaJkvIXHbATb21lCcc0MJLscOCEDsiXUahQfh8sCQeWQkEkYa7KZWVyEhPq2xVAduTUBjZdSJVtLeQCzJ8nlk=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr16100426otk.250.1585734160600;
- Wed, 01 Apr 2020 02:42:40 -0700 (PDT)
+        Wed, 1 Apr 2020 07:01:15 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Aqijs155882;
+        Wed, 1 Apr 2020 11:00:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=k/zLhrZsADjqzq+3QwgvoWL1MmcxznVBM92vxIE2puw=;
+ b=ONdjM18avmW5dE+LLNFwYJoAAf8ZcTTxtrswiZj9Chf4Ukg35sdE5LaQNyZPIdnF57su
+ rNKvBN5B8oAGEUdJBq6uMPAyIVRYctUKe+0FKp7+7y/tFbqasY/4kTGVUJKvY2yHN9j1
+ DozpO8Yibrjf7wtChKBzlmYDAipeGswqfWSUMN2qQuUwtppVwbg3mft5tX5fQimrTV1I
+ Hzl6BEm73VTbikMd7HxqnIabVego5iqh4N/YbE0oPL0pjj5FFAw2/8ilVAQrRGjreYAv
+ 1Vuek17GiklF0NZBBKNvbUMVAyhDY12/j938imRsUalvfbg0PRDnkQvrExOJvQb6Ozll Kg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 303aqhn75f-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 11:00:18 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 031Ar08g045201;
+        Wed, 1 Apr 2020 11:00:18 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 304sjk0hsg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 01 Apr 2020 11:00:17 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 031B07RP031187;
+        Wed, 1 Apr 2020 11:00:07 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 01 Apr 2020 04:00:06 -0700
+Date:   Wed, 1 Apr 2020 13:59:49 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Pavel Machek <pavel@ucw.cz>, devel@driverdev.osuosl.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Kukjin Kim <kgene@kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Yong Deng <yong.deng@magewell.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Heungjun Kim <riverful.kim@samsung.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH 0/4] media Kconfig reorg - part 2
+Message-ID: <20200401105949.GB2001@kadam>
+References: <cover.1585151701.git.mchehab+huawei@kernel.org>
+ <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
 MIME-Version: 1.0
-References: <1584886352-4132-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1584886352-4132-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 1 Apr 2020 11:42:29 +0200
-Message-ID: <CAMuHMdXhi_1rxpB3zXO+KwtY+36dh+_O8NqVfyLs5mU1+Vy6Og@mail.gmail.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: r8a774c0-cat874: Add support for
- AISTARVISION MIPI Adapter V2.1
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fadc6ea-8512-03ba-da30-43c64d7562f6@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004010100
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9577 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 clxscore=1011
+ malwarescore=0 impostorscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2004010100
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Wed, Mar 25, 2020 at 04:36:31PM -0300, Helen Koike wrote:
+> Hello,
+> 
+> On 3/25/20 1:03 PM, Mauro Carvalho Chehab wrote:
+> > That's the second part of media Kconfig changes. The entire series is
+> > at:
+> > 
+> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=media-kconfig
+> 
+> I made a quick experiment (using this branch) with someone who works
+> with the kernel for his master degree, but doesn't have much experience in kernel development in general.
+> I asked him to enable Vimc (from default configs, where multimedia starts disabled).
 
-On Sun, Mar 22, 2020 at 3:13 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> This patch adds support for AISTARVISION MIPI Adapter V2.1 board connected
-> to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
-> which have the camera endpoint nodes for imx219 and ov5645 so that this can
-> be re-used with other G2x platforms.
->
-> r8a774c0-ek874-mipi-2.1.dts file enables the required VIN/CSI nodes and by
-> default ties ov5645 camera endpoint to CSI2.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  Changes for v2:
->  * Dropped #{address,size}-cells
->  * Dropped unit address and reg for port
+The whole config system is really outdated.
 
-Thanks for the update!
+It should be that this task was done with a command like "kconfig enable
+vimc".  It would ask necessary questions and pull in the dependencies
+automatically.
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
-> @@ -0,0 +1,75 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
-> + * connected with aistarvision-mipi-v2-adapter board
-> + *
-> + * Copyright (C) 2020 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +#include "r8a774c0-ek874.dts"
-> +#define MIPI_PARENT_I2C i2c3
-> +#include "aistarvision-mipi-adapter-2.1.dtsi"
-> +
-> +/ {
-> +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
-> +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
-> +};
-> +
-> +&i2c3 {
-> +       status = "okay";
-> +};
-> +
-> +&vin4 {
-> +       status = "okay";
-> +};
-> +
-> +&vin5 {
-> +       status = "okay";
-> +};
-> +
-> +&csi40 {
-> +       status = "okay";
-> +
-> +       ports {
-> +               port {
-> +                       csi40_in: endpoint {
-> +                               clock-lanes = <0>;
-> +                               data-lanes = <1 2>;
-> +                               remote-endpoint = <&ov5645_ep>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +&ov5645 {
-> +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
-> +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
-> +
-> +       clocks = <&cpg CPG_MOD 716>;
+Twenty years ago it made sense to go through the menus and select things
+one by one.  Does anyone really start from defconfig any more?  Surely
+everyone starts with a known working config and just enables specific
+options.
 
-I'm still a bit puzzled here.
+I started to hack together some code to create a kconfig program to
+enable and disable options.  The problem is that all library code
+assumes we want to display menus so it was a lot of work and I gave up.
 
-CPG_MOD 716 is the CSI40 module clock, which runs at 25 MHz, and is
-presumably output to the CSI0_CLKP/N pair? Or is its rate controlled
-by the CSI driver?
-On the MIPI board[*], that signal becomes MIPI1_CP/N.
-However, the MIPI board also has a "Clock Source Selection" header,
-which allows you to choose one of:
-  1. The fixed 24 MHz crystal, which is apparently used for the imx219
-     camera, as described by imx219_clk above, and matches the wanted
-     clock rate specified below?
-  2. CSI1_CLK,
-  3. CSI2_CLK.
-The last two become CLK0/1 on the CAT874 board, which are driven by
-TPU0TO0/1.
+regards,
+dan carpenter
 
-Which setting do you use for the ov5645 camera?
-
-> +       clock-frequency = <24000000>;
-
-After your patch for the ov5645 driver, this should be replaced by
-assigned-clock-rates?
-
-The rest looks good to me, but I'm not a multi-media/camera expert.
-
-[*] https://github.com/Kevin-WSCU/96Boards-Camera
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
