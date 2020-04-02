@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB1E19C904
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2020 20:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B1B19C91F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2020 20:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389297AbgDBSqm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Apr 2020 14:46:42 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:55835 "EHLO
+        id S2388875AbgDBSuE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Apr 2020 14:50:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:39787 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389065AbgDBSqm (ORCPT
+        with ESMTP id S2388778AbgDBSuD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Apr 2020 14:46:42 -0400
+        Thu, 2 Apr 2020 14:50:03 -0400
 Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MOzjW-1jhEyq0shQ-00PNq4 for <linux-renesas-soc@vger.kernel.org>; Thu, 02
- Apr 2020 20:46:40 +0200
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MWzXd-1jrNLf0Zar-00XO7Q for <linux-renesas-soc@vger.kernel.org>; Thu, 02
+ Apr 2020 20:50:02 +0200
 Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id ED7B8650ABA
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2020 18:46:39 +0000 (UTC)
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id E23F765052F
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2020 18:50:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at cetitec.com
 Received: from mail.cetitecgmbh.com ([127.0.0.1])
         by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xZSLPxJ2yIEM for <linux-renesas-soc@vger.kernel.org>;
-        Thu,  2 Apr 2020 20:46:39 +0200 (CEST)
+        with ESMTP id Oy5Mv_havtAp for <linux-renesas-soc@vger.kernel.org>;
+        Thu,  2 Apr 2020 20:50:01 +0200 (CEST)
 Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 8D55F650429
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2020 20:46:39 +0200 (CEST)
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 893E464F5F7
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Apr 2020 20:50:01 +0200 (CEST)
 Received: from pflmari.corp.cetitec.com (10.8.5.12) by
  PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 2 Apr 2020 20:46:39 +0200
+ id 15.0.1497.2; Thu, 2 Apr 2020 20:50:01 +0200
 Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
-        id A260880500; Thu,  2 Apr 2020 20:34:25 +0200 (CEST)
-Date:   Thu, 2 Apr 2020 20:34:25 +0200
+        id E554580501; Thu,  2 Apr 2020 20:34:27 +0200 (CEST)
+Date:   Thu, 2 Apr 2020 20:34:27 +0200
 From:   Alex Riesen <alexander.riesen@cetitec.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -45,9 +45,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <devel@driverdev.osuosl.org>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH v5 3/9] media: adv748x: reduce amount of code for bitwise
- modifications of device registers
-Message-ID: <72873dc73d3b9a1d46673978326dd5f4f0096a17.1585852001.git.alexander.riesen@cetitec.com>
+Subject: [PATCH v5 4/9] media: adv748x: add definitions for audio output
+ related registers
+Message-ID: <26573ecdb48aa816f802b9d8bbe5f74157248021.1585852001.git.alexander.riesen@cetitec.com>
 Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
@@ -70,101 +70,99 @@ X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
  PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
 X-EsetResult: clean, is OK
 X-EsetId: 37303A290D7F536A6C7266
-X-Provags-ID: V03:K1:zo3AvXxdUSW4IDOjQHVLMJWq0ZYIk2R4gjmQwiAlOBSD026RS5V
- HT5jF/QcMUIq84XE76+4FM5jgOXM9gFTGiN+MZJ/4H2ltEEmqNHwLV0T+CusSXLHzUBGUOC
- 5B7ALELdu3AjFzMCDcXWnbzf1i9X5oBnH3Y5cSeWrDodOu/nbVfSi09O80GlqCD6lI5F2PV
- Tq5DRJ9L9sw186j+TeqXw==
+X-Provags-ID: V03:K1:tDdN0WEQ8YKtkDQGjf8SgFvm0Hm+Z60tnKJSOf2hwArYDJ+JS8I
+ s9eZMoA8kbJDTW2USxm4+liJThWYcWbxbO5dGtmLMhuK8EfQzZ+NUiDxOjmJAYa65oAsIJv
+ GOE/PhLME1F4fP0uDEw86YrpOPgP1oHfDWsIzoY8DQM13418P76hQ9UA3/aZrrSfrgMCNmG
+ wRqNcbBZfdGBiuL2ibXJg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:V4ypD2SAwdg=:JUrdKi4jV/lOEabWpR5CXz
- heeJ1ov8/nz/v3yBBAX5rG++eI6Fs0ChfQ6egb6w0XFh1TK46rzBjVLsDL+84ZqRxV/Xp0pPg
- 8ZlzcbyS2rqLDjNLR4coWVONmySKu4Y5eNQMOTaUKyZZexBfJrUbuP1JMcHBx75+FqZuX+Mgu
- NvFlu9TXDtSmKESvG4HXwx+PADo33DmZZOqFPWoM2mqTU6cj/8dPUwzQM6wNiHJO3DFuXtG+r
- HY/GGzxJ3uCWEMbmyMM4zS+M02fYLop3DTkKGdCiAzNbt6kLVZR38CT8dnzF7BAJ7j3pFmdXx
- YSSPWBdQh6lmJWdI5b/qWXbMa72tgD1XyM2R2bF+QkAe5karNvIuswWqQjUGp2JOM8Q0t6NGa
- yj89KwsYLqr6tmOsFzOoxaSTgVkrvzaiYIyGaUc/mN2tFZ12UzwUgyGvtUkLvajlOH9QLvzXs
- 0prLjakTXp0Mnucu4j8kwOK8VkCwe/ULAysuYYwPgFf6PSS/Ns5P2zYaD4xpcZd6BoWWi21EJ
- 0AU5f32/6nn7kg+KQakKOEr3u8p++uUhzk3n/zYoWClzkIzNCMsoXntTPPRmF9/dmdk+YS2vL
- hFTkeBzO9V4c4v+1Xh7th068I20WTUaNNliz5bGx2vkWOyr2W3JzASSnOurzEJzQQ5cg+Zk+y
- O2qY4mr3o3vrMfMKPo7PoVmyGC2XCgqChOgPQITAqh77vBn0/SdbXe1h7xUGRciLIZ+koj5Qp
- VZGopbbCNfaeFO4/c8yDVtbSFnbvK/QmY41fAQZftbk7CT62uMXEQKN8qx5xH3JhvrdnYEceK
- mBCX5Kzy/oIrSW09CGBO+n4iomToTKV729wS+60LfaJ/Cdm5voCf8dDeUGtu8hdkIAfc8ZZ
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X1c981AOioU=:sE7gGYM3+z5hu4h1Xma3J3
+ 2wTjLFriFnWjc/2sD8eWuA5NqgvtcdC5S6O2N4yQi+MLzAI2a8RHu2CpsfpvKJxSBsjVRXPJ8
+ +qPX3/yh659Sn3eGP9e+8VsRpC7Zty+vbY9+T1AxFvhB0CLernqOlXjx/6/5Y/2UbnxaNA6B1
+ 7SUMvKuO2xurp37bmXaZiuxbL6/Uv6iP+rMcRk8i60dL47Dnpv1yygIwXBc/VvBbuLlzZ9Al0
+ zKV4kLzvmJh6Gh5HLoIQJHUp3k5bdMWpvVPy7rWVCesHzqVEjeHLtqDp8ecbujD9gM8t2aA7I
+ MZRhhUyd6AmOlJ3wiuF7/cXJBtEW9jdTUdGCAZCILKtayavxDbjAlXqoByDKO/aDiOSYhj5Xn
+ 9WOYK1WB30u1Unqv0c1QiMT1sWcpA0hskXkyciv8s687sRIgsHDr/eQHnPpISgoUGF9tPDsHo
+ QhIf//R9MkXLnG9HxpK5vOQWmUr/vrAlCtWlUKOEjcxNIu4QCLejRKT6O7laTgJsEbV8bTVlH
+ HjdBPdyyipBE4ceE7SQbNnUVsn02yJtYX3bBQKp0vDicxllG5GSYbNHj5ssXwv4N2gnoGliQP
+ yawMKb4ezJF217TfiEzGwcFge8f9OzDKsRyfmMURF5G+TCeBpmS1m02ThIYMaTadDta1Y3Hux
+ KJ0oujgeCYw9W8wkTMlLwANX5pN5z+ixSEQyl2W4PVV2VOBEDA2XCInKYeMWY6iqOLKXMgktx
+ TsVEhGYbiAtwMbAU7AEgpJC2MEpkjcSs94McCGY/ex1VH9LCQvrdDUVFAKbyqIPIpVBTgCQU9
+ 0o6Vz4lkZ/zbiFsu/R1j51y4Cat3ZJDAV4y3LV7Dwpmj3NLCrIRZjF7mWI//HsEPHfVlYd3
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The regmap provides a convenient utility for this.
-The hdmi_* and dpll_* register modification macros added for symmetry
-with the existing operations (io_*, sdp_*).
-
 Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
---
-v3: remove _update name in favor of existing _clrset
 ---
- drivers/media/i2c/adv748x/adv748x-core.c |  6 ++++++
- drivers/media/i2c/adv748x/adv748x.h      | 14 +++++++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ drivers/media/i2c/adv748x/adv748x.h | 32 +++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 5c59aad319d1..8580e6624276 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -133,6 +133,12 @@ static int adv748x_write_check(struct adv748x_state *state, u8 page, u8 reg,
- 	return *error;
- }
- 
-+int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg, u8 mask,
-+			u8 value)
-+{
-+	return regmap_update_bits(state->regmap[page], reg, mask, value);
-+}
-+
- /* adv748x_write_block(): Write raw data with a maximum of I2C_SMBUS_BLOCK_MAX
-  * size to one or more registers.
-  *
 diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-index 09aab4138c3f..0a9d78c2870b 100644
+index 0a9d78c2870b..1a1ea70086c6 100644
 --- a/drivers/media/i2c/adv748x/adv748x.h
 +++ b/drivers/media/i2c/adv748x/adv748x.h
-@@ -393,25 +393,33 @@ int adv748x_write(struct adv748x_state *state, u8 page, u8 reg, u8 value);
- int adv748x_write_block(struct adv748x_state *state, int client_page,
- 			unsigned int init_reg, const void *val,
- 			size_t val_len);
-+int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg,
-+			u8 mask, u8 value);
+@@ -226,6 +226,11 @@ struct adv748x_state {
  
- #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
- #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
--#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
-+#define io_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_IO, r, m, v)
+ #define ADV748X_IO_VID_STD		0x05
  
- #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
- #define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, (r)+1)) & (m))
- #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
-+#define hdmi_clrset(s, r, m, v) \
-+	adv748x_update_bits(s, ADV748X_PAGE_HDMI, r, m, v)
++#define ADV748X_IO_PAD_CONTROLS		0x0e
++#define ADV748X_IO_PAD_CONTROLS_TRI_AUD	BIT(5)
++#define ADV748X_IO_PAD_CONTROLS_PDN_AUD	BIT(1)
++#define ADV748X_IO_PAD_CONTROLS1	0x1d
 +
-+#define dpll_read(s, r) adv748x_read(s, ADV748X_PAGE_DPLL, r)
-+#define dpll_clrset(s, r, m, v) \
-+	adv748x_update_bits(s, ADV748X_PAGE_DPLL, r, m, v)
+ #define ADV748X_IO_10			0x10	/* io_reg_10 */
+ #define ADV748X_IO_10_CSI4_EN		BIT(7)
+ #define ADV748X_IO_10_CSI1_EN		BIT(6)
+@@ -248,7 +253,21 @@ struct adv748x_state {
+ #define ADV748X_IO_REG_FF		0xff
+ #define ADV748X_IO_REG_FF_MAIN_RESET	0xff
  
- #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
- #define repeater_write(s, r, v) adv748x_write(s, ADV748X_PAGE_REPEATER, r, v)
++/* DPLL Map */
++#define ADV748X_DPLL_MCLK_FS		0xb5
++#define ADV748X_DPLL_MCLK_FS_N_MASK	GENMASK(2, 0)
++
+ /* HDMI RX Map */
++#define ADV748X_HDMI_I2S		0x03	/* I2S mode and width */
++#define ADV748X_HDMI_I2SBITWIDTH_MASK	GENMASK(4, 0)
++#define ADV748X_HDMI_I2SOUTMODE_SHIFT	5
++#define ADV748X_HDMI_I2SOUTMODE_MASK	\
++	GENMASK(6, ADV748X_HDMI_I2SOUTMODE_SHIFT)
++#define ADV748X_I2SOUTMODE_I2S 0
++#define ADV748X_I2SOUTMODE_RIGHT_J 1
++#define ADV748X_I2SOUTMODE_LEFT_J 2
++#define ADV748X_I2SOUTMODE_SPDIF 3
++
+ #define ADV748X_HDMI_LW1		0x07	/* line width_1 */
+ #define ADV748X_HDMI_LW1_VERT_FILTER	BIT(7)
+ #define ADV748X_HDMI_LW1_DE_REGEN	BIT(5)
+@@ -260,6 +279,16 @@ struct adv748x_state {
+ #define ADV748X_HDMI_F1H1		0x0b	/* field1 height_1 */
+ #define ADV748X_HDMI_F1H1_INTERLACED	BIT(5)
  
- #define sdp_read(s, r) adv748x_read(s, ADV748X_PAGE_SDP, r)
- #define sdp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_SDP, r, v)
--#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~(m)) | (v))
-+#define sdp_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_SDP, r, m, v)
++#define ADV748X_HDMI_MUTE_CTRL		0x1a
++#define ADV748X_HDMI_MUTE_CTRL_MUTE_AUDIO BIT(4)
++#define ADV748X_HDMI_MUTE_CTRL_WAIT_UNMUTE_MASK	GENMASK(3, 1)
++#define ADV748X_HDMI_MUTE_CTRL_NOT_AUTO_UNMUTE	BIT(0)
++
++#define ADV748X_HDMI_AUDIO_MUTE_SPEED	0x0f
++#define ADV748X_HDMI_AUDIO_MUTE_SPEED_MASK	GENMASK(4, 0)
++#define ADV748X_MAN_AUDIO_DL_BYPASS BIT(7)
++#define ADV748X_AUDIO_DELAY_LINE_BYPASS BIT(6)
++
+ #define ADV748X_HDMI_HFRONT_PORCH	0x20	/* hsync_front_porch_1 */
+ #define ADV748X_HDMI_HFRONT_PORCH_MASK	0x1fff
  
- #define cp_read(s, r) adv748x_read(s, ADV748X_PAGE_CP, r)
- #define cp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_CP, r, v)
--#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~(m)) | (v))
-+#define cp_clrset(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_CP, r, m, v)
+@@ -281,6 +310,9 @@ struct adv748x_state {
+ #define ADV748X_HDMI_TMDS_1		0x51	/* hdmi_reg_51 */
+ #define ADV748X_HDMI_TMDS_2		0x52	/* hdmi_reg_52 */
  
- #define tx_read(t, r) adv748x_read(t->state, t->page, r)
- #define tx_write(t, r, v) adv748x_write(t->state, t->page, r, v)
++#define ADV748X_HDMI_REG_6D		0x6d	/* hdmi_reg_6d */
++#define ADV748X_I2S_TDM_MODE_ENABLE BIT(7)
++
+ /* HDMI RX Repeater Map */
+ #define ADV748X_REPEATER_EDID_SZ	0x70	/* primary_edid_size */
+ #define ADV748X_REPEATER_EDID_SZ_SHIFT	4
 -- 
 2.25.1.25.g9ecbe7eb18
 
