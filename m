@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F35F19CA40
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2020 21:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 580A819CA47
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Apr 2020 21:40:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389753AbgDBTj6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Apr 2020 15:39:58 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:46277 "EHLO
+        id S2389876AbgDBTkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Apr 2020 15:40:05 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:44923 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732625AbgDBTj6 (ORCPT
+        by vger.kernel.org with ESMTP id S1732625AbgDBTkF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Apr 2020 15:39:58 -0400
+        Thu, 2 Apr 2020 15:40:05 -0400
 X-IronPort-AV: E=Sophos;i="5.72,336,1580742000"; 
-   d="scan'208";a="43555706"
+   d="scan'208";a="43555716"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Apr 2020 04:39:56 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 Apr 2020 04:40:03 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CA16D40C4F6C;
-        Fri,  3 Apr 2020 04:39:49 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F1C9640C4F75;
+        Fri,  3 Apr 2020 04:39:56 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -48,9 +48,9 @@ Cc:     Catalin Marinas <catalin.marinas@arm.com>,
         linux-rockchip@lists.infradead.org,
         Lad Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v6 09/11] PCI: Add Renesas R8A774C0 device ID
-Date:   Thu,  2 Apr 2020 20:38:37 +0100
-Message-Id: <1585856319-4380-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v6 10/11] misc: pci_endpoint_test: Add Device ID for RZ/G2E PCIe controller
+Date:   Thu,  2 Apr 2020 20:38:38 +0100
+Message-Id: <1585856319-4380-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1585856319-4380-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <1585856319-4380-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -59,26 +59,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add R8A774C0 device ID so that this can be used by
-pci_endpoint_test driver.
+Add Renesas R8A774C0 in pci_device_id table so that pci-epf-test can be
+used for testing PCIe EP on RZ/G2E.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- include/linux/pci_ids.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/misc/pci_endpoint_test.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index 1dfc4e1dcb94..9e957c18abeb 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -2460,6 +2460,7 @@
- #define PCI_DEVICE_ID_RENESAS_SH7763	0x0004
- #define PCI_DEVICE_ID_RENESAS_SH7785	0x0007
- #define PCI_DEVICE_ID_RENESAS_SH7786	0x0010
-+#define PCI_DEVICE_ID_RENESAS_R8A774C0	0x002d
- 
- #define PCI_VENDOR_ID_SOLARFLARE	0x1924
- #define PCI_DEVICE_ID_SOLARFLARE_SFC4000A_0	0x0703
+diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
+index ef5a1af6bab7..d8e1121c0464 100644
+--- a/drivers/misc/pci_endpoint_test.c
++++ b/drivers/misc/pci_endpoint_test.c
+@@ -942,6 +942,8 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_AM654),
+ 	  .driver_data = (kernel_ulong_t)&am654_data
+ 	},
++	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),
++	},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(pci, pci_endpoint_test_tbl);
 -- 
 2.20.1
 
