@@ -2,354 +2,237 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E161319D445
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2020 11:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C2819D52D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2020 12:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727912AbgDCJsI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Apr 2020 05:48:08 -0400
-Received: from mail-eopbgr1400095.outbound.protection.outlook.com ([40.107.140.95]:54617
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727882AbgDCJsH (ORCPT
+        id S2390504AbgDCKnp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Apr 2020 06:43:45 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43410 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727923AbgDCKnp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Apr 2020 05:48:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WjTIQLlDB0dQf03AXbFMe1foWLi5RKbSzAbv2e5LmYTh62VUSIlT4ygdQVubFWBZngNi8DJihrtcQT2dkSS3q44jj0P4bSBEnwbilRbpot8NqscnYmsHY443F6QRuqjOCFDSRdqpkPC4k17eA+/dItGMjJG5Pa84TvBX9T23G1pR6gYsOtDwjTHmYWP5sQAlT2ZDmhxRDM0nvQ2betl4lb9uFL96+yh1NIkKEOL5TXzr2smt3rxQa8QRzlrRRmAYNhT4FocCoJnDDbGIefIx0sihNF0UUG2YYTLsX/8kT9B61uWOyaivMVDfujCTYDr7WaQkxsnRp4L2Mhz+xyqmBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JlX2MuRkSEu7WnylOL6YgRf3TT0iLUVY+bK9qTCKKl8=;
- b=nbp7BPTdKri7nXO3PiL6bTqYT5PB1kIlik0ttrLaUeJaVD2JKq9tC5w0lBlXi29UIdbgvJamksAOBiDaKA4zqL9IlifMdi954GNp54qKxvRp+KAz+cxgTldGZ5viAApiXnbdiZRYS7xAxG+U9bbREaQMkCCZrGfwARW6+/G5ws1m2qqaQvEfGzSa3lSrgeRI92XfnabAg8SrH1tqlWqLXCvf4+R4KvuACrN/zbM+4wc3OQ9exG54Mdxjr0ogA3HJEiM4gdQ+AsFQNSHJEYoxTsQDfrTBPBPYrzQvz56O93DqHzCsu0v0/GLCpGCHoJ2Llzvm5VqM6Da/SS8w3Gdzfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JlX2MuRkSEu7WnylOL6YgRf3TT0iLUVY+bK9qTCKKl8=;
- b=KK4G94UEZ2dFjUY8As6tl3pmax0nRy9nyyQAf4SfP+K8PgF3YeanKrKqRyfgDh1wz068GdWGH+VFbzXJgPbw2QHYQXNHXfNru5WKI4P7ahYrpRCbDxzwML7CytT7D8IvMSparoJoHfkBRDom1EFKQQ/ASk8hd75rdBfvjanjgAQ=
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
- OSBPR01MB1653.jpnprd01.prod.outlook.com (52.134.225.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.15; Fri, 3 Apr 2020 09:48:00 +0000
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::490:aa83:2d09:3a0b]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::490:aa83:2d09:3a0b%5]) with mapi id 15.20.2878.017; Fri, 3 Apr 2020
- 09:47:59 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Fri, 3 Apr 2020 06:43:45 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C5C4321;
+        Fri,  3 Apr 2020 12:43:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1585910622;
+        bh=7iTPc2MHfNIaPRQoxwy2rEVj6cLN33ZYd1sl6ZxpZ70=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=d1hkXTFFsYYXG0JbQFBX6qp5Uk2qKs+AQpMRKmdTAiDl1OmcqaabMPs5Fkbvl6ZbQ
+         VrsQ9ESM0piYOky5R31N45FXe+PSvoy/xXv79raidmDlVRYJ26zJGQPNOaDrtZRrL0
+         HAQ6cTu6RH0tvafCO8XkQFV50LQ3NTMGTJmL2viw=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v5 1/9] media: adv748x: fix end-of-line terminators in
+ diagnostic statements
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: RE: [PATCH v6 06/11] PCI: endpoint: Add support to handle multiple
- base for mapping outbound memory
-Thread-Topic: [PATCH v6 06/11] PCI: endpoint: Add support to handle multiple
- base for mapping outbound memory
-Thread-Index: AQHWCSZxc1fWoIOK5Uum+Ci9vBCgnqhnD+EAgAALDACAAAjPAIAAA4Eg
-Date:   Fri, 3 Apr 2020 09:47:59 +0000
-Message-ID: <OSBPR01MB3590871E79F1B86A6F5B2247AAC70@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-References: <1585856319-4380-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1585856319-4380-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TYAPR01MB45442959B9FD7299D2CB8D73D8C70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <OSBPR01MB3590260FDE8EA7D3701EAE2FAAC70@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <TYAPR01MB4544D205BE659CE74205737CD8C70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB4544D205BE659CE74205737CD8C70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=prabhakar.mahadev-lad.rj@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1d56e7db-c2c8-4ff3-a094-08d7d7b41864
-x-ms-traffictypediagnostic: OSBPR01MB1653:|OSBPR01MB1653:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB16532788074FBC8678DF70ABAAC70@OSBPR01MB1653.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0362BF9FDB
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(396003)(39860400002)(376002)(346002)(366004)(136003)(316002)(2906002)(6506007)(7416002)(66476007)(66946007)(66556008)(71200400001)(7696005)(76116006)(64756008)(66446008)(33656002)(8676002)(8936002)(53546011)(55016002)(186003)(81156014)(478600001)(54906003)(86362001)(52536014)(5660300002)(4326008)(81166006)(110136005)(26005)(9686003)(921003)(1121003);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6XAktP/sbBLpEzKIUOFU7CmqCBduq7dv1/u7iqZSUxfhZEhTpvYg3wdxIvXZUpgjd5VQjBYOckqvgRsZjESF5bt0TqIISWoMP3DmJ+Y2Tk0U8dpYgeL8Llc6E3HeRk9OydXAe1No+dXFRY1bXM43dzncx/KUpmo/XjAQbB7iLNswqrHeBuyadYTpsV77gbXyNCRFRHNNMV7DsHt/IFg3v/tKAqyzc202HTbAnarTc/XNXGzjmnRhuQCb0IsX/tWNz3hW8YfEQzBB4tSEOclM4ZjuMgEp9txQn3sYN8BFFwf6ogpY+FfHGuOD3cAwh1YGmtVW9jKr4qS3Ts4lKoMU0V6hvLCKheAQSPGua2lCWSSF45KsRQQ7q5c5MJnqfDBMI98Dd0LnZGBoERz3j6JvRC2W4I58RKJdXD3loR3vbZ0nV8klZpu/YZ4J8BMHGbKlPkivFHUrLexGs9JU/+Vg1NCbsv8aP3nAvAexfb2Jko0yxdTfctCq5joSU1wrfUko
-x-ms-exchange-antispam-messagedata: Rfsqk7g5r14+T4/tj4Fs/xhL5f9cs/nt9hrYPycqkHWvixffvGdYriA+xJ6FkY6PCJJU2LSU9J+ecXdBhAYhcbWLmdvKA3gBPihh8Vt+KQ8ck1KqFFmvZCOgZjfkobKsdqTqYOySuzKXB6WBwiz6BQ==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1585852001.git.alexander.riesen@cetitec.com>
+ <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <a111380c-f563-8019-deb8-8916a679227b@ideasonboard.com>
+Date:   Fri, 3 Apr 2020 11:43:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d56e7db-c2c8-4ff3-a094-08d7d7b41864
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Apr 2020 09:47:59.6679
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jOJUwuyQcBrD+uV9gxrSa9Hf4R1k2mWV5KJchKRaWK2BpdnsOhkMt495A4k1ev2CUAiUU6xPnhdbLe+DyhHH6rr00pou9SLfoqfkTMByk7uo2CQpTWjnIYN77ejYbMN3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1653
+In-Reply-To: <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Alex,
 
-> -----Original Message-----
-> From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Sent: 03 April 2020 10:34
-> To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>; Bjor=
-n Helgaas <bhelgaas@google.com>; Rob Herring
-> <robh+dt@kernel.org>; Mark Rutland <mark.rutland@arm.com>; Geert Uytterho=
-even <geert+renesas@glider.be>; Magnus Damm
-> <magnus.damm@gmail.com>; Kishon Vijay Abraham I <kishon@ti.com>; Lorenzo =
-Pieralisi <lorenzo.pieralisi@arm.com>; Marek Vasut
-> <marek.vasut+renesas@gmail.com>; linux-pci@vger.kernel.org
-> Cc: Catalin Marinas <catalin.marinas@arm.com>; Will Deacon <will@kernel.o=
-rg>; Arnd Bergmann <arnd@arndb.de>; Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org>; Andrew Murray <andrew.murray@arm.com>; devi=
-cetree@vger.kernel.org; linux-kernel@vger.kernel.org;
-> linux-arm-kernel@lists.infradead.org; linux-renesas-soc@vger.kernel.org; =
-Chris Paterson <Chris.Paterson2@renesas.com>; Frank Rowand
-> <frowand.list@gmail.com>; Gustavo Pimentel <gustavo.pimentel@synopsys.com=
->; Jingoo Han <jingoohan1@gmail.com>; Simon Horman
-> <horms@verge.net.au>; Shawn Lin <shawn.lin@rock-chips.com>; Tom Joseph <t=
-joseph@cadence.com>; Heiko Stuebner
-> <heiko@sntech.de>; linux-rockchip@lists.infradead.org; Lad Prabhakar <pra=
-bhakar.csengg@gmail.com>
-> Subject: RE: [PATCH v6 06/11] PCI: endpoint: Add support to handle multip=
-le base for mapping outbound memory
->
-> Hi Prabhakar-san,
->
-> > From: Prabhakar Mahadev Lad, Sent: Friday, April 3, 2020 6:12 PM
-> <snip>
-> > > > @@ -122,31 +167,56 @@ EXPORT_SYMBOL_GPL(pci_epc_mem_exit);
-> > > >  void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
-> > > >       phys_addr_t *phys_addr, size_t size)
-> > > >  {
-> > > > -int pageno;
-> > > >  void __iomem *virt_addr =3D NULL;
-> > > > -struct pci_epc_mem *mem =3D epc->mem;
-> > > > -unsigned int page_shift =3D ilog2(mem->page_size);
-> > > > +struct pci_epc_mem *mem;
-> > > > +unsigned int page_shift;
-> > > > +int pageno =3D -EINVAL;
-> > > >  int order;
-> > > > +int i;
-> > > >
-> > > > -size =3D ALIGN(size, mem->page_size);
-> > > > -order =3D pci_epc_mem_get_order(mem, size);
-> > > > -
-> > > > -mutex_lock(&mem->lock);
-> > > > -pageno =3D bitmap_find_free_region(mem->bitmap, mem->pages, order)=
-;
-> > > > -if (pageno < 0)
-> > > > -goto ret;
-> > > > +for (i =3D 0; i < epc->num_windows; i++) {
-> > > > +mem =3D epc->windows[i];
-> > > > +mutex_lock(&mem->lock);
-> > >
-> > > This is my feeling though, calling mutex_lock() in the loop seems
-> > > to cause overhead. And, if we call mutex_lock() at out-of the loop,
-> > > I think we can write single mutex_unlock() calling.
-> > >
-> > But the mutex is for each window, are you suggesting to add a global mu=
-tex ?
->
-> Oops, that's right. So, I'd like to recall.
->
-> > > > +size =3D ALIGN(size, mem->window.page_size);
-> > >
-> > > I'm sorry I should have realized this in the previous review,
-> > > but overwriting this size is possible to cause an issue at second tim=
-e or more loops.
-> > > So, the first argument of ALIGN should be kept for the loop.
-> > >
-> > Could you please elaborate on this.
->
-> My concern is the following.
->
-> For example, the size of argument of pci_epc_mem_alloc_addr() is 4096.
-> epc->windows[0].window.page_size =3D 8192
->  --> then the size will be changed to 0.
->
-> epc->windows[1].window.page_size =3D 4096
->  --> since the size was changed to 0 on the first loop, the result is 0.
->      But, this should be 4096.
->
-> Does such a case never happen?
-> (Or, is my understanding incorrect?)
->
-Good catch, yes that needs fixing probably by having a local variable for s=
-ize.
+On 02/04/2020 19:34, Alex Riesen wrote:
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Cheers,
---Prabhakar
+I guess we could have also added this directly to the helper macros, but
+there is indeed already a mixed usage so either way would require fixups
+to be consistent.
 
-> Best regards,
-> Yoshihiro Shimoda
->
->
-> > > > +order =3D pci_epc_mem_get_order(mem, size);
-> > > >
-> > > > -*phys_addr =3D mem->phys_base + ((phys_addr_t)pageno << page_shift=
-);
-> > > > -virt_addr =3D ioremap(*phys_addr, size);
-> > > > -if (!virt_addr)
-> > > > -bitmap_release_region(mem->bitmap, pageno, order);
-> > > > +pageno =3D bitmap_find_free_region(mem->bitmap, mem->pages,
-> > > > + order);
-> > > > +if (pageno >=3D 0) {
-> > > > +page_shift =3D ilog2(mem->window.page_size);
-> > > > +*phys_addr =3D mem->window.phys_base +
-> > > > +((phys_addr_t)pageno << page_shift);
-> > > > +virt_addr =3D ioremap(*phys_addr, size);
-> > > > +if (!virt_addr)
-> > > > +bitmap_release_region(mem->bitmap,
-> > > > +      pageno, order);
-> > > > +mutex_unlock(&mem->lock);
-> > > > +return virt_addr;
-> > >
-> > > As I mentioned above, if mutex_lock() is called at out-of-loop,
-> > > we can use "goto ret;" here like the original code,
-> > >
-> > > > +}
-> > > > +mutex_unlock(&mem->lock);
-> > >
-> > > and we can remove this.
-> > >
-> > > > +}
-> > > >
-> > > > -ret:
-> > > > -mutex_unlock(&mem->lock);
-> > > >  return virt_addr;
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(pci_epc_mem_alloc_addr);
-> > > >
-> > > > +struct pci_epc_mem *pci_epc_get_matching_window(struct pci_epc *ep=
-c,
-> > > > +phys_addr_t phys_addr)
-> > > > +{
-> > > > +struct pci_epc_mem *mem;
-> > > > +int i;
-> > > > +
-> > > > +for (i =3D 0; i < epc->num_windows; i++) {
-> > > > +mem =3D epc->windows[i];
-> > > > +
-> > > > +if (phys_addr >=3D mem->window.phys_base &&
-> > > > +    phys_addr < (mem->window.phys_base + mem->window.size))
-> > > > +return mem;
-> > > > +}
-> > > > +
-> > > > +return NULL;
-> > > > +}
-> > > > +
-> > > >  /**
-> > > >   * pci_epc_mem_free_addr() - free the allocated memory address
-> > > >   * @epc: the EPC device on which memory was allocated
-> > > > @@ -159,14 +229,23 @@ EXPORT_SYMBOL_GPL(pci_epc_mem_alloc_addr);
-> > > >  void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_a=
-ddr,
-> > > >     void __iomem *virt_addr, size_t size)
-> > > >  {
-> > > > +struct pci_epc_mem *mem;
-> > > > +unsigned int page_shift;
-> > > > +size_t page_size;
-> > > >  int pageno;
-> > > > -struct pci_epc_mem *mem =3D epc->mem;
-> > > > -unsigned int page_shift =3D ilog2(mem->page_size);
-> > > >  int order;
-> > > >
-> > > > +mem =3D pci_epc_get_matching_window(epc, phys_addr);
-> > > > +if (!mem) {
-> > > > +pr_err("failed to get matching window\n");
-> > > > +return;
-> > > > +}
-> > > > +
-> > > > +page_size =3D mem->window.page_size;
-> > > > +page_shift =3D ilog2(page_size);
-> > > >  iounmap(virt_addr);
-> > > > -pageno =3D (phys_addr - mem->phys_base) >> page_shift;
-> > > > -size =3D ALIGN(size, mem->page_size);
-> > > > +pageno =3D (phys_addr - mem->window.phys_base) >> page_shift;
-> > > > +size =3D ALIGN(size, page_size);
-> > > >  order =3D pci_epc_mem_get_order(mem, size);
-> > > >  mutex_lock(&mem->lock);
-> > > >  bitmap_release_region(mem->bitmap, pageno, order);
-> > > > diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-> > > > index e0ed9d01f6e5..d5da11cf0f2a 100644
-> > > > --- a/include/linux/pci-epc.h
-> > > > +++ b/include/linux/pci-epc.h
-> > > > @@ -65,20 +65,28 @@ struct pci_epc_ops {
-> > > >  struct module *owner;
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * struct pci_epc_mem_window - address window of the endpoint cont=
-roller
-> > > > + * @phys_base: physical base address of the PCI address window
-> > > > + * @size: the size of the PCI address window
-> > > > + * @page_size: size of each page
-> > > > + */
-> > > > +struct pci_epc_mem_window {
-> > > > +phys_addr_tphys_base;
-> > > > +size_tsize;
-> > > > +size_tpage_size;
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct pci_epc_mem - address space of the endpoint controller
-> > > > - * @phys_base: physical base address of the PCI address space
-> > > > - * @size: the size of the PCI address space
-> > > > + * @window: address window of the endpoint controller
-> > > >   * @bitmap: bitmap to manage the PCI address space
-> > > > - * @pages: number of bits representing the address region
-> > > > - * @page_size: size of each page
-> > > >   * @lock: mutex to protect bitmap
-> > > > + * @pages: number of bits representing the address region
-> > >
-> > > Perhaps, we should not change the "@pages" line.
-> > >
-> > OK will drop this change.
-> >
-> > Cheers,
-> > --Prabhakar
-> >
-> > > Best regards,
-> > > Yoshihiro Shimoda
+So this is a good option ;-)
 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> ---
+>  drivers/media/i2c/adv748x/adv748x-core.c | 24 ++++++++++++------------
+>  drivers/media/i2c/adv748x/adv748x-csi2.c |  2 +-
+>  2 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+> index 23e02ff27b17..c3fb113cef62 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-core.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
+> @@ -623,11 +623,11 @@ static int adv748x_parse_dt(struct adv748x_state *state)
+>  
+>  	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
+>  		of_graph_parse_endpoint(ep_np, &ep);
+> -		adv_info(state, "Endpoint %pOF on port %d", ep.local_node,
+> +		adv_info(state, "Endpoint %pOF on port %d\n", ep.local_node,
+>  			 ep.port);
+>  
+>  		if (ep.port >= ADV748X_PORT_MAX) {
+> -			adv_err(state, "Invalid endpoint %pOF on port %d",
+> +			adv_err(state, "Invalid endpoint %pOF on port %d\n",
+>  				ep.local_node, ep.port);
+>  
+>  			continue;
+> @@ -635,7 +635,7 @@ static int adv748x_parse_dt(struct adv748x_state *state)
+>  
+>  		if (state->endpoints[ep.port]) {
+>  			adv_err(state,
+> -				"Multiple port endpoints are not supported");
+> +				"Multiple port endpoints are not supported\n");
+>  			continue;
+>  		}
+>  
+> @@ -702,62 +702,62 @@ static int adv748x_probe(struct i2c_client *client)
+>  	/* Discover and process ports declared by the Device tree endpoints */
+>  	ret = adv748x_parse_dt(state);
+>  	if (ret) {
+> -		adv_err(state, "Failed to parse device tree");
+> +		adv_err(state, "Failed to parse device tree\n");
+>  		goto err_free_mutex;
+>  	}
+>  
+>  	/* Configure IO Regmap region */
+>  	ret = adv748x_configure_regmap(state, ADV748X_PAGE_IO);
+>  	if (ret) {
+> -		adv_err(state, "Error configuring IO regmap region");
+> +		adv_err(state, "Error configuring IO regmap region\n");
+>  		goto err_cleanup_dt;
+>  	}
+>  
+>  	ret = adv748x_identify_chip(state);
+>  	if (ret) {
+> -		adv_err(state, "Failed to identify chip");
+> +		adv_err(state, "Failed to identify chip\n");
+>  		goto err_cleanup_dt;
+>  	}
+>  
+>  	/* Configure remaining pages as I2C clients with regmap access */
+>  	ret = adv748x_initialise_clients(state);
+>  	if (ret) {
+> -		adv_err(state, "Failed to setup client regmap pages");
+> +		adv_err(state, "Failed to setup client regmap pages\n");
+>  		goto err_cleanup_clients;
+>  	}
+>  
+>  	/* SW reset ADV748X to its default values */
+>  	ret = adv748x_reset(state);
+>  	if (ret) {
+> -		adv_err(state, "Failed to reset hardware");
+> +		adv_err(state, "Failed to reset hardware\n");
+>  		goto err_cleanup_clients;
+>  	}
+>  
+>  	/* Initialise HDMI */
+>  	ret = adv748x_hdmi_init(&state->hdmi);
+>  	if (ret) {
+> -		adv_err(state, "Failed to probe HDMI");
+> +		adv_err(state, "Failed to probe HDMI\n");
+>  		goto err_cleanup_clients;
+>  	}
+>  
+>  	/* Initialise AFE */
+>  	ret = adv748x_afe_init(&state->afe);
+>  	if (ret) {
+> -		adv_err(state, "Failed to probe AFE");
+> +		adv_err(state, "Failed to probe AFE\n");
+>  		goto err_cleanup_hdmi;
+>  	}
+>  
+>  	/* Initialise TXA */
+>  	ret = adv748x_csi2_init(state, &state->txa);
+>  	if (ret) {
+> -		adv_err(state, "Failed to probe TXA");
+> +		adv_err(state, "Failed to probe TXA\n");
+>  		goto err_cleanup_afe;
+>  	}
+>  
+>  	/* Initialise TXB */
+>  	ret = adv748x_csi2_init(state, &state->txb);
+>  	if (ret) {
+> -		adv_err(state, "Failed to probe TXB");
+> +		adv_err(state, "Failed to probe TXB\n");
+>  		goto err_cleanup_txa;
+>  	}
+>  
+> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> index 2091cda50935..c43ce5d78723 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> @@ -72,7 +72,7 @@ static int adv748x_csi2_registered(struct v4l2_subdev *sd)
+>  	struct adv748x_state *state = tx->state;
+>  	int ret;
+>  
+> -	adv_dbg(state, "Registered %s (%s)", is_txa(tx) ? "TXA":"TXB",
+> +	adv_dbg(state, "Registered %s (%s)\n", is_txa(tx) ? "TXA":"TXB",
+>  			sd->name);
+>  
+>  	/*
+> 
 
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
-, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
-40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
-f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
-EE reg. no.: DE 14978647
+-- 
+Regards
+--
+Kieran
