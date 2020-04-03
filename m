@@ -2,29 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1C2819D52D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2020 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E66319D53C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Apr 2020 12:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390504AbgDCKnp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Apr 2020 06:43:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43410 "EHLO
+        id S2390573AbgDCKsO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Apr 2020 06:48:14 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43494 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727923AbgDCKnp (ORCPT
+        with ESMTP id S1727792AbgDCKsN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Apr 2020 06:43:45 -0400
+        Fri, 3 Apr 2020 06:48:13 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C5C4321;
-        Fri,  3 Apr 2020 12:43:41 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A9C9321;
+        Fri,  3 Apr 2020 12:48:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1585910622;
-        bh=7iTPc2MHfNIaPRQoxwy2rEVj6cLN33ZYd1sl6ZxpZ70=;
+        s=mail; t=1585910891;
+        bh=lGzuNQEbCzLF8Wpv9hZcBeG9DrOSn6prwv9DbueiK6k=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=d1hkXTFFsYYXG0JbQFBX6qp5Uk2qKs+AQpMRKmdTAiDl1OmcqaabMPs5Fkbvl6ZbQ
-         VrsQ9ESM0piYOky5R31N45FXe+PSvoy/xXv79raidmDlVRYJ26zJGQPNOaDrtZRrL0
-         HAQ6cTu6RH0tvafCO8XkQFV50LQ3NTMGTJmL2viw=
+        b=W1vHFe2kyiBzZukEv5lmzrRtdXIUZ60HJvVVADrbJnsoMzagOF+w1ll8dHlZPUrjX
+         soE/dto283J/5+CfiXr37qgaUzKqDKXAymi3Xijxw/XbaMFCyb6fkNulO+hlYGsTb4
+         uygqxbOCQ4oPxqXYI0biS70+OrFkDVLA2jwRYfjE=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v5 1/9] media: adv748x: fix end-of-line terminators in
- diagnostic statements
+Subject: Re: [PATCH v5 2/9] media: adv748x: include everything adv748x.h needs
+ into the file
 To:     Alex Riesen <alexander.riesen@cetitec.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -37,7 +37,7 @@ To:     Alex Riesen <alexander.riesen@cetitec.com>,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
 References: <cover.1585852001.git.alexander.riesen@cetitec.com>
- <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
+ <046f909122e03286faf0a8916f30d56259656e14.1585852001.git.alexander.riesen@cetitec.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -85,12 +85,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <a111380c-f563-8019-deb8-8916a679227b@ideasonboard.com>
-Date:   Fri, 3 Apr 2020 11:43:38 +0100
+Message-ID: <b56c7c08-d5f7-0b2a-350c-322401e07005@ideasonboard.com>
+Date:   Fri, 3 Apr 2020 11:48:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <2f2460435afa594ef417e70068b125af97ddca39.1585852001.git.alexander.riesen@cetitec.com>
+In-Reply-To: <046f909122e03286faf0a8916f30d56259656e14.1585852001.git.alexander.riesen@cetitec.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -102,134 +102,141 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Alex,
 
 On 02/04/2020 19:34, Alex Riesen wrote:
-> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To follow the established practice of not depending on others to
+> pull everything in. While at it, make sure it stays like this.
 
-I guess we could have also added this directly to the helper macros, but
-there is indeed already a mixed usage so either way would require fixups
-to be consistent.
+Good call!
 
-So this is a good option ;-)
+Small extra trivial comment below...
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/i2c/adv748x/adv748x-core.c | 24 ++++++++++++------------
->  drivers/media/i2c/adv748x/adv748x-csi2.c |  2 +-
->  2 files changed, 13 insertions(+), 13 deletions(-)
+>  drivers/media/i2c/adv748x/adv748x-afe.c  | 6 ++----
+>  drivers/media/i2c/adv748x/adv748x-core.c | 6 ++----
+>  drivers/media/i2c/adv748x/adv748x-csi2.c | 6 ++----
+>  drivers/media/i2c/adv748x/adv748x-hdmi.c | 6 ++----
+>  drivers/media/i2c/adv748x/adv748x.h      | 2 ++
+>  5 files changed, 10 insertions(+), 16 deletions(-)
 > 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
+> index dbbb1e4d6363..5a25d1fbe25f 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-afe.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-afe.c
+> @@ -6,18 +6,16 @@
+>   * Copyright (C) 2017 Renesas Electronics Corp.
+>   */
+>  
+> +#include "adv748x.h"
+> +
+>  #include <linux/delay.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/v4l2-dv-timings.h>
+>  
+> -#include <media/v4l2-ctrls.h>
+> -#include <media/v4l2-device.h>
+>  #include <media/v4l2-dv-timings.h>
+>  #include <media/v4l2-ioctl.h>
+>  
+> -#include "adv748x.h"
+> -
+>  /* -----------------------------------------------------------------------------
+>   * SDP
+>   */
 > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index 23e02ff27b17..c3fb113cef62 100644
+> index c3fb113cef62..5c59aad319d1 100644
 > --- a/drivers/media/i2c/adv748x/adv748x-core.c
 > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -623,11 +623,11 @@ static int adv748x_parse_dt(struct adv748x_state *state)
+> @@ -10,6 +10,8 @@
+>   *	Kieran Bingham <kieran.bingham@ideasonboard.com>
+>   */
 >  
->  	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
->  		of_graph_parse_endpoint(ep_np, &ep);
-> -		adv_info(state, "Endpoint %pOF on port %d", ep.local_node,
-> +		adv_info(state, "Endpoint %pOF on port %d\n", ep.local_node,
->  			 ep.port);
+> +#include "adv748x.h"
+> +
+>  #include <linux/delay.h>
+>  #include <linux/errno.h>
+>  #include <linux/i2c.h>
+
+As linux/i2c.h is included in adv748x.h, we can remove this entry.
+
+> @@ -20,14 +22,10 @@
+>  #include <linux/slab.h>
+>  #include <linux/v4l2-dv-timings.h>
 >  
->  		if (ep.port >= ADV748X_PORT_MAX) {
-> -			adv_err(state, "Invalid endpoint %pOF on port %d",
-> +			adv_err(state, "Invalid endpoint %pOF on port %d\n",
->  				ep.local_node, ep.port);
+> -#include <media/v4l2-ctrls.h>
+> -#include <media/v4l2-device.h>
+>  #include <media/v4l2-dv-timings.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-ioctl.h>
 >  
->  			continue;
-> @@ -635,7 +635,7 @@ static int adv748x_parse_dt(struct adv748x_state *state)
->  
->  		if (state->endpoints[ep.port]) {
->  			adv_err(state,
-> -				"Multiple port endpoints are not supported");
-> +				"Multiple port endpoints are not supported\n");
->  			continue;
->  		}
->  
-> @@ -702,62 +702,62 @@ static int adv748x_probe(struct i2c_client *client)
->  	/* Discover and process ports declared by the Device tree endpoints */
->  	ret = adv748x_parse_dt(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to parse device tree");
-> +		adv_err(state, "Failed to parse device tree\n");
->  		goto err_free_mutex;
->  	}
->  
->  	/* Configure IO Regmap region */
->  	ret = adv748x_configure_regmap(state, ADV748X_PAGE_IO);
->  	if (ret) {
-> -		adv_err(state, "Error configuring IO regmap region");
-> +		adv_err(state, "Error configuring IO regmap region\n");
->  		goto err_cleanup_dt;
->  	}
->  
->  	ret = adv748x_identify_chip(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to identify chip");
-> +		adv_err(state, "Failed to identify chip\n");
->  		goto err_cleanup_dt;
->  	}
->  
->  	/* Configure remaining pages as I2C clients with regmap access */
->  	ret = adv748x_initialise_clients(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to setup client regmap pages");
-> +		adv_err(state, "Failed to setup client regmap pages\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* SW reset ADV748X to its default values */
->  	ret = adv748x_reset(state);
->  	if (ret) {
-> -		adv_err(state, "Failed to reset hardware");
-> +		adv_err(state, "Failed to reset hardware\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* Initialise HDMI */
->  	ret = adv748x_hdmi_init(&state->hdmi);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe HDMI");
-> +		adv_err(state, "Failed to probe HDMI\n");
->  		goto err_cleanup_clients;
->  	}
->  
->  	/* Initialise AFE */
->  	ret = adv748x_afe_init(&state->afe);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe AFE");
-> +		adv_err(state, "Failed to probe AFE\n");
->  		goto err_cleanup_hdmi;
->  	}
->  
->  	/* Initialise TXA */
->  	ret = adv748x_csi2_init(state, &state->txa);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe TXA");
-> +		adv_err(state, "Failed to probe TXA\n");
->  		goto err_cleanup_afe;
->  	}
->  
->  	/* Initialise TXB */
->  	ret = adv748x_csi2_init(state, &state->txb);
->  	if (ret) {
-> -		adv_err(state, "Failed to probe TXB");
-> +		adv_err(state, "Failed to probe TXB\n");
->  		goto err_cleanup_txa;
->  	}
->  
+> -#include "adv748x.h"
+> -
+>  /* -----------------------------------------------------------------------------
+>   * Register manipulation
+>   */
 > diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> index 2091cda50935..c43ce5d78723 100644
+> index c43ce5d78723..c00d4f347d95 100644
 > --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
 > +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-> @@ -72,7 +72,7 @@ static int adv748x_csi2_registered(struct v4l2_subdev *sd)
->  	struct adv748x_state *state = tx->state;
->  	int ret;
+> @@ -5,15 +5,13 @@
+>   * Copyright (C) 2017 Renesas Electronics Corp.
+>   */
 >  
-> -	adv_dbg(state, "Registered %s (%s)", is_txa(tx) ? "TXA":"TXB",
-> +	adv_dbg(state, "Registered %s (%s)\n", is_txa(tx) ? "TXA":"TXB",
->  			sd->name);
+> +#include "adv748x.h"
+> +
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
 >  
->  	/*
+> -#include <media/v4l2-ctrls.h>
+> -#include <media/v4l2-device.h>
+>  #include <media/v4l2-ioctl.h>
+>  
+> -#include "adv748x.h"
+> -
+>  static int adv748x_csi2_set_virtual_channel(struct adv748x_csi2 *tx,
+>  					    unsigned int vc)
+>  {
+> diff --git a/drivers/media/i2c/adv748x/adv748x-hdmi.c b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> index c557f8fdf11a..f598acec3b5c 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> @@ -5,18 +5,16 @@
+>   * Copyright (C) 2017 Renesas Electronics Corp.
+>   */
+>  
+> +#include "adv748x.h"
+> +
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  
+> -#include <media/v4l2-ctrls.h>
+> -#include <media/v4l2-device.h>
+>  #include <media/v4l2-dv-timings.h>
+>  #include <media/v4l2-ioctl.h>
+>  
+>  #include <uapi/linux/v4l2-dv-timings.h>
+>  
+> -#include "adv748x.h"
+> -
+>  /* -----------------------------------------------------------------------------
+>   * HDMI and CP
+>   */
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+> index fccb388ce179..09aab4138c3f 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -19,6 +19,8 @@
+>   */
+>  
+>  #include <linux/i2c.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+>  
+>  #ifndef _ADV748X_H_
+>  #define _ADV748X_H_
 > 
 
 -- 
