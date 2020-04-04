@@ -2,110 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FDF419E709
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Apr 2020 20:24:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CB3319E70A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Apr 2020 20:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbgDDSYO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 4 Apr 2020 14:24:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37888 "EHLO
+        id S1726207AbgDDSZv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Apr 2020 14:25:51 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37898 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbgDDSYO (ORCPT
+        with ESMTP id S1726187AbgDDSZv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 4 Apr 2020 14:24:14 -0400
+        Sat, 4 Apr 2020 14:25:51 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DDDC312;
-        Sat,  4 Apr 2020 20:24:12 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59DB6312;
+        Sat,  4 Apr 2020 20:25:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586024652;
-        bh=+1ZU8acYeetDVd5n9MvXzk6dPRfWYOGXyrBkucS4OrE=;
+        s=mail; t=1586024749;
+        bh=PTvG/2khhxzZNEwEyrtZBzHyBxkv0ac/83/7I+tYhbM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mh/bVKdrO8IRWNb7xMTv9K4AxGyQ0Ew3S11+4+NEULkG72KFED2YwbmkN4hVDaJR6
-         Iz2fuLfNQ6ZANmzPHIE4nqy9q0ZecwchFHaJw/S/+0I9+ceqZAWdmvEHzQR6PKeaqS
-         S5+MInVRmg2ojIw+vVdbuDFEMPnun25JWS/hVtdI=
-Date:   Sat, 4 Apr 2020 21:24:03 +0300
+        b=JR2f8h6iYWY6ClzcUb+sEA1UtC1yRBJOVANHPgrx0pb73Kn9CCUFBafCsUUIocB/p
+         xeMUol5K41vluJiKD/kFX38+rRQIn3HJSAiY/z36cjwo0wUZsAm6cD1z9iTr7muSq3
+         ght3/2QROPC0lx53IXQLIAbSJtIou58XVoz35s/g=
+Date:   Sat, 4 Apr 2020 21:25:40 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomohito Esaki <etom@igel.co.jp>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: rcar-du: Set primary plane zpos immutably at
- initializing
-Message-ID: <20200404182403.GB4875@pendragon.ideasonboard.com>
-References: <20200401061100.7379-1-etom@igel.co.jp>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Tomohito Esaki <etom@igel.co.jp>
+Subject: Re: [PATCH] drm: rcar-du: Create immutable zpos property for primary
+ planes
+Message-ID: <20200404182540.GC4875@pendragon.ideasonboard.com>
+References: <20200402104035.13497-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXwUEuct=Pr29aGJuj1cgDmCEZFDm1JEx5-+zP-02n+mw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200401061100.7379-1-etom@igel.co.jp>
+In-Reply-To: <CAMuHMdXwUEuct=Pr29aGJuj1cgDmCEZFDm1JEx5-+zP-02n+mw@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Esaki-san,
+Hi Geert,
 
-Thank you for the patch.
-
-On Wed, Apr 01, 2020 at 03:11:00PM +0900, Tomohito Esaki wrote:
-> According to drm_plane_create_zpos_property() function documentation,
-> all planes zpos range should be set if zpos property is supported.
-> However, the rcar-du driver didn't set primary plane zpos range. Since
-> the primary plane's zpos is fixed, set i immutably.
+On Thu, Apr 02, 2020 at 01:12:51PM +0200, Geert Uytterhoeven wrote:
+> On Thu, Apr 2, 2020 at 12:42 PM Laurent Pinchart wrote:
+> > The R-Car DU driver creates a zpos property, ranging from 1 to 7, for
+> > all the overlay planes, but leaves the primary plane without a zpos
+> > property. The DRM/KMS API doesn't clearly specify if this is acceptable,
+> > of it the property is mandatory for all planes when exposed for some of
+> > the planes. Nonetheless, weston v8.0 has been reported to have trouble
+> > handling this situation.
+> >
+> > The DRM core offers support for immutable zpos properties. Creating an
+> > immutable zpos property set to 0 for the primary planes seems to be a
+> > good way forward, as it shouldn't introduce any regression, and can fix
+> > the issue. Do so.
+> >
+> > Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 5 ++++-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 5 ++++-
->  2 files changed, 8 insertions(+), 2 deletions(-)
+> Thanks for your patch!
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> index c6430027169f..9a499be45c45 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> @@ -785,8 +785,11 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
->  
->  		drm_plane_create_alpha_property(&plane->plane);
->  
-> -		if (type == DRM_PLANE_TYPE_PRIMARY)
-> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
-> +			drm_plane_create_zpos_immutable_property(&plane->plane,
-> +								 0);
->  			continue;
-> +		}
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> > @@ -785,13 +785,15 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+> >
+> >                 drm_plane_create_alpha_property(&plane->plane);
+> >
+> > -               if (type == DRM_PLANE_TYPE_PRIMARY)
+> > -                       continue;
+> > -
+> > -               drm_object_attach_property(&plane->plane.base,
+> > -                                          rcdu->props.colorkey,
+> > -                                          RCAR_DU_COLORKEY_NONE);
+> > -               drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
+> > +               if (type == DRM_PLANE_TYPE_PRIMARY) {
+> > +                       drm_plane_create_zpos_immutable_property(&plane->plane,
+> > +                                                                0);
+> > +               } else {
+> > +                       drm_object_attach_property(&plane->plane.base,
+> > +                                                  rcdu->props.colorkey,
+> > +                                                  RCAR_DU_COLORKEY_NONE);
+> > +                       drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
+> > +               }
+> >         }
+> >
+> >         return 0;
+> 
+> This is very similar to Esaki-san's patch[*] posted yesterday.
 
-I would prefer an if ... else ... here and below instead of a continue,
-to better handle future differences between primary and overlay planes.
-Apart from that,
+Thank you for pointing me to it, I had missed that patch.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> However, there's one big difference: your patch doesn't update
+> rcar_du_vsp_init(). Isn't that needed?
+> 
+> [*] "[PATCH] drm: rcar-du: Set primary plane zpos immutably at initializing"
+>     https://lore.kernel.org/linux-renesas-soc/20200401061100.7379-1-etom@igel.co.jp/
 
-I've taken the liberty to resend the patch with this change as a v2,
-with the dri-devel mailing list in CC, and will include it in my next
-pull request.
-
-Would you mind CC'ing me for future patches to the R-Car DU driver ? You
-can use the scripts/get_maintainer.pl script from the Linux kernel
-sources to get a list of maintainers, reviewers and mailing lists for a
-patch. There's no need to CC everybody on that list, but it can give you
-at least the driver's maintainer and the corresponding mailing list.
-
->  
->  		drm_object_attach_property(&plane->plane.base,
->  					   rcdu->props.colorkey,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index 5e4faf258c31..382b720edc09 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -392,8 +392,11 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->  		drm_plane_helper_add(&plane->plane,
->  				     &rcar_du_vsp_plane_helper_funcs);
->  
-> -		if (type == DRM_PLANE_TYPE_PRIMARY)
-> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
-> +			drm_plane_create_zpos_immutable_property(&plane->plane,
-> +								 0);
->  			continue;
-> +		}
->  
->  		drm_plane_create_alpha_property(&plane->plane);
->  		drm_plane_create_zpos_property(&plane->plane, 1, 1,
+My bad. I've sent a v2 of Esaki-san's patch to CC the dri-devel mailing
+list, and have applied it to my tree.
 
 -- 
 Regards,
