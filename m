@@ -2,160 +2,290 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 806D319EF35
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 03:47:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE04F19F068
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 08:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726408AbgDFBrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Apr 2020 21:47:49 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38522 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726373AbgDFBrt (ORCPT
+        id S1726571AbgDFGhh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Apr 2020 02:37:37 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:60595 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726408AbgDFGhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Apr 2020 21:47:49 -0400
-Received: by mail-pf1-f194.google.com with SMTP id c21so6792790pfo.5
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 05 Apr 2020 18:47:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xlmSsISaJ23hVo68UD8v5B9oxzVS6g7fMxgTyIoWdSg=;
-        b=P948txDYB0M6wNGQAtrV86c5MbY2TA1ojXGn7CcGMFQu8Llpzyw0ex5NKhxpl4gvGS
-         MhxWofJCDk960t3b/jLJhD4KvnyqUQJBlHN5pwCcVtrlhHGbUrldyxC1ZKm31mpwDOdB
-         kgzx9z5UQVSioRqUQ4f5WNRsU42HZjDsZNsXoyZJaZ89P9qLQC8iSYCuAPtvZf8BUtK8
-         gl6k6gP0H3sokBFMUJgvY5QwvESaG/HflsWGZxIUsBj/EKETmzWDmEVrvro4qAeOBf2D
-         Y/+hs/Z8ntQOBc89/ym2vcr8lkZGqghrfrEe5hbPaiwtFqgFxg5h3/K33ShCI/OC3mkS
-         XwxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=xlmSsISaJ23hVo68UD8v5B9oxzVS6g7fMxgTyIoWdSg=;
-        b=Ong5P3TeMVVt5nYDvmXYB2rXes9W1a5cDNYtm48kgbghPUbIy3Zz4KCwpppQC/C0ij
-         qS/HmZplY8GLpRpn5Q/Scc8593gUBBnh2DAUmZMixCPV2tXVEnJWkDMCTZ7KMApSKaPC
-         1OC0FxugZY3HYeudFicdYX37D740/05WEHh86kfE1DJBSdqqB/HGI4pcuGP5vsPlewez
-         7oiEbHyCKpXkDgCRBbjV19Hzw1wvTIY0z8gmzptrCr+szOngNHiY0utzCrAsN8SElM4p
-         qTvxMIv31XpMqAiwMXxc5HRSMbR9dW3v37hyAEtmNuquJOc113esgE8j7tFVcTfQ6zQx
-         8Fsg==
-X-Gm-Message-State: AGi0PubgFJZrqU/LUPrKBDoG238pzttwx76EPc+YQjnNy69RHCSPsYjk
-        xIKwAZWzlZAM+xUWWPk0Zq8+ly21tI4=
-X-Google-Smtp-Source: APiQypJRM2gEqGWb3WH7DBj42v+Y9hVl7L8deLBYg1Qb+vpsxylSpQS3wcB0ujAX5s4/9bQaG1vkgg==
-X-Received: by 2002:a63:1f26:: with SMTP id f38mr12624982pgf.235.1586137667528;
-        Sun, 05 Apr 2020 18:47:47 -0700 (PDT)
-Received: from [10.16.129.49] (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id c207sm10367401pfb.47.2020.04.05.18.47.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Apr 2020 18:47:46 -0700 (PDT)
-Subject: Re: [PATCH] drm: rcar-du: Set primary plane zpos immutably at
- initializing
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200401061100.7379-1-etom@igel.co.jp>
- <20200404182403.GB4875@pendragon.ideasonboard.com>
-From:   Esaki Tomohito <etom@igel.co.jp>
-Autocrypt: addr=etom@igel.co.jp; prefer-encrypt=mutual; keydata=
- mQENBE2egxoBCADFOCDMNmjOeu61nHemxUBgA17/tWPH28AqcA+uxby9dAcA8q0+7zWjfTPn
- Q89kF05szFTcUtv+6CDIzzbqTVApJnXlbY9rlT5ECMrYGwELQBuVMvkq18RqQ/lKLZJ4RVMz
- rsE8kuBfDoRqKIwXv13iavXIt9HqeHiqhDivKLMPLBZbyjjFpvsTdN15H2qIvba2K4FP00o/
- 7HOc0/0pUohp3yGHptZ6kI5iZPQ61+ANavhrNC1/lJMZzAupDG19Ft0abRCwF3HP/sernC1z
- U6xoUSnZgpHXm9uLnZLgc8VI5rbzKGOUK+FIAWIPxV3Cv9W1xSUlwGGbk8nqfkslXFFBABEB
- AAG0IEVzYWtpIFRvbW9oaXRvIDxldG9tQGlnZWwuY28uanA+iQE+BBMBAgAoBQJNnoMaAhsj
- BQkJZgGABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRB6VPTiXWc4oUldCACeEakXrpeA
- o8ncbW6e4V5AA0as+QBYLupQIbp1GpiKT8ChgoIPI+Ik88m5f6x4LEPoNe3JebF/g8pha/Og
- gjVCXTKd1N7cPOKP4zYiJ7SpipcOTHS/z+c0IPfUwi8H3p6j1Ybrmlu3Xj1AIMFrutrMSOHG
- c3mIguY8F4fJZR5fDkiJ7cBZ3HoBb6d3URud3ofhYwsy7ZnWNv2tfLBB/OPFslRVbR3Cgfqr
- 1SZeF4MsshPfMhHY94TOdJ9ZetJs53yQheqwMO6VX3tFHL6g1RsZRuBmTD5tzLX26u2SRrh+
- XJcdfAorP2f4q84Whcjn//3QSuKptp/COM2HQCGBycFt
-Message-ID: <0a458d1b-90fa-6149-630e-23793ebc20b7@igel.co.jp>
-Date:   Mon, 6 Apr 2020 10:47:43 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Mon, 6 Apr 2020 02:37:36 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 9628B60005;
+        Mon,  6 Apr 2020 06:37:28 +0000 (UTC)
+Date:   Mon, 6 Apr 2020 08:40:31 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 3/4] dt-bindings: display: bridge: thc63lvd1024: Convert
+ binding to YAML
+Message-ID: <20200406064031.huwbq3wqd6t46idq@uno.localdomain>
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405232318.26833-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200404182403.GB4875@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200405232318.26833-4-laurent.pinchart+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Laurent-san
+Hi Laurent,
 
-On 2020/04/05 3:24, Laurent Pinchart wrote:
-> Hello Esaki-san,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Apr 01, 2020 at 03:11:00PM +0900, Tomohito Esaki wrote:
->> According to drm_plane_create_zpos_property() function documentation,
->> all planes zpos range should be set if zpos property is supported.
->> However, the rcar-du driver didn't set primary plane zpos range. Since
->> the primary plane's zpos is fixed, set i immutably.
->>
->> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
->> ---
->>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 5 ++++-
->>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 5 ++++-
->>  2 files changed, 8 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> index c6430027169f..9a499be45c45 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> @@ -785,8 +785,11 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
->>  
->>  		drm_plane_create_alpha_property(&plane->plane);
->>  
->> -		if (type == DRM_PLANE_TYPE_PRIMARY)
->> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
->> +			drm_plane_create_zpos_immutable_property(&plane->plane,
->> +								 0);
->>  			continue;
->> +		}
-> 
-> I would prefer an if ... else ... here and below instead of a continue,
-> to better handle future differences between primary and overlay planes.
-> Apart from that,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> I've taken the liberty to resend the patch with this change as a v2,
-> with the dri-devel mailing list in CC, and will include it in my next
-> pull request.
+On Mon, Apr 06, 2020 at 02:23:17AM +0300, Laurent Pinchart wrote:
+> Convert the Thine THC63LVD1024 text binding to YAML.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  .../display/bridge/thine,thc63lvd1024.txt     |  66 ----------
+>  .../display/bridge/thine,thc63lvd1024.yaml    | 121 ++++++++++++++++++
+>  2 files changed, 121 insertions(+), 66 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> deleted file mode 100644
+> index d17d1e5820d7..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> +++ /dev/null
+> @@ -1,66 +0,0 @@
+> -Thine Electronics THC63LVD1024 LVDS decoder
+> --------------------------------------------
+> -
+> -The THC63LVD1024 is a dual link LVDS receiver designed to convert LVDS streams
+> -to parallel data outputs. The chip supports single/dual input/output modes,
+> -handling up to two LVDS input streams and up to two digital CMOS/TTL outputs.
+> -
+> -Single or dual operation mode, output data mapping and DDR output modes are
+> -configured through input signals and the chip does not expose any control bus.
+> -
+> -Required properties:
+> -- compatible: Shall be "thine,thc63lvd1024"
+> -- vcc-supply: Power supply for TTL output, TTL CLOCKOUT signal, LVDS input,
+> -  PPL and digital circuitry
+> -
+> -Optional properties:
+> -- powerdown-gpios: Power down GPIO signal, pin name "/PDWN". Active low
+> -- oe-gpios: Output enable GPIO signal, pin name "OE". Active high
+> -
+> -The THC63LVD1024 video port connections are modeled according
+> -to OF graph bindings specified by Documentation/devicetree/bindings/graph.txt
+> -
+> -Required video port nodes:
+> -- port@0: First LVDS input port
+> -- port@2: First digital CMOS/TTL parallel output
+> -
+> -Optional video port nodes:
+> -- port@1: Second LVDS input port
+> -- port@3: Second digital CMOS/TTL parallel output
+> -
+> -The device can operate in single-link mode or dual-link mode. In single-link
+> -mode, all pixels are received on port@0, and port@1 shall not contain any
+> -endpoint. In dual-link mode, even-numbered pixels are received on port@0 and
+> -odd-numbered pixels on port@1, and both port@0 and port@1 shall contain
+> -endpoints.
+> -
+> -Example:
+> ---------
+> -
+> -	thc63lvd1024: lvds-decoder {
+> -		compatible = "thine,thc63lvd1024";
+> -
+> -		vcc-supply = <&reg_lvds_vcc>;
+> -		powerdown-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -
+> -				lvds_dec_in_0: endpoint {
+> -					remote-endpoint = <&lvds_out>;
+> -				};
+> -			};
+> -
+> -			port@2{
+> -				reg = <2>;
+> -
+> -				lvds_dec_out_2: endpoint {
+> -					remote-endpoint = <&adv7511_in>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> new file mode 100644
+> index 000000000000..469ac4a34273
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> @@ -0,0 +1,121 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/thine,thc63lvd1024.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Thine Electronics THC63LVD1024 LVDS Decoder
+> +
+> +maintainers:
+> +  - Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-I agree with, thank you for updating patch.
+Ack
 
-> Would you mind CC'ing me for future patches to the R-Car DU driver ? You
-> can use the scripts/get_maintainer.pl script from the Linux kernel
-> sources to get a list of maintainers, reviewers and mailing lists for a
-> patch. There's no need to CC everybody on that list, but it can give you
-> at least the driver's maintainer and the corresponding mailing list.
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  The THC63LVD1024 is a dual link LVDS receiver designed to convert LVDS
+> +  streams to parallel data outputs. The chip supports single/dual input/output
+> +  modes, handling up to two LVDS input streams and up to two digital CMOS/TTL
+> +  outputs.
+> +
+> +  Single or dual operation mode, output data mapping and DDR output modes are
+> +  configured through input signals and the chip does not expose any control
+> +  bus.
+> +
+> +properties:
+> +  compatible:
+> +    const: thine,thc63lvd1024
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      This device has four video ports. Their connections are modeled using the
+> +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> +
+> +      The device can operate in single-link mode or dual-link mode. In
+> +      single-link mode, all pixels are received on port@0, and port@1 shall not
+> +      contain any endpoint. In dual-link mode, even-numbered pixels are
+> +      received on port@0 and odd-numbered pixels on port@1, and both port@0 and
+> +      port@1 shall contain endpoints.
 
-Sorry, I understood.
-I would like to add maintainer to CC from next time.
+I wonder why we have documented only single/dual input mode and not
+single/dual output mode too. The driver only supports single input and
+single output, but this might be a good occasion to document the
+output port mapping as well.
 
->>  
->>  		drm_object_attach_property(&plane->plane.base,
->>  					   rcdu->props.colorkey,
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
->> index 5e4faf258c31..382b720edc09 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
->> @@ -392,8 +392,11 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->>  		drm_plane_helper_add(&plane->plane,
->>  				     &rcar_du_vsp_plane_helper_funcs);
->>  
->> -		if (type == DRM_PLANE_TYPE_PRIMARY)
->> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
->> +			drm_plane_create_zpos_immutable_property(&plane->plane,
->> +								 0);
->>  			continue;
->> +		}
->>  
->>  		drm_plane_create_alpha_property(&plane->plane);
->>  		drm_plane_create_zpos_property(&plane->plane, 1, 1,
-> 
+How about
 
-Thanks,
-Esaki
+      The device can operate in single or dual input and output modes.
+
+      When operating in single input mode, all pixels are received on
+      port@0, and port@1 shall not contain any endpoint. In dual input
+      mode, even-numbered pixels are received on port@0 and
+      odd-numbered pixels on port@1, and both port@0 and port@1 shall
+      contain endpoints.
+
+      When operating in single output mode all pixels are output from
+      the first CMOS/TTL port and port@3 shall not contain any
+      endpoint. In dual output mode pixels are output from both
+      CMOS/TTL ports and both port@2 and port@3 shall contain
+      endpoints.
+
+With or without this, as the new bindings are not worse than what they
+where already:
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: First LVDS input port
+> +
+> +      port@1:
+> +        type: object
+> +        description: Second LVDS input port
+> +
+> +      port@2:
+> +        type: object
+> +        description: First digital CMOS/TTL parallel output
+> +
+> +      port@3:
+> +        type: object
+> +        description: Second digital CMOS/TTL parallel output
+> +
+> +    required:
+> +      - port@0
+> +      - port@2
+> +
+> +    additionalProperties: false
+> +
+> +  oe-gpios:
+> +    maxItems: 1
+> +    description: Output enable GPIO signal, pin name "OE", active high.
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description: Power down GPIO signal, pin name "/PDWN", active low.
+> +
+> +  vcc-supply:
+> +    maxItems: 1
+> +    description:
+> +      Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
+> +      digital circuitry.
+> +
+> +required:
+> +  - compatible
+> +  - ports
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    lvds-decoder {
+> +        compatible = "thine,thc63lvd1024";
+> +
+> +        vcc-supply = <&reg_lvds_vcc>;
+> +        powerdown-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                lvds_dec_in_0: endpoint {
+> +                    remote-endpoint = <&lvds_out>;
+> +                };
+> +            };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                lvds_dec_out_2: endpoint {
+> +                    remote-endpoint = <&adv7511_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
