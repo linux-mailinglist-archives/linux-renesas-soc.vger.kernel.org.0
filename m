@@ -2,285 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A55C19F13E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 10:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCE919F1C8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 10:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgDFIAg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Apr 2020 04:00:36 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:50759 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726475AbgDFIAg (ORCPT
+        id S1726680AbgDFIru (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Apr 2020 04:47:50 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45888 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbgDFIrt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Apr 2020 04:00:36 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id D74F15C01A7;
-        Mon,  6 Apr 2020 04:00:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 06 Apr 2020 04:00:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=IkPl9GikYyHPmZc02tULTBn56d9
-        A0vpAp2YQ86XA7LU=; b=Hk12HmPSF34cbLkWUAQcbrVNM9pkdDGaOwf8CQPE3gN
-        3cmfz1iVG6T+jojVuFEaba66i6jPUKckIOR41xehgGhrzSxc7HSnKW19vjY9AgR1
-        I7uvzHCh0sepjGu5LGPWnbzf9JeZ2j6XQAvxfJPZhEHTieGH/HDV485klUUapExU
-        GSYDyIDjW/8AYqGSQbH4SfA0P3iyb8KQoH2icqdKSuDEoo6wGfsy+81RGO3YGpGP
-        q7Hm5QKsxNrEQVjIIy3Ni0Wzhkk5TPO+9IfqAAlO9BznH341AleyrrqToDW6uo+y
-        XVIzW9sP52p539b9i7gAP+1tiADjghfjk4otspYVSzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=IkPl9G
-        ikYyHPmZc02tULTBn56d9A0vpAp2YQ86XA7LU=; b=ePEJvDotrB9gxXClxaSXwP
-        Dxva49fLYXmews7qJtotG3I8FxNN9rI+H6E6ExakqiV9UZMjrAIe/N8K7AkMMx/Z
-        NPuspa0CteKqG4JkB+AA8KYhgoXMffEd4qZbzcv27ggN+94Lv8VXebV+ZArdKw0P
-        PeoXu4CtscHrNNFr5qzi2VOY6Pkm+e2IIDeHslLMVI9CMIQbzoPlNlm3P2qq3OvV
-        rx8rbHVv72VoiYR2iEmOUa3Vae+32Y3JyU1Y6TGfI9YmKmrcr6kFpQrk4ZLdL3uX
-        PtVaM9A1tEZlO3y9keOrmC0g1ZW5bAQrlcopKnQoQPER5qPwvoh6DQaxU3emxRUg
-        ==
-X-ME-Sender: <xms:oeGKXqY9SPziKqWhImqe8gj8mkZl2z-C8yK3I5D3CrAMDumLd2jjMA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddvgdduvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
-    hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
-    estggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oeGKXptQ2NxTu6CDE-RM137L0F6nk1teCPjvITxYA62-NrLZ_LcpIw>
-    <xmx:oeGKXnudaCiGH0-eSxDdWUqpxuGB_jv_5RrzuaXrCyE6oTD8Gb-cgw>
-    <xmx:oeGKXucu_-HCmEH37qPzlM7itCCpPUlPEVPGjP0bRCD6t6vLo55iGQ>
-    <xmx:ouGKXtQYr8yqF5opG21J19m7iAK3Sh6iezGQXZKQ8oqWIx9FndZx2g>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7D43F306D397;
-        Mon,  6 Apr 2020 04:00:33 -0400 (EDT)
-Date:   Mon, 6 Apr 2020 10:00:32 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Yao <mark.yao@rock-chips.com>,
-        Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+        Mon, 6 Apr 2020 04:47:49 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l22so12345668oii.12;
+        Mon, 06 Apr 2020 01:47:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ofe9gpx/rAfxW7TO3g+sj7lCoLVUw0RfPyc4HUwJq/0=;
+        b=R6bruQB0S4lzRN8lix/535ikbTaHcxwPjU1BDwFxVmhgDYm5eteniRJVce1vahC/9y
+         ZgLNg7TZbOStS1m6zNzsT8tEligpjeyARlm8L7AvQynXI2Neqv5GNvZI9ny1AyV1+vMM
+         YthPwoow8rVqqC9H9LKPktw+Utx5u0fHjcQd6RsfOeB0lRHbUUZjFgzf1DdhGS438bHs
+         uz1yvl2eHPAxhXmZvfi7GK7ZqlChLR3svpjDGnqy4wfzgpiiUiK2RQpInhBD7hOPL08I
+         pjMsQJKWR+trxszvu4eLHOXxYAl2nvLIcHDIvArYnuJIwwZ9RgNy5lbMnW0a9JMUXlIg
+         rFoQ==
+X-Gm-Message-State: AGi0PuaFLm/W7Uacw/vmyvJgoLKrgMwp+i8WVxdZ1UxubohvzNdy29aS
+        8vQsj3JThGIJ0Dognz0Xsq4acVtA7ExceYvurI8=
+X-Google-Smtp-Source: APiQypI0xhIzfIwCX4pr1CeA1Z/0H4YxMtzB3XTU4byr19XfCp2qMUh0J0OZzFv0dnImP8Rwz0MkG5uV0lsmtuR32VU=
+X-Received: by 2002:aca:4e57:: with SMTP id c84mr11513006oib.148.1586162868764;
+ Mon, 06 Apr 2020 01:47:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ofqcj6g3ss2qbhgm"
-Content-Disposition: inline
-In-Reply-To: <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+References: <20200405232318.26833-1-laurent.pinchart+renesas@ideasonboard.com> <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200405232318.26833-5-laurent.pinchart+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Apr 2020 10:47:37 +0200
+Message-ID: <CAMuHMdXJcw0eGY7J=JcGv6Hs9E_GCybsYSeKKeH5pAH8nkdTrg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: display: bridge: renesas,lvds: Convert
+ binding to YAML
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent,
 
---ofqcj6g3ss2qbhgm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi,
-
-On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
-> Convert the Rockchip HDMI TX text binding to YAML.
+On Mon, Apr 6, 2020 at 1:24 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> Convert the Renesas R-Car LVDS encoder text binding to YAML.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
->  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
->  2 files changed, 178 insertions(+), 74 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
->
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> deleted file mode 100644
-> index 3d32ce137e7f..000000000000
-> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> +++ /dev/null
-> @@ -1,74 +0,0 @@
-> -Rockchip DWC HDMI TX Encoder
-> -============================
-> -
-> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> -with a companion PHY IP.
-> -
-> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> -following device-specific properties.
-> -
-> -
-> -Required properties:
-> -
-> -- compatible: should be one of the following:
-> -		"rockchip,rk3228-dw-hdmi"
-> -		"rockchip,rk3288-dw-hdmi"
-> -		"rockchip,rk3328-dw-hdmi"
-> -		"rockchip,rk3399-dw-hdmi"
-> -- reg: See dw_hdmi.txt.
-> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> -- interrupts: HDMI interrupt number
-> -- clocks: See dw_hdmi.txt.
-> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> -  corresponding to the video input of the controller. The port shall have two
-> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> -
-> -Optional properties
-> -
-> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> -  connected to a system I2C master this property contains a phandle to that
-> -  I2C master controller.
-> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> -- clock-names: May contain "grf", power for grf io.
-> -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> -- phys: from general PHY binding: the phandle for the PHY device.
-> -- phy-names: Should be "hdmi" if phys references an external phy.
-> -
-> -Optional pinctrl entry:
-> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> -  cause the SDA line to be driven low to work around a hardware
-> -  errata.
-> -
-> -Example:
-> -
-> -hdmi: hdmi@ff980000 {
-> -	compatible = "rockchip,rk3288-dw-hdmi";
-> -	reg = <0xff980000 0x20000>;
-> -	reg-io-width = <4>;
-> -	ddc-i2c-bus = <&i2c5>;
-> -	rockchip,grf = <&grf>;
-> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> -	clock-names = "iahb", "isfr";
-> -	ports {
-> -		hdmi_in: port {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -			hdmi_in_vopb: endpoint@0 {
-> -				reg = <0>;
-> -				remote-endpoint = <&vopb_out_hdmi>;
-> -			};
-> -			hdmi_in_vopl: endpoint@1 {
-> -				reg = <1>;
-> -				remote-endpoint = <&vopl_out_hdmi>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..8ff544ae0ac2
+
+Thanks for your patch!
+
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -0,0 +1,178 @@
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> @@ -0,0 +1,248 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Rockchip DWC HDMI TX Encoder
+> +title: Renesas R-Car LVDS Encoder
 > +
 > +maintainers:
-> +  - Mark Yao <mark.yao@rock-chips.com>
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > +
 > +description: |
-> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> +  with a companion PHY IP.
-> +
-> +allOf:
-> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
+> +  Gen2, R-Car Gen3 and RZ/G SoCs.
+
+RZ/G1 and RZ/G2 (no idea what'll RZ/G3 will bring ;-)
+
 > +
 > +properties:
 > +  compatible:
 > +    enum:
-> +      - rockchip,rk3228-dw-hdmi
-> +      - rockchip,rk3288-dw-hdmi
-> +      - rockchip,rk3328-dw-hdmi
-> +      - rockchip,rk3399-dw-hdmi
-> +
-> +  reg: true
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - description: The bus clock for either AHB and APB
-> +      - description: The internal register configuration clock
-> +      - description: The HDMI CEC controller main clock
-> +      - description: Power for GRF IO
-> +      - description: External clock for some HDMI PHY
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - const: iahb
-> +      - const: isfr
-> +      - enum:
-> +        - cec
-> +        - grf
-> +        - vpll
-> +      - enum:
-> +        - cec
-> +        - grf
-> +        - vpll
-> +      - enum:
-> +        - cec
-> +        - grf
-> +        - vpll
+> +      - renesas,r8a7743-lvds # for R8A7743 (RZ/G1M) compatible LVDS encoders
+> +      - renesas,r8a7744-lvds # for R8A7744 (RZ/G1N) compatible LVDS encoders
+> +      - renesas,r8a774a1-lvds # for R8A774A1 (RZ/G2M) compatible LVDS encoders
+> +      - renesas,r8a774b1-lvds # for R8A774B1 (RZ/G2N) compatible LVDS encoders
+> +      - renesas,r8a774c0-lvds # for R8A774C0 (RZ/G2E) compatible LVDS encoders
+> +      - renesas,r8a7790-lvds # for R8A7790 (R-Car H2) compatible LVDS encoders
+> +      - renesas,r8a7791-lvds # for R8A7791 (R-Car M2-W) compatible LVDS encoders
+> +      - renesas,r8a7793-lvds # for R8A7793 (R-Car M2-N) compatible LVDS encoders
+> +      - renesas,r8a7795-lvds # for R8A7795 (R-Car H3) compatible LVDS encoders
+> +      - renesas,r8a7796-lvds # for R8A7796 (R-Car M3-W) compatible LVDS encoders
 
-IIRC Rob wanted us to standardize the order of the clocks if possible,
-since it's a pain to support properly here, and your description won't
-match what you describe here either (and in general it's just a best
-practice), so if all your DTs have the same order you should just set
-that order in stone.
+R8A77960 (I know you don't have support for R8A77961 yet ;-)
 
-> +  ddc-i2c-bus:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      The HDMI DDC bus can be connected to either a system I2C master or the
-> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> +      to a system I2C master this property contains a phandle to that I2C
-> +      master controller.
+> +      - renesas,r8a77965-lvds # for R8A77965 (R-Car M3-N) compatible LVDS encoders
+> +      - renesas,r8a77970-lvds # for R8A77970 (R-Car V3M) compatible LVDS encoders
+> +      - renesas,r8a77980-lvds # for R8A77980 (R-Car V3H) compatible LVDS encoders
+> +      - renesas,r8a77990-lvds # for R8A77990 (R-Car E3) compatible LVDS encoders
+> +      - renesas,r8a77995-lvds # for R8A77995 (R-Car D3) compatible LVDS encoders
+
+Wouldn't it be sufficient to just have the SoC name (e.g. "R-Car D3") in
+the comments?
+
+> +if:
+> +  properties:
+> +    compatible:
+> +      enum:
+> +        - renesas,r8a774c0-lvds
+> +        - renesas,r8a77990-lvds
+> +        - renesas,r8a77995-lvds
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - description: Functional clock
+> +        - description: EXTAL input clock
+> +        - description: DU_DOTCLKIN0 input clock
+> +        - description: DU_DOTCLKIN1 input clock
 > +
-> +  interrupts: true
+> +    clock-names:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - const: fck
+> +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
+> +        # These clocks are optional.
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+
+Can the duplication of the last 3 entries be avoided?
+Perhaps like in
+Documentation/devicetree/bindings/serial/renesas,scif.yaml?
+
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
 > +
-> +  phys:
-> +    maxItems: 1
-> +    description: The HDMI PHY
-> +
-> +  phy-names:
-> +    const: hdmi
-> +
-> +  pinctrl-0: true
-> +  pinctrl-1: true
+> +    lvds@feb90000 {
+> +        compatible = "renesas,r8a7795-lvds";
+> +        reg = <0 0xfeb90000 0 0x14>;
 
-These two are already set by the tools on any schemas (up to
-pinctrl-255 actually).
+Examples are built with #{address,size}-cells = <1>.
 
-Maxime
+> +    lvds0: lvds@feb90000 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0 0xfeb90000 0 0x20>;
 
---ofqcj6g3ss2qbhgm
-Content-Type: application/pgp-signature; name="signature.asc"
+Likewise.
 
------BEGIN PGP SIGNATURE-----
+> +    lvds1: lvds@feb90100 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0 0xfeb90100 0 0x20>;
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXorhoAAKCRDj7w1vZxhR
-xR4bAQCBWDdneD/u9+7PGzCDBNh8sIvQvVJSL+TgtX6FRplLagD/c7pS9CfDHxzG
-vQrFqWGofHKNGJWHWIUjh3BxqsuemQw=
-=wdbW
------END PGP SIGNATURE-----
+Likewise.
 
---ofqcj6g3ss2qbhgm--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
