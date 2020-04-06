@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8248419F472
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 13:19:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D658319F489
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 13:29:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727331AbgDFLTk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Apr 2020 07:19:40 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43732 "EHLO
+        id S1727125AbgDFL3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Apr 2020 07:29:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43886 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbgDFLTk (ORCPT
+        with ESMTP id S1726858AbgDFL3H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Apr 2020 07:19:40 -0400
+        Mon, 6 Apr 2020 07:29:07 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3EB6580E;
-        Mon,  6 Apr 2020 13:19:37 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 331C080E;
+        Mon,  6 Apr 2020 13:29:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586171977;
-        bh=IWAE7fiWWyJbCmxMSYZ4nVedZ7TWLiwjdCOV/Y+r3m8=;
+        s=mail; t=1586172545;
+        bh=ItQjziW4f31binqQFfRgDtYi4pIxtnBBDvQ+3Y1Mw3Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SkglU31c+fBP8OWeHF+yPqdtpqZrPAityh1sgKtfRd/Di6FH3FFVquLsmID4/GZhx
-         ZljmH3/uAyY70/GJcPIzifM+FdVU0lagTxBPoq4xJSKlWMCkoeJDOxMEEy8tTT0M5t
-         l2Pic+wrgl/mayMY9hVJPrZnFqg7Y6LlevSBy+uQ=
-Date:   Mon, 6 Apr 2020 14:19:27 +0300
+        b=ZdBixX5gCelVYbCOMG9KOzA6VgCz151/VaFNZPY1biC02JWGXY6fugURrqMVP+QMg
+         f4E6L108nTL87yi1c7oQARguVCBtTHcz3LGSjiDDcwFMJcEZuZrfk6cq+dVNsmYO2U
+         FdfsFpeU83LnTTuQ8uJOSELbqzGwqhTCvvO6KNPA=
+Date:   Mon, 6 Apr 2020 14:28:56 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Maxime Ripard <maxime@cerno.tech>
 Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
@@ -32,16 +32,16 @@ Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mark Yao <mark.yao@rock-chips.com>,
         Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <20200406111927.GD4757@pendragon.ideasonboard.com>
+Subject: Re: [PATCH/RFC 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
+ Convert binding to YAML
+Message-ID: <20200406112856.GE4757@pendragon.ideasonboard.com>
 References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
- <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200405233935.27599-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+In-Reply-To: <20200406075705.a67tjx7jamdvqpl3@gilmour.lan>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -49,203 +49,135 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Maxime,
 
-On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
-> On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
-> > Convert the Rockchip HDMI TX text binding to YAML.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
-> >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
-> >  2 files changed, 178 insertions(+), 74 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> > deleted file mode 100644
-> > index 3d32ce137e7f..000000000000
-> > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> > +++ /dev/null
-> > @@ -1,74 +0,0 @@
-> > -Rockchip DWC HDMI TX Encoder
-> > -============================
-> > -
-> > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> > -with a companion PHY IP.
-> > -
-> > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> > -following device-specific properties.
-> > -
-> > -
-> > -Required properties:
-> > -
-> > -- compatible: should be one of the following:
-> > -		"rockchip,rk3228-dw-hdmi"
-> > -		"rockchip,rk3288-dw-hdmi"
-> > -		"rockchip,rk3328-dw-hdmi"
-> > -		"rockchip,rk3399-dw-hdmi"
-> > -- reg: See dw_hdmi.txt.
-> > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> > -- interrupts: HDMI interrupt number
-> > -- clocks: See dw_hdmi.txt.
-> > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> > -  corresponding to the video input of the controller. The port shall have two
-> > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> > -
-> > -Optional properties
-> > -
-> > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> > -  connected to a system I2C master this property contains a phandle to that
-> > -  I2C master controller.
-> > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> > -- clock-names: May contain "grf", power for grf io.
-> > -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> > -- phys: from general PHY binding: the phandle for the PHY device.
-> > -- phy-names: Should be "hdmi" if phys references an external phy.
-> > -
-> > -Optional pinctrl entry:
-> > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> > -  cause the SDA line to be driven low to work around a hardware
-> > -  errata.
-> > -
-> > -Example:
-> > -
-> > -hdmi: hdmi@ff980000 {
-> > -	compatible = "rockchip,rk3288-dw-hdmi";
-> > -	reg = <0xff980000 0x20000>;
-> > -	reg-io-width = <4>;
-> > -	ddc-i2c-bus = <&i2c5>;
-> > -	rockchip,grf = <&grf>;
-> > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> > -	clock-names = "iahb", "isfr";
-> > -	ports {
-> > -		hdmi_in: port {
-> > -			#address-cells = <1>;
-> > -			#size-cells = <0>;
-> > -			hdmi_in_vopb: endpoint@0 {
-> > -				reg = <0>;
-> > -				remote-endpoint = <&vopb_out_hdmi>;
-> > -			};
-> > -			hdmi_in_vopl: endpoint@1 {
-> > -				reg = <1>;
-> > -				remote-endpoint = <&vopl_out_hdmi>;
-> > -			};
-> > -		};
-> > -	};
-> > -};
-> > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+On Mon, Apr 06, 2020 at 09:57:05AM +0200, Maxime Ripard wrote:
+> On Mon, Apr 06, 2020 at 02:39:31AM +0300, Laurent Pinchart wrote:
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
 > > new file mode 100644
-> > index 000000000000..8ff544ae0ac2
+> > index 000000000000..9a543740c81d
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> > @@ -0,0 +1,178 @@
+> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+> > @@ -0,0 +1,142 @@
 > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > > +%YAML 1.2
 > > +---
-> > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> > +$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
 > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +title: Rockchip DWC HDMI TX Encoder
+> > +title: Renesas R-Car DWC HDMI TX Encoder
 > > +
 > > +maintainers:
-> > +  - Mark Yao <mark.yao@rock-chips.com>
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > > +
 > > +description: |
 > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
 > > +  with a companion PHY IP.
 > > +
 > > +allOf:
-> > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > +  - $ref: synopsys,dw-hdmi.yaml#
 > > +
 > > +properties:
 > > +  compatible:
-> > +    enum:
-> > +      - rockchip,rk3228-dw-hdmi
-> > +      - rockchip,rk3288-dw-hdmi
-> > +      - rockchip,rk3328-dw-hdmi
-> > +      - rockchip,rk3399-dw-hdmi
+> > +    items:
+> > +      - enum:
+> > +        - renesas,r8a774a1-hdmi # for R8A774A1 (RZ/G2M) compatible HDMI TX
+> > +        - renesas,r8a774b1-hdmi # for R8A774B1 (RZ/G2N) compatible HDMI TX
+> > +        - renesas,r8a7795-hdmi # for R8A7795 (R-Car H3) compatible HDMI TX
+> > +        - renesas,r8a7796-hdmi # for R8A7796 (R-Car M3-W) compatible HDMI TX
+> > +        - renesas,r8a77965-hdmi # for R8A77965 (R-Car M3-N) compatible HDMI TX
+> > +      - const: renesas,rcar-gen3-hdmi
 > > +
 > > +  reg: true
 > > +
 > > +  reg-io-width:
-> > +    const: 4
+> > +    const: 1
 > > +
 > > +  clocks:
 > > +    minItems: 2
-> > +    maxItems: 5
-> > +    items:
-> > +      - description: The bus clock for either AHB and APB
-> > +      - description: The internal register configuration clock
-> > +      - description: The HDMI CEC controller main clock
-> > +      - description: Power for GRF IO
-> > +      - description: External clock for some HDMI PHY
+> > +    maxItems: 2
+> 
+> You don't need both, if one is missing the other will be filled by the
+> dt-schema tools. In this particular case, I guess maxItems would make
+> more sense.
+
+Fixed.
+
 > > +
 > > +  clock-names:
-> > +    minItems: 2
-> > +    maxItems: 5
 > > +    items:
 > > +      - const: iahb
 > > +      - const: isfr
-> > +      - enum:
-> > +        - cec
-> > +        - grf
-> > +        - vpll
-> > +      - enum:
-> > +        - cec
-> > +        - grf
-> > +        - vpll
-> > +      - enum:
-> > +        - cec
-> > +        - grf
-> > +        - vpll
-> 
-> IIRC Rob wanted us to standardize the order of the clocks if possible,
-> since it's a pain to support properly here, and your description won't
-> match what you describe here either (and in general it's just a best
-> practice), so if all your DTs have the same order you should just set
-> that order in stone.
-
-But how do we handle the case where any of the cec, grf and vpll clocks
-can be set ? Assuming, for instance, that
-
-	clock-names = "iahb", "isfr", "cec";
-	clock-names = "iahb", "isfr", "vpll";
-	clock-names = "iahb", "isfr", "cec", "vpll";
-
-would all be valid.
-
-> > +  ddc-i2c-bus:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description:
-> > +      The HDMI DDC bus can be connected to either a system I2C master or the
-> > +      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> > +      to a system I2C master this property contains a phandle to that I2C
-> > +      master controller.
 > > +
 > > +  interrupts: true
 > > +
-> > +  phys:
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      This device has three video ports. Their connections are modelled using the
+> > +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > +      Each port shall have a single endpoint.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description: Parallel RGB input port
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: HDMI output port
+> > +
+> > +      port@2:
+> > +        type: object
+> > +        description: Sound input port
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +      - port@2
+> > +
+> > +    additionalProperties: false
+> > +
+> > +  power-domains:
 > > +    maxItems: 1
-> > +    description: The HDMI PHY
 > > +
-> > +  phy-names:
-> > +    const: hdmi
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - interrupts
+> > +  - ports
 > > +
-> > +  pinctrl-0: true
-> > +  pinctrl-1: true
+> > +additionalProperties: false
 > 
-> These two are already set by the tools on any schemas (up to
-> pinctrl-255 actually).
+> In the case where you have some kind of generic schema and then a more
+> specific one like you have here, unevaluatedProperties make more sense
+> that additionalProperties.
+> 
+> additionalProperties checks that there are no extra properties on the
+> current schema, which is a problem here since you have to duplicate
+> the entire list of properties found in the generic schema, while
+> unevaluatedProperties checks that there are no extra properties in the
+> entire set of all schemas that apply to this node.
+> 
+> This way, you can just put what is different from the generic schema,
+> and you don't have to keep it in sync.
+> 
+> It's a feature that has been added in the spec of the schemas that
+> went on right after the one we support in the tools, so for now the
+> kernel meta-schemas only allows that property to be there (just like
+> deprecated) but won't do anything.
+> 
+> This should be fixed quite soon however, the library we depend on
+> has started to work on that spec apparently.
 
-Thank you for the information. I'll drop them.
+Should I postpone this series until support for unevaluatedProperties is
+available, to be able to test this ?
 
 -- 
 Regards,
