@@ -2,298 +2,271 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C7F19FB4B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 19:21:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 435BC19FC04
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 19:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729366AbgDFRVB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Apr 2020 13:21:01 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33715 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728569AbgDFRVB (ORCPT
+        id S1726520AbgDFRun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Apr 2020 13:50:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53188 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbgDFRun (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Apr 2020 13:21:01 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 22so170033otf.0;
-        Mon, 06 Apr 2020 10:21:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MvhWWihKbea1kmk1rlHsrZn7779c/3cXb44g4kdQchI=;
-        b=NUVw631dyotaSidRVM+IwLC4vgl1VZwNg9hSkl7L1jGfc0jH916/hNdfF2ixZnp5m5
-         H/0lspQULcMRUYNvzfjsZjy5LSbIGVEbtXd7UoizmwtF9HtMRy4xCXF5Bjxok2hdIJ6C
-         2Wnu4QerWzQJFRw6FiHybGUIAZFivvCffISo7Bsy/hslC2YTyj6mGljPpZfISHgTMSq/
-         XxR4BwYbGyJ13+SXBrokq9Hb6wwrem0qBbG6R6YfzZ0d20o2fRKmuZGxV3pdg3xK6Rbq
-         ug+Q8cGFeZR+9BvsUstgA7uFoiawW/7B16FeC1fxo5iO75bZ5ubnzDj63r2OzintxNHK
-         lZHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MvhWWihKbea1kmk1rlHsrZn7779c/3cXb44g4kdQchI=;
-        b=MbzmjuKWsrU08/BNvpOCPsv4YoQXDgTSeAOjMT73ttyXCAsAy2+RA+3IU8xtdPeBFI
-         DRJH8p9eVbRVFG0vd3ckWd+oilmDt29VdbKsNc6g6qccZm6EcjYRh8FqQ5g/H9T1qkqq
-         sOmE439KyyKlGlEi53fIZ16Hj1iVJyZko9M+ORkr0vxM/HP14f7p9sqe5p/rcVAE5LsB
-         MYwzJ2GzWzW0VPkKm1N7bto+FF52fp4+7wKPzBzkbb4qSn+YoIo16xZYOGxXfg+yC9tA
-         JyQtNnS8WFSyCSli48pWZ5YJ1960YwKHukHiuF9ecRNEXnyPma/AQHBUTEBKKb0KXBM1
-         n6wQ==
-X-Gm-Message-State: AGi0PuaMVYfNK6o1Ir/W7/rIy5UyDuCCLwreSzqbOAs/Cv4kVqE/qZgD
-        dQZTFDunrewUW8L2XcNT+3e7WGPtywCPGV6s7Po=
-X-Google-Smtp-Source: APiQypLZEqKH/j4/sOJ6+EKOmiqj3CZ/zMGjtWQXpazbD4V0kD4yYZ+DZA2QQ5JSJhkVcufyyevNNfVOUjBDd+YfYDI=
-X-Received: by 2002:a4a:d88b:: with SMTP id b11mr197968oov.42.1586193659608;
- Mon, 06 Apr 2020 10:20:59 -0700 (PDT)
+        Mon, 6 Apr 2020 13:50:43 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 179D580E;
+        Mon,  6 Apr 2020 19:50:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586195439;
+        bh=3QLlghUrryaj5Iq6GY5ZQ+HMUYeI6nNN9lKy3CRAyZ8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qu5mbH/SEe7Yae8jmd/YMfOQSBJ59i6LkFn2pn4+Gh+phRwFZzlYx61pXxyc09jno
+         g+JwSdDY/u4+FTCX8BsO9cED/gOgw1VNgeNo0664j5rjTTeh10WmAeGN6QzsbjuEgD
+         Hx8MhzY1/t8hrtbAqWiKc5b+HBOVO+zUKG9JNL+8=
+Date:   Mon, 6 Apr 2020 20:50:28 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Yao <mark.yao@rock-chips.com>,
+        Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200406175028.GI16885@pendragon.ideasonboard.com>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200406111927.GD4757@pendragon.ideasonboard.com>
+ <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
 MIME-Version: 1.0
-References: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583838364-12932-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200310124605.GO2975348@oden.dyn.berto.se> <OSBPR01MB35905FFB621C2F4222692832AAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <20200310140625.GA88560@oden.dyn.berto.se> <CA+V-a8vsYGdx6AtgqwS0LXREn4hu-EjVh2D5Dp_rHmpazBYG5A@mail.gmail.com>
- <20200319150329.GB3192108@oden.dyn.berto.se> <CA+V-a8u8=H-6WfaYMLWH73zo5ehP8cu9D-tdGULk=Hkvq4KuAQ@mail.gmail.com>
- <20200330120745.GA3213219@oden.dyn.berto.se>
-In-Reply-To: <20200330120745.GA3213219@oden.dyn.berto.se>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 6 Apr 2020 18:20:33 +0100
-Message-ID: <CA+V-a8vbTc0DZ15y0zZ97PH6khwQVxz=M-8_kgx1AiKkdg5QaA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-To:     Niklas <niklas.soderlund@ragnatech.se>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-HI Niklas,
+Hi Maxime,
 
-On Mon, Mar 30, 2020 at 1:07 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
->
-> Hi Lad,
->
-> Thanks for your reply.
->
-> On 2020-03-27 12:59:52 +0000, Lad, Prabhakar wrote:
-> > Hi Niklas,
+On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
+> On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
+> > On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> > > On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> > > > Convert the Rockchip HDMI TX text binding to YAML.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > ---
+> > > >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> > > >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> > > >  2 files changed, 178 insertions(+), 74 deletions(-)
+> > > >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > deleted file mode 100644
+> > > > index 3d32ce137e7f..000000000000
+> > > > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> > > > +++ /dev/null
+> > > > @@ -1,74 +0,0 @@
+> > > > -Rockchip DWC HDMI TX Encoder
+> > > > -============================
+> > > > -
+> > > > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > -with a companion PHY IP.
+> > > > -
+> > > > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> > > > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> > > > -following device-specific properties.
+> > > > -
+> > > > -
+> > > > -Required properties:
+> > > > -
+> > > > -- compatible: should be one of the following:
+> > > > -		"rockchip,rk3228-dw-hdmi"
+> > > > -		"rockchip,rk3288-dw-hdmi"
+> > > > -		"rockchip,rk3328-dw-hdmi"
+> > > > -		"rockchip,rk3399-dw-hdmi"
+> > > > -- reg: See dw_hdmi.txt.
+> > > > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> > > > -- interrupts: HDMI interrupt number
+> > > > -- clocks: See dw_hdmi.txt.
+> > > > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> > > > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> > > > -  corresponding to the video input of the controller. The port shall have two
+> > > > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> > > > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> > > > -
+> > > > -Optional properties
+> > > > -
+> > > > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> > > > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> > > > -  connected to a system I2C master this property contains a phandle to that
+> > > > -  I2C master controller.
+> > > > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> > > > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> > > > -- clock-names: May contain "grf", power for grf io.
+> > > > -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> > > > -- phys: from general PHY binding: the phandle for the PHY device.
+> > > > -- phy-names: Should be "hdmi" if phys references an external phy.
+> > > > -
+> > > > -Optional pinctrl entry:
+> > > > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> > > > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> > > > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> > > > -  cause the SDA line to be driven low to work around a hardware
+> > > > -  errata.
+> > > > -
+> > > > -Example:
+> > > > -
+> > > > -hdmi: hdmi@ff980000 {
+> > > > -	compatible = "rockchip,rk3288-dw-hdmi";
+> > > > -	reg = <0xff980000 0x20000>;
+> > > > -	reg-io-width = <4>;
+> > > > -	ddc-i2c-bus = <&i2c5>;
+> > > > -	rockchip,grf = <&grf>;
+> > > > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> > > > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> > > > -	clock-names = "iahb", "isfr";
+> > > > -	ports {
+> > > > -		hdmi_in: port {
+> > > > -			#address-cells = <1>;
+> > > > -			#size-cells = <0>;
+> > > > -			hdmi_in_vopb: endpoint@0 {
+> > > > -				reg = <0>;
+> > > > -				remote-endpoint = <&vopb_out_hdmi>;
+> > > > -			};
+> > > > -			hdmi_in_vopl: endpoint@1 {
+> > > > -				reg = <1>;
+> > > > -				remote-endpoint = <&vopl_out_hdmi>;
+> > > > -			};
+> > > > -		};
+> > > > -	};
+> > > > -};
+> > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..8ff544ae0ac2
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> > > > @@ -0,0 +1,178 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Rockchip DWC HDMI TX Encoder
+> > > > +
+> > > > +maintainers:
+> > > > +  - Mark Yao <mark.yao@rock-chips.com>
+> > > > +
+> > > > +description: |
+> > > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > +  with a companion PHY IP.
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - rockchip,rk3228-dw-hdmi
+> > > > +      - rockchip,rk3288-dw-hdmi
+> > > > +      - rockchip,rk3328-dw-hdmi
+> > > > +      - rockchip,rk3399-dw-hdmi
+> > > > +
+> > > > +  reg: true
+> > > > +
+> > > > +  reg-io-width:
+> > > > +    const: 4
+> > > > +
+> > > > +  clocks:
+> > > > +    minItems: 2
+> > > > +    maxItems: 5
+> > > > +    items:
+> > > > +      - description: The bus clock for either AHB and APB
+> > > > +      - description: The internal register configuration clock
+> > > > +      - description: The HDMI CEC controller main clock
+> > > > +      - description: Power for GRF IO
+> > > > +      - description: External clock for some HDMI PHY
+> > > > +
+> > > > +  clock-names:
+> > > > +    minItems: 2
+> > > > +    maxItems: 5
+> > > > +    items:
+> > > > +      - const: iahb
+> > > > +      - const: isfr
+> > > > +      - enum:
+> > > > +        - cec
+> > > > +        - grf
+> > > > +        - vpll
+> > > > +      - enum:
+> > > > +        - cec
+> > > > +        - grf
+> > > > +        - vpll
+> > > > +      - enum:
+> > > > +        - cec
+> > > > +        - grf
+> > > > +        - vpll
+> > >
+> > > IIRC Rob wanted us to standardize the order of the clocks if possible,
+> > > since it's a pain to support properly here, and your description won't
+> > > match what you describe here either (and in general it's just a best
+> > > practice), so if all your DTs have the same order you should just set
+> > > that order in stone.
 > >
-> > On Thu, Mar 19, 2020 at 3:03 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > >
-> > > Hi Prabhakar,
-> > >
-> > > Thanks for the sample files, sorry I did not have time before now to
-> > > look at them. After doing so I believe I know what is wrong, see bellow.
-> > >
-> > > On 2020-03-15 19:35:58 +0000, Lad, Prabhakar wrote:
-> > > > Hi Niklas,
-> > > >
-> > > > On Tue, Mar 10, 2020 at 2:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > > >
-> > > > > Hi Lad,
-> > > > >
-> > > > > On 2020-03-10 13:42:20 +0000, Prabhakar Mahadev Lad wrote:
-> > > > > > Hi Niklas,
-> > > > > >
-> > > > > > Thank for the review.
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Niklas <niklas.soderlund@ragnatech.se>
-> > > > > > > Sent: 10 March 2020 12:46
-> > > > > > > To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>; linux-
-> > > > > > > media@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> > > > > > > kernel@vger.kernel.org; Lad Prabhakar <prabhakar.csengg@gmail.com>
-> > > > > > > Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
-> > > > > > > MEDIA_BUS_FMT_SRGGB8_1X8 format
-> > > > > > >
-> > > > > > > Hi Lad,
-> > > > > > >
-> > > > > > > Thanks for your work.
-> > > > > > >
-> > > > > > > On 2020-03-10 11:06:03 +0000, Lad Prabhakar wrote:
-> > > > > > > > Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by
-> > > > > > > setting
-> > > > > > > > format type to RAW8 in VNMC register and appropriately setting the
-> > > > > > > > bpp, bytesperline to enable V4L2_PIX_FMT_SRGGB8.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
-> > > > > > > lad.rj@bp.renesas.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/media/platform/rcar-vin/rcar-core.c |  1 +
-> > > > > > > > drivers/media/platform/rcar-vin/rcar-dma.c  |  9 ++++++++-
-> > > > > > > > drivers/media/platform/rcar-vin/rcar-v4l2.c | 13 ++++++++++++-
-> > > > > > > >  3 files changed, 21 insertions(+), 2 deletions(-)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > > b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > > index 7440c89..76daf2f 100644
-> > > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > > @@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct
-> > > > > > > rvin_dev *vin,
-> > > > > > > >  case MEDIA_BUS_FMT_UYVY8_2X8:
-> > > > > > > >  case MEDIA_BUS_FMT_UYVY10_2X10:
-> > > > > > > >  case MEDIA_BUS_FMT_RGB888_1X24:
-> > > > > > > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > > > > >  vin->mbus_code = code.code;
-> > > > > > > >  vin_dbg(vin, "Found media bus format for %s: %d\n",
-> > > > > > > >  subdev->name, vin->mbus_code);
-> > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > > > > > > b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > > > > > > index 1a30cd0..1c1fafa 100644
-> > > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > > > > > > @@ -85,6 +85,7 @@
-> > > > > > > >  #define VNMC_INF_YUV8_BT601(1 << 16)
-> > > > > > > >  #define VNMC_INF_YUV10_BT656(2 << 16)
-> > > > > > > >  #define VNMC_INF_YUV10_BT601(3 << 16)
-> > > > > > > > +#define VNMC_INF_RAW8(4 << 16)
-> > > > > > > >  #define VNMC_INF_YUV16(5 << 16)
-> > > > > > > >  #define VNMC_INF_RGB888(6 << 16)
-> > > > > > > >  #define VNMC_VUP(1 << 10)
-> > > > > > > > @@ -587,7 +588,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
-> > > > > > > >  rvin_write(vin, vin->crop.top, VNSLPRC_REG);
-> > > > > > > >  rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
-> > > > > > > >
-> > > > > > > > -
-> > > > > > > >  /* TODO: Add support for the UDS scaler. */
-> > > > > > > >  if (vin->info->model != RCAR_GEN3)
-> > > > > > > >  rvin_crop_scale_comp_gen2(vin);
-> > > > > > > > @@ -676,6 +676,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> > > > > > > >
-> > > > > > > >  input_is_yuv = true;
-> > > > > > > >  break;
-> > > > > > > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > > > > > +vnmc |= VNMC_INF_RAW8;
-> > > > > > > > +break;
-> > > > > > > >  default:
-> > > > > > > >  break;
-> > > > > > > >  }
-> > > > > > > > @@ -737,6 +740,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> > > > > > > >  case V4L2_PIX_FMT_ABGR32:
-> > > > > > > >  dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB |
-> > > > > > > VNDMR_DTMD_ARGB;
-> > > > > > > >  break;
-> > > > > > > > +case V4L2_PIX_FMT_SRGGB8:
-> > > > > > > > +dmr = 0;
-> > > > > > > > +break;
-> > > > > > > >  default:
-> > > > > > > >  vin_err(vin, "Invalid pixelformat (0x%x)\n",
-> > > > > > > >  vin->format.pixelformat);
-> > > > > > > > @@ -1110,6 +1116,7 @@ static int rvin_mc_validate_format(struct
-> > > > > > > rvin_dev *vin, struct v4l2_subdev *sd,
-> > > > > > > >  case MEDIA_BUS_FMT_UYVY8_2X8:
-> > > > > > > >  case MEDIA_BUS_FMT_UYVY10_2X10:
-> > > > > > > >  case MEDIA_BUS_FMT_RGB888_1X24:
-> > > > > > > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > > > > > >  vin->mbus_code = fmt.format.code;
-> > > > > > > >  break;
-> > > > > > > >  default:
-> > > > > > > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > > > > b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > > > > index 5151a3c..4698099 100644
-> > > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > > > > > > @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[]
-> > > > > > > = {
-> > > > > > > >  .fourcc= V4L2_PIX_FMT_ABGR32,
-> > > > > > > >  .bpp= 4,
-> > > > > > > >  },
-> > > > > > > > +{
-> > > > > > > > +.fourcc= V4L2_PIX_FMT_SRGGB8,
-> > > > > > > > +.bpp= 2,
-> > > > > > >
-> > > > > > > This does not look right, is not bytes-per-pixel 1 for a SRGGB8?
-> > > > > > >
-> > > > > > I guessed the bpp's were picked from VnIS table as I result I did the same.
-> > > > > >
-> > > > > > > > +},
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > >  const struct rvin_video_format *rvin_format_from_pixel(struct
-> > > > > > > > rvin_dev *vin, @@ -102,6 +106,7 @@ static u32
-> > > > > > > > rvin_format_bytesperline(struct rvin_dev *vin,  {
-> > > > > > > >  const struct rvin_video_format *fmt;
-> > > > > > > >  u32 align;
-> > > > > > > > +u8 div;
-> > > > > > > >
-> > > > > > > >  fmt = rvin_format_from_pixel(vin, pix->pixelformat);
-> > > > > > > >
-> > > > > > > > @@ -112,16 +117,22 @@ static u32 rvin_format_bytesperline(struct
-> > > > > > > rvin_dev *vin,
-> > > > > > > >  case V4L2_PIX_FMT_NV12:
-> > > > > > > >  case V4L2_PIX_FMT_NV16:
-> > > > > > > >  align = 0x20;
-> > > > > > > > +div = 1;
-> > > > > > > > +break;
-> > > > > > > > +case V4L2_PIX_FMT_SRGGB8:
-> > > > > > > > +align = 0x10;
-> > > > > > > > +div = 2;
-> > > > > > >
-> > > > > > > Yes this does not look right at all, I think you should set bpp to 1 and drop the
-> > > > > > > div handling here.
-> > > > > > >
-> > > > > > If I set bpp as 1 and drop the div VNIS_REG will be wrongly configured in
-> > > > > > rvin_crop_scale_comp() and the image captured will be wrong.
-> > > > > >
-> > > > > > For example for 640x480:
-> > > > > >
-> > > > > > With the current patch bpp = 2:
-> > > > > > bytesperline = 640
-> > > > >
-> > > > > This is wrong, if we have a line of 640 pixels and 2 bytes per pixel
-> > > > > then bytesperline must be at least 1280 bytes right?
-> > > > >
-> > > > > > image size = 307200
-> > > > > > stride = 320
-> > > > >
-> > > > > But this is incorrect, the VNIS_REG shall be at least the number of
-> > > > > pixels in a line (EPPrC - SPPrC -> 640 - 0 = 640). Then we need to align
-> > > > > it to the pixel unit (16, 32, 64, 128) depending on the output pixel
-> > > > > format.
-> > > > >
-> > > > > This usually result in a stride that is larger then the line length.
-> > > > > Thus you need a test application that knows the difference between width
-> > > > > * bpp and bytesperline. I use qv4l2 without opengl support when I do quick
-> > > > > tests and it does not support this hence I get a incorrect visual view
-> > > > > of the stream when testing.
-> > > > >
-> > > > > How does the image capture fail with bpp = 1?
-> > > > >
-> > > > Attached is the captured bayer images 640x480 with bpp set to 1, for
-> > > > file1bppstridediv1.raw
-> > > > VNIS_REG stride set to 640 and for file file1bppstridediv2.raw
-> > > > VNIS_REF stride  set to (640 * 1) / 2.
-> > > > When the file1bppstridediv1.raw image is converted to png colors are incorrect
-> > > > but whereas file1bppstridediv2.raw converted to png the picture is clear.
-> > > >
-> > > > Also while doing a loop-back to fbdevsink with the below pipeline:
-> > > > gst-launch-1.0 -vvv v4l2src device=/dev/video0 io-mode=dmabuf ! 'video/x-bayer,
-> > > > format=rggb,width=640,height=480,framerate=30/1' ! queue ! bayer2rgb !
-> > > > videoconvert
-> > > > ! fbdevsink sync=false
-> > > >
-> > > > width = 640 height = 480 bpp = 1, bytesperline = 640 stride = 320
-> > > > works correctly
-> > > > width = 640 height = 480 bpp = 1, bytesperline = 640 stride = 640
-> > > > image displayed is incorrect
-> > >
-> > > It's very unlogical to have a stride that is less then the width, which
-> > > got me interested why the second one gave you better results. I wrote a
-> > > small python hack which converts the raw SRGGB8 to PNG without any
-> > > debyaer, just rows of RGRGRG and BGBGBG.
-> > >
-> > Finally I have some information from the hardware team, the VIN process RAW8
-> > in 2 pixel units as a result the stride for RAW8 needs to be
-> > configured as bytesperline/2.
->
-> Interesting, that is not how I have interpreted the datasheet. But
-> rereading it now after our discussion I see how it could be so. I will
-> dig into it during the week and see if I get make it all click in my
-> head. Thanks for pointing this out.
->
-Did you manage to get the required information on this ?
+> > But how do we handle the case where any of the cec, grf and vpll clocks
+> > can be set ? Assuming, for instance, that
+> >
+> > 	clock-names = "iahb", "isfr", "cec";
+> > 	clock-names = "iahb", "isfr", "vpll";
+> > 	clock-names = "iahb", "isfr", "cec", "vpll";
+> >
+> > would all be valid.
+> 
+> It would be painful then...
+> 
+> The easiest way to do so would be to simply use an enum there, and not
+> bother checking the array at all. You'll get a warning if there's
+> multiple occurences of the same string, and I guess that's what you
+> would be really concerned about.
+> 
+> However, now that I think about it, what's the interaction between the
+> generic binding and this one when it comes to the third clock? The
+> generic one expects it to be cec, and here you have other options?
 
-Cheers,
---Prabhakar
+I'm not too familiar with the platform, but as far as I understand, any
+of the cec, grf and vpll clock is optional (if someone could confirm
+that, it would be useful). I don't care so much about the order, but
+iahb and isfr are mandatory, and thus need to be specified as two const
+items in the beginning as far as I understand. It would be nice to set
+something along the lines of
+
+  minItems: 2
+  maxItems: 5
+  items:
+    - const: iahb
+    - const: isfr
+    - enum:
+      - cec
+      - grf
+      - vpll
+
+and have the enum automatically span the last three slots of the items.
+I understand this isn't possible, but an equivalent compact would to do
+so would be useful.
+
+As for the base schema, it expects three clocks only, so
+
+	clock-names = "iahb", "isfr", "vpll";
+
+won't validate. I can't think of a way around that other than pulling
+constraints selectively from the base schema, or just not specifying it
+in the base schema at all.
+
+-- 
+Regards,
+
+Laurent Pinchart
