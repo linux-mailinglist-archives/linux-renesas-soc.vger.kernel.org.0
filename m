@@ -2,116 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F178019EEB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 01:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 806D319EF35
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 03:47:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727882AbgDEXzk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Apr 2020 19:55:40 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34894 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727254AbgDEXzk (ORCPT
+        id S1726408AbgDFBrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Apr 2020 21:47:49 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38522 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbgDFBrt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Apr 2020 19:55:40 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B24F6312;
-        Mon,  6 Apr 2020 01:55:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586130938;
-        bh=34CMyMXa9DAX8P73HGBIeopwz1xWQ67Fo3EBeVw2LnY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=COrJ+AE2hzHNEXM7qCBYS5QKRh+nFglEhf9nTTN6T2i5tm0pTrYWRXKx/0elhbxUz
-         A6e2OFpGdjO4J/aDt6TNW3qfepysUEyebu2zWF8TxxW90/CD/JLznQQqqtdpzwaW25
-         Cjk/H9j3ST0OgH6OUkEZfpfCqDtvsLaZ3W/p+xsc=
-Date:   Mon, 6 Apr 2020 02:55:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Mark Yao <markyao0591@gmail.com>,
-        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Subject: Re: [PATCH/RFC 0/6] dt-bindings: display: Convert DWC HDMI TX
- bindings to YAML
-Message-ID: <20200405235521.GA27695@pendragon.ideasonboard.com>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 5 Apr 2020 21:47:49 -0400
+Received: by mail-pf1-f194.google.com with SMTP id c21so6792790pfo.5
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 05 Apr 2020 18:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xlmSsISaJ23hVo68UD8v5B9oxzVS6g7fMxgTyIoWdSg=;
+        b=P948txDYB0M6wNGQAtrV86c5MbY2TA1ojXGn7CcGMFQu8Llpzyw0ex5NKhxpl4gvGS
+         MhxWofJCDk960t3b/jLJhD4KvnyqUQJBlHN5pwCcVtrlhHGbUrldyxC1ZKm31mpwDOdB
+         kgzx9z5UQVSioRqUQ4f5WNRsU42HZjDsZNsXoyZJaZ89P9qLQC8iSYCuAPtvZf8BUtK8
+         gl6k6gP0H3sokBFMUJgvY5QwvESaG/HflsWGZxIUsBj/EKETmzWDmEVrvro4qAeOBf2D
+         Y/+hs/Z8ntQOBc89/ym2vcr8lkZGqghrfrEe5hbPaiwtFqgFxg5h3/K33ShCI/OC3mkS
+         XwxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=xlmSsISaJ23hVo68UD8v5B9oxzVS6g7fMxgTyIoWdSg=;
+        b=Ong5P3TeMVVt5nYDvmXYB2rXes9W1a5cDNYtm48kgbghPUbIy3Zz4KCwpppQC/C0ij
+         qS/HmZplY8GLpRpn5Q/Scc8593gUBBnh2DAUmZMixCPV2tXVEnJWkDMCTZ7KMApSKaPC
+         1OC0FxugZY3HYeudFicdYX37D740/05WEHh86kfE1DJBSdqqB/HGI4pcuGP5vsPlewez
+         7oiEbHyCKpXkDgCRBbjV19Hzw1wvTIY0z8gmzptrCr+szOngNHiY0utzCrAsN8SElM4p
+         qTvxMIv31XpMqAiwMXxc5HRSMbR9dW3v37hyAEtmNuquJOc113esgE8j7tFVcTfQ6zQx
+         8Fsg==
+X-Gm-Message-State: AGi0PubgFJZrqU/LUPrKBDoG238pzttwx76EPc+YQjnNy69RHCSPsYjk
+        xIKwAZWzlZAM+xUWWPk0Zq8+ly21tI4=
+X-Google-Smtp-Source: APiQypJRM2gEqGWb3WH7DBj42v+Y9hVl7L8deLBYg1Qb+vpsxylSpQS3wcB0ujAX5s4/9bQaG1vkgg==
+X-Received: by 2002:a63:1f26:: with SMTP id f38mr12624982pgf.235.1586137667528;
+        Sun, 05 Apr 2020 18:47:47 -0700 (PDT)
+Received: from [10.16.129.49] (napt.igel.co.jp. [219.106.231.132])
+        by smtp.gmail.com with ESMTPSA id c207sm10367401pfb.47.2020.04.05.18.47.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Apr 2020 18:47:46 -0700 (PDT)
+Subject: Re: [PATCH] drm: rcar-du: Set primary plane zpos immutably at
+ initializing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200401061100.7379-1-etom@igel.co.jp>
+ <20200404182403.GB4875@pendragon.ideasonboard.com>
+From:   Esaki Tomohito <etom@igel.co.jp>
+Autocrypt: addr=etom@igel.co.jp; prefer-encrypt=mutual; keydata=
+ mQENBE2egxoBCADFOCDMNmjOeu61nHemxUBgA17/tWPH28AqcA+uxby9dAcA8q0+7zWjfTPn
+ Q89kF05szFTcUtv+6CDIzzbqTVApJnXlbY9rlT5ECMrYGwELQBuVMvkq18RqQ/lKLZJ4RVMz
+ rsE8kuBfDoRqKIwXv13iavXIt9HqeHiqhDivKLMPLBZbyjjFpvsTdN15H2qIvba2K4FP00o/
+ 7HOc0/0pUohp3yGHptZ6kI5iZPQ61+ANavhrNC1/lJMZzAupDG19Ft0abRCwF3HP/sernC1z
+ U6xoUSnZgpHXm9uLnZLgc8VI5rbzKGOUK+FIAWIPxV3Cv9W1xSUlwGGbk8nqfkslXFFBABEB
+ AAG0IEVzYWtpIFRvbW9oaXRvIDxldG9tQGlnZWwuY28uanA+iQE+BBMBAgAoBQJNnoMaAhsj
+ BQkJZgGABgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRB6VPTiXWc4oUldCACeEakXrpeA
+ o8ncbW6e4V5AA0as+QBYLupQIbp1GpiKT8ChgoIPI+Ik88m5f6x4LEPoNe3JebF/g8pha/Og
+ gjVCXTKd1N7cPOKP4zYiJ7SpipcOTHS/z+c0IPfUwi8H3p6j1Ybrmlu3Xj1AIMFrutrMSOHG
+ c3mIguY8F4fJZR5fDkiJ7cBZ3HoBb6d3URud3ofhYwsy7ZnWNv2tfLBB/OPFslRVbR3Cgfqr
+ 1SZeF4MsshPfMhHY94TOdJ9ZetJs53yQheqwMO6VX3tFHL6g1RsZRuBmTD5tzLX26u2SRrh+
+ XJcdfAorP2f4q84Whcjn//3QSuKptp/COM2HQCGBycFt
+Message-ID: <0a458d1b-90fa-6149-630e-23793ebc20b7@igel.co.jp>
+Date:   Mon, 6 Apr 2020 10:47:43 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20200404182403.GB4875@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 06, 2020 at 02:39:29AM +0300, Laurent Pinchart wrote:
-> Hello,
-> 
-> This patch series attempts a conversion of the DWC HDMI TX DT bindings
-> to YAML. I've marked it as RFC as the base schema doesn't work is
-> intended in this (naive) approach, and I'm not sure how to fix it
-> properly.
-> 
-> The DWC HDMI TX is an HDMI transmitter IP core from Synopsys, integrated
-> in various SoCs with different glue layers. As such, some properties are
-> defined in a common document, but sometimes need to be overridden by
-> platform-specific bindings.
-> 
-> Patch 1/6 adds a base schema for the common properties, based on the
-> existing dw_hdmi.txt document. Patches 2/6 to 4/6 then convert the
-> platformspecific bindings for Renesas, NXP and Rockchip SoCs. Patch 5/6
-> replaces the reference to dw_hdmi.txt in the Allwinner bindings with a
-> reference to the YAML base schema, and patch 6/6 drops dw_hdmi.txt.
-> 
-> My attempts at defining properties in the base schema, including it in
-> the platform-specific schema with an allOf: $ref..., and overridding
-> properties didn't work, as DT schemas don't define properties in a way
-> that can be overridden, but instead define validation rules that are all
-> considered. Both the rules in the base schema and in the
-> platform-specific schemas are evaluated.
-> 
-> One possible way around this would be to not pull in the whole base
-> schema, but specific rules. This is however a bit cumbersome to use in
-> my opinion. Is there a better way to achieve this ?
-> 
-> I have volunteered Philipp Zabel and Mark Yao as maintainers for the
-> i.MX6 and Rockchip bindings respectively. Please let me know if you
-> would prefer a different maintainer, or ack the respective patch if this
-> is fine with you.
+Hello Laurent-san
 
-Given that <mark.yao@rock-chips.com> bounced, I may already have an
-answer to part of that question :-) I've CC'ed Mark's gmail address, as
-well as Sandy and Heiko who maintain the Rockchip DRM driver.
-
-> Laurent Pinchart (6):
->   dt-bindings: display: bridge: Add YAML schema for Synopsys DW-HDMI
->   dt-bindings: display: bridge: renesas,dw-hdmi: Convert binding to YAML
->   dt-bindings: display: imx: hdmi: Convert binding to YAML
->   dt-bindings: display: rockchip: dw-hdmi: Convert binding to YAML
->   dt-bindings: display: sun8i-a83t-dw-hdmi: Reference dw-hdmi YAML
->     schema
->   dt-bindings: display: bridge: Remove deprecated dw_hdmi.txt
+On 2020/04/05 3:24, Laurent Pinchart wrote:
+> Hello Esaki-san,
 > 
->  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |   4 +-
->  .../bindings/display/bridge/dw_hdmi.txt       |  33 ----
->  .../display/bridge/renesas,dw-hdmi.txt        |  86 ---------
->  .../display/bridge/renesas,dw-hdmi.yaml       | 142 ++++++++++++++
->  .../display/bridge/synopsys,dw-hdmi.yaml      |  68 +++++++
->  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 143 ++++++++++++++
->  .../devicetree/bindings/display/imx/hdmi.txt  |  65 -------
->  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
->  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
->  9 files changed, 533 insertions(+), 260 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
->  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> Thank you for the patch.
+> 
+> On Wed, Apr 01, 2020 at 03:11:00PM +0900, Tomohito Esaki wrote:
+>> According to drm_plane_create_zpos_property() function documentation,
+>> all planes zpos range should be set if zpos property is supported.
+>> However, the rcar-du driver didn't set primary plane zpos range. Since
+>> the primary plane's zpos is fixed, set i immutably.
+>>
+>> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+>> ---
+>>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 5 ++++-
+>>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 5 ++++-
+>>  2 files changed, 8 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+>> index c6430027169f..9a499be45c45 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+>> @@ -785,8 +785,11 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+>>  
+>>  		drm_plane_create_alpha_property(&plane->plane);
+>>  
+>> -		if (type == DRM_PLANE_TYPE_PRIMARY)
+>> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
+>> +			drm_plane_create_zpos_immutable_property(&plane->plane,
+>> +								 0);
+>>  			continue;
+>> +		}
+> 
+> I would prefer an if ... else ... here and below instead of a continue,
+> to better handle future differences between primary and overlay planes.
+> Apart from that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> I've taken the liberty to resend the patch with this change as a v2,
+> with the dri-devel mailing list in CC, and will include it in my next
+> pull request.
 
--- 
-Regards,
+I agree with, thank you for updating patch.
 
-Laurent Pinchart
+> Would you mind CC'ing me for future patches to the R-Car DU driver ? You
+> can use the scripts/get_maintainer.pl script from the Linux kernel
+> sources to get a list of maintainers, reviewers and mailing lists for a
+> patch. There's no need to CC everybody on that list, but it can give you
+> at least the driver's maintainer and the corresponding mailing list.
+
+Sorry, I understood.
+I would like to add maintainer to CC from next time.
+
+>>  
+>>  		drm_object_attach_property(&plane->plane.base,
+>>  					   rcdu->props.colorkey,
+>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> index 5e4faf258c31..382b720edc09 100644
+>> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+>> @@ -392,8 +392,11 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>>  		drm_plane_helper_add(&plane->plane,
+>>  				     &rcar_du_vsp_plane_helper_funcs);
+>>  
+>> -		if (type == DRM_PLANE_TYPE_PRIMARY)
+>> +		if (type == DRM_PLANE_TYPE_PRIMARY) {
+>> +			drm_plane_create_zpos_immutable_property(&plane->plane,
+>> +								 0);
+>>  			continue;
+>> +		}
+>>  
+>>  		drm_plane_create_alpha_property(&plane->plane);
+>>  		drm_plane_create_zpos_property(&plane->plane, 1, 1,
+> 
+
+Thanks,
+Esaki
