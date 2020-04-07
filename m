@@ -2,199 +2,219 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 300BF1A17E1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 00:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC3071A17EE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 00:23:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbgDGWT6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Apr 2020 18:19:58 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:35471 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbgDGWT6 (ORCPT
+        id S1726438AbgDGWXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Apr 2020 18:23:00 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38893 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726386AbgDGWXA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Apr 2020 18:19:58 -0400
-Received: by mail-lf1-f67.google.com with SMTP id r17so3638783lff.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2020 15:19:56 -0700 (PDT)
+        Tue, 7 Apr 2020 18:23:00 -0400
+Received: by mail-lj1-f193.google.com with SMTP id v16so5531755ljg.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2020 15:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=EjUazTmq9zd47WnZzyFQyNLzb7LsJUhlnT7RjSu3CWs=;
-        b=H3+tqnuCOfwUBjHz92ctQzhMFomMzKHF6Sf7xdx2vUSB8L+o8J6HtQS2L2Nj9PYyik
-         NmRh1/xlZ0nXYdLq2VOXX0BdOcWXLa6Pybep5pe0ZM3ss1v3jcjjSxTlQ47YxU/3z4Rk
-         xr6d+6X9sht5pofaMeGL4oocwBtlpB+4uwEK2vyjZVDWttsHYbrlwMU6xwjADlQiYkNj
-         FmN40oeKIL9gp6odL7wG1FyBtkBboIhizpjQCf1Krl9BoA3Xg014japJLuIt7I/87f5w
-         2tdMak80YDNmQNkgiq3ZY3NbWS4qvJwp07KP3iAlIic8zth+15cToFSr9trBaweuPqQI
-         UQ4w==
+        bh=JVjv/iMNLYTvNloLYajdKiynxay+Ft9mmPFuTOX5WCA=;
+        b=Q4fGCMOtiDvSzntXrtlORGtp3yq5PJA3CVPv8+VFoJvcRvw/1zjUx+s2TmuEKZI9cY
+         9YF6mMK7usfL+vNGDbe2qCGhwJdmrSWeNUsk2Apq8r3j5wWnV5QEsHt52/ENHedPY/aE
+         QGgTbNfCHn577snA7Hg66dNdG9tFfb18avos2GLzYhifiRpVU3Z1D0EeZOQvBVYUb3NC
+         NZzqFRxJTh10ZBqV7R7C5IfbJSRzm5GOHEMO4fqXokwOeX0lKsEfOObXWK9etw4sgC6i
+         AbLdXHxFLJc8shqeNymHZFqjEe+KO7V4S1H4t3KFgp6+DdcmD2WeLrOII7f0rdzu2cWQ
+         tSvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=EjUazTmq9zd47WnZzyFQyNLzb7LsJUhlnT7RjSu3CWs=;
-        b=M78df7Df+AcCNPfHACspvZ9OZEE/SqBLznZZzqYhS4jWjtRmN4veagmie+Oja+vz+n
-         jQzXx+M9yl1k3hfdM5nq8TNRInzL9JstC7U+BWk1BMe6YAT73xB3kEb8RGLaBmOyWaGX
-         Cjq7dDEXX/uMgC9zb0nG66aVKsAgf/WFFMBfXgfRK4sOT1ZyrLoYXryYQ1BwTotp5zKC
-         leg3JBfBsOeIp4cU7gpZhBOHKomHNh305Hmi1Inhzes4v4/BgWUm5Nmoq5aVHLaUqXiy
-         e83K1GuUcA5xfGOtBGWTqtHsTJ8UymgM6OT6xR+X9HMa+M5BfCPWB+zRZTa4RcFKGBNA
-         oWBg==
-X-Gm-Message-State: AGi0PubVQv9pT3c9xrHple7vAHo2pwbtXqgELE/YJsODeohKTjWR+VDq
-        Epn7IjzPlcbdwPYlVSjDe+sF4Itud0M=
-X-Google-Smtp-Source: APiQypJF1nFNdEDgryfY/6KHb3GTYQcvfIQL0j7LjxJ/fXi8lRlQ7ehyA3eVb6UIq52PXDMXDzQdbQ==
-X-Received: by 2002:ac2:46c4:: with SMTP id p4mr2669205lfo.37.1586297995773;
-        Tue, 07 Apr 2020 15:19:55 -0700 (PDT)
+        bh=JVjv/iMNLYTvNloLYajdKiynxay+Ft9mmPFuTOX5WCA=;
+        b=C6B25MuGFqe6lDXM6s5jTWBkQ3ntVNywNeReeJwkmXkwcguKFlrk7est1Xki7Qrk3R
+         x47v9iRG1Vy0EqTxHFD4cT4k1ddJ9sQMYDEPZYcvd5U2N9NzvnUviH0l9psK8JmNueAX
+         oA85mz15lHMGels/3N8SKO/24QIri3BmNY4NcXbEMj/iyvEoeVKoMOrPyxSHrMNyKbp1
+         5hIgcc3S6yIAlLdbYNdWprkmLSAkfwawt3ab/04jnV3j8gD9o8V6t4GJp128284AE/64
+         OyNeaBbjBFgjYttWEhAlexlrIKHFV1hx2cqzCpBXGe2l7PypgZ3POBR9qtUBo17dpzJs
+         oGnQ==
+X-Gm-Message-State: AGi0PuZ+lQegOoR9nohrPR85lnWRQgpI6lHrV89RpLbWprgl9OJ7THSM
+        dUArDkTUUR1MiecsnsEES2OHPw==
+X-Google-Smtp-Source: APiQypK3FpInK03TcNoOZ7oV8xziVZb32E1LKiXVCLDdL2aPhSwALOJqvKwRb0eyRag4sfo61W7uKw==
+X-Received: by 2002:a2e:8693:: with SMTP id l19mr3156462lji.132.1586298176734;
+        Tue, 07 Apr 2020 15:22:56 -0700 (PDT)
 Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id h3sm14367836lfk.30.2020.04.07.15.19.54
+        by smtp.gmail.com with ESMTPSA id z9sm12332865lfd.9.2020.04.07.15.22.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2020 15:19:54 -0700 (PDT)
-Date:   Wed, 8 Apr 2020 00:19:54 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        Tue, 07 Apr 2020 15:22:56 -0700 (PDT)
+Date:   Wed, 8 Apr 2020 00:22:55 +0200
+From:   "niklas.soderlund+renesas@ragnatech.se" 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/4] media: i2c: adv748x: Adjust TXA data lanes number
-Message-ID: <20200407221954.GR1716317@oden.dyn.berto.se>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+Message-ID: <20200407222255.GS1716317@oden.dyn.berto.se>
 References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
- <20200313144035.401430-2-jacopo+renesas@jmondi.org>
+ <20200313144035.401430-3-jacopo+renesas@jmondi.org>
+ <20200401223037.GB583@smtp.xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200313144035.401430-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200401223037.GB583@smtp.xilinx.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Hyun and Jacopo,
 
-Thanks for your work.
+On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
+> Hi Jacopo,
+> 
+> Thanks for the patch.
+> 
+> On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
+> > Introduce a new pad operation to allow retrieving the media bus
+> > configuration on a subdevice pad.
+> > 
+> > The newly introduced operation reassembles the s/g_mbus_config video
+> > operation, which have been on their way to be deprecated since a long
+> > time.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 67 insertions(+)
+> > 
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 761aa83a3f3c..3a1afc00e094 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
+> >  	unsigned short num_entries;
+> >  };
+> >  
+> > +/**
+> > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> > + * @hsync_active: hsync active state: true for high, false for low
+> > + * @vsync_active: vsync active state: true for high, false for low
+> > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
+> > + * @data_active: data lines active state: true for high, false for low
+> > + */
+> > +struct v4l2_mbus_parallel_config {
+> > +	bool hsync_active : 1;
+> > +	bool vsync_active : 1;
+> > +	bool pclk_rising : 1;
+> > +	bool data_active : 1;
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+> > + * @data_lanes: number of data lanes in use
+> > + * @clock_noncontinuous: non continuous clock enable flag
+> > + */
+> > +struct v4l2_mbus_csi2_dphy_config {
+> > +	unsigned int data_lanes : 3;
+> > +	bool clock_noncontinuous : 1;
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> > + *
+> > + * TODO
+> > + */
+> > +struct v4l2_mbus_csi2_cphy_config {
+> > +	/* TODO */
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_mbus_pad_config - media bus configuration
+> > + *
+> > + * Report the subdevice media bus information to inform the caller of the
+> > + * current bus configuration. The structure describes bus configuration
+> > + * parameters that might change in-between streaming sessions, in order to allow
+> > + * the caller to adjust its media bus configuration to match what is reported
+> > + * here.
+> > + *
+> > + * TODO: add '_pad_' to the name to distinguish this from the structure
+> > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> > + * the bus type.
+> > + *
+> > + * @type: mbus type. See &enum v4l2_mbus_type
+> > + * @parallel: parallel bus configuration parameters.
+> > + *	      See &struct v4l2_mbus_parallel_config
+> > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> > + *	       See &struct v4l2_mbus_csi2_dphy_config
+> > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> > + *	       See &struct v4l2_mbus_csi2_cphy_config
+> > + */
+> > +struct v4l2_mbus_pad_config {
+> > +	enum v4l2_mbus_type type;
+> > +	union {
+> > +		struct v4l2_mbus_parallel_config parallel;
+> > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> > +	};
+> > +};
+> > +
+> >  /**
+> >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+> >   *				  in video mode.
+> > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
+> >   *
+> >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+> >   *                  may be adjusted by the subdev driver to device capabilities.
+> > + * @get_mbus_config: get the current mbus configuration
+> >   */
+> >  struct v4l2_subdev_pad_ops {
+> >  	int (*init_cfg)(struct v4l2_subdev *sd,
+> > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
+> >  			      struct v4l2_mbus_frame_desc *fd);
+> >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+> >  			      struct v4l2_mbus_frame_desc *fd);
+> > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_pad_config *config);
+> 
+> Because this can be used in many different ways, there's more chance it can
+> be misused. That means, drivers call this in different locations, ex probe,
+> get format, start stream,,,, and on differnt pads, src or sink. So imagine
+> one set of drivers call on sink pad, and the other set call on source pad.
+> It works well only until those are mixed together.
 
-On 2020-03-13 15:40:32 +0100, Jacopo Mondi wrote:
-> When outputting SD-Core output through the TXA MIPI CSI-2 interface,
-> the number of enabled data lanes should be reduced in order to guarantee
-> the two video format produced by the SD-Core (480i and 576i) generate a
-> MIPI CSI-2 link clock frequency compatible with the MIPI D-PHY
-> specifications.
-> 
-> Limit the number of enabled data lanes to 2, which is guaranteed to
-> support 480i and 576i formats.
-> 
-> Cache the number of enabled data lanes to be able to report it through
-> the new get_mbus_config operation introduced in the following patches.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+That subdevice operations can be called at both probe and s_stream() is 
+nothing new, I don't thin this is a new problem. But I agree maybe we 
+could limit get_mbus_config() in the core to only be valid four source 
+pads? Apart from this open question I think this patch looks good.
 
-Small nit, I would switch 1/4 and 2/4 in this series ;-)
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/media/i2c/adv748x/adv748x-core.c | 31 ++++++++++++++++++------
->  drivers/media/i2c/adv748x/adv748x.h      |  1 +
->  2 files changed, 25 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index 23e02ff27b17..1fe7f97c6d52 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -241,10 +241,10 @@ static int adv748x_power_up_tx(struct adv748x_csi2 *tx)
->  	int ret = 0;
->  
->  	/* Enable n-lane MIPI */
-> -	adv748x_write_check(state, page, 0x00, 0x80 | tx->num_lanes, &ret);
-> +	adv748x_write_check(state, page, 0x00, 0x80 | tx->active_lanes, &ret);
->  
->  	/* Set Auto DPHY Timing */
-> -	adv748x_write_check(state, page, 0x00, 0xa0 | tx->num_lanes, &ret);
-> +	adv748x_write_check(state, page, 0x00, 0xa0 | tx->active_lanes, &ret);
->  
->  	/* ADI Required Write */
->  	if (tx->src == &state->hdmi.sd) {
-> @@ -270,7 +270,7 @@ static int adv748x_power_up_tx(struct adv748x_csi2 *tx)
->  	usleep_range(2000, 2500);
->  
->  	/* Power-up CSI-TX */
-> -	adv748x_write_check(state, page, 0x00, 0x20 | tx->num_lanes, &ret);
-> +	adv748x_write_check(state, page, 0x00, 0x20 | tx->active_lanes, &ret);
->  	usleep_range(1000, 1500);
->  
->  	/* ADI Required Writes */
-> @@ -292,7 +292,7 @@ static int adv748x_power_down_tx(struct adv748x_csi2 *tx)
->  	adv748x_write_check(state, page, 0x1e, 0x00, &ret);
->  
->  	/* Enable n-lane MIPI */
-> -	adv748x_write_check(state, page, 0x00, 0x80 | tx->num_lanes, &ret);
-> +	adv748x_write_check(state, page, 0x00, 0x80 | tx->active_lanes, &ret);
->  
->  	/* i2c_mipi_pll_en - 1'b1 */
->  	adv748x_write_check(state, page, 0xda, 0x01, &ret);
-> @@ -357,14 +357,29 @@ static int adv748x_link_setup(struct media_entity *entity,
->  	if (state->afe.tx) {
->  		/* AFE Requires TXA enabled, even when output to TXB */
->  		io10 |= ADV748X_IO_10_CSI4_EN;
-> -		if (is_txa(tx))
-> +		if (is_txa(tx)) {
-> +			/*
-> +			 * Output from the SD-core (480i and 576i) from the TXA
-> +			 * interface requires reducing the number of enabled
-> +			 * data lanes in order to guarantee a valid link
-> +			 * frequency.
-> +			 */
-> +			tx->active_lanes = min(tx->num_lanes, 2U);
->  			io10 |= ADV748X_IO_10_CSI4_IN_SEL_AFE;
-> -		else
-> +		} else {
-> +			/* TXB has a single data lane, no need to adjust. */
->  			io10 |= ADV748X_IO_10_CSI1_EN;
-> +		}
->  	}
->  
-> -	if (state->hdmi.tx)
-> +	if (state->hdmi.tx) {
-> +		/*
-> +		 * Restore the number of active lanes, in case we have gone
-> +		 * through an AFE->TXA streaming sessions.
-> +		 */
-> +		tx->active_lanes = tx->num_lanes;
->  		io10 |= ADV748X_IO_10_CSI4_EN;
-> +	}
->  
->  	return io_clrset(state, ADV748X_IO_10, io10_mask, io10);
->  }
-> @@ -596,6 +611,7 @@ static int adv748x_parse_csi2_lanes(struct adv748x_state *state,
->  		}
->  
->  		state->txa.num_lanes = num_lanes;
-> +		state->txa.active_lanes = num_lanes;
->  		adv_dbg(state, "TXA: using %u lanes\n", state->txa.num_lanes);
->  	}
->  
-> @@ -607,6 +623,7 @@ static int adv748x_parse_csi2_lanes(struct adv748x_state *state,
->  		}
->  
->  		state->txb.num_lanes = num_lanes;
-> +		state->txb.active_lanes = num_lanes;
->  		adv_dbg(state, "TXB: using %u lanes\n", state->txb.num_lanes);
->  	}
->  
-> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> index fccb388ce179..1061f425ece5 100644
-> --- a/drivers/media/i2c/adv748x/adv748x.h
-> +++ b/drivers/media/i2c/adv748x/adv748x.h
-> @@ -79,6 +79,7 @@ struct adv748x_csi2 {
->  	unsigned int page;
->  	unsigned int port;
->  	unsigned int num_lanes;
-> +	unsigned int active_lanes;
->  
->  	struct media_pad pads[ADV748X_CSI2_NR_PADS];
->  	struct v4l2_ctrl_handler ctrl_hdl;
-> -- 
-> 2.25.1
+> So wouldn't it be better to put some restrictions? One is to document
+> recommendations. I think this better be called in stream on because
+> some bus config may change at runtime depending on other configuration.
+> So any bus config prior to stream-on may be outdated. The other is to
+> enforce in the code. Some, but maybe not all, can be handled in
+> v4l2_subdev_call_pad_wrappers, for example allowing this call only on
+> source pad.
 > 
+> Thanks,
+> -hyun
+> 
+> >  };
+> >  
+> >  /**
+> > -- 
+> > 2.25.1
+> > 
 
 -- 
 Regards,
