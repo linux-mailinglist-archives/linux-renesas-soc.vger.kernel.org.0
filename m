@@ -2,90 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2E921A0A89
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2020 11:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5892A1A0FDC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2020 17:06:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728186AbgDGJ40 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Apr 2020 05:56:26 -0400
-Received: from mail-lj1-f179.google.com ([209.85.208.179]:36942 "EHLO
-        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728140AbgDGJ40 (ORCPT
+        id S1729103AbgDGPGF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Apr 2020 11:06:05 -0400
+Received: from sauhun.de ([88.99.104.3]:54070 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728992AbgDGPGF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Apr 2020 05:56:26 -0400
-Received: by mail-lj1-f179.google.com with SMTP id r24so3016185ljd.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2020 02:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Hr+mHdDvTFoRIT/CRSZS1TyQa2gyop6xAKiNSv38ra0=;
-        b=OMf1NOENNZQYb1s0ekZSWScx1UIQEOmNdE6Ci7fyg9t2GHZpfvUdgCqWsFsSXaQkmw
-         bDqH/7BaZhRZTkRnpMJkZvB5k9LcqAbtwXPSdfzD+2YX40dHWTVoRHLr8wVYIbxS2Bb3
-         mXyxGdW1qC7NGWEAq+CvM7tWUDyWVSnt0j8BeyyJJAfVHuX+aE62pwzxovyqobGDR9FM
-         zyHBmYFFqG+pxr1BnAzS3mrXXebO2M5LiTdlQK/bqcdvy6YRYpEn6eslzQxCVwVkR/ma
-         vkiTObVAl9rLBAfb6yt6DmYk/mIRPc/vOE6GHcRyQly5xXihidnjZR08KyR9al0a6oD6
-         8VeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Hr+mHdDvTFoRIT/CRSZS1TyQa2gyop6xAKiNSv38ra0=;
-        b=aCaq8vt2rrCFCaohLFQP5IjuXqqGJcwS3eul/g2slBfrpex2M6LRPxZJqge7+tsCPZ
-         BhaqRkMClgy454yNfO+nfDlYgqcG5KCTtw0yE1c4nQo0RxRZIy8lRZ7bU6J63lXx4gJV
-         IChwBwT4OmxG9ePDkrk6tMs9fbaiqchOHW2hgQfhJmav9sbae1/F6DFztH/b/h0d6G/n
-         OCb/SBfk9AklmC3b9IjYli2gCFtMH/6zexx1VRx6D2BXSeU05x28y/GfW556QLuhqn4M
-         5grNdqZMVl1Xwja6hYIAEVMN63a1IHhNbKHuXwj5ux6dyRq4+fM5C9rJfVZhGyu7J27K
-         hG3g==
-X-Gm-Message-State: AGi0Pub6aHKPfbQiqg0R5PE6bPGauJ0cfxmbgsgcsDibzduHxblo/r2M
-        WoEOm4E6raMySIray1ruOwz4Sg==
-X-Google-Smtp-Source: APiQypLzbcBXaC7SPGZjabCqZDwjsTQUaJcJmC9dGQcLyjzMIEUJJViDWI7gPma8gc5q1NE53lxhhQ==
-X-Received: by 2002:a2e:888e:: with SMTP id k14mr1266812lji.4.1586253383383;
-        Tue, 07 Apr 2020 02:56:23 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id t24sm10710162lfk.90.2020.04.07.02.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2020 02:56:22 -0700 (PDT)
-Date:   Tue, 7 Apr 2020 11:56:20 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Tue, 7 Apr 2020 11:06:05 -0400
+Received: from localhost (p54B3320F.dip0.t-ipconnect.de [84.179.50.15])
+        by pokefinder.org (Postfix) with ESMTPSA id D07F92C07CD;
+        Tue,  7 Apr 2020 17:06:03 +0200 (CEST)
+Date:   Tue, 7 Apr 2020 17:06:03 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-Message-ID: <20200407095620.GA1716317@oden.dyn.berto.se>
-References: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583838364-12932-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200310124605.GO2975348@oden.dyn.berto.se>
- <OSBPR01MB35905FFB621C2F4222692832AAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <20200310140625.GA88560@oden.dyn.berto.se>
- <CA+V-a8vsYGdx6AtgqwS0LXREn4hu-EjVh2D5Dp_rHmpazBYG5A@mail.gmail.com>
- <20200319150329.GB3192108@oden.dyn.berto.se>
- <CA+V-a8u8=H-6WfaYMLWH73zo5ehP8cu9D-tdGULk=Hkvq4KuAQ@mail.gmail.com>
- <20200330120745.GA3213219@oden.dyn.berto.se>
- <CA+V-a8vbTc0DZ15y0zZ97PH6khwQVxz=M-8_kgx1AiKkdg5QaA@mail.gmail.com>
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
+Subject: Re: [PATCH RFT 1/3] mmc: renesas_sdhi: refactor calculation of best
+ TAP
+Message-ID: <20200407150603.GB4308@ninjato>
+References: <20200306093159.6155-1-wsa+renesas@sang-engineering.com>
+ <20200306093159.6155-2-wsa+renesas@sang-engineering.com>
+ <TYAPR01MB4544AD566F267EB89F479C3CD8CF0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8vbTc0DZ15y0zZ97PH6khwQVxz=M-8_kgx1AiKkdg5QaA@mail.gmail.com>
+In-Reply-To: <TYAPR01MB4544AD566F267EB89F479C3CD8CF0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
 
-On 2020-04-06 18:20:33 +0100, Lad, Prabhakar wrote:
-> Did you manage to get the required information on this ?
+--WhfpMioaduB5tiZL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'm still working on it, sorry for not completing it last week. I will 
-let you know as soon as I can.
+Hi Shimoda-san,
 
--- 
-Regards,
-Niklas Söderlund
+> +		if (re - 1 - rs + 1 > tap_cnt) {	// "if (re - rs > tap_cnt)" is more better?
+
+Oops, looks really like an off-by-one error on my side :( Yes, I think
+'re - rs' is good here...
+
+> +			tap_end = re - 1;
+
+... plain 'tap_end = re;' here ...
+
+> +			tap_start = rs;
+> +			tap_cnt = tap_end - tap_start + 1;
+
+... and drop the '+ 1' here.
+
+I will double check, and resend soon.
+
+Thank you very much!
+
+   Wolfram
+
+
+--WhfpMioaduB5tiZL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6MltcACgkQFA3kzBSg
+KbYDYA/8DjU47e7yKn2LDzde0lmuchoF4tyG3S69q6O1MuuLJwBCDS39Jvg2WQNc
+GNeXZwZYwgdee3N8FJFftJvwS8GfYA9jrvpgd+5ZRCQPH4RZo3ymOKUVC5H8ENmb
+6P8cD42LFdQCP7SQy6hCHPNwvJLhNomrwFf45++j0PMH+/PPvSNi4uVixacxmJdY
+RVst+ibpq2/EWXNAFVtDEsVKWz5GtiL68sX16VBgfaiKpLcLw03wMloTFJF7jZx4
+bJraeSlJWKkKLlKjc5XKJp3hRhkrdRHDsUTR8sAZCxAxhmfJrrJeX7D3ay/QRpKo
+QQ9ArM7SRS7o7/UgcKChPTIz8B7OUv2OoKKZRPT3mooXJMyrrpOajaS3mZvaO3Jh
+uQIs1Dd8j1YE2VVY8HBD1mm9DDvGxABhxbliECf+SBzCzUwb8/1+7WG4TnZRIORp
+jI0wDuEEHgIug61mk9AHCFziilPu30KDI8APvfR7+VeKluRfguW5GmAY1/WW2zQz
+tkteKCUapV8M1e0Cvv5UakJmvHBGOBUvPhegG0HXaOKJiRq3xTE/NfDo28yDa/vt
+AORRxeC2RbroMqfrH4N4dwIr6Yc8LZyhuDm4X/jubPSQdiRrMgL0uFmpNz7zpevb
+Tou9wFPjWUS9TfUa2aq7kIObhPNyC1h6OOrkY1iFS7c+XCrIBhQ=
+=Bg6V
+-----END PGP SIGNATURE-----
+
+--WhfpMioaduB5tiZL--
