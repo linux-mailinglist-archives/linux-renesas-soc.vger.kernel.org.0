@@ -2,97 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7850419FFFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Apr 2020 23:14:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 570731A0667
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2020 07:15:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgDFVOM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Apr 2020 17:14:12 -0400
-Received: from mail-lf1-f41.google.com ([209.85.167.41]:36584 "EHLO
-        mail-lf1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgDFVOM (ORCPT
+        id S1726952AbgDGFPR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Apr 2020 01:15:17 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:42025 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726918AbgDGFPQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Apr 2020 17:14:12 -0400
-Received: by mail-lf1-f41.google.com with SMTP id w145so671345lff.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Apr 2020 14:14:10 -0700 (PDT)
+        Tue, 7 Apr 2020 01:15:16 -0400
+Received: by mail-vs1-f65.google.com with SMTP id s10so1406104vsi.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Apr 2020 22:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+Xd1xzbAohX/FqkqTk1cM6F9kOwM40uvkJrnhkR7+Fo=;
-        b=1MwGnWt2vQYBfJnOaGiMooJfZu8yPk9Lnh8IpQq4l4Fbk8acKx7Q0J83j4fbMJhmTX
-         Bz+eZjKKF+Ub1qTlSs94FqivztSEebggGwKqOO2o5c+66jj41PmWZIOIuYytFsaBqmG8
-         vbyS8SUkw8WPy8l9fXvKJ/eTAO6MGiT8QjtZbd1sQ9eBCMAg61zLKtD8blKSPCHXxeBc
-         XiVn5iAZEWta1iZrNBRvwoGTxeux9ycBqcHT22tBvWp4wUHFIRiKeN3mDGTuN9nsKMVN
-         8v0178c+aA+YlM+cBBDnBIF5MieLOOec2d4ecPVr44unPekjdEqBzjzuGLrRYzF7VbXT
-         XeQw==
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=MfHDvIBIt69xqysjTBYVVNc0kV20i2uh+5pM5bA0kgqzaY38Y8DWEj01Pvo2lprKBQ
+         GeMPmsDw8mI8JPS3USlc7fo909SxPcbTvuuO8fmlDj3Epr1eVDtR360WKQPQyhZWRFR1
+         e2AVs/X8xmnpyFeBVbEpWkW/7xUX6BkoKcBNjhVPYru9i1s3MQXqsGzojyz2OPT8Gzuk
+         eAsRgBBtJfCcoxVL23nq2mmza5GNfLtG1Vewilonxc/7to20Va10m3hSWyxvaqvjeUuq
+         +R1bw/nay987q2JQWtF8qmoAYape5iyXc2fGu9oueeJmEOdg+02io2ZWkJnJglNvfVbH
+         fVHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=+Xd1xzbAohX/FqkqTk1cM6F9kOwM40uvkJrnhkR7+Fo=;
-        b=egQh+RHVVEkQZHc+4TpU5TghAcQXjcfvp7bqpNkgNxPJ+boU5lmImvCyUKCYj8yqZs
-         J99t0kbe7iOm3mBuFyIxpbQMr4Lcm8Am21Q5MskXTGu5CXrAWcTL0bywKXC24OXsYDsP
-         VDdQXl2tjuILSezuy/vCmwjHZdtM9ZMSoboQ0RlzEcRDBq0eZOFM1Qib8VVYRdBj2KHk
-         fM3AXhFm9betBYf80dhStSuvYZyFDSGTY2GlJ2EFfVEXlE5WGGxHlcni5KW4KZfxiTio
-         MbLrTkbYqZjToQwAzxQ69iIHdbn+RSocV0guV4lx3wZWRroaudCdndl/p9Ap49l+RyQF
-         OW7g==
-X-Gm-Message-State: AGi0PuZ54CEneb22p1HZZr6Od9seKIjH7iRX0zZAN9XjH8at5n+Ycjlo
-        U+odw43RWqINbUZ7VYK1V5Ya9PhqP64=
-X-Google-Smtp-Source: APiQypLi+4wO9Y/cU95F3kWj2BAO3JcE28FDvZp9goT7P7q6xIUprCvzvB04YOF9s/5Y3E2PeokoTA==
-X-Received: by 2002:a19:40d0:: with SMTP id n199mr14028200lfa.161.1586207649535;
-        Mon, 06 Apr 2020 14:14:09 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:462e:583f:4b1:b175:1ecb:fb31])
-        by smtp.gmail.com with ESMTPSA id h16sm10509386ljl.73.2020.04.06.14.14.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 06 Apr 2020 14:14:08 -0700 (PDT)
-Subject: Re: question about drivers/net/ethernet/renesas/ravb_main.c
-To:     Julia Lawall <julia.lawall@inria.fr>, horms+renesas@verge.net.au,
-        tho.vu.wh@rvc.renesas.com, uli+renesas@fpond.eu
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, joe@perches.com
-References: <alpine.DEB.2.21.2004031559240.2694@hadrien>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <4c39386e-4259-ba45-1f7f-1e6307a7753a@cogentembedded.com>
-Date:   Tue, 7 Apr 2020 00:14:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=GjV8EDgEJrClqnWttGphpTd6/CADEu6EQEs6y1FlA21uk2tmbEwpRf4D+GBy0Y9+q9
+         47qaTfhJxt6cLhKIwlgdGolB8Tw0ry/ZrEQ5qkTck78Hul1UEk0FBq8PBv8VTY7u165z
+         6lX3LpWc3wLtwccTMKpsgHlRqVbki2jI/R+gzWeFf6Vy2pXFqPpdHNieQirZsP319QY4
+         XXSuWjsx9U8QbvM9p1NdXnM0OjkP4GI2jGyQ9IQexLLa6FjMueVK8bAltbQ9C1EbKv5C
+         mLHXuY/vP/G4V4bOLQp9QGpiq27qODoyddYHcR7ykUUEY1lnuzh5wByG26WiWm1TlYLB
+         lqrQ==
+X-Gm-Message-State: AGi0PubrUecpfV6dPKHc/ftIvU9RmrxfzI0LUk7qNN+q6NiD6iW102D2
+        bscvlJWMyQ4igKtPQ6OQQ/lovNFpJjwX1sl0miWs9isDpC4=
+X-Google-Smtp-Source: APiQypL+ArhsKP1HCJpJZSuqqOKzmqGe03VSBcvbyU5XLwMdkDIdNu0ELlIqojTyqMNnJA6AEodSyvd4rSFXD4DVz/E=
+X-Received: by 2002:a67:fa85:: with SMTP id f5mr495699vsq.65.1586236514277;
+ Mon, 06 Apr 2020 22:15:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.2004031559240.2694@hadrien>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Received: by 2002:ab0:254a:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:15:12 -0700 (PDT)
+From:   SANDRA DEWI <sdewisandra@gmail.com>
+Date:   Tue, 7 Apr 2020 05:15:12 +0000
+Message-ID: <CALe9-EdG2aBp2yBY=t79ZuBObzzfY6nuVfAsra6+wc2BAYMhcg@mail.gmail.com>
+Subject: whether this is your correct email address or not
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Dear ,Pastor
 
-On 04/03/2020 05:04 PM, Julia Lawall wrote:
 
-> In the function ravb_hwtstamp_get in ravb_main.c, the following code looks
-> suspicious:
-> 
->         if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
->                 config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
->         else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
->                 config.rx_filter = HWTSTAMP_FILTER_ALL;
->         else
->                 config.rx_filter = HWTSTAMP_FILTER_NONE;
-> 
-> According to drivers/net/ethernet/renesas/ravb.h,
-> RAVB_RXTSTAMP_TYPE_V2_L2_EVENT is 0x00000002 and RAVB_RXTSTAMP_TYPE_ALL is
-> 0x00000006.  Therefore, if the test on RAVB_RXTSTAMP_TYPE_ALL should be
-> true, it will never be reached.  How should the code be changed?
 
-   After looking at the code, I think that setting RAVB_RXTSTAMP_TYPE_ALL to
-0x00000004 should be enough. BTW, the RAVB_{R,T}XTSTAMP_VALID don't seem be
-used anywhere...
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
 
-> thanks,
-> julia
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
 
-MBR, Sergei
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
+
+
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
