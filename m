@@ -2,343 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 943121A0800
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2020 09:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 910221A0899
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Apr 2020 09:48:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727447AbgDGHNA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Apr 2020 03:13:00 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:56879 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726865AbgDGHM6 (ORCPT
+        id S1726707AbgDGHsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Apr 2020 03:48:16 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:39948 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726635AbgDGHsQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Apr 2020 03:12:58 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 41E5569F;
-        Tue,  7 Apr 2020 03:12:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 07 Apr 2020 03:12:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=I3/Di80PJiQMVee28CsWJsRHUhM
-        5QeBlnEv3CyCX3cw=; b=ibq8DtWCdfm0bHWwPbVCXibtbNlIJqxKxTD84rikqV3
-        7pnZHivzEgJ53yosvfy20zRHODxKBEl5UdXvui/if9DmAK47dFrOTB+nkx7oNwJe
-        MWlDfwK4WTEl+tft1p84vd9Bd6jouxGOCvJGS+BxLJRuE6Kwst+X0yVrHyyz4HQU
-        Ndiop1XNpX66ywiP3fcoHY0bqGnI4K8J8upUH4/TQ/xeJD8RLxVv/VUAAtSzOapk
-        weTJD8Vrw4gx2gHeRpTh5UcwlMAChl2uz2Yn0H9azOcQ4iC2nC/JkoBtlDag5zMJ
-        uDc771Jnni174T7ug8Saw3nAKcBmpY7Q8nInnD/vPNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=I3/Di8
-        0PJiQMVee28CsWJsRHUhM5QeBlnEv3CyCX3cw=; b=gDAM6Us5rJhFwmxx+jS3YE
-        ooZtFWM0Ie99/lwBFa97V5tm+EUFlo8+4EzyUF3FiEqgaFQ1WMbzK6l9nbUdWu1q
-        9FCkRYs4hfXMr5oMF4efv675XtkK6e2rcN85hudKC1At+O1oYo8ZVfNRsiQET1YR
-        qnToFkGqvs4b1HnxdPdPY/jhPwi0OBhpZDWjDmRSzdeRokC0x27gFbYX+kwAaeXM
-        lGQH69KO7ICso6Dya2F+yzao4vmRulB0jteWPthFE6Vv+2U2DIHGhhMUy1bXGWpL
-        lWpPcROGGgXCmlhLhdAzSdRBp5HrBGgltUOWX/PJtPfJ0PRC64TVBdsezL4Xajqw
-        ==
-X-ME-Sender: <xms:9ieMXl3oS99-XBT_5tir_tTIAPd3_70h5SBJYSiNIfG7OtcoJPrnYQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeggdduudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
-    hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
-    estggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:9ieMXiH10_rqHyEdZflIo5vfCikMNoQyAWuikYFsBn4zeku-y8KzSA>
-    <xmx:9ieMXgtup2Ygjs61tDO6rO6JX-d2_iskig8x035_-LTs7oIHh8p4zQ>
-    <xmx:9ieMXlrNveAspHXEK-8GSbUOboFykOWnSXO5qqpVfQFuylmCLS_2Hg>
-    <xmx:9yeMXlb26CiBVMCef1RbgoKf0ML2VhbdnCDBamPn-OQvqIB8noDLyg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id C3EAE3280060;
-        Tue,  7 Apr 2020 03:12:53 -0400 (EDT)
-Date:   Tue, 7 Apr 2020 09:12:51 +0200
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Yao <mark.yao@rock-chips.com>,
-        Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <20200407071251.npibrmzywiyigu2a@gilmour.lan>
-References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
- <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
- <20200406111927.GD4757@pendragon.ideasonboard.com>
- <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
- <20200406175028.GI16885@pendragon.ideasonboard.com>
+        Tue, 7 Apr 2020 03:48:16 -0400
+Received: by mail-wm1-f65.google.com with SMTP id a81so732481wmf.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Apr 2020 00:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bcEkOFfXXZd5u9NKuCuDe0ahlWfUYDe/CDpcHq/UZio=;
+        b=O+9BI8Qvat3IFPNY730pzXmSTxvnPnEa3mVqAP3zJEyANUoSSGTEACv/fPgPj2J1Mu
+         tY6WyPgg2nZPaYWktWlXGQkyvtUmrToJagfwQADQBisZBF1tYY5v+Tv6g+CMG1+1kiLS
+         0PvCJwibSlx1rje2e0Zs74L7yJrL3fvP0Enic=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bcEkOFfXXZd5u9NKuCuDe0ahlWfUYDe/CDpcHq/UZio=;
+        b=W543+HuUPfUQhEBd3Bye9+YnwYqxB+SGgSCJnysniE0f2hIdn3lkVKy0EsajaGk61j
+         OfFuWI9/xPU6SJn/hDPKT5uBOkka3Z51vuZhj16RUE0XPO5/KxaanTX2ipF/5/W0QqRU
+         F046kfcxwQ4bMSKvxw8sRc7PAYcEmp6yH3m8Z5FBZptx6543H5oxitgwlXEjtm3rBHrU
+         qOadruvMW3qRCa2cyX2XrOu9yQsbXSHBZPSvvXWHc+LAbt6qDFPdwS1Y322j1ipp3mj0
+         vVqNg2ovJ4zaegWMyRqy3hkGLcCYKDU5IEIIZ1i4jnIXgtEsZEygjsAf22MZA29FzC4D
+         hGyw==
+X-Gm-Message-State: AGi0PuYlaC7WIcbplSybLSXiNCNyQBhbUdENxFiq+T/by2cvIPdzcYF3
+        vFXr57HMDBZ/HuwGH8/PeL/bJA==
+X-Google-Smtp-Source: APiQypJ6TF2PRlgMW3si5sFyqj9PDKd6b5q0tTI80zMh8Qjx9XM3TK72SV3+cZjkvDYzStOmyE1D7g==
+X-Received: by 2002:a7b:c404:: with SMTP id k4mr953343wmi.37.1586245694137;
+        Tue, 07 Apr 2020 00:48:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id r3sm30545628wrm.35.2020.04.07.00.48.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 00:48:13 -0700 (PDT)
+Date:   Tue, 7 Apr 2020 09:48:11 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Daniel Stone <daniel@fooishbar.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm: plane: Verify that no or all planes have a zpos
+ property
+Message-ID: <20200407074811.GE3456981@phenom.ffwll.local>
+References: <20200404181253.25873-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dwn2vvpqb3gq7irh"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200406175028.GI16885@pendragon.ideasonboard.com>
+In-Reply-To: <20200404181253.25873-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Operating-System: Linux phenom 5.3.0-3-amd64 
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Sat, Apr 04, 2020 at 09:12:53PM +0300, Laurent Pinchart wrote:
+> The zpos property is used by userspace to sort the order of planes.
+> While the property is not mandatory for drivers to implement, mixing
+> planes with and without zpos confuses userspace, and shall not be
+> allowed. Clarify this in the documentation and warn at runtime if the
+> drivers mixes planes with and without zpos properties.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/drm_blend.c | 10 ++++++----
+>  drivers/gpu/drm/drm_plane.c |  9 +++++++++
+>  2 files changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index 88eedee018d3..f1dcad96f341 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -135,7 +135,9 @@
+>   *	are underneath planes with higher Z position values. Two planes with the
+>   *	same Z position value have undefined ordering. Note that the Z position
+>   *	value can also be immutable, to inform userspace about the hard-coded
+> - *	stacking of planes, see drm_plane_create_zpos_immutable_property().
+> + *	stacking of planes, see drm_plane_create_zpos_immutable_property(). If
+> + *	any plane has a zpos property (either mutable or immutable), then all
+> + *	planes shall have a zpos property.
+>   *
+>   * pixel blend mode:
+>   *	Pixel blend mode is set up with drm_plane_create_blend_mode_property().
+> @@ -344,10 +346,10 @@ EXPORT_SYMBOL(drm_rotation_simplify);
+>   * should be set to 0 and max to maximal number of planes for given crtc - 1.
+>   *
+>   * If zpos of some planes cannot be changed (like fixed background or
+> - * cursor/topmost planes), driver should adjust min/max values and assign those
+> - * planes immutable zpos property with lower or higher values (for more
+> + * cursor/topmost planes), drivers shall adjust the min/max values and assign
+> + * those planes immutable zpos properties with lower or higher values (for more
+>   * information, see drm_plane_create_zpos_immutable_property() function). In such
+> - * case driver should also assign proper initial zpos values for all planes in
+> + * case drivers shall also assign proper initial zpos values for all planes in
+>   * its plane_reset() callback, so the planes will be always sorted properly.
+>   *
+>   * See also drm_atomic_normalize_zpos().
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index d6ad60ab0d38..efb9c16ddc21 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -289,6 +289,8 @@ EXPORT_SYMBOL(drm_universal_plane_init);
+>  
+>  int drm_plane_register_all(struct drm_device *dev)
+>  {
+> +	unsigned int num_planes = 0;
+> +	unsigned int num_zpos = 0;
+>  	struct drm_plane *plane;
+>  	int ret = 0;
+>  
+> @@ -297,8 +299,15 @@ int drm_plane_register_all(struct drm_device *dev)
+>  			ret = plane->funcs->late_register(plane);
+>  		if (ret)
+>  			return ret;
+> +
+> +		if (plane->zpos_property)
+> +			num_zpos++;
+> +		num_planes++;
+>  	}
+>  
+> +	drm_WARN(dev, num_planes != num_zpos,
 
---dwn2vvpqb3gq7irh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+0day spotted that you should change this to num_zpos && num_zpos ==
+num_planes. Otherwise it doesn't really implement what you claim it does
+implement. With that fixed:
 
-On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
-> Hi Maxime,
->
-> On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
-> > On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
-> > > > On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
-> > > > > Convert the Rockchip HDMI TX text binding to YAML.
-> > > > >
-> > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > ---
-> > > > >  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
-> > > > >  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
-> > > > >  2 files changed, 178 insertions(+), 74 deletions(-)
-> > > > >  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> > > > >  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> > > > > deleted file mode 100644
-> > > > > index 3d32ce137e7f..000000000000
-> > > > > --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> > > > > +++ /dev/null
-> > > > > @@ -1,74 +0,0 @@
-> > > > > -Rockchip DWC HDMI TX Encoder
-> > > > > -============================
-> > > > > -
-> > > > > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> > > > > -with a companion PHY IP.
-> > > > > -
-> > > > > -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> > > > > -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> > > > > -following device-specific properties.
-> > > > > -
-> > > > > -
-> > > > > -Required properties:
-> > > > > -
-> > > > > -- compatible: should be one of the following:
-> > > > > -		"rockchip,rk3228-dw-hdmi"
-> > > > > -		"rockchip,rk3288-dw-hdmi"
-> > > > > -		"rockchip,rk3328-dw-hdmi"
-> > > > > -		"rockchip,rk3399-dw-hdmi"
-> > > > > -- reg: See dw_hdmi.txt.
-> > > > > -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> > > > > -- interrupts: HDMI interrupt number
-> > > > > -- clocks: See dw_hdmi.txt.
-> > > > > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> > > > > -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> > > > > -  corresponding to the video input of the controller. The port shall have two
-> > > > > -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> > > > > -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> > > > > -
-> > > > > -Optional properties
-> > > > > -
-> > > > > -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> > > > > -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> > > > > -  connected to a system I2C master this property contains a phandle to that
-> > > > > -  I2C master controller.
-> > > > > -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> > > > > -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> > > > > -- clock-names: May contain "grf", power for grf io.
-> > > > > -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> > > > > -- phys: from general PHY binding: the phandle for the PHY device.
-> > > > > -- phy-names: Should be "hdmi" if phys references an external phy.
-> > > > > -
-> > > > > -Optional pinctrl entry:
-> > > > > -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> > > > > -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> > > > > -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> > > > > -  cause the SDA line to be driven low to work around a hardware
-> > > > > -  errata.
-> > > > > -
-> > > > > -Example:
-> > > > > -
-> > > > > -hdmi: hdmi@ff980000 {
-> > > > > -	compatible = "rockchip,rk3288-dw-hdmi";
-> > > > > -	reg = <0xff980000 0x20000>;
-> > > > > -	reg-io-width = <4>;
-> > > > > -	ddc-i2c-bus = <&i2c5>;
-> > > > > -	rockchip,grf = <&grf>;
-> > > > > -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> > > > > -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> > > > > -	clock-names = "iahb", "isfr";
-> > > > > -	ports {
-> > > > > -		hdmi_in: port {
-> > > > > -			#address-cells = <1>;
-> > > > > -			#size-cells = <0>;
-> > > > > -			hdmi_in_vopb: endpoint@0 {
-> > > > > -				reg = <0>;
-> > > > > -				remote-endpoint = <&vopb_out_hdmi>;
-> > > > > -			};
-> > > > > -			hdmi_in_vopl: endpoint@1 {
-> > > > > -				reg = <1>;
-> > > > > -				remote-endpoint = <&vopl_out_hdmi>;
-> > > > > -			};
-> > > > > -		};
-> > > > > -	};
-> > > > > -};
-> > > > > diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..8ff544ae0ac2
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> > > > > @@ -0,0 +1,178 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Rockchip DWC HDMI TX Encoder
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Mark Yao <mark.yao@rock-chips.com>
-> > > > > +
-> > > > > +description: |
-> > > > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> > > > > +  with a companion PHY IP.
-> > > > > +
-> > > > > +allOf:
-> > > > > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - rockchip,rk3228-dw-hdmi
-> > > > > +      - rockchip,rk3288-dw-hdmi
-> > > > > +      - rockchip,rk3328-dw-hdmi
-> > > > > +      - rockchip,rk3399-dw-hdmi
-> > > > > +
-> > > > > +  reg: true
-> > > > > +
-> > > > > +  reg-io-width:
-> > > > > +    const: 4
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    minItems: 2
-> > > > > +    maxItems: 5
-> > > > > +    items:
-> > > > > +      - description: The bus clock for either AHB and APB
-> > > > > +      - description: The internal register configuration clock
-> > > > > +      - description: The HDMI CEC controller main clock
-> > > > > +      - description: Power for GRF IO
-> > > > > +      - description: External clock for some HDMI PHY
-> > > > > +
-> > > > > +  clock-names:
-> > > > > +    minItems: 2
-> > > > > +    maxItems: 5
-> > > > > +    items:
-> > > > > +      - const: iahb
-> > > > > +      - const: isfr
-> > > > > +      - enum:
-> > > > > +        - cec
-> > > > > +        - grf
-> > > > > +        - vpll
-> > > > > +      - enum:
-> > > > > +        - cec
-> > > > > +        - grf
-> > > > > +        - vpll
-> > > > > +      - enum:
-> > > > > +        - cec
-> > > > > +        - grf
-> > > > > +        - vpll
-> > > >
-> > > > IIRC Rob wanted us to standardize the order of the clocks if possible,
-> > > > since it's a pain to support properly here, and your description won't
-> > > > match what you describe here either (and in general it's just a best
-> > > > practice), so if all your DTs have the same order you should just set
-> > > > that order in stone.
-> > >
-> > > But how do we handle the case where any of the cec, grf and vpll clocks
-> > > can be set ? Assuming, for instance, that
-> > >
-> > > 	clock-names = "iahb", "isfr", "cec";
-> > > 	clock-names = "iahb", "isfr", "vpll";
-> > > 	clock-names = "iahb", "isfr", "cec", "vpll";
-> > >
-> > > would all be valid.
-> >
-> > It would be painful then...
-> >
-> > The easiest way to do so would be to simply use an enum there, and not
-> > bother checking the array at all. You'll get a warning if there's
-> > multiple occurences of the same string, and I guess that's what you
-> > would be really concerned about.
-> >
-> > However, now that I think about it, what's the interaction between the
-> > generic binding and this one when it comes to the third clock? The
-> > generic one expects it to be cec, and here you have other options?
->
-> I'm not too familiar with the platform, but as far as I understand, any
-> of the cec, grf and vpll clock is optional (if someone could confirm
-> that, it would be useful). I don't care so much about the order, but
-> iahb and isfr are mandatory, and thus need to be specified as two const
-> items in the beginning as far as I understand. It would be nice to set
-> something along the lines of
->
->   minItems: 2
->   maxItems: 5
->   items:
->     - const: iahb
->     - const: isfr
->     - enum:
->       - cec
->       - grf
->       - vpll
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-I guess you could do something like:
+> +		 "Mixing planes with and without zpos property is invalid\n");
+> +
+>  	return 0;
+>  }
+>  
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
-in the generic schema:
-
-clock-names:
-  allOf:
-    - minItems: 2
-    - enum:
-       - iahb
-       - isfr
-       - cec
-      additonalItems: true
-    - items:
-      - iahb
-      - isfr
-
-Or something along those lines, I haven't tested it, but the basic
-idea is that you want to enforce that:
-  a) there's a minimum of two clocks
-  b) valid clock names are iahb, isfr and cec, but we will allow more
-  c) the first two clocks are iahb and isfr
-
-Now, on the rockchip binding, we can simply have:
-
-clock-names:
-  enum:
-    - iahb
-    - isfr
-    - cec
-    - grf
-    - vpll
-
-This way, here we enforce the available clock names, while keeping the
-constraints set in the generic binding.
-
-Maxime
-
---dwn2vvpqb3gq7irh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXown8wAKCRDj7w1vZxhR
-xbzqAP0b7YMyvbvLZHLqcSAfIdp0wf5sIUH6pAKOI1Xkaa2pNgEAukMeyr8RlQG5
-rHcRboMkeq2Ukf9PhorHisDa8FtteA0=
-=2hD7
------END PGP SIGNATURE-----
-
---dwn2vvpqb3gq7irh--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
