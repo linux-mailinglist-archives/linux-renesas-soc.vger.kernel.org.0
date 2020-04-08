@@ -2,45 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0301A2AE8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 23:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 727DC1A2BF5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 00:42:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728043AbgDHVRy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Apr 2020 17:17:54 -0400
-Received: from pb-smtp2.pobox.com ([64.147.108.71]:51922 "EHLO
-        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbgDHVRx (ORCPT
+        id S1726512AbgDHWmf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Apr 2020 18:42:35 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:40119 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgDHWm1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Apr 2020 17:17:53 -0400
-Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id 15C175069A;
-        Wed,  8 Apr 2020 17:17:49 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=UIkb5A+H+jKDQ3GWp3Tbf0a8oXM=; b=AcgYlX
-        TnCHG5UcWgHkl8IlsC1e1uSPmTDBMpHTb4rnXL06C201X87TtsWkywbE7tyhVEgL
-        joaA4hStDMXuw8ZUssiqUmef7sB8CpImWNNVRynUk532oaFQQiq7ylZfjC6WKOG0
-        n438CvV7eUlVobxBSL2o/win8JdgiYwNnjPJU=
-Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp2.pobox.com (Postfix) with ESMTP id EBD9250698;
-        Wed,  8 Apr 2020 17:17:48 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=C5qZnucLOvddU0/aYHUwvuoSJMokDJ9d4K7zprmELhs=; b=rhI9Y9k7ariW+D63u1TPx511dXcnGqLfZWvC4hyySB7C8iu6lcGWtATA4lzrxivdp5SOwycFxqeXwlBHGMIZ+/TN4juy0TA9A3TTPQBm6TTbluFOmyrcr3+B1c5KEDP/2UtjGbuSvcOZxVxL1iYp3mQwA1ofghE5W48Ncw1e8cc=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 5F86F50697;
-        Wed,  8 Apr 2020 17:17:48 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 798F72DA0D4B;
-        Wed,  8 Apr 2020 17:17:47 -0400 (EDT)
-Date:   Wed, 8 Apr 2020 17:17:47 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
+        Wed, 8 Apr 2020 18:42:27 -0400
+Received: by mail-qk1-f195.google.com with SMTP id z15so2097260qki.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Apr 2020 15:42:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Gx7CIn2jLm5j4xdRTQllP3gtsV1GD1rqAZK1dgPXufs=;
+        b=QNvwhanRxS4Sp2j2LHSLQcsnvtI8nKLKCO4iJmFGW1B92LmBwTjRXgMu6hoA+3nu6a
+         +AncNDjcl0kSubqIIKDmhQ/B4P0DWLjY944vQvPzXqfIZ/sCSq0fDEsgem3Gc5iICbyv
+         0Y39n5KQM6xKjbVgPorJhsaiN2AuYU7Q0/dWwDhxN1r5mtViSRqRNidGJ/zth/jmXnAd
+         Fj7J66gfSRWdqqRboP1FK189wHiA2ZAzhPdo2Mp8SJP9vg7U1rEBSGTCCasAVssBxBTy
+         zYpfsDYyG5+n/7srZdc6jeXEQR+u64TxJV40NMVebs8Xh6UEw6KOAP5b0PcZX96oRtnX
+         4fIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Gx7CIn2jLm5j4xdRTQllP3gtsV1GD1rqAZK1dgPXufs=;
+        b=ABRsxnceYgH2252dtkek0Fo8ZHuNs/Bk78Fss5ArdjbmQM8FFW++toawFhqNOyocjr
+         rgSWgahD7AsbtOJDnUtVMt+TLqTjQmu/XcdM4Rrv54GTqfbRRIL+bEN9JpUPySOQiiy7
+         CP033aFAnrHrRvdErPKBuSxdeUr/9oty5e7L3wXp0cn8sAcbtpqL5xwQnmOQEb1dW8ge
+         UmApdCSsyJsBE1Sy7/ly9i5djjHhmTSaQy/sXJcxpQRX59YrCO31h6p0icGzIvA+l2Wj
+         XcV43IwMcLnLIP5TAVSNEjfOJzF90ZxLzfT0N7RRCkWxl9tmHKpmueZxwiHsbInCOp1m
+         8lnw==
+X-Gm-Message-State: AGi0PuZKyssrsUdLE7OD5sDHC2Apu8pnuY90cqLUzXZkrmzr3zHLnmTP
+        ZG8pDYK8GS9p2AKP42I1kYfLlQ==
+X-Google-Smtp-Source: APiQypK2bX+tqIpGntcBk1/CwwpnTCfzPu8OVIuVdpAy/314r42K0ZVFzsGT+xEEVrPrBkQ7VCf5XA==
+X-Received: by 2002:a05:620a:4f2:: with SMTP id b18mr9768314qkh.433.1586385745928;
+        Wed, 08 Apr 2020 15:42:25 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id x17sm19797204qkb.87.2020.04.08.15.42.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 08 Apr 2020 15:42:25 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jMJOq-0006Fv-Ln; Wed, 08 Apr 2020 19:42:24 -0300
+Date:   Wed, 8 Apr 2020 19:42:24 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
 To:     Arnd Bergmann <arnd@arndb.de>
-cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Cc:     Nicolas Pitre <nico@fluxnic.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Andrzej Hajda <a.hajda@samsung.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
@@ -58,20 +70,21 @@ cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Networking <netdev@vger.kernel.org>,
         linux-rdma <linux-rdma@vger.kernel.org>
 Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-In-Reply-To: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
-Message-ID: <nycvar.YSQ.7.76.2004081715080.2671@knanqh.ubzr>
-References: <20200408202711.1198966-1-arnd@arndb.de> <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr> <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+Message-ID: <20200408224224.GD11886@ziepe.ca>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+ <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+ <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 65B28AAA-79DE-11EA-BF5C-D1361DBA3BAF-78420484!pb-smtp2.pobox.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 8 Apr 2020, Arnd Bergmann wrote:
-
+On Wed, Apr 08, 2020 at 10:49:48PM +0200, Arnd Bergmann wrote:
 > On Wed, Apr 8, 2020 at 10:38 PM Nicolas Pitre <nico@fluxnic.net> wrote:
 > > On Wed, 8 Apr 2020, Arnd Bergmann wrote:
 > > > I have created workarounds for the Kconfig files, which now stop using
@@ -96,13 +109,21 @@ On Wed, 8 Apr 2020, Arnd Bergmann wrote:
 > I try to use IS_REACHABLE() only as a last resort, as it tends to
 > confuse users when a subsystem is built as a module and already
 > loaded but something relying on that subsystem does not use it.
+> 
+> In the six patches I made, I had to use IS_REACHABLE() once,
+> for the others I tended to use a Kconfig dependency like
+> 
+> 'depends on FOO || FOO=n'
 
-Then this is a usage policy issue, not a code correctness issue.
+It is unfortunate kconfig doesn't have a language feature for this
+idiom, as the above is confounding without a lot of kconfig knowledge
 
-The correctness issue is fixed with IS_REACHABLE(). If you want to 
-enforce a usage policy then this goes in Kconfig.
+> I did come up with the IS_REACHABLE() macro originally, but that
+> doesn't mean I think it's a good idea to use it liberally ;-)
 
-But you still can do both.
+It would be nice to have some uniform policy here
 
+I also don't like the IS_REACHABLE solution, it makes this more
+complicated, not less..
 
-Nicolas
+Jason
