@@ -2,76 +2,284 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D4C1A1DE5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 11:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C67081A1DEA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 11:11:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727641AbgDHJJh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Apr 2020 05:09:37 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:38592 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726996AbgDHJJh (ORCPT
+        id S1726996AbgDHJLd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Apr 2020 05:11:33 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:47128 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726965AbgDHJLc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Apr 2020 05:09:37 -0400
+        Wed, 8 Apr 2020 05:11:32 -0400
 Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id Q99U2200A5USYZQ0199Un2; Wed, 08 Apr 2020 11:09:34 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id Q9BW2200E5USYZQ019BWsm; Wed, 08 Apr 2020 11:11:30 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jM6i8-0002mA-6q; Wed, 08 Apr 2020 11:09:28 +0200
+        id 1jM6k6-0002mu-Ey; Wed, 08 Apr 2020 11:11:30 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jM6i8-0006ZC-3Q; Wed, 08 Apr 2020 11:09:28 +0200
+        id 1jM6k6-0006cu-Dh; Wed, 08 Apr 2020 11:11:30 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: r8a73a4: Add missing CMT1 interrupts
-Date:   Wed,  8 Apr 2020 11:09:26 +0200
-Message-Id: <20200408090926.25201-1-geert+renesas@glider.be>
+Subject: [PATCH] spi: dt-bindings: rspi: Convert to json-schema
+Date:   Wed,  8 Apr 2020 11:11:29 +0200
+Message-Id: <20200408091129.25429-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Mobile APE6 Compare Match Timer 1 generates 8 interrupts, one for
-each channel, but currently only 1 is described.
-Fix this by adding the missing interrupts.
+Convert the Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
+Device Tree binding documentation to json-schema.
+
+Document missing properties.
+Update the second example to match reality.
+Drop the first example, as it doesn't add much value.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This has no runtime effect, as the driver only requests an interrupt for
-channels used as clock events, which is the case for the first channel
-only.
+ .../devicetree/bindings/spi/renesas,rspi.yaml | 144 ++++++++++++++++++
+ .../devicetree/bindings/spi/spi-rspi.txt      |  73 ---------
+ 2 files changed, 144 insertions(+), 73 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/spi/renesas,rspi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/spi/spi-rspi.txt
 
-To be queued in renesas-fixes for v5.7, to avoid the json-schema CMT DT
-bindings conversion introducing a regression.
----
- arch/arm/boot/dts/r8a73a4.dtsi | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/r8a73a4.dtsi b/arch/arm/boot/dts/r8a73a4.dtsi
-index a5cd31229fbde835..a3ba722a9d7fee77 100644
---- a/arch/arm/boot/dts/r8a73a4.dtsi
-+++ b/arch/arm/boot/dts/r8a73a4.dtsi
-@@ -131,7 +131,14 @@
- 	cmt1: timer@e6130000 {
- 		compatible = "renesas,r8a73a4-cmt1", "renesas,rcar-gen2-cmt1";
- 		reg = <0 0xe6130000 0 0x1004>;
--		interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>,
-+			     <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&mstp3_clks R8A73A4_CLK_CMT1>;
- 		clock-names = "fck";
- 		power-domains = <&pd_c5>;
+diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
+new file mode 100644
+index 0000000000000000..c54ac059043f6599
+--- /dev/null
++++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
+@@ -0,0 +1,144 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/spi/renesas,rspi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,rspi-sh7757    # SH7757
++          - const: renesas,rspi        # Legacy SH
++
++      - items:
++          - enum:
++              - renesas,rspi-r7s72100  # RZ/A1H
++              - renesas,rspi-r7s9210   # RZ/A2
++          - const: renesas,rspi-rz     # RZ/A
++
++      - items:
++          - enum:
++              - renesas,qspi-r8a7743   # RZ/G1M
++              - renesas,qspi-r8a7744   # RZ/G1N
++              - renesas,qspi-r8a7745   # RZ/G1E
++              - renesas,qspi-r8a77470  # RZ/G1C
++              - renesas,qspi-r8a7790   # R-Car H2
++              - renesas,qspi-r8a7791   # R-Car M2-W
++              - renesas,qspi-r8a7792   # R-Car V2H
++              - renesas,qspi-r8a7793   # R-Car M2-N
++              - renesas,qspi-r8a7794   # R-Car E2
++          - const: renesas,qspi        # R-Car Gen2 and RZ/G1
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    oneOf:
++      - items:
++          - description: A combined interrupt
++      - items:
++          - description: Error interrupt (SPEI)
++          - description: Receive Interrupt (SPRI)
++          - description: Transmit Interrupt (SPTI)
++
++  interrupt-names:
++    oneOf:
++      - items:
++          - const: mux
++      - items:
++          - const: error
++          - const: rx
++          - const: tx
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  dmas:
++    description:
++      Must contain a list of pairs of references to DMA specifiers, one for
++      transmission, and one for reception.
++
++  dma-names:
++    minItems: 2
++    maxItems: 4
++    items:
++      enum:
++        - tx
++        - rx
++
++  num-cs:
++    description: |
++      Total number of native chip selects.
++      Hardware limitations related to chip selects:
++        - When using GPIO chip selects, at least one native chip select must
++          be left unused, as it will be driven anyway.
++    minimum: 1
++    maximum: 2
++    default: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - power-domains
++  - '#address-cells'
++  - '#size-cells'
++
++allOf:
++  - $ref: spi-controller.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,rspi-rz
++    then:
++      properties:
++        interrupts:
++          minItems: 3
++      required:
++        - interrupt-names
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,qspi
++    then:
++      required:
++        - resets
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7791-sysc.h>
++
++    qspi: spi@e6b10000 {
++            compatible = "renesas,qspi-r8a7791", "renesas,qspi";
++            reg = <0xe6b10000 0x2c>;
++            interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 917>;
++            dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
++            dma-names = "tx", "rx", "tx", "rx";
++            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
++            resets = <&cpg 917>;
++            num-cs = <1>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++    };
+diff --git a/Documentation/devicetree/bindings/spi/spi-rspi.txt b/Documentation/devicetree/bindings/spi/spi-rspi.txt
+deleted file mode 100644
+index 421722b939922352..0000000000000000
+--- a/Documentation/devicetree/bindings/spi/spi-rspi.txt
++++ /dev/null
+@@ -1,73 +0,0 @@
+-Device tree configuration for Renesas RSPI/QSPI driver
+-
+-Required properties:
+-- compatible       : For Renesas Serial Peripheral Interface on legacy SH:
+-		     "renesas,rspi-<soctype>", "renesas,rspi" as fallback.
+-		     For Renesas Serial Peripheral Interface on RZ/A:
+-		     "renesas,rspi-<soctype>", "renesas,rspi-rz" as fallback.
+-		     For Quad Serial Peripheral Interface on R-Car Gen2 and
+-		     RZ/G1 devices:
+-		     "renesas,qspi-<soctype>", "renesas,qspi" as fallback.
+-		     Examples with soctypes are:
+-		        - "renesas,rspi-sh7757" (SH)
+-			- "renesas,rspi-r7s72100" (RZ/A1H)
+-			- "renesas,rspi-r7s9210" (RZ/A2)
+-			- "renesas,qspi-r8a7743" (RZ/G1M)
+-			- "renesas,qspi-r8a7744" (RZ/G1N)
+-			- "renesas,qspi-r8a7745" (RZ/G1E)
+-			- "renesas,qspi-r8a77470" (RZ/G1C)
+-			- "renesas,qspi-r8a7790" (R-Car H2)
+-			- "renesas,qspi-r8a7791" (R-Car M2-W)
+-			- "renesas,qspi-r8a7792" (R-Car V2H)
+-			- "renesas,qspi-r8a7793" (R-Car M2-N)
+-			- "renesas,qspi-r8a7794" (R-Car E2)
+-- reg              : Address start and address range size of the device
+-- interrupts       : A list of interrupt-specifiers, one for each entry in
+-		     interrupt-names.
+-		     If interrupt-names is not present, an interrupt specifier
+-		     for a single muxed interrupt.
+-- interrupt-names  : A list of interrupt names. Should contain (if present):
+-		       - "error" for SPEI,
+-		       - "rx" for SPRI,
+-		       - "tx" to SPTI,
+-		       - "mux" for a single muxed interrupt.
+-- num-cs	   : Number of chip selects. Some RSPI cores have more than 1.
+-- #address-cells   : Must be <1>
+-- #size-cells      : Must be <0>
+-
+-Optional properties:
+-- clocks           : Must contain a reference to the functional clock.
+-- dmas             : Must contain a list of two references to DMA specifiers,
+-		     one for transmission, and one for reception.
+-- dma-names        : Must contain a list of two DMA names, "tx" and "rx".
+-
+-Pinctrl properties might be needed, too.  See
+-Documentation/devicetree/bindings/pinctrl/renesas,*.
+-
+-Examples:
+-
+-	spi0: spi@e800c800 {
+-		compatible = "renesas,rspi-r7s72100", "renesas,rspi-rz";
+-		reg = <0xe800c800 0x24>;
+-		interrupts = <0 238 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 239 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 240 IRQ_TYPE_LEVEL_HIGH>;
+-		interrupt-names = "error", "rx", "tx";
+-		interrupt-parent = <&gic>;
+-		num-cs = <1>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-	};
+-
+-	spi: spi@e6b10000 {
+-		compatible = "renesas,qspi-r8a7791", "renesas,qspi";
+-		reg = <0 0xe6b10000 0 0x2c>;
+-		interrupt-parent = <&gic>;
+-		interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp9_clks R8A7791_CLK_QSPI_MOD>;
+-		num-cs = <1>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		dmas = <&dmac0 0x17>, <&dmac0 0x18>;
+-		dma-names = "tx", "rx";
+-	};
 -- 
 2.17.1
 
