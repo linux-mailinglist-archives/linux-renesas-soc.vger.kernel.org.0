@@ -2,122 +2,289 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C67081A1DEA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 11:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBCA1A1DF5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 11:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbgDHJLd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Apr 2020 05:11:33 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:47128 "EHLO
+        id S1726632AbgDHJOW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Apr 2020 05:14:22 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:54020 "EHLO
         laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726965AbgDHJLc (ORCPT
+        with ESMTP id S1727735AbgDHJOW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Apr 2020 05:11:32 -0400
+        Wed, 8 Apr 2020 05:14:22 -0400
 Received: from ramsan ([84.195.182.253])
         by laurent.telenet-ops.be with bizsmtp
-        id Q9BW2200E5USYZQ019BWsm; Wed, 08 Apr 2020 11:11:30 +0200
+        id Q9EH2200L5USYZQ019EHfS; Wed, 08 Apr 2020 11:14:17 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jM6k6-0002mu-Ey; Wed, 08 Apr 2020 11:11:30 +0200
+        id 1jM6mn-0002rc-Ea; Wed, 08 Apr 2020 11:14:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jM6k6-0006cu-Dh; Wed, 08 Apr 2020 11:11:30 +0200
+        id 1jM6mn-0006he-DN; Wed, 08 Apr 2020 11:14:17 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+To:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] spi: dt-bindings: rspi: Convert to json-schema
-Date:   Wed,  8 Apr 2020 11:11:29 +0200
-Message-Id: <20200408091129.25429-1-geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: timer: renesas: cmt: Convert to json-schema
+Date:   Wed,  8 Apr 2020 11:14:16 +0200
+Message-Id: <20200408091416.25725-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
-Device Tree binding documentation to json-schema.
+Convert the Renesas Compare Match Timer (CMT) Device Tree binding
+documentation to json-schema.
 
 Document missing properties.
-Update the second example to match reality.
-Drop the first example, as it doesn't add much value.
+Update the example to match reality.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/spi/renesas,rspi.yaml | 144 ++++++++++++++++++
- .../devicetree/bindings/spi/spi-rspi.txt      |  73 ---------
- 2 files changed, 144 insertions(+), 73 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/spi/renesas,rspi.yaml
- delete mode 100644 Documentation/devicetree/bindings/spi/spi-rspi.txt
+For a clean dtbs_check, this depends on "[PATCH] ARM: dts: r8a73a4: Add
+missing CMT1 interrupts"
+(https://lore.kernel.org/r/20200408090926.25201-1-geert+renesas@glider.be),
+which I intend to queue as a fix for v5.7.
 
-diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
+ .../devicetree/bindings/timer/renesas,cmt.txt | 110 -----------
+ .../bindings/timer/renesas,cmt.yaml           | 180 ++++++++++++++++++
+ 2 files changed, 180 insertions(+), 110 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+
+diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.txt b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+deleted file mode 100644
+index a747fabab7d3fda4..0000000000000000
+--- a/Documentation/devicetree/bindings/timer/renesas,cmt.txt
++++ /dev/null
+@@ -1,110 +0,0 @@
+-* Renesas R-Car Compare Match Timer (CMT)
+-
+-The CMT is a multi-channel 16/32/48-bit timer/counter with configurable clock
+-inputs and programmable compare match.
+-
+-Channels share hardware resources but their counter and compare match value
+-are independent. A particular CMT instance can implement only a subset of the
+-channels supported by the CMT model. Channel indices represent the hardware
+-position of the channel in the CMT and don't match the channel numbers in the
+-datasheets.
+-
+-Required Properties:
+-
+-  - compatible: must contain one or more of the following:
+-    - "renesas,r8a73a4-cmt0" for the 32-bit CMT0 device included in r8a73a4.
+-    - "renesas,r8a73a4-cmt1" for the 48-bit CMT1 device included in r8a73a4.
+-    - "renesas,r8a7740-cmt0" for the 32-bit CMT0 device included in r8a7740.
+-    - "renesas,r8a7740-cmt1" for the 48-bit CMT1 device included in r8a7740.
+-    - "renesas,r8a7740-cmt2" for the 32-bit CMT2 device included in r8a7740.
+-    - "renesas,r8a7740-cmt3" for the 32-bit CMT3 device included in r8a7740.
+-    - "renesas,r8a7740-cmt4" for the 32-bit CMT4 device included in r8a7740.
+-    - "renesas,r8a7743-cmt0" for the 32-bit CMT0 device included in r8a7743.
+-    - "renesas,r8a7743-cmt1" for the 48-bit CMT1 device included in r8a7743.
+-    - "renesas,r8a7744-cmt0" for the 32-bit CMT0 device included in r8a7744.
+-    - "renesas,r8a7744-cmt1" for the 48-bit CMT1 device included in r8a7744.
+-    - "renesas,r8a7745-cmt0" for the 32-bit CMT0 device included in r8a7745.
+-    - "renesas,r8a7745-cmt1" for the 48-bit CMT1 device included in r8a7745.
+-    - "renesas,r8a77470-cmt0" for the 32-bit CMT0 device included in r8a77470.
+-    - "renesas,r8a77470-cmt1" for the 48-bit CMT1 device included in r8a77470.
+-    - "renesas,r8a774a1-cmt0" for the 32-bit CMT0 device included in r8a774a1.
+-    - "renesas,r8a774a1-cmt1" for the 48-bit CMT devices included in r8a774a1.
+-    - "renesas,r8a774b1-cmt0" for the 32-bit CMT0 device included in r8a774b1.
+-    - "renesas,r8a774b1-cmt1" for the 48-bit CMT devices included in r8a774b1.
+-    - "renesas,r8a774c0-cmt0" for the 32-bit CMT0 device included in r8a774c0.
+-    - "renesas,r8a774c0-cmt1" for the 48-bit CMT devices included in r8a774c0.
+-    - "renesas,r8a7790-cmt0" for the 32-bit CMT0 device included in r8a7790.
+-    - "renesas,r8a7790-cmt1" for the 48-bit CMT1 device included in r8a7790.
+-    - "renesas,r8a7791-cmt0" for the 32-bit CMT0 device included in r8a7791.
+-    - "renesas,r8a7791-cmt1" for the 48-bit CMT1 device included in r8a7791.
+-    - "renesas,r8a7792-cmt0" for the 32-bit CMT0 device included in r8a7792.
+-    - "renesas,r8a7792-cmt1" for the 48-bit CMT1 device included in r8a7792.
+-    - "renesas,r8a7793-cmt0" for the 32-bit CMT0 device included in r8a7793.
+-    - "renesas,r8a7793-cmt1" for the 48-bit CMT1 device included in r8a7793.
+-    - "renesas,r8a7794-cmt0" for the 32-bit CMT0 device included in r8a7794.
+-    - "renesas,r8a7794-cmt1" for the 48-bit CMT1 device included in r8a7794.
+-    - "renesas,r8a7795-cmt0" for the 32-bit CMT0 device included in r8a7795.
+-    - "renesas,r8a7795-cmt1" for the 48-bit CMT devices included in r8a7795.
+-    - "renesas,r8a7796-cmt0" for the 32-bit CMT0 device included in r8a7796.
+-    - "renesas,r8a7796-cmt1" for the 48-bit CMT devices included in r8a7796.
+-    - "renesas,r8a77965-cmt0" for the 32-bit CMT0 device included in r8a77965.
+-    - "renesas,r8a77965-cmt1" for the 48-bit CMT devices included in r8a77965.
+-    - "renesas,r8a77970-cmt0" for the 32-bit CMT0 device included in r8a77970.
+-    - "renesas,r8a77970-cmt1" for the 48-bit CMT devices included in r8a77970.
+-    - "renesas,r8a77980-cmt0" for the 32-bit CMT0 device included in r8a77980.
+-    - "renesas,r8a77980-cmt1" for the 48-bit CMT devices included in r8a77980.
+-    - "renesas,r8a77990-cmt0" for the 32-bit CMT0 device included in r8a77990.
+-    - "renesas,r8a77990-cmt1" for the 48-bit CMT devices included in r8a77990.
+-    - "renesas,r8a77995-cmt0" for the 32-bit CMT0 device included in r8a77995.
+-    - "renesas,r8a77995-cmt1" for the 48-bit CMT devices included in r8a77995.
+-    - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
+-    - "renesas,sh73a0-cmt1" for the 48-bit CMT1 device included in sh73a0.
+-    - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
+-    - "renesas,sh73a0-cmt3" for the 32-bit CMT3 device included in sh73a0.
+-    - "renesas,sh73a0-cmt4" for the 32-bit CMT4 device included in sh73a0.
+-
+-    - "renesas,rcar-gen2-cmt0" for 32-bit CMT0 devices included in R-Car Gen2
+-		and RZ/G1.
+-    - "renesas,rcar-gen2-cmt1" for 48-bit CMT1 devices included in R-Car Gen2
+-		and RZ/G1.
+-		These are fallbacks for r8a73a4, R-Car Gen2 and RZ/G1 entries
+-		listed above.
+-    - "renesas,rcar-gen3-cmt0" for 32-bit CMT0 devices included in R-Car Gen3
+-		and RZ/G2.
+-    - "renesas,rcar-gen3-cmt1" for 48-bit CMT devices included in R-Car Gen3
+-		and RZ/G2.
+-		These are fallbacks for R-Car Gen3 and RZ/G2 entries listed
+-		above.
+-
+-  - reg: base address and length of the registers block for the timer module.
+-  - interrupts: interrupt-specifier for the timer, one per channel.
+-  - clocks: a list of phandle + clock-specifier pairs, one for each entry
+-    in clock-names.
+-  - clock-names: must contain "fck" for the functional clock.
+-
+-
+-Example: R8A7790 (R-Car H2) CMT0 and CMT1 nodes
+-
+-	cmt0: timer@ffca0000 {
+-		compatible = "renesas,r8a7790-cmt0", "renesas,rcar-gen2-cmt0";
+-		reg = <0 0xffca0000 0 0x1004>;
+-		interrupts = <0 142 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 142 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp1_clks R8A7790_CLK_CMT0>;
+-		clock-names = "fck";
+-	};
+-
+-	cmt1: timer@e6130000 {
+-		compatible = "renesas,r8a7790-cmt1", "renesas,rcar-gen2-cmt1";
+-		reg = <0 0xe6130000 0 0x1004>;
+-		interrupts = <0 120 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 121 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 122 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 123 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 124 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 125 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 126 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 127 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp3_clks R8A7790_CLK_CMT1>;
+-		clock-names = "fck";
+-	};
+diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
 new file mode 100644
-index 0000000000000000..c54ac059043f6599
+index 0000000000000000..ba73a19e4d9a48b9
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-@@ -0,0 +1,144 @@
++++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+@@ -0,0 +1,180 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/spi/renesas,rspi.yaml#
++$id: http://devicetree.org/schemas/timer/renesas,cmt.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
++title: Renesas Compare Match Timer (CMT)
 +
 +maintainers:
 +  - Geert Uytterhoeven <geert+renesas@glider.be>
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++
++description:
++  The CMT is a multi-channel 16/32/48-bit timer/counter with configurable clock
++  inputs and programmable compare match.
++
++  Channels share hardware resources but their counter and compare match values
++  are independent. A particular CMT instance can implement only a subset of the
++  channels supported by the CMT model. Channel indices represent the hardware
++  position of the channel in the CMT and don't match the channel numbers in the
++  datasheets.
 +
 +properties:
 +  compatible:
 +    oneOf:
 +      - items:
 +          - enum:
-+              - renesas,rspi-sh7757    # SH7757
-+          - const: renesas,rspi        # Legacy SH
++              - renesas,r8a7740-cmt0      # 32-bit CMT0 on R-Mobile A1
++              - renesas,r8a7740-cmt1      # 48-bit CMT1 on R-Mobile A1
++              - renesas,r8a7740-cmt2      # 32-bit CMT2 on R-Mobile A1
++              - renesas,r8a7740-cmt3      # 32-bit CMT3 on R-Mobile A1
++              - renesas,r8a7740-cmt4      # 32-bit CMT4 on R-Mobile A1
++              - renesas,sh73a0-cmt0       # 32-bit CMT0 on SH-Mobile AG5
++              - renesas,sh73a0-cmt1       # 48-bit CMT1 on SH-Mobile AG5
++              - renesas,sh73a0-cmt2       # 32-bit CMT2 on SH-Mobile AG5
++              - renesas,sh73a0-cmt3       # 32-bit CMT3 on SH-Mobile AG5
++              - renesas,sh73a0-cmt4       # 32-bit CMT4 on SH-Mobile AG5
 +
 +      - items:
 +          - enum:
-+              - renesas,rspi-r7s72100  # RZ/A1H
-+              - renesas,rspi-r7s9210   # RZ/A2
-+          - const: renesas,rspi-rz     # RZ/A
++              - renesas,r8a73a4-cmt0      # 32-bit CMT0 on R-Mobile APE6
++              - renesas,r8a7743-cmt0      # 32-bit CMT0 on RZ/G1M
++              - renesas,r8a7744-cmt0      # 32-bit CMT0 on RZ/G1N
++              - renesas,r8a7745-cmt0      # 32-bit CMT0 on RZ/G1E
++              - renesas,r8a77470-cmt0     # 32-bit CMT0 on RZ/G1C
++              - renesas,r8a7790-cmt0      # 32-bit CMT0 on R-Car H2
++              - renesas,r8a7791-cmt0      # 32-bit CMT0 on R-Car M2-W
++              - renesas,r8a7792-cmt0      # 32-bit CMT0 on R-Car V2H
++              - renesas,r8a7793-cmt0      # 32-bit CMT0 on R-Car M2-N
++              - renesas,r8a7794-cmt0      # 32-bit CMT0 on R-Car E2
++          - const: renesas,rcar-gen2-cmt0 # 32-bit CMT0 on R-Mobile APE6, R-Car Gen2 and RZ/G1
 +
 +      - items:
 +          - enum:
-+              - renesas,qspi-r8a7743   # RZ/G1M
-+              - renesas,qspi-r8a7744   # RZ/G1N
-+              - renesas,qspi-r8a7745   # RZ/G1E
-+              - renesas,qspi-r8a77470  # RZ/G1C
-+              - renesas,qspi-r8a7790   # R-Car H2
-+              - renesas,qspi-r8a7791   # R-Car M2-W
-+              - renesas,qspi-r8a7792   # R-Car V2H
-+              - renesas,qspi-r8a7793   # R-Car M2-N
-+              - renesas,qspi-r8a7794   # R-Car E2
-+          - const: renesas,qspi        # R-Car Gen2 and RZ/G1
++              - renesas,r8a73a4-cmt1      # 48-bit CMT1 on R-Mobile APE6
++              - renesas,r8a7743-cmt1      # 48-bit CMT1 on RZ/G1M
++              - renesas,r8a7744-cmt1      # 48-bit CMT1 on RZ/G1N
++              - renesas,r8a7745-cmt1      # 48-bit CMT1 on RZ/G1E
++              - renesas,r8a77470-cmt1     # 48-bit CMT1 on RZ/G1C
++              - renesas,r8a7790-cmt1      # 48-bit CMT1 on R-Car H2
++              - renesas,r8a7791-cmt1      # 48-bit CMT1 on R-Car M2-W
++              - renesas,r8a7792-cmt1      # 48-bit CMT1 on R-Car V2H
++              - renesas,r8a7793-cmt1      # 48-bit CMT1 on R-Car M2-N
++              - renesas,r8a7794-cmt1      # 48-bit CMT1 on R-Car E2
++          - const: renesas,rcar-gen2-cmt1 # 48-bit CMT1 on R-Mobile APE6, R-Car Gen2 and RZ/G1
++
++      - items:
++          - enum:
++              - renesas,r8a774a1-cmt0     # 32-bit CMT0 on RZ/G2M
++              - renesas,r8a774b1-cmt0     # 32-bit CMT0 on RZ/G2N
++              - renesas,r8a774c0-cmt0     # 32-bit CMT0 on RZ/G2E
++              - renesas,r8a7795-cmt0      # 32-bit CMT0 on R-Car H3
++              - renesas,r8a7796-cmt0      # 32-bit CMT0 on R-Car M3-W
++              - renesas,r8a77965-cmt0     # 32-bit CMT0 on R-Car M3-N
++              - renesas,r8a77970-cmt0     # 32-bit CMT0 on R-Car V3M
++              - renesas,r8a77980-cmt0     # 32-bit CMT0 on R-Car V3H
++              - renesas,r8a77990-cmt0     # 32-bit CMT0 on R-Car E3
++              - renesas,r8a77995-cmt0     # 32-bit CMT0 on R-Car D3
++          - const: renesas,rcar-gen3-cmt0 # 32-bit CMT0 on R-Car Gen3 and RZ/G2
++
++      - items:
++          - enum:
++              - renesas,r8a774a1-cmt1     # 48-bit CMT on RZ/G2M
++              - renesas,r8a774b1-cmt1     # 48-bit CMT on RZ/G2N
++              - renesas,r8a774c0-cmt1     # 48-bit CMT on RZ/G2E
++              - renesas,r8a7795-cmt1      # 48-bit CMT on R-Car H3
++              - renesas,r8a7796-cmt1      # 48-bit CMT on R-Car M3-W
++              - renesas,r8a77965-cmt1     # 48-bit CMT on R-Car M3-N
++              - renesas,r8a77970-cmt1     # 48-bit CMT on R-Car V3M
++              - renesas,r8a77980-cmt1     # 48-bit CMT on R-Car V3H
++              - renesas,r8a77990-cmt1     # 48-bit CMT on R-Car E3
++              - renesas,r8a77995-cmt1     # 48-bit CMT on R-Car D3
++          - const: renesas,rcar-gen3-cmt1 # 48-bit CMT on R-Car Gen3 and RZ/G2
 +
 +  reg:
 +    maxItems: 1
 +
 +  interrupts:
-+    oneOf:
-+      - items:
-+          - description: A combined interrupt
-+      - items:
-+          - description: Error interrupt (SPEI)
-+          - description: Receive Interrupt (SPRI)
-+          - description: Transmit Interrupt (SPTI)
-+
-+  interrupt-names:
-+    oneOf:
-+      - items:
-+          - const: mux
-+      - items:
-+          - const: error
-+          - const: rx
-+          - const: tx
++    minItems: 1
++    maxItems: 8
 +
 +  clocks:
 +    maxItems: 1
++
++  clock-names:
++    const: fck
 +
 +  power-domains:
 +    maxItems: 1
@@ -125,161 +292,73 @@ index 0000000000000000..c54ac059043f6599
 +  resets:
 +    maxItems: 1
 +
-+  dmas:
-+    description:
-+      Must contain a list of pairs of references to DMA specifiers, one for
-+      transmission, and one for reception.
-+
-+  dma-names:
-+    minItems: 2
-+    maxItems: 4
-+    items:
-+      enum:
-+        - tx
-+        - rx
-+
-+  num-cs:
-+    description: |
-+      Total number of native chip selects.
-+      Hardware limitations related to chip selects:
-+        - When using GPIO chip selects, at least one native chip select must
-+          be left unused, as it will be driven anyway.
-+    minimum: 1
-+    maximum: 2
-+    default: 1
-+
 +required:
 +  - compatible
 +  - reg
 +  - interrupts
 +  - clocks
++  - clock-names
 +  - power-domains
-+  - '#address-cells'
-+  - '#size-cells'
 +
 +allOf:
-+  - $ref: spi-controller.yaml#
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
 +            enum:
-+              - renesas,rspi-rz
++              - renesas,rcar-gen2-cmt0
++              - renesas,rcar-gen3-cmt0
 +    then:
 +      properties:
 +        interrupts:
-+          minItems: 3
-+      required:
-+        - interrupt-names
++          minItems: 2
++          maxItems: 2
 +
 +  - if:
 +      properties:
 +        compatible:
 +          contains:
 +            enum:
-+              - renesas,qspi
++              - renesas,rcar-gen2-cmt1
++              - renesas,rcar-gen3-cmt1
 +    then:
-+      required:
-+        - resets
++      properties:
++        interrupts:
++          minItems: 8
++          maxItems: 8
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
++    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
 +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7791-sysc.h>
-+
-+    qspi: spi@e6b10000 {
-+            compatible = "renesas,qspi-r8a7791", "renesas,qspi";
-+            reg = <0xe6b10000 0x2c>;
-+            interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cpg CPG_MOD 917>;
-+            dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
-+            dma-names = "tx", "rx", "tx", "rx";
-+            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+            resets = <&cpg 917>;
-+            num-cs = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++    #include <dt-bindings/power/r8a7790-sysc.h>
++    cmt0: timer@ffca0000 {
++            compatible = "renesas,r8a7790-cmt0", "renesas,rcar-gen2-cmt0";
++            reg = <0xffca0000 0x1004>;
++            interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 124>;
++            clock-names = "fck";
++            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
++            resets = <&cpg 124>;
 +    };
-diff --git a/Documentation/devicetree/bindings/spi/spi-rspi.txt b/Documentation/devicetree/bindings/spi/spi-rspi.txt
-deleted file mode 100644
-index 421722b939922352..0000000000000000
---- a/Documentation/devicetree/bindings/spi/spi-rspi.txt
-+++ /dev/null
-@@ -1,73 +0,0 @@
--Device tree configuration for Renesas RSPI/QSPI driver
--
--Required properties:
--- compatible       : For Renesas Serial Peripheral Interface on legacy SH:
--		     "renesas,rspi-<soctype>", "renesas,rspi" as fallback.
--		     For Renesas Serial Peripheral Interface on RZ/A:
--		     "renesas,rspi-<soctype>", "renesas,rspi-rz" as fallback.
--		     For Quad Serial Peripheral Interface on R-Car Gen2 and
--		     RZ/G1 devices:
--		     "renesas,qspi-<soctype>", "renesas,qspi" as fallback.
--		     Examples with soctypes are:
--		        - "renesas,rspi-sh7757" (SH)
--			- "renesas,rspi-r7s72100" (RZ/A1H)
--			- "renesas,rspi-r7s9210" (RZ/A2)
--			- "renesas,qspi-r8a7743" (RZ/G1M)
--			- "renesas,qspi-r8a7744" (RZ/G1N)
--			- "renesas,qspi-r8a7745" (RZ/G1E)
--			- "renesas,qspi-r8a77470" (RZ/G1C)
--			- "renesas,qspi-r8a7790" (R-Car H2)
--			- "renesas,qspi-r8a7791" (R-Car M2-W)
--			- "renesas,qspi-r8a7792" (R-Car V2H)
--			- "renesas,qspi-r8a7793" (R-Car M2-N)
--			- "renesas,qspi-r8a7794" (R-Car E2)
--- reg              : Address start and address range size of the device
--- interrupts       : A list of interrupt-specifiers, one for each entry in
--		     interrupt-names.
--		     If interrupt-names is not present, an interrupt specifier
--		     for a single muxed interrupt.
--- interrupt-names  : A list of interrupt names. Should contain (if present):
--		       - "error" for SPEI,
--		       - "rx" for SPRI,
--		       - "tx" to SPTI,
--		       - "mux" for a single muxed interrupt.
--- num-cs	   : Number of chip selects. Some RSPI cores have more than 1.
--- #address-cells   : Must be <1>
--- #size-cells      : Must be <0>
--
--Optional properties:
--- clocks           : Must contain a reference to the functional clock.
--- dmas             : Must contain a list of two references to DMA specifiers,
--		     one for transmission, and one for reception.
--- dma-names        : Must contain a list of two DMA names, "tx" and "rx".
--
--Pinctrl properties might be needed, too.  See
--Documentation/devicetree/bindings/pinctrl/renesas,*.
--
--Examples:
--
--	spi0: spi@e800c800 {
--		compatible = "renesas,rspi-r7s72100", "renesas,rspi-rz";
--		reg = <0xe800c800 0x24>;
--		interrupts = <0 238 IRQ_TYPE_LEVEL_HIGH>,
--			     <0 239 IRQ_TYPE_LEVEL_HIGH>,
--			     <0 240 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "error", "rx", "tx";
--		interrupt-parent = <&gic>;
--		num-cs = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--	};
--
--	spi: spi@e6b10000 {
--		compatible = "renesas,qspi-r8a7791", "renesas,qspi";
--		reg = <0 0xe6b10000 0 0x2c>;
--		interrupt-parent = <&gic>;
--		interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&mstp9_clks R8A7791_CLK_QSPI_MOD>;
--		num-cs = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--		dmas = <&dmac0 0x17>, <&dmac0 0x18>;
--		dma-names = "tx", "rx";
--	};
++
++    cmt1: timer@e6130000 {
++            compatible = "renesas,r8a7790-cmt1", "renesas,rcar-gen2-cmt1";
++            reg = <0xe6130000 0x1004>;
++            interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 329>;
++            clock-names = "fck";
++            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
++            resets = <&cpg 329>;
++    };
 -- 
 2.17.1
 
