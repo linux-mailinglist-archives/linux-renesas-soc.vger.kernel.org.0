@@ -2,187 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4EA41A1D8D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 10:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D4C1A1DE5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 11:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgDHIrK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Apr 2020 04:47:10 -0400
-Received: from mga18.intel.com ([134.134.136.126]:16260 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726595AbgDHIrK (ORCPT
+        id S1727641AbgDHJJh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Apr 2020 05:09:37 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:38592 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726996AbgDHJJh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Apr 2020 04:47:10 -0400
-IronPort-SDR: W59ukdF1DxS8zydZy82vAq0bUamb+jR2nJvg2YFdFN0YodV//hjBI3CalMuYq0nAOfJ8r6KCAl
- EpAkZwkXOrDA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 01:47:08 -0700
-IronPort-SDR: jj5v/uj4/T5iyEbzt7ZxRj6t6OoglxlpuM55Wx7eHqJKi5NQpz4O7xibDvzf+jHoXuMNEqVqDF
- qt+VRkUX4UlA==
-X-IronPort-AV: E=Sophos;i="5.72,357,1580803200"; 
-   d="scan'208";a="286481112"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2020 01:47:06 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id A927120502; Wed,  8 Apr 2020 11:47:04 +0300 (EEST)
-Date:   Wed, 8 Apr 2020 11:47:04 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
-Message-ID: <20200408084704.GE5206@paasikivi.fi.intel.com>
-References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
- <20200313144035.401430-3-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200313144035.401430-3-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 8 Apr 2020 05:09:37 -0400
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id Q99U2200A5USYZQ0199Un2; Wed, 08 Apr 2020 11:09:34 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jM6i8-0002mA-6q; Wed, 08 Apr 2020 11:09:28 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jM6i8-0006ZC-3Q; Wed, 08 Apr 2020 11:09:28 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: r8a73a4: Add missing CMT1 interrupts
+Date:   Wed,  8 Apr 2020 11:09:26 +0200
+Message-Id: <20200408090926.25201-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+The R-Mobile APE6 Compare Match Timer 1 generates 8 interrupts, one for
+each channel, but currently only 1 is described.
+Fix this by adding the missing interrupts.
 
-Thanks for the patchset.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This has no runtime effect, as the driver only requests an interrupt for
+channels used as clock events, which is the case for the first channel
+only.
 
-"subdev" in the subject.
+To be queued in renesas-fixes for v5.7, to avoid the json-schema CMT DT
+bindings conversion introducing a regression.
+---
+ arch/arm/boot/dts/r8a73a4.dtsi | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-On Fri, Mar 13, 2020 at 03:40:33PM +0100, Jacopo Mondi wrote:
-> Introduce a new pad operation to allow retrieving the media bus
-> configuration on a subdevice pad.
-> 
-> The newly introduced operation reassembles the s/g_mbus_config video
-> operation, which have been on their way to be deprecated since a long
-> time.
-
-How is this expected to work with existing drivers that just get their
-configuration from DT/ACPI? Update to use this API driver by driver as
-needed basis, or something else?
-
-Have you thought about setting the configuration as well?
-
-Where is this expected to be implemented? Transmitters only, and to be
-called by receiver drivers?
-
-I think ideally the g_mbus_config video op should go with this patchset,
-and drivers using it converted. Given the likely small intersection of the
-two (drivers usign the old video op), this might be possible to do later on
-as well. But in that case g_mbus_config should be deprecated in
-documentation.
-
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 761aa83a3f3c..3a1afc00e094 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
->  	unsigned short num_entries;
->  };
->  
-> +/**
-> + * struct v4l2_mbus_parallel_config - parallel mbus configuration
-> + * @hsync_active: hsync active state: true for high, false for low
-> + * @vsync_active: vsync active state: true for high, false for low
-> + * @pclk_rising: pixel clock active edge: true for rising, false for falling
-> + * @data_active: data lines active state: true for high, false for low
-> + */
-> +struct v4l2_mbus_parallel_config {
-> +	bool hsync_active : 1;
-> +	bool vsync_active : 1;
-> +	bool pclk_rising : 1;
-> +	bool data_active : 1;
-
-unsigned int, please.
-
-> +};
-> +
-> +/**
-> + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
-> + * @data_lanes: number of data lanes in use
-> + * @clock_noncontinuous: non continuous clock enable flag
-> + */
-> +struct v4l2_mbus_csi2_dphy_config {
-> +	unsigned int data_lanes : 3;
-> +	bool clock_noncontinuous : 1;
-
-This should be unsigned int as well.
-
-> +};
-> +
-> +/**
-> + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
-> + *
-> + * TODO
-> + */
-> +struct v4l2_mbus_csi2_cphy_config {
-> +	/* TODO */
-> +};
-> +
-> +/**
-> + * struct v4l2_mbus_pad_config - media bus configuration
-> + *
-> + * Report the subdevice media bus information to inform the caller of the
-> + * current bus configuration. The structure describes bus configuration
-> + * parameters that might change in-between streaming sessions, in order to allow
-> + * the caller to adjust its media bus configuration to match what is reported
-> + * here.
-> + *
-> + * TODO: add '_pad_' to the name to distinguish this from the structure
-> + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
-> + * video operations. Reuse the there defined enum v4l2_mbus_type to define
-> + * the bus type.
-> + *
-> + * @type: mbus type. See &enum v4l2_mbus_type
-> + * @parallel: parallel bus configuration parameters.
-> + *	      See &struct v4l2_mbus_parallel_config
-> + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
-> + *	       See &struct v4l2_mbus_csi2_dphy_config
-> + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
-> + *	       See &struct v4l2_mbus_csi2_cphy_config
-> + */
-> +struct v4l2_mbus_pad_config {
-> +	enum v4l2_mbus_type type;
-> +	union {
-> +		struct v4l2_mbus_parallel_config parallel;
-> +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
-> +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
-> +	};
-> +};
-> +
->  /**
->   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
->   *				  in video mode.
-> @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
->   *
->   * @set_frame_desc: set the low level media bus frame parameters, @fd array
->   *                  may be adjusted by the subdev driver to device capabilities.
-> + * @get_mbus_config: get the current mbus configuration
->   */
->  struct v4l2_subdev_pad_ops {
->  	int (*init_cfg)(struct v4l2_subdev *sd,
-> @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
->  			      struct v4l2_mbus_frame_desc *fd);
->  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
->  			      struct v4l2_mbus_frame_desc *fd);
-> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> +			       struct v4l2_mbus_pad_config *config);
->  };
->  
->  /**
-
+diff --git a/arch/arm/boot/dts/r8a73a4.dtsi b/arch/arm/boot/dts/r8a73a4.dtsi
+index a5cd31229fbde835..a3ba722a9d7fee77 100644
+--- a/arch/arm/boot/dts/r8a73a4.dtsi
++++ b/arch/arm/boot/dts/r8a73a4.dtsi
+@@ -131,7 +131,14 @@
+ 	cmt1: timer@e6130000 {
+ 		compatible = "renesas,r8a73a4-cmt1", "renesas,rcar-gen2-cmt1";
+ 		reg = <0 0xe6130000 0 0x1004>;
+-		interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>;
++		interrupts = <GIC_SPI 120 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 121 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 126 IRQ_TYPE_LEVEL_HIGH>,
++			     <GIC_SPI 127 IRQ_TYPE_LEVEL_HIGH>;
+ 		clocks = <&mstp3_clks R8A73A4_CLK_CMT1>;
+ 		clock-names = "fck";
+ 		power-domains = <&pd_c5>;
 -- 
-Kind regards,
+2.17.1
 
-Sakari Ailus
