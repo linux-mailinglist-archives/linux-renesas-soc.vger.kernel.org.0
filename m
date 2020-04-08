@@ -2,233 +2,335 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD5E1A2399
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 15:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAB2A1A23AF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Apr 2020 16:01:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgDHNtk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Apr 2020 09:49:40 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:5529 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727505AbgDHNtj (ORCPT
+        id S1726754AbgDHOBU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Apr 2020 10:01:20 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60164 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbgDHOBT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Apr 2020 09:49:39 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 20F1C240009;
-        Wed,  8 Apr 2020 13:49:33 +0000 (UTC)
-Date:   Wed, 8 Apr 2020 15:52:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
-Message-ID: <20200408135237.tmqiqjogokj5kcbb@uno.localdomain>
-References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
- <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
- <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
- <20200228181303.GA21745@smtp.xilinx.com>
- <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
- <20200319010734.GA27556@smtp.xilinx.com>
- <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
- <20200319232003.GA20549@smtp.xilinx.com>
- <20200326011251.GA9997@smtp.xilinx.com>
+        Wed, 8 Apr 2020 10:01:19 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86BC9522;
+        Wed,  8 Apr 2020 16:01:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586354476;
+        bh=XxzHVE6zlWTyguJ27GTvGM6nacHAH8FyWLtZvZFu2/o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=d9jT2vK9pgwoxt9t1G3WP4tn7UhnCCiCzsRndoW75L4PWrqgQJsqRJxEGYc1gDsE0
+         Gh9N0LYxSemAjirnWQy5I9reHelt7BYJPwgqUb2r0rVVkWqpJsQy/rZtwTUhGFmkDN
+         hRLo7Y4g3NXpJxfFobSajUD90HyAzwKG7Ja+iwb8=
+Date:   Wed, 8 Apr 2020 17:01:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mark Yao <mark.yao@rock-chips.com>,
+        Sandy Huang <hjc@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH/RFC 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
+ binding to YAML
+Message-ID: <20200408140107.GH4881@pendragon.ideasonboard.com>
+References: <20200405233935.27599-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200405233935.27599-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20200406080032.zlszhkjqmjeoa4ti@gilmour.lan>
+ <20200406111927.GD4757@pendragon.ideasonboard.com>
+ <20200406170915.x2ztz4q446h6vx2y@gilmour.lan>
+ <20200406175028.GI16885@pendragon.ideasonboard.com>
+ <20200407071251.npibrmzywiyigu2a@gilmour.lan>
+ <20200408114552.GC4881@pendragon.ideasonboard.com>
+ <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200326011251.GA9997@smtp.xilinx.com>
+In-Reply-To: <20200408122519.epxtptdjlhkj3kru@gilmour.lan>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hyun,
-   sorry for the very late reply :(
+Hi Maxime,
 
-On Wed, Mar 25, 2020 at 06:12:53PM -0700, Hyun Kwon wrote:
-> Hi Jacopo,
->
-> On Thu, 2020-03-19 at 16:20:05 -0700, Hyun Kwon wrote:
-> > Hi Jacopo,
+On Wed, Apr 08, 2020 at 02:25:19PM +0200, Maxime Ripard wrote:
+> On Wed, Apr 08, 2020 at 02:45:52PM +0300, Laurent Pinchart wrote:
+> > On Tue, Apr 07, 2020 at 09:12:51AM +0200, Maxime Ripard wrote:
+> >> On Mon, Apr 06, 2020 at 08:50:28PM +0300, Laurent Pinchart wrote:
+> >>> On Mon, Apr 06, 2020 at 07:09:15PM +0200, Maxime Ripard wrote:
+> >>>> On Mon, Apr 06, 2020 at 02:19:27PM +0300, Laurent Pinchart wrote:
+> >>>>> On Mon, Apr 06, 2020 at 10:00:32AM +0200, Maxime Ripard wrote:
+> >>>>>> On Mon, Apr 06, 2020 at 02:39:33AM +0300, Laurent Pinchart wrote:
+> >>>>>>> Convert the Rockchip HDMI TX text binding to YAML.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >>>>>>> ---
+> >>>>>>>  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
+> >>>>>>>  .../display/rockchip/rockchip,dw-hdmi.yaml    | 178 ++++++++++++++++++
+> >>>>>>>  2 files changed, 178 insertions(+), 74 deletions(-)
+> >>>>>>>  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>>  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>> deleted file mode 100644
+> >>>>>>> index 3d32ce137e7f..000000000000
+> >>>>>>> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
+> >>>>>>> +++ /dev/null
+> >>>>>>> @@ -1,74 +0,0 @@
+> >>>>>>> -Rockchip DWC HDMI TX Encoder
+> >>>>>>> -============================
+> >>>>>>> -
+> >>>>>>> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> >>>>>>> -with a companion PHY IP.
+> >>>>>>> -
+> >>>>>>> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+> >>>>>>> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+> >>>>>>> -following device-specific properties.
+> >>>>>>> -
+> >>>>>>> -
+> >>>>>>> -Required properties:
+> >>>>>>> -
+> >>>>>>> -- compatible: should be one of the following:
+> >>>>>>> -		"rockchip,rk3228-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3288-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3328-dw-hdmi"
+> >>>>>>> -		"rockchip,rk3399-dw-hdmi"
+> >>>>>>> -- reg: See dw_hdmi.txt.
+> >>>>>>> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
+> >>>>>>> -- interrupts: HDMI interrupt number
+> >>>>>>> -- clocks: See dw_hdmi.txt.
+> >>>>>>> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+> >>>>>>> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
+> >>>>>>> -  corresponding to the video input of the controller. The port shall have two
+> >>>>>>> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
+> >>>>>>> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
+> >>>>>>> -
+> >>>>>>> -Optional properties
+> >>>>>>> -
+> >>>>>>> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> >>>>>>> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> >>>>>>> -  connected to a system I2C master this property contains a phandle to that
+> >>>>>>> -  I2C master controller.
+> >>>>>>> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
+> >>>>>>> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
+> >>>>>>> -- clock-names: May contain "grf", power for grf io.
+> >>>>>>> -- clock-names: May contain "vpll", external clock for some hdmi phy.
+> >>>>>>> -- phys: from general PHY binding: the phandle for the PHY device.
+> >>>>>>> -- phy-names: Should be "hdmi" if phys references an external phy.
+> >>>>>>> -
+> >>>>>>> -Optional pinctrl entry:
+> >>>>>>> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
+> >>>>>>> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
+> >>>>>>> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
+> >>>>>>> -  cause the SDA line to be driven low to work around a hardware
+> >>>>>>> -  errata.
+> >>>>>>> -
+> >>>>>>> -Example:
+> >>>>>>> -
+> >>>>>>> -hdmi: hdmi@ff980000 {
+> >>>>>>> -	compatible = "rockchip,rk3288-dw-hdmi";
+> >>>>>>> -	reg = <0xff980000 0x20000>;
+> >>>>>>> -	reg-io-width = <4>;
+> >>>>>>> -	ddc-i2c-bus = <&i2c5>;
+> >>>>>>> -	rockchip,grf = <&grf>;
+> >>>>>>> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+> >>>>>>> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
+> >>>>>>> -	clock-names = "iahb", "isfr";
+> >>>>>>> -	ports {
+> >>>>>>> -		hdmi_in: port {
+> >>>>>>> -			#address-cells = <1>;
+> >>>>>>> -			#size-cells = <0>;
+> >>>>>>> -			hdmi_in_vopb: endpoint@0 {
+> >>>>>>> -				reg = <0>;
+> >>>>>>> -				remote-endpoint = <&vopb_out_hdmi>;
+> >>>>>>> -			};
+> >>>>>>> -			hdmi_in_vopl: endpoint@1 {
+> >>>>>>> -				reg = <1>;
+> >>>>>>> -				remote-endpoint = <&vopl_out_hdmi>;
+> >>>>>>> -			};
+> >>>>>>> -		};
+> >>>>>>> -	};
+> >>>>>>> -};
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>> new file mode 100644
+> >>>>>>> index 000000000000..8ff544ae0ac2
+> >>>>>>> --- /dev/null
+> >>>>>>> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+> >>>>>>> @@ -0,0 +1,178 @@
+> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >>>>>>> +%YAML 1.2
+> >>>>>>> +---
+> >>>>>>> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>>>>> +
+> >>>>>>> +title: Rockchip DWC HDMI TX Encoder
+> >>>>>>> +
+> >>>>>>> +maintainers:
+> >>>>>>> +  - Mark Yao <mark.yao@rock-chips.com>
+> >>>>>>> +
+> >>>>>>> +description: |
+> >>>>>>> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> >>>>>>> +  with a companion PHY IP.
+> >>>>>>> +
+> >>>>>>> +allOf:
+> >>>>>>> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> >>>>>>> +
+> >>>>>>> +properties:
+> >>>>>>> +  compatible:
+> >>>>>>> +    enum:
+> >>>>>>> +      - rockchip,rk3228-dw-hdmi
+> >>>>>>> +      - rockchip,rk3288-dw-hdmi
+> >>>>>>> +      - rockchip,rk3328-dw-hdmi
+> >>>>>>> +      - rockchip,rk3399-dw-hdmi
+> >>>>>>> +
+> >>>>>>> +  reg: true
+> >>>>>>> +
+> >>>>>>> +  reg-io-width:
+> >>>>>>> +    const: 4
+> >>>>>>> +
+> >>>>>>> +  clocks:
+> >>>>>>> +    minItems: 2
+> >>>>>>> +    maxItems: 5
+> >>>>>>> +    items:
+> >>>>>>> +      - description: The bus clock for either AHB and APB
+> >>>>>>> +      - description: The internal register configuration clock
+> >>>>>>> +      - description: The HDMI CEC controller main clock
+> >>>>>>> +      - description: Power for GRF IO
+> >>>>>>> +      - description: External clock for some HDMI PHY
+> >>>>>>> +
+> >>>>>>> +  clock-names:
+> >>>>>>> +    minItems: 2
+> >>>>>>> +    maxItems: 5
+> >>>>>>> +    items:
+> >>>>>>> +      - const: iahb
+> >>>>>>> +      - const: isfr
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>> +      - enum:
+> >>>>>>> +        - cec
+> >>>>>>> +        - grf
+> >>>>>>> +        - vpll
+> >>>>>>
+> >>>>>> IIRC Rob wanted us to standardize the order of the clocks if possible,
+> >>>>>> since it's a pain to support properly here, and your description won't
+> >>>>>> match what you describe here either (and in general it's just a best
+> >>>>>> practice), so if all your DTs have the same order you should just set
+> >>>>>> that order in stone.
+> >>>>>
+> >>>>> But how do we handle the case where any of the cec, grf and vpll clocks
+> >>>>> can be set ? Assuming, for instance, that
+> >>>>>
+> >>>>> 	clock-names = "iahb", "isfr", "cec";
+> >>>>> 	clock-names = "iahb", "isfr", "vpll";
+> >>>>> 	clock-names = "iahb", "isfr", "cec", "vpll";
+> >>>>>
+> >>>>> would all be valid.
+> >>>>
+> >>>> It would be painful then...
+> >>>>
+> >>>> The easiest way to do so would be to simply use an enum there, and not
+> >>>> bother checking the array at all. You'll get a warning if there's
+> >>>> multiple occurences of the same string, and I guess that's what you
+> >>>> would be really concerned about.
+> >>>>
+> >>>> However, now that I think about it, what's the interaction between the
+> >>>> generic binding and this one when it comes to the third clock? The
+> >>>> generic one expects it to be cec, and here you have other options?
+> >>>
+> >>> I'm not too familiar with the platform, but as far as I understand, any
+> >>> of the cec, grf and vpll clock is optional (if someone could confirm
+> >>> that, it would be useful). I don't care so much about the order, but
+> >>> iahb and isfr are mandatory, and thus need to be specified as two const
+> >>> items in the beginning as far as I understand. It would be nice to set
+> >>> something along the lines of
+> >>>
+> >>>   minItems: 2
+> >>>   maxItems: 5
+> >>>   items:
+> >>>     - const: iahb
+> >>>     - const: isfr
+> >>>     - enum:
+> >>>       - cec
+> >>>       - grf
+> >>>       - vpll
+> >>
+> >> I guess you could do something like:
+> >>
+> >> in the generic schema:
+> >>
+> >> clock-names:
+> >>   allOf:
+> >>     - minItems: 2
+> >>     - enum:
+> >>        - iahb
+> >>        - isfr
+> >>        - cec
+> >>       additonalItems: true
+> >>     - items:
+> >>       - iahb
+> >>       - isfr
+> >>
+> >> Or something along those lines, I haven't tested it, but the basic
+> >> idea is that you want to enforce that:
+> >>   a) there's a minimum of two clocks
+> >>   b) valid clock names are iahb, isfr and cec, but we will allow more
+> >>   c) the first two clocks are iahb and isfr
 > >
-> > On Thu, 2020-03-19 at 01:45:57 -0700, Jacopo Mondi wrote:
-> > > Hi Hyun,
-> > >
-> > > On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
-> > > > Hi Jacobo,
-> > > >
-> > > > On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
-> > > > > Hello Hyun, Kieran,
-> > > > >    it's great you are looking into this!
-> > > > >
-> > > > > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
-> > > > > > Hi Kieran,
-> > > > > >
-> > > > > > Thanks for sharing a patch.
-> > > > > >
-
-[snip]
-
-> > > Which case are you trying to address ?
-> > >
+> > Interesting idea. I've tried
 > >
-> > My case is simpler in fact :-), hence the executive summary is,
-> > The sensor vsync signal is active high, and it passes through the serializer.
-> > Since the vsync is already inverted in de-serializer by this patch, expecting
-> > active low, I'm inverting it again in serializer to match.
+> >   clock-names:
+> >     allOf:
+> >       - minItems: 2
+> >       - enum:
+> >         - iahb
+> >         - isfr
+> >         - cec
+> >         additionalItems: true
+> >       - items:
+> >         - const: iahb
+> >         - const: isfr
 > >
-> > 	sensor -- (vsync active high) --> serializer -- (vsync active low) --> de-serializer
+> > in the base synopsys,dw-hdmi.yaml schema, and
 > >
-> > If the vsync inversion becomes a device tree property of max9286, the property
-> > value will have to align with polarity of vsync source. In my case, I can
-> > disable the inversion knowing the sensor vsync is active high. But in other
-> > cases, such chain can be quite deep and may be inconvinient for users to check.
+> >   clock-names:
+> >     maxItems: 2
 > >
-> > Another one is the BWS setting, which is just between ser and de-ser.
+> > in renesas,dw-hdmi.yaml, which resulted in the following validation
+> > errors:
 > >
-> > With mbus_get_config() operation, the problem can be isolated nicely in
-> > my opinion, and the solution handles all above and scales better.
-> > - The de-serializer checks the vsync polarity of all channels using GMSL
-> >   config. If all are active low, invert the vsync (if it can)
+> > Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr'] is too long
 > >
-> > 	vsync_bitmap = 0;
-> > 	for(chan : channels) {
-> > 		config = get_mbus_config(chan);
-> > 		if (config->type != gmsl)
-> > 			error;
-> >
-> > 		if (config->gmsl.vsync == +)
-> > 			vsync_bitmap |= << chan->chan_id;
-> > 	}
-> >
-> > 	if (vsync_bitmap == (1 << channels.size() - 1))
-> > 		nop(); // all active high. don't invert
-> > 	else if (vsync_bitmap == 0)
-> > 		invert_vsync(ser);
-> > 	else
-> > 		error;
-> >
-> > - The serializer checks vsync polarity in the parallel port config, and
-> >   if it's active low (and if it can), invert to make it active high.
-> >   Otherwise mark it in GMSL config, so the de-serializer can hanle.
-> >
-> > 	max96705_get_mbus_config()
-> > 	{
-> > 		config = get_mbus_config(sensor);
-> > 		if (config->type != parallel)
-> > 			error;
-> >
-> > 		if (config->parallel.vsync == -) {
-> > 			if (invert_vsync(ser))
-> > 				ser_config->gmsl.vsync = +;
-> > 			else
-> > 				ser_config->gmsl.vsync = -;
-> > 		}
-> >
-> > 		return ser_config;
-> > 	}
-> >
-> > The same can be used for bandwidth setting. The max96705 driver sets 24 bit
-> > mode only as supported bandwidth. The deserializer driver can pick it up from
-> > mbus_get_config(), and adjust its own config accordingly. It will need some
-> > remote node handling in each driver, but seems worth to me.
-> >
-> > This became too lengthy! Hope it explains better and aligns with your thought,
-> > described in other thread. I will give it a try too!
-> >
->
-> And I got a chance to try.
+> > This is caused by the enum entry.
+> 
+> What happens if you have instead of
+> - enum:
+>  ...
+> 
+> - items:
+>     enum:
+>       ...
 
-Thank you!
+That works, but if I then specify a cec clock in the example in
+renesas,dw-hdmi.yaml, I get
 
-> - used the mbus config for sync between devices. Ex, vsync inversion in [1]
-> [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/a1d812c0452905a644d83f715c43e91ade11b266
+Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: ['iahb', 'isfr', 'cec'] is too long
+Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.example.dt.yaml: hdmi@fead0000: clock-names: Additional items are not allowed ('cec' was unexpected)
 
+which is caused by
 
-So, I understand this works well in practice and I'm happy about it,
-but I wonder if, now that we have clarified this controls is a static[1]
-settings between serializer and deserializer, this should not be
-better expressed with the standard DT property 'vsync-active'. It has
-to be specified to the same value in both remote and local sides, but
-that's nothing new..
+       - items:
+         - const: iahb
+         - const: isfr
 
-I know you're in favor of having them as dynamic configurations
-retrieved through get_mbus_config(), and since we know there are more
-gmsl specific parameter to negotiate I'm not opposed to that. This would
-ease use cases as in [1] also.
+-- 
+Regards,
 
-I know Sakari might have different opinions, and looking at you patch
-in 3) I understand why: we might end up replicating most dt-properties
-in get_mbus_config(). Sincerely it's not a show-stopper to me, but
-I'll cc him and ask for his opinion first.
-
-[1] With "static" I mean "it does not change at runtime". Of course in
-cases you have to change the remote serializer at run-time, having it
-retrieved through a pad operation is much easier, but that's a very
-advanced and tricky use case which also involves dt-overlay loading
-and other funny things. Luca has a use case, I'll cc him here for
-reference.
-
-> - made the overlap window of max9286 as a control in [2]
-> [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/c3d55a9e0a8d2b67f27996529582bb7cfa551b6a
-
-
-Nice! My idea of having it coming from DT was bit moot, if this should
-be configured dynamically, a control is probably better.
-
-What do you think if we try to merge max9286 driver with overlap window
-defaulted to 0 (we're testing this configuration with our cameras, we
-know for your cameras is ok) and then you could send this patch on top
-?
-
-> - some other configs using the mbus config in [3]
-> [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
-
-Great work, but I feel like I have the same questions as I have for
-vsync. Are these dynamic properties worth negotiating at run-time, or
-are those better expressed as DT properties ?
-
-This is indeed a GMSL property the could be specified in both the
-deserializer and serializer device nodes:
-https://github.com/xlnx-hyunkwon/linux-xlnx/commit/016ade9a500b30bbd58571c47a94e95ccc40ec0a
-
-This is indeed the bit endianess of the parallel bus
-ie [b0 b1 b2 b3 b4 b5 b6 b7] vs [b7 b6 b5 b4 b3 b2 b1 b0]
-and I'm surprised we don't have it already as a standard DT property
-https://github.com/xlnx-hyunkwon/linux-xlnx/commit/1f0fd7bf0c5149b1d735b795818f5812d4959d9a
-
-I have a use cases for the reverse channel amplitude that could be add
-there and I already tried to express it through a DT property:
-https://patchwork.kernel.org/patch/11441269/
-https://patchwork.kernel.org/patch/11441273/
-
-Something more to think about...
-
-> Let me know if this aligns with your thought.
-
-My thoughts are confused :)
-
-going for dynamic configuration through get_mbus_config() could help
-use cases where the serializer are changed at run-time.
-
-Although, abusing it might end up replicating most DT properties
-like in the vsync case.
-
-Let's see if we get Sakari's input.
-
-Thanks for your work and sorry for the long delay
-
+Laurent Pinchart
