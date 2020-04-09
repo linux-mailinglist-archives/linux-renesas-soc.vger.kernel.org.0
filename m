@@ -2,100 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE951A31F0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 11:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CAE21A3219
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 11:48:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726632AbgDIJj7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Apr 2020 05:39:59 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45069 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbgDIJj6 (ORCPT
+        id S1726654AbgDIJs4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Apr 2020 05:48:56 -0400
+Received: from de-out1.bosch-org.com ([139.15.230.186]:37096 "EHLO
+        de-out1.bosch-org.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725970AbgDIJs4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Apr 2020 05:39:58 -0400
-Received: by mail-lf1-f66.google.com with SMTP id f8so7370747lfe.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 Apr 2020 02:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i9hj27ADd+17C+KGuD555EZkHehi83Ox596cp2GT9jY=;
-        b=V7oI1N4QzARgNUD+zjSXP9qPd1SwFm0eFfUrdMo0BWluWbqsr3Uj4VVBWqiH1lK8jG
-         iBjPK5A5i4YWQr19OtCvlx6F5JI5Kj6Tc5SIWupgmn2aoKs60bQB3KospHPVZJ996n2V
-         Pr6jxbDsrkrRbgCHISuFxmoCs/QZOkIXSAYinkIIORVXo/Fm4GuNQfdiYCtN41KqdK2M
-         UJkTdUkJUaln9HS4V5gS2m0GLIE3/437bEcVrVG8atfdWS2mBha3hMBf17+82UboQ1fk
-         adDoCYASdAxdDqfiVNxrYAtLmdRECdwwT5aSjUnPunb4jhnI016t+b+YZVouIVJKpsF6
-         5MeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=i9hj27ADd+17C+KGuD555EZkHehi83Ox596cp2GT9jY=;
-        b=IVH+E6+M+Gg7yIwbcbIRpbGGBIUWilLn/vydxrCiEIXwegh39KRYZNRxAaGkn1HeFz
-         bFsv9pqqZbpmthidfOD2OJDuHtUgiAvwJOrcRC37Af7hhuu8Ci9G6UYbmJdXmhdltXEA
-         qKg1iUnfXvlin//Ib5rW4a7zqtIt4y4NyJIinpsDmBBfQ4y00jNvmUlMpFOELlbn+9tF
-         +lnUj/XCaBjihEvZjb9dcC6PCLOir37XjynM92cxMtAXHVMHTdd3Kc0r7uFcr4zqUCYa
-         SF3rLb98h51AY7GrJkmqsWgXIQ/XveDiEseE1ts6/3KBTWorlBhRa7oRUM1qI1EeNfpG
-         yrqQ==
-X-Gm-Message-State: AGi0PuZjMOKo9xyDtJPByevMHRNKvk7EF8ONlLU3rvrj+fcqkheHctTW
-        1z8c/Bq7TZz1eqCspNq5MBErqYFKCF8+4g==
-X-Google-Smtp-Source: APiQypI8ZMs5zHNTel6RghTB6VGJ1Hiffnb8Q9ocT3qWKuwf1QRuH6Mu5rz8D1GHtiYNkRLnzg+A7A==
-X-Received: by 2002:a19:e049:: with SMTP id g9mr7454758lfj.198.1586425196108;
-        Thu, 09 Apr 2020 02:39:56 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:429a:a2f1:594e:c9e:26a1:8a11? ([2a00:1fa0:429a:a2f1:594e:c9e:26a1:8a11])
-        by smtp.gmail.com with ESMTPSA id c21sm3333953lfh.16.2020.04.09.02.39.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2020 02:39:55 -0700 (PDT)
-Subject: Re: [PATCH 0/2] drm: bridge: simple-bridge: Enable usage with DRM
- bridge connector helper
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maxime Ripard <maxime@cerno.tech>
-References: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <0b0eaf1e-793a-e67f-d5c2-d6e5f6ac2cb9@cogentembedded.com>
-Date:   Thu, 9 Apr 2020 12:39:47 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        Thu, 9 Apr 2020 05:48:56 -0400
+Received: from si0vm1948.rbesz01.com (unknown [139.15.230.188])
+        by fe0vms0186.rbdmz01.com (Postfix) with ESMTPS id 48ybv961Slz1XLFjw;
+        Thu,  9 Apr 2020 11:48:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
+        s=key3-intmail; t=1586425733;
+        bh=QQnWX1HHy6PykuHJlNj2nWQVf1g9ixSCCO3f33fTj/w=; l=10;
+        h=From:Subject:From:Reply-To:Sender;
+        b=nLcpmftlXqqFa5ADSqD9os+b51jSIj/2quYJ8/uAos+oJ9mJtOW0p2AJ2Ci8CFPII
+         JoXx50REOvhdEPNHEUSuE13zd19AcKb+7mgtdOqa0x8LHTcVQsHy8PjEcnDVQeuHxY
+         NufTiVWY5FrQnDpsbUxJyPmkf5Bn5V25I/XP0wek=
+Received: from fe0vm1741.rbesz01.com (unknown [10.58.172.176])
+        by si0vm1948.rbesz01.com (Postfix) with ESMTPS id 48ybv95Zwpz5vq;
+        Thu,  9 Apr 2020 11:48:53 +0200 (CEST)
+X-AuditID: 0a3aad15-2e9ff7000000622b-10-5e8eef852a39
+Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
+        (using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by fe0vm1741.rbesz01.com (SMG Outbound) with SMTP id CD.20.25131.58FEE8E5; Thu,  9 Apr 2020 11:48:53 +0200 (CEST)
+Received: from SI-HUB2000.de.bosch.com (si-hub2000.de.bosch.com [10.4.103.108])
+        by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 48ybv94011z6CjZNv;
+        Thu,  9 Apr 2020 11:48:53 +0200 (CEST)
+Received: from HI-Z0EVG.hi.de.bosch.com (10.34.218.219) by
+ SI-HUB2000.de.bosch.com (10.4.103.108) with Microsoft SMTP Server id
+ 15.1.1979.3; Thu, 9 Apr 2020 11:48:53 +0200
+From:   Dirk Behme <dirk.behme@de.bosch.com>
+To:     <linux-renesas-soc@vger.kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     <geert+renesas@glider.be>, <dirk.behme@de.bosch.com>,
+        Julia Lawall <julia.lawall@inria.fr>
+Subject: [PATCH v2 1/2] ravb: Fix RAVB_RXTSTAMP_TYPE_ALL value
+Date:   Thu, 9 Apr 2020 11:48:50 +0200
+Message-ID: <20200409094851.22142-1-dirk.behme@de.bosch.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-In-Reply-To: <20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.34.218.219]
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBLsWRmVeSWpSXmKPExsXCZbVWVrf1fV+cQUuTusXc2ZMYLZpW9TNb
+        bH35jsnizKpb7A4sHg+m/mfymHhW12PSi0MsHp83yQWwRHHZpKTmZJalFunbJXBlrHz4kb3g
+        I3dFx70drA2Ms7i6GDk5JARMJCZOP83UxcjFISQwg0li0qLJbBDOfkaJM5v+MkI46xklti77
+        yA7SwiagJbFzQgeYLSIQL9GyoYUNxGYWSJBY0nCLGcQWFrCT+LW6gxHEZhFQkZg/7TYriM0r
+        YCNx/H4jE8RqeYlpq7uYIOKCEidnPmGBmCMv0bx1NjOELSFx8MULZoh6RYk1s3ayTmDkn4Wk
+        ZRaSlllIWhYwMq9iFE1LNSjLNTQ3MdQrSkotrjIw1EvOz93ECAlT0R2Md7o/6B1iZOJgPMRo
+        ysGkJMq762lfnBBfUn5KZUZicUZ8UWlOarGSFG/9m85YIWG4cHFpUm5mcXFmft4hRgkOZiUR
+        Xu+m3jgh3pTEyqrUonyItkOM0hwsSuK8olzVcUIC6YklqdmpqQWpRTBZaw4OJQnev++AFgoW
+        paanVqRl5pTApJVkeRkZGBiExJBlkK1l4uA8xGjMwQO0+yXIzbzFBYm5xZnpUO2SEO1CMFGE
+        1lOM5lLivB9B1gqAZDNK8+C2SsnwGq0GekQUSQKh8xXjTUYORiVh3jiQZh5gCkXYJ8HbAAoi
+        QaggQpPRUqAegV5WiXk7vjJK/OiZyCLx+/8DVokX985zSjQu+sQjcf/mNn6JG2unS0nsfrJI
+        SmJzwxpZid1LXslJnLxyVF7i0q/FyhIbuz4qS3zZPkdNYv7D5RoSh67c1JBYsfSPlsSvjz1W
+        Erf2v7ORmHL2pa3Emi83nSQ+z2r0BSn2k5j684K/RN/jyYES8y4cCpL4PP1ImETPytexElNP
+        vomV+Dn3YqLEioltKRKbb1xMeQUMTCZgYF5L6gYFZkliCZbAhIoifCfVwGTx/pRoaMGsjoQ4
+        ll0cCjsa/n2ykPP/yid7StxU+FWZss6Hy8zFD+rfbjj+fv7xTFaz5oznqyPuN0rkCvC1eWws
+        W2vj+2PZ34rXDqZTOPyXT02aZBS0wyL2r3rvVwOZncyB5ryZmZ3NMV9Fv8165NbrZv3BqF+4
+        eNK6PTd+m1xgOR5zaIvpNdW7vVbv/3Mt3D+veP3fJbJzi9jn364OWbl9191npW5M+2sea4f+
+        7dxSLte4oa93ugybK/s7kXDv584+Fam2waoWzNmd3ocZcgpXcmw+JH5A+qVq2d2eSRK75Lqu
+        6uXIfLxoUaTz2zK7wJHhSa+wwx6Ob58uR/gobv4oLmHA2f3cMcx22X8tJZbijERDLeai4kQA
+        S9caW7sEAAA=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+In the function ravb_hwtstamp_get() in ravb_main.c with the existing
+values for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL
+(0x6)
 
-On 09.04.2020 3:36, Laurent Pinchart wrote:
+if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
+        config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
+        config.rx_filter = HWTSTAMP_FILTER_ALL;
 
-> This small patch series enables usage of the simple-bridge driver with
-> the DRM bridge connector helper (drm_bridge_connector.c). Patch 1/2
-> starts by simplifying the driver by delegating DDC handling to the next
-> bridge in the chain, and patch 2/2 makes the connector creation
-> optional.
-> 
-> I will continue converting existing bridge drivers to this new model,
-> starting with the adv7511, rcar-lvds and dw-hdmi bridges. Anyone willing
-> to give a
+if the test on RAVB_RXTSTAMP_TYPE_ALL should be true, it will never
+be reached. Correct this by changing RAVB_RXTSTAMP_TYPE_ALL to 0x4.
 
-    What? :-)
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Suggested-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+---
+Changes in v2: Split fix and cleanup into two patches.
 
-> and converting additional bridge drivers is more than welcome
-> :-)
-> 
-> Laurent Pinchart (2):
->    drm: bridge: simple-bridge: Delegate operations to next bridge
->    drm: bridge: simple-bridge: Make connector creation optional
-> 
->   drivers/gpu/drm/bridge/simple-bridge.c | 107 +++++++++----------------
->   1 file changed, 36 insertions(+), 71 deletions(-)
+ drivers/net/ethernet/renesas/ravb.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-MBR, Sergei
+diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+index 9f88b5db4f89..e921eae82022 100644
+--- a/drivers/net/ethernet/renesas/ravb.h
++++ b/drivers/net/ethernet/renesas/ravb.h
+@@ -41,7 +41,7 @@
+ #define RAVB_RXTSTAMP_VALID	0x00000001	/* RX timestamp valid */
+ #define RAVB_RXTSTAMP_TYPE	0x00000006	/* RX type mask */
+ #define RAVB_RXTSTAMP_TYPE_V2_L2_EVENT 0x00000002
+-#define RAVB_RXTSTAMP_TYPE_ALL	0x00000006
++#define RAVB_RXTSTAMP_TYPE_ALL	0x00000004
+ #define RAVB_RXTSTAMP_ENABLED	0x00000010	/* Enable RX timestamping */
+ 
+ enum ravb_reg {
+-- 
+2.20.0
+
