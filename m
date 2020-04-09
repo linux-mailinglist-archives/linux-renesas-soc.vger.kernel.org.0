@@ -2,73 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C542D1A354A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 16:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EECD1A36C2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 17:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727073AbgDIOAx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Apr 2020 10:00:53 -0400
-Received: from sauhun.de ([88.99.104.3]:59324 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726895AbgDIOAx (ORCPT
+        id S1727969AbgDIPRC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Apr 2020 11:17:02 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:41755 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727855AbgDIPRC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Apr 2020 10:00:53 -0400
-Received: from localhost (p54B33209.dip0.t-ipconnect.de [84.179.50.9])
-        by pokefinder.org (Postfix) with ESMTPSA id 22EEA2C1F75;
-        Thu,  9 Apr 2020 16:00:52 +0200 (CEST)
-Date:   Thu, 9 Apr 2020 16:00:51 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org,
-        Thor Thayer <thor.thayer@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: altera: use proper variable to hold errno
-Message-ID: <20200409140051.GF1136@ninjato>
-References: <20200327222826.10207-1-wsa+renesas@sang-engineering.com>
+        Thu, 9 Apr 2020 11:17:02 -0400
+Received: from uno.localdomain (unknown [93.69.187.161])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 39C8224000A;
+        Thu,  9 Apr 2020 15:16:59 +0000 (UTC)
+Date:   Thu, 9 Apr 2020 17:20:03 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v8 01/13] squash! max9286: Update the bound_sources mask
+ on unbind
+Message-ID: <20200409152003.3v5r53mrjxxmv4uo@uno.localdomain>
+References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="oFbHfjnMgUMsrGjO"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200327222826.10207-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200409121202.11130-2-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Kieran,
 
---oFbHfjnMgUMsrGjO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Apr 09, 2020 at 01:11:50PM +0100, Kieran Bingham wrote:
+> The bound_sources bit mask tracks sources which have been successfully
+> bound through the v4l2 async notifier system.
+>
+> Ensure that the mask is updated accordingly when unbinding.
+>
 
-On Fri, Mar 27, 2020 at 11:28:26PM +0100, Wolfram Sang wrote:
-> device_property_read_u32() returns errno or 0, so we should use the
-> integer variable 'ret' and not the u32 'val' to hold the retval.
->=20
-> Fixes: 0560ad576268 ("i2c: altera: Add Altera I2C Controller driver")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Indeed!
 
-Applied to for-current, thanks!
+Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 
+Please squash in v8!
 
---oFbHfjnMgUMsrGjO
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks
+  j
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6PKpMACgkQFA3kzBSg
-KbZDwxAAtUXB4m+2rwNj8INqowMF83AiJs8D3PrWWmI1arBO4U7RhrBzxSVffZ+d
-jVZQjILEUskt5zCJ7RaVdZqB0je/OSLQ1qkuNXAA5VemORFii33GPVPP7Eaa4DyO
-wFsFP24eccHD71gF9wNEiS+eryxB5khnRGank+v4ymKXBcmOPC8gPp+yzS2mzT2i
-BddZShkEKX3ewPV06dMPk4zfvhS/la73skU8Md0teARaxlcz0RDwIOtUJEfwdZfA
-+Mw2vdLPtHEBvs75u3TLBcgYmTKyJzvck6A5hGoBcGM9tOZi2HBrh9WJ+72tKwop
-O0qI59WffMBOi7ol/Ah16zexk4BBGU68xhiS/L0ZD0d8w4gW4mSOm1or03sxx2gG
-ZklDYXWmoxDAQ6I8SFPshXRMMZyF4dkHVtK1iW7PbpB4P9CwSInaSYkQUVw+LsZG
-Jn9AJqoNJgAiBqFwmASHr4RqMq58klCcqiaI2pRj7ytWMOeOKozeIQEuaZxRhATQ
-z5Vu/qoeuA3uI4F6RPy6cieirBIoEvgVIK2fzPLRbrG+Xk6rBmQyJbLWFaPU5Gab
-ITKRhjYskxxrLQ8/KA2H7uF25bwP2x3qc8dt3HJi5lrvYrvf1PL0fdcK//gsVbVh
-kgLzetWits7znkWWjrj70I362IM/MeyTzZ86IYKJHI2kXAFC9wc=
-=Fzc2
------END PGP SIGNATURE-----
-
---oFbHfjnMgUMsrGjO--
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index cb58782e5143..b84d2daa6561 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -493,9 +493,12 @@ static void max9286_notify_unbind(struct v4l2_async_notifier *notifier,
+>  				  struct v4l2_subdev *subdev,
+>  				  struct v4l2_async_subdev *asd)
+>  {
+> +	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
+>  	struct max9286_source *source = asd_to_max9286_source(asd);
+> +	unsigned int index = to_index(priv, source);
+>
+>  	source->sd = NULL;
+> +	priv->bound_sources &= ~BIT(index);
+>  }
+>
+>  static const struct v4l2_async_notifier_operations max9286_notify_ops = {
+> --
+> 2.20.1
+>
