@@ -2,21 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBF2D1A37E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 18:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BDE1A37F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Apr 2020 18:26:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgDIQTJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Apr 2020 12:19:09 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:33741 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726589AbgDIQTJ (ORCPT
+        id S1726847AbgDIQ04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Apr 2020 12:26:56 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:55559 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbgDIQ04 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Apr 2020 12:19:09 -0400
+        Thu, 9 Apr 2020 12:26:56 -0400
+X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id D78CD100002;
-        Thu,  9 Apr 2020 16:19:04 +0000 (UTC)
-Date:   Thu, 9 Apr 2020 18:22:07 +0200
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 0E42EC0006;
+        Thu,  9 Apr 2020 16:26:53 +0000 (UTC)
+Date:   Thu, 9 Apr 2020 18:29:56 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -24,196 +25,134 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 03/13] squash! max9286: Fix cleanup path from GPIO
- powerdown
-Message-ID: <20200409162207.xcj2ro4ecji5yte4@uno.localdomain>
+Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
+Message-ID: <20200409162956.xz3ykjl5sgwkwbnx@uno.localdomain>
 References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-4-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200409121202.11130-4-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
-  slightly unrelated on this patch but
 
-On Thu, Apr 09, 2020 at 01:11:52PM +0100, Kieran Bingham wrote:
->  - Fix up cleanup path from GPIO PowerDown registration
+On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
+> Determine the (CSI2) pixel rate control by providing a control to read,
+> and checking the rate from the upstream camera sensors, and their
+> appropriate formats.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
->  drivers/media/i2c/max9286.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 6 deletions(-)
 >
 > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 0a43137b8112..cc99740b34c5 100644
+> index 17830c362a50..008a93910300 100644
 > --- a/drivers/media/i2c/max9286.c
 > +++ b/drivers/media/i2c/max9286.c
-> @@ -1171,8 +1171,10 @@ static int max9286_probe(struct i2c_client *client)
+> @@ -155,6 +155,7 @@ struct max9286_priv {
+>  	bool mux_open;
 >
->  	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
->  						   GPIOD_OUT_HIGH);
-> -	if (IS_ERR(priv->gpiod_pwdn))
-> -		return PTR_ERR(priv->gpiod_pwdn);
-> +	if (IS_ERR(priv->gpiod_pwdn)) {
-> +		ret = PTR_ERR(priv->gpiod_pwdn);
-> +		goto err_cleanup_dt;
-> +	}
+>  	struct v4l2_ctrl_handler ctrls;
+> +	struct v4l2_ctrl *pixelrate;
 >
->  	gpiod_set_consumer_name(priv->gpiod_pwdn, "max9286-pwdn");
->  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-
-As we get_optional(), shouldn't this be protected by an
-        if (priv->gpiod_pwdn)
-
- ?
-
-
-Another point (sorry, I'm looking at gpio handling only now) we have
-        ret = max9286_gpio(priv);
-        if (ret)
-                return ret;
-
-That's not really a descriptive function name.. Could this be
-        max9286_register_gpiochip()
-?
-
-One last point and then I'll stop.
-
-We currently do
-
-probe() {
-        parse_dt()
-
-        pwdn = devm_get_gpio_optional()
-        if (err)
-                goto err_cleanup_dt()
-        set(pwdn, 1);
-
-        register_gpiochip(); //uses devm
-                goto err_cleanup_dt()
-
-        get_regulator()
-                goto err_cleanup_dt()
-
-        ret = init()
-        if (ret)
-                goto err_regulator();
-
-        return 0
-
-err_regulator:
-        regulator_put()
-        mux_close()
-        i2c_ack_disable()
-err_cleanup_dt:
-       cleanup_dt()
-
-}
-
-With patch 5 of this series this becomes
-
-probe() {
-        parse_dt()
-
-        pwdn = devm_get_gpio_optional()
-        if (err)
-                goto err_cleanup_dt()
-        set(pwdn, 1);
-
-        register_gpiochip(); //uses devm
-                goto err_cleanup_dt()
-
-        devm_get_regulator()
-                goto err_cleanup_dt()
-
-        ret = init()
-        if (ret)
-                goto err_regulator();
-
-        return 0
-
-err_regulator:
-        mux_close()
-        i2c_ack_disable()
-err_cleanup_dt:
-       cleanup_dt()
-}
-
-as the i2c_mux is already closed at the end of init() (or never open
-if we fail earlier) and i2c_ack can be disabled at the end of
-max9286_setup() and in the error path there (as there are no more i2c
-writes after that function returns), I think we could simplify all of
-thise even more to:
-
-probe() {
-        pwdn = devm_get_gpio_optional()
-        if (err)
-                return;
-
-        set(pwdn, 1);
-
-        register_gpiochip(); //uses devm
-                return;
-
-        devm_get_regulator()
-                return;
-
-        parse_dt()
-
-        ret = init()
-        if (ret)
-                goto cleanup_dt();
-
-        return 0
-
-err_cleanup_dt:
-       cleanup_dt()
-}
-
-This could be done after 5/5 in this series if you want to keep fixups
-separate for another review round.
-
-What do you think ?
-
-Thanks
-   j
-
-
-
-> @@ -1193,7 +1195,7 @@ static int max9286_probe(struct i2c_client *client)
->  				PTR_ERR(priv->regulator));
->  		ret = PTR_ERR(priv->regulator);
->  		priv->regulator = NULL;
-> -		goto err_free;
-> +		goto err_cleanup_dt;
->  	}
+>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
 >
->  	/*
-> @@ -1230,7 +1232,7 @@ static int max9286_probe(struct i2c_client *client)
->  	regulator_put(priv->regulator);
->  	max9286_i2c_mux_close(priv);
->  	max9286_configure_i2c(priv, false);
-> -err_free:
-> +err_cleanup_dt:
->  	max9286_cleanup_dt(priv);
+> @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>  	return 0;
+>  }
 >
->  	return ret;
-> @@ -1248,10 +1250,10 @@ static int max9286_remove(struct i2c_client *client)
->  		regulator_disable(priv->regulator);
->  	regulator_put(priv->regulator);
+> +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
+> +{
+> +	if (!priv->pixelrate)
+> +		return -EINVAL;
+
+Can this happen ?
+
+> +
+> +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
+
+Is this an error ?
+> +
+> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
+> +}
+> +
+>  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>  				  struct v4l2_subdev_pad_config *cfg,
+>  				  struct v4l2_subdev_mbus_code_enum *code)
+> @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	s64 pixelrate;
 >
-> -	max9286_cleanup_dt(priv);
-> -
->  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+>  	if (format->pad >= MAX9286_SRC_PAD)
+>  		return -EINVAL;
+> @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	*cfg_fmt = format->format;
+>  	mutex_unlock(&priv->mutex);
 >
-> +	max9286_cleanup_dt(priv);
+> +	/* Update pixel rate for the CSI2 receiver */
+> +	pixelrate = cfg_fmt->width * cfg_fmt->height
+> +		  * priv->nsources * 30 /*FPS*/;
+> +
+> +	max9286_set_pixelrate(priv, pixelrate);
 > +
 >  	return 0;
 >  }
 >
+> @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+>  	.open = max9286_open,
+>  };
+>
+> +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_PIXEL_RATE:
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
+> +	.s_ctrl	= max9286_s_ctrl,
+> +};
+> +
+
+After -years- I still don't get controls fully... Where is get? that's
+the whole point of calculating the pixel rate to report it to the
+receiver... I would not allow setting this from the extern but just
+retrieve it after it has been updated by a set_format().
+
+Am I getting controls wrong again ?
+
+>  static int max9286_v4l2_register(struct max9286_priv *priv)
+>  {
+>  	struct device *dev = &priv->client->dev;
+> @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>
+>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+> -	/*
+> -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
+> -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
+> -	 */
+> -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> -			  50000000, 50000000, 1, 50000000);
+> +
+> +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> +					    &max9286_ctrl_ops,
+> +					    V4L2_CID_PIXEL_RATE,
+> +					    1, INT_MAX, 1, 50000000);
+> +
+>  	priv->sd.ctrl_handler = &priv->ctrls;
+>  	ret = priv->ctrls.error;
+>  	if (ret)
 > --
 > 2.20.1
 >
