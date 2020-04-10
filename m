@@ -2,45 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F3EC1A458C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 13:15:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50E361A464F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 14:32:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgDJLPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 07:15:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40286 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgDJLPb (ORCPT
+        id S1725926AbgDJMck (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 08:32:40 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34665 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726080AbgDJMck (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 07:15:31 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D17A5329;
-        Fri, 10 Apr 2020 13:15:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586517330;
-        bh=EC1Za9eW5ayrdbiizZc2mUGuvzN/kcydyN/KK+vY6fo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RsMl3mmEriIW3Xg7tCFjYtChXNDacoM3uCrHvj8hHbnj7faR1UY/L7pt8w0t5kVsQ
-         9sND9qwlvvfYe+xJl7UqBGH6OT6FCiAqqZI8mYmTVCW7j9rUPTx4VHgNugGBlu1zoA
-         hKObqcQSI8XpvwhFBUXHRo7BygaWARNs0KBkZjPg=
-Date:   Fri, 10 Apr 2020 14:15:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Fri, 10 Apr 2020 08:32:40 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 8580EFF804;
+        Fri, 10 Apr 2020 12:32:36 +0000 (UTC)
+Date:   Fri, 10 Apr 2020 14:35:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Hyun Kwon <hyunk@xilinx.com>,
         Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 02/13] squash! max9286: convert probe kzalloc
-Message-ID: <20200410111519.GA4751@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
+Message-ID: <20200410123539.lbufkjjmzrhqnsmw@uno.localdomain>
 References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
- <20200409163333.GA25086@pendragon.ideasonboard.com>
- <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
+ <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
+ <20200409162956.xz3ykjl5sgwkwbnx@uno.localdomain>
+ <bdb73234-7ef1-dd66-0393-5317688b7c63@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
+In-Reply-To: <bdb73234-7ef1-dd66-0393-5317688b7c63@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -48,111 +42,155 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-On Fri, Apr 10, 2020 at 09:20:25AM +0100, Kieran Bingham wrote:
-> On 09/04/2020 17:33, Laurent Pinchart wrote:
-> > On Thu, Apr 09, 2020 at 01:11:51PM +0100, Kieran Bingham wrote:
-> >> v8:
-> >>  - Convert probe kzalloc usage to devm_ variant
-> > 
-> > This isn't worse than the existing code, but are you aware that devm_*
-> > should not be used in this case ? The memory should be allocated with
-> > kzalloc() and freed in the .release() operation.
-> 
-> This change was at the request of a review comment from Sakari.
-> 
-> From:
-> https://lore.kernel.org/linux-media/4139f241-2fde-26ad-fe55-dcaeb76ad6cc@ideasonboard.com/
->
-> >>> +
-> >>> +static int max9286_probe(struct i2c_client *client)
-> >>> +{
-> >>> +	struct max9286_priv *priv;
-> >>> +	unsigned int i;
-> >>> +	int ret;
-> >>> +
-> >>> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> >>> +	if (!priv)
-> >>> +		return -ENOMEM;
-> >> 
-> >> You won't lose anything by using the devm_ variant here.
-> > 
-> > Indeed,
-> > 
-> >>> +
-> >>> +	priv->client = client;
-> >>> +	i2c_set_clientdata(client, priv);
-> >>> +
-> >>> +	for (i = 0; i < MAX9286_N_SINKS; i++)
-> >>> +		max9286_init_format(&priv->fmt[i]);
-> >>> +
-> >>> +	ret = max9286_parse_dt(priv);
-> >>> +	if (ret)
-> >>> +		return ret;
-> >> 
-> >> But you can avoid accidental memory leaks for nothing. :-)
-> > 
-> > It would be good not to leak indeed!
-> 
-> I understand that there are lifetime issues in V4L2 - but in my opinion
-> that needs to be handled by core V4l2 (and or support from driver core
-> framework).
-
-I'm afraid that's not possible. The V4L2 core can't delay remove().
-There are helpers we could create to simplify correct memory management
-for drivers, but in any case, devm_kzalloc() isn't correct.
-
-There are also issues in the core that would make unbinding unsafe even
-if correctly implemented in this driver, but a correct implementation in
-drivers will be required in any case.
-
-As I said before this patch isn't a regression as memory allocation is
-already broken here, but it doesn't go in the right direction either.
-
-> Also - isn't it highly unlikely to affect the max9286? Isn't the
-> lifetime issue that the device can be unplugged while the file handle is
-> open?
-> 
-> I don't think anyone is going to 'unplug' the max9286 while it's active :-)
-
-No, but someone could unbind it through sysfs. In any case it's not an
-excuse to not implement memory allocation correctly :-)
-
+On Fri, Apr 10, 2020 at 08:51:21AM +0100, Kieran Bingham wrote:
+> On 09/04/2020 17:29, Jacopo Mondi wrote:
+> > Hi Kieran,
+> >
+> > On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
+> >> Determine the (CSI2) pixel rate control by providing a control to read,
+> >> and checking the rate from the upstream camera sensors, and their
+> >> appropriate formats.
+> >>
+> >> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > >> ---
-> >>  drivers/media/i2c/max9286.c | 5 +----
-> >>  1 file changed, 1 insertion(+), 4 deletions(-)
+> >>  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
+> >>  1 file changed, 38 insertions(+), 6 deletions(-)
 > >>
 > >> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> >> index b84d2daa6561..0a43137b8112 100644
+> >> index 17830c362a50..008a93910300 100644
 > >> --- a/drivers/media/i2c/max9286.c
 > >> +++ b/drivers/media/i2c/max9286.c
-> >> @@ -1155,7 +1155,7 @@ static int max9286_probe(struct i2c_client *client)
-> >>  	unsigned int i;
-> >>  	int ret;
-> >>  
-> >> -	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> >> +	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
-> >>  	if (!priv)
-> >>  		return -ENOMEM;
-> >>  
-> >> @@ -1232,7 +1232,6 @@ static int max9286_probe(struct i2c_client *client)
-> >>  	max9286_configure_i2c(priv, false);
-> >>  err_free:
-> >>  	max9286_cleanup_dt(priv);
-> >> -	kfree(priv);
-> >>  
-> >>  	return ret;
-> >>  }
-> >> @@ -1253,8 +1252,6 @@ static int max9286_remove(struct i2c_client *client)
-> >>  
-> >>  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> >>  
-> >> -	kfree(priv);
-> >> -
+> >> @@ -155,6 +155,7 @@ struct max9286_priv {
+> >>  	bool mux_open;
+> >>
+> >>  	struct v4l2_ctrl_handler ctrls;
+> >> +	struct v4l2_ctrl *pixelrate;
+> >>
+> >>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> >>
+> >> @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
 > >>  	return 0;
 > >>  }
-> >>  
+> >>
+> >> +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
+> >> +{
+> >> +	if (!priv->pixelrate)
+> >> +		return -EINVAL;
+> >
+> > Can this happen ?
+>
+> Hrm ... no because the control is registered when we register the V4L2
+> device, - so there can't be an occasion where we don't have it :-)
+>
+> Removing and simplifying.
+>
+> >
+> >> +
+> >> +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
+> >
+> > Is this an error ?
+>
+>
+> Oops - debug print failure :-)
+>
+> I can just drop this line.
+>
+>
+> >> +
+> >> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
+> >> +}
+> >> +
+> >>  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> >>  				  struct v4l2_subdev_pad_config *cfg,
+> >>  				  struct v4l2_subdev_mbus_code_enum *code)
+> >> @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >>  {
+> >>  	struct max9286_priv *priv = sd_to_max9286(sd);
+> >>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> >> +	s64 pixelrate;
+> >>
+> >>  	if (format->pad >= MAX9286_SRC_PAD)
+> >>  		return -EINVAL;
+> >> @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >>  	*cfg_fmt = format->format;
+> >>  	mutex_unlock(&priv->mutex);
+> >>
+> >> +	/* Update pixel rate for the CSI2 receiver */
+> >> +	pixelrate = cfg_fmt->width * cfg_fmt->height
+> >> +		  * priv->nsources * 30 /*FPS*/;
+> >> +
+> >> +	max9286_set_pixelrate(priv, pixelrate);
+> >> +
+> >>  	return 0;
+> >>  }
+> >>
+> >> @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> >>  	.open = max9286_open,
+> >>  };
+> >>
+> >> +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+> >> +{
+> >> +	switch (ctrl->id) {
+> >> +	case V4L2_CID_PIXEL_RATE:
+> >> +		return 0;
+> >> +	default:
+> >> +		return -EINVAL;
+> >> +	}
+> >> +}
+> >> +
+> >> +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
+> >> +	.s_ctrl	= max9286_s_ctrl,
+> >> +};
+> >> +
+> >
+> > After -years- I still don't get controls fully... Where is get? that's
+> > the whole point of calculating the pixel rate to report it to the
+> > receiver... I would not allow setting this from the extern but just
+> > retrieve it after it has been updated by a set_format().
+> >
+> > Am I getting controls wrong again ?
+>
+> The control framework handles get. The value is stored in the
+> priv->pixelrate control structure or managed by the core.
 
--- 
-Regards,
+Ok, I keep being confused on which part are handled by the core for
+controls...
 
-Laurent Pinchart
+>
+> The CSI2 receiver calls the get operation on this subdev to know what
+> the rate is for the CSI2 link, see:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git/tree/drivers/media/platform/rcar-vin/rcar-csi2.c?h=gmsl/dev#n449
+>
+
+Yeah that part's clear!
+
+Thanks for clarifying this
+
+> >
+> >>  static int max9286_v4l2_register(struct max9286_priv *priv)
+> >>  {
+> >>  	struct device *dev = &priv->client->dev;
+> >> @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> >>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >>
+> >>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+> >> -	/*
+> >> -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
+> >> -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
+> >> -	 */
+> >> -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> >> -			  50000000, 50000000, 1, 50000000);
+> >> +
+> >> +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> >> +					    &max9286_ctrl_ops,
+> >> +					    V4L2_CID_PIXEL_RATE,
+> >> +					    1, INT_MAX, 1, 50000000);
+> >> +
+> >>  	priv->sd.ctrl_handler = &priv->ctrls;
+> >>  	ret = priv->ctrls.error;
+> >>  	if (ret)
+> >> --
+> >> 2.20.1
+> >>
+>
