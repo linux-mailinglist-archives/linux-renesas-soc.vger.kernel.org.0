@@ -2,128 +2,320 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C173A1A3D3B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 02:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 993EC1A3D58
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 02:29:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbgDJAMy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Apr 2020 20:12:54 -0400
-Received: from mail-eopbgr1400132.outbound.protection.outlook.com ([40.107.140.132]:56192
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S1726867AbgDJA3X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Apr 2020 20:29:23 -0400
+Received: from mail-dm6nam10on2045.outbound.protection.outlook.com ([40.107.93.45]:40224
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726327AbgDJAMy (ORCPT
+        id S1726917AbgDJA3X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Apr 2020 20:12:54 -0400
+        Thu, 9 Apr 2020 20:29:23 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lyPeTa2pgapM49Eq8Dro0JQ/LIRuKVHbUOtykT2HY+/EHyqh5uxyXIjCPzLG3ZNIHp50/zf3DST8M3GD63HejkVpudlDkFI2BtzXeDOVgVXbX5OvIAD03DFeFTbYU8LWWoN3Ils0OUMJONdkPyRGVDBQr+rgGo8FHuZpWi+7hiT8PTUXidhEI+L7aZUzDinSv5niHktOtfy0BDvgYAjaWKzJpY1yDoTweS9bMwEko0tnxWh1iM4UCwLWoZpuMBXHMsJUKnBjKPQNOPRMNQP7DlKNADmmCKMIgNAdJR1QM1oD76dD1Lr5O4Tyh+xsSmR/R1mIJyldzg11Gbh4OWkVRw==
+ b=X7jE+5T4T62wK7fPqiovMi9zz3L3Bn0kOMRDC57qtLqa/367ewdCXz73fiaBM/NIy8FOsnKcRoKki5IG4KTFmQKLfRiHM/kc+t+rOcxISNKLV8KsUFAR7A4wKrameq4Wc5a+5IK5rzSAd+k7F4mhA7aohrH0vciYKwGoy5kXjliTvfDXYFaibc3xUQsiqn8u/lc6cn5xDgn1kgM3mUBMeq8GdV4FKSDO4dT5wh0krlePkwA8CW+veXU7ah8D56r++cGNiJXnR8PaHcCYNUufq9Brc7AjLxLoVuyWBD3fBJO0Hx0/IcA/hvn3TjCr3CMThFS9/p8e9WPwlVwWVKew1g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zJMS4nAd3SiJk7CDzJfRcf2i1k2/+5drd5ueJ9cxo9I=;
- b=awNvRB2m2kgr1aDC+4nXovcCF/N6JSKu1QreNg2GZDGaHpyyvMVm6NQvgSLXfh6VUcEOdWcMCbpkmRdC/1QhaPYGD7UgTdP6+OTXmeZ//N7THgFsnxNQKgvTwJc8xl8ZQaYuJNg+KeUFJbvNKNIt8FqCcJnUl9TRYXQEAMSiFVcHTtVzLGQI1GMO3tBeJWgs40yzq2+TyWY36v7KrMpdn8KsIFysE9sBBglUZQelVgakU8Lr21c2C1ndm7qKrbHcb21/RSwhWS0fwzJx30GNcOJGukulhSkGoogoyck0wo4Ahoj/cwFYpvdHIqXLeQ6eIbJk/T/iqXY/tf0XvyLMVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+ bh=OqbIMvWgo4UekbazKu//CXogitQ1WGSskM1HoFBMKhE=;
+ b=iCkwkrrx2exr2ofiK6PQghkE+LRgd130n1Q4XMTD4hnNz/X5VirWPvJw366uljIxKk2VXPQ+/bQBn2COQ1uOT1l7uJLMNFvvqwwfhAhgR5O3v6XjysaF24HWaULCMtkY00EKwIYm13+k/QdnyH4OPwL0MkN5ZEaOZwEukqS1Rl6g90OqPLc0Ky0KUCNZjBxfG/qIGlu3rejhq9KH3sdFbNR4MthEPHaLLL78z1CWNIA7+rWECQXL0+edo+YHvpbyXSB5Khc2bmzkmGfgyR+l9s6GVU2ztLbEQzFCl3QCCOgG3doAhyUGu5b1RWzKdpTMkxKudt/3lCIRM9HFE0zXgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=ragnatech.se smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zJMS4nAd3SiJk7CDzJfRcf2i1k2/+5drd5ueJ9cxo9I=;
- b=Im4t3OeUhSs6Z2iPzzL6ApfcYdCQs70Ml/efk4VXKtUkRSfVMpIk/1GMtaVAfrY32cw/J2m76DP3cUISVDRAGZ348WoTUIzA0gO1jbLTikk7W27uaIX+xNAAjmaqBiCrf/YBC+liA8ZafYtu/z8qnBRyRIePTTG+gDf6VvyzyIw=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB2559.jpnprd01.prod.outlook.com (20.177.105.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2900.15; Fri, 10 Apr 2020 00:12:39 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::ed7f:1268:55a9:fc06]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::ed7f:1268:55a9:fc06%4]) with mapi id 15.20.2900.015; Fri, 10 Apr 2020
- 00:12:39 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Bjorn Helgaas <bhelgaas@google.com>
-CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
-Subject: RE: [PATCH v7 7/8] PCI: Add Renesas R8A774C0 device ID
-Thread-Topic: [PATCH v7 7/8] PCI: Add Renesas R8A774C0 device ID
-Thread-Index: AQHWDbvP66ahBIzixkep7RDyHrjTa6hwiR4AgAAICQCAAOwwQA==
-Date:   Fri, 10 Apr 2020 00:12:38 +0000
-Message-ID: <TYAPR01MB4544313471DD93D131E82EF5D8DE0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <1586360280-10956-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586360280-10956-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <e3f5fa77-f78e-edbf-9efc-53b5ea620460@cogentembedded.com>
- <CA+V-a8s1E_kq_GENBTw3zGxKSPFnVKNY-ta9+c8W8nV4JFyEEw@mail.gmail.com>
-In-Reply-To: <CA+V-a8s1E_kq_GENBTw3zGxKSPFnVKNY-ta9+c8W8nV4JFyEEw@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b7930e37-21f2-4db9-f51c-08d7dce3e157
-x-ms-traffictypediagnostic: TYAPR01MB2559:|TYAPR01MB2559:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB2559DCE47DACF5B447986E99D8DE0@TYAPR01MB2559.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0369E8196C
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(8676002)(71200400001)(54906003)(316002)(110136005)(478600001)(81166007)(33656002)(7416002)(2906002)(4744005)(76116006)(66446008)(186003)(26005)(55236004)(66476007)(52536014)(66946007)(55016002)(6506007)(66556008)(5660300002)(8936002)(7696005)(86362001)(9686003)(4326008)(64756008)(81156014);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7bVv7ATNQrwzzsutT6PHd8Ocsq8cT58KLlfceEF7FQtxshIJdJlbpnuE/VF47cm5Ths/U4XIWFggwmDDr0yJZLWwcuwGyZOWbcGmh/+foyZaehH07Md8THldB7ORJMWQPPdADJyeFsDLBCvETcHjP54i7kaea+Da42IHPEMZiWGAhXkumoZ+H5cdMrc9C2HCT2374EGFcpiwaMUEv9QUaGpWpfB2X3fjsjJATXCUzUGst0H3SSTi9nZx2QCdiz2A2tp9GvcOQUJWVvcfNSdm/iAE/T8Ui/qUJV4P0SH8LD+bn8XFljNE2pKaqulNnFJT4Hi1Qi+hEyjRGQytHjpb6euFFFQXgDDsXd86TFCSJJnkerOayMBukkt0HjXQvGkRw6vRaFk0PBKZ7w3D9zV+/qgx0YmLlIGJyHzbsti1UJ0RvOTVowlKnfr+MA2OzZVz
-x-ms-exchange-antispam-messagedata: Y20TwZ9Ft+zMWl7pnsCLL8gkvC79CCwOqHdbHMX+gDN8/reG+/hBlYvGUM3AH6hRGKu/3dRQgUR/ed+8+QFwo3jNRSw8yHA++rmpR9rO2EIKUUrIzF4D6QmsQ+I2xJDdvkRVncxG5lKIdvVay64QyA==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ bh=OqbIMvWgo4UekbazKu//CXogitQ1WGSskM1HoFBMKhE=;
+ b=lXKvNfKEiawm4dUsokiBBSlMSEe6GdhSk5FOuEv8MDAqlhLWx9gbOs9+tbqMo+raphFuaW8gx4RilGduWgBw4HIy/s9SHQz3KQ6y9zF3+aDCvBUHfKgPSlCYyxMvDDBmTeL+469y27Q8YRHP0LDdXDjWx2n1WjO65ueCD97VUZM=
+Received: from CY4PR14CA0042.namprd14.prod.outlook.com (2603:10b6:903:101::28)
+ by BN6PR02MB2675.namprd02.prod.outlook.com (2603:10b6:404:fc::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Fri, 10 Apr
+ 2020 00:29:18 +0000
+Received: from CY1NAM02FT051.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:101:cafe::da) by CY4PR14CA0042.outlook.office365.com
+ (2603:10b6:903:101::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.17 via Frontend
+ Transport; Fri, 10 Apr 2020 00:29:18 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; ragnatech.se; dkim=none (message not signed)
+ header.d=none;ragnatech.se; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT051.mail.protection.outlook.com (10.152.74.148) with Microsoft SMTP
+ Server id 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 00:29:18
+ +0000
+Received: from [149.199.38.66] (port=47058 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMhXO-0001MS-RE; Thu, 09 Apr 2020 17:28:50 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMhXp-0003My-UX; Thu, 09 Apr 2020 17:29:17 -0700
+Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66] (may be forged))
+        by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03A0T92j019910;
+        Thu, 9 Apr 2020 17:29:09 -0700
+Received: from [172.19.2.244] (helo=localhost)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMhXh-0003Lu-He; Thu, 09 Apr 2020 17:29:09 -0700
+Date:   Thu, 9 Apr 2020 17:29:09 -0700
+From:   Hyun Kwon <hyun.kwon@xilinx.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hyun Kwon <hyunk@xilinx.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
+Message-ID: <20200410002908.GA3396@smtp.xilinx.com>
+References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
+ <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
+ <20200228181303.GA21745@smtp.xilinx.com>
+ <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
+ <20200319010734.GA27556@smtp.xilinx.com>
+ <20200319084557.v5hw54mmw4swzwly@uno.localdomain>
+ <20200319232003.GA20549@smtp.xilinx.com>
+ <20200326011251.GA9997@smtp.xilinx.com>
+ <20200408135237.tmqiqjogokj5kcbb@uno.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7930e37-21f2-4db9-f51c-08d7dce3e157
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 00:12:39.0540
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200408135237.tmqiqjogokj5kcbb@uno.localdomain>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(39860400002)(136003)(396003)(346002)(376002)(46966005)(316002)(81166007)(9786002)(6916009)(4326008)(336012)(54906003)(1076003)(26005)(186003)(8936002)(356005)(47076004)(70206006)(2906002)(44832011)(8676002)(5660300002)(82740400003)(478600001)(426003)(70586007)(33656002)(81156014)(966005)(7416002)(42866002);DIR:OUT;SFP:1101;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9f2bd253-2aed-4727-2103-08d7dce634cd
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2675:
+X-Microsoft-Antispam-PRVS: <BN6PR02MB26751DCEE4B0EEE64D16EF54D6DE0@BN6PR02MB2675.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0369E8196C
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0bq/WV0FNBDQJLIQMNcM9SJVhyuD9pclT7YW16ZEGfrbxHn0qkC892jS8ugb+i0fGxYJrPujliqfB2X0Ey6JXkmZhjxlnpOQ1dWP4JrOKKT0OcVO7Sf0TaSzDZaFW29IU2c8bRCjR2A7iyPvJu9/RuHSaVE3wpHsfWzwwJOHursJ8B6qF/PErstRYneNWm9mOTpeXrYm9nCtop0gq5OOqHhBhxV7C0NC4jJHLyAEsQjnJNI785Gdc4MdMVncBIFEIfbZureUREh1IdIMUcdqde2tMfzVjIsP9ivfawqqSvMWbinpu8CckXB2AqI+GeKzHm2OtzqUbcZVnyWG+9dQp0ig3/5Y/Imio1uK8pWJvy5jmaqHRe31fiVW9oIrXb5PzlZs+ON+CLLCw3toCS5+56iwt4vZM4N7RfV8J7E1mVYUn7ellQ9on8UJGN2Q4d/pxBBvQ2GkoEpXXFWMkD2lVrD6UoZsLcA4nD72h1IOjvFG2RWJQsveL21d0uANlHWPS47AnHpe/+bOt8IJREeAlGI1nlXioXTzGBaQXn7Q4VwR0eZDYVheL/MESCl58jN/j+wxnElf3CvtCCKlAnHZqdhJjl/IMBJFItPECeVicRc=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 00:29:18.2461
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: f87/bCPE86htyXT3bVCRnx2IlQtb8bYWEYF7B4Py1L/E68j0UI/u7BNQ3z+GTZmImKIBMefPMmmThFzmyMqJi6Au16nwkVNVrHZ49intYn7HNuo8Ia7dH91Kswp7AXgU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2559
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f2bd253-2aed-4727-2103-08d7dce634cd
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2675
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUHJhYmhha2FyLCBTZXJnZWksIEJqb3JuLA0KDQo+IEZyb206IExhZCwgUHJhYmhha2FyLCBT
-ZW50OiBUaHVyc2RheSwgQXByaWwgOSwgMjAyMCA3OjA1IFBNDQo8c25pcD4gDQo+ID4gPiBkaWZm
-IC0tZ2l0IGEvaW5jbHVkZS9saW51eC9wY2lfaWRzLmggYi9pbmNsdWRlL2xpbnV4L3BjaV9pZHMu
-aA0KPiA+ID4gaW5kZXggMWRmYzRlMWRjYjk0Li45ZTk1N2MxOGFiZWIgMTAwNjQ0DQo+ID4gPiAt
-LS0gYS9pbmNsdWRlL2xpbnV4L3BjaV9pZHMuaA0KPiA+ID4gKysrIGIvaW5jbHVkZS9saW51eC9w
-Y2lfaWRzLmgNCj4gPiA+IEBAIC0yNDYwLDYgKzI0NjAsNyBAQA0KPiA+ID4gICAjZGVmaW5lIFBD
-SV9ERVZJQ0VfSURfUkVORVNBU19TSDc3NjMgICAgICAgIDB4MDAwNA0KPiA+ID4gICAjZGVmaW5l
-IFBDSV9ERVZJQ0VfSURfUkVORVNBU19TSDc3ODUgICAgICAgIDB4MDAwNw0KPiA+ID4gICAjZGVm
-aW5lIFBDSV9ERVZJQ0VfSURfUkVORVNBU19TSDc3ODYgICAgICAgIDB4MDAxMA0KPiA+ID4gKyNk
-ZWZpbmUgUENJX0RFVklDRV9JRF9SRU5FU0FTX1I4QTc3NEMwICAgICAgIDB4MDAyZA0KPiA+DQo+
-ID4gICAgIFdlIGRvbid0IGFkZCB0aGUgZGV2aWNlIElEcyBpbiB0aGlzIGZpbGUsIHVubGVzcyB1
-c2VkIGluIHNldmVyYWwgcGxhY2VzLg0KPiA+IElzIGl0Pw0KPiA+DQo+IE15IGJhZCBJIHNob3Vs
-ZCBoYXZlIGNoZWNrZWQgaXQgYmVmb3JlIG1ha2luZyB0aGlzIGNoYW5nZSBhY3R1YWxseSBpdA0K
-PiB3YXMgc3VnZ2VzdGVkIGluIG15IHByZXZpb3VzIHZlcnNpb24gb2YgdGhlIHNlcmllcyBidXQg
-YW55d2F5IGF0bSB0aGlzDQo+IHdhcyBwbGFubmVkIHRvIGJlICB1c2VkIG9ubHkgaW4gcGNpX2Vu
-ZHBvaW50X3Rlc3QgZHJpdmVyLCBzbyBpbiB0aGF0DQo+IGNhc2UgSWxsIGRyb3AgdGhpcyBwYXRj
-aC4NCg0KSSdtIHZlcnkgc29ycnksIHRoaXMgaXMgbXkgZmF1bHQuIEkgc3VnZ2VzdGVkIHRoaXMg
-YnV0IEkgZGlkbid0IGNoZWNrDQp0aGlzIHBjaV9pZHMuaCdzIHJ1bGUuLi4NCg0KQmVzdCByZWdh
-cmRzLA0KWW9zaGloaXJvIFNoaW1vZGENCg0K
+Hi Jacopo,
+
+On Wed, 2020-04-08 at 06:52:37 -0700, Jacopo Mondi wrote:
+> Hi Hyun,
+>    sorry for the very late reply :(
+> 
+> On Wed, Mar 25, 2020 at 06:12:53PM -0700, Hyun Kwon wrote:
+> > Hi Jacopo,
+> >
+> > On Thu, 2020-03-19 at 16:20:05 -0700, Hyun Kwon wrote:
+> > > Hi Jacopo,
+> > >
+> > > On Thu, 2020-03-19 at 01:45:57 -0700, Jacopo Mondi wrote:
+> > > > Hi Hyun,
+> > > >
+> > > > On Wed, Mar 18, 2020 at 06:07:35PM -0700, Hyun Kwon wrote:
+> > > > > Hi Jacobo,
+> > > > >
+> > > > > On Sun, 2020-03-15 at 16:15:17 -0700, Jacopo Mondi wrote:
+> > > > > > Hello Hyun, Kieran,
+> > > > > >    it's great you are looking into this!
+> > > > > >
+> > > > > > On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
+> > > > > > > Hi Kieran,
+> > > > > > >
+> > > > > > > Thanks for sharing a patch.
+> > > > > > >
+> 
+> [snip]
+> 
+> > > > Which case are you trying to address ?
+> > > >
+> > >
+> > > My case is simpler in fact :-), hence the executive summary is,
+> > > The sensor vsync signal is active high, and it passes through the serializer.
+> > > Since the vsync is already inverted in de-serializer by this patch, expecting
+> > > active low, I'm inverting it again in serializer to match.
+> > >
+> > > 	sensor -- (vsync active high) --> serializer -- (vsync active low) --> de-serializer
+> > >
+> > > If the vsync inversion becomes a device tree property of max9286, the property
+> > > value will have to align with polarity of vsync source. In my case, I can
+> > > disable the inversion knowing the sensor vsync is active high. But in other
+> > > cases, such chain can be quite deep and may be inconvinient for users to check.
+> > >
+> > > Another one is the BWS setting, which is just between ser and de-ser.
+> > >
+> > > With mbus_get_config() operation, the problem can be isolated nicely in
+> > > my opinion, and the solution handles all above and scales better.
+> > > - The de-serializer checks the vsync polarity of all channels using GMSL
+> > >   config. If all are active low, invert the vsync (if it can)
+> > >
+> > > 	vsync_bitmap = 0;
+> > > 	for(chan : channels) {
+> > > 		config = get_mbus_config(chan);
+> > > 		if (config->type != gmsl)
+> > > 			error;
+> > >
+> > > 		if (config->gmsl.vsync == +)
+> > > 			vsync_bitmap |= << chan->chan_id;
+> > > 	}
+> > >
+> > > 	if (vsync_bitmap == (1 << channels.size() - 1))
+> > > 		nop(); // all active high. don't invert
+> > > 	else if (vsync_bitmap == 0)
+> > > 		invert_vsync(ser);
+> > > 	else
+> > > 		error;
+> > >
+> > > - The serializer checks vsync polarity in the parallel port config, and
+> > >   if it's active low (and if it can), invert to make it active high.
+> > >   Otherwise mark it in GMSL config, so the de-serializer can hanle.
+> > >
+> > > 	max96705_get_mbus_config()
+> > > 	{
+> > > 		config = get_mbus_config(sensor);
+> > > 		if (config->type != parallel)
+> > > 			error;
+> > >
+> > > 		if (config->parallel.vsync == -) {
+> > > 			if (invert_vsync(ser))
+> > > 				ser_config->gmsl.vsync = +;
+> > > 			else
+> > > 				ser_config->gmsl.vsync = -;
+> > > 		}
+> > >
+> > > 		return ser_config;
+> > > 	}
+> > >
+> > > The same can be used for bandwidth setting. The max96705 driver sets 24 bit
+> > > mode only as supported bandwidth. The deserializer driver can pick it up from
+> > > mbus_get_config(), and adjust its own config accordingly. It will need some
+> > > remote node handling in each driver, but seems worth to me.
+> > >
+> > > This became too lengthy! Hope it explains better and aligns with your thought,
+> > > described in other thread. I will give it a try too!
+> > >
+> >
+> > And I got a chance to try.
+> 
+> Thank you!
+> 
+> > - used the mbus config for sync between devices. Ex, vsync inversion in [1]
+> > [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/a1d812c0452905a644d83f715c43e91ade11b266
+> 
+> 
+> So, I understand this works well in practice and I'm happy about it,
+> but I wonder if, now that we have clarified this controls is a static[1]
+> settings between serializer and deserializer, this should not be
+> better expressed with the standard DT property 'vsync-active'. It has
+> to be specified to the same value in both remote and local sides, but
+> that's nothing new..
+> 
+> I know you're in favor of having them as dynamic configurations
+> retrieved through get_mbus_config(), and since we know there are more
+> gmsl specific parameter to negotiate I'm not opposed to that. This would
+> ease use cases as in [1] also.
+> 
+> I know Sakari might have different opinions, and looking at you patch
+> in 3) I understand why: we might end up replicating most dt-properties
+> in get_mbus_config(). Sincerely it's not a show-stopper to me, but
+> I'll cc him and ask for his opinion first.
+> 
+> [1] With "static" I mean "it does not change at runtime". Of course in
+> cases you have to change the remote serializer at run-time, having it
+> retrieved through a pad operation is much easier, but that's a very
+> advanced and tricky use case which also involves dt-overlay loading
+> and other funny things. Luca has a use case, I'll cc him here for
+> reference.
+> 
+> > - made the overlap window of max9286 as a control in [2]
+> > [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/c3d55a9e0a8d2b67f27996529582bb7cfa551b6a
+> 
+> 
+> Nice! My idea of having it coming from DT was bit moot, if this should
+> be configured dynamically, a control is probably better.
+> 
+> What do you think if we try to merge max9286 driver with overlap window
+> defaulted to 0 (we're testing this configuration with our cameras, we
+> know for your cameras is ok) and then you could send this patch on top
+> ?
+> 
+> > - some other configs using the mbus config in [3]
+> > [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
+> 
+> Great work, but I feel like I have the same questions as I have for
+> vsync. Are these dynamic properties worth negotiating at run-time, or
+> are those better expressed as DT properties ?
+> 
+> This is indeed a GMSL property the could be specified in both the
+> deserializer and serializer device nodes:
+> https://github.com/xlnx-hyunkwon/linux-xlnx/commit/016ade9a500b30bbd58571c47a94e95ccc40ec0a
+> 
+> This is indeed the bit endianess of the parallel bus
+> ie [b0 b1 b2 b3 b4 b5 b6 b7] vs [b7 b6 b5 b4 b3 b2 b1 b0]
+> and I'm surprised we don't have it already as a standard DT property
+> https://github.com/xlnx-hyunkwon/linux-xlnx/commit/1f0fd7bf0c5149b1d735b795818f5812d4959d9a
+> 
+> I have a use cases for the reverse channel amplitude that could be add
+> there and I already tried to express it through a DT property:
+> https://patchwork.kernel.org/patch/11441269/
+> https://patchwork.kernel.org/patch/11441273/
+> 
+> Something more to think about...
+> 
+> > Let me know if this aligns with your thought.
+> 
+> My thoughts are confused :)
+> 
+> going for dynamic configuration through get_mbus_config() could help
+> use cases where the serializer are changed at run-time.
+> 
+> Although, abusing it might end up replicating most DT properties
+> like in the vsync case.
+> 
+> Let's see if we get Sakari's input.
+> 
+> Thanks for your work and sorry for the long delay
+> 
+
+No problem, and thanks for sharing pointers! I'm getting to understand your
+points better, and I may have to stop confusing you anymore. :-) Yes, I'm
+still in favor of mbus config because those can change at runtime in theory
+(ex, polarities change with programming register bits), but in reality it may
+be unlikely to change dynamicaly from one to other at runtime.
+
+Thanks,
+-hyun
+
