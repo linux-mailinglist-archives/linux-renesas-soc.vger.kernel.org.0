@@ -2,79 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A63AA1A4733
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 16:12:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 926D11A490D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 19:37:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726080AbgDJOMc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 10:12:32 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:48581 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726177AbgDJOMb (ORCPT
+        id S1726735AbgDJRgz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 13:36:55 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40918 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726234AbgDJRgz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 10:12:31 -0400
-Received: from [5.157.111.77] (port=57222 helo=[192.168.77.62])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1jMu2M-004dr7-2a; Fri, 10 Apr 2020 15:49:38 +0200
-Subject: Re: [RFC PATCH v2 2/6] i2c: allow DT nodes without 'compatible'
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-i3c@lists.infradead.org,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh@kernel.org>
-References: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
- <20200318150059.21714-3-wsa+renesas@sang-engineering.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <11ca7487-ac07-f714-8573-20d1a0040212@lucaceresoli.net>
-Date:   Fri, 10 Apr 2020 15:49:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Fri, 10 Apr 2020 13:36:55 -0400
+Received: by mail-ot1-f65.google.com with SMTP id q2so2489275otk.7;
+        Fri, 10 Apr 2020 10:36:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=MzwM/gQ/NLaRvDFMI25L91K+i3EhNsGz95soTyWuQBo=;
+        b=WCAbFeh/+b8aiImco+FcjemeUmUjLuH7pSK3E8H/CC9dnOB2DjOatVw/kXjZgLkrGe
+         FLuNW+hcRyh4BlHgz0aSQRYUcxIFZHBuE91bwhRF/xlOTb72sRqDGxTf5cfMYxR+NKbH
+         ZPL+hQJh3WCpaIbzJxDJFeyIcXDGTh2f5ptJSihmiw7mnnDlo9hTrYe0LH4dWOom12VT
+         7kKCuRcFbFt/EF0gK86SEWNqTJ0PudWpFctKR/8ZJnj5WVbG4z1VSo/JNWMqFLAiSPy4
+         SxxEhzM24qZqXEQJwhXCCA0dSwERA9L8JMXBO6avJ/T1AmotlIvNLi8SF06VjFYh7+cO
+         TmJg==
+X-Gm-Message-State: AGi0PuYyslzXsjDds9AkvAeScoCAKxfAur09hvknncm0vRxnS+VHzOSj
+        hEo3UeLoRBd1NEP1LDwkhA==
+X-Google-Smtp-Source: APiQypLnAMIYEtn1snzAX7XsnL8YdEKpMgCeNLiH6hW+fVNoQm1scqQIshatQunCogs3B6D0xJoNWA==
+X-Received: by 2002:a4a:c819:: with SMTP id s25mr4930618ooq.6.1586540215007;
+        Fri, 10 Apr 2020 10:36:55 -0700 (PDT)
+Received: from rob-hp-laptop (ip-99-203-29-27.pools.cgn.spcsdns.net. [99.203.29.27])
+        by smtp.gmail.com with ESMTPSA id d25sm1625369ooh.34.2020.04.10.10.36.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2020 10:36:54 -0700 (PDT)
+Received: (nullmailer pid 13792 invoked by uid 1000);
+        Fri, 10 Apr 2020 16:31:08 -0000
+Date:   Fri, 10 Apr 2020 11:31:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: generic-ehci: Document
+ power-domains property
+Message-ID: <20200410163108.GA13579@bogus>
+References: <20200326163807.23216-1-geert+renesas@glider.be>
+ <20200326163807.23216-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20200318150059.21714-3-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200326163807.23216-2-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
-
-On 18/03/20 16:00, Wolfram Sang wrote:
-> Sometimes, we have unknown devices in a system and still want to block
-> their address. For that, we allow DT nodes with only a 'reg' property.
-> These devices will be bound to the "dummy" driver but with the name
-> "reserved". That way, we can distinguish them and even hand them over to
-> the "dummy" driver later when they are really requested using
-> i2c_new_ancillary_device().
+On Thu, 26 Mar 2020 17:38:05 +0100, Geert Uytterhoeven wrote:
+> It is quite common for a generic EHCI block to be embedded in an SoC in
+> its own power domain.  Hence allow the DTS writer to describe the
+> controller's position in the power hierarchy, by documenting the
+> optional presence of a "power-domains" property.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Rob Herring <robh@kernel.org>
+> This gets rid of "make dtbs_check" warnings like:
+> 
+>     arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dt.yaml: usb@ee080100: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+Applied, thanks.
 
-As I said in the reply to v1, I think we should reserve addresses also
-when there is a compatible string but no matching driver, but this is
-another story and can be handled separately.
-
--- 
-Luca
+Rob
