@@ -2,142 +2,322 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 519131A4A21
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 21:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D344F1A4A5C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 21:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgDJTEd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 15:04:33 -0400
-Received: from mail-eopbgr60062.outbound.protection.outlook.com ([40.107.6.62]:47049
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
+        id S1726671AbgDJT0m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 15:26:42 -0400
+Received: from mail-mw2nam12on2060.outbound.protection.outlook.com ([40.107.244.60]:33803
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726203AbgDJTEc (ORCPT
+        id S1726203AbgDJT0m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 15:04:32 -0400
+        Fri, 10 Apr 2020 15:26:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xh+zoKCxqI8Mf8cPX007AbeUwa3mZQpnVxm0WezUWcRwdCYr0vFxwBq5Smxe2W1a4pF1HGP+EPuVI+LAaidZC9I8QWjbYgGpzgWs6ZNWZE4vUEULLNILOLanMB8V52Bni8AD7GQXk+rg8RVVEqZRyy6g/FeTHZc+27f6udac5Ol/2Rdnfs+I0rgLaemAKoXwRdCghsmUPdSJK9/nnKleQWvdyXwL8t7VbIcUNBGO72xQsTEMhDfboaRSdMmwFpz3lSkto9vjJfXh6IsbJPcLNFhr2qFpTUvCe9iuOg0OH6S3NMYw5DYKp5CkkWm9H+XpiIEzoVwKAv57vSUXs28clg==
+ b=QmWdOTI/BbIrUEYLvi+QyXeV0rmtIVeAA7bh7wOuvNXs61yfXf5P01JKTojsEet1Ap8/dw2xvYCz+FxRuCAM3m4b+iaGW1qDrCfEIoGKCD2olv80o+lTIIDhRyHIdBnIEKZlbhpnrnvItF4OBILf3A799L0A9kJypOaEgnHLERCdCRWcti4OiEBtLsMVTmq+UlkRNfZMs/nLEvcdEXltJ2k/7kyNBmzVd+j/CCrJDwGPYZZFtMt1N9MjyATvcF4GByJpBAEGtG72i0Lqz6ai2jwl5J0+lNtuS3kuOZ1G+qyp1QJpu4I+HTfjMm3qXE0a3divszFZHFeWFOyyda59Ug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qREnRW9ITHwIv0VmfQhKf0SU7+cAcX76d6f6wyC33Q0=;
- b=cqzbf9l1/ogm5fyfbeqmjVmHHGMM/BH0qdkYgkUCT5QIcD5khi1Hl8ToVMd44If6sT863+xDSr5x2WvojYCO+D+xb0oJ93kC5B1pLspJgiA/67HA7U+uBAOJyKu5aLc+eidR39UdXIp0f9EMr4ywAjO0tCCYay8uOD4qSPuma9THNFl7MeuxwlrAdoOar0GVKi0H+n90YyC2rMeje+4ZbaWMALyqj1sAMMJp5NkoIdlJjuyPu4lbqW/9dVjM8AcpsmGOFcKop+f+KHvLxUpHiHOyyOOiRlkUydlh2B7ZZpHY5QtWAnou3l2SJvfz5XD70LAG9bYFsDt1joSNAxr/wA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
+ bh=vnn9lilyYZOCR6rcIDlZ4/9BIOHeA8vUv2VhG6PAzNg=;
+ b=kjhOUfTZBq0WfcVC2aAGx2aa1Ym+f88fKF+szOU3fWlz+ghp54tW1E4BQw5+LoKHIi1iz6uHGH8HVwVtTcn96ro+rYzZLNK2pA0dukSs6CwCpDiHMqM6doPYHpt04+DmbuvFjJIba44PEY9EvliiOkmsa2w/3z/XYJGOEP4lX31y4rjf6SS4B30ayqnFoKo1Te75e4XSFApZaNbE6GEN6Aef+VkaK9s9Qb7upKqeCGvhGbuhIREpOhsI7WmuYNvr6H7Bvr28McHPINi/jCMrs8DePEEEWxFpb9+v/XCEhjC0Ll5aNWs/T/pWl3SCEgKfVrCZ6d+NOdaIJXS39t1LLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qREnRW9ITHwIv0VmfQhKf0SU7+cAcX76d6f6wyC33Q0=;
- b=Da7wUhQLBzrVWdsbTF45GZB05me//iP7OIZsJ49df5+a2chZY3FJljWQLikCiW4ewhOjCFsktJpRL1HXe9uDX0PEWHiuNaxeh+S8G2muzPzangCJHvM4YcN5xO9esvpnYp+DaDnix8XJtVeDv2M6UojWSZb6TeXw7P02L/YiHkw=
-Received: from VI1PR05MB5102.eurprd05.prod.outlook.com (2603:10a6:803:5e::23)
- by VI1PR05MB6464.eurprd05.prod.outlook.com (2603:10a6:803:f4::19) with
+ bh=vnn9lilyYZOCR6rcIDlZ4/9BIOHeA8vUv2VhG6PAzNg=;
+ b=S9k7mAHgh+u53+Egq75GQqnDe6oYQanqMTcinNHD+WJTgy2+QqBrM/wP3CpHaoEpU3N3y/liN0s4Oe4RU7vZzgJ7wNtCh6aXWYANN+pWpiNfLYMsVfxaQeT3lWki8W1rBLuAhuJXDKJdkHoa976g4Zfc6CO4yHjMzZbYmKV4Dis=
+Received: from MN2PR03CA0004.namprd03.prod.outlook.com (2603:10b6:208:23a::9)
+ by DM6PR02MB4586.namprd02.prod.outlook.com (2603:10b6:5:2e::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15; Fri, 10 Apr
- 2020 19:04:27 +0000
-Received: from VI1PR05MB5102.eurprd05.prod.outlook.com
- ([fe80::9d19:a564:b84e:7c19]) by VI1PR05MB5102.eurprd05.prod.outlook.com
- ([fe80::9d19:a564:b84e:7c19%7]) with mapi id 15.20.2878.021; Fri, 10 Apr 2020
- 19:04:27 +0000
-From:   Saeed Mahameed <saeedm@mellanox.com>
-To:     "jgg@ziepe.ca" <jgg@ziepe.ca>
-CC:     "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nico@fluxnic.net" <nico@fluxnic.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16; Fri, 10 Apr
+ 2020 19:26:32 +0000
+Received: from BL2NAM02FT039.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:208:23a:cafe::b4) by MN2PR03CA0004.outlook.office365.com
+ (2603:10b6:208:23a::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
+ Transport; Fri, 10 Apr 2020 19:26:32 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ BL2NAM02FT039.mail.protection.outlook.com (10.152.77.152) with Microsoft SMTP
+ Server id 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 19:26:31
+ +0000
+Received: from [149.199.38.66] (port=43196 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMzHu-0007AO-3y; Fri, 10 Apr 2020 12:26:02 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMzIN-0007Qo-H2; Fri, 10 Apr 2020 12:26:31 -0700
+Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
+        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 03AJQQfe027162;
+        Fri, 10 Apr 2020 12:26:26 -0700
+Received: from [172.19.2.244] (helo=localhost)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <hyun.kwon@xilinx.com>)
+        id 1jMzII-0007Po-LA; Fri, 10 Apr 2020 12:26:26 -0700
+Date:   Fri, 10 Apr 2020 12:26:26 -0700
+From:   Hyun Kwon <hyun.kwon@xilinx.com>
+To:     "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hyun Kwon <hyunk@xilinx.com>, Jacopo Mondi <jacopo@jmondi.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-Thread-Topic: [RFC 0/6] Regressions for "imply" behavior change
-Thread-Index: AQHWDeQiJzc7TgrcN0yUMWAEU5j98qhvr4mAgAADKgCAAB92AIAAp0gAgAEtnwCAAPPSAIAAHv4A
-Date:   Fri, 10 Apr 2020 19:04:27 +0000
-Message-ID: <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
-References: <20200408202711.1198966-1-arnd@arndb.de>
-         <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
-         <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
-         <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
-         <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
-         <20200410171320.GN11886@ziepe.ca>
-In-Reply-To: <20200410171320.GN11886@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.34.4 (3.34.4-1.fc31) 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=saeedm@mellanox.com; 
-x-originating-ip: [73.15.39.150]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 604cbf34-e6de-480d-3b6a-08d7dd81fdee
-x-ms-traffictypediagnostic: VI1PR05MB6464:
-x-microsoft-antispam-prvs: <VI1PR05MB64645727AC499AC722926512BEDE0@VI1PR05MB6464.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0369E8196C
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR05MB5102.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(66946007)(71200400001)(478600001)(6512007)(36756003)(66476007)(2906002)(316002)(66446008)(66556008)(6486002)(81156014)(76116006)(91956017)(8936002)(2616005)(64756008)(8676002)(26005)(6506007)(4326008)(7416002)(6916009)(86362001)(186003)(5660300002)(54906003);DIR:OUT;SFP:1101;
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Sk7LWu09ZwoByjIkmEQvlLQxqiH4RnuIMEtq/nKvClwtDup+cg/MnOZeo3XzsmVxtjERbGPfXzf6oYuK37UG5LqOyyTn+bgLI030iA83xYLd2zDtcrLUvV86hNgTYXTgUiqcwjOOHu77v8f0NovbBVSfSnbE79N5R3L1iw3ZcqOgW4cFHt1Z7pxLZeVXtbEm1PA0mkXAQbKbMIvm+FbSIj4OXo9dKNjXD/xTWrKtVmhQUJglYayCmbt5SQ5BMsdGLCNl2ww4DJK476m9xoUaD7yPiUmEOoR720JX4m+a66OBsyOcOR44E7LBF55F7/euhU5ZVO5XI5gPa0ZodXqTl6M1gQ9QlQOAZXcl1JxQOZ0lPAvqsFPMmjkZLa/un7Hxv+pJC4C6yHMQPL5rpy+chuoRidHN9tMjyF0UOyRFAFG0JaBL1vsB1MCmjxApk2eN
-x-ms-exchange-antispam-messagedata: fRQRQ8i7wmC+3vtBoyMYeekeUdQoSpgPVRQipw7kyIsHXSlOhW2jhWSnv4RBi2axI5vyBCdqO7xCaxauTeMDlsP2XrmTgkJnMhYDf3ja4fNNLQfSy8fHU/cdKo0ff2XyDDG1Ufb6NJdTZXOo3ugDJQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <127F1870F5B4654CB5433164FF4CFAA0@eurprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+Message-ID: <20200410192625.GA1259@smtp.xilinx.com>
+References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+ <20200313144035.401430-3-jacopo+renesas@jmondi.org>
+ <20200401223037.GB583@smtp.xilinx.com>
+ <20200407222255.GS1716317@oden.dyn.berto.se>
+ <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
+ <20200410003028.GB3396@smtp.xilinx.com>
+ <20200410102406.GB2798828@oden.dyn.berto.se>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 604cbf34-e6de-480d-3b6a-08d7dd81fdee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 19:04:27.5793
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200410102406.GB2798828@oden.dyn.berto.se>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(39860400002)(346002)(136003)(396003)(376002)(46966005)(8676002)(82740400003)(53546011)(7416002)(81166007)(26005)(4326008)(336012)(8936002)(81156014)(33656002)(186003)(316002)(9786002)(2906002)(54906003)(70586007)(478600001)(1076003)(356005)(5660300002)(47076004)(44832011)(70206006)(426003);DIR:OUT;SFP:1101;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 336e56b8-e1d9-42cf-062c-08d7dd85133b
+X-MS-TrafficTypeDiagnostic: DM6PR02MB4586:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB4586370D68C665B693D0EBC4D6DE0@DM6PR02MB4586.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Forefront-PRVS: 0369E8196C
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zJciCR/ZXO3cO5wjwuADEzhm5cDm5O0Y3/pEapAUUpu/V7NqrJ+H1JepOaYMMuHuO4zarlDXbwZOf8IeuS+qQ2KymJiAxrrVT0YzPXQHWElOQFiCV422mEKrQYpT6ceoNZRzG7XEkKi/CGWa2eJTxgtx0Al3FUqQ0ujp1uyCaHb+Oy9BzTDUUTeGKA54i9g5q/JBaoa1czn7Qcz2JUq7UXoQ+2G1NW1/mkQrxr7F+cKjQyVCZRVnltOwRg6TNtjJHC6jorzTXaOSVVWHt2oaDNsN8Jr9jK9cEYJdcKQHu8TlZsAp6feWjuep80B5bENSnJIb/sM86kKr2TLSKaCBGIlrBcp1vNhEvI606u+TUUwfkSX8PE8KKmQNF1watucf46vD3axB68MRcRrQ24aXnL2jzBA/9u76B5VdQn99HxqF8q0pgBTOaVaopo6plXjKQJOXUTBa2WkjiPCO32Z9rhDjN9AixFbEudRTmpWmYshGv35AT13fa8o0Z60BuV8oJ0e3ZQ4fvEJrR3uFzb6ewQ==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 19:26:31.9068
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XSqGcjR4gDuk13O12RhpESN0GjCOS9QCAV6UySkbBvWeWDsTQ4NoiFvRJVRRO4+iiH7j27O5w0Plz65dwzXynw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB6464
+X-MS-Exchange-CrossTenant-Network-Message-Id: 336e56b8-e1d9-42cf-062c-08d7dd85133b
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4586
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gRnJpLCAyMDIwLTA0LTEwIGF0IDE0OjEzIC0wMzAwLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6
-DQo+IE9uIEZyaSwgQXByIDEwLCAyMDIwIGF0IDAyOjQwOjQyQU0gKzAwMDAsIFNhZWVkIE1haGFt
-ZWVkIHdyb3RlOg0KPiANCj4gPiBUaGlzIGFzc3VtZXMgdGhhdCB0aGUgbW9kdWxlIHVzaW5nIEZP
-TyBoYXMgaXRzIG93biBmbGFnDQo+ID4gcmVwcmVzZW50aW5nDQo+ID4gRk9PIHdoaWNoIGlzIG5v
-dCBhbHdheXMgdGhlIGNhc2UuDQo+ID4gDQo+ID4gZm9yIGV4YW1wbGUgaW4gbWx4NSB3ZSB1c2Ug
-VlhMQU4gY29uZmlnIGZsYWcgZGlyZWN0bHkgdG8gY29tcGlsZQ0KPiA+IFZYTEFODQo+ID4gcmVs
-YXRlZCBmaWxlczoNCj4gPiANCj4gPiBtbHg1L2NvcmUvTWFrZWZpbGU6DQo+ID4gDQo+ID4gb2Jq
-LSQoQ09ORklHX01MWDVfQ09SRSkgKz0gbWx4NV9jb3JlLm8NCj4gPiANCj4gPiBtbHg1X2NvcmUt
-eSA6PSBtbHg1X2NvcmUubw0KPiA+IG1seDVfY29yZS0kKFZYTEFOKSArPSBtbHg1X3Z4bGFuLm8N
-Cj4gPiANCj4gPiBhbmQgaW4gbWx4NV9tYWluLm8gd2UgZG86DQo+IA0KPiBEb2VzIHRoaXMgd29y
-ayBpZiBWWExBTiA9IG0gPw0KDQpZZXMsIGlmIFZYTEFOIElTX1JFQUNIQUJMRSB0byBNTFg1LCBt
-bHg1X3Z4bGFuLm8gd2lsbCBiZQ0KY29tcGlsZWQvbGlua2VkLg0KDQo+IA0KPiA+IGlmIChJU19F
-TkFCTEVEKFZYTEFOKSkNCj4gPiAgICAgICAgbWx4NV92eGxhbl9pbml0KCkNCj4gPiANCj4gPiBh
-ZnRlciB0aGUgY2hhbmdlIGluIGltcGx5IHNlbWFudGljczoNCj4gPiBvdXIgb3B0aW9ucyBhcmU6
-DQo+ID4gDQo+ID4gMSkgdXNlIElTX1JFQUNIQUJMRShWWExBTikgaW5zdGVhZCBvZiBJU19FTkFC
-TEVEKFZYTEFOKQ0KPiA+IA0KPiA+IDIpIGhhdmUgTUxYNV9WWExBTiBpbiBtbHg1IEtjb25maWcg
-YW5kIHVzZSBJU19FTkFCTEVEKE1MWDVfVlhMQU4pIA0KPiA+IGNvbmZpZyBNTFg1X1ZYTEFODQo+
-ID4gCWRlcGVuZHMgb24gVlhMQU4gfHwgIVZYTEFODQo+ID4gCWJvb2wNCj4gDQo+IERvZXMgdGhp
-cyB0cmljayB3b3JrIHdoZW4gdnhsYW4gaXMgYSBib29sIG5vdCBhIHRyaXN0YXRlPw0KPiANCj4g
-V2h5IG5vdCBqdXN0IHB1dCB0aGUgVlhMQU4gfHwgIVZYTEFOIGRpcmVjdGx5IG9uIE1MWDVfQ09S
-RT8NCj4gDQoNCnNvIGZvcmNlIE1MWDVfQ09SRSB0byBuIGlmIHZ4bGFuIGlzIG5vdCByZWFjaGFi
-bGUgPyB3aHkgPyBtbHg1X2NvcmUgY2FuDQpwZXJmZWN0bHkgbGl2ZSB3aXRob3V0IHZ4bGFuIC4u
-IGFsbCB3ZSBuZWVkIHRvIGtub3cgaXMgaWYgVlhMQU4gaXMNCnN1cHBvcnRlZCBhbmQgcmVhY2hh
-YmxlLCBpZiBzbywgdGhlbiB3ZSB3YW50IHRvIGFsc28gc3VwcG9ydCB2eGxhbiBpbg0KbWx4NSAo
-aS5lIGNvbXBpbGUgbWx4NV92eGxhbi5vKSANCg0KYW5kIGhvdyBkbyB3ZSBjb21waWxlIG1seDVf
-dnhsYW4ubyB3aWhvdXQgYSBzaW5nbGUgZmxhZyANCmNhbiBpIGRvIGluIE1ha2VmaWxlIDoNCm1s
-eDVfY29yZS0kKFZYTEFOIHx8ICFWWExBTikgKz0gbWx4NV92eGxhbi5vID8/IA0KDQoNCj4gSmFz
-b24NCg==
+Hi Niklas!
+
+On Fri, 2020-04-10 at 03:24:06 -0700, niklas.soderlund+renesas@ragnatech.se wrote:
+> Hi Huyn,
+> 
+> On 2020-04-09 17:30:28 -0700, Hyun Kwon wrote:
+> > Hi Niklas and Jacop,
+> > 
+> > On Thu, 2020-04-09 at 00:35:07 -0700, Jacopo Mondi wrote:
+> > > Hi Niklas, Huyn,
+> > > On Wed, Apr 08, 2020 at 12:22:55AM +0200, niklas.soderlund+renesas@ragnatech.se wrote:
+> > > > Hi Hyun and Jacopo,
+> > > >
+> > > > On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
+> > > > > Hi Jacopo,
+> > > > >
+> > > > > Thanks for the patch.
+> > > > >
+> > > > > On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
+> > > > > > Introduce a new pad operation to allow retrieving the media bus
+> > > > > > configuration on a subdevice pad.
+> > > > > >
+> > > > > > The newly introduced operation reassembles the s/g_mbus_config video
+> > > > > > operation, which have been on their way to be deprecated since a long
+> > > > > > time.
+> > > > > >
+> > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > > ---
+> > > > > >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
+> > > > > >  1 file changed, 67 insertions(+)
+> > > > > >
+> > > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > > > index 761aa83a3f3c..3a1afc00e094 100644
+> > > > > > --- a/include/media/v4l2-subdev.h
+> > > > > > +++ b/include/media/v4l2-subdev.h
+> > > > > > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
+> > > > > >  	unsigned short num_entries;
+> > > > > >  };
+> > > > > >
+> > > > > > +/**
+> > > > > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> > > > > > + * @hsync_active: hsync active state: true for high, false for low
+> > > > > > + * @vsync_active: vsync active state: true for high, false for low
+> > > > > > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
+> > > > > > + * @data_active: data lines active state: true for high, false for low
+> > > > > > + */
+> > > > > > +struct v4l2_mbus_parallel_config {
+> > > > > > +	bool hsync_active : 1;
+> > > > > > +	bool vsync_active : 1;
+> > > > > > +	bool pclk_rising : 1;
+> > > > > > +	bool data_active : 1;
+> > > > > > +};
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+> > > > > > + * @data_lanes: number of data lanes in use
+> > > > > > + * @clock_noncontinuous: non continuous clock enable flag
+> > > > > > + */
+> > > > > > +struct v4l2_mbus_csi2_dphy_config {
+> > > > > > +	unsigned int data_lanes : 3;
+> > > > > > +	bool clock_noncontinuous : 1;
+> > > > > > +};
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> > > > > > + *
+> > > > > > + * TODO
+> > > > > > + */
+> > > > > > +struct v4l2_mbus_csi2_cphy_config {
+> > > > > > +	/* TODO */
+> > > > > > +};
+> > > > > > +
+> > > > > > +/**
+> > > > > > + * struct v4l2_mbus_pad_config - media bus configuration
+> > > > > > + *
+> > > > > > + * Report the subdevice media bus information to inform the caller of the
+> > > > > > + * current bus configuration. The structure describes bus configuration
+> > > > > > + * parameters that might change in-between streaming sessions, in order to allow
+> > > > > > + * the caller to adjust its media bus configuration to match what is reported
+> > > > > > + * here.
+> > > > > > + *
+> > > > > > + * TODO: add '_pad_' to the name to distinguish this from the structure
+> > > > > > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> > > > > > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> > > > > > + * the bus type.
+> > > > > > + *
+> > > > > > + * @type: mbus type. See &enum v4l2_mbus_type
+> > > > > > + * @parallel: parallel bus configuration parameters.
+> > > > > > + *	      See &struct v4l2_mbus_parallel_config
+> > > > > > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> > > > > > + *	       See &struct v4l2_mbus_csi2_dphy_config
+> > > > > > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> > > > > > + *	       See &struct v4l2_mbus_csi2_cphy_config
+> > > > > > + */
+> > > > > > +struct v4l2_mbus_pad_config {
+> > > > > > +	enum v4l2_mbus_type type;
+> > > > > > +	union {
+> > > > > > +		struct v4l2_mbus_parallel_config parallel;
+> > > > > > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> > > > > > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> > > > > > +	};
+> > > > > > +};
+> > > > > > +
+> > > > > >  /**
+> > > > > >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+> > > > > >   *				  in video mode.
+> > > > > > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
+> > > > > >   *
+> > > > > >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+> > > > > >   *                  may be adjusted by the subdev driver to device capabilities.
+> > > > > > + * @get_mbus_config: get the current mbus configuration
+> > > > > >   */
+> > > > > >  struct v4l2_subdev_pad_ops {
+> > > > > >  	int (*init_cfg)(struct v4l2_subdev *sd,
+> > > > > > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
+> > > > > >  			      struct v4l2_mbus_frame_desc *fd);
+> > > > > >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+> > > > > >  			      struct v4l2_mbus_frame_desc *fd);
+> > > > > > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> > > > > > +			       struct v4l2_mbus_pad_config *config);
+> > > > >
+> > > > > Because this can be used in many different ways, there's more chance it can
+> > > > > be misused. That means, drivers call this in different locations, ex probe,
+> > > > > get format, start stream,,,, and on differnt pads, src or sink. So imagine
+> > > > > one set of drivers call on sink pad, and the other set call on source pad.
+> > > > > It works well only until those are mixed together.
+> > > 
+> > > I don't think we can right now establish all possible use cases, or
+> > > prevent people from shooting in their foot, moreover, the 'right'
+> > > usage really depends on the bus in use, and I can't tell where this is
+> > > will be used in the wild...
+> > > 
+> > > >
+> > > > That subdevice operations can be called at both probe and s_stream() is
+> > > > nothing new, I don't thin this is a new problem. But I agree maybe we
+> > > > could limit get_mbus_config() in the core to only be valid four source
+> > > > pads? Apart from this open question I think this patch looks good.
+> > > >
+> > > 
+> > > I'm a bit skeptical on limiting this to source pads as, again, this
+> > > really depends on the bus on which this operation is used. For my
+> > > limited knowledge, yes, the use case is always the receiver quering
+> > > the transmitter, but I don't feel like ruling out the opposite.
+> > > 
+> > > > >
+> > > > > So wouldn't it be better to put some restrictions? One is to document
+> > > > > recommendations. I think this better be called in stream on because
+> > > > > some bus config may change at runtime depending on other configuration.
+> > > > > So any bus config prior to stream-on may be outdated. The other is to
+> > > > > enforce in the code. Some, but maybe not all, can be handled in
+> > > > > v4l2_subdev_call_pad_wrappers, for example allowing this call only on
+> > > > > source pad.
+> > > > >
+> > > 
+> > > I hear your concern, but I think it really depends on the use cases
+> > > and I would have an hard time to provide recommendations that
+> > > address all use cases.
+> > > 
+> > > Is your concern due to some mis-uses example you can describe ?
+> > 
+> > Yeah, while trying this out, I was thinking how it should be used. I ended
+> > up with a specific way: single direction, starting from stream on,
+> > 
+> > (streamon) -> max9286 -> (g_mbus_conf) -> max96705 -> (g_mbus_conf) -> sensor1
+> > 
+> > It's this way because max96705 doesn't have own vsync polarity, and it
+> > should get it from the connected sensor. While someone may implement the same
+> > in complete opposite direction for another set of drivers, starting from
+> > sensor, or even in different entry point,
+> 
+> I agree with the use-case above.
+> 
+> > 
+> > (s_fmt) -> sensor2 -> (g_mbus_conf) -> some_ser -> (g_mbus_conf) -> some_des
+> > 
+> > When the sensor2 driver is used with max96705 above, there could be a problem
+> > such as circular calls or getting an outdated value. And it is harder to fix at
+> > that point. So I thought enforcing the direction works for current use cases
+> > (under my visilbity), and may help avoid such issue in future. Probably it may
+> > be just me over-thinking, as it sounds like? :-)
+> 
+> If a format is set on a subdevice we are operating on a subdevice that 
+> is part of a media device right? If so shall setting the format of the 
+> different entities of the graph involve cross entry calls? Shall not the 
+> entire pipeline format be validated at stream_start() and that is the 
+> time g_mbus_conf() would be involved like in the first case above. I 
+> might have misunderstood something if so I apologize.
+> 
+
+In this patch, it's fully up to driver implementation, so it's legitimate
+if some driver decides to call that in subdev set format and call another
+get_mbus_config() within it.
+
+
+Thanks,
+-hyun
+
