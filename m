@@ -2,195 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E361A464F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 14:32:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F2901A472D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 16:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725926AbgDJMck (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 08:32:40 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34665 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726080AbgDJMck (ORCPT
+        id S1726191AbgDJOMa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 10:12:30 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:32976 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726177AbgDJOMa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 08:32:40 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 8580EFF804;
-        Fri, 10 Apr 2020 12:32:36 +0000 (UTC)
-Date:   Fri, 10 Apr 2020 14:35:39 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Fri, 10 Apr 2020 10:12:30 -0400
+X-Greylist: delayed 1510 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 Apr 2020 10:12:29 EDT
+Received: from [5.157.111.77] (port=57208 helo=[192.168.77.62])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1jMu02-004cjm-LM; Fri, 10 Apr 2020 15:47:14 +0200
+Subject: Re: [RFC PATCH 3/7] i2c: allow DT nodes without 'compatible'
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i3c@lists.infradead.org,
+        Kieran Bingham <kieran@ksquared.org.uk>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
-Message-ID: <20200410123539.lbufkjjmzrhqnsmw@uno.localdomain>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
- <20200409162956.xz3ykjl5sgwkwbnx@uno.localdomain>
- <bdb73234-7ef1-dd66-0393-5317688b7c63@ideasonboard.com>
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20200220172403.26062-1-wsa+renesas@sang-engineering.com>
+ <20200220172403.26062-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWaPfc050dZiRr+gAFzsdjSo9Vo70ztWgrMGPJxLUqupw@mail.gmail.com>
+ <e43eaaf1-a294-902f-9a52-ebf8b29acab1@lucaceresoli.net>
+ <20200312111950.GA1013@ninjato>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <62896a27-9df0-ef84-9724-2ff34b9bc9a7@lucaceresoli.net>
+Date:   Fri, 10 Apr 2020 15:47:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bdb73234-7ef1-dd66-0393-5317688b7c63@ideasonboard.com>
+In-Reply-To: <20200312111950.GA1013@ninjato>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Wolfram,
 
-On Fri, Apr 10, 2020 at 08:51:21AM +0100, Kieran Bingham wrote:
-> On 09/04/2020 17:29, Jacopo Mondi wrote:
-> > Hi Kieran,
-> >
-> > On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
-> >> Determine the (CSI2) pixel rate control by providing a control to read,
-> >> and checking the rate from the upstream camera sensors, and their
-> >> appropriate formats.
-> >>
-> >> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >> ---
-> >>  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
-> >>  1 file changed, 38 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> >> index 17830c362a50..008a93910300 100644
-> >> --- a/drivers/media/i2c/max9286.c
-> >> +++ b/drivers/media/i2c/max9286.c
-> >> @@ -155,6 +155,7 @@ struct max9286_priv {
-> >>  	bool mux_open;
-> >>
-> >>  	struct v4l2_ctrl_handler ctrls;
-> >> +	struct v4l2_ctrl *pixelrate;
-> >>
-> >>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> >>
-> >> @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> >>  	return 0;
-> >>  }
-> >>
-> >> +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
-> >> +{
-> >> +	if (!priv->pixelrate)
-> >> +		return -EINVAL;
-> >
-> > Can this happen ?
->
-> Hrm ... no because the control is registered when we register the V4L2
-> device, - so there can't be an occasion where we don't have it :-)
->
-> Removing and simplifying.
->
-> >
-> >> +
-> >> +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
-> >
-> > Is this an error ?
->
->
-> Oops - debug print failure :-)
->
-> I can just drop this line.
->
->
-> >> +
-> >> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
-> >> +}
-> >> +
-> >>  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> >>  				  struct v4l2_subdev_pad_config *cfg,
-> >>  				  struct v4l2_subdev_mbus_code_enum *code)
-> >> @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> >>  {
-> >>  	struct max9286_priv *priv = sd_to_max9286(sd);
-> >>  	struct v4l2_mbus_framefmt *cfg_fmt;
-> >> +	s64 pixelrate;
-> >>
-> >>  	if (format->pad >= MAX9286_SRC_PAD)
-> >>  		return -EINVAL;
-> >> @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> >>  	*cfg_fmt = format->format;
-> >>  	mutex_unlock(&priv->mutex);
-> >>
-> >> +	/* Update pixel rate for the CSI2 receiver */
-> >> +	pixelrate = cfg_fmt->width * cfg_fmt->height
-> >> +		  * priv->nsources * 30 /*FPS*/;
-> >> +
-> >> +	max9286_set_pixelrate(priv, pixelrate);
-> >> +
-> >>  	return 0;
-> >>  }
-> >>
-> >> @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
-> >>  	.open = max9286_open,
-> >>  };
-> >>
-> >> +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
-> >> +{
-> >> +	switch (ctrl->id) {
-> >> +	case V4L2_CID_PIXEL_RATE:
-> >> +		return 0;
-> >> +	default:
-> >> +		return -EINVAL;
-> >> +	}
-> >> +}
-> >> +
-> >> +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
-> >> +	.s_ctrl	= max9286_s_ctrl,
-> >> +};
-> >> +
-> >
-> > After -years- I still don't get controls fully... Where is get? that's
-> > the whole point of calculating the pixel rate to report it to the
-> > receiver... I would not allow setting this from the extern but just
-> > retrieve it after it has been updated by a set_format().
-> >
-> > Am I getting controls wrong again ?
->
-> The control framework handles get. The value is stored in the
-> priv->pixelrate control structure or managed by the core.
+On 12/03/20 12:19, Wolfram Sang wrote:
+> Hi Luca,
+> 
+>> But the kernel currently ignores nodes that have no matching driver,
+>> right? So in this case the kernel knows that that address is used, but
+>> ignores this information and considers the address as available.
+> 
+> I'd rather call it "unbound" than available. See later.
+> 
+>> Seen in this perspective, we should have a "compatible" for all nodes:
+>> it is just describing the hardware and could be out of the kernel
+>> control. But instead of discarding all nodes without a matching driver,
+> 
+> And what compatible value would you use if you know there is something
+> sitting there and don't know what? This is what this series aims to
+> address because we thought a compatible name like "reserved" would not
+> be a good idea.
 
-Ok, I keep being confused on which part are handled by the core for
-controls...
+The scenario I have in mind is when DT has a proper compatible string,
+but the kernel has no driver for that chip. Could be not implemented or
+simply not compiled.
 
->
-> The CSI2 receiver calls the get operation on this subdev to know what
-> the rate is for the CSI2 link, see:
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git/tree/drivers/media/platform/rcar-vin/rcar-csi2.c?h=gmsl/dev#n449
->
+There are 3 cases generally:
 
-Yeah that part's clear!
+ 1. compatible string present, kernel has a matching driver
+ 2. compatible string present, kernel has no matching driver
+ 3. compatible string not present
 
-Thanks for clarifying this
+Case 1 is obvious. Case 3 is currently ignored, with your patch the
+address will be reserved. Case 2 is currently ignored, but we have all
+the information to reserve the address just like in case 2, but there's
+no plan to reserve it. Why not? (not necessarily in this series, I'm
+just trying to understand if the idea is correct)
 
-> >
-> >>  static int max9286_v4l2_register(struct max9286_priv *priv)
-> >>  {
-> >>  	struct device *dev = &priv->client->dev;
-> >> @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
-> >>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >>
-> >>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
-> >> -	/*
-> >> -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
-> >> -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
-> >> -	 */
-> >> -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
-> >> -			  50000000, 50000000, 1, 50000000);
-> >> +
-> >> +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
-> >> +					    &max9286_ctrl_ops,
-> >> +					    V4L2_CID_PIXEL_RATE,
-> >> +					    1, INT_MAX, 1, 50000000);
-> >> +
-> >>  	priv->sd.ctrl_handler = &priv->ctrls;
-> >>  	ret = priv->ctrls.error;
-> >>  	if (ret)
-> >> --
-> >> 2.20.1
-> >>
->
+-- 
+Luca
