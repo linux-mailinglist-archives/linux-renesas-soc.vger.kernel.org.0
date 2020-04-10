@@ -2,312 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC45A1A3D5E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 02:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CC791A3E68
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 04:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbgDJAar (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Apr 2020 20:30:47 -0400
-Received: from mail-bn8nam12on2074.outbound.protection.outlook.com ([40.107.237.74]:11255
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S1726523AbgDJCks (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Apr 2020 22:40:48 -0400
+Received: from mail-eopbgr50046.outbound.protection.outlook.com ([40.107.5.46]:32576
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726867AbgDJAar (ORCPT
+        id S1725987AbgDJCks (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Apr 2020 20:30:47 -0400
+        Thu, 9 Apr 2020 22:40:48 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JAYnvQ0/PBw3XgJ8YJda61wcaq4zRVNgASfkY0pL0hKzwwBy+TA1X3sTG+eucgLm1UzrZqrdeWRbgZQPO500lV8DGnCoAfUASS5rokfwreqNX+Z57dZ3lCLgnUvSpt+96nwPybWJm/QBFjBIw3lLbi+DjeOWZdX5+4xW0ZA+11Y3nIhkQgD5bs9rIroVNbOAZNen+pShkJBTOVyc3lmZUrGQSmuimq7uxKup7slbSq5hOlWjH7C1kWuG7QYFNswK8ROYgJjx5zK9wwNaR2PY/EAu4T6eYzrTOQZlrr1RdaWBlg/eTeBTXRtnl3+RqxrFcb5fmjJLkvFrcMSmtewJqQ==
+ b=mrO78YUiUxPPj/yTUZavP/pPGOAad7Pq7nza60q+e3PimmFrpEk+FjOpMG7tet/8JiWnPdNEIg0xmY/ED4FlqIHGpgCiimIvFqnWIB3bsJV759a8tIb9sTDnZ8Zn4iWjg5GhdX+WaHQG32IffbWhWb/rnSnF+Zv77boHpwuFUmTzahltrCDLJPo4E7wdzlz6GH5weadVRaqT5P9ckyuOCERCJKWEgXmxasAEZEx48cqOjtCA0eNmMOfMvUa6pm7iQX6asGK0nfQqVcDT8YLbmtnP5Ir0M3OHOYSIx9JYi33YlHs0qNpvjjZgLR51GvTDvEgQNA3Lw4Qg6CDpykOvyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yZPUgXckUvHi4dxshIK00zUKdYiN87ldZGtLcliOHuQ=;
- b=Rm/qgzrnhi2P1EPJR1qflSXxm3LiovUEg0TvwktnPCndwpQCZh8e81OBCKPOI0DccSBA2vTN4megu13NwkOThBPopl09DvR8yRH3hxOIarE19FHJnBrinsUmFT+orODilRkOCVxjAqR4SItIrUXg/BmPw4ep1q3T/2YfS0mUOsmj3HUUIY231LTPk3MFGDAcOUiBa7g9jV5r4BUWFWPdkPRVxrdUxyrLm0Vw9jhujA32ku++sas/bykBMtQwNVgTZfieONU97tYqd7+0UyVwTaWq7YPtH+hx4MwJLhR1RAstDKpTbXO4zvojnGsYpsYpmH8gaOxAJHSfEdWYHpiloQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=jmondi.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ bh=JmkFfT2WZ8znsr7wYt8LI2u3R2KX1ao2uUOc7VXDS28=;
+ b=YbV5ZXxXK86e8CqUK2n0M0GTqYOYN6rXJXgqDI+Jgt+TymFSsoriEwG3T6OSjvSh39CEE1NKgwQ/ohOp4bmW7eCNyXya1QHye7jiXU5b0mRYafGExcw/agp+lxb/ks+egOujyG8EhrXYeEVt96t8ri/271Zhw2Q1kwwVk2tjRJmhDkxv7ZdLDFjUNenzU0ngpeLdgnlqKJ+MT5V8gn+Q0HxFD6EhlUO4zo9dA3qPeOGekgbPK2EyamwTOJLmd6UEjGaNKrNUxres7L3Ez57DcLUb+I1YqgSeFDROMpI1zKAVNLTszr/nGB89l4Yvny+1vbZ/oZ36Vc2nf50Qwubo3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yZPUgXckUvHi4dxshIK00zUKdYiN87ldZGtLcliOHuQ=;
- b=hNZQ1XByf31mm+7Pk7gIhfHNUsprUWOp3qF++RpgFliHbpE3/RykLpGPJJvhJqXUHUqHAXjCRZWJhhCw6shKIKLUlUi3dcvX7LmpdgqC0VZSg7IkJTEc27xYA+LKCtQnTs1yvW683e6gRjYjwoRHY6OLcJ/u3mWlEhtvz4NUiM4=
-Received: from SN2PR01CA0011.prod.exchangelabs.com (2603:10b6:804:2::21) by
- DM6PR02MB6075.namprd02.prod.outlook.com (2603:10b6:5:1f8::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2878.21; Fri, 10 Apr 2020 00:30:39 +0000
-Received: from SN1NAM02FT047.eop-nam02.prod.protection.outlook.com
- (2603:10b6:804:2:cafe::3c) by SN2PR01CA0011.outlook.office365.com
- (2603:10b6:804:2::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.19 via Frontend
- Transport; Fri, 10 Apr 2020 00:30:39 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; jmondi.org; dkim=none (message not signed)
- header.d=none;jmondi.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT047.mail.protection.outlook.com (10.152.72.201) with Microsoft SMTP
- Server id 15.20.2900.15 via Frontend Transport; Fri, 10 Apr 2020 00:30:38
- +0000
-Received: from [149.199.38.66] (port=53963 helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jMhYh-0001PT-DK; Thu, 09 Apr 2020 17:30:11 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jMhZ8-0004dD-GN; Thu, 09 Apr 2020 17:30:38 -0700
-Received: from [172.19.2.244] (helo=localhost)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1jMhYy-0004bM-Qe; Thu, 09 Apr 2020 17:30:28 -0700
-Date:   Thu, 9 Apr 2020 17:30:28 -0700
-From:   Hyun Kwon <hyun.kwon@xilinx.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ bh=JmkFfT2WZ8znsr7wYt8LI2u3R2KX1ao2uUOc7VXDS28=;
+ b=ff8HYC1E6jVkzLv3I+EbsGgG8oxosGtbKyOWzU9SfnQxoY1TzeHm3IfUZVm7+SE4wna3vvq3JUilRpWN76X+KLFk9Om1JSjeY5dTadjCHJht4klBixTITfutcrhxaqeWqJn5aTwehrogNkhx5hIyzQgSYf2rjZL3qdGeG2kquu4=
+Received: from VI1PR05MB5102.eurprd05.prod.outlook.com (20.177.51.151) by
+ VI1PR05MB4895.eurprd05.prod.outlook.com (20.177.51.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2900.20; Fri, 10 Apr 2020 02:40:42 +0000
+Received: from VI1PR05MB5102.eurprd05.prod.outlook.com
+ ([fe80::9d19:a564:b84e:7c19]) by VI1PR05MB5102.eurprd05.prod.outlook.com
+ ([fe80::9d19:a564:b84e:7c19%7]) with mapi id 15.20.2878.021; Fri, 10 Apr 2020
+ 02:40:42 +0000
+From:   Saeed Mahameed <saeedm@mellanox.com>
+To:     "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>, "arnd@arndb.de" <arnd@arndb.de>
+CC:     "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "Laurent.pinchart@ideasonboard.com" 
+        <Laurent.pinchart@ideasonboard.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "nico@fluxnic.net" <nico@fluxnic.net>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
-Message-ID: <20200410003028.GB3396@smtp.xilinx.com>
-References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
- <20200313144035.401430-3-jacopo+renesas@jmondi.org>
- <20200401223037.GB583@smtp.xilinx.com>
- <20200407222255.GS1716317@oden.dyn.berto.se>
- <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
+        <linux-renesas-soc@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "a.hajda@samsung.com" <a.hajda@samsung.com>,
+        "jonas@kwiboo.se" <jonas@kwiboo.se>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+Thread-Topic: [RFC 0/6] Regressions for "imply" behavior change
+Thread-Index: AQHWDeQiJzc7TgrcN0yUMWAEU5j98qhvr4mAgAADKgCAAB92AIAAp0gAgAEtnwA=
+Date:   Fri, 10 Apr 2020 02:40:42 +0000
+Message-ID: <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
+References: <20200408202711.1198966-1-arnd@arndb.de>
+         <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+         <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+         <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
+In-Reply-To: <87k12pgifv.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=saeedm@mellanox.com; 
+x-originating-ip: [73.15.39.150]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 91839159-9afa-460e-e72c-08d7dcf89048
+x-ms-traffictypediagnostic: VI1PR05MB4895:
+x-microsoft-antispam-prvs: <VI1PR05MB4895A819FA3866D162856197BEDE0@VI1PR05MB4895.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0369E8196C
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR05MB5102.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(36756003)(2906002)(4326008)(5660300002)(110136005)(54906003)(6486002)(316002)(71200400001)(7416002)(8676002)(76116006)(91956017)(6512007)(66446008)(64756008)(66476007)(66946007)(66556008)(53546011)(6506007)(26005)(8936002)(81156014)(478600001)(86362001)(186003)(2616005);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mzXqDzag92Dab6fFB+4ppj7llYpqiJW5+OS4NUmVnOo2WSdI3SW76UoDGSEyJCam14zCXHsCk24uFNfI1Ez8wLZzfrTiR9fVm5lgwE78nZfp8LEZtqWpeYgMDrPPqA2pF7t78a3VsouA3rnfSqETWcF+4V+YU6Av7gjgu/aXDIZ1w0k8YtAQYciqTvH4Veim5tJqfi7kcyilivo2Nm++7txadQh+bsFMrPgJbdWXX4SdHQB5tJziryaLqZURN0QGU7yEKHk7iISNgs68pGOiL4cKfWPUJxhEz4+ZATUfsx9u0fTl7Y4NWv1f3DDgCwq0Qt0fGJmVGaeLQFIU+qRvlEgXjbOvP0+hw+tOJY1BFeG/cNjG0WyBzU2ZksceuV8EvN1F2eZQp1GQpKcdpK1zUWkiBJrc6yXLUdN/4Aa/8LxFf+2Y0n+XIeCVk6XMxCKy
+x-ms-exchange-antispam-messagedata: 7dZErSLe/iTSwlIL0+9qPV1dMM0GdUxO1XFENN97hWiB6S67fpRlaJee2G4HaML1UuEmAwqoKApLZQ9XY5VcoB98ue0a8YDsqtBVEfrbszWKUKvg9sIhjlO1wVWMB25l8NUOoew6jy5EogLdXmaqgg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E5E26D8D6312FF48A2B2B1029454549C@eurprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(39860400002)(136003)(396003)(346002)(376002)(46966005)(53546011)(426003)(5660300002)(81166007)(81156014)(8936002)(47076004)(70586007)(26005)(70206006)(4326008)(82740400003)(9786002)(336012)(356005)(6916009)(186003)(478600001)(7416002)(33656002)(44832011)(8676002)(66574012)(2906002)(54906003)(1076003)(316002);DIR:OUT;SFP:1101;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b8777a68-0a57-4368-80d1-08d7dce664c3
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6075:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB6075D5E2D6917DFC13953A85D6DE0@DM6PR02MB6075.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-Forefront-PRVS: 0369E8196C
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fc/84cJa5+HgP/VI5sgoCVU51RevEBqYBKUKOyJI4egfgr6hseziGy2ilxafC+lw8N2fXAwYOwSu+OFLMfNmkenG8nBlpuuUMPsYO/IpQkWU5k99fohsCqRKwDLXi9JFiGbnLyHhSqvh75Mkm992XF6EaOAGY9LKQMjZUiu9A8wXvPJbT8m36DRACXAhbz/Ux7N2fs1+3VDA7abG9yX3SxZacjYSGfBpkshkShma1XLJpOsuROGtILqRxrL5PEeh8IZrWsy3s4QKgKI+XEDL9gc1qs9qmqP5y4dhxlAMbTOtsbAofdp+jZ2evEHZoiKWiCtBI91A/hWzFohXHDop/UvWpBY2cwMiht6CTlAWBH1jCLoN0QvfxIhHVxK6djDc7hLOaoWp+gWNGepX30aFfLOwH/StzR99sgjpWm6APWAi8OGCr1L2ymEi4Gf96vjEWbHN9ws4UQ0OK05Z5abMU2+6aAlq7tsol1I5E6m+y9j9WKTPwo3ZzWTng5FQhPUKvBmONBSe/UVt+3ZlTV4pcw==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2020 00:30:38.7167
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91839159-9afa-460e-e72c-08d7dcf89048
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2020 02:40:42.6221
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8777a68-0a57-4368-80d1-08d7dce664c3
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6075
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: h9DD6JIpUCc8BmEC8ZAlWnZtmkpiuvGNp+Nthu0scwe+Oq4DzAcwJOcwk0nKEJsyRm+7+EXQcsomp+W5ddOWjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR05MB4895
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas and Jacop,
-
-On Thu, 2020-04-09 at 00:35:07 -0700, Jacopo Mondi wrote:
-> Hi Niklas, Huyn,
-> On Wed, Apr 08, 2020 at 12:22:55AM +0200, niklas.soderlund+renesas@ragnatech.se wrote:
-> > Hi Hyun and Jacopo,
-> >
-> > On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
-> > > Hi Jacopo,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
-> > > > Introduce a new pad operation to allow retrieving the media bus
-> > > > configuration on a subdevice pad.
-> > > >
-> > > > The newly introduced operation reassembles the s/g_mbus_config video
-> > > > operation, which have been on their way to be deprecated since a long
-> > > > time.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 67 insertions(+)
-> > > >
-> > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > index 761aa83a3f3c..3a1afc00e094 100644
-> > > > --- a/include/media/v4l2-subdev.h
-> > > > +++ b/include/media/v4l2-subdev.h
-> > > > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
-> > > >  	unsigned short num_entries;
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
-> > > > + * @hsync_active: hsync active state: true for high, false for low
-> > > > + * @vsync_active: vsync active state: true for high, false for low
-> > > > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
-> > > > + * @data_active: data lines active state: true for high, false for low
-> > > > + */
-> > > > +struct v4l2_mbus_parallel_config {
-> > > > +	bool hsync_active : 1;
-> > > > +	bool vsync_active : 1;
-> > > > +	bool pclk_rising : 1;
-> > > > +	bool data_active : 1;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
-> > > > + * @data_lanes: number of data lanes in use
-> > > > + * @clock_noncontinuous: non continuous clock enable flag
-> > > > + */
-> > > > +struct v4l2_mbus_csi2_dphy_config {
-> > > > +	unsigned int data_lanes : 3;
-> > > > +	bool clock_noncontinuous : 1;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
-> > > > + *
-> > > > + * TODO
-> > > > + */
-> > > > +struct v4l2_mbus_csi2_cphy_config {
-> > > > +	/* TODO */
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct v4l2_mbus_pad_config - media bus configuration
-> > > > + *
-> > > > + * Report the subdevice media bus information to inform the caller of the
-> > > > + * current bus configuration. The structure describes bus configuration
-> > > > + * parameters that might change in-between streaming sessions, in order to allow
-> > > > + * the caller to adjust its media bus configuration to match what is reported
-> > > > + * here.
-> > > > + *
-> > > > + * TODO: add '_pad_' to the name to distinguish this from the structure
-> > > > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
-> > > > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
-> > > > + * the bus type.
-> > > > + *
-> > > > + * @type: mbus type. See &enum v4l2_mbus_type
-> > > > + * @parallel: parallel bus configuration parameters.
-> > > > + *	      See &struct v4l2_mbus_parallel_config
-> > > > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
-> > > > + *	       See &struct v4l2_mbus_csi2_dphy_config
-> > > > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
-> > > > + *	       See &struct v4l2_mbus_csi2_cphy_config
-> > > > + */
-> > > > +struct v4l2_mbus_pad_config {
-> > > > +	enum v4l2_mbus_type type;
-> > > > +	union {
-> > > > +		struct v4l2_mbus_parallel_config parallel;
-> > > > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
-> > > > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
-> > > > +	};
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
-> > > >   *				  in video mode.
-> > > > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
-> > > >   *
-> > > >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
-> > > >   *                  may be adjusted by the subdev driver to device capabilities.
-> > > > + * @get_mbus_config: get the current mbus configuration
-> > > >   */
-> > > >  struct v4l2_subdev_pad_ops {
-> > > >  	int (*init_cfg)(struct v4l2_subdev *sd,
-> > > > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
-> > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
-> > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> > > > +			       struct v4l2_mbus_pad_config *config);
-> > >
-> > > Because this can be used in many different ways, there's more chance it can
-> > > be misused. That means, drivers call this in different locations, ex probe,
-> > > get format, start stream,,,, and on differnt pads, src or sink. So imagine
-> > > one set of drivers call on sink pad, and the other set call on source pad.
-> > > It works well only until those are mixed together.
-> 
-> I don't think we can right now establish all possible use cases, or
-> prevent people from shooting in their foot, moreover, the 'right'
-> usage really depends on the bus in use, and I can't tell where this is
-> will be used in the wild...
-> 
-> >
-> > That subdevice operations can be called at both probe and s_stream() is
-> > nothing new, I don't thin this is a new problem. But I agree maybe we
-> > could limit get_mbus_config() in the core to only be valid four source
-> > pads? Apart from this open question I think this patch looks good.
-> >
-> 
-> I'm a bit skeptical on limiting this to source pads as, again, this
-> really depends on the bus on which this operation is used. For my
-> limited knowledge, yes, the use case is always the receiver quering
-> the transmitter, but I don't feel like ruling out the opposite.
-> 
-> > >
-> > > So wouldn't it be better to put some restrictions? One is to document
-> > > recommendations. I think this better be called in stream on because
-> > > some bus config may change at runtime depending on other configuration.
-> > > So any bus config prior to stream-on may be outdated. The other is to
-> > > enforce in the code. Some, but maybe not all, can be handled in
-> > > v4l2_subdev_call_pad_wrappers, for example allowing this call only on
-> > > source pad.
-> > >
-> 
-> I hear your concern, but I think it really depends on the use cases
-> and I would have an hard time to provide recommendations that
-> address all use cases.
-> 
-> Is your concern due to some mis-uses example you can describe ?
-
-Yeah, while trying this out, I was thinking how it should be used. I ended
-up with a specific way: single direction, starting from stream on,
-
-(streamon) -> max9286 -> (g_mbus_conf) -> max96705 -> (g_mbus_conf) -> sensor1
-
-It's this way because max96705 doesn't have own vsync polarity, and it
-should get it from the connected sensor. While someone may implement the same
-in complete opposite direction for another set of drivers, starting from
-sensor, or even in different entry point,
-
-(s_fmt) -> sensor2 -> (g_mbus_conf) -> some_ser -> (g_mbus_conf) -> some_des
-
-When the sensor2 driver is used with max96705 above, there could be a problem
-such as circular calls or getting an outdated value. And it is harder to fix at
-that point. So I thought enforcing the direction works for current use cases
-(under my visilbity), and may help avoid such issue in future. Probably it may
-be just me over-thinking, as it sounds like? :-)
-
-Thanks,
--hyun
-
-> 
-> Thanks
->    j
-> 
-> > > Thanks,
-> > > -hyun
-> > >
-> > > >  };
-> > > >
-> > > >  /**
-> > > > --
-> > > > 2.25.1
-> > > >
-> >
-> > --
-> > Regards,
-> > Niklas Söderlund
+T24gVGh1LCAyMDIwLTA0LTA5IGF0IDExOjQxICswMzAwLCBKYW5pIE5pa3VsYSB3cm90ZToNCj4g
+T24gV2VkLCAwOCBBcHIgMjAyMCwgSmFzb24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+IHdyb3Rl
+Og0KPiA+IE9uIFdlZCwgQXByIDA4LCAyMDIwIGF0IDEwOjQ5OjQ4UE0gKzAyMDAsIEFybmQgQmVy
+Z21hbm4gd3JvdGU6DQo+ID4gPiBPbiBXZWQsIEFwciA4LCAyMDIwIGF0IDEwOjM4IFBNIE5pY29s
+YXMgUGl0cmUgPG5pY29AZmx1eG5pYy5uZXQ+DQo+ID4gPiB3cm90ZToNCj4gPiA+ID4gT24gV2Vk
+LCA4IEFwciAyMDIwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOg0KPiA+ID4gPiA+IEkgaGF2ZSBjcmVh
+dGVkIHdvcmthcm91bmRzIGZvciB0aGUgS2NvbmZpZyBmaWxlcywgd2hpY2ggbm93DQo+ID4gPiA+
+ID4gc3RvcCB1c2luZw0KPiA+ID4gPiA+IGltcGx5IGFuZCBkbyBzb21ldGhpbmcgZWxzZSBpbiBl
+YWNoIGNhc2UuIEkgZG9uJ3Qga25vdw0KPiA+ID4gPiA+IHdoZXRoZXIgdGhlcmUgd2FzDQo+ID4g
+PiA+ID4gYSBidWcgaW4gdGhlIGtjb25maWcgY2hhbmdlcyB0aGF0IGhhcyBsZWQgdG8gYWxsb3dp
+bmcNCj4gPiA+ID4gPiBjb25maWd1cmF0aW9ucyB0aGF0DQo+ID4gPiA+ID4gd2VyZSBub3QgbWVh
+bnQgdG8gYmUgbGVnYWwgZXZlbiB3aXRoIHRoZSBuZXcgc2VtYW50aWNzLCBvciBpZg0KPiA+ID4g
+PiA+IHRoZSBLY29uZmlnDQo+ID4gPiA+ID4gZmlsZXMgaGF2ZSBzaW1wbHkgYmVjb21lIGluY29y
+cmVjdCBub3cgYW5kIHRoZSB0b29sIHdvcmtzIGFzDQo+ID4gPiA+ID4gZXhwZWN0ZWQuDQo+ID4g
+PiA+IA0KPiA+ID4gPiBJbiBtb3N0IGNhc2VzIGl0IGlzIHRoZSBjb2RlIHRoYXQgaGFzIHRvIGJl
+IGZpeGVkLiBJdCB0eXBpY2FsbHkNCj4gPiA+ID4gZG9lczoNCj4gPiA+ID4gDQo+ID4gPiA+ICAg
+ICAgICAgaWYgKElTX0VOQUJMRUQoQ09ORklHX0ZPTykpDQo+ID4gPiA+ICAgICAgICAgICAgICAg
+ICBmb29faW5pdCgpOw0KPiA+ID4gPiANCj4gPiA+ID4gV2hlcmUgaXQgc2hvdWxkIHJhdGhlciBk
+bzoNCj4gPiA+ID4gDQo+ID4gPiA+ICAgICAgICAgaWYgKElTX1JFQUNIQUJMRShDT05GSUdfRk9P
+KSkNCj4gPiA+ID4gICAgICAgICAgICAgICAgIGZvb19pbml0KCk7DQo+ID4gPiA+IA0KPiA+ID4g
+PiBBIGNvdXBsZSBvZiBzdWNoIHBhdGNoZXMgaGF2ZSBiZWVuIHByb2R1Y2VkIGFuZCBxdWV1ZWQg
+aW4gdGhlaXINCj4gPiA+ID4gcmVzcGVjdGl2ZSB0cmVlcyBhbHJlYWR5Lg0KPiA+ID4gDQo+ID4g
+PiBJIHRyeSB0byB1c2UgSVNfUkVBQ0hBQkxFKCkgb25seSBhcyBhIGxhc3QgcmVzb3J0LCBhcyBp
+dCB0ZW5kcyB0bw0KPiA+ID4gY29uZnVzZSB1c2VycyB3aGVuIGEgc3Vic3lzdGVtIGlzIGJ1aWx0
+IGFzIGEgbW9kdWxlIGFuZCBhbHJlYWR5DQo+ID4gPiBsb2FkZWQgYnV0IHNvbWV0aGluZyByZWx5
+aW5nIG9uIHRoYXQgc3Vic3lzdGVtIGRvZXMgbm90IHVzZSBpdC4NCj4gPiA+IA0KPiA+ID4gSW4g
+dGhlIHNpeCBwYXRjaGVzIEkgbWFkZSwgSSBoYWQgdG8gdXNlIElTX1JFQUNIQUJMRSgpIG9uY2Us
+DQo+ID4gPiBmb3IgdGhlIG90aGVycyBJIHRlbmRlZCB0byB1c2UgYSBLY29uZmlnIGRlcGVuZGVu
+Y3kgbGlrZQ0KPiA+ID4gDQo+ID4gPiAnZGVwZW5kcyBvbiBGT08gfHwgRk9PPW4nDQo+ID4gDQoN
+ClRoaXMgYXNzdW1lcyB0aGF0IHRoZSBtb2R1bGUgdXNpbmcgRk9PIGhhcyBpdHMgb3duIGZsYWcg
+cmVwcmVzZW50aW5nDQpGT08gd2hpY2ggaXMgbm90IGFsd2F5cyB0aGUgY2FzZS4NCg0KZm9yIGV4
+YW1wbGUgaW4gbWx4NSB3ZSB1c2UgVlhMQU4gY29uZmlnIGZsYWcgZGlyZWN0bHkgdG8gY29tcGls
+ZSBWWExBTg0KcmVsYXRlZCBmaWxlczoNCg0KbWx4NS9jb3JlL01ha2VmaWxlOg0KDQpvYmotJChD
+T05GSUdfTUxYNV9DT1JFKSArPSBtbHg1X2NvcmUubw0KDQptbHg1X2NvcmUteSA6PSBtbHg1X2Nv
+cmUubw0KbWx4NV9jb3JlLSQoVlhMQU4pICs9IG1seDVfdnhsYW4ubw0KDQphbmQgaW4gbWx4NV9t
+YWluLm8gd2UgZG86DQogDQppZiAoSVNfRU5BQkxFRChWWExBTikpDQogICAgICAgbWx4NV92eGxh
+bl9pbml0KCkNCg0KYWZ0ZXIgdGhlIGNoYW5nZSBpbiBpbXBseSBzZW1hbnRpY3M6DQpvdXIgb3B0
+aW9ucyBhcmU6DQoNCjEpIHVzZSBJU19SRUFDSEFCTEUoVlhMQU4pIGluc3RlYWQgb2YgSVNfRU5B
+QkxFRChWWExBTikNCg0KMikgaGF2ZSBNTFg1X1ZYTEFOIGluIG1seDUgS2NvbmZpZyBhbmQgdXNl
+IElTX0VOQUJMRUQoTUxYNV9WWExBTikgDQpjb25maWcgTUxYNV9WWExBTg0KCWRlcGVuZHMgb24g
+VlhMQU4gfHwgIVZYTEFODQoJYm9vbA0KDQpTbyBpIHVuZGVyc3RhbmQgdGhhdCBldmVyeSBvbmUg
+YWdyZWUgdG8gdXNlIHNvbHV0aW9uICMyID8NCg0KPiA+IEl0IGlzIHVuZm9ydHVuYXRlIGtjb25m
+aWcgZG9lc24ndCBoYXZlIGEgbGFuZ3VhZ2UgZmVhdHVyZSBmb3IgdGhpcw0KPiA+IGlkaW9tLCBh
+cyB0aGUgYWJvdmUgaXMgY29uZm91bmRpbmcgd2l0aG91dCBhIGxvdCBvZiBrY29uZmlnDQo+ID4g
+a25vd2xlZGdlDQo+ID4gDQo+ID4gPiBJIGRpZCBjb21lIHVwIHdpdGggdGhlIElTX1JFQUNIQUJM
+RSgpIG1hY3JvIG9yaWdpbmFsbHksIGJ1dCB0aGF0DQo+ID4gPiBkb2Vzbid0IG1lYW4gSSB0aGlu
+ayBpdCdzIGEgZ29vZCBpZGVhIHRvIHVzZSBpdCBsaWJlcmFsbHkgOy0pDQo+ID4gDQo+ID4gSXQg
+d291bGQgYmUgbmljZSB0byBoYXZlIHNvbWUgdW5pZm9ybSBwb2xpY3kgaGVyZQ0KPiA+IA0KPiA+
+IEkgYWxzbyBkb24ndCBsaWtlIHRoZSBJU19SRUFDSEFCTEUgc29sdXRpb24sIGl0IG1ha2VzIHRo
+aXMgbW9yZQ0KPiA+IGNvbXBsaWNhdGVkLCBub3QgbGVzcy4uDQo+IA0KPiBKdXN0IGNoaW1pbmcg
+Im1lIHRvbyIgaGVyZS4NCj4gDQo+IElTX1JFQUNIQUJMRSgpIGlzIG5vdCBhIHNvbHV0aW9uLCBp
+dCdzIGEgaGFjayB0byBoaWRlIGEgZGVwZW5kZW5jeQ0KPiBsaW5rDQo+IHByb2JsZW0gdW5kZXIg
+dGhlIGNhcnBldCwgaW4gYSB3YXkgdGhhdCBpcyBkaWZmaWN1bHQgZm9yIHRoZSB1c2VyIHRvDQo+
+IGRlYnVnIGFuZCBmaWd1cmUgb3V0Lg0KPiANCj4gVGhlIHVzZXIgdGhpbmtzIHRoZXkndmUgZW5h
+YmxlZCBhIGZlYXR1cmUsIGJ1dCBpdCBkb2Vzbid0IGdldCB1c2VkDQo+IGFueXdheSwgYmVjYXVz
+ZSBhIGJ1aWx0aW4gZGVwZW5kcyBvbiBzb21ldGhpbmcgdGhhdCBpcyBhIG1vZHVsZSBhbmQNCj4g
+dGhlcmVmb3JlIG5vdCByZWFjaGFibGUuIENhbiBzb21lb25lIHBsZWFzZSBnaXZlIG1lIGFuIGV4
+YW1wbGUgd2hlcmUNCj4gdGhhdCBraW5kIG9mIGJlaGF2aW91ciBpcyBkZXNpcmFibGU/DQo+IA0K
+PiBBRkFJQ1QgSVNfUkVBQ0hBQkxFKCkgaXMgYmVjb21pbmcgbW9yZSBhbmQgbW9yZSBjb21tb24g
+aW4gdGhlIGtlcm5lbCwNCj4gYnV0IGFyZ3VhYmx5IGl0J3MganVzdCBtYWtpbmcgbW9yZSB1bmRl
+c2lyYWJsZSBjb25maWd1cmF0aW9ucw0KPiBwb3NzaWJsZS4gQ29uZmlndXJhdGlvbnMgdGhhdCBz
+aG91bGQgc2ltcGx5IGJlIGJsb2NrZWQgYnkgdXNpbmcNCj4gc3VpdGFibGUNCj4gZGVwZW5kZW5j
+aWVzIG9uIHRoZSBLY29uZmlnIGxldmVsLg0KPiANCj4gRm9yIGV4YW1wbGUsIHlvdSBoYXZlIHR3
+byBncmFwaGljcyBkcml2ZXJzLCBvbmUgYnVpbHRpbiBhbmQgYW5vdGhlcg0KPiBtb2R1bGUuIFRo
+ZW4geW91IGhhdmUgYmFja2xpZ2h0IGFzIGEgbW9kdWxlLiBVc2luZyBJU19SRUFDSEFCTEUoKSwN
+Cj4gYmFja2xpZ2h0IHdvdWxkIHdvcmsgaW4gb25lIGRyaXZlciwgYnV0IG5vdCB0aGUgb3RoZXIu
+IEknbSBzdXJlIHRoZXJlDQo+IGlzDQo+IHRoZSBvZGRiYWxsIHBlcnNvbiB3aG8gZmluZHMgdGhp
+cyBkZXNpcmFibGUsIGJ1dCB0aGUgb3ZlcndoZWxtaW5nDQo+IG1ham9yaXR5IHdvdWxkIGp1c3Qg
+bWFrZSB0aGUgZGVwcyBzdWNoIHRoYXQgZWl0aGVyIHlvdSBtYWtlIGFsbCBvZg0KPiB0aGVtDQo+
+IG1vZHVsZXMsIG9yIGFsc28gcmVxdWlyZSBiYWNrbGlnaHQgdG8gYmUgYnVpbHRpbi4NCj4gDQoN
+CnRoZSBwcmV2aW91cyBpbXBseSBzZW1hbnRpY3MgaGFuZGxlZCB0aGlzIGJ5IGZvcmNpbmcgYmFj
+a2xpZ2h0IHRvIGJlDQpidWlsdC1pbiwgd2hpY2ggd29ya2VkIG5pY2VseS4NCg0KPiANCj4gQlIs
+DQo+IEphbmkuDQo+IA0KPiANCg==
