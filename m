@@ -2,45 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D73291A42D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 09:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CE331A42ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 09:20:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725839AbgDJHOW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 03:14:22 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34552 "EHLO
+        id S1725893AbgDJHUs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 03:20:48 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34602 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgDJHOW (ORCPT
+        with ESMTP id S1725858AbgDJHUs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 03:14:22 -0400
+        Fri, 10 Apr 2020 03:20:48 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DAC99329;
-        Fri, 10 Apr 2020 09:14:20 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B765329;
+        Fri, 10 Apr 2020 09:20:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1586502861;
-        bh=lfCNwAmaQnVPJbk/paMtaACl1jBo/SKFifR0M7Mf3Jg=;
+        s=mail; t=1586503247;
+        bh=tFMI0mNtVR39dPPoUAS4kwoq5cDx/PgdYkp+PZYi1kw=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=MxfUa3TiVs0szpPu2B9C0JRDGtd5wlVNoIboeFEdMQ+5214VYQqK7H9Sf6j+iuCzI
-         /bWAokWzXCn/3He+lDWc+XPYV+mwHRy894xb9jw9WHpCKvbhI9IaWNHLcYTZAQAH0N
-         LkHlGTmiew+Jacz1UlZmZujm8K56iAre0ERo2s+U=
+        b=wgvMpCsN7hqZ/r1Ee/CU10PE9d/dZqhT1pmLBIuMhyIHtwwXuI9/S5KEqcUD21WLJ
+         szma8OdXMHkd+WOb3HjKBCWR6zEE3Ft2Nk8bYxo1U5z/CJQf5mPRZ51b8sFYQ1zVys
+         2Q5eKyCqGciTMopdhYnE6rkwCE/lvWqUSuGRBoXs=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v8 11/13] squash! max9286: Disable overlap window
-To:     Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH] squash! i2c: max9286: Put of node on error
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-12-kieran.bingham+renesas@ideasonboard.com>
- <20200409163236.mudhnpvq37wqn3y4@uno.localdomain>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200409170806.1842811-1-jacopo+renesas@jmondi.org>
+ <20200409202027.4qmv7oy2p3n2arc6@uno.localdomain>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <cd390e5b-1da6-32c9-458a-a9aa5a29094c@ideasonboard.com>
-Date:   Fri, 10 Apr 2020 08:14:18 +0100
+Message-ID: <67da976f-1cec-e871-e401-9fe2afb002f3@ideasonboard.com>
+Date:   Fri, 10 Apr 2020 08:20:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20200409163236.mudhnpvq37wqn3y4@uno.localdomain>
+In-Reply-To: <20200409202027.4qmv7oy2p3n2arc6@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -49,123 +47,71 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-On 09/04/2020 17:32, Jacopo Mondi wrote:
-> Hi Kieran,
+On 09/04/2020 21:20, Jacopo Mondi wrote:
+> Dunno why, I formatted the patch in a way others interested parties
+> have been removed from the Cc list, just noticed :/
 > 
-> On Thu, Apr 09, 2020 at 01:12:00PM +0100, Kieran Bingham wrote:
->> Provide a function to control setting of the overlap window, but disable
->> it by default.
+> It's such a minor fix I won't bother resending I think
+> 
+> On Thu, Apr 09, 2020 at 07:08:06PM +0200, Jacopo Mondi wrote:
+>> Put the device of node in case of dt parsing error.
 >>
->> The function will allow the value to be easily updated in the future,
->> either statically in the code, or via an external control mechanism.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> Fixes: 9eed4185c7a0 ("media: i2c: Add MAX9286 driver")
+> 
+> Also this is a leftover from where this was intended to be sent out a
+> patch on it's own
+> 
+
+Added to my branch, so it will be included in the next squash.
+
+Thanks.
+
+--
+Kieran
+
+
+>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 >> ---
->>  drivers/media/i2c/max9286.c | 42 +++++++++++++++++++++++++++++++++++++
->>  1 file changed, 42 insertions(+)
+>>  drivers/media/i2c/max9286.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
 >>
 >> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
->> index 008a93910300..61178ae363d6 100644
+>> index 241deed0f270..bac9696f83b4 100644
 >> --- a/drivers/media/i2c/max9286.c
 >> +++ b/drivers/media/i2c/max9286.c
->> @@ -118,6 +118,9 @@
->>  #define MAX9286_REV_FLEN(n)		((n) - 20)
->>  /* Register 0x49 */
->>  #define MAX9286_VIDEO_DETECT_MASK	0x0f
->> +/* Register 0x64 */
->> +#define MAX9286_ENFSINLAST		BIT(5)
->> +#define MAX9286_OVLP_WINDOWH_MASK	GENMASK(4, 0)
->>  /* Register 0x69 */
->>  #define MAX9286_LFLTBMONMASKED		BIT(7)
->>  #define MAX9286_LOCKMONMASKED		BIT(6)
->> @@ -632,6 +635,34 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
->>  	return 0;
->>  }
+>> @@ -1121,6 +1121,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>>  	if (!i2c_mux) {
+>>  		dev_err(dev, "Failed to find i2c-mux node\n");
+>> +		of_node_put(dev->of_node);
+>>  		return -EINVAL;
+>>  	}
 >>
->> +/*
->> + * The overlap window is a 13 bit value with the low byte in register 0x63 and
->> + * the high byte(5bits) stored in the least significant bits of register 0x64.
->                    ^ space
-> 
-> But I'm not sure this is useful comment. The register layout is
-> actually the only documented thing of this register :)
-
-Sure, but readers won't necessarily have the documentation :-) I think I
-was just trying to explain what was happening because we have so many
-unidentified registers (i.e. they're all just numbers, so we can't do,
-
-  max9286_write(priv, MAX9286_OVERLAP_LOW, overlap & 0xff);
-  max9286_write(priv, MAX9286_OVERLAP_HIGH, (overlap >> SHIFT) & MASK);
-
-I can drop this comment all the same, although I'd like to document
-clearly that it's a 13-bit value as an input, (not a full 16 bit)
-
-Will this be better suited?
-
-
-/*
- * The overlap window is a 13 bit value stored across two registers.
- * The definition and units of the value is undocumented.
- */
-
-
-
->> + */
->> +static int max9286_set_overlap_window(struct max9286_priv *priv, u16 window)
->> +{
->> +	int ret;
->> +	u8 val;
->> +
->> +	ret = max9286_read(priv, 0x64);
->> +	if (ret < 0)
->> +		return -EIO;
->> +
->> +	max9286_write(priv, 0x63, window & 0xff);
->> +
->> +	/*
->> +	 * Process the high byte, while preserve existing bits set in 0x64.
->> +	 * TODO: Convert this all to regmap so we can utilise regmap_update_bits
->> +	 */
->> +	window >>= 8;
->> +	val = ret & ~MAX9286_OVLP_WINDOWH_MASK;
->> +	val |= window & MAX9286_OVLP_WINDOWH_MASK;
->> +
->> +	max9286_write(priv, 0x64, val);
->> +
->> +	return 0;
->> +}
->> +
->>  static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
->>  {
->>  	if (!priv->pixelrate)
->> @@ -942,6 +973,17 @@ static int max9286_setup(struct max9286_priv *priv)
->>  	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
->>  		      MAX9286_HVSRC_D14);
+>> @@ -1168,6 +1169,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>  					of_fwnode_handle(node), &vep);
+>>  			if (ret) {
+>>  				of_node_put(node);
+>> +				of_node_put(dev->of_node);
+>>  				return ret;
+>>  			}
 >>
->> +	/*
->> +	 * The overlap window seems to provide additional validation by tracking
->> +	 * the delay between vsync and frame sync, generating an error if the
->> +	 * delay is bigger than the programmed window, though it's not yet clear
->> +	 * what value should be set.
->> +	 *
->> +	 * As it's an optional value and can be disabled, we do so by setting
->> +	 * a 0 overlap value.
->> +	 */
-> 
-> This is useful instead :)
-
-
-:-)
-
-
->> +	max9286_set_overlap_window(priv, 0);
->> +
->>  	/*
->>  	 * Wait for 2ms to allow the link to resynchronize after the
->>  	 * configuration change.
+>> @@ -1177,6 +1179,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>  					vep.bus_type);
+>>  				v4l2_fwnode_endpoint_free(&vep);
+>>  				of_node_put(node);
+>> +				of_node_put(dev->of_node);
+>>  				return -EINVAL;
+>>  			}
+>>
+>> @@ -1214,6 +1217,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
+>>  		priv->nsources++;
+>>  	}
+>>  	of_node_put(node);
+>> +	of_node_put(dev->of_node);
+>>
+>>  	priv->route_mask = priv->source_mask;
+>>
 >> --
->> 2.20.1
+>> 2.26.0
 >>
 
