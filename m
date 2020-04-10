@@ -2,290 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 504D01A4528
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 12:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2A691A453A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 12:26:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725930AbgDJKYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 06:24:11 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34557 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726143AbgDJKYL (ORCPT
+        id S1725912AbgDJK0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 06:26:01 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40748 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725955AbgDJK0A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 06:24:11 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m8so1526791lji.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Apr 2020 03:24:09 -0700 (PDT)
+        Fri, 10 Apr 2020 06:26:00 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 198so1043171lfo.7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Apr 2020 03:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=kyQQZTu8ilEJHmXqQc/fvsDyq+JakClHMUtKoqdpLhM=;
-        b=Q2v9Ls4j8j/SoqK0nXmC9k/2StsBSV+zwfzA6uhkQDSN+0A1oIs2xgvSTAXQO1fv6l
-         /wkOL/I7SWrN+sXkuE2k68iszuWDXPbfCLfWWEpqW4o6LK+TrGyFFN0FzXz1HFEg8ma6
-         r/2NLAE4WzwMqlEAUU8+mi2WpxX9dk1SuQ3xSP1EmyrabpjQ9OoMPVqjl7b9rVmUqQvn
-         8i1yCPqj+BoenDvbhz89xMBEIDrjYe6JYVwuLshjPda2oydUuZs6rqaSwK8C7EuGJXOy
-         Pn0+Q/9rq8wiUyv3804XD9Qg0znkGP6W17bkLqtw5C22OJoyxtffKk1eCwGv5CctTfd3
-         MbHA==
+        bh=5Ka1EBeOIBN7Xip1m/jcK1PNBiGzFSitTQ9/Dn9oVlk=;
+        b=kiErzZW99ioUHOduilY5qDSzF6tnYhHFdkApTlIKgYV8GROump89AA8sK+PSW/Y9hj
+         3PfXpfHuajUBIymxswOEwFfA/QKqQe6zJz9E/3do437YllZFMTTPNvTvcAplnqkonv8t
+         KDV8qV1pZ09qppfRPbVBLGytyZkXIHeX57cw8DFR2SJhMAb9nUaeGzTyGRLV3XSF4vaH
+         upUqtDUdpZEyRu58hBIzM9ZakH3hCaK92ACv6fl5xqSqKM8jbifG7Dggpr8KEfA9Hjmv
+         gQZhmWLLPd84e1PIDhhPBvf9AgIA5H3KIZN4yAzX+STqhs0uoN9gC+ul/aVt6BOEOqgD
+         TRWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=kyQQZTu8ilEJHmXqQc/fvsDyq+JakClHMUtKoqdpLhM=;
-        b=Fb+FOCrc9rtbOMGfSDW5LvMjgEuxs11OkJRZTr76pQ2EPCqZPxGAlfixEtap2s8po1
-         kk8eQ7kinCK1RaVHpSyiwlwn55d8DAfYgEZKC8Hfv9n1sqHW3OnbI/Y9TAnARBOVKfgQ
-         J0d7ymNmxvSNYsJImiOmJ3MmIt4eEUXd21GSrcON1sbajwdiZOjdKUYBxF9AeSe9Vgz+
-         fCcA4v15rxlI0DVWwybGvK5nVsGPEcYD9V7/BMfwIsPkBc6ltrvj41G57KbqWZjhXcjD
-         zYQ2vrf9Eb33CptmIVV6zhM/26Q+yI3YfTCxqUF/fyH7wK/u37X9A0T7RqtSKMtdJykr
-         fiUQ==
-X-Gm-Message-State: AGi0PuakohRrrTzttCj2/jYNXoU7ylvtyvYbg7TasOiGJhG/7LLcjnFB
-        AaG3ftM+rzaepE9s136oDIBS3Q==
-X-Google-Smtp-Source: APiQypJ0r4qc5K0psIo1R++pim3hLMNRg0W3OQynTISzhqJB4OhBrshtQ+GypZO5MQiBkCpOChDqGw==
-X-Received: by 2002:a2e:904b:: with SMTP id n11mr2555224ljg.171.1586514248760;
-        Fri, 10 Apr 2020 03:24:08 -0700 (PDT)
+        bh=5Ka1EBeOIBN7Xip1m/jcK1PNBiGzFSitTQ9/Dn9oVlk=;
+        b=F1OkTaj90vsCRZ1pdDkOIapal0HI43bJGmYMSK8opE+jOAbq+Lko1PLoGJJuKc+DbZ
+         tSueNBc0yyJH9Rd+OKDSUh9ndLd1ZwkLQc4KR5fY1oyRFrjInTJa3jqFlmiBxM4BtCPg
+         SaaPM13Rk3tSdV7iXkaSPYnV30Y+IpfLKiLIVLO3LAH6zPp2ER+2U7KQe+zcTtRDO8rf
+         x+9jRzdVrU63Qg1n440uU0Iiveb0y363HQ4JCzeVCmldZAFT+Rs5n5rD6G3dDXhoKHyU
+         XJ5/vboqU0rBTf1cRN5jyuhC8DbhEPo9kZtPBkxDpvzg20cok+81LdjH7VYrPMa1F8WM
+         z8Hg==
+X-Gm-Message-State: AGi0PuZSBLU+p1scxX5CgHP0R9KQcsRVUVM8ydI2vQnMyIa7PBVL8qDX
+        hJeGyyGTHVOYKsIMza+Tk7OYu6rEyFc=
+X-Google-Smtp-Source: APiQypKOmEFYNGqJVIOi+A9sRZ1j6b/GL0bDuviFgNVIBdX7C2KnnFsZb6/2Om+IKofSECqsG1FS8g==
+X-Received: by 2002:a05:6512:686:: with SMTP id t6mr2309630lfe.163.1586514357429;
+        Fri, 10 Apr 2020 03:25:57 -0700 (PDT)
 Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id 64sm832464ljj.41.2020.04.10.03.24.07
+        by smtp.gmail.com with ESMTPSA id q4sm1023321lfk.67.2020.04.10.03.25.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 03:24:07 -0700 (PDT)
-Date:   Fri, 10 Apr 2020 12:24:06 +0200
-From:   "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, Hyun Kwon <hyunk@xilinx.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
-Message-ID: <20200410102406.GB2798828@oden.dyn.berto.se>
-References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
- <20200313144035.401430-3-jacopo+renesas@jmondi.org>
- <20200401223037.GB583@smtp.xilinx.com>
- <20200407222255.GS1716317@oden.dyn.berto.se>
- <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
- <20200410003028.GB3396@smtp.xilinx.com>
+        Fri, 10 Apr 2020 03:25:56 -0700 (PDT)
+Date:   Fri, 10 Apr 2020 12:25:56 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] mmc: renesas_sdhi: simplify summary output
+Message-ID: <20200410102556.GC2798828@oden.dyn.berto.se>
+References: <20200408142252.21958-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200410003028.GB3396@smtp.xilinx.com>
+In-Reply-To: <20200408142252.21958-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Huyn,
+Hi Wolfram,
 
-On 2020-04-09 17:30:28 -0700, Hyun Kwon wrote:
-> Hi Niklas and Jacop,
-> 
-> On Thu, 2020-04-09 at 00:35:07 -0700, Jacopo Mondi wrote:
-> > Hi Niklas, Huyn,
-> > On Wed, Apr 08, 2020 at 12:22:55AM +0200, niklas.soderlund+renesas@ragnatech.se wrote:
-> > > Hi Hyun and Jacopo,
-> > >
-> > > On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > Thanks for the patch.
-> > > >
-> > > > On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
-> > > > > Introduce a new pad operation to allow retrieving the media bus
-> > > > > configuration on a subdevice pad.
-> > > > >
-> > > > > The newly introduced operation reassembles the s/g_mbus_config video
-> > > > > operation, which have been on their way to be deprecated since a long
-> > > > > time.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > ---
-> > > > >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 67 insertions(+)
-> > > > >
-> > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > > index 761aa83a3f3c..3a1afc00e094 100644
-> > > > > --- a/include/media/v4l2-subdev.h
-> > > > > +++ b/include/media/v4l2-subdev.h
-> > > > > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
-> > > > >  	unsigned short num_entries;
-> > > > >  };
-> > > > >
-> > > > > +/**
-> > > > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
-> > > > > + * @hsync_active: hsync active state: true for high, false for low
-> > > > > + * @vsync_active: vsync active state: true for high, false for low
-> > > > > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
-> > > > > + * @data_active: data lines active state: true for high, false for low
-> > > > > + */
-> > > > > +struct v4l2_mbus_parallel_config {
-> > > > > +	bool hsync_active : 1;
-> > > > > +	bool vsync_active : 1;
-> > > > > +	bool pclk_rising : 1;
-> > > > > +	bool data_active : 1;
-> > > > > +};
-> > > > > +
-> > > > > +/**
-> > > > > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
-> > > > > + * @data_lanes: number of data lanes in use
-> > > > > + * @clock_noncontinuous: non continuous clock enable flag
-> > > > > + */
-> > > > > +struct v4l2_mbus_csi2_dphy_config {
-> > > > > +	unsigned int data_lanes : 3;
-> > > > > +	bool clock_noncontinuous : 1;
-> > > > > +};
-> > > > > +
-> > > > > +/**
-> > > > > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
-> > > > > + *
-> > > > > + * TODO
-> > > > > + */
-> > > > > +struct v4l2_mbus_csi2_cphy_config {
-> > > > > +	/* TODO */
-> > > > > +};
-> > > > > +
-> > > > > +/**
-> > > > > + * struct v4l2_mbus_pad_config - media bus configuration
-> > > > > + *
-> > > > > + * Report the subdevice media bus information to inform the caller of the
-> > > > > + * current bus configuration. The structure describes bus configuration
-> > > > > + * parameters that might change in-between streaming sessions, in order to allow
-> > > > > + * the caller to adjust its media bus configuration to match what is reported
-> > > > > + * here.
-> > > > > + *
-> > > > > + * TODO: add '_pad_' to the name to distinguish this from the structure
-> > > > > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
-> > > > > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
-> > > > > + * the bus type.
-> > > > > + *
-> > > > > + * @type: mbus type. See &enum v4l2_mbus_type
-> > > > > + * @parallel: parallel bus configuration parameters.
-> > > > > + *	      See &struct v4l2_mbus_parallel_config
-> > > > > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
-> > > > > + *	       See &struct v4l2_mbus_csi2_dphy_config
-> > > > > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
-> > > > > + *	       See &struct v4l2_mbus_csi2_cphy_config
-> > > > > + */
-> > > > > +struct v4l2_mbus_pad_config {
-> > > > > +	enum v4l2_mbus_type type;
-> > > > > +	union {
-> > > > > +		struct v4l2_mbus_parallel_config parallel;
-> > > > > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
-> > > > > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
-> > > > > +	};
-> > > > > +};
-> > > > > +
-> > > > >  /**
-> > > > >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
-> > > > >   *				  in video mode.
-> > > > > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
-> > > > >   *
-> > > > >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
-> > > > >   *                  may be adjusted by the subdev driver to device capabilities.
-> > > > > + * @get_mbus_config: get the current mbus configuration
-> > > > >   */
-> > > > >  struct v4l2_subdev_pad_ops {
-> > > > >  	int (*init_cfg)(struct v4l2_subdev *sd,
-> > > > > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
-> > > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > > >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
-> > > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > > > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > +			       struct v4l2_mbus_pad_config *config);
-> > > >
-> > > > Because this can be used in many different ways, there's more chance it can
-> > > > be misused. That means, drivers call this in different locations, ex probe,
-> > > > get format, start stream,,,, and on differnt pads, src or sink. So imagine
-> > > > one set of drivers call on sink pad, and the other set call on source pad.
-> > > > It works well only until those are mixed together.
-> > 
-> > I don't think we can right now establish all possible use cases, or
-> > prevent people from shooting in their foot, moreover, the 'right'
-> > usage really depends on the bus in use, and I can't tell where this is
-> > will be used in the wild...
-> > 
-> > >
-> > > That subdevice operations can be called at both probe and s_stream() is
-> > > nothing new, I don't thin this is a new problem. But I agree maybe we
-> > > could limit get_mbus_config() in the core to only be valid four source
-> > > pads? Apart from this open question I think this patch looks good.
-> > >
-> > 
-> > I'm a bit skeptical on limiting this to source pads as, again, this
-> > really depends on the bus on which this operation is used. For my
-> > limited knowledge, yes, the use case is always the receiver quering
-> > the transmitter, but I don't feel like ruling out the opposite.
-> > 
-> > > >
-> > > > So wouldn't it be better to put some restrictions? One is to document
-> > > > recommendations. I think this better be called in stream on because
-> > > > some bus config may change at runtime depending on other configuration.
-> > > > So any bus config prior to stream-on may be outdated. The other is to
-> > > > enforce in the code. Some, but maybe not all, can be handled in
-> > > > v4l2_subdev_call_pad_wrappers, for example allowing this call only on
-> > > > source pad.
-> > > >
-> > 
-> > I hear your concern, but I think it really depends on the use cases
-> > and I would have an hard time to provide recommendations that
-> > address all use cases.
-> > 
-> > Is your concern due to some mis-uses example you can describe ?
-> 
-> Yeah, while trying this out, I was thinking how it should be used. I ended
-> up with a specific way: single direction, starting from stream on,
-> 
-> (streamon) -> max9286 -> (g_mbus_conf) -> max96705 -> (g_mbus_conf) -> sensor1
-> 
-> It's this way because max96705 doesn't have own vsync polarity, and it
-> should get it from the connected sensor. While someone may implement the same
-> in complete opposite direction for another set of drivers, starting from
-> sensor, or even in different entry point,
+Thanks for your work.
 
-I agree with the use-case above.
+On 2020-04-08 16:22:52 +0200, Wolfram Sang wrote:
+> No need to call platform_get_resource twice when we still have the
+> pointer from before. Also, use '%pa' for a resource_size_t pointer.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> 
-> (s_fmt) -> sensor2 -> (g_mbus_conf) -> some_ser -> (g_mbus_conf) -> some_des
-> 
-> When the sensor2 driver is used with max96705 above, there could be a problem
-> such as circular calls or getting an outdated value. And it is harder to fix at
-> that point. So I thought enforcing the direction works for current use cases
-> (under my visilbity), and may help avoid such issue in future. Probably it may
-> be just me over-thinking, as it sounds like? :-)
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-If a format is set on a subdevice we are operating on a subdevice that 
-is part of a media device right? If so shall setting the format of the 
-different entities of the graph involve cross entry calls? Shall not the 
-entire pipeline format be validated at stream_start() and that is the 
-time g_mbus_conf() would be involved like in the first case above. I 
-might have misunderstood something if so I apologize.
-
+> ---
+>  drivers/mmc/host/renesas_sdhi_core.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> Thanks,
-> -hyun
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index c002e9fb67fb..de7f4fc9bc21 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -933,10 +933,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>  			goto eirq;
+>  	}
+>  
+> -	dev_info(&pdev->dev, "%s base at 0x%08lx max clock rate %u MHz\n",
+> -		 mmc_hostname(host->mmc), (unsigned long)
+> -		 (platform_get_resource(pdev, IORESOURCE_MEM, 0)->start),
+> -		 host->mmc->f_max / 1000000);
+> +	dev_info(&pdev->dev, "%s base at %pa, max clock rate %u MHz\n",
+> +		 mmc_hostname(host->mmc), &res->start, host->mmc->f_max / 1000000);
+>  
+>  	return ret;
+>  
+> -- 
+> 2.20.1
 > 
-> > 
-> > Thanks
-> >    j
-> > 
-> > > > Thanks,
-> > > > -hyun
-> > > >
-> > > > >  };
-> > > > >
-> > > > >  /**
-> > > > > --
-> > > > > 2.25.1
-> > > > >
-> > >
-> > > --
-> > > Regards,
-> > > Niklas Söderlund
 
 -- 
 Regards,
