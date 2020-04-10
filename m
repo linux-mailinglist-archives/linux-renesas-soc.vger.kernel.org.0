@@ -2,216 +2,291 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 372AD1A44E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 12:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 504D01A4528
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 12:24:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgDJKCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 06:02:22 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:42126 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725861AbgDJKCW (ORCPT
+        id S1725930AbgDJKYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 06:24:11 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34557 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726143AbgDJKYL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 06:02:22 -0400
-X-IronPort-AV: E=Sophos;i="5.72,366,1580742000"; 
-   d="scan'208";a="44156016"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Apr 2020 19:02:20 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3FE47400C0B9;
-        Fri, 10 Apr 2020 19:02:20 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org, robh+dt@kernel.org
-Cc:     dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/2] dt-bindings: dma: renesas,usb-dmac: convert bindings to json-schema
-Date:   Fri, 10 Apr 2020 19:02:03 +0900
-Message-Id: <1586512923-21739-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586512923-21739-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1586512923-21739-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 10 Apr 2020 06:24:11 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m8so1526791lji.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Apr 2020 03:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=kyQQZTu8ilEJHmXqQc/fvsDyq+JakClHMUtKoqdpLhM=;
+        b=Q2v9Ls4j8j/SoqK0nXmC9k/2StsBSV+zwfzA6uhkQDSN+0A1oIs2xgvSTAXQO1fv6l
+         /wkOL/I7SWrN+sXkuE2k68iszuWDXPbfCLfWWEpqW4o6LK+TrGyFFN0FzXz1HFEg8ma6
+         r/2NLAE4WzwMqlEAUU8+mi2WpxX9dk1SuQ3xSP1EmyrabpjQ9OoMPVqjl7b9rVmUqQvn
+         8i1yCPqj+BoenDvbhz89xMBEIDrjYe6JYVwuLshjPda2oydUuZs6rqaSwK8C7EuGJXOy
+         Pn0+Q/9rq8wiUyv3804XD9Qg0znkGP6W17bkLqtw5C22OJoyxtffKk1eCwGv5CctTfd3
+         MbHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=kyQQZTu8ilEJHmXqQc/fvsDyq+JakClHMUtKoqdpLhM=;
+        b=Fb+FOCrc9rtbOMGfSDW5LvMjgEuxs11OkJRZTr76pQ2EPCqZPxGAlfixEtap2s8po1
+         kk8eQ7kinCK1RaVHpSyiwlwn55d8DAfYgEZKC8Hfv9n1sqHW3OnbI/Y9TAnARBOVKfgQ
+         J0d7ymNmxvSNYsJImiOmJ3MmIt4eEUXd21GSrcON1sbajwdiZOjdKUYBxF9AeSe9Vgz+
+         fCcA4v15rxlI0DVWwybGvK5nVsGPEcYD9V7/BMfwIsPkBc6ltrvj41G57KbqWZjhXcjD
+         zYQ2vrf9Eb33CptmIVV6zhM/26Q+yI3YfTCxqUF/fyH7wK/u37X9A0T7RqtSKMtdJykr
+         fiUQ==
+X-Gm-Message-State: AGi0PuakohRrrTzttCj2/jYNXoU7ylvtyvYbg7TasOiGJhG/7LLcjnFB
+        AaG3ftM+rzaepE9s136oDIBS3Q==
+X-Google-Smtp-Source: APiQypJ0r4qc5K0psIo1R++pim3hLMNRg0W3OQynTISzhqJB4OhBrshtQ+GypZO5MQiBkCpOChDqGw==
+X-Received: by 2002:a2e:904b:: with SMTP id n11mr2555224ljg.171.1586514248760;
+        Fri, 10 Apr 2020 03:24:08 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id 64sm832464ljj.41.2020.04.10.03.24.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2020 03:24:07 -0700 (PDT)
+Date:   Fri, 10 Apr 2020 12:24:06 +0200
+From:   "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, Hyun Kwon <hyunk@xilinx.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+Message-ID: <20200410102406.GB2798828@oden.dyn.berto.se>
+References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+ <20200313144035.401430-3-jacopo+renesas@jmondi.org>
+ <20200401223037.GB583@smtp.xilinx.com>
+ <20200407222255.GS1716317@oden.dyn.berto.se>
+ <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
+ <20200410003028.GB3396@smtp.xilinx.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200410003028.GB3396@smtp.xilinx.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas R-Car USB-DMA Controller bindings documentation
-to json-schema.
+Hi Huyn,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- .../devicetree/bindings/dma/renesas,usb-dmac.txt   | 55 ------------
- .../devicetree/bindings/dma/renesas,usb-dmac.yaml  | 99 ++++++++++++++++++++++
- 2 files changed, 99 insertions(+), 55 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
- create mode 100644 Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml
+On 2020-04-09 17:30:28 -0700, Hyun Kwon wrote:
+> Hi Niklas and Jacop,
+> 
+> On Thu, 2020-04-09 at 00:35:07 -0700, Jacopo Mondi wrote:
+> > Hi Niklas, Huyn,
+> > On Wed, Apr 08, 2020 at 12:22:55AM +0200, niklas.soderlund+renesas@ragnatech.se wrote:
+> > > Hi Hyun and Jacopo,
+> > >
+> > > On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
+> > > > Hi Jacopo,
+> > > >
+> > > > Thanks for the patch.
+> > > >
+> > > > On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
+> > > > > Introduce a new pad operation to allow retrieving the media bus
+> > > > > configuration on a subdevice pad.
+> > > > >
+> > > > > The newly introduced operation reassembles the s/g_mbus_config video
+> > > > > operation, which have been on their way to be deprecated since a long
+> > > > > time.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > ---
+> > > > >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
+> > > > >  1 file changed, 67 insertions(+)
+> > > > >
+> > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > > > index 761aa83a3f3c..3a1afc00e094 100644
+> > > > > --- a/include/media/v4l2-subdev.h
+> > > > > +++ b/include/media/v4l2-subdev.h
+> > > > > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
+> > > > >  	unsigned short num_entries;
+> > > > >  };
+> > > > >
+> > > > > +/**
+> > > > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> > > > > + * @hsync_active: hsync active state: true for high, false for low
+> > > > > + * @vsync_active: vsync active state: true for high, false for low
+> > > > > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
+> > > > > + * @data_active: data lines active state: true for high, false for low
+> > > > > + */
+> > > > > +struct v4l2_mbus_parallel_config {
+> > > > > +	bool hsync_active : 1;
+> > > > > +	bool vsync_active : 1;
+> > > > > +	bool pclk_rising : 1;
+> > > > > +	bool data_active : 1;
+> > > > > +};
+> > > > > +
+> > > > > +/**
+> > > > > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+> > > > > + * @data_lanes: number of data lanes in use
+> > > > > + * @clock_noncontinuous: non continuous clock enable flag
+> > > > > + */
+> > > > > +struct v4l2_mbus_csi2_dphy_config {
+> > > > > +	unsigned int data_lanes : 3;
+> > > > > +	bool clock_noncontinuous : 1;
+> > > > > +};
+> > > > > +
+> > > > > +/**
+> > > > > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> > > > > + *
+> > > > > + * TODO
+> > > > > + */
+> > > > > +struct v4l2_mbus_csi2_cphy_config {
+> > > > > +	/* TODO */
+> > > > > +};
+> > > > > +
+> > > > > +/**
+> > > > > + * struct v4l2_mbus_pad_config - media bus configuration
+> > > > > + *
+> > > > > + * Report the subdevice media bus information to inform the caller of the
+> > > > > + * current bus configuration. The structure describes bus configuration
+> > > > > + * parameters that might change in-between streaming sessions, in order to allow
+> > > > > + * the caller to adjust its media bus configuration to match what is reported
+> > > > > + * here.
+> > > > > + *
+> > > > > + * TODO: add '_pad_' to the name to distinguish this from the structure
+> > > > > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> > > > > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> > > > > + * the bus type.
+> > > > > + *
+> > > > > + * @type: mbus type. See &enum v4l2_mbus_type
+> > > > > + * @parallel: parallel bus configuration parameters.
+> > > > > + *	      See &struct v4l2_mbus_parallel_config
+> > > > > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> > > > > + *	       See &struct v4l2_mbus_csi2_dphy_config
+> > > > > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> > > > > + *	       See &struct v4l2_mbus_csi2_cphy_config
+> > > > > + */
+> > > > > +struct v4l2_mbus_pad_config {
+> > > > > +	enum v4l2_mbus_type type;
+> > > > > +	union {
+> > > > > +		struct v4l2_mbus_parallel_config parallel;
+> > > > > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> > > > > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> > > > > +	};
+> > > > > +};
+> > > > > +
+> > > > >  /**
+> > > > >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+> > > > >   *				  in video mode.
+> > > > > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
+> > > > >   *
+> > > > >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+> > > > >   *                  may be adjusted by the subdev driver to device capabilities.
+> > > > > + * @get_mbus_config: get the current mbus configuration
+> > > > >   */
+> > > > >  struct v4l2_subdev_pad_ops {
+> > > > >  	int (*init_cfg)(struct v4l2_subdev *sd,
+> > > > > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
+> > > > >  			      struct v4l2_mbus_frame_desc *fd);
+> > > > >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+> > > > >  			      struct v4l2_mbus_frame_desc *fd);
+> > > > > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> > > > > +			       struct v4l2_mbus_pad_config *config);
+> > > >
+> > > > Because this can be used in many different ways, there's more chance it can
+> > > > be misused. That means, drivers call this in different locations, ex probe,
+> > > > get format, start stream,,,, and on differnt pads, src or sink. So imagine
+> > > > one set of drivers call on sink pad, and the other set call on source pad.
+> > > > It works well only until those are mixed together.
+> > 
+> > I don't think we can right now establish all possible use cases, or
+> > prevent people from shooting in their foot, moreover, the 'right'
+> > usage really depends on the bus in use, and I can't tell where this is
+> > will be used in the wild...
+> > 
+> > >
+> > > That subdevice operations can be called at both probe and s_stream() is
+> > > nothing new, I don't thin this is a new problem. But I agree maybe we
+> > > could limit get_mbus_config() in the core to only be valid four source
+> > > pads? Apart from this open question I think this patch looks good.
+> > >
+> > 
+> > I'm a bit skeptical on limiting this to source pads as, again, this
+> > really depends on the bus on which this operation is used. For my
+> > limited knowledge, yes, the use case is always the receiver quering
+> > the transmitter, but I don't feel like ruling out the opposite.
+> > 
+> > > >
+> > > > So wouldn't it be better to put some restrictions? One is to document
+> > > > recommendations. I think this better be called in stream on because
+> > > > some bus config may change at runtime depending on other configuration.
+> > > > So any bus config prior to stream-on may be outdated. The other is to
+> > > > enforce in the code. Some, but maybe not all, can be handled in
+> > > > v4l2_subdev_call_pad_wrappers, for example allowing this call only on
+> > > > source pad.
+> > > >
+> > 
+> > I hear your concern, but I think it really depends on the use cases
+> > and I would have an hard time to provide recommendations that
+> > address all use cases.
+> > 
+> > Is your concern due to some mis-uses example you can describe ?
+> 
+> Yeah, while trying this out, I was thinking how it should be used. I ended
+> up with a specific way: single direction, starting from stream on,
+> 
+> (streamon) -> max9286 -> (g_mbus_conf) -> max96705 -> (g_mbus_conf) -> sensor1
+> 
+> It's this way because max96705 doesn't have own vsync polarity, and it
+> should get it from the connected sensor. While someone may implement the same
+> in complete opposite direction for another set of drivers, starting from
+> sensor, or even in different entry point,
 
-diff --git a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
-deleted file mode 100644
-index e8f6c42..00000000
---- a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
-+++ /dev/null
-@@ -1,55 +0,0 @@
--* Renesas USB DMA Controller Device Tree bindings
--
--Required Properties:
---compatible: "renesas,<soctype>-usb-dmac", "renesas,usb-dmac" as fallback.
--	Examples with soctypes are:
--	  - "renesas,r8a7743-usb-dmac" (RZ/G1M)
--	  - "renesas,r8a7744-usb-dmac" (RZ/G1N)
--	  - "renesas,r8a7745-usb-dmac" (RZ/G1E)
--	  - "renesas,r8a77470-usb-dmac" (RZ/G1C)
--	  - "renesas,r8a774a1-usb-dmac" (RZ/G2M)
--	  - "renesas,r8a774b1-usb-dmac" (RZ/G2N)
--	  - "renesas,r8a774c0-usb-dmac" (RZ/G2E)
--	  - "renesas,r8a7790-usb-dmac" (R-Car H2)
--	  - "renesas,r8a7791-usb-dmac" (R-Car M2-W)
--	  - "renesas,r8a7793-usb-dmac" (R-Car M2-N)
--	  - "renesas,r8a7794-usb-dmac" (R-Car E2)
--	  - "renesas,r8a7795-usb-dmac" (R-Car H3)
--	  - "renesas,r8a7796-usb-dmac" (R-Car M3-W)
--	  - "renesas,r8a77961-usb-dmac" (R-Car M3-W+)
--	  - "renesas,r8a77965-usb-dmac" (R-Car M3-N)
--	  - "renesas,r8a77990-usb-dmac" (R-Car E3)
--	  - "renesas,r8a77995-usb-dmac" (R-Car D3)
--- reg: base address and length of the registers block for the DMAC
--- interrupts: interrupt specifiers for the DMAC, one for each entry in
--  interrupt-names.
--- interrupt-names: one entry per channel, named "ch%u", where %u is the
--  channel number ranging from zero to the number of channels minus one.
--- clocks: a list of phandle + clock-specifier pairs.
--- #dma-cells: must be <1>, the cell specifies the channel number of the DMAC
--  port connected to the DMA client.
--- dma-channels: number of DMA channels
--
--Example: R8A7790 (R-Car H2) USB-DMACs
--
--	usb_dmac0: dma-controller@e65a0000 {
--		compatible = "renesas,r8a7790-usb-dmac", "renesas,usb-dmac";
--		reg = <0 0xe65a0000 0 0x100>;
--		interrupts = <0 109 IRQ_TYPE_LEVEL_HIGH
--			      0 109 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "ch0", "ch1";
--		clocks = <&mstp3_clks R8A7790_CLK_USBDMAC0>;
--		#dma-cells = <1>;
--		dma-channels = <2>;
--	};
--
--	usb_dmac1: dma-controller@e65b0000 {
--		compatible = "renesas,usb-dmac";
--		reg = <0 0xe65b0000 0 0x100>;
--		interrupts = <0 110 IRQ_TYPE_LEVEL_HIGH
--			      0 110 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "ch0", "ch1";
--		clocks = <&mstp3_clks R8A7790_CLK_USBDMAC1>;
--		#dma-cells = <1>;
--		dma-channels = <2>;
--	};
-diff --git a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml
-new file mode 100644
-index 00000000..9c81081
---- /dev/null
-+++ b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/dma/renesas,usb-dmac.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas USB DMA Controller
-+
-+maintainers:
-+  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-+
-+allOf:
-+  - $ref: "dma-controller.yaml#"
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r8a7743-usb-dmac  # RZ/G1M
-+          - renesas,r8a7744-usb-dmac  # RZ/G1N
-+          - renesas,r8a7745-usb-dmac  # RZ/G1E
-+          - renesas,r8a77470-usb-dmac # RZ/G1C
-+          - renesas,r8a774a1-usb-dmac # RZ/G2M
-+          - renesas,r8a774b1-usb-dmac # RZ/G2N
-+          - renesas,r8a774c0-usb-dmac # RZ/G2E
-+          - renesas,r8a7790-usb-dmac  # R-Car H2
-+          - renesas,r8a7791-usb-dmac  # R-Car M2-W
-+          - renesas,r8a7793-usb-dmac  # R-Car M2-N
-+          - renesas,r8a7794-usb-dmac  # R-Car E2
-+          - renesas,r8a7795-usb-dmac  # R-Car H3
-+          - renesas,r8a7796-usb-dmac  # R-Car M3-W
-+          - renesas,r8a77961-usb-dmac # R-Car M3-W+
-+          - renesas,r8a77965-usb-dmac # R-Car M3-N
-+          - renesas,r8a77990-usb-dmac # R-Car E3
-+          - renesas,r8a77995-usb-dmac # R-Car D3
-+      - const: renesas,usb-dmac
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 2
-+
-+  interrupt-names:
-+    maxItems: 2
-+    items:
-+      - pattern: "^ch[0-1]$"
-+      - pattern: "^ch[0-1]$"
-+
-+  clocks:
-+    maxItems: 1
-+
-+  '#dma-cells':
-+    const: 1
-+    description:
-+      The cell specifies the channel number of the DMAC port connected to
-+      the DMA client.
-+
-+  dma-channels:
-+    maximum: 2
-+
-+  iommus:
-+    maxItems: 2
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - '#dma-cells'
-+  - dma-channels
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7790-sysc.h>
-+
-+    usb_dmac0: dma-controller@e65a0000 {
-+        compatible = "renesas,r8a7790-usb-dmac", "renesas,usb-dmac";
-+        reg = <0xe65a0000 0x100>;
-+        interrupts = <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 109 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "ch0", "ch1";
-+        clocks = <&cpg CPG_MOD 330>;
-+        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-+        resets = <&cpg 330>;
-+        #dma-cells = <1>;
-+        dma-channels = <2>;
-+    };
+I agree with the use-case above.
+
+> 
+> (s_fmt) -> sensor2 -> (g_mbus_conf) -> some_ser -> (g_mbus_conf) -> some_des
+> 
+> When the sensor2 driver is used with max96705 above, there could be a problem
+> such as circular calls or getting an outdated value. And it is harder to fix at
+> that point. So I thought enforcing the direction works for current use cases
+> (under my visilbity), and may help avoid such issue in future. Probably it may
+> be just me over-thinking, as it sounds like? :-)
+
+If a format is set on a subdevice we are operating on a subdevice that 
+is part of a media device right? If so shall setting the format of the 
+different entities of the graph involve cross entry calls? Shall not the 
+entire pipeline format be validated at stream_start() and that is the 
+time g_mbus_conf() would be involved like in the first case above. I 
+might have misunderstood something if so I apologize.
+
+> 
+> Thanks,
+> -hyun
+> 
+> > 
+> > Thanks
+> >    j
+> > 
+> > > > Thanks,
+> > > > -hyun
+> > > >
+> > > > >  };
+> > > > >
+> > > > >  /**
+> > > > > --
+> > > > > 2.25.1
+> > > > >
+> > >
+> > > --
+> > > Regards,
+> > > Niklas Söderlund
+
 -- 
-2.7.4
-
+Regards,
+Niklas Söderlund
