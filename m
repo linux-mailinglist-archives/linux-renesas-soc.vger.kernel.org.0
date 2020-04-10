@@ -2,109 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD7101A4561
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 12:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F3EC1A458C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Apr 2020 13:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725993AbgDJKro (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Apr 2020 06:47:44 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:28960 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726654AbgDJKrn (ORCPT
+        id S1726007AbgDJLPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 Apr 2020 07:15:35 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40286 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbgDJLPb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Apr 2020 06:47:43 -0400
-X-IronPort-AV: E=Sophos;i="5.72,366,1580742000"; 
-   d="scan'208";a="44372303"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Apr 2020 19:47:42 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C4207421059E;
-        Fri, 10 Apr 2020 19:47:42 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH/RFC 2/2] arm64: dts: renesas: add PCIe device nodes for r8a77961
-Date:   Fri, 10 Apr 2020 19:47:14 +0900
-Message-Id: <1586515634-28095-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1586515634-28095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1586515634-28095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 10 Apr 2020 07:15:31 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D17A5329;
+        Fri, 10 Apr 2020 13:15:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586517330;
+        bh=EC1Za9eW5ayrdbiizZc2mUGuvzN/kcydyN/KK+vY6fo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RsMl3mmEriIW3Xg7tCFjYtChXNDacoM3uCrHvj8hHbnj7faR1UY/L7pt8w0t5kVsQ
+         9sND9qwlvvfYe+xJl7UqBGH6OT6FCiAqqZI8mYmTVCW7j9rUPTx4VHgNugGBlu1zoA
+         hKObqcQSI8XpvwhFBUXHRo7BygaWARNs0KBkZjPg=
+Date:   Fri, 10 Apr 2020 14:15:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v8 02/13] squash! max9286: convert probe kzalloc
+Message-ID: <20200410111519.GA4751@pendragon.ideasonboard.com>
+References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200409163333.GA25086@pendragon.ideasonboard.com>
+ <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add PCIe device nodes for r8a77961 (R-Car M3-W+).
+Hi Kieran,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 48 +++++++++++++++++++++++++++++--
- 1 file changed, 46 insertions(+), 2 deletions(-)
+On Fri, Apr 10, 2020 at 09:20:25AM +0100, Kieran Bingham wrote:
+> On 09/04/2020 17:33, Laurent Pinchart wrote:
+> > On Thu, Apr 09, 2020 at 01:11:51PM +0100, Kieran Bingham wrote:
+> >> v8:
+> >>  - Convert probe kzalloc usage to devm_ variant
+> > 
+> > This isn't worse than the existing code, but are you aware that devm_*
+> > should not be used in this case ? The memory should be allocated with
+> > kzalloc() and freed in the .release() operation.
+> 
+> This change was at the request of a review comment from Sakari.
+> 
+> From:
+> https://lore.kernel.org/linux-media/4139f241-2fde-26ad-fe55-dcaeb76ad6cc@ideasonboard.com/
+>
+> >>> +
+> >>> +static int max9286_probe(struct i2c_client *client)
+> >>> +{
+> >>> +	struct max9286_priv *priv;
+> >>> +	unsigned int i;
+> >>> +	int ret;
+> >>> +
+> >>> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> >>> +	if (!priv)
+> >>> +		return -ENOMEM;
+> >> 
+> >> You won't lose anything by using the devm_ variant here.
+> > 
+> > Indeed,
+> > 
+> >>> +
+> >>> +	priv->client = client;
+> >>> +	i2c_set_clientdata(client, priv);
+> >>> +
+> >>> +	for (i = 0; i < MAX9286_N_SINKS; i++)
+> >>> +		max9286_init_format(&priv->fmt[i]);
+> >>> +
+> >>> +	ret = max9286_parse_dt(priv);
+> >>> +	if (ret)
+> >>> +		return ret;
+> >> 
+> >> But you can avoid accidental memory leaks for nothing. :-)
+> > 
+> > It would be good not to leak indeed!
+> 
+> I understand that there are lifetime issues in V4L2 - but in my opinion
+> that needs to be handled by core V4l2 (and or support from driver core
+> framework).
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index adc54ff..2a11301 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -1160,13 +1160,57 @@
- 		};
- 
- 		pciec0: pcie@fe000000 {
-+			compatible = "renesas,pcie-r8a77961",
-+				     "renesas,pcie-rcar-gen3";
- 			reg = <0 0xfe000000 0 0x80000>;
--			/* placeholder */
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+			bus-range = <0x00 0xff>;
-+			device_type = "pci";
-+			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000>,
-+				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-+				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-+				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-+			/* Map all possible DDR as inbound ranges */
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
-+			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
-+				<GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
-+				<GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-+			#interrupt-cells = <1>;
-+			interrupt-map-mask = <0 0 0 0>;
-+			interrupt-map = <0 0 0 0 &gic GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 319>, <&pcie_bus_clk>;
-+			clock-names = "pcie", "pcie_bus";
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 319>;
-+			status = "disabled";
- 		};
- 
- 		pciec1: pcie@ee800000 {
-+			compatible = "renesas,pcie-r8a77961",
-+				     "renesas,pcie-rcar-gen3";
- 			reg = <0 0xee800000 0 0x80000>;
--			/* placeholder */
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+			bus-range = <0x00 0xff>;
-+			device_type = "pci";
-+			ranges = <0x01000000 0 0x00000000 0 0xee900000 0 0x00100000>,
-+				 <0x02000000 0 0xeea00000 0 0xeea00000 0 0x00200000>,
-+				 <0x02000000 0 0xc0000000 0 0xc0000000 0 0x08000000>,
-+				 <0x42000000 0 0xc8000000 0 0xc8000000 0 0x08000000>;
-+			/* Map all possible DDR as inbound ranges */
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>;
-+			interrupts = <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>,
-+				<GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+				<GIC_SPI 150 IRQ_TYPE_LEVEL_HIGH>;
-+			#interrupt-cells = <1>;
-+			interrupt-map-mask = <0 0 0 0>;
-+			interrupt-map = <0 0 0 0 &gic GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 318>, <&pcie_bus_clk>;
-+			clock-names = "pcie", "pcie_bus";
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 318>;
-+			status = "disabled";
- 		};
- 
- 		csi20: csi2@fea80000 {
+I'm afraid that's not possible. The V4L2 core can't delay remove().
+There are helpers we could create to simplify correct memory management
+for drivers, but in any case, devm_kzalloc() isn't correct.
+
+There are also issues in the core that would make unbinding unsafe even
+if correctly implemented in this driver, but a correct implementation in
+drivers will be required in any case.
+
+As I said before this patch isn't a regression as memory allocation is
+already broken here, but it doesn't go in the right direction either.
+
+> Also - isn't it highly unlikely to affect the max9286? Isn't the
+> lifetime issue that the device can be unplugged while the file handle is
+> open?
+> 
+> I don't think anyone is going to 'unplug' the max9286 while it's active :-)
+
+No, but someone could unbind it through sysfs. In any case it's not an
+excuse to not implement memory allocation correctly :-)
+
+> >> ---
+> >>  drivers/media/i2c/max9286.c | 5 +----
+> >>  1 file changed, 1 insertion(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> >> index b84d2daa6561..0a43137b8112 100644
+> >> --- a/drivers/media/i2c/max9286.c
+> >> +++ b/drivers/media/i2c/max9286.c
+> >> @@ -1155,7 +1155,7 @@ static int max9286_probe(struct i2c_client *client)
+> >>  	unsigned int i;
+> >>  	int ret;
+> >>  
+> >> -	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> >> +	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+> >>  	if (!priv)
+> >>  		return -ENOMEM;
+> >>  
+> >> @@ -1232,7 +1232,6 @@ static int max9286_probe(struct i2c_client *client)
+> >>  	max9286_configure_i2c(priv, false);
+> >>  err_free:
+> >>  	max9286_cleanup_dt(priv);
+> >> -	kfree(priv);
+> >>  
+> >>  	return ret;
+> >>  }
+> >> @@ -1253,8 +1252,6 @@ static int max9286_remove(struct i2c_client *client)
+> >>  
+> >>  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+> >>  
+> >> -	kfree(priv);
+> >> -
+> >>  	return 0;
+> >>  }
+> >>  
+
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
