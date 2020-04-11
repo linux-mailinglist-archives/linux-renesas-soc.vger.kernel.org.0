@@ -2,165 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53DD01A520A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2020 14:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 485511A5324
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Apr 2020 19:28:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgDKMaO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Apr 2020 08:30:14 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:37559 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726231AbgDKMaO (ORCPT
+        id S1726140AbgDKR2Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Apr 2020 13:28:16 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35621 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbgDKR2P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Apr 2020 08:30:14 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 63C9E240006;
-        Sat, 11 Apr 2020 12:30:09 +0000 (UTC)
-Date:   Sat, 11 Apr 2020 14:33:13 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 03/13] squash! max9286: Fix cleanup path from GPIO
- powerdown
-Message-ID: <20200411123313.mcaqru6it7n7zep7@uno.localdomain>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-4-kieran.bingham+renesas@ideasonboard.com>
- <20200409162207.xcj2ro4ecji5yte4@uno.localdomain>
+        Sat, 11 Apr 2020 13:28:15 -0400
+Received: by mail-wm1-f67.google.com with SMTP id r26so5790477wmh.0;
+        Sat, 11 Apr 2020 10:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=c+8X1vIVLRV5LUWN9h/LUA7Hybfh7nZjXZqWThPNSJ4=;
+        b=MXSvsu0+/ALU1ueAVvC/LhEaJqD5DalB/kFVPE8HmhE/p4orlxNbTwoFpsp9yR1osi
+         KNR1CLf5TBJwHE9UUvTVpmvryZbTDJ9lKBTQsajeRzKNQkgTsXVA7NzTd/Vejc+896qQ
+         aZEIl2w4/+LcfhJCXuY7XHTcQcZbGpLPZ0xLPV142FxgzNFwz4XyxGT8T80+xpjLi6Cl
+         axtVqlZTYxJJC3MPS/VqubD4niVAAFBakCbL7jZjpYOl6rgIHUsBizPhcl8sn4hgO8uR
+         1sVQMu46eVbZOldL/VxE4zun8ulBZrgg8Nh4whREpVafWY8sR1cblL01BLS8ts9ZiOR9
+         HmRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=c+8X1vIVLRV5LUWN9h/LUA7Hybfh7nZjXZqWThPNSJ4=;
+        b=P7QXkKE1wDwsqb8EdBp8cxJG6ResfbO+K2vtirFIJDYsiRm9GVuatGIGDR8lYR8YMn
+         2S3Ri2H/cTx6Uy8q7j16DmqEjIxEidy8gpxmDlMZEgNNbK/31dJta5iJVBnRSTPbMtwi
+         +3kjYNTQ8RRPEC4HOwVA9E8htjzaJJYhlBwsoWwcIOlUxVgkMB1wQ6VaM1Tl86NvHV/W
+         jPEho5iocg6tUMtW623vzn+1cA+27ZgiGIDnJ3CBfzgMSBUtUo8cvi67ua/45/Uc4ak0
+         dm2elnnO5xoUFuWqn+rL0qw8AdL/hxgCn8NkJseawDDkfVw6OH8zXM5js7Rmp8sfl13s
+         X4RQ==
+X-Gm-Message-State: AGi0PuatMXWFanAMODdN3CuP00a0rM5ZQr8BloEM8OPTDKlxZK/Jezxl
+        qAsac4eaD429Xr/Mg/j900gb8PaN
+X-Google-Smtp-Source: APiQypLEnPgmwf+KZxltRpfshvuG996TQC9RSfUs4U8VuOZAj7T+DSa4Mxw1szI6qcp2CXojbzKxSA==
+X-Received: by 2002:a1c:b356:: with SMTP id c83mr11257579wmf.10.1586626092761;
+        Sat, 11 Apr 2020 10:28:12 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id s9sm10081534wmc.2.2020.04.11.10.28.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Apr 2020 10:28:11 -0700 (PDT)
+Subject: Re: [RFC PATCH] PCI: rcar: Fix incorrect programming of OB windows
+To:     Andrew Murray <amurray@thegoodpenguin.co.uk>
+Cc:     Andrew Murray <andrew.murray@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Bjorn Helgaas <helgaas@kernel.org>
+References: <20191004132941.6660-1-andrew.murray@arm.com>
+ <20191216120607.GV24359@e119886-lin.cambridge.arm.com>
+ <0e6e7353-c92b-d819-771b-f9b58684a3d4@gmail.com>
+ <20200208184147.GC19388@big-machine>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <f6472d4b-83fa-abdf-cbf7-205ab55f1e66@gmail.com>
+Date:   Sat, 11 Apr 2020 19:27:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200208184147.GC19388@big-machine>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200409162207.xcj2ro4ecji5yte4@uno.localdomain>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-HI Kieran,
+On 2/8/20 7:41 PM, Andrew Murray wrote:
+> On Sat, Feb 08, 2020 at 10:46:25AM +0100, Marek Vasut wrote:
+>> On 12/16/19 1:06 PM, Andrew Murray wrote:
+>>> On Fri, Oct 04, 2019 at 02:29:41PM +0100, Andrew Murray wrote:
+>>>> The outbound windows (PCIEPAUR(x), PCIEPALR(x)) describe a mapping between
+>>>> a CPU address (which is determined by the window number 'x') and a
+>>>> programmed PCI address - Thus allowing the controller to translate CPU
+>>>> accesses into PCI accesses.
+>>>>
+>>>> However the existing code incorrectly writes the CPU address - lets fix
+>>>> this by writing the PCI address instead.
+>>>>
+>>>> For memory transactions, existing DT users describe a 1:1 identity mapping
+>>>> and thus this change should have no effect. However the same isn't true for
+>>>> I/O.
+>>>>
+>>>> Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
+>>>> Signed-off-by: Andrew Murray <andrew.murray@arm.com>
+>>>>
+>>>> ---
+>>>> This hasn't been tested, so keen for someone to give it a try.
+>>>>
+>>>> Also keen for someone to confirm my understanding that the RCar windows
+>>>> expect PCI addresses and that res->start refers to CPU addresses. If this
+>>>> is correct then it's possible the I/O doesn't work correctly.
+>>>
+>>> Marek/Yoshihiro - any feedback on this?
+>>
+>> It does indeed look correct,
+>> Reviewed-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+>>
+>> # On R8A77951 Salvator-XS with Intel 8086:f1a5 600P SSD
+>> # On R8A77965 Salvator-XS with Intel 8086:10d3 82574L NIC
+>> Tested-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> 
+> Thanks for testing - much appreciated!
+> 
+> Andrew Murray
 
-On Thu, Apr 09, 2020 at 06:22:12PM +0200, Jacopo Mondi wrote:
-> Hi Kieran,
->   slightly unrelated on this patch but
->
-> On Thu, Apr 09, 2020 at 01:11:52PM +0100, Kieran Bingham wrote:
-> >  - Fix up cleanup path from GPIO PowerDown registration
-> > ---
-> >  drivers/media/i2c/max9286.c | 14 ++++++++------
-> >  1 file changed, 8 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 0a43137b8112..cc99740b34c5 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -1171,8 +1171,10 @@ static int max9286_probe(struct i2c_client *client)
-> >
-> >  	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
-> >  						   GPIOD_OUT_HIGH);
-> > -	if (IS_ERR(priv->gpiod_pwdn))
-> > -		return PTR_ERR(priv->gpiod_pwdn);
-> > +	if (IS_ERR(priv->gpiod_pwdn)) {
-> > +		ret = PTR_ERR(priv->gpiod_pwdn);
-> > +		goto err_cleanup_dt;
-> > +	}
-> >
-> >  	gpiod_set_consumer_name(priv->gpiod_pwdn, "max9286-pwdn");
-> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
->
->
-
-[snip]
-
-> as the i2c_mux is already closed at the end of init() (or never open
-> if we fail earlier) and i2c_ack can be disabled at the end of
-> max9286_setup() and in the error path there (as there are no more i2c
-> writes after that function returns), I think we could simplify all of
-
-Knowing you're working on a new squash! series, I've just noticed I've
-said somthing not correct here.
-
-> i2c_ack can be disabled at the end of
-> max9286_setup() and in the error path there (as there are no more i2c
-> writes after that function returns)
-
-That's not true, i2c auto ack should be disabled after registering the
-i2c adapters for the remote ends. i2c_add_adapter probes the remote
-ends, and so -a lot- of i2c writes take place.
-
-Sorry for the confusion, I think i2c auto ack could be disabled at the
-end of _init() not _setup().
-
-Thanks
-   j
-
-> probe() {
->         pwdn = devm_get_gpio_optional()
->         if (err)
->                 return;
->
->         set(pwdn, 1);
->
->         register_gpiochip(); //uses devm
->                 return;
->
->         devm_get_regulator()
->                 return;
->
->         parse_dt()
->
->         ret = init()
->         if (ret)
->                 goto cleanup_dt();
->
->         return 0
->
-> err_cleanup_dt:
->        cleanup_dt()
-> }
->
-> This could be done after 5/5 in this series if you want to keep fixups
-> separate for another review round.
->
-> What do you think ?
->
-> Thanks
->    j
->
->
->
-> > @@ -1193,7 +1195,7 @@ static int max9286_probe(struct i2c_client *client)
-> >  				PTR_ERR(priv->regulator));
-> >  		ret = PTR_ERR(priv->regulator);
-> >  		priv->regulator = NULL;
-> > -		goto err_free;
-> > +		goto err_cleanup_dt;
-> >  	}
-> >
-> >  	/*
-> > @@ -1230,7 +1232,7 @@ static int max9286_probe(struct i2c_client *client)
-> >  	regulator_put(priv->regulator);
-> >  	max9286_i2c_mux_close(priv);
-> >  	max9286_configure_i2c(priv, false);
-> > -err_free:
-> > +err_cleanup_dt:
-> >  	max9286_cleanup_dt(priv);
-> >
-> >  	return ret;
-> > @@ -1248,10 +1250,10 @@ static int max9286_remove(struct i2c_client *client)
-> >  		regulator_disable(priv->regulator);
-> >  	regulator_put(priv->regulator);
-> >
-> > -	max9286_cleanup_dt(priv);
-> > -
-> >  	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> >
-> > +	max9286_cleanup_dt(priv);
-> > +
-> >  	return 0;
-> >  }
-> >
-> > --
-> > 2.20.1
-> >
+Can this be applied then ?
