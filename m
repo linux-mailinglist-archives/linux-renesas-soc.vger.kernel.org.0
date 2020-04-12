@@ -2,95 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3AA11A5D87
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Apr 2020 10:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D67C1A5DC5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Apr 2020 11:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725903AbgDLIoP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 12 Apr 2020 04:44:15 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:45958 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725873AbgDLIoP (ORCPT
+        id S1726876AbgDLJaX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 Apr 2020 05:30:23 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37828 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726043AbgDLJaW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 12 Apr 2020 04:44:15 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k133so4407121oih.12;
-        Sun, 12 Apr 2020 01:44:13 -0700 (PDT)
+        Sun, 12 Apr 2020 05:30:22 -0400
+Received: by mail-lf1-f68.google.com with SMTP id t11so4393693lfe.4
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 12 Apr 2020 02:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wvZjieRj4qaMs+6TZihVR3SxRNAcxfJpdpQbrdTQclA=;
+        b=sCoCfMu0RCkeRdSj17DdbWeFKZD3rHgAuAb8cNCMqPqeUuaWB8wGLbnhQr1BYWTXoi
+         upzKaP2DiqcCZOw7Yimp3sz52v7DeyzftOwUBxRkfd2qok0nXYnqVZjH0b47y+kRLZ8C
+         xAIHMfCHjom4BynzVP1HKozH8iBRDWBFIPs/KK+dGDWQ6fNYNI++9uF4CoCi6/FYx7za
+         DifRQVk5Gsuj8f/M+4L6sAQKwiKR1rGWqx3KLO7Yb6/HrShMNEjgLgL9gnO48L2IioUN
+         ijdYlnim6ISiftXFTlzkJWTFmng/tJdrqujwye1v5YnXFFar2lk7nPJu3p/ULW2r+zps
+         fdNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1nytNGtuyh7aPHGCTZBNdWfHVT4mdjiF/o3w2hwxlkw=;
-        b=n1iRatd+/D82s1VDGqN+JXB5oX9H/Ojv/SZ6QXJBUVW7R1iyMgStg++c0oUrtcaNPY
-         sVwQPidz07mcO2WcMO44tPsGkkgNdZnPq1LhPVpvXiDtbzuw9xLexHyEW9P8k7YX85cY
-         +obnujwUdQDhwCNIR1Pj2aB8to9PPW3zG6oXF/W/VxeLqS1x9aTFq8PsatbSp4qamtuW
-         Ii1noMkTGxXCQlv71A7UTvqXA4yn5OtnwaffzCaxoDhCMqyRGqmOwjAdwK4iAn6uniNM
-         Rw4vMs1xVN8aYQrjohyqZ7bLcJiJDhnE5O4yniy8AP3G5BcxRBDPD0sG8F1bz1SBnXtW
-         N03g==
-X-Gm-Message-State: AGi0PuZrxqPUONKgOokNT/luUjH3NQW1XKYj1pbaWdG/8Nu4fdUOJ0oj
-        GiU05XLP44b0Gg94q+MerIiNH3xyTFgdEmG50IxCqVE4
-X-Google-Smtp-Source: APiQypJmkPLTUaltcHqyClglyUvfg37fQ/CnHIR+vVpQZ5Yhaj8io+VwjGAN/TNE4a+YjxsSky6Xgvw1nnHGssq9k6g=
-X-Received: by 2002:aca:cdd1:: with SMTP id d200mr8124950oig.153.1586681052851;
- Sun, 12 Apr 2020 01:44:12 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wvZjieRj4qaMs+6TZihVR3SxRNAcxfJpdpQbrdTQclA=;
+        b=HL7I3FbFbVu0Q2UIHDqHkkuTymFwMcgnTwnw/rST80mAxfZ++a7FFMcvSWSRNnZlGu
+         aZbiIA/v22droR8xzXYrX+2o7v0pfZbLiVQmFDXgWp94jvjXxByLuLCcRTYdEuzDTJk+
+         NjkQ2t5FQOUCbyqXJLiYoRWctlUDG7hj7psx4NUHr7e91pvYAR0mpC4w82pshs3BS2RC
+         j/bDtd1r4Twi3qmW1wQWM5tbw6H4XAvc9Bjgo88fdV6hl0zNXeMomkZgmzK5yLItbvGM
+         xgOcsQlsutelFrvUAOwqHj6m2fT4oVv2AYuiWRicHoAImd/nM+jBJbTUxkS76k7eNtrG
+         JhpA==
+X-Gm-Message-State: AGi0PuZFUQExMZalCTrEU0qtU4R0dg2NskZmm6ilXpGz5EBsCsUOK0Rp
+        b/u8CN2V3MTp8ZuvxoEjNUfN5aKhDoWXVw==
+X-Google-Smtp-Source: APiQypIiCKyDOWmQveSF/1l/II8M/C9LZdjb3kLvTVumC4zxn5XVOZ2W4iOLnw80Mn52Yek+rtsWuA==
+X-Received: by 2002:a19:d3:: with SMTP id 202mr7255970lfa.24.1586683820655;
+        Sun, 12 Apr 2020 02:30:20 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4648:ec80:e5e4:a4d:fae6:7d12? ([2a00:1fa0:4648:ec80:e5e4:a4d:fae6:7d12])
+        by smtp.gmail.com with ESMTPSA id b2sm1131469lfi.14.2020.04.12.02.30.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Apr 2020 02:30:20 -0700 (PDT)
+Subject: Re: [PATCH AUTOSEL 5.6 056/149] sh_eth: check
+ sh_eth_cpu_data::no_xdfar when dumping registers
+To:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        "David S . Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20200411230347.22371-1-sashal@kernel.org>
+ <20200411230347.22371-56-sashal@kernel.org>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <6416ffc7-84a0-0383-aeda-93b4cb80c800@cogentembedded.com>
+Date:   Sun, 12 Apr 2020 12:30:17 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200411230943.24951-1-sashal@kernel.org> <20200411230943.24951-95-sashal@kernel.org>
-In-Reply-To: <20200411230943.24951-95-sashal@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 12 Apr 2020 10:44:01 +0200
-Message-ID: <CAMuHMdVrp25m_SDKSC=ntNWxsumcw4JKvHNDeFZT_JnpfQmCxg@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 5.4 095/108] ARM: shmobile: Enable
- ARM_GLOBAL_TIMER on Cortex-A9 MPCore SoCs
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200411230347.22371-56-sashal@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sasha,
+Hello!
 
-On Sun, Apr 12, 2020 at 1:11 AM Sasha Levin <sashal@kernel.org> wrote:
-> From: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> [ Upstream commit 408324a3c5383716939eea8096a0f999a0665f7e ]
->
-> SH-Mobile AG5 and R-Car H1 SoCs are based on the Cortex-A9 MPCore, which
-> includes a global timer.
->
-> Enable the ARM global timer on these SoCs, which will be used for:
->   - the scheduler clock, improving scheduler accuracy from 10 ms to 3 or
->     4 ns,
->   - delay loops, allowing removal of calls to shmobile_init_delay() from
->     the corresponding machine vectors.
->
-> Note that when using an old DTB lacking the global timer, the kernel
-> will still work.  However, loops-per-jiffies will no longer be preset,
-> and the delay loop will need to be calibrated during boot.
+On 12.04.2020 2:02, Sasha Levin wrote:
 
-I.e. to avoid this delay, this patch is best backported after backporting
-8443ffd1bbd5be74 ("ARM: dts: r8a7779: Add device node for ARM global timer"),
-df1a0aac0a533e6f ("ARM: dts: sh73a0: Add device node for ARM global timer").
+> From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> 
+> [ Upstream commit 7bf47f609f7eaac4f7e9c407a85ad78997288a38 ]
+> 
+> When adding the sh_eth_cpu_data::no_xdfar flag I forgot to add the flag
+> check to  __sh_eth_get_regs(), causing the non-existing RDFAR/TDFAR to be
+> considered for dumping on the R-Car gen1/2 SoCs (the register offset check
+> has the final say here)...
+> 
+> Fixes: 4c1d45850d5 ("sh_eth: add sh_eth_cpu_data::cexcr flag")
 
-While the former has been backported to v5.[45]-stable, the latter hasn't,
-probably because it depends on
-61b58e3f6e518c51 ("ARM: dts: sh73a0: Rename twd clock to periph clock")
+    Oops, wrong commit here, should've been:
 
-So please backport the last two commits first.
-Thanks!
+Fixes: 6e80e55bd37a ("sh_eth: add sh_eth_cpu_data::no_xdfar flag")
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Link: https://lore.kernel.org/r/20191211135222.26770-5-geert+renesas@glider.be
+Luckily, both commits appeared in the same version, 4.17. :-)
+
+> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> Tested-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: David S. Miller <davem@davemloft.net>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
+[...]
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
