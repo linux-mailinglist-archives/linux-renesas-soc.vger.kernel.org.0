@@ -2,88 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 567BC1A57B2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Apr 2020 01:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3AA11A5D87
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Apr 2020 10:44:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729085AbgDKXYM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Apr 2020 19:24:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730217AbgDKXMi (ORCPT
+        id S1725903AbgDLIoP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 Apr 2020 04:44:15 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45958 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbgDLIoP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Apr 2020 19:12:38 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DE87F21835;
-        Sat, 11 Apr 2020 23:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586646758;
-        bh=ktRAk573+U/MMYz3+IF0v1Le1INiNFUcm/fx6LnVvME=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MGV7CJ5W50NJ6wGbUxJh+KjqWXAibHtgr/7zPlkb1xe05A/JASi3aBpBkJU6BCF2n
-         6JveGy3eqTxtpxwjDy7jrySKe8+rqoQppM1uwoSATvdryFBJwf73tNY+s4XkbFs60b
-         W+qlOL/wovH5DkESD3KkublO9duqxup8uqFZSaJw=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 29/66] sh_eth: check sh_eth_cpu_data::no_xdfar when dumping registers
-Date:   Sat, 11 Apr 2020 19:11:26 -0400
-Message-Id: <20200411231203.25933-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200411231203.25933-1-sashal@kernel.org>
-References: <20200411231203.25933-1-sashal@kernel.org>
+        Sun, 12 Apr 2020 04:44:15 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k133so4407121oih.12;
+        Sun, 12 Apr 2020 01:44:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1nytNGtuyh7aPHGCTZBNdWfHVT4mdjiF/o3w2hwxlkw=;
+        b=n1iRatd+/D82s1VDGqN+JXB5oX9H/Ojv/SZ6QXJBUVW7R1iyMgStg++c0oUrtcaNPY
+         sVwQPidz07mcO2WcMO44tPsGkkgNdZnPq1LhPVpvXiDtbzuw9xLexHyEW9P8k7YX85cY
+         +obnujwUdQDhwCNIR1Pj2aB8to9PPW3zG6oXF/W/VxeLqS1x9aTFq8PsatbSp4qamtuW
+         Ii1noMkTGxXCQlv71A7UTvqXA4yn5OtnwaffzCaxoDhCMqyRGqmOwjAdwK4iAn6uniNM
+         Rw4vMs1xVN8aYQrjohyqZ7bLcJiJDhnE5O4yniy8AP3G5BcxRBDPD0sG8F1bz1SBnXtW
+         N03g==
+X-Gm-Message-State: AGi0PuZrxqPUONKgOokNT/luUjH3NQW1XKYj1pbaWdG/8Nu4fdUOJ0oj
+        GiU05XLP44b0Gg94q+MerIiNH3xyTFgdEmG50IxCqVE4
+X-Google-Smtp-Source: APiQypJmkPLTUaltcHqyClglyUvfg37fQ/CnHIR+vVpQZ5Yhaj8io+VwjGAN/TNE4a+YjxsSky6Xgvw1nnHGssq9k6g=
+X-Received: by 2002:aca:cdd1:: with SMTP id d200mr8124950oig.153.1586681052851;
+ Sun, 12 Apr 2020 01:44:12 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20200411230943.24951-1-sashal@kernel.org> <20200411230943.24951-95-sashal@kernel.org>
+In-Reply-To: <20200411230943.24951-95-sashal@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 12 Apr 2020 10:44:01 +0200
+Message-ID: <CAMuHMdVrp25m_SDKSC=ntNWxsumcw4JKvHNDeFZT_JnpfQmCxg@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.4 095/108] ARM: shmobile: Enable
+ ARM_GLOBAL_TIMER on Cortex-A9 MPCore SoCs
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Hi Sasha,
 
-[ Upstream commit 7bf47f609f7eaac4f7e9c407a85ad78997288a38 ]
+On Sun, Apr 12, 2020 at 1:11 AM Sasha Levin <sashal@kernel.org> wrote:
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> [ Upstream commit 408324a3c5383716939eea8096a0f999a0665f7e ]
+>
+> SH-Mobile AG5 and R-Car H1 SoCs are based on the Cortex-A9 MPCore, which
+> includes a global timer.
+>
+> Enable the ARM global timer on these SoCs, which will be used for:
+>   - the scheduler clock, improving scheduler accuracy from 10 ms to 3 or
+>     4 ns,
+>   - delay loops, allowing removal of calls to shmobile_init_delay() from
+>     the corresponding machine vectors.
+>
+> Note that when using an old DTB lacking the global timer, the kernel
+> will still work.  However, loops-per-jiffies will no longer be preset,
+> and the delay loop will need to be calibrated during boot.
 
-When adding the sh_eth_cpu_data::no_xdfar flag I forgot to add the flag
-check to  __sh_eth_get_regs(), causing the non-existing RDFAR/TDFAR to be
-considered for dumping on the R-Car gen1/2 SoCs (the register offset check
-has the final say here)...
+I.e. to avoid this delay, this patch is best backported after backporting
+8443ffd1bbd5be74 ("ARM: dts: r8a7779: Add device node for ARM global timer"),
+df1a0aac0a533e6f ("ARM: dts: sh73a0: Add device node for ARM global timer").
 
-Fixes: 4c1d45850d5 ("sh_eth: add sh_eth_cpu_data::cexcr flag")
-Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Tested-by: Chris Brandt <chris.brandt@renesas.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/ethernet/renesas/sh_eth.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+While the former has been backported to v5.[45]-stable, the latter hasn't,
+probably because it depends on
+61b58e3f6e518c51 ("ARM: dts: sh73a0: Rename twd clock to periph clock")
 
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index 7d3207d2d6d6d..14e39a41d475d 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -2120,11 +2120,13 @@ static size_t __sh_eth_get_regs(struct net_device *ndev, u32 *buf)
- 	add_reg(EESR);
- 	add_reg(EESIPR);
- 	add_reg(TDLAR);
--	add_reg(TDFAR);
-+	if (!cd->no_xdfar)
-+		add_reg(TDFAR);
- 	add_reg(TDFXR);
- 	add_reg(TDFFR);
- 	add_reg(RDLAR);
--	add_reg(RDFAR);
-+	if (!cd->no_xdfar)
-+		add_reg(RDFAR);
- 	add_reg(RDFXR);
- 	add_reg(RDFFR);
- 	add_reg(TRSCER);
+So please backport the last two commits first.
+Thanks!
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Link: https://lore.kernel.org/r/20191211135222.26770-5-geert+renesas@glider.be
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.20.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
