@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 901DA1A6454
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2020 10:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89C131A6457
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Apr 2020 10:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727775AbgDMIs1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Apr 2020 04:48:27 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43054 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727770AbgDMIs0 (ORCPT
+        id S1727844AbgDMIyQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Apr 2020 04:54:16 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38322 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727768AbgDMIyQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Apr 2020 04:48:26 -0400
-Received: by mail-oi1-f196.google.com with SMTP id j16so6868906oih.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2020 01:48:25 -0700 (PDT)
+        Mon, 13 Apr 2020 04:54:16 -0400
+Received: by mail-ot1-f65.google.com with SMTP id n8so3024770otk.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Apr 2020 01:54:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=exm2r0UUT0P4p7Hs40+lu42doACHVd43vyKlgemSD5I=;
-        b=eawJXLM9M7YjfPD6aOk53qQpCccxI1jnXCOGEDGds7cXh/W/N5x3brOeAEHa4DKryh
-         2FVuTm50RmnTIg2D05WJ8YaQSl6TZx1RVamVmuFhJOxOx01HYovikgsxbJ69lLNPbsQo
-         VYp3CXiNhCIL0Qp8yhC+Uj8LiI6hStWmprk8e6iF1236eNZ5809FphzCT0K0C+l1PVdz
-         N38mTK3pXIdd/DskuSfS2gIAvFTd9BwEEpeDrfHx5RBmv6LzowtVNXH+EUbsKtQ57ZHY
-         pi2myMnWPfNfXbbCZTvW72hVzhYuBzxgkZePvh+ppheax8/qLGf5nPcKjbYVmVlt6txI
-         gszQ==
-X-Gm-Message-State: AGi0PuaXjomk1rOPzrI1/9XsRcuLJKXvHGZmsH4mLIbAo069ukZ+8s1P
-        zDzBq2/r/V1vys84QD7NYORrYl+2VKpMoqI7ZY8=
-X-Google-Smtp-Source: APiQypIRw4E298ZIkxj3HfqzTNZ7uRZ6MHAIkxHqy3E/mOLEqwnKLKNB44LcXVLlkLXoMX4b8+MDS26C3jHnbFXYqhE=
-X-Received: by 2002:aca:ac09:: with SMTP id v9mr10579999oie.148.1586767705653;
- Mon, 13 Apr 2020 01:48:25 -0700 (PDT)
+        bh=BjiJzoZw/Ff1iUh99dhlxKn3mP4XQjEFtQNqF4aO3as=;
+        b=C+va6tEIFSMMH40H/SdMJjd8HNJ39eSzKY4IUt3BVxOFl4sZCqLk1M93Ndb3P0HrU2
+         XVy33S5Or8lt7EFKObMKfmOH38vyJWYqEx3oWpi+sn6z2A6wqQKQjIg99HBOPedaDcBx
+         ml7omE5TIlkqzLajgHZ5AkENObLCXpQ3081+24w0kJESsxx+0sBJJwflvvH+mzA+V+RK
+         T3EXYKtuFe9sdHwuYaOaauFqdAyBiMQdb5yin0gam1MLwNr0Gsl8xM3+KLQsC0Lt7NYF
+         EUNNZEAXdiG9n61xpxk8dPCkeVmAsWS/KBn3AXlgZG3qYNUNCfsQzlAfn4UEa2MmgVKt
+         0RRA==
+X-Gm-Message-State: AGi0PuZiGu7JaxMLAPyIXzQdr/rXfhcNrNzhzgcuwNuMaiEyWcOcyjp/
+        ehdtpTeivBXFs2PAwlq2pwBKHkxBOSv1VnrqqjI=
+X-Google-Smtp-Source: APiQypJHX1Xqfnth8zv9icBt/o0Rae1Y5ZVg1wAfJOExrQAtdL82SAisdRw3iTN/gbS1faQpgDyudKyeHs/z1qcfS8A=
+X-Received: by 2002:a9d:76c7:: with SMTP id p7mr13195294otl.145.1586768054301;
+ Mon, 13 Apr 2020 01:54:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <1586515634-28095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1586515634-28095-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1586515634-28095-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1586515634-28095-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1586515634-28095-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Apr 2020 10:48:14 +0200
-Message-ID: <CAMuHMdU=87ekK0gbOLxF1447J-t3L2pKiyy14EHxFrV1U2fiVw@mail.gmail.com>
-Subject: Re: [PATCH/RFC 1/2] arm64: dts: renesas: add PWM device nodes for r8a77961
+Date:   Mon, 13 Apr 2020 10:54:03 +0200
+Message-ID: <CAMuHMdXmN2M2==FNOxfrA0k8jYKyTCRX=qxDXjoNGXE1Rgi8aQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 2/2] arm64: dts: renesas: add PCIe device nodes for r8a77961
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
@@ -49,7 +49,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Apr 10, 2020 at 12:47 PM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add PWM device nodes for r8a77961 (R-Car M3-W+).
+> Add PCIe device nodes for r8a77961 (R-Car M3-W+).
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
