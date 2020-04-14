@@ -2,160 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 157491A7E02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 15:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 693521A7F00
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 15:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732150AbgDNN30 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Apr 2020 09:29:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57196 "EHLO
+        id S2388568AbgDNN7E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Apr 2020 09:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732113AbgDNN3C (ORCPT
+        with ESMTP id S2388513AbgDNN7B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Apr 2020 09:29:02 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54CE1C061A41
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2020 06:29:02 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id w70so8892961qkb.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2020 06:29:02 -0700 (PDT)
+        Tue, 14 Apr 2020 09:59:01 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A97C061A0C;
+        Tue, 14 Apr 2020 06:59:01 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id a201so13685796wme.1;
+        Tue, 14 Apr 2020 06:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=35JPFQoqu2n9cN3F6+ZUlaG1xiUip5sDdcTtmfYSpe8=;
-        b=SGDVO9RhBeIKEvWxZM+JWkgmaml/HD1RGTWogUTjrp7mfpYcvQzhzvnQvuqqNth22N
-         Rruj/VI4H3I+sFH0OMY7v28QPW7MuXUg2mASS1xE6j7UY02Vsml5mZ/Qw3RjVn6hM5sL
-         91+i14Bcrzqhm6veEVFJKC4kDq6XPaCQMogswLGFbM3gHKAmva9nPlymq+fzZNGMon0d
-         x8zpf/ituX5C+wfeuP6qyk4GEct1eoKycovq5kubVEQ6lMA/5i8wWni2DZtPa6Up9Ooi
-         kYXcRlzmeiczsaiU0z/VZCQS1033PVmAEKoP0aAKyt6Q1y5kmS85rGIwGACP5nqbuo27
-         H/ug==
+        bh=7Fwja0jTZZxHULJJjIpfSBVIH0kL/ZYNsx3rY4WniWg=;
+        b=S8NeGjG7yF7hADzFixrkOxE5I3ohu1+J8/XRQeH5MakFJHk3gcePLmSDT6RRpKjFSx
+         0ojnbxpZPkQl5KScZQl8XgJm0lcavf3MJEgcKy7zBW0P3U/aX3E4CRAXm2cvB2mRhqic
+         nLJ4mpUXoGY6AsfI2xDN0j5Lubo1BFS8phuaF5dUUiqBuDBzy0sZe7gZ7Pa/agV9axQB
+         6ACFXjJ1QAl1QPFyrqIlKXdla5US194fOE5JoH2VyjaZrIp5VvOZQax4xS/nAtCMzf3H
+         1yVVaTk7gAuqVmvPx7BBGX325oC/vazj35M/XSYQQtRt7agX9k22ts8rhnzRx4IOcDJ3
+         9L7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=35JPFQoqu2n9cN3F6+ZUlaG1xiUip5sDdcTtmfYSpe8=;
-        b=VamjjlElT5a0+Z2fSp0ErCJhIxiRypKNGqovR8vCKjHXak0KfS0ipE187OKKErhiu9
-         ygHu5UuhVcWVCjK4MExbzvdKV+jj38j9mkR3A57tB+j6J+GD5gNfPM3nJ8FvmWKlfnqi
-         sgJehMf59VCwxG0D/ztFPM/4/kw7CG0kr9yB4VLnEFgbg8PrjRyS3ekwFPvG7Mpr5RW+
-         bm9L1C8NbsU7njlCIEkqJC/sHsYPB/nXCsGmbLBn8wGPBfjQRMDZM/pllWvsXebmZcee
-         GTuFN1T24S8LEXoEaLeOGA0o9SlzrJjM/Onk1+aWcyyLy0hr94IAmVx3sWEXExbyP/de
-         DhEA==
-X-Gm-Message-State: AGi0Puas0ekJQj3+gMtZGSRAcjJAUNfbgbJulxVhvkQAqFOFbBTwxWka
-        AkoV1vU2uXcMV/YnAsXrg1JWRA==
-X-Google-Smtp-Source: APiQypIkNBlhG/qtn+tMNh1eYCoqf1FbWKttUwwrXZkT7Pr6J06H5IKbF/sYAPrVFKbZXZI1qCFvng==
-X-Received: by 2002:a37:cc7:: with SMTP id 190mr6464058qkm.44.1586870941325;
-        Tue, 14 Apr 2020 06:29:01 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id f1sm9986663qkl.91.2020.04.14.06.29.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Apr 2020 06:29:00 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jOLca-000515-3n; Tue, 14 Apr 2020 10:29:00 -0300
-Date:   Tue, 14 Apr 2020 10:29:00 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nico@fluxnic.net" <nico@fluxnic.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-Message-ID: <20200414132900.GD5100@ziepe.ca>
-References: <20200408202711.1198966-1-arnd@arndb.de>
- <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca>
- <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca>
- <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
+        bh=7Fwja0jTZZxHULJJjIpfSBVIH0kL/ZYNsx3rY4WniWg=;
+        b=c4lvl80n1uv1SXaEtarkRXvb6rmlLjUZ+f4/hqloxAiWaMHMJIzfcxw6+9O065i11R
+         KpitVVpzD6aOTMwNZS06Nh8K0I6C/XaEkEJFE7zs7CBZekx/bEZI0x3f4dPBj8pwxlIo
+         ujUnfV1rmF/LCQlbtiXGSeTiP7ZevSqd9iHEb9F2HJFcZE9kWOkHjvkvKIfgTIqMx3v2
+         ZJDxL6hfMluada5JTNDVWzIbfo0KE9JgYNoLTiU73GB5sMqlQNX5QNqj8+0JtUsUFL2b
+         g+HZmbZcdZAWur9mdWZorzbuaTqHCiUI7utmxzuQsFiv+JK990n3+EotBf5SvUhBHm5C
+         +i3w==
+X-Gm-Message-State: AGi0PubuG5+9f6u4xNSsdjJpefjq+ZxQs/6wsya26c0Z5WSS53Q9txme
+        9kNyNNepKzgtY4ujr49nAuA=
+X-Google-Smtp-Source: APiQypJ9SYhb1oBz7bLLqc6vCchiGFM/jv4+fVqvUnelj4QZ+8LMbgEgAIwIEz5Ua7vmqqW2ldpPiQ==
+X-Received: by 2002:a1c:7d90:: with SMTP id y138mr25373864wmc.121.1586872740016;
+        Tue, 14 Apr 2020 06:59:00 -0700 (PDT)
+Received: from localhost (pD9E51D62.dip0.t-ipconnect.de. [217.229.29.98])
+        by smtp.gmail.com with ESMTPSA id c83sm16329703wmd.23.2020.04.14.06.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 06:58:58 -0700 (PDT)
+Date:   Tue, 14 Apr 2020 15:58:57 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     u.kleine-koenig@pengutronix.de, robh+dt@kernel.org,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: pwm: rcar: add r8a77961 support
+Message-ID: <20200414135857.GC3593749@ulmo>
+References: <1586510057-31562-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="XWOWbaMNXpFDWE00"
 Content-Disposition: inline
-In-Reply-To: <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1586510057-31562-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 10, 2020 at 07:04:27PM +0000, Saeed Mahameed wrote:
-> On Fri, 2020-04-10 at 14:13 -0300, Jason Gunthorpe wrote:
-> > On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
-> > 
-> > > This assumes that the module using FOO has its own flag
-> > > representing
-> > > FOO which is not always the case.
-> > > 
-> > > for example in mlx5 we use VXLAN config flag directly to compile
-> > > VXLAN
-> > > related files:
-> > > 
-> > > mlx5/core/Makefile:
-> > > 
-> > > obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
-> > > 
-> > > mlx5_core-y := mlx5_core.o
-> > > mlx5_core-$(VXLAN) += mlx5_vxlan.o
-> > > 
-> > > and in mlx5_main.o we do:
-> > 
-> > Does this work if VXLAN = m ?
-> 
-> Yes, if VXLAN IS_REACHABLE to MLX5, mlx5_vxlan.o will be
-> compiled/linked.
 
-So mlx5_core-m does the right thing somehow?
+--XWOWbaMNXpFDWE00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > 
-> > > if (IS_ENABLED(VXLAN))
-> > >        mlx5_vxlan_init()
-> > > 
-> > > after the change in imply semantics:
-> > > our options are:
-> > > 
-> > > 1) use IS_REACHABLE(VXLAN) instead of IS_ENABLED(VXLAN)
-> > > 
-> > > 2) have MLX5_VXLAN in mlx5 Kconfig and use IS_ENABLED(MLX5_VXLAN) 
-> > > config MLX5_VXLAN
-> > > 	depends on VXLAN || !VXLAN
-> > > 	bool
-> > 
-> > Does this trick work when vxlan is a bool not a tristate?
-> > 
-> > Why not just put the VXLAN || !VXLAN directly on MLX5_CORE?
-> > 
-> 
-> so force MLX5_CORE to n if vxlan is not reachable ? 
+On Fri, Apr 10, 2020 at 06:14:17PM +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a77961 (R-Car M3-W+).
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-IIRC that isn't what the expression does, if vxlan is 'n' then 
-  n || !n == true
+Applied, thanks.
 
-The other version of this is (m || VXLAN != m)
+Thierry
 
-Basically all it does is prevent MLX5_CORE=y && VXLAN=m
+--XWOWbaMNXpFDWE00
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> and how do we compile mlx5_vxlan.o wihout a single flag 
-> can i do in Makefile :
-> mlx5_core-$(VXLAN || !VXLAN) += mlx5_vxlan.o ?? 
+-----BEGIN PGP SIGNATURE-----
 
-No, you just use VXLAN directly, it will be m, n or y, but it won't be
-m if mlx5_core is y
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6VwaEACgkQ3SOs138+
+s6Fe9Q//fr0nAlK4lEV73Mu5TBQST85GbYfF00kdpEgT6q9qy1T9yinF3arvJwjV
+WH5+983n/26B2bNLkhF+ATUpxVIeoSetfPATFJmNtEUguBTlrpnSOJa4yFHmBzyN
+cfGXRFdprtXSHV4L4qctvaWJgOcyEYQYCK6E+Z2x+seNo77C20wM9M/mPKiu8mBe
+aEo48oqEvmhvEBEA4oUQydBos9yUlPEtanI7Dizwjj8ER6GY+poAR3HzRryMbCo9
+mQkLkk4S5uttWAdyAnlumXzRwiNN2cOxPJBKlDTcrOXY88GvFl1ZeYRwI8YznY8J
+I3Ba3drdvweftAK8Zw34OBPCXGUBmhd1ClPSKPFB0+AMud1DY4q13yv7zSJTUB5I
+ScKiWFdiB9uZbPjot0Q0CNIGSylh7JYFSH+D+nklou0NkJk2/iEUiT1vr11PrOgh
+B2ey8UvJI2o+Dzw1eV328EfXo+I4p1etFT4r5fgV2MDVF1rZybJ9UFEL6xSzbRVK
+ArqtKyYkFogm8/sAufcAfO47QAAFTP1jM96AnCHb7eZbPOSgJFD/7+abB9qpP02L
+6IgUih+xDg8ei+iilFLzMvrXcBnEeYKO1oSXXpLcuTwQVAAdSqMVhPbq2cyl+ryq
+s/0zV+gfYJIL8NofnnfuwFsVBZb1eDD+3qLgcRuaqxg3owU/ccw=
+=n1RL
+-----END PGP SIGNATURE-----
 
-Jason
+--XWOWbaMNXpFDWE00--
