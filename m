@@ -2,165 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08C0F1A7FBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 16:28:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 913331A8135
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 17:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390745AbgDNO2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Apr 2020 10:28:05 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:36921 "EHLO
+        id S2407233AbgDNPFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Apr 2020 11:05:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:39861 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729040AbgDNO2B (ORCPT
+        with ESMTP id S2407186AbgDNPFK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Apr 2020 10:28:01 -0400
-Received: from mail-lj1-f177.google.com ([209.85.208.177]) by
+        Tue, 14 Apr 2020 11:05:10 -0400
+Received: from mail-qv1-f41.google.com ([209.85.219.41]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MD9nd-1jWvFP2Anh-009C6B; Tue, 14 Apr 2020 16:27:58 +0200
-Received: by mail-lj1-f177.google.com with SMTP id q22so25016ljg.0;
-        Tue, 14 Apr 2020 07:27:58 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaRQXbMmCTgmEEnEb/R9FUHvsfmglePzaD0ekKdenILs7G4cm3a
-        DHZm8iz7FHO2+uen8UH3MPC1E9b0I7sebtqyhSo=
-X-Google-Smtp-Source: APiQypIehfRw4bnzZDiYQ9rbmdjkvSpz2iHh0P7VLnhHPaYn8R1IT4hVMubviwCCAbF8Hb+k1UqXmIWLLXlwy3kW8AM=
-X-Received: by 2002:a2e:b446:: with SMTP id o6mr305063ljm.80.1586874477781;
- Tue, 14 Apr 2020 07:27:57 -0700 (PDT)
+ id 1N5FxN-1jE1tk22j7-0119dA; Tue, 14 Apr 2020 17:05:05 +0200
+Received: by mail-qv1-f41.google.com with SMTP id s18so6346431qvn.1;
+        Tue, 14 Apr 2020 08:05:05 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYHrG6Y/RC1nTvdAEhTRv6LtJxtPzUGhWrBX519ff/Ytz9NERJD
+        BDOMYoC2hAPE8M0YNnlFG3LDVF0TydT0BWeDy+E=
+X-Google-Smtp-Source: APiQypLg53lbvwM7SS+vs6GZuu1V+f5ASJ1OTKDbmA6YwidcSTB5Gp26EmpzyTd2a0/A/WzgZ9UHn80nFHIsFLn9j2M=
+X-Received: by 2002:a0c:9e2f:: with SMTP id p47mr355001qve.211.1586876703988;
+ Tue, 14 Apr 2020 08:05:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de> <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca> <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
- <20200414132900.GD5100@ziepe.ca>
-In-Reply-To: <20200414132900.GD5100@ziepe.ca>
+References: <20200408202711.1198966-1-arnd@arndb.de> <CGME20200408202802eucas1p13a369a5c584245a1affee35d2c8cad32@eucas1p1.samsung.com>
+ <20200408202711.1198966-5-arnd@arndb.de> <ff7809b6-f566-9c93-1838-610be5d22431@samsung.com>
+In-Reply-To: <ff7809b6-f566-9c93-1838-610be5d22431@samsung.com>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 14 Apr 2020 16:27:41 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
-Message-ID: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Saeed Mahameed <saeedm@mellanox.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nico@fluxnic.net" <nico@fluxnic.net>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
+Date:   Tue, 14 Apr 2020 17:04:47 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2BXZAiHh83RZJ-v9HvoE1gSED59j8k0ydJKCnHzwYz=w@mail.gmail.com>
+Message-ID: <CAK8P3a2BXZAiHh83RZJ-v9HvoE1gSED59j8k0ydJKCnHzwYz=w@mail.gmail.com>
+Subject: Re: [RFC 4/6] drm/bridge/sii8620: fix extcon dependency
+To:     Andrzej Hajda <a.hajda@samsung.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Leon Romanovsky <leon@kernel.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        David Airlie <airlied@linux.ie>,
+        Networking <netdev@vger.kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-rdma <linux-rdma@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:UprGL/M9NyjdOlqLrDoplNxPEwHDZvVhDmyY7ZnnsVwKVvzBIuU
- 872FrhcPWiFVDXV1uXzAPPLKxXmpV7w/Qie1lMaYqxlaS2t/GOzpFdTsFaYEUlVWJrQRNIB
- hQ5UIav82JCFvQA41tpt568Xn01dmTrwxVcbhRWNPuIOgOO7ck0DXIlvzBv3RjFBg8dKPEA
- x+oIM19zXsRwa0dt9gybg==
+X-Provags-ID: V03:K1:TZf60EAGSNVbxG8Ebo7CPWg5FOckWYVhjoT9Xj7S/35jyWVb6jX
+ VqnP+fGk2LwQ7NXhEodQ4tL7G9yh2hVQvFLPtQW2Ev8RrzQjhtQcZWbdDTFjpmibzq1Y2Uf
+ yI6D+SIgtO6SHF+UysDhdSu27gU9EH3z6JcIE6hHNep7gOavJYlCaX37C/klcU/3kcfemSV
+ GK3BuRJFN99cFIrsfIo0w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dy4oC+QyOyk=:panXrZzItC+VIEfVeOEAGf
- gyNkrwHX1ighk2WHgomIh2o2rVWvWqTGzrTw4Q9Z187SDWEdTvnK7V7a79u7m8/qg+N1r3VyM
- GNM/oHmNbGI72Ufc4xIBf5uhBgVe3ELLrOihKXe+9QxmS5y20peflkz2Qh13+Nn8ZJ+W00sm5
- Zp+IdHK5OqnxO9jBz7R2L7yCrgVkxR9vM2N4gOKEUJEsebABxQj1tSqHXp1EqJWhlht+Os1Hq
- NIWuYzz3jzSV1IGvb/d1dP5yWKMbdSkr6jYX9BYCOVzZXfPmhhgC1YJcJdWYx/mgUu9ZNXpST
- UIi9N5x5pGl/WLzMdg9QLfQwFJEtKIepYf0SjoMNdXaLSyb8Wo8Pup/8jmBbZlT5kjUPP07Ao
- 5KCQNBoNwI6vjtxduR2bcTEU9BH6tvViJ7avWKvyudklU1JtwgrhVviwu1sllM1MJkXXblp5Q
- FVApCP4AZp7MM94Npsw51iDei4kH+2hVfLx0B/p9ns4uF7fe8vUl2lcl93OZLueVsQ2pcQDd5
- UbWBRzkVezXrPWdvkUpPvjZLV0NEFJTtYuwT9L+sPz/i+cBtrYA1aXWjjt6M3ad/ZkYQ0Zbb3
- YFjQUvPbyZ3oqo3LVt9pwa1svhHlLCyANvGbx7bxV5HTXMM3id0c8ZpiDvt2xtIRoI+9uxn0O
- uhhDiigGAUhJQqBDLEj1LdZ85tYuVK3cMOi5IrgvYNieXEz6JAyOrazQHC+qXg9piY6T9liVu
- Q+hXSfP4XXOR1t88QeldnmT3UgR5JNBKg5C0j69ZgnNHKUqyg6fDO3t720QL/HttSjZm0dJ6j
- HngZOppaFsBD9cIu/XQ2OCgAuJcrc7656xEDYj+ECZ53hDVowQ=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NgjUJ1WFxn8=:T0Mu8bRZJgEzxY1Opk5mD3
+ pv/dgnF685Icz2N/M0AU5alrBSGDTBRCX4g5/t5DUku2lIjGefOggdh0D21ngzUMQH9PUdtc8
+ WTBBoYxpwJ2Ev29fgaJr3pEvGIGCapiMY4Gh54ZXcR/+66tO/kd7RKCm1qpuAbt85WKrrhvM8
+ qS26C+oIql4zcWLB1W/u4NyB5CPNXeGdIQBZJVeZj55wo0uqcXtfqBWsbWa1b9t+YR0NhG6OR
+ ySXVWjr9yB5HQiATOU4fl5PmF5FshZG15a266IGbYTG4QEsXIGAIIbdeVj8s8bgNx62bxAPhv
+ tirDAQlUz1f1jaCYdBbR2xSpUBcycfPeHC+7VU2bgNnfziybwdR++bCZpScRtQclWhctutDss
+ +QKC2UK+or58AX3H7vRSq4DlzWvU9V2DN0RvhPAfY3ohnffJL8XOxOX2cI1FrgJN8exAq33Eb
+ FO+eamAElQr0cNEkWzkS2bW9O561ovuR7MfjRtd3X5jd7ETWddDIfqWl5lyWXBsy1fvZ85Kvt
+ LNBm7lnrsxr4B7C/i9RbYHljkxaxcZ3MNjvm/FWChNSOJaOfmDHeuOO0oVFCjBShTjndjK8Aa
+ aLb+GqGqwn2VmNhh2fjlT2kbqNQce3YZhwpu0glUaZAXutZ/4S+THEkdgebVdsFuCj30EaBoR
+ uKZLA+9JGiwzpvq94KWpP++h78rsHnKutLGBASTeiwo/6iol3OUw6bveDVbD7NeLF0LDFnu8u
+ GQPylWp7G9SydhVeQFD8LMN9CEBxlfMjxGzhCdahF7X6NMK95v5BzJNJNeH21GeFrEmqNzgBs
+ cmeP8nqqFrOjzxZXuGG+yepdhmVRh/NzfgGtuUT7tblPXOIkDU=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 3:29 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> On Fri, Apr 10, 2020 at 07:04:27PM +0000, Saeed Mahameed wrote:
-> > On Fri, 2020-04-10 at 14:13 -0300, Jason Gunthorpe wrote:
-> > > On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
-> > >
-> > > > This assumes that the module using FOO has its own flag
-> > > > representing
-> > > > FOO which is not always the case.
-> > > >
-> > > > for example in mlx5 we use VXLAN config flag directly to compile
-> > > > VXLAN related files:
-> > > >
-> > > > mlx5/core/Makefile:
-> > > >
-> > > > obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
-> > > >
-> > > > mlx5_core-y := mlx5_core.o
-> > > > mlx5_core-$(VXLAN) += mlx5_vxlan.o
-> > > >
-> > > > and in mlx5_main.o we do:
-> > >
-> > > Does this work if VXLAN = m ?
-> >
-> > Yes, if VXLAN IS_REACHABLE to MLX5, mlx5_vxlan.o will be
-> > compiled/linked.
+On Fri, Apr 10, 2020 at 8:56 AM Andrzej Hajda <a.hajda@samsung.com> wrote:
 >
-> So mlx5_core-m does the right thing somehow?
-
-What happens with CONFIG_VXLAN=m is that the above turns into
-
-mlx5_core-y := mlx5_core.o
-mlx5_core-m += mlx5_vxlan.o
-
-which in turn leads to mlx5_core.ko *not* containing mlx5_vxlan.o,
-and in turn causing that link error against
-mlx5_vxlan_create/mlx5_vxlan_destroy, unless the IS_ENABLED()
-is changed to IS_REACHABLE().
-
-> > > > if (IS_ENABLED(VXLAN))
-> > > >        mlx5_vxlan_init()
-> > > >
-> > > > after the change in imply semantics:
-> > > > our options are:
-> > > >
-> > > > 1) use IS_REACHABLE(VXLAN) instead of IS_ENABLED(VXLAN)
-> > > >
-> > > > 2) have MLX5_VXLAN in mlx5 Kconfig and use IS_ENABLED(MLX5_VXLAN)
-> > > > config MLX5_VXLAN
-> > > >   depends on VXLAN || !VXLAN
-> > > >   bool
-> > >
-> > > Does this trick work when vxlan is a bool not a tristate?
-> > >
-> > > Why not just put the VXLAN || !VXLAN directly on MLX5_CORE?
-> > >
-> >
-> > so force MLX5_CORE to n if vxlan is not reachable ?
 >
-> IIRC that isn't what the expression does, if vxlan is 'n' then
->   n || !n == true
+> On 08.04.2020 22:27, Arnd Bergmann wrote:
+> > Using 'imply' does not work here, it still cause the same build
+> > failure:
+> >
+> > arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_remove':
+> > sil-sii8620.c:(.text+0x1b8): undefined reference to `extcon_unregister_notifier'
+> > arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_probe':
+> > sil-sii8620.c:(.text+0x27e8): undefined reference to `extcon_find_edev_by_node'
+> > arm-linux-gnueabi-ld: sil-sii8620.c:(.text+0x2870): undefined reference to `extcon_register_notifier'
+> > arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_extcon_work':
+> > sil-sii8620.c:(.text+0x2908): undefined reference to `extcon_get_state'
+> >
+> > I tried the usual 'depends on EXTCON || !EXTCON' logic, but that caused
+> > a circular Kconfig dependency. Using IS_REACHABLE() is ugly but works.
+>
+> 'depends on EXTCON || !EXTCON' seems to be proper solution, maybe would be better to try to solve circular dependencies issue.
 
-It forces MLX5_CORE to 'm' or 'n' but not 'y' if VXLAN=m,
-but allows any option if VXLAN=y
+I agree that would be nice, but I failed to come to a proper solution
+here. FWIW, there
+is one circular dependency that I managed to avoid by changing all
+drivers that select FB_DDC
+to depend on I2C rather than selecting it:
 
-> The other version of this is (m || VXLAN != m)
+drivers/i2c/Kconfig:8:error: recursive dependency detected!
+drivers/i2c/Kconfig:8: symbol I2C is selected by FB_DDC
+drivers/video/fbdev/Kconfig:63: symbol FB_DDC depends on FB
+drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
+drivers/gpu/drm/Kconfig:80: symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+drivers/gpu/drm/Kconfig:74: symbol DRM_KMS_HELPER is selected by DRM_SIL_SII8620
+drivers/gpu/drm/bridge/Kconfig:89: symbol DRM_SIL_SII8620 depends on EXTCON
+drivers/extcon/Kconfig:2: symbol EXTCON is selected by CHARGER_MANAGER
+drivers/power/supply/Kconfig:482: symbol CHARGER_MANAGER depends on POWER_SUPPLY
+drivers/power/supply/Kconfig:2: symbol POWER_SUPPLY is selected by
+HID_BATTERY_STRENGTH
+drivers/hid/Kconfig:29: symbol HID_BATTERY_STRENGTH depends on HID
+drivers/hid/Kconfig:8: symbol HID is selected by I2C_HID
+drivers/hid/i2c-hid/Kconfig:5: symbol I2C_HID depends on I2C
 
-Right, that should be the same, but is less common.
+After that, Kconfig crashes with a segfault:
 
-I later found that I also needed this one for the same
-kind of dependency on PTP:
+drivers/video/fbdev/Kconfig:12:error: recursive dependency detected!
+drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
+drivers/gpu/drm/Kconfig:80: symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+drivers/gpu/drm/Kconfig:74: symbol DRM_KMS_HELPER is selected by DRM_SIL_SII8620
+drivers/gpu/drm/bridge/Kconfig:89: symbol DRM_SIL_SII8620 depends on EXTCON
+drivers/extcon/Kconfig:2: symbol EXTCON is selected by CHARGER_MANAGER
+drivers/power/supply/Kconfig:482: symbol CHARGER_MANAGER depends on POWER_SUPPLY
+drivers/power/supply/Kconfig:2: symbol POWER_SUPPLY is selected by HID_ASUS
+drivers/hid/Kconfig:150: symbol HID_ASUS depends on LEDS_CLASS
+drivers/leds/Kconfig:17: symbol LEDS_CLASS depends on NEW_LEDS
+drivers/leds/Kconfig:9: symbol NEW_LEDS is selected by SENSORS_APPLESMC
+drivers/hwmon/Kconfig:327: symbol SENSORS_APPLESMC depends on HWMON
+drivers/hwmon/Kconfig:6: symbol HWMON is selected by EEEPC_LAPTOP
+drivers/platform/x86/Kconfig:260: symbol EEEPC_LAPTOP depends on ACPI_VIDEO
+make[3]: *** [/git/arm-soc/scripts/kconfig/Makefile:71: randconfig]
+Segmentation fault (core dumped)
 
---- a/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
-@@ -7,7 +7,7 @@ config MLX5_CORE
-        tristate "Mellanox 5th generation network adapters (ConnectX
-series) core driver"
-        depends on PCI
-        select NET_DEVLINK
--       imply PTP_1588_CLOCK
-+       depends on PTP_1588_CLOCK || !PTP_1588_CLOCK
-        depends on VXLAN || !VXLAN
-        imply MLXFW
-        imply PCI_HYPERV_INTERFACE
+After changing EEEPC_LAPTOP and THINKPAD_ACPI to 'depends on HWMON' instead of
+'select HWMON', I get this one:
+
+drivers/video/fbdev/Kconfig:12:error: recursive dependency detected!
+drivers/video/fbdev/Kconfig:12: symbol FB is selected by DRM_KMS_FB_HELPER
+drivers/gpu/drm/Kconfig:80: symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+drivers/gpu/drm/Kconfig:74: symbol DRM_KMS_HELPER is selected by DRM_SIL_SII8620
+drivers/gpu/drm/bridge/Kconfig:89: symbol DRM_SIL_SII8620 depends on EXTCON
+drivers/extcon/Kconfig:2: symbol EXTCON is selected by CHARGER_MANAGER
+drivers/power/supply/Kconfig:482: symbol CHARGER_MANAGER depends on POWER_SUPPLY
+drivers/power/supply/Kconfig:2: symbol POWER_SUPPLY is selected by HID_ASUS
+drivers/hid/Kconfig:150: symbol HID_ASUS depends on LEDS_CLASS
+drivers/leds/Kconfig:17: symbol LEDS_CLASS depends on NEW_LEDS
+drivers/leds/Kconfig:9: symbol NEW_LEDS is selected by BACKLIGHT_ADP8860
+drivers/video/backlight/Kconfig:316: symbol BACKLIGHT_ADP8860 depends
+on BACKLIGHT_CLASS_DEVICE
+drivers/video/backlight/Kconfig:143: symbol BACKLIGHT_CLASS_DEVICE is
+selected by FB_BACKLIGHT
+drivers/video/fbdev/Kconfig:187: symbol FB_BACKLIGHT depends on FB
+
+Changing all drivers that select 'FB_BACKLIGHT' or 'BACKLIGHT_CLASS_DEVICE' to
+'depends on BACKLIGHT_CLASS_DEVICE' gets it to build.
+
+The steps each seem reasonable, in particular since they mostly clean
+up the legacy
+fbdev drivers to what they should have done anyway, but it is quite
+invasive in the end.
+Any other ideas?
+
+       Arnd
