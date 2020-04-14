@@ -2,114 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A469F1A7F28
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 16:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C0F1A7FBB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 16:28:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728648AbgDNOFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Apr 2020 10:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34632 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728131AbgDNOFk (ORCPT
+        id S2390745AbgDNO2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Apr 2020 10:28:05 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:36921 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729040AbgDNO2B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Apr 2020 10:05:40 -0400
-X-Greylist: delayed 301 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Apr 2020 07:05:40 PDT
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42B43C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2020 07:05:40 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:914e:4085:6cfb:e960])
-        by andre.telenet-ops.be with bizsmtp
-        id Se0b2200q3Hq6Dg01e0bng; Tue, 14 Apr 2020 16:00:36 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jOM79-0003r4-Pb
-        for linux-renesas-soc@vger.kernel.org; Tue, 14 Apr 2020 16:00:35 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jOM79-0004E2-PV
-        for linux-renesas-soc@vger.kernel.org; Tue, 14 Apr 2020 16:00:35 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2020-04-14-v5.7-rc1
-Date:   Tue, 14 Apr 2020 16:00:35 +0200
-Message-Id: <20200414140035.16200-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 14 Apr 2020 10:28:01 -0400
+Received: from mail-lj1-f177.google.com ([209.85.208.177]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MD9nd-1jWvFP2Anh-009C6B; Tue, 14 Apr 2020 16:27:58 +0200
+Received: by mail-lj1-f177.google.com with SMTP id q22so25016ljg.0;
+        Tue, 14 Apr 2020 07:27:58 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaRQXbMmCTgmEEnEb/R9FUHvsfmglePzaD0ekKdenILs7G4cm3a
+        DHZm8iz7FHO2+uen8UH3MPC1E9b0I7sebtqyhSo=
+X-Google-Smtp-Source: APiQypIehfRw4bnzZDiYQ9rbmdjkvSpz2iHh0P7VLnhHPaYn8R1IT4hVMubviwCCAbF8Hb+k1UqXmIWLLXlwy3kW8AM=
+X-Received: by 2002:a2e:b446:: with SMTP id o6mr305063ljm.80.1586874477781;
+ Tue, 14 Apr 2020 07:27:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200408202711.1198966-1-arnd@arndb.de> <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
+ <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
+ <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
+ <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
+ <20200410171320.GN11886@ziepe.ca> <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
+ <20200414132900.GD5100@ziepe.ca>
+In-Reply-To: <20200414132900.GD5100@ziepe.ca>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 14 Apr 2020 16:27:41 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
+Message-ID: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
+Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Saeed Mahameed <saeedm@mellanox.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "Laurent.pinchart@ideasonboard.com" 
+        <Laurent.pinchart@ideasonboard.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "leon@kernel.org" <leon@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "nico@fluxnic.net" <nico@fluxnic.net>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+        "a.hajda@samsung.com" <a.hajda@samsung.com>,
+        "jonas@kwiboo.se" <jonas@kwiboo.se>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:UprGL/M9NyjdOlqLrDoplNxPEwHDZvVhDmyY7ZnnsVwKVvzBIuU
+ 872FrhcPWiFVDXV1uXzAPPLKxXmpV7w/Qie1lMaYqxlaS2t/GOzpFdTsFaYEUlVWJrQRNIB
+ hQ5UIav82JCFvQA41tpt568Xn01dmTrwxVcbhRWNPuIOgOO7ck0DXIlvzBv3RjFBg8dKPEA
+ x+oIM19zXsRwa0dt9gybg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dy4oC+QyOyk=:panXrZzItC+VIEfVeOEAGf
+ gyNkrwHX1ighk2WHgomIh2o2rVWvWqTGzrTw4Q9Z187SDWEdTvnK7V7a79u7m8/qg+N1r3VyM
+ GNM/oHmNbGI72Ufc4xIBf5uhBgVe3ELLrOihKXe+9QxmS5y20peflkz2Qh13+Nn8ZJ+W00sm5
+ Zp+IdHK5OqnxO9jBz7R2L7yCrgVkxR9vM2N4gOKEUJEsebABxQj1tSqHXp1EqJWhlht+Os1Hq
+ NIWuYzz3jzSV1IGvb/d1dP5yWKMbdSkr6jYX9BYCOVzZXfPmhhgC1YJcJdWYx/mgUu9ZNXpST
+ UIi9N5x5pGl/WLzMdg9QLfQwFJEtKIepYf0SjoMNdXaLSyb8Wo8Pup/8jmBbZlT5kjUPP07Ao
+ 5KCQNBoNwI6vjtxduR2bcTEU9BH6tvViJ7avWKvyudklU1JtwgrhVviwu1sllM1MJkXXblp5Q
+ FVApCP4AZp7MM94Npsw51iDei4kH+2hVfLx0B/p9ns4uF7fe8vUl2lcl93OZLueVsQ2pcQDd5
+ UbWBRzkVezXrPWdvkUpPvjZLV0NEFJTtYuwT9L+sPz/i+cBtrYA1aXWjjt6M3ad/ZkYQ0Zbb3
+ YFjQUvPbyZ3oqo3LVt9pwa1svhHlLCyANvGbx7bxV5HTXMM3id0c8ZpiDvt2xtIRoI+9uxn0O
+ uhhDiigGAUhJQqBDLEj1LdZ85tYuVK3cMOi5IrgvYNieXEz6JAyOrazQHC+qXg9piY6T9liVu
+ Q+hXSfP4XXOR1t88QeldnmT3UgR5JNBKg5C0j69ZgnNHKUqyg6fDO3t720QL/HttSjZm0dJ6j
+ HngZOppaFsBD9cIu/XQ2OCgAuJcrc7656xEDYj+ECZ53hDVowQ=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2020-04-14-v5.7-rc1 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On Tue, Apr 14, 2020 at 3:29 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> On Fri, Apr 10, 2020 at 07:04:27PM +0000, Saeed Mahameed wrote:
+> > On Fri, 2020-04-10 at 14:13 -0300, Jason Gunthorpe wrote:
+> > > On Fri, Apr 10, 2020 at 02:40:42AM +0000, Saeed Mahameed wrote:
+> > >
+> > > > This assumes that the module using FOO has its own flag
+> > > > representing
+> > > > FOO which is not always the case.
+> > > >
+> > > > for example in mlx5 we use VXLAN config flag directly to compile
+> > > > VXLAN related files:
+> > > >
+> > > > mlx5/core/Makefile:
+> > > >
+> > > > obj-$(CONFIG_MLX5_CORE) += mlx5_core.o
+> > > >
+> > > > mlx5_core-y := mlx5_core.o
+> > > > mlx5_core-$(VXLAN) += mlx5_vxlan.o
+> > > >
+> > > > and in mlx5_main.o we do:
+> > >
+> > > Does this work if VXLAN = m ?
+> >
+> > Yes, if VXLAN IS_REACHABLE to MLX5, mlx5_vxlan.o will be
+> > compiled/linked.
+>
+> So mlx5_core-m does the right thing somehow?
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+What happens with CONFIG_VXLAN=m is that the above turns into
 
-Today's version is based on renesas-devel-2020-04-14-v5.7-rc1.
+mlx5_core-y := mlx5_core.o
+mlx5_core-m += mlx5_vxlan.o
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - topic/gpio-aggregator-v6
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+which in turn leads to mlx5_core.ko *not* containing mlx5_vxlan.o,
+and in turn causing that link error against
+mlx5_vxlan_create/mlx5_vxlan_destroy, unless the IS_ENABLED()
+is changed to IS_REACHABLE().
 
-Included fixes:
-  - driver core: Revert default driver_deferred_probe_timeout value to 0
-  - driver core: Ensure wait_for_device_probe() waits until the deferred_probe_timeout fires
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+> > > > if (IS_ENABLED(VXLAN))
+> > > >        mlx5_vxlan_init()
+> > > >
+> > > > after the change in imply semantics:
+> > > > our options are:
+> > > >
+> > > > 1) use IS_REACHABLE(VXLAN) instead of IS_ENABLED(VXLAN)
+> > > >
+> > > > 2) have MLX5_VXLAN in mlx5 Kconfig and use IS_ENABLED(MLX5_VXLAN)
+> > > > config MLX5_VXLAN
+> > > >   depends on VXLAN || !VXLAN
+> > > >   bool
+> > >
+> > > Does this trick work when vxlan is a bool not a tristate?
+> > >
+> > > Why not just put the VXLAN || !VXLAN directly on MLX5_CORE?
+> > >
+> >
+> > so force MLX5_CORE to n if vxlan is not reachable ?
+>
+> IIRC that isn't what the expression does, if vxlan is 'n' then
+>   n || !n == true
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+It forces MLX5_CORE to 'm' or 'n' but not 'y' if VXLAN=m,
+but allows any option if VXLAN=y
 
-Gr{oetje,eeting}s,
+> The other version of this is (m || VXLAN != m)
 
-						Geert
+Right, that should be the same, but is less common.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+I later found that I also needed this one for the same
+kind of dependency on PTP:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--- a/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
++++ b/drivers/net/ethernet/mellanox/mlx5/core/Kconfig
+@@ -7,7 +7,7 @@ config MLX5_CORE
+        tristate "Mellanox 5th generation network adapters (ConnectX
+series) core driver"
+        depends on PCI
+        select NET_DEVLINK
+-       imply PTP_1588_CLOCK
++       depends on PTP_1588_CLOCK || !PTP_1588_CLOCK
+        depends on VXLAN || !VXLAN
+        imply MLXFW
+        imply PCI_HYPERV_INTERFACE
