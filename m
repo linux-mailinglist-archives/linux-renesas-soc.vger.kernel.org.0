@@ -2,100 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 318871A7571
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 10:07:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 887FA1A7715
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Apr 2020 11:11:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406971AbgDNIHZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Apr 2020 04:07:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48784 "EHLO mail.kernel.org"
+        id S2437452AbgDNJLx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Apr 2020 05:11:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58938 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406964AbgDNIHM (ORCPT
+        id S2437448AbgDNJLf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Apr 2020 04:07:12 -0400
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 83D9E20774
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2020 08:07:07 +0000 (UTC)
+        Tue, 14 Apr 2020 05:11:35 -0400
+Content-Type: text/plain; charset="utf-8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586851627;
-        bh=NjcoS6FoeHprQ2wvOMz4dIaRGIgrGeu2l5Dn/BzuqOo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=n3UlIZoNal5q6Yiqbjnc9//1HRnmDZdKsIK9xJHqFFgYuzfShmNzSpssNxkI8X2jW
-         uoGCvyJzoxoRpD+k0h+W+OCP1wAd9I02d/JL2yfg2FEgziUpKo0JHR4TS0Lq+lGN/G
-         pFr9qjfmp6HZiS4dkU/vwkWl2HFUPN1u/lG7fmt8=
-Received: by mail-il1-f176.google.com with SMTP id t11so11169786ils.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Apr 2020 01:07:07 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZOnwD2FmF4xjyj4awuAT4TWztS/mU8cQ5IE6skIHgLfKHrrmBY
-        yMnXROTR5lwIHNGrLwtSoLWBpoSeYHuq2UKNU9o=
-X-Google-Smtp-Source: APiQypLQLP/ZI4tMLr6ebPQ0bR4YsIrccGVqw6J/dihbCsVIqgQD8U5+8RZJOaX3ZbBuK9zufCedF7pYyc8yYBMBmwg=
-X-Received: by 2002:a92:aa0f:: with SMTP id j15mr8713415ili.211.1586851626855;
- Tue, 14 Apr 2020 01:07:06 -0700 (PDT)
+        s=default; t=1586855494;
+        bh=ypPWuzOFEV0WzaBXRYx5dduuwDmB3QKXzR42oMpAo30=;
+        h=Subject:From:Date:To:From;
+        b=Y1yjeTEB17zWQG4346XlrfT6QxWOreNyREgbpGMbh+BXI8rkubT2fYK7Pg2GU6Ju4
+         Q+w9/dXKuFrzs5+kggW7ndzyfDWOzWjUp41BubdzfRo+ZVUJPaPGjekFaBQnwo2GbU
+         kmdI7Zvaf/DUFk1yAKYkUpt+xghiyfdiRh3lugqg=
 MIME-Version: 1.0
-References: <20200320144348.12865-1-geert+renesas@glider.be> <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
-In-Reply-To: <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 14 Apr 2020 10:06:56 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
-Message-ID: <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Nicolas Pitre <nico@fluxnic.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158685549418.12046.12497677520906417854.git-patchwork-summary@kernel.org>
+Date:   Tue, 14 Apr 2020 09:11:34 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> >
-> > Currently, the start address of physical memory is obtained by masking
-> > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > was chosen as a balance between the requirements of different platforms.
-> > However, this does require that the start address of physical memory is
-> > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > requirement is not fulfilled.
-> >
-> > Fix this limitation by obtaining the start address from the DTB instead,
-> > if available (either explicitly passed, or appended to the kernel).
-> > Fall back to the traditional method when needed.
-> >
-> > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > i.e. not at a multiple of 128 MiB.
-> >
-> > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > ---
-> > v4:
-> >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-> >     decompressor: factor out routine to obtain the inflated image
-> >     size"),
-> >
->
-> Apologies for the breakage. I was aware of the existence of this
-> patch, but I didn't realize it was accessing LC0 early on to find the
-> stack pointer value.
->
-> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
->
+Hello:
 
-OK, so one thing I did notice when playing with this code is that the
-phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
-multiple of 16 MB, and so this needs to be taken into account by this
-change as well, given that PHYS_OFFSET is based on the placement of
-the uncompressed kernel in the physical address space.
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/next):
+
+Series: pwm: Renesas R-Car and TPU fixes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=256961
+  Link: <20200316103216.29383-1-geert+renesas@glider.be>
+    Patches: [1/3] pwm: rcar: Fix late Runtime PM enablement
+             [2/3] pwm: renesas-tpu: Fix late Runtime PM enablement
+             [3/3] pwm: renesas-tpu: Drop confusing registered message
+
+Patch: [v3] dt-bindings: rcar-vin: Convert bindings to json-schema
+  Submitter: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=251545
+  Link: <20200305005537.385602-1-niklas.soderlund@ragnatech.se>
+
+Patch: drm/omapdrm: Fix trivial spelling
+  Submitter: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=213605
+  Link: <20191209123320.10186-1-kieran.bingham+renesas@ideasonboard.com>
+
+Series: thermal: Add support for Renesas R-Car M3-W+
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=252353
+  Link: <20200306105503.24267-1-geert+renesas@glider.be>
+    Patches: [1/2] dt-bindings: thermal: rcar-gen3-thermal: Add r8a77961 support
+             [2/2] thermal: rcar_gen3_thermal: Add r8a77961 support
+
+Series: gpiolib: gpio_set_config() cleanups
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=261317
+  Link: <20200325100357.13705-1-geert+renesas@glider.be>
+    Patches: [1/2] gpiolib: Pass gpio_desc to gpio_set_config()
+             [2/2] gpiolib: Remove unused gpio_chip parameter from gpio_set_bias()
+
+Patch: media: vsp1: tidyup VI6_HGT_LBn_H() macro
+  Submitter: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=214657
+  Link: <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
+
+Patch: arm64: dts: renesas: r8a77961: Add SCIF and HSCIF nodes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=262749
+  Link: <20200327125926.22927-1-geert+renesas@glider.be>
+
+Patch: dt-bindings: pwm: renesas-tpu: Document more R-Car Gen2 support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=256949
+  Link: <20200316101453.27745-1-geert+renesas@glider.be>
+
+Patch: media: rcar_drif: Do not print error in case of EPROBE_DEFER for dma channel
+  Submitter: Peter Ujfalusi <peter.ujfalusi@ti.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=247559
+  Link: <20200226101420.9066-1-peter.ujfalusi@ti.com>
+
+Patch: i2c: rcar: clean up after refactoring i2c_timings
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=261989
+  Link: <20200326100721.1265-1-wsa+renesas@sang-engineering.com>
+
+Patch: [v2] dt-bindings: serial: sh-sci: Convert to json-schema
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=261309
+  Link: <20200325095721.11946-1-geert+renesas@glider.be>
+
+Total patches: 15
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
