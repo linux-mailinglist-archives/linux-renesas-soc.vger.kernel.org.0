@@ -2,93 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73DB21A9B88
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 12:57:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 012921A9BA1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 13:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896669AbgDOK5b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 06:57:31 -0400
-Received: from sauhun.de ([88.99.104.3]:52374 "EHLO pokefinder.org"
+        id S2896700AbgDOLBz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 07:01:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2896419AbgDOK53 (ORCPT
+        id S2896696AbgDOLBd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 06:57:29 -0400
-Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
-        by pokefinder.org (Postfix) with ESMTPSA id 073202C1FF1;
-        Wed, 15 Apr 2020 12:57:27 +0200 (CEST)
-Date:   Wed, 15 Apr 2020 12:57:26 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, Jean Delvare <jdelvare@suse.com>,
-        linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v6 2/8] i2c: i801: Use GPIO_LOOKUP() helper macro
-Message-ID: <20200415105726.GL1141@ninjato>
-References: <20200324135328.5796-1-geert+renesas@glider.be>
- <20200324135653.6676-1-geert+renesas@glider.be>
- <20200324135653.6676-2-geert+renesas@glider.be>
+        Wed, 15 Apr 2020 07:01:33 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586948438;
+        bh=EOoLPpHMivGWcEfCAaEZKqQ4Px9vk1x07beu9AIpGXA=;
+        h=Subject:From:Date:To:From;
+        b=EjGTC3cMcvXFH4FzBgxQde6pWUvrus0ORFBGeFwOsXbLzdu4y7SwtFFzUKJxbeQGx
+         eY776jQ/UZIa6JL3kPJ8R0xMm3dZ65lG8fssVQhE8hNJUaC2rCVpfoqtn9cvWBR3jr
+         2RVR0v22s2lbwKfw5OBNqskKdVb+G1aR1CZ1S2Os=
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5VuzLDXibKSJvVYD"
-Content-Disposition: inline
-In-Reply-To: <20200324135653.6676-2-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158694843869.27718.12909908095488914863.git-patchwork-housekeeping@kernel.org>
+Date:   Wed, 15 Apr 2020 11:00:38 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Latest series: [v2] v4l2-subdev: Introduce get_mbus_format pad op (2020-04-15T10:49:58)
+  Superseding: [v1] v4l2-subdev: Introduce get_mbus_format pad op (2020-03-13T14:40:31):
+    [1/4] media: i2c: adv748x: Adjust TXA data lanes number
+    [2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
+    [3/4] media: i2c: adv748x: Implement get_mbus_config
+    [4/4] media: rcar-vin: csi2: Negotiate data lanes number
 
---5VuzLDXibKSJvVYD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Mar 24, 2020 at 02:56:47PM +0100, Geert Uytterhoeven wrote:
-> i801_add_mux() fills in the GPIO lookup table by manually populating an
-> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP() helper
-> macro instead, to relax a dependency on the gpiod_lookup structure's
-> member names.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Jean Delvare <jdelvare@suse.com>
-> Cc: linux-i2c@vger.kernel.org
-
-Applied to for-next, thanks!
+Latest series: [v2] i2c: regroup documentation of bindings (2020-04-15T10:51:00)
+  Superseding: [v1] i2c: regroup documentation of bindings (2020-03-30T00:22:20):
+    i2c: regroup documentation of bindings
 
 
---5VuzLDXibKSJvVYD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6W6JYACgkQFA3kzBSg
-KbZydg/8DULg8EIKkSzuh9yI6MGrXGUqwwvyIQHaC4oNjuLWC+cZPSPccmfkU9uQ
-o6AiQrnaN8DZR3q8QmuGEM1u8lWVsa41SjYPxIoqdYanYHCHb0SkajUh0nSCKpxF
-l5o/rcx0eoQq0cfS3D+Zx5tSrFXvruFSDCvcRRTkpkrjSN+k3Xu9Ax3WN3tj4+6q
-n2h254Z2JkFSDU5lLY/anLWJ8T9rw+o7TtuswdLV+whub9bZJqY9CMAMqAzJJyaG
-wK7HKn5WHLLEYGLDboN93jsTUFSn+HFQHNaDX0VKxGe+SvuWBQuMNC3gXQ0d4m7D
-tZtcW/6d4fVQ7GN5J+qgumLfjrWRpGgBSj5OSQtQhhlg1odDZEKediQXODLQe0Fl
-Zhcc1eh+IG4gBmfQ6DS00DMbeOBxTbQhKIfMvM8kLkQii6aLRuGr3GXD56Ssuo3v
-0U0h/L27isgQ/+EW1Bpncb03xpwkkF/x95sEFf2OsJDKmZwFKkI2vdlMYT78OLZc
-w5R954iVPIi1MgZoxULGz8DJ7TYLBYjLJQsgH4rADEJ9qh057/uo2pdGJsaBp4tH
-WDcpnmNMGjE96EhcdwgUWQ+jxhJJoaFofTDV8wdXIVApVW7h1mABRMk6Lnjfp+c9
-O+TDbzFWsbskBkXKpgp8wuDujmh8FLz2CRkeVDkuvan7iy6oUh0=
-=f8zu
------END PGP SIGNATURE-----
-
---5VuzLDXibKSJvVYD--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
