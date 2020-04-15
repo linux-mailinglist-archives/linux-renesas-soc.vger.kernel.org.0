@@ -2,119 +2,272 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F08DA1AABAB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 17:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CACD1AABE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 17:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1414651AbgDOPSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 11:18:43 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:56625 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1414655AbgDOPSl (ORCPT
+        id S2390526AbgDOP25 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 11:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2389666AbgDOP2y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 11:18:41 -0400
-Received: from mail-qk1-f181.google.com ([209.85.222.181]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1Mi23L-1il1DD0uZt-00e37A; Wed, 15 Apr 2020 17:18:38 +0200
-Received: by mail-qk1-f181.google.com with SMTP id c63so17606965qke.2;
-        Wed, 15 Apr 2020 08:18:37 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYQ7iQhk/BikuN6BKO+BL3lPwjdOlvL37MtOvCFqqOG4wui5OGn
-        0cIjB+fYfemUFnWfZ5APRYOtoJstcXL1jjQMy9o=
-X-Google-Smtp-Source: APiQypKR0HaZQKe1NU2qEEDNoosGf+Eiif2YA3+bZv4o1jlLLMUkDmtAFRquqje/5krjrQpj3uXRFFr+JLm/a3RbNKI=
-X-Received: by 2002:a37:ba47:: with SMTP id k68mr15682834qkf.394.1586963916750;
- Wed, 15 Apr 2020 08:18:36 -0700 (PDT)
+        Wed, 15 Apr 2020 11:28:54 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83242C061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 08:28:53 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF6362D1;
+        Wed, 15 Apr 2020 17:28:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1586964529;
+        bh=CFTZ83I24uYcnT4KXzcJ50AU249t06FC5TKYJ4eDJJk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RFuW7uRdgJwXLfE9jMlq7ykk3v/HxthlGm+v6aK7RgvZYtLG5CYnYNzBivd98bczU
+         /rHUOITl/e3lqnuAcHxt3J+dDmJChFSU1hxQjGZUfXBjA8CORPzpnP+YopVNVHlQ5s
+         jJF9hzuAGo9Trm39kP5cGaLqwuUMO8RWrvbZv+JY=
+Date:   Wed, 15 Apr 2020 18:28:36 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
+Message-ID: <20200415152836.GH4758@pendragon.ideasonboard.com>
+References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
+ <20200414105057.m4o3iejlbjivjyes@uno.localdomain>
+ <20200414211002.GP19819@pendragon.ideasonboard.com>
+ <20200415091357.ikmba3gipsj6i4dt@uno.localdomain>
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de> <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com> <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com> <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
- <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
-In-Reply-To: <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 15 Apr 2020 17:18:20 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
-Message-ID: <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:LcT7bwGznqc8gtfgF2bfiglIsjD0HReWu/nHchEwDxrf+9vm5BH
- rmdjTk0uOUNkmKoP4TP/efPp6Sd4lGmapqbt1l63xHODdE9k8x8ilzOIS4zVIE7rJAwPgP9
- nv14ZKTD64pSJNEWvMGnfnTFEl7qLpGkCgk1VSBIzOAG5FvyjqcFClevQUtWagaxdqe70Vi
- puR68X7pu8N6lETJMiAIw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rJ5/p8u5JGQ=:gVqEX27W8WlhhlVVuppYhw
- JyqF3pScGR9U4BjvZeVFBDID+rUE2rQ0KuPuwkLy+zaw8dkwKT5TBF2enfoMg5vPY7VwZWvP9
- vfupHu/mPvuaiLi1AKTCDKPzUSIdaiApiIOh3cEMybo46gLRfZmBqZ/J/hZSqRsIS+vLmPuwg
- sMXQ7c2s00DUvGHbdT3j7a7Rgn0/+wtM0hti3hxDOh+gKrjqemtVQKhCFesKpkAKm1YdytiX0
- 0hhKtlq0AQmQdMh1tQ7lU1agyr75LwPnoXOO9VBvFEe3k1xMXZDde8z9s7EQSyBan6D4m2tVf
- 6L1x0HOk2oRxloiZEceJ4uwAnbk2RyNEa52eKzpKWAIjAElLRCIM+vt8eQx7KsVVGoT+v/LfR
- ed2ShkBR9f75Jdr81/tnXf9pVh6q8aG3m+0qvRHX4Bl0vVLFJO08jbmWUqOkNLEF7zMTXcajM
- upeHDmBLR0mWFlBJ3j6dNwuzla/nOE5IC0pjp9HzM7062i2ioS8SK6Ymzs/QcOrJ9mq8aAH+h
- AHk8r/ZfXxAZpMf8LASeNLo+0cluDkYIgGv2USXQEYAF8Dd1/ke3ZE+YhDbXlm2r5HDaDJHzx
- pfnDCCgLnHJFCfiuJeoydljGjjVg6Ke3S9NWPk74dJgsTLy4SfNVJ6GHEwKVtmu6fcmV/+KGv
- YiEUm4b0yF9GbqOytoeONWGo/bbkaH4BkXZjHbHSGjbKv6YLJKWFoghy7b/Hwd6TZNdOUH8nh
- L9XmRJrRDca56ZO3dVfd8ZYxPOMI0iCDISUZ4RCvho8beBrx9uaeU/i+QvlIcN3QhP25d1+Aj
- YWRg42iGcwguhIE/rxMHGkxFeTHXMtCrANnjYw5JzNGBBef0rg=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200415091357.ikmba3gipsj6i4dt@uno.localdomain>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > Doesn't "imply" mean it gets selected by default but can be manually
-> > > disabled ?
-> >
-> > That may be what it means now (I still don't understand how it's defined
-> > as of v5.7-rc1), but traditionally it was more like a 'select if all
-> > dependencies are met'.
->
-> That's still what it is supposed to mean right now ;-)
-> Except that now it should correctly handle the modular case, too.
+Hi Jacopo,
 
-Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
-and enable CONFIG_DRM_RCAR_DU, I can set
-DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
-of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
-statement seems to be ignored entirely, except as reverse 'default'
-setting.
-
+On Wed, Apr 15, 2020 at 11:13:57AM +0200, Jacopo Mondi wrote:
+> On Wed, Apr 15, 2020 at 12:10:02AM +0300, Laurent Pinchart wrote:
+> > On Tue, Apr 14, 2020 at 12:50:57PM +0200, Jacopo Mondi wrote:
+> >> Hi Kieran,
+> >>    +Niklas and Laurent for R-Car CSI-2 question
+> >>
+> >> sorry I now had the time to have a proper look to this one
+> >>
+> >> On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
+> >>> Determine the (CSI2) pixel rate control by providing a control to read,
+> >>> and checking the rate from the upstream camera sensors, and their
+> >>> appropriate formats.
+> >>>
+> >>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >>> ---
+> >>>  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
+> >>>  1 file changed, 38 insertions(+), 6 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> >>> index 17830c362a50..008a93910300 100644
+> >>> --- a/drivers/media/i2c/max9286.c
+> >>> +++ b/drivers/media/i2c/max9286.c
+> >>> @@ -155,6 +155,7 @@ struct max9286_priv {
+> >>>  	bool mux_open;
+> >>>
+> >>>  	struct v4l2_ctrl_handler ctrls;
+> >>> +	struct v4l2_ctrl *pixelrate;
+> >>>
+> >>>  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> >>>
+> >>> @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> >>>  	return 0;
+> >>>  }
+> >>>
+> >>> +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
+> >>> +{
+> >>> +	if (!priv->pixelrate)
+> >>> +		return -EINVAL;
+> >>> +
+> >>> +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
+> >>> +
+> >>> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
+> >>> +}
+> >>> +
+> >>>  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> >>>  				  struct v4l2_subdev_pad_config *cfg,
+> >>>  				  struct v4l2_subdev_mbus_code_enum *code)
+> >>> @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >>>  {
+> >>>  	struct max9286_priv *priv = sd_to_max9286(sd);
+> >>>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> >>> +	s64 pixelrate;
+> >>>
+> >>>  	if (format->pad >= MAX9286_SRC_PAD)
+> >>>  		return -EINVAL;
+> >>> @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >>>  	*cfg_fmt = format->format;
+> >>>  	mutex_unlock(&priv->mutex);
+> >>>
+> >>> +	/* Update pixel rate for the CSI2 receiver */
+> >>> +	pixelrate = cfg_fmt->width * cfg_fmt->height
+> >>> +		  * priv->nsources * 30 /*FPS*/;
+> >>
+> >> I would have calculated this differently, as this to me should come from
+> >> the CSI-2 link frequency.
+> >>
+> >> In case of 4 * RDACM20 (1280*800, YUYV8_2X8, 30 FPS)
+> >>
+> >> Tot Bandwidht = 4 * (1280 * 800 * 16 * 30) = 1,966,080,000 bits
 > >
-> > In that case, a Makefile trick could also work, doing
-> >
-> > ifdef CONFIG_DRM_RCAR_CMM
-> > obj-$(CONFIG_DRM_RCAR_DU) += rcar-cmm.o
-> > endif
-> >
-> > Thereby making the cmm module have the same state (y or m) as
-> > the du module whenever the option is enabled.
->
-> What about dropping the "imply DRM_RCAR_CMM", but defaulting to
-> enable CMM if DU is enabled?
->
->     config DRM_RCAR_CMM
->             tristate "R-Car DU Color Management Module (CMM) Support"
->             depends on DRM_RCAR_DU && OF
->             default DRM_RCAR_DU
+> > You're forgetting the blanking here.
+> 
+> Am I ? I understand the full line lenght should be taken into account
+> when programming the PLL cirtcuitry of a sensor to tune it's CSI-2
+> transmitter output, but, being the CSI-2 transmission happening after
+> several translations, I am not sure about it.
+> 
+> The serializer receives frames on a serial bus, driven by the sensor
+> reference signals (HREF, VSYNC and PCLK). As in regular parallel capture
+> operations (if I'm not mistaken), data are sampled during the active HREF
+> periods, so either the serializer sends active data to be scrambled
+> and encoded on the GMSL bus, or it does the same transmitting
+> 'blankings' perdiods as specially encoded packets on the GSML bus.
+> 
+> I'm actually not sure how what happens there, and I assumed only valid
+> data gets decoded and sent but the fact that we enable HS/VS encoding
+> in the GMSL stream makes me wonder if blankings are not actually sent
+> and then encoded in the output CSI-2 stream as well.
 
-That doesn't work because it allows DRM_RCAR_DU=y with
-DRM_RCAR_CMM=m, which causes a link failure.
+I would be surprised if the serializer or deserializer performed any
+kind of clock adaptation to drop the blanking. That would require
+spreading the active data across the duration of a whole line, requiring
+an internal line buffer, and circuitry to handle the spreading. As the
+serializer or deserializer are not programmed with the line length, they
+would have to detect it automatically, which I really don't think they
+do.
 
-         Arnd
+This is even more improbable for vertical blanking, as the lines would
+need to be spread over the whole image, requiring an internal buffer of
+multiple lines.
+
+> >> CSI-2 Link Freq = TotBandwidth / lanes / DDR =
+> >>                 = 1,966,080,000 / 4 / 2 = 245,760,000 Mhz
+> >
+> > And here you're not taking protocol overhead into account. You'll end up
+> > with a too low frequency (and when I say you, it equally applies to this
+> > patch).
+> >
+> > The pixel rate should be computed based on the CSI-2 link frequency
+> > instead, which itself should be based on the GMSL link frequency (unless
+> > my understanding is wrong, the MAX9286 doesn't support retiming the
+> > video signal to reduce or increase the clock frequency through increase
+> > or reduction of horizontal blanking), itself based on the pixel clock
+> > input of the serializer (with a few parameters taken into account, such
+> > as double-input mode, high data-rate mode and 24-/32-bit mode).
+> 
+> The deserializer manual presents formulas to calculate the CSI-2
+> output bit rate per lane unrelated to the GMSL link frequency at page
+> 47 of the manual.
+> 
+> Could the deserializer be capable of deducing the frequency to program its
+> CSI-2 transmitter to using the GSML link frequency, knowing the GMSL bus
+> protocol overheads?
+
+I expect the MAX9286 to slave its PLLs to the incoming clock (recovered
+from the signal on the coax cable), with divisors and multipliers to
+take DDR, the number of lanes, the number of channels and similar
+parameters into account, but without any kind of protocol overhead
+calculation.
+
+> I think we could do the same and deduce the CSI-2 frequency from the
+> sensor's pixel rate leaving the GMSL link overhead out of the picture.
+
+The CSI-2 bandwidth should be equal to the bandwidth per camera
+multiplied by the number of cameras. The bandwidth per camera is equal
+to the camera pixel rate multiplied by the number of bits per pixel. It
+shouldn't need to be more complicated than that. If you need the pixel
+rate on the CSI-2 bus, it's the pixel rate per camera multipled by the
+number of cameras. There's no need to perform any calculation here that
+would take the width and height into account, just get the pixel rate
+from the serializer, which should get it from the camera, and multiply
+it by the number of active channels. You may want, as a sanity check, to
+verify that all serializers report the same pixel rate.
+
+> >> CSI-2 Lane Bandw = TotBandwith / lanes
+> >>                  = 491,520,00 Mbps
+> >> Pixel Rate = LaneBandwidth * lanes / BPP
+> >>            =  122,880,000 pixel/second
+> >>
+> >> Which matches your calculation of
+> >>         (width * height * channesl * FPS)
+> >>         1280 * 800 * 4 * 30 = 122880000
+> >>
+> >> So I think all of this just serves as validation of the above part.
+> >>
+> >> Now, the PIXEL_RATE ctrl is queried by the CSI-2 receiver which use it
+> >> to compute again the bandwidth per lane in Mbps, in order to set the
+> >> PHTW value, but for H3 those values are available only up to 250Mbps,
+> >> while here we get a 491Mbps (and the CSI-2 driver which re-does the
+> >> calculations gets the same value).
+> >>
+> >> Might this be because the total bandwidths of CSI-2 is 1Gbps ? (but in
+> >> that case the PHTW value should be calculated depending on the lane
+> >> nunmbers), so is our calculation of pixel rate in max9286 off ?
+> >>
+> >> Also consider that the original value was set to 50MPixel/second, less
+> >> than the half of our calculation..
+> >>
+> >> What do you think ?
+> >>
+> >>> +
+> >>> +	max9286_set_pixelrate(priv, pixelrate);
+> >>> +
+> >>>  	return 0;
+> >>>  }
+> >>>
+> >>> @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> >>>  	.open = max9286_open,
+> >>>  };
+> >>>
+> >>> +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+> >>> +{
+> >>> +	switch (ctrl->id) {
+> >>> +	case V4L2_CID_PIXEL_RATE:
+> >>> +		return 0;
+> >>> +	default:
+> >>> +		return -EINVAL;
+> >>> +	}
+> >>> +}
+> >>> +
+> >>> +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
+> >>> +	.s_ctrl	= max9286_s_ctrl,
+> >>> +};
+> >>> +
+> >>>  static int max9286_v4l2_register(struct max9286_priv *priv)
+> >>>  {
+> >>>  	struct device *dev = &priv->client->dev;
+> >>> @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> >>>  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >>>
+> >>>  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+> >>> -	/*
+> >>> -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
+> >>> -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
+> >>> -	 */
+> >>> -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> >>> -			  50000000, 50000000, 1, 50000000);
+> >>> +
+> >>> +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> >>> +					    &max9286_ctrl_ops,
+> >>> +					    V4L2_CID_PIXEL_RATE,
+> >>> +					    1, INT_MAX, 1, 50000000);
+> >>> +
+> >>>  	priv->sd.ctrl_handler = &priv->ctrls;
+> >>>  	ret = priv->ctrls.error;
+> >>>  	if (ret)
+
+-- 
+Regards,
+
+Laurent Pinchart
