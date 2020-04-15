@@ -2,100 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 343351AA375
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 15:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 703671AA40E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 15:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2506042AbgDONKW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 09:10:22 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:40984 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2504628AbgDONKD (ORCPT
+        id S2897048AbgDONRG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 09:17:06 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42015 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S370736AbgDONRA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 09:10:03 -0400
-Received: by mail-ot1-f65.google.com with SMTP id f52so3283019otf.8;
-        Wed, 15 Apr 2020 06:10:02 -0700 (PDT)
+        Wed, 15 Apr 2020 09:17:00 -0400
+Received: by mail-ot1-f68.google.com with SMTP id l21so3300446otd.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 06:17:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=V9qFaonjPRW9YmEnwpksQX2HJ6Eu2laaNELJr4ZepKs=;
-        b=UsRMem+4nQ//2nHIUdfqW5L2C/Wo3qHzMPnrfFDOf9VpxNpGGGFiGoP2Hvbwb5BFBS
-         1ptvSCRn/kAi00NBjpAjmcpbGVz5BQFAIaqsGvrBxpiGgK4MuCR/UJrzqIuaq2pmuAnS
-         XNJk2xi71wSNQhm4W5OjDMwk1xvsuskidrhToY5+IMVvl2ta2m63Oqhe0HkHDUtL7BFB
-         a/sU/OayLZHK+rj42xjGUl+0V6g1p3oMY+6p63RxnOlvkUzxTEG8SpeYU4bndpFbVhIU
-         LdmIPT8dNVCoww0kgPbEIJ70WbZ/05TJpNkRwQxH3UwRn//gWBjZl2b7mDmkX5NAm+Ib
-         gRTg==
-X-Gm-Message-State: AGi0PuYiGLo7txRGJrJrpozJJfSNCf1p06mOj3AuAA9ICZ93U8dQldFs
-        rDD8Gfu3H8wPWB/X7R6XMedaY3lZoukEDUYngiQ=
-X-Google-Smtp-Source: APiQypLShKZQeszRkfUd4JX09QyAsJLhw1FNdbkBHMtLuShW145jHc+V4wPdNtNpXwRXxnGu4ITkOPujBryR9ze8Mnc=
-X-Received: by 2002:a4a:e1af:: with SMTP id 15mr1097315ooy.40.1586956201952;
- Wed, 15 Apr 2020 06:10:01 -0700 (PDT)
+        bh=dbnocMf+YCXO6rynSRbZKTHwedc1p0SI4PJLE21o0ts=;
+        b=tcwcMxjyuB17jcYEyseG57ePeYy+L1oQKHQEUudo+r1/HAHyhlIlGvOZ4fhNiFmhPR
+         H2lRu2jJooeUoFLOSifNBrqUWniWjeTP+q9hX5/xGlFn4smhg5/wK5BrsbJcR2YAE0yJ
+         JbZhWFXiaSjjoKzfCEvmo3f9CDc2jBlr7ufstx0V0HEvHyuU3hLQXkH6uQ1Nae8j3zwc
+         QzjYx8yLVvvcFjUe1TvLcVnA1aEK70M2iNCzZtR2m2ik8gh8FwxGbNu5Ya6l22Vym3Ob
+         /ifbf9gng0G/oPUzgRVb8xYlUvKeAUIXmZ6lHYOQBrUw1KirG4g9MkVXDRgUjEVdo1Aw
+         65mg==
+X-Gm-Message-State: AGi0PuZOMJodHNbTR4rs6kk1YSUF7iVRvXFm1kjv5ol9sl5kpXZtMAqg
+        dfQphHemUVYL6SU0X1D4BQiS89abmY9LktKAx3w=
+X-Google-Smtp-Source: APiQypI1n3n1HrpC733H6dekvk5p8H+HZWlAjswfFTnY0HYg7b/b8KXVZIN2QJT+RFB7PNoRdwSj8pariD7U/pYZeoo=
+X-Received: by 2002:a9d:6299:: with SMTP id x25mr16992635otk.107.1586956619730;
+ Wed, 15 Apr 2020 06:16:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <1586512923-21739-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1586512923-21739-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1586512923-21739-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <20200320144348.12865-1-geert+renesas@glider.be>
+ <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
+ <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
+ <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com> <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
+In-Reply-To: <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Apr 2020 15:09:49 +0200
-Message-ID: <CAMuHMdULExMNnKJWsjAonR1sVeTyQCH0shwO--Wo6dLzrWV_tQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: dma: renesas,rcar-dmac: convert bindings
- to json-schema
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Wed, 15 Apr 2020 15:16:48 +0200
+Message-ID: <CAMuHMdWxiSE5H=CEqrO5Zx4nyiLo8_xxRJUj20eHm=PHnANkdg@mail.gmail.com>
+Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Ard,
 
-On Fri, Apr 10, 2020 at 12:02 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Convert Renesas R-Car and RZ/G DMA Controller bindings
-> documentation to json-schema.
+On Wed, Apr 15, 2020 at 2:57 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> On Wed, 15 Apr 2020 at 14:45, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Apr 14, 2020 at 10:07 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > > On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
+> > > > <geert+renesas@glider.be> wrote:
+> > > > > Currently, the start address of physical memory is obtained by masking
+> > > > > the program counter with a fixed mask of 0xf8000000.  This mask value
+> > > > > was chosen as a balance between the requirements of different platforms.
+> > > > > However, this does require that the start address of physical memory is
+> > > > > a multiple of 128 MiB, precluding booting Linux on platforms where this
+> > > > > requirement is not fulfilled.
+> > > > >
+> > > > > Fix this limitation by obtaining the start address from the DTB instead,
+> > > > > if available (either explicitly passed, or appended to the kernel).
+> > > > > Fall back to the traditional method when needed.
+> > > > >
+> > > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+> > > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+> > > > > i.e. not at a multiple of 128 MiB.
+> > > > >
+> > > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > > > ---
+> > > > > v4:
+> > > > >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
+> > > > >     decompressor: factor out routine to obtain the inflated image
+> > > > >     size"),
+> > > > >
+> > > >
+> > > > Apologies for the breakage. I was aware of the existence of this
+> > > > patch, but I didn't realize it was accessing LC0 early on to find the
+> > > > stack pointer value.
+> > > >
+> > > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> > >
+> > > OK, so one thing I did notice when playing with this code is that the
+> > > phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
+> > > multiple of 16 MB, and so this needs to be taken into account by this
+> > > change as well, given that PHYS_OFFSET is based on the placement of
+> > > the uncompressed kernel in the physical address space.
+> >
+> > You mean fdt_get_mem_start() should round up the address to make sure
+> > it is a multiple of 16 MiB (assumed PAGE_OFFSET is a multiple of 16 MiB,
+> > too)?
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Yes.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+OK.
 
-One question below...
+> > Can PAGE_OFFSET actually be not a multiple of 16 MiB?
+>
+> ARM's Kconfig has
+>
+> config PAGE_OFFSET
+>         hex
+>         default PHYS_OFFSET if !MMU
+>         default 0x40000000 if VMSPLIT_1G
+>         default 0x80000000 if VMSPLIT_2G
+>         default 0xB0000000 if VMSPLIT_3G_OPT
+>         default 0xC0000000
+>
+> which means that PHYS_OFFSET - PAGE_OFFSET is guaranteed to be 16 MB
+> aligned if PHYS_OFFSET is 16 MB aligned.
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
-
-> +  interrupt-names:
-> +    minItems: 9
-> +    maxItems: 17
-> +    items:
-> +      - const: error
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-> +      - pattern: "^ch([0-9]|1[0-5])$"
-
-Would it make sense to just put the actual names here?
-
-    - const: error
-    - const: ch0
-    - const: ch1
-      [...]
-    - const: ch 15
+Ah, I missed the lack of a prompt, and thought this was user-configurable,
+too.  Hence as you talked about the alignment of the difference of the two
+values only, I wondered if PAGE_OFFSET could be e.g. 0xb0800000,
+so PHYS_OFFSET has to be offset by 0x800000, too ;-)
 
 Gr{oetje,eeting}s,
 
