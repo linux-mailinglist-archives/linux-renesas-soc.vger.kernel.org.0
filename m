@@ -2,133 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F991AB34B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 23:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDD41AB41A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 01:17:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438946AbgDOVWc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 17:22:32 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:36329 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438888AbgDOVWa (ORCPT
+        id S2388421AbgDOXPL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 19:15:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387914AbgDOXPI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 17:22:30 -0400
-Received: from mail-qt1-f177.google.com ([209.85.160.177]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N1Oft-1jHQcr3hHv-012qsn; Wed, 15 Apr 2020 23:22:27 +0200
-Received: by mail-qt1-f177.google.com with SMTP id f13so14596167qti.5;
-        Wed, 15 Apr 2020 14:22:26 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZ/kP3WUi2Zz6ULx+o2pAu96VKtRUBR8fUCGcJY7ystCJZsMkRw
-        zrxJ/j/RyhHK86Nl0vfliQkJrBXBrW0FVZE0QIg=
-X-Google-Smtp-Source: APiQypINvvbbsDvc+K5sPwo+K7MzKlFLIqVVyQJIWMYe8UMUC3pk7MCSaMVSsYr2RgizX7z/824mZq3G5jLNLnmv4G8=
-X-Received: by 2002:ac8:6757:: with SMTP id n23mr10344447qtp.304.1586985745338;
- Wed, 15 Apr 2020 14:22:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de> <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com> <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com> <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
- <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
- <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
- <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com> <20200415211220.GQ4758@pendragon.ideasonboard.com>
-In-Reply-To: <20200415211220.GQ4758@pendragon.ideasonboard.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 15 Apr 2020 23:22:08 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
-Message-ID: <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        Wed, 15 Apr 2020 19:15:08 -0400
+Received: from mail-oo1-xc41.google.com (mail-yw1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D7DEC061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 16:15:08 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id t3so259328oou.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 16:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=landley-net.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3OjUG2BuSmqAZb0WXRtXD4dSg3ZpvowTxplHgaVM3Q8=;
+        b=F35xhtgPpx/jIbkJJBdV5g5+ruNOIXKelQQyX5bbrTqVnC7gIyw7HrbOzu3enHe323
+         sFh/bnS27E/omhCaw3SCfbMWoJSFeUQFPCmwybIdj/Q6kAkzUGA5GqDzLPUCYJkgaK60
+         YUzH1qXFrk8Hl+LTNeS1g3snqHA6YPHoqMUETupiyQq6He/GVwNeYMbC/+XOUEjIheHx
+         prQCsPkvd5m7qWUcj9ByTl9O+MQYBgcDHCdvJF0ifM2LIRt7ZUQEBF+XifKq05a0jumF
+         Z59n5r7F1PhddLmxE5Nb8oZa2Xj6Bd+y2gvlnhlQOzm9foLtxRLQ07xOLRDmBpBVoTc/
+         L8pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3OjUG2BuSmqAZb0WXRtXD4dSg3ZpvowTxplHgaVM3Q8=;
+        b=klOpb+ZH7N4waWh0RkrZ/262ygj+UW9KeFfZ/X3PfgE/STEpyT8VjiVMg4Nc+zawHj
+         6d0wVP9asFovWKSo7XUeUHIzGx8O0eYzqkUHTH5vt9x5rSJsKYxQB6178CpHjfCU6beE
+         WKcASLIn3dfgRqKZaFuX+4y9UzNVssEZAlvsbHxronMMOkR3Lg0z3OTInAHSx2XZcf3w
+         0AkpeHvnvTn+imkkYVgtCAwxsea/4UEGo1S0rXAZ6MCeO2fWeb0b+OwXfqfC8HDatwFp
+         p1hWtKuhsiLZ7mzElOZMmeNmiSZnDJa9TqWGFtGecnaSByFtUJexpl90EVjj+7/UgwWd
+         76Vg==
+X-Gm-Message-State: AGi0PubxOVJiCXaDfqb+kbn1BOHEMM9QJBfzTDvzvuCgiRp9CvCt8Vvn
+        Mn6LB15Ng3doV++AShotiunkOA==
+X-Google-Smtp-Source: APiQypJX4BQ8dde+gIq4uYB2s5OItvEplprtWtCefc9av8Gy6HUjt41wXcWpqBb6biLoaS77Egd/0g==
+X-Received: by 2002:a4a:874f:: with SMTP id a15mr14836132ooi.8.1586992507739;
+        Wed, 15 Apr 2020 16:15:07 -0700 (PDT)
+Received: from [192.168.86.21] ([136.62.4.88])
+        by smtp.googlemail.com with ESMTPSA id o23sm7330628oos.36.2020.04.15.16.15.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Apr 2020 16:15:07 -0700 (PDT)
+Subject: Re: [PATCH] serial: sh-sci: Make sure status register SCxSR is read
+ in correct sequence
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Kazuhiro Fujita <kazuhiro.fujita.jg@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Hl+rud1vypg7WIK8rDk9bs6uEnKqs/OlTWu3wzR5saWRjBD2o1i
- sL9990cHNVajheAgk5GS3bAYMQUtGpvsvpjtOzaElo36GexxoCKsxoZeKWIVzFmAhQUCtWH
- lUMDSZh8/C5w7dTadNUhv4YFRrIsngQEXk4iG6am1FbeMtT7/JNWXNTCzMQRJ69ZkORLyh9
- ntoyAIuVbcm+InOBYwqFQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qOHnPyy+am0=:uITFvpA/Fajo3jltuWYdlR
- GaZr+ZFb1wAIjLmDNChn3eRBDUUyw3bYQjjMM0a+H6bWI6gobydrADxfR1wMfEZsx56vkqcV9
- v6VqiF/LJdqtVfxs4dullK+MquZ9JjSGa7HNzpoGZ2Ls1VwPZdvTOThRpuJcX2EI4c02LFRTJ
- +T906lbY7T151zn3rUEwnkMZpFpc5HcE3DuClNb82b3yY3bSuaEYoAODAsyuGDiZh6aRxPwwI
- RXeuoSqQITjA/YEthYZVnfc6wOKPOY/tAoUsjNuxjte6QqTJF7UoPtTKnHK/f37T9FPqa+owN
- Xh5u/6sn6A4EN4ZGQ7ODxa+WRaDbqnVjtRiX8vlqtDqIPs7bCYltuFtOB+oAvwMyYGAENMwem
- C//9cwWQvOSuUJEjt7o6noKtcn0fBQsHZ8W7vaqPgS2pToyFSUoC4V9A1cIieKxb6ZOIcP97i
- PxR1Ock7v6EEetygPWimJAPhEUI7qGcpDb9FW9LVpFIE6WcBG8EH89mUJwwUhf7hNA9PVjSWo
- NpU02HU0u+yHyHIRFfgijTEvi1FNZgk1BcHE/vA0ZgNnuvRvWHeMXcBYK1iGEfbYvs322+ApI
- /CqNjVekqJuozSqmFlETgm7YeWa4mMIa4RLVNoDmG0MX0BGVyqZdh5u5X9pT4bqiONlPT4opr
- rjJdgb7QDas1d1Srz9yW49g9w+IlTqwj0MnR2kQgItr740zsUoHvj7g4JII+3cn/Fq0Xb3NT7
- suepIOWTjOcWbOTpnUN6hEhI6COhr8TXYhYKlY34hqdH7ocHCRHCBskSA0yOleXmlEPsEpZ6m
- 3j4Iyc/qhvz9nt9djkgQqgZYWejrCE2nvcUix0tZcSnWfFGVwE=
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hao Bui <hao.bui.yg@renesas.com>,
+        KAZUMI HARADA <kazumi.harada.rh@renesas.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+References: <1585333048-31828-1-git-send-email-kazuhiro.fujita.jg@renesas.com>
+ <CAMuHMdW+u5r6zyxFJsVzj21BYDrKCr=Q6Ojk5VeN+mkhvXX9Jw@mail.gmail.com>
+ <OSBPR01MB3590E3D12546BC6711CEB542AAC80@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+ <CAMuHMdXmfQ0x7mCZ-E7OPQFv2z-=mFDT20hJ2_JKax=OePB8eA@mail.gmail.com>
+ <CA+V-a8vPn_z_j1Vwr_1F=dCw8H=g5UMWvWxgRqBeVR7dzHPz8Q@mail.gmail.com>
+ <CAMuHMdWc9q9NjQuAuy5M=v_x=i8XxVg5JZHswjvPsgNzhHfO0w@mail.gmail.com>
+ <CAMuHMdUyV58t3eihBJv2xex5gW1Oef37Jo3FHoJstU=SspmpHA@mail.gmail.com>
+From:   Rob Landley <rob@landley.net>
+Message-ID: <67d1a3a0-a160-f707-b7c5-ba610a3f76c8@landley.net>
+Date:   Wed, 15 Apr 2020 18:21:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdUyV58t3eihBJv2xex5gW1Oef37Jo3FHoJstU=SspmpHA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
-> > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > Doesn't "imply" mean it gets selected by default but can be manually
-> > > > > > disabled ?
-> > > > >
-> > > > > That may be what it means now (I still don't understand how it's defined
-> > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
-> > > > > dependencies are met'.
-> > > >
-> > > > That's still what it is supposed to mean right now ;-)
-> > > > Except that now it should correctly handle the modular case, too.
-> > >
-> > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
-> > > and enable CONFIG_DRM_RCAR_DU, I can set
-> > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
-> > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
-> > > statement seems to be ignored entirely, except as reverse 'default'
-> > > setting.
-> >
-> > Here is another version that should do what we want and is only
-> > half-ugly. I can send that as a proper patch if it passes my testing
-> > and nobody hates it too much.
->
-> This may be a stupid question, but doesn't this really call for fixing
-> Kconfig ? This seems to be such a common pattern that requiring
-> constructs similar to the ones below will be a never-ending chase of
-> offenders.
+On 4/15/20 7:36 AM, Geert Uytterhoeven wrote:
+>> Let's wait a bit, we're in the middle of the merge window anyway.
+>> Probably we can get it tested on SuperH during the coming weeks.
+> 
+> Anyone with a real (not qemu) SuperH system who can do the basic "stty evenp"
+> tests above, and report back to us?
+> Thanks a lot!
+The j-core boards use either uartlite or 16550a for serial, and neither of my
+legacy sh4 boxes is easily accessible right now. But if nobody manages to test
+this before next merge window poke me and I can set one up.
 
-Maybe, I suppose the hardest part here would be to come up with
-an appropriate name for the keyword ;-)
-
-Any suggestions?
-
-This specific issue is fairly rare though, in most cases the dependencies
-are in the right order so a Kconfig symbol 'depends on' a second one
-when the corresponding loadable module uses symbols from that second
-module. The problem here is that the two are mixed up.
-
-The much more common problem is the one where one needs to
-wrong
-
-config FOO
-       depends on BAR || !BAR
-
-To ensure the dependency is either met or BAR is disabled, but
-not FOO=y with BAR=m. If you have any suggestions for a keyword
-for that thing, we can clean up hundreds of such instances.
-
-        Arnd
+Rob
