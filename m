@@ -2,100 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 563671AA214
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D061AA293
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S370402AbgDOMuS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 08:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S370383AbgDOMuC (ORCPT
+        id S2505609AbgDOM5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 08:57:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42260 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2505605AbgDOM5o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:50:02 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F83BC061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 05:50:02 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:914e:4085:6cfb:e960])
-        by baptiste.telenet-ops.be with bizsmtp
-        id T0q02200f3Hq6Dg010q0kv; Wed, 15 Apr 2020 14:50:00 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jOhUO-0002CG-9U; Wed, 15 Apr 2020 14:50:00 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jOhUO-0000gT-7s; Wed, 15 Apr 2020 14:50:00 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH LOCAL] arm64: renesas_defconfig: Refresh for v5.7-rc1
-Date:   Wed, 15 Apr 2020 14:49:59 +0200
-Message-Id: <20200415124959.2588-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Wed, 15 Apr 2020 08:57:44 -0400
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6351D20936
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 12:57:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1586955463;
+        bh=prirf2k0vEOldQV3Q6B6roXSXcORQ3srsnX0/zX+nmU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QbAb7Gd9GthiCa4/OawBOq8tVLLsDbvZuYYEJiz/CQ38sJjTP3TEvqaqmiJY9WR8R
+         kG55FAZIYGPVmN18Z/mGB1yLrj72AcICVDvClQGwFkeO58d6AQqmU7SYtNsNSlZNQ7
+         f1N8aMzZtyymQyQ6UwZUbkjmQsAf8rmKj/mp/M7Q=
+Received: by mail-pg1-f174.google.com with SMTP id x26so1432340pgc.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 05:57:43 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaK/oj9Q6e9GK7fMdQjii0lG75c8mqx8J7QByvzRojFitH5Q8Fx
+        ATXcMw8mh6DBCjwMzDZKjXEj/bJDa9AgMTX575w=
+X-Google-Smtp-Source: APiQypKy73qFjUlK2hkG7VDPPS2tn6u2GeHdjM9WffZnjcJ3WlNJ5Lbm/19dLEq4AuxLtvPzf6NnZMZ7X/nStea6z5k=
+X-Received: by 2002:a92:aa0f:: with SMTP id j15mr5222510ili.211.1586955461321;
+ Wed, 15 Apr 2020 05:57:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200320144348.12865-1-geert+renesas@glider.be>
+ <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
+ <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com> <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Wed, 15 Apr 2020 14:57:30 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
+Message-ID: <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
+Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Update the defconfig for Renesas R-Car Gen3 boards:
-  - Disable CONFIG_ARM64_AMU_EXTN (R-Car Gen3 is not ARMv8.4),
-  - Enable CONFIG_DRM_DISPLAY_CONNECTOR (for HDMI, VGA, and composite
-    display connectors on various boards, since commit 0c275c30176b2e78
-    ("drm/bridge: Add bridge driver for display connectors")),
-  - Replace CONFIG_DRM_DUMB_VGA_DAC by CONFIG_DRM_SIMPLE_BRIDGE (cfr.
-    commit 0411374bdf2b3cc1 ("drm/bridge: dumb-vga-dac: Rename driver to
-    simple-bridge")),
-  - Disable CONFIG_VHOST_MENU (should not default to yes),
-  - Drop CONFIG_ARCH_R8A7795=y (removed in commit 4ff27112282e5482
-    ("soc: renesas: Remove ARCH_R8A7795")).
+On Wed, 15 Apr 2020 at 14:45, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Ard,
+>
+> On Tue, Apr 14, 2020 at 10:07 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+> > On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > > On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
+> > > <geert+renesas@glider.be> wrote:
+> > > > Currently, the start address of physical memory is obtained by masking
+> > > > the program counter with a fixed mask of 0xf8000000.  This mask value
+> > > > was chosen as a balance between the requirements of different platforms.
+> > > > However, this does require that the start address of physical memory is
+> > > > a multiple of 128 MiB, precluding booting Linux on platforms where this
+> > > > requirement is not fulfilled.
+> > > >
+> > > > Fix this limitation by obtaining the start address from the DTB instead,
+> > > > if available (either explicitly passed, or appended to the kernel).
+> > > > Fall back to the traditional method when needed.
+> > > >
+> > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+> > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+> > > > i.e. not at a multiple of 128 MiB.
+> > > >
+> > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > > ---
+> > > > v4:
+> > > >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
+> > > >     decompressor: factor out routine to obtain the inflated image
+> > > >     size"),
+> > > >
+> > >
+> > > Apologies for the breakage. I was aware of the existence of this
+> > > patch, but I didn't realize it was accessing LC0 early on to find the
+> > > stack pointer value.
+> > >
+> > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > OK, so one thing I did notice when playing with this code is that the
+> > phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
+> > multiple of 16 MB, and so this needs to be taken into account by this
+> > change as well, given that PHYS_OFFSET is based on the placement of
+> > the uncompressed kernel in the physical address space.
+>
+> You mean fdt_get_mem_start() should round up the address to make sure
+> it is a multiple of 16 MiB (assumed PAGE_OFFSET is a multiple of 16 MiB,
+> too)?
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be applied to topic/renesas-defconfig.
-Not intended for upstream merge.
+Yes.
 
- arch/arm64/configs/renesas_defconfig | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+> Can PAGE_OFFSET actually be not a multiple of 16 MiB?
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 1957279892e84ed8..1e01bdc22cedc5d7 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -50,6 +50,7 @@ CONFIG_COMPAT=y
- # CONFIG_ARM64_USE_LSE_ATOMICS is not set
- # CONFIG_ARM64_RAS_EXTN is not set
- # CONFIG_ARM64_PTR_AUTH is not set
-+# CONFIG_ARM64_AMU_EXTN is not set
- # CONFIG_ARM64_E0PD is not set
- # CONFIG_ARCH_RANDOM is not set
- CONFIG_HIBERNATION=y
-@@ -212,7 +213,8 @@ CONFIG_DRM_I2C_NXP_TDA998X=y
- CONFIG_DRM_RCAR_DU=y
- CONFIG_DRM_RCAR_DW_HDMI=y
- CONFIG_DRM_PANEL_LVDS=y
--CONFIG_DRM_DUMB_VGA_DAC=y
-+CONFIG_DRM_DISPLAY_CONNECTOR=y
-+CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_THINE_THC63LVD1024=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=y
- CONFIG_DRM_DW_HDMI_I2S_AUDIO=y
-@@ -275,6 +277,7 @@ CONFIG_VFIO_PCI=y
- CONFIG_VIRTIO_PCI=y
- CONFIG_VIRTIO_BALLOON=y
- CONFIG_VIRTIO_MMIO=y
-+# CONFIG_VHOST_MENU is not set
- CONFIG_CHROME_PLATFORMS=y
- CONFIG_COMMON_CLK_CS2000_CP=y
- CONFIG_COMMON_CLK_VC5=y
-@@ -288,7 +291,6 @@ CONFIG_IOMMU_IO_PGTABLE_LPAE=y
- CONFIG_ARCH_R8A774A1=y
- CONFIG_ARCH_R8A774B1=y
- CONFIG_ARCH_R8A774C0=y
--CONFIG_ARCH_R8A7795=y
- CONFIG_ARCH_R8A77950=y
- CONFIG_ARCH_R8A77951=y
- CONFIG_ARCH_R8A77960=y
--- 
-2.17.1
+ARM's Kconfig has
 
+config PAGE_OFFSET
+        hex
+        default PHYS_OFFSET if !MMU
+        default 0x40000000 if VMSPLIT_1G
+        default 0x80000000 if VMSPLIT_2G
+        default 0xB0000000 if VMSPLIT_3G_OPT
+        default 0xC0000000
+
+which means that PHYS_OFFSET - PAGE_OFFSET is guaranteed to be 16 MB
+aligned if PHYS_OFFSET is 16 MB aligned.
