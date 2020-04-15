@@ -2,97 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ACE51AA94F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 16:02:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB531AA97D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 16:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633923AbgDOOAn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 10:00:43 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44279 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2633864AbgDOOAl (ORCPT
+        id S2634085AbgDOOLl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 10:11:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:43175 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732615AbgDOOLg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:00:41 -0400
-Received: by mail-oi1-f196.google.com with SMTP id o25so13482623oic.11;
-        Wed, 15 Apr 2020 07:00:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LLkurERwPqup0U06ZSkreXeLskweCKS6mJwG3ZnhpC8=;
-        b=kKi5hIYdYZENld8RAV2ADFMjK8I6cwqpHkMjZKROfjQG6gAF2989Sg2MWU+CxiscDh
-         TOVaUhBzw1ZxCLv792smLy4vL6/m51i9qnhCVpqluRv9ZmkZxxuaMqRbLR8NuqFTuqWq
-         lJx5MWcqfZ49wh53vU70q6jJBxlbkmSVVHtz8jWqKcnuFdKUHYYS9oB2+q8OzY914fiY
-         jcvgZOI/h9SFfLFVCnUKBGc0cieIV0jsZWF10vzl442oG6RyEjH/ykMMo1WXLO9TGSme
-         4g/29d4bDFQAzTxKan2Rzq3ghrPl7G6YiwJZtDYUaUtXDN5LYJl3gKsIdw+ygv7hxwAp
-         tmrA==
-X-Gm-Message-State: AGi0PuYw3uabWvEL0URRe3bA8c4n5kUl9wO3YYXG1GauFUjwI6lGNa/C
-        hZ+DokMTv7TtESc1A31m/f3ycWjfZJwQXESrhK77TEiv
-X-Google-Smtp-Source: APiQypJZSNfOtMzStekV30aR4PWnFiXUrZgHZKLGs0Qhj3g/g5DRmWjolGUwdRYrVoNcGSRspNdndWqwnqTPJk6OYZY=
-X-Received: by 2002:a05:6808:8cf:: with SMTP id k15mr8390047oij.54.1586959239624;
- Wed, 15 Apr 2020 07:00:39 -0700 (PDT)
+        Wed, 15 Apr 2020 10:11:36 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1M433w-1jOikV1ArA-0008D6; Wed, 15 Apr 2020 16:10:43 +0200
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 0D300650EBC;
+        Wed, 15 Apr 2020 14:10:42 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id a9FxySuCWEi3; Wed, 15 Apr 2020 16:10:41 +0200 (CEST)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id A77C564C0D9;
+        Wed, 15 Apr 2020 16:10:41 +0200 (CEST)
+Received: from pflmmbl.corp.cetitec.com (10.8.5.60) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 15 Apr 2020 16:10:41 +0200
+From:   Matthias Blankertz <matthias.blankertz@cetitec.com>
+To:     Mark Brown <broonie@kernel.org>
+CC:     Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: [PATCH 0/2] ASoC: rsnd: Fixes for multichannel HDMI audio output
+Date:   Wed, 15 Apr 2020 16:10:15 +0200
+Message-ID: <20200415141017.384017-1-matthias.blankertz@cetitec.com>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200411092719.1170489-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20200411092719.1170489-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Apr 2020 16:00:28 +0200
-Message-ID: <CAMuHMdU5E3kLrn=dGCfpUD8+CS8NvcnD2PjnJERvKbytf8ggow@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: thermal: rcar-gen3-thermal: Convert
- bindings to json-schema
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.8.5.60]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536B647460
+X-Provags-ID: V03:K1:ls00uf4IlbrL5k+iWkD/WTmWYJj2Y84rUbhh+RZdOmEf3f68PT4
+ FNEAZa4F7Phw66UR0nWjFpSj8t3Voz1xizvTTK53uk9EADtZ/ZitvNm85mdgfti69qH5I6a
+ UinE9tuhDB0krwi7u8TPxThlkypNIWsC2fBFky4+MKCdLbwLUA/ZpnQ0gmR5QyyZnHw6A8N
+ SX51zgcEnCyz2rJlqvYYg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jytcsZGxxWc=:QLEgfUO1mDZFEbghCIOVbk
+ KY+vl+FRwGZVX9VdnmNGQ6fM4ZUfxE6XOkLI077L9TkwYRBnBXzKcVeqYliL1Q2mV+1krDhQ6
+ xrSmfpQUMiDNkobLrBMGVHbAzsbUs6IBqNp7H+//64Dyrlmz6MS8lhnUoVnNnNMr/wTrnR9FM
+ uYNwExBslY3O1/9A2KrKX0lSXJLk2DyYBRzQoe2DgwQQJyWckGy/vR1X7qrvbVYkWZbYDtkTY
+ iOMF1RvasrIZVG2abdGuXQoxBkAKjUyx6Uod+7UOD7emQoBKCtp1oe6Jpr3g49IFbKRT7pMOM
+ gmYiyyiDxEDCRoidNw2p5sfyKiN4I+gXNfs4bkEDy4m5GsnBQRwNIO8gYnrZK1APEyU4C+617
+ lyG5PDKwP6m23PSdajBjRTyiQblQBAAMk7M8ldOM4h16as43qnrqrmwGejLHElNva0Rt5UuRk
+ f3PYk2i8fD35JeRwsuZQChyc1Xyf5S5MS34WIRwZxla1sz2A9oHff3pvxRHKL8Yu3jkxCzkR9
+ SyvMqAyxjLprSDRe20DED+C9DDYMY6j4FwSUh/Xyw2N/Jxy4XKrMj6s7WrvuJlNsTOMGUkSzA
+ 5/cr+B20n9elSaNcdGRwIGGMuhI4YH54Jjynpm7etXzSazH48vIScId0YUnL6du+UaJyMyYZz
+ r4YDm9AJrRfAL9J2txtkE0GvTkvvNCe5xH9BFMj++CtyRgYFYQtNcRMCRlmkN/kArtDEu8uvv
+ OSDK7PfRzQPfozY+pxYJTeURAeQkMNkDpgoFJMNFUPrtUl0qwnIdC0Xo0/IjygnHU2UBKRFbw
+ YqD9znHvaYh/PPI5m3GFlY34NtLW+uz06NpxrjVqO8wx1z3dDV1xhvxgYfHWzKCQkUk+IfrL5
+ s4eP2fOsKWedPqZtPvYw==
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+This fixes two issues in the snd-soc-rcar driver blocking multichannel
+HDMI audio out: The parent SSI in a multi-SSI configuration is not
+correctly set up and started, and the SSI->HDMI channel mapping is
+wrong.
 
-On Sat, Apr 11, 2020 at 11:27 AM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Convert Renesas R-Car Gen3 Thermal bindings documentation to
-> json-schema.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+With these patches, the following device tree snippet can be used on an
+r8a7795-based platform (Salvator-X) to enable multichannel HDMI audio on
+HDMI0:
 
-Thanks for your patch!
+rsnd_port1: port@1 {
+	rsnd_endpoint1: endpoint {
+		remote-endpoint = <&dw_hdmi0_snd_in>;
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+		dai-format = "i2s";
+		bitclock-master = <&rsnd_endpoint1>;
+		frame-master = <&rsnd_endpoint1>;
 
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    tsc: thermal@e6198000 {
-> +            compatible = "renesas,r8a7795-thermal";
-> +            reg = <0 0xe6198000 0 0x100>,
-> +                  <0 0xe61a0000 0 0x100>,
-> +                  <0 0xe61a8000 0 0x100>;
+		playback = <&ssi0 &ssi1 &ssi2 &ssi9>;
+	};
+};
 
-Examples are build with #{address,size}-cells = <1>, hence please use
+With a capable receiver attached, all of 2ch (stereo), 6ch (e.g. 5.1)
+and 8ch audio output should work.
 
-    reg = <0xe6198000 0x100>, ...
 
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Matthias Blankertz (2):
+  ASoC: rsnd: Fix parent SSI start/stop in multi-SSI mode
+  ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode
 
-Gr{oetje,eeting}s,
+ sound/soc/sh/rcar/ssi.c  | 8 ++++----
+ sound/soc/sh/rcar/ssiu.c | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-                        Geert
 
+base-commit: 7111951b8d4973bda27ff663f2cf18b663d15b48
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.26.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
