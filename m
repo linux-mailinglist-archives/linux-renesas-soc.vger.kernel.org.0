@@ -2,109 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C341A99EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 12:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 384591A9B49
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 12:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896160AbgDOKHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 06:07:36 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:33840 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2896154AbgDOKHc (ORCPT
+        id S2896450AbgDOKSZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 06:18:25 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55244 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2896413AbgDOKR3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 06:07:32 -0400
-Received: from [88.147.20.223] (port=52218 helo=[192.168.77.62])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1jOex2-009Eu1-UU; Wed, 15 Apr 2020 12:07:24 +0200
-Subject: Re: [RFC PATCH v2 6/6] i2c: core: hand over reserved devices when
- requesting ancillary addresses
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-i3c@lists.infradead.org,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Wed, 15 Apr 2020 06:17:29 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id D6FEC2A0C93
+Subject: Re: [PATCH v7 6/6] vimc: Make use of V4L2_CAP_IO_MC
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vladimir Zapolskiy <vz@mleia.com>, linux-kernel@vger.kernel.org
-References: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
- <20200318150059.21714-7-wsa+renesas@sang-engineering.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <610bbd01-e245-3320-c315-7a5c945a700d@lucaceresoli.net>
-Date:   Wed, 15 Apr 2020 12:07:24 +0200
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200413202351.1359754-7-niklas.soderlund+renesas@ragnatech.se>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a1a0bea6-d19f-4948-df0e-4477684f1082@collabora.com>
+Date:   Wed, 15 Apr 2020 12:16:58 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200318150059.21714-7-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200413202351.1359754-7-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
 
-On 18/03/20 16:00, Wolfram Sang wrote:
-> With i2c_new_ancillary_address, we can check if the intended driver is
-> requesting a reserved address. Update the function to do these checks.
-> If the check passes, the "reserved" device will become a regular "dummy"
-> device.
+
+On 13.04.20 22:23, Niklas Söderlund wrote:
+> Set the V4L2_CAP_IO_MC capability flag to report this vimc
+> inputs/outputs are controlled by the media graph.
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/i2c/i2c-core-base.c | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
+> Changes since v5:
 > 
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 84464e439df5..81fb320de28d 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -974,7 +974,9 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
->  						const char *name,
->  						u16 default_addr)
->  {
-> -	struct device_node *np = client->dev.of_node;
-> +	struct device_node *reserved_np, *np = client->dev.of_node;
-> +	struct device *reserved_dev, *adapter_dev = &client->adapter->dev;
-> +	struct i2c_client *reserved_client = NULL;
->  	u32 addr = default_addr;
->  	int i;
->  
-> @@ -984,7 +986,25 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
->  			of_property_read_u32_index(np, "reg", i, &addr);
->  	}
->  
-> -	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-> +	dev_info(adapter_dev, "Address for %s : 0x%x\n", name, addr);
+> - Wrap line longer than 80 characters
+> - Implement mbus_code filtering for format enumeration
+> ---
+>   drivers/media/platform/vimc/vimc-capture.c | 10 ++++++++--
+>   1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index 747ea9cc1bd7cb12..dbc827fd1b9baebb 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -149,7 +149,12 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
+>   static int vimc_cap_enum_fmt_vid_cap(struct file *file, void *priv,
+>   				     struct v4l2_fmtdesc *f)
+>   {
+> -	const struct vimc_pix_map *vpix = vimc_pix_map_by_index(f->index);
+> +	const struct vimc_pix_map *vpix;
+> +
+> +	if (f->mbus_code)
+> +		vpix = vimc_pix_map_by_code(f->mbus_code);
+Hi, if I understand correctly, the f->index should still tell us we should return the i'th format
+for the given mbus_code, right? if yes then since vimc support only one pixelformat for each mbus code
+there should be a code added here:
+if (f->index > 0)
+	return -EINVAL;
 
-Here if we have two identical chips on the same bus, they probably will
-both add an ancillary device with the same name. Then a message like:
+Thanks,
+Dafna
 
-  i2c i2c-0: ds90ub954-q1: Address for rxport0: 0x40
-
-won't tell which ds90ub954-q1 device is using that address. I'd rather
-disambiguate using something like:
-
-  dev_info(adapter_dev, "%s: Address for %s: 0x%x\n",
-           dev_name(&client->dev), name, addr);
-
-Sure, this issue did exist before this patch, but since the line is
-being promoted from dbg to info (which is OK), it's probably a good idea
-to improve the content, perhaps in a separate patch.
-
-Except for that, I tested the patch and it's working fine.
-
--- 
-Luca
+> +	else
+> +		vpix = vimc_pix_map_by_index(f->index);
+>   
+>   	if (!vpix)
+>   		return -EINVAL;
+> @@ -450,7 +455,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>   
+>   	/* Initialize the video_device struct */
+>   	vdev = &vcap->vdev;
+> -	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
+> +			  | V4L2_CAP_IO_MC;
+>   	vdev->entity.ops = &vimc_cap_mops;
+>   	vdev->release = video_device_release_empty;
+>   	vdev->fops = &vimc_cap_fops;
+> 
