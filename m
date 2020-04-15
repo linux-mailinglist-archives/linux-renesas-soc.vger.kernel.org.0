@@ -2,161 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECAF71AA993
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 16:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7593B1AA9CB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 16:25:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636490AbgDOONo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 10:13:44 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36991 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2636464AbgDOONk (ORCPT
+        id S2387745AbgDOOV2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 10:21:28 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36908 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732547AbgDOOVX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:13:40 -0400
-Received: by mail-oi1-f193.google.com with SMTP id r25so3688150oij.4;
-        Wed, 15 Apr 2020 07:13:39 -0700 (PDT)
+        Wed, 15 Apr 2020 10:21:23 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z17so46335oto.4;
+        Wed, 15 Apr 2020 07:21:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/Gt7M+RuQIzyJOeJqT0MWmg4GB8D71MVJXJNFoJPodE=;
-        b=kUd/Xa/FC50VWPa21LftEpFTamN5dQ+OQNYWc7HISdQRVAA5uEdwRCjFIFUZa2Tx22
-         Cqi1jCWR+DbzrZJzhv7v2KHFTn1EqZJd+diChuv2WDUJnp5N63L5LsqIPsBmEJEs3r8n
-         2G7BJ/byOeoN6mzUaxMGW6zcLVZAWV1yS2/tMrJhHXYP8KJA72z+Ers6dzL7m5EVpSR6
-         Z7XsPIOc5OsHNOL0oDqvCNDe9gZIFP9en2yFNUqc9lN4WkSUxo7+dZYwNxE13E+dPcfA
-         DscVdL+GtYY1EnnuFKWGiR+Zs7V/iLSzMJoScZ7kTq9ekVNoKc8uJTnGentlszFCAq/I
-         Mxbg==
-X-Gm-Message-State: AGi0Pub5KogBU3xeumkh9EzDs3LnAhRVnYXuTXpmqHSNMvyFQbeziu82
-        BI+UTqKBCDF7gdvspB3UY9Dj58MXQtaElYnNKG4=
-X-Google-Smtp-Source: APiQypJKNPStH9WvUHy2DqrB/2o9qQW0DQSnNK10fBvROlIKHk1iOoMOZcjvqUv1TgYjO2VVubUEuQoTiK4tig++zrg=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr4667388oih.148.1586960018814;
- Wed, 15 Apr 2020 07:13:38 -0700 (PDT)
+        bh=dnvZD4Dm4e5FRgntE759Yt2PxA+q1fuND8zsrub9kLs=;
+        b=UqtbL2HMOw6/i35h9bZLflohsFzQ/M1dB4gFcuozzKn9CfG/nTMWnYbj+u2atl8WHI
+         qdBU4zqzb/7aw3IgITxhK3SCrb1lxbxobo/+DRwqMOEqQ13WUzuS1d2Ij/oNmVj+B9n0
+         q3y9V2GMw2Zzx2ec+aukCino5ZR8mR/998WKiZBaazTt7tLAtlTivJTZ31y1txJFFnUI
+         pax5faAWq1pDa7JCKdRc4oA9BhwI4nRyVrHnQkpfcfGbI1MpanyUe/kMdGWVOrxZx7Mp
+         j+hRoeTYB+deE5X90aCqUe5zYunZM7ZmUsdd3ISxY04sv67fNiYWpq0KxdGISOrCr3xO
+         QNrg==
+X-Gm-Message-State: AGi0PuarkBcjqXmaF0tIHIqWOwB09t3hbDq6FRkeUMARpiS7hBeJwdko
+        yYtFMHiJRqTqSUjtYBpfLamJ/GvRJcAEKfoKwYA=
+X-Google-Smtp-Source: APiQypIG2ckswGmQ7Vt/axIUAX+BtAwJOJQokWKIZnojuoFp2TeGwYdTsUd02L9Tf1SQqNYp+XNW0q+iQh9SWBYejGA=
+X-Received: by 2002:a9d:76c7:: with SMTP id p7mr21994872otl.145.1586960482326;
+ Wed, 15 Apr 2020 07:21:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de> <20200408202711.1198966-6-arnd@arndb.de>
- <20200414201739.GJ19819@pendragon.ideasonboard.com> <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com> <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+References: <1586773533-8893-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1586773533-8893-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Apr 2020 16:13:27 +0200
-Message-ID: <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>
+Date:   Wed, 15 Apr 2020 16:21:10 +0200
+Message-ID: <CAMuHMdXvZp5GFY5-SjXP0PLE8MiwYencVMti93wU4E3N2c0QVg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bndings: iommu: renesas,ipmmu-vmsa: convert to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+Hi Shimoda-san,
 
-On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Tue, Apr 14, 2020 at 10:38:27PM +0200, Arnd Bergmann wrote:
-> > > On Tue, Apr 14, 2020 at 10:17 PM Laurent Pinchart wrote:
-> > > > On Wed, Apr 08, 2020 at 10:27:10PM +0200, Arnd Bergmann wrote:
-> > > > > The 'imply' statement does not seem to have an effect, as it's
-> > > > > still possible to turn the CMM code into a loadable module
-> > > > > in a randconfig build, leading to a link error:
-> > > > >
-> > > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_enable':
-> > > > > rcar_du_crtc.c:(.text+0xad4): undefined reference to `rcar_lvds_clk_enable'
-> > > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_crtc.o: in function `rcar_du_crtc_atomic_disable':
-> > > > > rcar_du_crtc.c:(.text+0xd7c): undefined reference to `rcar_lvds_clk_disable'
-> > > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_drv.o: in function `rcar_du_init':
-> > > > > rcar_du_drv.c:(.init.text+0x4): undefined reference to `rcar_du_of_init'
-> > > > > arm-linux-gnueabi-ld: drivers/gpu/drm/rcar-du/rcar_du_encoder.o: in function `rcar_du_encoder_init':
-> > > > >
-> > > > > Remove the 'imply', and instead use a silent symbol that defaults
-> > > > > to the correct setting.
-> > > >
-> > > > This will result in the CMM always being selected when DU is, increasing
-> > > > the kernel size even for devices that don't need it. I believe we need a
-> > > > better construct in Kconfig to fix this.
-> > >
-> > > I had expected this to have the same meaning that we had before the
-> > > Kconfig change: whenever the dependencies are available, turn it on,
-> > > otherwise leave it disabled.
-> > >
-> > > Can you describe what behavior you actually want instead?
-> >
-> > Doesn't "imply" mean it gets selected by default but can be manually
-> > disabled ?
+On Tue, Apr 14, 2020 at 2:26 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Convert Renesas VMSA-Compatible IOMMU bindings documentation
+> to json-schema.
 >
-> That may be what it means now (I still don't understand how it's defined
-> as of v5.7-rc1), but traditionally it was more like a 'select if all
-> dependencies are met'.
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-That's still what it is supposed to mean right now ;-)
-Except that now it should correctly handle the modular case, too.
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+> @@ -0,0 +1,90 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iommu/renesas,ipmmu-vmsa.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas VMSA-Compatible IOMMU
+> +
+> +maintainers:
+> +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> +
+> +description:
+> +  The IPMMU is an IOMMU implementation compatible with the ARM VMSA page tables.
+> +  It provides address translation for bus masters outside of the CPU, each
+> +  connected to the IPMMU through a port called micro-TLB.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,ipmmu-r8a7743  # RZ/G1M
+> +              - renesas,ipmmu-r8a7744  # RZ/G1N
+> +              - renesas,ipmmu-r8a7745  # RZ/G1E
+> +              - renesas,ipmmu-r8a7790  # R-Car H2
+> +              - renesas,ipmmu-r8a7791  # R-Car M2-W
+> +              - renesas,ipmmu-r8a7793  # R-Car M2-N
+> +              - renesas,ipmmu-r8a7794  # R-Car E2
+> +              - renesas,ipmmu-r8a7795  # R-Car H3
+> +          - const: renesas,ipmmu-vmsa  # R-Car Gen2 or RZ/G1
+> +      - items:
+> +          - enum:
+> +              - renesas,ipmmu-r8a73a4  # R-Mobile APE6
 
-> > > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > > @@ -4,7 +4,6 @@ config DRM_RCAR_DU
-> > > > >       depends on DRM && OF
-> > > > >       depends on ARM || ARM64
-> > > > >       depends on ARCH_RENESAS || COMPILE_TEST
-> > > > > -     imply DRM_RCAR_CMM
-> > > > >       imply DRM_RCAR_LVDS
-> > > > >       select DRM_KMS_HELPER
-> > > > >       select DRM_KMS_CMA_HELPER
-> > > > > @@ -15,9 +14,8 @@ config DRM_RCAR_DU
-> > > > >         If M is selected the module will be called rcar-du-drm.
-> > > > >
-> > > > >  config DRM_RCAR_CMM
-> > > > > -     tristate "R-Car DU Color Management Module (CMM) Support"
-> > > > > +     def_tristate DRM_RCAR_DU
-> > > > >       depends on DRM && OF
-> > > > > -     depends on DRM_RCAR_DU
-> > > > >       help
-> > >
-> > > It would be easy enough to make this a visible 'bool' symbol and
-> > > build it into the rcu-du-drm.ko module itself. Would that help you?
-> >
-> > That could indeed simplify a few things. I wonder if it could introduce
-> > a few small issues though (but likely nothing we can't fix). The two
-> > that come to mind are the fact that the module would have two
-> > MODULE_DESCRIPTION and MODULE_LICENSE entries (I have no idea if that
-> > could cause breakages), and that it could make module unloading more
-> > difficult as the CMM being used by the DU would increase the refcount on
-> > the module. I think the latter could be worked around by manually
-> > unbinding the DU device through sysfs before unloading the module (and I
-> > can't say for sure that unloading the DU module is not broken today
-> > *innocent and naive look* :-)).
->
-> In that case, a Makefile trick could also work, doing
->
-> ifdef CONFIG_DRM_RCAR_CMM
-> obj-$(CONFIG_DRM_RCAR_DU) += rcar-cmm.o
-> endif
->
-> Thereby making the cmm module have the same state (y or m) as
-> the du module whenever the option is enabled.
+I believe the R-Mobile APE6 IPMMU is similar to the R-Car Gen2 IPMMU,
+and thus belongs in the section above instead.
 
-What about dropping the "imply DRM_RCAR_CMM", but defaulting to
-enable CMM if DU is enabled?
+> +              - renesas,ipmmu-r8a774a1 # RZ/G2M
+> +              - renesas,ipmmu-r8a774b1 # RZ/G2N
+> +              - renesas,ipmmu-r8a774c0 # RZ/G2E
+> +              - renesas,ipmmu-r8a7796  # R-Car M3-W
+> +              - renesas,ipmmu-r8a77965 # R-Car M3-N
+> +              - renesas,ipmmu-r8a77970 # R-Car V3M
+> +              - renesas,ipmmu-r8a77980 # R-Car V3H
+> +              - renesas,ipmmu-r8a77990 # R-Car E3
+> +              - renesas,ipmmu-r8a77995 # R-Car D3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 2
+> +    description:
+> +      Specifiers for the MMU fault interrupts. For instances that support
+> +      secure mode two interrupts must be specified, for non-secure and secure
+> +      mode, in that order. For instances that don't support secure mode a
+> +      single interrupt must be specified. Not required for cache IPMMUs.
 
-    config DRM_RCAR_CMM
-            tristate "R-Car DU Color Management Module (CMM) Support"
-            depends on DRM_RCAR_DU && OF
-            default DRM_RCAR_DU
+    items:
+      - description: <non-secure ...>
+      - description: <secure ...>
+
+> +
+> +  '#iommu-cells':
+> +    const: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  renesas,ipmmu-main:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description:
+> +      Reference to the main IPMMU instance in two cells. The first cell is
+> +      a phandle to the main IPMMU and the second cell is the interrupt bit
+> +      number associated with the particular cache IPMMU device. The interrupt
+> +      bit number needs to match the main IPMMU IMSSTR register. Only used by
+> +      cache IPMMU instances.
+
+This property is not valid only on R-Car Gen2 and R-Mobile APE6.
+
+(untested)
+
+oneOf:
+  - properties:
+      contains:
+        const: renesas,ipmmu-vmsa
+  - properties:
+      renesas,ipmmu-main:
+        $ref: /schemas/types.yaml#/definitions/phandle-array
+        description:
+          [...]
 
 Gr{oetje,eeting}s,
 
