@@ -2,107 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 628E51AA1C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B10281AA1EE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S370206AbgDOMq6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 08:46:58 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40796 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S370189AbgDOMpt (ORCPT
+        id S370257AbgDOMrX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 08:47:23 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34782 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S370236AbgDOMrO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:45:49 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i27so3209515ota.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 05:45:47 -0700 (PDT)
+        Wed, 15 Apr 2020 08:47:14 -0400
+Received: by mail-oi1-f195.google.com with SMTP id x10so3902444oie.1;
+        Wed, 15 Apr 2020 05:47:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IR4ZVGXr+wRwlF8AUUe1V7aAxhR/LFzIJ2fK96oWNr8=;
-        b=l/cgUUwWbxjUXAEhnf4lbhmZXy2TEoEvKQpmdFahwassHDDHdjHNz4/nOrMXHwswBs
-         lbiSnd0/nZOF0rISqc7MGZBxZWO0ud5Hsi9wwpKbSk2T/cnBgKh0nthhdw7QQFosGBj1
-         NOwtl4mVlAbgm2BD5KD7FCKTtres7NhUM2tGO1zVPxXCl3+5vXyJDWykR7eRLD37Ni5G
-         ihsUaOhbJ05aO+zHUO0XNOhRJDWYym1TWVekPt2H+37RkzvDFxP2dQNFwRiKBmjQw8cg
-         9Bim7sTxtbTDJAtxlbJA73Ocy/d+5abhyadJIH95t1hiEtHL+rYRj96z/tHSCGDuZKlP
-         XdlA==
-X-Gm-Message-State: AGi0Pub8f9iaamEeksV87fjV52GKTdy4L1A6csmBMM3mUnvPg9pVMfRL
-        gEAbsWsM86E5v3ErnMW2+mDNb8A8honxDITccYI=
-X-Google-Smtp-Source: APiQypKOaaToKG1t3eLDM/6X/8HK2J9ka0wjabL5aK3YHS6MKbxLNizZ+ztTbzdVZv6t4BibGtgKgxCnE5CDqrtmkks=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr22295846otk.250.1586954747367;
- Wed, 15 Apr 2020 05:45:47 -0700 (PDT)
+        bh=xLsRqGxN7CRUuHynugV/dOQpcFOuJNeks2tWDx1w9w0=;
+        b=lR6pyNQwB5djVCJyHqDC6n37DtK4XtXUjXI0S4fOtdeTpXI37leQdm8sjA6pY7okeZ
+         Lb/filwF82MoVkcGnM+mXeXSZDVrnqroGy37lQE2x0eiBNSgE+udNMZejpoo+wEl2xnU
+         Y2NtAJouGExnsep993KUpsEXfHHg3hqXSQ28dxZnaQxfVj1/H9Ly/iJsMYeHQrk4NEht
+         Hu91iwSeDivQyYTM6GZUt5Pk5zEVncxvURIpkYLa1D6dS+xuPBhcxg8KPC7BuR9VPtFe
+         vvGsbclzyb/SjQlfn2CkKjpt8w7Y1YrE9TLY9FkAhSxiCldJWsM0N0HNTrQvjYVjlCeh
+         XuIw==
+X-Gm-Message-State: AGi0PuYIAqctRXvBAocb80JpzOW0X+Hh6DCV2qN56lyGKl8cg+4adn0R
+        NFNztS3Er6L/G2yRZ8dHDhidj2gvONnzoT4hhYGjFQ==
+X-Google-Smtp-Source: APiQypKwQYj/IHMbKmL5uShl0HH0tk8mYpgEAj+clJJq0K27C2jUSWNt2RXa/FGflGN19821/Un3Az0+822tmhAKTeY=
+X-Received: by 2002:aca:f541:: with SMTP id t62mr4381212oih.148.1586954833052;
+ Wed, 15 Apr 2020 05:47:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200320144348.12865-1-geert+renesas@glider.be>
- <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com> <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
-In-Reply-To: <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
+References: <20200408142252.21958-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200408142252.21958-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Apr 2020 14:45:35 +0200
-Message-ID: <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
+Date:   Wed, 15 Apr 2020 14:47:01 +0200
+Message-ID: <CAMuHMdU1XRQpnf7Q6XRPBLC0u-H84qw6=N3Szn1E6f-B-EDXPw@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: simplify summary output
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ard,
-
-On Tue, Apr 14, 2020 at 10:07 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Currently, the start address of physical memory is obtained by masking
-> > > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > > was chosen as a balance between the requirements of different platforms.
-> > > However, this does require that the start address of physical memory is
-> > > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > > requirement is not fulfilled.
-> > >
-> > > Fix this limitation by obtaining the start address from the DTB instead,
-> > > if available (either explicitly passed, or appended to the kernel).
-> > > Fall back to the traditional method when needed.
-> > >
-> > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > > i.e. not at a multiple of 128 MiB.
-> > >
-> > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > ---
-> > > v4:
-> > >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-> > >     decompressor: factor out routine to obtain the inflated image
-> > >     size"),
-> > >
-> >
-> > Apologies for the breakage. I was aware of the existence of this
-> > patch, but I didn't realize it was accessing LC0 early on to find the
-> > stack pointer value.
-> >
-> > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+On Wed, Apr 8, 2020 at 5:17 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> No need to call platform_get_resource twice when we still have the
+> pointer from before. Also, use '%pa' for a resource_size_t pointer.
 >
-> OK, so one thing I did notice when playing with this code is that the
-> phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
-> multiple of 16 MB, and so this needs to be taken into account by this
-> change as well, given that PHYS_OFFSET is based on the placement of
-> the uncompressed kernel in the physical address space.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-You mean fdt_get_mem_start() should round up the address to make sure
-it is a multiple of 16 MiB (assumed PAGE_OFFSET is a multiple of 16 MiB,
-too)?
-Can PAGE_OFFSET actually be not a multiple of 16 MiB?
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
