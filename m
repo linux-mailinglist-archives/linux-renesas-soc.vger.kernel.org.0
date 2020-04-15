@@ -2,263 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C02951A9468
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 09:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 103991A955F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 10:00:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2635221AbgDOHkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 03:40:36 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:36861 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2635175AbgDOHkf (ORCPT
+        id S2393762AbgDOH7l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 03:59:41 -0400
+Received: from sauhun.de ([88.99.104.3]:48470 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390630AbgDOH7S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 03:40:35 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 2F1976000A;
-        Wed, 15 Apr 2020 07:40:26 +0000 (UTC)
-Date:   Wed, 15 Apr 2020 09:43:31 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
-        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/4] media: v4l2-subdv: Introduce get_mbus_config pad op
-Message-ID: <20200415074331.rfvjwnmh7djczvqv@uno.localdomain>
-References: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
- <20200313144035.401430-3-jacopo+renesas@jmondi.org>
- <20200401223037.GB583@smtp.xilinx.com>
- <20200407222255.GS1716317@oden.dyn.berto.se>
- <20200409073507.yes2rnvqhbj3k3ya@uno.localdomain>
- <20200410003028.GB3396@smtp.xilinx.com>
- <20200410102406.GB2798828@oden.dyn.berto.se>
- <20200410192625.GA1259@smtp.xilinx.com>
- <20200415022220.GI19819@pendragon.ideasonboard.com>
+        Wed, 15 Apr 2020 03:59:18 -0400
+Received: from localhost (p54B33507.dip0.t-ipconnect.de [84.179.53.7])
+        by pokefinder.org (Postfix) with ESMTPSA id DD7442C1F58;
+        Wed, 15 Apr 2020 09:59:14 +0200 (CEST)
+Date:   Wed, 15 Apr 2020 09:59:11 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-i3c@lists.infradead.org,
+        Kieran Bingham <kieran@ksquared.org.uk>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [RFC PATCH v2 2/6] i2c: allow DT nodes without 'compatible'
+Message-ID: <20200415075911.GA1141@ninjato>
+References: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
+ <20200318150059.21714-3-wsa+renesas@sang-engineering.com>
+ <11ca7487-ac07-f714-8573-20d1a0040212@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
 Content-Disposition: inline
-In-Reply-To: <20200415022220.GI19819@pendragon.ideasonboard.com>
+In-Reply-To: <11ca7487-ac07-f714-8573-20d1a0040212@lucaceresoli.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
 
-On Wed, Apr 15, 2020 at 05:22:20AM +0300, Laurent Pinchart wrote:
-> Hi Huyn,
->
-> On Fri, Apr 10, 2020 at 12:26:26PM -0700, Hyun Kwon wrote:
-> > On Fri, 2020-04-10 at 03:24:06 -0700, niklas.soderlund+renesas@ragnatech.se wrote:
-> > > On 2020-04-09 17:30:28 -0700, Hyun Kwon wrote:
-> > > > On Thu, 2020-04-09 at 00:35:07 -0700, Jacopo Mondi wrote:
-> > > > > Hi Niklas, Huyn,
-> > > > > On Wed, Apr 08, 2020 at 12:22:55AM +0200, niklas.soderlund+renesas@ragnatech.se wrote:
-> > > > > > On 2020-04-01 15:30:38 -0700, Hyun Kwon wrote:
-> > > > > > > On Fri, 2020-03-13 at 07:40:33 -0700, Jacopo Mondi wrote:
-> > > > > > > > Introduce a new pad operation to allow retrieving the media bus
-> > > > > > > > configuration on a subdevice pad.
-> > > > > > > >
-> > > > > > > > The newly introduced operation reassembles the s/g_mbus_config video
-> > > > > > > > operation, which have been on their way to be deprecated since a long
-> > > > > > > > time.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > > > > ---
-> > > > > > > >  include/media/v4l2-subdev.h | 67 +++++++++++++++++++++++++++++++++++++
-> > > > > > > >  1 file changed, 67 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > > > > > > index 761aa83a3f3c..3a1afc00e094 100644
-> > > > > > > > --- a/include/media/v4l2-subdev.h
-> > > > > > > > +++ b/include/media/v4l2-subdev.h
-> > > > > > > > @@ -350,6 +350,70 @@ struct v4l2_mbus_frame_desc {
-> > > > > > > >  	unsigned short num_entries;
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > > +/**
-> > > > > > > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
-> > > > > > > > + * @hsync_active: hsync active state: true for high, false for low
-> > > > > > > > + * @vsync_active: vsync active state: true for high, false for low
-> > > > > > > > + * @pclk_rising: pixel clock active edge: true for rising, false for falling
-> > > > > > > > + * @data_active: data lines active state: true for high, false for low
-> > > > > > > > + */
-> > > > > > > > +struct v4l2_mbus_parallel_config {
-> > > > > > > > +	bool hsync_active : 1;
-> > > > > > > > +	bool vsync_active : 1;
-> > > > > > > > +	bool pclk_rising : 1;
-> > > > > > > > +	bool data_active : 1;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
-> > > > > > > > + * @data_lanes: number of data lanes in use
-> > > > > > > > + * @clock_noncontinuous: non continuous clock enable flag
-> > > > > > > > + */
-> > > > > > > > +struct v4l2_mbus_csi2_dphy_config {
-> > > > > > > > +	unsigned int data_lanes : 3;
-> > > > > > > > +	bool clock_noncontinuous : 1;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
-> > > > > > > > + *
-> > > > > > > > + * TODO
-> > > > > > > > + */
-> > > > > > > > +struct v4l2_mbus_csi2_cphy_config {
-> > > > > > > > +	/* TODO */
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +/**
-> > > > > > > > + * struct v4l2_mbus_pad_config - media bus configuration
-> > > > > > > > + *
-> > > > > > > > + * Report the subdevice media bus information to inform the caller of the
-> > > > > > > > + * current bus configuration. The structure describes bus configuration
-> > > > > > > > + * parameters that might change in-between streaming sessions, in order to allow
-> > > > > > > > + * the caller to adjust its media bus configuration to match what is reported
-> > > > > > > > + * here.
-> > > > > > > > + *
-> > > > > > > > + * TODO: add '_pad_' to the name to distinguish this from the structure
-> > > > > > > > + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
-> > > > > > > > + * video operations. Reuse the there defined enum v4l2_mbus_type to define
-> > > > > > > > + * the bus type.
-> > > > > > > > + *
-> > > > > > > > + * @type: mbus type. See &enum v4l2_mbus_type
-> > > > > > > > + * @parallel: parallel bus configuration parameters.
-> > > > > > > > + *	      See &struct v4l2_mbus_parallel_config
-> > > > > > > > + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
-> > > > > > > > + *	       See &struct v4l2_mbus_csi2_dphy_config
-> > > > > > > > + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
-> > > > > > > > + *	       See &struct v4l2_mbus_csi2_cphy_config
-> > > > > > > > + */
-> > > > > > > > +struct v4l2_mbus_pad_config {
-> > > > > > > > +	enum v4l2_mbus_type type;
-> > > > > > > > +	union {
-> > > > > > > > +		struct v4l2_mbus_parallel_config parallel;
-> > > > > > > > +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
-> > > > > > > > +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
-> > > > > > > > +	};
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > >  /**
-> > > > > > > >   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
-> > > > > > > >   *				  in video mode.
-> > > > > > > > @@ -670,6 +734,7 @@ struct v4l2_subdev_pad_config {
-> > > > > > > >   *
-> > > > > > > >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
-> > > > > > > >   *                  may be adjusted by the subdev driver to device capabilities.
-> > > > > > > > + * @get_mbus_config: get the current mbus configuration
-> > > > > > > >   */
-> > > > > > > >  struct v4l2_subdev_pad_ops {
-> > > > > > > >  	int (*init_cfg)(struct v4l2_subdev *sd,
-> > > > > > > > @@ -710,6 +775,8 @@ struct v4l2_subdev_pad_ops {
-> > > > > > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > > > > > >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > > > >  			      struct v4l2_mbus_frame_desc *fd);
-> > > > > > > > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> > > > > > > > +			       struct v4l2_mbus_pad_config *config);
-> > > > > > >
-> > > > > > > Because this can be used in many different ways, there's more chance it can
-> > > > > > > be misused. That means, drivers call this in different locations, ex probe,
-> > > > > > > get format, start stream,,,, and on differnt pads, src or sink. So imagine
-> > > > > > > one set of drivers call on sink pad, and the other set call on source pad.
-> > > > > > > It works well only until those are mixed together.
-> > > > >
-> > > > > I don't think we can right now establish all possible use cases, or
-> > > > > prevent people from shooting in their foot, moreover, the 'right'
-> > > > > usage really depends on the bus in use, and I can't tell where this is
-> > > > > will be used in the wild...
-> > > > >
-> > > > > > That subdevice operations can be called at both probe and s_stream() is
-> > > > > > nothing new, I don't thin this is a new problem. But I agree maybe we
-> > > > > > could limit get_mbus_config() in the core to only be valid four source
-> > > > > > pads? Apart from this open question I think this patch looks good.
-> > > > >
-> > > > > I'm a bit skeptical on limiting this to source pads as, again, this
-> > > > > really depends on the bus on which this operation is used. For my
-> > > > > limited knowledge, yes, the use case is always the receiver quering
-> > > > > the transmitter, but I don't feel like ruling out the opposite.
-> > > > >
-> > > > > > > So wouldn't it be better to put some restrictions? One is to document
-> > > > > > > recommendations. I think this better be called in stream on because
-> > > > > > > some bus config may change at runtime depending on other configuration.
-> > > > > > > So any bus config prior to stream-on may be outdated. The other is to
-> > > > > > > enforce in the code. Some, but maybe not all, can be handled in
-> > > > > > > v4l2_subdev_call_pad_wrappers, for example allowing this call only on
-> > > > > > > source pad.
-> > > > >
-> > > > > I hear your concern, but I think it really depends on the use cases
-> > > > > and I would have an hard time to provide recommendations that
-> > > > > address all use cases.
-> > > > >
-> > > > > Is your concern due to some mis-uses example you can describe ?
-> > > >
-> > > > Yeah, while trying this out, I was thinking how it should be used. I ended
-> > > > up with a specific way: single direction, starting from stream on,
-> > > >
-> > > > (streamon) -> max9286 -> (g_mbus_conf) -> max96705 -> (g_mbus_conf) -> sensor1
-> > > >
-> > > > It's this way because max96705 doesn't have own vsync polarity, and it
-> > > > should get it from the connected sensor. While someone may implement the same
-> > > > in complete opposite direction for another set of drivers, starting from
-> > > > sensor, or even in different entry point,
-> > >
-> > > I agree with the use-case above.
-> > >
-> > > >
-> > > > (s_fmt) -> sensor2 -> (g_mbus_conf) -> some_ser -> (g_mbus_conf) -> some_des
-> > > >
-> > > > When the sensor2 driver is used with max96705 above, there could be a problem
-> > > > such as circular calls or getting an outdated value. And it is harder to fix at
-> > > > that point. So I thought enforcing the direction works for current use cases
-> > > > (under my visilbity), and may help avoid such issue in future. Probably it may
-> > > > be just me over-thinking, as it sounds like? :-)
-> > >
-> > > If a format is set on a subdevice we are operating on a subdevice that
-> > > is part of a media device right? If so shall setting the format of the
-> > > different entities of the graph involve cross entry calls? Shall not the
-> > > entire pipeline format be validated at stream_start() and that is the
-> > > time g_mbus_conf() would be involved like in the first case above. I
-> > > might have misunderstood something if so I apologize.
-> >
-> > In this patch, it's fully up to driver implementation, so it's legitimate
-> > if some driver decides to call that in subdev set format and call another
-> > get_mbus_config() within it.
->
-> I share some of the concern that was expressed on this topic. The V4L2
-> subdev in-kernel API is full of operations that are specified as
-> generic, and are called at different times and different ways by
-> different drivers. The different subdevs then implement those operations
-> differently, as they're only tested with one or a small subset of V4L2
-> drivers, and we end up with subdevs that implement different and
-> incompatible behaviours. I think the use cases need to be considered
-> here, and we should specify the usage of this API in details.
->
-
-I'm a bit skeptical on the fact we can rule out all usage cases and
-properyl capture them with a comment, but if this is felt like a
-pressing matter we could add a few hints. I wonder why this operation
-is different than the othera kapi-only  pad operations we have
-already.
-
-If you all agree this should be limited to fetching information from
-source pads (which for all the use cases I know of is true, but I
-don't know all the possible use cases) this can be captured, but I
-would have an hard time imposing when this should be used, as each
-bus/driver is different in requirements and implementation.
+--2fHTh5uZTiUOsy+g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
-> --
-> Regards,
->
-> Laurent Pinchart
+> As I said in the reply to v1, I think we should reserve addresses also
+> when there is a compatible string but no matching driver, but this is
+> another story and can be handled separately.
+
+Unless I misunderstand you, I think they do already. Note that
+only 'i2cdetect' shows a device as busy *IFF* there is a driver bound to
+it. The internal 'i2c_check_addr_busy' does not care about a driver
+being bound. You can check this by trying to use
+i2c_new_ancillary_device() with an address which is already described in
+DT but which driver is disabled.
+
+
+--2fHTh5uZTiUOsy+g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6WvssACgkQFA3kzBSg
+KbYQ8hAAruiFHx6/xDYq9vD1D8WLWFXqoxuwD4NbJPlRSuzJvimBjPE7ynrPH4Ga
+S96O5ehETCXYz2yXLQmo1cwCbnIRo8W9kl+H/knosYOOdBd5jFpKNd7Z3+R2ldHL
+jr7z0qYXDcN+ErsIKUL4jJpmcSQL26GrNSmUFbadRvcsGDTq19Qwc+mhNx90oDyh
+xxb3RZs1cZWdkc+PygDNWwbh0dvbMHL0LBl6smJxf0z4wyVEx3YWxB4Rzfb4wVo6
+HRr1Ubdz1sSGhxyJoZ1PZqQy7lrpg+vLNv+sYG5nrdPsX5KTXlKBXowdWHeSFlXv
+nZ2DtsHzwSzE2LaeY9HmlV9iZEFGD/21NQ+u5B5wxcV5EbPyPHeOLUXp2t+6gOLC
+TT5vjxshNUPKBYBC/XrPIPC8P08Ajp6+gzckYqLY2/E+Nzmv8akKSNq4+idrw+59
++Gj89nHXXzqSPMDUJ3XfMgLTQcRVNW46H+f6Ix+xwj/JuV1uR0XWELnn/cfH+Q7V
+rAuCawvjljjh/h9KfcHAbzpfCSkxXR4dYdKQGD8YeVCrQFvC5IMrZ/cwqF6W0Jj1
+xJ5lngRYJsdqRc0Y2/rLpAae8UT54bzPbn4KFNCZ9LHx2Qx0dStIFhG+k927OlZe
+6cDCHUXGwC4ypb0pJdeSxD8Y3rRe7GbHfawZkLzzl8z3OjQ3K54=
+=LEQy
+-----END PGP SIGNATURE-----
+
+--2fHTh5uZTiUOsy+g--
