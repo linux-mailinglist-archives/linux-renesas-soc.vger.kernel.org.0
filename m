@@ -2,141 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 703671AA40E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 15:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED6F21AA3F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 15:23:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2897048AbgDONRG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 09:17:06 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42015 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S370736AbgDONRA (ORCPT
+        id S2504765AbgDONOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 09:14:51 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:50823 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2506191AbgDONOs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 09:17:00 -0400
-Received: by mail-ot1-f68.google.com with SMTP id l21so3300446otd.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 06:17:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dbnocMf+YCXO6rynSRbZKTHwedc1p0SI4PJLE21o0ts=;
-        b=tcwcMxjyuB17jcYEyseG57ePeYy+L1oQKHQEUudo+r1/HAHyhlIlGvOZ4fhNiFmhPR
-         H2lRu2jJooeUoFLOSifNBrqUWniWjeTP+q9hX5/xGlFn4smhg5/wK5BrsbJcR2YAE0yJ
-         JbZhWFXiaSjjoKzfCEvmo3f9CDc2jBlr7ufstx0V0HEvHyuU3hLQXkH6uQ1Nae8j3zwc
-         QzjYx8yLVvvcFjUe1TvLcVnA1aEK70M2iNCzZtR2m2ik8gh8FwxGbNu5Ya6l22Vym3Ob
-         /ifbf9gng0G/oPUzgRVb8xYlUvKeAUIXmZ6lHYOQBrUw1KirG4g9MkVXDRgUjEVdo1Aw
-         65mg==
-X-Gm-Message-State: AGi0PuZOMJodHNbTR4rs6kk1YSUF7iVRvXFm1kjv5ol9sl5kpXZtMAqg
-        dfQphHemUVYL6SU0X1D4BQiS89abmY9LktKAx3w=
-X-Google-Smtp-Source: APiQypI1n3n1HrpC733H6dekvk5p8H+HZWlAjswfFTnY0HYg7b/b8KXVZIN2QJT+RFB7PNoRdwSj8pariD7U/pYZeoo=
-X-Received: by 2002:a9d:6299:: with SMTP id x25mr16992635otk.107.1586956619730;
- Wed, 15 Apr 2020 06:16:59 -0700 (PDT)
+        Wed, 15 Apr 2020 09:14:48 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 64C4324000C;
+        Wed, 15 Apr 2020 13:14:34 +0000 (UTC)
+Date:   Wed, 15 Apr 2020 15:17:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH 3/4] media: ov5647: Add support for non-continuous clock
+ mode
+Message-ID: <20200415131739.pfc2g5siakpagsim@uno.localdomain>
+References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
+ <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
-References: <20200320144348.12865-1-geert+renesas@glider.be>
- <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com>
- <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
- <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com> <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
-In-Reply-To: <CAMj1kXEgXuizeQzBrt6aC-QODRGinoU5sjFrx0a1LRMg7zD85w@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 Apr 2020 15:16:48 +0200
-Message-ID: <CAMuHMdWxiSE5H=CEqrO5Zx4nyiLo8_xxRJUj20eHm=PHnANkdg@mail.gmail.com>
-Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ard,
+Hi Roman,
 
-On Wed, Apr 15, 2020 at 2:57 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Wed, 15 Apr 2020 at 14:45, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Apr 14, 2020 at 10:07 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
-> > > > <geert+renesas@glider.be> wrote:
-> > > > > Currently, the start address of physical memory is obtained by masking
-> > > > > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > > > > was chosen as a balance between the requirements of different platforms.
-> > > > > However, this does require that the start address of physical memory is
-> > > > > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > > > > requirement is not fulfilled.
-> > > > >
-> > > > > Fix this limitation by obtaining the start address from the DTB instead,
-> > > > > if available (either explicitly passed, or appended to the kernel).
-> > > > > Fall back to the traditional method when needed.
-> > > > >
-> > > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > > > > i.e. not at a multiple of 128 MiB.
-> > > > >
-> > > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > > > ---
-> > > > > v4:
-> > > > >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-> > > > >     decompressor: factor out routine to obtain the inflated image
-> > > > >     size"),
-> > > > >
-> > > >
-> > > > Apologies for the breakage. I was aware of the existence of this
-> > > > patch, but I didn't realize it was accessing LC0 early on to find the
-> > > > stack pointer value.
-> > > >
-> > > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-> > >
-> > > OK, so one thing I did notice when playing with this code is that the
-> > > phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
-> > > multiple of 16 MB, and so this needs to be taken into account by this
-> > > change as well, given that PHYS_OFFSET is based on the placement of
-> > > the uncompressed kernel in the physical address space.
-> >
-> > You mean fdt_get_mem_start() should round up the address to make sure
-> > it is a multiple of 16 MiB (assumed PAGE_OFFSET is a multiple of 16 MiB,
-> > too)?
+On Mon, Apr 13, 2020 at 12:17:46PM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 >
-> Yes.
+> The driver was only supporting continuous clock mode
+> although this was not stated anywhere.
+> Non-continuous clock saves a small amount of power and
+> on some SoCs is easier to interface with.
 
-OK.
+As per the previous patch, you should update bindings reporting this
+property is now optionally supported
 
-> > Can PAGE_OFFSET actually be not a multiple of 16 MiB?
 >
-> ARM's Kconfig has
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
 >
-> config PAGE_OFFSET
->         hex
->         default PHYS_OFFSET if !MMU
->         default 0x40000000 if VMSPLIT_1G
->         default 0x80000000 if VMSPLIT_2G
->         default 0xB0000000 if VMSPLIT_3G_OPT
->         default 0xC0000000
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index c39e3d20e3ef..8a1a515388e0 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -44,6 +44,7 @@
+>  #define PWDN_ACTIVE_DELAY_MS	20
 >
-> which means that PHYS_OFFSET - PAGE_OFFSET is guaranteed to be 16 MB
-> aligned if PHYS_OFFSET is 16 MB aligned.
+>  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
+> +#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
+>  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
+>  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
+>
+> @@ -95,6 +96,7 @@ struct ov5647 {
+>  	int				power_count;
+>  	struct clk			*xclk;
+>  	struct gpio_desc		*pwdn;
+> +	unsigned int			flags;
+>  };
+>
+>  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
+> @@ -269,9 +271,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+>
+>  static int ov5647_stream_on(struct v4l2_subdev *sd)
+>  {
+> +	struct ov5647 *ov5647 = to_state(sd);
+> +	u8 val = MIPI_CTRL00_BUS_IDLE;
+>  	int ret;
+>
+> -	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
+> +	if (ov5647->flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
+> +		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
+> +		       MIPI_CTRL00_LINE_SYNC_ENABLE;
+> +
+> +	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
+>  	if (ret < 0)
+>  		return ret;
+>
+> @@ -568,7 +576,7 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
+>  	.open = ov5647_open,
+>  };
+>
+> -static int ov5647_parse_dt(struct device_node *np)
+> +static int ov5647_parse_dt(struct device_node *np, struct ov5647 *sensor)
 
-Ah, I missed the lack of a prompt, and thought this was user-configurable,
-too.  Hence as you talked about the alignment of the difference of the two
-values only, I wondered if PAGE_OFFSET could be e.g. 0xb0800000,
-so PHYS_OFFSET has to be offset by 0x800000, too ;-)
+nit: I would provide the driver structure first
 
-Gr{oetje,eeting}s,
+>  {
+>  	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+>  	struct device_node *ep;
+> @@ -581,6 +589,9 @@ static int ov5647_parse_dt(struct device_node *np)
+>
+>  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>
+> +	if (!ret)
+> +		sensor->flags = bus_cfg.bus.mipi_csi2.flags;
+> +
 
-                        Geert
+There is a huge space for improvements here, this function didn't do
+anything before this.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+I would:
+        check the v4l2_fwnode_endpoint_parse() return value, and
+        put(np) and fail loudly
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+        make sure the detected bus type is CSI-2
+
+        cache the flags as you're doing here. As you're only
+        interested in clock continuous you could store only that
+        information in your driver structure.
+
+>  	of_node_put(ep);
+>  	return ret;
+>  }
+> @@ -599,7 +610,7 @@ static int ov5647_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>
+>  	if (IS_ENABLED(CONFIG_OF) && np) {
+> -		ret = ov5647_parse_dt(np);
+> +		ret = ov5647_parse_dt(np, sensor);
+>  		if (ret) {
+>  			dev_err(dev, "DT parsing error: %d\n", ret);
+>  			return ret;
+> --
+> 2.17.1
+>
