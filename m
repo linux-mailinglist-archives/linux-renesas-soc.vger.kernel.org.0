@@ -2,239 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABEDC1A980B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 11:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 902CA1A98BE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 11:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408343AbgDOJLB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 05:11:01 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:58173 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408295AbgDOJK6 (ORCPT
+        id S2895445AbgDOJYX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 05:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2895375AbgDOJYT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:10:58 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id D872140002;
-        Wed, 15 Apr 2020 09:10:52 +0000 (UTC)
-Date:   Wed, 15 Apr 2020 11:13:57 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        niklas soderlund <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
-Message-ID: <20200415091357.ikmba3gipsj6i4dt@uno.localdomain>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
- <20200414105057.m4o3iejlbjivjyes@uno.localdomain>
- <20200414211002.GP19819@pendragon.ideasonboard.com>
+        Wed, 15 Apr 2020 05:24:19 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4579DC061A0E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 02:24:19 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id o81so10957330wmo.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 02:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=25hsR70J4xkR7QjWib9TX4C/RIJl6X5HgsLKdDMfcIM=;
+        b=MZISFk0+SGdYrIGleUjYyNyFlKlBZtpvcsFKyJMVxKBrgMGYtPYkcBrS4bRdkEp/7t
+         IW0OdNkkEzJjOHq32c8nyyFfVBOA0CWrvJjsIloNh7+9VO5CUroLlbNB3EdfC+VubzHW
+         RKiPdet4ElIC56WiuMenvtixe2coFc0mPjdD569+2OT9S+0GbYhuHmAMDdAJ2/wquaHH
+         afuwBSmcYlb9MymeQAxl6jMcXisGmnphb0nXiXzgHpPoKvx7ynmkS1jh5aDHDA3xUcag
+         t1mwgvkRTAPwn/Ml63NOIpJfKAurHTPzOMenfettsfMf8meyF+86UE6hMxa9KMhNgPe7
+         /dqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=25hsR70J4xkR7QjWib9TX4C/RIJl6X5HgsLKdDMfcIM=;
+        b=WuB3mQa995HIFriol1AP7fpvAQS3K5VX1WPWKFRD329oXy519zRfztCiXmUxQrFDSf
+         IME5sg1cGLuMxH9yYSgFzYq1zZ73i9RD/LOTy3n43trg3TkaXG2EgATa/igtHLhm6dRi
+         Z/h5TOwFOjXafhx1GYKd2zZ/JLAzukop0eGLQxZ7pslHTGbRJ2YzEKL63nf+Qi+afKQn
+         bx8WsEdQxzyQUSQYh4ZdhRkJ/PyM1KuVsHTUi+x9uTqstMC/VQo8t/o9jHoxrARIUNqi
+         DraPqRkBt3REeoJbbhpcVHPoyXN0FDuzIPj1Ay/8HKhLBdCLTKAnmRaWostCctjRXAGu
+         VsVA==
+X-Gm-Message-State: AGi0PuZEY6VH1H/tZf/KaKUHneBS69rlXGOfw1X8uN9PH5kgE55eJEtJ
+        bFN1K/aH4SQGwOySJOqvXZHI0vqq5CE=
+X-Google-Smtp-Source: APiQypI1L9Xj03pMeY/s2kTnKETE0bYjImrIZAgEBCHLd+qOzGsuktY5U9KyEtfeFWAbhU8Q4g0UeA==
+X-Received: by 2002:a7b:c10d:: with SMTP id w13mr4131241wmi.78.1586942657950;
+        Wed, 15 Apr 2020 02:24:17 -0700 (PDT)
+Received: from dell ([95.149.164.124])
+        by smtp.gmail.com with ESMTPSA id e1sm12258399wrc.12.2020.04.15.02.24.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 02:24:17 -0700 (PDT)
+Date:   Wed, 15 Apr 2020 10:25:17 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 3/8] mfd: sm501: Use GPIO_LOOKUP_IDX() helper macro
+Message-ID: <20200415092517.GF2167633@dell>
+References: <20200324135328.5796-1-geert+renesas@glider.be>
+ <20200324135653.6676-1-geert+renesas@glider.be>
+ <20200324135653.6676-3-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200414211002.GP19819@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200324135653.6676-3-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Tue, 24 Mar 2020, Geert Uytterhoeven wrote:
 
-On Wed, Apr 15, 2020 at 12:10:02AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Tue, Apr 14, 2020 at 12:50:57PM +0200, Jacopo Mondi wrote:
-> > Hi Kieran,
-> >    +Niklas and Laurent for R-Car CSI-2 question
-> >
-> > sorry I now had the time to have a proper look to this one
-> >
-> > On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
-> > > Determine the (CSI2) pixel rate control by providing a control to read,
-> > > and checking the rate from the upstream camera sensors, and their
-> > > appropriate formats.
-> > >
-> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
-> > >  1 file changed, 38 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > > index 17830c362a50..008a93910300 100644
-> > > --- a/drivers/media/i2c/max9286.c
-> > > +++ b/drivers/media/i2c/max9286.c
-> > > @@ -155,6 +155,7 @@ struct max9286_priv {
-> > >  	bool mux_open;
-> > >
-> > >  	struct v4l2_ctrl_handler ctrls;
-> > > +	struct v4l2_ctrl *pixelrate;
-> > >
-> > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> > >
-> > > @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
-> > > +{
-> > > +	if (!priv->pixelrate)
-> > > +		return -EINVAL;
-> > > +
-> > > +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
-> > > +
-> > > +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
-> > > +}
-> > > +
-> > >  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> > >  				  struct v4l2_subdev_pad_config *cfg,
-> > >  				  struct v4l2_subdev_mbus_code_enum *code)
-> > > @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > >  {
-> > >  	struct max9286_priv *priv = sd_to_max9286(sd);
-> > >  	struct v4l2_mbus_framefmt *cfg_fmt;
-> > > +	s64 pixelrate;
-> > >
-> > >  	if (format->pad >= MAX9286_SRC_PAD)
-> > >  		return -EINVAL;
-> > > @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
-> > >  	*cfg_fmt = format->format;
-> > >  	mutex_unlock(&priv->mutex);
-> > >
-> > > +	/* Update pixel rate for the CSI2 receiver */
-> > > +	pixelrate = cfg_fmt->width * cfg_fmt->height
-> > > +		  * priv->nsources * 30 /*FPS*/;
-> >
-> > I would have calculated this differently, as this to me should come from
-> > the CSI-2 link frequency.
-> >
-> > In case of 4 * RDACM20 (1280*800, YUYV8_2X8, 30 FPS)
-> >
-> > Tot Bandwidht = 4 * (1280 * 800 * 16 * 30) = 1,966,080,000 bits
->
-> You're forgetting the blanking here.
->
+> i801_add_mux() fills in the GPIO lookup table by manually populating an
+> array of gpiod_lookup structures.  Use the existing GPIO_LOOKUP_IDX()
+> helper macro instead, to relax a dependency on the gpiod_lookup
+> structure's member names.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> ---
+> While this patch is a dependency for "[PATCH v6 4/8] gpiolib: Add
+> support for GPIO lookup by line name", it can be applied independently.
+> But an Acked-by would be nice, too.
+> 
+> Cover letter and full series at
+> https://lore.kernel.org/r/20200324135328.5796-1-geert+renesas@glider.be/
+> 
+> v6:
+>   - New.
+> ---
+>  drivers/mfd/sm501.c | 24 ++++++++----------------
+>  1 file changed, 8 insertions(+), 16 deletions(-)
 
-Am I ? I understand the full line lenght should be taken into account
-when programming the PLL cirtcuitry of a sensor to tune it's CSI-2
-transmitter output, but, being the CSI-2 transmission happening after
-several translations, I am not sure about it.
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-The serializer receives frames on a serial bus, driven by the sensor
-reference signals (HREF, VSYNC and PCLK). As in regular parallel capture
-operations (if I'm not mistaken), data are sampled during the active HREF
-periods, so either the serializer sends active data to be scrambled
-and encoded on the GMSL bus, or it does the same transmitting
-'blankings' perdiods as specially encoded packets on the GSML bus.
-
-I'm actually not sure how what happens there, and I assumed only valid
-data gets decoded and sent but the fact that we enable HS/VS encoding
-in the GMSL stream makes me wonder if blankings are not actually sent
-and then encoded in the output CSI-2 stream as well.
-
-
-> > CSI-2 Link Freq = TotBandwidth / lanes / DDR =
-> >                 = 1,966,080,000 / 4 / 2 = 245,760,000 Mhz
->
-> And here you're not taking protocol overhead into account. You'll end up
-> with a too low frequency (and when I say you, it equally applies to this
-> patch).
->
-> The pixel rate should be computed based on the CSI-2 link frequency
-> instead, which itself should be based on the GMSL link frequency (unless
-> my understanding is wrong, the MAX9286 doesn't support retiming the
-> video signal to reduce or increase the clock frequency through increase
-> or reduction of horizontal blanking), itself based on the pixel clock
-> input of the serializer (with a few parameters taken into account, such
-> as double-input mode, high data-rate mode and 24-/32-bit mode).
->
-
-The deserializer manual presents formulas to calculate the CSI-2
-output bit rate per lane unrelated to the GMSL link frequency at page
-47 of the manual.
-
-Could the deserializer be capable of deducing the frequency to program its
-CSI-2 transmitter to using the GSML link frequency, knowing the GMSL bus
-protocol overheads?
-
-I think we could do the same and deduce the CSI-2 frequency from the
-sensor's pixel rate leaving the GMSL link overhead out of the picture.
-
-
-> > CSI-2 Lane Bandw = TotBandwith / lanes
-> >                  = 491,520,00 Mbps
-> > Pixel Rate = LaneBandwidth * lanes / BPP
-> >            =  122,880,000 pixel/second
-> >
-> > Which matches your calculation of
-> >         (width * height * channesl * FPS)
-> >         1280 * 800 * 4 * 30 = 122880000
-> >
-> > So I think all of this just serves as validation of the above part.
-> >
-> > Now, the PIXEL_RATE ctrl is queried by the CSI-2 receiver which use it
-> > to compute again the bandwidth per lane in Mbps, in order to set the
-> > PHTW value, but for H3 those values are available only up to 250Mbps,
-> > while here we get a 491Mbps (and the CSI-2 driver which re-does the
-> > calculations gets the same value).
-> >
-> > Might this be because the total bandwidths of CSI-2 is 1Gbps ? (but in
-> > that case the PHTW value should be calculated depending on the lane
-> > nunmbers), so is our calculation of pixel rate in max9286 off ?
-> >
-> > Also consider that the original value was set to 50MPixel/second, less
-> > than the half of our calculation..
-> >
-> > What do you think ?
-> >
-> > > +
-> > > +	max9286_set_pixelrate(priv, pixelrate);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >
-> > > @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
-> > >  	.open = max9286_open,
-> > >  };
-> > >
-> > > +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > +{
-> > > +	switch (ctrl->id) {
-> > > +	case V4L2_CID_PIXEL_RATE:
-> > > +		return 0;
-> > > +	default:
-> > > +		return -EINVAL;
-> > > +	}
-> > > +}
-> > > +
-> > > +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
-> > > +	.s_ctrl	= max9286_s_ctrl,
-> > > +};
-> > > +
-> > >  static int max9286_v4l2_register(struct max9286_priv *priv)
-> > >  {
-> > >  	struct device *dev = &priv->client->dev;
-> > > @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
-> > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > >
-> > >  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
-> > > -	/*
-> > > -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
-> > > -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
-> > > -	 */
-> > > -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
-> > > -			  50000000, 50000000, 1, 50000000);
-> > > +
-> > > +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
-> > > +					    &max9286_ctrl_ops,
-> > > +					    V4L2_CID_PIXEL_RATE,
-> > > +					    1, INT_MAX, 1, 50000000);
-> > > +
-> > >  	priv->sd.ctrl_handler = &priv->ctrls;
-> > >  	ret = priv->ctrls.error;
-> > >  	if (ret)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
