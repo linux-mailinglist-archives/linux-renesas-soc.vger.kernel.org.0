@@ -2,213 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 369E61AA9F6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 16:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F08DA1AABAB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 17:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393998AbgDOOb4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 10:31:56 -0400
-Received: from mga17.intel.com ([192.55.52.151]:58888 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394073AbgDOOby (ORCPT
+        id S1414651AbgDOPSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 11:18:43 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:56625 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1414655AbgDOPSl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 10:31:54 -0400
-IronPort-SDR: lv1LNqOcPczh/WYYgaCcGGa5ypjSoxc/MdG5eP7x00Sy150s58oegB6i2jQtKpoy84Z9mNV42c
- bPhSf2jqQvCA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 07:31:53 -0700
-IronPort-SDR: oVJjt9DZxj0RZQrPrQl/PzQyH3ThU/0n1YFwkigsUJIlNOOx5Qq075BVBPnmswVCh4NyXHWalb
- +EnzcwZH0SCg==
-X-IronPort-AV: E=Sophos;i="5.72,387,1580803200"; 
-   d="scan'208";a="454928336"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 07:31:51 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id B4AD920606; Wed, 15 Apr 2020 17:31:49 +0300 (EEST)
-Date:   Wed, 15 Apr 2020 17:31:49 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200415143149.GF27762@paasikivi.fi.intel.com>
-References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
- <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 15 Apr 2020 11:18:41 -0400
+Received: from mail-qk1-f181.google.com ([209.85.222.181]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1Mi23L-1il1DD0uZt-00e37A; Wed, 15 Apr 2020 17:18:38 +0200
+Received: by mail-qk1-f181.google.com with SMTP id c63so17606965qke.2;
+        Wed, 15 Apr 2020 08:18:37 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYQ7iQhk/BikuN6BKO+BL3lPwjdOlvL37MtOvCFqqOG4wui5OGn
+        0cIjB+fYfemUFnWfZ5APRYOtoJstcXL1jjQMy9o=
+X-Google-Smtp-Source: APiQypKR0HaZQKe1NU2qEEDNoosGf+Eiif2YA3+bZv4o1jlLLMUkDmtAFRquqje/5krjrQpj3uXRFFr+JLm/a3RbNKI=
+X-Received: by 2002:a37:ba47:: with SMTP id k68mr15682834qkf.394.1586963916750;
+ Wed, 15 Apr 2020 08:18:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200408202711.1198966-1-arnd@arndb.de> <20200408202711.1198966-6-arnd@arndb.de>
+ <20200414201739.GJ19819@pendragon.ideasonboard.com> <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com> <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 15 Apr 2020 17:18:20 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+Message-ID: <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:LcT7bwGznqc8gtfgF2bfiglIsjD0HReWu/nHchEwDxrf+9vm5BH
+ rmdjTk0uOUNkmKoP4TP/efPp6Sd4lGmapqbt1l63xHODdE9k8x8ilzOIS4zVIE7rJAwPgP9
+ nv14ZKTD64pSJNEWvMGnfnTFEl7qLpGkCgk1VSBIzOAG5FvyjqcFClevQUtWagaxdqe70Vi
+ puR68X7pu8N6lETJMiAIw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:rJ5/p8u5JGQ=:gVqEX27W8WlhhlVVuppYhw
+ JyqF3pScGR9U4BjvZeVFBDID+rUE2rQ0KuPuwkLy+zaw8dkwKT5TBF2enfoMg5vPY7VwZWvP9
+ vfupHu/mPvuaiLi1AKTCDKPzUSIdaiApiIOh3cEMybo46gLRfZmBqZ/J/hZSqRsIS+vLmPuwg
+ sMXQ7c2s00DUvGHbdT3j7a7Rgn0/+wtM0hti3hxDOh+gKrjqemtVQKhCFesKpkAKm1YdytiX0
+ 0hhKtlq0AQmQdMh1tQ7lU1agyr75LwPnoXOO9VBvFEe3k1xMXZDde8z9s7EQSyBan6D4m2tVf
+ 6L1x0HOk2oRxloiZEceJ4uwAnbk2RyNEa52eKzpKWAIjAElLRCIM+vt8eQx7KsVVGoT+v/LfR
+ ed2ShkBR9f75Jdr81/tnXf9pVh6q8aG3m+0qvRHX4Bl0vVLFJO08jbmWUqOkNLEF7zMTXcajM
+ upeHDmBLR0mWFlBJ3j6dNwuzla/nOE5IC0pjp9HzM7062i2ioS8SK6Ymzs/QcOrJ9mq8aAH+h
+ AHk8r/ZfXxAZpMf8LASeNLo+0cluDkYIgGv2USXQEYAF8Dd1/ke3ZE+YhDbXlm2r5HDaDJHzx
+ pfnDCCgLnHJFCfiuJeoydljGjjVg6Ke3S9NWPk74dJgsTLy4SfNVJ6GHEwKVtmu6fcmV/+KGv
+ YiEUm4b0yF9GbqOytoeONWGo/bbkaH4BkXZjHbHSGjbKv6YLJKWFoghy7b/Hwd6TZNdOUH8nh
+ L9XmRJrRDca56ZO3dVfd8ZYxPOMI0iCDISUZ4RCvho8beBrx9uaeU/i+QvlIcN3QhP25d1+Aj
+ YWRg42iGcwguhIE/rxMHGkxFeTHXMtCrANnjYw5JzNGBBef0rg=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hejssan,
+On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > disabled ?
+> >
+> > That may be what it means now (I still don't understand how it's defined
+> > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > dependencies are met'.
+>
+> That's still what it is supposed to mean right now ;-)
+> Except that now it should correctly handle the modular case, too.
 
-On Mon, Apr 13, 2020 at 10:23:48PM +0200, Niklas Söderlund wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> node. For MC-centric devices, its behaviour has always been ill-defined,
-> with drivers implementing one of the following behaviours:
-> 
-> - No support for VIDIOC_ENUM_FMT at all
-> - Enumerating all formats supported by the video node, regardless of the
->   configuration of the pipeline
-> - Enumerating formats supported by the video node for the active
->   configuration of the connected subdevice
-> 
-> The first behaviour is obviously useless for applications. The second
-> behaviour provides the most information, but doesn't offer a way to find
-> what formats are compatible with a given pipeline configuration. The
-> third behaviour fixes that, but with the drawback that applications
-> can't enumerate all supported formats anymore, and have to modify the
-> active configuration of the pipeline to enumerate formats.
-> 
-> The situation is messy as none of the implemented behaviours are ideal,
-> and userspace can't predict what will happen as the behaviour is
-> driver-specific.
-> 
-> To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> enumerating pixel formats for a given media bus code. The media bus code
-> is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> (repurposed from the reserved fields). With this capability in place,
-> applications can enumerate pixel formats for a given media bus code
-> without modifying the active configuration of the device.
-> 
-> The current behaviour of the ioctl is preserved when the new mbus_code
-> field is set to 0, ensuring compatibility with existing userspace. The
-> API extension is documented as mandatory for MC-centric devices (as
-> advertised through the V4L2_CAP_IO_MC capability), allowing applications
-> and compliance tools to easily determine the availability of the
-> VIDIOC_ENUM_FMT extension.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+and enable CONFIG_DRM_RCAR_DU, I can set
+DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+statement seems to be ignored entirely, except as reverse 'default'
+setting.
 
-Din egen Sob linjen saknas här.
+> >
+> > In that case, a Makefile trick could also work, doing
+> >
+> > ifdef CONFIG_DRM_RCAR_CMM
+> > obj-$(CONFIG_DRM_RCAR_DU) += rcar-cmm.o
+> > endif
+> >
+> > Thereby making the cmm module have the same state (y or m) as
+> > the du module whenever the option is enabled.
+>
+> What about dropping the "imply DRM_RCAR_CMM", but defaulting to
+> enable CMM if DU is enabled?
+>
+>     config DRM_RCAR_CMM
+>             tristate "R-Car DU Color Management Module (CMM) Support"
+>             depends on DRM_RCAR_DU && OF
+>             default DRM_RCAR_DU
 
-> ---
->  .../media/uapi/v4l/vidioc-enum-fmt.rst          | 17 ++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c            | 13 +++++++++++--
->  include/uapi/linux/videodev2.h                  |  3 ++-
->  3 files changed, 27 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> index 8ca6ab701e4ab99c..82792d8e910b2313 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
->  formats in preference order, where preferred formats are returned before
->  (that is, with lower ``index`` value) less-preferred formats.
->  
-> -.. note::
-> +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
-> +:ref:`device-capabilities <capability>`, applications shall initialize the
-> +``mbus_code`` field to zero. Drivers shall enumerate all image formats supported
-> +by the device. The enumerated formats may depend on the active input or output
+That doesn't work because it allows DRM_RCAR_DU=y with
+DRM_RCAR_CMM=m, which causes a link failure.
 
-s/ supported by the device//
-
-> +of the device.
-
-How about
-
-	s/active input or output/current configuration/
-
-Then,
-
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
->  
-> -   After switching input or output the list of enumerated image
-> -   formats may be different.
-> +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
-> +<capability>`, applications may initialize the ``mbus_code`` to a valid
-> +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
-> +is not zero, drivers shall restrict enumeration to only the image formats that
-> +can produce (for video output devices) or be produced from (for video capture
-> +devices) that media bus code. Regardless of the value of the ``mbus_code``
-> +field, the enumerated image formats shall not depend on the active
-> +configuration of the video device or device pipeline. Enumeration shall
-> +otherwise operate as previously described.
->  
->  
->  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index afd1f427df557f71..3e7b99fa415222c6 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
->  {
->  	const struct v4l2_fmtdesc *p = arg;
->  
-> -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-> +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
->  		p->index, prt_names(p->type, v4l2_type_names),
->  		p->flags, (p->pixelformat & 0xff),
->  		(p->pixelformat >>  8) & 0xff,
->  		(p->pixelformat >> 16) & 0xff,
->  		(p->pixelformat >> 24) & 0xff,
-> +		p->mbus_code,
->  		(int)sizeof(p->description), p->description);
->  }
->  
-> @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->  	struct video_device *vdev = video_devdata(file);
->  	struct v4l2_fmtdesc *p = arg;
->  	int ret = check_fmt(file, p->type);
-> +	u32 mbus_code;
->  	u32 cap_mask;
->  
->  	if (ret)
->  		return ret;
->  	ret = -EINVAL;
->  
-> +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
-> +		return -EINVAL;
-> +
-> +	mbus_code = p->mbus_code;
-> +	CLEAR_AFTER_FIELD(p, type);
-> +	p->mbus_code = mbus_code;
-> +
->  	switch (p->type) {
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
->  
->  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
->  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
-> -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
-> +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
->  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
->  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
->  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
->  	__u32               flags;
->  	__u8		    description[32];   /* Description string */
->  	__u32		    pixelformat;       /* Format fourcc      */
-> -	__u32		    reserved[4];
-> +	__u32		    mbus_code;		/* Media bus code    */
-> +	__u32		    reserved[3];
->  };
->  
->  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
-> -- 
-> 2.26.0
-> 
-
--- 
-Med trevliga hälsningar,
-
-Sakari Ailus
+         Arnd
