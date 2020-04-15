@@ -2,159 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A14A51AA13F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628E51AA1C2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 14:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369822AbgDOMfx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 08:35:53 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:42363 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S369820AbgDOMfu (ORCPT
+        id S370206AbgDOMq6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 08:46:58 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40796 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S370189AbgDOMpt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 08:35:50 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 7A8631C0011;
-        Wed, 15 Apr 2020 12:35:37 +0000 (UTC)
-Date:   Wed, 15 Apr 2020 14:38:42 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Suresh Udipi <sudipi@jp.adit-jv.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH 2/4] media: ov5647: Add support for PWDN GPIO.
-Message-ID: <20200415123842.wiu5vs5lilxvqg7x@uno.localdomain>
-References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
- <f88b99899eb5e680607349b37eb3679dbd12433e.1586759968.git.roman.kovalivskyi@globallogic.com>
+        Wed, 15 Apr 2020 08:45:49 -0400
+Received: by mail-ot1-f66.google.com with SMTP id i27so3209515ota.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Apr 2020 05:45:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IR4ZVGXr+wRwlF8AUUe1V7aAxhR/LFzIJ2fK96oWNr8=;
+        b=l/cgUUwWbxjUXAEhnf4lbhmZXy2TEoEvKQpmdFahwassHDDHdjHNz4/nOrMXHwswBs
+         lbiSnd0/nZOF0rISqc7MGZBxZWO0ud5Hsi9wwpKbSk2T/cnBgKh0nthhdw7QQFosGBj1
+         NOwtl4mVlAbgm2BD5KD7FCKTtres7NhUM2tGO1zVPxXCl3+5vXyJDWykR7eRLD37Ni5G
+         ihsUaOhbJ05aO+zHUO0XNOhRJDWYym1TWVekPt2H+37RkzvDFxP2dQNFwRiKBmjQw8cg
+         9Bim7sTxtbTDJAtxlbJA73Ocy/d+5abhyadJIH95t1hiEtHL+rYRj96z/tHSCGDuZKlP
+         XdlA==
+X-Gm-Message-State: AGi0Pub8f9iaamEeksV87fjV52GKTdy4L1A6csmBMM3mUnvPg9pVMfRL
+        gEAbsWsM86E5v3ErnMW2+mDNb8A8honxDITccYI=
+X-Google-Smtp-Source: APiQypKOaaToKG1t3eLDM/6X/8HK2J9ka0wjabL5aK3YHS6MKbxLNizZ+ztTbzdVZv6t4BibGtgKgxCnE5CDqrtmkks=
+X-Received: by 2002:a9d:7590:: with SMTP id s16mr22295846otk.250.1586954747367;
+ Wed, 15 Apr 2020 05:45:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f88b99899eb5e680607349b37eb3679dbd12433e.1586759968.git.roman.kovalivskyi@globallogic.com>
+References: <20200320144348.12865-1-geert+renesas@glider.be>
+ <CAKv+Gu8q2bAVMRLSc-Ae=hxhg3sbvpfuaMJ_nx4FZFvegNZ+9w@mail.gmail.com> <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
+In-Reply-To: <CAMj1kXFAEOWGgmMT4SMP=QafcT54mzMekLjm3wMTN8M4psNSKw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Apr 2020 14:45:35 +0200
+Message-ID: <CAMuHMdUkrF9qBaZre0EJ-cuzPcL7A1j2ANmQNYV7FAngybb1bA@mail.gmail.com>
+Subject: Re: [PATCH v4] ARM: boot: Obtain start of physical memory from DTB
+To:     Ard Biesheuvel <ardb@kernel.org>
+Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Roman,
-   this patch requires the device bindings document to be updated
-to report an optional 'powerdown-gpios' property is available and that
-it's active HIGH.
+Hi Ard,
 
-On Mon, Apr 13, 2020 at 12:17:45PM +0300, Roman Kovalivskyi wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+On Tue, Apr 14, 2020 at 10:07 AM Ard Biesheuvel <ardb@kernel.org> wrote:
+> On Wed, 25 Mar 2020 at 17:40, Ard Biesheuvel <ardb@kernel.org> wrote:
+> > On Fri, 20 Mar 2020 at 15:43, Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > Currently, the start address of physical memory is obtained by masking
+> > > the program counter with a fixed mask of 0xf8000000.  This mask value
+> > > was chosen as a balance between the requirements of different platforms.
+> > > However, this does require that the start address of physical memory is
+> > > a multiple of 128 MiB, precluding booting Linux on platforms where this
+> > > requirement is not fulfilled.
+> > >
+> > > Fix this limitation by obtaining the start address from the DTB instead,
+> > > if available (either explicitly passed, or appended to the kernel).
+> > > Fall back to the traditional method when needed.
+> > >
+> > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+> > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+> > > i.e. not at a multiple of 128 MiB.
+> > >
+> > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > ---
+> > > v4:
+> > >   - Fix stack location after commit 184bf653a7a452c1 ("ARM:
+> > >     decompressor: factor out routine to obtain the inflated image
+> > >     size"),
+> > >
+> >
+> > Apologies for the breakage. I was aware of the existence of this
+> > patch, but I didn't realize it was accessing LC0 early on to find the
+> > stack pointer value.
+> >
+> > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 >
-> Add support for an optional GPIO connected to PWDN on the sensor. This
-> allows the use of hardware standby mode where internal device clock
-> and circuit activities are halted.
->
-> Please nothe that power is off when PWDN is high.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-> ---
->  drivers/media/i2c/ov5647.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
->
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 3e587eb0a30e..c39e3d20e3ef 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -21,6 +21,7 @@
->
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/init.h>
->  #include <linux/io.h>
-> @@ -35,6 +36,13 @@
->
->  #define SENSOR_NAME "ov5647"
->
-> +/*
-> + * From the datasheet, "20ms after PWDN goes low or 20ms after RESETB goes
-> + * high if reset is inserted after PWDN goes high, host can access sensor's
-> + * SCCB to initialize sensor."
-> + */
-> +#define PWDN_ACTIVE_DELAY_MS	20
-> +
->  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
->  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
->  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
-> @@ -86,6 +94,7 @@ struct ov5647 {
->  	unsigned int			height;
->  	int				power_count;
->  	struct clk			*xclk;
-> +	struct gpio_desc		*pwdn;
->  };
->
->  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
-> @@ -355,6 +364,11 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
->  	if (on && !ov5647->power_count)	{
->  		dev_dbg(&client->dev, "OV5647 power on\n");
->
-> +		if (ov5647->pwdn) {
-> +			gpiod_set_value(ov5647->pwdn, 0);
-> +			msleep(PWDN_ACTIVE_DELAY_MS);
+> OK, so one thing I did notice when playing with this code is that the
+> phys/virt patching code requires that 'PHYS_OFFSET - PAGE_OFFSET' is a
+> multiple of 16 MB, and so this needs to be taken into account by this
+> change as well, given that PHYS_OFFSET is based on the placement of
+> the uncompressed kernel in the physical address space.
 
-please use usleep_range() according to Documentation/timers/timers-howto.rst
+You mean fdt_get_mem_start() should round up the address to make sure
+it is a multiple of 16 MiB (assumed PAGE_OFFSET is a multiple of 16 MiB,
+too)?
+Can PAGE_OFFSET actually be not a multiple of 16 MiB?
+Thanks!
 
-Thanks
-   j
-> +		}
-> +
->  		ret = clk_prepare_enable(ov5647->xclk);
->  		if (ret < 0) {
->  			dev_err(&client->dev, "clk prepare enable failed\n");
-> @@ -392,6 +406,8 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
->  			dev_dbg(&client->dev, "soft stby failed\n");
->
->  		clk_disable_unprepare(ov5647->xclk);
-> +
-> +		gpiod_set_value(ov5647->pwdn, 1);
->  	}
->
->  	/* Update the power count. */
-> @@ -603,6 +619,10 @@ static int ov5647_probe(struct i2c_client *client)
->  		return -EINVAL;
->  	}
->
-> +	/* Request the power down GPIO asserted */
-> +	sensor->pwdn = devm_gpiod_get_optional(&client->dev, "pwdn",
-> +					       GPIOD_OUT_HIGH);
-> +
->  	mutex_init(&sensor->lock);
->
->  	sd = &sensor->sd;
-> @@ -616,7 +636,15 @@ static int ov5647_probe(struct i2c_client *client)
->  	if (ret < 0)
->  		goto mutex_remove;
->
-> +	if (sensor->pwdn) {
-> +		gpiod_set_value(sensor->pwdn, 0);
-> +		msleep(PWDN_ACTIVE_DELAY_MS);
-> +	}
-> +
->  	ret = ov5647_detect(sd);
-> +
-> +	gpiod_set_value(sensor->pwdn, 1);
-> +
->  	if (ret < 0)
->  		goto error;
->
-> --
-> 2.17.1
->
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
