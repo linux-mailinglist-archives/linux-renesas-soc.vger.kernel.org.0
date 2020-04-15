@@ -2,232 +2,239 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3C11A97BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 11:02:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABEDC1A980B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 11:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390629AbgDOJC3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 05:02:29 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:17199 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390601AbgDOJC0 (ORCPT
+        id S2408343AbgDOJLB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 05:11:01 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:58173 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408295AbgDOJK6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 05:02:26 -0400
-X-IronPort-AV: E=Sophos;i="5.72,386,1580742000"; 
-   d="scan'208";a="44568584"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Apr 2020 18:02:24 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 967D14009BF5;
-        Wed, 15 Apr 2020 18:02:24 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     joro@8bytes.org, robh+dt@kernel.org
-Cc:     iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2] dt-bindings: iommu: renesas,ipmmu-vmsa: convert to json-schema
-Date:   Wed, 15 Apr 2020 18:02:17 +0900
-Message-Id: <1586941337-20842-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 15 Apr 2020 05:10:58 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id D872140002;
+        Wed, 15 Apr 2020 09:10:52 +0000 (UTC)
+Date:   Wed, 15 Apr 2020 11:13:57 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v8 10/13] squash! max9286: Implement Pixelrate control
+Message-ID: <20200415091357.ikmba3gipsj6i4dt@uno.localdomain>
+References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-11-kieran.bingham+renesas@ideasonboard.com>
+ <20200414105057.m4o3iejlbjivjyes@uno.localdomain>
+ <20200414211002.GP19819@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200414211002.GP19819@pendragon.ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas VMSA-Compatible IOMMU bindings documentation
-to json-schema.
+Hi Laurent,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Changes from v1:
- - Fix typo in the subject.
- - Add a description on #iommu-cells.
- https://patchwork.kernel.org/patch/11485415/
+On Wed, Apr 15, 2020 at 12:10:02AM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Tue, Apr 14, 2020 at 12:50:57PM +0200, Jacopo Mondi wrote:
+> > Hi Kieran,
+> >    +Niklas and Laurent for R-Car CSI-2 question
+> >
+> > sorry I now had the time to have a proper look to this one
+> >
+> > On Thu, Apr 09, 2020 at 01:11:59PM +0100, Kieran Bingham wrote:
+> > > Determine the (CSI2) pixel rate control by providing a control to read,
+> > > and checking the rate from the upstream camera sensors, and their
+> > > appropriate formats.
+> > >
+> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > ---
+> > >  drivers/media/i2c/max9286.c | 44 ++++++++++++++++++++++++++++++++-----
+> > >  1 file changed, 38 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > > index 17830c362a50..008a93910300 100644
+> > > --- a/drivers/media/i2c/max9286.c
+> > > +++ b/drivers/media/i2c/max9286.c
+> > > @@ -155,6 +155,7 @@ struct max9286_priv {
+> > >  	bool mux_open;
+> > >
+> > >  	struct v4l2_ctrl_handler ctrls;
+> > > +	struct v4l2_ctrl *pixelrate;
+> > >
+> > >  	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
+> > >
+> > > @@ -631,6 +632,16 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+> > >  	return 0;
+> > >  }
+> > >
+> > > +static int max9286_set_pixelrate(struct max9286_priv *priv, s64 rate)
+> > > +{
+> > > +	if (!priv->pixelrate)
+> > > +		return -EINVAL;
+> > > +
+> > > +	dev_err(&priv->client->dev, "Setting pixel rate to %lld\n", rate);
+> > > +
+> > > +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate, rate);
+> > > +}
+> > > +
+> > >  static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> > >  				  struct v4l2_subdev_pad_config *cfg,
+> > >  				  struct v4l2_subdev_mbus_code_enum *code)
+> > > @@ -664,6 +675,7 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> > >  {
+> > >  	struct max9286_priv *priv = sd_to_max9286(sd);
+> > >  	struct v4l2_mbus_framefmt *cfg_fmt;
+> > > +	s64 pixelrate;
+> > >
+> > >  	if (format->pad >= MAX9286_SRC_PAD)
+> > >  		return -EINVAL;
+> > > @@ -688,6 +700,12 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+> > >  	*cfg_fmt = format->format;
+> > >  	mutex_unlock(&priv->mutex);
+> > >
+> > > +	/* Update pixel rate for the CSI2 receiver */
+> > > +	pixelrate = cfg_fmt->width * cfg_fmt->height
+> > > +		  * priv->nsources * 30 /*FPS*/;
+> >
+> > I would have calculated this differently, as this to me should come from
+> > the CSI-2 link frequency.
+> >
+> > In case of 4 * RDACM20 (1280*800, YUYV8_2X8, 30 FPS)
+> >
+> > Tot Bandwidht = 4 * (1280 * 800 * 16 * 30) = 1,966,080,000 bits
+>
+> You're forgetting the blanking here.
+>
 
- .../bindings/iommu/renesas,ipmmu-vmsa.txt          | 73 -----------------
- .../bindings/iommu/renesas,ipmmu-vmsa.yaml         | 94 ++++++++++++++++++++++
- 2 files changed, 94 insertions(+), 73 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt
- create mode 100644 Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
+Am I ? I understand the full line lenght should be taken into account
+when programming the PLL cirtcuitry of a sensor to tune it's CSI-2
+transmitter output, but, being the CSI-2 transmission happening after
+several translations, I am not sure about it.
 
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt
-deleted file mode 100644
-index 020d6f2..00000000
---- a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt
-+++ /dev/null
-@@ -1,73 +0,0 @@
--* Renesas VMSA-Compatible IOMMU
--
--The IPMMU is an IOMMU implementation compatible with the ARM VMSA page tables.
--It provides address translation for bus masters outside of the CPU, each
--connected to the IPMMU through a port called micro-TLB.
--
--
--Required Properties:
--
--  - compatible: Must contain SoC-specific and generic entry below in case
--    the device is compatible with the R-Car Gen2 VMSA-compatible IPMMU.
--
--    - "renesas,ipmmu-r8a73a4" for the R8A73A4 (R-Mobile APE6) IPMMU.
--    - "renesas,ipmmu-r8a7743" for the R8A7743 (RZ/G1M) IPMMU.
--    - "renesas,ipmmu-r8a7744" for the R8A7744 (RZ/G1N) IPMMU.
--    - "renesas,ipmmu-r8a7745" for the R8A7745 (RZ/G1E) IPMMU.
--    - "renesas,ipmmu-r8a774a1" for the R8A774A1 (RZ/G2M) IPMMU.
--    - "renesas,ipmmu-r8a774b1" for the R8A774B1 (RZ/G2N) IPMMU.
--    - "renesas,ipmmu-r8a774c0" for the R8A774C0 (RZ/G2E) IPMMU.
--    - "renesas,ipmmu-r8a7790" for the R8A7790 (R-Car H2) IPMMU.
--    - "renesas,ipmmu-r8a7791" for the R8A7791 (R-Car M2-W) IPMMU.
--    - "renesas,ipmmu-r8a7793" for the R8A7793 (R-Car M2-N) IPMMU.
--    - "renesas,ipmmu-r8a7794" for the R8A7794 (R-Car E2) IPMMU.
--    - "renesas,ipmmu-r8a7795" for the R8A7795 (R-Car H3) IPMMU.
--    - "renesas,ipmmu-r8a7796" for the R8A7796 (R-Car M3-W) IPMMU.
--    - "renesas,ipmmu-r8a77965" for the R8A77965 (R-Car M3-N) IPMMU.
--    - "renesas,ipmmu-r8a77970" for the R8A77970 (R-Car V3M) IPMMU.
--    - "renesas,ipmmu-r8a77980" for the R8A77980 (R-Car V3H) IPMMU.
--    - "renesas,ipmmu-r8a77990" for the R8A77990 (R-Car E3) IPMMU.
--    - "renesas,ipmmu-r8a77995" for the R8A77995 (R-Car D3) IPMMU.
--    - "renesas,ipmmu-vmsa" for generic R-Car Gen2 or RZ/G1 VMSA-compatible
--			   IPMMU.
--
--  - reg: Base address and size of the IPMMU registers.
--  - interrupts: Specifiers for the MMU fault interrupts. For instances that
--    support secure mode two interrupts must be specified, for non-secure and
--    secure mode, in that order. For instances that don't support secure mode a
--    single interrupt must be specified. Not required for cache IPMMUs.
--
--  - #iommu-cells: Must be 1.
--
--Optional properties:
--
--  - renesas,ipmmu-main: reference to the main IPMMU instance in two cells.
--    The first cell is a phandle to the main IPMMU and the second cell is
--    the interrupt bit number associated with the particular cache IPMMU device.
--    The interrupt bit number needs to match the main IPMMU IMSSTR register.
--    Only used by cache IPMMU instances.
--
--
--Each bus master connected to an IPMMU must reference the IPMMU in its device
--node with the following property:
--
--  - iommus: A reference to the IPMMU in two cells. The first cell is a phandle
--    to the IPMMU and the second cell the number of the micro-TLB that the
--    device is connected to.
--
--
--Example: R8A7791 IPMMU-MX and VSP1-D0 bus master
--
--	ipmmu_mx: mmu@fe951000 {
--		compatible = "renasas,ipmmu-r8a7791", "renasas,ipmmu-vmsa";
--		reg = <0 0xfe951000 0 0x1000>;
--		interrupts = <0 222 IRQ_TYPE_LEVEL_HIGH>,
--			     <0 221 IRQ_TYPE_LEVEL_HIGH>;
--		#iommu-cells = <1>;
--	};
--
--	vsp@fe928000 {
--		...
--		iommus = <&ipmmu_mx 13>;
--		...
--	};
-diff --git a/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-new file mode 100644
-index 00000000..2c69f1f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml
-@@ -0,0 +1,94 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iommu/renesas,ipmmu-vmsa.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas VMSA-Compatible IOMMU
-+
-+maintainers:
-+  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-+
-+description:
-+  The IPMMU is an IOMMU implementation compatible with the ARM VMSA page tables.
-+  It provides address translation for bus masters outside of the CPU, each
-+  connected to the IPMMU through a port called micro-TLB.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,ipmmu-r8a7743  # RZ/G1M
-+              - renesas,ipmmu-r8a7744  # RZ/G1N
-+              - renesas,ipmmu-r8a7745  # RZ/G1E
-+              - renesas,ipmmu-r8a7790  # R-Car H2
-+              - renesas,ipmmu-r8a7791  # R-Car M2-W
-+              - renesas,ipmmu-r8a7793  # R-Car M2-N
-+              - renesas,ipmmu-r8a7794  # R-Car E2
-+              - renesas,ipmmu-r8a7795  # R-Car H3
-+          - const: renesas,ipmmu-vmsa  # R-Car Gen2 or RZ/G1
-+      - items:
-+          - enum:
-+              - renesas,ipmmu-r8a73a4  # R-Mobile APE6
-+              - renesas,ipmmu-r8a774a1 # RZ/G2M
-+              - renesas,ipmmu-r8a774b1 # RZ/G2N
-+              - renesas,ipmmu-r8a774c0 # RZ/G2E
-+              - renesas,ipmmu-r8a7796  # R-Car M3-W
-+              - renesas,ipmmu-r8a77965 # R-Car M3-N
-+              - renesas,ipmmu-r8a77970 # R-Car V3M
-+              - renesas,ipmmu-r8a77980 # R-Car V3H
-+              - renesas,ipmmu-r8a77990 # R-Car E3
-+              - renesas,ipmmu-r8a77995 # R-Car D3
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    minItems: 1
-+    maxItems: 2
-+    description:
-+      Specifiers for the MMU fault interrupts. For instances that support
-+      secure mode two interrupts must be specified, for non-secure and secure
-+      mode, in that order. For instances that don't support secure mode a
-+      single interrupt must be specified. Not required for cache IPMMUs.
-+
-+  '#iommu-cells':
-+    const: 1
-+    description:
-+      A reference to the IPMMU in two cells. The first cell is a phandle
-+      to the IPMMU and the second cell the number of the micro-TLB that the
-+      device is connected to.
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  renesas,ipmmu-main:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      Reference to the main IPMMU instance in two cells. The first cell is
-+      a phandle to the main IPMMU and the second cell is the interrupt bit
-+      number associated with the particular cache IPMMU device. The interrupt
-+      bit number needs to match the main IPMMU IMSSTR register. Only used by
-+      cache IPMMU instances.
-+
-+required:
-+  - compatible
-+  - reg
-+  - '#iommu-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7791-sysc.h>
-+
-+    ipmmu_mx: mmu@fe951000 {
-+        compatible = "renasas,ipmmu-r8a7791", "renasas,ipmmu-vmsa";
-+        reg = <0xfe951000 0x1000>;
-+        interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 221 IRQ_TYPE_LEVEL_HIGH>;
-+        #iommu-cells = <1>;
-+    };
--- 
-2.7.4
+The serializer receives frames on a serial bus, driven by the sensor
+reference signals (HREF, VSYNC and PCLK). As in regular parallel capture
+operations (if I'm not mistaken), data are sampled during the active HREF
+periods, so either the serializer sends active data to be scrambled
+and encoded on the GMSL bus, or it does the same transmitting
+'blankings' perdiods as specially encoded packets on the GSML bus.
 
+I'm actually not sure how what happens there, and I assumed only valid
+data gets decoded and sent but the fact that we enable HS/VS encoding
+in the GMSL stream makes me wonder if blankings are not actually sent
+and then encoded in the output CSI-2 stream as well.
+
+
+> > CSI-2 Link Freq = TotBandwidth / lanes / DDR =
+> >                 = 1,966,080,000 / 4 / 2 = 245,760,000 Mhz
+>
+> And here you're not taking protocol overhead into account. You'll end up
+> with a too low frequency (and when I say you, it equally applies to this
+> patch).
+>
+> The pixel rate should be computed based on the CSI-2 link frequency
+> instead, which itself should be based on the GMSL link frequency (unless
+> my understanding is wrong, the MAX9286 doesn't support retiming the
+> video signal to reduce or increase the clock frequency through increase
+> or reduction of horizontal blanking), itself based on the pixel clock
+> input of the serializer (with a few parameters taken into account, such
+> as double-input mode, high data-rate mode and 24-/32-bit mode).
+>
+
+The deserializer manual presents formulas to calculate the CSI-2
+output bit rate per lane unrelated to the GMSL link frequency at page
+47 of the manual.
+
+Could the deserializer be capable of deducing the frequency to program its
+CSI-2 transmitter to using the GSML link frequency, knowing the GMSL bus
+protocol overheads?
+
+I think we could do the same and deduce the CSI-2 frequency from the
+sensor's pixel rate leaving the GMSL link overhead out of the picture.
+
+
+> > CSI-2 Lane Bandw = TotBandwith / lanes
+> >                  = 491,520,00 Mbps
+> > Pixel Rate = LaneBandwidth * lanes / BPP
+> >            =  122,880,000 pixel/second
+> >
+> > Which matches your calculation of
+> >         (width * height * channesl * FPS)
+> >         1280 * 800 * 4 * 30 = 122880000
+> >
+> > So I think all of this just serves as validation of the above part.
+> >
+> > Now, the PIXEL_RATE ctrl is queried by the CSI-2 receiver which use it
+> > to compute again the bandwidth per lane in Mbps, in order to set the
+> > PHTW value, but for H3 those values are available only up to 250Mbps,
+> > while here we get a 491Mbps (and the CSI-2 driver which re-does the
+> > calculations gets the same value).
+> >
+> > Might this be because the total bandwidths of CSI-2 is 1Gbps ? (but in
+> > that case the PHTW value should be calculated depending on the lane
+> > nunmbers), so is our calculation of pixel rate in max9286 off ?
+> >
+> > Also consider that the original value was set to 50MPixel/second, less
+> > than the half of our calculation..
+> >
+> > What do you think ?
+> >
+> > > +
+> > > +	max9286_set_pixelrate(priv, pixelrate);
+> > > +
+> > >  	return 0;
+> > >  }
+> > >
+> > > @@ -756,6 +774,20 @@ static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
+> > >  	.open = max9286_open,
+> > >  };
+> > >
+> > > +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +	switch (ctrl->id) {
+> > > +	case V4L2_CID_PIXEL_RATE:
+> > > +		return 0;
+> > > +	default:
+> > > +		return -EINVAL;
+> > > +	}
+> > > +}
+> > > +
+> > > +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
+> > > +	.s_ctrl	= max9286_s_ctrl,
+> > > +};
+> > > +
+> > >  static int max9286_v4l2_register(struct max9286_priv *priv)
+> > >  {
+> > >  	struct device *dev = &priv->client->dev;
+> > > @@ -777,12 +809,12 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
+> > >  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > >
+> > >  	v4l2_ctrl_handler_init(&priv->ctrls, 1);
+> > > -	/*
+> > > -	 * FIXME: Compute the real pixel rate. The 50 MP/s value comes from the
+> > > -	 * hardcoded frequency in the BSP CSI-2 receiver driver.
+> > > -	 */
+> > > -	v4l2_ctrl_new_std(&priv->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> > > -			  50000000, 50000000, 1, 50000000);
+> > > +
+> > > +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
+> > > +					    &max9286_ctrl_ops,
+> > > +					    V4L2_CID_PIXEL_RATE,
+> > > +					    1, INT_MAX, 1, 50000000);
+> > > +
+> > >  	priv->sd.ctrl_handler = &priv->ctrls;
+> > >  	ret = priv->ctrls.error;
+> > >  	if (ret)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
