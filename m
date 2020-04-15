@@ -2,322 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 495101AAFBB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 19:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A9FF1AB16D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Apr 2020 21:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411181AbgDORbj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Apr 2020 13:31:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47164 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2411172AbgDORbe (ORCPT
+        id S2438700AbgDOTQy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Apr 2020 15:16:54 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:40171 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2440357AbgDOTHg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Apr 2020 13:31:34 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D5F3D2076D;
-        Wed, 15 Apr 2020 17:31:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1586971892;
-        bh=Q+cQLTLYqEnr0ODnP1UgJ/lLN0GED+XfKIE4VzHQtzU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=2HkilS1AnLgNFrpcMhPnKdV7tR4loJfQtvZuPUjbX4OqDsn9SoerPBDznoM4P8Evz
-         WKyyYXLurIdwrZyAzfIM338AHH/w5tr8b8dZy2t/jfNpjqmFvnbqCKMXhdhva/BreP
-         9muTxtMsbxxd0eDVr/qJKS1Hgd1Nuh9vOfhozHrw=
-Date:   Wed, 15 Apr 2020 18:31:29 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Applied "spi: dt-bindings: rspi: Convert to json-schema" to the spi tree
-In-Reply-To:  <20200408091129.25429-1-geert+renesas@glider.be>
-Message-Id:  <applied-20200408091129.25429-1-geert+renesas@glider.be>
-X-Patchwork-Hint: ignore
+        Wed, 15 Apr 2020 15:07:36 -0400
+Received: from mail-qv1-f52.google.com ([209.85.219.52]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1M9nlN-1jJ0U50zTR-005qez; Wed, 15 Apr 2020 21:07:32 +0200
+Received: by mail-qv1-f52.google.com with SMTP id v38so694771qvf.6;
+        Wed, 15 Apr 2020 12:07:31 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYqovIjqXz2qd1he3wjA1+p9EOIVHRC83vREbjlypu5Eij56d+6
+        aukOuawtA0X3gF5w3edRrX0Hr6K5E3UxaRccKh8=
+X-Google-Smtp-Source: APiQypJX6+zh0Hk9cZgHIA/HI7dJ0HZA699mCplxjoSE0/kbYbrN5LgCPWe0a2KpM5wIklHmQkE+zGG0ajKUcBeJ1kM=
+X-Received: by 2002:a0c:9e2f:: with SMTP id p47mr6000391qve.211.1586977650774;
+ Wed, 15 Apr 2020 12:07:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200408202711.1198966-1-arnd@arndb.de> <20200408202711.1198966-6-arnd@arndb.de>
+ <20200414201739.GJ19819@pendragon.ideasonboard.com> <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
+ <20200414205158.GM19819@pendragon.ideasonboard.com> <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
+ <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com> <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+In-Reply-To: <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 15 Apr 2020 21:07:14 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
+Message-ID: <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
+Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:4b8EYsOhlpxPK7pigxEr6ENytFkJTUlOn65DgSqaoGVE4mhFOVD
+ QcxKAXWkIC/EjC2fjH2zFctAHyK6mjXQANuW5qhqhnOrB39r8JJVSe68xBi7ZSFf2mjAGxs
+ VV9iaKU3flgC991QNdyH9+oukWipUW9v1tTl5jlCwT9gVLYyC/THngPjyw40G8b8DKccp41
+ EebvW/ikBPYtAFWcBr6DQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:s1iU6JwyX0k=:qF3wmkBt4XF94HD66/LOjx
+ QQaUujg7RD8vwUT7IA4urdkYEgskCcbP4QA7rFWrrMbi8eKCfOezI/5sFlLCN5MXk10ru0rll
+ GkGCENRfsLJbRHh/e4Wr2JzDuotT4oNh0K4KaiNl7aEi4rLRnSoET5mH20dC1zL0vpjtMNBfh
+ /Q4ks7R/2rW+lgPXQnE2xO8L6uEqEiU+Xs1QqmhSBQTLsm0WGie40UfcmfYUII8FiWRsVR0xq
+ kFA905uOMsrS6oJtJINFvcdEq6flmEFPaMMgG2xY7FT/CwxdYzCuU23LKWdw1SDwCg1KW4/sR
+ SGSirwbzqoHKqhvoJ82BpZYql/nQ2kIqzF/0L1e6ghinNBQA0z5Rbq5m1sAUim6bODATFlAO2
+ a0ol9rIZ6lihW9det7W0z5ZptW42n1EZlcNgvMyFnMGHtrzAv5iyLtltrQyYbFITEZpoPAm0Z
+ Zk7v4JwxtEZB+Os2TJztAcEpPpQig7/6m45cqhvTRNodywOKzAqkew5B6MsTQXnaApA06i0Ov
+ A8A6o2AypYt2VK0Nm/PZSeIrtX9y2yN0TEn5+BVk4+VKW2Qfro6gvtWWzo1jVjSltcF48WM55
+ Tn/X8udAui6asxFoxR6D1WOADi7hCI0rCZK1Cd7N8J+9KLFSoT8u0kbIJT8p79CYpAsZCWnn4
+ 2a+3NlqlITmkuSoIG+6kmlf61ktRhkr7S8Rca0bKhovGraT4PmQI9oKzSb3IJ+Z5UBNX7bCF2
+ VEwbPF6SvmUq3yOeYOu/WvuBUYTIqU7xL2JRi/aEytq3iOyBTA9m0pZt42g4tFKwMp148zBj0
+ +I7nj2DBc+euzSDrJvK0rBWrq6cA96QuD7Iv98+JEVNqHeJqnU=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The patch
+On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> > > > Doesn't "imply" mean it gets selected by default but can be manually
+> > > > disabled ?
+> > >
+> > > That may be what it means now (I still don't understand how it's defined
+> > > as of v5.7-rc1), but traditionally it was more like a 'select if all
+> > > dependencies are met'.
+> >
+> > That's still what it is supposed to mean right now ;-)
+> > Except that now it should correctly handle the modular case, too.
+>
+> Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
+> and enable CONFIG_DRM_RCAR_DU, I can set
+> DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
+> of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
+> statement seems to be ignored entirely, except as reverse 'default'
+> setting.
 
-   spi: dt-bindings: rspi: Convert to json-schema
+Here is another version that should do what we want and is only
+half-ugly. I can send that as a proper patch if it passes my testing
+and nobody hates it too much.
 
-has been applied to the spi tree at
+       Arnd
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git 
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 0919f1f159a4..d2fcec807dfa 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -4,8 +4,6 @@ config DRM_RCAR_DU
+        depends on DRM && OF
+        depends on ARM || ARM64
+        depends on ARCH_RENESAS || COMPILE_TEST
+-       imply DRM_RCAR_CMM
+-       imply DRM_RCAR_LVDS
+        select DRM_KMS_HELPER
+        select DRM_KMS_CMA_HELPER
+        select DRM_GEM_CMA_HELPER
+@@ -14,13 +12,17 @@ config DRM_RCAR_DU
+          Choose this option if you have an R-Car chipset.
+          If M is selected the module will be called rcar-du-drm.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+-config DRM_RCAR_CMM
+-       tristate "R-Car DU Color Management Module (CMM) Support"
+-       depends on DRM && OF
++config DRM_RCAR_USE_CMM
++       bool "R-Car DU Color Management Module (CMM) Support"
+        depends on DRM_RCAR_DU
++       default DRM_RCAR_DU
+        help
+          Enable support for R-Car Color Management Module (CMM).
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
++config DRM_RCAR_CMM
++       def_tristate DRM_RCAR_DU
++       depends on DRM_RCAR_USE_CMM
++
+ config DRM_RCAR_DW_HDMI
+        tristate "R-Car DU Gen3 HDMI Encoder Support"
+        depends on DRM && OF
+@@ -28,15 +30,20 @@ config DRM_RCAR_DW_HDMI
+        help
+          Enable support for R-Car Gen3 internal HDMI encoder.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-config DRM_RCAR_LVDS
+-       tristate "R-Car DU LVDS Encoder Support"
+-       depends on DRM && DRM_BRIDGE && OF
++config DRM_RCAR_USE_LVDS
++       bool "R-Car DU LVDS Encoder Support"
++       depends on DRM_BRIDGE && OF
++       default DRM_RCAR_DU
+        select DRM_PANEL
+        select OF_FLATTREE
+        select OF_OVERLAY
+        help
+          Enable support for the R-Car Display Unit embedded LVDS encoders.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 999866c92f4a333cb776c3e87831feeddef74f96 Mon Sep 17 00:00:00 2001
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-Date: Wed, 8 Apr 2020 11:11:29 +0200
-Subject: [PATCH] spi: dt-bindings: rspi: Convert to json-schema
-
-Convert the Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
-Device Tree binding documentation to json-schema.
-
-Document missing properties.
-Update the second example to match reality.
-Drop the first example, as it doesn't add much value.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Link: https://lore.kernel.org/r/20200408091129.25429-1-geert+renesas@glider.be
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- .../devicetree/bindings/spi/renesas,rspi.yaml | 144 ++++++++++++++++++
- .../devicetree/bindings/spi/spi-rspi.txt      |  73 ---------
- 2 files changed, 144 insertions(+), 73 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/spi/renesas,rspi.yaml
- delete mode 100644 Documentation/devicetree/bindings/spi/spi-rspi.txt
-
-diff --git a/Documentation/devicetree/bindings/spi/renesas,rspi.yaml b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-new file mode 100644
-index 000000000000..c54ac059043f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/spi/renesas,rspi.yaml
-@@ -0,0 +1,144 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/spi/renesas,rspi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++config DRM_RCAR_LVDS
++       def_tristate DRM_RCAR_DU
++       depends on DRM_RCAR_USE_LVDS
 +
-+title: Renesas (Quad) Serial Peripheral Interface (RSPI/QSPI)
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,rspi-sh7757    # SH7757
-+          - const: renesas,rspi        # Legacy SH
-+
-+      - items:
-+          - enum:
-+              - renesas,rspi-r7s72100  # RZ/A1H
-+              - renesas,rspi-r7s9210   # RZ/A2
-+          - const: renesas,rspi-rz     # RZ/A
-+
-+      - items:
-+          - enum:
-+              - renesas,qspi-r8a7743   # RZ/G1M
-+              - renesas,qspi-r8a7744   # RZ/G1N
-+              - renesas,qspi-r8a7745   # RZ/G1E
-+              - renesas,qspi-r8a77470  # RZ/G1C
-+              - renesas,qspi-r8a7790   # R-Car H2
-+              - renesas,qspi-r8a7791   # R-Car M2-W
-+              - renesas,qspi-r8a7792   # R-Car V2H
-+              - renesas,qspi-r8a7793   # R-Car M2-N
-+              - renesas,qspi-r8a7794   # R-Car E2
-+          - const: renesas,qspi        # R-Car Gen2 and RZ/G1
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    oneOf:
-+      - items:
-+          - description: A combined interrupt
-+      - items:
-+          - description: Error interrupt (SPEI)
-+          - description: Receive Interrupt (SPRI)
-+          - description: Transmit Interrupt (SPTI)
-+
-+  interrupt-names:
-+    oneOf:
-+      - items:
-+          - const: mux
-+      - items:
-+          - const: error
-+          - const: rx
-+          - const: tx
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  dmas:
-+    description:
-+      Must contain a list of pairs of references to DMA specifiers, one for
-+      transmission, and one for reception.
-+
-+  dma-names:
-+    minItems: 2
-+    maxItems: 4
-+    items:
-+      enum:
-+        - tx
-+        - rx
-+
-+  num-cs:
-+    description: |
-+      Total number of native chip selects.
-+      Hardware limitations related to chip selects:
-+        - When using GPIO chip selects, at least one native chip select must
-+          be left unused, as it will be driven anyway.
-+    minimum: 1
-+    maximum: 2
-+    default: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - power-domains
-+  - '#address-cells'
-+  - '#size-cells'
-+
-+allOf:
-+  - $ref: spi-controller.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,rspi-rz
-+    then:
-+      properties:
-+        interrupts:
-+          minItems: 3
-+      required:
-+        - interrupt-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,qspi
-+    then:
-+      required:
-+        - resets
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7791-sysc.h>
-+
-+    qspi: spi@e6b10000 {
-+            compatible = "renesas,qspi-r8a7791", "renesas,qspi";
-+            reg = <0xe6b10000 0x2c>;
-+            interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cpg CPG_MOD 917>;
-+            dmas = <&dmac0 0x17>, <&dmac0 0x18>, <&dmac1 0x17>, <&dmac1 0x18>;
-+            dma-names = "tx", "rx", "tx", "rx";
-+            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+            resets = <&cpg 917>;
-+            num-cs = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+    };
-diff --git a/Documentation/devicetree/bindings/spi/spi-rspi.txt b/Documentation/devicetree/bindings/spi/spi-rspi.txt
-deleted file mode 100644
-index 421722b93992..000000000000
---- a/Documentation/devicetree/bindings/spi/spi-rspi.txt
-+++ /dev/null
-@@ -1,73 +0,0 @@
--Device tree configuration for Renesas RSPI/QSPI driver
--
--Required properties:
--- compatible       : For Renesas Serial Peripheral Interface on legacy SH:
--		     "renesas,rspi-<soctype>", "renesas,rspi" as fallback.
--		     For Renesas Serial Peripheral Interface on RZ/A:
--		     "renesas,rspi-<soctype>", "renesas,rspi-rz" as fallback.
--		     For Quad Serial Peripheral Interface on R-Car Gen2 and
--		     RZ/G1 devices:
--		     "renesas,qspi-<soctype>", "renesas,qspi" as fallback.
--		     Examples with soctypes are:
--		        - "renesas,rspi-sh7757" (SH)
--			- "renesas,rspi-r7s72100" (RZ/A1H)
--			- "renesas,rspi-r7s9210" (RZ/A2)
--			- "renesas,qspi-r8a7743" (RZ/G1M)
--			- "renesas,qspi-r8a7744" (RZ/G1N)
--			- "renesas,qspi-r8a7745" (RZ/G1E)
--			- "renesas,qspi-r8a77470" (RZ/G1C)
--			- "renesas,qspi-r8a7790" (R-Car H2)
--			- "renesas,qspi-r8a7791" (R-Car M2-W)
--			- "renesas,qspi-r8a7792" (R-Car V2H)
--			- "renesas,qspi-r8a7793" (R-Car M2-N)
--			- "renesas,qspi-r8a7794" (R-Car E2)
--- reg              : Address start and address range size of the device
--- interrupts       : A list of interrupt-specifiers, one for each entry in
--		     interrupt-names.
--		     If interrupt-names is not present, an interrupt specifier
--		     for a single muxed interrupt.
--- interrupt-names  : A list of interrupt names. Should contain (if present):
--		       - "error" for SPEI,
--		       - "rx" for SPRI,
--		       - "tx" to SPTI,
--		       - "mux" for a single muxed interrupt.
--- num-cs	   : Number of chip selects. Some RSPI cores have more than 1.
--- #address-cells   : Must be <1>
--- #size-cells      : Must be <0>
--
--Optional properties:
--- clocks           : Must contain a reference to the functional clock.
--- dmas             : Must contain a list of two references to DMA specifiers,
--		     one for transmission, and one for reception.
--- dma-names        : Must contain a list of two DMA names, "tx" and "rx".
--
--Pinctrl properties might be needed, too.  See
--Documentation/devicetree/bindings/pinctrl/renesas,*.
--
--Examples:
--
--	spi0: spi@e800c800 {
--		compatible = "renesas,rspi-r7s72100", "renesas,rspi-rz";
--		reg = <0xe800c800 0x24>;
--		interrupts = <0 238 IRQ_TYPE_LEVEL_HIGH>,
--			     <0 239 IRQ_TYPE_LEVEL_HIGH>,
--			     <0 240 IRQ_TYPE_LEVEL_HIGH>;
--		interrupt-names = "error", "rx", "tx";
--		interrupt-parent = <&gic>;
--		num-cs = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--	};
--
--	spi: spi@e6b10000 {
--		compatible = "renesas,qspi-r8a7791", "renesas,qspi";
--		reg = <0 0xe6b10000 0 0x2c>;
--		interrupt-parent = <&gic>;
--		interrupts = <0 184 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&mstp9_clks R8A7791_CLK_QSPI_MOD>;
--		num-cs = <1>;
--		#address-cells = <1>;
--		#size-cells = <0>;
--		dmas = <&dmac0 0x17>, <&dmac0 0x18>;
--		dma-names = "tx", "rx";
--	};
--- 
-2.20.1
-
+ config DRM_RCAR_VSP
+        bool "R-Car DU VSP Compositor Support" if ARM
+        default y if ARM64
