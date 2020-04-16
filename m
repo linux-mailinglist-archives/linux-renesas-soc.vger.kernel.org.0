@@ -2,65 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F73B1ABD54
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 11:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CC61ABD67
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 11:56:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504312AbgDPJw2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Apr 2020 05:52:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50276 "EHLO
+        id S2504483AbgDPJzs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Apr 2020 05:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2504301AbgDPJwW (ORCPT
+        by vger.kernel.org with ESMTP id S2504147AbgDPJzq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Apr 2020 05:52:22 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C725C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2020 02:52:21 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id y4so7107708ljn.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2020 02:52:21 -0700 (PDT)
+        Thu, 16 Apr 2020 05:55:46 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE658C061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2020 02:55:45 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id v9so7073688ljk.12
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2020 02:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GNdPjagFmKxMgRfeH1VQvH6JQzOlcu1FpAxIz+rDOmU=;
-        b=iy0Sm9ux4YeJsoVuh2C0RDoE7WCEsixfv64uA8TAnqqaCjzzYSe3dyw9QbQg5KccdE
-         gdfoTihlxW1Pp+DgcWSXtqiozJdfBF5RHSIvpovQ1Zf7gXOyqInMl7qYCwSyCo+uTA8+
-         BNdnqAE9xqsMA2cm9HxgLREUO30UFv6+YyaXhRvQurAUvg+xCVRh7f29e/a6BRUENU0+
-         C3htj1zEI0qfwuYNhdRBwya/wvdqa9E8pu+FHAU+R1JVsXbvz8/F/EAsmKLUe/GBcM2w
-         ul/eeXhAf6CZ4Y/zzw+fMcz2EKARL11ZnqdKQifriyeayrjM1Qxist/WG9XzDyn7B3W4
-         5QCQ==
+        bh=9WKmF+4ozCpGRoW6Pz2JMOueuofo1K6+sB2uikrRjTM=;
+        b=qYpzs390kkO/mgi0lv+TJwgV1cxiEeziddUOt2AKHPohkft9gn4q46TD5wrKZX3wiA
+         PglSy+O7e521RYnjVatIoQdTxfWI8GVNVQ1o/mDfpHMEglL7Zj1dfG9EQHEq22ypn2X6
+         GF1CCnsxxJNjVxFSSITlPJiJ+uZCKu0aJxw2KzvPM1AoVIGd1UO8jG5Yhs/+8dyq9qPz
+         O94N6ghSlpZLWCL2AcXolHmsTPvNIlxXqVPvqUadw7UDCOgSdkb7ehz9SwxPD7rl/KTg
+         gyrHdquzcwVGXZGH67XXbC9GzQIV1JNxGINv0Cb0Tmur7ywdXN4W4jxiIVOXZrPIE0r5
+         8Dfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GNdPjagFmKxMgRfeH1VQvH6JQzOlcu1FpAxIz+rDOmU=;
-        b=ecTlSO/wL0pe3xsDp0KmBYvGDOWRJAZaancA0EpSNe9MaSv91mc7Qg5EN+QuuE0S91
-         Et2u0I8wU6LgdbPwwCMcOmPnSWmuX5Vc5ozPlsT3evQZTM7rQwRWeS/9J2ro7+4s3t9f
-         qVwwWF2gvnuYYp3vb/X5mK6tj5NRh/iTHGUyhyMkHg8F2z1d3EvwipRiPEqJceXQsUSr
-         gCJT3cZtI8k5ZNmMFRZXrPon4dh7rlh/1ciauVaZZexg9IuBipM6igri+rHYTo3LiFOu
-         WQb2TmbWT0+/grlsD/K5KaG2jcgiGLTmcNLS0aUjPs57xSGq8z8OgyR0KAaN94YbGgNU
-         5WMA==
-X-Gm-Message-State: AGi0PuZhUfQbesBNJk8XaWfer2QSCdDLNYGMrWnIgqSnqK/jlW4TNk9N
-        vJTlHeE0hD3tjaFnoyzfxtkDJlGSPEh84Q==
-X-Google-Smtp-Source: APiQypKoy003KfGHTrlQOeX4iZnIOdl6jIy6K2GFo+/k62ZwoeqtoRlRgYZwOpZbvMCzFgyBptcIbQ==
-X-Received: by 2002:a2e:8112:: with SMTP id d18mr5886816ljg.239.1587030739796;
-        Thu, 16 Apr 2020 02:52:19 -0700 (PDT)
+        bh=9WKmF+4ozCpGRoW6Pz2JMOueuofo1K6+sB2uikrRjTM=;
+        b=LQaxpKahWEAYzidD7mBIXmVZ6sYRO+l6OVMhvXJkuGqmP5eqmbNJqqO23UGhbQQjJK
+         EY4tGJQ9K5wj92cdy7lkTZ7fMkLPBc3AmN5jFVCZkJ6APtQen93n2UIa0MNuBcqghc47
+         LWIK2cZ1tZ+KnlqVITBWRIrLROFSP0TS0XhAJV9TtcezoQeXY+6T75AN0/5q7VwQj4gL
+         yXYqXFhGiWEQ049w9Dh+/zXM0GAoDr2ECg5jkkobzH8qdVuf/L11IhstZ6pocmD62ZZs
+         umTLbTKqHW8MPxzgntTlbVw+SRiuDMmxBz9JFIRsPhcgRJXFjhMyn/JHoriTWfXZz0cP
+         GVhQ==
+X-Gm-Message-State: AGi0PuaaV5uEmA4ztpvHXNuVPRGXP0DwNDk3hOafQ+nxOGBUKTtN9xSj
+        i6KhvVptGtj+Y5NHK+FIPD6Xb1I9oXU=
+X-Google-Smtp-Source: APiQypJyeNOSjI1BuHSHKV+0gN0D1Uo/s1EuNv/Hh/VokJti2tWLrj5DBSXBplRvwwZAFWHq2vEVNQ==
+X-Received: by 2002:a05:651c:2046:: with SMTP id t6mr5521104ljo.275.1587030944191;
+        Thu, 16 Apr 2020 02:55:44 -0700 (PDT)
 Received: from ?IPv6:2a00:1fa0:4832:17d6:f588:52ab:5d6a:f5f3? ([2a00:1fa0:4832:17d6:f588:52ab:5d6a:f5f3])
-        by smtp.gmail.com with ESMTPSA id i18sm9468928lfo.57.2020.04.16.02.52.18
+        by smtp.gmail.com with ESMTPSA id o17sm14817068lff.70.2020.04.16.02.55.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Apr 2020 02:52:19 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] ravb: Fix RAVB_RXTSTAMP_TYPE_ALL value
+        Thu, 16 Apr 2020 02:55:43 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] ravb: Drop unused RAVB_{R,T}XTSTAMP_VALID macros
 To:     Dirk Behme <dirk.behme@de.bosch.com>,
         linux-renesas-soc@vger.kernel.org
-Cc:     geert+renesas@glider.be, Julia Lawall <julia.lawall@inria.fr>
+Cc:     geert+renesas@glider.be
 References: <20200409094851.22142-1-dirk.behme@de.bosch.com>
+ <20200409094851.22142-2-dirk.behme@de.bosch.com>
 From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <efdd6b5b-b239-2147-ba7f-bbcbb192aeba@cogentembedded.com>
-Date:   Thu, 16 Apr 2020 12:52:07 +0300
+Message-ID: <a9cff1a0-24b3-13a7-d316-f2f7f4770ae3@cogentembedded.com>
+Date:   Thu, 16 Apr 2020 12:55:32 +0300
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200409094851.22142-1-dirk.behme@de.bosch.com>
+In-Reply-To: <20200409094851.22142-2-dirk.behme@de.bosch.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -69,30 +70,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
 On 09.04.2020 12:48, Dirk Behme wrote:
 
-> In the function ravb_hwtstamp_get() in ravb_main.c with the existing
-> values for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL
-> (0x6)
+> These macros are unused, we can safely drop them.
 > 
-> if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
->          config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
->          config.rx_filter = HWTSTAMP_FILTER_ALL;
+> Cleanup only, no functional change.
 > 
-> if the test on RAVB_RXTSTAMP_TYPE_ALL should be true, it will never
-> be reached. Correct this by changing RAVB_RXTSTAMP_TYPE_ALL to 0x4.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
 > Suggested-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 > Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
 
-    Almost forgot about these patches... :-/
-
 Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+> ---
+> Changes in v2: Split fix and cleanup into two patches.
+
+    Don't mix fixes and cleanups in the same series, especially in the 
+networking area -- the fixes are merged to the net.git repo and cleanups are 
+merged to the net-next.git repo...
 
 [...]
 
