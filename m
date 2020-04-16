@@ -2,92 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 147301AC00F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 13:47:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A8A1ABE1C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 12:40:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504618AbgDPKSI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Apr 2020 06:18:08 -0400
-Received: from mga01.intel.com ([192.55.52.88]:45834 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2441495AbgDPKRx (ORCPT
+        id S2504903AbgDPKiu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Apr 2020 06:38:50 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:52045 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2505113AbgDPKiU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Apr 2020 06:17:53 -0400
-IronPort-SDR: AwA41n4JgjKZuuNgZRCP6UHT3UZ1/Za8i4jvp+2iuw24g9JtB0A34lTmesKM6GH21CTwW6R8I8
- 0TXBR3vVAKnA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 03:17:42 -0700
-IronPort-SDR: PabvyhK/GDPyBjaf0paWWd5oAAbGpqHHyicWhdVU0osJ1cJkrEV/y2jitUhatIDlUFj03yE+KQ
- +MY52IYzL9ng==
-X-IronPort-AV: E=Sophos;i="5.72,390,1580803200"; 
-   d="scan'208";a="400622555"
-Received: from ellenfax-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.44.122])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2020 03:17:34 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "narmstrong\@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy\@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart\@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "leon\@kernel.org" <leon@kernel.org>,
-        "davem\@davemloft.net" <davem@davemloft.net>,
-        "linux-renesas-soc\@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nico\@fluxnic.net" <nico@fluxnic.net>,
-        "linux-rdma\@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kieran.bingham+renesas\@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "a.hajda\@samsung.com" <a.hajda@samsung.com>,
-        "jonas\@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied\@linux.ie" <airlied@linux.ie>,
-        "jgg\@ziepe.ca" <jgg@ziepe.ca>,
-        "jernej.skrabec\@siol.net" <jernej.skrabec@siol.net>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-In-Reply-To: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200408202711.1198966-1-arnd@arndb.de> <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr> <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com> <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com> <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com> <20200410171320.GN11886@ziepe.ca> <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com> <20200414132900.GD5100@ziepe.ca> <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com> <20200414152312.GF5100@ziepe.ca> <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com> <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com> <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com> <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com> <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Date:   Thu, 16 Apr 2020 13:17:32 +0300
-Message-ID: <874ktj4tvn.fsf@intel.com>
+        Thu, 16 Apr 2020 06:38:20 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.homenet.telecomitalia.it (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id C2A2160002;
+        Thu, 16 Apr 2020 10:37:51 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        hyunk@xilinx.com, manivannan.sadhasivam@linaro.org
+Subject: [v8-rc1 00/20] GMSL: max9286-v8-rc1 + RDAMC20-v8
+Date:   Thu, 16 Apr 2020 12:40:32 +0200
+Message-Id: <20200416104052.2643098-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
-> On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
->> BTW how about adding a new Kconfig option to hide the details of
->> ( BAR || !BAR) ? as Jason already explained and suggested, this will
->> make it easier for the users and developers to understand the actual
->> meaning behind this tristate weird condition.
->>
->> e.g have a new keyword:
->>      reach VXLAN
->> which will be equivalent to:
->>      depends on VXLAN && !VXLAN
->
-> I'd love to see that, but I'm not sure what keyword is best. For your
-> suggestion of "reach", that would probably do the job, but I'm not
-> sure if this ends up being more or less confusing than what we have
-> today.
+Hello Kieran,
+   please fine here a slight rework of your fixup series to be applied
+on top of max9286-v7.
 
-Ah, perfect bikeshedding topic!
+The main changes are:
+- overlap window: write registers 0x63 and 0x64 directly. Going through the
+                  function breaks RDACM21 operations. To be investigated.
+- pixel rate control: Make mandatory for remotes to report pixel rate, and
+		     use it calculate max9286 one.
+- rebase on latest media-master
 
-Perhaps "uses"? If the dependency is enabled it gets used as a
-dependency.
+On top of that I have added v8 of RDACM20.
+The changes compared to v7 are considerable, and reported in the single
+patch change log. I have 30+ fixup patches on top of rdacm20-v7 that could
+be singularly reviewed, but not to flood the list I squashed them in in
+this version. As detailed in the patch change log the changes are available
+singularly in a repository in my git tree.
 
-Of course, this is all just talk until someone(tm) posts a patch
-actually making the change. I've looked at the kconfig tool sources
-before; not going to make the same mistake again.
+I have tested this version on Salvator-X with 4 RDACM20.
 
-BR,
-Jani.
+Ideally, there could be a bit more cleanup to do in the max9286 probe routines
+as suggested in the review of your series, but I left it out not to take away
+all the fun from you :p
 
+After a sanity check, I would propose to squash everything in and move
+to linux-media to have this hopefully collected!
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Thanks
+  j
+
+Jacopo Mondi (5):
+  squash!: max9286: Rebase on latest media/master
+  squash! max9286: Calculate pixel rate
+  squash! max9286: Put of node on error
+  dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+  media: i2c: Add RDACM20 driver
+
+Kieran Bingham (15):
+  media: i2c: Add MAX9286 driver
+  fixup! media: i2c: Add MAX9286 driver
+  squash! max9286: Update the bound_sources mask on unbind
+  squash! max9286: convert probe kzalloc
+  squash! max9286: Fix cleanup path from GPIO powerdown
+  squash! max9286: cleanup GPIO device registration fail path
+  squash! max9286: Convert to use devm_regulator_get()
+  squash! max9286: Fit max9286_parse_dt print on one line
+  squash! max9286: Move multi-device workarounds out of upstream
+  squash! max9286: Remove I2C mod-table
+  sqaush! max9286: Lock format changes
+  squash! max9286: Implement Pixelrate control
+  squash! max9286: Disable overlap window
+  sqaush! max9286: Describe pad index usage
+  sqaush! max9286: Remove poc_enabled workaround
+
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  161 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   22 +
+ drivers/media/i2c/Kconfig                     |   25 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/max9271.c                   |  330 ++++
+ drivers/media/i2c/max9271.h                   |  224 +++
+ drivers/media/i2c/max9286.c                   | 1349 +++++++++++++++++
+ drivers/media/i2c/rdacm20.c                   |  668 ++++++++
+ 9 files changed, 2784 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
+ create mode 100644 drivers/media/i2c/max9286.c
+ create mode 100644 drivers/media/i2c/rdacm20.c
+
+--
+2.26.0
+
