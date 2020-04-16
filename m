@@ -2,143 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FA5A1AC90E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 17:19:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA2C1AC986
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 17:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442396AbgDPPSK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Apr 2020 11:18:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42002 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2442384AbgDPPSH (ORCPT
+        id S2442465AbgDPPXs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Apr 2020 11:23:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2395166AbgDPPXr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Apr 2020 11:18:07 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20E5497D;
-        Thu, 16 Apr 2020 17:18:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587050283;
-        bh=kRV0TK76jaLsKumnRx9oBxQ+fB9EZ/hBhcVvcCrUN8Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KunL1GHnZWE+ve/sOLaoFkAzYPKX6+/n+r78iuYJs7x5e+okkGATOqE6ApGMnuikF
-         /2ayUcQFN/Z9UdwuSHJbBCZB/V8aA1w7KUzO09ROtISEFr9rEn/3j6xTfoHtnx7/rk
-         eGxptalaFyRgrldUK2vtce1M8FhIp7rddugLnmJg=
-Date:   Thu, 16 Apr 2020 18:17:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        David Airlie <airlied@linux.ie>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>
-Subject: Re: [RFC 5/6] drm/rcar-du: fix selection of CMM driver
-Message-ID: <20200416151751.GD4796@pendragon.ideasonboard.com>
-References: <20200414201739.GJ19819@pendragon.ideasonboard.com>
- <CAK8P3a0hd5bsezrJS3+GV2nRMui4P5yeD2Rk7wQpJsAZeOCOUg@mail.gmail.com>
- <20200414205158.GM19819@pendragon.ideasonboard.com>
- <CAK8P3a1PZbwdvdH_Gi9UQVUz2+_a8QDxKuWLqPtjhK1stxzMBQ@mail.gmail.com>
- <CAMuHMdUb=XXucGUbxt26tZ1xu9pdyVUB8RVsfB2SffURVVXwSg@mail.gmail.com>
- <CAK8P3a1uasBFg9dwvPEcokrRhYE2qh6iwOMW1fDTY+LBZMrTjg@mail.gmail.com>
- <CAK8P3a0CoPUTSJp6ddDnmabo59iE73pugGSYayoeB5N57az9_w@mail.gmail.com>
- <20200415211220.GQ4758@pendragon.ideasonboard.com>
- <CAK8P3a1rDZO4cuL6VAXgu9sOiedcHqOSL7ELhpvULz+YYRaGbA@mail.gmail.com>
- <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uEoZ1jC8c25tPVX20kcdC1=+TpUUNyf+-c=sg5iK2cTZA@mail.gmail.com>
+        Thu, 16 Apr 2020 11:23:47 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B1A7206D6;
+        Thu, 16 Apr 2020 15:23:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587050627;
+        bh=NZWRfbKCU3e1vKz9ksF25BpNuwFMYPJivYt57TEZYUM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Ivxj3U7WYuce2CfCor9Ix8Kd4Azv+1Cs6CbH5sq7vsrsKStmg6SwG679WHI+sa1rX
+         wdUqoVuEbQq2dkKifgpk2AGxmBXpl6oEZx9KZGtoOKHr+zG+7xtMNroa6c4cPoig7J
+         KbqoEwfwBgTO1bBD3w1FQhgZ9B5XYpYzuZmQQtiA=
+Date:   Thu, 16 Apr 2020 16:23:44 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Matthias Blankertz <matthias.blankertz@cetitec.com>
+Cc:     alsa-devel@alsa-project.org,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
+Subject: Applied "ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode" to the asoc tree
+In-Reply-To:  <20200415141017.384017-3-matthias.blankertz@cetitec.com>
+Message-Id:  <applied-20200415141017.384017-3-matthias.blankertz@cetitec.com>
+X-Patchwork-Hint: ignore
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 08:51:14AM +0200, Daniel Vetter wrote:
-> On Wed, Apr 15, 2020 at 11:22 PM Arnd Bergmann wrote:
-> > On Wed, Apr 15, 2020 at 11:12 PM Laurent Pinchart wrote:
-> > > On Wed, Apr 15, 2020 at 09:07:14PM +0200, Arnd Bergmann wrote:
-> > > > On Wed, Apr 15, 2020 at 5:18 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > On Wed, Apr 15, 2020 at 4:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > On Wed, Apr 15, 2020 at 3:47 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > > > > On Tue, Apr 14, 2020 at 10:52 PM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > > > Doesn't "imply" mean it gets selected by default but can be manually
-> > > > > > > > disabled ?
-> > > > > > >
-> > > > > > > That may be what it means now (I still don't understand how it's defined
-> > > > > > > as of v5.7-rc1), but traditionally it was more like a 'select if all
-> > > > > > > dependencies are met'.
-> > > > > >
-> > > > > > That's still what it is supposed to mean right now ;-)
-> > > > > > Except that now it should correctly handle the modular case, too.
-> > > > >
-> > > > > Then there is a bug. If I run 'make menuconfig' now on a mainline kernel
-> > > > > and enable CONFIG_DRM_RCAR_DU, I can set
-> > > > > DRM_RCAR_CMM and DRM_RCAR_LVDS to 'y', 'n' or 'm' regardless
-> > > > > of whether CONFIG_DRM_RCAR_DU is 'm' or 'y'. The 'implies'
-> > > > > statement seems to be ignored entirely, except as reverse 'default'
-> > > > > setting.
-> > > >
-> > > > Here is another version that should do what we want and is only
-> > > > half-ugly. I can send that as a proper patch if it passes my testing
-> > > > and nobody hates it too much.
-> > >
-> > > This may be a stupid question, but doesn't this really call for fixing
-> > > Kconfig ? This seems to be such a common pattern that requiring
-> > > constructs similar to the ones below will be a never-ending chase of
-> > > offenders.
-> >
-> > Maybe, I suppose the hardest part here would be to come up with
-> > an appropriate name for the keyword ;-)
-> >
-> > Any suggestions?
+The patch
 
-Would it make sense to fix the imply semantics ? Or are they use cases
-for the current behaviour of imply ? "recommend" could be another
-keyword. I think we should try to limit the number of keywords though,
-as it would otherwise become quite messy.
+   ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode
 
-> > This specific issue is fairly rare though, in most cases the dependencies
-> > are in the right order so a Kconfig symbol 'depends on' a second one
-> > when the corresponding loadable module uses symbols from that second
-> > module. The problem here is that the two are mixed up.
-> >
-> > The much more common problem is the one where one needs to
-> > wrong
-> >
-> > config FOO
-> >        depends on BAR || !BAR
-> >
-> > To ensure the dependency is either met or BAR is disabled, but
-> > not FOO=y with BAR=m. If you have any suggestions for a keyword
-> > for that thing, we can clean up hundreds of such instances.
-> 
-> Some ideas:
-> 
-> config FOO
->     can use  BAR
->     maybe BAR
->     optional BAR
+has been applied to the asoc tree at
 
-Another idea,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git 
 
-	depends optionally on BAR
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-> We should probably double-check that this is only ever used for when
-> both FOO and BAR are tri-state, since without that it doesn't make
-> much sense.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From b94e164759b82d0c1c80d4b1c8f12c9bee83f11d Mon Sep 17 00:00:00 2001
+From: Matthias Blankertz <matthias.blankertz@cetitec.com>
+Date: Wed, 15 Apr 2020 16:10:17 +0200
+Subject: [PATCH] ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode
+
+The HDMI?_SEL register maps up to four stereo SSI data lanes onto the
+sdata[0..3] inputs of the HDMI output block. The upper half of the
+register contains four blocks of 4 bits, with the most significant
+controlling the sdata3 line and the least significant the sdata0 line.
+
+The shift calculation has an off-by-one error, causing the parent SSI to
+be mapped to sdata3, the first multi-SSI child to sdata0 and so forth.
+As the parent SSI transmits the stereo L/R channels, and the HDMI core
+expects it on the sdata0 line, this causes no audio to be output when
+playing stereo audio on a multichannel capable HDMI out, and
+multichannel audio has permutated channels.
+
+Fix the shift calculation to map the parent SSI to sdata0, the first
+child to sdata1 etc.
+
+Signed-off-by: Matthias Blankertz <matthias.blankertz@cetitec.com>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://lore.kernel.org/r/20200415141017.384017-3-matthias.blankertz@cetitec.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/sh/rcar/ssiu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/sh/rcar/ssiu.c b/sound/soc/sh/rcar/ssiu.c
+index f35d88211887..9c7c3e7539c9 100644
+--- a/sound/soc/sh/rcar/ssiu.c
++++ b/sound/soc/sh/rcar/ssiu.c
+@@ -221,7 +221,7 @@ static int rsnd_ssiu_init_gen2(struct rsnd_mod *mod,
+ 			i;
+ 
+ 		for_each_rsnd_mod_array(i, pos, io, rsnd_ssi_array) {
+-			shift	= (i * 4) + 16;
++			shift	= (i * 4) + 20;
+ 			val	= (val & ~(0xF << shift)) |
+ 				rsnd_mod_id(pos) << shift;
+ 		}
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
