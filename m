@@ -2,151 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AD7E1AB9B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 09:21:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B601E1ABA3B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 09:47:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438916AbgDPHVE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Apr 2020 03:21:04 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:58479 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438244AbgDPHVC (ORCPT
+        id S2439608AbgDPHrc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Apr 2020 03:47:32 -0400
+Received: from mail-eopbgr1400093.outbound.protection.outlook.com ([40.107.140.93]:51296
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2439413AbgDPHr3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:21:02 -0400
-Received: from mail-qt1-f177.google.com ([209.85.160.177]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1M8hEd-1jKs5j3Y6j-004k5c; Thu, 16 Apr 2020 09:20:59 +0200
-Received: by mail-qt1-f177.google.com with SMTP id 71so15585125qtc.12;
-        Thu, 16 Apr 2020 00:20:58 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaMlE+7b4MtIkQ7NJeo34K0IZa8nyA8CIjvWWPMxhHiar5nIxSh
-        atSlhxjwEf1gKoxy36ck3qzr678uz11jWD+S9eI=
-X-Google-Smtp-Source: APiQypLki807vlF5rf3bUb/lMDePEthLpUaUBhHRg0/ZUfeGPkLYlO08Klb1Ee851xvIZfXGDxWFM30tec+bUhtYF5c=
-X-Received: by 2002:ac8:6757:: with SMTP id n23mr12043843qtp.304.1587021657410;
- Thu, 16 Apr 2020 00:20:57 -0700 (PDT)
+        Thu, 16 Apr 2020 03:47:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MciERkZz/9YRAr5XeIRCDux40ur0UeLT8grayums8TkdERqjM179k+Q57x8CqcwG0CT6rGEfQNuLCsPCrq6gg+xtMSoNEEt54lrN+KDL4IN8obt5hndGndAgMnPeIJRXQdIibjVj2JkjG/j2HBZSe3qkkyMppMqOoELpRqcPo7Wmi6F7RB0tJc+tqMwpHfUHwlJnFyKVtcY8Zj3qfT4L60340GYvFGV4aRMzDK4aTw4t5YpE1AAnKr0q7g27CsVU+CW2Q2yvnksFtfMuMa/3BeOUknxzkfykap+5UX3535psHFCIdUSF3V9I2LTskWMx5XE3yabMesG56P1Fjb3Anw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sHpHc4IRH6XjYGb4oICAeqFCRcgVZnm8yi5G4Norpec=;
+ b=lyRmg7kH2Fr4QNNqGDrJ+XQI1cv9UgY6NraFajLqOsTy2oZ6FlXFgByQDWhJmeM9P8zx8E6lQaK5v8LF9FJwUP34Cn7+uteYZ4Qzx5PweDsEPjpsW2v7uL2ObNd2oc/02wSQ1FasV4vdiuEMVNSKEmRyGgDSR+tBWnEL8yzZ8pepDiXJxtvRsrL8BxOlOHjQVibg454JxPRwM6kVHyTp2IIkGH/ODnnCo8wBOCA6HXKbDRUwgTCwUtPSuFrSSnw1vRjjhkzpECYYA6EdKTQR+IO5PFkeIjcJdpumcUqxf+w43Ja3G2pH06i8Q6dTvwNFFyp+99rHNYdZCPx48e4v9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sHpHc4IRH6XjYGb4oICAeqFCRcgVZnm8yi5G4Norpec=;
+ b=mRgeM9vvqsO059VHKOiJ0ol8WAMxtdNL+TkAdOHdDCzagstVwx/tNuRTjQj2DvkMWACfG8l4iTV5xKzqckN93pFDv4cf+lh1SjIFs9AZ9NCWyn3MI0bcfR/hdGEwkpGp0G4MwMhNh9YgPsD7ju3MWxb1LTPFj2i4p8Jg6qPbFPA=
+Received: from OSAPR01MB4529.jpnprd01.prod.outlook.com (20.179.176.20) by
+ OSAPR01MB4242.jpnprd01.prod.outlook.com (20.178.102.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2878.15; Thu, 16 Apr 2020 07:47:22 +0000
+Received: from OSAPR01MB4529.jpnprd01.prod.outlook.com
+ ([fe80::3056:e118:8a8e:b3ad]) by OSAPR01MB4529.jpnprd01.prod.outlook.com
+ ([fe80::3056:e118:8a8e:b3ad%7]) with mapi id 15.20.2878.023; Thu, 16 Apr 2020
+ 07:47:22 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 1/2] dt-bindings: dma: renesas,rcar-dmac: convert bindings
+ to json-schema
+Thread-Topic: [PATCH 1/2] dt-bindings: dma: renesas,rcar-dmac: convert
+ bindings to json-schema
+Thread-Index: AQHWDx8gfAei1qnt90WjEN4QnCOb0ah6MAqAgAE3OoA=
+Date:   Thu, 16 Apr 2020 07:47:22 +0000
+Message-ID: <OSAPR01MB45298EA0A9AC1EFD86B54FD5D8D80@OSAPR01MB4529.jpnprd01.prod.outlook.com>
+References: <1586512923-21739-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1586512923-21739-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdULExMNnKJWsjAonR1sVeTyQCH0shwO--Wo6dLzrWV_tQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdULExMNnKJWsjAonR1sVeTyQCH0shwO--Wo6dLzrWV_tQ@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 468ccaf7-5adb-4c61-61b8-08d7e1da65df
+x-ms-traffictypediagnostic: OSAPR01MB4242:
+x-microsoft-antispam-prvs: <OSAPR01MB42427C77F14297E082D2E4C3D8D80@OSAPR01MB4242.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0375972289
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB4529.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(39860400002)(366004)(346002)(396003)(376002)(136003)(55236004)(76116006)(55016002)(186003)(64756008)(7696005)(8676002)(66556008)(52536014)(81156014)(8936002)(6916009)(66476007)(6506007)(26005)(478600001)(5660300002)(66946007)(66446008)(966005)(9686003)(54906003)(86362001)(71200400001)(4326008)(33656002)(316002)(2906002)(142933001);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: R3rav4FKayNkXQ/bBg4hXiw4SkOsBo+eVF9Nv5VDFpdcuTdiH1QjR49k6jdrg6qBPJzW65KrYC0BEy0Kl0LgvcLyskVfgboQzJ8/u/GF0P0+OLOFqhSWTSzXh9swCv+XKUTXhFL/MdQKSuCyC2ACzifB3gW8c6G58EU9+w5hr4B45puojdOCRCTaHaYNlwraxv9BNH+6UvLkBFMUVPFTvYRgUvFVppttbH8zfuD3DoZeIwkO2RnR6R+gBEIJBj3y+cKX3KUb22lmvBgQX5hYDFO+JqskZ7TsxEkqGQ9AFgYsk+hyyvexvm4/PLZtjuhVRbPUzu/fhMCVyOpw+x/bK12OD7hSRl5wo8x2b0m8kVEGutJmmZWI+R1HtOqORZCBC+peXUDy83jiA62hHxmv3jU0VwVwQZCCYdpY2p4TyaPbduEa9RF2OflWv4BdVOukRjQKOU8kXHVFro9dwl3pMZmUDprfxxDdrPPzxmNELdeb5a0ZKsdCMVxW9EgeVSc6ArJhBl2MwaPt2HKu/kSjjGe8lC0aTQcnW06+d+LTa42voau1R8+mzYikrPfHlTdb
+x-ms-exchange-antispam-messagedata: erLxxpeC4KPa7SeDjKUEnt9j4PpE/2KW7wsbPFAqFFKA+onLHfHG5K7OjNbjxrA2yG3RpH88Xrm0XK9KNJioJv8LWUZRc/vpaF+YlaUo6GbGluE3Cte1enRI2Y78xcvIseJmvYvpO7+mJ0MgUuMMxA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200408202711.1198966-1-arnd@arndb.de> <nycvar.YSQ.7.76.2004081633260.2671@knanqh.ubzr>
- <CAK8P3a2frDf4BzEpEF0uwPTV2dv6Jve+6N97z1sSuSBUAPJquA@mail.gmail.com>
- <20200408224224.GD11886@ziepe.ca> <87k12pgifv.fsf@intel.com>
- <7d9410a4b7d0ef975f7cbd8f0b6762df114df539.camel@mellanox.com>
- <20200410171320.GN11886@ziepe.ca> <16441479b793077cdef9658f35773739038c39dc.camel@mellanox.com>
- <20200414132900.GD5100@ziepe.ca> <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
- <20200414152312.GF5100@ziepe.ca> <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
- <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
- <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com> <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
-In-Reply-To: <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 16 Apr 2020 09:20:40 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Message-ID: <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To:     Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "nico@fluxnic.net" <nico@fluxnic.net>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "a.hajda@samsung.com" <a.hajda@samsung.com>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:+TnTyNKhJDK+dsEpJffyVZIWG0bgsP3O9RWs5SO393nW1uj6vTQ
- 6B4ki3fDo1SOTlDXHpTGVfXO7w3tJK4bwvvqhIbv2OQWsPx+mHItzowt6qn4RducloqM6OK
- 06S7us5VAjq3qF+ileNWh3OigE9u5MoZjFrGUM5iC5/WT3TyZG0j9T5NmFlcnZLnb2zAS1o
- yVUT+t3yU1oTYmYWmSp3g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7+2vD6+DWY8=:miIyPTnwA9PaTsUep21Rns
- rOP5j2xIr13UIymyAxvzck+Eh1myIl0NLhPsk4d3qEXR4u8ADclGOlTF5/OSfK+W49ef+wT7F
- OS+DJKSZ3FiFaR/eerOPEhLAvtCulxZurxT3IFX0LtlRDW3qDqm/WXN0tame1gRG26vNLluqN
- dt0oiyRbYHeyleFJ3RTbbt9i8WfVZOLBZ4zURWJPYtNJogvHTL1m7StoLm7OQZfZrTz7OvNPc
- kRZMDEhiF7yPfAKC5dOrf32FiqHmca7NEE9W1W2v7ujKRgL0laRT0XcNsHrZDnzynlpJB2myd
- gAbN58YOVt0xViEOQmwKQRgB+ZSiHnKukhA1ouESJhLupY8b0C1HzeJanv/0TsYFkYz5qKDjK
- 9wQUcc1V3QWKvdiPL7GRjHCIVYy0ENWLdtfedeCrscEqm8b9yMsE6uB1TSSoMatM8ro8gbQOa
- R3wkYlGN4UKXFiyKv99GhoZcc3xjrq1i43OjLxQnQsoLLsQxdpxbM+X+URmwDt8aGLrLemImO
- epKs6/MoIeqER2kkTGnT/JfJIKFCSUpl4bTtxnHFAsvCrIPteddlO+aoB1JGixp1TVUDdRLe7
- 0jYQaveS4iKTiV9+gMPZimUdmR7UeieM/47BJ5NYNPNjpwxsLeHXVGyhyadOIdrlntb/r5J4f
- Hd8LkDBDCsp7wBOvEMWZVrFjjREf4tla96TpgxBhbAH6qB3Y4czDovBX1zPhPysbeZl1fxvKT
- bKhqBpOePQQgFYgLyVeJX1+zsTlY98RFeOTNijiS4EYZVaoULO9KQgZ8OAmbTf7btNLiL7dFV
- S22dm0CGnES9R7UnISu1OcdlXYaIoGe/uDGsH74DjNGYNCioXg=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 468ccaf7-5adb-4c61-61b8-08d7e1da65df
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2020 07:47:22.2414
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: f9QF9PzAgxW6+AB/KVz4tPnx94g4R35U+FQnE6e4b+8zHkCTET0HmoGt1DJp2vq6UjTGk+LRk1I9Z5Kjos2nGdnM5jjUPpHMWg1AGUT83xu12eB+gs2FtuJ34VY9VY04
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4242
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
->
-> On Tue, 2020-04-14 at 20:47 +0200, Arnd Bergmann wrote:
-> > On Tue, Apr 14, 2020 at 7:49 PM Saeed Mahameed <saeedm@mellanox.com>
-> > wrote:
-> > > On Tue, 2020-04-14 at 17:25 +0200, Arnd Bergmann wrote:
-> > > > On Tue, Apr 14, 2020 at 5:23 PM Jason Gunthorpe <jgg@ziepe.ca>
-> > > > wrote:
-> > > > Correct.
-> > > >
-> > >
-> > > Great !
-> > >
-> > > Then bottom line we will change mlx5/Kconfig: to
-> > >
-> > > depends on VXLAN || !VXLAN
-> >
-> > Ok
-> >
->
-> BTW how about adding a new Kconfig option to hide the details of
-> ( BAR || !BAR) ? as Jason already explained and suggested, this will
-> make it easier for the users and developers to understand the actual
-> meaning behind this tristate weird condition.
->
-> e.g have a new keyword:
->      reach VXLAN
-> which will be equivalent to:
->      depends on VXLAN && !VXLAN
-
-I'd love to see that, but I'm not sure what keyword is best. For your
-suggestion of "reach", that would probably do the job, but I'm not
-sure if this ends up being more or less confusing than what we have
-today.
-
-> > > This will force MLX5_CORE to m when necessary to make vxlan
-> > > reachable
-> > > to mlx5_core.  So no need for explicit use of IS_REACHABLE().
-> > > in mlx5 there are 4 of these:
-> > >
-> > >         imply PTP_1588_CLOCK
-> > >         imply VXLAN
-> > >         imply MLXFW
-> > >         imply PCI_HYPERV_INTERFACE
-> >
-> > As mentioned earlier, we do need to replace the 'imply
-> > PTP_1588_CLOCK'
-> > with the same
-> >
-> >          depends on PTP_1588_CLOCK || !PTP_1588_CLOCK
-> >
-> > So far I have not seen problems for the other two options, so I
-> > assume they
-> > are fine for now -- it seems to build just fine without
-> > PCI_HYPERV_INTERFACE,
-> > and MLXFW has no other dependencies, meaning that 'imply' is the
-> > same as 'select' here. Using 'select MLXFW' would make it clearer
-> > perhaps.
->
-> No, I would like to avoid select and allow building mlx5 without MLXFW,
-> MLXFW already has a stub protected with IS_REACHABLE(), this is why we
-> don't have an issue with it.
-
-So the 'imply MLXFW' should be dropped then?
-
-        Arnd
+SGkgR2VlcnQtc2FuLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3IQ0KDQo+IEZyb206IEdl
+ZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogV2VkbmVzZGF5LCBBcHJpbCAxNSwgMjAyMCAxMDoxMCBQ
+TQ0KPHNuaXA+DQo+ID4gKyAgaW50ZXJydXB0LW5hbWVzOg0KPiA+ICsgICAgbWluSXRlbXM6IDkN
+Cj4gPiArICAgIG1heEl0ZW1zOiAxNw0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gY29u
+c3Q6IGVycm9yDQo+ID4gKyAgICAgIC0gcGF0dGVybjogIl5jaChbMC05XXwxWzAtNV0pJCINCj4g
+PiArICAgICAgLSBwYXR0ZXJuOiAiXmNoKFswLTldfDFbMC01XSkkIg0KPiA+ICsgICAgICAtIHBh
+dHRlcm46ICJeY2goWzAtOV18MVswLTVdKSQiDQo+ID4gKyAgICAgIC0gcGF0dGVybjogIl5jaChb
+MC05XXwxWzAtNV0pJCINCj4gPiArICAgICAgLSBwYXR0ZXJuOiAiXmNoKFswLTldfDFbMC01XSkk
+Ig0KPiA+ICsgICAgICAtIHBhdHRlcm46ICJeY2goWzAtOV18MVswLTVdKSQiDQo+ID4gKyAgICAg
+IC0gcGF0dGVybjogIl5jaChbMC05XXwxWzAtNV0pJCINCj4gPiArICAgICAgLSBwYXR0ZXJuOiAi
+XmNoKFswLTldfDFbMC01XSkkIg0KPiA+ICsgICAgICAtIHBhdHRlcm46ICJeY2goWzAtOV18MVsw
+LTVdKSQiDQo+ID4gKyAgICAgIC0gcGF0dGVybjogIl5jaChbMC05XXwxWzAtNV0pJCINCj4gPiAr
+ICAgICAgLSBwYXR0ZXJuOiAiXmNoKFswLTldfDFbMC01XSkkIg0KPiA+ICsgICAgICAtIHBhdHRl
+cm46ICJeY2goWzAtOV18MVswLTVdKSQiDQo+ID4gKyAgICAgIC0gcGF0dGVybjogIl5jaChbMC05
+XXwxWzAtNV0pJCINCj4gPiArICAgICAgLSBwYXR0ZXJuOiAiXmNoKFswLTldfDFbMC01XSkkIg0K
+PiA+ICsgICAgICAtIHBhdHRlcm46ICJeY2goWzAtOV18MVswLTVdKSQiDQo+ID4gKyAgICAgIC0g
+cGF0dGVybjogIl5jaChbMC05XXwxWzAtNV0pJCINCj4gDQo+IFdvdWxkIGl0IG1ha2Ugc2Vuc2Ug
+dG8ganVzdCBwdXQgdGhlIGFjdHVhbCBuYW1lcyBoZXJlPw0KPiANCj4gICAgIC0gY29uc3Q6IGVy
+cm9yDQo+ICAgICAtIGNvbnN0OiBjaDANCj4gICAgIC0gY29uc3Q6IGNoMQ0KPiAgICAgICBbLi4u
+XQ0KPiAgICAgLSBjb25zdDogY2ggMTUNCg0KUm9iIHN1Z2dlc3RlZCB1c2luZyBwYXR0ZXJuIG9u
+IG90aGVyIHBhdGNoOg0KaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMjAvMi8xOS83MjANCg0KU28s
+IEknbSB0aGlua2luZyB1c2luZyBwYXR0ZXJuIGlzIGJldHRlci4NCg0KQmVzdCByZWdhcmRzLA0K
+WW9zaGloaXJvIFNoaW1vZGENCg0K
