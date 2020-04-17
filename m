@@ -2,207 +2,218 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6831D1AD0A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Apr 2020 21:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D57D71AD452
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 04:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729336AbgDPT4a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Apr 2020 15:56:30 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:55697 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728199AbgDPT43 (ORCPT
+        id S1729085AbgDQCIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Apr 2020 22:08:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729077AbgDQCIY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Apr 2020 15:56:29 -0400
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200416195627euoutp0166814bc9d6511bdd7b9024f546499388~GZQQj8OhL0629606296euoutp01c
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Apr 2020 19:56:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200416195627euoutp0166814bc9d6511bdd7b9024f546499388~GZQQj8OhL0629606296euoutp01c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1587066987;
-        bh=BOw44bJHIBFHurxhAMbHDokN2782/36M7XGTmR/A1xA=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=SKhtYDMcROFTsVGo3I71aZMkLzQ0QT8bFX3k3tCtx+KgwJ7NCtRw58YFadE2nbd72
-         VJi7dSHC2C5wY5X+E76Kly2tNMPpYMvyEVx5jZAFMNDMAgR6VdxfK8vRmZrDJEaFw3
-         WmtI519lIwPQmOtWOTMfCJ2q0SI/OFxD2KUhC9zM=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200416195626eucas1p2f906c0499eeabc32169c93bedfeffb98~GZQQECp_J1396513965eucas1p2f;
-        Thu, 16 Apr 2020 19:56:26 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id AD.78.60679.A68B89E5; Thu, 16
-        Apr 2020 20:56:26 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200416195625eucas1p18d95d63a8fb2f997d4c2eb63d15726f5~GZQPTXBN01641516415eucas1p1p;
-        Thu, 16 Apr 2020 19:56:25 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200416195625eusmtrp1dbd83e97ba803f69dadb91b7cc5e72c5~GZQPSjAJ50640106401eusmtrp1b;
-        Thu, 16 Apr 2020 19:56:25 +0000 (GMT)
-X-AuditID: cbfec7f4-0e5ff7000001ed07-81-5e98b86a0ece
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 1C.2E.08375.968B89E5; Thu, 16
-        Apr 2020 20:56:25 +0100 (BST)
-Received: from [106.210.85.205] (unknown [106.210.85.205]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200416195624eusmtip264d584c752fba6ab3caac4a381259466~GZQOPKqrq1596415964eusmtip2p;
-        Thu, 16 Apr 2020 19:56:24 +0000 (GMT)
-Subject: Re: [RFC 0/6] Regressions for "imply" behavior change
-To:     Jason Gunthorpe <jgg@ziepe.ca>, Nicolas Pitre <nico@fluxnic.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>
-From:   Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <01f964ae-9c32-7531-1f07-2687616b6a71@samsung.com>
-Date:   Thu, 16 Apr 2020 21:56:24 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.7.0
+        Thu, 16 Apr 2020 22:08:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F31AC061A0C;
+        Thu, 16 Apr 2020 19:08:24 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E8F97D;
+        Fri, 17 Apr 2020 04:08:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587089301;
+        bh=jzWEttgHR/89r0VjZ0Sx7vvCG0ZiTTIdYjGjTNeQjTQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=A9wkRGk0hVAvFCOsWESmmkwMX+MJD7WfgKCGtI6R/Y4H1iMFjjMUpWV2crljtG7po
+         GNaW2yfC5fWJIfi60CL5FMljKDFE8hliMvxBQYK7i0evVjaqPJLOirXTQ/vWUp+/Cq
+         DBY93l3NaShTRpy6A4Y2jtAdAW7NSZ65K1SMm5HY=
+Date:   Fri, 17 Apr 2020 05:08:09 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v7 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200417020809.GH28162@pendragon.ideasonboard.com>
+References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
+ <20200415143149.GF27762@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200416182106.GX5100@ziepe.ca>
-Content-Transfer-Encoding: 7bit
-Content-Language: pl
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUwTQRjN7C7bhVhcSpEJKsaiiZpwKBon0aASoht/IZoYRYGqG+5CWrn0
-        h4jIIZRTOQo0xIgg0UDQApIQpECBcIhS5JAEahSBUIhUUDnUbhcj/9733vdm3psMhYuUpBMV
-        KrvJymXSCAlpQ9Trfr11DWssCvAoqHBByv5uDK3n6QSo9G0ygfRLCySqHKwBaOjHDI6Ki7oA
-        6p4bItDihwyA0nOfCNDDlQocDTaVkmhKqySQZmYeQ4bJESukzfJHuvJtSD09TaJCpRE/ac+s
-        ruQBZmHkvoB59WwUY6a6UkmmJK3YiqmrTieZrpz3GNOwPGnFqLvPMRMZneaNwjaMeaPMJxhT
-        nTOjMX0kfG0v2xy/wUaExrJyd68gm5DB8RJBdJM4fmVMTyaCfPoBsKYgfRiuvczCHgAbSkRX
-        AbiQqwL88B1AVV72xmACcLY+yTxQFsu7SV/OLaIrAfyZLeZ3FgA03KvCOMGe9oKTBUqCw2La
-        Bz5KMZHcEk6rBVBfVmkRSHo/XH85SnKHCs2GniRvjibovTA1566FdqCvwsIPFzhaSNvB7uLP
-        BEdb066wYN6No3F6F2wwluI8FsORT8mWyJBup+Dz4RLAt/SBhlWTgMf2cLbz1QbeAXvyMwke
-        34ETVck4b04DUFP7GueFY3C8f8WSBzdHrmly5+lTMHMxG+OfxBaOGO34DLYwr74Q52khTEsR
-        8du74USfZuNAR1gxsETmAIlqUzHVpjaqTW1U/+8tB0Q1cGRjFJHBrOKQjI1zU0gjFTGyYLfr
-        UZF1wPxJe353fm8ETWvXtICmgGSLMOhEUYDIShqrSIjUAkjhErHQ9oiZEt6QJtxi5VGB8pgI
-        VqEF2ylC4ij0fDxzVUQHS2+y4Swbzcr/qRhl7ZQIntY8netVO18cOPutlik7sy98q0Gz/Mut
-        1ujt37LWMvtVllvZ2/dH2nHpSvPFcrZgIEkX6KkPbN3TCgwzc+tG8ZdAWVxbw/x+/ahsy9Di
-        79uOKdVhwztT/cmh9tOZvTvjw16EuQaI/Y6eN4qzlS6hXh7z0w5TDqt2frqOsVjQHC8hFCHS
-        gwdwuUL6F1b/5nugAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9tmzQ5zVkvhiWjoovOzmz6KmYSBudDhdW3ysvQg5puq50t
-        MgjM1HK50Kypy8woCYVuzltKUCumw0ukJes+o4aGc+HoZiptWrBvf378f8/DA48Ql9wgI4QF
-        Gj2n06iKZFQIMbjY/yGmoKc+c9vw7RhkGnFgaOGSXYAan5cR6OV3L4Vuj90D6NXPKRw11A8A
-        5Jh+RaDZ8QsAVdbcEqDLcy04GuttpJDbZiJQ59QMhiZcThLZLh5G9uZVqGlykkJ1Jg+eGsb+
-        mbsEWK+zXMB2tL7GWPfAOYq9er6BZNvbKil2oHoUY7t/uEi2ybGf/Xih39+oe4qxj021BOtr
-        X8t2+t4S6aGH5Mk6rUHPReVref0O2WEGKeRMIpIrtifKmbiEjCSFUhabkpzLFRWc4HSxKdny
-        /LF3VwXHeqUn5968pEpALW0EQiGkt8MXrnQjCBFK6BYA33rnMSMQ+flq2Hfdgy/nMDg/bqSW
-        Sx4Af7luLpXC6BToMpuIQJbSafBKhW+phNPNAnhn4Ay2bIyT0OybWBpF0ZvhgvU1FVgt9tuD
-        pbsCmKA3wHPVZ5ZwOJ0By15sDmAxvRI6Gj4TASyiY6B5Rh7AOB0Pm6zLA3F6Hez2NP7LUuj8
-        VAaqgcQSZFuCFEuQYglSmgHRBqScgVfnqXlGzqvUvEGTJ8/RqtuB/z267L+tPWD0wUEboIVA
-        tkKcvbM+U0KqTvDFahuAQlwmFYcq/Uicqyo+xem0WTpDEcfbgNJ/Wg0eEZ6j9T+bRp/FKJkE
-        lMgkxCXExSPZavF5+skRCZ2n0nOFHHeM0/33MKEoogSUL7TutV1xR41cO7DH+ZCITE8OmU3d
-        F3M/XdH35fQaPGdkqAk/e7y5ospmTzNPrvpT2bXb7V5bWphZjllFsUNweP2eo4sdyNxS6GlN
-        Nj6LLCmd7rPerXNVkeRExvukmuhiNvprm3frqMO3qVPtpB4d/GZYMz1r3JtT0Z4xtRHJCD5f
-        xWzBdbzqL6xp3kE0AwAA
-X-CMS-MailID: 20200416195625eucas1p18d95d63a8fb2f997d4c2eb63d15726f5
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9
-References: <CAK8P3a0aFQ7h4zRDW=QLogXWc88JkJJXEOK0_CpWwsRjq6+T+w@mail.gmail.com>
-        <20200414152312.GF5100@ziepe.ca>
-        <CAK8P3a1PjP9_b5NdmqTLeGN4y+3JXx_yyTE8YAf1u5rYHWPA9g@mail.gmail.com>
-        <f6d83b08fc0bc171b5ba5b2a0bc138727d92e2c0.camel@mellanox.com>
-        <CAK8P3a1-J=4EAxh7TtQxugxwXk239u8ffgxZNRdw_WWy8ExFoQ@mail.gmail.com>
-        <834c7606743424c64951dd2193ca15e29799bf18.camel@mellanox.com>
-        <CAK8P3a3Wx5_bUOKnN3_hG5nLOqv3WCUtMSq6vOkJzWZgsmAz+A@mail.gmail.com>
-        <874ktj4tvn.fsf@intel.com>
-        <CAK8P3a1S2x1jnx9Q5B22vX8gBHs0Ztu-znA9hqZ5xp5tRAykGg@mail.gmail.com>
-        <nycvar.YSQ.7.76.2004161106140.2671@knanqh.ubzr>
-        <CGME20200416182112eucas1p1030595f63fe250ff02dbab2707df11e9@eucas1p1.samsung.com>
-        <20200416182106.GX5100@ziepe.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200415143149.GF27762@paasikivi.fi.intel.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Sakari,
 
-On 16.04.2020 20:21, Jason Gunthorpe wrote:
-> On Thu, Apr 16, 2020 at 11:12:56AM -0400, Nicolas Pitre wrote:
->> On Thu, 16 Apr 2020, Arnd Bergmann wrote:
->>
->>> On Thu, Apr 16, 2020 at 12:17 PM Jani Nikula
->>> <jani.nikula@linux.intel.com> wrote:
->>>> On Thu, 16 Apr 2020, Arnd Bergmann <arnd@arndb.de> wrote:
->>>>> On Thu, Apr 16, 2020 at 5:25 AM Saeed Mahameed <saeedm@mellanox.com> wrote:
->>>>>> BTW how about adding a new Kconfig option to hide the details of
->>>>>> ( BAR || !BAR) ? as Jason already explained and suggested, this will
->>>>>> make it easier for the users and developers to understand the actual
->>>>>> meaning behind this tristate weird condition.
->>>>>>
->>>>>> e.g have a new keyword:
->>>>>>       reach VXLAN
->>>>>> which will be equivalent to:
->>>>>>       depends on VXLAN && !VXLAN
->>>>> I'd love to see that, but I'm not sure what keyword is best. For your
->>>>> suggestion of "reach", that would probably do the job, but I'm not
->>>>> sure if this ends up being more or less confusing than what we have
->>>>> today.
->>>> Ah, perfect bikeshedding topic!
->>>>
->>>> Perhaps "uses"? If the dependency is enabled it gets used as a
->>>> dependency.
->>> That seems to be the best naming suggestion so far
->> What I don't like about "uses" is that it doesn't convey the conditional
->> dependency. It could be mistaken as being synonymous to "select".
->>
->> What about "depends_if" ? The rationale is that this is actually a
->> dependency, but only if the related symbol is set (i.e. not n or empty).
-> I think that stretches the common understanding of 'depends' a bit too
-> far.. A depends where the target can be N is just too strange.
->
-> Somthing incorporating 'optional' seems like a better choice
-> 'optionally uses' seems particularly clear and doesn't overload
-> existing works like depends or select
+On Wed, Apr 15, 2020 at 05:31:49PM +0300, Sakari Ailus wrote:
+> On Mon, Apr 13, 2020 at 10:23:48PM +0200, Niklas Söderlund wrote:
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> > node. For MC-centric devices, its behaviour has always been ill-defined,
+> > with drivers implementing one of the following behaviours:
+> > 
+> > - No support for VIDIOC_ENUM_FMT at all
+> > - Enumerating all formats supported by the video node, regardless of the
+> >   configuration of the pipeline
+> > - Enumerating formats supported by the video node for the active
+> >   configuration of the connected subdevice
+> > 
+> > The first behaviour is obviously useless for applications. The second
+> > behaviour provides the most information, but doesn't offer a way to find
+> > what formats are compatible with a given pipeline configuration. The
+> > third behaviour fixes that, but with the drawback that applications
+> > can't enumerate all supported formats anymore, and have to modify the
+> > active configuration of the pipeline to enumerate formats.
+> > 
+> > The situation is messy as none of the implemented behaviours are ideal,
+> > and userspace can't predict what will happen as the behaviour is
+> > driver-specific.
+> > 
+> > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
+> > enumerating pixel formats for a given media bus code. The media bus code
+> > is passed through the v4l2_fmtdesc structure in a new mbus_code field
+> > (repurposed from the reserved fields). With this capability in place,
+> > applications can enumerate pixel formats for a given media bus code
+> > without modifying the active configuration of the device.
+> > 
+> > The current behaviour of the ioctl is preserved when the new mbus_code
+> > field is set to 0, ensuring compatibility with existing userspace. The
+> > API extension is documented as mandatory for MC-centric devices (as
+> > advertised through the V4L2_CAP_IO_MC capability), allowing applications
+> > and compliance tools to easily determine the availability of the
+> > VIDIOC_ENUM_FMT extension.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Din egen Sob linjen saknas här.
+> 
+> > ---
+> >  .../media/uapi/v4l/vidioc-enum-fmt.rst          | 17 ++++++++++++++---
+> >  drivers/media/v4l2-core/v4l2-ioctl.c            | 13 +++++++++++--
+> >  include/uapi/linux/videodev2.h                  |  3 ++-
+> >  3 files changed, 27 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > index 8ca6ab701e4ab99c..82792d8e910b2313 100644
+> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+> >  formats in preference order, where preferred formats are returned before
+> >  (that is, with lower ``index`` value) less-preferred formats.
+> >  
+> > -.. note::
+> > +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
+> > +:ref:`device-capabilities <capability>`, applications shall initialize the
+> > +``mbus_code`` field to zero. Drivers shall enumerate all image formats supported
+> > +by the device. The enumerated formats may depend on the active input or output
+> 
+> s/ supported by the device//
 
+OK.
 
-I think the whole misunderstanding with imply is that ppl try to use it 
-as weak 'depend on' but it is weak 'select' - ie it enforces value of 
-implied symbol in contrast to 'depends' which enforces value of current 
-symbol.
+> > +of the device.
+> 
+> How about
+> 
+> 	s/active input or output/current configuration/
 
-So if we want to add new symbol 'weak depend' it would be good to stress 
-out that difference.
+I went for "active input or output" to match the current text that
+states that the enumerated image formats may be different "after
+switching input or output". I would like to avoid extending this to
+cover any device configuration, as that's even more ill-defined (it
+doesn't specify what device configuration may influence the formats, and
+how).
 
-Moreover name imply is already cryptic, adding another keyword which for 
-sure will be cryptic (as there are no natural candidates) will 
-complicate things more.
+> Then,
+> 
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> > -   After switching input or output the list of enumerated image
+> > -   formats may be different.
+> > +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
+> > +<capability>`, applications may initialize the ``mbus_code`` to a valid
+> > +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
+> > +is not zero, drivers shall restrict enumeration to only the image formats that
+> > +can produce (for video output devices) or be produced from (for video capture
+> > +devices) that media bus code. Regardless of the value of the ``mbus_code``
+> > +field, the enumerated image formats shall not depend on the active
+> > +configuration of the video device or device pipeline. Enumeration shall
+> > +otherwise operate as previously described.
+> >  
+> >  
+> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index afd1f427df557f71..3e7b99fa415222c6 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
+> >  {
+> >  	const struct v4l2_fmtdesc *p = arg;
+> >  
+> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
+> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
+> >  		p->index, prt_names(p->type, v4l2_type_names),
+> >  		p->flags, (p->pixelformat & 0xff),
+> >  		(p->pixelformat >>  8) & 0xff,
+> >  		(p->pixelformat >> 16) & 0xff,
+> >  		(p->pixelformat >> 24) & 0xff,
+> > +		p->mbus_code,
+> >  		(int)sizeof(p->description), p->description);
+> >  }
+> >  
+> > @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+> >  	struct video_device *vdev = video_devdata(file);
+> >  	struct v4l2_fmtdesc *p = arg;
+> >  	int ret = check_fmt(file, p->type);
+> > +	u32 mbus_code;
+> >  	u32 cap_mask;
+> >  
+> >  	if (ret)
+> >  		return ret;
+> >  	ret = -EINVAL;
+> >  
+> > +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
+> > +		return -EINVAL;
+> > +
+> > +	mbus_code = p->mbus_code;
+> > +	CLEAR_AFTER_FIELD(p, type);
+> > +	p->mbus_code = mbus_code;
+> > +
+> >  	switch (p->type) {
+> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> > @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
+> >  
+> >  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+> >  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
+> > -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
+> > +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+> >  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+> >  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
+> >  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
+> >  	__u32               flags;
+> >  	__u8		    description[32];   /* Description string */
+> >  	__u32		    pixelformat;       /* Format fourcc      */
+> > -	__u32		    reserved[4];
+> > +	__u32		    mbus_code;		/* Media bus code    */
+> > +	__u32		    reserved[3];
+> >  };
+> >  
+> >  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
 
-Maybe adding some decorator would be better, like optionally or weak, 
-for example:
+-- 
+Regards,
 
-optionally depends on X
-
-optionally select Y
-
-Even more readable:
-
-depends on X if on
-
-depends on Y if enabled
-
-
-Regards
-
-Andrzej
-
-
->
-> Jason
->
+Laurent Pinchart
