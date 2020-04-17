@@ -2,78 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE3391AE1FB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 18:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37CE21AE282
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 18:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730158AbgDQQQC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 12:16:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728105AbgDQQQC (ORCPT
+        id S1726644AbgDQQuv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 12:50:51 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:52200 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726429AbgDQQuv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 12:16:02 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        Fri, 17 Apr 2020 12:50:51 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1680120857;
-        Fri, 17 Apr 2020 16:16:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587140161;
-        bh=dMnwJXovzpQ6YBUUVCY4KPofcSqzELKGUYZ13cOxUdI=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=2puiKB/0hiVpk1D9MJlEu9jeNCctSYUHooAr1pZSC9C4mMMjiYt2xjJMHYza+dh9P
-         9oGoYR4/8Z6FSOcRGaxAc49WewRgBYQ6S8UyVyNK0Fcd5Te3/KnkaMQDMiwSJ6MV9X
-         cKTvjq1ss1t31ZKGl8MG7fVht9JIrM3x+xh4qjvk=
-Date:   Fri, 17 Apr 2020 17:15:59 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Matthias Blankertz <matthias.blankertz@cetitec.com>
-Cc:     linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20200415141017.384017-1-matthias.blankertz@cetitec.com>
-References: <20200415141017.384017-1-matthias.blankertz@cetitec.com>
-Subject: Re: [PATCH 0/2] ASoC: rsnd: Fixes for multichannel HDMI audio output
-Message-Id: <158714007098.22963.15064526974433346524.b4-ty@kernel.org>
+        by asavdk4.altibox.net (Postfix) with ESMTPS id E83F780502;
+        Fri, 17 Apr 2020 18:50:42 +0200 (CEST)
+Date:   Fri, 17 Apr 2020 18:50:41 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     dri-devel@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-fbdev@vger.kernel.org, marex@denx.de, dsd@laptop.org,
+        Andrzej Hajda <a.hajda@samsung.com>, airlied@linux.ie,
+        masahiroy@kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Saeed Mahameed <saeedm@mellanox.com>, thellstrom@vmware.com,
+        haojian.zhuang@gmail.com, geert@linux-m68k.org,
+        linux-renesas-soc@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+        kieran.bingham+renesas@ideasonboard.com,
+        linux-graphics-maintainer@vmware.com,
+        Laurent.pinchart@ideasonboard.com, jfrederich@gmail.com,
+        robert.jarzmik@free.fr, daniel@zonque.org
+Subject: Re: [PATCH 6/8] drm: decouple from CONFIG_FB
+Message-ID: <20200417165041.GA30483@ravnborg.org>
+References: <20200417155553.675905-1-arnd@arndb.de>
+ <20200417155553.675905-7-arnd@arndb.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417155553.675905-7-arnd@arndb.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
+        a=9L1dKAkHxsO5wRH54ekA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+        a=Vxmtnl_E_bksehYqCbjh:22 a=pHzHmUro8NiASowvMSCR:22
+        a=nt3jZW36AmriUCFCBwmW:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 15 Apr 2020 16:10:15 +0200, Matthias Blankertz wrote:
-> This fixes two issues in the snd-soc-rcar driver blocking multichannel
-> HDMI audio out: The parent SSI in a multi-SSI configuration is not
-> correctly set up and started, and the SSI->HDMI channel mapping is
-> wrong.
+Hi Arnd.
+
+On Fri, Apr 17, 2020 at 05:55:51PM +0200, Arnd Bergmann wrote:
+> CONFIG_DRM_KMS_FB_HELPER selects CONFIG_FB, which is something it
+> really should not, to avoid circular dependencies and accidentally
+> including potentially dangerous user interfaces in the kernel,
+> so change this into a 'depends on' check.
 > 
-> With these patches, the following device tree snippet can be used on an
-> r8a7795-based platform (Salvator-X) to enable multichannel HDMI audio on
-> HDMI0:
+> Two device drivers currently select CONFIG_DRM_KMS_FB_HELPER, but
+> as far as I can tell, they do not really need to any more, so those
+> selects can be removed.
 > 
-> [...]
+> This leaves DRM_FBDEV_EMULATION as the only thing that rightfully
+> selects CONFIG_DRM_KMS_FB_HELPER, and this now has to depend on
+> CONFIG_FB and its dependencies.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/gpu/drm/Kconfig       | 5 +++--
+>  drivers/gpu/drm/mxsfb/Kconfig | 1 -
+>  drivers/gpu/drm/zte/Kconfig   | 1 -
+>  3 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 43594978958e..7c3109133685 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -80,7 +80,7 @@ config DRM_KMS_HELPER
+>  config DRM_KMS_FB_HELPER
+>  	bool
+>  	depends on DRM_KMS_HELPER
+> -	select FB
+> +	depends on FB
+>  	select FRAMEBUFFER_CONSOLE if !EXPERT
+>  	select FRAMEBUFFER_CONSOLE_DETECT_PRIMARY if FRAMEBUFFER_CONSOLE
+>  	select FB_SYS_FOPS
+> @@ -111,7 +111,8 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+>  
+>  config DRM_FBDEV_EMULATION
+>  	bool "Enable legacy fbdev support for your modesetting driver"
+> -	depends on DRM
+> +	depends on DRM && FB
+> +	depends on FB=y || DRM=m
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_FB_HELPER
+>  	default y
+This statement:
 
-Applied, thanks!
+	depends on DRM && FB
 
-[1/2] ASoC: rsnd: Fix parent SSI start/stop in multi-SSI mode
-      commit: a09fb3f28a60ba3e928a1fa94b0456780800299d
-[2/2] ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode
-      commit: b94e164759b82d0c1c80d4b1c8f12c9bee83f11d
+tell us that both symbols must be either y or m. Any combination of y
+and m will do the trick
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Then we have this statement:
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+	depends on FB=y || DRM=m
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+It tells us that either FB equals y or DRM equals m.
 
-Thanks,
-Mark
+So we have following table
+
+	FB	DRM	Result
+	n	n	n
+	n	y	n
+	n	m	n
+	y	n	n
+	y	y	y
+	y	m	y
+	m	n	n
+	m	y	N
+	m	m	y
+
+So what this try to say is that we cannot have FB a module while DRM is
+built-in (marked N in the above).
+
+Could you explain in the changelog why this combination is not good.
+(Or tell me if my analysis was flawed).
+
+With this fixed (assuming I am right):
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+	Sam
+
+> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+> index 0dca8f27169e..33916b7b2c50 100644
+> --- a/drivers/gpu/drm/mxsfb/Kconfig
+> +++ b/drivers/gpu/drm/mxsfb/Kconfig
+> @@ -10,7 +10,6 @@ config DRM_MXSFB
+>  	depends on COMMON_CLK
+>  	select DRM_MXS
+>  	select DRM_KMS_HELPER
+> -	select DRM_KMS_FB_HELPER
+>  	select DRM_KMS_CMA_HELPER
+>  	select DRM_PANEL
+>  	help
+> diff --git a/drivers/gpu/drm/zte/Kconfig b/drivers/gpu/drm/zte/Kconfig
+> index 90ebaedc11fd..aa8594190b50 100644
+> --- a/drivers/gpu/drm/zte/Kconfig
+> +++ b/drivers/gpu/drm/zte/Kconfig
+> @@ -3,7 +3,6 @@ config DRM_ZTE
+>  	tristate "DRM Support for ZTE SoCs"
+>  	depends on DRM && ARCH_ZX
+>  	select DRM_KMS_CMA_HELPER
+> -	select DRM_KMS_FB_HELPER
+>  	select DRM_KMS_HELPER
+>  	select SND_SOC_HDMI_CODEC if SND_SOC
+>  	select VIDEOMODE_HELPERS
+> -- 
+> 2.26.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
