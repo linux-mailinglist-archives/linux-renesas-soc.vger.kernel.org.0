@@ -2,70 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 982461ADB94
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 12:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB0A41ADC86
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 13:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729364AbgDQKtz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 06:49:55 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2399 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729301AbgDQKtz (ORCPT
+        id S1730469AbgDQLxl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 07:53:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730410AbgDQLxl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 06:49:55 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 85CFC75ABBDD60E2745D;
-        Fri, 17 Apr 2020 18:49:49 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Apr 2020
- 18:49:39 +0800
-From:   Jason Yan <yanaijie@huawei.com>
-To:     <geert+renesas@glider.be>, <linus.walleij@linaro.org>,
-        <nishkadg.linux@gmail.com>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Jason Yan <yanaijie@huawei.com>, Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH] pinctrl: rza1: fix wrong array assignment of rza1l_swio_entries
-Date:   Fri, 17 Apr 2020 19:16:04 +0800
-Message-ID: <20200417111604.19143-1-yanaijie@huawei.com>
-X-Mailer: git-send-email 2.21.1
+        Fri, 17 Apr 2020 07:53:41 -0400
+Received: from localhost (unknown [223.235.195.235])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 046C920780;
+        Fri, 17 Apr 2020 11:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587124420;
+        bh=c/rbJdi4bYdAFafdhrDilNV10AtbkTU0xeSBWfYgwCk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=v5JT95G9uSRzM2zf7VY5lVEZD95zWBnXQH5XfR2a3Y6LqF/0Y7YDGMBreJtaTT8Ic
+         bjiayscEPlzYfF2mqYo7prUsQ1ry/1i8ysf3StEqOMNuEX1T7RQ3wIkuAxPIqMf65E
+         0h6ExThYl2PUDh9keQqkDPpXEP+TTe0/2z34X8kY=
+Date:   Fri, 17 Apr 2020 17:23:36 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     robh+dt@kernel.org, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] dt-bindings: dma: renesas,{rcar,usb}-dmac:
+ convert to json-schema
+Message-ID: <20200417115336.GN72691@vkoul-mobl>
+References: <1587110829-26609-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1587110829-26609-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The rza1l_swio_entries refered to the wrong array rza1h_swio_pins, which
-was intended to be rza1l_swio_pins. So let's fix it.
+On 17-04-20, 17:07, Yoshihiro Shimoda wrote:
+> This patch series converts rcar-dmac and usb-dmac documantation to
+> json-schema.
 
-This is detected by the following gcc warning:
+Applied, thanks
 
-drivers/pinctrl/pinctrl-rza1.c:401:35: warning: ‘rza1l_swio_pins’
-defined but not used [-Wunused-const-variable=]
- static const struct rza1_swio_pin rza1l_swio_pins[] = {
-                                   ^~~~~~~~~~~~~~~
-
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Jason Yan <yanaijie@huawei.com>
----
- drivers/pinctrl/pinctrl-rza1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
-index da2d8365c690..ff4a7fb518bb 100644
---- a/drivers/pinctrl/pinctrl-rza1.c
-+++ b/drivers/pinctrl/pinctrl-rza1.c
-@@ -418,7 +418,7 @@ static const struct rza1_bidir_entry rza1l_bidir_entries[RZA1_NPORTS] = {
- };
- 
- static const struct rza1_swio_entry rza1l_swio_entries[] = {
--	[0] = { ARRAY_SIZE(rza1h_swio_pins), rza1h_swio_pins },
-+	[0] = { ARRAY_SIZE(rza1l_swio_pins), rza1l_swio_pins },
- };
- 
- /* RZ/A1L (r7s72102x) pinmux flags table */
 -- 
-2.21.1
-
+~Vinod
