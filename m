@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A74AD1AE65C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 21:56:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FEF31AE66D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 22:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730752AbgDQT4E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 15:56:04 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:54607 "EHLO
+        id S1730714AbgDQUDn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 16:03:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:50301 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730573AbgDQT4D (ORCPT
+        with ESMTP id S1730573AbgDQUDm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 15:56:03 -0400
-Received: from mail-qk1-f173.google.com ([209.85.222.173]) by
+        Fri, 17 Apr 2020 16:03:42 -0400
+Received: from mail-qk1-f171.google.com ([209.85.222.171]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1Mgvan-1ilG7o2WD7-00hPvt; Fri, 17 Apr 2020 21:56:01 +0200
-Received: by mail-qk1-f173.google.com with SMTP id j4so3730547qkc.11;
-        Fri, 17 Apr 2020 12:56:01 -0700 (PDT)
-X-Gm-Message-State: AGi0Pua16TpO7IO6aBrjvnGtFOitDTsFXcn1ZnNWBBQVtfJRd9EU5xZ/
-        IF+oN/2OWHtZzE8VRIW/X1jseRAtjEO4bCvl+7w=
-X-Google-Smtp-Source: APiQypL/aYirBTw1joqQ0inaCArzn25FqAScTc6+QUlF+iqIJ3O0t/oDB2nctjg42E3+diNZLCqFSq8zjwVtRBsHEo8=
-X-Received: by 2002:a37:63d0:: with SMTP id x199mr4824368qkb.3.1587153360346;
- Fri, 17 Apr 2020 12:56:00 -0700 (PDT)
+ id 1MLRDv-1jgvN811kZ-00IUBi; Fri, 17 Apr 2020 22:03:41 +0200
+Received: by mail-qk1-f171.google.com with SMTP id 20so3758097qkl.10;
+        Fri, 17 Apr 2020 13:03:40 -0700 (PDT)
+X-Gm-Message-State: AGi0PubeYoSTSwzF+poNPihR3HrAtoSL5hFlcRuamLG+l6RR/VCa/59K
+        u9yra79O4W44OF+HW0YZ9mo6M6BoqMwrwSjtxFE=
+X-Google-Smtp-Source: APiQypLHfVPeC+1JXO+hQtzRoij/Dspk+56syykO4JIxxM0xU/k6yi10dsuOkecP305cfjfVJkIKTLwVZe6iZOZzqio=
+X-Received: by 2002:a37:ba47:: with SMTP id k68mr5106432qkf.394.1587153820000;
+ Fri, 17 Apr 2020 13:03:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200417155553.675905-1-arnd@arndb.de> <20200417155553.675905-8-arnd@arndb.de>
- <20200417170444.GB30483@ravnborg.org>
-In-Reply-To: <20200417170444.GB30483@ravnborg.org>
+References: <20200417155553.675905-1-arnd@arndb.de> <20200417155553.675905-7-arnd@arndb.de>
+ <20200417165041.GA30483@ravnborg.org>
+In-Reply-To: <20200417165041.GA30483@ravnborg.org>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 17 Apr 2020 21:55:43 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a31OMHOycpGv5tjQXS=NBGw+OoFRGQ0Za7QWw9=EcwgZg@mail.gmail.com>
-Message-ID: <CAK8P3a31OMHOycpGv5tjQXS=NBGw+OoFRGQ0Za7QWw9=EcwgZg@mail.gmail.com>
-Subject: Re: [PATCH 7/8] fbdev: rework backlight dependencies
+Date:   Fri, 17 Apr 2020 22:03:23 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a14G=Mv3jpZRciTgsSDf4Bd3ZOAqFRN1cc2FLYbwZZcbw@mail.gmail.com>
+Message-ID: <CAK8P3a14G=Mv3jpZRciTgsSDf4Bd3ZOAqFRN1cc2FLYbwZZcbw@mail.gmail.com>
+Subject: Re: [PATCH 6/8] drm: decouple from CONFIG_FB
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
@@ -52,80 +52,66 @@ Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
         jfrederich@gmail.com, Robert Jarzmik <robert.jarzmik@free.fr>,
         Daniel Mack <daniel@zonque.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:wEEJn7F99+OGlPxCflW+3YQOpHT6O8sphxwbvN+EIcmfQksbL0R
- rXJ9L1/4W5SsXyD4SSaUwlaonD6khiESS+6VTjB8QGvE37OYw/402duqmQQusz42znSlBnV
- 3VeoqVV3SgmDmfmhivFtGM1wRJQmEHsHOc1uW2644iUOyaelJglcHzMARB4tt2A1aN8LB/Q
- CcxaWq6GXkJw8ljukFt8Q==
+X-Provags-ID: V03:K1:TO6ODSgYwmb2Gu5VIv+AKB+yyA1Lkch8UNoH4UVa2ENF+Kf3E4e
+ i7iMPOpG9/GleuAntxgzuU5bCtPxq+fIYGqnTRsm2fNIiFrnfmqCX00pIrVVO1IfCt1XZhn
+ App+qPaosXrbe0C2wh3bglI+mJ8IfD8LgsKwlIFdoireiacUmCuAAmgiZxlZbQrXAjDlBys
+ j7TAYbp4dUOCvwsftVNKA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ei+2RXyWy+E=:6giwmE6ceHRnce5U3IYJUI
- LXkJ101pA0vADCeDvInrvMhoju2zzT4ZZ3g1tYDof+lc8y4It8tnBS/n7elJQVNYiQaMdDykU
- 4JaMMfiuiavLmeEE0rG0cwffj2k8+S247EpjQMH32MmAHFjjgsFxshQC8F5kQ9QpPWr6MoGOK
- DXdQdUcFr++iSuiUlcypR/8TpgIMpmq+NlIq0/X8lmpPzRa4Iinpp57FDOFEkKY9Q4YeIOS7v
- MKnBiAhmSVAb129QD4EbGv62uuPC4sY9KVvWGA/SC08cuqtWiK1N/Cm5HuPlCK+YxSG+mqTut
- SllQT0NTUiHpdc7Ilfm1/ZjjQv7ul5SPmQ1ZVLuEfbDXAOYC3wktE9VHr3fzBUzhzecGqMrKk
- FCC/cbhjb8WYTRzqfEei996vTKT08E2eB7o0Tc6W+dyBmpJuwKd5U37ye3AzqDW42fSV6GTMa
- 3DJJUJC9UrGGsOoqWgymFA+tyMDXCPD7IhMn9LoD+jTtclFa+x+bN33EqItMi2e+6/Sqi0jLk
- im4Oatop2LeRoyjpQHrAT0M2r6XslCd0bkdg20yi5oldPwy2DPyqMZ7xUD3MK5HwT1jjpY+vn
- xcAvre5ZCFLLqFLP5vAzjOKwDmPthHUJEQ37eFdRhGhVSDrLtdIsnTAwgs8fi4mrhRjxD15uS
- J2Wtra3zy0A4soNpRzWzc90JVhtdQaXSCkQ9dFaGtnqHi5rC8F1tlC7zMaEjcPxd4Er5WmeQm
- OLenxdwE1zwzJ61VREZHfsPsyh5LjWDwkh+rA+bwh55PgB8psXFQq6VkRzsJXN7DKx+1+8wwu
- dMv6FiQ+i+WrL0T+Tv3D3oiQoZ8LesLJtrRJYjPfSedEWqiAEE=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9CZ3jjj3/HQ=:NfSaFCXKIKyHc1tbwbO/xt
+ ExE1S/AfJkrL6WCNoppGEE3K5Hdf9HosMfCmABqd1/cNRevCSVNQR1rATW8miyrzvY2e2E+zr
+ 98V3LQwcec+Ot/nu4o0lGKKqtgYW/aZzymY64RcJbuHvGgJ3Np8zz6esBe1BxjePSyOn1GlJS
+ 3t8O+mxCqDNdMxJO+jA25Azle5mS8jsAcqSOO8tbwh7rF/72v7P2Z+Xgu66uk2Ts7lWiMNE0w
+ 3T/7w8C6Tay4h5IrRJ7YOv0I02mdgFaufI0cSFoe9QGZgKTRx0V9tqQcuVtM4jHUJiNx/iIhZ
+ 7KFPVAKnK+BPAsM+EXf6T2qeC8PVJVgecjBP6eIhvps6Q2IaUpqH7g6InF7MqjiHmrNnPENxA
+ G+hf/VKv9Zzn6GijN3ZEfAHMVkZIKtBsrhcKV52GZPFtxG+T4zCPicjQ+03An3LoZSeods5jD
+ 5iIDWgTekKRwlv8zRWYZi82AaniBfGeHauYrevbLl/xBCH0L4WfwQGVslI7zR97r8MAb2Acsm
+ 1bcSjMp8P/Kg2szgcfyD0TwbDFpO0F9ysg0cyLKyO37r40yx5Je+iu6YIkwstfh7yJDFPM9T3
+ 7IpcuMjF8eNGovMODSwdUcEkY4WFLUxKbQd7W9Jnx+odJ5Gs7jLxwIzyBSJa6JcLfR9G2sefn
+ wuK5vFZqL3jnddeZbdaeUgQfA9fY6TzbOgzLUM7d0szHQjHI8VwrBZr5WOY3LwZgs4jG4HNHR
+ Z5RN+DmCo3WjlMWElffbsL/ssuqRfxOO9t52J5RKMQIV7+Smap/QLlykM6L7yCq17yiTIaA0r
+ 97j9T/YawK8x7k5wuHa7iAvI2gNUEs1OJMRwAqUkX0xGCZhye0=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 7:04 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Arnd.
->
-> On Fri, Apr 17, 2020 at 05:55:52PM +0200, Arnd Bergmann wrote:
-> > Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
-> > make any driver that needs it have a dependency on the class device
-> > being available, to prevent circular dependencies.
-> >
-> > This is the same way that the backlight is already treated for the DRM
-> > subsystem.
->
-> I am not happy with the direction of this patch.
-> It is not easy to understand that one has to enable backlight to
-> be allowed to select a display or an fbdev driver.
->
->
-> How about somthing like this:
->
-> config BACKLIGHT_CLASS_DEVICE
->         tristate
->         # Will enable backlight module
->         # Has no dependencies
->
-> config  BACKLIGHT
->         bool "Backlight drivers"
->         # Will make the backlight drivers visible - a visibility option
->         # only
->
-> All drivers outside video/backlight/ can then select
-> BACKLIGHT_CLASS_DEVICE to get the backlight core
-> module.
-> Or in other words BACKLIGHT_CLASS_DEVICE is used as a sort
-> of library symbol that gices us access to backlight functionality.
+On Fri, Apr 17, 2020 at 6:50 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-Right, this could work as long as nobody puts back any "depends on
-BACKLIGHT_CLASS_DEVICE, but it does cause another problem: There
-are a couple of drivers that can optionally use backlight support
-or just leave it out depending on CONFIG_BACKLIGHT_CLASS_DEVICE.
+>
+> So what this try to say is that we cannot have FB a module while DRM is
+> built-in (marked N in the above).
 
-Changing them to select the class device support unconditionally
-would make it impossible to build those drivers without it.
-Instead we could all need an individual Kconfig symbol, or use
-have "select BACKLIGHT_CLASS_DEVICE if BACKLIGHT"
-in each case, but I'm not sure if that's still a win over having a
-simple 'depends on BACKLIGHT_CLASS_DEVICE'.
+Correct
 
-On a related note, the NEW_LEDS/LEDS_CLASS option probably
-falls into the same category, and could also be done as you suggest.
-At the moment, this has the problem that both symbols are user
-visible and also frequently selected by device drivers (but not others),
-which is causing another set of dependency issues.
+>
+> Could you explain in the changelog why this combination is not good.
+> (Or tell me if my analysis was flawed).
 
-      Arnd
+I agree in hindsight this was less obvious than I thought ;-)
+
+Added this text to the changelog:
+
+|  When CONFIG_FB is a loadable module, DRM_KMS_FB_HELPER cannot be
+| part of the built-in subsystem, so add dependency to ensure this
+| can only be enabled if the DRM module can successfully be linked.
+
+and this comment in the Kconfig file:
+
+@@ -112,7 +112,7 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
+ config DRM_FBDEV_EMULATION
+        bool "Enable legacy fbdev support for your modesetting driver"
+        depends on DRM && FB
+-       depends on FB=y || DRM=m
++       depends on FB=y || DRM=m # DRM_KMS_FB_HELPER links against FB
+        select DRM_KMS_HELPER
+        select DRM_KMS_FB_HELPER
+        default y
+
+Let me know if you think those changes are sufficient
+
+> With this fixed (assuming I am right):
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
+Thanks!
+
+        Arnd
