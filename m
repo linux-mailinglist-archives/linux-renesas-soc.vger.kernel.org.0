@@ -2,46 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E23CF1AD78F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 09:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094331AD796
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 09:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729143AbgDQHi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 03:38:29 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44689 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728928AbgDQHi2 (ORCPT
+        id S1727871AbgDQHmK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 03:42:10 -0400
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:42047 "EHLO
+        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgDQHmJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:38:28 -0400
-Received: by mail-ot1-f65.google.com with SMTP id j4so691959otr.11;
-        Fri, 17 Apr 2020 00:38:28 -0700 (PDT)
+        Fri, 17 Apr 2020 03:42:09 -0400
+Received: by mail-oo1-f66.google.com with SMTP id e18so267618oot.9;
+        Fri, 17 Apr 2020 00:42:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yIWwQv26VIVXOmhR5PyVkihL5BOBmBlh7HlW4wXcRxU=;
-        b=UO8P3fCrOVDIifPhSJYluqb6r4cJKLwc14MBotZf9Z/75ZjMoApavdqYdx/tV+NjWF
-         mk7Yum2xe10xtt7J5ZJF6Il8mkgIFfv+04CAXKSv+bWiahUJLo0JXqn98XjgaMA6i+NC
-         //V0Ev+hiBov3k7OQJuyQammT5n7bZC4UnKlI8sOpFZjilapMdhSPp/x167FTq8QUVEp
-         Of5XuPNzJkj00195ihGjZ9b69dOcfkApAdfWlHtg3B2BQm9HjaK9qHqWiYFky+OcELFo
-         JMgH+gPNZIwCnCDiUfXh3YTEFmiPiSWM0Rz68DZDQnn4Og36W/63LQh3/VrlAOGZGBYF
-         pKHg==
-X-Gm-Message-State: AGi0PuYu13Gi4r0k/1xYLm822d3R2DONSf+5w6mNuq0yzAl/0kXfFc0q
-        IfzFlGo7YikGQrBfMNVy/vrwibKvUiH6rn3e1Y3EOpvv
-X-Google-Smtp-Source: APiQypLwfQvN8h4h7bPR17YD3xh4WDlxXcuPgzXNBUI4pqjzbQeC6XnQKNvmq3QNN6iXpby/aOhuM4uJisvl+oedVeI=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr1570852otk.250.1587109107894;
- Fri, 17 Apr 2020 00:38:27 -0700 (PDT)
+        bh=fWeUFKxDD1hklpuXtyjSbQe5r1FNrLFqKnrYsB3o+7o=;
+        b=dVru0M9bg+BgZEMElclUaw8wF79djyRuTOGZLpxk2tMw1BDDLHvI/lzsLalIcd6fpr
+         UuZUbDBRDQdMN64oQdU1c+CrtEPxEzKCwIGt9ozvReQcFJ+wjaeDLxC8mVUaQCpIArAS
+         Q7nZCYCoTUiqJZPHeKRmKy/7rH6fZytNpxt0chrt0qKFolnC8jUgdJRmOE5v1vWni0eH
+         Y3lKEyvdhoeowMkaIsbN3rAhmqhY25ycZMHKF4Xmkc6uCGnOtFXzs5NWEj+QdSO5DalU
+         P1jEK+6PJ7zK5wynktyT91UK+DOMqV3d0+AkLX0FlS4tkh0F5toCTcHJYnniE8X3FphV
+         rJGQ==
+X-Gm-Message-State: AGi0PuaF8XiZPdj/ZYpltmAthDI96GwGySrJoDOIfjG3gVGC/oH9Dqlz
+        xRV/aI7JPpkG9R5YzJ+NRCWnQoygQF0aA3eMCDk=
+X-Google-Smtp-Source: APiQypL6pte3YrpH31dxcJOLGJ4OzC7E+jLbjM9wD8LHbLYj4M4+F8lMJVezlZjUGLPOpeozMSGWEZYlLuLGneBOdN0=
+X-Received: by 2002:a4a:e1af:: with SMTP id 15mr1519223ooy.40.1587109328784;
+ Fri, 17 Apr 2020 00:42:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <1587095716-23468-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1587095716-23468-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1587095716-23468-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1587106953-1415-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1587106953-1415-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Apr 2020 09:38:16 +0200
-Message-ID: <CAMuHMdWXMcSgjOGwzMD+7R37at1v7db-neM9VgMRh+hMVp-aYA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: dma: renesas,usb-dmac: convert
- bindings to json-schema
+Date:   Fri, 17 Apr 2020 09:41:57 +0200
+Message-ID: <CAMuHMdUZxWCF2tr1jQLzNn8MzoDOJ4BNDwm=MD3+3+60g4Bbaw@mail.gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: iommu: renesas,ipmmu-vmsa: convert to json-schema
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
+Cc:     Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
@@ -51,48 +49,25 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-
-On Fri, Apr 17, 2020 at 5:55 AM Yoshihiro Shimoda
+On Fri, Apr 17, 2020 at 9:03 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> Convert Renesas R-Car USB-DMA Controller bindings documentation
+> Convert Renesas VMSA-Compatible IOMMU bindings documentation
 > to json-schema.
+>
+> Note that original documentation doesn't mention renesas,ipmmu-vmsa
+> for R-Mobile APE6. But, R-Mobile APE6 is similar to the R-Car
+> Gen2. So, renesas,ipmmu-r8a73a4 belongs the renesas,ipmmu-vmsa
+> section.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml
-> @@ -0,0 +1,101 @@
-
-> +  interrupts:
-> +    minItems: 2
-
-Don't you need to keep the "maxItems: 2", too?
-
-> +  interrupt-names:
-> +    minItems: 2
-> +    items:
-> +      - pattern: ch0
-> +      - pattern: ch1
-
-According to Documentation/devicetree/bindings/example-schema.yaml
-
-    The description of each element defines the order and implicitly defines
-    the number of reg entries.
-
-So I think you can drop the minItems.
-
-> +  iommus:
-> +    minItems: 2
-
-+ maxItems: 2
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
