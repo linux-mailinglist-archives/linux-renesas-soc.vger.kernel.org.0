@@ -2,42 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D081AD869
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 10:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 478791AD927
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 10:54:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729629AbgDQIUh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 04:20:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55336 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729176AbgDQIUh (ORCPT
+        id S1729836AbgDQIy3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 04:54:29 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:49938 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729819AbgDQIy3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 04:20:37 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587111637;
-        bh=GB5++n7qo3sUXkwjV9aBRA1kd181ZSrr6ckKfp6upCM=;
-        h=Subject:From:Date:To:From;
-        b=TwrqU/XgUBCZ4EYY/oTZ1XtxigKtwxnGW7S+H2X9cnP4dGUNgKiSpppR6kwMqBf6k
-         moQ7ZScEBjZDaQOMtemUT4BE4bm4Es3hlh9aeLUYb3jtEK1j2QRhd5gzbn4kEp5wEc
-         8bu2p7M43P2b5EUGnRsc2moxXYbF/ZpsM11WDQLo=
+        Fri, 17 Apr 2020 04:54:29 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id A45ED4FB16B8E53C3F52;
+        Fri, 17 Apr 2020 16:54:26 +0800 (CST)
+Received: from huawei.com (10.175.124.28) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Apr 2020
+ 16:54:16 +0800
+From:   Jason Yan <yanaijie@huawei.com>
+To:     <renesas@glider.be>, <linus.walleij@linaro.org>,
+        <nishkadg.linux@gmail.com>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Jason Yan <yanaijie@huawei.com>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH] pinctrl: rza1: remove unused 'rza1l_swio_pins'
+Date:   Fri, 17 Apr 2020 17:20:42 +0800
+Message-ID: <20200417092042.11994-1-yanaijie@huawei.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <158711163725.28012.4855931934300030032.git-patchwork-housekeeping@kernel.org>
-Date:   Fri, 17 Apr 2020 08:20:37 +0000
-To:     linux-renesas-soc@vger.kernel.org
+X-Originating-IP: [10.175.124.28]
+X-CFilter-Loop: Reflected
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v3] dt-bindings: dma: renesas,{rcar,usb}-dmac: convert to json-schema (2020-04-17T08:07:07)
-  Superseding: [v2] dt-bindings: dma: renesas,{rcar,usb}-dmac: convert to json-schema (2020-04-17T03:55:14):
-    [v2,1/2] dt-bindings: dma: renesas,rcar-dmac: convert bindings to json-schema
-    [v2,2/2] dt-bindings: dma: renesas,usb-dmac: convert bindings to json-schema
+Fix the following gcc warning:
 
+drivers/pinctrl/pinctrl-rza1.c:401:35: warning: ‘rza1l_swio_pins’
+defined but not used [-Wunused-const-variable=]
+ static const struct rza1_swio_pin rza1l_swio_pins[] = {
+                                   ^~~~~~~~~~~~~~~
 
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
+---
+ drivers/pinctrl/pinctrl-rza1.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
+index da2d8365c690..e96bf89b3764 100644
+--- a/drivers/pinctrl/pinctrl-rza1.c
++++ b/drivers/pinctrl/pinctrl-rza1.c
+@@ -398,15 +398,6 @@ static const struct rza1_bidir_pin rza1l_bidir_pins_p9[] = {
+ 	{ .pin = 5, .func = 3 },
+ };
+ 
+-static const struct rza1_swio_pin rza1l_swio_pins[] = {
+-	{ .port = 2, .pin = 8, .func = 2, .input = 0 },
+-	{ .port = 5, .pin = 6, .func = 3, .input = 0 },
+-	{ .port = 6, .pin = 6, .func = 3, .input = 0 },
+-	{ .port = 6, .pin = 10, .func = 3, .input = 0 },
+-	{ .port = 7, .pin = 10, .func = 2, .input = 0 },
+-	{ .port = 8, .pin = 2, .func = 3, .input = 0 },
+-};
+-
+ static const struct rza1_bidir_entry rza1l_bidir_entries[RZA1_NPORTS] = {
+ 	[1] = { ARRAY_SIZE(rza1l_bidir_pins_p1), rza1l_bidir_pins_p1 },
+ 	[3] = { ARRAY_SIZE(rza1l_bidir_pins_p3), rza1l_bidir_pins_p3 },
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.21.1
+
