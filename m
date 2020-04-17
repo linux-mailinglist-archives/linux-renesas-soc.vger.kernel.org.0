@@ -2,103 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B4E1ADA00
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 11:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15B0A1ADB1E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 12:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730313AbgDQJcB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 05:32:01 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40265 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730233AbgDQJcA (ORCPT
+        id S1728627AbgDQKef (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 06:34:35 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50064 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728557AbgDQKef (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 05:32:00 -0400
-Received: by mail-oi1-f193.google.com with SMTP id t199so1543589oif.7;
-        Fri, 17 Apr 2020 02:31:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Xdw7qE++WbJcYYYVLLUf8m1JuzUUrBMPMGWetZ3yNmk=;
-        b=umjJwxwdZaZ9suhke1DqinrYaXbobkasW/nYM7VcjfUZssTXIpgDBJ4S7TzzzcCIbU
-         3pOBuyrUOza3erBxhjDDROKuSmyQnkU5OD5JmUNHoOd4pL7qBKQ1+FE+GD2+X+TJsRg8
-         GelTKUOF0UwvvI8488HYvh6MqT0c7fiSo7lk+1R9dkCqWBqY2aER34VPCq+oC83SQghm
-         xJ0r9h1Dvr75ISlOkz9zB1v0LmXWmjCDYILCkFyX7bNVuYBXJzHnoKZ5yhJvFiBmsieR
-         6wETxkCiuNHJPxTWo+uSNN5OURyGsa/uiG8XGy4UdEZX04rMmufBwbLYz/KWTeRRbp1g
-         VN3g==
-X-Gm-Message-State: AGi0PuZcsWfKsnF4IkGOOuBUPMTYo0QvIQYsJpvuIxG8UA5UG7Yhwgs4
-        eQk6eM2AQOrNuaItQI7drBO+J+bjDhfPHnERFUA=
-X-Google-Smtp-Source: APiQypLK2MzhwAlU5maq3OzaoFcwlxith+KDd7vNSYpfBpMujUQxyS1N38HvpPJg+83Xryx07p4rjzYgxCDw7EU0uIE=
-X-Received: by 2002:a05:6808:8cf:: with SMTP id k15mr1541313oij.54.1587115918339;
- Fri, 17 Apr 2020 02:31:58 -0700 (PDT)
+        Fri, 17 Apr 2020 06:34:35 -0400
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE1EC97D;
+        Fri, 17 Apr 2020 12:34:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587119672;
+        bh=iXcDG3x21kdICT9LesiijNnKyq0L2S+OhNZgcyTtIVU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vph5Cck8dFuT5oTpMHZx5b33eajjDp0m//Q9RI/wOro6iVUXQyL8bWBqTlDe909vw
+         xxrUIcXfvje9y247LOhMntKtaFvRk4lIlnNQq0qZqa3L3gJBdy+vModLZHoZg+jQdU
+         TLMx5C8GHmh7/ROLUpXIcH/akJRMmcmNSW/JWrCE=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        sakari.ailus@iki.fi, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v8 0/4] MAX9286 GMSL Support (+RDACM20)
+Date:   Fri, 17 Apr 2020 11:34:20 +0100
+Message-Id: <20200417103424.5875-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200417092042.11994-1-yanaijie@huawei.com>
-In-Reply-To: <20200417092042.11994-1-yanaijie@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Apr 2020 11:31:46 +0200
-Message-ID: <CAMuHMdUfwbsfLNSxJLqkwTNEQims1RHBn_EwBvBUqEZshHZHdQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rza1: remove unused 'rza1l_swio_pins'
-To:     Jason Yan <yanaijie@huawei.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Nishka Dasgupta <nishkadg.linux@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hulk Robot <hulkci@huawei.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jason,
+This series provides a pair of drivers for the GMSL cameras on the R-Car ADAS
+platforms.
 
-On Fri, Apr 17, 2020 at 10:54 AM Jason Yan <yanaijie@huawei.com> wrote:
-> Fix the following gcc warning:
->
-> drivers/pinctrl/pinctrl-rza1.c:401:35: warning: ‘rza1l_swio_pins’
-> defined but not used [-Wunused-const-variable=]
->  static const struct rza1_swio_pin rza1l_swio_pins[] = {
->                                    ^~~~~~~~~~~~~~~
->
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Jason Yan <yanaijie@huawei.com>
+These drivers originate from Cogent Embedded, and have been refactored to split
+the MAX9286 away from the RDACM20 drivers which were once very tightly coupled.
 
-Thanks for your patch!
+The MAX9286 is capable of capturing up to 4 streams simultaneously, and while
+the V4L2-Multiplexed streams series is not available, this works purely on the
+assumption that the receiver will correctly map each of the 4 VCs to separate
+video nodes, as the RCar-VIN does.
 
-> --- a/drivers/pinctrl/pinctrl-rza1.c
-> +++ b/drivers/pinctrl/pinctrl-rza1.c
-> @@ -398,15 +398,6 @@ static const struct rza1_bidir_pin rza1l_bidir_pins_p9[] = {
->         { .pin = 5, .func = 3 },
->  };
->
-> -static const struct rza1_swio_pin rza1l_swio_pins[] = {
-> -       { .port = 2, .pin = 8, .func = 2, .input = 0 },
-> -       { .port = 5, .pin = 6, .func = 3, .input = 0 },
-> -       { .port = 6, .pin = 6, .func = 3, .input = 0 },
-> -       { .port = 6, .pin = 10, .func = 3, .input = 0 },
-> -       { .port = 7, .pin = 10, .func = 2, .input = 0 },
-> -       { .port = 8, .pin = 2, .func = 3, .input = 0 },
-> -};
-> -
->  static const struct rza1_bidir_entry rza1l_bidir_entries[RZA1_NPORTS] = {
->         [1] = { ARRAY_SIZE(rza1l_bidir_pins_p1), rza1l_bidir_pins_p1 },
->         [3] = { ARRAY_SIZE(rza1l_bidir_pins_p3), rza1l_bidir_pins_p3 },
+This driver along with a camera driver for the RDACM20 and the
+associated platform support for the Renesas R-Car Salvator-X, and the Eagle-V3M
+can be found at:
 
-rza1l_swio_pins[] is unused because rza1l_swio_entries[] refers to the
-wrong array. So I'd rather see a patch to fix that instead.
+  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git gmsl/v8
 
-Thanks!
+We're very much hoping that we can aim to get the max9286 into the next
+merge-window. Please let us know if there are any issues blocking this.
 
-Gr{oetje,eeting}s,
+Jacopo Mondi (2):
+  dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+  media: i2c: Add RDACM20 driver
 
-                        Geert
+Kieran Bingham (1):
+  media: i2c: Add MAX9286 driver
+
+Laurent Pinchart (1):
+  dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  161 ++
+ .../bindings/media/i2c/maxim,max9286.yaml     |  287 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   22 +
+ drivers/media/i2c/Kconfig                     |   25 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/max9271.c                   |  330 ++++
+ drivers/media/i2c/max9271.h                   |  224 +++
+ drivers/media/i2c/max9286.c                   | 1332 +++++++++++++++++
+ drivers/media/i2c/rdacm20.c                   |  668 +++++++++
+ 10 files changed, 3054 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
+ create mode 100644 drivers/media/i2c/max9286.c
+ create mode 100644 drivers/media/i2c/rdacm20.c
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
