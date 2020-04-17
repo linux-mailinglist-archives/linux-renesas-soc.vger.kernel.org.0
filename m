@@ -2,84 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77FED1AE39E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 19:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 654B11AE586
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 21:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbgDQRSH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 13:18:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728687AbgDQRSF (ORCPT
+        id S1729765AbgDQTI7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 15:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50512 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730191AbgDQTI4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 13:18:05 -0400
-Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CF28E2078E;
-        Fri, 17 Apr 2020 17:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587143884;
-        bh=VCLkhpZJoywZlpzhEBTJApIPKcECQYX7x276NlVZDFA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FsGs/zvgF2wpjZPqw2JjueIJwPsTS669phOeZa3g2G7oUW7m24hEsCUKZIqpQW7p1
-         HMDAgXmY5CqbA6VqKhXAMZvErC87iS5sQxO+iJxou6sn7f6iPx0lDTd5XUiWVgrxQM
-         PYkGWJmT0LtYJyUrPzMv/Cz1YFzNKrc1fWE4G1Jk=
-Date:   Fri, 17 Apr 2020 13:18:02 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH AUTOSEL 5.4 095/108] ARM: shmobile: Enable
- ARM_GLOBAL_TIMER on Cortex-A9 MPCore SoCs
-Message-ID: <20200417171802.GV1068@sasha-vm>
-References: <20200411230943.24951-1-sashal@kernel.org>
- <20200411230943.24951-95-sashal@kernel.org>
- <CAMuHMdVrp25m_SDKSC=ntNWxsumcw4JKvHNDeFZT_JnpfQmCxg@mail.gmail.com>
+        Fri, 17 Apr 2020 15:08:56 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962D8C061A0F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Apr 2020 12:08:56 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id l25so3625898qkk.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Apr 2020 12:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZQhy489OjssnVOvD6kvurmA3AIks5bQMEPnQ8xp2xFg=;
+        b=pV+43fstjAtSTBJujlpMRb3PnaAdhK49JGeZx0mtsPWi0i5zyh/GIe07lQH636PX1h
+         RIWPKiapAktc0jQ13zOFSG5h5Vu5T812FdS46BdspmXMV3vumTY7mMzYQrGq/QGjJHaj
+         8I3kGiLdXDNidC3ZcSfGE4o+dTcl1qSgRhReF0w9RPtYx3SOyRj689V2lKNcpG164NFG
+         YObWePcqJSeXel5QsVuD2l+dRSLbjvMjJj9eDGBIJ4J5ZHwCtOAtWEgOVdjfrzn0hdSN
+         3ndnpfaaIt4YYrWhrybrpcRqKPWqDuR20RBEuyJZYSRcD/2I7Q607h7BQ21xVKN0uXCO
+         wB6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZQhy489OjssnVOvD6kvurmA3AIks5bQMEPnQ8xp2xFg=;
+        b=Z/N0gTGyCq4B1klnMrfqC+vwXwjp4p6DY75DPxCrykn8TxfuuMmXSIrhhtDIHFf4BS
+         9g2fcz+Cox1m0XxJvEm6qOG+LUHh2FE1JW7JRodfh4pfYeS6uCp/R7tZYSOFwIbLuCHT
+         4wLSJd680hgOIiBbFA9f0uwTvgd/qTk2nh+kvUrZwtWFS9K6Pq6N/KNvCWjsVdEPHzzh
+         8fUKPp8o0cKpmzjzc7XnS5zwHxWa4Tyox03cSNRsWXYzp+JmgNuxyRwrK8SATv7rkTSK
+         AYDtmQhuRiAyCQNdnpBOXdV0niL8dmDxLEZss/K6njXE1pDzsLQg81D++jhaZAu3ntSY
+         APIw==
+X-Gm-Message-State: AGi0PuYJru1wkgRvj3KzYCPBrSMkdUduxE+661Y7gwHbO25bcwwa2bc9
+        B/o9/+8gq5mN7s2uVRkmSuf0Rw==
+X-Google-Smtp-Source: APiQypKA07MEDcxRiPNxIYGcNyFxt8xoAoygqSmYVhzwxCcBpIf9Uy0CgboqxeZKDdhDPJ7gd+xFoQ==
+X-Received: by 2002:a37:44a:: with SMTP id 71mr4857241qke.114.1587150535689;
+        Fri, 17 Apr 2020 12:08:55 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id j9sm766287qkk.99.2020.04.17.12.08.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 17 Apr 2020 12:08:55 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jPWMA-0004ar-El; Fri, 17 Apr 2020 16:08:54 -0300
+Date:   Fri, 17 Apr 2020 16:08:54 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-fbdev@vger.kernel.org, Nicolas Pitre <nico@fluxnic.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Saeed Mahameed <saeedm@mellanox.com>, masahiroy@kernel.org,
+        Laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@zonque.org, haojian.zhuang@gmail.com,
+        robert.jarzmik@free.fr, marex@denx.de, stefan@agner.ch,
+        linux-graphics-maintainer@vmware.com, thellstrom@vmware.com,
+        jfrederich@gmail.com, dsd@laptop.org, geert@linux-m68k.org
+Subject: Re: [PATCH 0/8] drm, fbdev: rework dependencies
+Message-ID: <20200417190854.GI26002@ziepe.ca>
+References: <20200417155553.675905-1-arnd@arndb.de>
+ <20200417171453.GS3456981@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVrp25m_SDKSC=ntNWxsumcw4JKvHNDeFZT_JnpfQmCxg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200417171453.GS3456981@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Apr 12, 2020 at 10:44:01AM +0200, Geert Uytterhoeven wrote:
->Hi Sasha,
->
->On Sun, Apr 12, 2020 at 1:11 AM Sasha Levin <sashal@kernel.org> wrote:
->> From: Geert Uytterhoeven <geert+renesas@glider.be>
->>
->> [ Upstream commit 408324a3c5383716939eea8096a0f999a0665f7e ]
->>
->> SH-Mobile AG5 and R-Car H1 SoCs are based on the Cortex-A9 MPCore, which
->> includes a global timer.
->>
->> Enable the ARM global timer on these SoCs, which will be used for:
->>   - the scheduler clock, improving scheduler accuracy from 10 ms to 3 or
->>     4 ns,
->>   - delay loops, allowing removal of calls to shmobile_init_delay() from
->>     the corresponding machine vectors.
->>
->> Note that when using an old DTB lacking the global timer, the kernel
->> will still work.  However, loops-per-jiffies will no longer be preset,
->> and the delay loop will need to be calibrated during boot.
->
->I.e. to avoid this delay, this patch is best backported after backporting
->8443ffd1bbd5be74 ("ARM: dts: r8a7779: Add device node for ARM global timer"),
->df1a0aac0a533e6f ("ARM: dts: sh73a0: Add device node for ARM global timer").
->
->While the former has been backported to v5.[45]-stable, the latter hasn't,
->probably because it depends on
->61b58e3f6e518c51 ("ARM: dts: sh73a0: Rename twd clock to periph clock")
->
->So please backport the last two commits first.
+On Fri, Apr 17, 2020 at 07:14:53PM +0200, Daniel Vetter wrote:
+> On Fri, Apr 17, 2020 at 05:55:45PM +0200, Arnd Bergmann wrote:
+> > I tried to fix up some dependencies after the sii8620 "imply EXTCON"
+> > statementn broke, trying a few things but in the backing out a
+> > change that would completely reverse the LEDS_CLASS selects into
+> > a 'depends on'. 
+> > 
+> > However, what I got now are multiple changes that remove gratious
+> > "selects" that lead to circular dependencies for sii8620 and others:
+> > 
+> > - Anything doing "select FB" is now gone, or becomes "depends on FB",
+> > 
+> > - DDC support depends on I2C instead of selecting it
+> > 
+> > - backlight class device support is never selected by framebuffer
+> >   drivers but has proper dependencies
+> > 
+> > I have done thousands of randconfig build tests on this, but no
+> > runtime tests.
+> > 
+> > Some of the 'depends on FOO || !FOO' statements could be simplified
+> > into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
+> > but I would for the moment treat that as a cleanup that can be done
+> > later.
+> > 
+> > If we can agree on these changes, maybe someone can merge them
+> > through the drm-misc tree.
+> > 
+> > Please review
+> 
+> Biggest concern I have is that usability of make menuconfig is horrible,
+> and it's very hard to find options that are hidden by depends on. You can
+> use the search interface, if you happen to know the option.
+> 
+> Once you've surmounted that bar, the next one is trying to find what
+> exactly you need to enable. Which again means endless of recursive
+> screaming at Kconfig files, since make menuconfig doesn't help you at all.
 
-Done, thanks!
++1 on this. But this is a general kconfig problem, and not unique to
+DRM, I've done this screaming for many different things now.. eg to
+turn on every single RDMA driver.
 
--- 
-Thanks,
-Sasha
+I hackily delt with it by creating this rather insane script based on
+the python kconfiglib to try and sort things out mostly automatically:
+
+https://github.com/jgunthorpe/Kernel-Maintainer-Tools/blob/master/gj_tools/cmd_kconfig.py
+
+It would be great if menuconfig had a key to say 'hey, really, turn
+this on and everything it depends on, recursively'
+
+Jason
