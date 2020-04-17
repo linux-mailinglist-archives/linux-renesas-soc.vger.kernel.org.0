@@ -2,129 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A98721AD780
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 09:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23CF1AD78F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 09:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729061AbgDQHfk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 03:35:40 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:48997 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728419AbgDQHfk (ORCPT
+        id S1729143AbgDQHi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 03:38:29 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44689 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728928AbgDQHi2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:35:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PLXDjhjzf7xncPLXGj9fPQ; Fri, 17 Apr 2020 09:35:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587108938; bh=o8U3pXYZ0/e100B70V5S/22+PtbeEPaEMsEahcOXC8U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ckb5LeodlKbwCzVCi2urqUV6PxcXLm43HMrb98Wa2EUB8gFCx6HalGtpWJAz+tinU
-         26Xyxoq73+KeF8mBK0RFY6pfzCspPmRCY/4DBCQJ7BcZAVoB+EoLk62FiGvk1LQpag
-         0uRnUsy9h8fV4dUfFHNP1mkOGMWrVpjhOb4vCCLuD/bqmYh1Owa0N8u3Oo8+6Q4/DD
-         cW8u/3MBoDpHmPbXjMBz7LHml/SPDYqAVreo4z8zVFebNBkG2QgNao7fHFtf92EXO1
-         WmOTPYU21Rg3QIEHghAcYbw8j/ATWoLFwJXcqX86+5ukyG8Xb5Q5GE4Pmvs9wN2chj
-         cRNd/KVxcBDCg==
-Subject: Re: [PATCH] vimc: Report a colorspace
-To:     Helen Koike <helen.koike@collabora.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200316221606.2648820-1-niklas.soderlund+renesas@ragnatech.se>
- <779b6314-31a6-76df-6dd3-1a24f577a5d3@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <60c2d33c-e999-d4e3-0bea-64574b08cade@xs4all.nl>
-Date:   Fri, 17 Apr 2020 09:35:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Fri, 17 Apr 2020 03:38:28 -0400
+Received: by mail-ot1-f65.google.com with SMTP id j4so691959otr.11;
+        Fri, 17 Apr 2020 00:38:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yIWwQv26VIVXOmhR5PyVkihL5BOBmBlh7HlW4wXcRxU=;
+        b=UO8P3fCrOVDIifPhSJYluqb6r4cJKLwc14MBotZf9Z/75ZjMoApavdqYdx/tV+NjWF
+         mk7Yum2xe10xtt7J5ZJF6Il8mkgIFfv+04CAXKSv+bWiahUJLo0JXqn98XjgaMA6i+NC
+         //V0Ev+hiBov3k7OQJuyQammT5n7bZC4UnKlI8sOpFZjilapMdhSPp/x167FTq8QUVEp
+         Of5XuPNzJkj00195ihGjZ9b69dOcfkApAdfWlHtg3B2BQm9HjaK9qHqWiYFky+OcELFo
+         JMgH+gPNZIwCnCDiUfXh3YTEFmiPiSWM0Rz68DZDQnn4Og36W/63LQh3/VrlAOGZGBYF
+         pKHg==
+X-Gm-Message-State: AGi0PuYu13Gi4r0k/1xYLm822d3R2DONSf+5w6mNuq0yzAl/0kXfFc0q
+        IfzFlGo7YikGQrBfMNVy/vrwibKvUiH6rn3e1Y3EOpvv
+X-Google-Smtp-Source: APiQypLwfQvN8h4h7bPR17YD3xh4WDlxXcuPgzXNBUI4pqjzbQeC6XnQKNvmq3QNN6iXpby/aOhuM4uJisvl+oedVeI=
+X-Received: by 2002:a9d:7590:: with SMTP id s16mr1570852otk.250.1587109107894;
+ Fri, 17 Apr 2020 00:38:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <779b6314-31a6-76df-6dd3-1a24f577a5d3@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPmNwipRnd8sVZFSXQyGKh0hEgcB1ctfCEHj1lwdqH+Y7ze0xoA6veGjGuMd98OzdE8JvMw758pWFiFYwtM+j+jdkvSM5d/dcMfaMJFqDMNn8OxzCqk6
- Z/4PAfI7HYNEVLSEojO2kOvdTZAW8hd9TQhVKCUJR+NKtwOsnDKAB+Qa98w+rr0mMeSXarT70F8uJ5jP89vZ+1KFjTaG3K7vWisqky0XeH4vb2ktvvx5ZRXM
- mm2AKFGlO3jEj6N3wRspRS3bqOROu3O7DtEMHS4FoqOQcJKGhDE3rp/rtlSmrNL4olWxMkU1TTP4FZVM/B5eVg==
+References: <1587095716-23468-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1587095716-23468-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1587095716-23468-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 Apr 2020 09:38:16 +0200
+Message-ID: <CAMuHMdWXMcSgjOGwzMD+7R37at1v7db-neM9VgMRh+hMVp-aYA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: dma: renesas,usb-dmac: convert
+ bindings to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Vinod <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17/03/2020 12:27, Helen Koike wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> I would just change the title of the commit to start with the tags:
-> 
-> media: vimc: cap:
-> 
-> On 3/16/20 7:16 PM, Niklas Söderlund wrote:
->> The colorspace reported by a video nodes should not be
->> V4L2_COLORSPACE_DEFAULT. Instead a default colorspace should be picked
->> by the driver if V4L2_COLORSPACE_DEFAULT is given by userspace to
->> {G,S,TRY}_FMT.
->>
->> The colorspace V4L2_COLORSPACE_SRGB is arbitrary chosen as the vimc
->> default format to report as it's used for most webcams.
->>
->> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> 
-> Do the subdevices also need this change?
-> They also use V4L2_COLORSPACE_DEFAULT in their default format.
+Hi Shimoda-san,
 
-The sensor specifically should report a non-default colorspace.
 
-Ideally the colorimetry information should propagate from the source (sensor)
-to the capture device. To be honest, I'm not sure how existing MC drivers
-handle this.
+On Fri, Apr 17, 2020 at 5:55 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Convert Renesas R-Car USB-DMA Controller bindings documentation
+> to json-schema.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Regards,
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.yaml
+> @@ -0,0 +1,101 @@
 
-	Hans
+> +  interrupts:
+> +    minItems: 2
 
-> 
-> Regards,
-> Helen
-> 
->> ---
->>  drivers/media/platform/vimc/vimc-capture.c | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->> ---
->> Hi,
->>
->> This was found while adding V4L2_CAP_IO_MC support to vimc and adding 
->> tests to v4l2-compliance. The issue will hence only show up in 
->> v4l2-compliance if V4L2_CAP_IO_MC series is enabled for vimc.
->>
->> Best regards,
->> Niklas Söderlund
->>
->> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
->> index 23e740c1c5c00802..747ea9cc1bd7cb12 100644
->> --- a/drivers/media/platform/vimc/vimc-capture.c
->> +++ b/drivers/media/platform/vimc/vimc-capture.c
->> @@ -37,7 +37,7 @@ static const struct v4l2_pix_format fmt_default = {
->>  	.height = 480,
->>  	.pixelformat = V4L2_PIX_FMT_RGB24,
->>  	.field = V4L2_FIELD_NONE,
->> -	.colorspace = V4L2_COLORSPACE_DEFAULT,
->> +	.colorspace = V4L2_COLORSPACE_SRGB,
->>  };
->>  
->>  struct vimc_cap_buffer {
->> @@ -107,6 +107,9 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
->>  
->>  	vimc_colorimetry_clamp(format);
->>  
->> +	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
->> +		format->colorspace = fmt_default.colorspace;
->> +
->>  	return 0;
->>  }
->>  
->>
+Don't you need to keep the "maxItems: 2", too?
 
+> +  interrupt-names:
+> +    minItems: 2
+> +    items:
+> +      - pattern: ch0
+> +      - pattern: ch1
+
+According to Documentation/devicetree/bindings/example-schema.yaml
+
+    The description of each element defines the order and implicitly defines
+    the number of reg entries.
+
+So I think you can drop the minItems.
+
+> +  iommus:
+> +    minItems: 2
+
++ maxItems: 2
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
