@@ -2,113 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BE331AE12D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 17:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C38901AE1B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 17:57:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729161AbgDQPau (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 11:30:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:52003 "EHLO
+        id S1729625AbgDQP5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 11:57:00 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:50399 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729119AbgDQPat (ORCPT
+        with ESMTP id S1729282AbgDQP5A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 11:30:49 -0400
-Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
- mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N0WsG-1j4Nko1EJA-00wSVb; Fri, 17 Apr 2020 17:30:30 +0200
-Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
-        by mail.cetitecgmbh.com (Postfix) with ESMTP id B5F9E64ECEB;
-        Fri, 17 Apr 2020 15:30:28 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at cetitec.com
-Received: from mail.cetitecgmbh.com ([127.0.0.1])
-        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id V9ig1oZlNVEl; Fri, 17 Apr 2020 17:30:28 +0200 (CEST)
-Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
-        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 6E047650DE0;
-        Fri, 17 Apr 2020 17:30:28 +0200 (CEST)
-Received: from pflmmbl.corp.cetitec.com (10.8.5.29) by
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 17 Apr 2020 17:30:28 +0200
-From:   Matthias Blankertz <matthias.blankertz@cetitec.com>
-To:     Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>
-CC:     Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
-        <alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: [PATCH 2/2] ASoC: rsnd: Fix "status check failed" spam for multi-SSI
-Date:   Fri, 17 Apr 2020 17:30:17 +0200
-Message-ID: <20200417153017.1744454-3-matthias.blankertz@cetitec.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200417153017.1744454-1-matthias.blankertz@cetitec.com>
-References: <20200417153017.1744454-1-matthias.blankertz@cetitec.com>
+        Fri, 17 Apr 2020 11:57:00 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MdeSt-1iprPw3KU5-00ZfOr; Fri, 17 Apr 2020 17:56:21 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     dri-devel@lists.freedesktop.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        linux-fbdev@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Saeed Mahameed <saeedm@mellanox.com>, masahiroy@kernel.org,
+        Laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org,
+        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@zonque.org, haojian.zhuang@gmail.com,
+        robert.jarzmik@free.fr, daniel@ffwll.ch, marex@denx.de,
+        stefan@agner.ch, linux-graphics-maintainer@vmware.com,
+        thellstrom@vmware.com, jfrederich@gmail.com, dsd@laptop.org,
+        geert@linux-m68k.org
+Subject: [PATCH 0/8] drm, fbdev: rework dependencies
+Date:   Fri, 17 Apr 2020 17:55:45 +0200
+Message-Id: <20200417155553.675905-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.8.5.29]
-X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
- PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
-X-EsetResult: clean, is OK
-X-EsetId: 37303A290D7F536B64766A
-X-Provags-ID: V03:K1:0iRD0Id+7QAfQTeP6+QurWwUltdZG+fqMJxBvkqJPUd9FojZGun
- sf/9XgiwufPW5lLOJnygfUJDpIG3Z4/yUnjoh2uQ3UTbt+ieGVMXWejLjl4NJFwleR7VHXz
- eRsYNxfKmS1M33G07P44CMIo742DTe2CGMpOqZivLTzQTkStbAMtWDN5CKCSydpQxOTyUkZ
- FwuIJnLucp0OAHrIeur5g==
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ihjqslpA75qTMF6wDF4+VNNTC1NuRX5DyjEZChnbH2+LduferQW
+ jC0LdL6btHPVgdMOdMSVPpZ+znLPsqbExhraTQcyb9rSJjMpz9m6IC8Rv/hCKvIPAJcBGd0
+ hoMUlKQPUxa5CWHHDUiR9HooUGxQKazIExDHqcmkZ2XigqkWeJHResaEL4oAKQcpaZIWAwD
+ ruyD6lxdbXrDz80gK0WHg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qrbtVe90pA4=:tpoXoz3xiMvTH8cBv3+3P5
- O4EfrILxVOr5loC4L9WtX5APJDqGNf3/02r4YxVynorLJGVCh/O4fVnfGLw7bn1ah8a2azkk9
- GbUbFIDS9MYt5+SS2kfMgcoemth2pPdoReZlC3AempfKFBat9gacbxiGTH+zdL5pyXvXZ6P5b
- i0rXQ3ka5ADlVHSX8K/wVthVsNVlKd9/f7238FjMJkns3Zk/b+HUfYa7gwOlBYqlMviXeUdCd
- 6xf19mziHr6IBOetMAF1i2bVDnwU7xxFy1aYFIGXqzvpDGDvwTYEGpBGB+OvLhKLn1KOZBlXx
- yHpsVOGpORrmCSQLRpNaMCymL6RoaDJCco3APjIMVIqyTBsvpDEVT6VF6y4BHbRs2Gv85ARNJ
- DSX7qcjmp7FW2QHI/vUk9tcVuER2NYUWlRv5QPhbtp441llHqfXKfsogfMIbMBMQ7yzTKx4s2
- 0sbIazv1WZR618d1aRS7H6N5/+Te/h2a5bC0KBLN3aacObwZCpGXRt3Gv2oLMGo4IidjwqEbD
- RpvbEUHoAsBTR5X0Feqks9hQFhkJFU1ukodv65khpgHXq1+kPT350qQj27Eb+YjWyR5Q8Jk66
- APq2T35CZTvLSAHG3IoAbxVEOcvfDH33qutyMOUDelS0C6i6xKnN6yb7wQmyF7meFkOtRdZsV
- OH2IZCe3Q8X3nV//JRVeP5fa0yJpgqPmtbXsekghIoZ0DMhWdA3z0H2FOIAKFWIf8F7s3lmtt
- bmOoT5ZGm/lwnPkCLZPwlARHRXc/zIi2RNJ3qfQiSxP0xDOy8fnTcKJmZiTWGw9iNPK6Wt1Ad
- jUgYyQPkWFiAUeibo2fhkR/uZhGy4SJid8Ysld0jikN58hBAUX0hoXh9/fCDCC1W2IQIaHzkd
- ebk9P8irWlOJkEzhT4sQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3tM+z2ZlTSg=:Y+9HE2EHWXdISGlEwzfCoA
+ znjKjlR25yaG0teoXA4D4CeSSX+90bjonxwvfbjYZQQcAEg91D0TCOo68kMmgHgdjxSeZ/cQE
+ h7ea4mzL0RV4U9lI8gHxzNG7B0A+rf1wcqF+02xr5G+kX4C2wqgW9HW3lxAW7aktqf4q5efZA
+ JXLi+n2fEBOILATNtcdS5xjaMq/0B3qRcSs/zMQKeCDxG+MvNjdR3AMR8grIoOesVD0m0wUvD
+ yeODH5YXBaQtCzFrIkoYRb1enxS0bPVu6rTX8POeJ4YVCxP1ABi+zbsuT4BXoeW7Iap00s+hz
+ 7xlD1BV37+gDlcxZ4GZUzs5tkkaPQIkMCGCvUJOJ3rRut1JwC7X/lr3drfx9hw5cjIaiE1LMC
+ JgK5KNaFDR7oPdLrOS/C1OEbrOiqB8gKsjT5ZPt+0NtBNIJtfgyv9fvvcX75UR1+nfhojAaLF
+ xC49KgXOQS2jnvO1w1VJdB5lRJmfPWJQDsRXP5sZTVRzYeLLqC0EHgTreGAoUOcQ+oxV5QDCL
+ T7OI5dkyb/qbyPE8C09N72z19941QqlXgY5M0x2NkO9rzCPWhDkHqXL9ivrf2NiNfu/G4uOal
+ BEFmbx0RKEk2vk9zgrHJasgEMe36VSFu6DggJ6Gk7Swe0drJO7GkfcCaQ5/jzUA+hgDkAMlWa
+ z5WnF+9VTwvi6zaTpktEnJEvJPz1hiLDMUl/Xt+t2c8zGxhmhMNv3lkHXnPQIcSk+YBRNVSPs
+ 5L8k0Ju92kqHNPL3aAP7VTgciERckhKIKlBGQpFCZz2DlY828VoHZGEjrZjRuxqZFZfd04ylz
+ wzH+eGBO8rrvCSJAO8TPvbKeMFvlMJr5uWCJBB8rNqGirwuBew=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix the rsnd_ssi_stop function to skip disabling the individual SSIs of
-a multi-SSI setup, as the actual stop is performed by rsnd_ssiu_stop_gen2
-- the same logic as in rsnd_ssi_start. The attempt to disable these SSIs
-was harmless, but caused a "status check failed" message to be printed
-for every SSI in the multi-SSI setup.
-The disabling of interrupts is still performed, as they are enabled for
-all SSIs in rsnd_ssi_init, but care is taken to not accidentally set the
-EN bit for an SSI where it was not set by rsnd_ssi_start.
+I tried to fix up some dependencies after the sii8620 "imply EXTCON"
+statementn broke, trying a few things but in the backing out a
+change that would completely reverse the LEDS_CLASS selects into
+a 'depends on'. 
 
-Signed-off-by: Matthias Blankertz <matthias.blankertz@cetitec.com>
----
- sound/soc/sh/rcar/ssi.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+However, what I got now are multiple changes that remove gratious
+"selects" that lead to circular dependencies for sii8620 and others:
 
-diff --git a/sound/soc/sh/rcar/ssi.c b/sound/soc/sh/rcar/ssi.c
-index 9900a4f6f4e5..4a7d3413917f 100644
---- a/sound/soc/sh/rcar/ssi.c
-+++ b/sound/soc/sh/rcar/ssi.c
-@@ -594,10 +594,16 @@ static int rsnd_ssi_stop(struct rsnd_mod *mod,
- 	 * Capture:  It might not receave data. Do nothing
- 	 */
- 	if (rsnd_io_is_play(io)) {
--		rsnd_mod_write(mod, SSICR, cr | EN);
-+		rsnd_mod_write(mod, SSICR, cr | ssi->cr_en);
- 		rsnd_ssi_status_check(mod, DIRQ);
- 	}
- 
-+	/* In multi-SSI mode, stop is performed by setting ssi0129 in
-+	 * SSI_CONTROL to 0 (in rsnd_ssio_stop_gen2). Do nothing here.
-+	 */
-+	if (rsnd_ssi_multi_slaves_runtime(io))
-+		return 0;
-+
- 	/*
- 	 * disable SSI,
- 	 * and, wait idle state
+- Anything doing "select FB" is now gone, or becomes "depends on FB",
+
+- DDC support depends on I2C instead of selecting it
+
+- backlight class device support is never selected by framebuffer
+  drivers but has proper dependencies
+
+I have done thousands of randconfig build tests on this, but no
+runtime tests.
+
+Some of the 'depends on FOO || !FOO' statements could be simplified
+into a new 'uses FOO' syntax based on a patch from Saeed Mahameed,
+but I would for the moment treat that as a cleanup that can be done
+later.
+
+If we can agree on these changes, maybe someone can merge them
+through the drm-misc tree.
+
+Please review
+
+       Arnd
+
+Arnd Bergmann (8):
+  fbdev: w100fb: clean up mach-pxa compile-time dependency
+  fbdev/ARM: pxa: avoid selecting CONFIG_FB
+  fbdev: rework FB_DDC dependencies
+  drm/rcar: stop using 'imply' for dependencies
+  drm/vmwgfx: make framebuffer support optional
+  drm: decouple from CONFIG_FB
+  fbdev: rework backlight dependencies
+  drm/bridge/sii8620: fix extcon dependency
+
+ arch/arm/configs/pxa_defconfig      |  3 ++
+ arch/arm/mach-pxa/Kconfig           |  7 ---
+ arch/arm/mach-pxa/eseries.c         | 14 +----
+ arch/arm/mach-pxa/saar.c            |  2 +-
+ arch/arm/mach-pxa/tavorevb.c        |  2 +-
+ drivers/auxdisplay/Kconfig          |  1 +
+ drivers/gpu/drm/Kconfig             |  5 +-
+ drivers/gpu/drm/bridge/Kconfig      |  2 +-
+ drivers/gpu/drm/mxsfb/Kconfig       |  1 -
+ drivers/gpu/drm/rcar-du/Kconfig     | 23 +++++---
+ drivers/gpu/drm/vmwgfx/Kconfig      | 17 +++---
+ drivers/gpu/drm/vmwgfx/Makefile     |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 35 +++++++-----
+ drivers/gpu/drm/zte/Kconfig         |  1 -
+ drivers/macintosh/Kconfig           |  1 +
+ drivers/staging/fbtft/Kconfig       |  1 +
+ drivers/staging/olpc_dcon/Kconfig   |  2 +-
+ drivers/video/fbdev/Kconfig         | 31 ++++++++---
+ drivers/video/fbdev/w100fb.c        | 84 +++++------------------------
+ include/video/w100fb.h              |  6 +--
+ 20 files changed, 101 insertions(+), 141 deletions(-)
+
 -- 
-2.26.1
+2.26.0
 
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Nicolas Pitre <nico@fluxnic.net>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Saeed Mahameed <saeedm@mellanox.com>
+Cc: <masahiroy@kernel.org>
+Cc: <Laurent.pinchart@ideasonboard.com>
+Cc: <linux-renesas-soc@vger.kernel.org>,
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+Cc: <kieran.bingham+renesas@ideasonboard.com>,
+Cc: <airlied@linux.ie>
+Cc: daniel@zonque.org
+Cc: haojian.zhuang@gmail.com
+Cc: robert.jarzmik@free.fr
+Cc: daniel@ffwll.ch
+Cc: marex@denx.de
+Cc: stefan@agner.ch
+Cc: linux-graphics-maintainer@vmware.com
+Cc: thellstrom@vmware.com
+Cc: jfrederich@gmail.com
+Cc: dsd@laptop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: geert@linux-m68k.org
