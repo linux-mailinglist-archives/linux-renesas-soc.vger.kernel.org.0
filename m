@@ -2,99 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EF161AE1AB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 17:57:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE3391AE1FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Apr 2020 18:16:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbgDQP4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Apr 2020 11:56:52 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:50219 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729282AbgDQP4w (ORCPT
+        id S1730158AbgDQQQC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Apr 2020 12:16:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38158 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728105AbgDQQQC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Apr 2020 11:56:52 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MIdW7-1jUiXm100z-00EZfR; Fri, 17 Apr 2020 17:56:27 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     dri-devel@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        linux-fbdev@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Saeed Mahameed <saeedm@mellanox.com>, masahiroy@kernel.org,
-        Laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org,
-        kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@zonque.org, haojian.zhuang@gmail.com,
-        robert.jarzmik@free.fr, daniel@ffwll.ch, marex@denx.de,
-        stefan@agner.ch, linux-graphics-maintainer@vmware.com,
-        thellstrom@vmware.com, jfrederich@gmail.com, dsd@laptop.org,
-        geert@linux-m68k.org
-Subject: [PATCH 8/8] drm/bridge/sii8620: fix extcon dependency
-Date:   Fri, 17 Apr 2020 17:55:53 +0200
-Message-Id: <20200417155553.675905-9-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200417155553.675905-1-arnd@arndb.de>
-References: <20200417155553.675905-1-arnd@arndb.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UJfZE5doXQXPVZErHGo/jr5SBujC3aYcMMYtNkgKRBF2nc0duPM
- 08ExwIQTE+EcQe7GilksYVZq8wjVRkU8P8k3vB5MKuopHwNqy/AjaVPeZeCJmXH6egv4IqM
- VZEQBI/GcnYuDWE25eDN5M9eQPLp1/MvtAC8sE37e4xQqQR79mx3h6eHTZvuvxCt2guGuX8
- HdzQN1IbXJRnIpaPlG44g==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:miWYTRa2EbE=:JuLeeZ/tDWudAlfDrZtrJ+
- ARPya4R+tGG5n6EGjv3NzTtynhx8vdzXF8zC38jHjKqlocFRzyVABI5PTCFNhK9Z9/moLt6pG
- qX7Z8rlopstKaL8fIyZ4gkEeVIPyvABY83MTg7mPwTtrz4glfgy8LSGdesRSUfK/xk3suUSGs
- /fGdtkxYNQ0lRBk8n4e+b/fYoLNNLsooxKLt9XkYbFDFULavPYAabmm8XQi8WNgZfhDskwAyk
- XE9JKinpRPx7N5AF8A/J3PEKUz3KKwQri6QVUtX7AlUMiTWVY+pA6gCAO0zN9bTf9yJfLOB6K
- PIN/r+U+jkYXts/yJIiuEj9AqNalQcp1rCdLdFHU3TiWNBOMECqKOwn5MaIE6VE/MN9mSIqYP
- BpOnX+GFaVeYBIV0obo/p0bNEqm1pOcxWnDuvDvGZPWIEGajuBDyeC++Wz5Fb1aI9WC/jtXKn
- YQu3z8pzjJJzn8r3wxlSWsMjtDc9w095nSiCcB/t1EG7U/qRqKOJICstwhYJjQUB+SKBwYC9D
- 8okqr8N8tRBxjwjECmzqMOzVtUixGEXOlHwJwv5BIDOSikqZoXNJuaDJhprJlwpelTDl/d5kt
- 1lKcaO9LFcS5SZE0SQ0kyOEb/zbxUzuTuzrql1DT3q770SqP0u5JO07YfEO40BVSj5bl60IC5
- M45DeEeqwc3/c81jQjuAfj3wfp8oFYCt15oUAQFGxgQcD/mqMyqJv6QTUTKdIQXWGhiCJH2mZ
- RfQ0nirokH8sfCDhLVkZZHNFFcrwSL7rV3FY8FR/mrQbTXRW2hYlWXz0YaRfTK1Nf/7Ejnntq
- ZnsXjna2GcTDIeVcbVtCt6yCdYwh1bm1Gt0Z64lvDB98iBfMZ4=
+        Fri, 17 Apr 2020 12:16:02 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1680120857;
+        Fri, 17 Apr 2020 16:16:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587140161;
+        bh=dMnwJXovzpQ6YBUUVCY4KPofcSqzELKGUYZ13cOxUdI=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=2puiKB/0hiVpk1D9MJlEu9jeNCctSYUHooAr1pZSC9C4mMMjiYt2xjJMHYza+dh9P
+         9oGoYR4/8Z6FSOcRGaxAc49WewRgBYQ6S8UyVyNK0Fcd5Te3/KnkaMQDMiwSJ6MV9X
+         cKTvjq1ss1t31ZKGl8MG7fVht9JIrM3x+xh4qjvk=
+Date:   Fri, 17 Apr 2020 17:15:59 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Matthias Blankertz <matthias.blankertz@cetitec.com>
+Cc:     linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20200415141017.384017-1-matthias.blankertz@cetitec.com>
+References: <20200415141017.384017-1-matthias.blankertz@cetitec.com>
+Subject: Re: [PATCH 0/2] ASoC: rsnd: Fixes for multichannel HDMI audio output
+Message-Id: <158714007098.22963.15064526974433346524.b4-ty@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Using 'imply' does not work here, it still cause the same build
-failure:
+On Wed, 15 Apr 2020 16:10:15 +0200, Matthias Blankertz wrote:
+> This fixes two issues in the snd-soc-rcar driver blocking multichannel
+> HDMI audio out: The parent SSI in a multi-SSI configuration is not
+> correctly set up and started, and the SSI->HDMI channel mapping is
+> wrong.
+> 
+> With these patches, the following device tree snippet can be used on an
+> r8a7795-based platform (Salvator-X) to enable multichannel HDMI audio on
+> HDMI0:
+> 
+> [...]
 
-arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_remove':
-sil-sii8620.c:(.text+0x1b8): undefined reference to `extcon_unregister_notifier'
-arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_probe':
-sil-sii8620.c:(.text+0x27e8): undefined reference to `extcon_find_edev_by_node'
-arm-linux-gnueabi-ld: sil-sii8620.c:(.text+0x2870): undefined reference to `extcon_register_notifier'
-arm-linux-gnueabi-ld: drivers/gpu/drm/bridge/sil-sii8620.o: in function `sii8620_extcon_work':
-sil-sii8620.c:(.text+0x2908): undefined reference to `extcon_get_state'
+Applied, thanks!
 
-Now that the framebuffer configuration is cleaned up, we can use the
-usual 'depends on EXTCON || !EXTCON' trick.
+[1/2] ASoC: rsnd: Fix parent SSI start/stop in multi-SSI mode
+      commit: a09fb3f28a60ba3e928a1fa94b0456780800299d
+[2/2] ASoC: rsnd: Fix HDMI channel mapping for multi-SSI mode
+      commit: b94e164759b82d0c1c80d4b1c8f12c9bee83f11d
 
-Fixes: 7a109673899b ("drm/bridge/sii8620: add Kconfig dependency on extcon")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/bridge/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index aaed2347ace9..29c837625f03 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -90,7 +90,7 @@ config DRM_SIL_SII8620
- 	tristate "Silicon Image SII8620 HDMI/MHL bridge"
- 	depends on OF
- 	select DRM_KMS_HELPER
--	imply EXTCON
-+	depends on EXTCON || !EXTCON
- 	depends on RC_CORE || !RC_CORE
- 	help
- 	  Silicon Image SII8620 HDMI/MHL bridge chip driver.
--- 
-2.26.0
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
