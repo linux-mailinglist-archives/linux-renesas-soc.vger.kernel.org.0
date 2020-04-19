@@ -2,76 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FB181AFAA6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2020 15:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB7C1AFAD4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2020 15:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726405AbgDSN15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Apr 2020 09:27:57 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:60521 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725793AbgDSN15 (ORCPT
+        id S1726319AbgDSNkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Apr 2020 09:40:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55046 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726091AbgDSNki (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Apr 2020 09:27:57 -0400
-X-IronPort-AV: E=Sophos;i="5.72,403,1580742000"; 
-   d="scan'208";a="44894783"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Apr 2020 22:27:55 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1B2A9422C025;
-        Sun, 19 Apr 2020 22:27:50 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 8/8] MAINTAINERS: Add file patterns for rcar PCI device tree bindings
-Date:   Sun, 19 Apr 2020 14:27:03 +0100
-Message-Id: <1587302823-4435-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587302823-4435-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1587302823-4435-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Sun, 19 Apr 2020 09:40:38 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587303638;
+        bh=0d+zMDj1vDIQVKCrr8NQt89mqwSvdxPp8QEBTRNQ+M0=;
+        h=Subject:From:Date:To:From;
+        b=Qk9dB/IObVzywmNS4WDlVPUU2EyXuIcgWgZmx5qF7aa9RTnaCWEJSpL/ev8r6Gabx
+         V0XGDYHAxThEwNBlPXFxGoW7Z7idxMTpyOnNgTrGtSc57lwDl+hSTJ1rqtE8EdqRSi
+         ToxWxMT9LWdyPCU4wQIjSSyjFqwEz3FFx2VyW7ag=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158730363859.535.5990453612406409242.git-patchwork-housekeeping@kernel.org>
+Date:   Sun, 19 Apr 2020 13:40:38 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add file pattern entry for rcar PCI devicetree binding, so that when
-people run ./scripts/get_maintainer.pl the rcar PCI maintainers could also
-be listed.
+Latest series: [v8] Add support for PCIe controller to work in endpoint mode on R-Car/RZ/G2x SoCs (2020-04-19T13:26:55)
+  Superseding: [v7] Add support for PCIe controller to work in endpoint mode on R-Car/RZ/G2x SoCs (2020-04-08T15:37:52):
+    [v7,1/8] PCI: rcar: Rename pcie-rcar.c to pcie-rcar-host.c
+    [v7,2/8] PCI: rcar: Move shareable code to a common file
+    [v7,3/8] PCI: rcar: Fix calculating mask for PCIEPAMR register
+    [v7,4/8] PCI: endpoint: Add support to handle multiple base for mapping outbound memory
+    [v7,5/8] dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint controller
+    [v7,6/8] PCI: rcar: Add support for R-Car PCIe controller in endpoint mode
+    [v7,7/8] PCI: Add Renesas R8A774C0 device ID
+    [v7,8/8] MAINTAINERS: Add file patterns for rcar PCI device tree bindings
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3f0f2ee2af32..87df2d31a54b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12933,6 +12933,7 @@ L:	linux-pci@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Maintained
- F:	drivers/pci/controller/*rcar*
-+F:	Documentation/devicetree/bindings/pci/*rcar*
- 
- PCI DRIVER FOR SAMSUNG EXYNOS
- M:	Jingoo Han <jingoohan1@gmail.com>
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
