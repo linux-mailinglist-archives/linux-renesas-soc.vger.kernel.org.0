@@ -2,82 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF96B1AFC19
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2020 18:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EE6C1AFD22
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Apr 2020 20:16:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726730AbgDSQoK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Apr 2020 12:44:10 -0400
-Received: from smtprelay0008.hostedemail.com ([216.40.44.8]:41760 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725793AbgDSQoK (ORCPT
+        id S1726620AbgDSSQW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Apr 2020 14:16:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38048 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725970AbgDSSQW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Apr 2020 12:44:10 -0400
-X-Greylist: delayed 339 seconds by postgrey-1.27 at vger.kernel.org; Sun, 19 Apr 2020 12:44:09 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 3FAF91802061C
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Apr 2020 16:38:31 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id E2A595836;
-        Sun, 19 Apr 2020 16:38:29 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1568:1593:1594:1711:1714:1730:1747:1777:1792:2198:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3865:3867:3874:4250:4321:5007:6737:10004:10400:10848:11232:11658:11914:12043:12048:12297:12555:12740:12760:12895:13069:13255:13311:13357:13439:14181:14659:14721:21080:21451:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: bone84_2ca91b5f55455
-X-Filterd-Recvd-Size: 2304
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Sun, 19 Apr 2020 16:38:26 +0000 (UTC)
-Message-ID: <975f3a73bb272b8276687af609cd7e592d6ba9ac.camel@perches.com>
-Subject: Re: [PATCH v8 8/8] MAINTAINERS: Add file patterns for rcar PCI
- device tree bindings
-From:   Joe Perches <joe@perches.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Date:   Sun, 19 Apr 2020 09:36:11 -0700
-In-Reply-To: <1587302823-4435-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1587302823-4435-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-         <1587302823-4435-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        Sun, 19 Apr 2020 14:16:22 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DB7BE20771;
+        Sun, 19 Apr 2020 18:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587320182;
+        bh=qfwOwd3ytRf49SJ0a3g7zW4EAU2/3jHKngVx6gc9ckk=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=bYXQZD1yHuPm6+vO9iIuYbPSv2YuozAg3G0BQH7YiV9QvhlOZvsz9XWG92/yifX1J
+         uNrB9CMe+nJSwikIl25EPoEf7nNafV2/23FX3QzFsfszUrGY7NgCpJtyPfpi2cFifU
+         hWUU+fSYevUwUkKJHhNd/dTnDbwPouO9VFnnQyXE=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200417141116.23019-1-geert+renesas@glider.be>
+References: <20200417141116.23019-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] MAINTAINERS: Add DT Bindings for Renesas Clock Generators
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Sun, 19 Apr 2020 11:16:21 -0700
+Message-ID: <158732018113.132238.4025085178435481319@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 2020-04-19 at 14:27 +0100, Lad Prabhakar wrote:
-> Add file pattern entry for rcar PCI devicetree binding, so that when
-> people run ./scripts/get_maintainer.pl the rcar PCI maintainers could also
-> be listed.
-[]
-> diff --git a/MAINTAINERS b/MAINTAINERS
-[]
-> @@ -12933,6 +12933,7 @@ L:	linux-pci@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Maintained
->  F:	drivers/pci/controller/*rcar*
-> +F:	Documentation/devicetree/bindings/pci/*rcar*
+Quoting Geert Uytterhoeven (2020-04-17 07:11:16)
+> The "RENESAS CLOCK DRIVERS" section lacks the related DT bindings.
+> Add them.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-MAINTAINERS was recently sorted for consistency.
-
-Please move this new line above drivers/ to keep alphabetic ordering.
-
-
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
