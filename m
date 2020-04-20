@@ -2,69 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A8531B127F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 19:02:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C191B14F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 20:44:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbgDTRCv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Apr 2020 13:02:51 -0400
-Received: from sauhun.de ([88.99.104.3]:48000 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725784AbgDTRCu (ORCPT
+        id S1726439AbgDTSoF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Apr 2020 14:44:05 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33053 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbgDTSoF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Apr 2020 13:02:50 -0400
-Received: from localhost (p54B335B8.dip0.t-ipconnect.de [84.179.53.184])
-        by pokefinder.org (Postfix) with ESMTPSA id F0CA92C1F4C;
-        Mon, 20 Apr 2020 19:02:48 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] mmc: renesas_sdhi: shorten types after refactorization
-Date:   Mon, 20 Apr 2020 19:02:30 +0200
-Message-Id: <20200420170230.9091-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
+        Mon, 20 Apr 2020 14:44:05 -0400
+Received: by mail-ot1-f65.google.com with SMTP id j26so9061985ots.0;
+        Mon, 20 Apr 2020 11:44:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AjTIxQ8I+Qkr8ilLvfcljNmqyjlrey4KznqBzKKGdKQ=;
+        b=pTiYWagye9GlQPM6ZRwiqCv4hce3gmK3U7rTPdjUsn9v01FyRiEJmb6b1fqKayFVYV
+         jMwwibpsRqWWXj1puB1TbFE9I/Bm2ZNzpnjGNC7cciz/NQaviLTI969uf2grZKxL59m0
+         GYN1u8/cGSF4rmdnTNOKmQBzf4G5ZTffr+vTxhue5tTIHu5XzlSp93nKBN5+BxVVhD9W
+         2KnNLnWaGN3ayE5+Tv9+KGzPnRSNSv0x5Srv8lsE0lVeplKkoDNEGDpd/MYDXxAAa66f
+         koZVH8T03FAiUWT0Bm6Yz7dLS4vkKMUgZIvdaVog5JRWht7gXc6QBiln4fAlgOp2loFP
+         oFNw==
+X-Gm-Message-State: AGi0PuZVAGULaCsJTJKowciU3SKZhySEPFeJgwVIsTRRpaJx+aXfRB7m
+        rNNyl1na/sEf6ckCDRidGw==
+X-Google-Smtp-Source: APiQypKArsUevn5DTv5qxS+88LlVRsJwChYKR6jnMpJeLT+Ro5Cq2r0ARUCHlIFEHGVpENGwQITM0A==
+X-Received: by 2002:a9d:4e3:: with SMTP id 90mr10933399otm.261.1587408243271;
+        Mon, 20 Apr 2020 11:44:03 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n184sm42631oih.58.2020.04.20.11.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2020 11:44:02 -0700 (PDT)
+Received: (nullmailer pid 23488 invoked by uid 1000);
+        Mon, 20 Apr 2020 18:44:01 -0000
+Date:   Mon, 20 Apr 2020 13:44:01 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     bhelgaas@google.com, robh+dt@kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] dt-bindings: pci: rcar: add r8a77961 support
+Message-ID: <20200420184401.GA23436@bogus>
+References: <1586511020-31833-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1586511020-31833-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After TAP refactorization, we can use 'unsigned int' for two more
-variables because all the calculations work on this type now.
+On Fri, 10 Apr 2020 18:30:20 +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a77961 (R-Car M3-W+).
+> 
+> To avoid confusion between R-Car M3-W (R8A77960) and R-Car M3-W+
+> (R8A77961), this patch also updates the comment of
+> "renesas,pcie-r8a7796".
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/host/renesas_sdhi.h      | 2 +-
- drivers/mmc/host/renesas_sdhi_core.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 12d8016672b0..86efa9d5cd6d 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -64,7 +64,7 @@ struct renesas_sdhi {
- 	/* Sampling data comparison: 1 for match, 0 for mismatch */
- 	DECLARE_BITMAP(smpcmp, BITS_PER_LONG);
- 	unsigned int tap_num;
--	unsigned long tap_set;
-+	unsigned int tap_set;
- };
- 
- #define host_to_priv(host) \
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 1dfe6c32280b..28b0830c4251 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -527,7 +527,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
- static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_4tap)
- {
- 	struct renesas_sdhi *priv = host_to_priv(host);
--	unsigned long new_tap = priv->tap_set;
-+	unsigned int new_tap = priv->tap_set;
- 	u32 val;
- 
- 	val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ);
--- 
-2.20.1
-
+Acked-by: Rob Herring <robh@kernel.org>
