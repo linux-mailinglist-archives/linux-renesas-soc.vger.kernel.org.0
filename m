@@ -2,86 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D31551B0396
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 10:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F8D1B03B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 10:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbgDTIAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Apr 2020 04:00:13 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:38778 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgDTIAM (ORCPT
+        id S1726048AbgDTICo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Apr 2020 04:02:44 -0400
+Received: from mga12.intel.com ([192.55.52.136]:20584 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726054AbgDTICo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Apr 2020 04:00:12 -0400
-Received: by mail-oo1-f65.google.com with SMTP id i9so1926346ool.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2020 01:00:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L9g4AhkR3JwqVlvWzeZ5xr0LO3a2RpWbbv6vUZyv4P8=;
-        b=JxJaDuVM6SXnazLhkhnpDNxv17wylAaH1YzbhD0WHgedshSRFUm81AIH0fbR9wDvzP
-         q7IubtNx8sqDBY+iDvGXZKraf/2OcNB2je4TIBmwd/8X18rFoiPQS888+EggoU3uNu7X
-         MBaEEzni0GxJIk4t0NjmUA3Zh171A31M0+3ncGguti7EKwZwA7V7H+rJS9prngRwIXZc
-         h2hap/gNQMnrC+SJNKcTzlbsucNEqLDU8VIEL3sKw+eFx1A6F1A4YWPDL88ppf7Iv8Yq
-         XAc80GxqjgIqqoyzk7WZ0k1aG1yxD/x6IPk+YDqGwtaS3A+FDOmZEmJAfbbl3rztQJP+
-         tT5g==
-X-Gm-Message-State: AGi0PuYGchxZPYS5djUPYsCVvJFnxCLPj07OyqWsH5arS63vsE5jj0oH
-        j02clT37S/MV8fgKLMsmQ3sE7HI6N7tlDf+6Ttw=
-X-Google-Smtp-Source: APiQypJ7ZmuO7XxEHm2YprX8BbvP5Mh+b0yixyzgiEjnieh/jH/MF3PTui1Uv25flfuAKmypj7f5vO+ha+5Lon7wJ3g=
-X-Received: by 2002:a4a:e8db:: with SMTP id h27mr3930938ooe.40.1587369612407;
- Mon, 20 Apr 2020 01:00:12 -0700 (PDT)
+        Mon, 20 Apr 2020 04:02:44 -0400
+IronPort-SDR: ze4geTdS44okCkVgIqe855DrLf2g4FWNnOp/HXW5ilMw4RMJMEWmrOPTR1YJF0TszXZwk454bl
+ TPN2MIBUtJJw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 01:02:43 -0700
+IronPort-SDR: FuTeOBDq3EWzERLG+wP/aJ56TVYKzRwUG7FrNE48/EOgCU8Fu6TO3rHp5dk/b68TrPcF0uOuYK
+ rKUR5Cm2VpCQ==
+X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; 
+   d="scan'208";a="429035397"
+Received: from iastakh-mobl.ccr.corp.intel.com (HELO localhost) ([10.252.63.229])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 01:02:36 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>
+Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        marex@denx.de, dsd@laptop.org, Andrzej Hajda <a.hajda@samsung.com>,
+        airlied@linux.ie, masahiroy@kernel.org,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Saeed Mahameed <saeedm@mellanox.com>, thellstrom@vmware.com,
+        haojian.zhuang@gmail.com, geert@linux-m68k.org,
+        linux-renesas-soc@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>,
+        kieran.bingham+renesas@ideasonboard.com,
+        linux-graphics-maintainer@vmware.com,
+        Laurent.pinchart@ideasonboard.com, jfrederich@gmail.com,
+        robert.jarzmik@free.fr, daniel@zonque.org
+Subject: Re: [PATCH 7/8] fbdev: rework backlight dependencies
+In-Reply-To: <20200417170444.GB30483@ravnborg.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200417155553.675905-1-arnd@arndb.de> <20200417155553.675905-8-arnd@arndb.de> <20200417170444.GB30483@ravnborg.org>
+Date:   Mon, 20 Apr 2020 11:02:33 +0300
+Message-ID: <871roi37qe.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200415124923.2510-1-geert+renesas@glider.be>
-In-Reply-To: <20200415124923.2510-1-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Apr 2020 10:00:00 +0200
-Message-ID: <CAMuHMdXLu2C1qM7kkhc20jhKF3RZaj2YA9mh4H4jRRjp6vWe=A@mail.gmail.com>
-Subject: Re: [PATCH] ARM: shmobile: defconfig: Refresh for v5.7-rc1
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 2:49 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Update the defconfig for Renesas ARM boards:
->   - Enable CONFIG_DRM_DISPLAY_CONNECTOR (for HDMI, VGA, and composite
->     display connectors on various R-Car H1, Gen2, and RZ/G1 boards,
->     since commit 0c275c30176b2e78 ("drm/bridge: Add bridge driver for
->     display connectors")),
->   - Disable CONFIG_VIRTIO_MENU and CONFIG_VHOST_MENU (should not default
->     to yes).
+On Fri, 17 Apr 2020, Sam Ravnborg <sam@ravnborg.org> wrote:
+> Hi Arnd.
 >
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> To be queued in renesas-devel for v5.8.
+> On Fri, Apr 17, 2020 at 05:55:52PM +0200, Arnd Bergmann wrote:
+>> Rather than having CONFIG_FB_BACKLIGHT select CONFIG_BACKLIGHT_CLASS_DEVICE,
+>> make any driver that needs it have a dependency on the class device
+>> being available, to prevent circular dependencies.
+>> 
+>> This is the same way that the backlight is already treated for the DRM
+>> subsystem.
+>
+> I am not happy with the direction of this patch.
+> It is not easy to understand that one has to enable backlight to
+> be allowed to select a display or an fbdev driver.
 
-> --- a/arch/arm/configs/shmobile_defconfig
-> +++ b/arch/arm/configs/shmobile_defconfig
+Arguably that is a problem in Kconfig, and that applies to *all*
+dependencies everywhere. It isn't something new to this patch.
 
-> @@ -170,6 +171,8 @@ CONFIG_RTC_DRV_DA9063=y
->  CONFIG_DMADEVICES=y
->  CONFIG_RCAR_DMAC=y
->  CONFIG_RENESAS_USB_DMAC=y
-> +# CONFIG_VIRTIO_MENU is not set
-> +# CONFIG_VHOST_MENU is not set
->  CONFIG_STAGING=y
->  CONFIG_STAGING_BOARD=y
->  # CONFIG_IOMMU_SUPPORT is not set
+For example, in the context of this patch you have:
 
-I'm dropping this hunk, as it does not affect code generation.
+  config HT16K33
+	 tristate "Holtek Ht16K33 LED controller with keyscan"
+	 depends on FB && OF && I2C && INPUT
+ +	depends on BACKLIGHT_CLASS_DEVICE
 
-Gr{oetje,eeting}s,
+The same thing could be said about FB and OF and IC2 and INPUT for
+HT16K33, right? Why would *backlight* be the tipping point that makes
+this difficult to understand?
 
-                        Geert
+Yeah, I agree it's not straightforward, but I think depends is the right
+choice, not select.
+
+The effort for making this easier to understand should be directed at
+the various menuconfig tools to better highlight the dependencies that
+should be enabled to let you enable other options.
+
+> How about somthing like this:
+
+I think this is a hack in Kconfig files that should really be fixed in
+the Kconfig tooling instead. IMHO Kconfig should be as simple a
+description of the dependencies as possible, not so much a UI language.
+
+FWIW the patch is
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+BR,
+Jani.
+
+
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Jani Nikula, Intel Open Source Graphics Center
