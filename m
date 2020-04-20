@@ -2,76 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 319871B0394
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 09:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D31551B0396
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Apr 2020 10:00:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbgDTH7c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Apr 2020 03:59:32 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:40441 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgDTH7c (ORCPT
+        id S1725971AbgDTIAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Apr 2020 04:00:13 -0400
+Received: from mail-oo1-f65.google.com ([209.85.161.65]:38778 "EHLO
+        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgDTIAM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Apr 2020 03:59:32 -0400
-Received: by mail-oo1-f67.google.com with SMTP id r1so1923764oog.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2020 00:59:31 -0700 (PDT)
+        Mon, 20 Apr 2020 04:00:12 -0400
+Received: by mail-oo1-f65.google.com with SMTP id i9so1926346ool.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Apr 2020 01:00:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=atQJFy852B3iA6B0JXffqacjge8XFaCkE1QdhFOTi18=;
-        b=tGnzgoL5/qZrG7YTALoGlOt54TuneFUhn5XlTqcQewrU/ae8EUFaOD9rbRtdWvvmtK
-         PSz5IqOtbZbqlwQsXULm/jgxM1BsxvxCWL4qZw2so5Xz57810CqnA5o9QiBIn3RpiD06
-         v+l6Y9UvjIVIfETmWdo/jloAoT+IvbPSGz+sNN+UEfivvnpe0aEQtPkHgI/76e4OGd9g
-         9Bivz5N7XKPnF6HRJ0l/nOOd4ifmHYAKllynsyjyp5Xg6sxSPalX/xbVelh8ooe5xu8l
-         TABKBzTnhZEx0tET0XdSXPtpiYECNilNrjegULhISY1hqyP1rfx5I9ucxByMd4FXOvv3
-         enKA==
-X-Gm-Message-State: AGi0PuZfcEM8YO45QQk//U/GKdTjmlIDVm5gMArudzRexZouYgygzKTZ
-        V9ecHMg2j2FKIVbcpA1cEL9/lLKHo74fy+4rsQ4=
-X-Google-Smtp-Source: APiQypLFuyZ7wjBv3wPXI3UR2IogVxmmdnc8VlCUDObAO9fnuYcqTXrUA7wNMEff6PsTJkeUtXfP/TGm6h047J08zlM=
-X-Received: by 2002:a4a:4c46:: with SMTP id a67mr11823696oob.1.1587369571030;
- Mon, 20 Apr 2020 00:59:31 -0700 (PDT)
+        bh=L9g4AhkR3JwqVlvWzeZ5xr0LO3a2RpWbbv6vUZyv4P8=;
+        b=JxJaDuVM6SXnazLhkhnpDNxv17wylAaH1YzbhD0WHgedshSRFUm81AIH0fbR9wDvzP
+         q7IubtNx8sqDBY+iDvGXZKraf/2OcNB2je4TIBmwd/8X18rFoiPQS888+EggoU3uNu7X
+         MBaEEzni0GxJIk4t0NjmUA3Zh171A31M0+3ncGguti7EKwZwA7V7H+rJS9prngRwIXZc
+         h2hap/gNQMnrC+SJNKcTzlbsucNEqLDU8VIEL3sKw+eFx1A6F1A4YWPDL88ppf7Iv8Yq
+         XAc80GxqjgIqqoyzk7WZ0k1aG1yxD/x6IPk+YDqGwtaS3A+FDOmZEmJAfbbl3rztQJP+
+         tT5g==
+X-Gm-Message-State: AGi0PuYGchxZPYS5djUPYsCVvJFnxCLPj07OyqWsH5arS63vsE5jj0oH
+        j02clT37S/MV8fgKLMsmQ3sE7HI6N7tlDf+6Ttw=
+X-Google-Smtp-Source: APiQypJ7ZmuO7XxEHm2YprX8BbvP5Mh+b0yixyzgiEjnieh/jH/MF3PTui1Uv25flfuAKmypj7f5vO+ha+5Lon7wJ3g=
+X-Received: by 2002:a4a:e8db:: with SMTP id h27mr3930938ooe.40.1587369612407;
+ Mon, 20 Apr 2020 01:00:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200415124959.2588-1-geert+renesas@glider.be>
-In-Reply-To: <20200415124959.2588-1-geert+renesas@glider.be>
+References: <20200415124923.2510-1-geert+renesas@glider.be>
+In-Reply-To: <20200415124923.2510-1-geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Apr 2020 09:59:19 +0200
-Message-ID: <CAMuHMdUQmXmzeg3uvbe9e7dsDDceBF7mQxAcRYqxuQs0o8cOmw@mail.gmail.com>
-Subject: Re: [PATCH LOCAL] arm64: renesas_defconfig: Refresh for v5.7-rc1
+Date:   Mon, 20 Apr 2020 10:00:00 +0200
+Message-ID: <CAMuHMdXLu2C1qM7kkhc20jhKF3RZaj2YA9mh4H4jRRjp6vWe=A@mail.gmail.com>
+Subject: Re: [PATCH] ARM: shmobile: defconfig: Refresh for v5.7-rc1
 To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 2:50 PM Geert Uytterhoeven
+On Wed, Apr 15, 2020 at 2:49 PM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
-> Update the defconfig for Renesas R-Car Gen3 boards:
->   - Disable CONFIG_ARM64_AMU_EXTN (R-Car Gen3 is not ARMv8.4),
+> Update the defconfig for Renesas ARM boards:
 >   - Enable CONFIG_DRM_DISPLAY_CONNECTOR (for HDMI, VGA, and composite
->     display connectors on various boards, since commit 0c275c30176b2e78
->     ("drm/bridge: Add bridge driver for display connectors")),
->   - Replace CONFIG_DRM_DUMB_VGA_DAC by CONFIG_DRM_SIMPLE_BRIDGE (cfr.
->     commit 0411374bdf2b3cc1 ("drm/bridge: dumb-vga-dac: Rename driver to
->     simple-bridge")),
->   - Disable CONFIG_VHOST_MENU (should not default to yes),
->   - Drop CONFIG_ARCH_R8A7795=y (removed in commit 4ff27112282e5482
->     ("soc: renesas: Remove ARCH_R8A7795")).
+>     display connectors on various R-Car H1, Gen2, and RZ/G1 boards,
+>     since commit 0c275c30176b2e78 ("drm/bridge: Add bridge driver for
+>     display connectors")),
+>   - Disable CONFIG_VIRTIO_MENU and CONFIG_VHOST_MENU (should not default
+>     to yes).
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> To be applied to topic/renesas-defconfig.
-> Not intended for upstream merge.
+> To be queued in renesas-devel for v5.8.
 
-> @@ -275,6 +277,7 @@ CONFIG_VFIO_PCI=y
->  CONFIG_VIRTIO_PCI=y
->  CONFIG_VIRTIO_BALLOON=y
->  CONFIG_VIRTIO_MMIO=y
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+
+> @@ -170,6 +171,8 @@ CONFIG_RTC_DRV_DA9063=y
+>  CONFIG_DMADEVICES=y
+>  CONFIG_RCAR_DMAC=y
+>  CONFIG_RENESAS_USB_DMAC=y
+> +# CONFIG_VIRTIO_MENU is not set
 > +# CONFIG_VHOST_MENU is not set
->  CONFIG_CHROME_PLATFORMS=y
->  CONFIG_COMMON_CLK_CS2000_CP=y
->  CONFIG_COMMON_CLK_VC5=y
+>  CONFIG_STAGING=y
+>  CONFIG_STAGING_BOARD=y
+>  # CONFIG_IOMMU_SUPPORT is not set
 
 I'm dropping this hunk, as it does not affect code generation.
 
