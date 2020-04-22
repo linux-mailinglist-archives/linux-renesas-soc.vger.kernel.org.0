@@ -2,202 +2,177 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F0CF1B45AE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 14:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8951B4618
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 15:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbgDVM7Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Apr 2020 08:59:24 -0400
-Received: from sauhun.de ([88.99.104.3]:47594 "EHLO pokefinder.org"
+        id S1726453AbgDVNRg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Apr 2020 09:17:36 -0400
+Received: from mga11.intel.com ([192.55.52.93]:42931 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726752AbgDVM7X (ORCPT
+        id S1725810AbgDVNRf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Apr 2020 08:59:23 -0400
-Received: from localhost (p5486CD65.dip0.t-ipconnect.de [84.134.205.101])
-        by pokefinder.org (Postfix) with ESMTPSA id AD7492C2013;
-        Wed, 22 Apr 2020 14:59:20 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 2/2] mmc: renesas_sdhi: avoid bad TAP in HS400
-Date:   Wed, 22 Apr 2020 14:59:14 +0200
-Message-Id: <20200422125914.16590-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200422125914.16590-1-wsa+renesas@sang-engineering.com>
-References: <20200422125914.16590-1-wsa+renesas@sang-engineering.com>
+        Wed, 22 Apr 2020 09:17:35 -0400
+IronPort-SDR: v+kwyFga20tLxsMJ6R4OOl78MyPgScpUgR5qyhcTmTixbgw//3ymSIQ/bIUlSg6hywIaX0QRJT
+ t3HkfV11YPmg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 06:17:35 -0700
+IronPort-SDR: RcDUNWGmPdZAxGRe/FADCJ0USIRTBnkvL1X3P6RVKxU8RHYigU0dqJQ/bB/K+Im8qcVwBbdm4Q
+ mCoW3V9Gqe4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,414,1580803200"; 
+   d="scan'208";a="429908289"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 22 Apr 2020 06:17:34 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jRFFt-0006Ts-EB; Wed, 22 Apr 2020 21:17:33 +0800
+Date:   Wed, 22 Apr 2020 21:17:25 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-arm-dt-for-v5.8] BUILD SUCCESS
+ 124eb5dc4ca5f4beeef1c0f29f3a053a0d0f5e46
+Message-ID: <5ea043e5.upuCeRGVy49aWN4d%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Saito <takeshi.saito.xv@renesas.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.8
+branch HEAD: 124eb5dc4ca5f4beeef1c0f29f3a053a0d0f5e46  ARM: dts: r8a7791: Add PWM device nodes
 
-With R-Car Gen3, CRC error occue at the following TAPs.
+elapsed time: 2923m
 
-H3, M3W 1.3, M3N... TAP=2,3,6,7
-M3W 3.0		... TAP=1,3,5,7
+configs tested: 117
+configs skipped: 159
 
-(Note: for 4tap SoCs, the numbers get divided by 2)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Do not use these TAPs in HS400, and also don't use auto correction but
-manual correction.
+arm64                            allyesconfig
+arm                              allyesconfig
+arm64                             allnoconfig
+arm                               allnoconfig
+arm64                            allmodconfig
+arm                              allmodconfig
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm64                               defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                           sunxi_defconfig
+arm                        multi_v7_defconfig
+sparc                            allyesconfig
+ia64                          tiger_defconfig
+ia64                              allnoconfig
+i386                              allnoconfig
+sparc                               defconfig
+s390                             allmodconfig
+sh                  sh7785lcr_32bit_defconfig
+ia64                        generic_defconfig
+parisc                            allnoconfig
+mips                       capcella_defconfig
+i386                             allyesconfig
+i386                             alldefconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                         bigsur_defconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+xtensa                          iss_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+mips                            ar7_defconfig
+mips                             allyesconfig
+mips                         64r6el_defconfig
+mips                              allnoconfig
+mips                           32r2_defconfig
+mips                             allmodconfig
+parisc                generic-64bit_defconfig
+parisc                generic-32bit_defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+parisc               randconfig-a001-20200422
+mips                 randconfig-a001-20200422
+alpha                randconfig-a001-20200422
+m68k                 randconfig-a001-20200422
+riscv                randconfig-a001-20200422
+nds32                randconfig-a001-20200422
+nios2                randconfig-a001-20200422
+h8300                randconfig-a001-20200422
+c6x                  randconfig-a001-20200422
+sparc64              randconfig-a001-20200422
+microblaze           randconfig-a001-20200422
+x86_64               randconfig-a001-20200420
+i386                 randconfig-a003-20200420
+x86_64               randconfig-a003-20200420
+i386                 randconfig-a002-20200420
+i386                 randconfig-a001-20200420
+x86_64               randconfig-a002-20200420
+x86_64               randconfig-f002-20200422
+i386                 randconfig-f002-20200422
+x86_64               randconfig-f003-20200422
+i386                 randconfig-f003-20200422
+i386                 randconfig-f001-20200422
+x86_64               randconfig-f001-20200422
+i386                 randconfig-g003-20200422
+x86_64               randconfig-g001-20200422
+i386                 randconfig-g001-20200422
+x86_64               randconfig-g002-20200422
+i386                 randconfig-g002-20200422
+x86_64               randconfig-g003-20200422
+i386                 randconfig-h003-20200422
+x86_64               randconfig-h001-20200422
+x86_64               randconfig-h003-20200422
+x86_64               randconfig-h002-20200422
+i386                 randconfig-h001-20200422
+i386                 randconfig-h002-20200422
+sparc                randconfig-a001-20200421
+ia64                 randconfig-a001-20200421
+powerpc              randconfig-a001-20200421
+arm                  randconfig-a001-20200421
+arc                  randconfig-a001-20200421
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+s390                       zfcpdump_defconfig
+s390                          debug_defconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             alldefconfig
+s390                                defconfig
+sh                          rsk7269_defconfig
+sh                               allmodconfig
+sh                            titan_defconfig
+sh                                allnoconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                                   rhel
 
-We check for bad taps in two places:
-
-1) After tuning HS400: Then, we select a neighbouring TAP. One of them
-   must be good, because there are never three bad taps in a row.
-   Retuning won't help because we just finished tuning.
-
-2) After a manual correction request: Here, we can't switch to the
-   requested TAP. But we can retune (if the HS200 tuning was good)
-   because the environment might have changed since the last tuning.
-   If not, we stay on the same TAP.
-
-Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
-[wsa: refactored to match upstream driver, reworded commit msg]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/renesas_sdhi.h      |  1 +
- drivers/mmc/host/renesas_sdhi_core.c | 56 ++++++++++++++++++++++++----
- 2 files changed, 49 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 86efa9d5cd6d..14c64caefc64 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -36,6 +36,7 @@ struct renesas_sdhi_of_data {
- struct renesas_sdhi_quirks {
- 	bool hs400_disabled;
- 	bool hs400_4taps;
-+	u32 hs400_bad_taps;
- };
- 
- struct tmio_mmc_dma {
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 33b51105c788..4fee26e6b66c 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -325,6 +325,8 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
- {
- 	struct tmio_mmc_host *host = mmc_priv(mmc);
- 	struct renesas_sdhi *priv = host_to_priv(host);
-+	u32 bad_taps = priv->quirks ? priv->quirks->hs400_bad_taps : 0;
-+	bool use_4tap = priv->quirks && priv->quirks->hs400_4taps;
- 
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, ~CLK_CTL_SCLKEN &
- 		sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
-@@ -352,10 +354,24 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
- 		       SH_MOBILE_SDHI_SCC_DTCNTL_TAPEN |
- 		       0x4 << SH_MOBILE_SDHI_SCC_DTCNTL_TAPNUM_SHIFT);
- 
-+	/* Avoid bad TAP */
-+	if (bad_taps & BIT(priv->tap_set)) {
-+		u32 new_tap = (priv->tap_set + 1) % priv->tap_num;
-+
-+		if (bad_taps & BIT(new_tap)) {
-+			new_tap = (priv->tap_set - 1) % priv->tap_num;
-+		}
-+
-+		if (bad_taps & BIT(new_tap)) {
-+			new_tap = priv->tap_set;
-+			dev_dbg(&host->pdev->dev, "Can't handle three bad tap in a row\n");
-+		}
- 
--	if (priv->quirks && priv->quirks->hs400_4taps)
--		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET,
--			       priv->tap_set / 2);
-+		priv->tap_set = new_tap;
-+	}
-+
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET,
-+		       priv->tap_set / (use_4tap ? 2 : 1));
- 
- 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_CKSEL,
- 		       SH_MOBILE_SDHI_SCC_CKSEL_DTSEL |
-@@ -527,7 +543,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
- static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_4tap)
- {
- 	struct renesas_sdhi *priv = host_to_priv(host);
--	unsigned int new_tap = priv->tap_set;
-+	unsigned int new_tap = priv->tap_set, error_tap = priv->tap_set;
- 	u32 val;
- 
- 	val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ);
-@@ -539,20 +555,32 @@ static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_
- 	/* Change TAP position according to correction status */
- 	if (sd_ctrl_read16(host, CTL_VERSION) == SDHI_VER_GEN3_SDMMC &&
- 	    host->mmc->ios.timing == MMC_TIMING_MMC_HS400) {
-+		u32 bad_taps = priv->quirks ? priv->quirks->hs400_bad_taps : 0;
- 		/*
- 		 * With HS400, the DAT signal is based on DS, not CLK.
- 		 * Therefore, use only CMD status.
- 		 */
- 		u32 smpcmp = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) &
- 					   SH_MOBILE_SDHI_SCC_SMPCMP_CMD_ERR;
--		if (!smpcmp)
-+		if (!smpcmp) {
- 			return false;	/* no error in CMD signal */
--		else if (smpcmp == SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQUP)
-+		} else if (smpcmp == SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQUP) {
- 			new_tap++;
--		else if (smpcmp == SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQDOWN)
-+			error_tap--;
-+		} else if (smpcmp == SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQDOWN) {
- 			new_tap--;
--		else
-+			error_tap++;
-+		} else {
- 			return true;	/* need retune */
-+		}
-+
-+		/*
-+		 * When new_tap is a bad tap, we cannot change. Then, we compare
-+		 * with the HS200 tuning result. When smpcmp[error_tap] is OK,
-+		 * we can at least retune.
-+		 */
-+		if (bad_taps & BIT(new_tap % priv->tap_num))
-+			return test_bit(error_tap % priv->tap_num, priv->smpcmp);
- 	} else {
- 		if (val & SH_MOBILE_SDHI_SCC_RVSREQ_RVSERR)
- 			return true;    /* need retune */
-@@ -705,12 +733,21 @@ static const struct renesas_sdhi_quirks sdhi_quirks_4tap_nohs400 = {
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_4tap = {
- 	.hs400_4taps = true,
-+	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
- };
- 
- static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
- 	.hs400_disabled = true,
- };
- 
-+static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps1357 = {
-+	.hs400_bad_taps = BIT(1) | BIT(3) | BIT(5) | BIT(7),
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_bad_taps2367 = {
-+	.hs400_bad_taps = BIT(2) | BIT(3) | BIT(6) | BIT(7),
-+};
-+
- /*
-  * Note for r8a7796 / r8a774a1: we can't distinguish ES1.1 and 1.2 as of now.
-  * So, we want to treat them equally and only have a match for ES1.2 to enforce
-@@ -720,8 +757,11 @@ static const struct soc_device_attribute sdhi_quirks_match[]  = {
- 	{ .soc_id = "r8a774a1", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES2.0", .data = &sdhi_quirks_4tap },
-+	{ .soc_id = "r8a7795", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps2367 },
- 	{ .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7796", .revision = "ES1.*", .data = &sdhi_quirks_4tap },
-+	{ .soc_id = "r8a7796", .revision = "ES3.*", .data = &sdhi_quirks_bad_taps1357 },
-+	{ .soc_id = "r8a77965", .data = &sdhi_quirks_bad_taps2367 },
- 	{ .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
- 	{ /* Sentinel. */ },
- };
--- 
-2.20.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
