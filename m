@@ -2,198 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 949131B461D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 15:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B30351B4972
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 18:04:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726102AbgDVNSi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Apr 2020 09:18:38 -0400
-Received: from mga09.intel.com ([134.134.136.24]:24958 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726030AbgDVNSi (ORCPT
+        id S1726748AbgDVQEd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Apr 2020 12:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgDVQEd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Apr 2020 09:18:38 -0400
-IronPort-SDR: 9gBTwsBJPqffikbA5sKyS28Gb4V737XNuCsSG2MiQFuvTtC5TmYfpJ5E7IeqyRh9TAY9BnKcof
- 5rZa4sUvo0mQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 06:18:37 -0700
-IronPort-SDR: s5SdJLCnQbj+gLKIBft6sdEprxUELNulUdEjXEp8N3+17OeyGFp5ivUZUoPSNoBeCDYSq9qhy2
- LG+Tr/6+BsuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,414,1580803200"; 
-   d="scan'208";a="255634226"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Apr 2020 06:18:36 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jRFGt-000A3S-GT; Wed, 22 Apr 2020 21:18:35 +0800
-Date:   Wed, 22 Apr 2020 21:17:45 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-fixes-for-v5.7] BUILD SUCCESS
- f4d71c6ea9e58c07dd4d02d09c5dd9bb780ec4b1
-Message-ID: <5ea043f9.l4rdSqgcZF9m9yp7%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 22 Apr 2020 12:04:33 -0400
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C5CC03C1A9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2020 09:04:31 -0700 (PDT)
+Received: by mail-ua1-x943.google.com with SMTP id f59so2183190uaf.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2020 09:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N/DzD0X/BMyf3OryfRPRnpiI0NbDoH57OGhKb89rpyQ=;
+        b=fjSGtm0/EMllifvmFSA2KUULYP8Qwf5y20wtI2lc4Xl36Gtj9mY4UWEI+YNSu4Pj66
+         kPy0fnocmhU3Xk84p19s4RLHeywaHiv7pZEISXnNA9pO/Xo/ibE2qdOxEpXrtAhiu0WO
+         aiA7BbXBrlEtkGPfyblYvS3W+YKSSoq1J+VeKYWq6FHPedjvzuJDjowS7vCRBEmPz1MO
+         blABk9SQ7sqsZeD2DKWszQMcxCz2M97WCXx7zCa6J7ABrIOu1YCL7ceml8P/TPYU3q1U
+         UUmrSAsMuCOo63PsHjzb3MXfZdWVaiaBI3oOjWTaoOGno/A2Xz4pLleHgt3GdGxsR2fa
+         TGvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N/DzD0X/BMyf3OryfRPRnpiI0NbDoH57OGhKb89rpyQ=;
+        b=CMbcQrIXYWJ9FIs8oqr/lUjwy2azHtNupvbVN1vhXBw1C78AZEJxx4RgbvS/NpiF7G
+         bFvG8xPBy7sHtpjJ6uk9ehfjJH5FOHcJJ5bmoT4PzRSdEdSKGBlTz7bOFsU12VW0WZWk
+         JknVn2gc6W6Koz/8o+WTls5HwyscnoxLzqW/8UqF/mYiZSzUBO0QQkKympVi+AhtjPNF
+         0gD9Z1x9bA+ab18BSmNysvZd3Kof6RTAlEDU/RL3BCeCJ+fJysoZ8JzSO+PNOCsVI1TW
+         VnmUN/kXxt1kBaWHHnPG3jhqyA9RHzPXxqvRjmcBsSed9tSmHnK6AIKVgm9Ci2pVKnGh
+         IDyA==
+X-Gm-Message-State: AGi0PuaRhz73tSlYSfbiRlTvfAelyFwF/8tx3lGylsu2slGCjLupFuLq
+        7HEZIz6NQe3Y16Z+PwJ4AgAOyILY6Orhua9r+yTRShvl
+X-Google-Smtp-Source: APiQypJRz8Ztz3+8zVfMbngW1c9C1Q6q/wYoCLpdck9AjY9Dn921DWWB5j2qGn96kuNvaCnjHF/KKjU+X11mYT95QVw=
+X-Received: by 2002:ab0:6588:: with SMTP id v8mr16741509uam.100.1587571469221;
+ Wed, 22 Apr 2020 09:04:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200420170230.9091-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200420170230.9091-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 22 Apr 2020 18:03:53 +0200
+Message-ID: <CAPDyKFqidj2fNt8C_EnNTz8Ldz08y43PSDyHY1Z0=ysZ8ozY1Q@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: shorten types after refactorization
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-fixes-for-v5.7
-branch HEAD: f4d71c6ea9e58c07dd4d02d09c5dd9bb780ec4b1  arm64: dts: renesas: r8a77980: Fix IPMMU VIP[01] nodes
+On Mon, 20 Apr 2020 at 19:02, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> After TAP refactorization, we can use 'unsigned int' for two more
+> variables because all the calculations work on this type now.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-elapsed time: 2923m
+Applied for next, thanks!
 
-configs tested: 138
-configs skipped: 159
+Kind regards
+Uffe
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-ia64                          tiger_defconfig
-mips                malta_kvm_guest_defconfig
-ia64                              allnoconfig
-ia64                             alldefconfig
-mips                      fuloong2e_defconfig
-parisc                            allnoconfig
-mips                          ath79_defconfig
-um                                  defconfig
-um                           x86_64_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                        generic_defconfig
-ia64                         bigsur_defconfig
-ia64                             allyesconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-mips                      malta_kvm_defconfig
-mips                            ar7_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-parisc               randconfig-a001-20200422
-mips                 randconfig-a001-20200422
-alpha                randconfig-a001-20200422
-m68k                 randconfig-a001-20200422
-riscv                randconfig-a001-20200422
-nds32                randconfig-a001-20200422
-nios2                randconfig-a001-20200422
-h8300                randconfig-a001-20200422
-c6x                  randconfig-a001-20200422
-sparc64              randconfig-a001-20200422
-microblaze           randconfig-a001-20200422
-sh                   randconfig-a001-20200422
-csky                 randconfig-a001-20200422
-s390                 randconfig-a001-20200422
-xtensa               randconfig-a001-20200422
-openrisc             randconfig-a001-20200422
-i386                 randconfig-b002-20200422
-i386                 randconfig-b001-20200422
-x86_64               randconfig-b001-20200422
-i386                 randconfig-b003-20200422
-x86_64               randconfig-b003-20200422
-x86_64               randconfig-a001-20200420
-i386                 randconfig-a003-20200420
-x86_64               randconfig-a003-20200420
-i386                 randconfig-a002-20200420
-i386                 randconfig-a001-20200420
-x86_64               randconfig-a002-20200420
-x86_64               randconfig-a001-20200422
-i386                 randconfig-a003-20200422
-x86_64               randconfig-a003-20200422
-i386                 randconfig-a002-20200422
-i386                 randconfig-a001-20200422
-x86_64               randconfig-a002-20200422
-x86_64               randconfig-d002-20200422
-i386                 randconfig-d002-20200422
-i386                 randconfig-d001-20200422
-i386                 randconfig-d003-20200422
-x86_64               randconfig-f002-20200422
-i386                 randconfig-f002-20200422
-x86_64               randconfig-f003-20200422
-i386                 randconfig-f003-20200422
-i386                 randconfig-f001-20200422
-x86_64               randconfig-f001-20200422
-i386                 randconfig-g003-20200422
-x86_64               randconfig-g001-20200422
-i386                 randconfig-g001-20200422
-x86_64               randconfig-g002-20200422
-i386                 randconfig-g002-20200422
-x86_64               randconfig-g003-20200422
-i386                 randconfig-h003-20200422
-x86_64               randconfig-h001-20200422
-x86_64               randconfig-h003-20200422
-x86_64               randconfig-h002-20200422
-i386                 randconfig-h001-20200422
-i386                 randconfig-h002-20200422
-sparc                randconfig-a001-20200421
-ia64                 randconfig-a001-20200421
-powerpc              randconfig-a001-20200421
-arm                  randconfig-a001-20200421
-arc                  randconfig-a001-20200421
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                             alldefconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                             i386_defconfig
-x86_64                                   rhel
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>  drivers/mmc/host/renesas_sdhi.h      | 2 +-
+>  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 12d8016672b0..86efa9d5cd6d 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -64,7 +64,7 @@ struct renesas_sdhi {
+>         /* Sampling data comparison: 1 for match, 0 for mismatch */
+>         DECLARE_BITMAP(smpcmp, BITS_PER_LONG);
+>         unsigned int tap_num;
+> -       unsigned long tap_set;
+> +       unsigned int tap_set;
+>  };
+>
+>  #define host_to_priv(host) \
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 1dfe6c32280b..28b0830c4251 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -527,7 +527,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
+>  static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_4tap)
+>  {
+>         struct renesas_sdhi *priv = host_to_priv(host);
+> -       unsigned long new_tap = priv->tap_set;
+> +       unsigned int new_tap = priv->tap_set;
+>         u32 val;
+>
+>         val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ);
+> --
+> 2.20.1
+>
