@@ -2,109 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B30351B4972
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 18:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 799C71B4B85
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Apr 2020 19:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726748AbgDVQEd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Apr 2020 12:04:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgDVQEd (ORCPT
+        id S1726426AbgDVRW6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Apr 2020 13:22:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47398 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgDVRW6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Apr 2020 12:04:33 -0400
-Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C5CC03C1A9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2020 09:04:31 -0700 (PDT)
-Received: by mail-ua1-x943.google.com with SMTP id f59so2183190uaf.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Apr 2020 09:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N/DzD0X/BMyf3OryfRPRnpiI0NbDoH57OGhKb89rpyQ=;
-        b=fjSGtm0/EMllifvmFSA2KUULYP8Qwf5y20wtI2lc4Xl36Gtj9mY4UWEI+YNSu4Pj66
-         kPy0fnocmhU3Xk84p19s4RLHeywaHiv7pZEISXnNA9pO/Xo/ibE2qdOxEpXrtAhiu0WO
-         aiA7BbXBrlEtkGPfyblYvS3W+YKSSoq1J+VeKYWq6FHPedjvzuJDjowS7vCRBEmPz1MO
-         blABk9SQ7sqsZeD2DKWszQMcxCz2M97WCXx7zCa6J7ABrIOu1YCL7ceml8P/TPYU3q1U
-         UUmrSAsMuCOo63PsHjzb3MXfZdWVaiaBI3oOjWTaoOGno/A2Xz4pLleHgt3GdGxsR2fa
-         TGvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N/DzD0X/BMyf3OryfRPRnpiI0NbDoH57OGhKb89rpyQ=;
-        b=CMbcQrIXYWJ9FIs8oqr/lUjwy2azHtNupvbVN1vhXBw1C78AZEJxx4RgbvS/NpiF7G
-         bFvG8xPBy7sHtpjJ6uk9ehfjJH5FOHcJJ5bmoT4PzRSdEdSKGBlTz7bOFsU12VW0WZWk
-         JknVn2gc6W6Koz/8o+WTls5HwyscnoxLzqW/8UqF/mYiZSzUBO0QQkKympVi+AhtjPNF
-         0gD9Z1x9bA+ab18BSmNysvZd3Kof6RTAlEDU/RL3BCeCJ+fJysoZ8JzSO+PNOCsVI1TW
-         VnmUN/kXxt1kBaWHHnPG3jhqyA9RHzPXxqvRjmcBsSed9tSmHnK6AIKVgm9Ci2pVKnGh
-         IDyA==
-X-Gm-Message-State: AGi0PuaRhz73tSlYSfbiRlTvfAelyFwF/8tx3lGylsu2slGCjLupFuLq
-        7HEZIz6NQe3Y16Z+PwJ4AgAOyILY6Orhua9r+yTRShvl
-X-Google-Smtp-Source: APiQypJRz8Ztz3+8zVfMbngW1c9C1Q6q/wYoCLpdck9AjY9Dn921DWWB5j2qGn96kuNvaCnjHF/KKjU+X11mYT95QVw=
-X-Received: by 2002:ab0:6588:: with SMTP id v8mr16741509uam.100.1587571469221;
- Wed, 22 Apr 2020 09:04:29 -0700 (PDT)
+        Wed, 22 Apr 2020 13:22:58 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FC8A528;
+        Wed, 22 Apr 2020 19:22:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587576176;
+        bh=j3EIFEGnMa+c/e4zbOKTgRmjlDh+te/LFLbzlWg9tBA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uGqrLMR5blcmfKiTReXZr88pl+Kkv7DETKQFZEDSt42fUTTqLAe/eZgwCmqhwJhU8
+         AqhQNsoKY/TmQB9gfQXggLq0t0o7bt/bR/XFjHhIAcAU0lDGv+7f0HKvV8RkQ1Qmtu
+         DFHppZoUxH+u/E2e51wlHzrx3Wt+JbJ9FRp2ppug=
+Date:   Wed, 22 Apr 2020 20:22:42 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v8 0/6] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Message-ID: <20200422172242.GA18075@pendragon.ideasonboard.com>
+References: <20200421135743.1381930-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20200420170230.9091-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200420170230.9091-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 22 Apr 2020 18:03:53 +0200
-Message-ID: <CAPDyKFqidj2fNt8C_EnNTz8Ldz08y43PSDyHY1Z0=ysZ8ozY1Q@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: shorten types after refactorization
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200421135743.1381930-1-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 20 Apr 2020 at 19:02, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> After TAP refactorization, we can use 'unsigned int' for two more
-> variables because all the calculations work on this type now.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Niklas,
 
-Applied for next, thanks!
+(With a question for Hans below)
 
-Kind regards
-Uffe
+Thank you for the patches.
 
+On Tue, Apr 21, 2020 at 03:57:37PM +0200, Niklas Söderlund wrote:
+> Hi,
+> 
+> This series aims to reduce the amount of boiler plate code in video
+> device drivers who's inputs and/or outputs are controlled by the Media
+> Controller instead of the V4L2 API.
+> 
+> Patch 1/6 adds a new video device capability flag V4L2_CAP_IO_MC which
+> if set provides helper implementations for the enum inputs and outputs
+> ioctls freeing the video device driver from the need to implement them.
+> 
+> Patch 2/6 fix initialization of reserved fields in the cx18 and ivtv 
+> drivers which becomes a problem in 3/6 where Laurent adds mbus filters to
+> VIDIOC_ENUM_FMT.
+> 
+> Patch 4/6, 5/6 and 6/6 converts the R-Car VIN, Intel IPU3 and VIMC
+> drivers to use the new default handlers and capability flag and delete
+> the now redundant boiler plate code. I'm sure more video device drivers
+> can make use of this new flag but as I can only test on these two
+> platforms I have limited my changes to those.
+> 
+> A separate patch to v4l-utils have been posted as [1] to add a
+> test for this feature in v4l2-compliance.
+> 
+> This version have been rebased to latest media-tree to account for the 
+> large shuffles of files. It has also replaced patch 2/6 with a different 
+> version that addresses both cx18 and ivtv instead of only ivtv.
 
-> ---
->  drivers/mmc/host/renesas_sdhi.h      | 2 +-
->  drivers/mmc/host/renesas_sdhi_core.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-> index 12d8016672b0..86efa9d5cd6d 100644
-> --- a/drivers/mmc/host/renesas_sdhi.h
-> +++ b/drivers/mmc/host/renesas_sdhi.h
-> @@ -64,7 +64,7 @@ struct renesas_sdhi {
->         /* Sampling data comparison: 1 for match, 0 for mismatch */
->         DECLARE_BITMAP(smpcmp, BITS_PER_LONG);
->         unsigned int tap_num;
-> -       unsigned long tap_set;
-> +       unsigned int tap_set;
->  };
->
->  #define host_to_priv(host) \
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 1dfe6c32280b..28b0830c4251 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -527,7 +527,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
->  static bool renesas_sdhi_manual_correction(struct tmio_mmc_host *host, bool use_4tap)
->  {
->         struct renesas_sdhi *priv = host_to_priv(host);
-> -       unsigned long new_tap = priv->tap_set;
-> +       unsigned int new_tap = priv->tap_set;
->         u32 val;
->
->         val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ);
-> --
-> 2.20.1
->
+It looks like everything has been reviewed. Hans, do you see any
+remaining blocker, or will you take it in your tree and send a pull
+request ?
+
+> 1. [PATCH 0/2] v4l2-compliance: add tests for V4L2_CAP_IO_MC
+> 
+> Laurent Pinchart (2):
+>   media: pci: Fill v4l2_fmtdesc with designated initializers
+>   media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices
+> 
+> Niklas Söderlund (4):
+>   v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+>   rcar-vin: Make use of V4L2_CAP_IO_MC
+>   staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
+>   vimc: Make use of V4L2_CAP_IO_MC
+> 
+>  .../media/v4l/vidioc-enum-fmt.rst             | 16 ++++-
+>  .../media/v4l/vidioc-querycap.rst             |  6 ++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/pci/cx18/cx18-ioctl.c           | 22 ++++--
+>  drivers/media/pci/ivtv/ivtv-ioctl.c           | 26 +++----
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c   | 40 ++++++-----
+>  .../media/test-drivers/vimc/vimc-capture.c    | 14 +++-
+>  drivers/media/v4l2-core/v4l2-dev.c            | 25 +++++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 70 +++++++++++++++++--
+>  drivers/staging/media/ipu3/ipu3-v4l2.c        | 64 ++---------------
+>  include/uapi/linux/videodev2.h                |  5 +-
+>  11 files changed, 180 insertions(+), 109 deletions(-)
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
