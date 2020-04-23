@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A79D1B5657
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:47:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ADB11B56BF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:56:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726899AbgDWHr3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 03:47:29 -0400
-Received: from mga07.intel.com ([134.134.136.100]:64699 "EHLO mga07.intel.com"
+        id S1726027AbgDWH4F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Apr 2020 03:56:05 -0400
+Received: from mga04.intel.com ([192.55.52.120]:21960 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726322AbgDWHr2 (ORCPT
+        id S1725562AbgDWH4E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:47:28 -0400
-IronPort-SDR: 4OUUcQHIIKsiOGwvPAP8zmx8ioWZllOaiYAW/wJPNjjCRI5CEWTu/g28Ya0NtD7sznzisg/B6l
- KWb0Z0TAV8LA==
+        Thu, 23 Apr 2020 03:56:04 -0400
+IronPort-SDR: 9q1XsrS7ReNvW3PVd2iLaDYK+pyRmnRIQ7Zsm7z9YFVu0j0jrdDwo17T+VfARP2fgSyV/FgZtm
+ TmySfglMIOeA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:27 -0700
-IronPort-SDR: xebuX4Zqh2Fzs8VKrVMTXlJ1UMcv1KriaDNTvXrXAHOnRuQgYvCSjXW9IpM+PKHsaq1g09075h
- aWGqFgg+JwGw==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:56:04 -0700
+IronPort-SDR: r+jLurLD/ryur1rbMtyce0xKOEJmXIaoqKT5V0T+RrNwOh9LVjOo744jmIAT0wOwTME4+gLANB
+ 0TwumWeKu/hg==
 X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; 
-   d="scan'208";a="255903604"
+   d="scan'208";a="430232630"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:16 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:56:00 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id B6BA22080B; Thu, 23 Apr 2020 10:47:13 +0300 (EEST)
-Date:   Thu, 23 Apr 2020 10:47:13 +0300
+        id 9B42C2080B; Thu, 23 Apr 2020 10:55:57 +0300 (EEST)
+Date:   Thu, 23 Apr 2020 10:55:57 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
 Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -44,15 +44,14 @@ Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         Andrew Gabbasov <andrew_gabbasov@mentor.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH 3/4] media: ov5647: Add support for non-continuous clock
- mode
-Message-ID: <20200423074713.GK5381@paasikivi.fi.intel.com>
+Subject: Re: [PATCH 4/4] media: ov5647: Use gpiod_set_value_cansleep
+Message-ID: <20200423075557.GL5381@paasikivi.fi.intel.com>
 References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
- <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
+ <f496fe5d364748e9d625a634581a404f30a13efa.1586759968.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
+In-Reply-To: <f496fe5d364748e9d625a634581a404f30a13efa.1586759968.git.roman.kovalivskyi@globallogic.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -61,91 +60,67 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Roman,
 
-On Mon, Apr 13, 2020 at 12:17:46PM +0300, Roman Kovalivskyi wrote:
+On Mon, Apr 13, 2020 at 12:17:47PM +0300, Roman Kovalivskyi wrote:
 > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > 
-> The driver was only supporting continuous clock mode
-> although this was not stated anywhere.
-> Non-continuous clock saves a small amount of power and
-> on some SoCs is easier to interface with.
+> All calls to the gpio library are in contexts that can sleep,
+> therefore there is no issue with having those GPIOs controlled
+> by controllers which require sleeping (eg I2C GPIO expanders).
+> 
+> Switch to using gpiod_set_value_cansleep instead of gpiod_set_value
+> to avoid triggering the warning in gpiolib should the GPIO
+> controller need to sleep.
 > 
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+
+This should be merged with the second patch.
+
 > ---
->  drivers/media/i2c/ov5647.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
+>  drivers/media/i2c/ov5647.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index c39e3d20e3ef..8a1a515388e0 100644
+> index 8a1a515388e0..07550377be2e 100644
 > --- a/drivers/media/i2c/ov5647.c
 > +++ b/drivers/media/i2c/ov5647.c
-> @@ -44,6 +44,7 @@
->  #define PWDN_ACTIVE_DELAY_MS	20
+> @@ -373,7 +373,7 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
+>  		dev_dbg(&client->dev, "OV5647 power on\n");
 >  
->  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
-> +#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
->  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
->  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
+>  		if (ov5647->pwdn) {
+> -			gpiod_set_value(ov5647->pwdn, 0);
+> +			gpiod_set_value_cansleep(ov5647->pwdn, 0);
+>  			msleep(PWDN_ACTIVE_DELAY_MS);
+>  		}
 >  
-> @@ -95,6 +96,7 @@ struct ov5647 {
->  	int				power_count;
->  	struct clk			*xclk;
->  	struct gpio_desc		*pwdn;
-> +	unsigned int			flags;
->  };
+> @@ -415,7 +415,7 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
 >  
->  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
-> @@ -269,9 +271,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+>  		clk_disable_unprepare(ov5647->xclk);
 >  
->  static int ov5647_stream_on(struct v4l2_subdev *sd)
->  {
-> +	struct ov5647 *ov5647 = to_state(sd);
-> +	u8 val = MIPI_CTRL00_BUS_IDLE;
->  	int ret;
+> -		gpiod_set_value(ov5647->pwdn, 1);
+> +		gpiod_set_value_cansleep(ov5647->pwdn, 1);
+>  	}
 >  
-> -	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
-> +	if (ov5647->flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
-> +		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
-> +		       MIPI_CTRL00_LINE_SYNC_ENABLE;
-> +
-> +	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
+>  	/* Update the power count. */
+> @@ -648,13 +648,13 @@ static int ov5647_probe(struct i2c_client *client)
+>  		goto mutex_remove;
+>  
+>  	if (sensor->pwdn) {
+> -		gpiod_set_value(sensor->pwdn, 0);
+> +		gpiod_set_value_cansleep(sensor->pwdn, 0);
+>  		msleep(PWDN_ACTIVE_DELAY_MS);
+>  	}
+>  
+>  	ret = ov5647_detect(sd);
+>  
+> -	gpiod_set_value(sensor->pwdn, 1);
+> +	gpiod_set_value_cansleep(sensor->pwdn, 1);
+>  
 >  	if (ret < 0)
->  		return ret;
->  
-> @@ -568,7 +576,7 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
->  	.open = ov5647_open,
->  };
->  
-> -static int ov5647_parse_dt(struct device_node *np)
-> +static int ov5647_parse_dt(struct device_node *np, struct ov5647 *sensor)
->  {
->  	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-
-The bus type should be set to V4L2_MBUS_CSI2_DPHY here; 0 is just for
-compatibility with the old heuristics.
-
->  	struct device_node *ep;
-> @@ -581,6 +589,9 @@ static int ov5647_parse_dt(struct device_node *np)
->  
->  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
->  
-> +	if (!ret)
-> +		sensor->flags = bus_cfg.bus.mipi_csi2.flags;
-> +
->  	of_node_put(ep);
->  	return ret;
->  }
-> @@ -599,7 +610,7 @@ static int ov5647_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	if (IS_ENABLED(CONFIG_OF) && np) {
-> -		ret = ov5647_parse_dt(np);
-> +		ret = ov5647_parse_dt(np, sensor);
->  		if (ret) {
->  			dev_err(dev, "DT parsing error: %d\n", ret);
->  			return ret;
+>  		goto error;
+> -- 
+> 2.17.1
+> 
 
 -- 
-Kind regards,
-
 Sakari Ailus
