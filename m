@@ -2,91 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 799A11B5863
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 11:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EA6D1B5860
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 11:40:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbgDWJku (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 05:40:50 -0400
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21324 "EHLO
-        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726669AbgDWJku (ORCPT
+        id S1726984AbgDWJkt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Apr 2020 05:40:49 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:37339 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726669AbgDWJkt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 05:40:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1587634839; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=eWCkClE+UWycU8ui2qSK4t2Ja0l9vndbx4dXw8Kp7jvixexkMmwSPXaS1vNI9uLMiGguz71mJB59cZS3sRoFyWAtyWDJqcIAW0aWmaYGU/zTIfjvBr0zAPbYYVI35mXELNhpba7+4gbkZ8zh2J43G8QPSFAF8LYL/tt+Bn224YY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1587634839; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To; 
-        bh=czaH0LMiDY4URh9rV+Em2xM0FjdarAbGzjU6sN564y8=; 
-        b=ke0nsyrSJdHaP1AL2oJez72iss65VjAM/WD9dCY0t8MoOgloqi8XglOId1ItlGyzpjs7AlRYUNVN0icFcu/1WiZxiQnj4guUF+cthBhYw7ItcU5SoGe5Hg3iFQ6shyOJV8OSLk6NFy7OEG77dU8J/tHORstvpTl8DH+LhoEr8r4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        spf=pass  smtp.mailfrom=no-reply@patchew.org;
-        dmarc=pass header.from=<no-reply@patchew.org> header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by mx.zohomail.com
-        with SMTPS id 1587634836986923.1533065848702; Thu, 23 Apr 2020 02:40:36 -0700 (PDT)
-In-Reply-To: <20200423090118.11199-1-geert+renesas@glider.be>
-Subject: Re: [PATCH QEMU v2 0/5] Add a GPIO backend
-Reply-To: <qemu-devel@nongnu.org>
-Message-ID: <158763483525.4520.16083031382332426221@39012742ff91>
+        Thu, 23 Apr 2020 05:40:49 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id RYLajLPzh7xncRYLdjQ0mN; Thu, 23 Apr 2020 11:40:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587634847; bh=X9jIIE53Q0GK6WoPEeXiidEZB/kG+LH0noxQldRb5Co=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Tc85sXmap73Eg62GowEg1coB+S6XPU8TgnkGGpSaEPxpHokAtib92mH3OQGUAYoXt
+         gbnBm7M3Upjxq9rF8hEutscBy9TUK+Ftc5v8FPtJNfmotfBDDLc2iYCVEUGvYwyg3v
+         x0gYNtB5vlNsNv/nG/PMM9zbbQ0Y1WC/c3Tu0V2gbjG8no6xG3rv3q5hwnng/1tlk0
+         SsWD1G9lDKmqZSgzwCXkXPW6a8j/2buehJCXIFC1h1S19rs4AIf5TOdX09eZ0mlBSm
+         /gyBZLrBTow/ZH9nhAs4CNA8N+5pCRSm6UEgF/hpwVdPF6Rfutc7WPH1jBTUsrUFa9
+         skzYCr6qmvXPw==
+Subject: Re: [PATCH 2/2] v4l2-compliance: add tests for V4L2_CAP_IO_MC
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200318132722.3089925-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200318132722.3089925-3-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d67fda94-68b0-a3ac-3e1b-42aa7d42d884@xs4all.nl>
+Date:   Thu, 23 Apr 2020 11:40:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-From:   no-reply@patchew.org
-To:     geert+renesas@glider.be
-Cc:     peter.maydell@linaro.org, pbonzini@redhat.com, graf@amazon.com,
-        linus.walleij@linaro.org, bartekgola@gmail.com,
-        magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, qemu-arm@nongnu.org,
-        qemu-devel@nongnu.org, geert+renesas@glider.be
-Date:   Thu, 23 Apr 2020 02:40:36 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20200318132722.3089925-3-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfDrOkPlo79Jo7Hs2PUvPtQqb3/6xYDzuZ+0+PqenuIFPozUNldwZeG5RGxMU1nzee4ZDmY63DIBUzqqNqJjZZxgoLk1FjStENytihv9lWBlwTIvI/lt3
+ cDIwINOG/CGZ3Zolbj4hNyq/fC0N/RISLjtBV911IU/0IiqbWKpOrOJAtJK+QomWxQawrWmecYHK9ix1uV12y2B/p5DER8itWCjNE7DqJpUhDuqITaWs03Vd
+ Sw49n2dLCoHKZjN+mFXEU5yB+j7SrT5+QBmEaEBPWbW8jC/7LFEsFMO9j+fQ6FBJmNyf72RRXI2ZQJ641S1zhCrk3B8ikPBQ/VyCPKM5nEOD2p4KA6btQCvP
+ huf9dF9aQzkihdw/tVQxA11mQnK+/2ZP6JWhoLNG3BsK+2hgDH0s0OBsN4Ad/bK9/jOmmYQ+
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMDQyMzA5MDExOC4xMTE5
-OS0xLWdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0
-aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGlu
-ZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5z
-dGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1Qg
-U0NSSVBUIEJFR0lOID09PQojISAvYmluL2Jhc2gKZXhwb3J0IEFSQ0g9eDg2XzY0Cm1ha2UgZG9j
-a2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5n
-d0BmZWRvcmEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAg
-ICBody9hY3BpL2dlbmVyaWNfZXZlbnRfZGV2aWNlLm8KICBDQyAgICAgIGh3L2FjcGkvaG1hdC5v
-CgpXYXJuaW5nLCB0cmVhdGVkIGFzIGVycm9yOgovdG1wL3FlbXUtdGVzdC9zcmMvZG9jcy8uLi9x
-ZW11LW9wdGlvbnMuaHg6ODgxOlVuZXhwZWN0ZWQgaW5kZW50YXRpb24uCiAgQ0MgICAgICBody9h
-Y3BpL2FjcGlfaW50ZXJmYWNlLm8KICBDQyAgICAgIGh3L2FjcGkvYmlvcy1saW5rZXItbG9hZGVy
-Lm8KLS0tCiAgQ0MgICAgICBody9hY3BpL3BjaS5vCiAgQ0MgICAgICBody9hY3BpL2lwbWkubwog
-IENDICAgICAgaHcvYWNwaS9hY3BpLXN0dWIubwptYWtlOiAqKiogW01ha2VmaWxlOjExMTU6IC5k
-b2NzX3N5c3RlbV9xZW11LjFfZG9jc19zeXN0ZW1fcWVtdS1ibG9jay1kcml2ZXJzLjdfZG9jc19z
-eXN0ZW1fcWVtdS1jcHUtbW9kZWxzLjcuc2VudGluZWwuXSBFcnJvciAyCm1ha2U6ICoqKiBEZWxl
-dGluZyBmaWxlICcuZG9jc19zeXN0ZW1fcWVtdS4xX2RvY3Nfc3lzdGVtX3FlbXUtYmxvY2stZHJp
-dmVycy43X2RvY3Nfc3lzdGVtX3FlbXUtY3B1LW1vZGVscy43LnNlbnRpbmVsLicKbWFrZTogKioq
-IFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KCldhcm5pbmcsIHRyZWF0ZWQgYXMgZXJy
-b3I6Ci90bXAvcWVtdS10ZXN0L3NyYy9kb2NzLy4uL3FlbXUtb3B0aW9ucy5oeDo4ODE6VW5leHBl
-Y3RlZCBpbmRlbnRhdGlvbi4KbWFrZTogKioqIFtNYWtlZmlsZToxMTA0OiBkb2NzL3N5c3RlbS9p
-bmRleC5odG1sXSBFcnJvciAyClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToKICBG
-aWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDY2NCwgaW4gPG1vZHVsZT4KICAg
-IHN5cy5leGl0KG1haW4oKSkKLS0tCiAgICByYWlzZSBDYWxsZWRQcm9jZXNzRXJyb3IocmV0Y29k
-ZSwgY21kKQpzdWJwcm9jZXNzLkNhbGxlZFByb2Nlc3NFcnJvcjogQ29tbWFuZCAnWydzdWRvJywg
-Jy1uJywgJ2RvY2tlcicsICdydW4nLCAnLS1sYWJlbCcsICdjb20ucWVtdS5pbnN0YW5jZS51dWlk
-PWRiMDg1ZDVmZDBjNDRjMWZhNjAxNmJlNmUzMjM1MzBkJywgJy11JywgJzEwMDMnLCAnLS1zZWN1
-cml0eS1vcHQnLCAnc2VjY29tcD11bmNvbmZpbmVkJywgJy0tcm0nLCAnLWUnLCAnVEFSR0VUX0xJ
-U1Q9JywgJy1lJywgJ0VYVFJBX0NPTkZJR1VSRV9PUFRTPScsICctZScsICdWPScsICctZScsICdK
-PTE0JywgJy1lJywgJ0RFQlVHPScsICctZScsICdTSE9XX0VOVj0nLCAnLWUnLCAnQ0NBQ0hFX0RJ
-Uj0vdmFyL3RtcC9jY2FjaGUnLCAnLXYnLCAnL2hvbWUvcGF0Y2hldzIvLmNhY2hlL3FlbXUtZG9j
-a2VyLWNjYWNoZTovdmFyL3RtcC9jY2FjaGU6eicsICctdicsICcvdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtZHMwcm5yaGovc3JjL2RvY2tlci1zcmMuMjAyMC0wNC0yMy0wNS4zNy40NC4zMTU0
-MzovdmFyL3RtcC9xZW11Onoscm8nLCAncWVtdTpmZWRvcmEnLCAnL3Zhci90bXAvcWVtdS9ydW4n
-LCAndGVzdC1taW5ndyddJyByZXR1cm5lZCBub24temVybyBleGl0IHN0YXR1cyAyLgpmaWx0ZXI9
-LS1maWx0ZXI9bGFiZWw9Y29tLnFlbXUuaW5zdGFuY2UudXVpZD1kYjA4NWQ1ZmQwYzQ0YzFmYTYw
-MTZiZTZlMzIzNTMwZAptYWtlWzFdOiAqKiogW2RvY2tlci1ydW5dIEVycm9yIDEKbWFrZVsxXTog
-TGVhdmluZyBkaXJlY3RvcnkgYC92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC1kczBybnJoai9z
-cmMnCm1ha2U6ICoqKiBbZG9ja2VyLXJ1bi10ZXN0LW1pbmd3QGZlZG9yYV0gRXJyb3IgMgoKcmVh
-bCAgICAybTQ1LjY5OXMKdXNlciAgICAwbTcuNDc2cwoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDA0MjMwOTAxMTguMTExOTktMS1nZWVy
-dCtyZW5lc2FzQGdsaWRlci5iZS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On 18/03/2020 14:27, Niklas Söderlund wrote:
+> Add tests to check the behavior of VIDIOC_ENUM{INPUT,OUTPUT},
+> VIDIOC_G_{INPUT,OUTPUT} and VIDIOC_S_{INPUT,OUTPUT} when the
+> V4L2_CAP_IO_MC  is set.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  utils/v4l2-compliance/v4l2-test-input-output.cpp | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-test-input-output.cpp b/utils/v4l2-compliance/v4l2-test-input-output.cpp
+> index 2bf338e6f6d7ec5a..bf937abec320f88a 100644
+> --- a/utils/v4l2-compliance/v4l2-test-input-output.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-input-output.cpp
+> @@ -466,6 +466,13 @@ int testInput(struct node *node)
+>  	if (!node->inputs && node->has_inputs)
+>  		return fail("no inputs found, but input capabilities set\n");
+>  	fail_on_test(node->is_m2m && node->inputs > 1);
+> +	if (node->g_caps() & V4L2_CAP_IO_MC) {
+> +		if (!node->is_video && !node->is_meta)
+> +			return fail("media device controls none video or meta input\n");
+> +
+> +		if (!node->is_meta && node->inputs != 1)
+> +			return fail("media device controlled input have %d inputs\n", node->inputs);
+
+Just replace this with:
+
+		fail_on_test(!node->is_video && !node->is_meta);
+		fail_on_test(node->inputs != 1);
+
+> +	}
+>  	return 0;
+>  }
+>  
+> @@ -836,6 +843,13 @@ int testOutput(struct node *node)
+>  	if (!node->outputs && node->has_outputs)
+>  		return fail("no outputs found, but output capabilities set\n");
+>  	fail_on_test(node->is_m2m && node->outputs > 1);
+> +	if (node->g_caps() & V4L2_CAP_IO_MC) {
+> +		if (!node->is_video && !node->is_meta)
+> +			return fail("media device controls none video or meta output\n");
+> +
+> +		if (!node->is_meta && node->outputs != 1)
+> +			return fail("media device controlled output have %d outputs\n", node->outputs);
+
+Ditto.
+
+> +	}
+>  	return 0;
+>  }
+>  
+> 
+
+Regards,
+
+	Hans
