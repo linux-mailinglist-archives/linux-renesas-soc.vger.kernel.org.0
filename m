@@ -2,107 +2,234 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 148911B5930
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 12:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D0E1B5960
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 12:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726994AbgDWKbF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 06:31:05 -0400
-Received: from mail-eopbgr1400131.outbound.protection.outlook.com ([40.107.140.131]:28396
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726764AbgDWKbE (ORCPT
+        id S1726928AbgDWKi4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Apr 2020 06:38:56 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54751 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725863AbgDWKi4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 06:31:04 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fhshZhXRZdlzARO+Zp7lACWiYUc0BMkhw+oprG8AyAnI2uomyczkxIaUFu92xvFdmEQ8Xsr2Lo0Jw7mcO7Gwut3s6dij5R0bgtmHQNj4LVSK0nH7cVQ9C5sJcqlOCgbXC3SvoZa2gC/HJQD4FbVRDc2mXf6mHgTCf3GiXA4sUpgOUl5p6DnFhtGqbGO3XBtNq4QdRzr0HQJfq6BbS9yWUft3bnGq1K5A355VAH+iAU0Uwzs+KC4+l3+ZBzxLYLhuKjCIBIEp5xr1VStGXU78HbDff4QWyMga5x5jdi6biYxlWZ8Ng6yhhcq/sftBYknpQ7vspmEvri1qC9p412mV2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mZcRZr/2bw7QSOEfox28Kwm0YJhugriy/PDPN8yAuts=;
- b=N1ObkpIVO3/9jNkgwbiwqF6VjbSbGiI5DDh1p8JmPQZM9dYxmabJqC3Vpxu9vswcGScU87fkHeCoeFVphr7i8sLesk0JCdgfYrt5CQ0E4g3X3iVb8TNflZnJVakjc/yf8xeQL2QgrIv+skzr2QgYbJvc0JM6GXNmDWpbL48tUEIFlY3IO7HniqeW374KUsL9Mn2uS8F4Ni3DVa6KagK47s0JokPbTobyC0+CR4MGruoz6mnxYfFWm406CjiTA5d89YE/T5wZ+ivud7qJmNV/MmdZv+bwglIuuPitfd+0JkOiZixgLZ9GWazO74Df0cc7ABzEkV0m4MZmy+QZSw9H6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mZcRZr/2bw7QSOEfox28Kwm0YJhugriy/PDPN8yAuts=;
- b=JrpRtn2ZHhZqGdIj9+0rTspMfsDbLrGbAR4Z+KM/2ut+WYSQUccOu0dmKJAOej2NDb20jyRR0jnXzmYGvR/3ie+y1QlgmfHPDzW6Eej93S25NPboY2CKAWsHMuUYaXt6Zm/TMtC7ShLCod24zxEVK2A5ZoozyH2IWR35osemiOo=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB4573.jpnprd01.prod.outlook.com (20.179.186.84) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2921.27; Thu, 23 Apr 2020 10:31:02 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::ed7f:1268:55a9:fc06]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::ed7f:1268:55a9:fc06%4]) with mapi id 15.20.2937.012; Thu, 23 Apr 2020
- 10:31:01 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/2] mmc: renesas_sdhi: handle M3-N ES1.2 and 1.3
- revisions
-Thread-Topic: [PATCH 1/2] mmc: renesas_sdhi: handle M3-N ES1.2 and 1.3
- revisions
-Thread-Index: AQHWGKXZQ7S2Ji38PUWmlijczhWmW6iGgtNQ
-Date:   Thu, 23 Apr 2020 10:31:01 +0000
-Message-ID: <TYAPR01MB4544560675F1D41DF8BC8DB1D8D30@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20200422125914.16590-1-wsa+renesas@sang-engineering.com>
- <20200422125914.16590-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200422125914.16590-2-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d8cfba83-977c-4717-f3d2-08d7e7716ba3
-x-ms-traffictypediagnostic: TYAPR01MB4573:
-x-microsoft-antispam-prvs: <TYAPR01MB457340C9C993D892DEC662DFD8D30@TYAPR01MB4573.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4502;
-x-forefront-prvs: 03827AF76E
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(39860400002)(396003)(376002)(136003)(366004)(346002)(5660300002)(33656002)(55236004)(186003)(71200400001)(86362001)(55016002)(316002)(7696005)(76116006)(9686003)(8676002)(4744005)(110136005)(4326008)(2906002)(6506007)(66446008)(66556008)(26005)(64756008)(66946007)(81156014)(8936002)(478600001)(52536014)(66476007);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cSSUbVnjaF8Qk4B+v13oF8EJPkYZMpOXMIz/uNNO+GSEZJufxpjVoPfR0WQvy7V3I/2GvBVXte1Syp7AphjwGiDDQPTkpX2vNsmTekcsm45hT0flH3Q1vqlUjuLxx3ikwAmvjqzlodgQ7Aj1UIjBBPpl9Nvnj5e51AGtLmPyjppyPT4EUqUx9KoZICnjrPXuSa9GrEaZnayd2CN/pWfmDDSynxcpmRI1qYV5aUHvo0dJexixO8a2/td/sxuuSyXSlhPchRG9CCouYFhyEpMvCh2nAWsU+x7zYB6W0KtOL91JRydHvA4dWXSdCwlU8JRyQ1dVlOvZxpyCjsidScumHzcDRw/IccRCdS0aqECZc4RPLGHL158/4fi745/9AhVwfu8wR33h3aZs8OhZ1A8//1DQlQ5Z82kRRK87gUhy1c+9jklvZgv5Yy1UXU7DCmmg
-x-ms-exchange-antispam-messagedata: 58ESDCJXh0CdtPvyWYvRW8IdqGVmnhznwqDg7TCkvh+npfvcdmEK0jWsAa5LLZcpsyhYPgYMFwch42IjkqwsPlGRNTOS2dn6Jg0WJ5+YXRJj4NbFXvVle1fDYKyBaOD/20f0vndxPjsmFrTt9I/5eg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 23 Apr 2020 06:38:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id RZFpjLqYo7xncRZFsjQFiG; Thu, 23 Apr 2020 12:38:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587638332; bh=navaRimnR9rBBLMvcpN4leBA30lNa0An4ygk0CtmV/0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=PpRYDB6RVjq2iTVzbveDXCT6eqBe0JfrvbdboOXZsNs8HBsc72QLRuxg+SBCFkZiE
+         ELSJsh+UHBmayDvi1O7lNi7FUjc1Lh/eBa4754rCz/P0ra7Lq1FQ4rWEOdP2+UY8Po
+         zWNx6VrYUpt0CDevrFvx/Pe52z+178gyggegjeL2nLPIP8LMVfxmJl/agZ/Qp2qdvd
+         cLb7nsWCBhtgYLSc5hZY+d7RLGcJqECLXNDI4lcW1dH2gLrbGMBMcpW1vamDXi7G5y
+         JpVlkw88BgSyWj0ocAzIdWI9Kq2uYDJrjay5iVaMgQ9/zGgXqtdpYIcH9amGdPKxf/
+         pKWuweMzlK2Lw==
+Subject: Re: [PATCH v8 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20200421135743.1381930-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d234f2bf-9bda-e073-ad6f-392f6b5d0cdd@xs4all.nl>
+Date:   Thu, 23 Apr 2020 12:38:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8cfba83-977c-4717-f3d2-08d7e7716ba3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2020 10:31:01.7803
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: k7yuMSij/oc9Bs54SV9MotUXIXcwqidDBdJF4JkdvhAcbqL0x0VjC/LNTE46XqJJzWtxzRKC1ornbYxxy432TdcKDTKDNRJDiw+l5UxadP5W79U3OkcioLOtMmlhrA6e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4573
+In-Reply-To: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfMGnnR36/4hbHS3twyWytg1zEw87eBVLsZKY4jChSxByy1KwPILv+oPSg2mEw4fChuhsoe69auEV8IgDne4ZX1ORWnm2PpIvHv8uPHpzd0SKAHHzMTIn
+ idyqtUTsSlp9hOndFVu9A5aLEt4IGI+Nc/Z6rhgMtDI+yKVjEKz3RRPZ73FKvTTzFsHS96nP+kdfw8hlPyQiZB3rtYZVcek6Yh1A+O37MOlR3GrhDug0nHxT
+ BLqSxEmNOO4Y0OKZUXNFGIpedoizTouAHDc55xd5hII0mumjjoHNpIWQy7ii/ydoV63WYqKlvtTwPaJTmGj2oG+5Uwjupx+SrU2hbEz1y5yaiC+o4QfLp6WN
+ mcVfyJAN6DKfoyYEOGzd2ZT5rKg+ASXMyS9LdZkvWSmv/7o2mB1LP+q3abB9tDGjLvDviE+gem2PZkJBLAOyAQ2UX66gGg==
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+On 21/04/2020 15:57, Niklas Söderlund wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> node. For MC-centric devices, its behaviour has always been ill-defined,
+> with drivers implementing one of the following behaviours:
+> 
+> - No support for VIDIOC_ENUM_FMT at all
+> - Enumerating all formats supported by the video node, regardless of the
+>   configuration of the pipeline
+> - Enumerating formats supported by the video node for the active
+>   configuration of the connected subdevice
+> 
+> The first behaviour is obviously useless for applications. The second
+> behaviour provides the most information, but doesn't offer a way to find
+> what formats are compatible with a given pipeline configuration. The
+> third behaviour fixes that, but with the drawback that applications
+> can't enumerate all supported formats anymore, and have to modify the
+> active configuration of the pipeline to enumerate formats.
+> 
+> The situation is messy as none of the implemented behaviours are ideal,
+> and userspace can't predict what will happen as the behaviour is
+> driver-specific.
+> 
+> To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
+> enumerating pixel formats for a given media bus code. The media bus code
+> is passed through the v4l2_fmtdesc structure in a new mbus_code field
+> (repurposed from the reserved fields). With this capability in place,
+> applications can enumerate pixel formats for a given media bus code
+> without modifying the active configuration of the device.
+> 
+> The current behaviour of the ioctl is preserved when the new mbus_code
+> field is set to 0, ensuring compatibility with existing userspace. The
+> API extension is documented as mandatory for MC-centric devices (as
+> advertised through the V4L2_CAP_IO_MC capability), allowing applications
+> and compliance tools to easily determine the availability of the
+> VIDIOC_ENUM_FMT extension.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v7
+> - Update documentation.
+> ---
+>  .../userspace-api/media/v4l/vidioc-enum-fmt.rst  | 16 +++++++++++++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c             | 13 +++++++++++--
+>  include/uapi/linux/videodev2.h                   |  3 ++-
+>  3 files changed, 26 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> index 7e3142e11d77d9c0..8dc8a73c320dda98 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+> @@ -48,10 +48,20 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+>  formats in preference order, where preferred formats are returned before
+>  (that is, with lower ``index`` value) less-preferred formats.
+>  
+> -.. note::
+> +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
+> +:ref:`device-capabilities <capability>`, applications shall initialize the
 
-> From: Wolfram Sang, Sent: Wednesday, April 22, 2020 9:59 PM
->=20
-> For ES1.2, add a comment explaining the situation. For ES1.3 (and
-> later, although unlikely), add a new entry defining it as 4tap.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+That's :ref:`capability <device-capabilities>`
 
-Thank you for the patch!
+> +``mbus_code`` field to zero. Drivers shall enumerate all image formats. The
+> +enumerated formats may depend on the active input or output of the device.
+>  
+> -   After switching input or output the list of enumerated image
+> -   formats may be different.
+> +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
+> +<capability>`, applications may initialize the ``mbus_code`` to a valid
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Ditto.
 
-Best regards,
-Yoshihiro Shimoda
+> +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
+
+:ref:`media bus format code <v4l2-mbus-pixelcode>`
+
+``mbus_code` -> ``mbus_code``
+
+> +is not zero, drivers shall restrict enumeration to only the image formats that
+> +can produce (for video output devices) or be produced from (for video capture
+> +devices) that media bus code. Regardless of the value of the ``mbus_code``
+> +field, the enumerated image formats shall not depend on the active
+> +configuration of the video device or device pipeline. Enumeration shall
+> +otherwise operate as previously described.
+
+The new field isn't documented, vidioc-enum-fmt.rst still shows 'reserved[4]' in
+the struct v4l2_fmtdesc description.
+
+>  
+>  
+>  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index afd1f427df557f71..3e7b99fa415222c6 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_fmtdesc *p = arg;
+>  
+> -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
+> +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
+>  		p->index, prt_names(p->type, v4l2_type_names),
+>  		p->flags, (p->pixelformat & 0xff),
+>  		(p->pixelformat >>  8) & 0xff,
+>  		(p->pixelformat >> 16) & 0xff,
+>  		(p->pixelformat >> 24) & 0xff,
+> +		p->mbus_code,
+>  		(int)sizeof(p->description), p->description);
+>  }
+>  
+> @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
+>  	struct video_device *vdev = video_devdata(file);
+>  	struct v4l2_fmtdesc *p = arg;
+>  	int ret = check_fmt(file, p->type);
+> +	u32 mbus_code;
+>  	u32 cap_mask;
+>  
+>  	if (ret)
+>  		return ret;
+>  	ret = -EINVAL;
+>  
+> +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
+> +		return -EINVAL;
+
+I suggest changing this to:
+
+	if (!(vdev->device_caps & V4L2_CAP_IO_MC))
+		p->mbus_code = 0;
+
+This is much more robust for existing userspace since they may not have
+properly zeroed the reserved array. Also, mbus_code only makes sense in
+combination with CAP_IO_MC, so zeroing it if CAP_IO_MC isn't set makes sense.
+
+The documentation probably needs to be updated to reflect this change as well.
+
+I'll post a patch for v4l2-compliance as well.
+
+Regards,
+
+	Hans
+
+> +
+> +	mbus_code = p->mbus_code;
+> +	CLEAR_AFTER_FIELD(p, type);
+> +	p->mbus_code = mbus_code;
+> +
+>  	switch (p->type) {
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
+>  
+>  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
+> -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
+> +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
+>  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
+>  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
+>  	__u32               flags;
+>  	__u8		    description[32];   /* Description string */
+>  	__u32		    pixelformat;       /* Format fourcc      */
+> -	__u32		    reserved[4];
+> +	__u32		    mbus_code;		/* Media bus code    */
+> +	__u32		    reserved[3];
+>  };
+>  
+>  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
+> 
 
