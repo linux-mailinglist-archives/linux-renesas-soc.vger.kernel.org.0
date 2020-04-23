@@ -2,95 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 769D81B559A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E68F1B55EE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:40:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbgDWH0d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 03:26:33 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46165 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725562AbgDWH0c (ORCPT
+        id S1725854AbgDWHir (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Apr 2020 03:38:47 -0400
+Received: from mga07.intel.com ([134.134.136.100]:64224 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726819AbgDWHiq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:26:32 -0400
-Received: by mail-oi1-f195.google.com with SMTP id q204so4398492oia.13;
-        Thu, 23 Apr 2020 00:26:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3rdiRVi7JnvVom2uX8veudncwLjhAaPdpJsWOmscBdk=;
-        b=GLKSGOEEkvRZtSw+hEJPLk1PQ98/WTgyfavsQqQsDZmcbt/6m+7ekPG/IIZu9ev/jB
-         hCBp7nowQloL0HPV8HjT4guO+MSgZDzRo5aqTK/J9BXHMRO1ld4a0uuINaeGA/9Dypvn
-         YJmMfLwXihqaQQGCspv25Zvd+JP2BOa4ppjreh+LTKHTjBBFy4LX1uZ2uuUshdnF3KaR
-         YICXCGTaFGQ5YAHd/o5ZnRj9N6VGlRGANN6BmyxZ9zm5zqzMrFY2pU3/2AqK/NvAP0G3
-         X4oAU8+ZaX44X/f4Ed7KHyFqUnlgTJBP7C6N9EyWKM4A7SQpOhnMI1wJ0fSaufSPPxza
-         Rn3g==
-X-Gm-Message-State: AGi0PuYhD7FplTUlZpRr1TIGsDdTp80PySDCm/XtDKCamKd/C3lXcXV5
-        kqUDHSfnOI1RzcDOdgFJAB1pEfWI8/2355vYYrU=
-X-Google-Smtp-Source: APiQypLWrjUEmsbk+dJ2lLiYqiwII7JfBgL/d+dnRg0+05MO8+fwjlhEBeXLztxjhtMmfjDBLWRqRw1leIanpQdJZRQ=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr1962017oih.148.1587626791926;
- Thu, 23 Apr 2020 00:26:31 -0700 (PDT)
+        Thu, 23 Apr 2020 03:38:46 -0400
+IronPort-SDR: DZ3km4otwRAdQ9+7ub4YhHlDCCMo9Zwhowsy4ajX5U83rjpVY8infICpJe8BtDb32Foe0npnNp
+ xY0aXoOu+/vw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:38:45 -0700
+IronPort-SDR: /fZNDQVL4yog7+a+OIBwCGg06BDAn4ewrX6/bTWb+Bf+6+Aip3/rd+SsEw7T6r2Shw+zInHA7e
+ hFesAcQbwsVw==
+X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; 
+   d="scan'208";a="259337964"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:38:43 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id C5C9F2080B; Thu, 23 Apr 2020 10:38:41 +0300 (EEST)
+Date:   Thu, 23 Apr 2020 10:38:41 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v8 02/13] squash! max9286: convert probe kzalloc
+Message-ID: <20200423073841.GJ5381@paasikivi.fi.intel.com>
+References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200409163333.GA25086@pendragon.ideasonboard.com>
+ <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
+ <20200410111519.GA4751@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20200225050828.56458-1-john.stultz@linaro.org>
- <20200421235836.GA8319@lxhi-065.adit-jv.com> <CALAqxLXX455P0V0o11scc3-1MHvecnvcUoT=XBcwB+ma7Kyjqg@mail.gmail.com>
- <20200422075413.GB4898@sirena.org.uk> <CALAqxLW13oA376bqj7uTR4E4zmnX5ASK=rpqw3HMr4yOWQGaOw@mail.gmail.com>
-In-Reply-To: <CALAqxLW13oA376bqj7uTR4E4zmnX5ASK=rpqw3HMr4yOWQGaOw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 Apr 2020 09:26:20 +0200
-Message-ID: <CAMuHMdVoubQWoDcmLTMw9ADxboTxHDtb+90fpKM=GX14_a6TxQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/6] driver core: Improve and cleanup driver_deferred_probe_check_state()
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Todd Kjos <tkjos@google.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200410111519.GA4751@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi John,
+Hi Laurent, Kieran,
 
-On Wed, Apr 22, 2020 at 10:46 PM John Stultz <john.stultz@linaro.org> wrote:
-> On Wed, Apr 22, 2020 at 12:54 AM Mark Brown <broonie@kernel.org> wrote:
-> > On Tue, Apr 21, 2020 at 06:16:31PM -0700, John Stultz wrote:
-> > > The second reverts the default timeout back to 0:
-> > >   https://lore.kernel.org/lkml/20200413204253.84991-1-john.stultz@linaro.org/
+On Fri, Apr 10, 2020 at 02:15:19PM +0300, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> On Fri, Apr 10, 2020 at 09:20:25AM +0100, Kieran Bingham wrote:
+> > On 09/04/2020 17:33, Laurent Pinchart wrote:
+> > > On Thu, Apr 09, 2020 at 01:11:51PM +0100, Kieran Bingham wrote:
+> > >> v8:
+> > >>  - Convert probe kzalloc usage to devm_ variant
+> > > 
+> > > This isn't worse than the existing code, but are you aware that devm_*
+> > > should not be used in this case ? The memory should be allocated with
+> > > kzalloc() and freed in the .release() operation.
+> > 
+> > This change was at the request of a review comment from Sakari.
+> > 
+> > From:
+> > https://lore.kernel.org/linux-media/4139f241-2fde-26ad-fe55-dcaeb76ad6cc@ideasonboard.com/
 > >
-> > If you're reverting the timeout we should revert the regulator change
-> > too I think.
->
-> Maybe? The main issue for me was my change was clearly breaking users
-> with dts with missing dependencies where their setup was working
-> before. I sort of feel like having a dtb with missing dependencies is
-> less valid than wanting to load module dependencies from userland, but
-> they were working first, so we have to keep them happy :) And at least
-> now the latter can add the timeout boot argument to make it work.
+> > >>> +
+> > >>> +static int max9286_probe(struct i2c_client *client)
+> > >>> +{
+> > >>> +	struct max9286_priv *priv;
+> > >>> +	unsigned int i;
+> > >>> +	int ret;
+> > >>> +
+> > >>> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+> > >>> +	if (!priv)
+> > >>> +		return -ENOMEM;
+> > >> 
+> > >> You won't lose anything by using the devm_ variant here.
+> > > 
+> > > Indeed,
+> > > 
+> > >>> +
+> > >>> +	priv->client = client;
+> > >>> +	i2c_set_clientdata(client, priv);
+> > >>> +
+> > >>> +	for (i = 0; i < MAX9286_N_SINKS; i++)
+> > >>> +		max9286_init_format(&priv->fmt[i]);
+> > >>> +
+> > >>> +	ret = max9286_parse_dt(priv);
+> > >>> +	if (ret)
+> > >>> +		return ret;
+> > >> 
+> > >> But you can avoid accidental memory leaks for nothing. :-)
+> > > 
+> > > It would be good not to leak indeed!
+> > 
+> > I understand that there are lifetime issues in V4L2 - but in my opinion
+> > that needs to be handled by core V4l2 (and or support from driver core
+> > framework).
+> 
+> I'm afraid that's not possible. The V4L2 core can't delay remove().
+> There are helpers we could create to simplify correct memory management
+> for drivers, but in any case, devm_kzalloc() isn't correct.
+> 
+> There are also issues in the core that would make unbinding unsafe even
+> if correctly implemented in this driver, but a correct implementation in
+> drivers will be required in any case.
+> 
+> As I said before this patch isn't a regression as memory allocation is
+> already broken here, but it doesn't go in the right direction either.
+> 
+> > Also - isn't it highly unlikely to affect the max9286? Isn't the
+> > lifetime issue that the device can be unplugged while the file handle is
+> > open?
+> > 
+> > I don't think anyone is going to 'unplug' the max9286 while it's active :-)
+> 
+> No, but someone could unbind it through sysfs. In any case it's not an
+> excuse to not implement memory allocation correctly :-)
 
-IOMMU support is optional.
+Properly refcounting the objects and being unbind-safe would require
+rewriting the memory allocation in drivers. This can't be done as the
+framework is broken.
 
-Gr{oetje,eeting}s,
-
-                        Geert
+Whether you use devm_* variant here makes no difference from that point of
+view. But it makes it easier to find out driver does not do its object
+refcounting properly later on when (or if) the framework is fixed.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sakari Ailus
