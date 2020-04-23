@@ -2,139 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E68F1B55EE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:40:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A79D1B5657
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Apr 2020 09:47:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725854AbgDWHir (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 03:38:47 -0400
-Received: from mga07.intel.com ([134.134.136.100]:64224 "EHLO mga07.intel.com"
+        id S1726899AbgDWHr3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Apr 2020 03:47:29 -0400
+Received: from mga07.intel.com ([134.134.136.100]:64699 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726819AbgDWHiq (ORCPT
+        id S1726322AbgDWHr2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:38:46 -0400
-IronPort-SDR: DZ3km4otwRAdQ9+7ub4YhHlDCCMo9Zwhowsy4ajX5U83rjpVY8infICpJe8BtDb32Foe0npnNp
- xY0aXoOu+/vw==
+        Thu, 23 Apr 2020 03:47:28 -0400
+IronPort-SDR: 4OUUcQHIIKsiOGwvPAP8zmx8ioWZllOaiYAW/wJPNjjCRI5CEWTu/g28Ya0NtD7sznzisg/B6l
+ KWb0Z0TAV8LA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:38:45 -0700
-IronPort-SDR: /fZNDQVL4yog7+a+OIBwCGg06BDAn4ewrX6/bTWb+Bf+6+Aip3/rd+SsEw7T6r2Shw+zInHA7e
- hFesAcQbwsVw==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:27 -0700
+IronPort-SDR: xebuX4Zqh2Fzs8VKrVMTXlJ1UMcv1KriaDNTvXrXAHOnRuQgYvCSjXW9IpM+PKHsaq1g09075h
+ aWGqFgg+JwGw==
 X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; 
-   d="scan'208";a="259337964"
+   d="scan'208";a="255903604"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:38:43 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:16 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id C5C9F2080B; Thu, 23 Apr 2020 10:38:41 +0300 (EEST)
-Date:   Thu, 23 Apr 2020 10:38:41 +0300
+        id B6BA22080B; Thu, 23 Apr 2020 10:47:13 +0300 (EEST)
+Date:   Thu, 23 Apr 2020 10:47:13 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Luis Oliveira <lolivei@synopsys.com>,
         Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 02/13] squash! max9286: convert probe kzalloc
-Message-ID: <20200423073841.GJ5381@paasikivi.fi.intel.com>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
- <20200409163333.GA25086@pendragon.ideasonboard.com>
- <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
- <20200410111519.GA4751@pendragon.ideasonboard.com>
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH 3/4] media: ov5647: Add support for non-continuous clock
+ mode
+Message-ID: <20200423074713.GK5381@paasikivi.fi.intel.com>
+References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
+ <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200410111519.GA4751@pendragon.ideasonboard.com>
+In-Reply-To: <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent, Kieran,
+Hi Roman,
 
-On Fri, Apr 10, 2020 at 02:15:19PM +0300, Laurent Pinchart wrote:
-> Hi Kieran,
+On Mon, Apr 13, 2020 at 12:17:46PM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > 
-> On Fri, Apr 10, 2020 at 09:20:25AM +0100, Kieran Bingham wrote:
-> > On 09/04/2020 17:33, Laurent Pinchart wrote:
-> > > On Thu, Apr 09, 2020 at 01:11:51PM +0100, Kieran Bingham wrote:
-> > >> v8:
-> > >>  - Convert probe kzalloc usage to devm_ variant
-> > > 
-> > > This isn't worse than the existing code, but are you aware that devm_*
-> > > should not be used in this case ? The memory should be allocated with
-> > > kzalloc() and freed in the .release() operation.
-> > 
-> > This change was at the request of a review comment from Sakari.
-> > 
-> > From:
-> > https://lore.kernel.org/linux-media/4139f241-2fde-26ad-fe55-dcaeb76ad6cc@ideasonboard.com/
-> >
-> > >>> +
-> > >>> +static int max9286_probe(struct i2c_client *client)
-> > >>> +{
-> > >>> +	struct max9286_priv *priv;
-> > >>> +	unsigned int i;
-> > >>> +	int ret;
-> > >>> +
-> > >>> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> > >>> +	if (!priv)
-> > >>> +		return -ENOMEM;
-> > >> 
-> > >> You won't lose anything by using the devm_ variant here.
-> > > 
-> > > Indeed,
-> > > 
-> > >>> +
-> > >>> +	priv->client = client;
-> > >>> +	i2c_set_clientdata(client, priv);
-> > >>> +
-> > >>> +	for (i = 0; i < MAX9286_N_SINKS; i++)
-> > >>> +		max9286_init_format(&priv->fmt[i]);
-> > >>> +
-> > >>> +	ret = max9286_parse_dt(priv);
-> > >>> +	if (ret)
-> > >>> +		return ret;
-> > >> 
-> > >> But you can avoid accidental memory leaks for nothing. :-)
-> > > 
-> > > It would be good not to leak indeed!
-> > 
-> > I understand that there are lifetime issues in V4L2 - but in my opinion
-> > that needs to be handled by core V4l2 (and or support from driver core
-> > framework).
+> The driver was only supporting continuous clock mode
+> although this was not stated anywhere.
+> Non-continuous clock saves a small amount of power and
+> on some SoCs is easier to interface with.
 > 
-> I'm afraid that's not possible. The V4L2 core can't delay remove().
-> There are helpers we could create to simplify correct memory management
-> for drivers, but in any case, devm_kzalloc() isn't correct.
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
 > 
-> There are also issues in the core that would make unbinding unsafe even
-> if correctly implemented in this driver, but a correct implementation in
-> drivers will be required in any case.
-> 
-> As I said before this patch isn't a regression as memory allocation is
-> already broken here, but it doesn't go in the right direction either.
-> 
-> > Also - isn't it highly unlikely to affect the max9286? Isn't the
-> > lifetime issue that the device can be unplugged while the file handle is
-> > open?
-> > 
-> > I don't think anyone is going to 'unplug' the max9286 while it's active :-)
-> 
-> No, but someone could unbind it through sysfs. In any case it's not an
-> excuse to not implement memory allocation correctly :-)
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index c39e3d20e3ef..8a1a515388e0 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -44,6 +44,7 @@
+>  #define PWDN_ACTIVE_DELAY_MS	20
+>  
+>  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
+> +#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
+>  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
+>  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
+>  
+> @@ -95,6 +96,7 @@ struct ov5647 {
+>  	int				power_count;
+>  	struct clk			*xclk;
+>  	struct gpio_desc		*pwdn;
+> +	unsigned int			flags;
+>  };
+>  
+>  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
+> @@ -269,9 +271,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+>  
+>  static int ov5647_stream_on(struct v4l2_subdev *sd)
+>  {
+> +	struct ov5647 *ov5647 = to_state(sd);
+> +	u8 val = MIPI_CTRL00_BUS_IDLE;
+>  	int ret;
+>  
+> -	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
+> +	if (ov5647->flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
+> +		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
+> +		       MIPI_CTRL00_LINE_SYNC_ENABLE;
+> +
+> +	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -568,7 +576,7 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
+>  	.open = ov5647_open,
+>  };
+>  
+> -static int ov5647_parse_dt(struct device_node *np)
+> +static int ov5647_parse_dt(struct device_node *np, struct ov5647 *sensor)
+>  {
+>  	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
 
-Properly refcounting the objects and being unbind-safe would require
-rewriting the memory allocation in drivers. This can't be done as the
-framework is broken.
+The bus type should be set to V4L2_MBUS_CSI2_DPHY here; 0 is just for
+compatibility with the old heuristics.
 
-Whether you use devm_* variant here makes no difference from that point of
-view. But it makes it easier to find out driver does not do its object
-refcounting properly later on when (or if) the framework is fixed.
+>  	struct device_node *ep;
+> @@ -581,6 +589,9 @@ static int ov5647_parse_dt(struct device_node *np)
+>  
+>  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>  
+> +	if (!ret)
+> +		sensor->flags = bus_cfg.bus.mipi_csi2.flags;
+> +
+>  	of_node_put(ep);
+>  	return ret;
+>  }
+> @@ -599,7 +610,7 @@ static int ov5647_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	if (IS_ENABLED(CONFIG_OF) && np) {
+> -		ret = ov5647_parse_dt(np);
+> +		ret = ov5647_parse_dt(np, sensor);
+>  		if (ret) {
+>  			dev_err(dev, "DT parsing error: %d\n", ret);
+>  			return ret;
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
