@@ -2,63 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B79F1B721D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 12:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB70F1B7226
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 12:40:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgDXKid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Apr 2020 06:38:33 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:6717 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726289AbgDXKid (ORCPT
+        id S1726778AbgDXKkB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Apr 2020 06:40:01 -0400
+Received: from sauhun.de ([88.99.104.3]:46272 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726791AbgDXKkB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Apr 2020 06:38:33 -0400
-X-IronPort-AV: E=Sophos;i="5.73,311,1583161200"; 
-   d="scan'208";a="45634295"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2020 19:38:32 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8C1C642218EE;
-        Fri, 24 Apr 2020 19:38:29 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>
-Cc:     Lad Prabhakar <prabhakar.csengg@gmail.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] dt-bindings: sh_eth: Sort compatible string in increasing number of the SoC
-Date:   Fri, 24 Apr 2020 11:38:15 +0100
-Message-Id: <1587724695-27295-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 24 Apr 2020 06:40:01 -0400
+Received: from localhost (p5486CE62.dip0.t-ipconnect.de [84.134.206.98])
+        by pokefinder.org (Postfix) with ESMTPSA id 71E812C1FE8;
+        Fri, 24 Apr 2020 12:39:59 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] media: rcar-csi2: Fix comment of VCDT/VCDT2 register
+Date:   Fri, 24 Apr 2020 12:39:45 +0200
+Message-Id: <20200424103945.2836-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Sort the items in the compatible string list in increasing number of SoC.
+From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+According to latest H/W manual v1.50, the description of channel
+number in the VCDT/VCDT2 register is decremented by one.
+Therefore, this patch fixes it about comment.
+
+Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-index 2eaa879..005a3ae 100644
---- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-@@ -29,8 +29,8 @@ properties:
-               - renesas,rcar-gen1-ether  # a generic R-Car Gen1 device
-       - items:
-           - enum:
--              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
-               - renesas,ether-r8a7743    # device is a part of R8A7743 SoC
-+              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
-               - renesas,ether-r8a7790    # device is a part of R8A7790 SoC
-               - renesas,ether-r8a7791    # device is a part of R8A7791 SoC
-               - renesas,ether-r8a7793    # device is a part of R8A7793 SoC
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index faa9fb23a2e9..151e6a90c5fb 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -52,8 +52,8 @@ struct rcar_csi2;
+ 
+ /*
+  * Channel Data Type Select
+- * VCDT[0-15]:  Channel 1 VCDT[16-31]:  Channel 2
+- * VCDT2[0-15]: Channel 3 VCDT2[16-31]: Channel 4
++ * VCDT[0-15]:  Channel 0 VCDT[16-31]:  Channel 1
++ * VCDT2[0-15]: Channel 2 VCDT2[16-31]: Channel 3
+  */
+ #define VCDT_REG			0x10
+ #define VCDT2_REG			0x14
 -- 
-2.7.4
+2.20.1
 
