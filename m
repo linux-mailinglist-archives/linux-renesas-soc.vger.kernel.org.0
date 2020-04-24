@@ -2,94 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CD61B7380
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 13:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4261B76EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 15:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgDXL7J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Apr 2020 07:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
+        id S1726890AbgDXN0X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Apr 2020 09:26:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbgDXL7J (ORCPT
+        with ESMTP id S1726698AbgDXN0W (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:59:09 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6B3C09B047
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 04:59:09 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id u15so9667994ljd.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 04:59:08 -0700 (PDT)
+        Fri, 24 Apr 2020 09:26:22 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F708C09B046
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 06:26:22 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id j14so7672059lfg.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 06:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=S+yBMYNVRFyvJW4JlBM9svUKJeMIKoXS31YVPYoI3wk=;
-        b=umkc6zh1mpHsMuqE0JCi52u7o05OF2fe71Dt8DSMWSYuDhTZNIeSU8KSpWCAR+4HYN
-         W+cuBXKcBRS6BIy3ays0tX4EG5dMu1TDGHQhPmpaBRrtUH1632ksAT+l8zpfFv/LefeL
-         Mle/sbGDhs3vF85TXJE1q/w73QNqOrQ3NWkGfGwRpdgRfgwOP6stpUD6ldfZz5arqZJQ
-         n6ZihBAAGwmkD94DjecbGoWnA1YLozas39ny66F1etm25yxZ/h69wmKfbfBOOV+INzgX
-         DkKHUGL6wsDH5sXWXrk7dZp8VZVM6wJtrWUz6P+kUvrRSlcFy2BeYX1SvLPsec6jRXHG
-         7mTQ==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=nTW1Q1Dpbwy0yIzSEYe1O+e2suF3BS8yUOviCeo6/YE=;
+        b=ESC+EaeyNfc9OzeMFPKQ5n4B49vrknA+qwHQ2nqvGnKrwtN90+XxDwOgT5lhOa62h1
+         rEWnFlimKYd91z+bQDbtQTz39i0TDFn8WozBNX+NMKQzNdf3NS7o8053HGE+smOD9TPG
+         Qu1YAaJZfHEM1igGw6uJVLDvmkxdjcbpqerDHjww9GZfRDZOC3THyB6TrMiyE8IP1sAc
+         SAEIC7dWVN4uykRvxXU3j1+hJg33bs/P6d3s+DurmDZkGIQ6wfaJvm0SFFHUOCaoEYF1
+         mYOxsMRSswWcbcm+zDh4fJq/dTF+kRm9iE0632GvRbidVN6SI6KvXPM0YxjMOj+aUscp
+         2gPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=S+yBMYNVRFyvJW4JlBM9svUKJeMIKoXS31YVPYoI3wk=;
-        b=btzZIZQP+Nzzu1ryfeu0kacK89zsgLERwRWKQrekYogaHgB1ouxW3i5YS8ttj9BIP/
-         39ZXDmDrCmRiridtEkkU2xSoi+CPE+5JAtCWA0lsGgVt6hiXmLENeJ5XbFkoMw/E13Mp
-         kzpLfDtEBIWaf1R2z5dmY41ERnkBH3uAXGQwootGU83vJG1F4b006y8t+Fofwo/vlJ/E
-         2c2D65QeDzlOf/ELld+xJxULeIuJd84G6cycBsjTlCrMQH7aVCtjIDsNwlHyu7DGXtZh
-         7hoLt2viVGcHIjadAcasXU9evIVy4TKfeHeXiu4srntG1CAov6Q6+Q3Mk2IaJiXXPjN/
-         HMQA==
-X-Gm-Message-State: AGi0PuZh9SeICuggo0RPsh1+WhV+/BbPLqfTTbFR/EO2ydb/bbORk0bk
-        l61RJ+RHkzGiukmgXrLMLCLoTg==
-X-Google-Smtp-Source: APiQypJA/Jj8k1RyumTDUcNNFRefy4LnrX/jcN1Gi5Qg6/1DPcTzIQMuZNAY7jj0ZHr6hpxhuzdBVw==
-X-Received: by 2002:a2e:8603:: with SMTP id a3mr5794332lji.153.1587729547414;
-        Fri, 24 Apr 2020 04:59:07 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:6b0:1584:1a81:c430:c3eb:7993])
-        by smtp.gmail.com with ESMTPSA id u2sm4390222lfk.67.2020.04.24.04.59.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Apr 2020 04:59:06 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: sh_eth: Sort compatible string in increasing
- number of the SoC
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>
-Cc:     Lad Prabhakar <prabhakar.csengg@gmail.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <1587724695-27295-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <c3e5be67-4e6e-e6c9-8de2-9cab13848dbb@cogentembedded.com>
-Date:   Fri, 24 Apr 2020 14:59:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=nTW1Q1Dpbwy0yIzSEYe1O+e2suF3BS8yUOviCeo6/YE=;
+        b=EG27rqop/TYyfECoy8uOMvCs0itsypBZu0MjN1laUPYv7etV6VyFdBoplmSdt3OGJc
+         qDMMgiT09gJ4pklT/XQQ2XmiSydaYCwUefIrUDcrh1C14v9hhNtv1Qj39jSw/OPbQAK2
+         TVP7z54HPyqBCgXjlSsbOk76jyQjvSjcD0Rsk4Uwk+HKJC/Vqww2sgDQcn3Dijar9j5R
+         8IQBFMIDBnu61iE13mHLd9g3lr4zzMnqwUtZYZ+yoCN7n8mk90IDy5DP8j2rsUmf8kMH
+         ZbfX/sbS419aZbTHwS+8sHrcFRDFEOqwx62nb7r8VtVP+hvjFjqD6Babrdju7AlDb06e
+         2H1w==
+X-Gm-Message-State: AGi0PubarUPhSyXydVbCYT85ehk2mwqnXEO5JrschzScwcBNGyC7Qpzu
+        sDLj8AzQQ5NEpOa8AW/bbEb/PRCn92s=
+X-Google-Smtp-Source: APiQypK1vpqz+JpmsccYKH5/Fe1jfA+lt+ETmJzITMZAoLi8YwYmfvHAhvXvevIDUPxXZk6RqHoPSA==
+X-Received: by 2002:ac2:5f92:: with SMTP id r18mr6511115lfe.154.1587734780983;
+        Fri, 24 Apr 2020 06:26:20 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id a28sm4396895lfr.4.2020.04.24.06.26.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2020 06:26:20 -0700 (PDT)
+Date:   Fri, 24 Apr 2020 15:26:19 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Subject: Re: [PATCH] media: rcar-csi2: Fix comment of VCDT/VCDT2 register
+Message-ID: <20200424132619.GA4040416@oden.dyn.berto.se>
+References: <20200424103945.2836-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-In-Reply-To: <1587724695-27295-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200424103945.2836-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Wolfram and Matsuoka-san,
 
-   The bindings file is no longer called sh_eth, please adapt the subject to
-the new DT reality...
+Thanks for your patch.
 
-On 04/24/2020 01:38 PM, Lad Prabhakar wrote:
-
-> Sort the items in the compatible string list in increasing number of SoC.
+On 2020-04-24 12:39:45 +0200, Wolfram Sang wrote:
+> From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> According to latest H/W manual v1.50, the description of channel
+> number in the VCDT/VCDT2 register is decremented by one.
+> Therefore, this patch fixes it about comment.
+> 
+> Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[...]
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index faa9fb23a2e9..151e6a90c5fb 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -52,8 +52,8 @@ struct rcar_csi2;
+>  
+>  /*
+>   * Channel Data Type Select
+> - * VCDT[0-15]:  Channel 1 VCDT[16-31]:  Channel 2
+> - * VCDT2[0-15]: Channel 3 VCDT2[16-31]: Channel 4
+> + * VCDT[0-15]:  Channel 0 VCDT[16-31]:  Channel 1
+> + * VCDT2[0-15]: Channel 2 VCDT2[16-31]: Channel 3
+>   */
+>  #define VCDT_REG			0x10
+>  #define VCDT2_REG			0x14
+> -- 
+> 2.20.1
+> 
 
-MBR, Sergei
+-- 
+Regards,
+Niklas Söderlund
