@@ -2,190 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20D8E1B69B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 01:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46BB91B6DA8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 07:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729946AbgDWXZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Apr 2020 19:25:52 -0400
-Received: from mga09.intel.com ([134.134.136.24]:12123 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729571AbgDWXZv (ORCPT
+        id S1726186AbgDXF7X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Apr 2020 01:59:23 -0400
+Received: from mail-eopbgr1400134.outbound.protection.outlook.com ([40.107.140.134]:28032
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725823AbgDXF7X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Apr 2020 19:25:51 -0400
-IronPort-SDR: PKkPX//XJJPXLx96w2WKvd50HFC3oZaerOuCfqC7kb5FfJ7KLsR25u/7XDMV1Acu6D+oQ6+Reo
- xPcGyVrLvsZQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 16:25:51 -0700
-IronPort-SDR: BDLcn8gLbnMRt7zvs33uvmRGLe8zENu75rsEYDx2Rv6iBxL9UrwpWOFJ4cS4RzcqmuYG6bdByy
- sYPdTBEe3xew==
-X-IronPort-AV: E=Sophos;i="5.73,309,1583222400"; 
-   d="scan'208";a="335155835"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 16:25:49 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 473AB20740; Fri, 24 Apr 2020 02:25:47 +0300 (EEST)
-Date:   Fri, 24 Apr 2020 02:25:47 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v8 02/13] squash! max9286: convert probe kzalloc
-Message-ID: <20200423232547.GR5381@paasikivi.fi.intel.com>
-References: <20200409121202.11130-1-kieran.bingham+renesas@ideasonboard.com>
- <20200409121202.11130-3-kieran.bingham+renesas@ideasonboard.com>
- <20200409163333.GA25086@pendragon.ideasonboard.com>
- <ef7fc3df-c84f-0c3d-a34f-73460a9c1478@ideasonboard.com>
- <20200410111519.GA4751@pendragon.ideasonboard.com>
- <20200423073841.GJ5381@paasikivi.fi.intel.com>
- <aae34d57-54ce-6672-4ce6-7cbaa28921f8@ideasonboard.com>
+        Fri, 24 Apr 2020 01:59:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fDT+/q9L1FhYffozgcBVGx2H6QSyATBnRLNiQAPMxVOcQEcvwmMut8R7jJXPt01p1Q2OpLQ5+ORnzaa7AjHzDpBQjJnxWAEdlWvhNJnvx70SbecZ6w9LpV+ePPZbetGrWzx1rtFiAgukSy+11hcCUCHNYO5nn6uTfr4aGs+RYALgZ5ndbUqWtF9A6EOffL5Sm4zgMjtrGZE3uTcqEpNqUTt2rdlKjW/XgBqrNpv1QzIw7+nNDAUzboDfaMqYNZ4gNwwl5X1VFeJHzzbzGteLtTRVv1cnt1j7NdQhzSQcIurCUQ+ZRLjKcm336XdTC/bC4vEnzq/KPpRiNQWuBmt3+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CZZxxa6immi4mv/IvUWenKq/ezACII7CJDUmxA63oaA=;
+ b=nmS7lshE88Dz4Li3ZJ8ON1dEbpJFzAxnIUYvGMATeRf4auMu5FHvOlQXIEgT3+BiFz+SWLJnKgXSCtHiqJBAW/dLJ4fRdR3Uj+xz01F5HvtYJbGoiYiR1Co7nS0+ZFze7Y/xMVZXYFU7ulxVx21iDu78aidln2lYH8YEtBuQ2FdyV/5OS2WbEuAJHuVvhWOJzKLn+0fcG7Kne0bTBcnqQ6SVtiMYuCqZXztsj/7CY5VAlYgOZjbAR4FBmkflPQ+jmSsTv219iZalegzC27dRXPM71P/bXCfJqzQ7W6xYeBLFuPIrlJXkenwljPFRMFy5ZCBxAiXw+59BdOUctk+/lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CZZxxa6immi4mv/IvUWenKq/ezACII7CJDUmxA63oaA=;
+ b=Oa+Us3dhOeKnzjz682JMc/9ZAPZkpBdVoah/mP+DmWw6Wx0A+v0VfqjMl2l/hIQJFdsCn7QQ8oBwMDOm/xdZG1bd7ftSXDvnpvyFvYe4+M3cPUrU1g65SBniMa2ritwKhnXV2B3G8D3fej5CZSLy9FXQCSlVI0uycfOJODuTdeQ=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB5340.jpnprd01.prod.outlook.com (20.180.231.207) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.27; Fri, 24 Apr 2020 05:59:19 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::ed7f:1268:55a9:fc06]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::ed7f:1268:55a9:fc06%4]) with mapi id 15.20.2937.020; Fri, 24 Apr 2020
+ 05:59:19 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andrew Murray <amurray@thegoodpenguin.co.uk>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v9 4/8] PCI: endpoint: Pass page size as argument to
+ pci_epc_mem_init()
+Thread-Topic: [PATCH v9 4/8] PCI: endpoint: Pass page size as argument to
+ pci_epc_mem_init()
+Thread-Index: AQHWGZzBHIsfM0fVvE+5ZLsD6I1PCaiHx42A
+Date:   Fri, 24 Apr 2020 05:59:19 +0000
+Message-ID: <TYAPR01MB4544F40FDAFF814BCDAD8FEBD8D00@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1587666159-6035-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1587666159-6035-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1587666159-6035-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d4882f41-de69-4de0-03b0-08d7e814a142
+x-ms-traffictypediagnostic: TYAPR01MB5340:|TYAPR01MB5340:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB5340FDBBE6205F0D8F1970CFD8D00@TYAPR01MB5340.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4502;
+x-forefront-prvs: 03838E948C
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(66446008)(7696005)(7416002)(71200400001)(26005)(316002)(8936002)(4744005)(478600001)(6506007)(52536014)(2906002)(81156014)(186003)(8676002)(55236004)(9686003)(5660300002)(4326008)(55016002)(110136005)(33656002)(54906003)(66946007)(76116006)(66556008)(64756008)(107886003)(86362001)(66476007)(921003);DIR:OUT;SFP:1102;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: tZc1aA8DG6BeRgYcddR6rZ+UHaAoG+pmkuPjGImNE1LMhNWNS4jDdq+NugtKb9Ebx3BhD1qPp/Qr/UP1j0UsFnxLPnlG/VVu0GR2rw5t41XE2HUqNvhMFmTldV/c738ReqPPPMhwK4RE1+z3IklTL0OR6BwEPm9qkYcB8MAZcqut13vxYDmSsQFNnBIoz4VwZGZJJku/UpeTDFb9M4cI0NpLs6SRk1sD6geMg7tufNf8OXH3oOfdvs/A3JYR9jLO/kFZA/5sshJD0Pg0MwowQK/yRqfgY4Hdjg0GqfK94uLUhZFltwSyhjEbFB9pvHFT0sHSUlT6ypNvrkAq9/YDR2apnvzjEZXM4WBxJ1V40KPZmYlbtucJ0/+RK1sVyXma3uCMLqNU7VhmQxTYdNzVLcBAGVYjh2XPYHNXXJIvqoHisKsuWd7xYpOrdEisSfIS1f+Aw5b6Lu5O5rW43nUP3MSZhihsWj4+aLohvo1Pmys=
+x-ms-exchange-antispam-messagedata: LMGV+15cOCN2e56Guxk928fNiV/KpNaKt85Bq5bukKAgjlXa6iJOUJ3ynkJsnN06bfrgswjTgnM33IuVn0rsoLftdFHANYo3PArZghvz13/dSprMyXRLPec/rBQ9kKTjQVGUPFh/2YSapn7POI/fpA==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aae34d57-54ce-6672-4ce6-7cbaa28921f8@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4882f41-de69-4de0-03b0-08d7e814a142
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2020 05:59:19.6483
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zMSUow1EIBztTrdZBjiKkzX1vpBYs2hLSGYxLfRhIt6jH6axJHdR60316S8c85erpgQ1lE0K9PpDoMMBCXm/snHu3uBKgquKVS9uvAgzmimisY5SqPykGU+n8OnZaaCw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5340
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Prabhakar-san,
 
-On Thu, Apr 23, 2020 at 11:55:47AM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> On 23/04/2020 08:38, Sakari Ailus wrote:
-> > Hi Laurent, Kieran,
-> > 
-> > On Fri, Apr 10, 2020 at 02:15:19PM +0300, Laurent Pinchart wrote:
-> >> Hi Kieran,
-> >>
-> >> On Fri, Apr 10, 2020 at 09:20:25AM +0100, Kieran Bingham wrote:
-> >>> On 09/04/2020 17:33, Laurent Pinchart wrote:
-> >>>> On Thu, Apr 09, 2020 at 01:11:51PM +0100, Kieran Bingham wrote:
-> >>>>> v8:
-> >>>>>  - Convert probe kzalloc usage to devm_ variant
-> >>>>
-> >>>> This isn't worse than the existing code, but are you aware that devm_*
-> >>>> should not be used in this case ? The memory should be allocated with
-> >>>> kzalloc() and freed in the .release() operation.
-> >>>
-> >>> This change was at the request of a review comment from Sakari.
-> >>>
-> >>> From:
-> >>> https://lore.kernel.org/linux-media/4139f241-2fde-26ad-fe55-dcaeb76ad6cc@ideasonboard.com/
-> >>>
-> >>>>>> +
-> >>>>>> +static int max9286_probe(struct i2c_client *client)
-> >>>>>> +{
-> >>>>>> +	struct max9286_priv *priv;
-> >>>>>> +	unsigned int i;
-> >>>>>> +	int ret;
-> >>>>>> +
-> >>>>>> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> >>>>>> +	if (!priv)
-> >>>>>> +		return -ENOMEM;
-> >>>>>
-> >>>>> You won't lose anything by using the devm_ variant here.
-> >>>>
-> >>>> Indeed,
-> >>>>
-> >>>>>> +
-> >>>>>> +	priv->client = client;
-> >>>>>> +	i2c_set_clientdata(client, priv);
-> >>>>>> +
-> >>>>>> +	for (i = 0; i < MAX9286_N_SINKS; i++)
-> >>>>>> +		max9286_init_format(&priv->fmt[i]);
-> >>>>>> +
-> >>>>>> +	ret = max9286_parse_dt(priv);
-> >>>>>> +	if (ret)
-> >>>>>> +		return ret;
-> >>>>>
-> >>>>> But you can avoid accidental memory leaks for nothing. :-)
-> >>>>
-> >>>> It would be good not to leak indeed!
-> >>>
-> >>> I understand that there are lifetime issues in V4L2 - but in my opinion
-> >>> that needs to be handled by core V4l2 (and or support from driver core
-> >>> framework).
-> >>
-> >> I'm afraid that's not possible. The V4L2 core can't delay remove().
-> >> There are helpers we could create to simplify correct memory management
-> >> for drivers, but in any case, devm_kzalloc() isn't correct.
-> >>
-> >> There are also issues in the core that would make unbinding unsafe even
-> >> if correctly implemented in this driver, but a correct implementation in
-> >> drivers will be required in any case.
-> >>
-> >> As I said before this patch isn't a regression as memory allocation is
-> >> already broken here, but it doesn't go in the right direction either.
-> >>
-> >>> Also - isn't it highly unlikely to affect the max9286? Isn't the
-> >>> lifetime issue that the device can be unplugged while the file handle is
-> >>> open?
-> >>>
-> >>> I don't think anyone is going to 'unplug' the max9286 while it's active :-)
-> >>
-> >> No, but someone could unbind it through sysfs. In any case it's not an
-> >> excuse to not implement memory allocation correctly :-)
-> > 
-> > Properly refcounting the objects and being unbind-safe would require
-> > rewriting the memory allocation in drivers. This can't be done as the
-> > framework is broken.
-> 
-> 
-> Which framework is broken?
+> From: Lad Prabhakar, Sent: Friday, April 24, 2020 3:23 AM
+>=20
+> pci_epc_mem_init() internally used page size equal to *PAGE_SIZE* to
+> manage the address space so instead just pass the page size as a
+> argument to pci_epc_mem_init().
+>=20
+> Also make pci_epc_mem_init() as a C function instead of a macro function
+> in preparation for adding support for pci-epc-mem core to handle multiple
+> windows.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-V4L2 and MC. There is nothing that prevents unbinding a driver, and thus
-freeing the resources related to it --- while a device is in use. This can
-be done with V4L2 video nodes but not with subdev nodes nor MC. The same
-applies all the graph objects in the same scope.
+Thank you for the patch!
 
-The original assumption was more or less that it's all mounted on the same
-PCB, so why would it go away? Well, it turns out this is not so easy to
-change afterwards.
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-> 
-> 
-> > Whether you use devm_* variant here makes no difference from that point of
-> > view. But it makes it easier to find out driver does not do its object
-> > refcounting properly later on when (or if) the framework is fixed.
-> 
-> Is there anything *preventing* us from adding refcnting to the devm_
-> system so that we can take a reference on the struct device, thus
-> postponing all devm_ release actions while a file handle is open?
+Best regards,
+Yoshihiro Shimoda
 
-That doesn't help really, they'll be freed at driver remove time AFAIR as
-well. The effect is no different than freeing them in the remove callback
-yourself.
-
-> 
-> Then the reference handling can be done by V4l2 core - and we get a
-> whole bunch of drivers fixed ?
-
-To address this, you'd need to keep reference to the relevant objects, so
-the memory is eventually released.
-
-> 
-> As it sounds like this is something which affects all subsystems which
-> are capable of exposing a device which gets opened (so presumably all
-> char/block devices?) this seems like it really needs to be fixed as low
-> as possible.
-
-I think it's really everything that exposes some sort of interface, whether
-it's kernel or user. I haven't studied other parts of the kernel this in
-mind, but my understanding is that this is generally working as it should.
-
-We just happen to have complex dependencies between the devices and thus
-also drivers so the problem area is wider than elsewhere. I wonder how ALSA
-has addressed similar issues.
-
--- 
-Kind regards,
-
-Sakari Ailus
