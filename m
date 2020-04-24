@@ -2,212 +2,226 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 088D71B7746
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 15:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 894F31B7F6F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 21:57:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgDXNnv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Apr 2020 09:43:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726717AbgDXNnv (ORCPT
+        id S1728379AbgDXT52 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Apr 2020 15:57:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727031AbgDXT51 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Apr 2020 09:43:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02DC3C09B045;
-        Fri, 24 Apr 2020 06:43:51 -0700 (PDT)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31C3D4F7;
-        Fri, 24 Apr 2020 15:43:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587735829;
-        bh=7p6WM4syAfD9Bhy1LHRcVn90YBrIr/1MSC7VUbYj7GE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OiCyqtjwLjMOJ7ziJpqAyGsqFZSkz03OXx2tER7P3rXXa5PHwgnw6q3xD0I3GgoMT
-         hfCYsJDCu/IFtSkp2oUtwfBw5C6mBH5vovs6Ik3X7Yvh/2DqlTIGRYtaH6oQbGecib
-         Wtcbjwk9m6FrF6C2kxMh1LqFz2x+QAhm7A+bgqqs=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices
-Date:   Fri, 24 Apr 2020 16:43:31 +0300
-Message-Id: <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.25.3
-In-Reply-To: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
-References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 24 Apr 2020 15:57:27 -0400
+Received: from localhost (mobile-166-175-187-210.mycingular.net [166.175.187.210])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95CF220781;
+        Fri, 24 Apr 2020 19:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587758246;
+        bh=2e+1YrAFgpfUJYO8UuSZsSQ5b3htHAFAlNHQ7491n/0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=y5RqUNDbkDBs0BRj+rcpDfQSpGRDB9KLKwgtLnnwP/FZ4qj36n6ZXYZN0g8Y9HDgp
+         R5S6XRWvL+VkZmcwUV3pktFiRIVRV0N2ohcew1ztonEbgaRV0RBxnIXmtUZ0E10axP
+         W5NT+QcDa0nkmdqK5eyt6h3hYXag7i3MKW7Lnwe8=
+Date:   Fri, 24 Apr 2020 14:57:24 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org,
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
+Message-ID: <20200424195724.GA187563@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200314191232.3122290-1-marek.vasut@gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-node. For MC-centric devices, its behaviour has always been ill-defined,
-with drivers implementing one of the following behaviours:
+[+cc Vaibhav]
 
-- No support for VIDIOC_ENUM_FMT at all
-- Enumerating all formats supported by the video node, regardless of the
-  configuration of the pipeline
-- Enumerating formats supported by the video node for the active
-  configuration of the connected subdevice
+Alternate less redundant subject:
 
-The first behaviour is obviously useless for applications. The second
-behaviour provides the most information, but doesn't offer a way to find
-what formats are compatible with a given pipeline configuration. The
-third behaviour fixes that, but with the drawback that applications
-can't enumerate all supported formats anymore, and have to modify the
-active configuration of the pipeline to enumerate formats.
+  PCI: rcar: Add suspend/resume support
 
-The situation is messy as none of the implemented behaviours are ideal,
-and userspace can't predict what will happen as the behaviour is
-driver-specific.
+On Sat, Mar 14, 2020 at 08:12:32PM +0100, marek.vasut@gmail.com wrote:
+> From: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
+> 
+> This adds the suspend/resume supports for pcie-rcar. The resume handler
+> reprograms the hardware based on the software state kept in specific
+> device structures. Also it doesn't need to save any registers.
 
-To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-enumerating pixel formats for a given media bus code. The media bus code
-is passed through the v4l2_fmtdesc structure in a new mbus_code field
-(repurposed from the reserved fields). With this capability in place,
-applications can enumerate pixel formats for a given media bus code
-without modifying the active configuration of the device.
+s/This adds the/Add/
+s/supports/support/
 
-The current behaviour of the ioctl is preserved when the new mbus_code
-field is set to 0, ensuring compatibility with existing userspace. The
-API extension is documented as mandatory for MC-centric devices (as
-advertised through the V4L2_CAP_IO_MC capability), allowing applications
-and compliance tools to easily determine the availability of the
-VIDIOC_ENUM_FMT extension.
+> Signed-off-by: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
+> Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Phil Edworthy <phil.edworthy@renesas.com>
+> Cc: Simon Horman <horms+renesas@verge.net.au>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: - Change return type of rcar_pcie_hw_enable() to void
+>     - Drop default: case in switch statement in rcar_pcie_hw_enable()
+>     - Sort variables in rcar_pcie_resume()
+> V3: - Update on top of next-20200313
+> ---
+>  drivers/pci/controller/pcie-rcar.c | 86 +++++++++++++++++++++++++-----
+>  1 file changed, 74 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+> index 759c6542c5c8..f86513638b8a 100644
+> --- a/drivers/pci/controller/pcie-rcar.c
+> +++ b/drivers/pci/controller/pcie-rcar.c
+> @@ -452,6 +452,32 @@ static void rcar_pcie_force_speedup(struct rcar_pcie *pcie)
+>  		 (macsr & LINK_SPEED) == LINK_SPEED_5_0GTS ? "5" : "2.5");
+>  }
+>  
+> +static void rcar_pcie_hw_enable(struct rcar_pcie *pci)
+> +{
+> +	struct resource_entry *win;
+> +	LIST_HEAD(res);
+> +	int i = 0;
+> +
+> +	/* Try setting 5 GT/s link speed */
+> +	rcar_pcie_force_speedup(pci);
+> +
+> +	/* Setup PCI resources */
+> +	resource_list_for_each_entry(win, &pci->resources) {
+> +		struct resource *res = win->res;
+> +
+> +		if (!res->flags)
+> +			continue;
+> +
+> +		switch (resource_type(res)) {
+> +		case IORESOURCE_IO:
+> +		case IORESOURCE_MEM:
+> +			rcar_pcie_setup_window(i, pci, win);
+> +			i++;
+> +			break;
+> +		}
+> +	}
+> +}
+> +
+>  static int rcar_pcie_enable(struct rcar_pcie *pcie)
+>  {
+>  	struct device *dev = pcie->dev;
+> @@ -891,11 +917,25 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie *pcie)
+>  	irq_domain_remove(msi->domain);
+>  }
+>  
+> +static void rcar_pcie_hw_enable_msi(struct rcar_pcie *pcie)
+> +{
+> +	struct rcar_msi *msi = &pcie->msi;
+> +	unsigned long base;
+> +
+> +	/* setup MSI data target */
+> +	base = virt_to_phys((void *)msi->pages);
+> +
+> +	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+> +	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
+> +
+> +	/* enable all MSI interrupts */
+> +	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+> +}
+> +
+>  static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+>  {
+>  	struct device *dev = pcie->dev;
+>  	struct rcar_msi *msi = &pcie->msi;
+> -	phys_addr_t base;
+>  	int err, i;
+>  
+>  	mutex_init(&msi->lock);
+> @@ -934,17 +974,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+>  
+>  	/* setup MSI data target */
+>  	msi->pages = __get_free_pages(GFP_KERNEL, 0);
+> -	if (!msi->pages) {
+> -		err = -ENOMEM;
+> -		goto err;
+> -	}
+> -	base = virt_to_phys((void *)msi->pages);
+> -
+> -	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
+> -	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
+> -
+> -	/* enable all MSI interrupts */
+> -	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
+> +	rcar_pcie_hw_enable_msi(pcie);
+>  
+>  	return 0;
+>  
+> @@ -1219,6 +1249,37 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+>  	return err;
+>  }
+>  
+> +static int rcar_pcie_resume(struct device *dev)
+> +{
+> +	struct rcar_pcie *pcie = dev_get_drvdata(dev);
+> +	int (*hw_init_fn)(struct rcar_pcie *);
+> +	unsigned int data;
+> +	int err;
+> +
+> +	err = rcar_pcie_parse_map_dma_ranges(pcie);
+> +	if (err)
+> +		return 0;
+> +
+> +	/* Failure to get a link might just be that no cards are inserted */
+> +	hw_init_fn = of_device_get_match_data(dev);
+> +	err = hw_init_fn(pcie);
+> +	if (err) {
+> +		dev_info(dev, "PCIe link down\n");
+> +		return 0;
+> +	}
+> +
+> +	data = rcar_pci_read_reg(pcie, MACSR);
+> +	dev_info(dev, "PCIe x%d: link up\n", (data >> 20) & 0x3f);
+> +
+> +	/* Enable MSI */
+> +	if (IS_ENABLED(CONFIG_PCI_MSI))
+> +		rcar_pcie_hw_enable_msi(pcie);
+> +
+> +	rcar_pcie_hw_enable(pcie);
+> +
+> +	return 0;
+> +}
+> +
+>  static int rcar_pcie_resume_noirq(struct device *dev)
+>  {
+>  	struct rcar_pcie *pcie = dev_get_drvdata(dev);
+> @@ -1234,6 +1295,7 @@ static int rcar_pcie_resume_noirq(struct device *dev)
+>  }
+>  
+>  static const struct dev_pm_ops rcar_pcie_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, rcar_pcie_resume)
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-Changes since v8:
+This causes the following warning when CONFIG_PM_SLEEP is not set:
 
-- Zero the mbus_code field if V4L2_CAP_IO_MC isn't set
-- Document the new mbus_code field
-- Fix ref tags in documentation
----
- .../media/uapi/v4l/vidioc-enum-fmt.rst        | 25 ++++++++++++++++---
- drivers/media/v4l2-core/v4l2-ioctl.c          | 13 ++++++++--
- include/uapi/linux/videodev2.h                |  3 ++-
- 3 files changed, 34 insertions(+), 7 deletions(-)
+  drivers/pci/controller/pcie-rcar.c:1253:12: warning: ‘rcar_pcie_resume’ defined but not used [-Wunused-function]
+   1253 | static int rcar_pcie_resume(struct device *dev)
+	|            ^~~~~~~~~~~~~~~~
 
-diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-index 8ca6ab701e4a..a987debc7654 100644
---- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-@@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
- formats in preference order, where preferred formats are returned before
- (that is, with lower ``index`` value) less-preferred formats.
- 
--.. note::
-+If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-+<device-capabilities>`, applications shall initialize the ``mbus_code`` field
-+to zero and drivers shall ignore the value of the field.  Drivers shall
-+enumerate all image formats. The enumerated formats may depend on the active
-+input or output of the device.
- 
--   After switching input or output the list of enumerated image
--   formats may be different.
-+If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
-+<device-capabilities>`, applications may initialize the ``mbus_code`` field to
-+a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
-+``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
-+image formats that can produce (for video output devices) or be produced from
-+(for video capture devices) that media bus code.  Regardless of the value of
-+the ``mbus_code`` field, the enumerated image formats shall not depend on the
-+active configuration of the video device or device pipeline. Enumeration shall
-+otherwise operate as previously described.
- 
- 
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -106,7 +117,13 @@ formats in preference order, where preferred formats are returned before
- 	   These codes are not the same as those used
- 	   in the Windows world.
-     * - __u32
--      - ``reserved``\ [4]
-+      - ``mbus_code``
-+      - Media bus code restricting the enumerated formats, set by the
-+        application. Only applicable to drivers that advertise the
-+        ``V4L2_CAP_IO_MC`` :ref:`capability <device-capabilities>`, shall be 0
-+        otherwise.
-+    * - __u32
-+      - ``reserved``\ [3]
-       - Reserved for future extensions. Drivers must set the array to
- 	zero.
- 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 3545a8adf844..0550f20d7177 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
- {
- 	const struct v4l2_fmtdesc *p = arg;
- 
--	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-+	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
- 		p->index, prt_names(p->type, v4l2_type_names),
- 		p->flags, (p->pixelformat & 0xff),
- 		(p->pixelformat >>  8) & 0xff,
- 		(p->pixelformat >> 16) & 0xff,
- 		(p->pixelformat >> 24) & 0xff,
-+		p->mbus_code,
- 		(int)sizeof(p->description), p->description);
- }
- 
-@@ -1467,12 +1468,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
- 	struct video_device *vdev = video_devdata(file);
- 	struct v4l2_fmtdesc *p = arg;
- 	int ret = check_fmt(file, p->type);
-+	u32 mbus_code;
- 	u32 cap_mask;
- 
- 	if (ret)
- 		return ret;
- 	ret = -EINVAL;
- 
-+	if (!(vdev->device_caps & V4L2_CAP_IO_MC))
-+		p->mbus_code = 0;
-+
-+	mbus_code = p->mbus_code;
-+	CLEAR_AFTER_FIELD(p, type);
-+	p->mbus_code = mbus_code;
-+
- 	switch (p->type) {
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-@@ -2752,7 +2761,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
- 
- static const struct v4l2_ioctl_info v4l2_ioctls[] = {
- 	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
--	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
-+	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
- 	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
- 	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
- 	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index c793263a3705..0ece960844a5 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -779,7 +779,8 @@ struct v4l2_fmtdesc {
- 	__u32               flags;
- 	__u8		    description[32];   /* Description string */
- 	__u32		    pixelformat;       /* Format fourcc      */
--	__u32		    reserved[4];
-+	__u32		    mbus_code;		/* Media bus code    */
-+	__u32		    reserved[3];
- };
- 
- #define V4L2_FMT_FLAG_COMPRESSED		0x0001
--- 
-Regards,
+Most people seem to be using __maybe_unused on the suspend/resume
+functions to avoid this, e.g., 226e6b866d74 ("gpio: pch: Convert to
+dev_pm_ops").
 
-Laurent Pinchart
-
+>  	.resume_noirq = rcar_pcie_resume_noirq,
+>  };
+>  
+> -- 
+> 2.25.0
+> 
