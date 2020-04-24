@@ -2,206 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 122311B7374
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 13:54:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84CD61B7380
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Apr 2020 13:59:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgDXLyF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Apr 2020 07:54:05 -0400
-Received: from foss.arm.com ([217.140.110.172]:60698 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726289AbgDXLyF (ORCPT
+        id S1726876AbgDXL7J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Apr 2020 07:59:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726667AbgDXL7J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:54:05 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 602ABC14;
-        Fri, 24 Apr 2020 04:54:04 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0D0EE3F6CF;
-        Fri, 24 Apr 2020 04:54:02 -0700 (PDT)
-Date:   Fri, 24 Apr 2020 12:54:00 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
-        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
-Message-ID: <20200424115400.GB7197@e121166-lin.cambridge.arm.com>
-References: <20200314191232.3122290-1-marek.vasut@gmail.com>
+        Fri, 24 Apr 2020 07:59:09 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A6B3C09B047
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 04:59:09 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id u15so9667994ljd.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Apr 2020 04:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=S+yBMYNVRFyvJW4JlBM9svUKJeMIKoXS31YVPYoI3wk=;
+        b=umkc6zh1mpHsMuqE0JCi52u7o05OF2fe71Dt8DSMWSYuDhTZNIeSU8KSpWCAR+4HYN
+         W+cuBXKcBRS6BIy3ays0tX4EG5dMu1TDGHQhPmpaBRrtUH1632ksAT+l8zpfFv/LefeL
+         Mle/sbGDhs3vF85TXJE1q/w73QNqOrQ3NWkGfGwRpdgRfgwOP6stpUD6ldfZz5arqZJQ
+         n6ZihBAAGwmkD94DjecbGoWnA1YLozas39ny66F1etm25yxZ/h69wmKfbfBOOV+INzgX
+         DkKHUGL6wsDH5sXWXrk7dZp8VZVM6wJtrWUz6P+kUvrRSlcFy2BeYX1SvLPsec6jRXHG
+         7mTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=S+yBMYNVRFyvJW4JlBM9svUKJeMIKoXS31YVPYoI3wk=;
+        b=btzZIZQP+Nzzu1ryfeu0kacK89zsgLERwRWKQrekYogaHgB1ouxW3i5YS8ttj9BIP/
+         39ZXDmDrCmRiridtEkkU2xSoi+CPE+5JAtCWA0lsGgVt6hiXmLENeJ5XbFkoMw/E13Mp
+         kzpLfDtEBIWaf1R2z5dmY41ERnkBH3uAXGQwootGU83vJG1F4b006y8t+Fofwo/vlJ/E
+         2c2D65QeDzlOf/ELld+xJxULeIuJd84G6cycBsjTlCrMQH7aVCtjIDsNwlHyu7DGXtZh
+         7hoLt2viVGcHIjadAcasXU9evIVy4TKfeHeXiu4srntG1CAov6Q6+Q3Mk2IaJiXXPjN/
+         HMQA==
+X-Gm-Message-State: AGi0PuZh9SeICuggo0RPsh1+WhV+/BbPLqfTTbFR/EO2ydb/bbORk0bk
+        l61RJ+RHkzGiukmgXrLMLCLoTg==
+X-Google-Smtp-Source: APiQypJA/Jj8k1RyumTDUcNNFRefy4LnrX/jcN1Gi5Qg6/1DPcTzIQMuZNAY7jj0ZHr6hpxhuzdBVw==
+X-Received: by 2002:a2e:8603:: with SMTP id a3mr5794332lji.153.1587729547414;
+        Fri, 24 Apr 2020 04:59:07 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:6b0:1584:1a81:c430:c3eb:7993])
+        by smtp.gmail.com with ESMTPSA id u2sm4390222lfk.67.2020.04.24.04.59.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 Apr 2020 04:59:06 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: sh_eth: Sort compatible string in increasing
+ number of the SoC
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>
+Cc:     Lad Prabhakar <prabhakar.csengg@gmail.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1587724695-27295-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <c3e5be67-4e6e-e6c9-8de2-9cab13848dbb@cogentembedded.com>
+Date:   Fri, 24 Apr 2020 14:59:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200314191232.3122290-1-marek.vasut@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <1587724695-27295-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Mar 14, 2020 at 08:12:32PM +0100, marek.vasut@gmail.com wrote:
-> From: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
-> 
-> This adds the suspend/resume supports for pcie-rcar. The resume handler
-> reprograms the hardware based on the software state kept in specific
-> device structures. Also it doesn't need to save any registers.
-> 
-> Signed-off-by: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
-> Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Phil Edworthy <phil.edworthy@renesas.com>
-> Cc: Simon Horman <horms+renesas@verge.net.au>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: - Change return type of rcar_pcie_hw_enable() to void
->     - Drop default: case in switch statement in rcar_pcie_hw_enable()
->     - Sort variables in rcar_pcie_resume()
-> V3: - Update on top of next-20200313
-> ---
->  drivers/pci/controller/pcie-rcar.c | 86 +++++++++++++++++++++++++-----
->  1 file changed, 74 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index 759c6542c5c8..f86513638b8a 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
+Hello!
 
+   The bindings file is no longer called sh_eth, please adapt the subject to
+the new DT reality...
 
-Applied to pci/rcar for v5.18, thanks.
+On 04/24/2020 01:38 PM, Lad Prabhakar wrote:
 
-Lorenzo
-
-> @@ -452,6 +452,32 @@ static void rcar_pcie_force_speedup(struct rcar_pcie *pcie)
->  		 (macsr & LINK_SPEED) == LINK_SPEED_5_0GTS ? "5" : "2.5");
->  }
->  
-> +static void rcar_pcie_hw_enable(struct rcar_pcie *pci)
-> +{
-> +	struct resource_entry *win;
-> +	LIST_HEAD(res);
-> +	int i = 0;
-> +
-> +	/* Try setting 5 GT/s link speed */
-> +	rcar_pcie_force_speedup(pci);
-> +
-> +	/* Setup PCI resources */
-> +	resource_list_for_each_entry(win, &pci->resources) {
-> +		struct resource *res = win->res;
-> +
-> +		if (!res->flags)
-> +			continue;
-> +
-> +		switch (resource_type(res)) {
-> +		case IORESOURCE_IO:
-> +		case IORESOURCE_MEM:
-> +			rcar_pcie_setup_window(i, pci, win);
-> +			i++;
-> +			break;
-> +		}
-> +	}
-> +}
-> +
->  static int rcar_pcie_enable(struct rcar_pcie *pcie)
->  {
->  	struct device *dev = pcie->dev;
-> @@ -891,11 +917,25 @@ static void rcar_pcie_unmap_msi(struct rcar_pcie *pcie)
->  	irq_domain_remove(msi->domain);
->  }
->  
-> +static void rcar_pcie_hw_enable_msi(struct rcar_pcie *pcie)
-> +{
-> +	struct rcar_msi *msi = &pcie->msi;
-> +	unsigned long base;
-> +
-> +	/* setup MSI data target */
-> +	base = virt_to_phys((void *)msi->pages);
-> +
-> +	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
-> +	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
-> +
-> +	/* enable all MSI interrupts */
-> +	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
-> +}
-> +
->  static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
->  {
->  	struct device *dev = pcie->dev;
->  	struct rcar_msi *msi = &pcie->msi;
-> -	phys_addr_t base;
->  	int err, i;
->  
->  	mutex_init(&msi->lock);
-> @@ -934,17 +974,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
->  
->  	/* setup MSI data target */
->  	msi->pages = __get_free_pages(GFP_KERNEL, 0);
-> -	if (!msi->pages) {
-> -		err = -ENOMEM;
-> -		goto err;
-> -	}
-> -	base = virt_to_phys((void *)msi->pages);
-> -
-> -	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
-> -	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
-> -
-> -	/* enable all MSI interrupts */
-> -	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
-> +	rcar_pcie_hw_enable_msi(pcie);
->  
->  	return 0;
->  
-> @@ -1219,6 +1249,37 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->  	return err;
->  }
->  
-> +static int rcar_pcie_resume(struct device *dev)
-> +{
-> +	struct rcar_pcie *pcie = dev_get_drvdata(dev);
-> +	int (*hw_init_fn)(struct rcar_pcie *);
-> +	unsigned int data;
-> +	int err;
-> +
-> +	err = rcar_pcie_parse_map_dma_ranges(pcie);
-> +	if (err)
-> +		return 0;
-> +
-> +	/* Failure to get a link might just be that no cards are inserted */
-> +	hw_init_fn = of_device_get_match_data(dev);
-> +	err = hw_init_fn(pcie);
-> +	if (err) {
-> +		dev_info(dev, "PCIe link down\n");
-> +		return 0;
-> +	}
-> +
-> +	data = rcar_pci_read_reg(pcie, MACSR);
-> +	dev_info(dev, "PCIe x%d: link up\n", (data >> 20) & 0x3f);
-> +
-> +	/* Enable MSI */
-> +	if (IS_ENABLED(CONFIG_PCI_MSI))
-> +		rcar_pcie_hw_enable_msi(pcie);
-> +
-> +	rcar_pcie_hw_enable(pcie);
-> +
-> +	return 0;
-> +}
-> +
->  static int rcar_pcie_resume_noirq(struct device *dev)
->  {
->  	struct rcar_pcie *pcie = dev_get_drvdata(dev);
-> @@ -1234,6 +1295,7 @@ static int rcar_pcie_resume_noirq(struct device *dev)
->  }
->  
->  static const struct dev_pm_ops rcar_pcie_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(NULL, rcar_pcie_resume)
->  	.resume_noirq = rcar_pcie_resume_noirq,
->  };
->  
-> -- 
-> 2.25.0
+> Sort the items in the compatible string list in increasing number of SoC.
 > 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+[...]
+
+MBR, Sergei
