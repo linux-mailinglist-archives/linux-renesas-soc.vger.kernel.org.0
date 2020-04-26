@@ -2,73 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE6BE1B8DB7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Apr 2020 09:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E32F1B8FD0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Apr 2020 14:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726117AbgDZH6R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 Apr 2020 03:58:17 -0400
-Received: from sauhun.de ([88.99.104.3]:43036 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726112AbgDZH6R (ORCPT
+        id S1726144AbgDZMba (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 26 Apr 2020 08:31:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726139AbgDZMba (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 Apr 2020 03:58:17 -0400
-Received: from localhost (p54B33954.dip0.t-ipconnect.de [84.179.57.84])
-        by pokefinder.org (Postfix) with ESMTPSA id 72E5C2C01E8;
-        Sun, 26 Apr 2020 09:58:15 +0200 (CEST)
-Date:   Sun, 26 Apr 2020 09:58:15 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+        Sun, 26 Apr 2020 08:31:30 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBAC9C09B04F;
+        Sun, 26 Apr 2020 05:31:29 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 188so16395033wmc.2;
+        Sun, 26 Apr 2020 05:31:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=olSn8uuKdlJvKTgtfdsxs5wnzDTdwO8Geb0yVJeu3vc=;
+        b=Ybc6gWHVro/taTgfZI7mWERxJc3qePuSpFpbWP1IsY+Gi1wChBi7zxNOtW0xq4leSA
+         YEmJaZDgaFqOehtu1FFfb+4p8Ft5FOP8LNaRgfSOHb6fsmOUZWMqA9Q7VWcfgF7ezSgJ
+         lJzCz6gTpm0aKr9zZlqJkXtZb/wy0w1rNqZKCifdXr8r3le1AFMMyzC5usgqcbqMG5Yo
+         oZ7dud7tOFI88i/bHupSQUE76ByDSDXltHI2rppI2KQd406/anU6tqPF66llbkAgwyui
+         OGM4HT0Hi+kU15yBflF3O6Z1JSDfoHb44J5wg/S/+M+UNvE3XvwK6b2UuQ0VtWxo3fD0
+         xlVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=olSn8uuKdlJvKTgtfdsxs5wnzDTdwO8Geb0yVJeu3vc=;
+        b=dUQ6Un4COpe3MByE3JPlJXg2d/98h6ENAL9MrfJblL6wlCx9bGOK9HLwLr+Fz6zVnL
+         gpAXlRSPsmo+CdONPId4pUijmHG7W0hhH3GAt84M4irhjAUGLfuvT2hlPugcRxmvdbYK
+         +gnn7VbEkBhtvtHZ4sCnGUqRsdjkC6ljFjVRcfpybvvKVuJSyp/+nDThE6a9AWnWzYI3
+         uFxKIweuS9xJeiIwGZzi9zuvCLjoX+cD5YwGUjy1J5yqA63EXgUp+ixYnOQ1BRlPcPR1
+         W0QpUQqHM4Cdh9KA04cq/UwczB47jIzRqXyRMthBq6qlBAQXoEbV1UCBFCJnR9zPkZ13
+         x/6A==
+X-Gm-Message-State: AGi0PubI+lwujgUHe7vjQOomMq1mPAJMPmubzWlD600+uOdIG9svwdJx
+        YmOVf1nPkwDpgOSPcRT+DK8pzeh2
+X-Google-Smtp-Source: APiQypJpy0q26KcpgmrPob1FU/GMupgO3uiQ9oP1HlluP3JKxm/Vo00/xlLD0jgQDMXPArDFBLufsA==
+X-Received: by 2002:a1c:f012:: with SMTP id a18mr20191039wmb.41.1587904287959;
+        Sun, 26 Apr 2020 05:31:27 -0700 (PDT)
+Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id i19sm17434388wrb.16.2020.04.26.05.31.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2020 05:31:27 -0700 (PDT)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] i2c: regroup documentation of bindings
-Message-ID: <20200426075815.GF1262@kunai>
-References: <20200415105100.11164-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] PCI: pcie-rcar: Mark rcar_pcie_resume() with __maybe_unused
+Date:   Sun, 26 Apr 2020 14:31:15 +0200
+Message-Id: <20200426123115.55995-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="JSkcQAAxhB1h8DcT"
-Content-Disposition: inline
-In-Reply-To: <20200415105100.11164-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
---JSkcQAAxhB1h8DcT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If CONFIG_PM_SLEEP is not set, SET_SYSTEM_SLEEP_PM_OPS() is expanded to
+empty macro and there is no reference to rcar_pcie_resume(), hence the
+following warning is generated:
 
-On Wed, Apr 15, 2020 at 12:51:00PM +0200, Wolfram Sang wrote:
-> Some bindings are for the bus master, some are for the slaves.
-> Regroup them and give them seperate headings to make it clear.
-> Also, remove references to "generic names" which is for nodes and not
-> for compatibles.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+drivers/pci/controller/pcie-rcar.c:1253:12: warning: ‘rcar_pcie_resume’ defined but not used [-Wunused-function]
+ 1253 | static int rcar_pcie_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~
 
-Applied to for-next, thanks!
+Fix this by marking this function as __maybe_unused , just like in
+commit 226e6b866d74 ("gpio: pch: Convert to dev_pm_ops")
 
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Reported-by: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+NOTE: Based on git://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/pci.git
+      branch pci/rcar
+NOTE: The driver tag is now 'pcie-rcar' to distinguish it from pci-rcar-gen2.c
+---
+ drivers/pci/controller/pcie-rcar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---JSkcQAAxhB1h8DcT
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index b58dfe415cb3..1a0e74cad9bb 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -1250,7 +1250,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	return err;
+ }
+ 
+-static int rcar_pcie_resume(struct device *dev)
++static int __maybe_unused rcar_pcie_resume(struct device *dev)
+ {
+ 	struct rcar_pcie *pcie = dev_get_drvdata(dev);
+ 	int (*hw_init_fn)(struct rcar_pcie *);
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6lPxcACgkQFA3kzBSg
-KbbzEw//b011CCsVEWxM16fzoCH08LVViQaKWallOV8vlx8skWIyWKoBORKRKqI3
-Yyl4kRvbaQGY1a25JWoyvSV/r5iQoTUang6WkYzu5gAxkMg/9hwTZGE2sDV6URdf
-JMKAa20oGxsReSZoVSuIemEpCN07O31rahmATPsdJMS+YfnEGFA8WS23hofj9ySt
-JlFSMhaT9idybC9Ga7a7u4YLVjasCRPrITBcSm5WzLxJWacmTH98v/BoPmk6X8XU
-wJw02SboOr9pSvXueHlR0EMz/usdIEiuQFEUPLTPrLdI+EYwVz7hA9y4Yx0lirAa
-EIAWmq6mEH2TvQNxhDisuAg4iN8uFfGYhYjVZdCzY8RdbDY7ePbPk8sgBbEzR8BZ
-5mdUng8s0xQibXFO1IbDVGqCrZ/vT/VuUgR4HVa3eBYGCHD9lxevJJ/81tUDMxdT
-jfhLKlLorNq/KB6V4sXnn3X4fsekkCcx//m2beZs8PTIxkEq6ZhkML3B/LtjqfHI
-BvFDKIUtfUxPk8vVWj1bIQqmLc7uLQixJfG6eh7jIZ2Cq+nuKj8CWsoWG9Yba4ew
-Ch9FX1A1WqEqq5KiVnGrQBzvtF0sJ1/bneEhxSKNrpG28o+0rqDwo8cp6dxY3Eh/
-vAerkgtVJH9Carair3EvSAiLJ6mJ96Mu4XWm3PpVgm38iLcb5Os=
-=l/hP
------END PGP SIGNATURE-----
-
---JSkcQAAxhB1h8DcT--
