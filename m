@@ -2,112 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B0A81BAE1C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 21:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B061BAE24
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 21:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgD0Tjy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Apr 2020 15:39:54 -0400
-Received: from mail-eopbgr1410100.outbound.protection.outlook.com ([40.107.141.100]:25808
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726420AbgD0Tjy (ORCPT
+        id S1726581AbgD0TlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Apr 2020 15:41:18 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:46927 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbgD0TlR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Apr 2020 15:39:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OsgcstNs9+EqU2Q5a2KTZ+TKxrIMmRKxVA5vgOEjkerzwBamCIEm55G/oZLF50nhql3x3xokpeITiBpNrJo1mQRZgEHThfqM/un7lh+OTijrUdSI0aaWrGPAouCU7uPWX2MGmQ7Zb7kTo7nBYt9sbu2XJNZwpOnw9dfwBXaS308rPJg9MIUQ08uBz0xZlc63XfnU9/ssTNRb54nIQ3h00RBnGovGpM83bftNStuzYOL3jNDrBWPWZ55qKW/97gyovD2aUU+ENr9UnEkn9HqG6ko+2X25U7feup/+ggrVGpNTrZzRr86nDY+yw6bqj5sUebfR4+rj2k9RL8LDXibGgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkAAfum7nxhqKxzkQYYZZSU8x8hjAVXIPkN0NEzfE7k=;
- b=J4l//PugsoB7WsgRRSyHWTpPTM8NqtJ2FtxdcCzxDXguBIfdSoTY73ce3JwO6x8/E8ADffvKx+Z58GvlocK6/ZcqjJD95LESFc6OAQroJVJZSl83+YLOwQULq9p6QHtljHtqNowzmhKhUIyGxUcnFKHyOKHFLydoCBMrF7uoyNc34O1Z4iyzJGQ6UP46LmJdCAOort7Jv6sAOXQjPTC+Etb2bAVRI2/JjMz05Jev8b8jEOhBnTy79jHemiuUfEEXEVE0nK5g9l1lqd7gKDtG5EJX4j7wYBbYyS205i/iJiR6b6seiOE0c6emCM7aodTPa0SWr17H0HhQagkJRNYOHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkAAfum7nxhqKxzkQYYZZSU8x8hjAVXIPkN0NEzfE7k=;
- b=TVtxIr1I9Q+UcuJfadR8tBAwDTa/FDpDwivkNdoucmsxtIO9ZOkXZqs6DPNJEs4qWugkirDorD/hxHJrpQ+cfdl6zvzKKSMP6QG76i2UZhF6PftnPsPsd4moNcLK7k1wl8MLAUNWqIYsDqlM8QHHgk5luLN49MAnagY0S7I35l0=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2937.22; Mon, 27 Apr 2020 19:39:50 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::9582:9902:5907:49e7]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::9582:9902:5907:49e7%5]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
- 19:39:50 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH] ARM: dts: r7s9210: Remove bogus clock-names from OSTM
- nodes
-Thread-Topic: [PATCH] ARM: dts: r7s9210: Remove bogus clock-names from OSTM
- nodes
-Thread-Index: AQHWHMozll9O00sfrUC6FttMgK1D46iNW/mQ
-Date:   Mon, 27 Apr 2020 19:39:50 +0000
-Message-ID: <TY1PR01MB156288DE1BC4C56E88FF06418AAF0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20200427192932.28967-1-geert+renesas@glider.be>
-In-Reply-To: <20200427192932.28967-1-geert+renesas@glider.be>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctZGE1MzYwMTMtODhiZS0xMWVhLWFhNjMtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XGRhNTM2MDE0LTg4YmUtMTFlYS1hYTYzLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iNjMwIiB0PSIxMzIzMjQ4OTk4ODcwNjAzMTUiIGg9Iml4ckpZOE1ORklpWkdwSjlnZ3h3US9qdzE0az0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a86e917f-76c9-4ea7-55f0-08d7eae2c083
-x-ms-traffictypediagnostic: TY1PR01MB1770:
-x-microsoft-antispam-prvs: <TY1PR01MB1770AAA3B47DDDA2521D55D08AAF0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0386B406AA
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(39860400002)(376002)(396003)(366004)(346002)(4744005)(478600001)(76116006)(52536014)(8936002)(55016002)(4326008)(186003)(86362001)(9686003)(8676002)(81156014)(26005)(6506007)(7696005)(2906002)(316002)(66476007)(110136005)(54906003)(66556008)(66446008)(5660300002)(64756008)(33656002)(66946007)(71200400001);DIR:OUT;SFP:1102;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fSgEgv09Nl8jx2r22K5PL1LE989v1Svedv3vvh1IYXmXmRvmCfUrlOUeUOgB9I4HW0WhVfOjpm8x5/VXozLOdKsRt1ekQHwKX7hAYAvELwqq0FFxSRSsgmuNKwkSvYZJf9vvVSiSRIPLQWbnlk45wZbngXfyVQXHgH9G54+kIJDj5Ni2MJ2tYEryN2Vp/9mpgAjylXOsrgvdIplJIwr64/8xHT0dYIKuxe10BpmBxYun/Prtggo1KOxFwCY1c54ML/+C4wDPfTgUtOIqIUEqoOFhW7+PW36zOI1atAajxB/mt/ZEdLvxleZpZpsh4PHKKDV3swzjE5XEipbY58WTdyz0alYzOQUhLW8Slp6N5g9L8rWDbD2ngMFYGnie5WfWYctohYQwzOT7Dntko4fLYFJDndRK3yxpUXqRigeGHOcy7BESywLJd9h/jvHh+iFY
-x-ms-exchange-antispam-messagedata: nu8fqVTDsleos4njlTFXxBB1Yppkh1ArAEixjCsjKdXXSfZ0LQSNI0pL1ramtbhvnfo7Hw7HJiSwPJEmrKCgZyORgw/fOUIjYp5kA6Ozdo0oMQr5yufM0RpRleMUZTEYr8+Ehrxs3HLo+Qd1nnhTbP8EGFM4Jvlb5sC/cFUan+r7/b+GuT+MjSz7x1pa6C+db+N4ae875o+4roKR9FhrKnmhkOVmRck6+ggu1N87CWbRRrAz/NPg8XX1mQoLavEUcuvFaajwmblCUsJLx1UNHVxRu+1xb+r578DzIPhIzj7emypdA9cBv4H3Pl/YIn2XYFcw03gtSAMRGkVCMR4iPGsCbvMuH1dHfOpi1hp4gzJ9+VguRbf7Y7JH4adz1wFleuJb9MiEO3nhha+LPV21U0MezNe2+EAk6AMJI9i0ZIOcMcy1R1t/3Y0c4wxcYunKLXTTr+J7N0xqOX324DngrZeETsIe57dT7AaoQB9xRBrISemc3JhjmerTtn0/iDm+ru6tUBlqknwQ+vJYEmifKbcZk3iBW5+s9wo2u1PRL0sUaPQbvCPne1oRzjeTLcoqxXr+H7jsHTo1vICP1kMsO4DMXNNL6Jpqxt7lgk47PON5RiRg8CT4Ei9RQ9nj9VclqgiOVbCurFAsJw4ReCSTrsfZIC6Hm/pr06XyF6e2NNKuXGtWwcfBGDA6IQtxwh0r8tKvRAXHVfdY9sCeT/n9zyXnupaX5VkZTfmIuaoxSAsRbjS1M667T0hvw6at2m/SFB2f1AHtVZ9E94qWSyoYQfDDhpQRDiBUwvEZriJ+CcQ=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 27 Apr 2020 15:41:17 -0400
+Received: by mail-ot1-f66.google.com with SMTP id z25so28329700otq.13;
+        Mon, 27 Apr 2020 12:41:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=Y6BUs/+ivelU96RR4W6KW++/SA0GDW+l2aMVIUp6y4g=;
+        b=ZrR3DrQxjkt/W+OTVZB7Yhu3WffjEShTbim6iMG/zj+77YSVt1BpeI1SHcLSUHsBdQ
+         zrYwL9B0npnopdapaOWqUrZwXP2LHvobDC82/3NrtGIlIW1r0J0xfZ2uWW00Q6bi0iTi
+         8YHQG7zaMM9hdrJqOrVnRnjg+2CNZdRP8ZIjL89xPl/eCTk3qpa6KriKk3bo7TjHvlf8
+         I0Fykr9zs1hlJjBE4zlYEENoA/W1ojVZbCHNN817cXnOPtWQitWbe1KvZfUZPKcm1xYk
+         lvhmVtKcmIXe9su9wr/xa0mkv+llHZ+yjldbz4GwLOmYPV990lKs7jHmsnD1VM3xGEOc
+         DDSw==
+X-Gm-Message-State: AGi0Pubu/NUJutuk3B2hq+l6kC4B7kHbVVf+9x5by+yDQnnupiTdpF1n
+        GDa+NxeeZdcUHiRALMTwif5S3U1cf55kpZ/FbdaHdM+9
+X-Google-Smtp-Source: APiQypIVM5ARjU+C4T0mbjPRaaKXb8OJGXsMgcAZgjseD3CbsO60sqZW7/r/Mf25IeaiWon+s0RCCBcN3Fp13TEUWVM=
+X-Received: by 2002:a9d:564:: with SMTP id 91mr19621507otw.250.1588016475326;
+ Mon, 27 Apr 2020 12:41:15 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a86e917f-76c9-4ea7-55f0-08d7eae2c083
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Apr 2020 19:39:50.8716
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BJL2VmStLTqgsBMfglayvKHDf/WkY+nKKuy5t+Rj3xNWONK6kXjhuObcEcmKV/awQj9rfE5MNKvTpfX1vY7FuJuawHCOIZ9qWa+/8Qift4U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1770
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Apr 2020 21:41:04 +0200
+Message-ID: <CAMuHMdW4KJ8GgEZZVBuuY2ciG1UqaufQUk04b95f9j4pA_2i2g@mail.gmail.com>
+Subject: gpio-reserved-ranges and RZ/G1C (was: Re: [PATCH] gpio: rcar: select
+ General Output Register to set output states)
+To:     Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Vladimir,
 
-On Mon, Apr 27, 2020, Geert Uytterhoeven wrote:
-> However, the actual clock names for the OS Timer nodes are not fixed,
-> but contain the indices of the consumer instances.  Hence they cannot
-> easily be used by a driver, without scanning for all possible indices.
->=20
-> Remove them, as the OSTM DT bindings do not specify clock-names anyway.
+Sorry for taking so long to get back to you, after our chat at Embedded
+Recipes.
 
-> ---
-> To be queued in renesas-fixes for v5.7, to avoid the json-schema OSTM DT
-> bindings conversion introducing a regression.
-> ---
+On Tue, Dec 18, 2018 at 1:58 PM Vladimir Zapolskiy
+<vladimir_zapolskiy@mentor.com> wrote:
+> I'm still influenced by a use-case of competing access to a GPIO controller
+> from two OSes, there might be an overlapping with Linux PM routines in
+> the driver.
+>
+> As a side note I'm not convinced that gpiochip_line_is_valid() and
+> gpiochip->valid_mask usage in the driver is justified, unless it is agreed
+> that 'gpio-reserved-ranges' property is really supposed to describe "holes"
+> in GPIO controllers. The property found in r8a77470.dtsi (RZ/G1C) looks like
+> a kludge instead of making a proper assignment of 'gpio-ranges' property:
+>
+> -                       gpio-ranges = <&pfc 0 96 30>;
+> -                       gpio-reserved-ranges = <17 10>;
+> +                       gpio-ranges = <&pfc 0 96 17>, <&pfc 27 123 3>;
+>
+> The change above is untested and I have no access to RZ/G1C manual, it is
+> shared just to demonstrate an alternative idea of describing holes.
 
-OK. Thank you.
+Actually this is what Biju's v1 did[1].  But making that works means
+adding support for multiple "gpio-ranges" to the gpio-rcar driver.  Of
+course that can be done, but it will complicate things, as all "offset"
+parameters in GPIO controller callbacks would need to take into account
+the holes when converting from contiguous offsets to discontiguous
+register bits.
 
-Chris
+Note that the second tuple is <&pfc 27 123 3> not <&pfc 27 113 3>, i.e.
+the hole is not only present in the GPIO bank, but also in the pin
+controller's pin numbering (the PFC GPSR3 register has the same hole).
+
+Documentation/devicetree/bindings/gpio/gpio.txt says:
+| Some system-on-chips (SoCs) use the concept of GPIO banks. A GPIO bank is an
+| instance of a hardware IP core on a silicon die, usually exposed to the
+| programmer as a coherent range of I/O addresses. Usually each such bank is
+| exposed in the device tree as an individual gpio-controller node, reflecting
+| the fact that the hardware was synthesized by reusing the same IP block a
+| few times over.
+
+... which applies to the R-Car GPIO block.
+
+| Optionally, a GPIO controller may have a "ngpios" property. This property
+| indicates the number of in-use slots of available slots for GPIOs. The
+| typical example is something like this: the hardware register is 32 bits
+| wide, but only 18 of the bits have a physical counterpart. The driver is
+| generally written so that all 32 bits can be used, but the IP block is reused
+| in a lot of designs, some using all 32 bits, some using 18 and some using
+| 12. In this case, setting "ngpios = <18>;" informs the driver that only the
+| first 18 GPIOs, at local offset 0 .. 17, are in use.
+
+So far the R-Car GPIO DT bindings never had a need for the "ngpios"
+property.  The same information can easily be extracted from the last
+cell of the (single) mandatory "gpio-ranges" value.
+
+| If these GPIOs do not happen to be the first N GPIOs at offset 0...N-1, an
+| additional set of tuples is needed to specify which GPIOs are unusable, with
+| the gpio-reserved-ranges binding. This property indicates the start and size
+| of the GPIOs that can't be used.
+
+This also matches the case on RZ/G1C.
+So IMHO using "gpio-reserved-ranges" is appropriate for RZ/G1C.
+
+I do think the commit description of commit b9c725ed73b7cecc
+("dt-bindings: gpio: Add a gpio-reserved-ranges property"):
+
+| Some qcom platforms make some GPIOs or pins unavailable for use
+| by non-secure operating systems, and thus reading or writing the
+| registers for those pins will cause access control issues.
+| Introduce a DT property to describe the set of GPIOs that are
+| available for use so that higher level OSes are able to know what
+| pins to avoid reading/writing.
+
+is confusing, as it only talks about pins that can be used by a secure
+OS only, but the actual changes to gpio.txt are in-line with GPIO lines
+that are simply not wired to physical pins, which is what the original
+paragraph was talking about, too.
+
+What do other people think?
+Thanks!
+
+[1] [PATCH 2/4] ARM: dts: r8a77470: Add GPIO support
+    https://lore.kernel.org/linux-devicetree/1532685089-35645-3-git-send-email-biju.das@bp.renesas.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
