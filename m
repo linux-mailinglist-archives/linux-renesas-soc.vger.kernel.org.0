@@ -2,107 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1F8C1B8FD9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Apr 2020 14:35:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 957FC1B9836
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 09:19:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgDZMfP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 Apr 2020 08:35:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47532 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725972AbgDZMfP (ORCPT
+        id S1726507AbgD0HTX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Apr 2020 03:19:23 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44314 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726349AbgD0HTX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 Apr 2020 08:35:15 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1145C09B04F;
-        Sun, 26 Apr 2020 05:35:14 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id u16so17123781wmc.5;
-        Sun, 26 Apr 2020 05:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mR3W1kdicgocjFTeQaSq2YWU+mgSB1nOfbQYon3arKM=;
-        b=t3drbbnuXXsuO2WREY69j7ZIqs9ECIEuCngubXxD1+BeMteX8F1Z2EMYsfMB6rgl9c
-         uk107N230DF0FmqZAflsmsPAkc6CV3GtnR7HnBBP+/rMgFIK5GdUPhZDUjaVMPWNOtxp
-         qwlZssVioKt5bDXeyl5IFnRp2dqujF924DJLpYDlCna19+zbgLO1ua9Xa6j/vG8erw1R
-         xJGCDmE/E9O5lvzLI2IeeX8THBnDx8xslAvNGCxFOCXn69I6sOCtMGkUgm8OIJa54EVE
-         JoJVwrm1vAfdXaaOhVR4ka7zNE9Se85SbgjLva4Bn4U48R1E7G5ND97IjPU3pa3d+vSk
-         vrug==
+        Mon, 27 Apr 2020 03:19:23 -0400
+Received: by mail-ot1-f67.google.com with SMTP id j4so24550699otr.11;
+        Mon, 27 Apr 2020 00:19:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mR3W1kdicgocjFTeQaSq2YWU+mgSB1nOfbQYon3arKM=;
-        b=AEy1R4F4QcO0E331Y28d/bIV2tXWMwQZpk7FfLGc2gWCoQjz8+k3TCSqnQOkYyyFaq
-         8rRXdqraHmJwLz1E++9JA0bGbDKOBvvH4kCkSuGdx9LNSC6OKgGZIWiTZ08vOr4BHSlk
-         CUt2vAle1LydBdS4xLf9SrOpE+8yIkGf+NaHVJjlS5snbJSi0/dNfFpIyy6S13XnjCyF
-         KpbaKUlVD/U3ox9rMHuLx4baU+JOHTbapJVsqfLpF6ID8t3F7At2tFNTFIbMPLVsIjo8
-         xbDQy9VwklmCL3zbdIeqJDhYoWVF0az9PP86tnKxiJ6gEzl5og3v5hOX1XD5XWaFDUMQ
-         JZRw==
-X-Gm-Message-State: AGi0PuZsMvmOCtXVkogHK3flUHvFH/P3zSt1D1D/QV12FlX4rm6+yCM+
-        1ew/04wmXJ/6inS8Xa500eXyZtq0
-X-Google-Smtp-Source: APiQypLCjWGc7iva97dl05HFoUfySsSw6d/yGeLX4fnR5GVn6SAJQD3ZZjAErxnBpaC8x2tL8cgsCQ==
-X-Received: by 2002:a7b:c3ca:: with SMTP id t10mr3527240wmj.94.1587904513272;
-        Sun, 26 Apr 2020 05:35:13 -0700 (PDT)
-Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id s8sm16636451wru.38.2020.04.26.05.35.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Apr 2020 05:35:12 -0700 (PDT)
-Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     linux-pci@vger.kernel.org,
-        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
-        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-References: <20200314191232.3122290-1-marek.vasut@gmail.com>
- <20200320101217.GA22055@e121166-lin.cambridge.arm.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <07fecbce-55f3-af8e-1887-42f7a8074b54@gmail.com>
-Date:   Sun, 26 Apr 2020 14:33:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=tYh90QCx3bEamRC7LtyHw5B+SMhTg1Z1mR2i+dogp/4=;
+        b=AIYdtJ/mX3jEhvIeqqrtREXqmOCtCk7yfgfb8y2S7/r1wkvOyHLt0qkO7vC7HzENND
+         NoE4GvipEpAm6iEOsNVXfCIRL/F0xEvZ4g9xgxGHmbeuUn+xAeUEZs0FXbeHo2zAfq7I
+         Wzg45yTicITat9nzpchJQadip0YClrErn0fWynsBTuqkDW4h/0YHfErn6xlqqm3ruuQv
+         1fv15Z3qspB1UyqWz90oCzP20LmeEsVJWKyfyzv/z7k0Mq1oWjFGKAlvG4s03TZNzkKD
+         +xoxcyC7JCm0TYOnoG6QQv1Ao4eUBjHex4pXKXYc2k+2dbIrsTi8naFpfMZWsUpZ5MSF
+         Lvdg==
+X-Gm-Message-State: AGi0PuZ8o5YAAwqno9k2uoHHJ4RHvHNm5KNJjwOR57fqVq4T0uF2Yzyj
+        wBq517fcxMjbk/2V7WfgrxE6OgnfkurBVYYmKxDcWQ==
+X-Google-Smtp-Source: APiQypJ5AWLI8Kj6Y0BLeuT0kUr1iCEItGAU5GPtqxZCAXqTxYWmJig8j69WicUC4g/GhXK/3R6xLfKOxyvbMe+wGEg=
+X-Received: by 2002:a9d:7d85:: with SMTP id j5mr16329107otn.107.1587971962698;
+ Mon, 27 Apr 2020 00:19:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200320101217.GA22055@e121166-lin.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200426123115.55995-1-marek.vasut@gmail.com>
+In-Reply-To: <20200426123115.55995-1-marek.vasut@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Apr 2020 09:19:11 +0200
+Message-ID: <CAMuHMdXC58F8X0aMgyCZJ1L5d9L9hSJRLrO1mmeX2KZUXUac0Q@mail.gmail.com>
+Subject: Re: [PATCH] PCI: pcie-rcar: Mark rcar_pcie_resume() with __maybe_unused
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/20/20 11:12 AM, Lorenzo Pieralisi wrote:
-[...]
+On Sun, Apr 26, 2020 at 2:31 PM <marek.vasut@gmail.com> wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>
+> If CONFIG_PM_SLEEP is not set, SET_SYSTEM_SLEEP_PM_OPS() is expanded to
+> empty macro and there is no reference to rcar_pcie_resume(), hence the
+> following warning is generated:
+>
+> drivers/pci/controller/pcie-rcar.c:1253:12: warning: ‘rcar_pcie_resume’ defined but not used [-Wunused-function]
+>  1253 | static int rcar_pcie_resume(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~
+>
+> Fix this by marking this function as __maybe_unused , just like in
+> commit 226e6b866d74 ("gpio: pch: Convert to dev_pm_ops")
+>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Reported-by: Bjorn Helgaas <bhelgaas@google.com>
 
->> +static int rcar_pcie_resume(struct device *dev)
->> +{
->> +	struct rcar_pcie *pcie = dev_get_drvdata(dev);
->> +	int (*hw_init_fn)(struct rcar_pcie *);
->> +	unsigned int data;
->> +	int err;
->> +
->> +	err = rcar_pcie_parse_map_dma_ranges(pcie);
->> +	if (err)
->> +		return 0;
->> +
->> +	/* Failure to get a link might just be that no cards are inserted */
->> +	hw_init_fn = of_device_get_match_data(dev);
-> 
-> Hi Marek,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hi,
+Gr{oetje,eeting}s,
 
-> happy to apply it as is, I was wondering if it is work taking this
-> look-up out of the resume path, it is not supposed to change anyway,
-> you can even save the function pointer at probe.
-> 
-> Again, happy to apply it as-is, just let me know please.
+                        Geert
 
-I just sent subsequent patch to address this:
- PCI: pcie-rcar: Cache PHY init function pointer
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
