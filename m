@@ -2,44 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8401B1B9FC0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 11:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C1B1B9FD2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 11:24:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgD0JWY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Apr 2020 05:22:24 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33769 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726434AbgD0JWY (ORCPT
+        id S1726434AbgD0JYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Apr 2020 05:24:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42896 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726755AbgD0JYL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Apr 2020 05:22:24 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j26so25016103ots.0;
-        Mon, 27 Apr 2020 02:22:23 -0700 (PDT)
+        Mon, 27 Apr 2020 05:24:11 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68CB9C061BD3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 02:24:11 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id s10so6805265plr.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 02:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=62sxPbsrxCm2fvIpJ8tpB4+O/E6FAUO1ubRiSS5aMQs=;
+        b=PqkwdOV9sWGTFWFEwpK93utJLjznxrq9WB2g7q3+71ll4BiIeRtuPb+ynL2zXTe+Nr
+         m1FfLsqEjWI8q0Ir9zWeZBQ1TzbPYwbUz1alfss91jOdDLIcQnVwOHgqhJnjSXatqq8n
+         TCA/aUeHD5zilUdC3r50QHTAo7ow6caq+LkPzrGFb5FjU3YbfpUYUU0TvEQcBYSsfx08
+         OsL3fcXvxI1Gcvat0hjax14vIxLSD/CeFJ0AMJ5SD3/IqM6mPuQxuU+KfC1JDHRmktRv
+         bNwzP6r4PlUzL7vbiwLeUR6qcr+VJ26wQ5jfmfm7C/ODd3PFJ80O+/A9HzGO+7gkYSrL
+         ISFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8DC9wuWVCpF4fX18bDiRbTVykcklvB3HgA/RSTX3Ci8=;
-        b=mhsPza1L+7xZRs4T2p5Egg3AsNIqgbf6S8LCkx2Av9mky2fXKgFR8KEoUPI0792Lhj
-         fvNrfEwjG/kdUl0t1Ddlo5vclAinBnS6rV3quLRCt2IzQDpHjRRkfyz7Tx2Cljj0s0rX
-         teBGZISSKPlooHXEynRAxzRXOXDsgmoJuFL/TYu5Y6i7I6zWFb/hDZRUwI2bnF27Fufg
-         TKf+0nmDiLq1b+GZfDSYDQfoa5ptABQ4vk6TrTV6xjq/Xr7mY+J5NApVn0aXDr46mYab
-         +N46vkgSHy0X5T18EyRbPeI/0fHuuV5eqAHp09c4gXFtUIVxGLOCyZU2opw5pwa0ZXwX
-         Pe1w==
-X-Gm-Message-State: AGi0PuZMG2Q7eecdWDmM+0Kdf5SsSB7kjAKoysccHwrNmyh4BRnHMqB3
-        VfIhtQLbDZYPGBPicbsolA9AkuXT5PmIZS3qV/k=
-X-Google-Smtp-Source: APiQypJ10JMZ48yMEr4gCPT2ON7rEsolbc8FeD4lWrGcROoB5VwAc887q0ILi7S4AP3Z/A1HrLX90XTtwrazUTrCwvg=
-X-Received: by 2002:a9d:7d85:: with SMTP id j5mr16573914otn.107.1587979343075;
- Mon, 27 Apr 2020 02:22:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <1587678050-23468-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1587678050-23468-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1587678050-23468-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 27 Apr 2020 11:22:11 +0200
-Message-ID: <CAMuHMdV6J-_gBkzhUXtA8OrxhJVzyrAqjA8oeGJGBp86X-C3Nw@mail.gmail.com>
-Subject: Re: [PATCH 10/10] cpufreq: dt: Add support for r8a7742
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=62sxPbsrxCm2fvIpJ8tpB4+O/E6FAUO1ubRiSS5aMQs=;
+        b=Yf9RQkBlJVfv1Mf0e1sy9VgiajnZ8xrs0inZCYWijRNLvQK/Ac2+ti3vBoL3rJx5Yj
+         5G3Ie6YpSjyuyFHTGoTPPzTDpR/yAjOp+4z7B1KFrVNjl2HWFbtpiQCBqeEzYyZKvYcF
+         kd3dH2BV92+DAzJWPKvRfJrWpY86Y+QykWLW/n/D69w15sto0JTKp2UVq1D6hzLgxxDV
+         nyBKTT0rm+lKn+RdtBOJvdQzAnnCCmaEuOqr/tIH3NjyXry04rxpp6MCpZsiUIT8v4KV
+         RD13cv6LPkPMj9ryP/FT024t1fkr3SmXSJUhUQEYaiqOqlRVmssk3DbS0E7v/6rmZB8E
+         SMlg==
+X-Gm-Message-State: AGi0PuYkpl31RpEJORRPd8KZOrgU4R4vo+ihXeLPJuhlWgjFCpM5Xh6c
+        NPYtKv8M3c1dJnCRQbv+rcPY9A==
+X-Google-Smtp-Source: APiQypLoeg39tmPVj837ge/fvjEjwcaLKfMYIysT4UHtoPUQOPFkSmOF2zWgF54zZIpO9qIWwNDClQ==
+X-Received: by 2002:a17:90a:1501:: with SMTP id l1mr21988435pja.82.1587979450837;
+        Mon, 27 Apr 2020 02:24:10 -0700 (PDT)
+Received: from localhost ([122.171.118.46])
+        by smtp.gmail.com with ESMTPSA id l37sm10807183pje.12.2020.04.27.02.24.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 Apr 2020 02:24:10 -0700 (PDT)
+Date:   Mon, 27 Apr 2020 14:54:08 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
@@ -54,48 +67,40 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux PM list <linux-pm@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 10/10] cpufreq: dt: Add support for r8a7742
+Message-ID: <20200427092408.g2vpc6j2c6it4x2i@vireshk-i7>
+References: <1587678050-23468-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1587678050-23468-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV6J-_gBkzhUXtA8OrxhJVzyrAqjA8oeGJGBp86X-C3Nw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV6J-_gBkzhUXtA8OrxhJVzyrAqjA8oeGJGBp86X-C3Nw@mail.gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On 27-04-20, 11:22, Geert Uytterhoeven wrote:
+> Hi Prabhakar,
+> 
+> This patch should be merged through Viresh's cpufreq tree (CCed).
+> 
+> On Thu, Apr 23, 2020 at 11:41 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add the compatible strings for supporting the generic cpufreq driver on
+> > the Renesas RZ/G1H (R8A7742) SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-This patch should be merged through Viresh's cpufreq tree (CCed).
+Prabhakar,
 
-On Thu, Apr 23, 2020 at 11:41 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add the compatible strings for supporting the generic cpufreq driver on
-> the Renesas RZ/G1H (R8A7742) SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
-> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-> @@ -53,6 +53,7 @@ static const struct of_device_id whitelist[] __initconst = {
->         { .compatible = "renesas,r7s72100", },
->         { .compatible = "renesas,r8a73a4", },
->         { .compatible = "renesas,r8a7740", },
-> +       { .compatible = "renesas,r8a7742", },
->         { .compatible = "renesas,r8a7743", },
->         { .compatible = "renesas,r8a7744", },
->         { .compatible = "renesas,r8a7745", },
-> --
-> 2.7.4
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Please resend the patch with all dependencies to me so I can apply it.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+viresh
