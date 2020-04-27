@@ -2,90 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A938D1BAE90
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 21:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEC531BAED6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Apr 2020 22:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726384AbgD0T7p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Apr 2020 15:59:45 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39622 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgD0T7o (ORCPT
+        id S1726501AbgD0UJF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Apr 2020 16:09:05 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36745 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726364AbgD0UJF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Apr 2020 15:59:44 -0400
-Received: by mail-ot1-f67.google.com with SMTP id m13so28442140otf.6;
-        Mon, 27 Apr 2020 12:59:44 -0700 (PDT)
+        Mon, 27 Apr 2020 16:09:05 -0400
+Received: by mail-ot1-f65.google.com with SMTP id b13so28569999oti.3;
+        Mon, 27 Apr 2020 13:09:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GCux3WFhsUzhnpQIYTb6iBn0WfJCEnqGmFf2x3Obejw=;
-        b=X3A1lrexDO9cQu0M28QqyRB7f/BxEtGFwbWeYMJBAjZl3FiESmSFQX2uQewhH40OZ3
-         sXgbUzYdYAQjVW47eKzX8nfSFcCsIZnyxodKiSRI8IdhDbDjc8wxRQn7QL3sMeoTp3FW
-         ElT7hiRH2MjNM6OUFhVOs2sv/OOGex5VZXglJmtQ4lKuKTSgwIJx4gXKPS+KNcog25es
-         bG8/DI6An+ks9c+Aqtr0s4qhPouc3+jjwc/krMk6zekcemiQ1+sFUpsJBMq7PtqWwKEn
-         4S+UO0BGMXJ7kEB7X8ho+7PX2DexPGDXkChNCa+WQcf67kdbNNLfuuRBmEDPITSyydMy
-         KsIw==
-X-Gm-Message-State: AGi0PuaWyE197bp32zEv5cJr50U94MErc3YbUso3KLDKtv2yeeShIOvf
-        uRmA8mh0mtkk0ps8v+zFbPT4bWc6o21a3IwBBfo=
-X-Google-Smtp-Source: APiQypLPJTcQTVlxVhJcfPDdHKtGYcKy3uvV5JgdLt2s6vgHNEyA98htHEn2T1akaPpGIpF8clQG+IgKiuVpLVxonxA=
-X-Received: by 2002:aca:895:: with SMTP id 143mr237114oii.153.1588017583685;
- Mon, 27 Apr 2020 12:59:43 -0700 (PDT)
+        bh=LjHXiaCtnGqcs25RoRhH4VXqlbZs8N2rlpvkrTKQk2w=;
+        b=WW0KiFfBpZJNKlwF5LOauJyvUDtYZnp/6fPVwmWG1me//1k7PYKezk5PqlR0IM1qVr
+         JfBV2/z8V+xyeHXxrABirWFj9h/UVPPHPN68DDgmUpG+9PtQXoj9ixaTaDji79/ACHdn
+         T910qHPI5VhO43G3SRYCSMcMQeJsXVHuin8RFdvk0cORlb3CJjcDmej9q5Si9xASboFV
+         Q9ViSdvBfLp42rzIuxIHYLDCno1IkrjYntuGfNfzaYukJKTlkoKAUWRw5N1nq7LGrSCP
+         CTjMQpwxYVJMwfgsGe4/Uj4X0Vym8eCPaM1POcoazWoYJUPM5d8brcKpwzyS1AobHB2l
+         BOLw==
+X-Gm-Message-State: AGi0PuY4T1jvZOj2EfRibkVd+fTnp4bqQp3L2tGUjgnJHN7MAUZlKNch
+        N5ygTZ8laj43zXsTbxNK3ydikakuuqte8S1HbtE=
+X-Google-Smtp-Source: APiQypJo9QxmBf1wyiMhCpee+yBovlv4e8Z6HWC3FcFsNHseTkXZubqgFZ+npGh/pD192LlwekjF7QEtte+5bdAuLYw=
+X-Received: by 2002:a9d:7990:: with SMTP id h16mr13612825otm.145.1588018144361;
+ Mon, 27 Apr 2020 13:09:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588004391-8461-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1588004391-8461-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <CAMuHMdVGkM_-5q+pSOtQ5nBPGzMeOpRTJUqekYnvjiPMFepqLw@mail.gmail.com>
+ <20200427174138.GA207841@google.com>
+In-Reply-To: <20200427174138.GA207841@google.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 27 Apr 2020 21:59:31 +0200
-Message-ID: <CAMuHMdXG_hpb==xY88vCEguc-n8kg_4vjv_Xmmh5jEGr37BPKA@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: r8a7743: Add missing compatible strings for
- iic3 node
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Mon, 27 Apr 2020 22:08:52 +0200
+Message-ID: <CAMuHMdXbpynd6N2-GF+j3ie3HG0CohebpPOaj=oiZhF_Pt9gAg@mail.gmail.com>
+Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Marek Vasut <marek.vasut@gmail.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Bjorn,
 
-On Mon, Apr 27, 2020 at 6:20 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add missing compatible strings "renesas,rcar-gen2-iic" and
-> "renesas,rmobile-iic" to iic3 node of r8a7743 SoC.
+On Mon, Apr 27, 2020 at 7:41 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> On Sat, Apr 25, 2020 at 10:55:21AM +0200, Geert Uytterhoeven wrote:
+> > On Fri, Apr 24, 2020 at 9:57 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > [+cc Vaibhav]
+> > >
+> > > Alternate less redundant subject:
+> > >
+> > >   PCI: rcar: Add suspend/resume support
+> >
+> > Note that there's both pcie-rcar.c (this driver, for R-Car Gen2 and Gen3
+> > PCIe) and pci-rcar-gen2.c (for R-Car Gen2 PCI).
+> > People tend to use the prefix "PCI: rcar: " for both :-(
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Yeah, that's pretty broken, thanks for pointing this out!
+>
+> For most drivers we use a chipset name ("keystone", "imx6", "tegra",
+> etc) as the changlog tag.  That's nice because it gives space for
+> multiple drivers from the same vendor, but I don't know anything
+> similarly specific for the R-Car drivers.
+>
+> pci-rcar-gen2.c seems to be for some sort of internal Conventional PCI
 
-Thanks for your patch!
+AFAIUI it's some internal PCI glue to the *HCI USB controller.
 
-> --- a/arch/arm/boot/dts/r8a7743.dtsi
-> +++ b/arch/arm/boot/dts/r8a7743.dtsi
-> @@ -551,7 +551,9 @@
->                         /* doesn't need pinmux */
->                         #address-cells = <1>;
->                         #size-cells = <0>;
-> -                       compatible = "renesas,iic-r8a7743";
-> +                       compatible = "renesas,iic-r8a7743",
-> +                                    "renesas,rcar-gen2-iic",
-> +                                    "renesas,rmobile-iic";
->                         reg = <0 0xe60b0000 0 0x425>;
->                         interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
->                         clocks = <&cpg CPG_MOD 926>;
+> bus?  The "gen2" is confusing because "Gen 2" is more commonly used
+> for PCIe than for Conventional PCI.
 
-This was intentional, cfr. commit 072b817589b17660 ("ARM: dts: r8a7743:
-Remove generic compatible string from iic3"), and my review comments on
-"[PATCH 02/22] ARM: dts: r8a7744: Add I2C and IIC support"
-(https://lore.kernel.org/linux-devicetree/CAMuHMdVt2DDQJ9Ud6i=GWAeWW0TdpF5xiCxtRiv0dZTGCPEt8A@mail.gmail.com/).
+The "Gen2" applies to "R-Car", not to "PCI".
 
-The note at the bottom of Section 45.1 of the RZ/G1 Hardware User's
-Manual says: "Automatic transmission for PMIC control (DVFS) is not
-available ...".
+> I would propose keeping "rcar" for the PCIe driver and using
+> "rcar-pci" for the Conventional PCI one, but the Conventional PCI one
+
+(/me resists against bike-shedding)
+
+> (pci-rcar-gen2.c) seems pretty inactive.  The most recent commits are
+> from 2018, and they're trivial cleanups.  So I'm doubtful that anybody
+> will remember when the next change comes in.
+
+I guess pci-rcar-gen2.c is simpler and more mature ;-)
+R-Car Gen2 SoCs have both (internal) PCI and PCIe, so the two drivers
+can be used together on the same hardware.
 
 Gr{oetje,eeting}s,
 
