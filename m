@@ -2,266 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C220B1BBCF0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 13:59:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 163B91BBCFD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 14:03:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726662AbgD1L7w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 07:59:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38856 "EHLO
+        id S1726635AbgD1MD3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 08:03:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726554AbgD1L7w (ORCPT
+        with ESMTP id S1726547AbgD1MD3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 07:59:52 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA12BC03C1A9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 04:59:50 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id f8so16669636lfe.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 04:59:50 -0700 (PDT)
+        Tue, 28 Apr 2020 08:03:29 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12349C03C1AB
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 05:03:28 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id u6so21149714ljl.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 05:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ci6AnaZs+phF6Uq7cCmI4TbqBRGDetYLVHrxk+OWc8Y=;
-        b=ZPEwPF+P/0xkAz9yaF0uD9im7GoReeJYOoUhaZEgqRiqcbs9+abPWP/KebN/t3Tqtv
-         qn6x/P8RpKqGI7HypSxJjFVe1hmh3Xv50WIBDSr/0ONOrO3Uslr0erWXNDHUodqlEfxn
-         xLuinBg/ixAXf7molK5YqfC0hsTTIHr9oq9TlXEMXIGJuXGiScV7VrWhBEEcqUhqfHPB
-         exlGrOoeo/q1g3VdSVda4S5QCM100lm7bNiQqYdo6ZLPifmyy9vYIFPAJdNR6X5HGAKp
-         d9bdjr9fNp9OpQyBdgG0ApGRuERvNGq/ncbY9qjPBWhxVrSxtY7wsJBWWFvy8Wf1uKqT
-         DFTg==
+        bh=kurMV7kbW7+mvXw3ERlO20xeNNN/mjD6xvxfhwzC5zw=;
+        b=IFenHsO7riD6AM4Ud3/L6sM9M0YjJLGiT+OwnArs5ZnlCD8F8G4YkkebHMMknSnyta
+         KZASg9FUq4FH5SmsgxV85H4axxfeZqCiZhH3DZq5Qh+maIzlty8ARsgz2HWx4pBli9Se
+         o9WAuYZgOBsPynXL9nPXT3zTJYzfQEQBEFUz8FzeXzzdzGYGHVzPpol90dFJO+eJRpzi
+         uQ7407QrDoGrCg3hhrR7XGHAI7VT764J78dAGvV2+vVW40TtMGaDt6oDwxCzB/id/ywN
+         bL+x9NBZBgYY60nBP3oWTBxm01KWzGmrBXf3kZ0rxPNGDL0FpU4wtdKJpAaJM3MOl2IZ
+         0tmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=ci6AnaZs+phF6Uq7cCmI4TbqBRGDetYLVHrxk+OWc8Y=;
-        b=QZnV+8qWO9HrrxuMj6iRGLLRxJsrYsLYhcoVwUh3Tp0XVaw0CQwYBi/6r9P0Hogc8u
-         mniRr5UYPPEOfwh57qKGxmW8P6be333GEfw7LaRDFNZ61/mv2/6yveztDwXYktGYetnB
-         VltlD/6DXPwbKZJYw73BNZXTKj7bbm0a/oA+iS2L05jTubQw3rQjWruOfjGO2vIgVvGu
-         YUrSar4yBhYLsQVAEIpPeb+v+6L/la32QRK7BZtMUmyRgfo3VW0G0eA55DjGp4H3lk8R
-         2Pzt5rElTxGUJ32fl7udjWTZbzgtInGckuSdE8wpL2fntpACozR+5l9JOdyfBY2fDZMr
-         yShw==
-X-Gm-Message-State: AGi0PuZQKa0YrPU3QdksK93yAVbR1fdzS52o4MIUJddrrj5uP6m4WGGm
-        8SHp3FTTnVFkn8p76axTueKOUcw2gI4=
-X-Google-Smtp-Source: APiQypLnDUnvyacSwLSYAYfJKo3gWIU/uhkoHOKBJOlia2z57wfmR2TD7zhqwWzsVtoguKUseoi/mg==
-X-Received: by 2002:ac2:4466:: with SMTP id y6mr19148619lfl.125.1588075189187;
-        Tue, 28 Apr 2020 04:59:49 -0700 (PDT)
+        bh=kurMV7kbW7+mvXw3ERlO20xeNNN/mjD6xvxfhwzC5zw=;
+        b=So8i5LscFFh9WtkCLzEFUu9GWtWwIVoTnQ6iXw6F4B+ey5mv+2RVAirb0njZYubXYI
+         ACoI3cmgEzW0c0Ucmy3BlkH5E1YebRkwxAe66jjPwh8TAZwyuFM/7gwxFU0ZnZCIqQuL
+         09RtHII+tdM2cVuLY7mIOduGTSpOyEApZ3Me7murLZlhh55W2oUZWMkEoZ//HIY922Qt
+         gZaMKcnhiF43cFVT/CsJrj8anje1Z7d2PJ7j22/q8MJSUuh97iDD3llmB/Eobj3cqLLo
+         Q9dkeaPUpR/PIVwT+YzT1tl3ZJz6kafnJqOo2W6EJZ2chDJWMXIYBmCib/rdoUmXYBmD
+         CLhA==
+X-Gm-Message-State: AGi0PuZkHEb5NzQiTCaBqLHawyw5fY0AbE1oFZ7FgPyq1slLXNhOABDB
+        /ys/YF/dBBskUEufUtr9iPMj6A==
+X-Google-Smtp-Source: APiQypJocUaXEVxf7Ffq/LFP34lav1VV9xTIbo8V3CIHsS7sk7IsDiiN1l9tkgFwkFtAW/7O2WxTqQ==
+X-Received: by 2002:a2e:85d1:: with SMTP id h17mr17704265ljj.70.1588075406336;
+        Tue, 28 Apr 2020 05:03:26 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id t12sm14179453lfq.71.2020.04.28.04.59.48
+        by smtp.gmail.com with ESMTPSA id y9sm12495001ljm.11.2020.04.28.05.03.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 04:59:48 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 13:59:47 +0200
+        Tue, 28 Apr 2020 05:03:25 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 14:03:25 +0200
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Convert to
- json-schema
-Message-ID: <20200428115947.GA1372619@oden.dyn.berto.se>
-References: <20200427192522.28365-1-geert+renesas@glider.be>
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v2] MAINTAINERS: Add entry for Renesas R-Car thermal
+ drivers
+Message-ID: <20200428120325.GB1372619@oden.dyn.berto.se>
+References: <20200305012721.425330-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200427192522.28365-1-geert+renesas@glider.be>
+In-Reply-To: <20200305012721.425330-1-niklas.soderlund@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi,
 
-Thanks for your work.
+Soft ping on this patch. I'm unsure who to pester about this patch being 
+picked up, should it go thru the thermal or Renesas tree?
 
-On 2020-04-27 21:25:22 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas Watchdog Timer (WDT) Controller Device Tree binding
-> documentation to json-schema.
+On 2020-03-05 02:27:21 +0100, Niklas Söderlund wrote:
+> From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> Add missing "renesas,r8a77980-wdt" compatible value.
-> Document missing properties.
-> Update the example to match reality.
+> Add an entry to make myself a maintainer of the Renesas R-Car thermal
+> drivers.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  .../bindings/watchdog/renesas,wdt.txt         |  50 ---------
->  .../bindings/watchdog/renesas,wdt.yaml        | 100 ++++++++++++++++++
->  2 files changed, 100 insertions(+), 50 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
->  create mode 100644 Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> deleted file mode 100644
-> index 79b3c62f183d26dc..0000000000000000
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> +++ /dev/null
-> @@ -1,50 +0,0 @@
-> -Renesas Watchdog Timer (WDT) Controller
-> -
-> -Required properties:
-> - - compatible : Must be "renesas,<soctype>-wdt", followed by a generic
-> -		fallback compatible string when compatible with the generic
-> -		version.
-> -	       Examples with soctypes are:
-> -		 - "renesas,r8a7743-wdt" (RZ/G1M)
-> -		 - "renesas,r8a7744-wdt" (RZ/G1N)
-> -		 - "renesas,r8a7745-wdt" (RZ/G1E)
-> -		 - "renesas,r8a77470-wdt" (RZ/G1C)
-> -		 - "renesas,r8a774a1-wdt" (RZ/G2M)
-> -		 - "renesas,r8a774b1-wdt" (RZ/G2N)
-> -		 - "renesas,r8a774c0-wdt" (RZ/G2E)
-> -	         - "renesas,r8a7790-wdt" (R-Car H2)
-> -	         - "renesas,r8a7791-wdt" (R-Car M2-W)
-> -	         - "renesas,r8a7792-wdt" (R-Car V2H)
-> -	         - "renesas,r8a7793-wdt" (R-Car M2-N)
-> -	         - "renesas,r8a7794-wdt" (R-Car E2)
-> -	         - "renesas,r8a7795-wdt" (R-Car H3)
-> -	         - "renesas,r8a7796-wdt" (R-Car M3-W)
-> -	         - "renesas,r8a77961-wdt" (R-Car M3-W+)
-> -		 - "renesas,r8a77965-wdt" (R-Car M3-N)
-> -	         - "renesas,r8a77970-wdt" (R-Car V3M)
-> -	         - "renesas,r8a77990-wdt" (R-Car E3)
-> -	         - "renesas,r8a77995-wdt" (R-Car D3)
-> -	         - "renesas,r7s72100-wdt" (RZ/A1)
-> -	         - "renesas,r7s9210-wdt"  (RZ/A2)
-> -		The generic compatible string must be:
-> -		 - "renesas,rza-wdt" for RZ/A
-> -		 - "renesas,rcar-gen2-wdt" for R-Car Gen2 and RZ/G1
-> -		 - "renesas,rcar-gen3-wdt" for R-Car Gen3 and RZ/G2
-> -
-> -- reg : Should contain WDT registers location and length
-> -- clocks : the clock feeding the watchdog timer.
-> -
-> -Optional properties:
-> -- timeout-sec : Contains the watchdog timeout in seconds
-> -- power-domains : the power domain the WDT belongs to
-> -- interrupts: Some WDTs have an interrupt when used in interval timer mode
-> -
-> -Examples:
-> -
-> -	wdt0: watchdog@e6020000 {
-> -		compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
-> -		reg = <0 0xe6020000 0 0x0c>;
-> -		clocks = <&cpg CPG_MOD 402>;
-> -		power-domains = <&cpg>;
-> -		timeout-sec = <60>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> new file mode 100644
-> index 0000000000000000..27e8c4accd67bfff
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/watchdog/renesas,wdt.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6158a143a13e075c..2514551ac932b817 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14205,6 +14205,15 @@ F:	Documentation/devicetree/bindings/i2c/renesas,iic.txt
+>  F:	drivers/i2c/busses/i2c-rcar.c
+>  F:	drivers/i2c/busses/i2c-sh_mobile.c
+>  
+> +RENESAS R-CAR THERMAL DRIVERS
+> +M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +L:	linux-renesas-soc@vger.kernel.org
+> +S:	Supported
+> +F:	Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt
+> +F:	Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+> +F:	drivers/thermal/rcar_gen3_thermal.c
+> +F:	drivers/thermal/rcar_thermal.c
 > +
-> +title: Renesas Watchdog Timer (WDT) Controller
-> +
-> +maintainers:
-> +  - Wolfram Sang <wsa+renesas@sang-engineering.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +allOf:
-> +  - $ref: "watchdog.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,r7s72100-wdt     # RZ/A1
-> +              - renesas,r7s9210-wdt      # RZ/A2
-> +          - const: renesas,rza-wdt       # RZ/A
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a7743-wdt      # RZ/G1M
-> +              - renesas,r8a7744-wdt      # RZ/G1N
-> +              - renesas,r8a7745-wdt      # RZ/G1E
-> +              - renesas,r8a77470-wdt     # RZ/G1C
-> +              - renesas,r8a7790-wdt      # R-Car H2
-> +              - renesas,r8a7791-wdt      # R-Car M2-W
-> +              - renesas,r8a7792-wdt      # R-Car V2H
-> +              - renesas,r8a7793-wdt      # R-Car M2-N
-> +              - renesas,r8a7794-wdt      # R-Car E2
-> +          - const: renesas,rcar-gen2-wdt # R-Car Gen2 and RZ/G1
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a774a1-wdt     # RZ/G2M
-> +              - renesas,r8a774b1-wdt     # RZ/G2N
-> +              - renesas,r8a774c0-wdt     # RZ/G2E
-> +              - renesas,r8a7795-wdt      # R-Car H3
-> +              - renesas,r8a7796-wdt      # R-Car M3-W
-> +              - renesas,r8a77961-wdt     # R-Car M3-W+
-> +              - renesas,r8a77965-wdt     # R-Car M3-N
-> +              - renesas,r8a77970-wdt     # R-Car V3M
-> +              - renesas,r8a77980-wdt     # R-Car V3H
-> +              - renesas,r8a77990-wdt     # R-Car E3
-> +              - renesas,r8a77995-wdt     # R-Car D3
-> +          - const: renesas,rcar-gen3-wdt # R-Car Gen3 and RZ/G2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  timeout-sec: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +if:
-> +  not:
-> +    properties:
-> +      compatible:
-> +        contains:
-> +          enum:
-> +            - renesas,rza-wdt
-
-:-)
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> +then:
-> +  required:
-> +    - power-domains
-> +    - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +    wdt0: watchdog@e6020000 {
-> +            compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
-> +            reg = <0xe6020000 0x0c>;
-> +            clocks = <&cpg CPG_MOD 402>;
-> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> +            resets = <&cpg 402>;
-> +            timeout-sec = <60>;
-> +    };
+>  RENESAS RIIC DRIVER
+>  M:	Chris Brandt <chris.brandt@renesas.com>
+>  S:	Supported
 > -- 
-> 2.17.1
+> 2.25.1
 > 
 
 -- 
