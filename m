@@ -2,184 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 953011BB84A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 10:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E1251BB8CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 10:26:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726453AbgD1IAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 04:00:07 -0400
-Received: from mleia.com ([178.79.152.223]:32822 "EHLO mail.mleia.com"
+        id S1726775AbgD1I0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 04:26:24 -0400
+Received: from foss.arm.com ([217.140.110.172]:47616 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726253AbgD1IAH (ORCPT
+        id S1726618AbgD1I0Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 04:00:07 -0400
-X-Greylist: delayed 383 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Apr 2020 04:00:06 EDT
-Received: from mail.mleia.com (localhost [127.0.0.1])
-        by mail.mleia.com (Postfix) with ESMTP id 2E4C53DCE90;
-        Tue, 28 Apr 2020 07:53:43 +0000 (UTC)
-Subject: Re: gpio-reserved-ranges and RZ/G1C (was: Re: [PATCH] gpio: rcar:
- select General Output Register to set output states)
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        GPIO SUBSYSTEM <linux-gpio@vger.kernel.org>,
+        Tue, 28 Apr 2020 04:26:24 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1EBE230E;
+        Tue, 28 Apr 2020 01:26:24 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 746133F305;
+        Tue, 28 Apr 2020 01:26:22 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 09:26:17 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-References: <CAMuHMdW4KJ8GgEZZVBuuY2ciG1UqaufQUk04b95f9j4pA_2i2g@mail.gmail.com>
-From:   Vladimir Zapolskiy <vz@mleia.com>
-Message-ID: <fa5d2ffc-53da-fa19-9c96-827f52c66cf6@mleia.com>
-Date:   Tue, 28 Apr 2020 10:53:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Vaibhav Gupta <vaibhavgupta40@gmail.com>
+Subject: Re: [PATCH V3] PCI: rcar: Add the suspend/resume for pcie-rcar driver
+Message-ID: <20200428082617.GA12459@e121166-lin.cambridge.arm.com>
+References: <CAMuHMdVGkM_-5q+pSOtQ5nBPGzMeOpRTJUqekYnvjiPMFepqLw@mail.gmail.com>
+ <20200427174138.GA207841@google.com>
+ <CAMuHMdXbpynd6N2-GF+j3ie3HG0CohebpPOaj=oiZhF_Pt9gAg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdW4KJ8GgEZZVBuuY2ciG1UqaufQUk04b95f9j4pA_2i2g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20200428_075343_212628_59D4C15D 
-X-CRM114-Status: GOOD (  42.19  )
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXbpynd6N2-GF+j3ie3HG0CohebpPOaj=oiZhF_Pt9gAg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-On 4/27/20 10:41 PM, Geert Uytterhoeven wrote:
-> Hi Vladimir,
+On Mon, Apr 27, 2020 at 10:08:52PM +0200, Geert Uytterhoeven wrote:
+> Hi Bjorn,
 > 
-> Sorry for taking so long to get back to you, after our chat at Embedded
-> Recipes.
+> On Mon, Apr 27, 2020 at 7:41 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Sat, Apr 25, 2020 at 10:55:21AM +0200, Geert Uytterhoeven wrote:
+> > > On Fri, Apr 24, 2020 at 9:57 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > [+cc Vaibhav]
+> > > >
+> > > > Alternate less redundant subject:
+> > > >
+> > > >   PCI: rcar: Add suspend/resume support
+> > >
+> > > Note that there's both pcie-rcar.c (this driver, for R-Car Gen2 and Gen3
+> > > PCIe) and pci-rcar-gen2.c (for R-Car Gen2 PCI).
+> > > People tend to use the prefix "PCI: rcar: " for both :-(
+> >
+> > Yeah, that's pretty broken, thanks for pointing this out!
+> >
+> > For most drivers we use a chipset name ("keystone", "imx6", "tegra",
+> > etc) as the changlog tag.  That's nice because it gives space for
+> > multiple drivers from the same vendor, but I don't know anything
+> > similarly specific for the R-Car drivers.
+> >
+> > pci-rcar-gen2.c seems to be for some sort of internal Conventional PCI
 > 
-> On Tue, Dec 18, 2018 at 1:58 PM Vladimir Zapolskiy
-> <vladimir_zapolskiy@mentor.com> wrote:
->> I'm still influenced by a use-case of competing access to a GPIO controller
->> from two OSes, there might be an overlapping with Linux PM routines in
->> the driver.
->>
->> As a side note I'm not convinced that gpiochip_line_is_valid() and
->> gpiochip->valid_mask usage in the driver is justified, unless it is agreed
->> that 'gpio-reserved-ranges' property is really supposed to describe "holes"
->> in GPIO controllers. The property found in r8a77470.dtsi (RZ/G1C) looks like
->> a kludge instead of making a proper assignment of 'gpio-ranges' property:
->>
->> -                       gpio-ranges = <&pfc 0 96 30>;
->> -                       gpio-reserved-ranges = <17 10>;
->> +                       gpio-ranges = <&pfc 0 96 17>, <&pfc 27 123 3>;
->>
->> The change above is untested and I have no access to RZ/G1C manual, it is
->> shared just to demonstrate an alternative idea of describing holes.
+> AFAIUI it's some internal PCI glue to the *HCI USB controller.
 > 
-> Actually this is what Biju's v1 did[1].
-
-Nice to know, I'm still inclined to think that this version is correct.
-
-> But making that works means adding support for multiple "gpio-ranges" to
-> the gpio-rcar driver.
-
-The thing is that the complete support of single or multiple "gpio-ranges"
-property is done in gpiolib, so I would expect that a proper fix is about
-to remove the code and reuse gpiolib rather than to add.
-
-> Of course that can be done, but it will complicate things, as all "offset"
-> parameters in GPIO controller callbacks would need to take into account
-> the holes when converting from contiguous offsets to discontiguous
-> register bits.
-
-Well, it may happen that the gpio-rcar driver is one of the few, which do
-the machinery by itself.
-
-Do you see an option to replace in-house gpio_rcar_request()/gpio_rcar_free()
-by gpiochip_generic_* functions?
-
+> > bus?  The "gen2" is confusing because "Gen 2" is more commonly used
+> > for PCIe than for Conventional PCI.
 > 
-> Note that the second tuple is <&pfc 27 123 3> not <&pfc 27 113 3>, i.e.
-> the hole is not only present in the GPIO bank, but also in the pin
-> controller's pin numbering (the PFC GPSR3 register has the same hole).
+> The "Gen2" applies to "R-Car", not to "PCI".
+
+Wicked :) !
+
+> > I would propose keeping "rcar" for the PCIe driver and using
+> > "rcar-pci" for the Conventional PCI one, but the Conventional PCI one
 > 
-> Documentation/devicetree/bindings/gpio/gpio.txt says:
-> | Some system-on-chips (SoCs) use the concept of GPIO banks. A GPIO bank is an
-> | instance of a hardware IP core on a silicon die, usually exposed to the
-> | programmer as a coherent range of I/O addresses. Usually each such bank is
-> | exposed in the device tree as an individual gpio-controller node, reflecting
-> | the fact that the hardware was synthesized by reusing the same IP block a
-> | few times over.
+> (/me resists against bike-shedding)
+
+I'd agree with Bjorn - I don't know, internal vs external seems
+artificial. Certainly gen2 is misleading, it does not take much
+to improve it.
+
+> > (pci-rcar-gen2.c) seems pretty inactive.  The most recent commits are
+> > from 2018, and they're trivial cleanups.  So I'm doubtful that anybody
+> > will remember when the next change comes in.
 > 
-> ... which applies to the R-Car GPIO block.
->
+> I guess pci-rcar-gen2.c is simpler and more mature ;-)
+> R-Car Gen2 SoCs have both (internal) PCI and PCIe, so the two drivers
+> can be used together on the same hardware.
 
-What do you call "the R-Car GPIO block" here?
+I'd remove gen2 to start with, you are better placed to know the
+internals to come up with something significant.
 
-I agree to the statement if "GPIO block" is replaced by "GPIO controller".
-
-Here, and from my experience, the documentation correctly represents
-the reality by claiming that
-
-> Usually each such bank is exposed in the device tree as an individual
-> gpio-controller node
-
-and another "usually" in the paragraph
-
-> usually exposed to the programmer as a coherent range of I/O addresses.
-
-is less usual :)
-
-Roughly speaking about MMIO GPIO controllers there should be a correspondence
-between a GPIO bank and GPIO contoller's MMIO range.
-
-> | Optionally, a GPIO controller may have a "ngpios" property. This property
-> | indicates the number of in-use slots of available slots for GPIOs. The
-> | typical example is something like this: the hardware register is 32 bits
-> | wide, but only 18 of the bits have a physical counterpart. The driver is
-> | generally written so that all 32 bits can be used, but the IP block is reused
-> | in a lot of designs, some using all 32 bits, some using 18 and some using
-> | 12. In this case, setting "ngpios = <18>;" informs the driver that only the
-> | first 18 GPIOs, at local offset 0 .. 17, are in use.
->
-> So far the R-Car GPIO DT bindings never had a need for the "ngpios"
-> property.  The same information can easily be extracted from the last
-> cell of the (single) mandatory "gpio-ranges" value.
->
-
-That's fine, please note that device tree bindings of GPIO controllers which
-drivers rely on gpiochip_generic_request() do not introduce "ngpios" property
-also by obvious reasons, the machinery is hidden inside gpiolib.
-
-> | If these GPIOs do not happen to be the first N GPIOs at offset 0...N-1, an
-> | additional set of tuples is needed to specify which GPIOs are unusable, with
-> | the gpio-reserved-ranges binding. This property indicates the start and size
-> | of the GPIOs that can't be used.
-> 
-> This also matches the case on RZ/G1C.
-> So IMHO using "gpio-reserved-ranges" is appropriate for RZ/G1C.
-
-I disagree, there is no any indicator that "gpio-reserved-ranges" here is
-justified.
-
-> I do think the commit description of commit b9c725ed73b7cecc
-> ("dt-bindings: gpio: Add a gpio-reserved-ranges property"):
-> 
-> | Some qcom platforms make some GPIOs or pins unavailable for use
-> | by non-secure operating systems, and thus reading or writing the
-> | registers for those pins will cause access control issues.
-> | Introduce a DT property to describe the set of GPIOs that are
-> | available for use so that higher level OSes are able to know what
-> | pins to avoid reading/writing.
-> 
-> is confusing, as it only talks about pins that can be used by a secure
-> OS only, but the actual changes to gpio.txt are in-line with GPIO lines
-> that are simply not wired to physical pins, which is what the original
-> paragraph was talking about, too.
-> What do other people think?
-
-For what it's worth in my opinion "gpio-reserved-ranges" has a quite clear
-and nonambiquous meaning, but special care, and of course a clarification
-from maintainers, is needed to prevent a possible misusage of the property.
-
-I'm an admirer of Occam's razor, and if "holes" in banks can be described
-by a standard and wide spread "gpio-ranges" mechanism, then I see no
-good enough reason to mix in a more exotic "gpio-reserved-ranges" property.
-
---
-Best wishes,
-Vladimir
+Lorenzo
