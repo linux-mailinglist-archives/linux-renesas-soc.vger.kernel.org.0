@@ -2,91 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 863071BB7E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 09:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953011BB84A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 10:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgD1How (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 03:44:52 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38805 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbgD1How (ORCPT
+        id S1726453AbgD1IAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 04:00:07 -0400
+Received: from mleia.com ([178.79.152.223]:32822 "EHLO mail.mleia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726253AbgD1IAH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 03:44:52 -0400
-Received: by mail-ot1-f65.google.com with SMTP id g19so31023236otk.5;
-        Tue, 28 Apr 2020 00:44:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cXl7lKArunQG+/kNdzxWXFuMByrBcBqaAzCKT8iRNHY=;
-        b=KJFYa/goYd448GE7CYQOqvTTONqICFVSw9i1bzEup0l1fx2XKNysmPlwCF2CIZm9+x
-         /W7IS1vyYTtSYSR50Q8cvMB1PzsiA8lw3hs+fz4+2xstnpYBAqX5Ctim4gYFMLK9MMoh
-         IbHMG5GjqbQu5QzcLFXWBqP+/1K5RzejbL+LNEAciEXsRrQyY2OwybNBo08s7ufAYCub
-         ql5J4ZKbfJQyVMBIjewGqY09GrecCNa7gw0xAlL/c80AWtlPE9KAAClUOzjhpb0wux0I
-         EUN73DMT6muuu5BqzPZ+6gjFYAIiUvSSD9iBvEtXN8sKJLi83YZ8/iGMp+5uWMXoUFZ4
-         QAPw==
-X-Gm-Message-State: AGi0PuZWNmhj02Bneay3w4q5oz4YtT67OY8J1qUQ4KCD69N+tg4vagKN
-        bDZm0yjvaxTnLf9h4YWZ45OW0ODEdpyAMVS3u+s=
-X-Google-Smtp-Source: APiQypKhptPShSJB7NSsDnhvt8r6BIMcWUz++M7lNbqsO+HW2HU8+SrM8htxROBTxsP2p13a5k9/0HekF6DYp6mYfJk=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr1978445oih.148.1588059891287;
- Tue, 28 Apr 2020 00:44:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <1587998460-7804-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1587998460-7804-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 Apr 2020 09:44:40 +0200
-Message-ID: <CAMuHMdV_RwosqTfEa9m=euOGnCb-y8d0a5fFjnF-2udrurBxUw@mail.gmail.com>
-Subject: Re: [PATCH v2] clk: renesas: cpg-mssr: Add R8A7742 support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Tue, 28 Apr 2020 04:00:07 -0400
+X-Greylist: delayed 383 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Apr 2020 04:00:06 EDT
+Received: from mail.mleia.com (localhost [127.0.0.1])
+        by mail.mleia.com (Postfix) with ESMTP id 2E4C53DCE90;
+        Tue, 28 Apr 2020 07:53:43 +0000 (UTC)
+Subject: Re: gpio-reserved-ranges and RZ/G1C (was: Re: [PATCH] gpio: rcar:
+ select General Output Register to set output states)
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        GPIO SUBSYSTEM <linux-gpio@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Chris Paterson <Chris.Paterson2@renesas.com>
+References: <CAMuHMdW4KJ8GgEZZVBuuY2ciG1UqaufQUk04b95f9j4pA_2i2g@mail.gmail.com>
+From:   Vladimir Zapolskiy <vz@mleia.com>
+Message-ID: <fa5d2ffc-53da-fa19-9c96-827f52c66cf6@mleia.com>
+Date:   Tue, 28 Apr 2020 10:53:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdW4KJ8GgEZZVBuuY2ciG1UqaufQUk04b95f9j4pA_2i2g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20200428_075343_212628_59D4C15D 
+X-CRM114-Status: GOOD (  42.19  )
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Geert,
 
-On Mon, Apr 27, 2020 at 4:41 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add RZ/G1H (R8A7742) Clock Pulse Generator / Module Standby and Software
-> Reset support, using the CPG/MSSR driver core and the common R-Car Gen2
-> (and RZ/G) code.
+On 4/27/20 10:41 PM, Geert Uytterhoeven wrote:
+> Hi Vladimir,
+> 
+> Sorry for taking so long to get back to you, after our chat at Embedded
+> Recipes.
+> 
+> On Tue, Dec 18, 2018 at 1:58 PM Vladimir Zapolskiy
+> <vladimir_zapolskiy@mentor.com> wrote:
+>> I'm still influenced by a use-case of competing access to a GPIO controller
+>> from two OSes, there might be an overlapping with Linux PM routines in
+>> the driver.
+>>
+>> As a side note I'm not convinced that gpiochip_line_is_valid() and
+>> gpiochip->valid_mask usage in the driver is justified, unless it is agreed
+>> that 'gpio-reserved-ranges' property is really supposed to describe "holes"
+>> in GPIO controllers. The property found in r8a77470.dtsi (RZ/G1C) looks like
+>> a kludge instead of making a proper assignment of 'gpio-ranges' property:
+>>
+>> -                       gpio-ranges = <&pfc 0 96 30>;
+>> -                       gpio-reserved-ranges = <17 10>;
+>> +                       gpio-ranges = <&pfc 0 96 17>, <&pfc 27 123 3>;
+>>
+>> The change above is untested and I have no access to RZ/G1C manual, it is
+>> shared just to demonstrate an alternative idea of describing holes.
+> 
+> Actually this is what Biju's v1 did[1].
+
+Nice to know, I'm still inclined to think that this version is correct.
+
+> But making that works means adding support for multiple "gpio-ranges" to
+> the gpio-rcar driver.
+
+The thing is that the complete support of single or multiple "gpio-ranges"
+property is done in gpiolib, so I would expect that a proper fix is about
+to remove the code and reuse gpiolib rather than to add.
+
+> Of course that can be done, but it will complicate things, as all "offset"
+> parameters in GPIO controller callbacks would need to take into account
+> the holes when converting from contiguous offsets to discontiguous
+> register bits.
+
+Well, it may happen that the gpio-rcar driver is one of the few, which do
+the machinery by itself.
+
+Do you see an option to replace in-house gpio_rcar_request()/gpio_rcar_free()
+by gpiochip_generic_* functions?
+
+> 
+> Note that the second tuple is <&pfc 27 123 3> not <&pfc 27 113 3>, i.e.
+> the hole is not only present in the GPIO bank, but also in the pin
+> controller's pin numbering (the PFC GPSR3 register has the same hole).
+> 
+> Documentation/devicetree/bindings/gpio/gpio.txt says:
+> | Some system-on-chips (SoCs) use the concept of GPIO banks. A GPIO bank is an
+> | instance of a hardware IP core on a silicon die, usually exposed to the
+> | programmer as a coherent range of I/O addresses. Usually each such bank is
+> | exposed in the device tree as an individual gpio-controller node, reflecting
+> | the fact that the hardware was synthesized by reusing the same IP block a
+> | few times over.
+> 
+> ... which applies to the R-Car GPIO block.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> ---
-> Changes for v2:
-> * Dropped zt* clocks
-> * lb clock is now a base clock
-> * Fixed clock-sources for scif2/sdhi1/iic2
-> * Dropped setting div to 3 for zg clock
 
-Thanks for the update
+What do you call "the R-Car GPIO block" here?
 
-> --- /dev/null
-> +++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
+I agree to the statement if "GPIO block" is replaced by "GPIO controller".
 
-> +static struct cpg_core_clk r8a7742_core_clks[] __initdata = {
+Here, and from my experience, the documentation correctly represents
+the reality by claiming that
 
-Missing "const".
+> Usually each such bank is exposed in the device tree as an individual
+> gpio-controller node
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.8, with the above fixed (i.e. no need to
-resend).
+and another "usually" in the paragraph
 
-Gr{oetje,eeting}s,
+> usually exposed to the programmer as a coherent range of I/O addresses.
 
-                        Geert
+is less usual :)
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Roughly speaking about MMIO GPIO controllers there should be a correspondence
+between a GPIO bank and GPIO contoller's MMIO range.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> | Optionally, a GPIO controller may have a "ngpios" property. This property
+> | indicates the number of in-use slots of available slots for GPIOs. The
+> | typical example is something like this: the hardware register is 32 bits
+> | wide, but only 18 of the bits have a physical counterpart. The driver is
+> | generally written so that all 32 bits can be used, but the IP block is reused
+> | in a lot of designs, some using all 32 bits, some using 18 and some using
+> | 12. In this case, setting "ngpios = <18>;" informs the driver that only the
+> | first 18 GPIOs, at local offset 0 .. 17, are in use.
+>
+> So far the R-Car GPIO DT bindings never had a need for the "ngpios"
+> property.  The same information can easily be extracted from the last
+> cell of the (single) mandatory "gpio-ranges" value.
+>
+
+That's fine, please note that device tree bindings of GPIO controllers which
+drivers rely on gpiochip_generic_request() do not introduce "ngpios" property
+also by obvious reasons, the machinery is hidden inside gpiolib.
+
+> | If these GPIOs do not happen to be the first N GPIOs at offset 0...N-1, an
+> | additional set of tuples is needed to specify which GPIOs are unusable, with
+> | the gpio-reserved-ranges binding. This property indicates the start and size
+> | of the GPIOs that can't be used.
+> 
+> This also matches the case on RZ/G1C.
+> So IMHO using "gpio-reserved-ranges" is appropriate for RZ/G1C.
+
+I disagree, there is no any indicator that "gpio-reserved-ranges" here is
+justified.
+
+> I do think the commit description of commit b9c725ed73b7cecc
+> ("dt-bindings: gpio: Add a gpio-reserved-ranges property"):
+> 
+> | Some qcom platforms make some GPIOs or pins unavailable for use
+> | by non-secure operating systems, and thus reading or writing the
+> | registers for those pins will cause access control issues.
+> | Introduce a DT property to describe the set of GPIOs that are
+> | available for use so that higher level OSes are able to know what
+> | pins to avoid reading/writing.
+> 
+> is confusing, as it only talks about pins that can be used by a secure
+> OS only, but the actual changes to gpio.txt are in-line with GPIO lines
+> that are simply not wired to physical pins, which is what the original
+> paragraph was talking about, too.
+> What do other people think?
+
+For what it's worth in my opinion "gpio-reserved-ranges" has a quite clear
+and nonambiquous meaning, but special care, and of course a clarification
+from maintainers, is needed to prevent a possible misusage of the property.
+
+I'm an admirer of Occam's razor, and if "holes" in banks can be described
+by a standard and wide spread "gpio-ranges" mechanism, then I see no
+good enough reason to mix in a more exotic "gpio-reserved-ranges" property.
+
+--
+Best wishes,
+Vladimir
