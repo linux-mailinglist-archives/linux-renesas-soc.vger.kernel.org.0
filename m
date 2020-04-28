@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 335981BCED0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 23:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5471BCED3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 23:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbgD1VgG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 17:36:06 -0400
-Received: from mga09.intel.com ([134.134.136.24]:43967 "EHLO mga09.intel.com"
+        id S1725934AbgD1VgH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 17:36:07 -0400
+Received: from mga01.intel.com ([192.55.52.88]:46073 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726423AbgD1VgG (ORCPT
+        id S1726456AbgD1VgH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:36:06 -0400
-IronPort-SDR: Pt9F9p5u8VLrIKbHVt2+E6Xsthm9ZY9R8qw8t0vf2DLlXnE3nTYie5HAb1CgP2qcWrF/bVNeYM
- StoRlgWQRm1w==
+        Tue, 28 Apr 2020 17:36:07 -0400
+IronPort-SDR: giqiZtmF/UDzND1RhuxN9rYPjKQHQut/xYZo0a9wYARYPJHjvNyRSi0eKrUgRMNx0L/KvhvbBj
+ rFYTN3e88zjg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 14:36:04 -0700
-IronPort-SDR: DroucttaKUJrsvQtkqHbTUBwoD5Rv2uYM/v1HSmDR9LQuCsNtRgfcrNSvB2YbtkH0AfDOxN4l9
- FttPvxFJwWuQ==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 14:36:04 -0700
+IronPort-SDR: 1x8GO4AZa9OADVuZnODZL0BJMOVv4XmtMQTekdt5WfmxSQY6XLo+u/afcdlVO9tyqNItOGKsXv
+ GJV8TRVZYiIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; 
-   d="scan'208";a="293985949"
+   d="scan'208";a="261233080"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 Apr 2020 14:36:03 -0700
+  by orsmga006.jf.intel.com with ESMTP; 28 Apr 2020 14:36:03 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jTXta-0002Ce-NW; Wed, 29 Apr 2020 05:36:02 +0800
-Date:   Wed, 29 Apr 2020 05:35:23 +0800
+        id 1jTXta-0002Aj-GR; Wed, 29 Apr 2020 05:36:02 +0800
+Date:   Wed, 29 Apr 2020 05:35:33 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 00f21412f244cfc3c71fbc2410d7c534de59792f
-Message-ID: <5ea8a19b.Go0GeaiaiLfFheaW%lkp@intel.com>
+Subject: [renesas-devel:renesas-drivers-for-v5.8] BUILD SUCCESS
+ d954c6f8affa63985547e06cd8cba4e523fe96bd
+Message-ID: <5ea8a1a5.LyLyRYMi8Kds4c2I%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,10 +44,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: 00f21412f244cfc3c71fbc2410d7c534de59792f  Merge branches 'renesas-arm-soc-for-v5.8', 'renesas-drivers-for-v5.8' and 'renesas-dt-bindings-for-v5.8' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-drivers-for-v5.8
+branch HEAD: d954c6f8affa63985547e06cd8cba4e523fe96bd  soc: renesas: rcar-rst: Add support for RZ/G1H
 
-elapsed time: 482m
+elapsed time: 483m
 
 configs tested: 163
 configs skipped: 0
@@ -79,8 +79,6 @@ microblaze                      mmu_defconfig
 sparc64                          allmodconfig
 mips                         tb0287_defconfig
 ia64                             allmodconfig
-mips                           ip32_defconfig
-powerpc                           allnoconfig
 i386                             allyesconfig
 ia64                              allnoconfig
 i386                              allnoconfig
@@ -116,6 +114,7 @@ powerpc                             defconfig
 powerpc                       ppc64_defconfig
 powerpc                          rhel-kconfig
 microblaze                    nommu_defconfig
+powerpc                           allnoconfig
 mips                      fuloong2e_defconfig
 mips                      malta_kvm_defconfig
 mips                            ar7_defconfig
@@ -125,6 +124,7 @@ mips                              allnoconfig
 mips                           32r2_defconfig
 mips                             allmodconfig
 mips                malta_kvm_guest_defconfig
+mips                           ip32_defconfig
 mips                  decstation_64_defconfig
 mips                      loongson3_defconfig
 mips                          ath79_defconfig
