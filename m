@@ -2,113 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE1BD1BC267
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 17:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 150901BC3A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 17:28:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727879AbgD1PNI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 11:13:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40860 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727860AbgD1PNI (ORCPT
+        id S1727931AbgD1P2n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 11:28:43 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36947 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727917AbgD1P2m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 11:13:08 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D637C03C1AB
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 08:13:07 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:d03f:8af3:4e83:6587])
-        by andre.telenet-ops.be with bizsmtp
-        id YFD42201327aUyk01FD4XE; Tue, 28 Apr 2020 17:13:05 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jTRuz-0005Hr-Mh
-        for linux-renesas-soc@vger.kernel.org; Tue, 28 Apr 2020 17:13:05 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jTRuz-0008BE-KG
-        for linux-renesas-soc@vger.kernel.org; Tue, 28 Apr 2020 17:13:05 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2020-04-28-v5.7-rc3
-Date:   Tue, 28 Apr 2020 17:13:05 +0200
-Message-Id: <20200428151305.31400-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 28 Apr 2020 11:28:42 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z17so33346334oto.4;
+        Tue, 28 Apr 2020 08:28:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MW/OWSJ7jnlgJeVyEXGr+UHRHBwvDLhnEj4Gw0Faysc=;
+        b=Nf+fnM+pZcFGWPCTcaEKC4Oz4f5HYkfJfGADgAlBXwMl8bmHeHQaAYxdmVOoYRklDi
+         8lqyQHyNEXUnm1ZNKULaf4km7cvynqmmdc1E70cKhB00Vewt/MneVXnFqatRJUQaageP
+         RR+aDoQwdMpq9Ic5fbyp6vXFaM4glH3IuUIDFLrQKGuY/f/pSKdB9cqox3CyVacx/vX7
+         kXfeaeJ4f+37XPKeqDukP/I0Syt/nFmcgzunZIwJ3JFFklaH7aw2PvPbGV/dM6fgcHt1
+         ZbaOVTGsotKeM6lfnqZ287BX325KfCXFEtndqYBXeIdJT3Hd8B7sMAdD1EWXWfCrGnYw
+         5ZSg==
+X-Gm-Message-State: AGi0Pua1GdWcdwFRRQo0PW+5RQPArB3I4c5EvEhenQ0lO7tAeLi2NQQj
+        6gXzO1hS5rvi4TXO3ivkZnOlhgu/6H+xC8tlx7mWlW7d
+X-Google-Smtp-Source: APiQypLMHJyVIXfFFO2xNpPTu7dzQmo3gqEMYjKRlGRvQ7k6o1mLs/72dhZWPi5STyFqrrxlJOrh3hq9svuLM+e9K0c=
+X-Received: by 2002:a9d:564:: with SMTP id 91mr23004838otw.250.1588087721620;
+ Tue, 28 Apr 2020 08:28:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+In-Reply-To: <20200422072137.8517-1-o.rempel@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 Apr 2020 17:28:30 +0200
+Message-ID: <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        David Jander <david@protonic.nl>,
+        "David S. Miller" <davem@davemloft.net>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2020-04-28-v5.7-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi Oleksij,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+On Wed, Apr 22, 2020 at 9:24 AM Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> Add support for following phy-modes: rgmii, rgmii-id, rgmii-txid, rgmii-rxid.
+>
+> This PHY has an internal RX delay of 1.2ns and no delay for TX.
+>
+> The pad skew registers allow to set the total TX delay to max 1.38ns and
+> the total RX delay to max of 2.58ns (configurable 1.38ns + build in
+> 1.2ns) and a minimal delay of 0ns.
+>
+> According to the RGMII v1.3 specification the delay provided by PCB traces
+> should be between 1.5ns and 2.0ns. The RGMII v2.0 allows to provide this
+> delay by MAC or PHY. So, we configure this PHY to the best values we can
+> get by this HW: TX delay to 1.38ns (max supported value) and RX delay to
+> 1.80ns (best calculated delay)
+>
+> The phy-modes can still be fine tuned/overwritten by *-skew-ps
+> device tree properties described in:
+> Documentation/devicetree/bindings/net/micrel-ksz90x1.txt
+>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Today's version is based on renesas-devel-2020-04-28-v5.7-rc3.
+This is now commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode
+support for the KSZ9031 PHY") in net-next/master.
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - topic/gpio-aggregator-v6
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+> --- a/drivers/net/phy/micrel.c
+> +++ b/drivers/net/phy/micrel.c
 
-Included fixes:
-  - driver core: Revert default driver_deferred_probe_timeout value to 0
-  - driver core: Ensure wait_for_device_probe() waits until the deferred_probe_timeout fires
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+> @@ -597,21 +703,33 @@ static int ksz9031_config_init(struct phy_device *phydev)
+>         } while (!of_node && dev_walker);
+>
+>         if (of_node) {
+> +               bool update = false;
+> +
+> +               if (phy_interface_is_rgmii(phydev)) {
+> +                       result = ksz9031_config_rgmii_delay(phydev);
+> +                       if (result < 0)
+> +                               return result;
+> +               }
+> +
+>                 ksz9031_of_load_skew_values(phydev, of_node,
+>                                 MII_KSZ9031RN_CLK_PAD_SKEW, 5,
+> -                               clk_skews, 2);
+> +                               clk_skews, 2, &update);
+>
+>                 ksz9031_of_load_skew_values(phydev, of_node,
+>                                 MII_KSZ9031RN_CONTROL_PAD_SKEW, 4,
+> -                               control_skews, 2);
+> +                               control_skews, 2, &update);
+>
+>                 ksz9031_of_load_skew_values(phydev, of_node,
+>                                 MII_KSZ9031RN_RX_DATA_PAD_SKEW, 4,
+> -                               rx_data_skews, 4);
+> +                               rx_data_skews, 4, &update);
+>
+>                 ksz9031_of_load_skew_values(phydev, of_node,
+>                                 MII_KSZ9031RN_TX_DATA_PAD_SKEW, 4,
+> -                               tx_data_skews, 4);
+> +                               tx_data_skews, 4, &update);
+> +
+> +               if (update && phydev->interface != PHY_INTERFACE_MODE_RGMII)
+> +                       phydev_warn(phydev,
+> +                                   "*-skew-ps values should be used only with phy-mode = \"rgmii\"\n");
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+This triggers on Renesas Salvator-X(S):
+
+    Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00:
+*-skew-ps values should be used only with phy-mode = "rgmii"
+
+which uses:
+
+        phy-mode = "rgmii-txid";
+
+and:
+
+        rxc-skew-ps = <1500>;
+
+If I understand Documentation/devicetree/bindings/net/ethernet-controller.yaml
+correctly:
+
+      # RX and TX delays are added by the MAC when required
+      - rgmii
+
+i.e. any *-skew-ps can be specified.
+
+      # RGMII with internal RX and TX delays provided by the PHY,
+      # the MAC should not add the RX or TX delays in this case
+      - rgmii-id
+
+i.e. *-skew-ps must not be specified.
+
+      # RGMII with internal RX delay provided by the PHY, the MAC
+      # should not add an RX delay in this case
+      - rgmii-rxid
+
+i.e. it's still OK to specify tx*-skew-ps values here...
+
+      # RGMII with internal TX delay provided by the PHY, the MAC
+      # should not add an TX delay in this case
+      - rgmii-txid
+
+... and rx*-skew-ps values here?
+Is my understanding correct, and should the check be updated to take into
+account rxid and txid?
+
+BTW, the example in Documentation/devicetree/bindings/net/micrel-ksz90x1.txt
+still specifies *-skew-ps values with phy-mode = "rgmii-id", so I think
+that should be updated, too.
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+                                -- Linus Torvalds
