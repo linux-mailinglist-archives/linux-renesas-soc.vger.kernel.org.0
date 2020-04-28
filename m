@@ -2,222 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 147921BB401
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 04:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 863071BB7E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 09:44:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbgD1CbK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Apr 2020 22:31:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726366AbgD1CbJ (ORCPT
+        id S1726259AbgD1How (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 Apr 2020 03:44:52 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38805 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbgD1How (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Apr 2020 22:31:09 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50598C03C1A8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 19:31:07 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id k28so15568520lfe.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 19:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=UnerS2Kl72hAiRVV2JqGYkvblu54baNutnPShcz46io=;
-        b=OkkN9xIiD9FngwwvJ3pMdyLdtg67Z2MwQTMlMe6MrvEB2ZVVWlYv4L+ca0Hmi7XN7y
-         jbwJyLyHnFXhV0d6E3dpbxnZ3v9JR0TLHFPKmj32jKc4uXsBEgXoW6uF1ZB/+4gTRy7z
-         C2Ycvdhf7h8TwhdblEdv56naB8mZRzXxFKVkLAUvivV1bCKdLkHYouFPJO7OoMj1yA4y
-         XmYDouhnciLHkfCLGz6NZjMECvbK6d4QUtqAEWB1rGHlFavbRH8mUQXXDRi8Z/te+OMF
-         /f+BZbyIT7HxHM4WSkA6gjeX+lpVV6rbMqfdIMH3/+Xfg1t6C6xDc797soeK5bDzRNnh
-         ISvA==
+        Tue, 28 Apr 2020 03:44:52 -0400
+Received: by mail-ot1-f65.google.com with SMTP id g19so31023236otk.5;
+        Tue, 28 Apr 2020 00:44:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=UnerS2Kl72hAiRVV2JqGYkvblu54baNutnPShcz46io=;
-        b=I/6vwqqVA3PvdjJfSIWI8qWondVDwQdgfMhlm40dk8YfyKQ2d+pSvN7Y2rJdnfB963
-         vDKVoHyv4Y7A+TDmtvqqQVCGdkrUyRf4Mbt4xJBgFQzvTDPKlxAyYhaMJvOb/aMfGmG9
-         fDIEHxu2aVb27etbZKnJR4LnIEhNjVAhpWniLkw4Ufnq/0uASiQkb9lLr1r/EjIvGQ80
-         6blMGdMAndNBVsCBoxC8JNU0CPtIinxQAL6rx0McdurkEoggpXhBkSAOoq9Qs8xB3K+B
-         tUYO08SuIgq1s5kM3Bz4+WXhkU94UifB4T6ITFwV2vdSgwmka98aAw3VWltu+hcO8Q/x
-         4Wiw==
-X-Gm-Message-State: AGi0PuahH3p53JsW2FtFoHE8OL4fuPzJEj1xVwKPv3q57PDeWSEf5c2z
-        71LkZN4fv5bStDUPaOQUZ1bowA==
-X-Google-Smtp-Source: APiQypIj0PB/FA6x9NNYsA6QIcOzjetw0kg/v5q+6OcjxSFRTOLA0AMLTRjmkTIXCvBWJdctSvaREw==
-X-Received: by 2002:a19:4b90:: with SMTP id y138mr17072981lfa.39.1588041065784;
-        Mon, 27 Apr 2020 19:31:05 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id v17sm12758148lfe.34.2020.04.27.19.31.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 19:31:05 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 04:31:04 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas: ostm: Convert to json-schema
-Message-ID: <20200428023104.GD1208690@oden.dyn.berto.se>
-References: <20200427193224.29548-1-geert+renesas@glider.be>
- <20200428022904.GC1208690@oden.dyn.berto.se>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cXl7lKArunQG+/kNdzxWXFuMByrBcBqaAzCKT8iRNHY=;
+        b=KJFYa/goYd448GE7CYQOqvTTONqICFVSw9i1bzEup0l1fx2XKNysmPlwCF2CIZm9+x
+         /W7IS1vyYTtSYSR50Q8cvMB1PzsiA8lw3hs+fz4+2xstnpYBAqX5Ctim4gYFMLK9MMoh
+         IbHMG5GjqbQu5QzcLFXWBqP+/1K5RzejbL+LNEAciEXsRrQyY2OwybNBo08s7ufAYCub
+         ql5J4ZKbfJQyVMBIjewGqY09GrecCNa7gw0xAlL/c80AWtlPE9KAAClUOzjhpb0wux0I
+         EUN73DMT6muuu5BqzPZ+6gjFYAIiUvSSD9iBvEtXN8sKJLi83YZ8/iGMp+5uWMXoUFZ4
+         QAPw==
+X-Gm-Message-State: AGi0PuZWNmhj02Bneay3w4q5oz4YtT67OY8J1qUQ4KCD69N+tg4vagKN
+        bDZm0yjvaxTnLf9h4YWZ45OW0ODEdpyAMVS3u+s=
+X-Google-Smtp-Source: APiQypKhptPShSJB7NSsDnhvt8r6BIMcWUz++M7lNbqsO+HW2HU8+SrM8htxROBTxsP2p13a5k9/0HekF6DYp6mYfJk=
+X-Received: by 2002:aca:f541:: with SMTP id t62mr1978445oih.148.1588059891287;
+ Tue, 28 Apr 2020 00:44:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200428022904.GC1208690@oden.dyn.berto.se>
+References: <1587998460-7804-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1587998460-7804-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 Apr 2020 09:44:40 +0200
+Message-ID: <CAMuHMdV_RwosqTfEa9m=euOGnCb-y8d0a5fFjnF-2udrurBxUw@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: renesas: cpg-mssr: Add R8A7742 support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi (again) Geert,
+Hi Prabhakar,
 
-On 2020-04-28 04:29:05 +0200, Niklas Söderlund wrote:
-> Hi Geert,
-> 
-> Thanks for your patch.
-> 
-> On 2020-04-27 21:32:24 +0200, Geert Uytterhoeven wrote:
-> > Convert the Renesas OS Timer (OSTM) Device Tree binding documentation to
-> > json-schema.
-> > 
-> > Document missing properties.
-> > 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+On Mon, Apr 27, 2020 at 4:41 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add RZ/G1H (R8A7742) Clock Pulse Generator / Module Standby and Software
+> Reset support, using the CPG/MSSR driver core and the common R-Car Gen2
+> (and RZ/G) code.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+> Changes for v2:
+> * Dropped zt* clocks
+> * lb clock is now a base clock
+> * Fixed clock-sources for scif2/sdhi1/iic2
+> * Dropped setting div to 3 for zg clock
 
-Sometimes I type quicker then I think (which is not such a difficult 
-taks), that should have been.
+Thanks for the update
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> --- /dev/null
+> +++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
 
-> 
-> > ---
-> > For a clean dtbs_check, this depends on "[PATCH] ARM: dts: r7s9210: Remove
-> > bogus clock-names from OSTM nodes"
-> > (https://lore.kernel.org/r/20200427192932.28967-1-geert+renesas@glider.be)
-> > which I intend to queue as a fix for v5.7.
-> > 
-> >  .../bindings/timer/renesas,ostm.txt           | 31 ----------
-> >  .../bindings/timer/renesas,ostm.yaml          | 59 +++++++++++++++++++
-> >  2 files changed, 59 insertions(+), 31 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,ostm.txt
-> >  create mode 100644 Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/timer/renesas,ostm.txt b/Documentation/devicetree/bindings/timer/renesas,ostm.txt
-> > deleted file mode 100644
-> > index 81a78f8bcf170a82..0000000000000000
-> > --- a/Documentation/devicetree/bindings/timer/renesas,ostm.txt
-> > +++ /dev/null
-> > @@ -1,31 +0,0 @@
-> > -* Renesas OS Timer (OSTM)
-> > -
-> > -The OSTM is a multi-channel 32-bit timer/counter with fixed clock
-> > -source that can operate in either interval count down timer or free-running
-> > -compare match mode.
-> > -
-> > -Channels are independent from each other.
-> > -
-> > -Required Properties:
-> > -
-> > -  - compatible: must be one or more of the following:
-> > -    - "renesas,r7s72100-ostm" for the R7S72100 (RZ/A1) OSTM
-> > -    - "renesas,r7s9210-ostm" for the R7S9210 (RZ/A2) OSTM
-> > -    - "renesas,ostm" for any OSTM
-> > -		This is a fallback for the above renesas,*-ostm entries
-> > -
-> > -  - reg: base address and length of the register block for a timer channel.
-> > -
-> > -  - interrupts: interrupt specifier for the timer channel.
-> > -
-> > -  - clocks: clock specifier for the timer channel.
-> > -
-> > -Example: R7S72100 (RZ/A1H) OSTM node
-> > -
-> > -	ostm0: timer@fcfec000 {
-> > -		compatible = "renesas,r7s72100-ostm", "renesas,ostm";
-> > -		reg = <0xfcfec000 0x30>;
-> > -		interrupts = <GIC_SPI 102 IRQ_TYPE_EDGE_RISING>;
-> > -		clocks = <&mstp5_clks R7S72100_CLK_OSTM0>;
-> > -		power-domains = <&cpg_clocks>;
-> > -	};
-> > diff --git a/Documentation/devicetree/bindings/timer/renesas,ostm.yaml b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-> > new file mode 100644
-> > index 0000000000000000..600d47ab7d58570f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/timer/renesas,ostm.yaml
-> > @@ -0,0 +1,59 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/timer/renesas,ostm.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas OS Timer (OSTM)
-> > +
-> > +maintainers:
-> > +  - Chris Brandt <chris.brandt@renesas.com>
-> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > +
-> > +description:
-> > +  The OSTM is a multi-channel 32-bit timer/counter with fixed clock source that
-> > +  can operate in either interval count down timer or free-running compare match
-> > +  mode.
-> > +
-> > +  Channels are independent from each other.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - renesas,r7s72100-ostm # RZ/A1H
-> > +          - renesas,r7s9210-ostm  # RZ/A2M
-> > +      - const: renesas,ostm       # Generic
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/r7s72100-clock.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    ostm0: timer@fcfec000 {
-> > +            compatible = "renesas,r7s72100-ostm", "renesas,ostm";
-> > +            reg = <0xfcfec000 0x30>;
-> > +            interrupts = <GIC_SPI 102 IRQ_TYPE_EDGE_RISING>;
-> > +            clocks = <&mstp5_clks R7S72100_CLK_OSTM0>;
-> > +            power-domains = <&cpg_clocks>;
-> > +    };
-> > -- 
-> > 2.17.1
-> > 
-> 
-> -- 
-> Regards,
-> Niklas Söderlund
+> +static struct cpg_core_clk r8a7742_core_clks[] __initdata = {
+
+Missing "const".
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in clk-renesas-for-v5.8, with the above fixed (i.e. no need to
+resend).
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
