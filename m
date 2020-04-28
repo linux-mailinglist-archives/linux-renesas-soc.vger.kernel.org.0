@@ -2,218 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAB771BB3AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 04:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7391BB3CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Apr 2020 04:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbgD1CBy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Apr 2020 22:01:54 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61272 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726233AbgD1CBx (ORCPT
+        id S1726262AbgD1CQS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Apr 2020 22:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726251AbgD1CQR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Apr 2020 22:01:53 -0400
-IronPort-SDR: ILg2PfNbXe9BZ1+3jfUi4UIKllTL+tMMTNqV9vVaNUk94GIvy2lIVXSQ5P6vCqD81Kp+q3d3pZ
- 1KP/ypNOuZuA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 19:01:52 -0700
-IronPort-SDR: OycYZOcrFFZstYz/kgARO+TOyMSHABWO68vg9zkIM8pMUNJ1J7DvWiDlU7MSYNvzCISJE5Jte9
- mUIGsm7h1mtA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,326,1583222400"; 
-   d="scan'208";a="302573925"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 27 Apr 2020 19:01:51 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jTFZH-0003vC-2W; Tue, 28 Apr 2020 10:01:51 +0800
-Date:   Tue, 28 Apr 2020 10:01:16 +0800
-From:   kbuild test robot <lkp@intel.com>
+        Mon, 27 Apr 2020 22:16:17 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F9E3C03C1A8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 19:16:17 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id g4so19802388ljl.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Apr 2020 19:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=vowBaRwq0si4JBeKvtxOM6U6u8O2nYYDgq9C0dU5xaM=;
+        b=lzuD7wTwss2MnGqvd+kl6Bu+I3zijKAZwOMpbiAWZfzCR7dr82BNMggkl/brsgzBZ4
+         Pojqj/y98Veoa5IeLjJ5lq2eUebmZRIlEqrHqEDBM22Yfrs9h41w+Be2b/m37N+Pg0ej
+         9PYR2Esw2BoJ6oozcAZaFMnYWjQGle5iXsFWNUslZtYa1FluJ44UcTINbsOSE7eRXK/D
+         Bf0H57Ea2zTQku+co1d3X80MdaFlQp5aLHaVpzVpY+w+YBtzF/Gesw7v5zpJ7nL136QC
+         DPTwGUeF4KxwsnAOlNugP3ZuJVdra3zoio+oT51HMf74sa5/5rw8r/TIzVXRYkv140X7
+         ekCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=vowBaRwq0si4JBeKvtxOM6U6u8O2nYYDgq9C0dU5xaM=;
+        b=T+cnvUGcZIckrdmpuSi0ll7NiMRQs/NXzCMiRWcpAHRXvKKROV6Vswwxj2h19NDGxQ
+         ledYrbafwo7RqLIOvO7f7vSXMrXgjdBEeI+uId3v8xkxE8cvttqJP25UBo1/jaozwsyo
+         QBeMHTyPNx7+3/uBTS/xVdhj3BDeLkWLV0909HjMOdKDaTqUIH/mLMYlTeHlbaOiQTwQ
+         0C/PQbqOE1pMKa8Fv3Fe4EsSsdIlmzj9im4QvFc8f1itvZp6EhPnRbK0BcRYMKHW9mVN
+         qGGV1g1EwHdf6C/rUNnG0eoedxsurbTFQhnisAbBJHHFyPcQ7NuH8qSwTnH1OQHGC6dR
+         NWWw==
+X-Gm-Message-State: AGi0PuajLwFMqeV0NwSwm9ZhMRvq19GHXl8EYM0n+js1l7EiDlrWeeWy
+        d/1J86gyi7pUo5ejO024njVTkw==
+X-Google-Smtp-Source: APiQypJLCE6b/3p7N1d9GX5Gt6e6N2dH1YsvEnPSg42kBB0pU1eHTo5f2rOs62yJWYUU/QUqzByUBQ==
+X-Received: by 2002:a2e:700b:: with SMTP id l11mr12096875ljc.255.1588040175966;
+        Mon, 27 Apr 2020 19:16:15 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id u9sm11448547ljl.33.2020.04.27.19.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2020 19:16:15 -0700 (PDT)
+Date:   Tue, 28 Apr 2020 04:16:15 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.8] BUILD SUCCESS
- cf8ae446bbcbf5c48214eb7ddaa6ac6e12f4633d
-Message-ID: <5ea78e6c.P+DdEBe53QwcHbRs%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: rcar-gen2: Remove superfluous
+ CLK_RENESAS_DIV6 selects
+Message-ID: <20200428021615.GB1208690@oden.dyn.berto.se>
+References: <20200427193446.29738-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200427193446.29738-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.8
-branch HEAD: cf8ae446bbcbf5c48214eb7ddaa6ac6e12f4633d  arm64: dts: renesas: Fix IOMMU device node names
+Hi Geert,
 
-elapsed time: 885m
+Thanks for your work.
 
-configs tested: 158
-configs skipped: 159
+On 2020-04-27 21:34:46 +0200, Geert Uytterhoeven wrote:
+> CLK_RENESAS_CPG_MSSR selects CLK_RENESAS_DIV6, and CLK_RCAR_GEN2_CPG
+> selects CLK_RENESAS_CPG_MSSR, so there is no longer a need for the
+> individual R-Car Gen2 clock driver options to select CLK_RENESAS_DIV6.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-powerpc                             defconfig
-ia64                                defconfig
-i386                             alldefconfig
-h8300                    h8300h-sim_defconfig
-mips                              allnoconfig
-riscv                             allnoconfig
-i386                                defconfig
-i386                              allnoconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                        generic_defconfig
-ia64                          tiger_defconfig
-ia64                         bigsur_defconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-c6x                              allyesconfig
-xtensa                       common_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-mips                malta_kvm_guest_defconfig
-mips                         tb0287_defconfig
-mips                       capcella_defconfig
-mips                           ip32_defconfig
-mips                  decstation_64_defconfig
-mips                      loongson3_defconfig
-mips                          ath79_defconfig
-mips                        bcm63xx_defconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-mips                            ar7_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-parisc               randconfig-a001-20200427
-alpha                randconfig-a001-20200427
-mips                 randconfig-a001-20200427
-m68k                 randconfig-a001-20200427
-riscv                randconfig-a001-20200427
-nds32                randconfig-a001-20200427
-nios2                randconfig-a001-20200427
-c6x                  randconfig-a001-20200427
-h8300                randconfig-a001-20200427
-sparc64              randconfig-a001-20200427
-microblaze           randconfig-a001-20200427
-nios2                randconfig-a001-20200428
-h8300                randconfig-a001-20200428
-c6x                  randconfig-a001-20200428
-sparc64              randconfig-a001-20200428
-microblaze           randconfig-a001-20200428
-sh                   randconfig-a001-20200427
-csky                 randconfig-a001-20200427
-xtensa               randconfig-a001-20200427
-openrisc             randconfig-a001-20200427
-i386                 randconfig-a003-20200427
-i386                 randconfig-a001-20200427
-i386                 randconfig-a002-20200427
-x86_64               randconfig-a002-20200427
-i386                 randconfig-b002-20200427
-x86_64               randconfig-b001-20200427
-i386                 randconfig-b001-20200427
-i386                 randconfig-b003-20200427
-x86_64               randconfig-b002-20200427
-x86_64               randconfig-b003-20200427
-i386                 randconfig-c002-20200427
-i386                 randconfig-c001-20200427
-x86_64               randconfig-c002-20200427
-x86_64               randconfig-c001-20200427
-i386                 randconfig-c003-20200427
-x86_64               randconfig-c003-20200427
-x86_64               randconfig-d001-20200427
-x86_64               randconfig-d002-20200427
-i386                 randconfig-d002-20200427
-i386                 randconfig-d001-20200427
-x86_64               randconfig-d003-20200427
-i386                 randconfig-d003-20200427
-i386                 randconfig-e003-20200427
-x86_64               randconfig-e002-20200427
-x86_64               randconfig-e003-20200427
-i386                 randconfig-e002-20200427
-i386                 randconfig-e001-20200427
-x86_64               randconfig-e001-20200427
-i386                 randconfig-g003-20200427
-i386                 randconfig-g001-20200427
-x86_64               randconfig-g001-20200427
-i386                 randconfig-g002-20200427
-x86_64               randconfig-g003-20200427
-i386                 randconfig-h003-20200427
-x86_64               randconfig-h002-20200427
-i386                 randconfig-h002-20200427
-i386                 randconfig-h001-20200427
-sparc                randconfig-a001-20200427
-ia64                 randconfig-a001-20200427
-arm                  randconfig-a001-20200427
-arm64                randconfig-a001-20200427
-arc                  randconfig-a001-20200427
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                             alldefconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-i386                             allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+> ---
+> To be queued in clk-renesas-for-v5.8.
+> 
+>  drivers/clk/renesas/Kconfig | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+> index 149787b0005d7ad0..9eb79bf906430a9b 100644
+> --- a/drivers/clk/renesas/Kconfig
+> +++ b/drivers/clk/renesas/Kconfig
+> @@ -95,12 +95,10 @@ config CLK_R8A7779
+>  config CLK_R8A7790
+>  	bool "R-Car H2 clock support" if COMPILE_TEST
+>  	select CLK_RCAR_GEN2_CPG
+> -	select CLK_RENESAS_DIV6
+>  
+>  config CLK_R8A7791
+>  	bool "R-Car M2-W/N clock support" if COMPILE_TEST
+>  	select CLK_RCAR_GEN2_CPG
+> -	select CLK_RENESAS_DIV6
+>  
+>  config CLK_R8A7792
+>  	bool "R-Car V2H clock support" if COMPILE_TEST
+> @@ -109,7 +107,6 @@ config CLK_R8A7792
+>  config CLK_R8A7794
+>  	bool "R-Car E2 clock support" if COMPILE_TEST
+>  	select CLK_RCAR_GEN2_CPG
+> -	select CLK_RENESAS_DIV6
+>  
+>  config CLK_R8A7795
+>  	bool "R-Car H3 clock support" if COMPILE_TEST
+> -- 
+> 2.17.1
+> 
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Regards,
+Niklas Söderlund
