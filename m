@@ -2,168 +2,263 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 873DE1BD0FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 02:23:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C121BD718
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 10:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbgD2AXb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 Apr 2020 20:23:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42440 "EHLO
+        id S1726635AbgD2IVc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Apr 2020 04:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726467AbgD2AXb (ORCPT
+        by vger.kernel.org with ESMTP id S1726625AbgD2IVb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 Apr 2020 20:23:31 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1528C03C1AD
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 17:23:30 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id u6so753226ljl.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Apr 2020 17:23:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=C/pdmU2ua6bM5Ycc1csVAEgUFZ4BowBkji8Xa1QIY6g=;
-        b=NXc9e0TB/eZPPKKmUQP350BpF0d0Pz1XC77zI1fgQ6pfrL7toAPXftoZHZue7Qafg9
-         2SCw2ppGg6MPnQdhr3fZJhNW1dS/9FKGl0tCMZlSE9vr7D0XJuMZXKqHwj4CuZ1rFPtj
-         WdJqKyoqjG7eqNSaitq5OnxEwHj81mBXMwDzDOEtQdmCz8LO9TdPclBf8S0Yip/si7HL
-         +9Hg9RXMEAbWzSCCNGWCALluZcnNvPpQaCM7MMJKCAauGC63/yUSx5qfrzAUy7gt/Jge
-         oxlvkRfk81jju8HcECTO9TCKs6BfW58k82kMfrjrf7PqDDfTpTojer2LYAa7+vgPE1wx
-         Dxpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=C/pdmU2ua6bM5Ycc1csVAEgUFZ4BowBkji8Xa1QIY6g=;
-        b=ZjBUwuW9Q1GY2R8wciuU7dY3Ct5GCBhIDMriaisExem1slL4bBInXY5em3xYqlWY2R
-         h9NO1xxuavd7iN1MjSce1bmGSN3kyxjerd5WhCmM4Utnn9GKmQlIJ43pWbjsKizpx/HJ
-         KBRp8+TuAqv8ZSvaykB6DzQsbNdd606jH66owVtvhC09Z7oRfm562bo/QzxB3Qx1JaAi
-         yizj36lei/TwSRkql9TX78gjRahhTDf+a2s/4hGaLWXTMcmqJsEjWXd5AXEnw9RUfJBz
-         /CVnImGWU+AXa28GvVr5+b8SIusjA2V1GOQSrmtJ8+zRILhTxJq4XqXJvq9cJLL5AbKt
-         1PSw==
-X-Gm-Message-State: AGi0PuYrdyYMZc/wSHgy7OL5rQ5AZCOqrT0UZF81vkINypDn1X6++tbu
-        1MKCTNz32t/ItHQw7eVBM44Ycg==
-X-Google-Smtp-Source: APiQypKHlVtercOMlWFn2Fz8eMjLJQxbAv5rBUrqKSbiwyLCYn/TgCtZDj1mtslltd58qv7mDxIhJg==
-X-Received: by 2002:a2e:82c7:: with SMTP id n7mr9908128ljh.47.1588119809082;
-        Tue, 28 Apr 2020 17:23:29 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id b23sm849282lff.5.2020.04.28.17.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 17:23:28 -0700 (PDT)
-Date:   Wed, 29 Apr 2020 02:23:27 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCHv2] v4l2-compliance: add tests for V4L2_CAP_IO_MC
-Message-ID: <20200429002327.GE1372619@oden.dyn.berto.se>
-References: <a79f8f49-817a-1804-e88e-455f00d21006@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a79f8f49-817a-1804-e88e-455f00d21006@xs4all.nl>
+        Wed, 29 Apr 2020 04:21:31 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A5D9C03C1AE
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2020 01:21:31 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:182a:142e:a95f:66c2])
+        by laurent.telenet-ops.be with bizsmtp
+        id YYMN2200C0w8ZL601YMNip; Wed, 29 Apr 2020 10:21:28 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jThy6-0005bT-4l; Wed, 29 Apr 2020 10:21:22 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jThy6-0004FA-1N; Wed, 29 Apr 2020 10:21:22 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v6] ARM: boot: Obtain start of physical memory from DTB
+Date:   Wed, 29 Apr 2020 10:21:20 +0200
+Message-Id: <20200429082120.16259-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+Currently, the start address of physical memory is obtained by masking
+the program counter with a fixed mask of 0xf8000000.  This mask value
+was chosen as a balance between the requirements of different platforms.
+However, this does require that the start address of physical memory is
+a multiple of 128 MiB, precluding booting Linux on platforms where this
+requirement is not fulfilled.
 
-Thanks for your work.
+Fix this limitation by obtaining the start address from the DTB instead,
+if available (either explicitly passed, or appended to the kernel).
+Fall back to the traditional method when needed.
 
-On 2020-04-23 12:46:28 +0200, Hans Verkuil wrote:
-> Add tests to check the behavior of VIDIOC_ENUM{INPUT,OUTPUT},
-> VIDIOC_G_{INPUT,OUTPUT} and VIDIOC_S_{INPUT,OUTPUT} when the
-> V4L2_CAP_IO_MC is set.
-> 
-> And the old 'node->has_inputs || node->has_outputs' argument for testColorspace()
-> can now be replaced with !node->is_io_mc.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+i.e. not at a multiple of 128 MiB.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
+---
+This depends on "[PATCH v5] ARM: decompressor: simplify libfdt builds"
+(https://lore.kernel.org/r/20200422130853.1907809-1-masahiroy@kernel.org)
 
-> ---
-> Supersedes https://patchwork.linuxtv.org/patch/62312.
-> ---
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-> index b3a18492..7bd2e035 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
-> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-> @@ -1004,6 +1004,8 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
->  		node.is_video = false;
->  		node.is_meta = true;
->  	}
-> +	if (node.g_caps() & V4L2_CAP_IO_MC)
-> +		node.is_io_mc = true;
-> 
->  	/* Information Opts */
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-> index 07c7be29..6c3928fe 100644
-> --- a/utils/v4l2-compliance/v4l2-compliance.h
-> +++ b/utils/v4l2-compliance/v4l2-compliance.h
-> @@ -97,6 +97,7 @@ struct base_node {
->  	bool is_meta;
->  	bool is_touch;
->  	bool is_m2m;
-> +	bool is_io_mc;
->  	bool is_planar;
->  	bool can_capture;
->  	bool can_output;
-> diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
-> index 824769b3..f38bc30a 100644
-> --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
-> @@ -447,7 +447,7 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
->  		fail_on_test(pix.bytesperline && pix.bytesperline < pix.width);
->  		fail_on_test(!pix.sizeimage);
->  		if (!node->is_m2m)
-> -			fail_on_test(testColorspace(node->has_inputs || node->has_outputs,
-> +			fail_on_test(testColorspace(!node->is_io_mc,
->  						    pix.pixelformat, pix.colorspace,
->  						    pix.ycbcr_enc, pix.quantization));
->  		fail_on_test(pix.field == V4L2_FIELD_ANY);
-> @@ -463,7 +463,7 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
->  			return fail("pixelformat %08x (%s) for buftype %d not reported by ENUM_FMT\n",
->  					pix_mp.pixelformat, fcc2s(pix_mp.pixelformat).c_str(), type);
->  		if (!node->is_m2m)
-> -			fail_on_test(testColorspace(node->has_inputs || node->has_outputs,
-> +			fail_on_test(testColorspace(!node->is_io_mc,
->  						    pix_mp.pixelformat, pix_mp.colorspace,
->  						    pix_mp.ycbcr_enc, pix_mp.quantization));
->  		fail_on_test(pix_mp.field == V4L2_FIELD_ANY);
-> diff --git a/utils/v4l2-compliance/v4l2-test-input-output.cpp b/utils/v4l2-compliance/v4l2-test-input-output.cpp
-> index fb8d12b1..80ecf75d 100644
-> --- a/utils/v4l2-compliance/v4l2-test-input-output.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-input-output.cpp
-> @@ -466,6 +466,10 @@ int testInput(struct node *node)
->  	if (!node->inputs && node->has_inputs)
->  		return fail("no inputs found, but input capabilities set\n");
->  	fail_on_test(node->is_m2m && node->inputs > 1);
-> +	if (node->is_io_mc) {
-> +		fail_on_test(!node->is_video && !node->is_meta);
-> +		fail_on_test(node->inputs != 1);
-> +	}
->  	return 0;
->  }
-> 
-> @@ -836,6 +840,10 @@ int testOutput(struct node *node)
->  	if (!node->outputs && node->has_outputs)
->  		return fail("no outputs found, but output capabilities set\n");
->  	fail_on_test(node->is_m2m && node->outputs > 1);
-> +	if (node->is_io_mc) {
-> +		fail_on_test(!node->is_video && !node->is_meta);
-> +		fail_on_test(node->outputs != 1);
-> +	}
->  	return 0;
->  }
-> 
+v6:
+  - Rebase on top of "[PATCH v5] ARM: decompressor: simplify libfdt
+    builds",
+  - Include <linux/libfdt.h> instead of <libfdt.h>,
 
+v5:
+  - Add Tested-by, Reviewed-by,
+  - Round up start of memory to satisfy 16 MiB alignment rule,
+
+v4:
+  - Fix stack location after commit 184bf653a7a452c1 ("ARM:
+    decompressor: factor out routine to obtain the inflated image
+    size"),
+
+v3:
+  - Add Reviewed-by,
+  - Fix ATAGs with appended DTB,
+  - Add Tested-by,
+
+v2:
+  - Use "cmp r0, #-1", instead of "cmn r0, #1",
+  - Add missing stack setup,
+  - Support appended DTB.
+---
+ arch/arm/boot/compressed/Makefile            |  5 +-
+ arch/arm/boot/compressed/fdt_get_mem_start.c | 56 ++++++++++++++++++++
+ arch/arm/boot/compressed/head.S              | 54 ++++++++++++++++++-
+ 3 files changed, 113 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
+
+diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+index 00602a6fba04733f..c873d3882375f5e5 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -81,11 +81,14 @@ libfdt_objs := fdt_rw.o fdt_ro.o fdt_wip.o fdt.o
+ ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
+ OBJS	+= $(libfdt_objs) atags_to_fdt.o
+ endif
++ifeq ($(CONFIG_USE_OF),y)
++OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
++endif
+ 
+ # -fstack-protector-strong triggers protection checks in this code,
+ # but it is being used too early to link to meaningful stack_chk logic.
+ nossp-flags-$(CONFIG_CC_HAS_STACKPROTECTOR_NONE) := -fno-stack-protector
+-$(foreach o, $(libfdt_objs) atags_to_fdt.o, \
++$(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o, \
+ 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt $(nossp-flags-y)))
+ 
+ # These were previously generated C files. When you are building the kernel
+diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
+new file mode 100644
+index 0000000000000000..ae71fde731b869d7
+--- /dev/null
++++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/kernel.h>
++#include <linux/libfdt.h>
++#include <linux/sizes.h>
++
++static const void *getprop(const void *fdt, const char *node_path,
++			   const char *property)
++{
++	int offset = fdt_path_offset(fdt, node_path);
++
++	if (offset == -FDT_ERR_NOTFOUND)
++		return NULL;
++
++	return fdt_getprop(fdt, offset, property, NULL);
++}
++
++static uint32_t get_addr_size(const void *fdt)
++{
++	const __be32 *addr_len = getprop(fdt, "/", "#address-cells");
++
++	if (!addr_len) {
++		/* default */
++		return 1;
++	}
++
++	return fdt32_to_cpu(*addr_len);
++}
++
++/*
++ * Get the start of physical memory
++ */
++
++unsigned long fdt_get_mem_start(const void *fdt)
++{
++	uint32_t addr_size, mem_start;
++	const __be32 *memory;
++
++	if (!fdt)
++		return -1;
++
++	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
++		return -1;
++
++	/* Find the first memory node */
++	memory = getprop(fdt, "/memory", "reg");
++	if (!memory)
++		return -1;
++
++	/* There may be multiple cells on LPAE platforms */
++	addr_size = get_addr_size(fdt);
++
++	mem_start = fdt32_to_cpu(memory[addr_size - 1]);
++	/* Must be a multiple of 16 MiB for phys/virt patching */
++	return round_up(mem_start, SZ_16M);
++}
+diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+index e8e1c866e413a287..1d7c86624b3eeddc 100644
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -254,8 +254,58 @@ not_angel:
+ 		.text
+ 
+ #ifdef CONFIG_AUTO_ZRELADDR
++#ifdef CONFIG_USE_OF
+ 		/*
+-		 * Find the start of physical memory.  As we are executing
++		 * Find the start of physical memory.
++		 * Try the DTB first, if available.
++		 */
++		adr	r0, LC0
++		ldr	r1, [r0]	@ get absolute LC0
++		ldr	sp, [r0, #24]	@ get stack location
++		sub	r1, r0, r1	@ compute relocation offset
++		add	sp, sp, r1	@ apply relocation
++
++#ifdef CONFIG_ARM_APPENDED_DTB
++		/*
++		 * Look for an appended DTB. If found, use it and
++		 * move stack away from it.
++		 */
++		ldr	r6, [r0, #12]	@ get &_edata
++		add	r6, r6, r1	@ relocate it
++		ldmia	r6, {r0, r5}	@ get DTB signature and size
++#ifndef __ARMEB__
++		ldr	r1, =0xedfe0dd0	@ sig is 0xd00dfeed big endian
++		/* convert DTB size to little endian */
++		eor	r2, r5, r5, ror #16
++		bic	r2, r2, #0x00ff0000
++		mov	r5, r5, ror #8
++		eor	r5, r5, r2, lsr #8
++#else
++		ldr	r1, =0xd00dfeed
++#endif
++		cmp	r0, r1		@ do we have a DTB there?
++		bne	1f
++
++		/* preserve 64-bit alignment */
++		add	r5, r5, #7
++		bic	r5, r5, #7
++		add	sp, sp, r5	@ if so, move stack above DTB
++		mov	r0, r6		@ and extract memory start from DTB
++		b	2f
++
++1:
++#endif /* CONFIG_ARM_APPENDED_DTB */
++
++		mov	r0, r8
++2:
++		bl	fdt_get_mem_start
++		mov	r4, r0
++		cmp	r0, #-1
++		bne	1f
++#endif /* CONFIG_USE_OF */
++
++		/*
++		 * Fall back to the traditional method.  As we are executing
+ 		 * without the MMU on, we are in the physical address space.
+ 		 * We just need to get rid of any offset by aligning the
+ 		 * address.
+@@ -273,6 +323,8 @@ not_angel:
+ 		 */
+ 		mov	r4, pc
+ 		and	r4, r4, #0xf8000000
++
++1:
+ 		/* Determine final kernel image address. */
+ 		add	r4, r4, #TEXT_OFFSET
+ #else
 -- 
-Regards,
-Niklas Söderlund
+2.17.1
+
