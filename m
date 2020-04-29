@@ -2,159 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 087131BE40D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 18:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7E321BE4F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 19:16:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726493AbgD2Qi4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Apr 2020 12:38:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53456 "EHLO
+        id S1726493AbgD2RQB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Apr 2020 13:16:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726423AbgD2Qi4 (ORCPT
+        by vger.kernel.org with ESMTP id S1726456AbgD2RQB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Apr 2020 12:38:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62E1C03C1AE;
-        Wed, 29 Apr 2020 09:38:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8541A521;
-        Wed, 29 Apr 2020 18:38:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588178330;
-        bh=ykccZOVR0+BTwsaLmONChElcm8UTCwaCcxM+4vAYXQA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JlFd7L/Gdmo+YR4raDTZUeeLs7GIw+LuLbIoq1+Vm5cJ6p2xMej0D68c+MJjEaxXE
-         VqzBXml8Y1a1uFijOh6gSsERmkca1dWmluMRvlE+Wc56Oiz2HOqunIkDptK7kfQ6L0
-         ghr0dWgQWoUMovy0kyPPMYATVYgu8jh8soPIxn+0=
-Date:   Wed, 29 Apr 2020 19:38:49 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wed, 29 Apr 2020 13:16:01 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B89C03C1AE
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Apr 2020 10:16:00 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:182a:142e:a95f:66c2])
+        by baptiste.telenet-ops.be with bizsmtp
+        id YhFx2200E0w8ZL601hFxGf; Wed, 29 Apr 2020 19:15:57 +0200
+Received: from geert (helo=localhost)
+        by ramsan with local-esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jTqJR-0005gr-93; Wed, 29 Apr 2020 19:15:57 +0200
+Date:   Wed, 29 Apr 2020 19:15:57 +0200 (CEST)
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     =?ISO-8859-15?Q?Niklas_S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200429163849.GK5956@pendragon.ideasonboard.com>
-References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
- <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
- <20200429182739.274ce451@coco.lan>
+Subject: Re: [PATCH 1/2] mmc: tmio: undo PM autosuspend when removing the
+ host
+In-Reply-To: <20190109223452.11184-2-niklas.soderlund+renesas@ragnatech.se>
+Message-ID: <alpine.DEB.2.21.2004291630090.4052@ramsan.of.borg>
+References: <20190109223452.11184-1-niklas.soderlund+renesas@ragnatech.se> <20190109223452.11184-2-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200429182739.274ce451@coco.lan>
+Content-Type: multipart/mixed; boundary="8323329-1654730921-1588180557=:4052"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mauro,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
-> Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
-> 
-> > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > with drivers implementing one of the following behaviours:
-> > 
-> 
-> ...
-> 
-> The patch itself is OK. However, there's a change you did at the
-> documentation that it is unrelated. 
-> 
-> See below.
-> 
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > index 8ca6ab701e4a..a987debc7654 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
-> >  formats in preference order, where preferred formats are returned before
-> >  (that is, with lower ``index`` value) less-preferred formats.
-> >  
-> > -.. note::
-> > -   After switching input or output the list of enumerated image
-> > -   formats may be different.
-> 
-> Why are you dropping this note?
-> 
-> This basically reverts this changeset:
-> 
->   commit 93828d6438081649e81b8681df9bf6ad5d691650
->   Author: Hans Verkuil <hans.verkuil@cisco.com>
->   Date:   Mon Sep 3 09:37:18 2012 -0300
-> 
->     [media] DocBook: make the G/S/TRY_FMT specification more strict
->     
->     - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
->     - TRY_FMT should give the same result as S_FMT, all other things being equal.
->     - ENUMFMT may return different formats for different inputs or outputs.
->     This was decided during the 2012 Media Workshop.
->     
->     Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->     Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
->     Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->     Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
->     Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
-> 
-> As far as I remember, from our 2012 discussions, some drivers may change 
-> the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
-> VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
-> degrees rotation would equally affect it.
-> 
-> Perhaps, the removal was just some mistake. If so, please re-submit
-> another patch without it.
-> 
-> Otherwise, if are there any good reasons for such change, and it won't
-> cause any API regressions, please place it on a separate patch, clearly
-> that.
-> 
-> ... Or, maybe you felt that it won't make sense for MC-centric devices.
-> On such case, please improve the note stating it on a way that it would
-> be understandable on both MC-centric and bridge-centrid drivers.
+--8323329-1654730921-1588180557=:4052
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
-removes the above, but adds the following
+ 	Hi Niklas,
 
-----
-If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-<device-capabilities>`, applications shall initialize the ``mbus_code`` field
-to zero and drivers shall ignore the value of the field.  Drivers shall
-enumerate all image formats. The enumerated formats may depend on the active
-input or output of the device.
+On Wed, 9 Jan 2019, Niklas Söderlund wrote:
+> When removing the driver make sure to undo the PM autosuspend configured
+> when probing the host.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
-<device-capabilities>`, applications may initialize the ``mbus_code`` field to
-a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
-``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
-image formats that can produce (for video output devices) or be produced from
-(for video capture devices) that media bus code.  Regardless of the value of
-the ``mbus_code`` field, the enumerated image formats shall not depend on the
-active configuration of the video device or device pipeline. Enumeration shall
-otherwise operate as previously described.
-----
+This is commit bb60023c6387842b ("mmc: tmio: undo PM autosuspend when
+removing the host"), and I've bisected a regression to it.
+Sorry for taking that long to discover this issue (by loading a DT
+overlay to enable SCIFA5 on Koelsch, which requires unbinding SHDI0
+first).
 
-Note the last sentence for the !V4L2_CAP_IO_MC case:
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1287,6 +1287,7 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *host)
+> 	cancel_delayed_work_sync(&host->delayed_reset_work);
+> 	tmio_mmc_release_dma(host);
+>
+> +	pm_runtime_dont_use_autosuspend(&pdev->dev);
+> 	pm_runtime_put_sync(&pdev->dev);
+> 	pm_runtime_disable(&pdev->dev);
+> }
 
-"The enumerated formats may depend on the active input or output of the
-device."
+When unbinding the sdhi driver on e.g. Koelsch or Salvator-XS:
 
-We can extend it with
+     echo ee100000.sd > /sys/bus/platform/drivers/sh_mobile_sdhi/unbind
+     echo ee100000.sd > /sys/bus/platform/drivers/renesas_sdhi_internal_dmac/unbind
 
-"The enumerated formats may depend on the active input or output of the
-device, switching the input or output may thus produce different lists
-of enumerated formats."
+Two warnings are triggered:
 
-I think it's a bit overkill as it's saying the same thing twice, but if
-you prefer that, I'm fine with it.
+     WARNING: CPU: 0 PID: 586 at drivers/clk/clk.c:954 clk_core_disable+0x40/0x214
+     sdhi0 already disabled
+     CPU: 0 PID: 586 Comm: bash Not tainted 5.7.0-rc3-shmobile-00508-g3c2c87c467f1c34e-dirty #547
+     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+     [<c010de5c>] (unwind_backtrace) from [<c0109cbc>] (show_stack+0x10/0x14)
+     [<c0109cbc>] (show_stack) from [<c072d5ac>] (dump_stack+0x88/0xa8)
+     [<c072d5ac>] (dump_stack) from [<c011c190>] (__warn+0xd0/0xec)
+     [<c011c190>] (__warn) from [<c011c21c>] (warn_slowpath_fmt+0x70/0x9c)
+     [<c011c21c>] (warn_slowpath_fmt) from [<c03a09e4>] (clk_core_disable+0x40/0x214)
+     [<c03a09e4>] (clk_core_disable) from [<c03a0bd0>] (clk_core_disable_lock+0x18/0x24)
+     [<c03a0bd0>] (clk_core_disable_lock) from [<c059e910>] (renesas_sdhi_clk_disable+0x14/0x34)
+     [<c059e910>] (renesas_sdhi_clk_disable) from [<c059f2fc>] (renesas_sdhi_remove+0x18/0x20)
+     [<c059f2fc>] (renesas_sdhi_remove) from [<c043c054>] (platform_drv_remove+0x24/0x3c)
+     [<c043c054>] (platform_drv_remove) from [<c043afb4>] (device_release_driver_internal+0xf0/0x198)
+     [<c043afb4>] (device_release_driver_internal) from [<c0439140>] (unbind_store+0x44/0x68)
+     [<c0439140>] (unbind_store) from [<c02941fc>] (kernfs_fop_write+0x128/0x1e4)
+     [<c02941fc>] (kernfs_fop_write) from [<c0225598>] (__vfs_write+0x28/0xe0)
+     [<c0225598>] (__vfs_write) from [<c0226664>] (vfs_write+0x98/0xbc)
+     [<c0226664>] (vfs_write) from [<c02267ec>] (ksys_write+0x68/0xb4)
+     [<c02267ec>] (ksys_write) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
 
-For the V4L2_CAP_IO_MC case there's no .s_input() or .s_output(), so the
-note isn't applicable.
+     ...
+ 	WARNING: CPU: 0 PID: 586 at drivers/clk/clk.c:813 clk_core_unprepare+0x40/0x108
+     sdhi0 already unprepared
+     CPU: 0 PID: 586 Comm: bash Tainted: G        W         5.7.0-rc3-shmobile-00508-g3c2c87c467f1c34e-dirty #547
+     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+     [<c010de5c>] (unwind_backtrace) from [<c0109cbc>] (show_stack+0x10/0x14)
+     [<c0109cbc>] (show_stack) from [<c072d5ac>] (dump_stack+0x88/0xa8)
+     [<c072d5ac>] (dump_stack) from [<c011c190>] (__warn+0xd0/0xec)
+     [<c011c190>] (__warn) from [<c011c21c>] (warn_slowpath_fmt+0x70/0x9c)
+     [<c011c21c>] (warn_slowpath_fmt) from [<c03a1150>] (clk_core_unprepare+0x40/0x108)
+     [<c03a1150>] (clk_core_unprepare) from [<c03a2d34>] (clk_unprepare+0x24/0x2c)
+     [<c03a2d34>] (clk_unprepare) from [<c044e244>] (__pm_clk_remove+0x38/0x54)
+     [<c044e244>] (__pm_clk_remove) from [<c044e6cc>] (pm_clk_destroy+0xc4/0xdc)
+     [<c044e6cc>] (pm_clk_destroy) from [<c044c4ec>] (genpd_remove_device+0x10c/0x128)
+     [<c044c4ec>] (genpd_remove_device) from [<c044c54c>] (genpd_dev_pm_detach+0x44/0xe4)
+     [<c044c54c>] (genpd_dev_pm_detach) from [<c043c064>] (platform_drv_remove+0x34/0x3c)
+     [<c043c064>] (platform_drv_remove) from [<c043afb4>] (device_release_driver_internal+0xf0/0x198)
+     [<c043afb4>] (device_release_driver_internal) from [<c0439140>] (unbind_store+0x44/0x68)
+     [<c0439140>] (unbind_store) from [<c02941fc>] (kernfs_fop_write+0x128/0x1e4)
+     [<c02941fc>] (kernfs_fop_write) from [<c0225598>] (__vfs_write+0x28/0xe0)
+     [<c0225598>] (__vfs_write) from [<c0226664>] (vfs_write+0x98/0xbc)
+     [<c0226664>] (vfs_write) from [<c02267ec>] (ksys_write+0x68/0xb4)
+     [<c02267ec>] (ksys_write) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
 
--- 
-Regards,
+Removing the call to pm_runtime_dont_use_autosuspend() fixes that
+symptom.  But that is definitely not the right fix, as doing so causes
+genpd_stop_dev() to no longer being called on unbind.
 
-Laurent Pinchart
+What seems to happen is:
+   - During driver probe, the clocks are enabled twice, by
+       1. renesas_sdhi_clk_enable(), called from renesas_sdhi_probe(),
+       2. pm_clk_resume(), called from tmio_mmc_host_probe().
+   - During driver unbind, the clocks are disabled thrice, by:
+       1. renesas_sdhi_clk_disable(), called from
+          tmio_mmc_host_runtime_suspend(),
+       2. pm_clk_suspend(), called from tmio_mmc_host_remove() through
+          pm_runtime_put_sync(),
+       3. renesas_sdhi_clk_disable(), called from renesas_sdhi_remove().
+     In addition, an extra clock unprepare happens in __pm_clk_remove(),
+     called from genpd_remove_device() through pm_clk_destroy().
+
+Note that tmio_mmc_host_runtime_suspend() is never called, so there is
+definitely an imbalance in the Runtime PM handling..
+
+Without the call to pm_runtime_dont_use_autosuspend(), the clocks are
+disabled twice during driver unbind, by:
+   1. renesas_sdhi_clk_disable(), called from renesas_sdhi_remove(),
+   2. __pm_clk_remove(), called from genpd_remove_device() through
+      pm_clk_destroy().
+Hence the warning is gone, by accident, as e.g. the pm_clk_resume() call is
+never balanced by its counterpart pm_clk_suspend().
+
+Thanks for your comments!
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
+--8323329-1654730921-1588180557=:4052--
