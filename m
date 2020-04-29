@@ -2,106 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75F951BEB64
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 00:03:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D06201BEBA3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 00:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbgD2WDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Apr 2020 18:03:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48274 "EHLO
+        id S1728229AbgD2WJ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Apr 2020 18:09:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726481AbgD2WDv (ORCPT
+        by vger.kernel.org with ESMTP id S1728021AbgD2WJZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Apr 2020 18:03:51 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3163C03C1AE;
-        Wed, 29 Apr 2020 15:03:51 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id k133so3304123oih.12;
-        Wed, 29 Apr 2020 15:03:51 -0700 (PDT)
+        Wed, 29 Apr 2020 18:09:25 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E791FC03C1AE;
+        Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id g14so3137869otg.10;
+        Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VuIJyUBI77A7IsS+UOzXlF4URqxn4aKY6yPSfUat6bs=;
-        b=jYjww6TRFcRX3Y23g1fUDaSBixBCmtlAr7R6Tr647wYfD6+VQtLpQyI3KQy3e9YvVZ
-         GpcxE8fFEo6OWVSKuQwuHBjMY4thiSIdKoHlvitdIYxmtyZpsMeQejW1hdtDaMB4wmk0
-         F7jHmJII2Gtb6LCbj5zCojkV1FYAgJwh+xYKpP2RtNrp7FRaObjHYxH9sg/TrRzwJHs6
-         li/TE2Nx2Vs6kvMJWzIHQzUj7Egf5+H/qSp0aglmR2A/9ci3Mcn2ZBQRk2z4sNW5E2k8
-         wD3tk7bVwZl351JxP4iOxPoHCGy92KYF/3XHy2wtZdSpGhHG4SJRGO7npCeAVQIm061u
-         6Yyg==
+        bh=8oqwTr93GONiIRzdNlX+cz19aB6zUtjVhJXAzceD5NI=;
+        b=mbT0/nGlQVzYagaookGp3cEt7WpHHYBvOZ0eg9smcL5aJUbT99dEyaKCU+lwAoXgpi
+         3XWCQanM4wWlKeU1lcb3ywJ046tsjFk0WKR2ctNr2fSHkzgR3Rchv3lQkOLxODyhgi7W
+         zdpySIQe8y3fRub9I9zVCXi362IIZXiEe+OR71DOkOHSpux73eGW9th2DUh4b7wqU9Fs
+         s/CdEqtDZSE0o+8lKUVxEA8+D84EcxNJbzeimiuaCUf3prxmEggk9gmRNSSVQDnbwyXs
+         WWzsP3h99/+yez6l4AhJBHTyVPBHNtzOtu6C/P+mI3kpV3VtW3NIxfcGr3FRNhvcrqlV
+         UdVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VuIJyUBI77A7IsS+UOzXlF4URqxn4aKY6yPSfUat6bs=;
-        b=opHnCCv31KSe3tij6f2edWlhbQTyl5/QXOpvA6VaQwxUmOynVhmDvCHVRdvrqbY0Va
-         HRVnyRCNALvkrobdZGy00F9vCf8zX/INnGtaqejZxTVQqEvhXahhbP6E9GdtCxkyK8h6
-         Z1wOXWw3Vg0q6xqmgKXHjwB86LmpdUVOgfW6NE+i0yWpC7z4bJzhNLp5zZQ8uVl8HHIy
-         QYJoJ49KNQuJQj+7PJ0o/AHKxEGHhtoOcGrY1rghwNuDLH+p8c0BOlG1wehMqOv1S1XL
-         Db1PsfvzsCPGJxDGuZrqy3tyMTvidYxsnsUK0N4UKcH0HimbP2eZ70eT3BYGj/OiuYwO
-         9mZg==
-X-Gm-Message-State: AGi0PubxZtVmnuJIuBysxBdsg+4Iad8lmdOg6KVQqidwayxuO1WfiNre
-        Hxv12kJhmnY+9ccTxS6YU3m1UB1GU+b9S3YLGfbq/OEC
-X-Google-Smtp-Source: APiQypJ3zwVfJk2nMrXMJzcY0A34yx8sFc7iQq4Qt4G4w6K/OJdPad49V5wxoF+Zc/LWhjYb6zlkiutTqfBQpvdh7bQ=
-X-Received: by 2002:aca:b783:: with SMTP id h125mr349467oif.62.1588197830734;
- Wed, 29 Apr 2020 15:03:50 -0700 (PDT)
+        bh=8oqwTr93GONiIRzdNlX+cz19aB6zUtjVhJXAzceD5NI=;
+        b=pIBCbyUQw2OWGo6wc0lNJtQi5JAqrhgtThExihwYKGV6RQhIJfgkJ7Rc5S0keXkimH
+         VaRhFOwiiCRh07HIgSD9zdZFEHAJsrVP2STm/treUV70iz3k12XUU81zo4wu51/K8fnx
+         CgrrTzCFybW6zQL+QInwv+0jRBcS3GAKkJcIlrAT0ncwnm6Xs61hdiwEV7drgctQA4cL
+         19wIKWPzamgvILy8wj2YpHH945SdveLo/3fITTyfXhNoc/AlOGtKU0uaTsUDk+0BegdW
+         VRCuJXWQTtf/xRxJ9aNgmlSy9Ub0pgiDLDNRZc/dX/+3P+piv4oO1pVjntyST57KvGxI
+         y2Lg==
+X-Gm-Message-State: AGi0PuZppdDoRbPUoiZMkuIurz0mom53ya3bwUd7C3dwADTHeHxCI9pu
+        DfaEeZBgKn4p1Lm4z/PSWBF2e9Km+1kdUbsIZeNRhk4j
+X-Google-Smtp-Source: APiQypKobiQJJqpqNRhFSNXeLIHjEz81s3WISBQksQoAKf9VSaGW8bghC6rpb+qGC5zWjSngm/v2nXCxiH0QCiwVw68=
+X-Received: by 2002:a9d:7390:: with SMTP id j16mr94578otk.43.1588198164341;
+ Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <1588197415-13747-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1588197415-13747-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200429215955.GN1551@shell.armlinux.org.uk>
-In-Reply-To: <20200429215955.GN1551@shell.armlinux.org.uk>
+References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 29 Apr 2020 23:03:24 +0100
-Message-ID: <CA+V-a8syz--q7MCNL_5TZmnYqgc7W6nuXJOt6VJhJutuS3seKQ@mail.gmail.com>
-Subject: Re: [PATCH 04/18] ARM: debug-ll: Add support for r8a7742
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Wed, 29 Apr 2020 23:08:58 +0100
+Message-ID: <CA+V-a8s+rU8PV9nzERGSeiauxekP7MOgMXMOtx579OqnVmMHrA@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] media: rcar-vin: Enable MEDIA_BUS_FMT_SRGGB8_1X8 format
+To:     Niklas <niklas.soderlund@ragnatech.se>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, dmaengine@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Niklas,
 
-Thank you for the review.
-
-On Wed, Apr 29, 2020 at 11:00 PM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
->
-> On Wed, Apr 29, 2020 at 10:56:41PM +0100, Lad Prabhakar wrote:
-> > @@ -1701,6 +1709,7 @@ config DEBUG_UART_PHYS
-> >       default 0xe6e60000 if DEBUG_RCAR_GEN2_SCIF0
-> >       default 0xe6e68000 if DEBUG_RCAR_GEN2_SCIF1
-> >       default 0xe6ee0000 if DEBUG_RCAR_GEN2_SCIF4
-> > +     default 0xe6c60000 if DEBUG_RCAR_GEN2_SCIFA2
+On Wed, Apr 15, 2020 at 11:19 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 >
 > Hi,
 >
-> This is ordered by address.  Please keep it so.
+> This patch series adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for vin
 >
-Sure will do that.
+> Cheers,
+> --Prabhakar
+>
+> Changed for v4:
+> * patch 1/3 is new patch which adds a check for conversion from input to
+>   output.
+> * patch 2/3 added a comment while setting VNIS_REG for RAW format as
+>   suggested by Niklas
+>
+> Changes for v3:
+> * Dropped patch 1/1 from v2 as this handled neatly by patches
+>   https://patchwork.linuxtv.org/project/linux-media/list/?series=1974
+> * Included Ack from Niklas for patch 2/2
+> * Updated commit message for patch 1/1.
+>
+> Changes for v2:
+> * Added support for matching fwnode against endpoints/nodes.
+> * Separated patch for rcar-vin and rcar-csi2.c which added
+>   MEDIA_BUS_FMT_SRGGB8_1X8.
+>
+> Lad Prabhakar (3):
+>   media: rcar-vin: Invalidate pipeline if conversion is not possible on
+>     input formats
+>   media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+>   media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+>
+Gentle ping.
 
 Cheers,
 --Prabhakar
 
-> Thanks.
+>  drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++--
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+>  3 files changed, 24 insertions(+), 2 deletions(-)
 >
 > --
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+> 2.20.1
+>
