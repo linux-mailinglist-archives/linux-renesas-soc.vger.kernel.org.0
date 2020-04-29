@@ -2,130 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E21D1BDFA0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 15:54:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCBA1BE3D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Apr 2020 18:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727087AbgD2Nyf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Apr 2020 09:54:35 -0400
-Received: from mga04.intel.com ([192.55.52.120]:46216 "EHLO mga04.intel.com"
+        id S1726554AbgD2Q1p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Apr 2020 12:27:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43110 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726853AbgD2Nyf (ORCPT
+        id S1726481AbgD2Q1o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Apr 2020 09:54:35 -0400
-IronPort-SDR: Tagg0/jmOwpe288ynpWAEwD0cVnf8VFM7LaZXMoyNz25SlkQXxBLhJWhN3fHDLiCFQUSQtZx4F
- YKMJHQVp46OA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 06:54:34 -0700
-IronPort-SDR: 4iaTuLUYuLrDaZInuoryD6mfywDVahSDwS+P2zlMMUCxH+EZvf1cUwWyPW4Ts5xb91nUqdEwnD
- CTWbzRTEu2aw==
-X-IronPort-AV: E=Sophos;i="5.73,332,1583222400"; 
-   d="scan'208";a="367809370"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 06:54:32 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 702F3202AE; Wed, 29 Apr 2020 16:54:30 +0300 (EEST)
-Date:   Wed, 29 Apr 2020 16:54:30 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        Wed, 29 Apr 2020 12:27:44 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 651352076B;
+        Wed, 29 Apr 2020 16:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588177664;
+        bh=eh/IvFPQ0/dhBqxFJsWXSuX5dJOIuA7wn7RrZfWWTyo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eL0/l3i2bAMKLXeB6g3tu+tF4VoMOD4Nxy4P18oBgmjbm7LVBmuweqaW77GEZlY04
+         S1+nBle1qW6Iz3P6VNsgRvQ3HcCZkscAbhEjwTcWFIm4xghDQowsvKvasqLq6tYi7j
+         dwn4xJza25Go94WYwEeFzbVfhuyMnrGCGOL+VOvw=
+Date:   Wed, 29 Apr 2020 18:27:39 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+Cc:     linux-media@vger.kernel.org,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] media: v4l2-subdv: Introduce get_mbus_config pad
- op
-Message-ID: <20200429135430.GH9190@paasikivi.fi.intel.com>
-References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
- <20200415105004.2497356-2-jacopo+renesas@jmondi.org>
- <20200420014457.GA15673@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200429182739.274ce451@coco.lan>
+In-Reply-To: <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+        <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420014457.GA15673@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Em Fri, 24 Apr 2020 16:43:31 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-On Mon, Apr 20, 2020 at 04:44:57AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> node. For MC-centric devices, its behaviour has always been ill-defined,
+> with drivers implementing one of the following behaviours:
 > 
-> Thank you for the patch.
-> 
-> On Wed, Apr 15, 2020 at 12:49:58PM +0200, Jacopo Mondi wrote:
-> > Introduce a new pad operation to allow retrieving the media bus
-> > configuration on a subdevice pad.
-> > 
-> > The newly introduced operation reassembles the s/g_mbus_config video
-> > operation, which have been on their way to be deprecated since a long
-> > time.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  include/media/v4l2-subdev.h | 69 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 69 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index a4848de59852..fc16af578471 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -350,6 +350,71 @@ struct v4l2_mbus_frame_desc {
-> >  	unsigned short num_entries;
-> >  };
-> >  
-> > +/**
-> > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
-> > + * @hsync_active: hsync active state: 1 for high, 0 for low
-> > + * @vsync_active: vsync active state: 1 for high, 0 for low
-> > + * @pclk_rising: pixel clock active edge: 1 for rising, 0 for falling
-> 
-> Is this for the driving side or the sampling side ?
-
-Is there a difference? I'd expect the configuration needs to be the same on
-both sides.
-
-> 
-> > + * @data_active: data lines active state: 1 for high, 0 for low
-> 
-> I wonder, is there any system with active low data lines ?
-> 
-> > + */
-> > +struct v4l2_mbus_parallel_config {
-> 
-> Is this intended to cover BT.656 too ? Either way I think it should be
-> documented.
-
-I think we should replace what directly refers to Bt.601 with something
-that refers to that, and not "parallel". Both are parallel after all. I
-think the naming is in line with that, assuming this covers both.
-
-> 
-> > +	unsigned int hsync_active : 1;
-> > +	unsigned int vsync_active : 1;
-> > +	unsigned int pclk_rising : 1;
-> > +	unsigned int data_active : 1;
-> 
-> Shouldn't we reuse the V4L2_MBUS_* flags, given that they're also used
-> in v4l2_fwnode_bus_parallel ? While the v4l2_mbus_config structure is
-
-I'd think it's easier to work with fields in drivers than the flags. This
-isn't uAPI so we don't need to think the ABI. The change could also be done
-to struct v4l2_fwnode_bus_parallel.
-
-> getting deprecated, it doesn't mean we can reuse the same flags if they
-> make sense. Otherwise we'll have to translate between
-> v4l2_fwnode_bus_parallel.flags and the fields here. Ideally
-> v4l2_fwnode_bus_parallel should be replaced with
-> v4l2_mbus_parallel_config (once we add additional fields).
 
 ...
 
--- 
-Kind regards,
+The patch itself is OK. However, there's a change you did at the
+documentation that it is unrelated. 
 
-Sakari Ailus
+See below.
+
+> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> index 8ca6ab701e4a..a987debc7654 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+>  formats in preference order, where preferred formats are returned before
+>  (that is, with lower ``index`` value) less-preferred formats.
+>  
+> -.. note::
+> -   After switching input or output the list of enumerated image
+> -   formats may be different.
+
+Why are you dropping this note?
+
+This basically reverts this changeset:
+
+  commit 93828d6438081649e81b8681df9bf6ad5d691650
+  Author: Hans Verkuil <hans.verkuil@cisco.com>
+  Date:   Mon Sep 3 09:37:18 2012 -0300
+
+    [media] DocBook: make the G/S/TRY_FMT specification more strict
+    
+    - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
+    - TRY_FMT should give the same result as S_FMT, all other things being equal.
+    - ENUMFMT may return different formats for different inputs or outputs.
+    This was decided during the 2012 Media Workshop.
+    
+    Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+    Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+    Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+    Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
+
+As far as I remember, from our 2012 discussions, some drivers may change 
+the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
+VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
+degrees rotation would equally affect it.
+
+Perhaps, the removal was just some mistake. If so, please re-submit
+another patch without it.
+
+Otherwise, if are there any good reasons for such change, and it won't
+cause any API regressions, please place it on a separate patch, clearly
+that.
+
+... Or, maybe you felt that it won't make sense for MC-centric devices.
+On such case, please improve the note stating it on a way that it would
+be understandable on both MC-centric and bridge-centrid drivers. 
+
+Thanks,
+Mauro
