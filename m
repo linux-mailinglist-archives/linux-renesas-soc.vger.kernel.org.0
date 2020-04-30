@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 378971BF363
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 10:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBBA21BF36A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 10:49:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbgD3Isj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Apr 2020 04:48:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35654 "EHLO
+        id S1726839AbgD3Isy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Apr 2020 04:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726531AbgD3Isj (ORCPT
+        by vger.kernel.org with ESMTP id S1726546AbgD3Isx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Apr 2020 04:48:39 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95B2FC035494
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Apr 2020 01:48:38 -0700 (PDT)
+        Thu, 30 Apr 2020 04:48:53 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BFCFC035495
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Apr 2020 01:48:53 -0700 (PDT)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:182a:142e:a95f:66c2])
-        by laurent.telenet-ops.be with bizsmtp
-        id Ywoc220090w8ZL601wocCu; Thu, 30 Apr 2020 10:48:36 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id Ywor2200U0w8ZL606worP5; Thu, 30 Apr 2020 10:48:52 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jU4s0-0002kK-3M; Thu, 30 Apr 2020 10:48:36 +0200
+        id 1jU4sF-0002l1-FK; Thu, 30 Apr 2020 10:48:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jU4s0-0000N3-0t; Thu, 30 Apr 2020 10:48:36 +0200
+        id 1jU4sF-0000OK-E8; Thu, 30 Apr 2020 10:48:51 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] Renesas fixes for v5.7
-Date:   Thu, 30 Apr 2020 10:48:34 +0200
-Message-Id: <20200430084834.1384-1-geert+renesas@glider.be>
+Subject: [GIT PULL 0/5] Renesas SoC updates for v5.8
+Date:   Thu, 30 Apr 2020 10:48:44 +0200
+Message-Id: <20200430084849.1457-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -42,38 +42,41 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 	Hi arm-soc folks,
 
-The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.8.
 
-  Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+It consists of 5 parts:
 
-are available in the Git repository at:
+  [GIT PULL 1/5] Renesas ARM defconfig updates for v5.8
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v5.7-tag1
+    - Refresh shmobile_defconfig for v5.7-rc1.
 
-for you to fetch changes up to b704fc1da9b84d7145db550a13e2b7140f6b419b:
+  [GIT PULL 2/5] Renesas ARM DT updates for v5.8
 
-  ARM: dts: r7s9210: Remove bogus clock-names from OSTM nodes (2020-04-28 10:15:38 +0200)
+    - USB, UART, PWM, and PCIe support for R-Car M3-W+,
+    - PWM (16-bit Timer Pulse Unit and PWM Timers) support for R-Car M2-W,
+    - Minor fixes and cleanups.
 
-----------------------------------------------------------------
-Renesas fixes for v5.7
+  [GIT PULL 3/5] Renesas ARM SoC updates for v5.8
 
-  - Fix IOMMU support on R-Car V3H,
-  - Minor fixes that are fast-tracked to avoid introducing regressions
-    during conversion of DT bindings to json-schema.
+    - Add Basic support for the new RZ/G1H SoC.
+
+  [GIT PULL 4/5] Renesas driver updates for v5.8
+
+    - Add System Controller (SYSC) and Reset (RST) support for the new
+      RZ/G1H (R8A7742) SoC.
+
+  [GIT PULL 5/5] Renesas DT binding updates for v5.8
+
+    - Document System Controller (SYSC) and Reset (RST) support for
+      RZ/G1H.
+
+Note that the new Renesas RZ/G1H DT Binding Definitions are shared by
+driver and DT source files, and thus included in multiple pull requests:
+  - "[GIT PULL 4/5] Renesas driver updates for v5.8" (for arm-soc),
+  - "[GIT PULL] clk: renesas: Updates for v5.8" (for clk).
 
 Thanks for pulling!
-----------------------------------------------------------------
-Geert Uytterhoeven (2):
-      ARM: dts: r8a73a4: Add missing CMT1 interrupts
-      ARM: dts: r7s9210: Remove bogus clock-names from OSTM nodes
-
-Yoshihiro Shimoda (1):
-      arm64: dts: renesas: r8a77980: Fix IPMMU VIP[01] nodes
-
- arch/arm/boot/dts/r7s9210.dtsi            | 3 ---
- arch/arm/boot/dts/r8a73a4.dtsi            | 9 ++++++++-
- arch/arm64/boot/dts/renesas/r8a77980.dtsi | 2 ++
- 3 files changed, 10 insertions(+), 4 deletions(-)
 
 Gr{oetje,eeting}s,
 
