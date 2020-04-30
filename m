@@ -2,471 +2,458 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C5D1BEE52
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 04:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5DBF1BF009
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Apr 2020 08:09:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726677AbgD3Ccl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Apr 2020 22:32:41 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:32910 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbgD3Ccl (ORCPT
+        id S1726453AbgD3GJb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Apr 2020 02:09:31 -0400
+Received: from ma-dnext03.denso.co.jp ([133.192.181.78]:46713 "EHLO
+        ma-dnext03.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726358AbgD3GJa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Apr 2020 22:32:41 -0400
-Received: by mail-ot1-f65.google.com with SMTP id j26so3675923ots.0;
-        Wed, 29 Apr 2020 19:32:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mYHX4LF9hVH/oR4VKEaf+ofdtqvCQ9cUbvGYlUqbAjs=;
-        b=qp3xNM1A9v4qib9nOj6a3FGZcyjOb4KUn8jMwtrXQeIyX7hPtuKFXxj/J1ZU4BGoQ7
-         00dqu5X7pZUOeV+J5kuC6zGrRvm7nsj4GKanx0823aM3bpgTv/vF0aAjf9B+jUWIouG1
-         VA5Lf7ci/ZjE3oWt7mxHgtFhW2xMHYQxjtaQWZqHx0UrfcUMR8I0mcX7gWlG10B4xGX3
-         gwjcUkgLne1dp+H14tz5hd5Ql0c53nCgOH9m3pXaaneQssiIZSA8dF1pCJnYYsZtbUec
-         dRwhH9s6IFM69ITcYvF+XoEC3Zrd206O8/ZDpA8weIBWksPLaAo/2i9zRFmsaJNs7N2q
-         uSnA==
-X-Gm-Message-State: AGi0PuZIzAJr6otpxndx1AKE4qexad64VT22C/u5szHNB/COL6PN8c/d
-        aJ5C8SGVNouiK4vAsPOdbcb1ES8=
-X-Google-Smtp-Source: APiQypJTNPTUmzc8GtdxII0qxddbgs/EMo0ckja9/Si33b2OyrMGnOGcdvIyEAoFkCAiPhg4zmbO7A==
-X-Received: by 2002:a9d:6142:: with SMTP id c2mr853507otk.92.1588213958999;
-        Wed, 29 Apr 2020 19:32:38 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t9sm908805oie.24.2020.04.29.19.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 19:32:38 -0700 (PDT)
-Received: (nullmailer pid 3430 invoked by uid 1000);
-        Thu, 30 Apr 2020 02:32:37 -0000
-Date:   Wed, 29 Apr 2020 21:32:37 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH RFC] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
-Message-ID: <20200430023237.GA23316@bogus>
-References: <20200417140920.22596-1-geert+renesas@glider.be>
+        Thu, 30 Apr 2020 02:09:30 -0400
+X-Greylist: delayed 361 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Apr 2020 02:09:30 EDT
+Received: from grdma01h.denso.co.jp (unknown [133.192.24.24])
+        by ma-dnext03.denso.co.jp (Postfix) with ESMTP id 666B75D03EF;
+        Thu, 30 Apr 2020 15:03:26 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
+        s=jpadit-jvmail2011; t=1588226606;
+        bh=ZeJ0n3mFa3I3V/WBLZg289RUPJ/IhtwFt9AWO99ElJw=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=MYETUzqxXvoa++8QP3c4aodxnd98UILhqtOcl6GZho+qrpuWcLnaDM5Vk9z2jQWi+
+         r7ELeVmLOw/OHmzE4P+1N2wUjVqSB1fFGLPeD6r4t0/lq9LJcyXGCV2u9XhfzzqbXn
+         w5G4V/5j554r8FrFcRRtBkdRKRVuoSUCT8y2URfzcppOXdTCyKgfkqbZoVi14brUHQ
+         Wu1kYUYlfrl/f9fu8vPXQVKThMihVybiO7kWo8fPzamDemLVMPzoBdFSNZQuPM5yJO
+         FMcbVlR08A+hyGWB4IvhjxPiS7pRt8COURrPM1jE+nOEi9YHWWyIauhIp5waf8QWKR
+         Rf87OJQs+bsng==
+Received: by grdma01h.denso.co.jp (Postfix, from userid 0)
+        id 6353AC04E09; Thu, 30 Apr 2020 15:03:26 +0900 (JST)
+Received: from smtp1.denso.co.jp [133.192.24.88] 
+         by grdma01h. with ESMTP id RAA07492;
+         Thu, 30 Apr 2020 15:03:26 +0900
+Received: from ky0exch01.adit-jv.com ([10.71.113.8])
+        by smtp01.denso.co.jp (MOS 4.4.7-GA)
+        with ESMTP id FSY86413;
+        Thu, 30 Apr 2020 15:03:24 +0900
+Received: from jp-u0004.adit-jv.com (10.71.112.120) by ky0exch01.adit-jv.com
+ (10.71.113.8) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 30 Apr
+ 2020 15:03:23 +0900
+From:   Suresh Udipi <sudipi@jp.adit-jv.com>
+To:     <niklas.soderlund@ragnatech.se>
+CC:     <akiyama@nds-osk.co.jp>, <efriedrich@de.adit-jv.com.denso.co.jp>,
+        <erosca@de.adit-jv.com.denso.co.jp>, <hverkuil-cisco@xs4all.nl>,
+        <jacopo+renesas@jmondi.org>, <laurent.pinchart@ideasonboard.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <mrodin@de.adit-jv.com.denso.co.jp>, <securitycheck@denso.co.jp>,
+        <sudipi@jp.adit-jv.com>
+Subject: [PATCH v5] media: rcar-csi2: Correct the selection of hsfreqrange
+Date:   Thu, 30 Apr 2020 15:03:10 +0900
+Message-ID: <1588226590-12880-1-git-send-email-sudipi@jp.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200414115600.GB285053@oden.dyn.berto.se>
+References: <20200414115600.GB285053@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200417140920.22596-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.71.112.120]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 04:09:20PM +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas Pin Function Controller (PFC) Device Tree binding
-> documentation to json-schema.
-> 
-> Document missing properties.
-> Drop deprecated and obsolete #gpio-range-cells property.
-> Update the example to match reality.
-> Drop consumer examples, as they do not belong here.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> How to describe that pin configuration nodes can have subnodes?
-> E.g.
-> 
->     arch/arm/boot/dts/sh73a0-kzm9g.dt.yaml: pin-controller@e6050000: mmc: Additional properties are not allowed ('cfg', 'mux' were unexpected)
+hsfreqrange should be chosen based on the calculated mbps which
+is within the range as per table[1]. But current calculation
+always selects first value which is greater than or equal to the
+calculated mbps which may lead to chosing a wrong range in some cases.
 
-I shouldn't tell you so no one does this again...
+For example for 360 mbps for H3/M3N
+Existing logic selects
+Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
 
-I think you want something like this assuming you have either 
-grandchildren or properties, but not both in the child nodes:
+This hsfreqrange is out of range.
 
-patternProperties:
-  ".*":
-    if:
-      type: object
-    then:
-      oneOf:
-        - allOf:
-            - $ref: pincfg-node.yaml#
-            - $ref: pinmux-node.yaml#
-          ...
-        - patternProperties:
-            ".*":
-              type: object
-              allOf:
-                - $ref: pincfg-node.yaml#
-                - $ref: pinmux-node.yaml#
+The logic is changed to select the first hsfreqrange whose max range[1] is
+greater than the calculated bit rate.
 
-If you did have a mixture, then you'd need the same if/then construct.
+Calculated value 360Mbps : max range 380.625 mbps is selected
+ i.e Default 350Mbps  Range [320.625 -380.625 mpbs]
 
-Now it probably ends up that the 'allOf' and everything else with it are 
-duplicated. If so you can do:
+[1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
 
-definitions:
-  pin-nodes:
-    allOf:
-    ...
+Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
 
-And use '$ref: #/definitions/pin-nodes' where you need it. 
+Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+---
+ Changes in v2:
+  - Added the boundary check for the maximum bit rate.
 
-That probably is not going to work with the fixups the tooling does, but 
-we could fix that.
+  - Simplified the logic by remmoving range check
+    as only the closest default value covers most
+    of the use cases.
+
+  - Aligning the commit message based on the above change
 
 
-> Dropping "additionalProperties: false" from the patternProperties
-> section gets rid of these warnings, but of course it would be better if
-> the subnodes would be validated, too.
-> 
-> Thanks!
-> ---
->  .../bindings/pinctrl/renesas,pfc-pinctrl.txt  | 186 ------------------
->  .../bindings/pinctrl/renesas,pfc.yaml         | 145 ++++++++++++++
->  2 files changed, 145 insertions(+), 186 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
-> deleted file mode 100644
-> index 6eada23eaa31e430..0000000000000000
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
-> +++ /dev/null
-> @@ -1,186 +0,0 @@
-> -* Renesas Pin Function Controller (GPIO and Pin Mux/Config)
-> -
-> -The Pin Function Controller (PFC) is a Pin Mux/Config controller. On SH73A0,
-> -R8A73A4 and R8A7740 it also acts as a GPIO controller.
-> -
-> -
-> -Pin Control
-> ------------
-> -
-> -Required Properties:
-> -
-> -  - compatible: should be one of the following.
-> -    - "renesas,pfc-emev2": for EMEV2 (EMMA Mobile EV2) compatible pin-controller.
-> -    - "renesas,pfc-r8a73a4": for R8A73A4 (R-Mobile APE6) compatible pin-controller.
-> -    - "renesas,pfc-r8a7740": for R8A7740 (R-Mobile A1) compatible pin-controller.
-> -    - "renesas,pfc-r8a7743": for R8A7743 (RZ/G1M) compatible pin-controller.
-> -    - "renesas,pfc-r8a7744": for R8A7744 (RZ/G1N) compatible pin-controller.
-> -    - "renesas,pfc-r8a7745": for R8A7745 (RZ/G1E) compatible pin-controller.
-> -    - "renesas,pfc-r8a77470": for R8A77470 (RZ/G1C) compatible pin-controller.
-> -    - "renesas,pfc-r8a774a1": for R8A774A1 (RZ/G2M) compatible pin-controller.
-> -    - "renesas,pfc-r8a774b1": for R8A774B1 (RZ/G2N) compatible pin-controller.
-> -    - "renesas,pfc-r8a774c0": for R8A774C0 (RZ/G2E) compatible pin-controller.
-> -    - "renesas,pfc-r8a7778": for R8A7778 (R-Car M1) compatible pin-controller.
-> -    - "renesas,pfc-r8a7779": for R8A7779 (R-Car H1) compatible pin-controller.
-> -    - "renesas,pfc-r8a7790": for R8A7790 (R-Car H2) compatible pin-controller.
-> -    - "renesas,pfc-r8a7791": for R8A7791 (R-Car M2-W) compatible pin-controller.
-> -    - "renesas,pfc-r8a7792": for R8A7792 (R-Car V2H) compatible pin-controller.
-> -    - "renesas,pfc-r8a7793": for R8A7793 (R-Car M2-N) compatible pin-controller.
-> -    - "renesas,pfc-r8a7794": for R8A7794 (R-Car E2) compatible pin-controller.
-> -    - "renesas,pfc-r8a7795": for R8A7795 (R-Car H3) compatible pin-controller.
-> -    - "renesas,pfc-r8a7796": for R8A77960 (R-Car M3-W) compatible pin-controller.
-> -    - "renesas,pfc-r8a77961": for R8A77961 (R-Car M3-W+) compatible pin-controller.
-> -    - "renesas,pfc-r8a77965": for R8A77965 (R-Car M3-N) compatible pin-controller.
-> -    - "renesas,pfc-r8a77970": for R8A77970 (R-Car V3M) compatible pin-controller.
-> -    - "renesas,pfc-r8a77980": for R8A77980 (R-Car V3H) compatible pin-controller.
-> -    - "renesas,pfc-r8a77990": for R8A77990 (R-Car E3) compatible pin-controller.
-> -    - "renesas,pfc-r8a77995": for R8A77995 (R-Car D3) compatible pin-controller.
-> -    - "renesas,pfc-sh73a0": for SH73A0 (SH-Mobile AG5) compatible pin-controller.
-> -
-> -  - reg: Base address and length of each memory resource used by the pin
-> -    controller hardware module.
-> -
-> -Optional properties:
-> -
-> -  - #gpio-range-cells: Mandatory when the PFC doesn't handle GPIO, forbidden
-> -    otherwise. Should be 3.
-> -
-> -  - interrupts-extended: Specify the interrupts associated with external
-> -    IRQ pins. This property is mandatory when the PFC handles GPIOs and
-> -    forbidden otherwise. When specified, it must contain one interrupt per
-> -    external IRQ, sorted by external IRQ number.
-> -
-> -The PFC node also acts as a container for pin configuration nodes. Please refer
-> -to pinctrl-bindings.txt in this directory for the definition of the term "pin
-> -configuration node" and for the common pinctrl bindings used by client devices.
-> -
-> -Each pin configuration node represents a desired configuration for a pin, a
-> -pin group, or a list of pins or pin groups. The configuration can include the
-> -function to select on those pin(s) and pin configuration parameters (such as
-> -pull-up and pull-down).
-> -
-> -Pin configuration nodes contain pin configuration properties, either directly
-> -or grouped in child subnodes. Both pin muxing and configuration parameters can
-> -be grouped in that way and referenced as a single pin configuration node by
-> -client devices.
-> -
-> -A configuration node or subnode must reference at least one pin (through the
-> -pins or pin groups properties) and contain at least a function or one
-> -configuration parameter. When the function is present only pin groups can be
-> -used to reference pins.
-> -
-> -All pin configuration nodes and subnodes names are ignored. All of those nodes
-> -are parsed through phandles and processed purely based on their content.
-> -
-> -Pin Configuration Node Properties:
-> -
-> -- pins : An array of strings, each string containing the name of a pin.
-> -- groups : An array of strings, each string containing the name of a pin
-> -  group.
-> -
-> -- function: A string containing the name of the function to mux to the pin
-> -  group(s) specified by the groups property.
-> -
-> -  Valid values for pin, group and function names can be found in the group and
-> -  function arrays of the PFC data file corresponding to the SoC
-> -  (drivers/pinctrl/sh-pfc/pfc-*.c)
-> -
-> -The pin configuration parameters use the generic pinconf bindings defined in
-> -pinctrl-bindings.txt in this directory. The supported parameters are
-> -bias-disable, bias-pull-up, bias-pull-down, drive-strength and power-source. For
-> -pins that have a configurable I/O voltage, the power-source value should be the
-> -nominal I/O voltage in millivolts.
-> -
-> -
-> -GPIO
-> -----
-> -
-> -On SH73A0, R8A73A4 and R8A7740 the PFC node is also a GPIO controller node.
-> -
-> -Required Properties:
-> -
-> -  - gpio-controller: Marks the device node as a gpio controller.
-> -
-> -  - #gpio-cells: Should be 2. The first cell is the GPIO number and the second
-> -    cell specifies GPIO flags, as defined in <dt-bindings/gpio/gpio.h>. Only the
-> -    GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags are supported.
-> -
-> -The syntax of the gpio specifier used by client nodes should be the following
-> -with values derived from the SoC user manual.
-> -
-> -  <[phandle of the gpio controller node]
-> -   [pin number within the gpio controller]
-> -   [flags]>
-> -
-> -On other mach-shmobile platforms GPIO is handled by the gpio-rcar driver.
-> -Please refer to Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
-> -for documentation of the GPIO device tree bindings on those platforms.
-> -
-> -
-> -Examples
-> ---------
-> -
-> -Example 1: SH73A0 (SH-Mobile AG5) pin controller node
-> -
-> -	pfc: pin-controller@e6050000 {
-> -		compatible = "renesas,pfc-sh73a0";
-> -		reg = <0xe6050000 0x8000>,
-> -		      <0xe605801c 0x1c>;
-> -		gpio-controller;
-> -		#gpio-cells = <2>;
-> -		interrupts-extended =
-> -			<&irqpin0 0 0>, <&irqpin0 1 0>, <&irqpin0 2 0>, <&irqpin0 3 0>,
-> -			<&irqpin0 4 0>, <&irqpin0 5 0>, <&irqpin0 6 0>, <&irqpin0 7 0>,
-> -			<&irqpin1 0 0>, <&irqpin1 1 0>, <&irqpin1 2 0>, <&irqpin1 3 0>,
-> -			<&irqpin1 4 0>, <&irqpin1 5 0>, <&irqpin1 6 0>, <&irqpin1 7 0>,
-> -			<&irqpin2 0 0>, <&irqpin2 1 0>, <&irqpin2 2 0>, <&irqpin2 3 0>,
-> -			<&irqpin2 4 0>, <&irqpin2 5 0>, <&irqpin2 6 0>, <&irqpin2 7 0>,
-> -			<&irqpin3 0 0>, <&irqpin3 1 0>, <&irqpin3 2 0>, <&irqpin3 3 0>,
-> -			<&irqpin3 4 0>, <&irqpin3 5 0>, <&irqpin3 6 0>, <&irqpin3 7 0>;
-> -	};
-> -
-> -Example 2: A GPIO LED node that references a GPIO
-> -
-> -	#include <dt-bindings/gpio/gpio.h>
-> -
-> -	leds {
-> -		compatible = "gpio-leds";
-> -		led1 {
-> -			gpios = <&pfc 20 GPIO_ACTIVE_LOW>;
-> -		};
-> -	};
-> -
-> -Example 3: KZM-A9-GT (SH-Mobile AG5) default pin state hog and pin control maps
-> -           for the MMCIF and SCIFA4 devices
-> -
-> -	&pfc {
-> -		pinctrl-0 = <&scifa4_pins>;
-> -		pinctrl-names = "default";
-> -
-> -		mmcif_pins: mmcif {
-> -			mux {
-> -				groups = "mmc0_data8_0", "mmc0_ctrl_0";
-> -				function = "mmc0";
-> -			};
-> -			cfg {
-> -				groups = "mmc0_data8_0";
-> -				pins = "PORT279";
-> -				bias-pull-up;
-> -			};
-> -		};
-> -
-> -		scifa4_pins: scifa4 {
-> -			groups = "scifa4_data", "scifa4_ctrl";
-> -			function = "scifa4";
-> -		};
-> -	};
-> -
-> -Example 4: KZM-A9-GT (SH-Mobile AG5) default pin state for the MMCIF device
-> -
-> -	&mmcif {
-> -		pinctrl-0 = <&mmcif_pins>;
-> -		pinctrl-names = "default";
-> -
-> -		bus-width = <8>;
-> -		vmmc-supply = <&reg_1p8v>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> new file mode 100644
-> index 0000000000000000..d6a536001a3a970e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> @@ -0,0 +1,145 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/renesas,pfc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Pin Function Controller (GPIO and Pin Mux/Config)
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The Pin Function Controller (PFC) is a Pin Mux/Config controller.
-> +  On SH/R-Mobile SoCs it also acts as a GPIO controller.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,pfc-emev2       # EMMA Mobile EV2
-> +      - renesas,pfc-r8a73a4     # R-Mobile APE6
-> +      - renesas,pfc-r8a7740     # R-Mobile A1
-> +      - renesas,pfc-r8a7743     # RZ/G1M
-> +      - renesas,pfc-r8a7744     # RZ/G1N
-> +      - renesas,pfc-r8a7745     # RZ/G1E
-> +      - renesas,pfc-r8a77470    # RZ/G1C
-> +      - renesas,pfc-r8a774a1    # RZ/G2M
-> +      - renesas,pfc-r8a774b1    # RZ/G2N
-> +      - renesas,pfc-r8a774c0    # RZ/G2E
-> +      - renesas,pfc-r8a7778     # R-Car M1
-> +      - renesas,pfc-r8a7779     # R-Car H1
-> +      - renesas,pfc-r8a7790     # R-Car H2
-> +      - renesas,pfc-r8a7791     # R-Car M2-W
-> +      - renesas,pfc-r8a7792     # R-Car V2H
-> +      - renesas,pfc-r8a7793     # R-Car M2-N
-> +      - renesas,pfc-r8a7794     # R-Car E2
-> +      - renesas,pfc-r8a7795     # R-Car H3
-> +      - renesas,pfc-r8a7796     # R-Car M3-W
-> +      - renesas,pfc-r8a77961    # R-Car M3-W+
-> +      - renesas,pfc-r8a77965    # R-Car M3-N
-> +      - renesas,pfc-r8a77970    # R-Car V3M
-> +      - renesas,pfc-r8a77980    # R-Car V3H
-> +      - renesas,pfc-r8a77990    # R-Car E3
-> +      - renesas,pfc-r8a77995    # R-Car D3
-> +      - renesas,pfc-sh73a0      # SH-Mobile AG5
-> +
-> +  reg:
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +
-> +  gpio-ranges:
-> +    minItems: 1
-> +    maxItems: 16
-> +
-> +  interrupts-extended:
+ Changes in v3:
+    - Added max member from struct rcsi2_mbps_reg.
+      mbps varialbe cannot be removed from rcsi2_mbps_reg,
+      since this structure is reused for
+      phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+      used.
 
-Just do 'interrupts'. It's fixed up in the tooling.
 
-> +    minItems: 32
-> +    maxItems: 64
-> +    description:
-> +      Specify the interrupts associated with external IRQ pins on SoCs where
-> +      the PFC acts as a GPIO controller.  It must contain one interrupt per
-> +      external IRQ, sorted by external IRQ number.
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "^.*$":
-> +    if:
-> +      type: object
-> +    then:
-> +      allOf:
-> +        - $ref: pincfg-node.yaml#
-> +        - $ref: pinmux-node.yaml#
-> +      description:
-> +        Pinctrl node's client devices use subnodes for desired pin
-> +        configuration.
-> +        Client device subnodes use below standard properties.
-> +
-> +      properties:
-> +        phandle: true
-> +        pins: true
-> +        groups: true
-> +        function: true
-> +        bias-disable: true
-> +        bias-pull-down: true
-> +        bias-pull-up: true
-> +        drive-strength:
-> +          enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
-> +        power-source:
-> +          enum: [ 1800, 3300 ]
-> +        gpio-hog: true
-> +        gpios: true
-> +        output-high: true
-> +        output-low: true
-> +
-> +      additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      items:
-> +        enum:
-> +          - renesas,pfc-r8a73a4
-> +          - renesas,pfc-r8a7740
-> +          - renesas,pfc-sh73a0
-> +then:
-> +  required:
-> +    - interrupts-extended
-> +    - gpio-controller
-> +    - '#gpio-cells'
-> +    - gpio-ranges
-> +    - power-domains
-> +
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pfc: pin-controller@e6050000 {
-> +            compatible = "renesas,pfc-sh73a0";
-> +            reg = <0xe6050000 0x8000>, <0xe605801c 0x1c>;
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            gpio-ranges =
-> +                <&pfc 0 0 119>, <&pfc 128 128 37>, <&pfc 192 192 91>,
-> +                <&pfc 288 288 22>;
-> +            interrupts-extended =
-> +                <&irqpin0 0 0>, <&irqpin0 1 0>, <&irqpin0 2 0>, <&irqpin0 3 0>,
-> +                <&irqpin0 4 0>, <&irqpin0 5 0>, <&irqpin0 6 0>, <&irqpin0 7 0>,
-> +                <&irqpin1 0 0>, <&irqpin1 1 0>, <&irqpin1 2 0>, <&irqpin1 3 0>,
-> +                <&irqpin1 4 0>, <&irqpin1 5 0>, <&irqpin1 6 0>, <&irqpin1 7 0>,
-> +                <&irqpin2 0 0>, <&irqpin2 1 0>, <&irqpin2 2 0>, <&irqpin2 3 0>,
-> +                <&irqpin2 4 0>, <&irqpin2 5 0>, <&irqpin2 6 0>, <&irqpin2 7 0>,
-> +                <&irqpin3 0 0>, <&irqpin3 1 0>, <&irqpin3 2 0>, <&irqpin3 3 0>,
-> +                <&irqpin3 4 0>, <&irqpin3 5 0>, <&irqpin3 6 0>, <&irqpin3 7 0>;
-> +            power-domains = <&pd_c5>;
-> +    };
-> -- 
-> 2.17.1
-> 
+   -  Update the walk of the array in rcsi2_set_phypll() so that it finds
+      the first entry where the calculated bit rate is less than the max.
+
+   - Support lower bit rates less than 80Mbps like 48Mbps
+     (Raspberry pi camera 640x480 connected to Kingfisher)
+     can also be supported by selecting the lowest default bit rate 80Mbps
+     as done before this fix
+
+   - Alignement of the commit message based on above changes.
+
+ Changes in v4:
+   - Remove unncessary braces.
+ 
+ Changes in v5:
+   - Removed mbps variable in rcsi2_mbps_reg and aligned all 
+     tables accordingly
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 282 ++++++++++++++--------------
+ 1 file changed, 141 insertions(+), 141 deletions(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index faa9fb2..d45bf80 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -132,63 +132,63 @@ struct phtw_value {
+ };
+ 
+ struct rcsi2_mbps_reg {
+-	u16 mbps;
+ 	u16 reg;
++	u16 max;
+ };
+ 
+ static const struct rcsi2_mbps_reg phtw_mbps_h3_v3h_m3n[] = {
+-	{ .mbps =   80, .reg = 0x86 },
+-	{ .mbps =   90, .reg = 0x86 },
+-	{ .mbps =  100, .reg = 0x87 },
+-	{ .mbps =  110, .reg = 0x87 },
+-	{ .mbps =  120, .reg = 0x88 },
+-	{ .mbps =  130, .reg = 0x88 },
+-	{ .mbps =  140, .reg = 0x89 },
+-	{ .mbps =  150, .reg = 0x89 },
+-	{ .mbps =  160, .reg = 0x8a },
+-	{ .mbps =  170, .reg = 0x8a },
+-	{ .mbps =  180, .reg = 0x8b },
+-	{ .mbps =  190, .reg = 0x8b },
+-	{ .mbps =  205, .reg = 0x8c },
+-	{ .mbps =  220, .reg = 0x8d },
+-	{ .mbps =  235, .reg = 0x8e },
+-	{ .mbps =  250, .reg = 0x8e },
++	{ .reg = 0x86, .max =  80  },
++	{ .reg = 0x86, .max =  90  },
++	{ .reg = 0x87, .max =  100 },
++	{ .reg = 0x87, .max =  110 },
++	{ .reg = 0x88, .max =  120 },
++	{ .reg = 0x88, .max =  130 },
++	{ .reg = 0x89, .max =  140 },
++	{ .reg = 0x89, .max =  150 },
++	{ .reg = 0x8a, .max =  160 },
++	{ .reg = 0x8a, .max =  170 },
++	{ .reg = 0x8b, .max =  180 },
++	{ .reg = 0x8b, .max =  190 },
++	{ .reg = 0x8c, .max =  205 },
++	{ .reg = 0x8d, .max =  220 },
++	{ .reg = 0x8e, .max =  235 },
++	{ .reg = 0x8e, .max =  250 },
+ 	{ /* sentinel */ },
+ };
+ 
+ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+-	{ .mbps =   80, .reg = 0x00 },
+-	{ .mbps =   90, .reg = 0x20 },
+-	{ .mbps =  100, .reg = 0x40 },
+-	{ .mbps =  110, .reg = 0x02 },
+-	{ .mbps =  130, .reg = 0x22 },
+-	{ .mbps =  140, .reg = 0x42 },
+-	{ .mbps =  150, .reg = 0x04 },
+-	{ .mbps =  170, .reg = 0x24 },
+-	{ .mbps =  180, .reg = 0x44 },
+-	{ .mbps =  200, .reg = 0x06 },
+-	{ .mbps =  220, .reg = 0x26 },
+-	{ .mbps =  240, .reg = 0x46 },
+-	{ .mbps =  250, .reg = 0x08 },
+-	{ .mbps =  270, .reg = 0x28 },
+-	{ .mbps =  300, .reg = 0x0a },
+-	{ .mbps =  330, .reg = 0x2a },
+-	{ .mbps =  360, .reg = 0x4a },
+-	{ .mbps =  400, .reg = 0x0c },
+-	{ .mbps =  450, .reg = 0x2c },
+-	{ .mbps =  500, .reg = 0x0e },
+-	{ .mbps =  550, .reg = 0x2e },
+-	{ .mbps =  600, .reg = 0x10 },
+-	{ .mbps =  650, .reg = 0x30 },
+-	{ .mbps =  700, .reg = 0x12 },
+-	{ .mbps =  750, .reg = 0x32 },
+-	{ .mbps =  800, .reg = 0x52 },
+-	{ .mbps =  850, .reg = 0x72 },
+-	{ .mbps =  900, .reg = 0x14 },
+-	{ .mbps =  950, .reg = 0x34 },
+-	{ .mbps = 1000, .reg = 0x54 },
+-	{ .mbps = 1050, .reg = 0x74 },
+-	{ .mbps = 1125, .reg = 0x16 },
++	{ .reg = 0x00, .max = 80   },
++	{ .reg = 0x20, .max = 90   },
++	{ .reg = 0x40, .max = 100  },
++	{ .reg = 0x02, .max = 110  },
++	{ .reg = 0x22, .max = 130  },
++	{ .reg = 0x42, .max = 140  },
++	{ .reg = 0x04, .max = 150  },
++	{ .reg = 0x24, .max = 170  },
++	{ .reg = 0x44, .max = 180  },
++	{ .reg = 0x06, .max = 200  },
++	{ .reg = 0x26, .max = 220  },
++	{ .reg = 0x46, .max = 240  },
++	{ .reg = 0x08, .max = 250  },
++	{ .reg = 0x28, .max = 270  },
++	{ .reg = 0x0a, .max = 300  },
++	{ .reg = 0x2a, .max = 330  },
++	{ .reg = 0x4a, .max = 360  },
++	{ .reg = 0x0c, .max = 400  },
++	{ .reg = 0x2c, .max = 450  },
++	{ .reg = 0x0e, .max = 500  },
++	{ .reg = 0x2e, .max = 550  },
++	{ .reg = 0x10, .max = 600  },
++	{ .reg = 0x30, .max = 650  },
++	{ .reg = 0x12, .max = 700  },
++	{ .reg = 0x32, .max = 750  },
++	{ .reg = 0x52, .max = 800  },
++	{ .reg = 0x72, .max = 850  },
++	{ .reg = 0x14, .max = 900  },
++	{ .reg = 0x34, .max = 950  },
++	{ .reg = 0x54, .max = 1000 },
++	{ .reg = 0x74, .max = 1050 },
++	{ .reg = 0x16, .max = 1125 },
+ 	{ /* sentinel */ },
+ };
+ 
+@@ -201,96 +201,96 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+ #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+ 
+ static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+-	{ .mbps =   80, .reg = 0x00 },
+-	{ .mbps =   90, .reg = 0x10 },
+-	{ .mbps =  100, .reg = 0x20 },
+-	{ .mbps =  110, .reg = 0x30 },
+-	{ .mbps =  120, .reg = 0x01 },
+-	{ .mbps =  130, .reg = 0x11 },
+-	{ .mbps =  140, .reg = 0x21 },
+-	{ .mbps =  150, .reg = 0x31 },
+-	{ .mbps =  160, .reg = 0x02 },
+-	{ .mbps =  170, .reg = 0x12 },
+-	{ .mbps =  180, .reg = 0x22 },
+-	{ .mbps =  190, .reg = 0x32 },
+-	{ .mbps =  205, .reg = 0x03 },
+-	{ .mbps =  220, .reg = 0x13 },
+-	{ .mbps =  235, .reg = 0x23 },
+-	{ .mbps =  250, .reg = 0x33 },
+-	{ .mbps =  275, .reg = 0x04 },
+-	{ .mbps =  300, .reg = 0x14 },
+-	{ .mbps =  325, .reg = 0x25 },
+-	{ .mbps =  350, .reg = 0x35 },
+-	{ .mbps =  400, .reg = 0x05 },
+-	{ .mbps =  450, .reg = 0x16 },
+-	{ .mbps =  500, .reg = 0x26 },
+-	{ .mbps =  550, .reg = 0x37 },
+-	{ .mbps =  600, .reg = 0x07 },
+-	{ .mbps =  650, .reg = 0x18 },
+-	{ .mbps =  700, .reg = 0x28 },
+-	{ .mbps =  750, .reg = 0x39 },
+-	{ .mbps =  800, .reg = 0x09 },
+-	{ .mbps =  850, .reg = 0x19 },
+-	{ .mbps =  900, .reg = 0x29 },
+-	{ .mbps =  950, .reg = 0x3a },
+-	{ .mbps = 1000, .reg = 0x0a },
+-	{ .mbps = 1050, .reg = 0x1a },
+-	{ .mbps = 1100, .reg = 0x2a },
+-	{ .mbps = 1150, .reg = 0x3b },
+-	{ .mbps = 1200, .reg = 0x0b },
+-	{ .mbps = 1250, .reg = 0x1b },
+-	{ .mbps = 1300, .reg = 0x2b },
+-	{ .mbps = 1350, .reg = 0x3c },
+-	{ .mbps = 1400, .reg = 0x0c },
+-	{ .mbps = 1450, .reg = 0x1c },
+-	{ .mbps = 1500, .reg = 0x2c },
++	{ .reg = 0x00, .max =   97 },
++	{ .reg = 0x10, .max =  107 },
++	{ .reg = 0x20, .max =  118 },
++	{ .reg = 0x30, .max =  128 },
++	{ .reg = 0x01, .max =  139 },
++	{ .reg = 0x11, .max =  149 },
++	{ .reg = 0x21, .max =  160 },
++	{ .reg = 0x31, .max =  170 },
++	{ .reg = 0x02, .max =  181 },
++	{ .reg = 0x12, .max =  191 },
++	{ .reg = 0x22, .max =  202 },
++	{ .reg = 0x32, .max =  212 },
++	{ .reg = 0x03, .max =  228 },
++	{ .reg = 0x13, .max =  224 },
++	{ .reg = 0x23, .max =  259 },
++	{ .reg = 0x33, .max =  275 },
++	{ .reg = 0x04, .max =  301 },
++	{ .reg = 0x14, .max =  328 },
++	{ .reg = 0x25, .max =  354 },
++	{ .reg = 0x35, .max =  380 },
++	{ .reg = 0x05, .max =  433 },
++	{ .reg = 0x16, .max =  485 },
++	{ .reg = 0x26, .max =  538 },
++	{ .reg = 0x37, .max =  590 },
++	{ .reg = 0x07, .max =  643 },
++	{ .reg = 0x18, .max =  695 },
++	{ .reg = 0x28, .max =  748 },
++	{ .reg = 0x39, .max =  800 },
++	{ .reg = 0x09, .max =  853 },
++	{ .reg = 0x19, .max =  905 },
++	{ .reg = 0x29, .max =  958 },
++	{ .reg = 0x3a, .max = 1010 },
++	{ .reg = 0x0a, .max = 1063 },
++	{ .reg = 0x1a, .max = 1115 },
++	{ .reg = 0x2a, .max = 1168 },
++	{ .reg = 0x3b, .max = 1220 },
++	{ .reg = 0x0b, .max = 1273 },
++	{ .reg = 0x1b, .max = 1325 },
++	{ .reg = 0x2b, .max = 1378 },
++	{ .reg = 0x3c, .max = 1430 },
++	{ .reg = 0x0c, .max = 1483 },
++	{ .reg = 0x1c, .max = 1500 },
++	{ .reg = 0x2c, .max = 1500 },
+ 	{ /* sentinel */ },
+ };
+ 
+ static const struct rcsi2_mbps_reg hsfreqrange_m3w_h3es1[] = {
+-	{ .mbps =   80,	.reg = 0x00 },
+-	{ .mbps =   90,	.reg = 0x10 },
+-	{ .mbps =  100,	.reg = 0x20 },
+-	{ .mbps =  110,	.reg = 0x30 },
+-	{ .mbps =  120,	.reg = 0x01 },
+-	{ .mbps =  130,	.reg = 0x11 },
+-	{ .mbps =  140,	.reg = 0x21 },
+-	{ .mbps =  150,	.reg = 0x31 },
+-	{ .mbps =  160,	.reg = 0x02 },
+-	{ .mbps =  170,	.reg = 0x12 },
+-	{ .mbps =  180,	.reg = 0x22 },
+-	{ .mbps =  190,	.reg = 0x32 },
+-	{ .mbps =  205,	.reg = 0x03 },
+-	{ .mbps =  220,	.reg = 0x13 },
+-	{ .mbps =  235,	.reg = 0x23 },
+-	{ .mbps =  250,	.reg = 0x33 },
+-	{ .mbps =  275,	.reg = 0x04 },
+-	{ .mbps =  300,	.reg = 0x14 },
+-	{ .mbps =  325,	.reg = 0x05 },
+-	{ .mbps =  350,	.reg = 0x15 },
+-	{ .mbps =  400,	.reg = 0x25 },
+-	{ .mbps =  450,	.reg = 0x06 },
+-	{ .mbps =  500,	.reg = 0x16 },
+-	{ .mbps =  550,	.reg = 0x07 },
+-	{ .mbps =  600,	.reg = 0x17 },
+-	{ .mbps =  650,	.reg = 0x08 },
+-	{ .mbps =  700,	.reg = 0x18 },
+-	{ .mbps =  750,	.reg = 0x09 },
+-	{ .mbps =  800,	.reg = 0x19 },
+-	{ .mbps =  850,	.reg = 0x29 },
+-	{ .mbps =  900,	.reg = 0x39 },
+-	{ .mbps =  950,	.reg = 0x0a },
+-	{ .mbps = 1000,	.reg = 0x1a },
+-	{ .mbps = 1050,	.reg = 0x2a },
+-	{ .mbps = 1100,	.reg = 0x3a },
+-	{ .mbps = 1150,	.reg = 0x0b },
+-	{ .mbps = 1200,	.reg = 0x1b },
+-	{ .mbps = 1250,	.reg = 0x2b },
+-	{ .mbps = 1300,	.reg = 0x3b },
+-	{ .mbps = 1350,	.reg = 0x0c },
+-	{ .mbps = 1400,	.reg = 0x1c },
+-	{ .mbps = 1450,	.reg = 0x2c },
+-	{ .mbps = 1500,	.reg = 0x3c },
++	{ .reg = 0x00, .max =  110 },
++	{ .reg = 0x10, .max =  120 },
++	{ .reg = 0x20, .max =  131 },
++	{ .reg = 0x30, .max =  141 },
++	{ .reg = 0x01, .max =  152 },
++	{ .reg = 0x11, .max =  162 },
++	{ .reg = 0x21, .max =  173 },
++	{ .reg = 0x31, .max =  183 },
++	{ .reg = 0x02, .max =  194 },
++	{ .reg = 0x12, .max =  204 },
++	{ .reg = 0x22, .max =  215 },
++	{ .reg = 0x32, .max =  225 },
++	{ .reg = 0x03, .max =  241 },
++	{ .reg = 0x13, .max =  257 },
++	{ .reg = 0x23, .max =  273 },
++	{ .reg = 0x33, .max =  275 },
++	{ .reg = 0x04, .max =  301 },
++	{ .reg = 0x14, .max =  328 },
++	{ .reg = 0x05, .max =  354 },
++	{ .reg = 0x15, .max =  393 },
++	{ .reg = 0x25, .max =  446 },
++	{ .reg = 0x06, .max =  498 },
++	{ .reg = 0x16, .max =  551 },
++	{ .reg = 0x07, .max =  603 },
++	{ .reg = 0x17, .max =  656 },
++	{ .reg = 0x08, .max =  708 },
++	{ .reg = 0x18, .max =  761 },
++	{ .reg = 0x09, .max =  813 },
++	{ .reg = 0x19, .max =  866 },
++	{ .reg = 0x29, .max =  918 },
++	{ .reg = 0x39, .max =  971 },
++	{ .reg = 0x0a, .max = 1023 },
++	{ .reg = 0x1a, .max = 1076 },
++	{ .reg = 0x2a, .max = 1128 },
++	{ .reg = 0x3a, .max = 1181 },
++	{ .reg = 0x0b, .max = 1233 },
++	{ .reg = 0x1b, .max = 1286 },
++	{ .reg = 0x2b, .max = 1338 },
++	{ .reg = 0x3b, .max = 1391 },
++	{ .reg = 0x0c, .max = 1443 },
++	{ .reg = 0x1c, .max = 1496 },
++	{ .reg = 0x2c, .max = 1500 },
++	{ .reg = 0x3c, .max = 1500 },
+ 	{ /* sentinel */ },
+ };
+ 
+@@ -432,11 +432,11 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+ {
+ 	const struct rcsi2_mbps_reg *hsfreq;
+ 
+-	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+-		if (hsfreq->mbps >= mbps)
++	for (hsfreq = priv->info->hsfreqrange; hsfreq->max != 0; hsfreq++)
++		if (hsfreq->max >= mbps)
+ 			break;
+ 
+-	if (!hsfreq->mbps) {
++	if (!hsfreq->max) {
+ 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+ 		return -ERANGE;
+ 	}
+@@ -907,11 +907,11 @@ static int rcsi2_phtw_write_mbps(struct rcar_csi2 *priv, unsigned int mbps,
+ {
+ 	const struct rcsi2_mbps_reg *value;
+ 
+-	for (value = values; value->mbps; value++)
+-		if (value->mbps >= mbps)
++	for (value = values; value->max; value++)
++		if (value->max >= mbps)
+ 			break;
+ 
+-	if (!value->mbps) {
++	if (!value->max) {
+ 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+ 		return -ERANGE;
+ 	}
+-- 
+2.7.4
+
