@@ -2,77 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7263E1C106A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 May 2020 11:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5538C1C1A23
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 May 2020 17:54:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728443AbgEAJgv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 May 2020 05:36:51 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38230 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728325AbgEAJgv (ORCPT
+        id S1729914AbgEAPyo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 May 2020 11:54:44 -0400
+Received: from foss.arm.com ([217.140.110.172]:43118 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728495AbgEAPyo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 May 2020 05:36:51 -0400
-Received: by mail-oi1-f194.google.com with SMTP id r66so2258850oie.5;
-        Fri, 01 May 2020 02:36:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QNmi3J1oG0BHibSA3NPDSx73IEYskXDbHrY+NDqOrXs=;
-        b=eoVf6yLCx9y8Lf+B7eEm42qZML0z239NzMFbgb77i+m6CuQR2CmmBdWCi6ZSkc+e+d
-         Mt75qrEXlL7l0N2ZKgAemyMgZCws/abm1KU1v3zmYce1aslWW3ou8eNkrevlSfj5yjyl
-         6avDxgCpQhkdyhvjz4Z0+QkZAb8i89pCsLo/60PZVMEig4gp/Xgg8J4fbfNHTjM/Lr/d
-         mYdgCt0FFgyDx87YjEujXCPIowpXNRfiMt9F2ahO4sa+vQVD1igdBpnlNsQAabmcTGMb
-         cieI1y7tb6dil1bhBKBx7Jrb6fZnoBVUKR155c2frJTBJrS2Mz7ZGlQS3prjQZHBXxgA
-         4U7g==
-X-Gm-Message-State: AGi0PuaAnPacnDTtEBnCGZPMrTn/j0nj3aGJyjaCtPdnXdEuCAei+pbx
-        wJGcP9q6ojXlK+l51TYhA7/oK3jiNeDvnHFM/ms=
-X-Google-Smtp-Source: APiQypIxuQX0hYIBKT5wCQqTw8uzBxU4StAmBh2v/MqxavCTiCkalP8HD2pDbGBi6s2kyN5W4y2cYwdW/AXBft42Weo=
-X-Received: by 2002:aca:d50f:: with SMTP id m15mr2464791oig.54.1588325810218;
- Fri, 01 May 2020 02:36:50 -0700 (PDT)
+        Fri, 1 May 2020 11:54:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6C65430E;
+        Fri,  1 May 2020 08:54:43 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7E9FD3F68F;
+        Fri,  1 May 2020 08:54:42 -0700 (PDT)
+Date:   Fri, 1 May 2020 16:54:40 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     bhelgaas@google.com, robh+dt@kernel.org, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: pci: rcar: add r8a77961 support
+Message-ID: <20200501155440.GE7398@e121166-lin.cambridge.arm.com>
+References: <1586511020-31833-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <812e6e58-d13f-3f44-5f55-22266b690c57@cogentembedded.com>
-In-Reply-To: <812e6e58-d13f-3f44-5f55-22266b690c57@cogentembedded.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 1 May 2020 11:36:38 +0200
-Message-ID: <CAMuHMdU5zcmBuWKVxEhF1G1uYHS0iVKUtuWURX68meppMKWHeA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Add Renesas RPC-IF support
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1586511020-31833-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC marex, linux-renesas-soc
+On Fri, Apr 10, 2020 at 06:30:20PM +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a77961 (R-Car M3-W+).
+> 
+> To avoid confusion between R-Car M3-W (R8A77960) and R-Car M3-W+
+> (R8A77961), this patch also updates the comment of
+> "renesas,pcie-r8a7796".
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Thu, Apr 30, 2020 at 10:45 PM Sergei Shtylyov
-<sergei.shtylyov@cogentembedded.com> wrote:
-> Here's a set of 2 patches against Linus' repo. Renesas Reduced Pin Count
-> Interface (RPC-IF) allows a SPI flash or HyperFlash connected to the SoC
-> to be accessed via the external address space read mode or the manual mode.
-> The memory controller driver for RPC-IF registers either SPI or HyperFLash
-> subdevice, depending on the contents of the device tree subnode; it also
-> provides the abstract "back end" API that can be used by the "front end"
-> SPI/MTD drivers to talk to the real hardware...
->
-> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
->
-> [1/2] dt-bindings: memory: document Renesas RPC-IF bindings
-> [2/2] memory: add Renesas RPC-IF driver
->
-> MBR, Sergei
->
-> ______________________________________________________
-> Linux MTD discussion mailing list
-> http://lists.infradead.org/mailman/listinfo/linux-mtd/
+Applied to pci/rcar, thanks.
+
+Lorenzo
+
+> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci.txt b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> index 12702c8..1041c44a 100644
+> --- a/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> +++ b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> @@ -11,7 +11,8 @@ compatible: "renesas,pcie-r8a7743" for the R8A7743 SoC;
+>  	    "renesas,pcie-r8a7791" for the R8A7791 SoC;
+>  	    "renesas,pcie-r8a7793" for the R8A7793 SoC;
+>  	    "renesas,pcie-r8a7795" for the R8A7795 SoC;
+> -	    "renesas,pcie-r8a7796" for the R8A7796 SoC;
+> +	    "renesas,pcie-r8a7796" for the R8A77960 SoC;
+> +	    "renesas,pcie-r8a77961" for the R8A77961 SoC;
+>  	    "renesas,pcie-r8a77980" for the R8A77980 SoC;
+>  	    "renesas,pcie-r8a77990" for the R8A77990 SoC;
+>  	    "renesas,pcie-rcar-gen2" for a generic R-Car Gen2 or
+> -- 
+> 2.7.4
+> 
