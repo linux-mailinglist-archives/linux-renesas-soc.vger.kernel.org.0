@@ -2,69 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F121C2D53
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 May 2020 17:21:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B0B11C2F8D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 May 2020 23:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728822AbgECPVb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 May 2020 11:21:31 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:29357 "EHLO
+        id S1729168AbgECVrM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 May 2020 17:47:12 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:8668 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728345AbgECPV3 (ORCPT
+        by vger.kernel.org with ESMTP id S1729104AbgECVrL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 May 2020 11:21:29 -0400
-X-IronPort-AV: E=Sophos;i="5.73,347,1583161200"; 
-   d="scan'208";a="46006153"
+        Sun, 3 May 2020 17:47:11 -0400
+X-IronPort-AV: E=Sophos;i="5.73,349,1583161200"; 
+   d="scan'208";a="46019240"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 04 May 2020 00:21:27 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 04 May 2020 06:47:09 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 15C184007F56;
-        Mon,  4 May 2020 00:21:24 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 39AB94006DF9;
+        Mon,  4 May 2020 06:47:06 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>
-Cc:     Lad Prabhakar <prabhakar.csengg@gmail.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-serial@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] dt-bindings: net: renesas,ether: Sort compatible string in increasing number of the SoC
-Date:   Sun,  3 May 2020 16:21:19 +0100
-Message-Id: <1588519279-13364-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 00/10] Add initial support for R8A7742/RZG1H SoC and iW-RainboW-G21D-Qseven development board support
+Date:   Sun,  3 May 2020 22:46:44 +0100
+Message-Id: <1588542414-14826-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Sort the items in the compatible string list in increasing number of SoC.
+Hi All,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Changes for v2:
- * Included renesas,ether in subject instead of sh_eth.
- * Included Reviewed-by tags.
+This patch set adds initial support for R8A7742 SoC and 
+iW-RainboW-G21D-Qseven development board.
 
- Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+--Prabhakar
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-index 2eaa879..005a3ae 100644
---- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
-@@ -29,8 +29,8 @@ properties:
-               - renesas,rcar-gen1-ether  # a generic R-Car Gen1 device
-       - items:
-           - enum:
--              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
-               - renesas,ether-r8a7743    # device is a part of R8A7743 SoC
-+              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
-               - renesas,ether-r8a7790    # device is a part of R8A7790 SoC
-               - renesas,ether-r8a7791    # device is a part of R8A7791 SoC
-               - renesas,ether-r8a7793    # device is a part of R8A7793 SoC
+Changes for v2:
+* Dropped patches 1-5 from v1[1] as they have been already queued.
+* Split up the pfc for r8a7790 as common and automotive.
+* Enabled dmac and scifa2 as part of initial SoC dtsi so that by default
+  board can be booted from eMMC.
+* New patches 4, 7-10
+* Dropped patches 12, 14-18 from v1[1] and will be posted after acceptance
+  of this series.
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=279727
+
+Lad Prabhakar (10):
+  dt-bindings: pinctrl: sh-pfc: Document r8a7742 PFC support
+  pinctrl: sh-pfc: r8a7790: Add r8a7742 PFC support
+  dt-bindings: serial: renesas,scifa: Document r8a7742 bindings
+  dt-bindings: mmc: renesas,mmcif: Document r8a7742 DT bindings
+  dt-bindings: renesas,rcar-dmac: Document r8a7742 support
+  ARM: dts: r8a7742: Initial SoC device tree
+  dt-bindings: arm: Document iW-RainboW-G21M-Qseven-RZG1H system on
+    module
+  dt-bindings: arm: Document iW-RainboW-G21D-Qseven-RZG1H board
+  ARM: dts: r8a7742-iwg21m: Add iWave RZ/G1H Qseven SOM
+  ARM: dts: r8a7742-iwg21d-q7: Add support for iWave G21D-Q7 board based
+    on RZ/G1H
+
+ .../devicetree/bindings/arm/renesas.yaml      |  10 +
+ .../bindings/dma/renesas,rcar-dmac.yaml       |   1 +
+ .../devicetree/bindings/mmc/renesas,mmcif.txt |   1 +
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt  |   1 +
+ .../bindings/serial/renesas,scifa.yaml        |   1 +
+ arch/arm/boot/dts/Makefile                    |   1 +
+ arch/arm/boot/dts/r8a7742-iwg21d-q7.dts       |  37 +
+ arch/arm/boot/dts/r8a7742-iwg21m.dtsi         |  53 ++
+ arch/arm/boot/dts/r8a7742.dtsi                | 389 +++++++++
+ drivers/pinctrl/sh-pfc/Kconfig                |   4 +
+ drivers/pinctrl/sh-pfc/Makefile               |   1 +
+ drivers/pinctrl/sh-pfc/core.c                 |   6 +
+ drivers/pinctrl/sh-pfc/pfc-r8a7790.c          | 744 +++++++++---------
+ drivers/pinctrl/sh-pfc/sh_pfc.h               |   1 +
+ 14 files changed, 898 insertions(+), 352 deletions(-)
+ create mode 100644 arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+ create mode 100644 arch/arm/boot/dts/r8a7742-iwg21m.dtsi
+ create mode 100644 arch/arm/boot/dts/r8a7742.dtsi
+
 -- 
-2.7.4
+2.17.1
 
