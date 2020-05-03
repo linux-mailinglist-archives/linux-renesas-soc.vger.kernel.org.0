@@ -2,85 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 256C01C2010
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 May 2020 23:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F121C2D53
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 May 2020 17:21:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbgEAVwa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 May 2020 17:52:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53038 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726344AbgEAVwa (ORCPT
+        id S1728822AbgECPVb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 May 2020 11:21:31 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:29357 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728345AbgECPV3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 May 2020 17:52:30 -0400
-Received: from localhost (mobile-166-175-184-168.mycingular.net [166.175.184.168])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DD3192166E;
-        Fri,  1 May 2020 21:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588369950;
-        bh=1D8RX5PJmzztVI5nfEj33i+vmKP0DavgpDBKvVSk568=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=2LiI5Q41sZ7IuVg7kSvKqmCGXVMVME7kMGXqKF2+jaeheYWJL/4CIvP5pvEGDXguJ
-         wtJz99iTMpRUQ+gy5D9c3J/4iuMiojxBSic2TWDEQLCoECxlkHf1Z4Fu0nOMy+70Vh
-         KetefdBdu87qgfpUH29HuJem5emKyLn+lmCOFnkY=
-Date:   Fri, 1 May 2020 16:52:28 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     marek.vasut@gmail.com, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: pcie-rcar: Cache PHY init function pointer
-Message-ID: <20200501215228.GA136733@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428083231.GC12459@e121166-lin.cambridge.arm.com>
+        Sun, 3 May 2020 11:21:29 -0400
+X-IronPort-AV: E=Sophos;i="5.73,347,1583161200"; 
+   d="scan'208";a="46006153"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 04 May 2020 00:21:27 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 15C184007F56;
+        Mon,  4 May 2020 00:21:24 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>
+Cc:     Lad Prabhakar <prabhakar.csengg@gmail.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] dt-bindings: net: renesas,ether: Sort compatible string in increasing number of the SoC
+Date:   Sun,  3 May 2020 16:21:19 +0100
+Message-Id: <1588519279-13364-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 09:32:31AM +0100, Lorenzo Pieralisi wrote:
-> On Sun, Apr 26, 2020 at 02:31:47PM +0200, marek.vasut@gmail.com wrote:
-> > From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > 
-> > The PHY initialization function pointer does not change during the
-> > lifetime of the driver instance, it is therefore sufficient to get
-> > the pointer in .probe(), cache it in driver private data, and just
-> > call the function through the cached pointer in .resume().
-> > 
-> > Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Cc: Wolfram Sang <wsa@the-dreams.de>
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> > NOTE: Based on git://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/pci.git
-> >       branch pci/rcar
-> > NOTE: The driver tag is now 'pcie-rcar' to distinguish it from pci-rcar-gen2.c
-> > ---
-> >  drivers/pci/controller/pcie-rcar.c | 10 ++++------
-> >  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> Squashed in https://patchwork.kernel.org/patch/11438665
-> 
-> Do you want me to rename the $SUBJECT (and the branch name while at it)
-> in the patches in my pci/rcar branch ("PCI: pcie-rcar: ...") to start
-> the commit subject tag renaming from this cycle (and in the interim you
-> send a rename for the drivers files ?)
+Sort the items in the compatible string list in increasing number of SoC.
 
-My vote is a tag of "rcar" for the pcie-rcar driver because almost all
-new drivers are PCIe, and none of the others use "pcie-" in the tag.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Changes for v2:
+ * Included renesas,ether in subject instead of sh_eth.
+ * Included Reviewed-by tags.
 
-For pci-rcar-gen2.c, we could use "rcar-gen2" (already used by the
-last 5 commits, last touched over two years ago).  It's slightly
-confusing to use "gen2" to refer to some internal R-Car thing instead
-of PCIe Gen 2, so we could use something like "rcar-pci", but I'm not
-sure it's worth it.
+ Documentation/devicetree/bindings/net/renesas,ether.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bjorn
+diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+index 2eaa879..005a3ae 100644
+--- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+@@ -29,8 +29,8 @@ properties:
+               - renesas,rcar-gen1-ether  # a generic R-Car Gen1 device
+       - items:
+           - enum:
+-              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
+               - renesas,ether-r8a7743    # device is a part of R8A7743 SoC
++              - renesas,ether-r8a7745    # device is a part of R8A7745 SoC
+               - renesas,ether-r8a7790    # device is a part of R8A7790 SoC
+               - renesas,ether-r8a7791    # device is a part of R8A7791 SoC
+               - renesas,ether-r8a7793    # device is a part of R8A7793 SoC
+-- 
+2.7.4
+
