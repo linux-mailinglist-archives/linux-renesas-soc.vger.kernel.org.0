@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A03C71C4C5A
+	by mail.lfdr.de (Postfix) with ESMTP id 0FAA91C4C59
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 04:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgEECt1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 May 2020 22:49:27 -0400
-Received: from mga05.intel.com ([192.55.52.43]:58071 "EHLO mga05.intel.com"
+        id S1726531AbgEECtZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 May 2020 22:49:25 -0400
+Received: from mga07.intel.com ([134.134.136.100]:26725 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726482AbgEECt1 (ORCPT
+        id S1726482AbgEECtZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 May 2020 22:49:27 -0400
-IronPort-SDR: dgoNMCwXHN/c4Ai+vxqmp8aeYgaCI61lLXeLwaHOHZT9NKdimgr1J4WjOWspCpzrfvT/zc4W5Z
- Yk77hsRlFM6g==
+        Mon, 4 May 2020 22:49:25 -0400
+IronPort-SDR: CoS98svSLgQYnR4K5UuNLYYvYn+7gW6956Ho7NSe03CpNWKLOpHIFblagkkcT97PY6elP8PWJ0
+ TNqH80ekHkiA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 19:49:25 -0700
-IronPort-SDR: GI3HaVQUp865iA1C1rR73L7XUqaPv8Fek9+dhqkaGuUL2k6I4x5WVjd11tl6VAPGxFt8khEjYX
- Oka6SY+C5ejw==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 19:49:24 -0700
+IronPort-SDR: MsRTE+Xomhrg0ik0s1BXZKjBRVYwKXwWCJTOY0jXm0BuEpbIwQyEQIOIY2A5FfbnHjKowwolL7
+ eAUgIsbOzBFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="295688409"
+   d="scan'208";a="248421040"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 May 2020 19:49:22 -0700
+  by orsmga007.jf.intel.com with ESMTP; 04 May 2020 19:49:22 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jVne6-0005dF-5h; Tue, 05 May 2020 10:49:22 +0800
-Date:   Tue, 05 May 2020 10:48:33 +0800
+        id 1jVne6-0005cd-3x; Tue, 05 May 2020 10:49:22 +0800
+Date:   Tue, 05 May 2020 10:48:38 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.8] BUILD REGRESSION
- 727f9cb4eb753ff60fe94da26603f677663430ca
-Message-ID: <5eb0d401./otDBy8Dle966Moh%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-soc-for-v5.8] BUILD SUCCESS
+ 96866b1a1d32318b6bbc321a762bf79db1f4686e
+Message-ID: <5eb0d406.ESAAD3ZOogmFmeZY%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,23 +44,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.8
-branch HEAD: 727f9cb4eb753ff60fe94da26603f677663430ca  ARM: dts: r8a7742-iwg21d-q7: Add iWave G21D-Q7 board based on RZ/G1H
-
-Error/Warning in current branch:
-
-arch/arm/boot/dts/r8a7742.dtsi:8:10: fatal error: dt-bindings/clock/r8a7742-cpg-mssr.h: No such file or directory
-
-Error/Warning ids grouped by kconfigs:
-
-recent_errors
-`-- arm-shmobile_defconfig
-    `-- arch-arm-boot-dts-r8a7742.dtsi:fatal-error:dt-bindings-clock-r8a7742-cpg-mssr.h:No-such-file-or-directory
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-soc-for-v5.8
+branch HEAD: 96866b1a1d32318b6bbc321a762bf79db1f4686e  ARM: debug-ll: Add support for r8a7742
 
 elapsed time: 510m
 
 configs tested: 176
-configs skipped: 196
+configs skipped: 191
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
 arm64                            allyesconfig
 arm                              allyesconfig
@@ -203,7 +196,7 @@ i386                 randconfig-h001-20200505
 i386                 randconfig-h003-20200505
 x86_64               randconfig-h003-20200505
 x86_64               randconfig-h001-20200505
-arm                  randconfig-a001-20200505
+arm                  randconfig-a001-20200503
 riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
