@@ -2,232 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01DD1C596F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 16:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EA771C5C81
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 17:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729129AbgEEO1e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 May 2020 10:27:34 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58671 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729123AbgEEO1d (ORCPT
+        id S1730118AbgEEPuJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 May 2020 11:50:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729406AbgEEPuI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 May 2020 10:27:33 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id VyXdjGNuHtKAsVyXgjRttO; Tue, 05 May 2020 16:27:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588688849; bh=ulst+HYegCC8JtHtx1BxaoiVmLjACBwKntFr8PmmUxE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hAEKoI9pXlrx6eBXXWo3i5uV82/BU+hTMI/OqmqdsGHNaM5oW+n48kivNZ+D35bQg
-         SdLS8ZPUdzAzKki/NtkiTI0duWZ/peQ9NfZMHx1Em/SmGbyK3eabEKHXLgu1Mu4oXM
-         Nx5fNY07XLffVKu42QcvWhGvIlRWOe+7Kfodh3bl1ISfsCxp8bCZLgS+0C2FAHmHy9
-         7acxzZKme8S5a3rFPRTY79L+9XENJh85+jUST6LDFKTGvcxTV32fc4rBwAbl3qkdiD
-         AiCGiwmfZ70DhDWW0la2HhJkwk7wo6sdwkkE3brje8UnLMc1CUJQvYnKz5fkVrvhcn
-         5h93I34Vle+2A==
-Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
- <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
- <20200429182739.274ce451@coco.lan>
- <20200429163849.GK5956@pendragon.ideasonboard.com>
- <20200429200140.22a4db22@coco.lan>
- <20200429185033.GN5956@pendragon.ideasonboard.com>
- <20200429200808.GK9190@paasikivi.fi.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <1bdd6780-5862-88b2-b2ed-d9ce03388f67@xs4all.nl>
-Date:   Tue, 5 May 2020 16:27:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200429200808.GK9190@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMUEVvKFYOckdzu6OW1QclkopoOKmbi+alP1TJq7afaLbVDsfsSOBTIr2gVoMHxX2FPPyEDmju3FVfEV4gSNGAf2b12eOKM+ECCOyn3g96rnee1wsc9J
- AsEWMDDwLtAi/Vawu3qsIUh1nk6qgfl615uBlqCY2whhzwiNQmBkqXR402gOMd1eViIOGonSFOGtK9HfXfkGDJsFZfF6Jq5PkTPtLnsE3Fn0x87si3zI34CX
- OoZK8mGZxPp1jpq4V+NB7uu1lJS+C3CVTp+Djck2414AWvtI79M/aTlSPYUyaFTozp7i9GvlDzSxuHrvoArV2jpQwQrG1T/T7Xfip2Wsu1SBfyxa6zSi+yV+
- UToYj7Y4KgDfMELtjnmD0gG9kBzbgIjT6jtFj2AqIEtTeju7rl2txcZFBKDV502BnYJ/rSoGzG/rfdqEAzPEP5ue+rlu/Q==
+        Tue, 5 May 2020 11:50:08 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5177CC061A0F
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 May 2020 08:50:08 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:bd97:8453:3b10:1832])
+        by baptiste.telenet-ops.be with bizsmtp
+        id b3pl2200A3VwRR3013plnF; Tue, 05 May 2020 17:49:45 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jVzpJ-0003KC-DL; Tue, 05 May 2020 17:49:45 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jVzpJ-0001Cw-A3; Tue, 05 May 2020 17:49:45 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] dt-bindings: timer: renesas: tmu: Convert to json-schema
+Date:   Tue,  5 May 2020 17:49:44 +0200
+Message-Id: <20200505154944.4598-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 29/04/2020 22:08, Sakari Ailus wrote:
-> Hi Laurent, Mauro,
-> 
-> On Wed, Apr 29, 2020 at 09:50:33PM +0300, Laurent Pinchart wrote:
->> Hi Mauro,
->>
->> On Wed, Apr 29, 2020 at 08:01:40PM +0200, Mauro Carvalho Chehab wrote:
->>> Em Wed, 29 Apr 2020 19:38:49 +0300 Laurent Pinchart escreveu:
->>>> On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
->>>>> Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
->>>>>   
->>>>>> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
->>>>>> node. For MC-centric devices, its behaviour has always been ill-defined,
->>>>>> with drivers implementing one of the following behaviours:
->>>>>
->>>>> ...
->>>>>
->>>>> The patch itself is OK. However, there's a change you did at the
->>>>> documentation that it is unrelated. 
->>>>>
->>>>> See below.
->>>>>   
->>>>>> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>>>>> index 8ca6ab701e4a..a987debc7654 100644
->>>>>> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>>>>> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
->>>>>> @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
->>>>>>  formats in preference order, where preferred formats are returned before
->>>>>>  (that is, with lower ``index`` value) less-preferred formats.
->>>>>>  
->>>>>> -.. note::
->>>>>> -   After switching input or output the list of enumerated image
->>>>>> -   formats may be different.  
->>>>>
->>>>> Why are you dropping this note?
->>>>>
->>>>> This basically reverts this changeset:
->>>>>
->>>>>   commit 93828d6438081649e81b8681df9bf6ad5d691650
->>>>>   Author: Hans Verkuil <hans.verkuil@cisco.com>
->>>>>   Date:   Mon Sep 3 09:37:18 2012 -0300
->>>>>
->>>>>     [media] DocBook: make the G/S/TRY_FMT specification more strict
->>>>>     
->>>>>     - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
->>>>>     - TRY_FMT should give the same result as S_FMT, all other things being equal.
->>>>>     - ENUMFMT may return different formats for different inputs or outputs.
->>>>>     This was decided during the 2012 Media Workshop.
->>>>>     
->>>>>     Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->>>>>     Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
->>>>>     Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>>     Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
->>>>>     Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
->>>>>
->>>>> As far as I remember, from our 2012 discussions, some drivers may change 
->>>>> the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
->>>>> VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
->>>>> degrees rotation would equally affect it.
->>>>>
->>>>> Perhaps, the removal was just some mistake. If so, please re-submit
->>>>> another patch without it.
->>>>>
->>>>> Otherwise, if are there any good reasons for such change, and it won't
->>>>> cause any API regressions, please place it on a separate patch, clearly
->>>>> that.
->>>>>
->>>>> ... Or, maybe you felt that it won't make sense for MC-centric devices.
->>>>> On such case, please improve the note stating it on a way that it would
->>>>> be understandable on both MC-centric and bridge-centrid drivers.  
->>>>
->>>> I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
->>>> removes the above, but adds the following
->>>>
->>>> ----
->>>> If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
->>>> <device-capabilities>`, applications shall initialize the ``mbus_code`` field
->>>> to zero and drivers shall ignore the value of the field.  Drivers shall
->>>> enumerate all image formats. The enumerated formats may depend on the active
->>>> input or output of the device.
->>>>
->>>> If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
->>>> <device-capabilities>`, applications may initialize the ``mbus_code`` field to
->>>> a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
->>>> ``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
->>>> image formats that can produce (for video output devices) or be produced from
->>>> (for video capture devices) that media bus code.  Regardless of the value of
->>>> the ``mbus_code`` field, the enumerated image formats shall not depend on the
->>>> active configuration of the video device or device pipeline. Enumeration shall
->>>> otherwise operate as previously described.
->>>
->>> Hmm... it took me re-reading this text 4 or 5 times, in order to understand
->>> that you're actually meaning bridge-centric devices here :-)
->>>
->>> Also, you placed two independent and unrelated information at the same
->>> paragraph.
->>>
->>> IMHO, you should let it more clear, like, for example adding a numerated
->>> list, like:
->>>
->>> 1. Bridge-centric devices
->>>
->>>    As such devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
->>>    <device-capabilities>`, applications shall initialize the ``mbus_code`` field
->>>    to zero and drivers shall ignore the value of the field.
->>
->> I could settle for
->>
->>    These devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
->>    <device-capabilities>`. Applications shall initialize the ``mbus_code`` field
->>    to zero and drivers shall ignore the value of the field.
->>
->> and similarly below. It bothers me though, as "bridge" isn't formally
->> defined anywhere in the userspace API documentation. It's more formal to
->> explain the behaviour of individual ioctls based solely on the
->> V4L2_CAP_IO_MC flag, and gather all the explanation of what
->> bridge-centric vs. MC-centric means in a single place, an introductory
-> 
-> How about "video node centric"? That's what I recall has been used
-> previously to differentiate regular V4L2 uAPI drivers from MC-centric
-> drivers. Bridge refers to hardware whereas MC-centric is software, just as
-> video node centric would be.
+Convert the Renesas R-Mobile/R-Car Timer Unit (TMU) Device Tree binding
+documentation to json-schema.
 
-I like that. Video node centric vs MC-centric. Although I think we had
-this discussion before. We never really managed to come up with
-satisfying names for this.
+Document missing properties.
+Update the example to match reality.
 
-> 
->> section, instead of spreading it through documentation of individual
->> ioctls. V4L2 has more UAPI documentation than most other kernel APIs,
->> but there are lots of places where details are not very clear.
->> Standardizing ioctl documentation on the use of common vocabulary
->> ("may", "shall", ...) and using clearly defined concepts (e.g.
->> V4L2_CAP_IO_MC) instead of losely defined ones (e.g. Bridge-centric
->> devices) that are explained in non-normative sections would increase
->> clarity. I thus prefer the wording in v8.1 of this patch, or possibly
->> with the small extension I've proposed in my previous e-mail.
->>
->> Hans, Sakari, what do you think ?
-> 
-> My preference is with v8.1 wording, with bridge-centric replaced by video
-> node centric. This is because it differentiates between the flag what
-> actually defines device behaviour. That's what applications see, they don't
-> necessarily know what kind of devices they're working with when they open
-> the device node.
-> 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v2:
+  - Add missing "additionalProperties: false",
+  - Add Reviewed-by.
+---
+ .../devicetree/bindings/timer/renesas,tmu.txt | 49 ---------
+ .../bindings/timer/renesas,tmu.yaml           | 99 +++++++++++++++++++
+ 2 files changed, 99 insertions(+), 49 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/timer/renesas,tmu.txt
+ create mode 100644 Documentation/devicetree/bindings/timer/renesas,tmu.yaml
 
-You can easily say: 'If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
-capability (also known as a 'video node centric' driver)'. That way you
-associate the absence of the capability with the type of driver.
+diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.txt b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
+deleted file mode 100644
+index 29159f4e65abece9..0000000000000000
+--- a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-* Renesas R-Mobile/R-Car Timer Unit (TMU)
+-
+-The TMU is a 32-bit timer/counter with configurable clock inputs and
+-programmable compare match.
+-
+-Channels share hardware resources but their counter and compare match value
+-are independent. The TMU hardware supports up to three channels.
+-
+-Required Properties:
+-
+-  - compatible: must contain one or more of the following:
+-    - "renesas,tmu-r8a7740" for the r8a7740 TMU
+-    - "renesas,tmu-r8a774a1" for the r8a774A1 TMU
+-    - "renesas,tmu-r8a774b1" for the r8a774B1 TMU
+-    - "renesas,tmu-r8a774c0" for the r8a774C0 TMU
+-    - "renesas,tmu-r8a7778" for the r8a7778 TMU
+-    - "renesas,tmu-r8a7779" for the r8a7779 TMU
+-    - "renesas,tmu-r8a77970" for the r8a77970 TMU
+-    - "renesas,tmu-r8a77980" for the r8a77980 TMU
+-    - "renesas,tmu" for any TMU.
+-      This is a fallback for the above renesas,tmu-* entries
+-
+-  - reg: base address and length of the registers block for the timer module.
+-
+-  - interrupts: interrupt-specifier for the timer, one per channel.
+-
+-  - clocks: a list of phandle + clock-specifier pairs, one for each entry
+-    in clock-names.
+-  - clock-names: must contain "fck" for the functional clock.
+-
+-Optional Properties:
+-
+-  - #renesas,channels: number of channels implemented by the timer, must be 2
+-    or 3 (if not specified the value defaults to 3).
+-
+-
+-Example: R8A7779 (R-Car H1) TMU0 node
+-
+-	tmu0: timer@ffd80000 {
+-		compatible = "renesas,tmu-r8a7779", "renesas,tmu";
+-		reg = <0xffd80000 0x30>;
+-		interrupts = <0 32 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 33 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 34 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp0_clks R8A7779_CLK_TMU0>;
+-		clock-names = "fck";
+-
+-		#renesas,channels = <3>;
+-	};
+diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+new file mode 100644
+index 0000000000000000..621addf87a52195f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+@@ -0,0 +1,99 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/timer/renesas,tmu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Mobile/R-Car Timer Unit (TMU)
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++
++description:
++  The TMU is a 32-bit timer/counter with configurable clock inputs and
++  programmable compare match.
++
++  Channels share hardware resources but their counter and compare match value
++  are independent. The TMU hardware supports up to three channels.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,tmu-r8a7740  # R-Mobile A1
++          - renesas,tmu-r8a774a1 # RZ/G2M
++          - renesas,tmu-r8a774b1 # RZ/G2N
++          - renesas,tmu-r8a774c0 # RZ/G2E
++          - renesas,tmu-r8a7778  # R-Car M1A
++          - renesas,tmu-r8a7779  # R-Car H1
++          - renesas,tmu-r8a77970 # R-Car V3M
++          - renesas,tmu-r8a77980 # R-Car V3H
++      - const: renesas,tmu
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    minItems: 2
++    maxItems: 3
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: fck
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  '#renesas,channels':
++    allOf:
++      - $ref: /schemas/types.yaml#/definitions/uint32
++      - enum: [ 2, 3 ]
++      - default: 3
++    description:
++      Number of channels implemented by the timer.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - power-domains
++
++if:
++  not:
++    properties:
++      compatible:
++        contains:
++          enum:
++            - renesas,tmu-r8a7740
++            - renesas,tmu-r8a7778
++            - renesas,tmu-r8a7779
++then:
++  required:
++    - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7779-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7779-sysc.h>
++    tmu0: timer@ffd80000 {
++            compatible = "renesas,tmu-r8a7779", "renesas,tmu";
++            reg = <0xffd80000 0x30>;
++            interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&mstp0_clks R8A7779_CLK_TMU0>;
++            clock-names = "fck";
++            power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
++            #renesas,channels = <3>;
++    };
+-- 
+2.17.1
 
-I would really like to keep the old text of the note, so replace:
-
-"The enumerated formats may depend on the active input or output of the device."
-
-with:
-
-"After switching to another input or output the list of enumerated formats
- may be different."
-
-I know it says the same, but the original text clearly indicates that it is
-the act of switching inputs/outputs that can cause a change of formats.
-
-Just referring to the "active" input/output leaves it to the reader to infer
-that the list can change when you select a new active input/output. It's better
-(less work for the reader) to be explicit about that.
-
-Regards,
-
-	Hans
