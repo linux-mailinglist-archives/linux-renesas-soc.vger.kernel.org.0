@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 522C71C60C2
+	by mail.lfdr.de (Postfix) with ESMTP id EE9A91C60C3
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 21:07:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728707AbgEETHW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 May 2020 15:07:22 -0400
-Received: from mga05.intel.com ([192.55.52.43]:56617 "EHLO mga05.intel.com"
+        id S1727857AbgEETHX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 May 2020 15:07:23 -0400
+Received: from mga18.intel.com ([134.134.136.126]:52124 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727857AbgEETHW (ORCPT
+        id S1728642AbgEETHW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 5 May 2020 15:07:22 -0400
-IronPort-SDR: MSsnAqn07C+QgsaqY+jxfbFhq5NM2773WzWU3dopR4duTJHJFn+8/HMVPEgItT5lQDr5CaaLdn
- RwTnXFbrQwyg==
+IronPort-SDR: 0P3D8MWq/8RKdLAZVHkvKrnMSWqhWkQez7wgCVkEqJsHSrDZAlb3kpb+77KXadMN0KKx9iAQgU
+ jNnKKWB3sHvg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 12:07:21 -0700
-IronPort-SDR: 18HvYezzVOdXE0esnEErO5baDeYozrrVxjibHA5F5QfVXkvNlqad0OTxzg5pfUqwIJrEYpBY7C
- HsyASo+0Gxmg==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 12:07:21 -0700
+IronPort-SDR: EJCoPfnsF4lcym/hW0Qy/YsKK2JkokHKVxkffyhZb8pqCNW1Pk3ibwH0PWB3AW5n1L6ZgtUFUy
+ rm2STho7WR+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,356,1583222400"; 
-   d="scan'208";a="277980187"
+   d="scan'208";a="338759908"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 May 2020 12:07:20 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 May 2020 12:07:20 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jW2uV-000DtO-FQ; Wed, 06 May 2020 03:07:19 +0800
-Date:   Wed, 06 May 2020 03:06:59 +0800
+        id 1jW2uV-000Dtj-Gu; Wed, 06 May 2020 03:07:19 +0800
+Date:   Wed, 06 May 2020 03:07:01 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.8] BUILD SUCCESS
- 48ad3c4a334ad1e583f5159f43c3623ecaffc9f9
-Message-ID: <5eb1b953.NWs83cs0kOe9aD91%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ 1b835e2a83eb6e0e88e01f9cc0829c5540b0f5ea
+Message-ID: <5eb1b955.6+Vf/AsX1OUw3YMT%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.8
-branch HEAD: 48ad3c4a334ad1e583f5159f43c3623ecaffc9f9  ARM: dts: r8a7742-iwg21d-q7: Add iWave G21D-Q7 board based on RZ/G1H
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
+branch HEAD: 1b835e2a83eb6e0e88e01f9cc0829c5540b0f5ea  Merge branches 'renesas-arm-defconfig-for-v5.8', 'renesas-arm-dt-for-v5.8', 'renesas-arm-soc-for-v5.8', 'renesas-drivers-for-v5.8' and 'renesas-dt-bindings-for-v5.8' into renesas-next
 
 elapsed time: 488m
 
-configs tested: 216
-configs skipped: 15
+configs tested: 220
+configs skipped: 0
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -74,7 +74,6 @@ xtensa                       common_defconfig
 mips                             allmodconfig
 h8300                       h8s-sim_defconfig
 um                           x86_64_defconfig
-m68k                           sun3_defconfig
 powerpc                     mpc512x_defconfig
 i386                             alldefconfig
 riscv                               defconfig
@@ -96,6 +95,7 @@ ia64                             alldefconfig
 m68k                       m5475evb_defconfig
 m68k                             allmodconfig
 m68k                       bvme6000_defconfig
+m68k                           sun3_defconfig
 m68k                          multi_defconfig
 nios2                         3c120_defconfig
 nios2                         10m50_defconfig
@@ -200,6 +200,10 @@ i386                 randconfig-d001-20200505
 x86_64               randconfig-d003-20200505
 x86_64               randconfig-d002-20200505
 i386                 randconfig-d002-20200505
+i386                 randconfig-d003-20200502
+i386                 randconfig-d001-20200502
+x86_64               randconfig-d002-20200502
+i386                 randconfig-d002-20200502
 i386                 randconfig-e003-20200505
 x86_64               randconfig-e002-20200505
 x86_64               randconfig-e003-20200505
