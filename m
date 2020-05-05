@@ -2,236 +2,352 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FAA91C4C59
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 04:49:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 571681C4F03
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 May 2020 09:25:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726531AbgEECtZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 May 2020 22:49:25 -0400
-Received: from mga07.intel.com ([134.134.136.100]:26725 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726482AbgEECtZ (ORCPT
+        id S1725766AbgEEHZW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 May 2020 03:25:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725768AbgEEHZW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 May 2020 22:49:25 -0400
-IronPort-SDR: CoS98svSLgQYnR4K5UuNLYYvYn+7gW6956Ho7NSe03CpNWKLOpHIFblagkkcT97PY6elP8PWJ0
- TNqH80ekHkiA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 19:49:24 -0700
-IronPort-SDR: MsRTE+Xomhrg0ik0s1BXZKjBRVYwKXwWCJTOY0jXm0BuEpbIwQyEQIOIY2A5FfbnHjKowwolL7
- eAUgIsbOzBFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="248421040"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 May 2020 19:49:22 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jVne6-0005cd-3x; Tue, 05 May 2020 10:49:22 +0800
-Date:   Tue, 05 May 2020 10:48:38 +0800
-From:   kbuild test robot <lkp@intel.com>
+        Tue, 5 May 2020 03:25:22 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49090C061A41
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 May 2020 00:25:21 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id a21so508429ljj.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 May 2020 00:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=cvtR3hRC9+1MyS7lBvzzI6ntwS30wH6DHxPCS2mZy/Y=;
+        b=BBFm0L4dutvuct8hS9ODTArdbvpQA7oMgXEGSEuyME0OMel6SBrIS+XMdhhOzCctzI
+         CXD1cpmqiPPgwLpjxpvq+Jlsw74dYRfl8shF+Ft7S8Ic2QtbP4PDtIaQzGJrrFEg9dLZ
+         XO19RG3Uos+uSzMPH9eutgwEUutuTX5GSaGllrjVirqkpEgGXvYcaanFA+e1K9fdLSAo
+         7EChcNNNJsDTvvsek9jgG83kPKWE+KnhHiohW4/OcDF/EMgQWTXNVex/sRN8FSeJreCz
+         ZFm0QM8g3d4pOAreqkQzp0wpZW+jav59/P3tyzOVLmgl2KI6HnDPFQx1Sj+y4OXY/OZK
+         wGVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=cvtR3hRC9+1MyS7lBvzzI6ntwS30wH6DHxPCS2mZy/Y=;
+        b=sowdDm66arBBlHK9uXCV4SR2fkzd/zNHg44hijB1DJC5hu8FmEu/h5ch6mYyl1VL1m
+         fyT1Zjn/e7YTzDdB+4nm7my5FJtg6BI7PyFWJ/UOrphLi5r+KIlS188+EWaFgfsItqr4
+         XU2uGMPrk9uAxc8DZk+ki72xukIkHDH/jl2twFhH5PlJ/9Wjogw2auoiBmLcyXFN/uV4
+         3eVGJ12QYeR8TqqtqNBHLq13AAcYVvXFhKAz/q5URVMb4HLP3lrsWPrUlhhNxFTNkPhh
+         kKNgju5WuhJMK80tKz4Gk6kKb9eVq/WxFqNQ6Gv3mjfidP5xbYUhTyTdQg0YMjVKKLOl
+         pk3w==
+X-Gm-Message-State: AGi0PuZp3vThf/B7SI7SU2diW8UxVpELUssAUqSvFXfMqUYgFWRC1/QK
+        HZUdmN1WceP4rTkzKZUPuQckXg==
+X-Google-Smtp-Source: APiQypL2xvony6bXyVm5s0IdLJCeNkTr6PachRHpFHygMm/pIYIcnu8qFT8ShSw7ShT6mut5QZ/Z7w==
+X-Received: by 2002:a2e:b8c1:: with SMTP id s1mr1033628ljp.104.1588663519467;
+        Tue, 05 May 2020 00:25:19 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id a25sm998456lfb.87.2020.05.05.00.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 00:25:18 -0700 (PDT)
+Date:   Tue, 5 May 2020 09:25:17 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-soc-for-v5.8] BUILD SUCCESS
- 96866b1a1d32318b6bbc321a762bf79db1f4686e
-Message-ID: <5eb0d406.ESAAD3ZOogmFmeZY%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: gpio: rcar: Convert to json-schema
+Message-ID: <20200505072517.GA3984626@oden.dyn.berto.se>
+References: <20200427192259.27978-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200427192259.27978-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-soc-for-v5.8
-branch HEAD: 96866b1a1d32318b6bbc321a762bf79db1f4686e  ARM: debug-ll: Add support for r8a7742
+Hi Geert,
 
-elapsed time: 510m
+Thanks for your work.
 
-configs tested: 176
-configs skipped: 191
+On 2020-04-27 21:22:59 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas General-Purpose Input/Output Ports (GPIO) Device
+> Tree binding documentation to json-schema.
+> 
+> Drop the deprecated "renesas,gpio-rcar" compatible value.
+> Document missing properties.
+> Drop the first example, as it doesn't add much value.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../bindings/gpio/renesas,gpio-rcar.txt       |  94 ------------
+>  .../bindings/gpio/renesas,rcar-gpio.yaml      | 143 ++++++++++++++++++
+>  2 files changed, 143 insertions(+), 94 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt b/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+> deleted file mode 100644
+> index 10dce84b1545e074..0000000000000000
+> --- a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+> +++ /dev/null
+> @@ -1,94 +0,0 @@
+> -* Renesas R-Car GPIO Controller
+> -
+> -Required Properties:
+> -
+> -  - compatible: should contain one or more of the following:
+> -    - "renesas,gpio-r8a7743": for R8A7743 (RZ/G1M) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7744": for R8A7744 (RZ/G1N) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7745": for R8A7745 (RZ/G1E) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77470": for R8A77470 (RZ/G1C) compatible GPIO controller.
+> -    - "renesas,gpio-r8a774a1": for R8A774A1 (RZ/G2M) compatible GPIO controller.
+> -    - "renesas,gpio-r8a774b1": for R8A774B1 (RZ/G2N) compatible GPIO controller.
+> -    - "renesas,gpio-r8a774c0": for R8A774C0 (RZ/G2E) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7778": for R8A7778 (R-Car M1) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7779": for R8A7779 (R-Car H1) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7790": for R8A7790 (R-Car H2) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7791": for R8A7791 (R-Car M2-W) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7792": for R8A7792 (R-Car V2H) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7793": for R8A7793 (R-Car M2-N) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7794": for R8A7794 (R-Car E2) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7795": for R8A7795 (R-Car H3) compatible GPIO controller.
+> -    - "renesas,gpio-r8a7796": for R8A77960 (R-Car M3-W) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77961": for R8A77961 (R-Car M3-W+) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77965": for R8A77965 (R-Car M3-N) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77970": for R8A77970 (R-Car V3M) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77980": for R8A77980 (R-Car V3H) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77990": for R8A77990 (R-Car E3) compatible GPIO controller.
+> -    - "renesas,gpio-r8a77995": for R8A77995 (R-Car D3) compatible GPIO controller.
+> -    - "renesas,rcar-gen1-gpio": for a generic R-Car Gen1 GPIO controller.
+> -    - "renesas,rcar-gen2-gpio": for a generic R-Car Gen2 or RZ/G1 GPIO controller.
+> -    - "renesas,rcar-gen3-gpio": for a generic R-Car Gen3 or RZ/G2 GPIO controller.
+> -    - "renesas,gpio-rcar": deprecated.
+> -
+> -    When compatible with the generic version nodes must list the
+> -    SoC-specific version corresponding to the platform first followed by
+> -    the generic version.
+> -
+> -  - reg: Base address and length of each memory resource used by the GPIO
+> -    controller hardware module.
+> -
+> -  - interrupts: Interrupt specifier for the controllers interrupt.
+> -
+> -  - gpio-controller: Marks the device node as a gpio controller.
+> -  - #gpio-cells: Should be 2. The first cell is the GPIO number and the second
+> -    cell specifies GPIO flags, as defined in <dt-bindings/gpio/gpio.h>. Only the
+> -    GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags are supported.
+> -  - gpio-ranges: See gpio.txt.
+> -
+> -Optional properties:
+> -
+> -  - clocks: Must contain a reference to the functional clock.  The property is
+> -    mandatory if the hardware implements a controllable functional clock for
+> -    the GPIO instance.
+> -
+> -  - gpio-reserved-ranges: See gpio.txt.
+> -
+> -Please refer to gpio.txt in this directory for the common GPIO bindings used by
+> -client devices.
+> -
+> -The GPIO controller also acts as an interrupt controller. It uses the default
+> -two cells specifier as described in Documentation/devicetree/bindings/
+> -interrupt-controller/interrupts.txt.
+> -
+> -Example: R8A77470 (RZ/G1C) GPIO controller nodes
+> -
+> -       gpio0: gpio@e6050000 {
+> -                compatible = "renesas,gpio-r8a77470",
+> -                             "renesas,rcar-gen2-gpio";
+> -                reg = <0 0xe6050000 0 0x50>;
+> -                interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+> -                #gpio-cells = <2>;
+> -                gpio-controller;
+> -                gpio-ranges = <&pfc 0 0 23>;
+> -                #interrupt-cells = <2>;
+> -                interrupt-controller;
+> -                clocks = <&cpg CPG_MOD 912>;
+> -                power-domains = <&sysc R8A77470_PD_ALWAYS_ON>;
+> -                resets = <&cpg 912>;
+> -        };
+> -	...
+> -       gpio3: gpio@e6053000 {
+> -                compatible = "renesas,gpio-r8a77470",
+> -                             "renesas,rcar-gen2-gpio";
+> -                reg = <0 0xe6053000 0 0x50>;
+> -                interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> -                #gpio-cells = <2>;
+> -                gpio-controller;
+> -                gpio-ranges = <&pfc 0 96 30>;
+> -                gpio-reserved-ranges = <17 10>;
+> -                #interrupt-cells = <2>;
+> -                interrupt-controller;
+> -                clocks = <&cpg CPG_MOD 909>;
+> -                power-domains = <&sysc R8A77470_PD_ALWAYS_ON>;
+> -                resets = <&cpg 909>;
+> -        };
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> new file mode 100644
+> index 0000000000000000..bcece7e6f7b46721
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> @@ -0,0 +1,143 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/renesas,rcar-gpio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car General-Purpose Input/Output Ports (GPIO)
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +         - enum:
+> +             - renesas,gpio-r8a7778      # R-Car M1
+> +             - renesas,gpio-r8a7779      # R-Car H1
+> +         - const: renesas,rcar-gen1-gpio # R-Car Gen1
+> +
+> +      - items:
+> +         - enum:
+> +             - renesas,gpio-r8a7743      # RZ/G1M
+> +             - renesas,gpio-r8a7744      # RZ/G1N
+> +             - renesas,gpio-r8a7745      # RZ/G1E
+> +             - renesas,gpio-r8a77470     # RZ/G1C
+> +             - renesas,gpio-r8a7790      # R-Car H2
+> +             - renesas,gpio-r8a7791      # R-Car M2-W
+> +             - renesas,gpio-r8a7792      # R-Car V2H
+> +             - renesas,gpio-r8a7793      # R-Car M2-N
+> +             - renesas,gpio-r8a7794      # R-Car E2
+> +         - const: renesas,rcar-gen2-gpio # R-Car Gen2 or RZ/G1
+> +
+> +      - items:
+> +         - enum:
+> +             - renesas,gpio-r8a774a1     # RZ/G2M
+> +             - renesas,gpio-r8a774b1     # RZ/G2N
+> +             - renesas,gpio-r8a774c0     # RZ/G2E
+> +             - renesas,gpio-r8a7795      # R-Car H3
+> +             - renesas,gpio-r8a7796      # R-Car M3-W
+> +             - renesas,gpio-r8a77961     # R-Car M3-W+
+> +             - renesas,gpio-r8a77965     # R-Car M3-N
+> +             - renesas,gpio-r8a77970     # R-Car V3M
+> +             - renesas,gpio-r8a77980     # R-Car V3H
+> +             - renesas,gpio-r8a77990     # R-Car E3
+> +             - renesas,gpio-r8a77995     # R-Car D3
+> +         - const: renesas,rcar-gen3-gpio # R-Car Gen3 or RZ/G2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +  gpio-reserved-ranges:
+> +    minItems: 1
+> +    maxItems: 8
+> +
+> +patternProperties:
+> +  "^.*$":
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This is amazing :-)
 
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-mips                            ar7_defconfig
-csky                                defconfig
-alpha                               defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                        generic_defconfig
-ia64                          tiger_defconfig
-ia64                         bigsur_defconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-m68k                       m5475evb_defconfig
-m68k                             allmodconfig
-m68k                       bvme6000_defconfig
-m68k                           sun3_defconfig
-m68k                          multi_defconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-c6x                              allyesconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-arc                                 defconfig
-arc                              allyesconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-mips                malta_kvm_guest_defconfig
-mips                         tb0287_defconfig
-mips                       capcella_defconfig
-mips                           ip32_defconfig
-mips                  decstation_64_defconfig
-mips                      loongson3_defconfig
-mips                          ath79_defconfig
-mips                        bcm63xx_defconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                      chrp32_defconfig
-powerpc                             defconfig
-powerpc                       holly_defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-powerpc                           allnoconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                    amigaone_defconfig
-powerpc                    adder875_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                          g5_defconfig
-powerpc                     mpc512x_defconfig
-m68k                 randconfig-a001-20200505
-mips                 randconfig-a001-20200505
-nds32                randconfig-a001-20200505
-parisc               randconfig-a001-20200505
-alpha                randconfig-a001-20200505
-riscv                randconfig-a001-20200505
-h8300                randconfig-a001-20200503
-nios2                randconfig-a001-20200503
-microblaze           randconfig-a001-20200503
-c6x                  randconfig-a001-20200503
-sparc64              randconfig-a001-20200503
-s390                 randconfig-a001-20200505
-xtensa               randconfig-a001-20200505
-sh                   randconfig-a001-20200505
-openrisc             randconfig-a001-20200505
-csky                 randconfig-a001-20200505
-i386                 randconfig-b003-20200503
-x86_64               randconfig-b002-20200503
-i386                 randconfig-b001-20200503
-x86_64               randconfig-b003-20200503
-x86_64               randconfig-b001-20200503
-i386                 randconfig-b002-20200503
-i386                 randconfig-b003-20200502
-i386                 randconfig-b001-20200502
-x86_64               randconfig-b003-20200502
-x86_64               randconfig-b001-20200502
-i386                 randconfig-b002-20200502
-x86_64               randconfig-d001-20200505
-i386                 randconfig-d003-20200505
-i386                 randconfig-d001-20200505
-x86_64               randconfig-d003-20200505
-x86_64               randconfig-d002-20200505
-i386                 randconfig-d002-20200505
-x86_64               randconfig-d001-20200503
-i386                 randconfig-d003-20200503
-x86_64               randconfig-d003-20200503
-i386                 randconfig-d001-20200503
-x86_64               randconfig-d002-20200503
-i386                 randconfig-d002-20200503
-x86_64               randconfig-e003-20200503
-x86_64               randconfig-e002-20200503
-i386                 randconfig-e003-20200503
-x86_64               randconfig-e001-20200503
-i386                 randconfig-e002-20200503
-i386                 randconfig-e001-20200503
-i386                 randconfig-e003-20200505
-x86_64               randconfig-e002-20200505
-x86_64               randconfig-e003-20200505
-x86_64               randconfig-e001-20200505
-i386                 randconfig-e002-20200505
-i386                 randconfig-e001-20200505
-i386                 randconfig-f003-20200503
-x86_64               randconfig-f002-20200503
-i386                 randconfig-f001-20200503
-i386                 randconfig-f002-20200503
-x86_64               randconfig-a003-20200505
-x86_64               randconfig-a001-20200505
-i386                 randconfig-a001-20200505
-i386                 randconfig-a003-20200505
-i386                 randconfig-a002-20200505
-i386                 randconfig-g003-20200505
-i386                 randconfig-g002-20200505
-i386                 randconfig-g001-20200505
-x86_64               randconfig-g002-20200505
-i386                 randconfig-h002-20200505
-i386                 randconfig-h001-20200505
-i386                 randconfig-h003-20200505
-x86_64               randconfig-h003-20200505
-x86_64               randconfig-h001-20200505
-arm                  randconfig-a001-20200503
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                             alldefconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> +    if:
+> +      type: object
+> +    then:
+> +      properties:
+> +        gpio-hog: true
+> +        gpios: true
+> +        input: true
+> +        output-high: true
+> +        output-low: true
+> +        line-name: true
+> +
+> +      required:
+> +        - gpio-hog
+> +        - gpios
+> +
+> +      additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - gpio-controller
+> +  - '#gpio-cells'
+> +  - gpio-ranges
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +
+> +if:
+> +  not:
+> +    properties:
+> +      compatible:
+> +        contains:
+> +          enum:
+> +            - renesas,rcar-gen1-gpio
+> +then:
+> +  required:
+> +    - clocks
+> +    - power-domains
+> +    - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a77470-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a77470-sysc.h>
+> +    gpio3: gpio@e6053000 {
+> +            compatible = "renesas,gpio-r8a77470", "renesas,rcar-gen2-gpio";
+> +            reg = <0xe6053000 0x50>;
+> +            interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 909>;
+> +            power-domains = <&sysc R8A77470_PD_ALWAYS_ON>;
+> +            resets = <&cpg 909>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            gpio-ranges = <&pfc 0 96 30>;
+> +            gpio-reserved-ranges = <17 10>;
+> +            interrupt-controller;
+> +            #interrupt-cells = <2>;
+> +     };
+> -- 
+> 2.17.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
