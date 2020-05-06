@@ -2,126 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 730161C79C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2020 20:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA54E1C7A81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 May 2020 21:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730455AbgEFS6I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 May 2020 14:58:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730086AbgEFS6H (ORCPT
+        id S1728733AbgEFTvw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 May 2020 15:51:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:51023 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725799AbgEFTvw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 May 2020 14:58:07 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE04C061A41
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  6 May 2020 11:58:07 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id g10so2259199lfj.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 May 2020 11:58:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2hhU7YC1mHWJXOQCa9/YtvMX0AvTF/51BQ11Lkp2if0=;
-        b=ENs11Z2E6PTphR/O7XEptV9DrkitQZwLiWGfUE3J1NThoeRLPWDK4tDps5BoTcWit1
-         zxwc6iaDbar5hppPTNmyGg+DQIeMEcKomHQdFBhyU8VETMfHL8W2a1Jd5FtPT4MSFPlx
-         pW5uAwDfiblCrXtvPdUyMV5XllzXhrrMlu3/oW6uuJTz36qgimok4gbXBH4xnjVurcCX
-         lcUe+U7g7T87tsCxaKgUy1ztqhvZkOlPI1dRGORUz42KQ/uPPuoOll0V3+DBw/rjO1OW
-         I1Q/zUwoATalGf6bzwzmulWBAfKNsUBbxb1ZM1A5ACSkMtfwmtHD9gRLESdsOugAfng+
-         xmww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2hhU7YC1mHWJXOQCa9/YtvMX0AvTF/51BQ11Lkp2if0=;
-        b=pqFLoh6DIXyyvk1UEn7cskPBXogL0GcG4/ndVk8uCMc3vFcQFTAME6vR8LB1Rafk2D
-         L/QuKyGit8+jNiA8O2mRWwovMK6shKk7mRsO0IKlecxiebvDNKN+FJPmJHx5QyIgoIRO
-         z52bcP47ZzIaTMGzBuDauArnMMH/iaeLf/64YKKWSX93K5kmZmHZ2i2Z38JUyJFLS3ca
-         Kv28vvlKchg3dqmGzApAS0+va3RFqAjcFPzqHwvGJfT3lkVR5O1sH0Er+XUVATKV/7jD
-         V5PZt6GZRJZpRVxg19+Rwe0VIFVMR2lwuMhg3IZalQsRLyxHlT7nWsyWZiZc1Gf7QMtP
-         7J2g==
-X-Gm-Message-State: AGi0Pua+VH6qwpozMfJW82tIe75gqPqxVyJutYiLqVsodDTzQUx1tS5b
-        VRUuMrVLs1H7idejJpCCkkeQRvvoyWiHeuZkB7s93A==
-X-Google-Smtp-Source: APiQypK2/BS9DNLQgUdve0DnZIP+ggCdF8l9P6mtknH7uy4q8+KLPietCh0cyMKc+/gJFltqkIhzsPf/UxXxP4Q5v8I=
-X-Received: by 2002:a19:40d2:: with SMTP id n201mr6168784lfa.82.1588791485423;
- Wed, 06 May 2020 11:58:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <1480357509-28074-1-git-send-email-johan@kernel.org> <1480357509-28074-12-git-send-email-johan@kernel.org>
-In-Reply-To: <1480357509-28074-12-git-send-email-johan@kernel.org>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Thu, 7 May 2020 00:27:53 +0530
-Message-ID: <CA+G9fYvBjUVkVhtRHVm6xXcKe2+tZN4rGdB9FzmpcfpaLhY1+g@mail.gmail.com>
-Subject: Re: [PATCH net 11/16] net: ethernet: marvell: mvneta: fix fixed-link
- phydev leaks
-To:     Johan Hovold <johan@kernel.org>,
-        linux- stable <stable@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Vince Bridgers <vbridger@opensource.altera.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Fugang Duan <fugang.duan@nxp.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Vitaly Bordug <vbordug@ru.mvista.com>,
-        Claudiu Manoil <claudiu.manoil@freescale.com>,
-        Li Yang <leoli@freescale.com>,
-        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-        Felix Fietkau <nbd@openwrt.org>,
-        John Crispin <blogic@openwrt.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Lars Persson <lars.persson@axis.com>,
-        Mugunthan V N <mugunthanvnm@ti.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Wed, 6 May 2020 15:51:52 -0400
+X-IronPort-AV: E=Sophos;i="5.73,360,1583161200"; 
+   d="scan'208";a="46431211"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 07 May 2020 04:51:50 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6DF984003EC8;
+        Thu,  7 May 2020 04:51:46 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@savoirfairelinux.com>,
-        Netdev <netdev@vger.kernel.org>,
-        nios2-dev@lists.rocketboards.org,
-        open list <linux-kernel@vger.kernel.org>,
-        linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, lkft-triage@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-serial@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/9] RZ/G1H describe IRQC, [H]SCIF{A|B} and GPIO nodes
+Date:   Wed,  6 May 2020 20:51:26 +0100
+Message-Id: <1588794695-27852-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 29 Nov 2016 at 00:00, Johan Hovold <johan@kernel.org> wrote:
->
-> Make sure to deregister and free any fixed-link PHY registered using
-> of_phy_register_fixed_link() on probe errors and on driver unbind.
->
-> Fixes: 83895bedeee6 ("net: mvneta: add support for fixed links")
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/net/ethernet/marvell/mvneta.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
-> index 0c0a45af950f..707bc4680b9b 100644
-> --- a/drivers/net/ethernet/marvell/mvneta.c
-> +++ b/drivers/net/ethernet/marvell/mvneta.c
-> @@ -4191,6 +4191,8 @@ static int mvneta_probe(struct platform_device *pdev)
->         clk_disable_unprepare(pp->clk);
->  err_put_phy_node:
->         of_node_put(phy_node);
-> +       if (of_phy_is_fixed_link(dn))
-> +               of_phy_deregister_fixed_link(dn);
+Hi All,
 
-While building kernel Image for arm architecture on stable-rc 4.4 branch
-the following build error found.
+This patch series describes irqc, serial and gpio controllers on
+R8A7742 SoC.
 
-drivers/net/ethernet/marvell/mvneta.c:3442:3: error: implicit
-declaration of function 'of_phy_deregister_fixed_link'; did you mean
-'of_phy_register_fixed_link'? [-Werror=implicit-function-declaration]
-|    of_phy_deregister_fixed_link(dn);
-|    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|    of_phy_register_fixed_link
+* Patch 1/9 is from series [1], which added initial basic support for
+  iW-RainboW-G21D-Qseven development board.
+* Patches 2-9 are from series [2] ("Add R8A7742/RZG1H board support")
 
-ref:
-https://gitlab.com/Linaro/lkft/kernel-runs/-/jobs/541374729
+Cheers,
+Prabhakar
 
-- Naresh
+[1] https://lkml.org/lkml/2020/5/3/294
+[2] https://lkml.org/lkml/2020/4/29/1300
+
+Lad Prabhakar (9):
+  dt-bindings: mmc: renesas,mmcif: Document r8a7742 DT bindings
+  dt-bindings: irqchip: renesas-irqc: Document r8a7742 bindings
+  ARM: dts: r8a7742: Add IRQC support
+  dt-bindings: serial: renesas,scif: Document r8a7742 bindings
+  dt-bindings: serial: renesas,scifb: Document r8a7742 bindings
+  dt-bindings: serial: renesas,hscif: Document r8a7742 bindings
+  ARM: dts: r8a7742: Add [H]SCIF{A|B} support
+  dt-bindings: gpio: renesas,gpio-rcar: Add r8a7742 (RZ/G1H) support
+  ARM: dts: r8a7742: Add GPIO nodes
+
+ .../bindings/gpio/renesas,gpio-rcar.txt       |   1 +
+ .../interrupt-controller/renesas,irqc.yaml    |   1 +
+ .../devicetree/bindings/mmc/renesas,mmcif.txt |   5 +-
+ .../bindings/serial/renesas,hscif.yaml        |   1 +
+ .../bindings/serial/renesas,scif.yaml         |   1 +
+ .../bindings/serial/renesas,scifb.yaml        |   1 +
+ arch/arm/boot/dts/r8a7742.dtsi                | 259 ++++++++++++++++++
+ 7 files changed, 267 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
