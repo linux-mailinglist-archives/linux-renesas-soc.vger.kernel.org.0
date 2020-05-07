@@ -2,67 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D12D1C92C2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 16:58:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB701C9607
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 18:09:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgEGO6N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 May 2020 10:58:13 -0400
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:63137 "EHLO
-        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725985AbgEGO6N (ORCPT
+        id S1726222AbgEGQJB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 May 2020 12:09:01 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41233 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726074AbgEGQJB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 May 2020 10:58:13 -0400
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 81493CEABE;
-        Thu,  7 May 2020 10:58:11 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=RvoqLAm6E1F9sc8szmi/z/waAck=; b=l6R4ig
-        oyu55Dk2igYtcQHsvFbjMaF9RGXKq9et/a9WIv+BUueIGjitLer8bItqCdJqh7lL
-        Pjaw8xItuPbCTu8pav5dimqp/OY8Wy5hvgS5ssYwu9ldzFEOdWrRhE7f6xzzuTKA
-        G3twC2VRgX2P7K7nnM5girhHM5g2ssditrfV4=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 78D2ECEABD;
-        Thu,  7 May 2020 10:58:11 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=avpgv82DmbB3yL/GA/TaTqceQa67MoZ6ohBnqrkR+4Q=; b=l0QLt9nNFzBYHAvu3zUntQuIDzb6t+XapKITA1VEv/wFKgMySZYT3gCggWCEz5wK11I4HgOhqw/6XPXclTA47eqzjUH005vsdKSClfRzx7PgpoqklvJ69vaNublc4kwZFnzUdE4PZmqxxWNPSeSzArIWhNv7AyHQTIJpFS7oQyE=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 6A4CFCEABC;
-        Thu,  7 May 2020 10:58:08 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 65CA42DA0CE1;
-        Thu,  7 May 2020 10:58:06 -0400 (EDT)
-Date:   Thu, 7 May 2020 10:58:06 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Thu, 7 May 2020 12:09:01 -0400
+Received: by mail-ot1-f67.google.com with SMTP id c3so4930422otp.8
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 May 2020 09:09:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t0K8vs72yigTHRzm0BSfWUHqQ0xe0cRz3PNKTO88ZD4=;
+        b=N43HgYhhEXgUFYdIe6hXh9zmt48ZvTyKQWq+v6jHwo94qq0pR6reRUwl3tvze0VHyl
+         5uF+G8hxaJinbMEebXyh2JnRsTFGlM7IAPfG8ExyjikVT8pEZP6aV6x/80s/rYBVF7VX
+         CfGKAqLcMgc+UUXCxaqVEq8ix+Xh7jtnVw8Dt2taDIgsMNP5AlVRzWZ2CXY7XEf7rib6
+         uSKpq/4wnuF2n9+fwhNEIPw9xc1oqXSrzY4T6wyotIFDU4hD91zK5v6nvHAnO8QTCPD9
+         rYP5doULN9+sx4uypCdA6YvMNCKdWNDbjpFL2lLMxELG1jPsz3ogWt5Rm87Leocp9wn4
+         nSKQ==
+X-Gm-Message-State: AGi0Pua6dnLXkvOsT/YHv7b5GadbTBiI51nSVrxrWQ+qPPdnYM0vS+Dt
+        GKUbOGSz3Jk5Of1nFc7v+pE5tarBOjQ8aD0BsDc=
+X-Google-Smtp-Source: APiQypKboo6HnKejXqdk1NgWdxPwPTzOwiSIdgcKXBZANn92+pyqbneMiJ3vWt531aGuATbyy/UmGiGRM2c/eP7Qpyo=
+X-Received: by 2002:a9d:7990:: with SMTP id h16mr10670188otm.145.1588867740863;
+ Thu, 07 May 2020 09:09:00 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200507080528.547-1-geert+renesas@glider.be> <nycvar.YSQ.7.77.849.2005071056450.5637@knanqh.ubzr>
+In-Reply-To: <nycvar.YSQ.7.77.849.2005071056450.5637@knanqh.ubzr>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 7 May 2020 18:08:29 +0200
+Message-ID: <CAMuHMdXgpR6HDQs_NS4W2C8NxqJp3g1DjR2VneUF5Rvun-L4jQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
+To:     Nicolas Pitre <nico@fluxnic.net>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Chris Brandt <chris.brandt@renesas.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Russell King <linux@armlinux.org.uk>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH/RFC] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
-In-Reply-To: <20200507080528.547-1-geert+renesas@glider.be>
-Message-ID: <nycvar.YSQ.7.77.849.2005071056450.5637@knanqh.ubzr>
-References: <20200507080528.547-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 29C2F538-9073-11EA-B970-B0405B776F7B-78420484!pb-smtp20.pobox.com
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 7 May 2020, Geert Uytterhoeven wrote:
+Hi Nicolas,
 
-> As upstream Linux does not support XIP,
+On Thu, May 7, 2020 at 4:58 PM Nicolas Pitre <nico@fluxnic.net> wrote:
+> On Thu, 7 May 2020, Geert Uytterhoeven wrote:
+>
+> > As upstream Linux does not support XIP,
+>
+> What?
 
-What?
+Not for an ARM v7 platform:
+
+    config XIP_KERNEL
+            bool "Kernel Execute-In-Place from ROM"
+            depends on !ARM_LPAE && !ARCH_MULTIPLATFORM
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
-Nicolas
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
