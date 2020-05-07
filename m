@@ -2,262 +2,176 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60B061C83E0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 09:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917C41C844B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 10:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgEGHzH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 May 2020 03:55:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43828 "EHLO
+        id S1725862AbgEGIFg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 May 2020 04:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725905AbgEGHzG (ORCPT
+        by vger.kernel.org with ESMTP id S1725858AbgEGIFg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 May 2020 03:55:06 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ABF2C0610D5
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 May 2020 00:55:06 -0700 (PDT)
+        Thu, 7 May 2020 04:05:36 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E832C061A10
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 May 2020 01:05:36 -0700 (PDT)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:6572:4a1f:d283:9ae8])
-        by michel.telenet-ops.be with bizsmtp
-        id bjv42200a3ZRV0X06jv4l4; Thu, 07 May 2020 09:55:05 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id bk5a2200P3ZRV0X01k5ath; Thu, 07 May 2020 10:05:35 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jWbN2-0001WQ-Jm; Thu, 07 May 2020 09:55:04 +0200
+        id 1jWbXC-0001lv-BA; Thu, 07 May 2020 10:05:34 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jWbN2-0008PY-Gd; Thu, 07 May 2020 09:55:04 +0200
+        id 1jWbXC-00009h-8B; Thu, 07 May 2020 10:05:34 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3] dt-bindings: irqchip: renesas-intc-irqpin: Convert to json-schema
-Date:   Thu,  7 May 2020 09:55:03 +0200
-Message-Id: <20200507075503.32291-1-geert+renesas@glider.be>
+Subject: [PATCH/RFC] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
+Date:   Thu,  7 May 2020 10:05:28 +0200
+Message-Id: <20200507080528.547-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+As upstream Linux does not support XIP, it cannot run in 8 MiB of
+HyperRAM.  Hence the 64 MiB of SDRAM on the sub-board needs to be
+enabled, which has the following ramifications:
+  - SCIF4 connected to the on-board USB-serial can no longer be used as
+    the serial console,
+  - Instead, SCIF2 is used as the serial console, by connecting a 3.3V
+    TTL USB-to-Serial adapter to the CMOS camera connector,
+  - The first Ethernet channel can no longer be used,
+  - USB Channel 1 loses the overcurrent input signal.
 
-Convert the Renesas Interrupt Controller (INTC) for external pins Device
-Tree binding documentation to json-schema.
+Based on the Linux-4.19 BSP for RZ/A2.
 
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Co-developed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v3:
-  - Take over from Kaneko-san,
-  - Update license,
-  - Fix title,
-  - Remove standard descriptions,
-  - reg: fix minItems, add descriptions,
-  - interrupts: fix {min,max}Items,
-  - sense-bitfield-width: add enum and default, use description,
-  - control-parent: use description,
-  - Make clocks and power-domains required on SH/R-Mobile,
-  - Group interrupts in example,
-
-v2:
-  - Correct Geert-san's E-mail address,
-  - Delete Guennadi-san from the maintainer of this binding,
-  - Give 'sense-bitfield-width' the uint32 type,
-  - Describe 'control-parent' property as a boolean.
+This depends on commit 91e4f3d37e1a9323 ("ARM: 8972/1: boot: Obtain
+start of physical memory from DTB") in linux-arm/for-next.
+Hence I cannot queue this in renesas-devel before v5.8-rc1.
 ---
- .../renesas,intc-irqpin.txt                   |  62 ----------
- .../renesas,intc-irqpin.yaml                  | 108 ++++++++++++++++++
- 2 files changed, 108 insertions(+), 62 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.txt
- create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts | 53 +++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 22 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.txt
-deleted file mode 100644
-index 772c550d3b4bcfe2..0000000000000000
---- a/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.txt
-+++ /dev/null
-@@ -1,62 +0,0 @@
--DT bindings for the R-/SH-Mobile irqpin controller
--
--Required properties:
--
--- compatible: has to be "renesas,intc-irqpin-<soctype>", "renesas,intc-irqpin"
--  as fallback.
--  Examples with soctypes are:
--    - "renesas,intc-irqpin-r8a7740" (R-Mobile A1)
--    - "renesas,intc-irqpin-r8a7778" (R-Car M1A)
--    - "renesas,intc-irqpin-r8a7779" (R-Car H1)
--    - "renesas,intc-irqpin-sh73a0" (SH-Mobile AG5)
--
--- reg: Base address and length of each register bank used by the external
--  IRQ pins driven by the interrupt controller hardware module. The base
--  addresses, length and number of required register banks varies with soctype.
--- interrupt-controller: Identifies the node as an interrupt controller.
--- #interrupt-cells: has to be <2>: an interrupt index and flags, as defined in
--  interrupts.txt in this directory.
--- interrupts: Must contain a list of interrupt specifiers. For each interrupt
--  provided by this irqpin controller instance, there must be one entry,
--  referring to the corresponding parent interrupt.
--
--Optional properties:
--
--- any properties, listed in interrupts.txt, and any standard resource allocation
--  properties
--- sense-bitfield-width: width of a single sense bitfield in the SENSE register,
--  if different from the default 4 bits
--- control-parent: disable and enable interrupts on the parent interrupt
--  controller, needed for some broken implementations
--- clocks: Must contain a reference to the functional clock.  This property is
--  mandatory if the hardware implements a controllable functional clock for
--  the irqpin controller instance.
--- power-domains: Must contain a reference to the power domain. This property is
--  mandatory if the irqpin controller instance is part of a controllable power
--  domain.
--
--
--Example
---------
--
--	irqpin1: interrupt-controller@e6900004 {
--		compatible = "renesas,intc-irqpin-r8a7740",
--			     "renesas,intc-irqpin";
--		#interrupt-cells = <2>;
--		interrupt-controller;
--		reg = <0xe6900004 4>,
--			<0xe6900014 4>,
--			<0xe6900024 1>,
--			<0xe6900044 1>,
--			<0xe6900064 1>;
--		interrupts = <0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH
--			      0 149 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&mstp2_clks R8A7740_CLK_INTCA>;
--		power-domains = <&pd_a4s>;
+diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+index 0686bac4bfd8e191..d719c3a133a966fb 100644
+--- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
++++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+@@ -4,6 +4,28 @@
+  *
+  * Copyright (C) 2018 Renesas Electronics
+  *
++ * As upstream Linux does not support XIP, it cannot run in 8 MiB of HyperRAM.
++ * Hence the 64 MiB of SDRAM on the sub-board needs to be enabled, which has
++ * the following ramifications:
++ *   - SCIF4 connected to the on-board USB-serial can no longer be used as the
++ *     serial console,
++ *   - Instead, SCIF2 is used as the serial console, by connecting a 3.3V TTL
++ *     USB-to-Serial adapter to the CMOS camera connector:
++ *       - RXD = CN17-9,
++ *       - TXD = CN17-10,
++ *       - GND = CN17-2 or CN17-17,
++ *   - The first Ethernet channel can no longer be used,
++ *   - USB Channel 1 loses the overcurrent input signal.
++ *
++ * Please make sure your sub-board matches the following switch settings:
++ *
++ *           SW6                SW6-1 set to SDRAM
++ *  ON                          SW6-2 set to Audio
++ * +---------------------+      SW6-3 set to DRP
++ * | =   =   = = =       |      SW6-4 set to CEU
++ * |   =   =             |      SW6-5 set to Ether2
++ * | 1 2 3 4 5 6 7 8 9 0 |      SW6-6 set to VDC6
++ * +---------------------+      SW6-7 set to VDC6
+  */
+ 
+ /dts-v1/;
+@@ -17,8 +39,7 @@
+ 	compatible = "renesas,rza2mevb", "renesas,r7s9210";
+ 
+ 	aliases {
+-		serial0 = &scif4;
+-		ethernet0 = &ether0;
++		serial0 = &scif2;
+ 		ethernet1 = &ether1;
+ 	};
+ 
+@@ -58,9 +79,9 @@
+ 		};
+ 	};
+ 
+-	memory@40000000 {
++	memory@c000000 {
+ 		device_type = "memory";
+-		reg = <0x40000000 0x00800000>;	 /* HyperRAM */
++		reg = <0x0c000000 0x04000000>;	/* SDRAM */
+ 	};
+ };
+ 
+@@ -72,17 +93,6 @@
+ 	status = "okay";
+ };
+ 
+-&ether0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&eth0_pins>;
+-	status = "okay";
+-	renesas,no-ether-link;
+-	phy-handle = <&phy0>;
+-	phy0: ethernet-phy@0 {
+-		reg = <0>;
 -	};
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
-new file mode 100644
-index 0000000000000000..800243d3ee8ef42f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
-@@ -0,0 +1,108 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/interrupt-controller/renesas,intc-irqpin.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Interrupt Controller (INTC) for external pins
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,intc-irqpin-r8a7740  # R-Mobile A1
-+          - renesas,intc-irqpin-r8a7778  # R-Car M1A
-+          - renesas,intc-irqpin-r8a7779  # R-Car H1
-+          - renesas,intc-irqpin-sh73a0   # SH-Mobile AG5
-+      - const: renesas,intc-irqpin
-+
-+  reg:
-+    minItems: 5
-+    items:
-+      - description: Interrupt control register
-+      - description: Interrupt priority register
-+      - description: Interrupt source register
-+      - description: Interrupt mask register
-+      - description: Interrupt mask clear register
-+      - description: Interrupt control register for ICR0 with IRLM0 bit
-+
-+  interrupt-controller: true
-+
-+  '#interrupt-cells':
-+    const: 2
-+
-+  interrupts:
-+    minItems: 1
-+    maxItems: 8
-+
-+  sense-bitfield-width:
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [2, 4]
-+        default: 4
-+    description:
-+      Width of a single sense bitfield in the SENSE register, if different from the
-+      default.
-+
-+  control-parent:
-+    type: boolean
-+    description:
-+      Disable and enable interrupts on the parent interrupt controller, needed for some
-+      broken implementations.
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupt-controller
-+  - '#interrupt-cells'
-+  - interrupts
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - renesas,intc-irqpin-r8a7740
-+          - renesas,intc-irqpin-sh73a0
-+then:
-+  required:
-+    - clocks
-+    - power-domains
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7740-clock.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    irqpin1: interrupt-controller@e6900004 {
-+        compatible = "renesas,intc-irqpin-r8a7740", "renesas,intc-irqpin";
-+        reg = <0xe6900004 4>,
-+              <0xe6900014 4>,
-+              <0xe6900024 1>,
-+              <0xe6900044 1>,
-+              <0xe6900064 1>;
-+        interrupt-controller;
-+        #interrupt-cells = <2>;
-+        interrupts = <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 149 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&mstp2_clks R8A7740_CLK_INTCA>;
-+        power-domains = <&pd_a4s>;
-+    };
+-};
+-
+ &ether1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&eth1_pins>;
+@@ -142,9 +152,9 @@
+ 	};
+ 
+ 	/* Serial Console */
+-	scif4_pins: serial4 {
+-		pinmux = <RZA2_PINMUX(PORT9, 0, 4)>,	/* TxD4 */
+-			 <RZA2_PINMUX(PORT9, 1, 4)>;	/* RxD4 */
++	scif2_pins: serial2 {
++		pinmux = <RZA2_PINMUX(PORTE, 2, 3)>,	/* TxD2 */
++			 <RZA2_PINMUX(PORTE, 1, 3)>;	/* RxD2 */
+ 	};
+ 
+ 	sdhi0_pins: sdhi0 {
+@@ -165,8 +175,7 @@
+ 
+ 	usb1_pins: usb1 {
+ 		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
+-			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
+-			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
++			 <RZA2_PINMUX(PORTC, 5, 1)>;	/* VBUSEN1 */
+ 	};
+ };
+ 
+@@ -176,9 +185,9 @@
+ };
+ 
+ /* Serial Console */
+-&scif4 {
++&scif2 {
+ 	pinctrl-names = "default";
+-	pinctrl-0 = <&scif4_pins>;
++	pinctrl-0 = <&scif2_pins>;
+ 
+ 	status = "okay";
+ };
 -- 
 2.17.1
 
