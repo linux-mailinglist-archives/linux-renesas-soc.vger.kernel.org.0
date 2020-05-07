@@ -2,234 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6AE81C8065
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 05:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79A5D1C82BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 May 2020 08:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728736AbgEGDNd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 May 2020 23:13:33 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:33246 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727967AbgEGDNc (ORCPT
+        id S1725893AbgEGGo0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 May 2020 02:44:26 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43318 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725809AbgEGGoZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 May 2020 23:13:32 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0473CwVp111905;
-        Wed, 6 May 2020 22:12:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1588821178;
-        bh=pcn5RsTpVgMyrDv8WDPeFMl6cdwdI2B8kCKhic2Xr9g=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=a/LVzhYPf8uuIgW9nGMnK78KLa02MqUh7QPp/VvdE9BKyRt5Pa+J324420treT5W7
-         EUEwBn7u9uhft7R3nBmRSLGpbzkex1J6iEee9VMY/n4YGwDtrtMLpgbikDTzQ/dlyQ
-         oVlHpfa+37OCL1e7NQ1DjJKg5GUrLaArNGVZ5HB8=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0473CwJF041499
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 6 May 2020 22:12:58 -0500
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 6 May
- 2020 22:12:57 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 6 May 2020 22:12:57 -0500
-Received: from [10.250.233.85] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0473Cpfh015052;
-        Wed, 6 May 2020 22:12:52 -0500
-Subject: Re: [PATCH v9 0/8] Add endpoint driver for R-Car PCIe controller
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-CC:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Thu, 7 May 2020 02:44:25 -0400
+Received: by mail-lj1-f196.google.com with SMTP id l19so5036779lje.10;
+        Wed, 06 May 2020 23:44:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KPHo05lQ60Sgmm/o6B6Lw5R77cey+JqtyoXZZ3TP7Og=;
+        b=e7wVI36Rf4fqtU7WJhW0eNhiOoR9qLs5D7mo3cKZhnru4fOU0GoxY1Rs35zvmMqf/I
+         DkA2PrCvpIxoe8AfSXOlVr+ta+B03ZyC68RXZWbovm0bXaTIDEVnnMfW7e3g0LHXY1CO
+         dPAfTAx0ObfeW2JzcLmANRpukFCj7UGfD4Dz2qmu6JNdWZwEYji98uT+Ag8c7vkY0qce
+         qtMr9FwgibLoP97IsmB2khr0BBtNp/Qixd3dkDjNqYPewll+e1NSw/I9TxqrYAUhMlLu
+         BkNL9gdlG3oZnUJUNlWttddZNuu/RiSzOPza0L/9JzUYBSWiPbMzjI9KczuLwh2Lg/MD
+         6zVA==
+X-Gm-Message-State: AGi0PuZ8NNXts1Z10rRrfQ3AGOIxTdtR0oFmdemBYWnHfBdILxspxbN5
+        lBIIvmnMYJZKmHoYdPPk508=
+X-Google-Smtp-Source: APiQypIpQr2fTJp7sK/Z45NvIbcu6kYbSACpGgviZMKo6vxLEoYdxdc72K9eQNDS8kRJ9TzuUBJ2bQ==
+X-Received: by 2002:a2e:b44c:: with SMTP id o12mr6880195ljm.240.1588833860796;
+        Wed, 06 May 2020 23:44:20 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id o20sm3131820lfc.39.2020.05.06.23.44.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2020 23:44:19 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1jWaGS-0008Rt-A0; Thu, 07 May 2020 08:44:12 +0200
+Date:   Thu, 7 May 2020 08:44:12 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Johan Hovold <johan@kernel.org>,
+        linux- stable <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Vince Bridgers <vbridger@opensource.altera.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Fugang Duan <fugang.duan@nxp.com>,
+        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+        Vitaly Bordug <vbordug@ru.mvista.com>,
+        Claudiu Manoil <claudiu.manoil@freescale.com>,
+        Li Yang <leoli@freescale.com>,
+        Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+        Felix Fietkau <nbd@openwrt.org>,
+        John Crispin <blogic@openwrt.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Lars Persson <lars.persson@axis.com>,
+        Mugunthan V N <mugunthanvnm@ti.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Andrew Murray <amurray@thegoodpenguin.co.uk>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@savoirfairelinux.com>,
+        Netdev <netdev@vger.kernel.org>,
+        nios2-dev@lists.rocketboards.org,
+        open list <linux-kernel@vger.kernel.org>,
+        linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1587666159-6035-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8u1rEF1DMAVkZ1=-d_MjLa_49X2Nny_VaEN0Y398GOJhw@mail.gmail.com>
- <20200505094416.GA12543@e121166-lin.cambridge.arm.com>
- <CA+V-a8t2iVNsWnc4ekwkAKAnLx5Mzc+chWnzsi3kuXRrJv34+A@mail.gmail.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <73b446db-9bfa-eb50-96c8-865b9b79c7e4@ti.com>
-Date:   Thu, 7 May 2020 08:42:51 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        <devicetree@vger.kernel.org>, lkft-triage@lists.linaro.org
+Subject: Re: [PATCH net 11/16] net: ethernet: marvell: mvneta: fix fixed-link
+ phydev leaks
+Message-ID: <20200507064412.GL2042@localhost>
+References: <1480357509-28074-1-git-send-email-johan@kernel.org>
+ <1480357509-28074-12-git-send-email-johan@kernel.org>
+ <CA+G9fYvBjUVkVhtRHVm6xXcKe2+tZN4rGdB9FzmpcfpaLhY1+g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+V-a8t2iVNsWnc4ekwkAKAnLx5Mzc+chWnzsi3kuXRrJv34+A@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYvBjUVkVhtRHVm6xXcKe2+tZN4rGdB9FzmpcfpaLhY1+g@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On 5/5/2020 3:17 PM, Lad, Prabhakar wrote:
-> Hi Lorenzo,
+On Thu, May 07, 2020 at 12:27:53AM +0530, Naresh Kamboju wrote:
+> On Tue, 29 Nov 2016 at 00:00, Johan Hovold <johan@kernel.org> wrote:
+> >
+> > Make sure to deregister and free any fixed-link PHY registered using
+> > of_phy_register_fixed_link() on probe errors and on driver unbind.
+> >
+> > Fixes: 83895bedeee6 ("net: mvneta: add support for fixed links")
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > ---
+> >  drivers/net/ethernet/marvell/mvneta.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
+> > index 0c0a45af950f..707bc4680b9b 100644
+> > --- a/drivers/net/ethernet/marvell/mvneta.c
+> > +++ b/drivers/net/ethernet/marvell/mvneta.c
+> > @@ -4191,6 +4191,8 @@ static int mvneta_probe(struct platform_device *pdev)
+> >         clk_disable_unprepare(pp->clk);
+> >  err_put_phy_node:
+> >         of_node_put(phy_node);
+> > +       if (of_phy_is_fixed_link(dn))
+> > +               of_phy_deregister_fixed_link(dn);
 > 
-> On Tue, May 5, 2020 at 10:44 AM Lorenzo Pieralisi
-> <lorenzo.pieralisi@arm.com> wrote:
->>
->> On Thu, Apr 30, 2020 at 09:43:20AM +0100, Lad, Prabhakar wrote:
->>> Hi Kishon,
->>>
->>> On Thu, Apr 23, 2020 at 7:23 PM Lad Prabhakar
->>> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->>>>
->>>> Hi All,
->>>>
->>>> This patch series adds support for endpoint driver for R-Car PCIe controller on
->>>> R-Car/RZ-G2x SoC's, this also extends the epf framework to handle multiple windows
->>>> supported by the controller for mapping PCI address locally.
->>>>
->>>> Note:
->>>> The cadence/rockchip/designware endpoint drivers are build tested only.
->>>>
->>>> Changes for v9 (Re-spun this series as there were minimal changes requested):
->>>> * Rebased patches on top of v5.7.rc1
->>>> * Replaced mdelay(1) with usleep_range(1000, 1001) in rcar_pcie_ep_assert_intx()
->>>> * Added a check for max_functions read from DT to restrict with
->>>>   RCAR_EPC_MAX_FUNCTIONS
->>>> * Replaced MSICAP0_MMENUM with MSICAP0_MMESE
->>>> * Retry ioremap for other windows on failure in pci_epc_mem_alloc_addr()
->>>> * Fixed looping for number windows in pci_epc_mem_exit()
->>>> * Set maximum to 1 for max-functions in DT binding (I have restored the acks
->>>>   from  Rob and Shimoda-san)
->>>> * Sorted the entry in MAINTAINERS
->>>>
->>>> Changes for v8:
->>>> * Dropped adding R8A774C0 (0x002d) pci-id in pci_ids.h
->>>> * Fixed typo in commit message for patch 2/8
->>>> * Reworded commit message for patch 5/8 as suggested by Bjorn
->>>> * Split up patch to add pci_epc_mem_init() interface to add page_size argument
->>>>   as suggested by Bjorn.
->>>>
->>>> Changes for v7:
->>>> * Fixed review comments pointed by Shimoda-san
->>>>   1] Made DT bindings dual licensed, added Shimoda-san as maintainer and fixed
->>>>      the example as its built with #{address,size}-cells = <1>. I have still
->>>>      restored the Ack from Rob and Shimoda-san with these changes.
->>>>   2] Split up the patches so that they can be picked up by respective subsystem
->>>>      patches 1/4-9/11 are now part of this series.
->>>>   3] Dropped altering a comment in pci-epc.h
->>>>   4] Used a local variable align_size in pci_epc_mem_alloc_addr() so that size
->>>>      variable doesn't get overwritten in the loop.
->>>>   5] Replaced i-=1 with i--
->>>>   6] Replaced rcar with R-Car in patch subject and description.
->>>>   7] Set MACCTLR in init() callback
->>>>
->>>> Changes for v6:
->>>> 1] Rebased patches on endpoint branch of https://git.kernel.org/pub/
->>>>    scm/linux/kernel/git/lpieralisi/pci.git/
->>>> 2] Fixed review comments from Shimoda-san
->>>>    a] Made sure defconfig changes were in separate patch
->>>>    b] Created rcar_pcie_host/rcar_pcie_ep structures
->>>>    c] Added pci-id for R8A774C0
->>>>    d] Added entry in MAINTAINERS for dt-binding
->>>>    e] Dropped unnecessary braces
->>>> 3] Added support for msi.
->>>>
->>>> Changes for v5:
->>>> 1] Rebased patches on next branch of https://git.kernel.org/pub/scm/
->>>>    linux/kernel/git/helgaas/pci.git
->>>> 2] Fixed review comments reported by Kishon while fetching the matching
->>>>    window in function pci_epc_get_matching_window()
->>>> 3] Fixed review comments reported by Bjorn
->>>>    a] Split patch up first patch so that its easier to review and incremental
->>>>    b] Fixed typos
->>>> 4] Included Reviewed tag from Rob for the dt-binding patch
->>>> 5] Fixed issue reported by Nathan for assigning variable to itself
->>>>
->>>> Changes for v4:
->>>> 1] Fixed dtb_check error reported by Rob
->>>> 2] Fixed review comments reported by Kishon
->>>>    a] Dropped pci_epc_find_best_fit_window()
->>>>    b] Fixed initializing mem ptr in __pci_epc_mem_init()
->>>>    c] Dropped map_size from pci_epc_mem_window structure
->>>>
->>>> Changes for v3:
->>>> 1] Fixed review comments from Bjorn and Kishon.
->>>> 3] Converted to DT schema
->>>>
->>>> Changes for v2:
->>>> 1] Fixed review comments from Biju for dt-bindings to include an example
->>>>    for a tested platform.
->>>> 2] Fixed review comments from Kishon to extend the features of outbound
->>>>    regions in epf framework.
->>>> 3] Added support to parse outbound-ranges in OF.
->>>>
->>>> Lad Prabhakar (8):
->>>>   PCI: rcar: Rename pcie-rcar.c to pcie-rcar-host.c
->>>>   PCI: rcar: Move shareable code to a common file
->>>>   PCI: rcar: Fix calculating mask for PCIEPAMR register
->>>>   PCI: endpoint: Pass page size as argument to pci_epc_mem_init()
->>>>   PCI: endpoint: Add support to handle multiple base for mapping
->>>>     outbound memory
->>> Could you please do the needy for the above two patches, so that this
->>> can be picked up by Lorenzo.
->>
->> Yes please. I would kindly ask you to rebase it on top of my
->> pci/rcar branch - with Kishon's ACK when provided.
->>
-> Sure will do that as soon as I get Kishon's Ack.
-
-I've given my Acked by on the two endpoint core patches. I've also tested my
-endpoint series [1] after applying this series.
-
-Thanks
-Kishon
-
-[1] -> http://lore.kernel.org/r/20200506151429.12255-1-kishon@ti.com
+> While building kernel Image for arm architecture on stable-rc 4.4 branch
+> the following build error found.
 > 
-> Cheers,
-> --Prabhakar
+> drivers/net/ethernet/marvell/mvneta.c:3442:3: error: implicit
+> declaration of function 'of_phy_deregister_fixed_link'; did you mean
+> 'of_phy_register_fixed_link'? [-Werror=implicit-function-declaration]
+> |    of_phy_deregister_fixed_link(dn);
+> |    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> |    of_phy_register_fixed_link
 > 
->> Thanks,
->> Lorenzo
->>
->>> Cheers,
->>> --Prabhakar
->>>
->>>>   dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint
->>>>     controller
->>>>   PCI: rcar: Add endpoint mode support
->>>>   MAINTAINERS: Add file patterns for rcar PCI device tree bindings
->>>>
->>>>  .../devicetree/bindings/pci/rcar-pci-ep.yaml  |   77 ++
->>>>  MAINTAINERS                                   |    1 +
->>>>  drivers/pci/controller/Kconfig                |   18 +
->>>>  drivers/pci/controller/Makefile               |    3 +-
->>>>  .../pci/controller/cadence/pcie-cadence-ep.c  |    2 +-
->>>>  .../pci/controller/dwc/pcie-designware-ep.c   |   16 +-
->>>>  drivers/pci/controller/pcie-rcar-ep.c         |  557 ++++++++
->>>>  drivers/pci/controller/pcie-rcar-host.c       | 1065 +++++++++++++++
->>>>  drivers/pci/controller/pcie-rcar.c            | 1206 +----------------
->>>>  drivers/pci/controller/pcie-rcar.h            |  140 ++
->>>>  drivers/pci/controller/pcie-rockchip-ep.c     |    2 +-
->>>>  drivers/pci/endpoint/pci-epc-mem.c            |  204 ++-
->>>>  include/linux/pci-epc.h                       |   38 +-
->>>>  13 files changed, 2078 insertions(+), 1251 deletions(-)
->>>>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
->>>>  create mode 100644 drivers/pci/controller/pcie-rcar-ep.c
->>>>  create mode 100644 drivers/pci/controller/pcie-rcar-host.c
->>>>  create mode 100644 drivers/pci/controller/pcie-rcar.h
->>>>
->>>> --
->>>> 2.17.1
->>>>
+> ref:
+> https://gitlab.com/Linaro/lkft/kernel-runs/-/jobs/541374729
+
+Greg, 3f65047c853a ("of_mdio: add helper to deregister fixed-link
+PHYs") needs to be backported as well for these.
+
+Original series can be found here:
+
+	https://lkml.kernel.org/r/1480357509-28074-1-git-send-email-johan@kernel.org
+
+Johan
