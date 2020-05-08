@@ -2,86 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2CDE1CB471
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2020 18:15:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1015F1CBAD1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 May 2020 00:37:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbgEHQPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 May 2020 12:15:14 -0400
-Received: from pb-smtp1.pobox.com ([64.147.108.70]:50028 "EHLO
-        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727933AbgEHQPM (ORCPT
+        id S1727778AbgEHWh5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 May 2020 18:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40178 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727110AbgEHWh4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 May 2020 12:15:12 -0400
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id EFE575B4EB;
-        Fri,  8 May 2020 12:15:09 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=kmhGduBIpake8Zs5HsNV1PT6HCM=; b=C9RLBB
-        sBPVI/CtYd2pWQb5mSlzAXd/p74pm36uF74KC7TDmwmdDn/5dKy0OwG01pNXyHxW
-        2YCzS2H5BBDSTs00Q17qzaaQiMptDnL+mVRLeIHplEpYFR3VtaSFX8J/ki90p7M/
-        NFy6n7H8aAb6ZSIy28EOQPTSXMAlMRRAVPjhw=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id DCFD15B4EA;
-        Fri,  8 May 2020 12:15:09 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=0a/ecB1PmZ/fZPc6KQLGTVXFxRUYp0SmngpAhZYhMDI=; b=ZQFvkzSz7djlz1+SaXnqn/0ZFbHA/jfZ9v6sI7nC/ZrvqOuk4WcIjnVDwzFe1GzJeCyJ4SbAG39G1WOcs2TQF5fSm4ImfGCH+/npq7Oyztz3GNoo+a4D2n6G7jhb98mBl6gJlKBpLnbQ2ujG/Lqk4WeoZBmF2eKSaBM3b+XafAQ=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id E918D5B4E8;
-        Fri,  8 May 2020 12:15:08 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id D7A702DA0AA9;
-        Fri,  8 May 2020 12:15:07 -0400 (EDT)
-Date:   Fri, 8 May 2020 12:15:07 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-cc:     Chris Brandt <Chris.Brandt@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH/RFC] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
-In-Reply-To: <CAMuHMdX11aLVE8tNNzuawKZqg21mOEnmTv=RkdOPZmMjMzWRMw@mail.gmail.com>
-Message-ID: <nycvar.YSQ.7.77.849.2005081210220.5637@knanqh.ubzr>
-References: <20200507080528.547-1-geert+renesas@glider.be> <nycvar.YSQ.7.77.849.2005071056450.5637@knanqh.ubzr> <CAMuHMdXgpR6HDQs_NS4W2C8NxqJp3g1DjR2VneUF5Rvun-L4jQ@mail.gmail.com> <nycvar.YSQ.7.77.849.2005071303480.5637@knanqh.ubzr>
- <CAMuHMdW0=KWk2pC2tRUajvZQsoObBEFz7WoJ+uJbHbX27f7b2g@mail.gmail.com> <OSAPR01MB2114FB6F10EC904F19363F9D8AA20@OSAPR01MB2114.jpnprd01.prod.outlook.com> <nycvar.YSQ.7.77.849.2005081023180.5637@knanqh.ubzr>
- <CAMuHMdX11aLVE8tNNzuawKZqg21mOEnmTv=RkdOPZmMjMzWRMw@mail.gmail.com>
+        Fri, 8 May 2020 18:37:56 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66392C061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2020 15:37:56 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id f11so3359005ljp.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 May 2020 15:37:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZlYo6LZ2gpdvKx2XP7UDcJkPEoiNb0owpdOZ1yEc1Mg=;
+        b=r0n6p4DB0bWrlcjLZw0RSl3bAyAzRXd/zLX7d0rs4qadWsSsdFsQvAc4wycpHhd4YO
+         FoU7YYDi7P9iavRROvBNdXjoQETN/jOU5/4xC7jHu7q8Rq6xO7Id4EC9dgbQQL9zIXAv
+         QtmeP0BMlwAsv/+b0XCeI/Py0x92giTi6Bzze1lbvf000MouECQTn+GTuwTvlI2Zaumo
+         3Lf6rIzPjl3fLqraHDnXDvORWf+tDz9ui6KwDApwETx0LhjqExvI5vuGNMxMFjOqdiEK
+         E0s+GhMGHozYDM1qmoXckawjGNjkcAIxzNSaCxpMy5dlaxWIWfGFGrokciZfx7aEWUf7
+         KbOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZlYo6LZ2gpdvKx2XP7UDcJkPEoiNb0owpdOZ1yEc1Mg=;
+        b=Xy8/ZK3QX/wqhjV/ctlVTEHMHmRtfrCJD7l5Ercq0fqdx7mxWennip59zMVmubQAZK
+         EfeNo/sceiGDOQ1aSzx9q6aO/yDM524S79t1no6eCyJBHq78krJcaloSiSaqL8GtTi7j
+         tmAZ8rd4w7k8nj2wXOdHSmIifRjSxmMM1xO2xZwPE/XpndUSZKinFFZsv/ztjbt8jngN
+         VoGQwbDCNlu4gzQxhk1GtaLi4w3ZTKa6n51s4VJrVgrCCT0bRnPAHekwU8lSydSHks4d
+         SFZrzsExNZFCuZvZZo00A6/R57V4tO9+1BYOFNyc2y3t2KNPvnWxOnyOZS1Y7DhW5nox
+         h0SQ==
+X-Gm-Message-State: AOAM5336xa31wpquXluhNXPN34ArmANW4O7tkwaqwXpMeMEKSJC/SYBd
+        xi7UuTJJFlCE4OuRNedkBbsBvpjEKiOUnewEPvT6Yq29
+X-Google-Smtp-Source: ABdhPJwDt7XzSPqwCMNilNpy09YDkKREai65X3sDGcBHM2TEacPehqO+GwHDIh/0lGk9YRvw8iDzZDUlUbMHBuvKTjA=
+X-Received: by 2002:a05:651c:1058:: with SMTP id x24mr3239576ljm.39.1588977474765;
+ Fri, 08 May 2020 15:37:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 163EB46E-9147-11EA-AFE8-C28CBED8090B-78420484!pb-smtp1.pobox.com
+References: <20200430084909.1599-1-geert+renesas@glider.be>
+In-Reply-To: <20200430084909.1599-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 9 May 2020 00:37:43 +0200
+Message-ID: <CACRpkdaz12TVFhggYMWGDeiSD+AJHRjsLE5WGOZCpcWK_-FqWg@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.8
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 8 May 2020, Geert Uytterhoeven wrote:
+On Thu, Apr 30, 2020 at 10:49 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-> Hi Nicolas,
-> 
-> On Fri, May 8, 2020 at 4:41 PM Nicolas Pitre <nico@fluxnic.net> wrote:
-> > On Fri, 8 May 2020, Chris Brandt wrote:
-> > > The big argument was always that "XIP cannot be multi-platform by
-> > > definition because RAM/ROM always resides at different addresses in different
-> > > devices". And as you know, the physical address for RAM and ROM have to
-> > > be hard coded in the kernel binary.
-> >
-> > Exact.  So what is the problem?
-> 
-> Ah, you've fallen for the "multi-platform" fallacy!
+> The following changes since commit 8f3d9f354286745c751374f5f1fcafee6b3f3136:
+>
+>   Linux 5.7-rc1 (2020-04-12 12:35:55 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.8-tag1
+>
+> for you to fetch changes up to 41fe32ecc7aff4527a4ee477870d9b1164be95a4:
+>
+>   MAINTAINERS: Add DT Bindings for Renesas Pin Function Controllers (2020-04-20 13:14:05 +0200)
 
-Me?!  You must be mistaken on the person.
+Pulled in to my devel branch, thanks!
 
-> I have no desire to enable support for multiple platforms in a single 
-> kernel that supports XIP on all platforms.
-
-Absolutely!  As I just said in my previous email, multi-platform XIP 
-kernels are non-sense.
-
-
-Nicolas
+Yours,
+Linus Walleij
