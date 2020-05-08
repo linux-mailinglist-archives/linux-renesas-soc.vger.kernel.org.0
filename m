@@ -2,79 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 110E31CB1AF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2020 16:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCE51CB215
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2020 16:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgEHOY7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 May 2020 10:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47144 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726767AbgEHOY6 (ORCPT
+        id S1726897AbgEHOly (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 May 2020 10:41:54 -0400
+Received: from pb-smtp21.pobox.com ([173.228.157.53]:52801 "EHLO
+        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726825AbgEHOlx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 May 2020 10:24:58 -0400
-X-Greylist: delayed 180 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 08 May 2020 07:24:58 PDT
-Received: from mo6-p00-ob.smtp.rzone.de (mo6-p00-ob.smtp.rzone.de [IPv6:2a01:238:20a:202:5300::11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62470C05BD43
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 May 2020 07:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1588947896;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:Reply-To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=lhXFjhMceHfaOQT7DstHoXQXk+uN44YDU0i3K/XzV1Q=;
-        b=S1yJjO6AMf93dYXQRodqkZM/ybARK0AZQ17wiDhol75NoMhoQuqdG/G1zgEb8SttE/
-        PO51BgmezjckyCQ3edKTtdhZ4Ij3bgwyG1kiss/icKhcbc/rx54kOWvFZmN00YQ0V5Xo
-        pSXBTjiDmHawBDhdcjBzDSc+mWcKV9WyMZS0Sc6BLwhAi8/iHXGq7U/bwhB940M2FV4m
-        hjWJyUp+OQIB0lW/EUsNRbfFna7rAjFMYdxB6E6uGmD5ku/hyTRXnBXp2KsytiC87t3c
-        qRPW8N74NGHZ13asY2oGg1+bsgtgdBO3PCsTAHCPvtl8pvF+84GuMtUJvp/V5VBNcl3n
-        hORA==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCt/7N+Odk="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp04-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 46.6.2 AUTH)
-        with ESMTPSA id Z0acdaw48ELn52H
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Fri, 8 May 2020 16:21:49 +0200 (CEST)
-Date:   Fri, 8 May 2020 16:21:49 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-Reply-To: Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fri, 8 May 2020 10:41:53 -0400
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id 80148DF4AB;
+        Fri,  8 May 2020 10:41:50 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=268nGxKP+kP8/XSx+FAGYbeJFbM=; b=EfDZKg
+        quu3bsCWpJPAtiimjwFQdAyQ3doXrreNcbzWilo7RWd3SQCeFvhsS0rCUUTa5kvK
+        4gwnC5q3fAG/n+LTUB7TBNJaaHc4+mHoZYcu/6kpvDBQmVyzuBNA2NAsOoHVcFaG
+        lXqOZSyEt8KZYCqLQ7niTrQmMI/j8xeAE/ySw=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id 76C27DF4AA;
+        Fri,  8 May 2020 10:41:50 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=8mmkg4rH5isXJ8wYaDfAzwV/UGUoKXvhObaLZRR/pjg=; b=iHBypVXsGyesmH50JwnbTKdvFsdL098OUBaME150jW1tisDFVFN6gpceGMEJQOpHUXDpL87A8bqLblvH3cGGI8qdDy7ZazHhBSCK+UuDTWnOMaNGu5k5t6RFkDEj1EDxRxgulIsuLyUwwU2ZhuikCo+lBg5yMVTmz5mQMKWbBfU=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 0E163DF4A9;
+        Fri,  8 May 2020 10:41:47 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 10AC02DA0AA9;
+        Fri,  8 May 2020 10:41:45 -0400 (EDT)
+Date:   Fri, 8 May 2020 10:41:44 -0400 (EDT)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Message-ID: <2052458931.972202.1588947709194@webmail.strato.com>
-In-Reply-To: <20200508095918.6061-1-geert+renesas@glider.be>
-References: <20200508095918.6061-1-geert+renesas@glider.be>
-Subject: Re: [PATCH] ARM: dts: r8a7740: Add missing extal2 to CPG node
+        Arnd Bergmann <arnd@arndb.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH/RFC] ARM: dts: rza2mevb: Upstream Linux requires SDRAM
+In-Reply-To: <OSAPR01MB2114FB6F10EC904F19363F9D8AA20@OSAPR01MB2114.jpnprd01.prod.outlook.com>
+Message-ID: <nycvar.YSQ.7.77.849.2005081023180.5637@knanqh.ubzr>
+References: <20200507080528.547-1-geert+renesas@glider.be> <nycvar.YSQ.7.77.849.2005071056450.5637@knanqh.ubzr> <CAMuHMdXgpR6HDQs_NS4W2C8NxqJp3g1DjR2VneUF5Rvun-L4jQ@mail.gmail.com> <nycvar.YSQ.7.77.849.2005071303480.5637@knanqh.ubzr>
+ <CAMuHMdW0=KWk2pC2tRUajvZQsoObBEFz7WoJ+uJbHbX27f7b2g@mail.gmail.com> <OSAPR01MB2114FB6F10EC904F19363F9D8AA20@OSAPR01MB2114.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev25
-X-Originating-Client: open-xchange-appsuite
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 0B3AB5CA-913A-11EA-8877-8D86F504CC47-78420484!pb-smtp21.pobox.com
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Fri, 8 May 2020, Chris Brandt wrote:
 
-> On May 8, 2020 11:59 AM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> 
->  
-> The Clock Pulse Generator (CPG) device node lacks the extal2 clock.
-> This may lead to a failure registering the "r" clock, or to a wrong
-> parent for the "usb24s" clock, depending on MD_CK2 pin configuration and
-> boot loader CPG_USBCKCR register configuration.
-> 
-> This went unnoticed, as this does not affect the single upstream board
-> configuration, which relies on the first clock input only.
-> 
-> Fixes: d9ffd583bf345e2e ("ARM: shmobile: r8a7740: add SoC clocks to DTS")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> The big argument was always that "XIP cannot be multi-platform by 
+> definition because RAM/ROM always resides at different addresses in different 
+> devices". And as you know, the physical address for RAM and ROM have to 
+> be hard coded in the kernel binary.
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Exact.  So what is the problem?
 
-CU
-Uli
+> At an ELC a while back, I talked to Arnd and his suggestion was to put 
+> the base addresses for RAM and ROM at a fixed location in the kernel 
+> binary. Then for each SoC, you manually modify those values in the each 
+> binary to match your board. This means there is 'technically' a single build
+> that will support all boards.
+
+The very reason for using XIP in the first place is to maximize resource 
+savings on constrained platforms. Any notion of a multi-platform kernel 
+is completely contrary to this goal. This is even more true for no-MMU 
+platforms where you can't abstract physical address differences behind a 
+page table.
+
+Multi-platform kernel supporting all boards make sense for generic 
+distros and/or build coverage tests. But a multi-platform XIP kernel is 
+a nonsense. Trying to make XIP multi-platform might be a nice 
+intellectual challenge but that has zero value for actual deployment and 
+usage.
+
+Given that there isn't a lot of such platforms anyway, it should be 
+possible to carry a few kconfig entries outside of the multi-platform 
+menu for XIP targets and live with possible kconfig duplicates. That 
+shouldn't be such a maintenance burden.
+
+
+Nicolas
