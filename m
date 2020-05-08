@@ -2,61 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 806571C9E28
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2020 00:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B4621CA3B4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 May 2020 08:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbgEGWFR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 May 2020 18:05:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726580AbgEGWFQ (ORCPT
+        id S1726942AbgEHGV1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 May 2020 02:21:27 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44702 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726815AbgEHGV1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 May 2020 18:05:16 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CC97C05BD0B
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  7 May 2020 15:05:16 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id a21so8000320ljb.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 May 2020 15:05:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=nPPvWhYSDBZH/W9ZzOHKWz2UFG4yFEnZgxOOVnctufk=;
-        b=kOcLODoKztByz0UBmzjXeqlmhusevIjl+c2HbLw3k5rPnNKk0UOKclN/cgZBe7f2BE
-         KEqsud4Rf5RdhjLb6rTlhUM5ds3Xzk7FnKfAsKFuTOitseFo/B4W7DCsQHn6MIDZOtdM
-         XpjV+SB82Z1h1ka5YTJZ7+6LcnBoSsPmQiuy7w3g1RSKnALtjhnggH/JTqnX8Bs27TGN
-         ood1tyTML/spLGCWlwrocHp6j+kCbFQp1TxUGnP/5eZHSKTDWrjMVOJMV0mMmz5OWK8f
-         xD7VPnGMNREiVpMw0n8DDrvcOIkqDBd0J/2WjILG0vEpGGnV+iSSQP4JFsm6KT8nJ2Q/
-         xEMQ==
+        Fri, 8 May 2020 02:21:27 -0400
+Received: by mail-lj1-f193.google.com with SMTP id a21so433224ljj.11;
+        Thu, 07 May 2020 23:21:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nPPvWhYSDBZH/W9ZzOHKWz2UFG4yFEnZgxOOVnctufk=;
-        b=X/Z5fDdfrz7tu+zOH6pWlNm7022kEoTo/OQUKJzKNN4dwskkbgNzhjREzw1NYM4WE+
-         iJcT8luUfBZbZDUCnWj6LWGE8Q6N2cPRMun7exjnHpXdvw6oioiDE2rEYAekoaLlKLxa
-         N+IDXyXyP0oKuPmi8Rpx+pt/mLi7e1Bxx6Hu7NCtGpAnAK+fahEtPH43cyhZ/WBvzHfu
-         aHEE9WQK+LiQzIMtyVgV7/N7lDZH6YSuHHT12tlXgFJiXqbJ0bUdKAw+yXNJ5dmvjB9R
-         QDR9SAfdvKPOQ5crunX1KkMXCujL1yTwYfnf9mNb7QBoM+ccXrDGA5VLPN70XTn2lHgr
-         67Ig==
-X-Gm-Message-State: AGi0PuZMC2mvFna2bk9Brl0Y19KJjCD1CWPTqx9pZJ627tNziL2i/hdj
-        Cw8R3bEKCnn0zQlb+edOgBn+lJ+y9jHGkIVSHxPKFg==
-X-Google-Smtp-Source: APiQypKNdCY3OtiIkeJWX0PcE2nxNIMwzLCH+DsayspwmtDmIkVB8t6LffEY5ZO8WubCZPRo18ZG04Dd+peMVypsg08=
-X-Received: by 2002:a2e:2e16:: with SMTP id u22mr10215821lju.243.1588889114309;
- Thu, 07 May 2020 15:05:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <1480357509-28074-1-git-send-email-johan@kernel.org>
- <1480357509-28074-12-git-send-email-johan@kernel.org> <CA+G9fYvBjUVkVhtRHVm6xXcKe2+tZN4rGdB9FzmpcfpaLhY1+g@mail.gmail.com>
- <20200507064412.GL2042@localhost> <20200507064734.GA798308@kroah.com> <20200507111312.GA1497799@kroah.com>
-In-Reply-To: <20200507111312.GA1497799@kroah.com>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Fri, 8 May 2020 03:35:02 +0530
-Message-ID: <CA+G9fYu2SrkEHyAzF57xJz5WjgHv361qdL2wPqON_pGS4Vtxmw@mail.gmail.com>
-Subject: Re: [PATCH net 11/16] net: ethernet: marvell: mvneta: fix fixed-link
- phydev leaks
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>
-Cc:     linux- stable <stable@vger.kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=l07sjg7wad11JybQiwBPplAsmA/VCV2GQr8sTEyBm88=;
+        b=C1Dt6HJA2i7OLmGNc9XeFfcM+njIJrh7SQ8MmMM0w10EYLGbB6nWl5tysAKbyh26NV
+         92Vr2fknGA27JOLMooDs/pi8KKnsaE4BJ8VLjEu3XWbuCgDKezm2PWVhZdNQT9VlF+Cr
+         e8xxoIPBQPiiPP32vzN0FV6FP2kMUjmQqt4kIXxuNJ/O1NMiyhRh68rZyxUfO85vMG3Y
+         7rEIjqd07d20ros4Bro7pnu6ce1GoDxeMYDUhLG8n1abhqKhxiK7h5EjO6DMHHYBcjqO
+         30Xp79qHVkpd6OIfZkp6oq6yP9TVUTqReasmmj5XZdnhXF6HGP8tdN1ONSzr+RMd1Gqe
+         uGtA==
+X-Gm-Message-State: AOAM532LnT/OWxDGsCuWXIkKI6J1NQMvV5HRcU++9B/lN68BdQtQcidF
+        /aD/BQBnht/6sdswbsr4/9I=
+X-Google-Smtp-Source: ABdhPJzQwccjomPZVXTofZDq7QNMtMm+acyePCPBUNykc5Wt6G9pf/ArU7L/ehrFMv9M6FmHt7FVvw==
+X-Received: by 2002:a05:651c:549:: with SMTP id q9mr624525ljp.236.1588918884533;
+        Thu, 07 May 2020 23:21:24 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id z64sm428692lfa.50.2020.05.07.23.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2020 23:21:23 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1jWwNr-0001TQ-0H; Fri, 08 May 2020 08:21:19 +0200
+Date:   Fri, 8 May 2020 08:21:19 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        linux- stable <stable@vger.kernel.org>,
         Sasha Levin <sashal@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -76,67 +63,87 @@ Cc:     linux- stable <stable@vger.kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>, lkft-triage@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH net 11/16] net: ethernet: marvell: mvneta: fix fixed-link
+ phydev leaks
+Message-ID: <20200508062119.GE25962@localhost>
+References: <1480357509-28074-1-git-send-email-johan@kernel.org>
+ <1480357509-28074-12-git-send-email-johan@kernel.org>
+ <CA+G9fYvBjUVkVhtRHVm6xXcKe2+tZN4rGdB9FzmpcfpaLhY1+g@mail.gmail.com>
+ <20200507064412.GL2042@localhost>
+ <20200507064734.GA798308@kroah.com>
+ <20200507111312.GA1497799@kroah.com>
+ <CA+G9fYu2SrkEHyAzF57xJz5WjgHv361qdL2wPqON_pGS4Vtxmw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+G9fYu2SrkEHyAzF57xJz5WjgHv361qdL2wPqON_pGS4Vtxmw@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 7 May 2020 at 16:43, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-<trim>
-> > >
-> > > Greg, 3f65047c853a ("of_mdio: add helper to deregister fixed-link
-> > > PHYs") needs to be backported as well for these.
-> > >
-> > > Original series can be found here:
-> > >
-> > >     https://lkml.kernel.org/r/1480357509-28074-1-git-send-email-johan=
-@kernel.org
+On Fri, May 08, 2020 at 03:35:02AM +0530, Naresh Kamboju wrote:
+> On Thu, 7 May 2020 at 16:43, Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
 > >
-> > Ah, thanks for that, I thought I dropped all of the ones that caused
-> > build errors, but missed the above one.  I'll go take the whole series
-> > instead.
->
-> This should now all be fixed up, thanks.
+> <trim>
+> > > >
+> > > > Greg, 3f65047c853a ("of_mdio: add helper to deregister fixed-link
+> > > > PHYs") needs to be backported as well for these.
+> > > >
+> > > > Original series can be found here:
+> > > >
+> > > >     https://lkml.kernel.org/r/1480357509-28074-1-git-send-email-johan@kernel.org
+> > >
+> > > Ah, thanks for that, I thought I dropped all of the ones that caused
+> > > build errors, but missed the above one.  I'll go take the whole series
+> > > instead.
+> >
+> > This should now all be fixed up, thanks.
+> 
+> While building kernel Image for arm architecture on stable-rc 4.4 branch
+> the following build error found.
+> 
+> of_mdio: add helper to deregister fixed-link PHYs
+> commit 3f65047c853a2a5abcd8ac1984af3452b5df4ada upstream.
+> 
+> Add helper to deregister fixed-link PHYs registered using
+> of_phy_register_fixed_link().
+> 
+> Convert the two drivers that care to deregister their fixed-link PHYs to
+> use the new helper, but note that most drivers currently fail to do so.
+> 
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> Signed-off-by: David S. Miller <davem@davemloft.net>
+> [only take helper function for 4.4.y - gregkh]
+> 
+>  # make -sk KBUILD_BUILD_USER=TuxBuild -C/linux -j16 ARCH=arm
+> CROSS_COMPILE=arm-linux-gnueabihf- HOSTCC=gcc CC="sccache
+> arm-linux-gnueabihf-gcc" O=build zImage
+> 70 #
+> 71 ../drivers/of/of_mdio.c: In function ‘of_phy_deregister_fixed_link’:
+> 72 ../drivers/of/of_mdio.c:379:2: error: implicit declaration of
+> function ‘fixed_phy_unregister’; did you mean ‘fixed_phy_register’?
+> [-Werror=implicit-function-declaration]
+> 73  379 | fixed_phy_unregister(phydev);
+> 74  | ^~~~~~~~~~~~~~~~~~~~
+> 75  | fixed_phy_register
+> 76 ../drivers/of/of_mdio.c:381:22: error: ‘struct phy_device’ has no
+> member named ‘mdio’; did you mean ‘mdix’?
+> 77  381 | put_device(&phydev->mdio.dev); /* of_phy_find_device() */
+> 78  | ^~~~
+> 79  | mdix
 
-While building kernel Image for arm architecture on stable-rc 4.4 branch
-the following build error found.
+Another dependency: 5bcbe0f35fb1 ("phy: fixed: Fix removal of phys.")
 
-of_mdio: add helper to deregister fixed-link PHYs
-commit 3f65047c853a2a5abcd8ac1984af3452b5df4ada upstream.
+Greg, these patches are from four years ago so can't really remember if
+there are other dependencies or reasons against backporting them (the
+missing stable tags are per Dave's preference), sorry.
 
-Add helper to deregister fixed-link PHYs registered using
-of_phy_register_fixed_link().
+The cover letter also mentions another dependency, but that may just
+have been some context conflict.
 
-Convert the two drivers that care to deregister their fixed-link PHYs to
-use the new helper, but note that most drivers currently fail to do so.
+Perhaps you better drop these unless you want to review them closer.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-[only take helper function for 4.4.y - gregkh]
-
- # make -sk KBUILD_BUILD_USER=3DTuxBuild -C/linux -j16 ARCH=3Darm
-CROSS_COMPILE=3Darm-linux-gnueabihf- HOSTCC=3Dgcc CC=3D"sccache
-arm-linux-gnueabihf-gcc" O=3Dbuild zImage
-70 #
-71 ../drivers/of/of_mdio.c: In function =E2=80=98of_phy_deregister_fixed_li=
-nk=E2=80=99:
-72 ../drivers/of/of_mdio.c:379:2: error: implicit declaration of
-function =E2=80=98fixed_phy_unregister=E2=80=99; did you mean =E2=80=98fixe=
-d_phy_register=E2=80=99?
-[-Werror=3Dimplicit-function-declaration]
-73  379 | fixed_phy_unregister(phydev);
-74  | ^~~~~~~~~~~~~~~~~~~~
-75  | fixed_phy_register
-76 ../drivers/of/of_mdio.c:381:22: error: =E2=80=98struct phy_device=E2=80=
-=99 has no
-member named =E2=80=98mdio=E2=80=99; did you mean =E2=80=98mdix=E2=80=99?
-77  381 | put_device(&phydev->mdio.dev); /* of_phy_find_device() */
-78  | ^~~~
-79  | mdix
-
->
-> greg k-h
+Johan
