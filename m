@@ -2,176 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ED121CD6A7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2020 12:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33E3C1CD867
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 May 2020 13:29:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728808AbgEKKhA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 May 2020 06:37:00 -0400
-Received: from foss.arm.com ([217.140.110.172]:55856 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728209AbgEKKhA (ORCPT
+        id S1729641AbgEKL33 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 May 2020 07:29:29 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:38711 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729610AbgEKL33 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 May 2020 06:37:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DCE101FB;
-        Mon, 11 May 2020 03:36:58 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 917703F305;
-        Mon, 11 May 2020 03:36:56 -0700 (PDT)
-Date:   Mon, 11 May 2020 11:36:54 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v10 0/8] Add endpoint driver for R-Car PCIe controller
-Message-ID: <20200511103654.GD24149@e121166-lin.cambridge.arm.com>
-References: <1588854799-13710-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 11 May 2020 07:29:29 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id DE5671C0007;
+        Mon, 11 May 2020 11:29:23 +0000 (UTC)
+Date:   Mon, 11 May 2020 13:32:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] media: v4l2-subdv: Introduce get_mbus_config pad
+ op
+Message-ID: <20200511113239.dlbmr5gi7itjz6g4@uno.localdomain>
+References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
+ <20200415105004.2497356-2-jacopo+renesas@jmondi.org>
+ <20200420014457.GA15673@pendragon.ideasonboard.com>
+ <20200429135430.GH9190@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1588854799-13710-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200429135430.GH9190@paasikivi.fi.intel.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 07, 2020 at 01:33:11PM +0100, Lad Prabhakar wrote:
-> Hi All,
-> 
-> This patch series adds support for endpoint driver for R-Car PCIe controller on
-> R-Car/RZ-G2x SoC's, this also extends the epf framework to handle multiple windows
-> supported by the controller for mapping PCI address locally.
-> 
-> Note:
-> The rockchip/dwc endpoint drivers are build tested only and was tested on cadence
-> by Kishon (https://lkml.org/lkml/2020/5/6/1535)
-> 
-> Changes for v10:
-> * Rebased patches on top of pci/rcar branch on tree
->   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/pci.git
-> * Made pci_epc_get_matching_window() as static
-> * Included Ack's from Kishon for patches 4/8 and 5/8
-> * Included Reviewed-by tag from Shimoda-san for patches 4/8 and 5/8
-> 
-> Changes for v9:
-> * Rebased patches on top of v5.7.rc1
-> * Replaced mdelay(1) with usleep_range(1000, 1001) in rcar_pcie_ep_assert_intx()
-> * Added a check for max_functions read from DT to restrict with
->   RCAR_EPC_MAX_FUNCTIONS
-> * Replaced MSICAP0_MMENUM with MSICAP0_MMESE
-> * Retry ioremap for other windows on failure in pci_epc_mem_alloc_addr()
-> * Fixed looping for number windows in pci_epc_mem_exit()
-> * Set maximum to 1 for max-functions in DT binding (I have restored the acks
->   from  Rob and Shimoda-san)
-> * Sorted the entry in MAINTAINERS
-> 
-> Changes for v8:
-> * Dropped adding R8A774C0 (0x002d) pci-id in pci_ids.h
-> * Fixed typo in commit message for patch 2/8
-> * Reworded commit message for patch 5/8 as suggested by Bjorn
-> * Split up patch to add pci_epc_mem_init() interface to add page_size argument
->   as suggested by Bjorn.
-> 
-> Changes for v7:
-> * Fixed review comments pointed by Shimoda-san
->   1] Made DT bindings dual licensed, added Shimoda-san as maintainer and fixed
->      the example as its built with #{address,size}-cells = <1>. I have still
->      restored the Ack from Rob and Shimoda-san with these changes.
->   2] Split up the patches so that they can be picked up by respective subsystem
->      patches 1/4-9/11 are now part of this series.
->   3] Dropped altering a comment in pci-epc.h
->   4] Used a local variable align_size in pci_epc_mem_alloc_addr() so that size
->      variable doesn't get overwritten in the loop.
->   5] Replaced i-=1 with i--
->   6] Replaced rcar with R-Car in patch subject and description.
->   7] Set MACCTLR in init() callback
-> 
-> Changes for v6:
-> 1] Rebased patches on endpoint branch of https://git.kernel.org/pub/
->    scm/linux/kernel/git/lpieralisi/pci.git/
-> 2] Fixed review comments from Shimoda-san
->    a] Made sure defconfig changes were in separate patch
->    b] Created rcar_pcie_host/rcar_pcie_ep structures
->    c] Added pci-id for R8A774C0
->    d] Added entry in MAINTAINERS for dt-binding
->    e] Dropped unnecessary braces
-> 3] Added support for msi.
-> 
-> Changes for v5:
-> 1] Rebased patches on next branch of https://git.kernel.org/pub/scm/
->    linux/kernel/git/helgaas/pci.git
-> 2] Fixed review comments reported by Kishon while fetching the matching
->    window in function pci_epc_get_matching_window()
-> 3] Fixed review comments reported by Bjorn
->    a] Split patch up first patch so that its easier to review and incremental
->    b] Fixed typos
-> 4] Included Reviewed tag from Rob for the dt-binding patch
-> 5] Fixed issue reported by Nathan for assigning variable to itself
-> 
-> Changes for v4:
-> 1] Fixed dtb_check error reported by Rob
-> 2] Fixed review comments reported by Kishon
->    a] Dropped pci_epc_find_best_fit_window()
->    b] Fixed initializing mem ptr in __pci_epc_mem_init()
->    c] Dropped map_size from pci_epc_mem_window structure
-> 
-> Changes for v3:
-> 1] Fixed review comments from Bjorn and Kishon.
-> 3] Converted to DT schema
-> 
-> Changes for v2:
-> 1] Fixed review comments from Biju for dt-bindings to include an example
->    for a tested platform.
-> 2] Fixed review comments from Kishon to extend the features of outbound
->    regions in epf framework.
-> 3] Added support to parse outbound-ranges in OF.
-> 
-> Lad Prabhakar (8):
->   PCI: rcar: Rename pcie-rcar.c to pcie-rcar-host.c
->   PCI: rcar: Move shareable code to a common file
->   PCI: rcar: Fix calculating mask for PCIEPAMR register
->   PCI: endpoint: Pass page size as argument to pci_epc_mem_init()
->   PCI: endpoint: Add support to handle multiple base for mapping
->     outbound memory
->   dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint
->     controller
->   PCI: rcar: Add endpoint mode support
->   MAINTAINERS: Add file patterns for rcar PCI device tree bindings
-> 
->  .../devicetree/bindings/pci/rcar-pci-ep.yaml  |   77 +
->  MAINTAINERS                                   |    1 +
->  drivers/pci/controller/Kconfig                |   18 +
->  drivers/pci/controller/Makefile               |    3 +-
->  .../pci/controller/cadence/pcie-cadence-ep.c  |    2 +-
->  .../pci/controller/dwc/pcie-designware-ep.c   |   16 +-
->  drivers/pci/controller/pcie-rcar-ep.c         |  563 ++++++++
->  drivers/pci/controller/pcie-rcar-host.c       | 1130 +++++++++++++++
->  drivers/pci/controller/pcie-rcar.c            | 1268 +----------------
->  drivers/pci/controller/pcie-rcar.h            |  140 ++
->  drivers/pci/controller/pcie-rockchip-ep.c     |    2 +-
->  drivers/pci/endpoint/pci-epc-mem.c            |  204 ++-
->  include/linux/pci-epc.h                       |   38 +-
->  13 files changed, 2150 insertions(+), 1312 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
->  create mode 100644 drivers/pci/controller/pcie-rcar-ep.c
->  create mode 100644 drivers/pci/controller/pcie-rcar-host.c
->  create mode 100644 drivers/pci/controller/pcie-rcar.h
- 
+Hi Sakari, Laurent,
 
-Applied to pci/rcar, thanks !
+On Wed, Apr 29, 2020 at 04:54:30PM +0300, Sakari Ailus wrote:
+> Hi Laurent,
+>
+> On Mon, Apr 20, 2020 at 04:44:57AM +0300, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Thank you for the patch.
+> >
+> > On Wed, Apr 15, 2020 at 12:49:58PM +0200, Jacopo Mondi wrote:
+> > > Introduce a new pad operation to allow retrieving the media bus
+> > > configuration on a subdevice pad.
+> > >
+> > > The newly introduced operation reassembles the s/g_mbus_config video
+> > > operation, which have been on their way to be deprecated since a long
+> > > time.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  include/media/v4l2-subdev.h | 69 +++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 69 insertions(+)
+> > >
+> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > > index a4848de59852..fc16af578471 100644
+> > > --- a/include/media/v4l2-subdev.h
+> > > +++ b/include/media/v4l2-subdev.h
+> > > @@ -350,6 +350,71 @@ struct v4l2_mbus_frame_desc {
+> > >  	unsigned short num_entries;
+> > >  };
+> > >
+> > > +/**
+> > > + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> > > + * @hsync_active: hsync active state: 1 for high, 0 for low
+> > > + * @vsync_active: vsync active state: 1 for high, 0 for low
+> > > + * @pclk_rising: pixel clock active edge: 1 for rising, 0 for falling
+> >
+> > Is this for the driving side or the sampling side ?
+>
+> Is there a difference? I'd expect the configuration needs to be the same on
+> both sides.
 
-Lorenzo
+I was puzzled as well by this question, mostly because I never found
+anything like this in the existing documentation, but actually yes,
+the driving side clocks out data on one edge, sampling side samples on
+the opposite one ? Is this what you meant Laurent ?
+
+To me this has always been about sampling side though, and the setting
+should match on both endpoints of course.
+
+>
+> >
+> > > + * @data_active: data lines active state: 1 for high, 0 for low
+> >
+> > I wonder, is there any system with active low data lines ?
+
+As this is part of the standard DT properties for video interfaces, I
+added it here.
+
+> >
+> > > + */
+> > > +struct v4l2_mbus_parallel_config {
+> >
+> > Is this intended to cover BT.656 too ? Either way I think it should be
+> > documented.
+>
+> I think we should replace what directly refers to Bt.601 with something
+> that refers to that, and not "parallel". Both are parallel after all. I
+> think the naming is in line with that, assuming this covers both.
+>
+
+Currently in v4l2-fwnode BT.656 is selected if no vertical/horizontal
+synch and field flags are specified. This implies the following DT
+properties are shared between BT.601 and BT.656:
+- pclk-sample
+- data-active
+- slave-mode
+- bus-width
+- data-shift
+- sync-on-green-active
+- data-enable-active
+
+with
+- hsync-active
+- vsync-active
+- field-even-active
+being BT.601 only.
+
+We could do here do the same and mention which flags apply to 601
+only, or more clearly split the config structure by keeping a generic
+'parallel' flag structure, with a sub-structure which is 601 specific.
+I'm not sure it's worth the extra layer of indirection though.
+
+
+> >
+> > > +	unsigned int hsync_active : 1;
+> > > +	unsigned int vsync_active : 1;
+> > > +	unsigned int pclk_rising : 1;
+> > > +	unsigned int data_active : 1;
+> >
+> > Shouldn't we reuse the V4L2_MBUS_* flags, given that they're also used
+> > in v4l2_fwnode_bus_parallel ? While the v4l2_mbus_config structure is
+>
+> I'd think it's easier to work with fields in drivers than the flags. This
+
+I find it easier and less error prone to work with fields as well,
+provided the space occupation is the same as working with flags.
+
+> isn't uAPI so we don't need to think the ABI. The change could also be done
+> to struct v4l2_fwnode_bus_parallel.
+>
+> > getting deprecated, it doesn't mean we can reuse the same flags if they
+> > make sense. Otherwise we'll have to translate between
+> > v4l2_fwnode_bus_parallel.flags and the fields here. Ideally
+
+Right, I agree this is not desirable. Every driver should inspect the
+fwnode properties and translate to this new config when queryed
+through get_mbus_format.
+
+> > v4l2_fwnode_bus_parallel should be replaced with
+> > v4l2_mbus_parallel_config (once we add additional fields).
+
+I like this idea
+
+We could indeed expand the .flags structure of v4l2_fwnode_bus_parallel
+
+struct v4l2_fwnode_bus_parallel {
+	unsigned int flags;
+	unsigned char bus_width;
+	unsigned char data_shift;
+};
+
+but then we should replace the whole structure.
+
+All in all, working with the same set of flags is the less disruptive
+change and would not require translations in drivers... I'm not a fan,
+but currently seems the easiest way forward...
+
+What do you think ?
+
+>
+> ...
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
