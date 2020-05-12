@@ -2,216 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC0F1CF8C4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2020 17:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 243381CF9A9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2020 17:51:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730230AbgELPQf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 May 2020 11:16:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45600 "EHLO
+        id S1730482AbgELPv2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 May 2020 11:51:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727891AbgELPQf (ORCPT
+        with ESMTP id S1727869AbgELPv2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 May 2020 11:16:35 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 378A4C061A0F
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 08:16:35 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id h4so14082057ljg.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 08:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=medoBnZOlZl9hymoyu3zjzXAjwwmD8iMZ32n+incw6I=;
-        b=V31tIsd5txMvsiXUIn9OTB3g0C2LOJ0l0DeD9gAjxmUm9pnFtCcHKy94uxhNltQ1qU
-         U3EOVy+Z5ndG90IvfSg/+KPBuZUsEvN3FWLx+W83xLd/oCqp91nGtKnCcEZQWZwG4l3i
-         f17jM1QzmccbkWXc2FN9PkaEYGvwS3QVr2tjaTgwudjEfPapPK6jpPQ/jOfMvgCWCEWl
-         X4xgKwC3Ckvo7wKcwtXbBzL13mzXBK9wFuRnQfF4CT7JzcWHa5DHdSUyGjuTGO9enhg9
-         JRxJEYxzGt/rX18Hhehg0WznupknLd8OsQFpPHDchuOxSv1EzG032xvrgNbKAe55Y0jI
-         Uw4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=medoBnZOlZl9hymoyu3zjzXAjwwmD8iMZ32n+incw6I=;
-        b=J37C/Zxh1RoaasioLftBUMtQElEnFE4QXkGwy/pa1qmO/jUPpoJsQygens4fGkyt1b
-         TlXNHDhpDNXW3wwqUs3ahsqXtpFGTZ1e5VjJwKKIPZL15rOqgp7RsyWGn+2IJdO2k24j
-         e0ykbLDM2lOXeGkKL805mPkoqaj70Tiy3ZKhvTXeYqaFUL4JlVbYRsvWD655gdB5lTGZ
-         CjaMS7pGix4aZ3WYhKnXAdBkiwUPpSoifBlb24PbqpZurYzNw6vBZXmrgPOfRAAGmlIr
-         Q0pumv+zu/hHsvAI8suHcMyPJeBLLsFTUM3GoClzcAXGRqAOGwFgXIOy8VvMIkmz3gs4
-         MF2g==
-X-Gm-Message-State: AOAM5326eij0Ym98akfzRHOa9EOzgsNOdbU9Urj7tNIkn925tcfAQDFz
-        SJLSbSH9gbb+Zp/fNyhH8V23hQ==
-X-Google-Smtp-Source: ABdhPJy+PZQoUVIudpoLgl7CeYef7pXDX+9tiu2poUGZbCoBMZJZvixryDJiLzZv2EPfA2wvxKAFbQ==
-X-Received: by 2002:a2e:b609:: with SMTP id r9mr725803ljn.125.1589296593474;
-        Tue, 12 May 2020 08:16:33 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id a2sm12707613ljj.53.2020.05.12.08.16.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 08:16:32 -0700 (PDT)
-Date:   Tue, 12 May 2020 17:16:31 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: clock: renesas: div6: Convert to json-schema
-Message-ID: <20200512151631.GA2542285@oden.dyn.berto.se>
-References: <20200507075026.31941-1-geert+renesas@glider.be>
+        Tue, 12 May 2020 11:51:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F475C061A0F;
+        Tue, 12 May 2020 08:51:28 -0700 (PDT)
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3042304;
+        Tue, 12 May 2020 17:51:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589298684;
+        bh=mpszQGykHfgwUhnCRgKDFql++WspR5mgOFLQW4Jzs9g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vQO8t08Wa8tFztnRw16bS4jRVqaPd8jtrE9ZAZg7GqjC/QcV5bMomAw4IPRww+bPI
+         4mwKfNmN9Q+YiJQodkx3XQoTfu/cQ1l9KaKWol3kPlZSXMzhbbQoLxxXot2NrHcDn1
+         wh2HrBwrDMERk+rFtLJs4Ll2+kis6s0FirmwSGvw=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        sakari.ailus@iki.fi, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v9 0/4] MAX9286 GMSL Support (+RDACM20)
+Date:   Tue, 12 May 2020 16:51:01 +0100
+Message-Id: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200507075026.31941-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+This series provides a pair of drivers for the GMSL cameras on the R-Car ADAS
+platforms.
 
-Thanks for your work.
+These drivers originate from Cogent Embedded, and have been refactored to split
+the MAX9286 away from the RDACM20 drivers which were once very tightly coupled.
 
-On 2020-05-07 09:50:26 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas CPG DIV6 Clock Device Tree binding documentation to
-> json-schema.
-> 
-> Drop R-Car Gen2 compatible values, which were obsoleted by the unified
-> "Renesas Clock Pulse Generator / Module Standby and Software Reset" DT
-> bindings.
-> Update the example to match reality.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The MAX9286 is capable of capturing up to 4 streams simultaneously, and while
+the V4L2-Multiplexed streams series is not available, this works purely on the
+assumption that the receiver will correctly map each of the 4 VCs to separate
+video nodes, as the RCar-VIN does.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+This driver along with a camera driver for the RDACM20 and the
+associated platform support for the Renesas R-Car Salvator-X, and the Eagle-V3M
+can be found at:
 
-> ---
-> To be queued in clk-renesas-for-v5.8.
-> 
->  .../clock/renesas,cpg-div6-clock.yaml         | 60 +++++++++++++++++++
->  .../clock/renesas,cpg-div6-clocks.txt         | 40 -------------
->  2 files changed, 60 insertions(+), 40 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
->  delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-div6-clocks.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
-> new file mode 100644
-> index 0000000000000000..c55a7c494e013da5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clock.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/renesas,cpg-div6-clock.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas CPG DIV6 Clock
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The CPG DIV6 clocks are variable factor clocks provided by the Clock Pulse
-> +  Generator (CPG). Their clock input is divided by a configurable factor from 1
-> +  to 64.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r8a73a4-div6-clock # R-Mobile APE6
-> +          - renesas,r8a7740-div6-clock # R-Mobile A1
-> +          - renesas,sh73a0-div6-clock  # SH-Mobile AG5
-> +      - const: renesas,cpg-div6-clock
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    oneOf:
-> +      - maxItems: 1
-> +      - maxItems: 4
-> +      - maxItems: 8
-> +    description:
-> +      For clocks with multiple parents, invalid settings must be specified as
-> +      "<0>".
-> +
-> +  '#clock-cells':
-> +    const: 0
-> +
-> +  clock-output-names: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - '#clock-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a73a4-clock.h>
-> +    sdhi2_clk: sdhi2_clk@e615007c {
-> +            compatible = "renesas,r8a73a4-div6-clock", "renesas,cpg-div6-clock";
-> +            reg = <0xe615007c 4>;
-> +            clocks = <&pll1_div2_clk>, <&cpg_clocks R8A73A4_CLK_PLL2S>, <0>,
-> +                     <&extal2_clk>;
-> +            #clock-cells = <0>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clocks.txt b/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clocks.txt
-> deleted file mode 100644
-> index ae36ab84291988b7..0000000000000000
-> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-div6-clocks.txt
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -* Renesas CPG DIV6 Clock
-> -
-> -The CPG DIV6 clocks are variable factor clocks provided by the Clock Pulse
-> -Generator (CPG). Their clock input is divided by a configurable factor from 1
-> -to 64.
-> -
-> -Required Properties:
-> -
-> -  - compatible: Must be one of the following
-> -    - "renesas,r8a73a4-div6-clock" for R8A73A4 (R-Mobile APE6) DIV6 clocks
-> -    - "renesas,r8a7740-div6-clock" for R8A7740 (R-Mobile A1) DIV6 clocks
-> -    - "renesas,r8a7790-div6-clock" for R8A7790 (R-Car H2) DIV6 clocks
-> -    - "renesas,r8a7791-div6-clock" for R8A7791 (R-Car M2-W) DIV6 clocks
-> -    - "renesas,r8a7793-div6-clock" for R8A7793 (R-Car M2-N) DIV6 clocks
-> -    - "renesas,r8a7794-div6-clock" for R8A7794 (R-Car E2) DIV6 clocks
-> -    - "renesas,sh73a0-div6-clock" for SH73A0 (SH-Mobile AG5) DIV6 clocks
-> -    and "renesas,cpg-div6-clock" as a fallback.
-> -  - reg: Base address and length of the memory resource used by the DIV6 clock
-> -  - clocks: Reference to the parent clock(s); either one, four, or eight
-> -    clocks must be specified.  For clocks with multiple parents, invalid
-> -    settings must be specified as "<0>".
-> -  - #clock-cells: Must be 0
-> -
-> -
-> -Optional Properties:
-> -
-> -  - clock-output-names: The name of the clock as a free-form string
-> -
-> -
-> -Example
-> --------
-> -
-> -	sdhi2_clk: sdhi2_clk@e615007c {
-> -		compatible = "renesas,r8a73a4-div6-clock", "renesas,cpg-div6-clock";
-> -		reg = <0 0xe615007c 0 4>;
-> -		clocks = <&pll1_div2_clk>, <&cpg_clocks R8A73A4_CLK_PLL2S>,
-> -			 <0>, <&extal2_clk>;
-> -		#clock-cells = <0>;
-> -		clock-output-names = "sdhi2ck";
-> -	};
-> -- 
-> 2.17.1
-> 
+  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git gmsl/v9
+
+This latest v9 brings in a few minor comments from v8, and has been
+successfully tested to capture from all 4 inputs simultaneously.
+
+We're very much hoping that we can aim to get the max9286 into the next
+merge-window. Please let us know if there are any issues blocking this.
+
+Jacopo Mondi (2):
+  dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+  media: i2c: Add RDACM20 driver
+
+Kieran Bingham (1):
+  media: i2c: Add MAX9286 driver
+
+Laurent Pinchart (1):
+  dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  159 ++
+ .../bindings/media/i2c/maxim,max9286.yaml     |  287 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   22 +
+ drivers/media/i2c/Kconfig                     |   26 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/max9271.c                   |  341 +++++
+ drivers/media/i2c/max9271.h                   |  224 +++
+ drivers/media/i2c/max9286.c                   | 1332 +++++++++++++++++
+ drivers/media/i2c/rdacm20.c                   |  667 +++++++++
+ 10 files changed, 3063 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
+ create mode 100644 drivers/media/i2c/max9286.c
+ create mode 100644 drivers/media/i2c/rdacm20.c
 
 -- 
-Regards,
-Niklas Söderlund
+2.25.1
+
