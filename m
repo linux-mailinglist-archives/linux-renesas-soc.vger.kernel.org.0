@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 899AA1CFE11
+	by mail.lfdr.de (Postfix) with ESMTP id 1A6911CFE10
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2020 21:12:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725950AbgELTMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1725938AbgELTMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 12 May 2020 15:12:23 -0400
-Received: from mga04.intel.com ([192.55.52.120]:1114 "EHLO mga04.intel.com"
+Received: from mga03.intel.com ([134.134.136.65]:28866 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728070AbgELTMX (ORCPT
+        id S1725950AbgELTMX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 12 May 2020 15:12:23 -0400
-IronPort-SDR: XxPVYbKNhebcDk5SD3cMNLGU4NTmMpr+3FGCS6Ov552+PejfFv61IGJnxKfhFXuvbJbTwQs+Hz
- W/sCUsDUZSLA==
+IronPort-SDR: yYcTgmBoKOSFg5eZYFZ1y+VkQx4rFJ/qfNgREYihas6p8jccglLu0jyutfRjAN30jvgcdfasoP
+ WQ9dnADWGYag==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 12:12:23 -0700
-IronPort-SDR: DiHvnEbNLDKrC4kgypYYdg7RTr1PqCcn2Npobakc7VAerOWg6J+X/Svl21PyXeYBvMEi8n6HR4
- eb5n+lYEbgfQ==
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 12:12:22 -0700
+IronPort-SDR: zLmb2MUgdJ8FP39NdyU+12g4W8KDV1TUYhupypQHKgVbFfuMZRTl2oUqNQz7v6RxbwLe2Q8pnW
+ 3VTMGtujAHpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,384,1583222400"; 
-   d="scan'208";a="437210779"
+   d="scan'208";a="341005429"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 May 2020 12:12:21 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 May 2020 12:12:21 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jYaKC-000EUc-Ug; Wed, 13 May 2020 03:12:20 +0800
-Date:   Wed, 13 May 2020 03:11:58 +0800
+        id 1jYaKC-000EQE-Aq; Wed, 13 May 2020 03:12:20 +0800
+Date:   Wed, 13 May 2020 03:12:00 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 0a37928ab404424a3c9a8731cba3331f3512fb0b
-Message-ID: <5ebaf4fe.rbPisVy25fHZ905M%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.8] BUILD SUCCESS
+ 0e36587c0832af5df894f5e5fcc45fb5a05cea5b
+Message-ID: <5ebaf500.x9PATyY59VMkuuPE%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: 0a37928ab404424a3c9a8731cba3331f3512fb0b  Merge branch 'renesas-next' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.8
+branch HEAD: 0e36587c0832af5df894f5e5fcc45fb5a05cea5b  arm64: dts: renesas: r8a774c0-cat874: Add support for AISTARVISION MIPI Adapter V2.1
 
 elapsed time: 483m
 
-configs tested: 107
-configs skipped: 3
+configs tested: 115
+configs skipped: 25
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -63,19 +63,30 @@ arm64                            allyesconfig
 arm64                               defconfig
 arm64                            allmodconfig
 arm64                             allnoconfig
+sparc                            allyesconfig
+m68k                             allyesconfig
 m68k                        stmark2_defconfig
 arm                       aspeed_g4_defconfig
+sh                      rts7751r2d1_defconfig
+powerpc                     ep8248e_defconfig
+openrisc                    or1ksim_defconfig
 h8300                     edosk2674_defconfig
 sh                           se7751_defconfig
 i386                                defconfig
 arm                           tegra_defconfig
 sh                            hp6xx_defconfig
-xtensa                         virt_defconfig
-arm                         axm55xx_defconfig
-arm                          prima2_defconfig
-i386                              debian-10.3
+arm64                            alldefconfig
+arm                        vexpress_defconfig
+m68k                        m5272c3_defconfig
+sh                             sh03_defconfig
+arm                         lpc32xx_defconfig
+sh                            titan_defconfig
+arc                           tb10x_defconfig
+powerpc                         wii_defconfig
+s390                                defconfig
 i386                              allnoconfig
 i386                             allyesconfig
+i386                              debian-10.3
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                              allnoconfig
@@ -84,7 +95,6 @@ m68k                             allmodconfig
 m68k                              allnoconfig
 m68k                           sun3_defconfig
 m68k                                defconfig
-m68k                             allyesconfig
 nios2                               defconfig
 nios2                            allyesconfig
 openrisc                            defconfig
@@ -143,9 +153,7 @@ riscv                            allmodconfig
 s390                             allyesconfig
 s390                              allnoconfig
 s390                             allmodconfig
-s390                                defconfig
 x86_64                              defconfig
-sparc                            allyesconfig
 sparc                               defconfig
 sparc64                             defconfig
 sparc64                           allnoconfig
