@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F1701CFC61
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2020 19:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0071CFD05
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 May 2020 20:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729271AbgELRlL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 May 2020 13:41:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39794 "EHLO
+        id S1730912AbgELSRU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 May 2020 14:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgELRlK (ORCPT
+        with ESMTP id S1730908AbgELSRT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 May 2020 13:41:10 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13001C05BD09
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 10:41:10 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 145so6671020pfw.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 10:41:10 -0700 (PDT)
+        Tue, 12 May 2020 14:17:19 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5FAC05BD0A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 11:17:19 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id x2so6740471pfx.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 May 2020 11:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=96qH2V3vtCzHUtoAS8IdjpzafuqckAb3yXK46glz4bo=;
-        b=PgaEb08CuAV8u451gbp1RdyUL4+yAZKNwICpwN6/mgzyCxk4buen8rIszfh3zHJ+NF
-         FUTuVXpMeuQsAjYy0yrOVpr9Q9mI8p6Q6kSYX1z9aV1l42CEOYi4n8U2viXLFlRA+4jC
-         Y8JMYIG0UX5turhhVvH1Ywek3AU4RuR8AYyRYjtrwA+xvIGK8yVfJuTbDVd1DoP+AGxA
-         orjUm8e0DL/7irF0o2pIFnkss4+04rBP/zHPsT2uVMW/H2pr5L7MrzEHHOCDKjJPghAY
-         MwWH/c/gRfHqmoZtyy7xDI950h70ivZF5A3IDiqe3B8eReZNXWTCMWSutXiDfhaE60af
-         U0Wg==
+        bh=v3Rtz4zM5EQMYQmQW+AF0BF582tqFRbYnQOIbab4DbI=;
+        b=fpoGeGSJ+h7fidUVC2lvV1Bzre1xgKDaFjL5OUNetV8lLWT8w6LSZhruTdTDmhu8hA
+         2Qj7jav02Cu/00DZwmExqYWticCRr1Mt57S1PlcOW7wkdI9nX7n7pZvngXSSESeYHbQL
+         gazVBQ9jnkxr39Alpmo2wjyJ48vpWbmH6QCnTXKH0RNNdFg5xEHrPkVhi3UikUnORA5W
+         PQ/PzjY6IOaqI6sLCfoUgovYJ4Pwn3xUVuOQUJmzCUAjqy/aYWII/5R2sojz6kJuXo2k
+         EaSW+yov7/LEWcsG3yMeZHVEfPr0kT3CPishMxM7MpWb8G1qoy951WQC3VhgJnheMP0Z
+         Uovw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=96qH2V3vtCzHUtoAS8IdjpzafuqckAb3yXK46glz4bo=;
-        b=ItFExuaNTaFQ4VDnQrCLgfD6Oym7whgb7COVq3eP+VoZbOZdeIHl9vvCROk0TSdUH/
-         nDiG0wU85oqGg7XF5rD1rsX6gFBuNjvIbmw0OUPSQSRttF0szb5AnuhcQdoHVuspv7KA
-         U++cHOGTjgGFZwC8GGpQNt2iR/EcY1wETF9rp6/IUbB1MU8qyIqIOtMoYBuCo5+vjCYx
-         2hyfAtqN6XIGBbkB7Xe4Y83XtrpPqH4V7jijtqJZ63Mfhtl5JaW5XwPky5s6XSHzRP8O
-         Hi+cemIx+4iPMMWpXFx/3i+hUgtDuO8tey+PJQ5lDFkLkGBOsV9Ppn/IQllo+MMLW7NB
-         XpmQ==
-X-Gm-Message-State: AGi0PuYP4wdfNFqdJs7VgdFpz/QF46D7xiGEReWW6L+cegtBCYJkQl8I
-        YcIY4ZvI+lgtCp0doggR1Rq8
-X-Google-Smtp-Source: APiQypI3oFCdPO4DwVpTTZFEWvskjKcW5ofwKq7rjcsCPqi6VbiBfWI8e1O6fxFR/YbMrhbBzIVIUQ==
-X-Received: by 2002:a63:5c04:: with SMTP id q4mr19894803pgb.53.1589305268900;
-        Tue, 12 May 2020 10:41:08 -0700 (PDT)
+        bh=v3Rtz4zM5EQMYQmQW+AF0BF582tqFRbYnQOIbab4DbI=;
+        b=f1tbGVZVRE8SIMqpismGltcYRZBpqP3K8FOaCvb6/Tz+84VFSKQGtu5sckUEGvzuAg
+         yEmoqVdYQJrBc4PELUQZ7s9De2sGVFiam1Iv0OXqS2b7N7eayNKH6pIafBy4zrfFcQ0u
+         EwnCHrhot/aM6V1IrvyNZcpOYjMdp5+bNV2Dw4cnQgBcP4EAiT1l09Yp9IToYsaPj52h
+         aVq6LzDJtzBwYH5e9BPMY+DNBXBRxKjGpCQk1c28s5S1eabCqBY+o+zzC1eScOKpBSCH
+         +DZQ7Up6hsU9pG8M0M5n3PmURWbuYz7XQ109MaBC1XTYmYzm/v5Pzh6G3k9WuC6o6+Ga
+         Zqdw==
+X-Gm-Message-State: AGi0PuYjC6Sk1bL2N5jvoJMIg8hkBVJdQguCGIFmLVL3sFinrvOqG5pk
+        Ldew/kKznkwyN9ZIZb3r7iVy
+X-Google-Smtp-Source: APiQypK9+5a0H9AgkvOldW7uHf0tIpnBI5DRzGRjsDhPo1Y6OhsdjSzG6czFfKsC3+USS7Kr2ohvZQ==
+X-Received: by 2002:a63:b604:: with SMTP id j4mr20320103pgf.124.1589307438073;
+        Tue, 12 May 2020 11:17:18 -0700 (PDT)
 Received: from Mani-XPS-13-9360 ([157.46.15.210])
-        by smtp.gmail.com with ESMTPSA id x4sm12268479pfj.76.2020.05.12.10.40.58
+        by smtp.gmail.com with ESMTPSA id b16sm12614472pfi.74.2020.05.12.11.17.09
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 May 2020 10:41:07 -0700 (PDT)
-Date:   Tue, 12 May 2020 23:10:56 +0530
+        Tue, 12 May 2020 11:17:17 -0700 (PDT)
+Date:   Tue, 12 May 2020 23:47:06 +0530
 From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
@@ -68,7 +68,7 @@ Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
         Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
-Message-ID: <20200512174056.GH5526@Mani-XPS-13-9360>
+Message-ID: <20200512181706.GA21014@Mani-XPS-13-9360>
 References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
  <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
@@ -81,8 +81,6 @@ Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
-
-Hi Kieran,
 
 On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
 > The MAX9286 is a 4-channel GMSL deserializer with coax or STP input and
@@ -447,851 +445,9 @@ On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
 > +	struct v4l2_async_notifier notifier;
 > +};
 > +
-> +static struct max9286_source *next_source(struct max9286_priv *priv,
-> +					  struct max9286_source *source)
-> +{
-> +	if (!source)
-> +		source = &priv->sources[0];
-> +	else
-> +		source++;
-> +
-> +	for (; source < &priv->sources[MAX9286_NUM_GMSL]; source++) {
-> +		if (source->fwnode)
-> +			return source;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +#define for_each_source(priv, source) \
-> +	for ((source) = NULL; ((source) = next_source((priv), (source))); )
-> +
-> +#define to_index(priv, source) ((source) - &(priv)->sources[0])
-> +
-> +static inline struct max9286_priv *sd_to_max9286(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct max9286_priv, sd);
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * I2C IO
-> + */
-> +
-> +static int max9286_read(struct max9286_priv *priv, u8 reg)
-> +{
-> +	int ret;
-> +
-> +	ret = i2c_smbus_read_byte_data(priv->client, reg);
-> +	if (ret < 0)
-> +		dev_err(&priv->client->dev,
-> +			"%s: register 0x%02x read failed (%d)\n",
-> +			__func__, reg, ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int max9286_write(struct max9286_priv *priv, u8 reg, u8 val)
-> +{
-> +	int ret;
-> +
-> +	ret = i2c_smbus_write_byte_data(priv->client, reg, val);
-> +	if (ret < 0)
-> +		dev_err(&priv->client->dev,
-> +			"%s: register 0x%02x write failed (%d)\n",
-> +			__func__, reg, ret);
-> +
-> +	return ret;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * I2C Multiplexer
-> + */
-> +
-> +static void max9286_i2c_mux_configure(struct max9286_priv *priv, u8 conf)
-> +{
-> +	max9286_write(priv, 0x0a, conf);
-> +
-> +	/*
-> +	 * We must sleep after any change to the forward or reverse channel
-> +	 * configuration.
-> +	 */
-> +	usleep_range(3000, 5000);
-> +}
-> +
-> +static void max9286_i2c_mux_open(struct max9286_priv *priv)
-> +{
-> +	/* Open all channels on the MAX9286 */
-> +	max9286_i2c_mux_configure(priv, 0xff);
-> +
-> +	priv->mux_open = true;
-> +}
-> +
-> +static void max9286_i2c_mux_close(struct max9286_priv *priv)
-> +{
-> +	/*
-> +	 * Ensure that both the forward and reverse channel are disabled on the
-> +	 * mux, and that the channel ID is invalidated to ensure we reconfigure
-> +	 * on the next max9286_i2c_mux_select() call.
-> +	 */
-> +	max9286_i2c_mux_configure(priv, 0x00);
-> +
-> +	priv->mux_open = false;
-> +	priv->mux_channel = -1;
-> +}
-> +
-> +static int max9286_i2c_mux_select(struct i2c_mux_core *muxc, u32 chan)
-> +{
-> +	struct max9286_priv *priv = i2c_mux_priv(muxc);
-> +
-> +	/* Channel select is disabled when configured in the opened state. */
-> +	if (priv->mux_open)
-> +		return 0;
-> +
-> +	if (priv->mux_channel == chan)
-> +		return 0;
-> +
-> +	priv->mux_channel = chan;
-> +
-> +	max9286_i2c_mux_configure(priv,
-> +				  MAX9286_FWDCCEN(chan) |
-> +				  MAX9286_REVCCEN(chan));
-> +
-> +	return 0;
-> +}
-> +
-> +static int max9286_i2c_mux_init(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(priv->client->adapter,
-> +				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA))
-> +		return -ENODEV;
-> +
-> +	priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
-> +				  priv->nsources, 0, I2C_MUX_LOCKED,
-> +				  max9286_i2c_mux_select, NULL);
-> +	if (!priv->mux)
-> +		return -ENOMEM;
-> +
-> +	priv->mux->priv = priv;
-> +
-> +	for_each_source(priv, source) {
-> +		unsigned int index = to_index(priv, source);
-> +
-> +		ret = i2c_mux_add_adapter(priv->mux, 0, index, 0);
-> +		if (ret < 0)
-> +			goto error;
-> +	}
-> +
-> +	return 0;
-> +
-> +error:
-> +	i2c_mux_del_adapters(priv->mux);
-> +	return ret;
-> +}
-> +
-> +static void max9286_configure_i2c(struct max9286_priv *priv, bool localack)
-> +{
-> +	u8 config = MAX9286_I2CSLVSH_469NS_234NS | MAX9286_I2CSLVTO_1024US |
-> +		    MAX9286_I2CMSTBT_105KBPS;
-> +
-> +	if (localack)
-> +		config |= MAX9286_I2CLOCACK;
-> +
-> +	max9286_write(priv, 0x34, config);
-> +	usleep_range(3000, 5000);
-> +}
-> +
-> +/*
-> + * max9286_check_video_links() - Make sure video links are detected and locked
-> + *
-> + * Performs safety checks on video link status. Make sure they are detected
-> + * and all enabled links are locked.
-> + *
-> + * Returns 0 for success, -EIO for errors.
-> + */
-> +static int max9286_check_video_links(struct max9286_priv *priv)
-> +{
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	/*
-> +	 * Make sure valid video links are detected.
-> +	 * The delay is not characterized in de-serializer manual, wait up
-> +	 * to 5 ms.
-> +	 */
-> +	for (i = 0; i < 10; i++) {
-> +		ret = max9286_read(priv, 0x49);
-> +		if (ret < 0)
-> +			return -EIO;
-> +
-> +		if ((ret & MAX9286_VIDEO_DETECT_MASK) == priv->source_mask)
-> +			break;
-> +
-> +		usleep_range(350, 500);
-> +	}
-> +
-> +	if (i == 10) {
-> +		dev_err(&priv->client->dev,
-> +			"Unable to detect video links: 0x%02x\n", ret);
-> +		return -EIO;
-> +	}
-> +
-> +	/* Make sure all enabled links are locked (4ms max). */
-> +	for (i = 0; i < 10; i++) {
-> +		ret = max9286_read(priv, 0x27);
-> +		if (ret < 0)
-> +			return -EIO;
-> +
-> +		if (ret & MAX9286_LOCKED)
-> +			break;
-> +
-> +		usleep_range(350, 450);
-> +	}
-> +
-> +	if (i == 10) {
-> +		dev_err(&priv->client->dev, "Not all enabled links locked\n");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * max9286_check_config_link() - Detect and wait for configuration links
-> + *
-> + * Determine if the configuration channel is up and settled for a link.
-> + *
-> + * Returns 0 for success, -EIO for errors.
-> + */
-> +static int max9286_check_config_link(struct max9286_priv *priv,
-> +				     unsigned int source_mask)
-> +{
-> +	unsigned int conflink_mask = (source_mask & 0x0f) << 4;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	/*
-> +	 * Make sure requested configuration links are detected.
-> +	 * The delay is not characterized in the chip manual: wait up
-> +	 * to 5 milliseconds.
-> +	 */
-> +	for (i = 0; i < 10; i++) {
-> +		ret = max9286_read(priv, 0x49) & 0xf0;
-> +		if (ret < 0)
-> +			return -EIO;
-> +
-> +		if (ret == conflink_mask)
-> +			break;
-> +
-> +		usleep_range(350, 500);
-> +	}
-> +
-> +	if (ret != conflink_mask) {
-> +		dev_err(&priv->client->dev,
-> +			"Unable to detect configuration links: 0x%02x expected 0x%02x\n",
-> +			ret, conflink_mask);
-> +		return -EIO;
-> +	}
-> +
-> +	dev_info(&priv->client->dev,
-> +		 "Successfully detected configuration links after %u loops: 0x%02x\n",
-> +		 i, conflink_mask);
-> +
-> +	return 0;
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * V4L2 Subdev
-> + */
-> +
-> +static int max9286_set_pixelrate(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source = NULL;
-> +	u64 pixelrate = 0;
-> +
-> +	for_each_source(priv, source) {
-> +		struct v4l2_ctrl *ctrl;
-> +		u64 source_rate = 0;
-> +
-> +		/* Pixel rate is mandatory to be reported by sources. */
-> +		ctrl = v4l2_ctrl_find(source->sd->ctrl_handler,
-> +				      V4L2_CID_PIXEL_RATE);
-> +		if (!ctrl) {
-> +			pixelrate = 0;
-> +			break;
-> +		}
-> +
-> +		/* All source must report the same pixel rate. */
-> +		source_rate = v4l2_ctrl_g_ctrl_int64(ctrl);
-> +		if (!pixelrate) {
-> +			pixelrate = source_rate;
-> +		} else if (pixelrate != source_rate) {
-> +			dev_err(&priv->client->dev,
-> +				"Unable to calculate pixel rate\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	if (!pixelrate) {
-> +		dev_err(&priv->client->dev,
-> +			"No pixel rate control available in sources\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * The CSI-2 transmitter pixel rate is the single source rate multiplied
-> +	 * by the number of available sources.
-> +	 */
-> +	return v4l2_ctrl_s_ctrl_int64(priv->pixelrate,
-> +				      pixelrate * priv->nsources);
-> +}
-> +
-> +static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
-> +				struct v4l2_subdev *subdev,
-> +				struct v4l2_async_subdev *asd)
-> +{
-> +	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
-> +	struct max9286_source *source = asd_to_max9286_source(asd);
-> +	unsigned int index = to_index(priv, source);
-> +	unsigned int src_pad;
-> +	int ret;
-> +
-> +	ret = media_entity_get_fwnode_pad(&subdev->entity,
-> +					  source->fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (ret < 0) {
-> +		dev_err(&priv->client->dev,
-> +			"Failed to find pad for %s\n", subdev->name);
-> +		return ret;
-> +	}
-> +
-> +	priv->bound_sources |= BIT(index);
-> +	source->sd = subdev;
-> +	src_pad = ret;
-> +
-> +	ret = media_create_pad_link(&source->sd->entity, src_pad,
-> +				    &priv->sd.entity, index,
-> +				    MEDIA_LNK_FL_ENABLED |
-> +				    MEDIA_LNK_FL_IMMUTABLE);
-> +	if (ret) {
-> +		dev_err(&priv->client->dev,
-> +			"Unable to link %s:%u -> %s:%u\n",
-> +			source->sd->name, src_pad, priv->sd.name, index);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(&priv->client->dev, "Bound %s pad: %u on index %u\n",
-> +		subdev->name, src_pad, index);
-> +
-> +	/*
-> +	 * We can only register v4l2_async_notifiers, which do not provide a
-> +	 * means to register a complete callback. bound_sources allows us to
-> +	 * identify when all remote serializers have completed their probe.
-> +	 */
-> +	if (priv->bound_sources != priv->source_mask)
-> +		return 0;
-> +
-> +	/*
-> +	 * All enabled sources have probed and enabled their reverse control
-> +	 * channels:
-> +	 *
-> +	 * - Verify all configuration links are properly detected
-> +	 * - Disable auto-ack as communication on the control channel are now
-> +	 *   stable.
-> +	 */
-> +	max9286_check_config_link(priv, priv->source_mask);
-> +
-> +	/*
-> +	 * Re-configure I2C with local acknowledge disabled after cameras have
-> +	 * probed.
-> +	 */
-> +	max9286_configure_i2c(priv, false);
-> +
-> +	return max9286_set_pixelrate(priv);
-> +}
-> +
-> +static void max9286_notify_unbind(struct v4l2_async_notifier *notifier,
-> +				  struct v4l2_subdev *subdev,
-> +				  struct v4l2_async_subdev *asd)
-> +{
-> +	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
-> +	struct max9286_source *source = asd_to_max9286_source(asd);
-> +	unsigned int index = to_index(priv, source);
-> +
-> +	source->sd = NULL;
-> +	priv->bound_sources &= ~BIT(index);
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations max9286_notify_ops = {
-> +	.bound = max9286_notify_bound,
-> +	.unbind = max9286_notify_unbind,
-> +};
-> +
-> +static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct max9286_source *source = NULL;
-> +	int ret;
-> +
-> +	if (!priv->nsources)
-> +		return 0;
-> +
-> +	v4l2_async_notifier_init(&priv->notifier);
-> +
-> +	for_each_source(priv, source) {
-> +		unsigned int i = to_index(priv, source);
-> +
-> +		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> +		source->asd.match.fwnode = source->fwnode;
-> +
-> +		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
-> +						     &source->asd);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to add subdev for source %d", i);
-> +			v4l2_async_notifier_cleanup(&priv->notifier);
-> +			return ret;
-> +		}
-> +
-> +		/*
-> +		 * Balance the reference counting handled through
-> +		 * v4l2_async_notifier_cleanup()
-> +		 */
-> +		fwnode_handle_get(source->fwnode);
-> +	}
-> +
-> +	priv->notifier.ops = &max9286_notify_ops;
-> +
-> +	ret = v4l2_async_subdev_notifier_register(&priv->sd, &priv->notifier);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register subdev_notifier");
-> +		v4l2_async_notifier_cleanup(&priv->notifier);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void max9286_v4l2_notifier_unregister(struct max9286_priv *priv)
-> +{
-> +	if (!priv->nsources)
-> +		return;
-> +
-> +	v4l2_async_notifier_unregister(&priv->notifier);
-> +	v4l2_async_notifier_cleanup(&priv->notifier);
-> +}
-> +
-> +static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
-> +{
-> +	struct max9286_priv *priv = sd_to_max9286(sd);
-> +	struct max9286_source *source;
-> +	unsigned int i;
-> +	bool sync = false;
-> +	int ret;
-> +
-> +	if (enable) {
-> +		/*
-> +		 * The frame sync between cameras is transmitted across the
-> +		 * reverse channel as GPIO. We must open all channels while
-> +		 * streaming to allow this synchronisation signal to be shared.
-> +		 */
-> +		max9286_i2c_mux_open(priv);
-> +
-> +		/* Start all cameras. */
-> +		for_each_source(priv, source) {
-> +			ret = v4l2_subdev_call(source->sd, video, s_stream, 1);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +		ret = max9286_check_video_links(priv);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/*
-> +		 * Wait until frame synchronization is locked.
-> +		 *
-> +		 * Manual says frame sync locking should take ~6 VTS.
-> +		 * From practical experience at least 8 are required. Give
-> +		 * 12 complete frames time (~400ms at 30 fps) to achieve frame
-> +		 * locking before returning error.
-> +		 */
-> +		for (i = 0; i < 40; i++) {
-> +			if (max9286_read(priv, 0x31) & MAX9286_FSYNC_LOCKED) {
-> +				sync = true;
-> +				break;
-> +			}
-> +			usleep_range(9000, 11000);
-> +		}
-> +
-> +		if (!sync) {
-> +			dev_err(&priv->client->dev,
-> +				"Failed to get frame synchronization\n");
-> +			return -EXDEV; /* Invalid cross-device link */
-> +		}
-> +
-> +		/*
-> +		 * Enable CSI output, VC set according to link number.
-> +		 * Bit 7 must be set (chip manual says it's 0 and reserved).
-> +		 */
-> +		max9286_write(priv, 0x15, 0x80 | MAX9286_VCTYPE |
-> +			      MAX9286_CSIOUTEN | MAX9286_0X15_RESV);
-> +	} else {
-> +		max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> +
-> +		/* Stop all cameras. */
-> +		for_each_source(priv, source)
-> +			v4l2_subdev_call(source->sd, video, s_stream, 0);
-> +
-> +		max9286_i2c_mux_close(priv);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_pad_config *cfg,
-> +				  struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	if (code->pad || code->index > 0)
-> +		return -EINVAL;
-> +
-> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct v4l2_mbus_framefmt *
-> +max9286_get_pad_format(struct max9286_priv *priv,
-> +		       struct v4l2_subdev_pad_config *cfg,
-> +		       unsigned int pad, u32 which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &priv->fmt[pad];
-> +	default:
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static int max9286_set_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *format)
-> +{
-> +	struct max9286_priv *priv = sd_to_max9286(sd);
-> +	struct v4l2_mbus_framefmt *cfg_fmt;
-> +
-> +	if (format->pad >= MAX9286_SRC_PAD)
-> +		return -EINVAL;
-> +
-> +	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
-> +	switch (format->format.code) {
-> +	case MEDIA_BUS_FMT_UYVY8_2X8:
-> +	case MEDIA_BUS_FMT_VYUY8_2X8:
-> +	case MEDIA_BUS_FMT_YUYV8_2X8:
-> +	case MEDIA_BUS_FMT_YVYU8_2X8:
-> +		break;
-> +	default:
-> +		format->format.code = MEDIA_BUS_FMT_YUYV8_2X8;
 
-Is there any reason for not setting default format to MEDIA_BUS_FMT_UYVY8_2X8?
+[...]
 
-Thanks,
-Mani
-
-> +		break;
-> +	}
-> +
-> +	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-> +	if (!cfg_fmt)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&priv->mutex);
-> +	*cfg_fmt = format->format;
-> +	mutex_unlock(&priv->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static int max9286_get_fmt(struct v4l2_subdev *sd,
-> +			   struct v4l2_subdev_pad_config *cfg,
-> +			   struct v4l2_subdev_format *format)
-> +{
-> +	struct max9286_priv *priv = sd_to_max9286(sd);
-> +	struct v4l2_mbus_framefmt *cfg_fmt;
-> +
-> +	if (format->pad >= MAX9286_SRC_PAD)
-> +		return -EINVAL;
-> +
-> +	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-> +	if (!cfg_fmt)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&priv->mutex);
-> +	format->format = *cfg_fmt;
-> +	mutex_unlock(&priv->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops max9286_video_ops = {
-> +	.s_stream	= max9286_s_stream,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops max9286_pad_ops = {
-> +	.enum_mbus_code = max9286_enum_mbus_code,
-> +	.get_fmt	= max9286_get_fmt,
-> +	.set_fmt	= max9286_set_fmt,
-> +};
-> +
-> +static const struct v4l2_subdev_ops max9286_subdev_ops = {
-> +	.video		= &max9286_video_ops,
-> +	.pad		= &max9286_pad_ops,
-> +};
-> +
-> +static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
-> +{
-> +	fmt->width		= 1280;
-> +	fmt->height		= 800;
-> +	fmt->code		= MEDIA_BUS_FMT_UYVY8_2X8;
-> +	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
-> +	fmt->field		= V4L2_FIELD_NONE;
-> +	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
-> +	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
-> +	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
-> +}
-> +
-> +static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
-> +{
-> +	struct v4l2_mbus_framefmt *format;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < MAX9286_N_SINKS; i++) {
-> +		format = v4l2_subdev_get_try_format(subdev, fh->pad, i);
-> +		max9286_init_format(format);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops max9286_subdev_internal_ops = {
-> +	.open = max9286_open,
-> +};
-> +
-> +static int max9286_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_PIXEL_RATE:
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const struct v4l2_ctrl_ops max9286_ctrl_ops = {
-> +	.s_ctrl	= max9286_s_ctrl,
-> +};
-> +
-> +static int max9286_v4l2_register(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct fwnode_handle *ep;
-> +	int ret;
-> +	int i;
-> +
-> +	/* Register v4l2 async notifiers for connected Camera subdevices */
-> +	ret = max9286_v4l2_notifier_register(priv);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to register V4L2 async notifiers\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Configure V4L2 for the MAX9286 itself */
-> +
-> +	for (i = 0; i < MAX9286_N_SINKS; i++)
-> +		max9286_init_format(&priv->fmt[i]);
-> +
-> +	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
-> +	priv->sd.internal_ops = &max9286_subdev_internal_ops;
-> +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +
-> +	v4l2_ctrl_handler_init(&priv->ctrls, 1);
-> +	priv->pixelrate = v4l2_ctrl_new_std(&priv->ctrls,
-> +					    &max9286_ctrl_ops,
-> +					    V4L2_CID_PIXEL_RATE,
-> +					    1, INT_MAX, 1, 50000000);
-> +
-> +	priv->sd.ctrl_handler = &priv->ctrls;
-> +	ret = priv->ctrls.error;
-> +	if (ret)
-> +		goto err_async;
-> +
-> +	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +
-> +	priv->pads[MAX9286_SRC_PAD].flags = MEDIA_PAD_FL_SOURCE;
-> +	for (i = 0; i < MAX9286_SRC_PAD; i++)
-> +		priv->pads[i].flags = MEDIA_PAD_FL_SINK;
-> +	ret = media_entity_pads_init(&priv->sd.entity, MAX9286_N_PADS,
-> +				     priv->pads);
-> +	if (ret)
-> +		goto err_async;
-> +
-> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), MAX9286_SRC_PAD,
-> +					     0, 0);
-> +	if (!ep) {
-> +		dev_err(dev, "Unable to retrieve endpoint on \"port@4\"\n");
-> +		ret = -ENOENT;
-> +		goto err_async;
-> +	}
-> +	priv->sd.fwnode = ep;
-> +
-> +	ret = v4l2_async_register_subdev(&priv->sd);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Unable to register subdevice\n");
-> +		goto err_put_node;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_put_node:
-> +	fwnode_handle_put(ep);
-> +err_async:
-> +	max9286_v4l2_notifier_unregister(priv);
-> +
-> +	return ret;
-> +}
-> +
-> +static void max9286_v4l2_unregister(struct max9286_priv *priv)
-> +{
-> +	fwnode_handle_put(priv->sd.fwnode);
-> +	v4l2_async_unregister_subdev(&priv->sd);
-> +	max9286_v4l2_notifier_unregister(priv);
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Probe/Remove
-> + */
-> +
-> +static int max9286_setup(struct max9286_priv *priv)
-> +{
-> +	/*
-> +	 * Link ordering values for all enabled links combinations. Orders must
-> +	 * be assigned sequentially from 0 to the number of enabled links
-> +	 * without leaving any hole for disabled links. We thus assign orders to
-> +	 * enabled links first, and use the remaining order values for disabled
-> +	 * links are all links must have a different order value;
-> +	 */
-> +	static const u8 link_order[] = {
-> +		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xxxx */
-> +		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xxx0 */
-> +		(3 << 6) | (2 << 4) | (0 << 2) | (1 << 0), /* xx0x */
-> +		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* xx10 */
-> +		(3 << 6) | (0 << 4) | (2 << 2) | (1 << 0), /* x0xx */
-> +		(3 << 6) | (1 << 4) | (2 << 2) | (0 << 0), /* x1x0 */
-> +		(3 << 6) | (1 << 4) | (0 << 2) | (2 << 0), /* x10x */
-> +		(3 << 6) | (1 << 4) | (1 << 2) | (0 << 0), /* x210 */
-> +		(0 << 6) | (3 << 4) | (2 << 2) | (1 << 0), /* 0xxx */
-> +		(1 << 6) | (3 << 4) | (2 << 2) | (0 << 0), /* 1xx0 */
-> +		(1 << 6) | (3 << 4) | (0 << 2) | (2 << 0), /* 1x0x */
-> +		(2 << 6) | (3 << 4) | (1 << 2) | (0 << 0), /* 2x10 */
-> +		(1 << 6) | (0 << 4) | (3 << 2) | (2 << 0), /* 10xx */
-> +		(2 << 6) | (1 << 4) | (3 << 2) | (0 << 0), /* 21x0 */
-> +		(2 << 6) | (1 << 4) | (0 << 2) | (3 << 0), /* 210x */
-> +		(3 << 6) | (2 << 4) | (1 << 2) | (0 << 0), /* 3210 */
-> +	};
-> +
-> +	/*
-> +	 * Set the I2C bus speed.
-> +	 *
-> +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
-> +	 * only. This should be disabled after the mux is initialised.
-> +	 */
-> +	max9286_configure_i2c(priv, true);
-> +
-> +	/*
-> +	 * Reverse channel setup.
-> +	 *
-> +	 * - Enable custom reverse channel configuration (through register 0x3f)
-> +	 *   and set the first pulse length to 35 clock cycles.
-> +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
-> +	 *   high threshold enabled by the serializer driver.
-> +	 */
-> +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
-> +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
-> +		      MAX9286_REV_AMP_X);
-> +	usleep_range(2000, 2500);
-> +
-> +	/*
-> +	 * Enable GMSL links, mask unused ones and autodetect link
-> +	 * used as CSI clock source.
-> +	 */
-> +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
-> +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
-> +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
-> +
-> +	/*
-> +	 * Video format setup:
-> +	 * Disable CSI output, VC is set according to Link number.
-> +	 */
-> +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
-> +
-> +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
-> +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
-> +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
-> +		      MAX9286_DATATYPE_YUV422_8BIT);
-> +
-> +	/* Automatic: FRAMESYNC taken from the slowest Link. */
-> +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
-> +		      MAX9286_FSYNCMETH_AUTO);
-> +
-> +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
-> +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
-> +		      MAX9286_HVSRC_D14);
-> +
-> +	/*
-> +	 * The overlap window seems to provide additional validation by tracking
-> +	 * the delay between vsync and frame sync, generating an error if the
-> +	 * delay is bigger than the programmed window, though it's not yet clear
-> +	 * what value should be set.
-> +	 *
-> +	 * As it's an optional value and can be disabled, we do so by setting
-> +	 * a 0 overlap value.
-> +	 */
-> +	max9286_write(priv, 0x63, 0);
-> +	max9286_write(priv, 0x64, 0);
-> +
-> +	/*
-> +	 * Wait for 2ms to allow the link to resynchronize after the
-> +	 * configuration change.
-> +	 */
-> +	usleep_range(2000, 5000);
-> +
-> +	return 0;
-> +}
-> +
-> +static void max9286_gpio_set(struct gpio_chip *chip,
-> +			     unsigned int offset, int value)
-> +{
-> +	struct max9286_priv *priv = gpiochip_get_data(chip);
-> +
-> +	if (value)
-> +		priv->gpio_state |= BIT(offset);
-> +	else
-> +		priv->gpio_state &= ~BIT(offset);
-> +
-> +	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
-> +}
-> +
-> +static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	struct max9286_priv *priv = gpiochip_get_data(chip);
-> +
-> +	return priv->gpio_state & BIT(offset);
-> +}
-> +
 > +static int max9286_register_gpio(struct max9286_priv *priv)
 > +{
 > +	struct device *dev = &priv->client->dev;
@@ -1305,6 +461,10 @@ Mani
 > +
 > +	/* Configure the GPIO */
 > +	gpio->label = dev_name(dev);
+
+So if you have more than one MAX9286 in a system, all gpiochips will appear
+with the same name. I'd recommend to append the index to distinguish properly.
+
 > +	gpio->parent = dev;
 > +	gpio->owner = THIS_MODULE;
 > +	gpio->of_node = dev->of_node;
@@ -1325,67 +485,9 @@ Mani
 > +	return ret;
 > +}
 > +
-> +static int max9286_init(struct device *dev)
-> +{
-> +	struct max9286_priv *priv;
-> +	struct i2c_client *client;
-> +	int ret;
-> +
-> +	client = to_i2c_client(dev);
-> +	priv = i2c_get_clientdata(client);
-> +
-> +	/* Enable the bus power. */
-> +	ret = regulator_enable(priv->regulator);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "Unable to turn PoC on\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = max9286_setup(priv);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to setup max9286\n");
-> +		goto err_regulator;
-> +	}
-> +
-> +	/*
-> +	 * Register all V4L2 interactions for the MAX9286 and notifiers for
-> +	 * any subdevices connected.
-> +	 */
-> +	ret = max9286_v4l2_register(priv);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register with V4L2\n");
-> +		goto err_regulator;
-> +	}
-> +
-> +	ret = max9286_i2c_mux_init(priv);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to initialize I2C multiplexer\n");
-> +		goto err_v4l2_register;
-> +	}
-> +
-> +	/* Leave the mux channels disabled until they are selected. */
-> +	max9286_i2c_mux_close(priv);
-> +
-> +	return 0;
-> +
-> +err_v4l2_register:
-> +	max9286_v4l2_unregister(priv);
-> +err_regulator:
-> +	regulator_disable(priv->regulator);
-> +
-> +	return ret;
-> +}
-> +
-> +static void max9286_cleanup_dt(struct max9286_priv *priv)
-> +{
-> +	struct max9286_source *source;
-> +
-> +	for_each_source(priv, source) {
-> +		fwnode_handle_put(source->fwnode);
-> +		source->fwnode = NULL;
-> +	}
-> +}
-> +
+
+[...]
+
 > +static int max9286_parse_dt(struct max9286_priv *priv)
 > +{
 > +	struct device *dev = &priv->client->dev;
@@ -1394,6 +496,9 @@ Mani
 > +	unsigned int i2c_mux_mask = 0;
 > +
 > +	of_node_get(dev->of_node);
+
+Why this is needed?
+
 > +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
 > +	if (!i2c_mux) {
 > +		dev_err(dev, "Failed to find i2c-mux node\n");
@@ -1500,78 +605,9 @@ Mani
 > +	return 0;
 > +}
 > +
-> +static int max9286_probe(struct i2c_client *client)
-> +{
-> +	struct max9286_priv *priv;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&priv->mutex);
-> +
-> +	priv->client = client;
-> +	i2c_set_clientdata(client, priv);
-> +
-> +	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->gpiod_pwdn))
-> +		return PTR_ERR(priv->gpiod_pwdn);
-> +
-> +	gpiod_set_consumer_name(priv->gpiod_pwdn, "max9286-pwdn");
-> +	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-> +
-> +	/* Wait at least 4ms before the I2C lines latch to the address */
-> +	if (priv->gpiod_pwdn)
-> +		usleep_range(4000, 5000);
-> +
-> +	/*
-> +	 * The MAX9286 starts by default with all ports enabled, we disable all
-> +	 * ports early to ensure that all channels are disabled if we error out
-> +	 * and keep the bus consistent.
-> +	 */
-> +	max9286_i2c_mux_close(priv);
-> +
-> +	/*
-> +	 * The MAX9286 initialises with auto-acknowledge enabled by default.
-> +	 * This can be invasive to other transactions on the same bus, so
-> +	 * disable it early. It will be enabled only as and when needed.
-> +	 */
-> +	max9286_configure_i2c(priv, false);
-> +
-> +	ret = max9286_register_gpio(priv);
-> +	if (ret)
-> +		goto err_powerdown;
-> +
-> +	priv->regulator = devm_regulator_get(&client->dev, "poc");
-> +	if (IS_ERR(priv->regulator)) {
-> +		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
-> +			dev_err(&client->dev,
-> +				"Unable to get PoC regulator (%ld)\n",
-> +				PTR_ERR(priv->regulator));
-> +		ret = PTR_ERR(priv->regulator);
-> +		goto err_powerdown;
-> +	}
-> +
-> +	ret = max9286_parse_dt(priv);
-> +	if (ret)
-> +		goto err_powerdown;
-> +
-> +	ret = max9286_init(&client->dev);
-> +	if (ret < 0)
-> +		goto err_cleanup_dt;
-> +
-> +	return 0;
-> +
-> +err_cleanup_dt:
-> +	max9286_cleanup_dt(priv);
-> +err_powerdown:
-> +	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> +
-> +	return ret;
-> +}
-> +
+
+[...]
+
 > +static int max9286_remove(struct i2c_client *client)
 > +{
 > +	struct max9286_priv *priv = i2c_get_clientdata(client);
@@ -1583,6 +619,13 @@ Mani
 > +	regulator_disable(priv->regulator);
 > +
 > +	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+
+Usual power down sequence is to pull the power down gpio low and then turn off
+the regulators. This helps in clearing up the internal state machine properly.
+
+Thanks,
+Mani
+
 > +
 > +	max9286_cleanup_dt(priv);
 > +
