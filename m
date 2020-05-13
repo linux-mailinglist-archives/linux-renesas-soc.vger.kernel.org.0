@@ -2,48 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB9F41D15B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2020 15:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1241D1612
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2020 15:42:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387843AbgEMNhX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 May 2020 09:37:23 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42585 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbgEMNhW (ORCPT
+        id S1728981AbgEMNmr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 May 2020 09:42:47 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38225 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727792AbgEMNmr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 May 2020 09:37:22 -0400
-Received: by mail-oi1-f195.google.com with SMTP id i13so21417765oie.9;
-        Wed, 13 May 2020 06:37:22 -0700 (PDT)
+        Wed, 13 May 2020 09:42:47 -0400
+Received: by mail-oi1-f196.google.com with SMTP id r66so21437312oie.5;
+        Wed, 13 May 2020 06:42:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=flC28VEmzcLHIWCG84LHrOxcpu2xfAtYlxFbQDCrZ4Y=;
-        b=l7BnDTwWsSzrscW6KBx4EfegGcEBd7hRXKRCIEf1hFToVjonmLrnPjzb8CaR82OBDR
-         u3GUNmVT5Yo3lDztpZRowsYgE7uYoL0X23+9f6l6g0iEHp1tZqfEjPzokR2JSLeG6mwn
-         Tsrs6N6L3D7fE3yL9PTJTMZHZkFFfIc9E/iKMyASWMI3tQ/D21KJJfd3RC48+bv7JLXa
-         bTj81TcJWyeZVCth/6C8tVseJL/iatVSVU0afCa0OAZSgdOIgykg0BpdbuT+iMICrI54
-         hRtGdWmk09hgaYn1CpN/MT+v0CMxu0jEf6dwMmI5FIVjBgvZ8jBtx8kDhq7zQ7eSXQko
-         HrYQ==
-X-Gm-Message-State: AGi0PuYkPpmPCqD0QDfWk/TUAZmhIeXAivoMjJ3SB5T7w5C28TsbB/Dc
-        9jtT+spsFdR6vfi0lOGun+RTIMA2pZp3ei/NkirIDQ==
-X-Google-Smtp-Source: APiQypJ/7jZWojdyVGEwGQBhACnaZea0Aw4UDYa/vAQCLXlR44i0X8oFoQ2i4yfDkK1keNqTqy3ODJDgK5iBdx+g8iY=
-X-Received: by 2002:aca:d50f:: with SMTP id m15mr27258950oig.54.1589377041636;
- Wed, 13 May 2020 06:37:21 -0700 (PDT)
+        bh=0AJqwk7cM9EuyVKFIeU+8pHEwO2wGhZt8sZ99CVUFbw=;
+        b=uLRBaohPqmwWeI/3K+lkCuAa2l9ABROedS9C1Vkdt6WdqAQFsyaAbcWLyhLj5/VSq1
+         57h8UU4EfhPjtnJljr9UgLPmVmpXtgo17dL+mq3TjkcttOr86JVMO4Gqr/G48+4zM6HJ
+         OMxShXtXYjsbvIWzUTkSgoEQ0UGan8hylyzAzvM2B1UEu20wtiqT8EfuxzWnje9dkK3b
+         JwHLR6TJ0rn0m6RNxDfn4BsIF/9dNByQH3kOa3rZFe4mOgV7IrLpIDBnWwx22fKQW11+
+         +1j2MhkM0z0KyLLyXdovph6KsJxe1EWKX20++NGQ8+SgZtDwgcWTdfuq60SyC19diNuw
+         TvYw==
+X-Gm-Message-State: AGi0Pua01bm5aNaDwlOByROJxvt8dAy2K3Fhm7v+W9fMgQ+9mZo1T6bI
+        LbAHxv4dbynAVUyBr/xdaRSQSl7qfN8e46ZMibI=
+X-Google-Smtp-Source: APiQypKM3qNMrM7Mr8xKsVEdw0prpk+GU776ZUdk9Tin4YaeuL5902yDkTymzSQYsbtZg2ReeJKhdXpNMrDE4SOePgI=
+X-Received: by 2002:aca:cd93:: with SMTP id d141mr4637006oig.148.1589377366271;
+ Wed, 13 May 2020 06:42:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200505154944.4598-1-geert+renesas@glider.be>
-In-Reply-To: <20200505154944.4598-1-geert+renesas@glider.be>
+References: <20200507075503.32291-1-geert+renesas@glider.be>
+In-Reply-To: <20200507075503.32291-1-geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 May 2020 15:37:10 +0200
-Message-ID: <CAMuHMdXuD8+5Lc5vEN2rqyBtvzb-i0gS7qcUWPtip1BGEh1VXQ@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas: tmu: Convert to json-schema
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Wed, 13 May 2020 15:42:35 +0200
+Message-ID: <CAMuHMdVyFW-oWsDsOAC+H4f3oQZpwH=dPQHy3djgHnEJ-81+ug@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: irqchip: renesas-intc-irqpin: Convert to json-schema
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -51,30 +53,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 5, 2020 at 5:50 PM Geert Uytterhoeven
+On Thu, May 7, 2020 at 9:55 AM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
-> Convert the Renesas R-Mobile/R-Car Timer Unit (TMU) Device Tree binding
-> documentation to json-schema.
+> From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 >
-> Document missing properties.
-> Update the example to match reality.
+> Convert the Renesas Interrupt Controller (INTC) for external pins Device
+> Tree binding documentation to json-schema.
 >
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> Co-developed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
 
-> +  '#renesas,channels':
+> +  sense-bitfield-width:
 > +    allOf:
 > +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [ 2, 3 ]
-> +      - default: 3
+> +      - enum: [2, 4]
+> +        default: 4
 
-The "allOf" is no longer needed.  Will remove for v3.
+The "allOf" is no longer needed.  Will remove for v4.
 
 > +    description:
-> +      Number of channels implemented by the timer.
+> +      Width of a single sense bitfield in the SENSE register, if different from the
+> +      default.
 
 Gr{oetje,eeting}s,
 
