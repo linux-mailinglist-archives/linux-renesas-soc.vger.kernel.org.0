@@ -2,82 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1241D1612
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2020 15:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 334071D162A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 May 2020 15:44:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728981AbgEMNmr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 May 2020 09:42:47 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38225 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727792AbgEMNmr (ORCPT
+        id S2388073AbgEMNoC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 May 2020 09:44:02 -0400
+Received: from mail-oo1-f65.google.com ([209.85.161.65]:43873 "EHLO
+        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388412AbgEMNoB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 May 2020 09:42:47 -0400
-Received: by mail-oi1-f196.google.com with SMTP id r66so21437312oie.5;
-        Wed, 13 May 2020 06:42:46 -0700 (PDT)
+        Wed, 13 May 2020 09:44:01 -0400
+Received: by mail-oo1-f65.google.com with SMTP id u190so3451603ooa.10;
+        Wed, 13 May 2020 06:44:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0AJqwk7cM9EuyVKFIeU+8pHEwO2wGhZt8sZ99CVUFbw=;
-        b=uLRBaohPqmwWeI/3K+lkCuAa2l9ABROedS9C1Vkdt6WdqAQFsyaAbcWLyhLj5/VSq1
-         57h8UU4EfhPjtnJljr9UgLPmVmpXtgo17dL+mq3TjkcttOr86JVMO4Gqr/G48+4zM6HJ
-         OMxShXtXYjsbvIWzUTkSgoEQ0UGan8hylyzAzvM2B1UEu20wtiqT8EfuxzWnje9dkK3b
-         JwHLR6TJ0rn0m6RNxDfn4BsIF/9dNByQH3kOa3rZFe4mOgV7IrLpIDBnWwx22fKQW11+
-         +1j2MhkM0z0KyLLyXdovph6KsJxe1EWKX20++NGQ8+SgZtDwgcWTdfuq60SyC19diNuw
-         TvYw==
-X-Gm-Message-State: AGi0Pua01bm5aNaDwlOByROJxvt8dAy2K3Fhm7v+W9fMgQ+9mZo1T6bI
-        LbAHxv4dbynAVUyBr/xdaRSQSl7qfN8e46ZMibI=
-X-Google-Smtp-Source: APiQypKM3qNMrM7Mr8xKsVEdw0prpk+GU776ZUdk9Tin4YaeuL5902yDkTymzSQYsbtZg2ReeJKhdXpNMrDE4SOePgI=
-X-Received: by 2002:aca:cd93:: with SMTP id d141mr4637006oig.148.1589377366271;
- Wed, 13 May 2020 06:42:46 -0700 (PDT)
+        bh=IGKMJBv6IVV+ZJVKpbzNCSGNRznENNkFR7QK8ZNTnxA=;
+        b=U5dd+wYfit5FH4KM99ZRZDznk9ox0Q/oodmxHBiogSvoV1YLgfHt4YG1dIcr746DXa
+         GxrU1xMQUYg+Q5qufxJltwBGzzCQ9yaKX1xrvzDr/U9MakT2MXflu92pvVkl6hIooNzG
+         VCrqB6AFqVKs99oSc/QGq2997q5rcGnR1Qgz1QfThjkLczTx4T0IPBxVuGzRvv169IOc
+         rMgLPmVJgst4N/TdSoRG5lrD9/3GO1+gI1qjjyOg0Iq2rqvO8W+yHaHBAIGwZb2nkBXH
+         bSuBBqnQixL/caJPAOnJDMg+wWlnKY5RtFokr2noLl90Dn5O5hki0dyGDajKl/8Qbex6
+         Drpw==
+X-Gm-Message-State: AGi0PuZB40Xbn5LOzXhKHmadiPVy5dx9ZzPOQwh168gPvzgpZX0YWexf
+        Crr02p4NNeLUlBVFFLe2+Slf4bErQo32CqxCbdACMb2m
+X-Google-Smtp-Source: APiQypL+2lJnUROW1UEEKWpONZKDcso4AD8SYMWDqL70oePtirqIs+zY8nx+QxAg1IJ2NhLGhotKSqXPjpCnhQFJpD4=
+X-Received: by 2002:a4a:95d0:: with SMTP id p16mr9973911ooi.40.1589377440348;
+ Wed, 13 May 2020 06:44:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200507075503.32291-1-geert+renesas@glider.be>
-In-Reply-To: <20200507075503.32291-1-geert+renesas@glider.be>
+References: <20200508100231.6575-1-geert+renesas@glider.be>
+In-Reply-To: <20200508100231.6575-1-geert+renesas@glider.be>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 May 2020 15:42:35 +0200
-Message-ID: <CAMuHMdVyFW-oWsDsOAC+H4f3oQZpwH=dPQHy3djgHnEJ-81+ug@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: irqchip: renesas-intc-irqpin: Convert to json-schema
+Date:   Wed, 13 May 2020 15:43:49 +0200
+Message-ID: <CAMuHMdVpTVdcMDxpvtxHYTYHNNrZA018nrGNoQ2cXdNgbSa-ww@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: clock: renesas: cpg: Convert to json-schema
 To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 7, 2020 at 9:55 AM Geert Uytterhoeven
+On Fri, May 8, 2020 at 12:02 PM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
-> From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> Convert the Renesas Clock Pulse Generator (CPG) Device Tree
+> binding documentation to json-schema, combining support for:
+>   - R-Mobile APE6 (R8A73A4) and A1 (R8A7740),
+>   - R-Car M1 (R8A7778) and H1 (R8A7779),
+>   - RZ/A1 (R7S72100),
+>   - SH-Mobile AG5 (SH73A0).
 >
-> Convert the Renesas Interrupt Controller (INTC) for external pins Device
-> Tree binding documentation to json-schema.
+> Keep the example for R-Mobile A1, which shows most properties.
+> Drop the consumer examples, as they do not belong here.
 >
-> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> Co-developed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-clocks.yaml
 
-> +  sense-bitfield-width:
+> +  renesas,mode:
+> +    description: Board-specific settings of the MD_CK* bits on R-Mobile A1
 > +    allOf:
 > +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [2, 4]
-> +        default: 4
+> +      - minimum: 0
+> +        maximum: 7
 
-The "allOf" is no longer needed.  Will remove for v4.
-
-> +    description:
-> +      Width of a single sense bitfield in the SENSE register, if different from the
-> +      default.
+The "allOf" is no longer needed.  Will remove for v2.
 
 Gr{oetje,eeting}s,
 
