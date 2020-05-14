@@ -2,411 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0B9E1D4052
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 23:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ADB21D406D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 00:03:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgENVmY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 May 2020 17:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727029AbgENVmX (ORCPT
+        id S1726133AbgENWD2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 May 2020 18:03:28 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:50491 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbgENWD2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 May 2020 17:42:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DF1C061A0C;
-        Thu, 14 May 2020 14:42:23 -0700 (PDT)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6189D26A;
-        Thu, 14 May 2020 23:42:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589492541;
-        bh=J9P+vZZXv5Zyw860VWhuv2oVcd0leM2twqSlW3e+DpI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LKkB8JK4FhxE8E7ORTUvFdGVN388uWGvk9wILw3AyC9x9FA3/o1a2gRN0TOxqI93N
-         quRDsqAeTBHA8cBBCd5K7tkjP5bQjuMDO49vU3zgUZhlDjLKyEe+pEv/ZFPNUVdasd
-         fXRYZVaEdCKJGgQTrKy2BWlcHBRge6+X2CPeb9yA=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v1.2 4/4] dt-bindings: display: bridge: renesas,lvds: Convert binding to YAML
-Date:   Fri, 15 May 2020 00:42:11 +0300
-Message-Id: <20200514214211.9036-1-laurent.pinchart+renesas@ideasonboard.com>
+        Thu, 14 May 2020 18:03:28 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id F3A423C04C1;
+        Fri, 15 May 2020 00:03:24 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id o1TOWhpVUiKY; Fri, 15 May 2020 00:03:16 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 9B5E93C04C0;
+        Fri, 15 May 2020 00:03:16 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.5) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 15 May
+ 2020 00:03:16 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        <stable@vger.kernel.org>, Hardik Gajjar <hgajjar@de.adit-jv.com>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH] usb: core: hub: limit HUB_QUIRK_DISABLE_AUTOSUSPEND to USB5534B
+Date:   Fri, 15 May 2020 00:02:46 +0200
+Message-ID: <20200514220246.13290-1-erosca@de.adit-jv.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200514213742.GO5955@pendragon.ideasonboard.com>
-References: <20200514213742.GO5955@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.72.94.5]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas R-Car LVDS encoder text binding to YAML.
+On Tue, May 12, 2020 at 09:36:07PM +0800, Kai-Heng Feng wrote [1]:
+> This patch prevents my Raven Ridge xHCI from getting runtime suspend.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
+The problem described in v5.6 commit 1208f9e1d758c9 ("USB: hub: Fix the
+broken detection of USB3 device in SMSC hub") applies solely to the
+USB5534B hub [2] present on the Kingfisher Infotainment Carrier Board,
+manufactured by Shimafuji Electric Inc [3].
+
+Despite that, the aforementioned commit applied the quirk to _all_ hubs
+carrying vendor ID 0x424 (i.e. SMSC), of which there are more [4] than
+initially expected. Consequently, the quirk is now enabled on platforms
+carrying SMSC/Microchip hub models which potentially don't exhibit the
+original issue.
+
+To avoid reports like [1], further limit the quirk's scope to
+USB5534B [2], by employing both Vendor and Product ID checks.
+
+Tested on H3ULCB + Kingfisher rev. M05.
+
+[1] https://lore.kernel.org/linux-renesas-soc/73933975-6F0E-40F5-9584-D2B8F615C0F3@canonical.com/
+[2] https://www.microchip.com/wwwproducts/en/USB5534B
+[3] http://www.shimafuji.co.jp/wp/wp-content/uploads/2018/08/SBEV-RCAR-KF-M06Board_HWSpecificationEN_Rev130.pdf
+[4] https://devicehunt.com/search/type/usb/vendor/0424/device/any
+
+Fixes: 1208f9e1d758c9 ("USB: hub: Fix the broken detection of USB3 device in SMSC hub")
+Cc: stable@vger.kernel.org # v4.14+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 ---
-Changes since v1:
+ drivers/usb/core/hub.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-- Mention RZ/G1 and R2/G2 explicitly
-- Drop the part numbers in comments, only keep the SoC names
-- Use one address and size cell in the examples
----
- .../bindings/display/bridge/renesas,lvds.txt  |  85 ------
- .../bindings/display/bridge/renesas,lvds.yaml | 248 ++++++++++++++++++
- 2 files changed, 248 insertions(+), 85 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-deleted file mode 100644
-index c62ce2494ed9..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-+++ /dev/null
-@@ -1,85 +0,0 @@
--Renesas R-Car LVDS Encoder
--==========================
--
--These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
--Gen2, R-Car Gen3 and RZ/G SoCs.
--
--Required properties:
--
--- compatible : Shall contain one of
--  - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
--  - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
--  - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
--  - "renesas,r8a774b1-lvds" for R8A774B1 (RZ/G2N) compatible LVDS encoders
--  - "renesas,r8a774c0-lvds" for R8A774C0 (RZ/G2E) compatible LVDS encoders
--  - "renesas,r8a7790-lvds" for R8A7790 (R-Car H2) compatible LVDS encoders
--  - "renesas,r8a7791-lvds" for R8A7791 (R-Car M2-W) compatible LVDS encoders
--  - "renesas,r8a7793-lvds" for R8A7793 (R-Car M2-N) compatible LVDS encoders
--  - "renesas,r8a7795-lvds" for R8A7795 (R-Car H3) compatible LVDS encoders
--  - "renesas,r8a7796-lvds" for R8A7796 (R-Car M3-W) compatible LVDS encoders
--  - "renesas,r8a77965-lvds" for R8A77965 (R-Car M3-N) compatible LVDS encoders
--  - "renesas,r8a77970-lvds" for R8A77970 (R-Car V3M) compatible LVDS encoders
--  - "renesas,r8a77980-lvds" for R8A77980 (R-Car V3H) compatible LVDS encoders
--  - "renesas,r8a77990-lvds" for R8A77990 (R-Car E3) compatible LVDS encoders
--  - "renesas,r8a77995-lvds" for R8A77995 (R-Car D3) compatible LVDS encoders
--
--- reg: Base address and length for the memory-mapped registers
--- clocks: A list of phandles + clock-specifier pairs, one for each entry in
--  the clock-names property.
--- clock-names: Name of the clocks. This property is model-dependent.
--  - The functional clock, which mandatory for all models, shall be listed
--    first, and shall be named "fck".
--  - On R8A77990, R8A77995 and R8A774C0, the LVDS encoder can use the EXTAL or
--    DU_DOTCLKINx clocks. Those clocks are optional. When supplied they must be
--    named "extal" and "dclkin.x" respectively, with "x" being the DU_DOTCLKIN
--    numerical index.
--  - When the clocks property only contains the functional clock, the
--    clock-names property may be omitted.
--- resets: A phandle + reset specifier for the module reset
--
--Required nodes:
--
--The LVDS encoder has two video ports. Their connections are modelled using the
--OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--- Video port 0 corresponds to the parallel RGB input
--- Video port 1 corresponds to the LVDS output
--
--Each port shall have a single endpoint.
--
--Optional properties:
--
--- renesas,companion : phandle to the companion LVDS encoder. This property is
--  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
--  the second encoder to be used as a companion in dual-link mode. It shall not
--  be set for any other LVDS encoder.
--
--
--Example:
--
--	lvds0: lvds@feb90000 {
--		compatible = "renesas,r8a77990-lvds";
--		reg = <0 0xfeb90000 0 0x20>;
--		clocks = <&cpg CPG_MOD 727>;
--		power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
--		resets = <&cpg 727>;
--
--		renesas,companion = <&lvds1>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				lvds0_in: endpoint {
--					remote-endpoint = <&du_out_lvds0>;
--				};
--			};
--			port@1 {
--				reg = <1>;
--				lvds0_out: endpoint {
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-new file mode 100644
-index 000000000000..98c7330a9485
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-@@ -0,0 +1,248 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car LVDS Encoder
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
-+  Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r8a7743-lvds # for RZ/G1M compatible LVDS encoders
-+      - renesas,r8a7744-lvds # for RZ/G1N compatible LVDS encoders
-+      - renesas,r8a774a1-lvds # for RZ/G2M compatible LVDS encoders
-+      - renesas,r8a774b1-lvds # for RZ/G2N compatible LVDS encoders
-+      - renesas,r8a774c0-lvds # for RZ/G2E compatible LVDS encoders
-+      - renesas,r8a7790-lvds # for R-Car H2 compatible LVDS encoders
-+      - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
-+      - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-+      - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
-+      - renesas,r8a7796-lvds # for R-Car M3-W compatible LVDS encoders
-+      - renesas,r8a77965-lvds # for R-Car M3-N compatible LVDS encoders
-+      - renesas,r8a77970-lvds # for R-Car V3M compatible LVDS encoders
-+      - renesas,r8a77980-lvds # for R-Car V3H compatible LVDS encoders
-+      - renesas,r8a77990-lvds # for R-Car E3 compatible LVDS encoders
-+      - renesas,r8a77995-lvds # for R-Car D3 compatible LVDS encoders
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 4
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 4
-+
-+  resets:
-+    maxItems: 1
-+
-+  ports:
-+    type: object
-+    description: |
-+      This device has two video ports. Their connections are modelled using the
-+      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-+      Each port shall have a single endpoint.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        description: Parallel RGB input port
-+
-+      port@1:
-+        type: object
-+        description: LVDS output port
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+    additionalProperties: false
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  renesas,companion:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      phandle to the companion LVDS encoder. This property is mandatory
-+      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-+      the second encoder to be used as a companion in dual-link mode. It
-+      shall not be set for any other LVDS encoder.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - power-domains
-+  - resets
-+  - ports
-+
-+if:
-+  properties:
-+    compatible:
-+      enum:
-+        - renesas,r8a774c0-lvds
-+        - renesas,r8a77990-lvds
-+        - renesas,r8a77995-lvds
-+then:
-+  properties:
-+    clocks:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - description: Functional clock
-+        - description: EXTAL input clock
-+        - description: DU_DOTCLKIN0 input clock
-+        - description: DU_DOTCLKIN1 input clock
-+
-+    clock-names:
-+      minItems: 1
-+      maxItems: 4
-+      items:
-+        - const: fck
-+        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
-+        # These clocks are optional.
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+        - enum:
-+          - extal
-+          - dclkin.0
-+          - dclkin.1
-+
-+  required:
-+    - clock-names
-+
-+else:
-+  properties:
-+    clocks:
-+      maxItems: 1
-+      items:
-+        - description: Functional clock
-+
-+    clock-names:
-+      maxItems: 1
-+      items:
-+        - const: fck
-+
-+    renesas,companion: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    lvds@feb90000 {
-+        compatible = "renesas,r8a7795-lvds";
-+        reg = <0xfeb90000 0x14>;
-+        clocks = <&cpg CPG_MOD 727>;
-+        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds_out: endpoint {
-+                    remote-endpoint = <&panel_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a77990-sysc.h>
-+
-+    lvds0: lvds@feb90000 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0xfeb90000 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 727>;
-+
-+        renesas,companion = <&lvds1>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds0_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds0>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds0_out: endpoint {
-+                    remote-endpoint = <&panel_in1>;
-+                };
-+            };
-+        };
-+    };
-+
-+    lvds1: lvds@feb90100 {
-+        compatible = "renesas,r8a77990-lvds";
-+        reg = <0xfeb90100 0x20>;
-+        clocks = <&cpg CPG_MOD 727>,
-+                 <&x13_clk>,
-+                 <&extal_clk>;
-+        clock-names = "fck", "dclkin.0", "extal";
-+        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+        resets = <&cpg 726>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                lvds1_in: endpoint {
-+                    remote-endpoint = <&du_out_lvds1>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                lvds1_out: endpoint {
-+                    remote-endpoint = <&panel_in2>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 2b6565c06c23..fc748c731832 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -39,6 +39,7 @@
+ 
+ #define USB_VENDOR_GENESYS_LOGIC		0x05e3
+ #define USB_VENDOR_SMSC				0x0424
++#define USB_PRODUCT_USB5534B			0x5534
+ #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
+ #define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
+ 
+@@ -5621,8 +5622,11 @@ static void hub_event(struct work_struct *work)
+ }
+ 
+ static const struct usb_device_id hub_id_table[] = {
+-    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
++    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
++                   | USB_DEVICE_ID_MATCH_PRODUCT
++                   | USB_DEVICE_ID_MATCH_INT_CLASS,
+       .idVendor = USB_VENDOR_SMSC,
++      .idProduct = USB_PRODUCT_USB5534B,
+       .bInterfaceClass = USB_CLASS_HUB,
+       .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
 -- 
-Regards,
-
-Laurent Pinchart
+2.26.2
 
