@@ -2,169 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18E6B1D3047
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 14:48:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB9101D3061
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 14:55:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbgENMsy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 May 2020 08:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47894 "EHLO
+        id S1726146AbgENMzA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 May 2020 08:55:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726465AbgENMsu (ORCPT
+        by vger.kernel.org with ESMTP id S1725955AbgENMy6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 May 2020 08:48:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F8ACC061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:48:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id j5so3936908wrq.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:48:49 -0700 (PDT)
+        Thu, 14 May 2020 08:54:58 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C3CC061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:54:58 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id fu13so12409952pjb.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:54:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=62ThcoQQkZYvL5yCnSLL8GIcFvCptahsYnoaZAWGRJg=;
-        b=EbsahtREYD+n8WRYdeybpBmo3gJStn2oiYHOtU/zJEaDGmuEXiKZlwNypLesQkpgRG
-         GfhH1JvrAWT031BRkY+ZOcmgLE6dRB4AG0it0ieiaw3DJnE8W8On+FAE69TcNTUs3UR+
-         5wXVOE/T5/8Cii/AIVy2YAvs9yRKwcN0v4At3G33pJIH95bJNTbCV0E/7cWH9ffevK33
-         kFdcr18rGprAY7xfDN6YM+NVFYOF7fiFZ+ShLb28jqmvvLTZ1KhAj61cN5VEl+zUrglV
-         6Ti4UogDGqF0A4EEiq0PeIRXfVxKsV5tPqD6H/l0tAEfuNDL6IeqsGB4/+wfSKLxDbvX
-         Y65A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ykYESektuuAs4fxdwhpS+W2PEu4CUUWNtuOBpOz6IO0=;
+        b=A5wxChtja0zyfIlgljKfQi2T5xChb36u8VARHty8k3274zIco0RA7tU28L2B/5VrVB
+         yYI9nURQGStHKFRoz/htHb9OGEzWay7IWLZ+09QlGCucCxuJAYrbMq0pppggCVy0rM9T
+         qwAqo065ulpi4cV9763sscVDXmR+li+EDCIsG1nKgF+UfleptXvrrvrCtH9yANt4Jj0R
+         UJvQK+xtQOOtOxTRYrZ5pwZwVXWT1du6WY8BWagxIsETvtstrDsGvJ2NWD+xsxv1dhot
+         FUh6ZRu7xiddX304QQfIj32PCbTlgscDPnnBrqMazk1H1yAMQB33IlsZ8Qq7+myiQo8m
+         hvCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=62ThcoQQkZYvL5yCnSLL8GIcFvCptahsYnoaZAWGRJg=;
-        b=nDkfWEhqZ8RJ7MOV34h6n2xODLAUhRqmotsERRsyLRZtzTLGZ75FmYF4wNsSFU0Db0
-         jWEEc7wYOa0Y05ukjVjckCOWgOHscpl0Oyi6Ti4n2Pp/Tg0bw+Dd9pJEeP8TWGDDWORy
-         NWT+yL7rpGg4w3b2WTKAUeCVEinRxDfqWUVGlodDOfzTOhnQ45kk1+MS5+O2lCY4mbBR
-         HZrUtZYjpYHa5/wpDDz9NsQ4XcUWvLWh5vKjVW9QOPIQZ+O0HPPoQccE3b2iE1QwRhGe
-         uQq1t698QaJL5sbcTfdDcLksafLMQ8jcHTIlClj00A14MhARFvQ+pQespJQYpD9uZUFA
-         HkDQ==
-X-Gm-Message-State: AOAM533v2heWRoxz7zxt/QJKxvtrZ/G4fgm8JgLjuq4x497MiSpxImw0
-        Q/SEXg1/46bkU3C63+s8FW8o8hjiWZrGGQ==
-X-Google-Smtp-Source: ABdhPJxIdSLHjxFCyl71IXdbw16costEWTNmPyiSfbUOkFnWAWMXtXfy/wkzG/jhKDl1Ys1+VC0OmA==
-X-Received: by 2002:adf:d4ce:: with SMTP id w14mr5080235wrk.232.1589460528110;
-        Thu, 14 May 2020 05:48:48 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:4460:3fd3:382:4a71? ([2a01:e35:2ec0:82b0:4460:3fd3:382:4a71])
-        by smtp.gmail.com with ESMTPSA id s8sm3733931wrt.69.2020.05.14.05.48.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 05:48:47 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm: meson: dw-hdmi: Use dw_hdmi context to replace
- hack
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200514011707.6512-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200514011707.6512-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <b2f023b9-6fcf-7e1c-5617-7fe39fd7b06d@baylibre.com>
-Date:   Thu, 14 May 2020 14:48:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ykYESektuuAs4fxdwhpS+W2PEu4CUUWNtuOBpOz6IO0=;
+        b=QC88+wsEtgWoIuZ9jO30Wp4VkLUzmssHIwkKim+OlujyYi5pHm4h8rAhGbYT6CwwnY
+         9zCU5FTegnESJlCUZ92mbFQLIa9QtVslJ/5XRyGzmJkWow84iPvVt/0rusFe0QOL10d7
+         A/c838n1fj/XXw0qvLdrlLO6HEII4ypPLg+wurrBVcbbdwvV45U8euLFjuq8rkXne+/S
+         Ha6FwXXy4Rv083ge0ODtWpK0GsaIFCpv0YIUiOSwicgzX8+mbCt51BeMUBXXTKpJLBv1
+         PnyE1W4t5th4Eds/Mc+aw/0BK3vJPgBkc7v0bUuDURLWw7r3ajgLkGXlKSXuidwwCKeF
+         DTGQ==
+X-Gm-Message-State: AOAM533k5puVcxmB/5n5gy0+vlqkKkww8ALWXXIP3HLr1CvxNynaOfTN
+        5xm25Km0vrcMSCG0jIkvPo9I6vtxdSmM
+X-Google-Smtp-Source: ABdhPJw2mf6FeDCXmZdPz9l80fNlBw60RDF/xOoU3YnqKuL68gEvJMskLv5lSUbduGaKdF7FroE9Rg==
+X-Received: by 2002:a17:90a:4d4a:: with SMTP id l10mr14743092pjh.0.1589460898132;
+        Thu, 14 May 2020 05:54:58 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:406:efde:ac17:556c:1ce3:639f])
+        by smtp.gmail.com with ESMTPSA id j23sm17910016pjz.13.2020.05.14.05.54.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 14 May 2020 05:54:57 -0700 (PDT)
+Date:   Thu, 14 May 2020 18:24:45 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        y@Mani-XPS-13-9360
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, sakari.ailus@iki.fi,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>, Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200514125445.GH2877@Mani-XPS-13-9360>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200512181706.GA21014@Mani-XPS-13-9360>
+ <11aca587-9438-4fba-081c-b82631e96989@ideasonboard.com>
+ <20200514101356.GF2877@Mani-XPS-13-9360>
+ <f46ed5fc-4eb0-8841-25b8-ef6c45e7ac87@ideasonboard.com>
+ <d4d0e298-b863-8c6e-c9d7-ba861a98359e@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200514011707.6512-2-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4d0e298-b863-8c6e-c9d7-ba861a98359e@ideasonboard.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 14/05/2020 03:17, Laurent Pinchart wrote:
-> The meson-dw-hdmi driver needs to access its own context from the
-> .mode_valid() operation. It currently gets it from the dev_private field
-> of the drm_device retrieved from the connector, which is a hack. Use the
-> dw_hdmi context passed to the .mode_valid() operation instead.
+On Thu, May 14, 2020 at 01:27:01PM +0100, Kieran Bingham wrote:
+> Hi Mani,
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/meson/meson_dw_hdmi.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+> On 14/05/2020 12:47, Kieran Bingham wrote:
+> > On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
+> >> Hi Kieran,
+> <snip>
 > 
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 174d45ecdeda..808e73fe8b3e 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -634,7 +634,9 @@ dw_hdmi_mode_valid(struct dw_hdmi *hdmi,
->  		   struct drm_connector *connector,
->  		   const struct drm_display_mode *mode)
->  {
-> -	struct meson_drm *priv = connector->dev->dev_private;
-> +	struct device *dev = dw_hdmi_device(hdmi);
-> +	struct meson_dw_hdmi *dw_hdmi = dev_get_drvdata(dev);
-> +	struct meson_drm *priv = dw_hdmi->priv;
-
-With *data passed, it would only be a matter of dw_hdmi = data;
-
->  	bool is_hdmi2_sink = connector->display_info.hdmi.scdc.supported;
->  	unsigned int phy_freq;
->  	unsigned int vclk_freq;
-> @@ -693,7 +695,7 @@ dw_hdmi_mode_valid(struct dw_hdmi *hdmi,
->  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
->  		venc_freq /= 2;
->  
-> -	dev_dbg(connector->dev->dev, "%s: vclk:%d phy=%d venc=%d hdmi=%d\n",
-> +	dev_dbg(dev, "%s: vclk:%d phy=%d venc=%d hdmi=%d\n",
->  		__func__, phy_freq, vclk_freq, venc_freq, hdmi_freq);
->  
->  	return meson_vclk_vic_supported_freq(priv, phy_freq, vclk_freq);
+> >>>>> +static int max9286_parse_dt(struct max9286_priv *priv)
+> >>>>> +{
+> >>>>> +	struct device *dev = &priv->client->dev;
+> >>>>> +	struct device_node *i2c_mux;
+> >>>>> +	struct device_node *node = NULL;
+> >>>>> +	unsigned int i2c_mux_mask = 0;
+> >>>>> +
+> >>>>> +	of_node_get(dev->of_node);
+> >>>>
+> >>>> Why this is needed?
+> >>>
+> >>> Hrm .. I recall adding it to solve dt reference balancing.
+> >>>
+> >>> I wish I'd added a comment at the time ... as I can't recall the details
+> >>> now.
+> >>>
+> >>
+> >> I understand that it is for the refcount balancing but I certainly don't see
+> >> a need for it.
+> > 
+> > I'll go through and try to validate this again now.
+> 
+> Aha, that's why:
+> 
+>  *	of_find_node_by_name - Find a node by its "name" property
+>  *	@from:	The node to start searching from or NULL; the node
+>  *		you pass will not be searched, only the next one
+>  *		will. Typically, you pass what the previous call
+>  *		returned. of_node_put() will be called on @from.
+>  *	@name:	The name string to match against
+> 
+> I'll add a comment to state that it is to balance the of_node_put during
+> of_find_node_by_name().
 > 
 
-Neil
+Ah, right. I mostly use of_find_node_by_name() with NULL, so didn't realize
+this.
+
+And yeah, a comment would be helpful.
+
+Thanks,
+Mani
+
+> --
+> Kieran
+> 
+> 
+> >>>>> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+> >>>>> +	if (!i2c_mux) {
+> >>>>> +		dev_err(dev, "Failed to find i2c-mux node\n");
+> >>>>> +		of_node_put(dev->of_node);
+> >>>>> +		return -EINVAL;
+> >>>>> +	}
+> >>>>> +
+> >> [...]
+> >>>>
+> -- 
+> Regards
+> --
+> Kieran
