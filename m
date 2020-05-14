@@ -2,316 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DEB81D2B10
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 11:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 546CA1D2B5A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 11:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbgENJP5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 May 2020 05:15:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725878AbgENJP4 (ORCPT
+        id S1725935AbgENJ0H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 May 2020 05:26:07 -0400
+Received: from mail-eopbgr1320117.outbound.protection.outlook.com ([40.107.132.117]:40736
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725925AbgENJ0H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 May 2020 05:15:56 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76758C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 02:15:56 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id w7so2851637wre.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 02:15:56 -0700 (PDT)
+        Thu, 14 May 2020 05:26:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GDQ0j2RaKJO8ALzSLxxUex/pJav8P6cRURwQE1U4LJYzFVq0xIwKUpC5EPso9LVzXX4DVGZk/EnQEKA9tzzghKei1ITKCJRzA2J+NGWMbrkvNF2G6uQnYbvI4g456Njej1hbGZ0O+qwSNsVPJVAGbE5VriO6EfPovB8XcpXWFMoBsFZHKf3E99nZAxQSeZIVR7Xftg7O0VRPz1La8WS6CNIkRNvkbw0S4gs3ZOcYaowmlHbDuKPp+insBRduvlGd4yDQx6Pd8r/js48Lc1ZotxVJqMcveidckOUlQN5zOCg76MAvwz1xNuJeh5rZjoipjqKyBtobO7WmxRVoLcS7GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f5UK9U7SOMoFr4iWmgj0oEqEN2BXL1t6Fpdan7xgf14=;
+ b=hRo5l3inRXXyJ5/q1+bUDOK6mEROaJgwtpCSttqwvI4gSiWVYjstuHAYy0Bb8Uy48hj8ZpIYqpri2A7wCy3fJsF8KGFUSvSxYRwOc6ORZgkjrl7Urr6uad+NEw5seyNUUWQhkEOH8dUGe2dgy8JbQOl4g4nS5YGqwYUfUZzC5UI4rxru25wDMbYBxylDp3nRm1YE1aX9e3bMvCO4Ws4MJ3e7h5qbKtaB3m9thkg1o95GjcBw57GjB25JRKuP0rwUoyllPLPGS2cW2nccLCPgBAmQmi+GYyPwsxiYP7ejfXHI6eJ9Yn1RVjJP/NadQvs6iMN/qFgr0YuKTF+jZ8Ka+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WCKnUOVcbf98k548twcPdMt01t3mRHVHjdOPfOJzcgQ=;
-        b=QpZ9AJu61UJ8yPZUJAdH/wgAi8ho2dOuRjFojnNS/ejEkcdxvFZ667yd4FhyQWbwto
-         CinA/qLw1yX8kMqQLKaUEFSosbCzO5b+N1/C02cJSh3jl3EHRSLkx7VQ6FQg2kcpkH+Q
-         3wKN1C+7hDOCq/d7w0ivZyIkqWfvfv/RC60qbkgw4HCp1+Pk7Ra1JnmnpTFvF0S9GH80
-         rOnFvfFk8gBq8m1YcBG1zYWezDjD89pUIjijvHr7LwCcu6/Jd1mLiCHlz4u4hl8LiFx1
-         JIVCJuFv6Z5HC1rHWiR9yuR2+AFWpNuZrDrltj84Xe2nVzynMwJqxVLmW3GL3mhk7IMP
-         PZFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=WCKnUOVcbf98k548twcPdMt01t3mRHVHjdOPfOJzcgQ=;
-        b=hxFyqBClNDWRG5PyJKrbdhORJ2WQvNSCjvr3+mtpceCF/eUtwt1XK/hS5febwuyfQy
-         ZA4ebAkSjwHkR0dgDT913R0mBtLNNqL/VE1sABiLhvswd+yvk9r0qHoa0MforwpJJRjg
-         axOtJS2Odxx5DAMUeNS9XRFktolqWZ2DYe2UHnDm+BojznkHCB8R5gTTxGhwIjQV2VRZ
-         qoFOso2Zg7w9VjXRtsQj77jkatXLKzNXVQrh2wiTc6KoGdNJMrDxk+6lqd0qYrLGvOpW
-         W4VI7gxTnANyreU4ImO+izUjjMRMc2VuvNZvgA/0kaM2yo9VufRmfckbTObMPxVxtObq
-         EZ7A==
-X-Gm-Message-State: AOAM532Udd73oeKL0PkKl0N8PbLMx0IG/Cha3ehfCHpxMWn1PZA9DpPX
-        cC/M3o/VDhYAFt1XLkagZanIZw==
-X-Google-Smtp-Source: ABdhPJyA1qKFlKsqBc1/FZDFABFpUVgpV2iDbEwMRZq9SwQelzSKSnCBvH6CtKz+keaKncvmLsTjmg==
-X-Received: by 2002:a5d:610e:: with SMTP id v14mr4227436wrt.159.1589447754709;
-        Thu, 14 May 2020 02:15:54 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:4460:3fd3:382:4a71? ([2a01:e35:2ec0:82b0:4460:3fd3:382:4a71])
-        by smtp.gmail.com with ESMTPSA id v124sm40147932wme.45.2020.05.14.02.15.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 02:15:53 -0700 (PDT)
-Subject: Re: [PATCH 1/2] drm: bridge: dw-hdmi: Pass dw_hdmi pointer to
- .mode_valid() operation
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200514011707.6512-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- BSwxi7g3Mu7u5kUByanqHyA=
-Organization: Baylibre
-Message-ID: <8dd2e65a-804d-2764-5a0b-e9e0286afa68@baylibre.com>
-Date:   Thu, 14 May 2020 11:15:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f5UK9U7SOMoFr4iWmgj0oEqEN2BXL1t6Fpdan7xgf14=;
+ b=eO0qn++f5GFQkFvGC3nsPLM1l7BQrVWy95E9rqNZruINjACkuSWYiOyfI8jbBHC1cOqAldXeNvIjF5sqx+OfJJn3xZ9/jbLSMM7o9yI+mvRQUBxHy2EO/jc/8y0PAoxAXPIIqI23MiPEATCaNOmzlqOzMUTvtcahlZTjJLa6ODU=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (20.178.142.214) by
+ TY2PR01MB4570.jpnprd01.prod.outlook.com (20.179.171.86) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.33; Thu, 14 May 2020 09:26:02 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2da1:bdb7:9089:7f43]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2da1:bdb7:9089:7f43%3]) with mapi id 15.20.2979.033; Thu, 14 May 2020
+ 09:26:02 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     "kishon@ti.com" <kishon@ti.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 0/4] dt-bindings: phy: add r8a77961 support
+Thread-Topic: [PATCH v4 0/4] dt-bindings: phy: add r8a77961 support
+Thread-Index: AQHWBBrcd7y2rHbfv0+Yu2gHqJGbY6inmj+Q
+Date:   Thu, 14 May 2020 09:26:02 +0000
+Message-ID: <TY2PR01MB3692334705CC2191432F3178D8BC0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1585301636-24399-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1585301636-24399-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ti.com; dkim=none (message not signed)
+ header.d=none;ti.com; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 3e7b2f8f-d793-4c39-2121-08d7f7e8d218
+x-ms-traffictypediagnostic: TY2PR01MB4570:
+x-microsoft-antispam-prvs: <TY2PR01MB4570FF303E790AB647B94200D8BC0@TY2PR01MB4570.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
+x-forefront-prvs: 040359335D
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: W9MHKaZpEo8n0oN840pRWYYULQBG6Ge0reBV/RORZanVcckFln4ikqS1y4k0IkBMWbmaEWBU5N57czlk1x+QsT0hal0w+iH6b1M2P3vkujgv4g5rYmQqX7MukQI5ruEGvAChEX7TezVf50f7eYSOjsxHte4/e9gumev1Jz6RmQMfE+9lXj2BmVzO8cyBJ0UxYjxMW9s6MBq0r6Iohot149tKNMpai0aqy1eVq8W7//W8WqbtHXnKALhW3UzlZWtJeZ6KvmoV/4o2Y4E3fm7VuFZnPS+Cvn3PQrRLtwTqzzxfTAdZFfTvaLbkvO/yH40X7uvEun8OZVcahfi8iIZbgn1Pbiwd5m/AWtTd8BqqSTEhiDGU+lo8XKsNkFgPvSgoUNyZGDN2pEP+D+HQEumqnaYsyTvgcHNFhMTDlliaxUaMdiKp0Nzp3q9sN3HM17MTEOFy9IstEpJlnvZ2I/sHbKXFF7evThnCoFU1P5vPDGLivPtHWBbiVr0ix1FZTqhMP8TFpJyb2tVVVJPt1q7RwA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(396003)(346002)(376002)(366004)(39860400002)(76116006)(33656002)(478600001)(9686003)(4326008)(55236004)(186003)(26005)(52536014)(8676002)(7696005)(86362001)(8936002)(2906002)(66946007)(5660300002)(55016002)(966005)(110136005)(54906003)(66446008)(71200400001)(6506007)(316002)(66476007)(64756008)(66556008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: OEIeXwmA/KDfrgv6h8kBMlxaNi4b8ETo3dirdQpPoqBr39r2fY65HqB6jQ9yjO6H6uIDbpUjQy2dCk3IFHmxrn0swHtLR1uFI1AtTDmtRqvLcf6upFASWmmIN70FpuLDCGBG0DUBb7AtkwXWbZvpsDXExm2Lwd2dz0XZBJbjJflw7g9ENZp9Bcnj6XQy2aDf2nzFSELp2DKmcWx94yQLviKdWAUXNiUD0sBZLpkQa8+Q+B0KvPyYlxuVic1RJsI7CNsWieNGuJvvaYUGx5cpx3igWsOp25y6LFu+vkEtHBKR5lkPfUWTTAJAz3uRntGTC1/l6r12jA4GENW4m7TUD+9OIQYMvdP0v3Rrmjheb7a8iv95rUhGr3e9yvJ6Sn4qXg4sVVv9ICcIUF2D14PQyuWx+SAzjLoMSy82BNayc2xhyxq8xwwMlqVFtC1gm0dKFeUrOPJk+swI2liYM/RvSV8Y88ul8Ga1EZsSrIyBlu0Jzj27C3cYof1G8MHPGTrt
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20200514011707.6512-1-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e7b2f8f-d793-4c39-2121-08d7f7e8d218
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2020 09:26:02.4515
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TKNbRIlW1wzORC/WDH9oSvX/gXcWtYrWYeeMi0PAk6RuR32KPwiX8XoFrJP3AiZWVB0anuUf59sqlCDNs6pUZarqgv6uu/EQ4QFiT9OtU/3LeD7HGLEEcFForQShmbAY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4570
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Kishon,
 
-On 14/05/2020 03:17, Laurent Pinchart wrote:
-> Platform glue drivers for dw_hdmi may need to access device-specific
-> data from their .mode_valid() implementation. They currently have no
-> clean way to do so, and one driver hacks around it by accessing the
-> dev_private data of the drm_device retrieved from the connector.
-> 
-> Pass the dw_hdmi pointer to .mode_valid() in order give context
-> information to drivers, and add a dw_hdmi_device() to retrieve the
-> struct device related to the context.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   | 13 ++++++++++++-
->  drivers/gpu/drm/imx/dw_hdmi-imx.c           |  4 ++--
->  drivers/gpu/drm/meson/meson_dw_hdmi.c       |  3 ++-
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c      |  2 +-
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  3 ++-
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c       |  6 ++++--
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h       |  3 ++-
->  include/drm/bridge/dw_hdmi.h                |  4 +++-
->  8 files changed, 28 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 30681398cfb0..97c7a9a4983c 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2778,7 +2778,8 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
->  		return MODE_BAD;
->  
->  	if (hdmi->plat_data->mode_valid)
-> -		mode_status = hdmi->plat_data->mode_valid(connector, mode);
-> +		mode_status = hdmi->plat_data->mode_valid(hdmi, connector,
-> +							  mode);
+> From: Yoshihiro Shimoda, Sent: Friday, March 27, 2020 6:34 PM
+>=20
+> This patch adds USBPHY 2.0/3.0 devices support for r8a77961
+> (R-Car M3-W+).
 
-Can't it pass `struct dw_hdmi *hdmi, void *data` like the phy_ops ?
+Would you apply this patch series to your repository?
+Or, should I resend?
 
->  
->  	return mode_status;
->  }
-> @@ -3395,6 +3396,16 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
->  		i2c_put_adapter(hdmi->ddc);
->  }
->  
-> +/*
-> + * Retrieve the device passed to the dw_hdmi_probe() or dw_hdmi_bind()
-> + * functions.
-> + */
-> +struct device *dw_hdmi_device(struct dw_hdmi *hdmi)
-> +{
-> +	return hdmi->dev;
-> +}
-> +EXPORT_SYMBOL_GPL(dw_hdmi_device);
+JFYI:
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D26263=
+3
 
-This looks really hackish, passing data like the phy_ops looks cleaner.
+Best regards,
+Yoshihiro Shimoda
 
-> +
->  /* -----------------------------------------------------------------------------
->   * Probe/remove API, used from platforms based on the DRM bridge API.
->   */
-> diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> index ba4ca17fd4d8..ff5b03a4a86a 100644
-> --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> @@ -145,7 +145,7 @@ static const struct drm_encoder_helper_funcs dw_hdmi_imx_encoder_helper_funcs =
->  };
->  
->  static enum drm_mode_status
-> -imx6q_hdmi_mode_valid(struct drm_connector *con,
-> +imx6q_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *con,
->  		      const struct drm_display_mode *mode)
->  {
->  	if (mode->clock < 13500)
-> @@ -158,7 +158,7 @@ imx6q_hdmi_mode_valid(struct drm_connector *con,
->  }
->  
->  static enum drm_mode_status
-> -imx6dl_hdmi_mode_valid(struct drm_connector *con,
-> +imx6dl_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *con,
->  		       const struct drm_display_mode *mode)
->  {
->  	if (mode->clock < 13500)
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 5be963e9db05..174d45ecdeda 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -630,7 +630,8 @@ static irqreturn_t dw_hdmi_top_thread_irq(int irq, void *dev_id)
->  }
->  
->  static enum drm_mode_status
-> -dw_hdmi_mode_valid(struct drm_connector *connector,
-> +dw_hdmi_mode_valid(struct dw_hdmi *hdmi,
-> +		   struct drm_connector *connector,
->  		   const struct drm_display_mode *mode)
->  {
->  	struct meson_drm *priv = connector->dev->dev_private;
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 452461dc96f2..3d2fdbeeb82d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -38,7 +38,7 @@ static const struct rcar_hdmi_phy_params rcar_hdmi_phy_params[] = {
->  };
->  
->  static enum drm_mode_status
-> -rcar_hdmi_mode_valid(struct drm_connector *connector,
-> +rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, struct drm_connector *connector,
->  		     const struct drm_display_mode *mode)
->  {
->  	/*
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 121aa8a63a76..32acfe2c3f58 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -220,7 +220,8 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->  }
->  
->  static enum drm_mode_status
-> -dw_hdmi_rockchip_mode_valid(struct drm_connector *connector,
-> +dw_hdmi_rockchip_mode_valid(struct dw_hdmi *hdmi,
-> +			    struct drm_connector *connector,
->  			    const struct drm_display_mode *mode)
->  {
->  	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> index 972682bb8000..055ffefd1b60 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> @@ -31,7 +31,8 @@ sun8i_dw_hdmi_encoder_helper_funcs = {
->  };
->  
->  static enum drm_mode_status
-> -sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
-> +sun8i_dw_hdmi_mode_valid_a83t(struct dw_hdmi *hdmi,
-> +			      struct drm_connector *connector,
->  			      const struct drm_display_mode *mode)
->  {
->  	if (mode->clock > 297000)
-> @@ -41,7 +42,8 @@ sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
->  }
->  
->  static enum drm_mode_status
-> -sun8i_dw_hdmi_mode_valid_h6(struct drm_connector *connector,
-> +sun8i_dw_hdmi_mode_valid_h6(struct dw_hdmi *hdmi,
-> +			    struct drm_connector *connector,
->  			    const struct drm_display_mode *mode)
->  {
->  	/*
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> index 8e64945167e9..f831cb351d72 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> @@ -176,7 +176,8 @@ struct sun8i_hdmi_phy {
->  };
->  
->  struct sun8i_dw_hdmi_quirks {
-> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
-> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi,
-> +					   struct drm_connector *connector,
->  					   const struct drm_display_mode *mode);
->  	unsigned int set_rate : 1;
->  	unsigned int use_drm_infoframe : 1;
-> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 0b34a12c4a1c..c98010a53683 100644
-> --- a/include/drm/bridge/dw_hdmi.h
-> +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -124,7 +124,8 @@ struct dw_hdmi_phy_ops {
->  
->  struct dw_hdmi_plat_data {
->  	struct regmap *regm;
-> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
-> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi,
-> +					   struct drm_connector *connector,
->  					   const struct drm_display_mode *mode);
->  	unsigned long input_bus_format;
->  	unsigned long input_bus_encoding;
-> @@ -153,6 +154,7 @@ void dw_hdmi_unbind(struct dw_hdmi *hdmi);
->  struct dw_hdmi *dw_hdmi_bind(struct platform_device *pdev,
->  			     struct drm_encoder *encoder,
->  			     const struct dw_hdmi_plat_data *plat_data);
-> +struct device *dw_hdmi_device(struct dw_hdmi *hdmi);
->  
->  void dw_hdmi_resume(struct dw_hdmi *hdmi);
->  
-> 
+> Changes from v3:
+>  - Retain a description of #phy-cell in patch 1/4.
+>  - Add Reviewed-by in patch 1/4 and 3/4.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D26=
+2507
+>=20
+> Changes from v2:
+>  - Modify json-schema files which Geert-san was pointed out.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D26=
+1847
+>=20
+> Changes from v1:
+>  - Rebase these patches on top of my patches of convert bindings to
+>    json-schema.
+>  - Add Reviewed-by.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D26=
+1195
+>=20
+> Yoshihiro Shimoda (4):
+>   dt-bindings: phy: renesas: usb2-phy: convert bindings to json-schema
+>   dt-bindings: phy: renesas: usb2-phy: add r8a77961 support
+>   dt-bindings: phy: renesas: usb3-phy: convert bindings to json-schema
+>   dt-bindings: phy: renesas: usb3-phy: add r8a77961 support
+>=20
+>  .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 ------------
+>  .../devicetree/bindings/phy/rcar-gen3-phy-usb3.txt |  52 ---------
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 117 +++++++++++++++=
+++++++
+>  .../devicetree/bindings/phy/renesas,usb3-phy.yaml  |  79 ++++++++++++++
+>  4 files changed, 196 insertions(+), 122 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-u=
+sb2.txt
+>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-u=
+sb3.txt
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-ph=
+y.yaml
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb3-ph=
+y.yaml
+>=20
+> --
+> 2.7.4
 
-Thanks,
-
-Neil
