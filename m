@@ -2,154 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB9101D3061
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 14:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6588B1D31C7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 15:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgENMzA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 May 2020 08:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48842 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725955AbgENMy6 (ORCPT
+        id S1726050AbgENNug (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 May 2020 09:50:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38040 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbgENNuf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 May 2020 08:54:58 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C3CC061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:54:58 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id fu13so12409952pjb.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 05:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ykYESektuuAs4fxdwhpS+W2PEu4CUUWNtuOBpOz6IO0=;
-        b=A5wxChtja0zyfIlgljKfQi2T5xChb36u8VARHty8k3274zIco0RA7tU28L2B/5VrVB
-         yYI9nURQGStHKFRoz/htHb9OGEzWay7IWLZ+09QlGCucCxuJAYrbMq0pppggCVy0rM9T
-         qwAqo065ulpi4cV9763sscVDXmR+li+EDCIsG1nKgF+UfleptXvrrvrCtH9yANt4Jj0R
-         UJvQK+xtQOOtOxTRYrZ5pwZwVXWT1du6WY8BWagxIsETvtstrDsGvJ2NWD+xsxv1dhot
-         FUh6ZRu7xiddX304QQfIj32PCbTlgscDPnnBrqMazk1H1yAMQB33IlsZ8Qq7+myiQo8m
-         hvCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ykYESektuuAs4fxdwhpS+W2PEu4CUUWNtuOBpOz6IO0=;
-        b=QC88+wsEtgWoIuZ9jO30Wp4VkLUzmssHIwkKim+OlujyYi5pHm4h8rAhGbYT6CwwnY
-         9zCU5FTegnESJlCUZ92mbFQLIa9QtVslJ/5XRyGzmJkWow84iPvVt/0rusFe0QOL10d7
-         A/c838n1fj/XXw0qvLdrlLO6HEII4ypPLg+wurrBVcbbdwvV45U8euLFjuq8rkXne+/S
-         Ha6FwXXy4Rv083ge0ODtWpK0GsaIFCpv0YIUiOSwicgzX8+mbCt51BeMUBXXTKpJLBv1
-         PnyE1W4t5th4Eds/Mc+aw/0BK3vJPgBkc7v0bUuDURLWw7r3ajgLkGXlKSXuidwwCKeF
-         DTGQ==
-X-Gm-Message-State: AOAM533k5puVcxmB/5n5gy0+vlqkKkww8ALWXXIP3HLr1CvxNynaOfTN
-        5xm25Km0vrcMSCG0jIkvPo9I6vtxdSmM
-X-Google-Smtp-Source: ABdhPJw2mf6FeDCXmZdPz9l80fNlBw60RDF/xOoU3YnqKuL68gEvJMskLv5lSUbduGaKdF7FroE9Rg==
-X-Received: by 2002:a17:90a:4d4a:: with SMTP id l10mr14743092pjh.0.1589460898132;
-        Thu, 14 May 2020 05:54:58 -0700 (PDT)
-Received: from Mani-XPS-13-9360 ([2409:4072:406:efde:ac17:556c:1ce3:639f])
-        by smtp.gmail.com with ESMTPSA id j23sm17910016pjz.13.2020.05.14.05.54.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 14 May 2020 05:54:57 -0700 (PDT)
-Date:   Thu, 14 May 2020 18:24:45 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        y@Mani-XPS-13-9360
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thu, 14 May 2020 09:50:35 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F2C0259;
+        Thu, 14 May 2020 15:50:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589464232;
+        bh=57FjFvG/SssRG+W/xhAVtBZHMRugzREFdjSdETfXt6k=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=aBTl4rsPkZxZs/ah6v+P+aXuEqAFh/pNQXMb235hHpcC0NacbkpwJsXq7zijt4hIR
+         qtkNVQvobueazyIxOkErh/HWKgB5HtPI15D2SsnxkJWDz3RRUMfQqOtCAAFNE+TqBz
+         nD0gS4YkD4V98uHNIvUJo3NXpUXD8tyYgdTNQzyY=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, sakari.ailus@iki.fi,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Hyun Kwon <hyunk@xilinx.com>, Rob Herring <robh+dt@kernel.org>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
-Message-ID: <20200514125445.GH2877@Mani-XPS-13-9360>
 References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
  <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
  <20200512181706.GA21014@Mani-XPS-13-9360>
  <11aca587-9438-4fba-081c-b82631e96989@ideasonboard.com>
  <20200514101356.GF2877@Mani-XPS-13-9360>
- <f46ed5fc-4eb0-8841-25b8-ef6c45e7ac87@ideasonboard.com>
- <d4d0e298-b863-8c6e-c9d7-ba861a98359e@ideasonboard.com>
+ <d492cbcb-3b13-82b8-8e5d-0f49320170a2@ideasonboard.com>
+ <CAMuHMdWSEY2q1f1iobrSXHYWzweV9yjk4i1ROj2Yde7DJMiabQ@mail.gmail.com>
+ <20200514124831.GG2877@Mani-XPS-13-9360>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <8f1b0a8a-35b2-1d00-c156-74d9ec3058d6@ideasonboard.com>
+Date:   Thu, 14 May 2020 14:50:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d4d0e298-b863-8c6e-c9d7-ba861a98359e@ideasonboard.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200514124831.GG2877@Mani-XPS-13-9360>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 14, 2020 at 01:27:01PM +0100, Kieran Bingham wrote:
-> Hi Mani,
+On 14/05/2020 13:48, Manivannan Sadhasivam wrote:
+> On Thu, May 14, 2020 at 01:59:35PM +0200, Geert Uytterhoeven wrote:
+>> Hi Kieran,
+>>
+>> On Thu, May 14, 2020 at 1:47 PM Kieran Bingham
+>> <kieran.bingham+renesas@ideasonboard.com> wrote:
+>>> On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
+>>>> On Thu, May 14, 2020 at 11:02:53AM +0100, Kieran Bingham wrote:
+>>>>> On 12/05/2020 19:17, Manivannan Sadhasivam wrote:
+>>>>>> On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+>>>>>>> The MAX9286 is a 4-channel GMSL deserializer with coax or STP input and
+>>>>>>> CSI-2 output. The device supports multicamera streaming applications,
+>>>>>>> and features the ability to synchronise the attached cameras.
+>>>>>>>
+>>>>>>> CSI-2 output can be configured with 1 to 4 lanes, and a control channel
+>>>>>>> is supported over I2C, which implements an I2C mux to facilitate
+>>>>>>> communications with connected cameras across the reverse control
+>>>>>>> channel.
+>>>>>>>
+>>>>>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>>>>>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>>>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/drivers/media/i2c/max9286.c
+>>
+>>>>>>> +static int max9286_register_gpio(struct max9286_priv *priv)
+>>>>>>> +{
+>>>>>>> +  struct device *dev = &priv->client->dev;
+>>>>>>> +  struct gpio_chip *gpio = &priv->gpio;
+>>>>>>> +  int ret;
+>>>>>>> +
+>>>>>>> +  static const char * const names[] = {
+>>>>>>> +          "GPIO0OUT",
+>>>>>>> +          "GPIO1OUT",
+>>>>>>> +  };
+>>>>>>> +
+>>>>>>> +  /* Configure the GPIO */
+>>>>>>> +  gpio->label = dev_name(dev);
+>>>>>>
+>>>>>> So if you have more than one MAX9286 in a system, all gpiochips will appear
+>>>>>> with the same name. I'd recommend to append the index to distinguish properly.
+>>>>>
+>>>>> Ah yes, that's a good point, and I think I've even seen that.
+>>>>>
+>>>>> I'll fix it now.
+>>>
+>>> Oh, in fact actually this doesn't.
+>>>
+>>> gpiodetect prints:
+>>>
+>>> gpiochip10 [4-004c] (2 lines)
+>>> gpiochip11 [4-006c] (2 lines)
+>>>
+>>> and mostly references them as gpiochip10 and gpiochip11.
+>>
+>> Indeed, dev_name() should be different for each instance.
+>>
 > 
-> On 14/05/2020 12:47, Kieran Bingham wrote:
-> > On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
-> >> Hi Kieran,
-> <snip>
+> Ah, my bad! Somehow I got confused that this delivers static name... Sorry for
+> the noise, Kieran.
 > 
-> >>>>> +static int max9286_parse_dt(struct max9286_priv *priv)
-> >>>>> +{
-> >>>>> +	struct device *dev = &priv->client->dev;
-> >>>>> +	struct device_node *i2c_mux;
-> >>>>> +	struct device_node *node = NULL;
-> >>>>> +	unsigned int i2c_mux_mask = 0;
-> >>>>> +
-> >>>>> +	of_node_get(dev->of_node);
-> >>>>
-> >>>> Why this is needed?
-> >>>
-> >>> Hrm .. I recall adding it to solve dt reference balancing.
-> >>>
-> >>> I wish I'd added a comment at the time ... as I can't recall the details
-> >>> now.
-> >>>
-> >>
-> >> I understand that it is for the refcount balancing but I certainly don't see
-> >> a need for it.
-> > 
-> > I'll go through and try to validate this again now.
+>>> However,
+>>>
+>>>> [    2.318533] gpio gpiochip11: Detected name collision for GPIO name 'GPIO0OUT'
+>>>> [    2.325739] gpio gpiochip11: Detected name collision for GPIO name 'GPIO1OUT'
+>>>
+>>> That seems to be more of a problem for the gpio library, so I think I'll
+>>> just drop the const names. I don't think they add much value.
+>>
 > 
-> Aha, that's why:
+> Well, I should've pointed this instead of above...
 > 
->  *	of_find_node_by_name - Find a node by its "name" property
->  *	@from:	The node to start searching from or NULL; the node
->  *		you pass will not be searched, only the next one
->  *		will. Typically, you pass what the previous call
->  *		returned. of_node_put() will be called on @from.
->  *	@name:	The name string to match against
+> (lack of coffee)
 > 
-> I'll add a comment to state that it is to balance the of_node_put during
-> of_find_node_by_name().
+>> These are the line names.  If they're not unique, a warning is printed,
+>> but they are still registered.
+>> So probably you want to use kasprintf("%s.%s", dev_name(dev), names[i]) to
+>> generate names.
+>>
 > 
+> Ack.
+> 
+> I think you should CC Linus W for next iteration to get review for gpiolib
+> implementation.
 
-Ah, right. I mostly use of_find_node_by_name() with NULL, so didn't realize
-this.
+Good idea. I think I'll drop the names though for now.
 
-And yeah, a comment would be helpful.
+--
+Kieran
 
-Thanks,
-Mani
 
-> --
-> Kieran
 > 
+> Thanks,
+> Mani
 > 
-> >>>>> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> >>>>> +	if (!i2c_mux) {
-> >>>>> +		dev_err(dev, "Failed to find i2c-mux node\n");
-> >>>>> +		of_node_put(dev->of_node);
-> >>>>> +		return -EINVAL;
-> >>>>> +	}
-> >>>>> +
-> >> [...]
-> >>>>
-> -- 
-> Regards
-> --
-> Kieran
+>> See "[PATCH] gpiolib: Document that GPIO line names are not globally unique"
+>> (https://lore.kernel.org/linux-gpio/20200511101828.30046-1-geert+renesas@glider.be/)
+>> to clear up the details.
+>>
+>> Gr{oetje,eeting}s,
+>>
+>>                         Geert
+>>
+>> -- 
+>> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>>
+>> In personal conversations with technical people, I call myself a hacker. But
+>> when I'm talking to journalists I just say "programmer" or something like that.
+>>                                 -- Linus Torvalds
+
