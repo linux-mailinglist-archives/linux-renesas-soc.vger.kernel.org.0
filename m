@@ -2,118 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AEA61D2C93
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 12:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C311D2CE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 May 2020 12:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgENKX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 May 2020 06:23:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726614AbgENKXv (ORCPT
+        id S1725999AbgENKb0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 May 2020 06:31:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34944 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725925AbgENKb0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 May 2020 06:23:51 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49F6C061A0E
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 03:23:50 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id 62so1648958vsi.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 May 2020 03:23:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XxbOGht0ye1sBhbrPpYfKMbU4OenacQ3DVBFGFBOWNg=;
-        b=YerK+7uAGjzbxEDFGas94+8RT+RnBHxvH0m0CCnPIH20UBUcG6Q/8RNS+ltZ8pts0+
-         Wgaz4bdQjtXQIss/SBLsYEjuP9SSKzxlSdBHxDTuDO4ZB/pfe3rlZtS5pWFrRl2KAd1C
-         UeZB7oSdEJD/dWKHLP0NhcRPcGdPmiJKw96P//cLlTtoEDPshJfEXMMKnhQAvPlmRqf6
-         v1tGdxJyTrhtsAMFxBxh5q+CQQRWhKm8mi/XZs2HSI0U7cvUOorDXC6VwzpWkXarr9oo
-         VgrsaucyRlaRYVJBzQ2/iiEvfwhLw1qPcrqwFAb1VhvHKDZqqvPqyQw/lSyG8M+fTH+E
-         SeyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XxbOGht0ye1sBhbrPpYfKMbU4OenacQ3DVBFGFBOWNg=;
-        b=RARKLkFwUibwhOIkwqvLIax93JCivoY80GbyXJ0xilFUDErfppAAWSfg08uazNk3jl
-         Z6WdvoScrvRWDKyKF8o3mEXY559/r45CF5vVQR9O+14y7YMuIV1Kg6/K25Q8eEDvVuTx
-         6xUm5eozZIu+B43y2wdnwEtMkjnSZ5KySHzT/l5ywIhvwOy5SDvAvaD8BOY5RQ1VeIdS
-         oTEsuNX5nxZplrLBEWmWQwjFw0FWQCZa9BWWwez5hQ4XfivZFliLzrImx9gd7yiC+beN
-         oZ2fcC8qNrOwMlWRMIZS8QwMjbktNyzHcFp+ehSrXcD/hTPgEkTIurvseZVQlI3riys8
-         qtDA==
-X-Gm-Message-State: AOAM532FnkiWwkxqrnQtRGEUtWu+yi4vTdxae8DYLYvQCHDkB7whb91v
-        fo2FrjHgtJYPD+XyPG8hs3sg5bJ1at8xhoYd0C/fXw==
-X-Google-Smtp-Source: ABdhPJx9SsaDNYVhRKAhbE4YI3L0urHBK6RzWpOcLD+Bxst8lM9k6Fc8LRYApFv0pPBVyWo8KWsr/QuwaI8ffs8/R5M=
-X-Received: by 2002:a67:d71a:: with SMTP id p26mr2823673vsj.34.1589451828803;
- Thu, 14 May 2020 03:23:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200513171206.6600-1-wsa@kernel.org>
-In-Reply-To: <20200513171206.6600-1-wsa@kernel.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 14 May 2020 12:23:12 +0200
-Message-ID: <CAPDyKFrgsZ7z=tvfpg6q0ofurneTQMo3Y5CnXRZXX4fmDQ=YOA@mail.gmail.com>
-Subject: Re: [RFC PATCH] mmc: tmio: properly balance RPM on remove
-To:     Wolfram Sang <wsa@kernel.org>
+        Thu, 14 May 2020 06:31:26 -0400
+Received: from localhost (p5486CC88.dip0.t-ipconnect.de [84.134.204.136])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4BE852073E;
+        Thu, 14 May 2020 10:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589452286;
+        bh=Qul+EPv6Ik9sdVnnnJ7opIUQ3v5vuNqnq2e1PF+x8qs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dJsuZTuzS+QAc8wArSUkE5Q/1qLjXnPePTzuY9Okt9hpkoaFVdlncjmSwnkfoQuhw
+         tqLP2hMNKTmnP1qDuHrWRrWLcixsixDiDftvNFnQrXD2tToskd/4lVpHjTBgZ2kRQ+
+         U+oCwviaHBhxUea5uPf8CdWo1pRGtD9EThZ0+Mkw=
+Date:   Thu, 14 May 2020 12:31:18 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
 Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH] mmc: tmio: properly balance RPM on remove
+Message-ID: <20200514103118.GA1589@ninjato>
+References: <20200513171206.6600-1-wsa@kernel.org>
+ <CAPDyKFrgsZ7z=tvfpg6q0ofurneTQMo3Y5CnXRZXX4fmDQ=YOA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFrgsZ7z=tvfpg6q0ofurneTQMo3Y5CnXRZXX4fmDQ=YOA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 13 May 2020 at 19:12, Wolfram Sang <wsa@kernel.org> wrote:
->
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
->
-> Because we enabled the device with _noresume, we should disable it with
-> _noidle to match the ref counting of the clocks during remove().
->
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> I think this is the proper fix to the problem Geert reported [1]. I am
-> not sure about a proper Fixes-tag, though. The corresponding _noidle
-> call in the probe()-error-path was added with:
->
-> aa86f1a38875 ("mmc: tmio: Fixup runtime PM management during probe")
->
-> However, from my understanding this is more fitting?
->
-> 1b32999e205b ("mmc: tmio: Avoid boilerplate code in ->runtime_suspend()")
->
-> But maybe my understanding of the situation is still not perfect and
-> even the commit message is bogus? Ulf, since both mentioned commits are
-> from you, could you have a look? Thanks in advance!
 
-I did start to look at it, but got sidetracked with other things.
-Anyway, I will check in the next couple of days.
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Kind regards
-Uffe
 
->
->    Wolfram
->
-> [1] Message-ID: <alpine.DEB.2.21.2004291630090.4052@ramsan.of.borg>
->
->  drivers/mmc/host/tmio_mmc_core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index 9520bd94cf43..9a4ae954553b 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -1235,7 +1235,7 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *host)
->         pm_runtime_dont_use_autosuspend(&pdev->dev);
->         if (host->native_hotplug)
->                 pm_runtime_put_noidle(&pdev->dev);
-> -       pm_runtime_put_sync(&pdev->dev);
-> +       pm_runtime_put_noidle(&pdev->dev);
->         pm_runtime_disable(&pdev->dev);
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
-> --
-> 2.20.1
->
+> I did start to look at it, but got sidetracked with other things.
+> Anyway, I will check in the next couple of days.
+
+Much appreciated, thanks!
+
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl69HfIACgkQFA3kzBSg
+KbbOYw/+OYP97RCgn4nGKcYbGZdJ4A5Xq5E0Bsk8HUfh3cbQSThnMcyjLA9TMsH5
+prUMIzdHS0VtEocmy9ur917WhdzwyBgbWAZ8gv4TizCKo4EizzOceRCZ/YKE0stR
+ggd/Mt+T+/j9kTqeLomYgV52v3/WTD4vMkJ2LoLF7rhGHKa1D2f7AyDQkf5MvxAx
+Gdxqui6/WCuC6dqOHiTzaQcwFyMnoZYlBckKrccQNS9ZkfrToiwE0vc2EvuHrDT0
+NjooGiO8P2FWNVY5fGmXFDBnXOLVJqwPzniW3koQKf4R3OUa8p6LuLM6kVV7Ys8V
+Xy8uqfe2rX7vjT9NN8XGFfriYWgjZwdeloCtv+tsUOa74DH8amqaTKSJYGDWki3v
+3Vv123x4aS8LYBmOILaEtU13EYB2C9G0IHNfL9Ibz0m1p7aDes1weNeqBB7PMA97
+ERvrclMwQwU4qXYg518xXFTISFmN2QejkKirJVwzlsGxUc1F0Uvg/0BJpzwAF7LD
+++DF0Qc6k9khKjunq/NbyR5Wemp/lDemxNDN8AJVtM2vwgNnL1Jyrm/19Jek49Cv
+dI4Mt6bOkGVSLd4WMupOBQnMVwEf7nAgUU3JGZiCzl0CCsRJbYzvLpkBBLVtjjXS
+8g9UUQdG9RaZz6zWgWTNRu64aLrErIsgRaHfZg+sGEriSDnRNfg=
+=sbCR
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
