@@ -2,68 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8EA1D4A69
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 12:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3EC1D4E19
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 14:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728280AbgEOKGC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 May 2020 06:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49676 "EHLO
+        id S1726141AbgEOMu5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 May 2020 08:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728278AbgEOKGB (ORCPT
+        with ESMTP id S1726135AbgEOMu4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 May 2020 06:06:01 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E32C05BD09
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2020 03:06:01 -0700 (PDT)
+        Fri, 15 May 2020 08:50:56 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F78FC061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2020 05:50:56 -0700 (PDT)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:ad37:48f9:900a:523e])
-        by andre.telenet-ops.be with bizsmtp
-        id ey5w2200N1TfvYq01y5w1g; Fri, 15 May 2020 12:05:59 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id f0qp2200V1TfvYq010qp6s; Fri, 15 May 2020 14:50:52 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jZXE4-0008Qx-Gb; Fri, 15 May 2020 12:05:56 +0200
+        id 1jZZnd-0005Y5-Fs; Fri, 15 May 2020 14:50:49 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jZXE4-0003pm-EZ; Fri, 15 May 2020 12:05:56 +0200
+        id 1jZZnd-0005we-DI; Fri, 15 May 2020 14:50:49 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 5/5] Renesas DT binding updates for v5.8 (take two)
-Date:   Fri, 15 May 2020 12:05:47 +0200
-Message-Id: <20200515100547.14671-6-geert+renesas@glider.be>
+Subject: [GIT PULL] Renesas fixes for v5.7 (take two)
+Date:   Fri, 15 May 2020 14:50:43 +0200
+Message-Id: <20200515125043.22811-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200515100547.14671-1-geert+renesas@glider.be>
-References: <20200515100547.14671-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The following changes since commit 9e01d74ce0a154411c8991d6e34f4c470958eac3:
+	Hi arm-soc folks,
 
-  dt-bindings: reset: rcar-rst: Document r8a7742 reset module (2020-04-28 10:09:56 +0200)
+The following changes since commit b704fc1da9b84d7145db550a13e2b7140f6b419b:
+
+  ARM: dts: r7s9210: Remove bogus clock-names from OSTM nodes (2020-04-28 10:15:38 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v5.8-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v5.7-tag2
 
-for you to fetch changes up to 0b5832238d369a71f90a221d17b92761595c8067:
+for you to fetch changes up to c8e233bfba3b21cb6b9814b4bfe2502478c7b895:
 
-  dt-bindings: arm: renesas: Document iW-RainboW-G21D-Qseven-RZG1H board (2020-05-15 10:49:27 +0200)
-
-----------------------------------------------------------------
-Renesas DT binding updates for v5.8 (take two)
-
-  - Document support for the RZ/G1H-based iWave RainboW Qseven SOM
-    (G21M) and board (G21D).
+  ARM: dts: iwg20d-q7-dbcm-ca: Remove unneeded properties in hdmi@39 (2020-05-15 10:41:35 +0200)
 
 ----------------------------------------------------------------
-Lad Prabhakar (2):
-      dt-bindings: arm: renesas: Document iW-RainboW-G21M-Qseven-RZG1H SoM
-      dt-bindings: arm: renesas: Document iW-RainboW-G21D-Qseven-RZG1H board
+Renesas fixes for v5.7 (take two)
 
- Documentation/devicetree/bindings/arm/renesas.yaml | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+  - Fix a wrong clock configuration on R-Mobile A1,
+  - Minor fixes that are fast-tracked to avoid introducing regressions
+    during conversion of DT bindings to json-schema.
+
+Thanks for pulling!
+----------------------------------------------------------------
+Geert Uytterhoeven (1):
+      ARM: dts: r8a7740: Add missing extal2 to CPG node
+
+Ricardo Cañuelo (3):
+      arm64: dts: renesas: Make hdmi encoder nodes compliant with DT bindings
+      ARM: dts: renesas: Make hdmi encoder nodes compliant with DT bindings
+      ARM: dts: iwg20d-q7-dbcm-ca: Remove unneeded properties in hdmi@39
+
+ arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi            |  2 --
+ arch/arm/boot/dts/r8a7740.dtsi                      |  2 +-
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts |  2 --
+ arch/arm/boot/dts/r8a7790-lager.dts                 |  2 --
+ arch/arm/boot/dts/r8a7790-stout.dts                 |  2 --
+ arch/arm/boot/dts/r8a7791-koelsch.dts               |  2 --
+ arch/arm/boot/dts/r8a7791-porter.dts                |  2 --
+ arch/arm/boot/dts/r8a7792-blanche.dts               |  2 --
+ arch/arm/boot/dts/r8a7792-wheat.dts                 | 12 ++++--------
+ arch/arm/boot/dts/r8a7793-gose.dts                  |  2 --
+ arch/arm/boot/dts/r8a7794-silk.dts                  |  2 --
+ arch/arm64/boot/dts/renesas/r8a77970-eagle.dts      |  2 --
+ arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts      |  2 --
+ arch/arm64/boot/dts/renesas/r8a77980-condor.dts     |  2 --
+ arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts      |  2 --
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts      |  2 --
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts      |  6 ++----
+ 17 files changed, 7 insertions(+), 41 deletions(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
