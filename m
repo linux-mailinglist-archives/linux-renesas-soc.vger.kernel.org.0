@@ -2,120 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8983E1D575E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 19:17:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE2261D57D9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 19:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgEORR5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 May 2020 13:17:57 -0400
-Received: from www.zeus03.de ([194.117.254.33]:51420 "EHLO mail.zeus03.de"
+        id S1726188AbgEOR2d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 May 2020 13:28:33 -0400
+Received: from mga06.intel.com ([134.134.136.31]:41072 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726663AbgEORR5 (ORCPT
+        id S1726293AbgEOR2d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 May 2020 13:17:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=tAJU7taF11lwsgMZCnNGLZ/hRQyk
-        hHP1i8TYZ9hJlgs=; b=PIHIz5OD3mMQYyGfl+/oV/b+3uOn2f0S8kWWw7Z//anj
-        VKd8GPrEZ/NvUtCZm5VBD4CS8EA/G+hYzcw9jJxfVtA3cZN1hGQdXF3RqsSjtd3Z
-        h2xBfAlVOC6ZhK+9/1QBuiQ5ANecPirOcgXsiAqOMeN3QPa4yyGyE7/1qFpjQgI=
-Received: (qmail 72963 invoked from network); 15 May 2020 19:17:54 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 May 2020 19:17:54 +0200
-X-UD-Smtp-Session: l3s3148p1@i2xt/rKlTqogAwDPXwnHAMSqtBM6FBGP
-Date:   Fri, 15 May 2020 19:17:54 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-watchdog@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 05/17] mmc: renesas_sdhi_sys_dmac: Add support for
- r8a7742 SoC
-Message-ID: <20200515171754.GF19423@ninjato>
-References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1589555337-5498-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 15 May 2020 13:28:33 -0400
+IronPort-SDR: o+GJLPgTgcCA4yWcA6lzufyU5sKsE4BlMutG2Ruf4CosRnASP7yifmcpfgpNpGHljsLU90Y9FX
+ 4mqOfslwBXUA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2020 10:28:33 -0700
+IronPort-SDR: UzqxschW3ulOaTL0h2b30Nd9iM0TK2xZiQGxmB0zdabgivegXXrC1frRCiB7Pai79Oaq1qCTu0
+ SKL41e8vFlog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,396,1583222400"; 
+   d="scan'208";a="342043113"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 15 May 2020 10:28:31 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jZe8N-0002Yn-4r; Sat, 16 May 2020 01:28:31 +0800
+Date:   Sat, 16 May 2020 01:28:23 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
+ 7227797a4e66a1b70a3745ad56d36937732c625c
+Message-ID: <5ebed137.fFMouIW+AHicZpm4%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
-Content-Disposition: inline
-In-Reply-To: <1589555337-5498-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
+branch HEAD: 7227797a4e66a1b70a3745ad56d36937732c625c  pinctrl: rza1: Fix flag name in comment
 
---SxgehGEc6vB0cZwN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 484m
 
-On Fri, May 15, 2020 at 04:08:45PM +0100, Lad Prabhakar wrote:
-> Add support for r8a7742 SoC. Renesas RZ/G1H (R8A7742) SDHI is identical to
-> the R-Car Gen2 family.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renes=
-as.com>
+configs tested: 98
+configs skipped: 1
 
-I think we can skip this because of the generic fallback? The other
-entries come from a time when we had a different policy IIRC.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> ---
->  drivers/mmc/host/renesas_sdhi_sys_dmac.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/=
-renesas_sdhi_sys_dmac.c
-> index 13ff023..dbfcbc2 100644
-> --- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-> +++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-> @@ -75,6 +75,7 @@ static const struct of_device_id renesas_sdhi_sys_dmac_=
-of_match[] =3D {
->  	{ .compatible =3D "renesas,sdhi-r7s72100", .data =3D &of_rz_compatible,=
- },
->  	{ .compatible =3D "renesas,sdhi-r8a7778", .data =3D &of_rcar_gen1_compa=
-tible, },
->  	{ .compatible =3D "renesas,sdhi-r8a7779", .data =3D &of_rcar_gen1_compa=
-tible, },
-> +	{ .compatible =3D "renesas,sdhi-r8a7742", .data =3D &of_rcar_gen2_compa=
-tible, },
->  	{ .compatible =3D "renesas,sdhi-r8a7743", .data =3D &of_rcar_gen2_compa=
-tible, },
->  	{ .compatible =3D "renesas,sdhi-r8a7745", .data =3D &of_rcar_gen2_compa=
-tible, },
->  	{ .compatible =3D "renesas,sdhi-r8a7790", .data =3D &of_rcar_gen2_compa=
-tible, },
-> --=20
-> 2.7.4
->=20
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+m68k                             allyesconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20200515
+x86_64               randconfig-a003-20200515
+x86_64               randconfig-a006-20200515
+x86_64               randconfig-a004-20200515
+x86_64               randconfig-a001-20200515
+x86_64               randconfig-a002-20200515
+i386                 randconfig-a006-20200515
+i386                 randconfig-a005-20200515
+i386                 randconfig-a003-20200515
+i386                 randconfig-a001-20200515
+i386                 randconfig-a004-20200515
+i386                 randconfig-a002-20200515
+i386                 randconfig-a012-20200515
+i386                 randconfig-a016-20200515
+i386                 randconfig-a014-20200515
+i386                 randconfig-a013-20200515
+i386                 randconfig-a011-20200515
+i386                 randconfig-a015-20200515
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                              defconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
 
---SxgehGEc6vB0cZwN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6+zsIACgkQFA3kzBSg
-Kbavxw/5ASj0ysFzi+t9TCWf40CX4RN71FBZfm9Av3vQKK5R4HtL4W2gRXSPslgW
-u0tXjoDL50k+dlzbLKsRyFiW7616nm4JhNQX1YvgYlnTueDa36yRFjaN6hEusujO
-d4oAYuORud2Fyy9s/WT5vPL2ziSy+z9on/bDw2OOS9weSs4dIpqQLhR5zA8BEqrD
-JpM+Cr+/NfDaWwUTs5T1Qygc/1lgBQrejGLPMzWjn+IroyRBh6amG496dcb27zuA
-9Hln6t+NLrtP0ilpYyGw3zQ55ZT3HyxIHNglfRHL66CpdTVNFrRj7hgqW32aPSMg
-h71YDH60ZMmIMJJcYRHURcck2Mv39w+eXv5AF7XI6hopQ7K+ys4yJYX9qy+2EzoY
-DH3j0a/0pgydpwKL4KiJHVPsy7YzKqYrZUQTfPcQ21gEZMV6X3aiXkxTGQKbdX1O
-ULCWZN+HWkr6jFDN0wxzneP3l1NvB+pzRmlBxodg5bx0jrnAmcAv934inwg0yovp
-f/b1f2arn13sImX64Me3P5sV7SM8bbAcDEvy8XsrPkWABDjlba4KJFouArzPJO/A
-M6XEwNEqAXWG8tnWrxlm6VgceZPPA/t6iMW39Kem04WA1nESDm+f86/whSJdXgc+
-vN8ymqYx3M099298eg1Gc+1lda+hJQ8rZyCKjth3iDcKu/YCW5A=
-=y+4+
------END PGP SIGNATURE-----
-
---SxgehGEc6vB0cZwN--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
