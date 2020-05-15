@@ -2,95 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90ECA1D4E86
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 15:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA5C1D4FA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 15:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726168AbgEONMG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 May 2020 09:12:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgEONMG (ORCPT
+        id S1726213AbgEON4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 May 2020 09:56:52 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:46065 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgEON4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 May 2020 09:12:06 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29ABCC061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2020 06:12:06 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:ad37:48f9:900a:523e])
-        by albert.telenet-ops.be with bizsmtp
-        id f1C32200o1TfvYq061C3mq; Fri, 15 May 2020 15:12:04 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jZa8B-0006QT-JB; Fri, 15 May 2020 15:12:03 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jZa8B-0006V8-Gq; Fri, 15 May 2020 15:12:03 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: serial: renesas,scifa: Remove part numbers from comments
-Date:   Fri, 15 May 2020 15:12:02 +0200
-Message-Id: <20200515131202.24949-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 15 May 2020 09:56:52 -0400
+X-Halon-ID: dfbcf185-96b3-11ea-a44f-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id dfbcf185-96b3-11ea-a44f-005056917f90;
+        Fri, 15 May 2020 15:56:49 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     linux-pm@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] thermal: rcar_gen3_thermal: Do not shadow thcode variable
+Date:   Fri, 15 May 2020 15:56:26 +0200
+Message-Id: <20200515135626.2554873-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The conversion to json-schema accidentally retained some SoC part
-numbers in comments for compatible values.  Drop them, as they're part
-of the compatible values anyway.
+The function rcar_gen3_thermal_calc_coefs() takes an argument called
+'thcode' which shadows the static global 'thcode' variable. This is not
+harmful but bad for readability and is harmful for planed changes to the
+driver. The THCODE values should be read from hardware fuses if they are
+available and only fallback to the global 'thcode' variable if they are
+not fused.
 
-Fixes: 384d00fae8e51f8f ("dt-bindings: serial: sh-sci: Convert to json-schema")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Rename the global 'thcode' variable to 'thcodes' to avoid shadowing the
+symbol in functions that takes it as an argument.
+
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-This depends on:
-"[PATCH v2 03/10] dt-bindings: serial: renesas,scifa: Document r8a7742 bindings"
-https://lore.kernel.org/dmaengine/1588542414-14826-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com
+ drivers/thermal/rcar_gen3_thermal.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Rob: as you have taken:
-
-+ 8908a822663f6958 dt-bindings: serial: renesas,scif: Document r8a7742 bindings
-+ 3cf1601ab00ce558 dt-bindings: serial: renesas,scifb: Document r8a7742 bindings
-+ 65994c09bc66d724 dt-bindings: serial: renesas,hscif: Document r8a7742 bindings
-
-can you please take this one, and its dependency, too?
-
-Thanks!
-
- .../bindings/serial/renesas,scifa.yaml           | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/serial/renesas,scifa.yaml b/Documentation/devicetree/bindings/serial/renesas,scifa.yaml
-index 97ddd76d700f78ca..78b8e20dd34db322 100644
---- a/Documentation/devicetree/bindings/serial/renesas,scifa.yaml
-+++ b/Documentation/devicetree/bindings/serial/renesas,scifa.yaml
-@@ -24,14 +24,14 @@ properties:
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index 58fe7c1ef00b1270..bb4f5b42beb943e3 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -63,7 +63,7 @@
+ #define TSC_MAX_NUM	3
  
-       - items:
-           - enum:
--              - renesas,scifa-r8a7742      # R8A7742 RZ/G1H
--              - renesas,scifa-r8a7743      # R8A7743 RZ/G1M
--              - renesas,scifa-r8a7744      # R8A7744 RZ/G1N
--              - renesas,scifa-r8a7745      # R8A7745 RZ/G1E
--              - renesas,scifa-r8a7790      # R8A7790 R-Car H2
--              - renesas,scifa-r8a7791      # R8A7791 R-Car M2-W
--              - renesas,scifa-r8a7793      # R8A7793 R-Car M2-N
--              - renesas,scifa-r8a7794      # R8A7794 R-Car E2
-+              - renesas,scifa-r8a7742      # RZ/G1H
-+              - renesas,scifa-r8a7743      # RZ/G1M
-+              - renesas,scifa-r8a7744      # RZ/G1N
-+              - renesas,scifa-r8a7745      # RZ/G1E
-+              - renesas,scifa-r8a7790      # R-Car H2
-+              - renesas,scifa-r8a7791      # R-Car M2-W
-+              - renesas,scifa-r8a7793      # R-Car M2-N
-+              - renesas,scifa-r8a7794      # R-Car E2
-           - const: renesas,rcar-gen2-scifa # R-Car Gen2 and RZ/G1
-           - const: renesas,scifa           # generic SCIFA compatible UART
+ /* default THCODE values if FUSEs are missing */
+-static const int thcode[TSC_MAX_NUM][3] = {
++static const int thcodes[TSC_MAX_NUM][3] = {
+ 	{ 3397, 2800, 2221 },
+ 	{ 3393, 2795, 2216 },
+ 	{ 3389, 2805, 2237 },
+@@ -172,7 +172,7 @@ static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
+ 	/* Read register and convert to mili Celsius */
+ 	reg = rcar_gen3_thermal_read(tsc, REG_GEN3_TEMP) & CTEMP_MASK;
  
+-	if (reg <= thcode[tsc->id][1])
++	if (reg <= thcodes[tsc->id][1])
+ 		val = FIXPT_DIV(FIXPT_INT(reg) - tsc->coef.b1,
+ 				tsc->coef.a1);
+ 	else
+@@ -430,7 +430,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 		priv->tscs[i] = tsc;
+ 
+ 		priv->thermal_init(tsc);
+-		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcode[i],
++		rcar_gen3_thermal_calc_coefs(tsc, ptat, thcodes[i],
+ 					     *rcar_gen3_ths_tj_1);
+ 
+ 		zone = devm_thermal_zone_of_sensor_register(dev, i, tsc,
 -- 
-2.17.1
+2.26.2
 
