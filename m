@@ -2,78 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B931D4A4D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 12:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4F331D4A6B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 May 2020 12:06:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728007AbgEOKAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 May 2020 06:00:37 -0400
-Received: from www.zeus03.de ([194.117.254.33]:51924 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727946AbgEOKAh (ORCPT
+        id S1728228AbgEOKGD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 May 2020 06:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728279AbgEOKGB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 May 2020 06:00:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=fYUVPs++nmdMEYCgzvedZ83aAnzf
-        x/lKJ984o8rMT9s=; b=Rv18VFVJZrSecu/ZAbNawLJ+e4c4WfWuxdN7NGlW+Qlu
-        Y21iDaK212/rP4tJrw4K1mX6yKzP2yeeH8hcKrLwLsDFlkaGovLX1FuTFUiNzqcU
-        /W0364yRE7uj40Vt4DNYtJYGZBYBc0loFCTsEPAxS3+kaVvawCrTEHf44GAULZA=
-Received: (qmail 4131671 invoked from network); 15 May 2020 12:00:34 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 May 2020 12:00:34 +0200
-X-UD-Smtp-Session: l3s3148p1@lKVe4qylJqYgAwDPXwnHAMSqtBM6FBGP
-Date:   Fri, 15 May 2020 12:00:34 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: [PATCH] i2c: slave-eeprom: add support for 24c512 EEPROMs
-Message-ID: <20200515100033.GH2077@ninjato>
-References: <20200512142046.26454-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="poemUeGtc2GQvHuH"
-Content-Disposition: inline
-In-Reply-To: <20200512142046.26454-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 15 May 2020 06:06:01 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D00EC05BD0A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 May 2020 03:06:01 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:ad37:48f9:900a:523e])
+        by andre.telenet-ops.be with bizsmtp
+        id ey5w2200D1TfvYq01y5w1Z; Fri, 15 May 2020 12:05:59 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jZXE4-0008Qi-D2; Fri, 15 May 2020 12:05:56 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jZXE4-0003pY-9l; Fri, 15 May 2020 12:05:56 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/5] Renesas SoC updates for v5.8 (take two)
+Date:   Fri, 15 May 2020 12:05:42 +0200
+Message-Id: <20200515100547.14671-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi arm-soc folks,
 
---poemUeGtc2GQvHuH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is my second pull request for the inclusion of Renesas SoC updates
+for v5.8.
 
-On Tue, May 12, 2020 at 04:20:46PM +0200, Wolfram Sang wrote:
-> I don't plan to support every EEPROM type, but the 24c512 ones need a
-> tiny code update, so let's have that upstream.
->=20
-> Reported-by: Patrick Williams <patrick@stwcx.xyz>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+It consists of 5 parts:
 
-Applied to for-next, thanks!
+  [GIT PULL 1/5] Renesas ARM defconfig updates for v5.8 (take two)
 
+    - Enable support for the new RZ/G1H SoC in the shmobile and multi_v7
+      defconfigs.
 
---poemUeGtc2GQvHuH
-Content-Type: application/pgp-signature; name="signature.asc"
+  [GIT PULL 2/5] Renesas ARM DT updates for v5.8 (take two)
 
------BEGIN PGP SIGNATURE-----
+    - Initial support for the Renesas RZ/G1H SoC on the iWave RainboW
+      Qseven SOM (G21M) and board (G21D),
+    - Support for the AISTARVISION MIPI Adapter V2.1 camera board on the
+      Silicon Linux EK874 RZ/G2E evaluation kit.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl6+aD4ACgkQFA3kzBSg
-KbaIDg//ZfNDzlwK2oONEW9OH/V5qRtl2bBx5haW6rLnat0tq6QOHqMZaRYtbbUB
-18KdGDfgM5z8e71ZFKZhNFFonFumto+Sy8dphhKbA71qDl7ACqTagrqdzhyfFCkZ
-pmjQO7KUaCzU6JV78rPhkFdsJofD6FmNIp3CWW2DwoSOyfiq6J0tQNTu4kNfM5We
-YehbTmBKYTAfogh5v7x0HBP1TbdZd4n9z9rsxFyvsiCm92StsYKk1I+WbY+Q3OFr
-OTryFhtAfdnBEoKtk94hGuCyC9OzzmpSpj6xG6zU9Ssy8i1fOe9382woK8Y/zAyZ
-UmeMdJEkWwNoJU1QV8IVOQGnX9Nlh9Uc916K2KgbtO4ii4C2dzZyT/BH0xNp1HR4
-LzNSiCIP2Pf1NuylYaoVeHMgrjhYab62ryTC1+QpGui0g0OEI3GuZ+zoT4zPW60l
-1bCPu3oOvM7XZ30w7u8+IUgpLbgJ26tBvyzJBNPOUoU7n3cXIQHCqDf+K8dLG+Hy
-KpFtpa/pomjsHgUmmBTKzIcXal/zD2q/YWQzkJ6EzoShl8adpViOdr0V5OqZY5Do
-7v73Z6qsmSj4wTRzDklf5Q02p50PdO7/zoG2P0GTuhPHcS+5AtjvVnL1It5kAR4P
-6kTscVDq2FrowlkqkX0KJ8vy+SypOtReqUn4wk13b60dwUJl8sg=
-=IuFi
------END PGP SIGNATURE-----
+  [GIT PULL 3/5] Renesas ARM SoC updates for v5.8 (take two)
 
---poemUeGtc2GQvHuH--
+    - Add debug-ll support for RZ/G1H.
+
+  [GIT PULL 4/5] Renesas driver updates for v5.8 (take two)
+
+    - Add the main config option for the RZ/G1H SoC.
+
+  [GIT PULL 5/5] Renesas DT binding updates for v5.8 (take two)
+
+    - Document support for the RZ/G1H-based iWave RainboW Qseven SOM
+      (G21M) and board (G21D).
+
+Note that the new Renesas RZ/G1H DT Binding Definitions are shared by
+driver and DT source files, and thus included in multiple pull requests:
+  - "[GIT PULL 2/5] Renesas ARM DT updates for v5.8 (take two)",
+  - "[GIT PULL 4/5] Renesas driver updates for v5.8" (previous PR),
+  - "[GIT PULL] clk: renesas: Updates for v5.8" (for clk).
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
