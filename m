@@ -2,84 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D39A81D73CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 11:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B01011D73F7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 11:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgERJVS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 05:21:18 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42035 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726127AbgERJVS (ORCPT
+        id S1726945AbgERJ0I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 05:26:08 -0400
+Received: from www.zeus03.de ([194.117.254.33]:58860 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726925AbgERJ0I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 05:21:18 -0400
-Received: by mail-ot1-f68.google.com with SMTP id z3so5789158otp.9;
-        Mon, 18 May 2020 02:21:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kAa2psThKQ7YN1P9hrBIVOheMSQY5tyl7YTngLsSf9s=;
-        b=VNIFVRJo5d1tgf+kX2RCdcuftoXDm343EvYZzCOCOwr60plK6XZdHYeNBA06gIVc2c
-         Kv/Pd9dZeYE8Jh0mjzv3UXfkT9z+YVATN1/ztg4s36V8Tm8MluhLD5hB/Z09i6bZ3RPM
-         tGX4liSEWImVljBCUewTv/lqtaXM6LnaJMxHlxQOzXQRb28nZsJTU5PFGtwyFlbEwNgS
-         YFHO6UKLrN4aNjdNn+PhCvQDYp7RySzDbbvwdu13YXmW6yO5Czi62VuIzN53MRVRtBdb
-         0G39qXu0bQdBzNfx9hGs0agM+SfJKSulzJbCw9ReNxzj5SnN8Z3RCRuh+/ZwCJUizAQc
-         yOsQ==
-X-Gm-Message-State: AOAM532GI0DRsRNC45CKrBTdKMzJeU3A4+Ftwp1st7fDASlrqcKQp304
-        RnrJ4CbLrokPTPk1K8BHuRtSrYGtrOpy4lrJXFg=
-X-Google-Smtp-Source: ABdhPJy/jYVzr4UFhMG3XsAuCDffsP6l/ymaV+byoPvr3DO7/Hr0St2Gcq6sQ6SCaJT6ercVH1Hg1rifAgCbjYjrD3Q=
-X-Received: by 2002:a9d:7e92:: with SMTP id m18mr11298557otp.145.1589793676622;
- Mon, 18 May 2020 02:21:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200511145257.22970-1-geert+renesas@glider.be> <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
-In-Reply-To: <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 May 2020 11:20:59 +0200
-Message-ID: <CAMuHMdUtNVfAnQODjWaDo_+ncFBwq=cNLMt=hsMqiVbqx-1XVg@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mon, 18 May 2020 05:26:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=A/gIwIbzzT3voFbwbkkGYk2914xt
+        750bCNgjeYYwG4U=; b=DCLJDuGd6Lj3/JoYClXSkMfsnu44ooFH2veTmmfv58wE
+        Si1yB4o9j576NoXHeOMDvheD6Dr1yNYrnlSL+R3Lmh3UeMWIMMFRo5bEnSwsXfXg
+        WqcDVFPiSnoAfAzBzHAPQPIt0iYnusl46GnymUdlLqyVApFvd3skUS+/Johvh5E=
+Received: (qmail 947633 invoked from network); 18 May 2020 11:26:05 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 May 2020 11:26:05 +0200
+X-UD-Smtp-Session: l3s3148p1@WxWOwOilRKEgAwDPXwfCAIWBZdj99x2z
+Date:   Mon, 18 May 2020 11:26:01 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        linux-i2c@vger.kernel.org,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 03/17] ARM: dts: r8a7742: Add I2C and IIC support
+Message-ID: <20200518092601.GA3268@ninjato>
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200515171031.GB19423@ninjato>
+ <CA+V-a8t6rPs4s8uMCpBQEAUvwsVn7Cte-vX3z2atWRhy_RFLQw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2oS5YaxWCcQjTEyO"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8t6rPs4s8uMCpBQEAUvwsVn7Cte-vX3z2atWRhy_RFLQw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
 
-On Mon, May 18, 2020 at 10:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> I have queued this v7 patch set in an immutable branch for testing and also
-> merged to my "devel" branch for testing.
->
-> If all goes well it also hits linux-next soon.
+--2oS5YaxWCcQjTEyO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank a lot!
 
-Back to the QEMU side...
+> > However, both versions (with and without automatic transmission) are
+> > described with the same "renesas,iic-r8a7742" compatible. Is it possible
+> > to detect the reduced variant at runtime somehow?
+> >
+> I couldn't find anything the manual that would be useful to detect at run=
+time.
+>=20
+> > My concern is that the peculiarity of this SoC might be forgotten if we
+> > describe it like this and ever add "automatic transmissions" somewhen.
+> >
+> Agreed.
 
-Gr{oetje,eeting}s,
+Well, I guess reading from a register which is supposed to not be there
+on the modified IP core is too hackish.
 
-                        Geert
+Leaves us with a seperate compatible entry for it?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--2oS5YaxWCcQjTEyO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7CVKUACgkQFA3kzBSg
+KbYDCA//fNp372/9fj/gtObfrZa0TxllW2uISdUH112lOK1XJS+XSvLkHbsTH9Gt
+x29LZpIF2R6xhl3wAQsARCEvWQ+ln6mhtYwIR6NBgmH/FrJ64ck0J1TW/MIBBP9/
+ljAi8HjzIwg5lS/u8iw7qJQBehFNjk7PMTye7G09CjQTq9VRn2fZoAdlu3jqQci9
+0KUneHGduxQA1r7hK2wl5xPH423IyaUGqhXvPSRyzfZu0fUaINAE/LIfstX41YiU
+Wj9lcT8gDQeNGwhRPhvokRqv2q9sFJZ4oT3mrpbtKjICEGQxRVqZbSw7XqjE+ntl
+Lkgi68z1RFja7drjGHXqRR7P7R+AT2vuD+S411fObxpl81GIhUTHKhcK7GC7fs5N
+QrSWGqP+gFSgoU54062r33GLSjH9jNl2xjQlNwafJHzkHisIEH6DYA/3QDf6CdPB
+OWqn8VNfeZKf+RTsJ+0pHuq4CLhBLDLLllhx1htpb/h1WUM8j8Y7OM3k1ltoJs4Y
+3HOpjHGVBWln/xYbGQwqQbZm/IhEDRIgOvU1IeaHQIXLJSj022gTD8DDEr5DQMd9
+hi7sPPL1StfvLKyJPeSTl3pfxumunmztsbFNCKpYpF7B4hbEyOL266sguAUoc+GZ
+qD4du02x1/QSMlilqkZaLWYWuExQToKLu/u1TTDVLDzpXr0WNNM=
+=+frY
+-----END PGP SIGNATURE-----
+
+--2oS5YaxWCcQjTEyO--
