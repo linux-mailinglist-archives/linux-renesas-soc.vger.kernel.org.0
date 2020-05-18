@@ -2,41 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB92B1D73CB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 11:20:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D39A81D73CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 11:21:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgERJUo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 05:20:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726285AbgERJUn (ORCPT
+        id S1726290AbgERJVS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 05:21:18 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42035 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgERJVS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 05:20:43 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589793643;
-        bh=DiIV7Q8yxO5IbB8tKfcnSKRju7ey1Z9JQImfbif1sN4=;
-        h=Subject:From:Date:To:From;
-        b=asvQtS2ktP0pRLJtcsKuNkCipxL8+Iik2k3JxKTcrRXJhsu0iZiUwJPXuc7ew4td6
-         gOiuQGnUhEW3oCeMMCB9MV6nVT992jXcbKHUNeRegONqynzTWT5H94jIJtgb8iCTWH
-         dQ5sb/st+iG+lg2tI4PtReWWpmiKJw7BesZN5oFs=
+        Mon, 18 May 2020 05:21:18 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z3so5789158otp.9;
+        Mon, 18 May 2020 02:21:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kAa2psThKQ7YN1P9hrBIVOheMSQY5tyl7YTngLsSf9s=;
+        b=VNIFVRJo5d1tgf+kX2RCdcuftoXDm343EvYZzCOCOwr60plK6XZdHYeNBA06gIVc2c
+         Kv/Pd9dZeYE8Jh0mjzv3UXfkT9z+YVATN1/ztg4s36V8Tm8MluhLD5hB/Z09i6bZ3RPM
+         tGX4liSEWImVljBCUewTv/lqtaXM6LnaJMxHlxQOzXQRb28nZsJTU5PFGtwyFlbEwNgS
+         YFHO6UKLrN4aNjdNn+PhCvQDYp7RySzDbbvwdu13YXmW6yO5Czi62VuIzN53MRVRtBdb
+         0G39qXu0bQdBzNfx9hGs0agM+SfJKSulzJbCw9ReNxzj5SnN8Z3RCRuh+/ZwCJUizAQc
+         yOsQ==
+X-Gm-Message-State: AOAM532GI0DRsRNC45CKrBTdKMzJeU3A4+Ftwp1st7fDASlrqcKQp304
+        RnrJ4CbLrokPTPk1K8BHuRtSrYGtrOpy4lrJXFg=
+X-Google-Smtp-Source: ABdhPJy/jYVzr4UFhMG3XsAuCDffsP6l/ymaV+byoPvr3DO7/Hr0St2Gcq6sQ6SCaJT6ercVH1Hg1rifAgCbjYjrD3Q=
+X-Received: by 2002:a9d:7e92:: with SMTP id m18mr11298557otp.145.1589793676622;
+ Mon, 18 May 2020 02:21:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <158979364372.30357.11636752188783434373.git-patchwork-housekeeping@kernel.org>
-Date:   Mon, 18 May 2020 09:20:43 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <20200511145257.22970-1-geert+renesas@glider.be> <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+In-Reply-To: <CACRpkdaz34Bc_EzcXKMEVCCCUt82_c2+t4X6YSLW2b59oi+9gA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 18 May 2020 11:20:59 +0200
+Message-ID: <CAMuHMdUtNVfAnQODjWaDo_+ncFBwq=cNLMt=hsMqiVbqx-1XVg@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] gpio: Add GPIO Aggregator
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] dt-bindings: clock: renesas: cpg: Convert to json-schema (2020-05-18T08:16:44)
-  Superseding: [v1] dt-bindings: clock: renesas: cpg: Convert to json-schema (2020-05-08T10:02:31):
-    dt-bindings: clock: renesas: cpg: Convert to json-schema
+Hi Linus,
 
+On Mon, May 18, 2020 at 10:17 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> I have queued this v7 patch set in an immutable branch for testing and also
+> merged to my "devel" branch for testing.
+>
+> If all goes well it also hits linux-next soon.
+
+Thank a lot!
+
+Back to the QEMU side...
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
