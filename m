@@ -2,100 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B95031D8770
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 20:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BEF1D87C9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 21:03:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728960AbgERSos (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 14:44:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40614 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728396AbgERSos (ORCPT
+        id S1726367AbgERTDf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 15:03:35 -0400
+Received: from mga02.intel.com ([134.134.136.20]:44790 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726358AbgERTDf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 14:44:48 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 494E5258;
-        Mon, 18 May 2020 20:44:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589827485;
-        bh=2OSQqdkIa3Grof311B8PMTBFkqU9R4KAIbRio4bvUC0=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=rGZkJG7ZOSEzBlVOX+ZdWXusQkXrPjxO9/ws9ba1n+kdZ5ljn7Cldftygxi7aoZIu
-         gHMy2k6NscPcKrUBatvgSE9w3yKaxFYAkGwpjg3MIwaubeMcyEdJ/MehD7f08t3IQP
-         eB/krimKijVISoNzMtqoxnnoZJzj621vYX1Q2NPc=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] fixes! [max9286]: Validate link formats
-To:     Jacopo Mondi <jacopo@jmondi.org>, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
- <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <d09c4eef-ebeb-8577-18ed-233bc7f33786@ideasonboard.com>
-Date:   Mon, 18 May 2020 19:44:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Mon, 18 May 2020 15:03:35 -0400
+IronPort-SDR: IhsJg9Tilb68e11mhhT5BA2aBwUR5M1lEHrbCPCeFwx2NHx11Nor/+tCzb+X2MAbCRx7fH9wmL
+ 5h7LLG05Z8Cw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 12:03:33 -0700
+IronPort-SDR: XisD2u3lHwonf0eTIA20PEsnK5RkfExDWoltBpUlyVWrwmEu6P6N0I6a6MY8ObPjNt2CeRGaYu
+ q0nL+ZwSzCaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; 
+   d="scan'208";a="254522548"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 18 May 2020 12:03:28 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jal2t-0009qR-4F; Tue, 19 May 2020 03:03:27 +0800
+Date:   Tue, 19 May 2020 03:02:43 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ f98b28a0b3b080fbf6e12410681c05f9f8c7dc73
+Message-ID: <5ec2dbd3.j9+ZIN7Z0bEHETLl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: f98b28a0b3b080fbf6e12410681c05f9f8c7dc73  Merge tag 'v5.7-rc6' into renesas-devel
 
-On 18/05/2020 17:11, Kieran Bingham wrote:
-> Disallow setting a format on the source link, but enable link validation
-> by returning the format of the first bound source when getting the
-> format of the source pad.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/max9286.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index ef824d2b26b8..6c01595936d7 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
->  	struct max9286_priv *priv = sd_to_max9286(sd);
->  	struct v4l2_mbus_framefmt *cfg_fmt;
->  
-> -	if (format->pad >= MAX9286_SRC_PAD)
-> +	/* \todo: Multiplexed streams support
-> +	 * Prevent setting the format on the shared multiplexed bus.
-> +	 */
-> +	if (format->pad == MAX9286_SRC_PAD)
->  		return -EINVAL;
->  
->  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
-> @@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
->  {
->  	struct max9286_priv *priv = sd_to_max9286(sd);
->  	struct v4l2_mbus_framefmt *cfg_fmt;
-> +	unsigned int pad = format->pad;
->  
-> -	if (format->pad >= MAX9286_SRC_PAD)
-> -		return -EINVAL;
-> +	/* \todo: Multiplexed Stream Support
-> +	 * Support link validation by returning the format of the first bound
-> +	 * link. All links must have the same format, as we do not support
-> +	 * mixing, and matching of cameras connected to the max9286.
-> +	 */
-> +	if (format->pad == MAX9286_SRC_PAD)
-> +		pad = ffs(priv->bound_sources);
+elapsed time: 482m
 
-of course this would have to be (ffs(priv->bound_sources) - 1) as the
-first pad index is 0 ;-)
+configs tested: 111
+configs skipped: 5
 
->  
-> -	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-> +	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
->  	if (!cfg_fmt)
->  		return -EINVAL;
->  
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+powerpc                      tqm8xx_defconfig
+arm                       omap2plus_defconfig
+sh                         apsh4a3a_defconfig
+mips                   sb1250_swarm_defconfig
+c6x                        evmc6457_defconfig
+arm                           corgi_defconfig
+mips                     cu1000-neo_defconfig
+mips                           xway_defconfig
+arm                          ixp4xx_defconfig
+arm                            mps2_defconfig
+mips                           gcw0_defconfig
+ia64                        generic_defconfig
+powerpc                  storcenter_defconfig
+arm                       multi_v4t_defconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                              allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20200518
+i386                 randconfig-a005-20200518
+i386                 randconfig-a001-20200518
+i386                 randconfig-a003-20200518
+i386                 randconfig-a002-20200518
+x86_64               randconfig-a016-20200518
+x86_64               randconfig-a012-20200518
+x86_64               randconfig-a015-20200518
+x86_64               randconfig-a013-20200518
+x86_64               randconfig-a011-20200518
+x86_64               randconfig-a014-20200518
+i386                 randconfig-a012-20200518
+i386                 randconfig-a014-20200518
+i386                 randconfig-a016-20200518
+i386                 randconfig-a011-20200518
+i386                 randconfig-a015-20200518
+i386                 randconfig-a013-20200518
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                              defconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
