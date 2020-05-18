@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 665AF1D861F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 20:23:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 470521D8409
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 20:11:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729804AbgERSXN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 14:23:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51048 "EHLO mail.kernel.org"
+        id S1732970AbgERSFe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 14:05:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53182 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730523AbgERRtZ (ORCPT
+        id S1729470AbgERSFd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 13:49:25 -0400
+        Mon, 18 May 2020 14:05:33 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D00520715;
-        Mon, 18 May 2020 17:49:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D41120671;
+        Mon, 18 May 2020 18:05:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589824164;
-        bh=seknKxSv+DaRyGlwZogVGF+DYMRm5Pq8n3UvU5yQipQ=;
+        s=default; t=1589825132;
+        bh=aEbCs/ehsd1uykQYJPlIZO/uC6PeDCBHQ8EMD2l9lFY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MvWG+ZRkPpmR7R8PPs+U7cyC8yYXrlb+BHxBvhaW6h8k+dvBWyq2lSOpQhuzVZbAG
-         zj6Rc/cSSXlyRzLNmD+r6SOlZZrMAv8Oe0ELaSrzmF4L6TticuFQPW5j57Nujj49+Q
-         TwDdVDCD8CWLQSyLyTj1DwgsRUqTXTSJSPqJ8wNc=
+        b=Gc4qRFWqVvLTB/CpRNx2jyqWugkZj5aiwcsMzOwkhm2HPswUykrzVu/5+zYRVTCBP
+         1NYhApjCdQGf49MJ/tIkIlC3U3NyN5hyggZ84zFAVOFg09fyhqL7b4r6PF1CgZwtjk
+         ILlSlcjkmTPlz8lKw5mjMTGjlRUh71Nxgvcpsqtg=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -32,12 +32,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
         Kai-Heng Feng <kai.heng.feng@canonical.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH 4.14 097/114] usb: core: hub: limit HUB_QUIRK_DISABLE_AUTOSUSPEND to USB5534B
-Date:   Mon, 18 May 2020 19:37:09 +0200
-Message-Id: <20200518173519.260708121@linuxfoundation.org>
+Subject: [PATCH 5.6 142/194] usb: core: hub: limit HUB_QUIRK_DISABLE_AUTOSUSPEND to USB5534B
+Date:   Mon, 18 May 2020 19:37:12 +0200
+Message-Id: <20200518173543.121249652@linuxfoundation.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200518173503.033975649@linuxfoundation.org>
-References: <20200518173503.033975649@linuxfoundation.org>
+In-Reply-To: <20200518173531.455604187@linuxfoundation.org>
+References: <20200518173531.455604187@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -93,7 +93,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -37,6 +37,7 @@
+@@ -39,6 +39,7 @@
  
  #define USB_VENDOR_GENESYS_LOGIC		0x05e3
  #define USB_VENDOR_SMSC				0x0424
@@ -101,7 +101,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
  #define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
  
-@@ -5317,8 +5318,11 @@ out_hdev_lock:
+@@ -5621,8 +5622,11 @@ out_hdev_lock:
  }
  
  static const struct usb_device_id hub_id_table[] = {
