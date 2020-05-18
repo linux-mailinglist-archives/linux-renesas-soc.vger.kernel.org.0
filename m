@@ -2,128 +2,281 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C1E71D777D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 13:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC7011D779A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 13:45:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgERLls (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 07:41:48 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:35366 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726526AbgERLls (ORCPT
+        id S1727033AbgERLp1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 07:45:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33444 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726557AbgERLp0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 07:41:48 -0400
-Received: by mail-oi1-f194.google.com with SMTP id o7so8701533oif.2;
-        Mon, 18 May 2020 04:41:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QqReWwa+eOXbiTkJ7H5L2JLijrqxGjQZXWkiXBXsjxo=;
-        b=B0F3R1LI/yrCOe/ZwNVRl0o5oKIgF0vCcKsz2yX/nl4BdEzu0ra6ia1ABvS1bpYvFA
-         bOrHXSKHItmTw1sKCMQKQUqbgY+1FxgkFiFCEBRP81eSsRAI/92RgM6LHwwSZs7KS+oi
-         SFaehDsVMeaEZBfEuTqVqD48eVllQZoMs+hif2uio7JrkQicyjKvloV0BJ4NNJaQFIUF
-         BYppnro0gz7141Avv8rbnmK4hZPRqajFrZXXobFJJpkanBJx/knmdJtykXUoNUIIpQrQ
-         Wy3EY2CqaXzwE9tFhsmS91ka/tosZytiUqKnj9yoyb+rkGpRkb78dtQQ/gqys793LGUE
-         Kt/A==
-X-Gm-Message-State: AOAM533FC8GOk7mgpI0i80CSCsWMv4CT+l4Zez3fG+OiAbYbX6rLAbIp
-        C4HErAtcRBMy91ZvLuFfPdUrYnEgl7Q4+4Z4AvQ=
-X-Google-Smtp-Source: ABdhPJzIwYIkEvuiD2w8vDyPT9D/C6gV3A976p29r7GQ7YCcyQdXeFiyb78DlmVhOcTpbd5AuMhOO07U8ucNsiLsSZM=
-X-Received: by 2002:a05:6808:1:: with SMTP id u1mr6233663oic.54.1589802107215;
- Mon, 18 May 2020 04:41:47 -0700 (PDT)
+        Mon, 18 May 2020 07:45:26 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DF74258;
+        Mon, 18 May 2020 13:45:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589802323;
+        bh=1kluJnAc7GtmqSdWsc8UnPl9ntkFPKBdNDqtTvR3daM=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=g5cU7Peoxd6PV/66YuoMKvY/50rRaE6PJEmy4JdNJe41q3iwxUAh+10n6+T3K7mNe
+         Pxx7OovFpk8qOY+Kp1ytH4vVVNbj6XmKcZmGvtr0vITJF9QuInaf7Io/5iG4FfvSAv
+         qwqguj8W47sZ98ZE+EQG3wuOAP23J9phr0jnnx1c=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+Date:   Mon, 18 May 2020 12:45:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1589555337-5498-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1589555337-5498-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 May 2020 13:41:35 +0200
-Message-ID: <CAMuHMdWdc5P3UyDZs1BPzAXZzkhvmZM8gVSDUnJBf=-dsH=izg@mail.gmail.com>
-Subject: Re: [PATCH 15/17] ARM: dts: r8a7742: Add APMU nodes
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Sakari,
 
-reduced CC list
-added CPUidle people
+There are only fairly minor comments here, fix ups will be included in a
+v10.
 
-On Fri, May 15, 2020 at 5:10 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add DT nodes for the Advanced Power Management Units (APMU), and use the
-> enable-method to point out that the APMU should be used for SMP support.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Is there anything major blocking integration?
 
-Thanks for your patch!
+Regards
 
-> --- a/arch/arm/boot/dts/r8a7742.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742.dtsi
-> @@ -18,6 +18,7 @@
->         cpus {
->                 #address-cells = <1>;
->                 #size-cells = <0>;
-> +               enable-method = "renesas,apmu";
+Kieran
 
-According to Documentation/devicetree/bindings/arm/cpus.yaml,
-"enable-method" should be a property of the individual CPU nodes,
-and not of the parent "cpus" container node.
 
-However, so far we always put it in the parents "cpus" node, which works from
-secondary CPU bringup, but may cause issues with CPUidle?
 
-See also "[PATCH/RFC v2] ARM: dts: r8a7791: Move enable-method to CPU nodes"
-https://lore.kernel.org/linux-arm-kernel/20190514085837.18325-1-geert+renesas@glider.be/
-which so far has received no feedback from the DT or CPUidle people.
+On 16/05/2020 22:51, Sakari Ailus wrote:
+> Hi Kieran,
+> 
+> Thanks for the update.
+> 
+> On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+> 
+> ...
+> 
+>> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>> +				  struct v4l2_subdev_pad_config *cfg,
+>> +				  struct v4l2_subdev_mbus_code_enum *code)
+>> +{
+>> +	if (code->pad || code->index > 0)
+>> +		return -EINVAL;
+>> +
+>> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> 
+> Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+> variant of the format is generally used on the serial busses. This choice
+> was made when serial busses were introduced.
 
-Thanks!
+Ok - I presume this doesn't really have much effect anyway, they just
+have to match for the transmitter/receiver?
 
->                 cpu0: cpu@0 {
->                         device_type = "cpu";
-> @@ -305,6 +306,18 @@
->                         #reset-cells = <1>;
->                 };
->
-> +               apmu@e6151000 {
-> +                       compatible = "renesas,r8a7742-apmu", "renesas,apmu";
-> +                       reg = <0 0xe6151000 0 0x188>;
-> +                       cpus = <&cpu4 &cpu5 &cpu6 &cpu7>;
-> +               };
-> +
-> +               apmu@e6152000 {
-> +                       compatible = "renesas,r8a7742-apmu", "renesas,apmu";
-> +                       reg = <0 0xe6152000 0 0x188>;
-> +                       cpus = <&cpu0 &cpu1 &cpu2 &cpu3>;
-> +               };
-> +
->                 rst: reset-controller@e6160000 {
->                         compatible = "renesas,r8a7742-rst";
->                         reg = <0 0xe6160000 0 0x0100>;
+But it makes sense to me, so I'll update to the 1x16 variant.
 
-Regardless:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-and I'll see what I will queue in renesas-devel for v5.9 ;-)
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static struct v4l2_mbus_framefmt *
+>> +max9286_get_pad_format(struct max9286_priv *priv,
+>> +		       struct v4l2_subdev_pad_config *cfg,
+>> +		       unsigned int pad, u32 which)
+>> +{
+>> +	switch (which) {
+>> +	case V4L2_SUBDEV_FORMAT_TRY:
+>> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
+>> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+>> +		return &priv->fmt[pad];
+>> +	default:
+>> +		return NULL;
+>> +	}
+>> +}
+>> +
+>> +static int max9286_set_fmt(struct v4l2_subdev *sd,
+>> +			   struct v4l2_subdev_pad_config *cfg,
+>> +			   struct v4l2_subdev_format *format)
+>> +{
+>> +	struct max9286_priv *priv = sd_to_max9286(sd);
+>> +	struct v4l2_mbus_framefmt *cfg_fmt;
+>> +
+>> +	if (format->pad >= MAX9286_SRC_PAD)
+>> +		return -EINVAL;
+> 
+> You can remove these checks; it's been already done by the caller.
+> 
 
-Gr{oetje,eeting}s,
+Ok.
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> ...
+> 
+>> +static int max9286_parse_dt(struct max9286_priv *priv)
+>> +{
+>> +	struct device *dev = &priv->client->dev;
+>> +	struct device_node *i2c_mux;
+>> +	struct device_node *node = NULL;
+>> +	unsigned int i2c_mux_mask = 0;
+>> +
+>> +	of_node_get(dev->of_node);
+>> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+>> +	if (!i2c_mux) {
+>> +		dev_err(dev, "Failed to find i2c-mux node\n");
+>> +		of_node_put(dev->of_node);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	/* Identify which i2c-mux channels are enabled */
+>> +	for_each_child_of_node(i2c_mux, node) {
+>> +		u32 id = 0;
+>> +
+>> +		of_property_read_u32(node, "reg", &id);
+>> +		if (id >= MAX9286_NUM_GMSL)
+>> +			continue;
+>> +
+>> +		if (!of_device_is_available(node)) {
+>> +			dev_dbg(dev, "Skipping disabled I2C bus port %u\n", id);
+>> +			continue;
+>> +		}
+>> +
+>> +		i2c_mux_mask |= BIT(id);
+>> +	}
+>> +	of_node_put(node);
+>> +	of_node_put(i2c_mux);
+>> +
+>> +	/* Parse the endpoints */
+>> +	for_each_endpoint_of_node(dev->of_node, node) {
+>> +		struct max9286_source *source;
+>> +		struct of_endpoint ep;
+>> +
+>> +		of_graph_parse_endpoint(node, &ep);
+>> +		dev_dbg(dev, "Endpoint %pOF on port %d",
+>> +			ep.local_node, ep.port);
+>> +
+>> +		if (ep.port > MAX9286_NUM_GMSL) {
+>> +			dev_err(dev, "Invalid endpoint %s on port %d",
+>> +				of_node_full_name(ep.local_node), ep.port);
+>> +			continue;
+>> +		}
+>> +
+>> +		/* For the source endpoint just parse the bus configuration. */
+>> +		if (ep.port == MAX9286_SRC_PAD) {
+>> +			struct v4l2_fwnode_endpoint vep = {
+>> +				.bus_type = V4L2_MBUS_CSI2_DPHY
+>> +			};
+>> +			int ret;
+>> +
+>> +			ret = v4l2_fwnode_endpoint_parse(
+>> +					of_fwnode_handle(node), &vep);
+>> +			if (ret) {
+>> +				of_node_put(node);
+>> +				of_node_put(dev->of_node);
+>> +				return ret;
+>> +			}
+>> +
+>> +			if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+> 
+> This won't happen, the bus type will stay if you set it to a non-zero
+> value.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+Ok - I'll remove this check.
+
+
+> 
+>> +				dev_err(dev,
+>> +					"Media bus %u type not supported\n",
+>> +					vep.bus_type);
+>> +				v4l2_fwnode_endpoint_free(&vep);
+>> +				of_node_put(node);
+>> +				of_node_put(dev->of_node);
+>> +				return -EINVAL;
+>> +			}
+>> +
+>> +			priv->csi2_data_lanes =
+>> +				vep.bus.mipi_csi2.num_data_lanes;
+>> +			v4l2_fwnode_endpoint_free(&vep);
+> 
+> No need to call this unless you use v4l2_fwnode_endpoint_alloc_parse().
+> 
+> And as you don't, you also won't know which frequencies are known to be
+> safe to use. That said, perhaps where this device is used having a random
+> frequency on that bus could not be an issue. Perhaps.
+
+Does this generate a range? or a list of static supported frequencies?
+
+We configure the pixel clock based upon the number of cameras connected,
+and their pixel rates etc ...
+
+Are you saying that the frequency of this clock should be validated to
+be a specific range? or are you talking about a different frequency?
+
+
+For now I'll remove the v4l2_fwnode_endpoint_alloc_parse().
+
+
+
+>> +
+>> +			continue;
+>> +		}
+>> +
+>> +		/* Skip if the corresponding GMSL link is unavailable. */
+>> +		if (!(i2c_mux_mask & BIT(ep.port)))
+>> +			continue;
+>> +
+>> +		if (priv->sources[ep.port].fwnode) {
+>> +			dev_err(dev,
+>> +				"Multiple port endpoints are not supported: %d",
+>> +				ep.port);
+>> +
+>> +			continue;
+>> +		}
+>> +
+>> +		source = &priv->sources[ep.port];
+>> +		source->fwnode = fwnode_graph_get_remote_endpoint(
+>> +						of_fwnode_handle(node));
+>> +		if (!source->fwnode) {
+>> +			dev_err(dev,
+>> +				"Endpoint %pOF has no remote endpoint connection\n",
+>> +				ep.local_node);
+>> +
+>> +			continue;
+>> +		}
+>> +
+>> +		priv->source_mask |= BIT(ep.port);
+>> +		priv->nsources++;
+>> +	}
+>> +	of_node_put(node);
+>> +	of_node_put(dev->of_node);
+>> +
+>> +	priv->route_mask = priv->source_mask;
+>> +
+>> +	return 0;
+>> +}
+> 
+
