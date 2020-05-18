@@ -2,41 +2,257 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C30B11D700D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 07:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B2401D7031
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 07:12:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgERFAj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 01:00:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36694 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726127AbgERFAj (ORCPT
+        id S1726355AbgERFMQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 01:12:16 -0400
+Received: from de-out1.bosch-org.com ([139.15.230.186]:43220 "EHLO
+        de-out1.bosch-org.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726180AbgERFMP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 01:00:39 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589778038;
-        bh=DgsLShLoXw8B+I2H92FEBiSMytd5h1HVhjnE4xj5slM=;
-        h=Subject:From:Date:To:From;
-        b=EHyRZ6lo47deWf60SNpUp4/ItNUwjYefbSrCVHVjPefevFcJdFiqFrS3gVq01hhEh
-         OqEAjGDXA1TIazNzZGxHSKXJLMnHDIlLUFZLFKie7oZmxnGhlj0pdatrZM3xpoDNk1
-         ZnNEtDYWF0bR53jZNcuVas3cpkUS1JwkGYVQsgJU=
+        Mon, 18 May 2020 01:12:15 -0400
+Received: from fe0vm1649.rbesz01.com (unknown [139.15.230.188])
+        by fe0vms0187.rbdmz01.com (Postfix) with ESMTPS id 49QRvt2Ygqz1XLDQv;
+        Mon, 18 May 2020 07:12:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=in.bosch.com;
+        s=key3-intmail; t=1589778730;
+        bh=LSVs8rvH+wz1pacSRUPMfLnXLqYw58QKb9iy3hZNjxk=; l=10;
+        h=From:Subject:From:Reply-To:Sender;
+        b=chrI+Arg6lG7lHGUcCaAZXtxu10SCwV4Dds5QUv8oQwnNKBxP5F2XSd5xdK73d6+/
+         YIWtI6vPd8uYjIzoi8bkluG/tpoYGoGjs3axfSlSKGFJPuUQ9MaJwnZ5APXkttEt0Q
+         Kio3ju1pM3kwnOtIAQ7pOcn1zw8e4aEKo/woPOz4=
+Received: from si0vm2082.rbesz01.com (unknown [10.58.172.176])
+        by fe0vm1649.rbesz01.com (Postfix) with ESMTPS id 49QRvt2GFWz2J0;
+        Mon, 18 May 2020 07:12:10 +0200 (CEST)
+X-AuditID: 0a3aad16-b51ff7000000121d-5e-5ec2192aa51e
+Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
+        (using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by si0vm2082.rbesz01.com (SMG Outbound) with SMTP id 7E.9F.04637.A2912CE5; Mon, 18 May 2020 07:12:10 +0200 (CEST)
+Received: from FE-MBX2055.de.bosch.com (unknown [10.3.231.149])
+        by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 49QRvt0XkMz6CjZNq;
+        Mon, 18 May 2020 07:12:10 +0200 (CEST)
+Received: from SGPMBX2014.APAC.bosch.com (10.187.83.35) by
+ FE-MBX2055.de.bosch.com (10.3.231.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1979.3; Mon, 18 May 2020 07:12:09 +0200
+Received: from SGPMBX2006.APAC.bosch.com (10.187.83.33) by
+ SGPMBX2014.APAC.bosch.com (10.187.83.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1979.3; Mon, 18 May 2020 13:12:07 +0800
+Received: from SGPMBX2006.APAC.bosch.com ([fe80::cde2:6cbd:4d0b:3310]) by
+ SGPMBX2006.APAC.bosch.com ([fe80::cde2:6cbd:4d0b:3310%5]) with mapi id
+ 15.01.1979.003; Mon, 18 May 2020 13:12:07 +0800
+From:   "Shashikant Suguni (RBEI/ECF1)" <Shashikant.Suguni@in.bosch.com>
+To:     "Behme Dirk (CM/ESO2)" <Dirk.Behme@de.bosch.com>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "Sasikumar Natarajan (RBEI/ECF1)" <Natarajan.Sasikumar@in.bosch.com>
+Subject: RE: [PATCH v2] ravb: On timeout disable IRQs to stop processing
+Thread-Topic: [PATCH v2] ravb: On timeout disable IRQs to stop processing
+Thread-Index: AQHWLNB8y68VBlThhUu+6+ElVnZeWKitR3Ew
+Date:   Mon, 18 May 2020 05:12:07 +0000
+Message-ID: <2d91c5e3686d4b1fa8c86e9e47a74142@in.bosch.com>
+References: <20200518045452.2390-1-dirk.behme@de.bosch.com>
+In-Reply-To: <20200518045452.2390-1-dirk.behme@de.bosch.com>
+Accept-Language: en-US, en-SG
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.187.56.203]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <158977803893.433.17927944512888662029.git-patchwork-housekeeping@kernel.org>
-Date:   Mon, 18 May 2020 05:00:38 +0000
-To:     linux-renesas-soc@vger.kernel.org
+X-Brightmail-Tracker: H4sIAAAAAAAAA22TfVAUZRzHefbWu+VimXXhuB+XNHFpU4YICEUgjY1WVGZMY5nOiByxwBEc
+        eAsOL2Mdp9aEoAciQ5sCEr4EGoRXXByKHF68DOExY4FASAjEEUKKMJgHdseB3B/9s/Pb7/f5
+        /N6eeQgeXUhICLkilVEqZIlSvhAXhlzy2rDe0xDpd/42EfyjeRIL7qjsFWzBwgdPPsbCp2uf
+        icD2CDfHMInyA4xy42tRwvjOkeMopfLl9NqJUb4KqTfmIGcCqEDQGkp4OUhI0FQxBkebzyGb
+        QVPVCLhOmd24h2Bh6sLSqWkEncYu3P5zHUFPm2kR4VNvQnbRrzxb7E4VYvCbRZmDCMKNCodL
+        pWF2+W3QZA+tssnuVACYDSE2GafWwc93OIEtJqlQ+L7wsMDeRChcMaoXsztTm+FE8eSijigv
+        KL9VgNtiHiWG3uFSzD4NBRUNN3j2WATmOwvWUgJr7A0DYfbTPlCmv8+3xy/BuTN/8+xVV0Pb
+        18O4Bok5h6ScA8I5IJwDUobwSiRi5X4HkgL8ggN8ldEMm+nn7/tJclItst+Uhw7V5fzja0AY
+        gQwoiMCkIvLF8qZI2jU6OSYjXsbG71OmJTKsVEJ+PvHVXtrticymRSfJWVaerDAgIHhSd3L3
+        9NVImoyRZWQyymQ7ZkBPE7hUTK51+SGSpuJkqcynDJPCKJfdUIKQApniYYikVyuZOCY9Vp6Y
+        umxLvUjk5OREezg6jmUxwtmANhEu1toLYmsKkk2RJbHyuCXc047Ty+oK2o7eJzTm0+U8oslY
+        Yv0+qqko59G4IlnBSMRkvS0XZaPi0xRPupGsIbcEWRcjcjBWMo6jbkQgqRsZYYNdrO9hpQ8g
+        OW2ddcAlcQUK+NbKUDdoKJ9PhBK1Ekp0MwiqS7sx+MY0jsHc4Jc86H30kAcXa1Q4HOnW4DCX
+        m4/DdX3RKtAa1Xzg9Ll8sNTV8KG1ZIAPxTN6Z+gpMwlhrKPVBfo6u1zg5uxfJLQ9OOwKx+sK
+        aKg+/Ys7zF0cc4eHjSoRXP0iTwSPq3IAppuLAdqaDJ5gmR/0hJEjC57Q12FcM25dMWZd8Rtd
+        tutlU2Wp/7PiJXVlNokKk3glZP80Jdgx2n/mQ29R5vDRrGpFgEX7li6hxuIaJcxK98Da73L1
+        lTPc2L/c/J/7s/J9tsaKdHW7p2p3enDxt9q3Fbk5Gwcs/s+dKDmFPb9Vd6hi8uDwurwisvG7
+        /M/a1SFNFz7q3/Ve9L69ite3t9yjP1jrq+tiawXHggqKb+Zd1sh23TclmUwLl+Mm6vfEpkRs
+        esrvlcArLVX9OvP+Nhh23Z5k6eLgtq5VO2Ue+r36bEqlW1OCXvdgYKghQ1W4oDn2jvqU3ifr
+        mgJvDG18d6dfbsEG1eyO9mbxwb6Bk1qT78evni2T91QFnh/541B0cMNslLfm2Za7o2E1L1wb
+        TQ82xkhxNl7mv56nZGX/AT3ds9knBQAA
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] ravb: On timeout disable IRQs to stop processing (2020-05-18T04:54:52)
-  Superseding: [v1] ravb: On timeout disable IRQs to stop processing (2020-04-09T07:52:15):
-    [RFC] ravb: On timeout disable IRQs to stop processing
++ Sasikumar
+=09
+Best regards,
+
+Suguni Shashikant
+RBEI/ECF1 =20
+
+Tel. +91 80 6136-4404=20
 
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+-----Original Message-----
+From: Behme Dirk (CM/ESO2) <Dirk.Behme@de.bosch.com>=20
+Sent: Monday, May 18, 2020 10:25 AM
+To: sergei.shtylyov@cogentembedded.com; linux-renesas-soc@vger.kernel.org
+Cc: Behme Dirk (CM/ESO2) <Dirk.Behme@de.bosch.com>; Shashikant Suguni (RBEI=
+/ECF1) <Shashikant.Suguni@in.bosch.com>
+Subject: [PATCH v2] ravb: On timeout disable IRQs to stop processing
+
+Analyzing [1] it seems there is a race condition where ravb_start_xmit() ca=
+n be called from interrupt while tx skbuffs are being torn down in the sche=
+duled timeout handling. The actual timeout work is done in
+ravb_tx_timeout_work() during which the tx skbuffs are torn down via invoca=
+tions of ravb_ring_free(). But there seems to be no flag to tell the driver=
+ it is shutting down so it continues to use the ring buffer when it should =
+not.
+
+Fix this by disabling the interrupts in the timeout handler.
+
+[1]
+
+-- cut --
+ravb e6800000.ethernet ethernet: transmit timed out, status 00000000, reset=
+ting...
+ravb e6800000.ethernet ethernet: failed to switch device to config mode Una=
+ble to handle kernel NULL pointer dereference at virtual address 00000018 M=
+em abort info:
+  Exception class =3D DABT (current EL), IL =3D 32 bits
+  SET =3D 0, FnV =3D 0
+  EA =3D 0, S1PTW =3D 0
+Data abort info:
+  ISV =3D 0, ISS =3D 0x00000046
+  CM =3D 0, WnR =3D 1
+user pgtable: 4k pages, 48-bit VAs, pgd =3D ffff80065622f000 [0000000000000=
+018] *pgd=3D00000006962a7003 , *pud=3D00000006962a8003 , *pmd=3D00000000000=
+00000 Internal error: Oops: 96000046 [#1] PREEMPT SMP Modules linked in:
+...
+Process Thread1 (pid: 3132, stack limit =3D 0xffff000027dd0000)
+CPU: 2 PID: 3132 Comm: Thread1 Tainted: G        WC 4.14.130-ltsi-g28acae87=
+ #1
+Hardware name: Board based on r8a7796 (DT)
+task: ffff80064f2aaa00 task.stack: ffff000027dd0000 PC is at ravb_start_xmi=
+t+0x138/0x5a0 LR is at ravb_start_xmit+0x40/0x5a0 pc : [<ffff0000084d6324>]=
+ lr : [<ffff0000084d622c>] pstate: 600001c5 sp : ffff000027dd3550
+x29: ffff000027dd3550
+x28: 0000000000000076
+x27: ffff80061035ff00
+x26: ffff000027dd3694
+x25: ffff80069624f800
+x24: ffff80069624f000
+x23: 0000000000000003
+x22: 0000000000000001
+x21: ffff80069624f000
+x20: 0000000000000000
+x19: ffff80069624f000
+x18: 0000000000000014
+x17: 0000ffff9b90ddb0
+x16: ffff00000867d07c
+x15: 0000155107b31031
+x14: 000409000c000000
+x13: 0000000003000001
+x12: 0100050010000001
+x11: 0000000003000001
+x10: 0100010010000001
+x9 : 20000000000000c0
+x8 : 0000000000000000
+x7 : ffff8006656f9388
+x6 : 0000000000000002
+x5 : 0000000000000000
+x4 : ffff8006656f929c
+x3 : ffff000027dd3694
+x2 : 0000000000000018
+x1 : 0000000000000000
+x0 : 0000000000000003
+Call trace:
+Exception stack(0xffff000027dd3410 to 0xffff000027dd3550)
+3400:                                   0000000000000003 0000000000000000
+3420: 0000000000000018 ffff000027dd3694 ffff8006656f929c 0000000000000000
+3440: 0000000000000002 ffff8006656f9388 0000000000000000 20000000000000c0
+3460: 0100010010000001 0000000003000001 0100050010000001 0000000003000001
+3480: 000409000c000000 0000155107b31031 ffff00000867d07c 0000ffff9b90ddb0
+34a0: 0000000000000014 ffff80069624f000 0000000000000000 ffff80069624f000
+34c0: 0000000000000001 0000000000000003 ffff80069624f000 ffff80069624f800
+34e0: ffff000027dd3694 ffff80061035ff00 0000000000000076 ffff000027dd3550
+3500: ffff0000084d622c ffff000027dd3550 ffff0000084d6324 00000000600001c5
+3520: ffff00000921d008 ffff8006159b0d00 0000ffffffffffff ffff0000084d622c
+3540: ffff000027dd3550 ffff0000084d6324
+[<ffff0000084d6324>] ravb_start_xmit+0x138/0x5a0 [<ffff000008699d60>] dev_h=
+ard_start_xmit+0xa8/0x24c [<ffff0000086c51c0>] sch_direct_xmit+0xb0/0x1a8 [=
+<ffff0000086c54cc>] __qdisc_run+0x214/0x2ec [<ffff00000869a348>] __dev_queu=
+e_xmit+0x35c/0x5b4 [<ffff00000869a5b0>] dev_queue_xmit+0x10/0x18 [<ffff0000=
+00b9765c>] register_vlan_dev+0xc74/0x10f8 [8021q] [<ffff000008699d60>] dev_=
+hard_start_xmit+0xa8/0x24c [<ffff00000869a438>] __dev_queue_xmit+0x44c/0x5b=
+4 [<ffff00000869a5b0>] dev_queue_xmit+0x10/0x18 [<ffff0000086a5b9c>] neigh_=
+connected_output+0xc0/0xe4 [<ffff0000086d6bd8>] ip_finish_output2+0x3c0/0x3=
+fc [<ffff0000086d8178>] ip_finish_output+0xf8/0x1c4 [<ffff0000086d8b74>] ip=
+_mc_output+0x258/0x308 [<ffff0000086d8400>] ip_local_out+0x44/0x54 [<ffff00=
+00086d9594>] ip_send_skb+0x1c/0xa8 [<ffff0000086fea4c>] udp_send_skb+0x11c/=
+0x244 [<ffff000008701084>] udp_sendmsg+0x534/0x6bc [<ffff00000870b390>] ine=
+t_sendmsg+0x40/0xe0 [<ffff00000867b588>] sock_sendmsg+0x3c/0x58 [<ffff00000=
+867bf18>] ___sys_sendmsg+0x228/0x278 [<ffff00000867d03c>] __sys_sendmsg+0x5=
+8/0x98 [<ffff00000867d08c>] SyS_sendmsg+0x10/0x20 Exception stack(0xffff000=
+027dd3ec0 to 0xffff000027dd4000)
+3ec0: 0000000000000012 0000ffff8a7fdf18 0000000000004000 0000000000000000
+3ee0: 0000ffff8a7ff258 0000ffff8a7ff150 0000ffff8a7ff840 0000000000000000
+3f00: 00000000000000d3 0100010010000001 0000000003000001 0100050010000001
+3f20: 0000000003000001 000409000c000000 0000000000000047 0000155107b31031
+3f40: 0000ffff9b67dfb8 0000ffff9b90ddb0 0000000000000014 0000000000004000
+3f60: 0000000000000012 0000ffff8a7fdf18 0000ffff780017b0 0000000000004000
+3f80: 0000000000000010 0000000000000001 0000ffff8a7fdf00 0000ffff9000b770
+3fa0: 0000000000000012 0000ffff8a7fde60 0000ffff9b90de10 0000ffff8a7fde60
+3fc0: 0000ffff9b90de28 0000000080000000 0000000000000012 00000000000000d3
+3fe0: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 [=
+<ffff0000080832c0>] el0_svc_naked+0x34/0x38
+Code: d37d7c01 d37d7c02 f90037a1 f9445f01 (f822683b) ---[ end trace eabda93=
+d178d5bcb ]--- Kernel panic - not syncing: Fatal exception in interrupt
+SMP: stopping secondary CPUs
+Kernel Offset: disabled
+CPU features: 0x1802004
+Memory Limit: 6144 MB
+-- cut --
+
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+---
+
+Changes in v2: Dropped the RFC and added Sergei's Reviewed-by. No functiona=
+l
+               change.
+
+ drivers/net/ethernet/renesas/ravb_main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/etherne=
+t/renesas/ravb_main.c
+index 067ad25553b9..0f91ab41b22b 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1447,6 +1447,11 @@ static void ravb_tx_timeout_work(struct work_struct =
+*work)
+=20
+ 	netif_tx_stop_all_queues(ndev);
+=20
++	/* Disable interrupts by clearing the interrupt masks. */
++	ravb_write(ndev, 0, RIC0);
++	ravb_write(ndev, 0, RIC2);
++	ravb_write(ndev, 0, TIC);
++
+ 	/* Stop PTP Clock driver */
+ 	if (priv->chip_id =3D=3D RCAR_GEN2)
+ 		ravb_ptp_stop(ndev);
+--
+2.20.0
+
