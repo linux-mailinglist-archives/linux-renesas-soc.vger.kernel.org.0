@@ -2,171 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BEF1D87C9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 21:03:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 248A71D884C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 21:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgERTDf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 15:03:35 -0400
-Received: from mga02.intel.com ([134.134.136.20]:44790 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726358AbgERTDf (ORCPT
+        id S1728287AbgERThE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 15:37:04 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:36770 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727987AbgERThD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 15:03:35 -0400
-IronPort-SDR: IhsJg9Tilb68e11mhhT5BA2aBwUR5M1lEHrbCPCeFwx2NHx11Nor/+tCzb+X2MAbCRx7fH9wmL
- 5h7LLG05Z8Cw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 12:03:33 -0700
-IronPort-SDR: XisD2u3lHwonf0eTIA20PEsnK5RkfExDWoltBpUlyVWrwmEu6P6N0I6a6MY8ObPjNt2CeRGaYu
- q0nL+ZwSzCaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; 
-   d="scan'208";a="254522548"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 18 May 2020 12:03:28 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jal2t-0009qR-4F; Tue, 19 May 2020 03:03:27 +0800
-Date:   Tue, 19 May 2020 03:02:43 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- f98b28a0b3b080fbf6e12410681c05f9f8c7dc73
-Message-ID: <5ec2dbd3.j9+ZIN7Z0bEHETLl%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 18 May 2020 15:37:03 -0400
+Received: by mail-oi1-f195.google.com with SMTP id x23so3534020oic.3;
+        Mon, 18 May 2020 12:37:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PFMzxu4nvE+GUaLmVzSE5kcqC4GbRhRm4W5pcYo5DRs=;
+        b=UyouROk2qWoHm61onD/2Conq/7m+mGwctxjYwh8v2HKtzeLpwUyaK1Dh/lADeolxBI
+         G3p9BoSPoeDf66x+EU57kiJbqQz+xM5Ww1QyTTmn3EYHJokemkeY9sd5D9soEA8j6ASW
+         tIvAESsRi4/s1QfEUyUndBBooSS1zNk+Up6JG9pFJHH99kX+vLbFpwggrksfin9NXY3V
+         xuDAaZQETNraUjnJh0RVjU4zEKXbP5+QPrJukI17ZuRsj8p855HxNcEwlNd0z+DfdrNu
+         6dvXFKP7matqjqSmJVZ+yV/Nqb0XTnwY/5XxNyQqmXw/1leZfwdoJB6eSivFsRaSQ1ZF
+         6QiA==
+X-Gm-Message-State: AOAM532sjBqlTMCBsIy9//Bb1FzSgrsLvZaxT2E//hnvdYJMrro0p6Df
+        6JAH4daas31SO9F3Cs7lONf5emzNmKbk0SliZWQ=
+X-Google-Smtp-Source: ABdhPJy5ijQHBsxqYLgMVYKEmYruck4k+Gkdc731EFwx1c/IAtTB7uKj/+/9chNW3EsoQ6leZIa6OgppSbZttueq6jE=
+X-Received: by 2002:aca:cd93:: with SMTP id d141mr663816oig.148.1589830621665;
+ Mon, 18 May 2020 12:37:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200508100321.6720-1-geert+renesas@glider.be> <20200518161801.GA9983@bogus>
+In-Reply-To: <20200518161801.GA9983@bogus>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 18 May 2020 21:36:49 +0200
+Message-ID: <CAMuHMdUvR0=cdEyyQyy4J6GLs9=5AQDhVXOYVLrLeNkA2FLaZA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: clock: renesas: mstp: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: f98b28a0b3b080fbf6e12410681c05f9f8c7dc73  Merge tag 'v5.7-rc6' into renesas-devel
+Hi Rob,
 
-elapsed time: 482m
+On Mon, May 18, 2020 at 6:18 PM Rob Herring <robh@kernel.org> wrote:
+> On Fri, May 08, 2020 at 12:03:21PM +0200, Geert Uytterhoeven wrote:
+> > Convert the Renesas Clock Pulse Generator (CPG) Module Stop (MSTP)
+> > Clocks Device Tree binding documentation to json-schema.
+> >
+> > Drop R-Car Gen2 compatible values, which were obsoleted by the unified
+> > "Renesas Clock Pulse Generator / Module Standby and Software Reset" DT
+> > bindings.
+> > Replace the obsolete example for R-Car H2 by an example that is still
+> > valid.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-configs tested: 111
-configs skipped: 5
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mstp-clocks.yaml
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/r8a73a4-clock.h>
+> > +    mstp2_clks: mstp2_clks@e6150138 {
+> > +            compatible = "renesas,r8a73a4-mstp-clocks",
+> > +                         "renesas,cpg-mstp-clocks";
+> > +            reg = <0xe6150138 0 4>, <0xe6150040 0 4>;
+>
+> Size is 2 cells?
 
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-sparc                            allyesconfig
-mips                             allyesconfig
-powerpc                      tqm8xx_defconfig
-arm                       omap2plus_defconfig
-sh                         apsh4a3a_defconfig
-mips                   sb1250_swarm_defconfig
-c6x                        evmc6457_defconfig
-arm                           corgi_defconfig
-mips                     cu1000-neo_defconfig
-mips                           xway_defconfig
-arm                          ixp4xx_defconfig
-arm                            mps2_defconfig
-mips                           gcw0_defconfig
-ia64                        generic_defconfig
-powerpc                  storcenter_defconfig
-arm                       multi_v4t_defconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                              allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a006-20200518
-i386                 randconfig-a005-20200518
-i386                 randconfig-a001-20200518
-i386                 randconfig-a003-20200518
-i386                 randconfig-a002-20200518
-x86_64               randconfig-a016-20200518
-x86_64               randconfig-a012-20200518
-x86_64               randconfig-a015-20200518
-x86_64               randconfig-a013-20200518
-x86_64               randconfig-a011-20200518
-x86_64               randconfig-a014-20200518
-i386                 randconfig-a012-20200518
-i386                 randconfig-a014-20200518
-i386                 randconfig-a016-20200518
-i386                 randconfig-a011-20200518
-i386                 randconfig-a015-20200518
-i386                 randconfig-a013-20200518
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-x86_64                              defconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Oops, forgot to drop the zeroes. Fixed.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> With that fixed,
+>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
