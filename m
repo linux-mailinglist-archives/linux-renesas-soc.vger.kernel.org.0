@@ -2,116 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A0FC1D7D3B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 17:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B130C1D7E04
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 18:12:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728326AbgERPpz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 11:45:55 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:41615 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727005AbgERPpy (ORCPT
+        id S1728204AbgERQMG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 12:12:06 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36954 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727006AbgERQMG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 11:45:54 -0400
-Received: by mail-oi1-f195.google.com with SMTP id 19so9359277oiy.8;
-        Mon, 18 May 2020 08:45:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/f/rHROcvUhCw63I5sVVKyGk9toPKIj6soJfQz2EyMk=;
-        b=qLeGB4aOl/w5JiRu8iF/OJTmVYQEoafdZUarQZDWXzAC0yq26tJtbUclmzHMpF5CLN
-         s4ii1ZweH8SwgT5fzQWSzcO11IYhLuPFk8kj6EUxdGVVzsYVvwH8X7CxjtA6Op36SUgm
-         RK2Uxi6fImrCYS+e23jnhkAEWL+TTDD5w1uvO0FuxitaqszyvZUelHifa26i1gyTz6Fc
-         AF95uVFYYY7uoIi22QuMZxWRfQn1CWqVVvfrRWW6MYh9T+o5fz19yfaPy7hoFu1QoG9F
-         E3NKPBr7e6oq/5Mr6wymi33+Jp0vtfA263Rag5YGl24sYLt5iqsdNrz+2OGdhIw9uPce
-         cZ9g==
-X-Gm-Message-State: AOAM531QikCru4ApAVm0boY8/2y+33noCex7rbsYb4RqJf4uaC2prQET
-        /puod+lhyUKC+M8xb7r261HYweorV2wv65kQbtk=
-X-Google-Smtp-Source: ABdhPJwSk1XfmEg5VHimLrZlcq2vUCKSvy8da0C+Vb1NpLhDq1xPj9z+Pbn4JqCRj9XUaY6QJTN5Vm86GhCvioFXK6Y=
-X-Received: by 2002:a05:6808:1:: with SMTP id u1mr18216oic.54.1589816752210;
- Mon, 18 May 2020 08:45:52 -0700 (PDT)
+        Mon, 18 May 2020 12:12:06 -0400
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A57E6258;
+        Mon, 18 May 2020 18:12:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589818324;
+        bh=3KOO56tvSe4Uzbml8wVaWf6Cx3GmcFPTgACUgJyykQY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=g/tfbolp3NoUepBm9dwEUzWb/x0r1LfzkxEGQMCzDkQfRnaA1j5BaGPHoxWsazCCZ
+         6SMmqiNrjROoXL2WNapZIIYdb5ulNPTanl5BaPmiILVtuTj2xYSnpzjjel9op51VtD
+         0UXYjne3omFETNRuvuAtGkJ7Ah2yFhBx/WrBnipk=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH] fixes! [max9286]: Validate link formats
+Date:   Mon, 18 May 2020 17:11:59 +0100
+Message-Id: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
+References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
 MIME-Version: 1.0
-References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1589555337-5498-18-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVV+2HsgmBytCOFg4pri4XinT_SPWT_Ac6n7FMZN3dR3w@mail.gmail.com>
- <CA+V-a8tmG1LKYqbc7feGZQO2Tj5RCpNUHi9e19vPr+bED0KOyQ@mail.gmail.com>
- <9ab946d2-1076-ed92-0a48-9a95d798d291@cogentembedded.com> <CA+V-a8uuP9d6dNeRpn3O0_aOc15CqWoh0bbAfYze1_hn0dCh8g@mail.gmail.com>
-In-Reply-To: <CA+V-a8uuP9d6dNeRpn3O0_aOc15CqWoh0bbAfYze1_hn0dCh8g@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 18 May 2020 17:45:40 +0200
-Message-ID: <CAMuHMdVkf8vGL-769PvfTkMV=yuqW_V8gjo_ZfwEHVkdDWGTyw@mail.gmail.com>
-Subject: Re: [PATCH 17/17] ARM: dts: r8a7742: Add RWDT node
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 18, 2020 at 3:23 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Mon, May 18, 2020 at 2:17 PM Sergei Shtylyov
-> <sergei.shtylyov@cogentembedded.com> wrote:
-> > On 18.05.2020 15:27, Lad, Prabhakar wrote:
-> > >>> Add a device node for the Watchdog Timer (RWDT) controller on the Renesas
-> > >>> RZ/G1H (r8a7742) SoC.
-> > >>>
-> > >>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >>> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > >>
-> > >> Thanks for your patch!
-> > >>
-> > >>> --- a/arch/arm/boot/dts/r8a7742.dtsi
-> > >>> +++ b/arch/arm/boot/dts/r8a7742.dtsi
-> > >>> @@ -201,6 +201,16 @@
-> > >>>                  #size-cells = <2>;
-> > >>>                  ranges;
-> > >>>
-> > >>> +               rwdt: watchdog@e6020000 {
-> > >>> +                       compatible = "renesas,r8a7742-wdt",
-> > >>> +                                    "renesas,rcar-gen2-wdt";
-> > >>> +                       reg = <0 0xe6020000 0 0x0c>;
-> > >>> +                       clocks = <&cpg CPG_MOD 402>;
-> > >>> +                       power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
-> > >>> +                       resets = <&cpg 402>;
-> > >>> +                       status = "disabled";
-> > >>
-> > >> Missing "interrupts" property.
-> > >>
-> > > "interrupts" property isn't used by rwdt driver  and can be dropped
-> > > from bindings file.
-> >
-> >     DT describes the hardware, not its driver's abilities.
+Disallow setting a format on the source link, but enable link validation
+by returning the format of the first bound source when getting the
+format of the source pad.
 
-Thanks for chiming in, Sergei!
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ drivers/media/i2c/max9286.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-> Agreed will add, I had followed it on similar lines of r8a7743/44.
-
-Yeah. I know it's missing for a few other SoCs, too.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index ef824d2b26b8..6c01595936d7 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+ 	struct max9286_priv *priv = sd_to_max9286(sd);
+ 	struct v4l2_mbus_framefmt *cfg_fmt;
+ 
+-	if (format->pad >= MAX9286_SRC_PAD)
++	/* \todo: Multiplexed streams support
++	 * Prevent setting the format on the shared multiplexed bus.
++	 */
++	if (format->pad == MAX9286_SRC_PAD)
+ 		return -EINVAL;
+ 
+ 	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
+@@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+ {
+ 	struct max9286_priv *priv = sd_to_max9286(sd);
+ 	struct v4l2_mbus_framefmt *cfg_fmt;
++	unsigned int pad = format->pad;
+ 
+-	if (format->pad >= MAX9286_SRC_PAD)
+-		return -EINVAL;
++	/* \todo: Multiplexed Stream Support
++	 * Support link validation by returning the format of the first bound
++	 * link. All links must have the same format, as we do not support
++	 * mixing, and matching of cameras connected to the max9286.
++	 */
++	if (format->pad == MAX9286_SRC_PAD)
++		pad = ffs(priv->bound_sources);
+ 
+-	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
++	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
+ 	if (!cfg_fmt)
+ 		return -EINVAL;
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
