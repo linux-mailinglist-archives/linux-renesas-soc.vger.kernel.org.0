@@ -2,178 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 702BE1D8034
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 19:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 665AF1D861F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 20:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgERReX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 13:34:23 -0400
-Received: from mga05.intel.com ([192.55.52.43]:27192 "EHLO mga05.intel.com"
+        id S1729804AbgERSXN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 14:23:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51048 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727006AbgERReW (ORCPT
+        id S1730523AbgERRtZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 13:34:22 -0400
-IronPort-SDR: x03QuW3yDb4ifpU6/LDjLvYg5QIOlAEyKKX/A+POJGy7k6qTQk6TbCoK5Gyy+eWK7WTlYP3Dq5
- 4V8UEY8QOs1w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 10:34:22 -0700
-IronPort-SDR: 2/0wxFDza+onAnbrOxHm0306d19mRztn/iV38zB64jWX9kBQneHRhOYx04k7WwBfMcetWsxZ/1
- FewMcU+vEN4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,407,1583222400"; 
-   d="scan'208";a="282045481"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 18 May 2020 10:34:20 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jajee-0001ZP-2w; Tue, 19 May 2020 01:34:20 +0800
-Date:   Tue, 19 May 2020 01:34:14 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:clk-renesas] BUILD SUCCESS
- 59e7166fe0e2cb210252c3454a9241e586a2ba42
-Message-ID: <5ec2c716.IFQcWtfg2LMedWwh%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 18 May 2020 13:49:25 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D00520715;
+        Mon, 18 May 2020 17:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589824164;
+        bh=seknKxSv+DaRyGlwZogVGF+DYMRm5Pq8n3UvU5yQipQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MvWG+ZRkPpmR7R8PPs+U7cyC8yYXrlb+BHxBvhaW6h8k+dvBWyq2lSOpQhuzVZbAG
+         zj6Rc/cSSXlyRzLNmD+r6SOlZZrMAv8Oe0ELaSrzmF4L6TticuFQPW5j57Nujj49+Q
+         TwDdVDCD8CWLQSyLyTj1DwgsRUqTXTSJSPqJ8wNc=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Hardik Gajjar <hgajjar@de.adit-jv.com>,
+        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: [PATCH 4.14 097/114] usb: core: hub: limit HUB_QUIRK_DISABLE_AUTOSUSPEND to USB5534B
+Date:   Mon, 18 May 2020 19:37:09 +0200
+Message-Id: <20200518173519.260708121@linuxfoundation.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200518173503.033975649@linuxfoundation.org>
+References: <20200518173503.033975649@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas
-branch HEAD: 59e7166fe0e2cb210252c3454a9241e586a2ba42  dt-bindings: clock: renesas: div6: Convert to json-schema
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-elapsed time: 484m
+commit 76e1ef1d81a4129d7e2fb8c48c83b166d1c8e040 upstream.
 
-configs tested: 118
-configs skipped: 2
+On Tue, May 12, 2020 at 09:36:07PM +0800, Kai-Heng Feng wrote [1]:
+> This patch prevents my Raven Ridge xHCI from getting runtime suspend.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The problem described in v5.6 commit 1208f9e1d758c9 ("USB: hub: Fix the
+broken detection of USB3 device in SMSC hub") applies solely to the
+USB5534B hub [2] present on the Kingfisher Infotainment Carrier Board,
+manufactured by Shimafuji Electric Inc [3].
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-sparc                            allyesconfig
-mips                             allyesconfig
-m68k                             allyesconfig
-sh                   secureedge5410_defconfig
-sh                        apsh4ad0a_defconfig
-powerpc                          allmodconfig
-s390                          debug_defconfig
-sh                         ap325rxa_defconfig
-c6x                                 defconfig
-h8300                    h8300h-sim_defconfig
-arm                            u300_defconfig
-c6x                        evmc6457_defconfig
-arm                           corgi_defconfig
-mips                     cu1000-neo_defconfig
-mips                           xway_defconfig
-arm                          ixp4xx_defconfig
-arm                            mps2_defconfig
-mips                     decstation_defconfig
-arm                          iop32x_defconfig
-mips                       lemote2f_defconfig
-powerpc                      ppc44x_defconfig
-nds32                               defconfig
-arm                          moxart_defconfig
-um                               allyesconfig
-mips                          rb532_defconfig
-arm                          imote2_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                           allnoconfig
-i386                 randconfig-a006-20200518
-i386                 randconfig-a005-20200518
-i386                 randconfig-a001-20200518
-i386                 randconfig-a003-20200518
-i386                 randconfig-a004-20200518
-i386                 randconfig-a002-20200518
-x86_64               randconfig-a016-20200518
-x86_64               randconfig-a012-20200518
-x86_64               randconfig-a015-20200518
-x86_64               randconfig-a013-20200518
-x86_64               randconfig-a011-20200518
-x86_64               randconfig-a014-20200518
-i386                 randconfig-a012-20200518
-i386                 randconfig-a014-20200518
-i386                 randconfig-a016-20200518
-i386                 randconfig-a011-20200518
-i386                 randconfig-a015-20200518
-i386                 randconfig-a013-20200518
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-x86_64                              defconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Despite that, the aforementioned commit applied the quirk to _all_ hubs
+carrying vendor ID 0x424 (i.e. SMSC), of which there are more [4] than
+initially expected. Consequently, the quirk is now enabled on platforms
+carrying SMSC/Microchip hub models which potentially don't exhibit the
+original issue.
+
+To avoid reports like [1], further limit the quirk's scope to
+USB5534B [2], by employing both Vendor and Product ID checks.
+
+Tested on H3ULCB + Kingfisher rev. M05.
+
+[1] https://lore.kernel.org/linux-renesas-soc/73933975-6F0E-40F5-9584-D2B8F615C0F3@canonical.com/
+[2] https://www.microchip.com/wwwproducts/en/USB5534B
+[3] http://www.shimafuji.co.jp/wp/wp-content/uploads/2018/08/SBEV-RCAR-KF-M06Board_HWSpecificationEN_Rev130.pdf
+[4] https://devicehunt.com/search/type/usb/vendor/0424/device/any
+
+Fixes: 1208f9e1d758c9 ("USB: hub: Fix the broken detection of USB3 device in SMSC hub")
+Cc: stable@vger.kernel.org # v4.14+
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Link: https://lore.kernel.org/r/20200514220246.13290-1-erosca@de.adit-jv.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/usb/core/hub.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -37,6 +37,7 @@
+ 
+ #define USB_VENDOR_GENESYS_LOGIC		0x05e3
+ #define USB_VENDOR_SMSC				0x0424
++#define USB_PRODUCT_USB5534B			0x5534
+ #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
+ #define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
+ 
+@@ -5317,8 +5318,11 @@ out_hdev_lock:
+ }
+ 
+ static const struct usb_device_id hub_id_table[] = {
+-    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
++    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
++                   | USB_DEVICE_ID_MATCH_PRODUCT
++                   | USB_DEVICE_ID_MATCH_INT_CLASS,
+       .idVendor = USB_VENDOR_SMSC,
++      .idProduct = USB_PRODUCT_USB5534B,
+       .bInterfaceClass = USB_CLASS_HUB,
+       .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+
+
