@@ -2,61 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8381D730D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 10:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83CFB1D732B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 May 2020 10:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbgERIgV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 04:36:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58916 "EHLO
+        id S1726511AbgERIpC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 04:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbgERIgV (ORCPT
+        with ESMTP id S1726505AbgERIpC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 04:36:21 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F193C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 01:36:19 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id u6so8889919ljl.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 01:36:19 -0700 (PDT)
+        Mon, 18 May 2020 04:45:02 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA693C061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 01:45:00 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id a4so7280711lfh.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 01:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Th+BWkXMDcWR/K/DGtUISavi2Rg0yIxH2nGUtq0N8b8=;
-        b=Fj/ftm6qZElHHwVFTu4fvVKu4bMhE7pXVQs0ZNoLXSnZTk6xbO/LTd1h9aBgoYB5XL
-         8RFqT3QbwaP2Q6LDBV0gGnI70EZAq9Ms0aAA3M/kqUlwOoe3YzFzI8mWIllXLAF55gGj
-         xX9IzqkK4j9TaGVLiyuq6LjilX20c0gYSdpCk/pS2cA1G7b1Oou9yu4dYC3vFn3uXiDL
-         9iElSyG+yTbJ0E1EmbvT6MXDfBRa3kJ5euxXQKkZgUOJhH0FIT/3/9Wqgy/IiC0W2U6k
-         r0yNA26HGVcPhVp1NMiOe5Ml4pD60FqdsgEWt+uL1TKQAyppwTpEEm98Tw5DYyt8JWpT
-         KN5Q==
+        bh=iNhAxT8nBFkFqd8+dMCg1JOOShaimOk34qzF5PJdQdY=;
+        b=emu5NFwNErB+ukhcZNPkHG/hTCKflNe5tJo1yiEuUvRQPxZbox7WP45+dR939SeC5D
+         ir5tlCuYxvl0kAYYgnnlmBS4hc/lojWJuOJy7rdWYHnyJmRev3ZeDZm5F0Sj04rgL52l
+         9eVmDleJTualizPi+F1bEnlG3ycKP85sx3nHlAMhBKC/IXDssPM5L2LHMKz4bo1Ac8Qg
+         CRfHqz5CLd3ftaLkRwdNsByuqM7fYpa5wm+z5k3mDnuMKm8CA2BHs/XNwB2UUxDOcPUW
+         h+yK0GfbvdYexhNwbwDXnh4vZSiS6Ueeoe5EmrozCnj0FcPkszckaQVYsVLnv0MBicTW
+         70Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Th+BWkXMDcWR/K/DGtUISavi2Rg0yIxH2nGUtq0N8b8=;
-        b=LlpDykg2nza2xhEv4mzTaWMXpYVel+S27+zxs/OGTSbB3PmxWpT+k1sokB6+1Au+20
-         Oew+v2VvkJe7yJtxl5+eXp+OvDWrDJ/cfogRp8/qjicmDOjcRBCHMR6vip6kitqTpPMK
-         qxuhNokR1XoLSRDH0bMEhweLDITLhavBYig+RoCe8um2gOzp+sNtTf501OBvnhbNZnZM
-         ZDGnhC3Ao3Ki61iYvAdg+yH6agu1XXzSp6v/r1K8eQ5B6CVp7fXmfFcdTgqXOeBf2k3b
-         7m/i6eF2g3nX3jXe+mo3P4W3o3Bm6NKfEO+kqt8nrtPlGkNrbS78HGfCTqaHsEht5/gp
-         fo0A==
-X-Gm-Message-State: AOAM530CHnfN6QBVIlQ7zhNL0eYDh5LlxNSp6+0BQUWhnG99sjCXDdQd
-        PP8Turu6GjMnc5TH/oRAOiBA+g==
-X-Google-Smtp-Source: ABdhPJwAUODjte0wjN07kn09YGodWQ48GMKSNXNWXjvWzkzQCYB0H0nivV0bFcrjmutsELlHO2Botg==
-X-Received: by 2002:a2e:8901:: with SMTP id d1mr9958882lji.37.1589790978038;
-        Mon, 18 May 2020 01:36:18 -0700 (PDT)
+        bh=iNhAxT8nBFkFqd8+dMCg1JOOShaimOk34qzF5PJdQdY=;
+        b=cnRYxDpXsSOiz0i5xOZYaCYa0ZCn382PWyh6ZMwpMfkbyR2JJdmUuKFlxnjD2AM4BR
+         nznZ/pYydHPTRLAIX/Iq7YY4yE+isYhA+qSd8Q3FmosITIra7Y2vGLrSNnUO01FC2hAl
+         fJ9hjgTsVeLAYjsAzLRM7U5mY8OX0GcuilK4zIGdo+Kc02jSC65ZO/IFwkdFVVKSmk5Q
+         thPawzdDHtL9MvWdpRdtlh7+RIOzEKSxJs9yHL0vMG5nPCVrGsMZ1ax5QZG3vjmiXmS0
+         Xg0hFBRaIxCRHYupX1rBma4KW54bNYVgQ+KfVgQu53TZAVFBIsARAARAItAKTPihYeP+
+         ghCQ==
+X-Gm-Message-State: AOAM532gPGYz7lfRv1IJ4GzMGNif75kHTFEq1KlMPpWRr9081Sq2fl/n
+        MDekzll4PtIY+kIXtKAojoT1w9Y0JfKp6g==
+X-Google-Smtp-Source: ABdhPJwuWOU5prQ9bA8hm6t2EYExpOlgB2/AvLyxAZwXE01lzdpQhVDTrCYjTZtG2hd4FVZqt27+zQ==
+X-Received: by 2002:ac2:414c:: with SMTP id c12mr10849272lfi.47.1589791499083;
+        Mon, 18 May 2020 01:44:59 -0700 (PDT)
 Received: from ?IPv6:2a00:1fa0:46bf:e420:f94f:d60b:efec:4413? ([2a00:1fa0:46bf:e420:f94f:d60b:efec:4413])
-        by smtp.gmail.com with ESMTPSA id v18sm2291121ljc.55.2020.05.18.01.36.16
+        by smtp.gmail.com with ESMTPSA id s4sm5390012lja.14.2020.05.18.01.44.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 01:36:17 -0700 (PDT)
+        Mon, 18 May 2020 01:44:58 -0700 (PDT)
 Subject: Re: [PATCH v2] ravb: On timeout disable IRQs to stop processing
 To:     Dirk Behme <dirk.behme@de.bosch.com>,
         linux-renesas-soc@vger.kernel.org
 Cc:     Shashikant.Suguni@in.bosch.com
 References: <20200518045452.2390-1-dirk.behme@de.bosch.com>
 From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <a5462fe0-2bab-8da9-7b30-9bb9f7784d8a@cogentembedded.com>
-Date:   Mon, 18 May 2020 11:36:12 +0300
+Message-ID: <41c79682-c707-d393-57d8-954586f81ab3@cogentembedded.com>
+Date:   Mon, 18 May 2020 11:44:53 +0300
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
@@ -69,20 +69,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
 On 18.05.2020 7:54, Dirk Behme wrote:
 
 > Analyzing [1] it seems there is a race condition where ravb_start_xmit()
-> can be called from interrupt while tx skbuffs are being torn down in
-> the scheduled timeout handling. The actual timeout work is done in
-> ravb_tx_timeout_work() during which the tx skbuffs are torn down via
-> invocations of ravb_ring_free(). But there seems to be no flag to tell
-> the driver it is shutting down so it continues to use the ring buffer
-> when it should not.
-> 
-> Fix this by disabling the interrupts in the timeout handler.
-> 
+ > can be called from interrupt while tx skbuffs are being torn down in
+ > the scheduled timeout handling. The actual timeout work is done in
+ > ravb_tx_timeout_work() during which the tx skbuffs are torn down via
+ > invocations of ravb_ring_free(). But there seems to be no flag to tell
+ > the driver it is shutting down so it continues to use the ring buffer
+ > when it should not.
+ >
+ > Fix this by disabling the interrupts in the timeout handler.
+
+    Hm, given that we stop all TX queues prior to tearing down the buffers,
+it is somewhat strange that you see the driver's send path called...
+    But disabling the interrupts seems the Right Thing anyways...
+
 > [1]
 > 
 > -- cut --
@@ -201,9 +203,29 @@ On 18.05.2020 7:54, Dirk Behme wrote:
 > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
 > Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 > Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
-[...]
-
-    You must post this to netdev@vget.kernel.org, else the patch won't get 
-applied, ever...
+> ---
+> 
+> Changes in v2: Dropped the RFC and added Sergei's Reviewed-by. No functional
+>                 change.
+> 
+>   drivers/net/ethernet/renesas/ravb_main.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 067ad25553b9..0f91ab41b22b 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1447,6 +1447,11 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>   
+>   	netif_tx_stop_all_queues(ndev);
+>   
+> +	/* Disable interrupts by clearing the interrupt masks. */
+> +	ravb_write(ndev, 0, RIC0);
+> +	ravb_write(ndev, 0, RIC2);
+> +	ravb_write(ndev, 0, TIC);
+> +
+>   	/* Stop PTP Clock driver */
+>   	if (priv->chip_id == RCAR_GEN2)
+>   		ravb_ptp_stop(ndev);
 
 MBR, Sergei
