@@ -2,121 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACA211D9538
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 13:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8991D9547
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 13:28:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726859AbgESLYK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 07:24:10 -0400
-Received: from mga11.intel.com ([192.55.52.93]:19307 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726157AbgESLYJ (ORCPT
+        id S1728633AbgESL2q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 07:28:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:43685 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726157AbgESL2q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 07:24:09 -0400
-IronPort-SDR: 2xWwAKQsABQaIgQP/t/nG8nuRoHdBE6qLIN6LapMjWui62JYeWQWCFLUSmGz5Fn6LMx+Ly9fY/
- ZzTGX4p9ZJiQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:09 -0700
-IronPort-SDR: oaZ8nk8yTbKOxBkv8QTVzCSAKKDxb40mum2qLj2Mjp5rgKJYNpXxQFX1l6Gbr6kVZ8lyGMZuO5
- soybODBCSujA==
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
-   d="scan'208";a="300076326"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:05 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 322D720CEF; Tue, 19 May 2020 14:24:03 +0300 (EEST)
-Date:   Tue, 19 May 2020 14:24:03 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Suresh Udipi <sudipi@jp.adit-jv.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH v2 1/6] media: ov5647: Add set_fmt and get_fmt calls.
-Message-ID: <20200519112403.GG20066@paasikivi.fi.intel.com>
-References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
- <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
+        Tue, 19 May 2020 07:28:46 -0400
+Received: from mail-qv1-f53.google.com ([209.85.219.53]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MD9Kj-1jjZ873ugj-009A98; Tue, 19 May 2020 13:28:43 +0200
+Received: by mail-qv1-f53.google.com with SMTP id g20so6254437qvb.9;
+        Tue, 19 May 2020 04:28:42 -0700 (PDT)
+X-Gm-Message-State: AOAM53169dBAgh8P3wFfy5W3dx7yLlAqSWDOnnio9wJY4xoZEtukxaP9
+        VvoLWZolSj1GxVRlpScsb9ssXo/c0WappXN01Ag=
+X-Google-Smtp-Source: ABdhPJx+Ipnp1De8u1nx4B4U7GgZtHcjTeorwfefYcSy2qSkv9jr1bxjHK/e2HLBvFYfYy1Fq3XFH9dyxPrnUgH7uP8=
+X-Received: by 2002:a05:6214:1392:: with SMTP id g18mr19411615qvz.210.1589887721612;
+ Tue, 19 May 2020 04:28:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CGME20200429082134eucas1p2415c5269202529e6b019f2d70c1b5572@eucas1p2.samsung.com>
+ <20200429082120.16259-1-geert+renesas@glider.be> <dleftjmu645mqn.fsf%l.stelmach@samsung.com>
+ <CAMuHMdXxq6m6gebQbWvxDynDcZ7dLyZzKC_QroK63L8FGeac1Q@mail.gmail.com>
+ <20200519094637.GZ1551@shell.armlinux.org.uk> <CAMuHMdU5DG06G4H=+PH+OONMT_9oE==KS=wP+bLgY9xVCez6Ww@mail.gmail.com>
+In-Reply-To: <CAMuHMdU5DG06G4H=+PH+OONMT_9oE==KS=wP+bLgY9xVCez6Ww@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 19 May 2020 13:28:24 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3H=7qx+Rz9sScTVCSMKWGwQ_ROnyoyK73A5yUd+_jbTw@mail.gmail.com>
+Message-ID: <CAK8P3a3H=7qx+Rz9sScTVCSMKWGwQ_ROnyoyK73A5yUd+_jbTw@mail.gmail.com>
+Subject: Re: [PATCH v6] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Grant Likely <grant.likely@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:CNVN5I2QxgwLHtGhj2XIlWHhA95Ln5IQ59NqTrneFm7uuYeJZ/d
+ UXEYTD0Yz/hqn+uAYntGDrQmvtCB4QsBO9Jif4coYjmud+2+T/QnlKXOPYV7NQmuSOw7+FD
+ lAtNH/7To3qRwMuf7HhGyrDio/xsfkWTHsFoW1PrfNkzbvyi5GC4RaupDdimwTg100a2bWR
+ r3NQcEAF7c/t9uQxmPCtQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l871HVkBlvM=:zHTVIOTzNjei48LbTdIcX/
+ TrSj/+8R6dSKCZlzmqH3864ZfgKmGcOYDYcQB9p69p38pkzdzTVdBWT/eEJa82qJWm2sg35vE
+ LurmOIZfHUxKtpVwK6CidDrOWZeENaxqtLxNVFvFkPATp0kgP9rKBY3/6Q0WNTLISx0DGf4Yl
+ q/7hJVbk5uJuDdEYdFVSBAEhZoHyCniedaa9XW50XHe7tNzICbAoCO/YUzKqo/zrs7k6olayT
+ 4UMut0Diqte95Cc9Ml973Gew1NJLCybZBQkDYC4IbzbZ2DOmubW2tsY/RrCVPm/0QuYThJJwu
+ ReuU/cAh3GSgviy0bd2xuyWdvEhke6EYlt9OkvH9y8hE7bTfnWrFsvA6p8eIzYotef+34HgzW
+ L0JqS8ELWFSp+RCeTaDeEBL3qVN5iuoWkoU9ZSsBV4UyXcU74IWqP7W86swJQLUqRqnR+y2Yc
+ S0sOiQhhfw5xzz4H3CtCCoEtHlLfQuj70zFfsQd8hDA/wdMZcm0P56vRbt+Tt9xhyz3AxvjTs
+ FKJTm2zbvNGmSMuXKFV+LpRqml392FIPtLfGRiC3s0HSmloqlDQm2n9AaeDeb+W1psYnIPz+r
+ L+cOrh2++ep6obIbe01o3DfYoYcmrU6St94x0TVnHLfm8q4FbVB8/9G3OFs9Hgd9gllWRW5DZ
+ 686tid+owAchEhOurHWyAyR9gfPullL8b32xP2Qgj1sWPu5oyXQRRV83Er5UqbGX/pSM1Ogil
+ OAnD3x8eQmjWF7bUFnDt/QYc4BnxfGRYvCLj9DWm/RxEYBClmm49Xwk4DMVoBwhC2oH1JYkm+
+ rVoHTqEIlLBbCiEYO/O3FP+1PbbgajOar0xaov3SQYsrHIpPyg=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dave,
+On Tue, May 19, 2020 at 1:21 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, May 19, 2020 at 11:46 AM Russell King - ARM Linux admin
+> <linux@armlinux.org.uk> wrote:
 
-Thanks for the patchset.
+> >
+> > > However, something under /chosen should work.
+> >
+> > Yet another sticky plaster...
+>
+> IMHO the old masking technique is the hacky solution covered by
+> plasters.
+>
+> DT describes the hardware.  In general, where to put the kernel is a
+> software policy, and thus doesn't belong in DT, except perhaps under
+> /chosen.  But that would open another can of worms, as people usually
+> have no business in specifying where the kernel should be located.
+> In the crashkernel case, there is a clear separation between memory to
+> be used by the crashkernel, and memory to be solely inspected by the
+> crashkernel.
+>
+> Devicetree Specification, Release v0.3, Section 3.4 "/memory node" says:
+>
+>     "The client program may access memory not covered by any memory
+>      reservations (see section 5.3)"
+>
+> (Section 5.3 "Memory Reservation Block" only talks about structures in
+> the FDT, not about DTS)
+>
+> Hence according to the above, the crashkernel is rightfully allowed to
+> do whatever it wants with all memory under the /memory node.
+> However, there is also
+> Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt.
+> This suggests the crashkernel should be passed a DTB that contains a
+> /reserved-memory node, describing which memory cannot be used freely.
+> Then the decompressor needs to take this into account when deciding
+> where the put the kernel.
+>
+> Yes, the above requires changing code. But at least it provides a
+> path forward, getting rid of the fragile old masking technique.
 
-On Tue, May 19, 2020 at 04:16:16AM +0300, Roman Kovalivskyi wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> 
-> There's no way to query the subdevice for the supported
-> resolutions. Add set_fmt and get_fmt implementations. Since there's
-> only one format supported set_fmt does nothing and get returns single
-> format.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ov5647.c | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index e7d2e5b4ad4b..3e587eb0a30e 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -463,8 +463,30 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
-> +			      struct v4l2_subdev_pad_config *cfg,
-> +			      struct v4l2_subdev_format *format)
-> +{
-> +	struct v4l2_mbus_framefmt *fmt = &format->format;
-> +
-> +	if (format->pad != 0)
-> +		return -EINVAL;
+There is an existing "linux,usable-memory-range" property documented
+in Documentation/devicetree/bindings/chosen.txt, which as I understand
+is exactly what you are looking for, except that it is currently only
+documented for arm64.
 
-No need to check the pad, the caller already has checked for it.
+Would extending this to arm work?
 
-> +
-> +	/* Only one format is supported, so return that */
-> +	memset(fmt, 0, sizeof(*fmt));
-> +	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
-> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> +	fmt->field = V4L2_FIELD_NONE;
-> +	fmt->width = 640;
-> +	fmt->height = 480;
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
->  	.enum_mbus_code = ov5647_enum_mbus_code,
-> +	.set_fmt =	  ov5647_set_get_fmt,
-> +	.get_fmt =	  ov5647_set_get_fmt,
->  };
->  
->  static const struct v4l2_subdev_ops ov5647_subdev_ops = {
-
--- 
-Kind regards,
-
-Sakari Ailus
+      Arnd
