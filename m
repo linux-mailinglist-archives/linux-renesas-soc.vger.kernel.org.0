@@ -2,78 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 34FA11D9047
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 08:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 425B41D9139
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 09:42:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728377AbgESGrX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 02:47:23 -0400
-Received: from www.zeus03.de ([194.117.254.33]:54896 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726881AbgESGrW (ORCPT
+        id S1725996AbgESHmh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 03:42:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49626 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726892AbgESHmh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 02:47:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=AtVPyH5oNfMe3VrfRPB9qsIzp04J
-        Du3wrHBnH6/dpYA=; b=YMZBJbtu5kjlq96TlqWEwbydeDTSro/e/fYmQKVZ5VQj
-        A72ZvYG1m+iolIphgoEEe+X5Y5Fy/eCyQYYI1w7hUVRqNNpCsT+Q6414ZidHgwIl
-        CU7gGLbIlc9PEvc7HdZd3SVZSwy8wqat0z5acyc3UVlOPxbNuchdSEIrdE9/hIw=
-Received: (qmail 141895 invoked from network); 19 May 2020 08:47:21 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 May 2020 08:47:21 +0200
-X-UD-Smtp-Session: l3s3148p1@08e3pvql8OEgAwDPXxCmAFNwG0mTH/5q
-Date:   Tue, 19 May 2020 08:47:20 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Subject: Re: [PATCH] i2c: reword explanation about atomic transfers
-Message-ID: <20200519064720.GB1094@ninjato>
-References: <20200505160101.12399-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eAbsdosE1cNLO4uF"
-Content-Disposition: inline
-In-Reply-To: <20200505160101.12399-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 19 May 2020 03:42:37 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91869C05BD09
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 00:42:36 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:918e:b928:22c1:d715])
+        by andre.telenet-ops.be with bizsmtp
+        id gXiW2200Q4CPMDc01XiWgj; Tue, 19 May 2020 09:42:34 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jawtS-0008Ff-GR; Tue, 19 May 2020 09:42:30 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jawtS-0005qr-Dv; Tue, 19 May 2020 09:42:30 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: media: Add missing clock domain description
+Date:   Tue, 19 May 2020 09:42:29 +0200
+Message-Id: <20200519074229.22308-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+make dtbs_check:
 
---eAbsdosE1cNLO4uF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    arch/arm/boot/dts/r7s72100-genmai.dt.yaml: camera@e8210000: 'clocks', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
 
-On Tue, May 05, 2020 at 06:01:01PM +0200, Wolfram Sang wrote:
-> Atomic transfers are not only about sending messages like the original
-> wording suggested. Speak of 'accessing' now like in i2c.h.
->=20
-> Reported-by: Micha=C5=82 Miros=C5=82aw <mirq-linux@rere.qmqm.pl>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fix this by documenting the missing properties.
+Update the example to match reality.
 
-Applied to for-next, thanks!
+Fixes: 7f464532b05dadc8 ("dt-bindings: Add missing 'additionalProperties: false'")
+Fixes: 58361eaa11d561f3 ("dt-bindings: media: renesas,ceu: Convert to yaml")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../devicetree/bindings/media/renesas,ceu.yaml        | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+index f2393458814ee08f..c7e1e4fe67e6696b 100644
+--- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+@@ -27,6 +27,12 @@ properties:
+   interrupts:
+     maxItems: 1
+ 
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
+   port:
+     type: object
+     additionalProperties: false
+@@ -57,6 +63,8 @@ required:
+   - compatible
+   - reg
+   - interrupts
++  - clocks
++  - power-domains
+   - port
+ 
+ additionalProperties: false
+@@ -64,11 +72,14 @@ additionalProperties: false
+ examples:
+   - |
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/r7s72100-clock.h>
+ 
+     ceu: ceu@e8210000 {
+         reg = <0xe8210000 0x209c>;
+         compatible = "renesas,r7s72100-ceu";
+         interrupts = <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&mstp6_clks R7S72100_CLK_CEU>;
++        power-domains = <&cpg_clocks>;
+ 
+         port {
+             ceu_in: endpoint {
+-- 
+2.17.1
 
---eAbsdosE1cNLO4uF
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7DgPgACgkQFA3kzBSg
-KbaKsw//f0uxfa1Z3GS3HCyoaAXSgd2F2VwlWZkOXItXkSmAoZJl17YdgRWZSlOw
-F6AUWOYJiaXryQYKC8rqg5N4gWO6Pc39TcigulgWAs6Aap8O+rNwBZxyyCIBTb8v
-sRZ6EvR5bxPMRICIWfJn1uysL20kV9aMugSPobUt00smQ6xOF2IL6CoFHmX+APud
-eC/J6XjMFOxwDPXNj1bI4Yo+QjDsUUwg0WF/cB/2DHkjGYmL6WgSrhJYbvNilZvv
-8HWg5LjNq1lkOIkjdvyzWgQkbeQJ/VnA/LlBcKYgxaOfaVxqEH3mmHV228uV8sNp
-GyEJmocCPPCpuDTByk77d5vZXrGiprqzuqmbfc0Cb+gAHXTCctSjbK6bvJcTC9bV
-XWn3u85IlanTYhYT+8gjJEMuvSS8tj78TW2v3S3SMw7A/Z6PCBPynZkRjxxiqGv0
-Oce92BTL5XIJTvB2ybEvo6KE7rpUsmUDwyDh382InTtSN2kgIGOJSZ22sZ/LN6i1
-n+fdI8bIGBcMo3RDpvoQPltz6CjpZxOKycDc0fPWuJhsj5HuHe0wBpoOP5GjSkDG
-HOV6/CHq4OzJm+cFpb2l3Rs5g4HRaw6aPPeXt1fSmU75yfuqSKsdQ+G3esgVBnr0
-bXN+zh+zDR9EU+uSnbleYS9uf5pD6cgWa8xQj5XAwy48z386Wts=
-=NNP5
------END PGP SIGNATURE-----
-
---eAbsdosE1cNLO4uF--
