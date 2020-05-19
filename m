@@ -2,68 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F8E1D917B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 09:55:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C20631D9170
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 09:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbgESHza (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 03:55:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51640 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726943AbgESHza (ORCPT
+        id S1728667AbgESHwq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 03:52:46 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:32973 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbgESHwq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 03:55:30 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0C7C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 00:55:29 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:918e:b928:22c1:d715])
-        by laurent.telenet-ops.be with bizsmtp
-        id gXvT220014CPMDc01XvTet; Tue, 19 May 2020 09:55:27 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jax5y-0000DH-VT; Tue, 19 May 2020 09:55:26 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jax5y-0006S0-TO; Tue, 19 May 2020 09:55:26 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: sh73a0: Add missing clocks to sound node
-Date:   Tue, 19 May 2020 09:55:25 +0200
-Message-Id: <20200519075525.24742-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 19 May 2020 03:52:46 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 948E1E0003;
+        Tue, 19 May 2020 07:52:43 +0000 (UTC)
+Date:   Tue, 19 May 2020 09:56:01 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] fixes! [max9286]: Validate link formats
+Message-ID: <20200519075601.wdykflbxgvqvfl3x@uno.localdomain>
+References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
+ <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The device node for the FIFO-buffered Serial Interface sound node lacks
-the "clocks" property, as the DTS file didn't describe any clocks yet at
-its introduction.
+Hi Kieran,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-fixes for v5.7 or v5.8, to avoid the
-corresponding DT binding update introducing a regression.
+On Mon, May 18, 2020 at 05:11:59PM +0100, Kieran Bingham wrote:
+> Disallow setting a format on the source link, but enable link validation
+> by returning the format of the first bound source when getting the
+> format of the source pad.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index ef824d2b26b8..6c01595936d7 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+>
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> +	/* \todo: Multiplexed streams support
 
- arch/arm/boot/dts/sh73a0.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+I know where \todo comes from, but it's usually TODO.
+Also
+        /*
+         * TODO:
 
-diff --git a/arch/arm/boot/dts/sh73a0.dtsi b/arch/arm/boot/dts/sh73a0.dtsi
-index 6688f058087704d3..d7339e511288a4ec 100644
---- a/arch/arm/boot/dts/sh73a0.dtsi
-+++ b/arch/arm/boot/dts/sh73a0.dtsi
-@@ -601,6 +601,7 @@
- 		compatible = "renesas,fsi2-sh73a0", "renesas,sh_fsi2";
- 		reg = <0xec230000 0x400>;
- 		interrupts = <GIC_SPI 146 0x4>;
-+		clocks = <&mstp3_clks SH73A0_CLK_FSI>;
- 		power-domains = <&pd_a4mp>;
- 		status = "disabled";
- 	};
--- 
-2.17.1
+if the comment is multiline
 
+> +	 * Prevent setting the format on the shared multiplexed bus.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>
+>  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
+> @@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	unsigned int pad = format->pad;
+>
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> -		return -EINVAL;
+> +	/* \todo: Multiplexed Stream Support
+> +	 * Support link validation by returning the format of the first bound
+> +	 * link. All links must have the same format, as we do not support
+> +	 * mixing, and matching of cameras connected to the max9286.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
+
+You can use pad
+
+> +		pad = ffs(priv->bound_sources);
+>
+> -	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
+> +	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
+
+Or you could add one entry to struct max9286_priv.fmt for the source
+pad format, set the format there when is set on one sink, and just
+drop the check on the pad index in get_fmt. Up to you.
+
+Please squash in v10
+
+Thanks
+  j
+
+>  	if (!cfg_fmt)
+>  		return -EINVAL;
+>
+> --
+> 2.25.1
+>
