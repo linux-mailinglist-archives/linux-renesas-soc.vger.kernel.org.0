@@ -2,180 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E35C1D9529
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 13:21:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA211D9538
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 13:24:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726157AbgESLVX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 07:21:23 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:33656 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726880AbgESLVX (ORCPT
+        id S1726859AbgESLYK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 07:24:10 -0400
+Received: from mga11.intel.com ([192.55.52.93]:19307 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbgESLYJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 07:21:23 -0400
-Received: by mail-ot1-f66.google.com with SMTP id v17so10811822ote.0;
-        Tue, 19 May 2020 04:21:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=C6lb9JZ25g+Kaugzt8krb+iM4CDC/jdUqY0YVxzMNaw=;
-        b=oHZg/6XzIpBDqk3doFlitvzXvATX+uBFkD837gQPTXspx1VereGWGpJJ7jIJC97LBr
-         YYmBIbGtdOuOcjsdIbWuIJgmZm6OyUDvCcuyKu6RTvrASdMfAKjZ0RNmrobIDAA1TbT2
-         54fBy3bDSQH6t2SFzMhJdDh9bVxwRxb0UhCAZvQmm948XAGyD3tTNbvxUcomgYBE+GDq
-         Cte2gu2ym8KI37rMjepl/kv+tnx5uawQkYSRoLskgoknV+xFJKBY920TOANoZYfP2/Vy
-         mh1/zZ/G8F0036UXnd9T3WwWmQr24bri/wV3GkegKXfEuUO9qXHqYQrDpWJKRTYbm+/m
-         Derw==
-X-Gm-Message-State: AOAM533ZpUPpyu0i7ctuiu2ljYUqAnO1517iNBy5KaITEqUkJeHhQAA5
-        RQCJcC1whXfbwNohHm278XmB8xFjpNowh1XrYaU=
-X-Google-Smtp-Source: ABdhPJzQvKCdDSoxUltKaj8LuBKKd6bmonffri7fJu3t4HqC7Gw+4iPEhSPjUsG1MLNa3/nqnoVs2YpZGvTGdKys2wU=
-X-Received: by 2002:a9d:7e92:: with SMTP id m18mr15339151otp.145.1589887282035;
- Tue, 19 May 2020 04:21:22 -0700 (PDT)
+        Tue, 19 May 2020 07:24:09 -0400
+IronPort-SDR: 2xWwAKQsABQaIgQP/t/nG8nuRoHdBE6qLIN6LapMjWui62JYeWQWCFLUSmGz5Fn6LMx+Ly9fY/
+ ZzTGX4p9ZJiQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:09 -0700
+IronPort-SDR: oaZ8nk8yTbKOxBkv8QTVzCSAKKDxb40mum2qLj2Mjp5rgKJYNpXxQFX1l6Gbr6kVZ8lyGMZuO5
+ soybODBCSujA==
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
+   d="scan'208";a="300076326"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:05 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 322D720CEF; Tue, 19 May 2020 14:24:03 +0300 (EEST)
+Date:   Tue, 19 May 2020 14:24:03 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH v2 1/6] media: ov5647: Add set_fmt and get_fmt calls.
+Message-ID: <20200519112403.GG20066@paasikivi.fi.intel.com>
+References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
+ <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
-References: <CGME20200429082134eucas1p2415c5269202529e6b019f2d70c1b5572@eucas1p2.samsung.com>
- <20200429082120.16259-1-geert+renesas@glider.be> <dleftjmu645mqn.fsf%l.stelmach@samsung.com>
- <CAMuHMdXxq6m6gebQbWvxDynDcZ7dLyZzKC_QroK63L8FGeac1Q@mail.gmail.com> <20200519094637.GZ1551@shell.armlinux.org.uk>
-In-Reply-To: <20200519094637.GZ1551@shell.armlinux.org.uk>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 May 2020 13:21:09 +0200
-Message-ID: <CAMuHMdU5DG06G4H=+PH+OONMT_9oE==KS=wP+bLgY9xVCez6Ww@mail.gmail.com>
-Subject: Re: [PATCH v6] ARM: boot: Obtain start of physical memory from DTB
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Lukasz Stelmach <l.stelmach@samsung.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Grant Likely <grant.likely@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Russell,
+Hi Dave,
 
-CC devicetree
+Thanks for the patchset.
 
-On Tue, May 19, 2020 at 11:46 AM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
-> On Tue, May 19, 2020 at 11:44:17AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, May 19, 2020 at 10:54 AM Lukasz Stelmach <l.stelmach@samsung.com> wrote:
-> > > It was <2020-04-29 śro 10:21>, when Geert Uytterhoeven wrote:
-> > > > Currently, the start address of physical memory is obtained by masking
-> > > > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > > > was chosen as a balance between the requirements of different platforms.
-> > > > However, this does require that the start address of physical memory is
-> > > > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > > > requirement is not fulfilled.
-> > > >
-> > > > Fix this limitation by obtaining the start address from the DTB instead,
-> > > > if available (either explicitly passed, or appended to the kernel).
-> > > > Fall back to the traditional method when needed.
-> > > >
-> > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > > > i.e. not at a multiple of 128 MiB.
-> > > >
-> > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-> > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > > Tested-by: Dmitry Osipenko <digetx@gmail.com>
-> > > > ---
-> > >
-> > > [...]
-> > >
-> > > Apparently reading physical memory layout from DTB breaks crashdump
-> > > kernels. A crashdump kernel is loaded into a region of memory, that is
-> > > reserved in the original (i.e. to be crashed) kernel. The reserved
-> > > region is large enough for the crashdump kernel to run completely inside
-> > > it and don't modify anything outside it, just read and dump the remains
-> > > of the crashed kernel. Using the information from DTB makes the
-> > > decompressor place the kernel outside of the dedicated region.
-> > >
-> > > The log below shows that a zImage and DTB are loaded at 0x18eb8000 and
-> > > 0x193f6000 (physical). The kernel is expected to run at 0x18008000, but
-> > > it is decompressed to 0x00008000 (see r4 reported before jumping from
-> > > within __enter_kernel). If I were to suggest something, there need to be
-> > > one more bit of information passed in the DTB telling the decompressor
-> > > to use the old masking technique to determain kernel address. It would
-> > > be set in the DTB loaded along with the crashdump kernel.
-> >
-> > Shouldn't the DTB passed to the crashkernel describe which region of
-> > memory is to be used instead?
->
-> Definitely not.  The crashkernel needs to know where the RAM in the
-> machine is, so that it can create a coredump of the crashed kernel.
+On Tue, May 19, 2020 at 04:16:16AM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> 
+> There's no way to query the subdevice for the supported
+> resolutions. Add set_fmt and get_fmt implementations. Since there's
+> only one format supported set_fmt does nothing and get returns single
+> format.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  drivers/media/i2c/ov5647.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index e7d2e5b4ad4b..3e587eb0a30e 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -463,8 +463,30 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_pad_config *cfg,
+> +			      struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +
+> +	if (format->pad != 0)
+> +		return -EINVAL;
 
-So the DTB should describe both ;-)
+No need to check the pad, the caller already has checked for it.
 
-> > Describing "to use the old masking technique" sounds a bit hackish to me.
-> > I guess it cannot just restrict the /memory node to the reserved region,
-> > as the crashkernel needs to be able to dump the remains of the crashed
-> > kernel, which lie outside this region.
->
-> Correct.
->
-> > However, something under /chosen should work.
->
-> Yet another sticky plaster...
+> +
+> +	/* Only one format is supported, so return that */
+> +	memset(fmt, 0, sizeof(*fmt));
+> +	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
+> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->width = 640;
+> +	fmt->height = 480;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+>  	.enum_mbus_code = ov5647_enum_mbus_code,
+> +	.set_fmt =	  ov5647_set_get_fmt,
+> +	.get_fmt =	  ov5647_set_get_fmt,
+>  };
+>  
+>  static const struct v4l2_subdev_ops ov5647_subdev_ops = {
 
-IMHO the old masking technique is the hacky solution covered by
-plasters.
+-- 
+Kind regards,
 
-DT describes the hardware.  In general, where to put the kernel is a
-software policy, and thus doesn't belong in DT, except perhaps under
-/chosen.  But that would open another can of worms, as people usually
-have no business in specifying where the kernel should be located.
-In the crashkernel case, there is a clear separation between memory to
-be used by the crashkernel, and memory to be solely inspected by the
-crashkernel.
-
-Devicetree Specification, Release v0.3, Section 3.4 "/memory node" says:
-
-    "The client program may access memory not covered by any memory
-     reservations (see section 5.3)"
-
-(Section 5.3 "Memory Reservation Block" only talks about structures in
-the FDT, not about DTS)
-
-Hence according to the above, the crashkernel is rightfully allowed to
-do whatever it wants with all memory under the /memory node.
-However, there is also
-Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt.
-This suggests the crashkernel should be passed a DTB that contains a
-/reserved-memory node, describing which memory cannot be used freely.
-Then the decompressor needs to take this into account when deciding
-where the put the kernel.
-
-Yes, the above requires changing code. But at least it provides a
-path forward, getting rid of the fragile old masking technique.
-
-Thanks for your comments!
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sakari Ailus
