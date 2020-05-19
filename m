@@ -2,173 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C588C1D97EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 15:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB181D98AD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 15:57:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbgESNiS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 09:38:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727057AbgESNiR (ORCPT
+        id S1728633AbgESN5N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 09:57:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45782 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727904AbgESN5N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 09:38:17 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33A8CC08C5C0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 06:38:17 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id b6so13769809ljj.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 06:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uAKZAwd0Bsu5eMrKgCGYzypp282aFndHsMyiyLkrN6U=;
-        b=i1O08/bxxOIrq419RAam2H5dwyFSgdcXiVSWk/U9KA3KeR3RWo8ArMEwsE8E3RWSYe
-         Nd9/wMHI6sKfImJVRIxqWMaH/J27XjwU6drh068zhHNWyw2vm2xpQ6PTymfvKYwLWGv2
-         chtMjuj/0I0ek1LnDJpo4paJ4t4JrcMBhtFd1HDgVouQ7J1j+NK72ChYsO+ai/fNmQhi
-         T1hMIS1C/Ad0kLQzK6GW57GzRmpc8W80CHkP5DrAHBW7wRe51TvZQw6OzOBTMCxWC5Ik
-         8q5GVlxdufQ2S4U8p9aO5ZKPbfNi8aQiiGXVEYhVClV1yHipzINJiyMsCgK2j/2BGCb8
-         QFvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uAKZAwd0Bsu5eMrKgCGYzypp282aFndHsMyiyLkrN6U=;
-        b=iwHRz4hRD/lHKWX/hSKMRrw8D8Pxb8LVenAB6x/zVpnVzwt2qhDWz4251xVVZ0T3Lj
-         BX8kMVTd4j5EsOH6IkUENdy/gN9gAuwABnMQ7LaF3CeMcN2d4E6Co+YPz0yUXYWuj5P5
-         bu3Rqk6xPWhBktPxep1ebPmRF0a9FzSkRstbsSQjBBicDKOAIrZeAb6nGFlHORoKMv2B
-         Ej+Q5pGWJOv5ld78kLBEMUt1vP8IpiVcKSOuZve+1gmlFKdaosBqQAFgd/sF8VGpHefo
-         aBDhlsZFfLQlssuWuE1THJj+CKgUxu6DuvpHPAnAFuMrudnTdIRIXPA6uCG8Umq+KReL
-         cphw==
-X-Gm-Message-State: AOAM531eDT8Ozbvnu8cPtTvZiV/Hh3NREknr/YHS2aiBecrZAQMVjHHT
-        vVZyo7jLos3F4rgJf676ZCQjtQ==
-X-Google-Smtp-Source: ABdhPJz1M+HZa6KTbp/Wm84AK/1i26pnGh8Q1KoAtFwzKht/E1RMhyzFVXiOnhMnaUCobafo0iBHiQ==
-X-Received: by 2002:a2e:b4d0:: with SMTP id r16mr13906902ljm.129.1589895495703;
-        Tue, 19 May 2020 06:38:15 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id w14sm4834468lfe.65.2020.05.19.06.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 06:38:15 -0700 (PDT)
-Date:   Tue, 19 May 2020 15:38:14 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: gpio: Add renesas,em-gio bindings
-Message-ID: <20200519133814.GE470768@oden.dyn.berto.se>
-References: <20200519081157.29095-1-geert+renesas@glider.be>
+        Tue, 19 May 2020 09:57:13 -0400
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 261DB20842;
+        Tue, 19 May 2020 13:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589896632;
+        bh=1ge7GtnAk4d1zwaRewUucQ51+d00fLsHnCTj6b5UyPo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=w9c30JTdPhumdFKVx2WLG4ahdfmskibm3/J+VpvUHwCHDwxhKwWf068pSXin5P5W5
+         sq6YVsbx0z10ZWXz4kigPPjLTQzdth1AYxFcExRK24RFiAXIqkLlV8ovdAkMN5l1WA
+         M8mvGtaWJchuBp/Eh7FlgjR1Uss23J7O2tUEAQH4=
+Received: by mail-io1-f50.google.com with SMTP id s10so14589508iog.7;
+        Tue, 19 May 2020 06:57:12 -0700 (PDT)
+X-Gm-Message-State: AOAM533IzhrR/qovi3/2tkjc/kU/KL7rblDWZ3IPzNHFDlnkyQcQNQew
+        A2sapHqwRNoFW8UKKVvDu0yUPj9M2bwo1X7bkNQ=
+X-Google-Smtp-Source: ABdhPJxR1/bZ6OQaZesRjgU+B2k0BoP9B3nyHCz01LxPD8dIW+o5nveijsFfnE7y+oXqf41DyfMUKU6mdLde+phk4Ts=
+X-Received: by 2002:a6b:5008:: with SMTP id e8mr19309744iob.161.1589896631339;
+ Tue, 19 May 2020 06:57:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200519081157.29095-1-geert+renesas@glider.be>
+References: <CGME20200429082134eucas1p2415c5269202529e6b019f2d70c1b5572@eucas1p2.samsung.com>
+ <20200429082120.16259-1-geert+renesas@glider.be> <dleftjmu645mqn.fsf%l.stelmach@samsung.com>
+ <CAMuHMdXxq6m6gebQbWvxDynDcZ7dLyZzKC_QroK63L8FGeac1Q@mail.gmail.com>
+ <20200519094637.GZ1551@shell.armlinux.org.uk> <CAMuHMdU5DG06G4H=+PH+OONMT_9oE==KS=wP+bLgY9xVCez6Ww@mail.gmail.com>
+In-Reply-To: <CAMuHMdU5DG06G4H=+PH+OONMT_9oE==KS=wP+bLgY9xVCez6Ww@mail.gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 19 May 2020 15:56:59 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXH_s4qjDfTO03PkGNaiwfjmfkrZ-FE8vTm74QSrgoVt0A@mail.gmail.com>
+Message-ID: <CAMj1kXH_s4qjDfTO03PkGNaiwfjmfkrZ-FE8vTm74QSrgoVt0A@mail.gmail.com>
+Subject: Re: [PATCH v6] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Grant Likely <grant.likely@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Tue, 19 May 2020 at 13:21, Geert Uytterhoeven <geert@linux-m68k.org> wro=
+te:
+>
+> Hi Russell,
+>
+> CC devicetree
+>
+> On Tue, May 19, 2020 at 11:46 AM Russell King - ARM Linux admin
+> <linux@armlinux.org.uk> wrote:
+> > On Tue, May 19, 2020 at 11:44:17AM +0200, Geert Uytterhoeven wrote:
+> > > On Tue, May 19, 2020 at 10:54 AM Lukasz Stelmach <l.stelmach@samsung.=
+com> wrote:
+> > > > It was <2020-04-29 =C5=9Bro 10:21>, when Geert Uytterhoeven wrote:
+> > > > > Currently, the start address of physical memory is obtained by ma=
+sking
+> > > > > the program counter with a fixed mask of 0xf8000000.  This mask v=
+alue
+> > > > > was chosen as a balance between the requirements of different pla=
+tforms.
+> > > > > However, this does require that the start address of physical mem=
+ory is
+> > > > > a multiple of 128 MiB, precluding booting Linux on platforms wher=
+e this
+> > > > > requirement is not fulfilled.
+> > > > >
+> > > > > Fix this limitation by obtaining the start address from the DTB i=
+nstead,
+> > > > > if available (either explicitly passed, or appended to the kernel=
+).
+> > > > > Fall back to the traditional method when needed.
+> > > > >
+> > > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of=
+ SDRAM
+> > > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 sp=
+ace),
+> > > > > i.e. not at a multiple of 128 MiB.
+> > > > >
+> > > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> > > > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> > > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > > > Tested-by: Dmitry Osipenko <digetx@gmail.com>
+> > > > > ---
+> > > >
+> > > > [...]
+> > > >
+> > > > Apparently reading physical memory layout from DTB breaks crashdump
+> > > > kernels. A crashdump kernel is loaded into a region of memory, that=
+ is
+> > > > reserved in the original (i.e. to be crashed) kernel. The reserved
+> > > > region is large enough for the crashdump kernel to run completely i=
+nside
+> > > > it and don't modify anything outside it, just read and dump the rem=
+ains
+> > > > of the crashed kernel. Using the information from DTB makes the
+> > > > decompressor place the kernel outside of the dedicated region.
+> > > >
+> > > > The log below shows that a zImage and DTB are loaded at 0x18eb8000 =
+and
+> > > > 0x193f6000 (physical). The kernel is expected to run at 0x18008000,=
+ but
+> > > > it is decompressed to 0x00008000 (see r4 reported before jumping fr=
+om
+> > > > within __enter_kernel). If I were to suggest something, there need =
+to be
+> > > > one more bit of information passed in the DTB telling the decompres=
+sor
+> > > > to use the old masking technique to determain kernel address. It wo=
+uld
+> > > > be set in the DTB loaded along with the crashdump kernel.
+> > >
+> > > Shouldn't the DTB passed to the crashkernel describe which region of
+> > > memory is to be used instead?
+> >
+> > Definitely not.  The crashkernel needs to know where the RAM in the
+> > machine is, so that it can create a coredump of the crashed kernel.
+>
+> So the DTB should describe both ;-)
+>
+> > > Describing "to use the old masking technique" sounds a bit hackish to=
+ me.
+> > > I guess it cannot just restrict the /memory node to the reserved regi=
+on,
+> > > as the crashkernel needs to be able to dump the remains of the crashe=
+d
+> > > kernel, which lie outside this region.
+> >
+> > Correct.
+> >
+> > > However, something under /chosen should work.
+> >
+> > Yet another sticky plaster...
+>
+> IMHO the old masking technique is the hacky solution covered by
+> plasters.
+>
 
-Thanks for your patch.
+I think debating which solution is the hacky one will not get us anywhere.
 
-On 2020-05-19 10:11:57 +0200, Geert Uytterhoeven wrote:
-> Document Device Tree bindings for the Renesas EMMA Mobile General
-> Purpose I/O Interface.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The simple reality is that the existing solution works fine for
+existing platforms, and so any changes in the logic will have to be
+opt-in in one way or the other.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Since U-boot supports EFI boot these days, one potential option is to
+rely on that. I have some changes implementing this that go on top of
+this patch, but they don't actually rely on it - it was just to
+prevent lexical conflicts.
 
-> ---
->  .../bindings/gpio/renesas,em-gio.yaml         | 70 +++++++++++++++++++
->  1 file changed, 70 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> new file mode 100644
-> index 0000000000000000..8bdef812c87c3771
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> @@ -0,0 +1,70 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpio/renesas,em-gio.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas EMMA Mobile General Purpose I/O Interface
-> +
-> +maintainers:
-> +  - Magnus Damm <magnus.damm@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,em-gio
-> +
-> +  reg:
-> +    items:
-> +      - description: First set of contiguous registers
-> +      - description: Second set of contiguous registers
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Interrupt for the first set of 16 GPIO ports
-> +      - description: Interrupt for the second set of 16 GPIO ports
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +
-> +  gpio-ranges:
-> +    maxItems: 1
-> +
-> +  ngpios:
-> +    minimum: 1
-> +    maximum: 32
-> +
-> +  interrupt-controller: true
-> +
-> +  '#interrupt-cells':
-> +    const: 2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - gpio-controller
-> +  - '#gpio-cells'
-> +  - gpio-ranges
-> +  - ngpios
-> +  - interrupt-controller
-> +  - '#interrupt-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    gpio0: gpio@e0050000 {
-> +            compatible = "renesas,em-gio";
-> +            reg = <0xe0050000 0x2c>, <0xe0050040 0x20>;
-> +            interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            gpio-ranges = <&pfc 0 0 32>;
-> +            ngpios = <32>;
-> +            interrupt-controller;
-> +            #interrupt-cells = <2>;
-> +    };
-> -- 
-> 2.17.1
-> 
+The only remaining options imo are a kernel command line option, or a
+DT property that tells the decompressor to look at the memory nodes.
+But using the DT memory nodes on all platforms like this patch does is
+obviously just too risky.
 
--- 
-Regards,
-Niklas Söderlund
+On another note, I do think the usable-memory-region property should
+be implemented for ARM as well - relying on this rounding to ensure
+that the decompressor does the right thing is too fragile.
