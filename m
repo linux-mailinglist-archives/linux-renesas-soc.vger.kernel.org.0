@@ -2,50 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA27F1D8CFA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 03:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 315031D8CFD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 03:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbgESBQq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 May 2020 21:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46126 "EHLO
+        id S1727957AbgESBQw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 May 2020 21:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726720AbgESBQp (ORCPT
+        with ESMTP id S1726532AbgESBQv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 May 2020 21:16:45 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FFD1C061A0C
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 18:16:45 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id g1so11888619ljk.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 18:16:45 -0700 (PDT)
+        Mon, 18 May 2020 21:16:51 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DA95C061A0C
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 18:16:51 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id a4so9743664lfh.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 May 2020 18:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=globallogic.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=Xn5wFnMFGQRN2JrwyG8dxbNaVxUmAM516TWUFCg/W2I=;
-        b=eO1MHL1qyescskdPU67V3puqvAaIJ3hQ0IuVAZRGZ6G4uQNsgZWV1Y4u52hnCGFx+7
-         Al2xXlkx5mlU74XWek6k3qA9pZTz6sq3iYKdH//4bth9WJc50gDYBtZVTskyNEGbg8zi
-         SCLv7IPM2pAadEgkUO/2wCkVrkBcX4Jd0CFXO+2l3xExFCZeAtiDcbQIlVrE9owf63S9
-         5yKxy0no1peIFjk/E1rDyTU21U/xw4ByDaImJQ6IP3HOe8LlXbWap/X40QiNQ/ar0yl1
-         +YVLGymHUicv+iWc3IyfaVgCr16du/3uAkSc3qM4UzvguGyMH3X/Kb2DcmVVH6xhxU2Q
-         vb1Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :in-reply-to:references;
+        bh=iNtkjLBofdH+4f64nkDpx4VziClnAaPL36XhTHv5QzU=;
+        b=W8CqP3lMPScdIK6wIrmeT3P/nb87MaSjC2kmNctZJ5viIvGgB48mlnUCoGMa+JFxgw
+         cFJE8Ime/RLaYAU+N+vk5UGBE44yFuZK7NQn/afZArp+f4a2nPYxZDRRKTe0yW2MBN5x
+         5Z80Ftp/ZYoMOA58mSpEmDUkUu8sTz5kgZj/GQKFjV/wmFIsK7EBAfQo/t0wAXEtx2EN
+         NosGoAbeXUKde2bZu2eeZY3Ok75YdM/LptpD+HC1lZx3V/bJ0G05LDU1Gxv3Q+10Raq+
+         fzJmQc8cVouEOgW6GqbMjFg6jpKT8OMwNhQD6T+lbhlhSLhkxNYt6Yl0JTyKcSrWhhCu
+         w+oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Xn5wFnMFGQRN2JrwyG8dxbNaVxUmAM516TWUFCg/W2I=;
-        b=Wud+KEIxPcTtxvRO/7afLvt/xZfXSbDirjB1fLegNOM3Enj2te7ISpOQLp+0Ql6GB0
-         aVPe7n0bHajDA6OMwG5JYeqtvutvoITxlSJTXQU5lpt0KtJTp1jn7/ubc2t+n0q52/Fu
-         ZMG9mxbN/WwY0XcfLO1UvnOwWRm8zQ0d12hvxiAHz3G6QELVR75LGRoiXD8avrGow5NO
-         aVwbzzy8/ySVlZKPG7JqLbgjysqtGyPEWHGZotXJMIluFVg0najSHc17bCEjQt7DLvkO
-         ZMDxVG6yxJoMWlOK5+UBWsdG5UUgd3V7bUf4PM5rgM9rU7QW14LFa2I2FDsm9k+GSR9e
-         Tryg==
-X-Gm-Message-State: AOAM531vv9mYBzJsHuNE8MrcRyFUtxxwdiM4s00XtvDTMHJmWmGrMxPs
-        IqDLk6YE+uM/B6N7ZLp8vv3ptA==
-X-Google-Smtp-Source: ABdhPJx/741/56BM68xh9y2nZL++XdhisKWGZlXkAWubLodSM7ew4ttbVJtaVvVr+Ykb1aQjtDdR+g==
-X-Received: by 2002:a05:651c:1103:: with SMTP id d3mr11952050ljo.38.1589851003890;
-        Mon, 18 May 2020 18:16:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:in-reply-to:references;
+        bh=iNtkjLBofdH+4f64nkDpx4VziClnAaPL36XhTHv5QzU=;
+        b=FmYsPKS7iugzS61AX1W6+Up3dQ4ezw+qy0SmdqkeW5q3k+Nyl0xJNfdFJsTx1lTRyw
+         iVgsIoCOdOvsXggVERRpk8iETZXR3d/oY4vzdMRg9MM49NSRiBEwWp4Wff+uHuLrfbEJ
+         LZQj5Yp+191OWISq6JjlvPhjRJ4Jjd/nnFRzeEIye9N/9mRNI+6BR/F7NAE8IIppN8Oh
+         uzy75BxS7OL394OklkPEEwEN/Jb+axb6YqQ91wbEwXSA4/wrwJZjXgZGvbW+rC5Tz30g
+         lxUuHKIS7xDdAVKJr6r+0x845JvP2YfZViGoA1gxvECBMRjePIv9+ha1plFxV1eMnBNB
+         0sMA==
+X-Gm-Message-State: AOAM532enC2GYr0uz2/AfTiLiAVx2duxOXc5Bjvr3w3QRfSe+M+EFtah
+        DbgvwHfv711Xdn0x9uLdFRw3fQ==
+X-Google-Smtp-Source: ABdhPJzTVQ7s6a5XPWnmoKQsqku0bOnsdidXGcDFI4Nrwm6hwoCvxf6HZrbBO61ZjPhhtmUNk/oxYw==
+X-Received: by 2002:a19:c016:: with SMTP id q22mr5245316lff.191.1589851009299;
+        Mon, 18 May 2020 18:16:49 -0700 (PDT)
 Received: from localhost.localdomain ([159.224.5.60])
-        by smtp.googlemail.com with ESMTPSA id i8sm4764244lfl.72.2020.05.18.18.16.42
+        by smtp.googlemail.com with ESMTPSA id i8sm4764244lfl.72.2020.05.18.18.16.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 18:16:43 -0700 (PDT)
+        Mon, 18 May 2020 18:16:48 -0700 (PDT)
 From:   Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
@@ -64,46 +66,68 @@ Cc:     Luis Oliveira <lolivei@synopsys.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.org>,
         Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-Subject: [PATCH v2 0/6] ov5647 driver improvement
-Date:   Tue, 19 May 2020 04:16:15 +0300
-Message-Id: <cover.1589847910.git.roman.kovalivskyi@globallogic.com>
+Subject: [PATCH v2 1/6] media: ov5647: Add set_fmt and get_fmt calls.
+Date:   Tue, 19 May 2020 04:16:16 +0300
+Message-Id: <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1589847910.git.roman.kovalivskyi@globallogic.com>
+References: <cover.1589847910.git.roman.kovalivskyi@globallogic.com>
+In-Reply-To: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
+References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Driver for ov5647 camera sensor lacks some important functionality, such
-as ability to query device format and resolution or operations with
-power down mode. Patches from Raspberry kernel source tree[1] fixes
-those issues and improves quality of mentioned driver.
+From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Changes since v1 [2]:
-* Added DT bindings documentation for PWDN GPIO and non-continuous clock mode
-* Patch 2: "media: ov5647: Add support for PWDN GPIO."
-  * Replaced msleep with usleep_range
-* Patch 3: "media: ov5647: Add support for non-continuous clock mode"
-  * Added check if bus type is correct one
-  * Replaced storing of all flags to storing whether clock is continuous
-  * Added of_node_put(np) in case if v4l2_fwnode_endpoint_parse fails
+There's no way to query the subdevice for the supported
+resolutions. Add set_fmt and get_fmt implementations. Since there's
+only one format supported set_fmt does nothing and get returns single
+format.
 
-[1] - https://github.com/raspberrypi/linux
-[2] - https://lore.kernel.org/patchwork/cover/1223179/
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ drivers/media/i2c/ov5647.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-Dave Stevenson (5):
-  media: ov5647: Add set_fmt and get_fmt calls.
-  media: ov5647: Add support for PWDN GPIO.
-  media: ov5647: Add support for non-continuous clock mode
-  media: ov5647: Use gpiod_set_value_cansleep
-  media: dt-bindings: ov5647: Add property for PWDN control
-
-Roman Kovalivskyi (1):
-  media: dt-bindings: ov5647: Add property for non-continuous clock
-
- .../devicetree/bindings/media/i2c/ov5647.txt  |  7 ++
- drivers/media/i2c/ov5647.c                    | 77 ++++++++++++++++++-
- 2 files changed, 80 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index e7d2e5b4ad4b..3e587eb0a30e 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -463,8 +463,30 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_pad_config *cfg,
++			      struct v4l2_subdev_format *format)
++{
++	struct v4l2_mbus_framefmt *fmt = &format->format;
++
++	if (format->pad != 0)
++		return -EINVAL;
++
++	/* Only one format is supported, so return that */
++	memset(fmt, 0, sizeof(*fmt));
++	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
++	fmt->colorspace = V4L2_COLORSPACE_SRGB;
++	fmt->field = V4L2_FIELD_NONE;
++	fmt->width = 640;
++	fmt->height = 480;
++
++	return 0;
++}
++
+ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+ 	.enum_mbus_code = ov5647_enum_mbus_code,
++	.set_fmt =	  ov5647_set_get_fmt,
++	.get_fmt =	  ov5647_set_get_fmt,
+ };
+ 
+ static const struct v4l2_subdev_ops ov5647_subdev_ops = {
 -- 
 2.17.1
 
