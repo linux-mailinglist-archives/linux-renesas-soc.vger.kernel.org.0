@@ -2,77 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C2E41D97D6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 15:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C588C1D97EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 May 2020 15:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728658AbgESNdO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 May 2020 09:33:14 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35467 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728633AbgESNdN (ORCPT
+        id S1728750AbgESNiS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 May 2020 09:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbgESNiR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 May 2020 09:33:13 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 69so6498521otv.2;
-        Tue, 19 May 2020 06:33:13 -0700 (PDT)
+        Tue, 19 May 2020 09:38:17 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33A8CC08C5C0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 06:38:17 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id b6so13769809ljj.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 19 May 2020 06:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=uAKZAwd0Bsu5eMrKgCGYzypp282aFndHsMyiyLkrN6U=;
+        b=i1O08/bxxOIrq419RAam2H5dwyFSgdcXiVSWk/U9KA3KeR3RWo8ArMEwsE8E3RWSYe
+         Nd9/wMHI6sKfImJVRIxqWMaH/J27XjwU6drh068zhHNWyw2vm2xpQ6PTymfvKYwLWGv2
+         chtMjuj/0I0ek1LnDJpo4paJ4t4JrcMBhtFd1HDgVouQ7J1j+NK72ChYsO+ai/fNmQhi
+         T1hMIS1C/Ad0kLQzK6GW57GzRmpc8W80CHkP5DrAHBW7wRe51TvZQw6OzOBTMCxWC5Ik
+         8q5GVlxdufQ2S4U8p9aO5ZKPbfNi8aQiiGXVEYhVClV1yHipzINJiyMsCgK2j/2BGCb8
+         QFvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tfjq0+2TvhTDPcTzKAYSuLPQPlCSitYKtY6JkPINn/o=;
-        b=qG6ryGrfBQdruG+sTKNyKkNPeu/sm09q5fYg9LtMPsjPlT4IzXPiTvspHq9ueQ+5Ly
-         SmxW5gj7DewFkBQbAVrIgP6dmEJTdm5RzQl9wq8WqrG3whV2GtyJuRaRjXIADs7mSq5I
-         NseJvb/prj5PGkgVzTuWGlmGygGqZcwPz313gptSJOxma4NeyxD3UY4EQemDKq8XOqJI
-         wj821t7jqkaYAZxkBnpe/pGXguR6Y+iMVK7u/u6VqTvCSLA5uFYdrJm4sHf2EiqRtGGU
-         28lde/E7iuCxd4mo7IkY5CK+1xl9a72NPUvYYcVUOAGxLIA/Bt287blIQH2gN32J/nS8
-         tUyQ==
-X-Gm-Message-State: AOAM5313VPCifxGWZUEs70vpCT0qIPJUZzXYdR+hhPC1v33z7peZnqn5
-        +nSm/Dx4u8YRPlubVnf6M51CHkyHC7UrlUK2tes=
-X-Google-Smtp-Source: ABdhPJyAt8NmTZFbYZI4yPgmGZfB2oiwlkINlsEI5ZmOA2fK+9EJ+dJOLJ7AaVOzaxgpBhwWAcngv4M7f+TntDTKrRI=
-X-Received: by 2002:a9d:7e92:: with SMTP id m18mr15739186otp.145.1589895192859;
- Tue, 19 May 2020 06:33:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200519075858.27869-1-geert+renesas@glider.be> <20200519124714.GA45550@sirena.org.uk>
-In-Reply-To: <20200519124714.GA45550@sirena.org.uk>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 19 May 2020 15:33:01 +0200
-Message-ID: <CAMuHMdUHHzBNFHy07hgdryJEeHUDMOCP8XauCn7TmUK7uGZcFg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsi: Add missing properties to DT bindings
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=uAKZAwd0Bsu5eMrKgCGYzypp282aFndHsMyiyLkrN6U=;
+        b=iwHRz4hRD/lHKWX/hSKMRrw8D8Pxb8LVenAB6x/zVpnVzwt2qhDWz4251xVVZ0T3Lj
+         BX8kMVTd4j5EsOH6IkUENdy/gN9gAuwABnMQ7LaF3CeMcN2d4E6Co+YPz0yUXYWuj5P5
+         bu3Rqk6xPWhBktPxep1ebPmRF0a9FzSkRstbsSQjBBicDKOAIrZeAb6nGFlHORoKMv2B
+         Ej+Q5pGWJOv5ld78kLBEMUt1vP8IpiVcKSOuZve+1gmlFKdaosBqQAFgd/sF8VGpHefo
+         aBDhlsZFfLQlssuWuE1THJj+CKgUxu6DuvpHPAnAFuMrudnTdIRIXPA6uCG8Umq+KReL
+         cphw==
+X-Gm-Message-State: AOAM531eDT8Ozbvnu8cPtTvZiV/Hh3NREknr/YHS2aiBecrZAQMVjHHT
+        vVZyo7jLos3F4rgJf676ZCQjtQ==
+X-Google-Smtp-Source: ABdhPJz1M+HZa6KTbp/Wm84AK/1i26pnGh8Q1KoAtFwzKht/E1RMhyzFVXiOnhMnaUCobafo0iBHiQ==
+X-Received: by 2002:a2e:b4d0:: with SMTP id r16mr13906902ljm.129.1589895495703;
+        Tue, 19 May 2020 06:38:15 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id w14sm4834468lfe.65.2020.05.19.06.38.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2020 06:38:15 -0700 (PDT)
+Date:   Tue, 19 May 2020 15:38:14 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: gpio: Add renesas,em-gio bindings
+Message-ID: <20200519133814.GE470768@oden.dyn.berto.se>
+References: <20200519081157.29095-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200519081157.29095-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+Hi Geert,
 
-On Tue, May 19, 2020 at 2:47 PM Mark Brown <broonie@kernel.org> wrote:
-> On Tue, May 19, 2020 at 09:58:58AM +0200, Geert Uytterhoeven wrote:
-> > make dtbs_check:
-> >
-> >     arch/arm/boot/dts/r8a7740-armadillo800eva.dt.yaml: sound@fe1f0000: '#sound-dai-cells', 'clocks', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
->
-> This doesn't apply against current code, please check and resend.
+Thanks for your patch.
 
-It indeed doesn't apply to your sound/for-next branch.
-It does apply to robh/for-next, which has commit 9f60a65bc5e6cd88
-("dt-bindings: Clean-up schema indentation formatting"), so I guess
-Rob will have to take it.
+On 2020-05-19 10:11:57 +0200, Geert Uytterhoeven wrote:
+> Document Device Tree bindings for the Renesas EMMA Mobile General
+> Purpose I/O Interface.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Gr{oetje,eeting}s,
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-                        Geert
+> ---
+>  .../bindings/gpio/renesas,em-gio.yaml         | 70 +++++++++++++++++++
+>  1 file changed, 70 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
+> new file mode 100644
+> index 0000000000000000..8bdef812c87c3771
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
+> @@ -0,0 +1,70 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/renesas,em-gio.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas EMMA Mobile General Purpose I/O Interface
+> +
+> +maintainers:
+> +  - Magnus Damm <magnus.damm@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: renesas,em-gio
+> +
+> +  reg:
+> +    items:
+> +      - description: First set of contiguous registers
+> +      - description: Second set of contiguous registers
+> +
+> +  interrupts:
+> +    items:
+> +      - description: Interrupt for the first set of 16 GPIO ports
+> +      - description: Interrupt for the second set of 16 GPIO ports
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +  ngpios:
+> +    minimum: 1
+> +    maximum: 32
+> +
+> +  interrupt-controller: true
+> +
+> +  '#interrupt-cells':
+> +    const: 2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - gpio-controller
+> +  - '#gpio-cells'
+> +  - gpio-ranges
+> +  - ngpios
+> +  - interrupt-controller
+> +  - '#interrupt-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    gpio0: gpio@e0050000 {
+> +            compatible = "renesas,em-gio";
+> +            reg = <0xe0050000 0x2c>, <0xe0050040 0x20>;
+> +            interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            gpio-ranges = <&pfc 0 0 32>;
+> +            ngpios = <32>;
+> +            interrupt-controller;
+> +            #interrupt-cells = <2>;
+> +    };
+> -- 
+> 2.17.1
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
