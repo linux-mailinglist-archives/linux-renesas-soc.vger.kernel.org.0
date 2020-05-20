@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0CB1DC207
+	by mail.lfdr.de (Postfix) with ESMTP id BB5EA1DC208
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2020 00:26:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728490AbgETW0Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1726847AbgETW0Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 20 May 2020 18:26:16 -0400
-Received: from mga06.intel.com ([134.134.136.31]:18243 "EHLO mga06.intel.com"
+Received: from mga05.intel.com ([192.55.52.43]:20890 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726847AbgETW0Q (ORCPT
+        id S1728462AbgETW0Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 20 May 2020 18:26:16 -0400
-IronPort-SDR: f+mP2Djuj3WCg78kdPFJx+jDk8i+3MTvqHZLf/LLJU6h/LNwOCfUZZrH5zET/zhG7W5aDOIWrc
- lTDl+Ut44G4g==
+IronPort-SDR: JbI+LEczBfD7Ik86pUu1MVDkuyHxiUtXG57p1v7Vj7zvCo3E+aGkv4rFspb8J2g/yFrl5d99tv
+ VUp2gz8SuH4Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 15:26:15 -0700
-IronPort-SDR: SgMUBN//ydthnC/xenLniFayqbopSO+4HTFWW3SjtUyxdRhalhNN5KqsLj7NsK92OBLnU/PX1p
- L3SSTiG6cdHg==
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 15:26:15 -0700
+IronPort-SDR: 8rkrL3tVX5xLPwbhgoYpGbrEtBkjc4i1K8DHdskyjmqF664dzRQ7pRScEh+1OW6r8UcvNXsB6a
+ zGiyE0CN8C9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,415,1583222400"; 
-   d="scan'208";a="264841521"
+   d="scan'208";a="440209925"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 May 2020 15:26:14 -0700
+  by orsmga005.jf.intel.com with ESMTP; 20 May 2020 15:26:14 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1jbXAD-0000wW-QN; Thu, 21 May 2020 06:26:13 +0800
-Date:   Thu, 21 May 2020 06:25:47 +0800
+        id 1jbXAD-0000vY-MR; Thu, 21 May 2020 06:26:13 +0800
+Date:   Thu, 21 May 2020 06:25:49 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
- dfae0422de12265ae7c9bf57b34990200dea0c83
-Message-ID: <5ec5ae6b./D5xL7UJn9u3F112%lkp@intel.com>
+Subject: [renesas-drivers:clk-renesas] BUILD SUCCESS
+ 9b9df63b50306b9602954d2f40fa8e05c0c27fda
+Message-ID: <5ec5ae6d.bAOOrKcKPoJZhKDL%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,12 +44,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
-branch HEAD: dfae0422de12265ae7c9bf57b34990200dea0c83  MAINTAINERS: Renesas Pin Controllers are supported
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas
+branch HEAD: 9b9df63b50306b9602954d2f40fa8e05c0c27fda  dt-bindings: clock: renesas: mstp: Convert to json-schema
 
 elapsed time: 485m
 
-configs tested: 104
+configs tested: 98
 configs skipped: 1
 
 The following configs have been built successfully.
@@ -128,12 +128,6 @@ i386                 randconfig-a015-20200520
 i386                 randconfig-a011-20200520
 i386                 randconfig-a016-20200520
 i386                 randconfig-a014-20200520
-i386                 randconfig-a013-20200521
-i386                 randconfig-a012-20200521
-i386                 randconfig-a015-20200521
-i386                 randconfig-a011-20200521
-i386                 randconfig-a016-20200521
-i386                 randconfig-a014-20200521
 riscv                            allyesconfig
 riscv                             allnoconfig
 riscv                               defconfig
