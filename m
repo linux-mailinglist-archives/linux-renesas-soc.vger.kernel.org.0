@@ -2,76 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22FB91DB5E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2020 16:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 248131DBC0D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2020 19:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726890AbgETOFP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 May 2020 10:05:15 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36594 "EHLO
+        id S1726805AbgETRzT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 May 2020 13:55:19 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42742 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgETOFP (ORCPT
+        with ESMTP id S1726576AbgETRzT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 May 2020 10:05:15 -0400
-Received: by mail-ot1-f67.google.com with SMTP id h7so2545164otr.3;
-        Wed, 20 May 2020 07:05:14 -0700 (PDT)
+        Wed, 20 May 2020 13:55:19 -0400
+Received: by mail-ot1-f67.google.com with SMTP id z3so3195525otp.9;
+        Wed, 20 May 2020 10:55:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Y468/OM102awg1cAk5FSerug9LG6wCGV6DEAq6G9WYA=;
-        b=DPkicKz8QuBB1JTi6QvwlwNi7joyjLkO6xvQz8SpUwzF1OwpnX/271eqXP1gYlQ+lR
-         bmKM/n6SAClMMlSTTfEKOxSVbXQU7CPREnbc9i69TXkL/VOQXrSv05D4Ydwvlgkb63LV
-         WaJoHuQvV8brZhYIOH6y6ChvxrnOnE2Fo5sa2aee9euOTUbRx1sWSbAJD3ZvZYvaZP26
-         vbLgggtrMERT1qUvA7Vgi7qAdFdVPOyPY7RIi/m9BsUg9Ksyv0C1nbOva5yfPoPXiVsT
-         zn4leMEHB9MpfITbjEaw1Jal6JUJmsCUVVXTIpz0K9b3au1VoqBOzVt5977dwMV1nEtK
-         B/lg==
-X-Gm-Message-State: AOAM531JxM3N1Aa2nGTeLLovmhmQBFjx0HjTppMqYf+ylgXqqViBPFUr
-        6aLVOG5t3n+OAeN9KQGanJAdpnbTx2HSaMzta6xHIA==
-X-Google-Smtp-Source: ABdhPJw4aD6qMweeU/cwOlh80J1NHOz26SKIhals5FPRKOQG0UpAFGUp18CDWMU+Do3JAlyWEtW7goBLnDRzWs6VjCI=
-X-Received: by 2002:a9d:7e92:: with SMTP id m18mr3205845otp.145.1589983514344;
- Wed, 20 May 2020 07:05:14 -0700 (PDT)
+        bh=5m951R59Hwg4L11IEuOHoFFikYCWHfdiPMHD72cEVHk=;
+        b=dggr86313V3QhUks8vfIrOb50aXldtvrp5UH2sOz2Xzbtz+rF6+uOF69q5jY8PTxZQ
+         snjF5GC0981qMXbUza31XphZGv3xGeJTdotLlVI9JQfQJh1hw15xr3Eyo0lVYW8p9xuu
+         xn1q52Cm3ukEVmq3tsUWNONQcqUMHXcPprU8T3pqvlERFO0UnKQcZLGc1nUxKlP0paDG
+         RwjOau7h4TyDcuG6d67tr39OrFidqo8BLggQfG+OyUALCv6dKSEvoHzRuc/OCGwwu67z
+         rR5ABarhbzvbwiOffZJFdfBZUN4qz8pNGXAziTRuXIfW+BngeRBamhj6NiFEayng/kOA
+         WUZg==
+X-Gm-Message-State: AOAM530WcFOYKRYPtIyHNc8KFN+9e2GdktuCii51xRLjBzsVtuau5Qvp
+        deQ8L5apjsCOgdPKNgSnwfjC13AXEe0az23C+D8OBg==
+X-Google-Smtp-Source: ABdhPJxEo3oNn9amEBgLDhtlYslm+GZaONC8aNPzNSGVxSwxUDtdZFk9eNWRSBnamNVmnCkecgP38YqpNhgFP81BPJc=
+X-Received: by 2002:a05:6830:18d9:: with SMTP id v25mr3828028ote.107.1589997318173;
+ Wed, 20 May 2020 10:55:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200520125357.16281-1-geert+renesas@glider.be> <83cb2005-c9e6-7711-5b78-44080256e52e@cogentembedded.com>
-In-Reply-To: <83cb2005-c9e6-7711-5b78-44080256e52e@cogentembedded.com>
+References: <20200519164251.5430-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200519164251.5430-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 May 2020 16:05:03 +0200
-Message-ID: <CAMuHMdW-u+z4Eqhkj5ZD_i8SOTM3f09Vi2uCufEyZVW8s4Kvrw@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.8 (take two)
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Wed, 20 May 2020 19:55:06 +0200
+Message-ID: <CAMuHMdXiMwo7BN5TJAwea1d-LYb09jGtTe90BEc+3zdzTN1J4w@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: renesas_sdhi: remove manual clk handling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
-
-On Wed, May 20, 2020 at 3:47 PM Sergei Shtylyov
-<sergei.shtylyov@cogentembedded.com> wrote:
-> On 20.05.2020 15:53, Geert Uytterhoeven wrote:
-> > The following changes since commit 41fe32ecc7aff4527a4ee477870d9b1164be95a4:
-> >
-> >    MAINTAINERS: Add DT Bindings for Renesas Pin Function Controllers (2020-04-20 13:14:05 +0200)
-> >
-> > are available in the Git repository at:
-> >
-> >    git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.8-tag2
-> >
-> > for you to fetch changes up to dfae0422de12265ae7c9bf57b34990200dea0c83:
-> >
-> >    MAINTAINERS: Renesas Pin Controllers are supported (2020-05-20 14:02:00 +0200)
-> >
-> > ----------------------------------------------------------------
-> > pinctrl: sh-pfc: Updates for v5.8 (take two)
-> >
-> >    - Add support for the new RZ/H1G (r8a7742) SoC,
+On Tue, May 19, 2020 at 6:42 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The SDHI driver en-/disabled its main clock on its own, e.g. during
+> probe() and remove(). Now, we leave all handling to RPM.
 >
->     I think it's rather RZ/G1H. :-)
+> clk_summary before:
+> sd0                   1        1        0    12480000          0     0  50000
+>    sdif0              2        2        0    12480000          0     0  50000
+>
+> clk_summary after:
+> sd0                   1        1        0    12480000          0     0  50000
+>    sdif0              1        1        0    12480000          0     0  50000
+>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks, retagged and resent.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
