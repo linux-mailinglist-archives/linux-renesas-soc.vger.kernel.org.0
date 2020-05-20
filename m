@@ -2,79 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 238EE1DAE49
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2020 11:04:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 191EC1DB1DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 May 2020 13:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgETJEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 May 2020 05:04:36 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:48134 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726525AbgETJEg (ORCPT
+        id S1726545AbgETLfz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 May 2020 07:35:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbgETLfy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 May 2020 05:04:36 -0400
-X-Greylist: delayed 2507 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 05:04:35 EDT
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app3 (Coremail) with SMTP id cC_KCgB3f0PG6MRe6UTfAA--.12230S4;
-        Wed, 20 May 2020 16:22:35 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] PCI: rcar: fix runtime pm imbalance on error
-Date:   Wed, 20 May 2020 16:22:28 +0800
-Message-Id: <20200520082228.26881-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgB3f0PG6MRe6UTfAA--.12230S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5ZF15Jr17CrWrKFy7trb_yoWfWrb_u3
-        WY9Fs7Crs5Gr9Ikry2ya13ZF9YvasIq3Wqg3WrtF1ayaySvws8Xr97XFZ8Zrs5Cr45AF1q
-        yr1q9F1xurWUujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb-kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4UJVW0owA2z4x0Y4vEx4A2
-        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWU
-        XwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE
-        14v_GFyl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026x
-        CaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_
-        JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r
-        1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_
-        Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
-        W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbqQ6JUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
+        Wed, 20 May 2020 07:35:54 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E15C061A0E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 May 2020 04:35:54 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id 21so668596vkq.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 May 2020 04:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+aE0A0M5Qg9SXZIcPPNRj5FWijxTBxGrBtlS/gFGoT8=;
+        b=Du9Tc0gw3O1YUeg9tnkrby1f5eTFb+hNUB1RByKvkiome1cXOHOM5qzZUryjXpVUxa
+         6kpvbc+O0h1MXl3xvOFaIZ7+iH42J9cU6mkwiso8AFh4SSuHKqYxAimOu9DlrSZwSg6H
+         KppqevnNhBUBMW50+4GkcKSFwyzQ38Dp8ADdAUcyo//bO3IMnOt+5hpCm7+nlZSfw8aV
+         t845chc788hXfV4rKOznpkRia59Cc5nwXCd4Sn3UGVqZ2tD2pvcHYfMyRzJNYtbrF9v6
+         JmG7b3BuxQIVjXjqFYDOCMOuC/zL0uPvAFRS/IVMX9kCqT1alr/+zylPG6wZV/m1fHk5
+         +6ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+aE0A0M5Qg9SXZIcPPNRj5FWijxTBxGrBtlS/gFGoT8=;
+        b=ttadSkAMw+bq1ngoBLtFC7DSj9rzytVpbmwPJcGo6f/y3oXVxgclGFgQ8nTZXuB26I
+         Wk+ZjV5/nKxzcNJoIPinr5fGu/+WKLAJI/hfI4UjbiDgxxh1AAVUajIR93SUcF1x+EvQ
+         hnburhA+LHPeGnrYUX12a9iUd3YNIxGNqrVgyPunyPF9DvoT0Wdq6r/fEjft4AaRfz33
+         5DU2Yi+Qpay6oqdV9BNUyZ3VWVwvLBqUe51ex/+bPvVAjF3O0wKMfXq4Bo89L4aBr9Lc
+         HD8WZgIuxANEANQtHiGjrojcDlUBB58KSV2mDPa81V/N3EjILl2suSzFDrV1xxPUIRdw
+         O2+Q==
+X-Gm-Message-State: AOAM531myF8znI2H8CosKTeAlM0iH7UDdlvcLvrnFobVPTmq2tvkgGoo
+        mD6+2uNI8vRV927wKPk0eVZd4qRzlFd4HUJFWwfs21O0ER0=
+X-Google-Smtp-Source: ABdhPJypO0qOnBkxx9iB9RyuzTNifOfMDcbFFlvy37TuGrWiaK0Fb8LAeMN0es2fOho+sfGVkw1OoCf49fFnDYoMWto=
+X-Received: by 2002:ac5:cded:: with SMTP id v13mr3321768vkn.59.1589974553603;
+ Wed, 20 May 2020 04:35:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200519164251.5430-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200519164251.5430-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 20 May 2020 13:35:17 +0200
+Message-ID: <CAPDyKFq0TuCfnNE3i2reSzsO7=ex+2-JUDn1XEVxT52GMM3JLQ@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: renesas_sdhi: remove manual clk handling
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+On Tue, 19 May 2020 at 18:42, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> The SDHI driver en-/disabled its main clock on its own, e.g. during
+> probe() and remove(). Now, we leave all handling to RPM.
+>
+> clk_summary before:
+> sd0                   1        1        0    12480000          0     0  50000
+>    sdif0              2        2        0    12480000          0     0  50000
+>
+> clk_summary after:
+> sd0                   1        1        0    12480000          0     0  50000
+>    sdif0              1        1        0    12480000          0     0  50000
+>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/pci/controller/pcie-rcar.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Applied for next, thanks!
 
-diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-index 759c6542c5c8..a9de65438051 100644
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -1207,9 +1207,8 @@ static int rcar_pcie_probe(struct platform_device *pdev)
- 	irq_dispose_mapping(pcie->msi.irq1);
- 
- err_pm_put:
--	pm_runtime_put(dev);
--
- err_pm_disable:
-+	pm_runtime_put(dev);
- 	pm_runtime_disable(dev);
- 	pci_free_resource_list(&pcie->resources);
- 
--- 
-2.17.1
+Kind regards
+Uffe
 
+
+> ---
+>
+> Depends on mmc/next + "[PATCH 2/2] mmc: tmio: Make sure the PM domain is
+> 'started' while probing" from Ulf
+>
+> Changes since v1:
+>
+> * reworded commit message
+> * don't remove the en-/disable calls themselves but only the clk_* calls
+>   to the main clock
+>
+>
+>  drivers/mmc/host/renesas_sdhi_core.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index dcba9ad35dd1..15e21894bd44 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -83,16 +83,11 @@ static int renesas_sdhi_clk_enable(struct tmio_mmc_host *host)
+>  {
+>         struct mmc_host *mmc = host->mmc;
+>         struct renesas_sdhi *priv = host_to_priv(host);
+> -       int ret = clk_prepare_enable(priv->clk);
+> -
+> -       if (ret < 0)
+> -               return ret;
+> +       int ret;
+>
+>         ret = clk_prepare_enable(priv->clk_cd);
+> -       if (ret < 0) {
+> -               clk_disable_unprepare(priv->clk);
+> +       if (ret < 0)
+>                 return ret;
+> -       }
+>
+>         /*
+>          * The clock driver may not know what maximum frequency
+> @@ -198,7 +193,6 @@ static void renesas_sdhi_clk_disable(struct tmio_mmc_host *host)
+>  {
+>         struct renesas_sdhi *priv = host_to_priv(host);
+>
+> -       clk_disable_unprepare(priv->clk);
+>         clk_disable_unprepare(priv->clk_cd);
+>  }
+>
+> --
+> 2.20.1
+>
