@@ -2,80 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 910B11DCC54
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2020 13:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE8591DCC85
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 May 2020 14:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729080AbgEULq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 May 2020 07:46:26 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:59267 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729064AbgEULqZ (ORCPT
+        id S1729100AbgEUMCK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 21 May 2020 08:02:10 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:43723 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729080AbgEUMCJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 May 2020 07:46:25 -0400
-X-IronPort-AV: E=Sophos;i="5.73,417,1583161200"; 
-   d="scan'208";a="47677965"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 21 May 2020 20:46:24 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 96AE14004BA8;
-        Thu, 21 May 2020 20:46:24 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org
-Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] dma: sh: usb-dmac: Fix residue after the commit 24461d9792c2
-Date:   Thu, 21 May 2020 20:46:13 +0900
-Message-Id: <1590061573-12576-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 21 May 2020 08:02:09 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 9272E1C000E;
+        Thu, 21 May 2020 12:02:05 +0000 (UTC)
+Date:   Thu, 21 May 2020 14:05:25 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: Add missing clock domain description
+Message-ID: <20200521120525.m7wskfvgrp572z7t@uno.localdomain>
+References: <20200519074229.22308-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200519074229.22308-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This driver assumed that freed descriptors have "done_cookie".
-But, after the commit 24461d9792c2 ("dmaengine: virt-dma: Fix
-access after free in vchan_complete()"), since the desc is freed
-after callback function was called, this driver could not
-match any done_cookie when a client driver (renesas_usbhs driver)
-calls dmaengine_tx_status() in the callback function.
-So, add to check both descriptor types (freed and got) to fix
-the issue.
+Hi Geert,
 
-Reported-by: Hien Dang <hien.dang.eb@renesas.com>
-Fixes: 24461d9792c2 ("dmaengine: virt-dma: Fix access after free in vchan_complete()")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/dma/sh/usb-dmac.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+On Tue, May 19, 2020 at 09:42:29AM +0200, Geert Uytterhoeven wrote:
+> make dtbs_check:
+>
+>     arch/arm/boot/dts/r7s72100-genmai.dt.yaml: camera@e8210000: 'clocks', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+>
+> Fix this by documenting the missing properties.
+> Update the example to match reality.
 
-diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
-index b218a01..c0adc1c8 100644
---- a/drivers/dma/sh/usb-dmac.c
-+++ b/drivers/dma/sh/usb-dmac.c
-@@ -488,16 +488,17 @@ static u32 usb_dmac_chan_get_residue_if_complete(struct usb_dmac_chan *chan,
- 						 dma_cookie_t cookie)
- {
- 	struct usb_dmac_desc *desc;
--	u32 residue = 0;
- 
-+	list_for_each_entry_reverse(desc, &chan->desc_got, node) {
-+		if (desc->done_cookie == cookie)
-+			return desc->residue;
-+	}
- 	list_for_each_entry_reverse(desc, &chan->desc_freed, node) {
--		if (desc->done_cookie == cookie) {
--			residue = desc->residue;
--			break;
--		}
-+		if (desc->done_cookie == cookie)
-+			return desc->residue;
- 	}
- 
--	return residue;
-+	return 0;
- }
- 
- static u32 usb_dmac_chan_get_residue(struct usb_dmac_chan *chan,
--- 
-2.7.4
+Thanks for fixing this!
 
+Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+>
+> Fixes: 7f464532b05dadc8 ("dt-bindings: Add missing 'additionalProperties: false'")
+> Fixes: 58361eaa11d561f3 ("dt-bindings: media: renesas,ceu: Convert to yaml")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../devicetree/bindings/media/renesas,ceu.yaml        | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+> index f2393458814ee08f..c7e1e4fe67e6696b 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+> @@ -27,6 +27,12 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+>    port:
+>      type: object
+>      additionalProperties: false
+> @@ -57,6 +63,8 @@ required:
+>    - compatible
+>    - reg
+>    - interrupts
+> +  - clocks
+> +  - power-domains
+>    - port
+>
+>  additionalProperties: false
+> @@ -64,11 +72,14 @@ additionalProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/r7s72100-clock.h>
+>
+>      ceu: ceu@e8210000 {
+>          reg = <0xe8210000 0x209c>;
+>          compatible = "renesas,r7s72100-ceu";
+>          interrupts = <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&mstp6_clks R7S72100_CLK_CEU>;
+> +        power-domains = <&cpg_clocks>;
+>
+>          port {
+>              ceu_in: endpoint {
+> --
+> 2.17.1
+>
