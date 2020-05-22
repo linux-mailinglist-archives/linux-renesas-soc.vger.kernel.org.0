@@ -2,88 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 324621DF011
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2020 21:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E631DF06D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2020 22:17:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730894AbgEVTiU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 May 2020 15:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730907AbgEVTiS (ORCPT
+        id S1731007AbgEVURb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 May 2020 16:17:31 -0400
+Received: from www.zeus03.de ([194.117.254.33]:44594 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730965AbgEVURb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 May 2020 15:38:18 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C002C05BD43
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2020 12:38:18 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id e16so11231280wra.7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 22 May 2020 12:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hpXaudKgcoJBGQ0g6uxVzYm/+QRXhqSUmA+R6+93KsY=;
-        b=rU/rB2J7Mdt9KXpIYF0r/2PTHbz2uOVQ2NK26cJGrv+R3kPgTVw2zzlxWY/w5lYDYk
-         cHOos1Rj8THnNbuv/g5cnIhM6vg75q5jArRdYdRLx8jcf5bYik7iNFewTqNNmL56rIZL
-         sqxbaY4+dev8uEM2QOpvBOQbzXEEdD8u1GDZ2CXLuWzX9ATDQlaME+NMvKHMF1giG0yB
-         b5SxBMRCFVdNgp+kPP+38NcoPrGMSj2zhd6fdXSCUDX4d0gObUbGpj7GITR4nWIj4DTF
-         qPQ6H2nbPfwg9RFsZCw8cdHJR3mnXXdov2ex2dVNx8ayqNusqJK54CPW0fR6OcTial3j
-         NMKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hpXaudKgcoJBGQ0g6uxVzYm/+QRXhqSUmA+R6+93KsY=;
-        b=R1oTJM80jBR5TplSCn4zWLxXlkvwUOLSJFuKyDIj7bMYyNCm3Oit5ZUulonGjYMWHQ
-         qdWsBHY5wGMa7V/pqs0ANF/IVjPtWGy5RSF6DHEimpr6BzK/47SDWtSdPaEadB1A6osG
-         eR+bb+yT0+mspahLDPXvWTCbmK8YR5D/cAS+svIU1AgJnebzsM0UG8g3JCTRbjutYQR7
-         98u4gsr8L6Q1W5fsXWTIx/UMENehhzZWfxe8UrCxa5R786jzSCFEnpcGFYF+3SP2i+xZ
-         SNaqdcX+8HaPcwjEwtXDjOb9lmD+bnIq8DYafKw/gqf9DbsfhNf4BIkSbXqVlXi9CCNJ
-         DI5g==
-X-Gm-Message-State: AOAM533PnY7sMMPwVJ+z7JKtWc7TDkUEu+FDVuok2VAXtQd/8EylLjzL
-        1KGco6mPIOnzG0IS65IUa7fPLA==
-X-Google-Smtp-Source: ABdhPJxEhOmC/akkcwQuLjNWKRMW/+unLHtosQ6iW22D5aOnV69Tm7M6WvnFN63OyUiN/55666tTJw==
-X-Received: by 2002:a05:6000:14b:: with SMTP id r11mr4894259wrx.124.1590176296966;
-        Fri, 22 May 2020 12:38:16 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:a82f:eaec:3c49:875a? ([2a01:e34:ed2f:f020:a82f:eaec:3c49:875a])
-        by smtp.googlemail.com with ESMTPSA id v24sm10846635wmh.45.2020.05.22.12.38.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2020 12:38:16 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: timer: Add renesas,em-sti bindings
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200519081101.28973-1-geert+renesas@glider.be>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <50e3cf79-adb6-ba96-1c05-c88f54ccea86@linaro.org>
-Date:   Fri, 22 May 2020 21:38:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 22 May 2020 16:17:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Kya5RXx7oQs/zCB1bwTMAzThdfrb
+        CPSEAKSAoDM4i74=; b=Ec8eVWo4lKhBy7z/mkF3YeGr4KLIbg2JWm4ggnbVq53H
+        BSIXQc7krWS0eJnN9yj2CIQmp1LMqs8bWFjSoPlmgCMRJHDAo1DB8pwePXDjFKpQ
+        fqcFX0e99NFqQkjO+jzqW8juYPjBt+mGLEySHdWJdV5fVcAK19ZaVZgMpcGF2ds=
+Received: (qmail 1450736 invoked from network); 22 May 2020 22:17:28 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 May 2020 22:17:28 +0200
+X-UD-Smtp-Session: l3s3148p1@kXB2UUKm9tkgAwDPXwlcAL8MbszJrcSX
+Date:   Fri, 22 May 2020 22:17:27 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
+Subject: Re: [PATCH 03/17] ARM: dts: r8a7742: Add I2C and IIC support
+Message-ID: <20200522201727.GA21376@ninjato>
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200515171031.GB19423@ninjato>
+ <CA+V-a8t6rPs4s8uMCpBQEAUvwsVn7Cte-vX3z2atWRhy_RFLQw@mail.gmail.com>
+ <20200518092601.GA3268@ninjato>
+ <CAMuHMdVWe1EEAtP64VW+0zXNingM1LiENv_Rfz5qTQ+C0dtGSw@mail.gmail.com>
+ <CA+V-a8tVx6D8Vh=rYD2=Z-14GAW0puo009FtjYM++sw8PAtJug@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200519081101.28973-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8tVx6D8Vh=rYD2=Z-14GAW0puo009FtjYM++sw8PAtJug@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 19/05/2020 10:11, Geert Uytterhoeven wrote:
-> Document Device Tree bindings for the Renesas EMMA Mobile System Timer.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
 
-Applied, thanks
+--Qxx1br4bt0+wmkIi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> > According to the Hardware User's Manual Rev. 1.00, the registers do exi=
+st
+> > on all RZ/G1, except for RZ/G1E (see below).
+> >
+> >    "(automatic transmission can be used as a hardware function, but thi=
+s is
+> >     not meaningful for actual use cases)."
+> >
+> > (whatever that comment may mean?)
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Strange comment, in deed. Given the paragraph before, I would guess Gen1
+maybe had a "fitting" PMIC where SoC/PMIC handled DVFS kind of magically
+with this automatic transfer feature? And Gen2 has not.
+
+> > On R-Car E3 and RZ/G2E, which have a single IIC instance, we
+> > handled that by:
+> >
+> >         The r8a77990 (R-Car E3) and r8a774c0 (RZ/G2E)
+> >         controllers are not considered compatible with
+> >         "renesas,rcar-gen3-iic" or "renesas,rmobile-iic"
+> >         due to the absence of automatic transmission registers.
+
+=46rom a "describe the HW" point of view, this still makes sense to me.
+Although, it is unlikely we will add support for the automatic
+transmission feature (maybe famous last words).
+
+> > On R-Car E2 and RZ/G1E, we forgot, and used both SoC-specific and
+> > family-specific compatible values.
+
+Okay, but we can fix DTs when they have bugs, or?
+
+
+--Qxx1br4bt0+wmkIi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7IM1MACgkQFA3kzBSg
+KbavTxAAorpBPKca5mdOGo3gbsj/1JqXSYqq0SnjdWLU6QdlVYuIsv1XCCDaWHzy
+eiJeY2VIMeqdoOHtcqc8W4QF4/Zo6O72JIalnQUzjG6JMs3AWDkbdRQQ8ULF6MMv
+iHd/h+E+GmtklAPGTMlMrC5KAMwRXbp6ot1F9T7J0nv8ET+2Rw741cydM7a7F+Hh
+AaMHRVsJMOD4nGsAd5A6/oF0Vc2LqER4Jki+dkQSw2AJCTvyRpQ5MSpq290HZJHv
+Ln5nGpxzHLznFpbMqLeqRr5mk1QmVH3k76gB6sLYoo0UFfkCn/6aMRXn0OGqgqV/
+DS450PHShO1TdfTgekd5++BCGMFfTB0Ud0uhKSJ3TvLNSeojilWaC0zxaMY84K15
+rcr9tKV35NJxualpbGP8ziWsDOQa36tJXa7x10I5Aetnrle23Sot6k9PbxUh6Bso
+V/VtWKuUyNqe6wsMVXNvVj3WAE5NKCiKf1D8hzzyVYYoNPsp5dra6pzEhMVx+fQk
++KcYFHNwGnYLYZv/bU3pf8084R4QO1JqqSsHFaba21O6taURty+bBwE7fLeVwlcb
+z1//GXsaHLZGqq++IjfqjrM8KgTZmmSQy8noLOBkD97xbqVnbYCobp5CWsokD6W8
+VNjooWfgi0uj1I3A1AZPa+7ydJiAwB6OvQsAymOS6tm9kukzhd8=
+=QVjR
+-----END PGP SIGNATURE-----
+
+--Qxx1br4bt0+wmkIi--
