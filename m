@@ -2,106 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8AEF1DE976
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2020 16:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D171DEF59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 May 2020 20:37:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730058AbgEVOrM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 May 2020 10:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729903AbgEVOrL (ORCPT
+        id S1730884AbgEVShe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 May 2020 14:37:34 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:57546 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730941AbgEVShd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 May 2020 10:47:11 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D17C061A0E;
-        Fri, 22 May 2020 07:47:11 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id l73so2297354pjb.1;
-        Fri, 22 May 2020 07:47:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pyI8RXJv0A9qOfUOs7+t5xXq9tBCjrOPiOAhgZoNJGU=;
-        b=Ujuhda9sRCNvYqh00NglKq18LhbkIq8aE4BUcXG3v7wbWcu1ySHA8zIVb+5qyZ5cXW
-         UPnhYOx5gxzweUHjEMfamVI16WBTsGW/NWZNFpC9CEQgX161wxmC4s/WE5Nr6RTQeIaH
-         4b0YabqbO/sH76bBoye3TRdm6o763j0xliAkqVo4UvT1jBaZSTQ2HyKPHfXhhuaOEGov
-         OnPnEuh+Lz3gZcTkTSnw3jkWnBbRhfB3bq6nDxWHwRcrdf+dhjoA/2tWBwEyXr13fZGJ
-         fX40OFWM3EC8WYw3wOseIxV8YbmhcqwcoQNHcF/foWZpegvLrHtAdMB1s4r0DZIG6ixg
-         HPJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pyI8RXJv0A9qOfUOs7+t5xXq9tBCjrOPiOAhgZoNJGU=;
-        b=O/hCP1V0NNJMQZUG+t9Bh5lxdUqVMSr3Qi+spR+8ouILsF45hzs17drHoHlshSpY4U
-         3mUc0WKdF2fu8kwlhsRdftUaJFrahz05moRmmNqv0O1u602gkT0lzGC3KUrsEwA0bay/
-         1wv0eEKLXcctPNITtDP9vcIH7iCzR1nWBaSzKfjdGZNAQYc0CEJamx6qcL4Gg5//PpBm
-         3QV7gGO7UtBHIRKl8UJJfDJ5n42mzywPS8t3rf9ZJx7o9QidtqCkb+c39l2+qA7xQoAD
-         QS4g/N4YwzI95zZBNYTKUUvBF+HWh/BPRHe1N7ebM51DkRl553jNi0vwEyNttL7qFDy5
-         bDow==
-X-Gm-Message-State: AOAM5302slwv5SbSva3ryBEGqn2pmj+qe/qzpqMMwdYBn7itrccZydCA
-        mymHwrCSXGrvwzS3lx2/a0k=
-X-Google-Smtp-Source: ABdhPJwEjkbC0ZRvqsKRNasE1thUYFAv46HEbfQoZ9/iqC+b34JBVlEVMv+91eqFvfq8/THk/tyv3A==
-X-Received: by 2002:a17:902:bd42:: with SMTP id b2mr14491950plx.219.1590158830652;
-        Fri, 22 May 2020 07:47:10 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id v127sm7113218pfb.91.2020.05.22.07.47.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 22 May 2020 07:47:08 -0700 (PDT)
-Date:   Fri, 22 May 2020 07:47:07 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
- r8a7742 support
-Message-ID: <20200522144707.GA173101@roeck-us.net>
-References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Fri, 22 May 2020 14:37:33 -0400
+X-IronPort-AV: E=Sophos;i="5.73,422,1583161200"; 
+   d="scan'208";a="47582362"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 May 2020 03:37:32 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 44FF440065A7;
+        Sat, 23 May 2020 03:37:30 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2] ARM: dts: r8a7742: Add RWDT node
+Date:   Fri, 22 May 2020 19:37:21 +0100
+Message-Id: <1590172641-1556-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 15, 2020 at 04:08:56PM +0100, Lad Prabhakar wrote:
-> RZ/G1H (R8A7742) watchdog implementation is compatible with R-Car Gen2,
-> therefore add relevant documentation.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Add a device node for the Watchdog Timer (RWDT) controller on the Renesas
+RZ/G1H (r8a7742) SoC.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Hi All,
 
-> ---
->  Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> index 79b3c62..e42fd30 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> @@ -5,6 +5,7 @@ Required properties:
->  		fallback compatible string when compatible with the generic
->  		version.
->  	       Examples with soctypes are:
-> +		 - "renesas,r8a7742-wdt" (RZ/G1H)
->  		 - "renesas,r8a7743-wdt" (RZ/G1M)
->  		 - "renesas,r8a7744-wdt" (RZ/G1N)
->  		 - "renesas,r8a7745-wdt" (RZ/G1E)
+This patch is part of series [1] ("RZ/G1H describe I2C, IIC, MMC0, SATA,
+AVB, RWDT and APMU nodes") as rest of the patches have been acked/reviewed
+just re-sending this alone patch.
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=288491
+
+v1->v2
+* Added missing interrupts property
+* Included Reviewed-by tags
+---
+ arch/arm/boot/dts/r8a7742.dtsi | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
+index da75767..df914da 100644
+--- a/arch/arm/boot/dts/r8a7742.dtsi
++++ b/arch/arm/boot/dts/r8a7742.dtsi
+@@ -201,6 +201,17 @@
+ 		#size-cells = <2>;
+ 		ranges;
+ 
++		rwdt: watchdog@e6020000 {
++			compatible = "renesas,r8a7742-wdt",
++				     "renesas,rcar-gen2-wdt";
++			reg = <0 0xe6020000 0 0x0c>;
++			interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 402>;
++			power-domains = <&sysc R8A7742_PD_ALWAYS_ON>;
++			resets = <&cpg 402>;
++			status = "disabled";
++		};
++
+ 		gpio0: gpio@e6050000 {
+ 			compatible = "renesas,gpio-r8a7742",
+ 				     "renesas,rcar-gen2-gpio";
+-- 
+2.7.4
+
