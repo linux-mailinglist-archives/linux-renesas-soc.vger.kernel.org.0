@@ -2,118 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A241DF66B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2020 11:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 859711DF6FD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 May 2020 13:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725270AbgEWJio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 23 May 2020 05:38:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbgEWJin (ORCPT
+        id S2387741AbgEWLyi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 23 May 2020 07:54:38 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:21770 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728749AbgEWLyi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 23 May 2020 05:38:43 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E04C061A0E;
-        Sat, 23 May 2020 02:38:43 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id 17so13250225ilj.3;
-        Sat, 23 May 2020 02:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ySOv5RFCOhNktqRnSUecG+h4XEMSSgtZIHTThacyrl4=;
-        b=ZXyua9PiZh0B75CZ+wJJFbfRSHWNfEdmJG5gqb7VI4LU8BqFGnO8YgcvZZ0GAqcGjE
-         KX+7b/V+awdlA48iOHjoSHYEiSgeqyhJVm9gaxlql1bRKv8Oz5DRsnTXZ43I65wYqPLK
-         uWfkCx8oLLmUTWwYp6k8iCRtST2/u1tPVai3/4A1wyZBozQ0VNpEz99/9QjjcQVXM2QR
-         P2+pYH4LqpepHkBrWOU+EzHTPfW42I+705YQv/OXS1POu52dVPCOQFN7btxk8VOkckse
-         qCIXdqbsJuxDTw1PBbV6S3chJbH1DoEPjZGJzUkSr4As3rhhvWx+HcNkR6xmSO1tVCtq
-         J8Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ySOv5RFCOhNktqRnSUecG+h4XEMSSgtZIHTThacyrl4=;
-        b=Zt+kLUZnXSjOFzLfF4P5R3r+0+0WY3y76Kh5VC+Y13Grp9AZd1ellYXjFeCukTpkMN
-         KFDMNTjSGa/sds3LWxaQthQwMQzwEzeAFF6grCyexl0ZL9PV+ZdoIpVV+ebzhPC0qCzC
-         2cGSfhwrUjQXHCIfBw3++EK5cKWI0RjVmuj4x6rbXciGIxcF9UVUAp5fFhTloABTcOs8
-         qUjBmpxzyhh0aQPR72GOmzqa0XZyG4lGAudbYmuV3m5cur8+xNlPuyXip4DJ+Tnh01Kw
-         OnXt9frruHOsa/cowp75X0TbnRJdOimkG6gKEYC3EfTrMvOJ4n1HjzzGmH1OrWAHIaQh
-         C9Qw==
-X-Gm-Message-State: AOAM530gEvTADSD/VAZsp52AsDXdc56SK0rB8S7u44bQshlrhrMTKWOe
-        sQx5D8ZBndt/hjL7al7/x1fbKtRmB1SPQYiiJ5A=
-X-Google-Smtp-Source: ABdhPJxgpTkyq+JCvO/9xevE2z4ZZX7u3mZjbSC4yXtpeOEmIaWlllSlL5fpKL/h6v2R/KBjV/68cLBWj/+cHclL77w=
-X-Received: by 2002:a92:5dd2:: with SMTP id e79mr15635058ilg.94.1590226723047;
- Sat, 23 May 2020 02:38:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200518201646.48312-1-dagmcr@gmail.com> <20200522202349.GF5824@pendragon.ideasonboard.com>
-In-Reply-To: <20200522202349.GF5824@pendragon.ideasonboard.com>
-From:   Daniel G <dagmcr@gmail.com>
-Date:   Sat, 23 May 2020 11:38:32 +0200
-Message-ID: <CAPsT6hmddjW3m3OMkkAT1djTTtijepTu_N22eCgOGhGHxPQcaA@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar-du: Fix build error
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, airlied@linux.ie,
-        kieran.bingham+renesas@ideasonboard.com,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 23 May 2020 07:54:38 -0400
+Received: from localhost.localdomain (unknown [222.205.77.158])
+        by mail-app3 (Coremail) with SMTP id cC_KCgC3TkHyDslepNH5AA--.6321S4;
+        Sat, 23 May 2020 19:54:30 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
+Date:   Sat, 23 May 2020 19:54:26 +0800
+Message-Id: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgC3TkHyDslepNH5AA--.6321S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWftFX_Wr
+        s8ZF47Wr4rGr1vqr1UKFy3ZrySqFZ8Wr18C3Z3tF1ay3yUu3WvqryUZr98uw47Z3yUZFy8
+        JFZ3WFy7Cr9a9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
+        JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48J
+        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
+        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+        9x0JUHv38UUUUU=
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoJBlZdtORR7AACsj
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
-On Fri, 22 May 2020 at 22:24, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Daniel,
->
-> Thank you for the patch.
->
-> On Mon, May 18, 2020 at 10:16:46PM +0200, Daniel Gomez wrote:
-> > Select DRM_KMS_HELPER dependency.
-> >
-> > Build error when DRM_KMS_HELPER is not selected:
-> >
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd48): undefined reference to `drm_atomic_helper_bridge_duplicate_state'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd50): undefined reference to `drm_atomic_helper_bridge_destroy_state'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xd70): undefined reference to `drm_atomic_helper_bridge_reset'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xdc8): undefined reference to `drm_atomic_helper_connector_reset'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xde0): undefined reference to `drm_helper_probe_single_connector_modes'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe08): undefined reference to `drm_atomic_helper_connector_duplicate_state'
-> > drivers/gpu/drm/rcar-du/rcar_lvds.o:(.rodata+0xe10): undefined reference to `drm_atomic_helper_connector_destroy_state'
-> >
-Fixes: c6a27fa41fab ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
-> > Signed-off-by: Daniel Gomez <dagmcr@gmail.com>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> and taken in my tree for v5.9. If you think it should get in v5.8 as a
-> fix, I can do so as well, could you then provide a Fixes: tag ?
-That would be fine. You can find above the fixes tag.
-Thanks!
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->
-> > ---
-> >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > index 0919f1f159a4..f65d1489dc50 100644
-> > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > @@ -31,6 +31,7 @@ config DRM_RCAR_DW_HDMI
-> >  config DRM_RCAR_LVDS
-> >       tristate "R-Car DU LVDS Encoder Support"
-> >       depends on DRM && DRM_BRIDGE && OF
-> > +     select DRM_KMS_HELPER
-> >       select DRM_PANEL
-> >       select OF_FLATTREE
-> >       select OF_OVERLAY
->
-> --
-> Regards,
->
-> Laurent Pinchart
-Daniel
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+index c650e45bb0ad..017a54f2fdd8 100644
+--- a/drivers/media/platform/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/vsp1/vsp1_drv.c
+@@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_sync(&pdev->dev);
+ 		goto done;
++	}
+ 
+ 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+ 	pm_runtime_put_sync(&pdev->dev);
+-- 
+2.17.1
+
