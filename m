@@ -2,125 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17E431E0F52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 15:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE9481E0F8A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 15:32:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390675AbgEYNVx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 May 2020 09:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35764 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388685AbgEYNVx (ORCPT
+        id S2390781AbgEYNcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 May 2020 09:32:11 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54183 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390754AbgEYNcK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 May 2020 09:21:53 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73CBFC061A0E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 May 2020 06:21:53 -0700 (PDT)
-Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DA50A24D;
-        Mon, 25 May 2020 15:21:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1590412912;
-        bh=sj/b51fmFWMPnkcErhv0uGlEjkNITwp029zs+BFrT+I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vi/f56dK1UzPgW8vgC4/fW0EFHynRnGl8b9A+wgCFCNzWspHOy8d1KI4z2UaPP7aZ
-         vvuZetj/vjX3eqBc7UwunwTyUGPa6IdNA05FLo5K0wEF3EeGobS2qClL/LTSC7lpgv
-         6AJ3gmmu3QIRvU6FDf6xE+iF3StwH27cxnglzyYY=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [VSP-Tests PATCH] tests: Provide {un,}bind testing
-Date:   Mon, 25 May 2020 14:21:48 +0100
-Message-Id: <20200525132148.3454488-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
-References: <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
+        Mon, 25 May 2020 09:32:10 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 244513C057C;
+        Mon, 25 May 2020 15:32:07 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1IwUF-psCmTU; Mon, 25 May 2020 15:32:01 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id E8C5E3C0022;
+        Mon, 25 May 2020 15:32:01 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.46) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 25 May
+ 2020 15:32:01 +0200
+Date:   Mon, 25 May 2020 15:31:57 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        <stable@vger.kernel.org>
+Subject: Re: [PATCH] media: vsp1: dl: Fix NULL pointer dereference on unbind
+Message-ID: <20200525133157.GA19608@lxhi-065.adit-jv.com>
+References: <20200523081334.23531-1-erosca@de.adit-jv.com>
+ <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
+X-Originating-IP: [10.72.94.46]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Perform unbind-bind testing of the VSP devices to validate
-successful removal of the drivers.
+Hi Kieran,
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- tests/vsp-unit-test-0026.sh | 63 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100755 tests/vsp-unit-test-0026.sh
+On Mon, May 25, 2020 at 02:19:02PM +0100, Kieran Bingham wrote:
+> Hi Eugeniu,
+> 
+> Yeouch. Looks like I really missed a trick there!
 
-diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
-new file mode 100755
-index 000000000000..86c523a65651
---- /dev/null
-+++ b/tests/vsp-unit-test-0026.sh
-@@ -0,0 +1,63 @@
-+#!/bin/sh
-+
-+#
-+# Test unbinding and binding all VSP1 devices, performing a simple
-+# copy test to validate the hardware afterwards.
-+#
-+
-+. ./vsp-lib.sh
-+
-+features="rpf.0 wpf.0"
-+
-+vsp1_driver=/sys/bus/platform/drivers/vsp1
-+vsps=$(cd /sys/bus/platform/devices/; ls | grep vsp)
-+
-+unbind_vsp() {
-+	echo $1 > $vsp1_driver/unbind
-+}
-+
-+bind_vsp() {
-+	echo $1 > $vsp1_driver/bind
-+}
-+
-+# Input is directly copied to the output. No change in format or size.
-+test_copy() {
-+	local format=$1
-+	local insize=$2
-+
-+	test_start "simple hardware validation after unbind/bind cycles"
-+
-+	pipe_configure rpf-wpf 0 0
-+	format_configure rpf-wpf 0 0 $format $insize $format
-+
-+	vsp_runner rpf.0 &
-+	vsp_runner wpf.0
-+
-+	local result=$(compare_frames)
-+
-+	test_complete $result
-+}
-+
-+test_main() {
-+	local format
-+
-+	# Unbind and rebind individually
-+	for v in $vsps; do
-+		unbind_vsp $v;
-+		bind_vsp $v;
-+	done
-+
-+	# Unbind, then rebind all VSPs at once
-+	for v in $vsps; do
-+		unbind_vsp $v;
-+	done
-+	for v in $vsps; do
-+		bind_vsp $v;
-+	done;
-+
-+	# Perform a simple copy test to validate HW is alive
-+	test_copy RGB24 128x128
-+}
-+
-+test_init $0 "$features"
-+test_run
+Not a big deal. The good part is that it can be proactively fixed and
+shared across the community.
+
+> 
+> We should probably update the $SUBJECT to match what is performed in the
+> patch, which is perhaps more like:
+> 
+> "media: vsp1: dl: Store VSP reference when creating cmd pools"
+
+To be honest, I am not a big fan of WHAT summary lines.
+Rather, I prefer the WHY summary lines (and I think everyone should).
+
+> 
+> On 23/05/2020 09:13, Eugeniu Rosca wrote:
+> 
+> And then we can explain here:
+> 
+> In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+> command pools"), the vsp pointer used for referencing the VSP1 device
+> structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
+> not populated.
+> 
+> Correctly assign the pointer to prevent the following
+> null-pointer-dereference when removing the device:
+
+That sounds good and I can push this improved description as v2.
+
+> > Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
+> > Cc: stable@vger.kernel.org # v4.19+
+> > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> > ---
+> > 
+> > How about adding a new unit test perfoming unbind/rebind to
+> > http://git.ideasonboard.com/renesas/vsp-tests.git, to avoid
+> > such issues in future? 
+> 
+> Yes, now I wish I had done so back at 4.19! I hope this wasn't too
+> painful to diagnose and fix, and thank you for being so thorough in your
+> report!
+> 
+> 
+> > Locally, below command has been used to identify the problem:
+> > 
+> > for f in $(find /sys/bus/platform/devices/ -name "*vsp*" -o -name "*fdp*"); do \
+> >      b=$(basename $f); \
+> >      echo $b > $f/driver/unbind; \
+> > done
+> > 
+> 
+> I've created a test to add to vsp-tests, which I'll post next, thank you
+> for the suggestion.
+> 
+> Before your patch is applied, I experience the same crash you have seen,
+> and after your patch - I can successfully unbind/bind all of the VSP1
+> instances.
+> 
+> So I think you can have this too:
+> 
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Awesome. Thanks!
+
 -- 
-2.25.1
-
+Best regards,
+Eugeniu Rosca
