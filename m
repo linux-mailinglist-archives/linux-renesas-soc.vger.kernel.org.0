@@ -2,53 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60EC21E0ACE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 11:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A142D1E0B3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 12:01:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389367AbgEYJkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 May 2020 05:40:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388437AbgEYJkf (ORCPT
+        id S2389717AbgEYKBf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 May 2020 06:01:35 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40500 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389407AbgEYKBe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 May 2020 05:40:35 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590399635;
-        bh=UdWNmfR+rs3fveN7QXTrUU8sWUJ/W2IPWLnef0hMLXY=;
-        h=Subject:From:Date:To:From;
-        b=TNhX6xYXSNz7um1OsBjm7dSmWAol8OIrq+FPYiUS+gBltcUd80XD/hYygVABUr3x/
-         eShW5wDesUIAKarfXRxrLK5Is23/OnUzHSYMg9ZkUagQYfMsIRSgxFKqkxwZLlPctd
-         Xc2mvj9QZfjvuPPZEWfE5Ga0pL/O86IFcwvEtmKM=
+        Mon, 25 May 2020 06:01:34 -0400
+Received: by mail-ot1-f66.google.com with SMTP id d26so13430475otc.7;
+        Mon, 25 May 2020 03:01:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VV/6l8WsyzC8FiWpUNY+r2Jtj3u8eeprICu82Hj0+XY=;
+        b=Ux4MSvsoa89TNIazEGpdFWwqCr9DEj+ZXhe2tXDSZ3qL1bR097MPSp8rISat8cffQe
+         +h1Tl7L05mez6fgQKShP4PMqmNQ6x2uR1Hh5Ttgi58PC1TS8zJj+z93yoIlPSVUz9l0f
+         +uHOFIuqglVCXfeuzemys3kKvtgc7/U78Q9QY92AjcNNehpCn6iAnuEyn7EgTK/Jpq0e
+         +cEIstKd8jCuWz0+PhKLMn/VeBM1Cwbhfny/hCimqufs4A2gxNAwB6W/dFWE5gJP+aQf
+         VwAkn9OSAaJBn3khhNkGBDZpZD4pW9QpMPMtE4Xl6snjqVcknvScZ/qg/ArIwb53NSJL
+         DNaQ==
+X-Gm-Message-State: AOAM530JxaI6ucoFgzCxWWDxCSnvXb01lkIp5XwFNlqfblFh1PDajmAD
+        EiKwaaBabCbVMyYZJWKqr4P7dGEuTPu/9CmC6VQ=
+X-Google-Smtp-Source: ABdhPJzes4OiyEEjnQUeTxYRLsuBzQ4vKfThl/Frl99MU9u9wmZ+pYZTwDk9xLH0jtn6Of53oQ19DFOqxZtclXHDOj8=
+X-Received: by 2002:a05:6830:18d9:: with SMTP id v25mr19187412ote.107.1590400893283;
+ Mon, 25 May 2020 03:01:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159039963552.3682.4676267102082961825.git-patchwork-summary@kernel.org>
-Date:   Mon, 25 May 2020 09:40:35 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <1590356277-19993-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590356277-19993-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1590356277-19993-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 25 May 2020 12:01:21 +0200
+Message-ID: <CAMuHMdXhmxhYSsnzSMQYvUa8SYd-evFi=sfxqMgYuXtxvxdWVg@mail.gmail.com>
+Subject: Re: [PATCH 1/8] dt-bindings: phy: rcar-gen2: Add r8a7742 support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+On Sun, May 24, 2020 at 11:38 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add USB PHY support for r8a7742 SoC. Renesas RZ/G1H (R8A7742)
+> USB PHY is identical to the R-Car Gen2 family.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel (refs/heads/master):
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Patch: ARM: dts: r9a06g032: Correct GIC compatible value order
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=290097
-  Link: <20200519095431.5650-1-geert+renesas@glider.be>
+Gr{oetje,eeting}s,
 
-Patch: [v2] ARM: dts: r8a7742: Add RWDT node
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=292403
-  Link: <1590172641-1556-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Total patches: 2
+                        Geert
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
