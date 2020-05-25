@@ -2,78 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2429F1E0A2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 11:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EC21E0ACE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 May 2020 11:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389421AbgEYJUf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 25 May 2020 05:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389412AbgEYJUe (ORCPT
+        id S2389367AbgEYJkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 25 May 2020 05:40:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388437AbgEYJkf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 25 May 2020 05:20:34 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE2DC061A0E
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 May 2020 02:20:34 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id z13so10311674ljn.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 25 May 2020 02:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xvcI6atilAjptGncGZGLa1vsWu/238sVT7RvAy3Yk+Q=;
-        b=cd/AzbqtSbqnefzkvclP0Wb/aJ6tTz7jHMSI4l7oLcmgnZZYFrR2BCP/3U3XxQ6uA3
-         KzW1vrz/p55swFYX3//d1Irwq0gexq3eUoEpICBskl4RNTjDEXHXYE2iIjonej2eWMyX
-         FMOX7G1czIWKQSkB/LUCfd9K0in/SU4YgfwwsxdbteJAVbWWRWVrO6ikzv3xndMC7loV
-         xfpWVh81NNkbnCcAGOiLI87P0SIFR431Ee9ZVsoyXyLmHI/j16ro+sXeL3T7OU98W2FA
-         mdL/WEoUXeIq5FlSgPiQXYxs3Txf8ZtQuG/iqnvY7bg7RTK7I96JduMcF0PlLr3l7zlQ
-         cCFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xvcI6atilAjptGncGZGLa1vsWu/238sVT7RvAy3Yk+Q=;
-        b=paJ6uNTfCVS79vanphz2bwHJvbGcrf9bQhI1Joj242PAdAGbgkokr0Z2ICnF/Lvap6
-         mMiXc3T2SovN4aZ9+yR6MGdR3JP3A870FkJN6PWelYSx2S1E/UbeNnsMELqao2NpPb3k
-         h8OB7dyKyS+TOw9LhO8TIfemvbtddJ8gFMNDoQZZvkw/V+PHgqht72FxofnGRtPZAz+j
-         +h7Eh27qWvRMK9m/uZav1cclaaWCx5F65wXXg8gpBGG5N5uEjLzuH/dLQoXn3R+Zi/H9
-         Uy23Sy7EmME31gKVRAzY7sgP6C0sMVaCDb1UG5wbLyModj/3RHWvuyLwyq5XDjHBbWjp
-         Ys2Q==
-X-Gm-Message-State: AOAM533xHdaYJF/iBhTN4bORfDKqswK0bfcks9SnEARJZSQp0RNUjPV9
-        t/CqK1USBuDvgYTAmU+kWDrBmxwUDgt4SMiY0Erxzkfp
-X-Google-Smtp-Source: ABdhPJy+1uaZp5NrYneJ1FMzyJxTyyQTo+HNPC/bdQX7SqBU+sJaKedFmitxsML7vVuezGMwCL9C6qRLUnLSOqbvews=
-X-Received: by 2002:a2e:9716:: with SMTP id r22mr13999531lji.293.1590398432614;
- Mon, 25 May 2020 02:20:32 -0700 (PDT)
+        Mon, 25 May 2020 05:40:35 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590399635;
+        bh=UdWNmfR+rs3fveN7QXTrUU8sWUJ/W2IPWLnef0hMLXY=;
+        h=Subject:From:Date:To:From;
+        b=TNhX6xYXSNz7um1OsBjm7dSmWAol8OIrq+FPYiUS+gBltcUd80XD/hYygVABUr3x/
+         eShW5wDesUIAKarfXRxrLK5Is23/OnUzHSYMg9ZkUagQYfMsIRSgxFKqkxwZLlPctd
+         Xc2mvj9QZfjvuPPZEWfE5Ga0pL/O86IFcwvEtmKM=
 MIME-Version: 1.0
-References: <20200520140430.13933-1-geert+renesas@glider.be>
-In-Reply-To: <20200520140430.13933-1-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 25 May 2020 11:20:21 +0200
-Message-ID: <CACRpkdZCyQcVUe0-OX7-Nijg6rKX-6aMS-BnXZhHdBxa7sSn7Q@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.8 (take two+)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159039963552.3682.4676267102082961825.git-patchwork-summary@kernel.org>
+Date:   Mon, 25 May 2020 09:40:35 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 20, 2020 at 4:04 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hello:
 
-> [ This time with a correct SoC name in the description, thanks Sergei! ]
->
-> The following changes since commit 41fe32ecc7aff4527a4ee477870d9b1164be95a4:
->
->   MAINTAINERS: Add DT Bindings for Renesas Pin Function Controllers (2020-04-20 13:14:05 +0200)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.8-tag2
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/master):
 
-Pulled in to my "devel" branch!
+Patch: ARM: dts: r9a06g032: Correct GIC compatible value order
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=290097
+  Link: <20200519095431.5650-1-geert+renesas@glider.be>
 
-Thanks!
-Linus Walleij
+Patch: [v2] ARM: dts: r8a7742: Add RWDT node
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=292403
+  Link: <1590172641-1556-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Total patches: 2
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
