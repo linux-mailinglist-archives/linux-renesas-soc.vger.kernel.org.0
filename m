@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B941E1CAE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 09:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD1DC1E1CB1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 09:58:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731713AbgEZH6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 May 2020 03:58:33 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43081 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726971AbgEZH6c (ORCPT
+        id S1726211AbgEZH6j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 May 2020 03:58:39 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:40772 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726971AbgEZH6j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 May 2020 03:58:32 -0400
-Received: by mail-oi1-f195.google.com with SMTP id i22so17887254oik.10;
-        Tue, 26 May 2020 00:58:31 -0700 (PDT)
+        Tue, 26 May 2020 03:58:39 -0400
+Received: by mail-oi1-f194.google.com with SMTP id v128so17899918oia.7;
+        Tue, 26 May 2020 00:58:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fFg5VInugckNYRSPB/5nIRNnLiledbeloAVGrfPRVwo=;
-        b=hSpwME0Jvgp74EvN7EW0C8X9UQZRdAFT7kg9kl4M96AEOfkbXqkXhL7GAHoP69kQ4j
-         2Fd0GTcSAQzM0RRWMlDLi1QPBWWsQ+8SMZ9h++0U02tmf3kkkrbQzcw58COvCfVlZBij
-         XkH5T9cbo8mzCzL1RMagL5ink7VQbYL5mbB9RdHe3sZU0q8nJX2aJpOT+66D+avRmey+
-         RHy6dinofB6hTIZimaKt+ECAaT0qtBVJG7v2UfwFQKC54wsO0YMT8iO2FIn8N9dd9eQM
-         QuYgqNAnCA03NmWzV0+y7RnKWt26IgeL6k3oMV8qJw3y4FszIVTOvlSaIt7UKRoMvdJ1
-         2BvA==
-X-Gm-Message-State: AOAM5323OTmrwGIkjTsfi2lYXE2zlI+ZtTKLKXivrpLMcqOGs8ItRumK
-        waQ86cH0IUGVj/SRgrv3lz7BrpO4B5/jUfv7iJE=
-X-Google-Smtp-Source: ABdhPJxREYi5U3JmV9gwphb6VMEMF7Qq5pOiGcCkf+XNeuGntebapZGhN/8WTuy5s/pp0mLmYXoBpoVLF0Z7FGrn0a4=
-X-Received: by 2002:a05:6808:1:: with SMTP id u1mr13638964oic.54.1590479911282;
- Tue, 26 May 2020 00:58:31 -0700 (PDT)
+        bh=vsURDC42TSy6y23dlOiFzYIYBJQzEtPc2OlE7GC+Vns=;
+        b=Kt8AkJKjOVkEfo6wfsyppIPlYmnqCXHnYpeatwG+1PKFHZdOydKJRtL7Vt26EWHgVz
+         T633pFbpk5OGqSj//EgAtPt3KMXWP3IECp0QXQ5CJT8zexXWi3ixjio1BvBPXpHbhzNM
+         GhVUYX29wlJAlCOoX05ZdywxMfsbLTNkXRP89EmWSBUjdznIVlhYCwMuQCDd3qOaL30l
+         59r95/AXkeNYYcussFoKGx4EDqOfxzoUDbPQml/ShrX96PhnCUPg451BBiHfMwd1ZI0I
+         eEIPqhtMkpbfbYypxiMJljEhEXKDWAhpQLoN6aQnsroz//j5LGjUH0106Zx6XvsTvoJy
+         Gnuw==
+X-Gm-Message-State: AOAM533vU7JUwOFXxTFvhQXoLOz/2gh5E3DbRYs2wGRLQv3ZNbAZQKga
+        J3PYDhr9UBKjmuNBsW2Wt4mE2g92bPTrk0uLAas=
+X-Google-Smtp-Source: ABdhPJzz2vDoCU5nnj3rrgngnH6zyoxkynMR40cvCYpworU05mERbFwmbsYX2ELTq/5hLIDmaBMk8L0g8VNIzzFqgA4=
+X-Received: by 2002:aca:210a:: with SMTP id 10mr12878772oiz.153.1590479918473;
+ Tue, 26 May 2020 00:58:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <1590420129-7531-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590420129-7531-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1590420129-7531-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590420129-7531-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1590420129-7531-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 26 May 2020 09:58:20 +0200
-Message-ID: <CAMuHMdXq3PseC-KxWgYenCr+fJ7CkseJeVsZ0vnCxPqhT7xaaA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ARM: dts: r8a7742-iwg21d-q7: Enable Ethernet avb
+Date:   Tue, 26 May 2020 09:58:27 +0200
+Message-ID: <CAMuHMdW4OUrm4nbrozj6Rp8L7527sQWmZS-0xa7+sak2CXBu1Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] ARM: dts: r8a7742-iwg21d-q7: Add RWDT support
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -54,7 +54,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, May 25, 2020 at 5:23 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Enable ethernet avb on iWave RZ/G1H carrier board.
+> Enable RWDT and use 60 seconds as default timeout.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
@@ -65,6 +65,7 @@ i.e. will queue in renesas-devel for v5.9.
 Gr{oetje,eeting}s,
 
                         Geert
+
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
