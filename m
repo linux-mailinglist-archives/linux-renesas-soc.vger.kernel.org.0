@@ -2,103 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB2861E1D8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 10:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11BB71E1DB0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 10:55:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729824AbgEZImz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 May 2020 04:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49212 "EHLO
+        id S1731608AbgEZIzk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 May 2020 04:55:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728380AbgEZImy (ORCPT
+        with ESMTP id S1731414AbgEZIzk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 May 2020 04:42:54 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882B2C03E97E;
-        Tue, 26 May 2020 01:42:54 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id i9so4068359ool.5;
-        Tue, 26 May 2020 01:42:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=by3wyV0ECJVMLMRZBirFTqDbHUkcFdAgys+Jcbd3iFQ=;
-        b=I2fmC5YMGeuL0DC2lGNDNFrXiaS7yPv5hlAAducVtoCAXNmj8mWzD06tjY9nTvy3Pw
-         sHx/AbnKnZB5TkRyi0OUJwC0C7wsZmeWrX1na2IstfAf/ejGw4lj6IUngzUJPIzeaFY8
-         DwhJh2+vCliH4UGUKQQi3pUteChXy8GGr4FDwZxjaVVF8jUNTG4NnpoJ5ZirDMINOs6b
-         B2cjN/1BuTI9nRx21nSAB1FK0su9KIJitAuZnfOLOKW/6YYE4Q3BxT7vZgLt2fOX6Sb1
-         7Pjl0ajF1NdsFNGLQRPqax0zDUb43D/g50m+zWdo/3Qif6T3TAysOqFYEYOq+I5CnLOj
-         Nw7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=by3wyV0ECJVMLMRZBirFTqDbHUkcFdAgys+Jcbd3iFQ=;
-        b=RvN9fKTNosmhSARV0Zk+Zovtd3n5XTIM41DMDbroQridUcZt6y6nHzmHkhkh8RC45x
-         a6Gfj0nxF9oWuT0KXEXZMGAtJgDha/9SsBqp+RnvZgS/itypaEbU1s34NCCu8CkFjloP
-         PdyM6RjQ4cU5+sM0BfMLZUpojHLD6+4T9WDkS8EOd7CRWyzFbth9p4ym+KR41MAroMAF
-         vCxkLuyf4nS6N75gftv1j8ODbpx4mXcLQEV97hZuBMA7pzw1o13h82FueQ3JQMaKly76
-         YVbReTbYcVAQTd5G30oe1o5glH9omqgYZuMVNPgYZ1N7v0mb//cLrgR62+Rajje/v5qM
-         8C8Q==
-X-Gm-Message-State: AOAM531QIareps+clQkySO/tsLJnHkn4catuqvmYugKUHDxpn/By9vJy
-        4GHZo/bWdfiYctzjL05dRAXLRzzNSzZwBvo8W9w=
-X-Google-Smtp-Source: ABdhPJxhhnv0+0VClviGVBAhLXqhn1cyS0y0hGt1fYZclGfTLBKjChSPAPTdABy6HP7VKFzhy/XimkvLk1WWOsSYfF8=
-X-Received: by 2002:a05:6820:21c:: with SMTP id i28mr15915509oob.42.1590482573864;
- Tue, 26 May 2020 01:42:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <1590420129-7531-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590420129-7531-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWjGX43EDnwxu0xp3U7aedWHuW5MLQo==1d5v_mV-1R9A@mail.gmail.com>
-In-Reply-To: <CAMuHMdWjGX43EDnwxu0xp3U7aedWHuW5MLQo==1d5v_mV-1R9A@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 26 May 2020 09:42:27 +0100
-Message-ID: <CA+V-a8vOuHr4_+EX_Atfv7-ZbqQLkj_qHowa57QUUFPamC0N+g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ARM: dts: r8a7742-iwg21d-q7: Enable SDHI2 controller
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 26 May 2020 04:55:40 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB98C03E97E;
+        Tue, 26 May 2020 01:55:39 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 3E902634C87;
+        Tue, 26 May 2020 11:54:50 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jdVMI-0002RU-AE; Tue, 26 May 2020 11:54:50 +0300
+Date:   Tue, 26 May 2020 11:54:50 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200526085450.GF8214@valkosipuli.retiisi.org.uk>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+ <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+ <20200520005020.GQ3820@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200520005020.GQ3820@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Laurent,
 
-On Tue, May 26, 2020 at 8:58 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, May 25, 2020 at 5:23 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Enable the SDHI2 controller on iWave RZ/G1H carrier board.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v5.9.
->
-Thank you for the review.
+On Wed, May 20, 2020 at 03:50:20AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Mon, May 18, 2020 at 12:45:18PM +0100, Kieran Bingham wrote:
+> > Hi Sakari,
+> > 
+> > There are only fairly minor comments here, fix ups will be included in a
+> > v10.
+> > 
+> > Is there anything major blocking integration?
+> > 
+> > On 16/05/2020 22:51, Sakari Ailus wrote:
+> > > On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+> > > 
+> > > ...
+> > > 
+> > >> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> > >> +				  struct v4l2_subdev_pad_config *cfg,
+> > >> +				  struct v4l2_subdev_mbus_code_enum *code)
+> > >> +{
+> > >> +	if (code->pad || code->index > 0)
+> > >> +		return -EINVAL;
+> > >> +
+> > >> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> > > 
+> > > Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+> > > variant of the format is generally used on the serial busses. This choice
+> > > was made when serial busses were introduced.
+> 
+> This is a bit of a tricky one. On the camera size, for the RDACM20, the
+> O10635 sensor outputs UYVY8_2X8. This if fed to the MAX9271 serializer,
+> which doesn't care about the data type. The MAX9271 has a 16-bit input
+> bus, with 10 bits reserved for data, 2 bits dynamically configurable
+> to carry H/V sync or extra data, and 4 bits dynamically configurable to
+> carry GPIOs or extra data. The 16-bit words are then serialized (it's a
+> bit more complicated, when using the H/V sync signals they are
+> transmitted in a different way, and the MAX9271 also supports a DDR mode
+> that makes the "serial link word" carry up to 30 bits). Effectively, the
+> two samples of UYVY8_2X8 are serialized in a 16-bit word each.
+> 
+> Sakari, with this information in mind, what would you recommend ?
 
-> BTW, perhaps you want to add an LED trigger for SDIO_LED, connected
-> to GP5_22?
->
-Sure I'll add this as a separate patch.
+As this pad describes a serial bus --- doesn't it? --- it should use the
+same formats as other serial busses such as CSI-2. I.e. the 1X16 variant.
 
-Cheers,
---Prabhakar
+-- 
+Regards,
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Sakari Ailus
