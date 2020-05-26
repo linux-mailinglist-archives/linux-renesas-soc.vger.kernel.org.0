@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A671E1EEE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 11:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B469C1E1EF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 11:45:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731716AbgEZJom (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 May 2020 05:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58842 "EHLO
+        id S1728758AbgEZJpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 May 2020 05:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728686AbgEZJol (ORCPT
+        with ESMTP id S1728686AbgEZJpE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 May 2020 05:44:41 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8570DC03E97E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:44:41 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id e1so19741686wrt.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:44:41 -0700 (PDT)
+        Tue, 26 May 2020 05:45:04 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6BB6C03E97E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:03 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id s8so19686758wrt.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=Jvd/Msx8XNS3IhYCMjYxLkOMwT8rs711vu+5COC05iE=;
-        b=dfCNIkuLZc6q+ICvWvlN1oqSool5yufNj55YFOXluYiVqF6uW6v4YUWzEWYZXGg0S7
-         UJlFxfeTR6d/nz/XOXzfTRju1/ABeDRyFlgbkACsMGg5MATmTxXCCwrXuX5Tl1UNlyYF
-         QSUchN09cwE7ddf3ehZSjcgK9MynOrQD35rKRezHL4ntTd+qSbQvfldY/xmBreK1RjJM
-         VA20UZ0GvRNFs7xp8/F1uPRwSqHB0c4qNlWWWSQXci+hurGg+KzFyUvrWRmXI9K6xhGw
-         EJsJX3AF9BH/nh8PAXJnKCQHPs1P6DlvviLhZ/2fAVt84XkyD/xTGZ2+2zj27Vn5Gz5B
-         QGrQ==
+        bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
+        b=LfBRJ9Y6o6A6+P6QeBjMbiB8Nl0DxcVB5e19WSyzwZMtUczqAkBDeVgdxKbUFO6rTW
+         A7M1CmOqUOiQ/Vzm/krTIOs9k5nxAJb/gb78FD4kZavyWYx51xHl8Ls8jan1+Nyhp4LD
+         cBfkA5WtTkai4Cx4zx1NY9em1KuwP0DF45lgZUeC6pjn8dnZfXyO721RnqcK4O7VhnLp
+         2Z3GrLaBALROj9TIZEZK3NgshsksB4HBm6tfG1Mi3SLYNqWe9kRtJnBpd+Be0qI72+a2
+         e1P9z3d/70VHINUtQTdmM9DgW1hjoOCHwF19HMQAN3edVQWgE+5fEJs5n70qrIsmWMwp
+         qWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=Jvd/Msx8XNS3IhYCMjYxLkOMwT8rs711vu+5COC05iE=;
-        b=Sf/3bIbOujgCRthmlu9tWEXDDy/NstfKO7/6+b36IKsLdMSmBQzVf6NTMTx4ZtspHh
-         T0HSic1Jj3+5dQ6Zwt1x52nrFbekZoRCD8vs+V+AEODw0bmZRsJkfjG8GWYYPNL7GulR
-         iO7vzAuh1bNVdsvnrl1t0Gu/pWV884VtM+MT9Ub5ucXSmvRVvv8SxSHILbXgdQbZY1Cc
-         HK/B67u5tVrpJjTqL8XzS3G2Z7ud7lZ9GvJbO/54TehMXvm3/tp4EsPBNjLRKqw6fHQX
-         nzsrJDq1bAdUoZmieAH9FzWSfEdsExfvn1u34tk+RCS+0BYZih6faUNPZJwFnqrUyQqN
-         l9ww==
-X-Gm-Message-State: AOAM530zWn+jn57wHgjJhJdtRUHnyFHh6qk0rkGM+7ixMZTFL5AshHNi
-        MT3MelCgm6oEJWABk+Ybme6UvQ==
-X-Google-Smtp-Source: ABdhPJx9hX1YOOhpgnYpQo8zIRJ9IUJvRteEGrUyvwf81IpsiXWjZQt1WTAdMPocBRbSLrzCIccyGw==
-X-Received: by 2002:adf:fe45:: with SMTP id m5mr18748501wrs.257.1590486279999;
-        Tue, 26 May 2020 02:44:39 -0700 (PDT)
+        bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
+        b=FpwT8UVUvulymNclG3FGVrB35ngsXRKDwZyKt5x6N+Nt6Op++MRCF9E2QxGSCF5EcC
+         o7OlBrLxZbbrznJDAEjmcRdPViAWVLGfSguwXwoEv7fgSe27/x2JXTA53s/XAsWceQqM
+         B4243+HVsQmvijg3fvP5Q5eJdP7FwiaGOO02x9pdaUfV4HDLY/vhy3pxPRmWw1aSsKUT
+         ZJrQmozzE0I2PJTJuOWotuE/iQOQp4+4fa0BL0e1TtSs7EmNla85q0h/wGZ3E78Bit0M
+         vKydfOTFa+QGD7D0K3KOxWJfaLGv2txir2VWuTw9cLmpK9vzns4TOwoB6WwfRb9uqiS0
+         t4og==
+X-Gm-Message-State: AOAM532LIxlWPiTc5AGw4mj0gCexVqFoQTGy6JhRXY/sfC8+X8MJnZNt
+        bqjgR30rAvtuxX/5QcB0JXXcLgqZjkzaBg==
+X-Google-Smtp-Source: ABdhPJwBtTbMbz6kQekDHlZ9OPUPxv4FKNSBA2FyxtO9//9EJbFDS/mvMnrmvRFR9v+or6Dpm5kLUA==
+X-Received: by 2002:adf:ec45:: with SMTP id w5mr19831161wrn.96.1590486302498;
+        Tue, 26 May 2020 02:45:02 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b? ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
-        by smtp.gmail.com with ESMTPSA id x186sm13039144wmg.8.2020.05.26.02.44.38
+        by smtp.gmail.com with ESMTPSA id b185sm406120wmd.3.2020.05.26.02.45.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2020 02:44:39 -0700 (PDT)
-Subject: Re: [PATCH 11/27] drm: bridge: dw-hdmi: Pass private data pointer to
- .mode_valid()
+        Tue, 26 May 2020 02:45:01 -0700 (PDT)
+Subject: Re: [PATCH 12/27] drm: bridge: dw-hdmi: Pass private data pointer to
+ .configure_phy()
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -59,14 +59,9 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Jonas Karlman <jonas@kwiboo.se>,
         Sam Ravnborg <sam@ravnborg.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sandy Huang <hjc@rock-chips.com>,
-        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, linux-amlogic@lists.infradead.org
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-12-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -118,12 +113,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <ba4aff85-56f1-42b0-8049-ed3ab5eb5559@baylibre.com>
-Date:   Tue, 26 May 2020 11:44:37 +0200
+Message-ID: <e1ca591c-0975-63ee-b0a6-bf1c98c8af95@baylibre.com>
+Date:   Tue, 26 May 2020 11:45:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-12-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -133,184 +128,60 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 26/05/2020 03:14, Laurent Pinchart wrote:
-> Platform glue drivers for dw_hdmi may need to access device-specific
-> data from their .mode_valid() implementation. They currently have no
-> clean way to do so, and one driver hacks around it by accessing the
-> dev_private data of the drm_device retrieved from the connector.
-> 
-> Add a priv_data void pointer to the dw_hdmi_plat_data structure, and
-> pass it to the .mode_valid() function.
+> The .configure_phy() operation takes a dw_hdmi_plat_data pointer as a
+> context argument. This differs from .mode_valid() that takes a custom
+> private context pointer, causing possible confusion. Make the
+> dw_hdmi_plat_data operations more consistent by passing the private
+> context pointer to .configure_phy() as well.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c   |  6 ++++--
->  drivers/gpu/drm/imx/dw_hdmi-imx.c           |  6 ++++--
->  drivers/gpu/drm/meson/meson_dw_hdmi.c       |  3 ++-
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c      |  3 ++-
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c |  3 ++-
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c       |  6 ++++--
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h       |  3 ++-
->  include/drm/bridge/dw_hdmi.h                | 14 ++++++++++++--
->  8 files changed, 32 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
+>  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    | 3 +--
+>  include/drm/bridge/dw_hdmi.h              | 3 +--
+>  3 files changed, 3 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index b535354150db..2b3f203cf467 100644
+> index 2b3f203cf467..6edb60e6c784 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2771,6 +2771,7 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
->  			  const struct drm_display_mode *mode)
->  {
->  	struct dw_hdmi *hdmi = bridge->driver_private;
-> +	const struct dw_hdmi_plat_data *pdata = hdmi->plat_data;
->  	struct drm_connector *connector = &hdmi->connector;
->  	enum drm_mode_status mode_status = MODE_OK;
+> @@ -1514,7 +1514,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
 >  
-> @@ -2778,8 +2779,9 @@ dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
->  	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
->  		return MODE_BAD;
->  
-> -	if (hdmi->plat_data->mode_valid)
-> -		mode_status = hdmi->plat_data->mode_valid(connector, mode);
-> +	if (pdata->mode_valid)
-> +		mode_status = pdata->mode_valid(hdmi, pdata->priv_data,
-> +						connector, mode);
->  
->  	return mode_status;
->  }
-> diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> index ba4ca17fd4d8..95aed4666c95 100644
-> --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> @@ -145,7 +145,8 @@ static const struct drm_encoder_helper_funcs dw_hdmi_imx_encoder_helper_funcs =
->  };
->  
->  static enum drm_mode_status
-> -imx6q_hdmi_mode_valid(struct drm_connector *con,
-> +imx6q_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		      struct drm_connector *con,
->  		      const struct drm_display_mode *mode)
->  {
->  	if (mode->clock < 13500)
-> @@ -158,7 +159,8 @@ imx6q_hdmi_mode_valid(struct drm_connector *con,
->  }
->  
->  static enum drm_mode_status
-> -imx6dl_hdmi_mode_valid(struct drm_connector *con,
-> +imx6dl_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		       struct drm_connector *con,
->  		       const struct drm_display_mode *mode)
->  {
->  	if (mode->clock < 13500)
-> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 5be963e9db05..5cc311c1b8e0 100644
-> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -630,7 +630,8 @@ static irqreturn_t dw_hdmi_top_thread_irq(int irq, void *dev_id)
->  }
->  
->  static enum drm_mode_status
-> -dw_hdmi_mode_valid(struct drm_connector *connector,
-> +dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		   struct drm_connector *connector,
->  		   const struct drm_display_mode *mode)
->  {
->  	struct meson_drm *priv = connector->dev->dev_private;
+>  	/* Write to the PHY as configured by the platform */
+>  	if (pdata->configure_phy)
+> -		ret = pdata->configure_phy(hdmi, pdata, mpixelclock);
+> +		ret = pdata->configure_phy(hdmi, pdata->priv_data, mpixelclock);
+>  	else
+>  		ret = phy->configure(hdmi, pdata, mpixelclock);
+>  	if (ret) {
 > diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 452461dc96f2..4d837a4d302d 100644
+> index 4d837a4d302d..d0dffe55a7cb 100644
 > --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
 > +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -38,7 +38,8 @@ static const struct rcar_hdmi_phy_params rcar_hdmi_phy_params[] = {
->  };
->  
->  static enum drm_mode_status
-> -rcar_hdmi_mode_valid(struct drm_connector *connector,
-> +rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +		     struct drm_connector *connector,
->  		     const struct drm_display_mode *mode)
->  {
->  	/*
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 121aa8a63a76..d08f86783a28 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -220,7 +220,8 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
+> @@ -52,8 +52,7 @@ rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
+>  	return MODE_OK;
 >  }
 >  
->  static enum drm_mode_status
-> -dw_hdmi_rockchip_mode_valid(struct drm_connector *connector,
-> +dw_hdmi_rockchip_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +			    struct drm_connector *connector,
->  			    const struct drm_display_mode *mode)
+> -static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi,
+> -				   const struct dw_hdmi_plat_data *pdata,
+> +static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
+>  				   unsigned long mpixelclock)
 >  {
->  	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> index 972682bb8000..0a3637442ba6 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> @@ -31,7 +31,8 @@ sun8i_dw_hdmi_encoder_helper_funcs = {
->  };
->  
->  static enum drm_mode_status
-> -sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
-> +sun8i_dw_hdmi_mode_valid_a83t(struct dw_hdmi *hdmi, void *data,
-> +			      struct drm_connector *connector,
->  			      const struct drm_display_mode *mode)
->  {
->  	if (mode->clock > 297000)
-> @@ -41,7 +42,8 @@ sun8i_dw_hdmi_mode_valid_a83t(struct drm_connector *connector,
->  }
->  
->  static enum drm_mode_status
-> -sun8i_dw_hdmi_mode_valid_h6(struct drm_connector *connector,
-> +sun8i_dw_hdmi_mode_valid_h6(struct dw_hdmi *hdmi, void *data,
-> +			    struct drm_connector *connector,
->  			    const struct drm_display_mode *mode)
->  {
->  	/*
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> index 8e64945167e9..8587b8d2590e 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> @@ -176,7 +176,8 @@ struct sun8i_hdmi_phy {
->  };
->  
->  struct sun8i_dw_hdmi_quirks {
-> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
-> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi, void *data,
-> +					   struct drm_connector *connector,
->  					   const struct drm_display_mode *mode);
->  	unsigned int set_rate : 1;
->  	unsigned int use_drm_infoframe : 1;
+>  	const struct rcar_hdmi_phy_params *params = rcar_hdmi_phy_params;
 > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 0b34a12c4a1c..66a811f75b91 100644
+> index 66a811f75b91..09348c9cbd11 100644
 > --- a/include/drm/bridge/dw_hdmi.h
 > +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -124,13 +124,23 @@ struct dw_hdmi_phy_ops {
+> @@ -151,8 +151,7 @@ struct dw_hdmi_plat_data {
+>  	const struct dw_hdmi_mpll_config *mpll_cfg;
+>  	const struct dw_hdmi_curr_ctrl *cur_ctr;
+>  	const struct dw_hdmi_phy_config *phy_config;
+> -	int (*configure_phy)(struct dw_hdmi *hdmi,
+> -			     const struct dw_hdmi_plat_data *pdata,
+> +	int (*configure_phy)(struct dw_hdmi *hdmi, void *data,
+>  			     unsigned long mpixelclock);
+>  };
 >  
->  struct dw_hdmi_plat_data {
->  	struct regmap *regm;
-> -	enum drm_mode_status (*mode_valid)(struct drm_connector *connector,
-> -					   const struct drm_display_mode *mode);
-> +
->  	unsigned long input_bus_format;
->  	unsigned long input_bus_encoding;
->  	bool use_drm_infoframe;
->  	bool ycbcr_420_allowed;
->  
-> +	/*
-> +	 * Private data passed to all the .mode_valid() and .configure_phy()
-> +	 * callback functions.
-> +	 */
-> +	void *priv_data;
-> +
-> +	/* Platform-specific mode validation (optional). */
-> +	enum drm_mode_status (*mode_valid)(struct dw_hdmi *hdmi, void *data,
-> +					   struct drm_connector *connector,
-> +					   const struct drm_display_mode *mode);
-> +
->  	/* Vendor PHY support */
->  	const struct dw_hdmi_phy_ops *phy_ops;
->  	const char *phy_name;
 > 
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
