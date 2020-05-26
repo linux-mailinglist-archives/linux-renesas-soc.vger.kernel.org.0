@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B469C1E1EF1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 11:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 354EB1E1EFA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 May 2020 11:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728758AbgEZJpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 May 2020 05:45:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58902 "EHLO
+        id S1731822AbgEZJp3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 May 2020 05:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728686AbgEZJpE (ORCPT
+        with ESMTP id S1728686AbgEZJp2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 May 2020 05:45:04 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6BB6C03E97E
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:03 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id s8so19686758wrt.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:03 -0700 (PDT)
+        Tue, 26 May 2020 05:45:28 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DFC5C03E97E
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:28 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id i15so19689060wrx.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 26 May 2020 02:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
-        b=LfBRJ9Y6o6A6+P6QeBjMbiB8Nl0DxcVB5e19WSyzwZMtUczqAkBDeVgdxKbUFO6rTW
-         A7M1CmOqUOiQ/Vzm/krTIOs9k5nxAJb/gb78FD4kZavyWYx51xHl8Ls8jan1+Nyhp4LD
-         cBfkA5WtTkai4Cx4zx1NY9em1KuwP0DF45lgZUeC6pjn8dnZfXyO721RnqcK4O7VhnLp
-         2Z3GrLaBALROj9TIZEZK3NgshsksB4HBm6tfG1Mi3SLYNqWe9kRtJnBpd+Be0qI72+a2
-         e1P9z3d/70VHINUtQTdmM9DgW1hjoOCHwF19HMQAN3edVQWgE+5fEJs5n70qrIsmWMwp
-         qWNQ==
+        bh=etNF6IOc2WdGwx8VLdPz2n/8TmnS8/dAJbRaBZxGknU=;
+        b=cZpcNVtEUnxGpRI8pg43icwmNxQQ1LYJzr/uCcjmtTr491aW2xCq4Ek3/6L5DaQLcO
+         BjaMuAkK6MdoI8+GimCFeaTICZ8CQFWA1GOgAF7zUZgLBtEMxKMBooIwiKW2zr8WyCQO
+         YOoh8CNXIEZbRtRGw86w5rZ3paFWOjNR53oOI+nrBo51MG8zDcHg7vL1bHVfvg11YCw6
+         yzHPi2dkilsp35cuIKz/Xx+BNuDR2RnAQRQ79bn7FM5FUGzIilUO89IJ+8t/r3XwZlGv
+         XorGZD2bVzdAF4MYak/sAIZ+J+MA+JQsqA93iXgX+2rHYBDuc/FIrZHEHw6mWSNN+zpb
+         LNQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=sY9SeBAr4REMcszepK+fhU5wsSLW7yMg/lj7MV2duYc=;
-        b=FpwT8UVUvulymNclG3FGVrB35ngsXRKDwZyKt5x6N+Nt6Op++MRCF9E2QxGSCF5EcC
-         o7OlBrLxZbbrznJDAEjmcRdPViAWVLGfSguwXwoEv7fgSe27/x2JXTA53s/XAsWceQqM
-         B4243+HVsQmvijg3fvP5Q5eJdP7FwiaGOO02x9pdaUfV4HDLY/vhy3pxPRmWw1aSsKUT
-         ZJrQmozzE0I2PJTJuOWotuE/iQOQp4+4fa0BL0e1TtSs7EmNla85q0h/wGZ3E78Bit0M
-         vKydfOTFa+QGD7D0K3KOxWJfaLGv2txir2VWuTw9cLmpK9vzns4TOwoB6WwfRb9uqiS0
-         t4og==
-X-Gm-Message-State: AOAM532LIxlWPiTc5AGw4mj0gCexVqFoQTGy6JhRXY/sfC8+X8MJnZNt
-        bqjgR30rAvtuxX/5QcB0JXXcLgqZjkzaBg==
-X-Google-Smtp-Source: ABdhPJwBtTbMbz6kQekDHlZ9OPUPxv4FKNSBA2FyxtO9//9EJbFDS/mvMnrmvRFR9v+or6Dpm5kLUA==
-X-Received: by 2002:adf:ec45:: with SMTP id w5mr19831161wrn.96.1590486302498;
-        Tue, 26 May 2020 02:45:02 -0700 (PDT)
+        bh=etNF6IOc2WdGwx8VLdPz2n/8TmnS8/dAJbRaBZxGknU=;
+        b=rREaFpfcK88sfTGxGeHtxPuhblGPc5UGv8f0MOUpMNjmaIZIcLjJxoJhJXRAbxQIQH
+         CWT7RKcCjVGGHAoa/bDAtVs7WkgSl0Jplip+cLmA3z6nfFc89jBkTMejVQzDrKXOdWXU
+         buj7kGma+eYwx61VURYrjnT94QCb1+ptpnkdhrL6mjdXsrA/RJ4TO2p3DFSz7H7hA+gg
+         A7hwXA51P4pE+Nhj2wtu83rYrNjQ5hIglWgs6mpoQAH3PARRcnuNiHXjF/6tHUmdzhzk
+         V8r9WMpReRwSJxX+X2R402Do51JYhQUj4wU5i54D37kRYzlcBghGv5yYCf0J9/HwIBrD
+         wrlw==
+X-Gm-Message-State: AOAM53135wWxF6m2TBFF5taKQLaOxupTMtz82m8CQLPyujj0m4AuZ9sX
+        BzxlJCqexrz5Uzdhh9mueeVVDw==
+X-Google-Smtp-Source: ABdhPJy4gIL7dv+mgO/7oBmmRNFzlYstLIbBvEr8gRKbz5kyF2trnYI5NfZodMt+M/pHAOArFLbPRQ==
+X-Received: by 2002:a5d:4488:: with SMTP id j8mr12105607wrq.242.1590486327035;
+        Tue, 26 May 2020 02:45:27 -0700 (PDT)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b? ([2a01:e35:2ec0:82b0:acf8:18a8:b3a5:a17b])
-        by smtp.gmail.com with ESMTPSA id b185sm406120wmd.3.2020.05.26.02.45.00
+        by smtp.gmail.com with ESMTPSA id o9sm3492887wmh.37.2020.05.26.02.45.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 May 2020 02:45:01 -0700 (PDT)
-Subject: Re: [PATCH 12/27] drm: bridge: dw-hdmi: Pass private data pointer to
- .configure_phy()
+        Tue, 26 May 2020 02:45:26 -0700 (PDT)
+Subject: Re: [PATCH 13/27] drm: bridge: dw-hdmi: Remove unused field from
+ dw_hdmi_plat_data
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -61,7 +61,7 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Sam Ravnborg <sam@ravnborg.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
 References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-14-laurent.pinchart+renesas@ideasonboard.com>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -113,12 +113,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  zR8QplXA5kogS4kLe/7/JmlDMO8Zgm9vKLHSUeesLOrjdZ59EcjldNNBszRZQgEhwaarfz46
  BSwxi7g3Mu7u5kUByanqHyA=
 Organization: Baylibre
-Message-ID: <e1ca591c-0975-63ee-b0a6-bf1c98c8af95@baylibre.com>
-Date:   Tue, 26 May 2020 11:45:00 +0200
+Message-ID: <ab835b47-b6ec-b756-cf38-d2b5cb4da460@baylibre.com>
+Date:   Tue, 26 May 2020 11:45:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200526011505.31884-13-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200526011505.31884-14-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -128,60 +128,45 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 26/05/2020 03:14, Laurent Pinchart wrote:
-> The .configure_phy() operation takes a dw_hdmi_plat_data pointer as a
-> context argument. This differs from .mode_valid() that takes a custom
-> private context pointer, causing possible confusion. Make the
-> dw_hdmi_plat_data operations more consistent by passing the private
-> context pointer to .configure_phy() as well.
+> The input_bus_format field of struct dw_hdmi_plat_data is unused. Remove
+> it.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 +-
->  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c    | 3 +--
->  include/drm/bridge/dw_hdmi.h              | 3 +--
->  3 files changed, 3 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 5 +----
+>  include/drm/bridge/dw_hdmi.h              | 1 -
+>  2 files changed, 1 insertion(+), 5 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 2b3f203cf467..6edb60e6c784 100644
+> index 6edb60e6c784..adc5a95a06e9 100644
 > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -1514,7 +1514,7 @@ static int hdmi_phy_configure(struct dw_hdmi *hdmi)
+> @@ -2137,10 +2137,7 @@ static int dw_hdmi_setup(struct dw_hdmi *hdmi, struct drm_display_mode *mode)
+>  	hdmi->hdmi_data.video_mode.mpixelrepetitionoutput = 0;
+>  	hdmi->hdmi_data.video_mode.mpixelrepetitioninput = 0;
 >  
->  	/* Write to the PHY as configured by the platform */
->  	if (pdata->configure_phy)
-> -		ret = pdata->configure_phy(hdmi, pdata, mpixelclock);
-> +		ret = pdata->configure_phy(hdmi, pdata->priv_data, mpixelclock);
->  	else
->  		ret = phy->configure(hdmi, pdata, mpixelclock);
->  	if (ret) {
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> index 4d837a4d302d..d0dffe55a7cb 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c
-> @@ -52,8 +52,7 @@ rcar_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
->  	return MODE_OK;
->  }
+> -	if (hdmi->plat_data->input_bus_format)
+> -		hdmi->hdmi_data.enc_in_bus_format =
+> -			hdmi->plat_data->input_bus_format;
+> -	else if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+> +	if (hdmi->hdmi_data.enc_in_bus_format == MEDIA_BUS_FMT_FIXED)
+>  		hdmi->hdmi_data.enc_in_bus_format = MEDIA_BUS_FMT_RGB888_1X24;
 >  
-> -static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi,
-> -				   const struct dw_hdmi_plat_data *pdata,
-> +static int rcar_hdmi_phy_configure(struct dw_hdmi *hdmi, void *data,
->  				   unsigned long mpixelclock)
->  {
->  	const struct rcar_hdmi_phy_params *params = rcar_hdmi_phy_params;
+>  	/* TOFIX: Get input encoding from plat data or fallback to none */
 > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> index 66a811f75b91..09348c9cbd11 100644
+> index 09348c9cbd11..5dfa9d83e2d3 100644
 > --- a/include/drm/bridge/dw_hdmi.h
 > +++ b/include/drm/bridge/dw_hdmi.h
-> @@ -151,8 +151,7 @@ struct dw_hdmi_plat_data {
->  	const struct dw_hdmi_mpll_config *mpll_cfg;
->  	const struct dw_hdmi_curr_ctrl *cur_ctr;
->  	const struct dw_hdmi_phy_config *phy_config;
-> -	int (*configure_phy)(struct dw_hdmi *hdmi,
-> -			     const struct dw_hdmi_plat_data *pdata,
-> +	int (*configure_phy)(struct dw_hdmi *hdmi, void *data,
->  			     unsigned long mpixelclock);
->  };
+> @@ -125,7 +125,6 @@ struct dw_hdmi_phy_ops {
+>  struct dw_hdmi_plat_data {
+>  	struct regmap *regm;
 >  
+> -	unsigned long input_bus_format;
+>  	unsigned long input_bus_encoding;
+>  	bool use_drm_infoframe;
+>  	bool ycbcr_420_allowed;
 > 
+
+Obviously, now meta-meson doesn't need it anymore, thanks for fixing this.
 
 Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
