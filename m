@@ -2,93 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE9F1E3A25
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 09:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0246B1E3AAC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 09:36:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728821AbgE0HQK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 03:16:10 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39294 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728611AbgE0HQJ (ORCPT
+        id S2387520AbgE0Hen (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 03:34:43 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36220 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387411AbgE0Hen (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 03:16:09 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E73953C0579;
-        Wed, 27 May 2020 09:16:05 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id aUYj8-iqg8eh; Wed, 27 May 2020 09:16:00 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id B81673C0022;
-        Wed, 27 May 2020 09:16:00 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.38) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 27 May
- 2020 09:16:00 +0200
-Date:   Wed, 27 May 2020 09:15:55 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-CC:     <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham+renesas@ideasonboard.com>, <geert@linux-m68k.org>,
-        <horms@verge.net.au>, <uli+renesas@fpond.eu>,
-        <VenkataRajesh.Kalakodima@in.bosch.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>, <koji.matsuoka.xm@renesas.com>,
-        <muroya@ksk.co.jp>, <Harsha.ManjulaMallikarjun@in.bosch.com>,
-        <ezequiel@collabora.com>, <seanpaul@chromium.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <michael.dege@renesas.com>, <gotthard.voellmeke@renesas.com>,
-        <efriedrich@de.adit-jv.com>, <mrodin@de.adit-jv.com>,
-        <ChaitanyaKumar.Borah@in.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200527071555.GA23912@lxhi-065.adit-jv.com>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+        Wed, 27 May 2020 03:34:43 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x23so20976306oic.3;
+        Wed, 27 May 2020 00:34:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g/2V+ILho993Sc4aTyN2HNrz1xXkT4t8lrGCCn7EhH4=;
+        b=EUvfnigEBtaQgbOt0hiz4HhS0QOska1sbrvqGq1bYuYVOFJMJxVuYz0YH6aKvrszIq
+         VMcBFI5L3/LXdQaxyyvi4eCQvzo7JUCO0pVHGO5p/nGtFIcnOUhaEdV4BPW+Em5LifoP
+         9ye6YjPzBrxMRRzLmOs3tl4D+q3pUuRlNBjVLcgjSNSd0MgHFFyorCAlS43pszT2O81s
+         MujSfc2uaeLanSmcmnxgb+NpBN/RdZOJKCG5N8aOUheskgqcoIR7WG/g8GyeaTt3BuSH
+         KtOruHI4uIDU84FkEGXKePuxtjKS55dpVmWZhxj8BK1onDVlfGwphRTOfcKaJVfQFRO+
+         TCAg==
+X-Gm-Message-State: AOAM5338eNfbuGcMc6VGP9y7lRgcLXYhO9bD7YnGmSMbFB0jUSvb9Gq7
+        xX6B0T63H8WpSlUpyMpEAj8n4jV6cGeG2GQkkUZmVQ==
+X-Google-Smtp-Source: ABdhPJxCq6xJytQR9MRrSZtC7WsUAZa4yYCcCrs2RUn5qA+cObxdWtdrNC7QR/jq6N/RUcvtStBbHCYsejgBNLFq/wA=
+X-Received: by 2002:aca:210a:: with SMTP id 10mr1716582oiz.153.1590564881908;
+ Wed, 27 May 2020 00:34:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
-X-Originating-IP: [10.72.94.38]
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org> <20200527071555.GA23912@lxhi-065.adit-jv.com>
+In-Reply-To: <20200527071555.GA23912@lxhi-065.adit-jv.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 May 2020 09:34:30 +0200
+Message-ID: <CAMuHMdVGcFGL6V6_zDCPQA66VFyqM9bQ6choWs8eYfOieFu1ZQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michael Dege <michael.dege@renesas.com>,
+        gotthard.voellmeke@renesas.com, efriedrich@de.adit-jv.com,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        ChaitanyaKumar.Borah@in.bosch.com,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Eugeniu,
 
-On Tue, Oct 15, 2019 at 12:46:13PM +0200, Jacopo Mondi wrote:
- ----8<---
+On Wed, May 27, 2020 at 9:16 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> On Tue, Oct 15, 2019 at 12:46:13PM +0200, Jacopo Mondi wrote:
+> > CMM functionalities are retained between suspend/resume cycles (tested with
+> > suspend-to-idle) without requiring a re-programming of the LUT tables.
+>
+> Hmm. Is this backed up by any statement in the HW User's manual?
+> This comes in contrast with the original Renesas CMM implementation [**]
+> which does make use of suspend (where the freeze actually happens).
+>
+> Can we infer, based on your statement, that we could also get rid of
+> the suspend callback in [**]?
 
-> * Testing
-> I have tested by injecting a color inversion LUT table and enabling/disabling it
-> every 50 displayed frames:
-> https://jmondi.org/cgit/kmsxx/log/?h=gamma_lut
+While the CMM state will be retained across suspend-to-idle, I'm quite
+sure it will be lost by suspend-to-RAM, at least on the Salvator-X(S),
+ULCB, and Ebisu development boards, as PSCI will ask the BD9571WMV
+regulator to power down the R-Car SoC.
 
-Could you kindly share the cross compilation steps for your kmsxx fork?
+So IMHO we do need suspend/resume handling.
 
-Just out of curiosity, have you ever tried to pull the display's HDMI
-cable while reading from CM2_LUT_TBL?
+Gr{oetje,eeting}s,
 
-At least with the out-of-tree CMM implementation [*], this sends the
-R-Car3 reference targets into an unrecoverable freeze, with no lockup
-reported by the kernel (i.e. looks like an serious HW issue).
-
-> 
-> CMM functionalities are retained between suspend/resume cycles (tested with
-> suspend-to-idle) without requiring a re-programming of the LUT tables.
-
-Hmm. Is this backed up by any statement in the HW User's manual?
-This comes in contrast with the original Renesas CMM implementation [**]
-which does make use of suspend (where the freeze actually happens).
-
-Can we infer, based on your statement, that we could also get rid of
-the suspend callback in [**]?
-
-[*] https://github.com/renesas-rcar/du_cmm
-[**] https://github.com/renesas-rcar/du_cmm/blob/c393ed49834bdbc/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0001-drm-rcar-du-Add-DU-CMM-support.patch#L1912
+                        Geert
 
 -- 
-Best regards,
-Eugeniu Rosca
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
