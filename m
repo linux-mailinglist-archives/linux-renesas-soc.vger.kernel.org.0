@@ -2,160 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4AA1E4F3B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 22:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D91261E4F9E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 22:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728918AbgE0UY6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 16:24:58 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:49681 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727004AbgE0UY6 (ORCPT
+        id S1728124AbgE0Uwm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 16:52:42 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:53104 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726129AbgE0Uwm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 16:24:58 -0400
-X-IronPort-AV: E=Sophos;i="5.73,442,1583161200"; 
-   d="scan'208";a="47962815"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 28 May 2020 05:24:57 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 21B6640E2567;
-        Thu, 28 May 2020 05:24:54 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/3] ARM: dts: r8a7742-iwg21d-q7: Sound DMA support via DVC on DTS
-Date:   Wed, 27 May 2020 21:23:33 +0100
-Message-Id: <1590611013-26029-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1590611013-26029-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1590611013-26029-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 27 May 2020 16:52:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=gKAXQgUdWQP/zL1P3eNew3G65B4gJ6Xt1zF4bmT1hDg=; b=WyvaIFrAsWiNdYbeeSXajmyKD6
+        6I8uuI6yBuqgB3E3YJb/fM/ogGpVN6EhTp9s1KROW2q6RwLo9hFHGFaGz8E86tphPbfvG8p5+xnMf
+        sGW6H/UMHw8y6QxnMjTQRLU/Qwgf3L6OJ4PFdtaTMogDnXyqRrvzHFcIlrmKLtm3N/6c=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1je32D-003S61-VH; Wed, 27 May 2020 22:52:21 +0200
+Date:   Wed, 27 May 2020 22:52:21 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "david@protonic.nl" <david@protonic.nl>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+Message-ID: <20200527205221.GA818296@lunn.ch>
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+ <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+ <20200428154718.GA24923@lunn.ch>
+ <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
+ <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
+ <20200429092616.7ug4kdgdltxowkcs@pengutronix.de>
+ <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable sound with DMA support on carrier board.
+> You may wonder what's the difference between 3 and 4? It's not just the
+> PHY driver that looks at phy-mode!
+> drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
+> does, and configures an additional TX clock delay of 1.8 ns if TXID is
+> enabled.
 
-DMA transfer uses DVC
+Hi Geert
 
-     DMA               DMApp
-[MEM] -> [SRC] -> [DVC] -> [SSIU] -> [SSI]
+That sounds like a MAC bug. Either the MAC insert the delay, or the
+PHY does. If the MAC decides it is going to insert the delay, it
+should be masking what it passes to phylib so that the PHY does not
+add a second delay.
 
-     DMA               DMApp
-[MEM] <- [DVC] <- [SRC] <- [SSIU] <- [SSI]
+This whole area of RGMII delays has a number of historical bugs, which
+often counter act each other. So you fix one, and it break somewhere
+else.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
- arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 63 +++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+In this case, not allowing skews for plain RGMII is probably being too
+strict. We probably should relax that constrain in this case, for this
+PHY driver.
 
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-index d6154fd..704fe22 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-@@ -5,6 +5,29 @@
-  * Copyright (C) 2020 Renesas Electronics Corp.
-  */
- 
-+/*
-+ * SSI-SGTL5000
-+ *
-+ * This command is required when Playback/Capture
-+ *
-+ *      amixer set "DVC Out" 100%
-+ *      amixer set "DVC In" 100%
-+ *
-+ * You can use Mute
-+ *
-+ *      amixer set "DVC Out Mute" on
-+ *      amixer set "DVC In Mute" on
-+ *
-+ * You can use Volume Ramp
-+ *
-+ *      amixer set "DVC Out Ramp Up Rate"   "0.125 dB/64 steps"
-+ *      amixer set "DVC Out Ramp Down Rate" "0.125 dB/512 steps"
-+ *      amixer set "DVC Out Ramp" on
-+ *      aplay xxx.wav &
-+ *      amixer set "DVC Out"  80%  // Volume Down
-+ *      amixer set "DVC Out" 100%  // Volume Up
-+ */
-+
- /dts-v1/;
- #include "r8a7742-iwg21m.dtsi"
- 
-@@ -37,6 +60,21 @@
- 		regulator-always-on;
- 	};
- 
-+	rsnd_sgtl5000: sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,bitclock-master = <&sndcodec>;
-+		simple-audio-card,frame-master = <&sndcodec>;
-+
-+		sndcpu: simple-audio-card,cpu {
-+			sound-dai = <&rcar_sound>;
-+		};
-+
-+		sndcodec: simple-audio-card,codec {
-+			sound-dai = <&sgtl5000>;
-+		};
-+	};
-+
- 	vcc_sdhi2: regulator-vcc-sdhi2 {
- 		compatible = "regulator-fixed";
- 
-@@ -152,6 +190,11 @@
- 		power-source = <1800>;
- 	};
- 
-+	sound_pins: sound {
-+		groups = "ssi34_ctrl", "ssi3_data", "ssi4_data";
-+		function = "ssi";
-+	};
-+
- 	usb0_pins: usb0 {
- 		groups = "usb0";
- 		function = "usb0";
-@@ -168,6 +211,22 @@
- 	};
- };
- 
-+&rcar_sound {
-+	pinctrl-0 = <&sound_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	/* Single DAI */
-+	#sound-dai-cells = <0>;
-+
-+	rcar_sound,dai {
-+		dai0 {
-+			playback = <&ssi4 &src4 &dvc1>;
-+			capture = <&ssi3 &src3 &dvc0>;
-+		};
-+	};
-+};
-+
- &rwdt {
- 	timeout-sec = <60>;
- 	status = "okay";
-@@ -201,6 +260,10 @@
- 	status = "okay";
- };
- 
-+&ssi4 {
-+	shared-pin;
-+};
-+
- &usbphy {
- 	status = "okay";
- };
--- 
-2.7.4
-
+    Andrew
