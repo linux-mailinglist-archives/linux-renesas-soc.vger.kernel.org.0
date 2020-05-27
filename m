@@ -2,154 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D814F1E4A47
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 18:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4F351E4DEA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 21:11:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391214AbgE0QdK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 12:33:10 -0400
-Received: from mail-eopbgr1410107.outbound.protection.outlook.com ([40.107.141.107]:15278
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387763AbgE0QdJ (ORCPT
+        id S1728631AbgE0TLh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 15:11:37 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42573 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728270AbgE0TLg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 12:33:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jfDvThtIWclaiyHqzmhGD3lwnaIbi28xdkilmr1H23VvcUSuO957E82HB/IKEGIzUFwqDQzOimMb1hciLFwn0Rez6IcIMFaPT21X9RT0nW1DMKuoYtemIN1x0kp4zV3di9592JhFWX+jygr0tfIUc3u2RakwJTxBCWAbp6Gx6vSLIN6lZGlblMWdKKkRdadL0bvKnvtAsyHHrgCHfweMslEllm/AWALod4rNYrWTbFnqShWbT7PRjL5/Q/NEZwCgrNXlfcPv/5aVJdFenNGt7qPwG66jMobpUbQ1eB5X9BUYhF6C0Dy2pc8sl8jiEe3xYHxP3INytHW02TTXWyanWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4sH1bRwO1ILjdBGqaotTt+r7jcvaJ4XvAkfPdogJkpw=;
- b=Xt7emn/8Kj9oKwrN/g7vTb55mtf7GEEoJUxjC2pY8ObtU5Br0sReUPHEtfXIVqQzMUqCkANuXhOSAIzNKe4HMv79R3rkgkjNOzz9QlCDJyYiydgrW/xM4yq0lZzFtDPpFEWdspSZEhAYeVvhofaJoMOLSWHAQNLg4iadxhAVpgzzYvPCEesHW0YsmJLg66AfANvUdXL8wPbvNJTNf0KP2eKc42rugem7GVIEQum9CSBef1tplffQUVWTXwxUgwdnq0ljEMsE5LOwAnM/QOWAILYPi8iNbTPLF3md65+hNtcHyvZq9QI2fswrqUSc38XmdQ2gmA5NNJAi8sehXExyNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4sH1bRwO1ILjdBGqaotTt+r7jcvaJ4XvAkfPdogJkpw=;
- b=Dl+jN/iPndhVcPbmqW6HyFP6LnYS4r6TbhkK1gMNlqOyBCYnIcjZ44RdRaGdHaave93VQoElvEpnXGE0B5GexZKzNOu3qTmipe7wfCLxdb9CYzUYhqER3JcQNltd2DaAb3vo19z+VpYJKVRSoi+gT7gZ3Uu0l4ZVb64fycox9vk=
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (2603:1096:604:45::16)
- by OSBPR01MB1493.jpnprd01.prod.outlook.com (2603:1096:603:5::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.26; Wed, 27 May
- 2020 16:33:04 +0000
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::383a:9fc3:aaa4:d3b]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::383a:9fc3:aaa4:d3b%7]) with mapi id 15.20.3021.029; Wed, 27 May 2020
- 16:33:04 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Rob Herring <robh@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
-Subject: RE: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
- r8a7742 support
-Thread-Topic: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
- r8a7742 support
-Thread-Index: AQHWKssCxC2vfuzWzEyRDegtm28a06i7N4kAgAClJYCAADacAIAAH9HA
-Date:   Wed, 27 May 2020 16:33:04 +0000
-Message-ID: <OSBPR01MB35901639581F7DEFEFD13BA3AAB10@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200527013136.GA838011@bogus>
- <CA+V-a8t6mXkTUac69V=T8_27r_sdN+=MktDTM1mmtbXRn8SSQQ@mail.gmail.com>
- <CAL_JsqJUn9iOy5FT6VRmsC-uAhSdN8_Sne0Vn_7Q1dHudbzopw@mail.gmail.com>
-In-Reply-To: <CAL_JsqJUn9iOy5FT6VRmsC-uAhSdN8_Sne0Vn_7Q1dHudbzopw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c8b5b404-6d14-4370-00dd-08d8025ba13a
-x-ms-traffictypediagnostic: OSBPR01MB1493:
-x-microsoft-antispam-prvs: <OSBPR01MB149344BA3F18CF9C9154D13DAAB10@OSBPR01MB1493.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:238;
-x-forefront-prvs: 04163EF38A
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ckEePHCXj8Zn0Ecqi28PoYqh5Fchs5kuYP1DbgUyB60XAWOyZYycaL7woeld4Z7yE8vIV8iezZMSz/ZjOusWn1Yqq0GTAqcL2CNfa8RDGMj29tmnpc6pYm1zj44AEyZaxaAqw3KXQBDQrqk8F0jX88RUgMnHiv/W6448qE0dawKHK2muOhFa3tfH3ZXRkAnCdp3oSitLO78vm4PxOLESOWemGdCUmALpEOdlFHtBxqRkgNVOZJOAVWgHfzBhnIW+nz1/hzeTMdJ3ERfuIgfuN/7qMGxhXFAJWlAI57RJPOTBODzq3ugwIteW4zbk3YSGWbZ8Qa4+42TIl0NenRs4bsUi3vNfuOI7HCT3ZGNG45WCazFr4pbtBNUum0n5u1PGHkLSmo1A6Jl1cOmkuWlc2lDlnMGyPufNUcSbYSXYanGh/saarmwLYGoQKeeARIw81awVJrT1qcY0ulvTAAKMMw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(66476007)(110136005)(8936002)(7416002)(66446008)(55016002)(64756008)(66556008)(7696005)(9686003)(26005)(6506007)(66946007)(83380400001)(186003)(5660300002)(53546011)(54906003)(33656002)(2906002)(316002)(76116006)(71200400001)(478600001)(966005)(8676002)(4326008)(52536014)(86362001)(142933001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: Wx6hnCv1I2hGvem2jCwHT6rPeXoUxrapPPVcAsGeWNpv+jHdMyh/HNSR2QGR2LBgIG/BRgrYWCSfZOaFif+rCet2qBuQS14pwnC+t7485RTahsQSNyv7aBjKaCgDmQ9JCZatDohe6Qhbo9LTj0IwaS05ooJE0ah0jcveUZoUnIin26pzgaNEhkHTRMwacUHYJPyPpjW499sQBMEMs8gyQNGgtfDZaX7nbC1gGtFgWKYQC7glJEhupeTpwxehkLL4HVDxWq5dskoIfjyi9FCn7Y4l3J/9hzpVppp1tl56MhSpT26ol5Ch9xNNTeYOC5FjiZ+est5ZMoYl6bWPQKT6McMykzkBI4DzaJI3K0dnGcPdA0K9LLvMm5hE1JDt3JeoPKMdJcAuESsJZx8M48eHhMJSg6xNl+xdaVKEruDxxovi8YxLGJ/d3y0XsK3HKWFkGHNEwkMRV391LshRzHCmDr+PhGDa3p8AEpLfbNziXem8BLiZJA6Nhq/KDyiZcQOG
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 27 May 2020 15:11:36 -0400
+Received: by mail-ot1-f65.google.com with SMTP id z3so432194otp.9;
+        Wed, 27 May 2020 12:11:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4UwtHfFWMV3qXkAccsrvoTcDY714sRSlKD/SKxmCGLI=;
+        b=orHWAhzFEq2xuFBRzFpSWV3D3/l5vA0oRh+e+8RJwsNA1bi8cpHpAwuom2OkV1yxNA
+         WI8+eDGTFxef0fu297EH00FLjaHeXgpAEiMFLoBBwWaORchMH1qqlojDcP5ydGXnDJvc
+         4tGJyFt/Ypo/eV8LEU40LrdJwvTgC+wea8lqtL0Cu95pp0cVN9+8W7CYwZAjJj4oUFb6
+         S+Oe0HwNpzBPTWO6kNXj6xw+iBA+ZDE7fTxxycMJwIQO2c/1Gw2Pcvv7RRb8bFXwO1Bt
+         qPK3kq7/pU3kGFxT99i4InspNAo16NHfC5uCd+DRSeQeMOhsV6szH+1m6ZWvoRO/dRPU
+         cSIw==
+X-Gm-Message-State: AOAM532T35zjsoISHaAOSU4+iTmDMro7M8LcgRlBC4ywk/mV8GGTvdKZ
+        kbMH8hyM79fq4TE1bCBdqPHGU53Z6NK1/DRGZwCaTl6D
+X-Google-Smtp-Source: ABdhPJyaTY5wjUliK9I6+q6c1jUR+OXiSOkM1Fh8CT5hi9v2ptJfVs6ZM+h9VJBPlQ5EQfM4ZGhEnLDpf9oAtnvb47c=
+X-Received: by 2002:a05:6830:18d9:: with SMTP id v25mr5412441ote.107.1590606693392;
+ Wed, 27 May 2020 12:11:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8b5b404-6d14-4370-00dd-08d8025ba13a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2020 16:33:04.2048
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UMMWX/O7LAyNaVx7aADg+dK6uj4yAsDb7m5T+iU0XUYKrl+y4UQCWVTX+LYfZD3VU0DN0gT8PV6PUukVdRqdC9wwGOu4BYP7DxmukNwlRek7F99ESgAvPc6+/9q66Nvk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1493
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+ <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+ <20200428154718.GA24923@lunn.ch> <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
+ <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com> <20200429092616.7ug4kdgdltxowkcs@pengutronix.de>
+In-Reply-To: <20200429092616.7ug4kdgdltxowkcs@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 27 May 2020 21:11:21 +0200
+Message-ID: <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Philippe Schenker <philippe.schenker@toradex.com>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "david@protonic.nl" <david@protonic.nl>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUm9iLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJvYiBIZXJy
-aW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IDI3IE1heSAyMDIwIDE1OjM4DQo+IFRvOiBM
-YWQsIFByYWJoYWthciA8cHJhYmhha2FyLmNzZW5nZ0BnbWFpbC5jb20+DQo+IENjOiBQcmFiaGFr
-YXIgTWFoYWRldiBMYWQgPHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT47
-IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBKZW5zIEF4Ym9l
-DQo+IDxheGJvZUBrZXJuZWwuZGs+OyBXb2xmcmFtIFNhbmcgPHdzYStyZW5lc2FzQHNhbmctZW5n
-aW5lZXJpbmcuY29tPjsgVWxmIEhhbnNzb24gPHVsZi5oYW5zc29uQGxpbmFyby5vcmc+OyBTZXJn
-ZWkgU2h0eWx5b3YNCj4gPHNlcmdlaS5zaHR5bHlvdkBjb2dlbnRlbWJlZGRlZC5jb20+OyBEYXZp
-ZCBTLiBNaWxsZXIgPGRhdmVtQGRhdmVtbG9mdC5uZXQ+OyBXaW0gVmFuIFNlYnJvZWNrIDx3aW1A
-bGludXgtd2F0Y2hkb2cub3JnPjsNCj4gR3VlbnRlciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0
-Pjsgb3BlbiBsaXN0OkxJQkFUQSBTVUJTWVNURU0gKFNlcmlhbCBhbmQgUGFyYWxsZWwgQVRBIGRy
-aXZlcnMpIDxsaW51eC1pZGVAdmdlci5rZXJuZWwub3JnPjsgb3Blbg0KPiBsaXN0Ok9QRU4gRklS
-TVdBUkUgQU5EIEZMQVRURU5FRCBERVZJQ0UgVFJFRSBCSU5ESU5HUyA8ZGV2aWNldHJlZUB2Z2Vy
-Lmtlcm5lbC5vcmc+OyBMS01MIDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsgTGludXgN
-Cj4gSTJDIDxsaW51eC1pMmNAdmdlci5rZXJuZWwub3JnPjsgTGludXggTU1DIExpc3QgPGxpbnV4
-LW1tY0B2Z2VyLmtlcm5lbC5vcmc+OyBuZXRkZXYgPG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc+OyBM
-aW51eC1SZW5lc2FzIDxsaW51eC0NCj4gcmVuZXNhcy1zb2NAdmdlci5rZXJuZWwub3JnPjsgTGlu
-dXggV2F0Y2hkb2cgTWFpbGluZyBMaXN0IDxsaW51eC13YXRjaGRvZ0B2Z2VyLmtlcm5lbC5vcmc+
-DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMTYvMTddIGR0LWJpbmRpbmdzOiB3YXRjaGRvZzogcmVu
-ZXNhcyx3ZHQ6IERvY3VtZW50IHI4YTc3NDIgc3VwcG9ydA0KPg0KPiBPbiBXZWQsIE1heSAyNywg
-MjAyMCBhdCA1OjIzIEFNIExhZCwgUHJhYmhha2FyDQo+IDxwcmFiaGFrYXIuY3NlbmdnQGdtYWls
-LmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBIaSBSb2IsDQo+ID4NCj4gPiBPbiBXZWQsIE1heSAyNywg
-MjAyMCBhdCAyOjMxIEFNIFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+IHdyb3RlOg0KPiA+
-ID4NCj4gPiA+IE9uIEZyaSwgTWF5IDE1LCAyMDIwIGF0IDA0OjA4OjU2UE0gKzAxMDAsIExhZCBQ
-cmFiaGFrYXIgd3JvdGU6DQo+ID4gPiA+IFJaL0cxSCAoUjhBNzc0Mikgd2F0Y2hkb2cgaW1wbGVt
-ZW50YXRpb24gaXMgY29tcGF0aWJsZSB3aXRoIFItQ2FyIEdlbjIsDQo+ID4gPiA+IHRoZXJlZm9y
-ZSBhZGQgcmVsZXZhbnQgZG9jdW1lbnRhdGlvbi4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9m
-Zi1ieTogTGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMu
-Y29tPg0KPiA+ID4gPiBSZXZpZXdlZC1ieTogTWFyaWFuLUNyaXN0aWFuIFJvdGFyaXUgPG1hcmlh
-bi1jcmlzdGlhbi5yb3Rhcml1LnJiQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiAtLS0NCj4gPiA+
-ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy93YXRjaGRvZy9yZW5lc2FzLHdk
-dC50eHQgfCAxICsNCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiA+
-ID4NCj4gPiA+IE1lYW53aGlsZSBpbiB0aGUgRFQgdHJlZSwgY29udmVydGluZyB0aGlzIHNjaGVt
-YSBsYW5kZWQuIENhbiB5b3UgcHJlcGFyZQ0KPiA+ID4gYSB2ZXJzaW9uIGJhc2VkIG9uIHRoZSBz
-Y2hlbWEuDQo+ID4gPg0KPiA+IFRoaXMgd2FzIGtpbmRseSB0YWtlbiBjYXJlIGJ5IFN0ZXBoZW4g
-ZHVyaW5nIG1lcmdlIGluIGxpbnV4LW5leHQgWzFdLg0KPg0KPiBZZXMsIEknbSBhd2FyZSBvZiB0
-aGF0LiBJIHdhcyBob3BpbmcgZm9yIGEgYmV0dGVyIGNvbW1pdCBtZXNzYWdlIHdoaWNoDQo+IHN0
-YW5kcyBvbiBpdHMgb3duIChlc3NlbnRpYWxseSB0aGUgb25lIGhlcmUpLg0KPg0KQXMgcmVxdWVz
-dGVkIEkgaGF2ZSBwb3N0ZWQgYSBwYXRjaCBbMV0uDQoNClsxXSBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTI0ODU5Ny8NCg0KQ2hlZXJzLA0KLS1QcmFiaGFrYXINCg0K
-DQpSZW5lc2FzIEVsZWN0cm9uaWNzIEV1cm9wZSBHbWJILCBHZXNjaGFlZnRzZnVlaHJlci9QcmVz
-aWRlbnQ6IENhcnN0ZW4gSmF1Y2gsIFNpdHogZGVyIEdlc2VsbHNjaGFmdC9SZWdpc3RlcmVkIG9m
-ZmljZTogRHVlc3NlbGRvcmYsIEFyY2FkaWFzdHJhc3NlIDEwLCA0MDQ3MiBEdWVzc2VsZG9yZiwg
-R2VybWFueSwgSGFuZGVsc3JlZ2lzdGVyL0NvbW1lcmNpYWwgUmVnaXN0ZXI6IER1ZXNzZWxkb3Jm
-LCBIUkIgMzcwOCBVU3QtSUROci4vVGF4IGlkZW50aWZpY2F0aW9uIG5vLjogREUgMTE5MzUzNDA2
-IFdFRUUtUmVnLi1Oci4vV0VFRSByZWcuIG5vLjogREUgMTQ5Nzg2NDcNCg==
+Hi Oleksij,
+
+On Wed, Apr 29, 2020 at 11:26 AM Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> On Wed, Apr 29, 2020 at 10:45:35AM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Apr 28, 2020 at 6:16 PM Philippe Schenker
+> > <philippe.schenker@toradex.com> wrote:
+> > > On Tue, 2020-04-28 at 17:47 +0200, Andrew Lunn wrote:
+> > > > On Tue, Apr 28, 2020 at 05:28:30PM +0200, Geert Uytterhoeven wrote:
+> > > > > This triggers on Renesas Salvator-X(S):
+> > > > >
+> > > > >     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00:
+> > > > > *-skew-ps values should be used only with phy-mode = "rgmii"
+> > > > >
+> > > > > which uses:
+> > > > >
+> > > > >         phy-mode = "rgmii-txid";
+> > > > >
+> > > > > and:
+> > > > >
+> > > > >         rxc-skew-ps = <1500>;
+> > > > >
+> > > > > If I understand Documentation/devicetree/bindings/net/ethernet-
+> > > > > controller.yaml
+> > > > > correctly:
+> > > >
+> > > > Checking for skews which might contradict the PHY-mode is new. I think
+> > > > this is the first PHY driver to do it. So i'm not too surprised it has
+> > > > triggered a warning, or there is contradictory documentation.
+> > > >
+> > > > Your use cases is reasonable. Have the normal transmit delay, and a
+> > > > bit shorted receive delay. So we should allow it. It just makes the
+> > > > validation code more complex :-(
+> > >
+> > > I reviewed Oleksij's patch that introduced this warning. I just want to
+> > > explain our thinking why this is a good thing, but yes maybe we change
+> > > that warning a little bit until it lands in mainline.
+> > >
+> > > The KSZ9031 driver didn't support for proper phy-modes until now as it
+> > > don't have dedicated registers to control tx and rx delays. With
+> > > Oleksij's patch this delay is now done accordingly in skew registers as
+> > > best as possible. If you now also set the rxc-skew-ps registers those
+> > > values you previously set with rgmii-txid or rxid get overwritten.
+
+While I don't claim that the new implementation is incorrect, my biggest
+gripe is that this change breaks existing setups (cfr. Grygorii's report,
+plus see below).  People fine-tuned the parameters in their DTS files
+according to the old driver behavior, and now have to update their DTBs,
+which violates DTB backwards-compatibility rules.
+I know it's ugly, but I'm afraid the only backwards-compatible solution
+is to add a new DT property to indicate if the new rules apply.
+
+> > > We chose the warning to occur on phy-modes 'rgmii-id', 'rgmii-rxid' and
+> > > 'rgmii-txid' as on those, with the 'rxc-skew-ps' value present,
+> > > overwriting skew values could occur and you end up with values you do
+> > > not wanted. We thought, that most of the boards have just 'rgmii' set in
+> > > phy-mode with specific skew-values present.
+> > >
+> > > @Geert if you actually want the PHY to apply RXC and TXC delays just
+> > > insert 'rgmii-id' in your DT and remove those *-skew-ps values. If you
+> >
+> > That seems to work for me, but of course doesn't take into account PCB
+> > routing.
+
+Of course I talked too soon.  Both with the existing DTS that triggers
+the warning, and after changing the mode to "rgmii-id", and dropping the
+*-skew-ps values, Ethernet became flaky on R-Car M3-W ES1.0.  While the
+system still boots, it boots very slow.
+Using nuttcp, I discovered TX performance dropped from ca. 400 Mbps to
+0.1-0.3 Mbps, while RX performance looks unaffected.
+
+So I did some more testing:
+  1. Plain "rgmii-txid" and "rgmii" break the network completely, on all
+     R-Car Gen3 platforms,
+  2. "rgmii-id" and "rgmii-rxid" work, but cause slowness on R-Car M3-W,
+  3. "rgmii" with *-skew-ps values that match the old values (default
+     420 for everything, but default 900 for txc-skew-ps, and the 1500
+     override for rxc-skew-ps), behaves exactly the same as "rgmii-id",
+  4. "rgmii-txid" with *-skew-ps values that match the old values does
+work, i.e.
+     adding to arch/arm64/boot/dts/renesas/salvator-common.dtsi:
+     +               rxd0-skew-ps = <420>;
+     +               rxd1-skew-ps = <420>;
+     +               rxd2-skew-ps = <420>;
+     +               rxd3-skew-ps = <420>;
+     +               rxdv-skew-ps = <420>;
+     +               txc-skew-ps = <900>;
+     +               txd0-skew-ps = <420>;
+     +               txd1-skew-ps = <420>;
+     +               txd2-skew-ps = <420>;
+     +               txd3-skew-ps = <420>;
+     +               txen-skew-ps = <420>;
+
+You may wonder what's the difference between 3 and 4? It's not just the
+PHY driver that looks at phy-mode!
+drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
+does, and configures an additional TX clock delay of 1.8 ns if TXID is
+enabled.  Doing so fixes R-Car M3-W, but doesn't seem to be needed,
+or harm, on R-Car H3 ES2.0 and R-Car M3-N.
+
+> > Using "rgmii" without any skew values makes DHCP fail on R-Car H3 ES2.0,
+> > M3-W (ES1.0), and M3-N (ES1.0). Interestingly, DHCP still works on R-Car
+> > H3 ES1.0.
+
+FTR, the reason R-Car H3 ES1.0 is not affected is that the driver limits
+its maximum speed to 100 Mbps, due to a hardware erratum.
+
+So, how to proceed?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
