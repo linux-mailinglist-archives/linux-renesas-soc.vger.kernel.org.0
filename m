@@ -2,164 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 623131E439F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 15:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38C3F1E461F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 16:38:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387821AbgE0N3J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 09:29:09 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:24989 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2387564AbgE0N3I (ORCPT
+        id S2389356AbgE0OiW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 10:38:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43468 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389341AbgE0OiV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 09:29:08 -0400
-X-IronPort-AV: E=Sophos;i="5.73,441,1583161200"; 
-   d="scan'208";a="47945759"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 May 2020 22:29:07 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 732A142E07B9;
-        Wed, 27 May 2020 22:29:05 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add device tree for camera DB
-Date:   Wed, 27 May 2020 14:29:01 +0100
-Message-Id: <1590586141-21006-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 27 May 2020 10:38:21 -0400
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8EBCF20C09;
+        Wed, 27 May 2020 14:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590590300;
+        bh=suJ353lRv1UQx7HSHjKB0euqpTIy3Nz0DHiPmdHpvHU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dz0t6hwefzpF3FUmlaHc8XA8cVnWy5nxuMwqo6MyQfhb9xnuOh25xZ5iEUMLyIraK
+         +i2k40cRkMt3FPAIXWsizHEIFFw0WHp53r2Sktwd72HtGOBbqLdNz6flS5gYvS4s3H
+         E8c8qsLiDCajLBRwCnN3Lstkh4l0DvqpsjkGPKjY=
+Received: by mail-ot1-f45.google.com with SMTP id d26so19301394otc.7;
+        Wed, 27 May 2020 07:38:20 -0700 (PDT)
+X-Gm-Message-State: AOAM533afaxOT08GXEm65d7/tfSCsCn8wb3x2opy1uFC+7mqBU84kPx9
+        xgrj9T74bDEf/TT3JlUcqDi2pVsjR9f1GkQOSA==
+X-Google-Smtp-Source: ABdhPJyp+iNzxT9P6anI85WQIrsM8pRrlKHEOY9o2oN/zH/c34nmR9QO5xYjGblk5qKho8HgjNiUwGAutpyoqXPmJrk=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr4930496ots.192.1590590299856;
+ Wed, 27 May 2020 07:38:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200527013136.GA838011@bogus> <CA+V-a8t6mXkTUac69V=T8_27r_sdN+=MktDTM1mmtbXRn8SSQQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8t6mXkTUac69V=T8_27r_sdN+=MktDTM1mmtbXRn8SSQQ@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 27 May 2020 08:38:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJUn9iOy5FT6VRmsC-uAhSdN8_Sne0Vn_7Q1dHudbzopw@mail.gmail.com>
+Message-ID: <CAL_JsqJUn9iOy5FT6VRmsC-uAhSdN8_Sne0Vn_7Q1dHudbzopw@mail.gmail.com>
+Subject: Re: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
+ r8a7742 support
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for the camera daughter board which is connected to
-iWave's RZ/G1H Qseven carrier board. Also enable ttySC[0135] and
-ethernet1 interfaces.
+On Wed, May 27, 2020 at 5:23 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Rob,
+>
+> On Wed, May 27, 2020 at 2:31 AM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Fri, May 15, 2020 at 04:08:56PM +0100, Lad Prabhakar wrote:
+> > > RZ/G1H (R8A7742) watchdog implementation is compatible with R-Car Gen2,
+> > > therefore add relevant documentation.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
+> > >  1 file changed, 1 insertion(+)
+> >
+> > Meanwhile in the DT tree, converting this schema landed. Can you prepare
+> > a version based on the schema.
+> >
+> This was kindly taken care by Stephen during merge in linux-next [1].
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
- arch/arm/boot/dts/Makefile                      |  1 +
- arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts | 94 +++++++++++++++++++++++++
- 2 files changed, 95 insertions(+)
- create mode 100644 arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+Yes, I'm aware of that. I was hoping for a better commit message which
+stands on its own (essentially the one here).
 
-diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index ed3376c..118e35c 100644
---- a/arch/arm/boot/dts/Makefile
-+++ b/arch/arm/boot/dts/Makefile
-@@ -918,6 +918,7 @@ dtb-$(CONFIG_ARCH_RENESAS) += \
- 	r8a73a4-ape6evm.dtb \
- 	r8a7740-armadillo800eva.dtb \
- 	r8a7742-iwg21d-q7.dtb \
-+	r8a7742-iwg21d-q7-dbcm-ca.dtb \
- 	r8a7743-iwg20d-q7.dtb \
- 	r8a7743-iwg20d-q7-dbcm-ca.dtb \
- 	r8a7743-sk-rzg1m.dtb \
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-new file mode 100644
-index 0000000..857aab5
---- /dev/null
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
-@@ -0,0 +1,94 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the iWave-RZ/G1H Qseven board development
-+ * platform with camera daughter board
-+ *
-+ * Copyright (C) 2020 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r8a7742-iwg21d-q7.dts"
-+
-+/ {
-+	model = "iWave Systems RZ/G1H Qseven development platform with camera add-on";
-+	compatible = "iwave,g21d", "iwave,g21m", "renesas,r8a7742";
-+
-+	aliases {
-+		serial0 = &scif0;
-+		serial1 = &scif1;
-+		serial3 = &scifb1;
-+		serial5 = &hscif0;
-+		ethernet1 = &ether;
-+	};
-+};
-+
-+&avb {
-+	/* Pins shared with VIN0, keep status disabled */
-+	status = "disabled";
-+};
-+
-+&ether {
-+	pinctrl-0 = <&ether_pins>;
-+	pinctrl-names = "default";
-+
-+	phy-handle = <&phy1>;
-+	renesas,ether-link-active-low;
-+	status = "okay";
-+
-+	phy1: ethernet-phy@1 {
-+		reg = <1>;
-+		micrel,led-mode = <1>;
-+	};
-+};
-+
-+&hscif0 {
-+	pinctrl-0 = <&hscif0_pins>;
-+	pinctrl-names = "default";
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&pfc {
-+	ether_pins: ether {
-+		groups = "eth_mdio", "eth_rmii";
-+		function = "eth";
-+	};
-+
-+	hscif0_pins: hscif0 {
-+		groups = "hscif0_data", "hscif0_ctrl";
-+		function = "hscif0";
-+	};
-+
-+	scif0_pins: scif0 {
-+		groups = "scif0_data";
-+		function = "scif0";
-+	};
-+
-+	scif1_pins: scif1 {
-+		groups = "scif1_data";
-+		function = "scif1";
-+	};
-+
-+	scifb1_pins: scifb1 {
-+		groups = "scifb1_data";
-+		function = "scifb1";
-+	};
-+};
-+
-+&scif0 {
-+	pinctrl-0 = <&scif0_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&scif1 {
-+	pinctrl-0 = <&scif1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&scifb1 {
-+	pinctrl-0 = <&scifb1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
--- 
-2.7.4
-
+Rob
