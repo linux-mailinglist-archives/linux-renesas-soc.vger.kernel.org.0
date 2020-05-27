@@ -2,157 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2AE01E3F87
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 13:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC6F61E3FD0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 13:23:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388003AbgE0LE1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 07:04:27 -0400
-Received: from mga03.intel.com ([134.134.136.65]:9064 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387574AbgE0LES (ORCPT
+        id S2388344AbgE0LXJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 07:23:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43660 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388143AbgE0LXI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 07:04:18 -0400
-IronPort-SDR: PT2QRNJSvkf6TFSasHdTATukYe0VQwoJ2djPFiY807qIdMIjgfxlC6Z7JFYW9WhGd5ttSCzOrU
- bolRxMqGkvbg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2020 04:04:17 -0700
-IronPort-SDR: 49dFRPg0FOxUIX548Xn/pcsaHcRQC3kzwVymAyv1Ul/ql30EkEBtA+DaqYAkJZZ0UcALBewqQt
- F5+ZE9SOzlmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,441,1583222400"; 
-   d="scan'208";a="291557839"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 May 2020 04:04:16 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jdtr3-0003S7-Vi; Wed, 27 May 2020 19:04:13 +0800
-Date:   Wed, 27 May 2020 19:04:04 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
- c05b1cd42f8b0200cbf8fcab00f0d6a125a2b2a5
-Message-ID: <5ece4924.5ISy57jaTurJxwRV%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 27 May 2020 07:23:08 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385E0C061A0F;
+        Wed, 27 May 2020 04:23:08 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id x22so18878938otq.4;
+        Wed, 27 May 2020 04:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Fp0svMZCl7416GUNw4GqWtjLX0o7vCvEcznT00dMb8A=;
+        b=ihOkLe3NKVS7aTB07R2E2Qb7QqfoeyQfissj2+aNNq76WhAxLMb1jn++IJg0TeYVwN
+         gGhfYq9DyZbbOCNfIZlb80PNVr9RwJfsJUiKiQE/kF84HjZkM13HiT8ZvI5P15RboXX2
+         xCMNJYszyXrtIsgNlhQo4ZJ/QtpvbW+6o0VlZHY1CaOYH9+Ofpj6y72R0q4cRcdIzA7B
+         3exfjhEvVihaXfBKWVj9Lx681NdmYAVw2dRS3kz1IGwAiFuHD2hWkbkXE0NRaYitiG/x
+         9yjiRt2gIXW2XQPiymeQIAmBwfiOuck8/eOUScEjcvaCejAYC1a7rPCYIdmDk8m9MynK
+         6+9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Fp0svMZCl7416GUNw4GqWtjLX0o7vCvEcznT00dMb8A=;
+        b=OURr7ZszvVSJO272IshNCUq2jjpBeZgBvfim5iELOac5LT15gLJjkSaBvibvlnbE/V
+         WZWYAGznQwRbEBGZzwlDyHRgbGtQ1ZsbUOX28MlT7Cc3g6V3WrlwpTgRdDhRNpFI4tcw
+         FuGAH9TKQ3AjQwBS0m9w6abMqwQ8fuJkpAqVSQ8lm2RxGYy+J47ibBJoApvqT7ITFdYl
+         pBYAqEGLcLvji/fxW6Rdi+o9TLUF3r5zeZgFabZoDednar+IsIq1BK22RjJRba6KQcfm
+         9F/lw3InI9p8BIZzM132liLmtgiR7qFKhUbuBq2G912ZRrsfIybmK6CPZMd2061VIB1M
+         jJaQ==
+X-Gm-Message-State: AOAM531hPpHB54kC7T7cI7mADJYS6s+Uf8lQxtOyeSqq+jmElrC0LT3e
+        jGBTGUaRbmYz+1sGF1lPztVtIqLXAg8v5uqa3b0=
+X-Google-Smtp-Source: ABdhPJwRs0irm8ujT4wRDJ1yNMXOLkQGDLfhS4wYsUks2EzBi7aBEZfzFaiACJYFXZ647Iot246VfuxQuYwM1M8Tfxw=
+X-Received: by 2002:a9d:d83:: with SMTP id 3mr4102738ots.365.1590578587535;
+ Wed, 27 May 2020 04:23:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200527013136.GA838011@bogus>
+In-Reply-To: <20200527013136.GA838011@bogus>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 27 May 2020 12:22:41 +0100
+Message-ID: <CA+V-a8t6mXkTUac69V=T8_27r_sdN+=MktDTM1mmtbXRn8SSQQ@mail.gmail.com>
+Subject: Re: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
+ r8a7742 support
+To:     Rob Herring <robh@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
-branch HEAD: c05b1cd42f8b0200cbf8fcab00f0d6a125a2b2a5  ARM: dts: r8a7742-iwg21d-q7: Add RWDT support
+Hi Rob,
 
-elapsed time: 1559m
+On Wed, May 27, 2020 at 2:31 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Fri, May 15, 2020 at 04:08:56PM +0100, Lad Prabhakar wrote:
+> > RZ/G1H (R8A7742) watchdog implementation is compatible with R-Car Gen2,
+> > therefore add relevant documentation.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > ---
+> >  Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> Meanwhile in the DT tree, converting this schema landed. Can you prepare
+> a version based on the schema.
+>
+This was kindly taken care by Stephen during merge in linux-next [1].
 
-configs tested: 97
-configs skipped: 1
+[1] https://lkml.org/lkml/2020/5/26/32
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Cheers,
+--Prabhakar
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                                defconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-i386                 randconfig-a001-20200527
-i386                 randconfig-a004-20200527
-i386                 randconfig-a003-20200527
-i386                 randconfig-a006-20200527
-i386                 randconfig-a002-20200527
-i386                 randconfig-a005-20200527
-i386                 randconfig-a013-20200527
-i386                 randconfig-a015-20200527
-i386                 randconfig-a012-20200527
-i386                 randconfig-a011-20200527
-i386                 randconfig-a016-20200527
-i386                 randconfig-a014-20200527
-x86_64               randconfig-a006-20200527
-x86_64               randconfig-a002-20200527
-x86_64               randconfig-a005-20200527
-x86_64               randconfig-a003-20200527
-x86_64               randconfig-a004-20200527
-x86_64               randconfig-a001-20200527
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Rob
