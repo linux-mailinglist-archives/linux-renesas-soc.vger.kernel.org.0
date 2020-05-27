@@ -2,88 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0246B1E3AAC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 09:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 345FA1E3ABB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 09:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387520AbgE0Hen (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 May 2020 03:34:43 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36220 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387411AbgE0Hen (ORCPT
+        id S1729309AbgE0HiV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 May 2020 03:38:21 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34613 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729212AbgE0HiV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 May 2020 03:34:43 -0400
-Received: by mail-oi1-f193.google.com with SMTP id x23so20976306oic.3;
-        Wed, 27 May 2020 00:34:42 -0700 (PDT)
+        Wed, 27 May 2020 03:38:21 -0400
+Received: by mail-ot1-f66.google.com with SMTP id b18so18502157oti.1;
+        Wed, 27 May 2020 00:38:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g/2V+ILho993Sc4aTyN2HNrz1xXkT4t8lrGCCn7EhH4=;
-        b=EUvfnigEBtaQgbOt0hiz4HhS0QOska1sbrvqGq1bYuYVOFJMJxVuYz0YH6aKvrszIq
-         VMcBFI5L3/LXdQaxyyvi4eCQvzo7JUCO0pVHGO5p/nGtFIcnOUhaEdV4BPW+Em5LifoP
-         9ye6YjPzBrxMRRzLmOs3tl4D+q3pUuRlNBjVLcgjSNSd0MgHFFyorCAlS43pszT2O81s
-         MujSfc2uaeLanSmcmnxgb+NpBN/RdZOJKCG5N8aOUheskgqcoIR7WG/g8GyeaTt3BuSH
-         KtOruHI4uIDU84FkEGXKePuxtjKS55dpVmWZhxj8BK1onDVlfGwphRTOfcKaJVfQFRO+
-         TCAg==
-X-Gm-Message-State: AOAM5338eNfbuGcMc6VGP9y7lRgcLXYhO9bD7YnGmSMbFB0jUSvb9Gq7
-        xX6B0T63H8WpSlUpyMpEAj8n4jV6cGeG2GQkkUZmVQ==
-X-Google-Smtp-Source: ABdhPJxCq6xJytQR9MRrSZtC7WsUAZa4yYCcCrs2RUn5qA+cObxdWtdrNC7QR/jq6N/RUcvtStBbHCYsejgBNLFq/wA=
-X-Received: by 2002:aca:210a:: with SMTP id 10mr1716582oiz.153.1590564881908;
- Wed, 27 May 2020 00:34:41 -0700 (PDT)
+        bh=PNLv5z8EKY1yuhWqFKsZJ0tNJNt2riKYrmpKQdpJCq4=;
+        b=syxooSn8MTa3f2hzeY9xQvNzJ1q7Fcd6JOD5UuYQheaxtT/zgqp5BJy9MD/02ipNek
+         uKzF1cluwJ4Ju+1S3ALLDbNlpLP9VsfLGIoEzw3oFi6AUuu9+AmbS1AnEj3DWJwBFvzQ
+         P4Y8uhDEnxaUNxmG8VonaSTQIDL1Lny5AS3N7Q/u6W6rYh5Nirktew9dc43jGcSEUqdk
+         UQg/YPtCOYxMt4rAKQOvqTgI2bNeKS5GBs/jRa5Rp/yS0xC71wvY/4ZbwFCI2T7M4fiy
+         IIkXFOT8MytJnbe5HJv6T8urHJoiMOWgYqppASUMVxA31forL4OFsygtj5yWCWMY9MpE
+         x3aQ==
+X-Gm-Message-State: AOAM531ySmx8on6XLprfAJFlgw1U8PwOJhWhiD7DV3I7tU6sZJIufJ9t
+        FtF7GNgxZhH5UR1WoGzYxVw+IcZizaagBpJrocE=
+X-Google-Smtp-Source: ABdhPJxm2iQnKGPaQ8cudthAdTY+DMCSTWHl/gI3LFICJOmziwdjskV5xtEX0AQPODgatzLU0HkSgXSO28tDFRH9NJs=
+X-Received: by 2002:a9d:7e92:: with SMTP id m18mr3628517otp.145.1590565100227;
+ Wed, 27 May 2020 00:38:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org> <20200527071555.GA23912@lxhi-065.adit-jv.com>
-In-Reply-To: <20200527071555.GA23912@lxhi-065.adit-jv.com>
+References: <1590526904-13855-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590526904-13855-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1590526904-13855-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 May 2020 09:34:30 +0200
-Message-ID: <CAMuHMdVGcFGL6V6_zDCPQA66VFyqM9bQ6choWs8eYfOieFu1ZQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Sean Paul <seanpaul@chromium.org>,
+Date:   Wed, 27 May 2020 09:38:08 +0200
+Message-ID: <CAMuHMdVZJoRYTohMs+Qt9oYF+2MSHVNDa56BNj6VJNnqPXPvhw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: ASoC: renesas,rsnd: Add r8a7742 support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michael Dege <michael.dege@renesas.com>,
-        gotthard.voellmeke@renesas.com, efriedrich@de.adit-jv.com,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        ChaitanyaKumar.Borah@in.bosch.com,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
-
-On Wed, May 27, 2020 at 9:16 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Tue, Oct 15, 2019 at 12:46:13PM +0200, Jacopo Mondi wrote:
-> > CMM functionalities are retained between suspend/resume cycles (tested with
-> > suspend-to-idle) without requiring a re-programming of the LUT tables.
+On Tue, May 26, 2020 at 11:02 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Document RZ/G1H (R8A7742) SoC bindings.
 >
-> Hmm. Is this backed up by any statement in the HW User's manual?
-> This comes in contrast with the original Renesas CMM implementation [**]
-> which does make use of suspend (where the freeze actually happens).
->
-> Can we infer, based on your statement, that we could also get rid of
-> the suspend callback in [**]?
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-While the CMM state will be retained across suspend-to-idle, I'm quite
-sure it will be lost by suspend-to-RAM, at least on the Salvator-X(S),
-ULCB, and Ebisu development boards, as PSCI will ask the BD9571WMV
-regulator to power down the R-Car SoC.
-
-So IMHO we do need suspend/resume handling.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
