@@ -2,61 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 827ED1E33A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 01:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93CE61E34C2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 May 2020 03:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725550AbgEZXZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 26 May 2020 19:25:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36294 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725265AbgEZXZg (ORCPT
+        id S1726086AbgE0Bbl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 26 May 2020 21:31:41 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:45314 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725287AbgE0Bbl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 26 May 2020 19:25:36 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 01450206F1;
-        Tue, 26 May 2020 23:25:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590535536;
-        bh=3VAu+XWIsGweeYZ+uYgB3cxi1cpn5/qaWPh5DXRYEBE=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=pQit+cEq1GaFUW3N5qn+cylwgFDCIUfY+UfMF4Y0iS5MGJ18Gw7ohWvqMZ3Ns9bkN
-         +4HD9tZ0rTkfFJ32hkpiuC6V3j1Mr9VhcD0Ngtj3yON1xXnar34j5kBVvh3y9EEwAA
-         ae3ENhP3DN/v5+KJurim6Xj6Enfnc2iQOiSykABo=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 26 May 2020 21:31:41 -0400
+Received: by mail-il1-f195.google.com with SMTP id 9so3988807ilg.12;
+        Tue, 26 May 2020 18:31:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=k9Tih4XnsvyNY6esAFQ63eiV+bEtuajcRZUBRdAyvvc=;
+        b=ZrOYu8wV++Ea9KqNlQN7fknl4Pd81KfHqWRahHTkU+uZtDiN5F2qgGxWieHX/v1gLR
+         z/ydCWUG1XOnVF2yMEnD8Z41L0Lxn7WRP1UwsTo8lJP4v+vHQ21kNc8MWiP/sDwPqD1q
+         xozhOw0wFrlyhELIx0cw0cbzwQ+TgX2Dr9l4rjpZVcfJEGsRdCW/qkAUJ2W1SezquEPc
+         IIrjsWfcYpBCqjkdwN6Bd8VlgnulxCcfr4zJzrgTlLAS4mutxIyrsVPk5kVhO5bNXMOQ
+         cZ07Od+zN4Z5GWFO8gNDn8xymkbSCPAp0PaWMJpCi6rq0Rb0mICYXn4gqPGyzp+zHZq6
+         PaJQ==
+X-Gm-Message-State: AOAM5310M/pQEkV3OHnltFX4iS7RMtRj2NzDHP5sX3gY6Oi2s334PffO
+        1gUMpF476+X9A6jcV+dkOQ==
+X-Google-Smtp-Source: ABdhPJwJOyjslkUwLMUCa6L98wpsiVwI3A8D8vv1EsWHGsWdVRUWm3/bwvdmfxReZz4y9VPBwudgAA==
+X-Received: by 2002:a92:7e90:: with SMTP id q16mr13816ill.199.1590543098611;
+        Tue, 26 May 2020 18:31:38 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id j2sm615491ioo.8.2020.05.26.18.31.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 18:31:37 -0700 (PDT)
+Received: (nullmailer pid 843489 invoked by uid 1000);
+        Wed, 27 May 2020 01:31:36 -0000
+Date:   Tue, 26 May 2020 19:31:36 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jens Axboe <axboe@kernel.dk>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-ide@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 16/17] dt-bindings: watchdog: renesas,wdt: Document
+ r8a7742 support
+Message-ID: <20200527013136.GA838011@bogus>
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200518081644.23683-1-geert+renesas@glider.be>
-References: <20200518081644.23683-1-geert+renesas@glider.be>
-Subject: Re: [PATCH v2] dt-bindings: clock: renesas: cpg: Convert to json-schema
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 26 May 2020 16:25:35 -0700
-Message-ID: <159053553529.88029.4978813116099634278@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1589555337-5498-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2020-05-18 01:16:44)
-> Convert the Renesas Clock Pulse Generator (CPG) Device Tree
-> binding documentation to json-schema, combining support for:
->   - R-Mobile APE6 (R8A73A4) and A1 (R8A7740),
->   - R-Car M1 (R8A7778) and H1 (R8A7779),
->   - RZ/A1 (R7S72100),
->   - SH-Mobile AG5 (SH73A0).
->=20
-> Keep the example for R-Mobile A1, which shows most properties.
-> Drop the consumer examples, as they do not belong here.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, May 15, 2020 at 04:08:56PM +0100, Lad Prabhakar wrote:
+> RZ/G1H (R8A7742) watchdog implementation is compatible with R-Car Gen2,
+> therefore add relevant documentation.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > ---
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
+>  1 file changed, 1 insertion(+)
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Meanwhile in the DT tree, converting this schema landed. Can you prepare 
+a version based on the schema.
+
+Rob
