@@ -2,89 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 113BC1E5C2E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 11:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8DC31E6168
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 14:51:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728396AbgE1Jge (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 May 2020 05:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728300AbgE1Jge (ORCPT
+        id S2389912AbgE1MvO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 May 2020 08:51:14 -0400
+Received: from mail-oo1-f66.google.com ([209.85.161.66]:36172 "EHLO
+        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389871AbgE1MvN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 May 2020 05:36:34 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1E6C08C5C4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2020 02:36:33 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id q2so32505052ljm.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 May 2020 02:36:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cGBjK9dCqo4dJlRsAbsmYEmaf4ENvwE2PZqmvJJX8M4=;
-        b=1CdnlxqyvBU7dZGaclXOqtXkchUtcx8j+YdkbFP1SpxOQD5+Z0QjNkcog7a7zJAM+X
-         6F29RiX4ZfqJqyZ7ODDujaG2SZXMgdQOnoflxf3LY0JLitj8xzT9BrIEyY8ErizM+fnQ
-         Vv5WFtvy/m/JBBS53FZaYgyxdFH8d3wLyOKB3wLIxvsZhkuteura0/Gkr5KP1bUMMQCT
-         gIfvBvs7cw8YtHFb13TS3sWxZO1S3aDSuNe+xTAqdhT5QM2CX8IsIS1khWRe6zCm+Hss
-         IEZx3K4VTofvQYeehMCaAd8Zl4lPgwvV0jYFHwJ0UqxZrqln4l59TSyBp7S7BTBp4rMw
-         MGDQ==
+        Thu, 28 May 2020 08:51:13 -0400
+Received: by mail-oo1-f66.google.com with SMTP id 18so955162ooy.3;
+        Thu, 28 May 2020 05:51:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cGBjK9dCqo4dJlRsAbsmYEmaf4ENvwE2PZqmvJJX8M4=;
-        b=SCzQmj5x9N65nx5EbGnHRd3/OXUClqSD0592ZyTgCNJvFGluyZel334ANpJl1Rial5
-         BLhNmQiZlFy8prsqm6lSSwlFjIBalsaKYs3oiLlgMqNJRHfco/gmyRkMGsJRu0KRFw6q
-         VQipQP+gdjTAB9lXxxQ6zGTMUw4dRGic5E0ghQjBYw3N69pebsC3oZWqkWV64ddFPKcI
-         +IBCoAxCs9uSeCUZqh1z/KeKrbg9as9IiYa8XCpJo7DMzFAapsW7yAFajCs7+YS/p+s0
-         cPLJ2Tw3WonN+aS2nDM+vI35m4aQIs9w02JyRUfY1yrGBV9iMofCxhNJhehtP6yidw67
-         JVuA==
-X-Gm-Message-State: AOAM531r2BfjDbKRaBStgIkAbJhc7eDVb/8E8r4ujuAHo31QP2K3Nk7C
-        2vHA39VaZ6+e8bPfpFnr2nZZpA==
-X-Google-Smtp-Source: ABdhPJxLh5yqRSdwkZzVilW71YX+8M+avD1C0OgSooGK0fXIccgCzTlLZmQDYcG+oevjO0jEnJ1Ecw==
-X-Received: by 2002:a2e:a171:: with SMTP id u17mr1102613ljl.225.1590658592283;
-        Thu, 28 May 2020 02:36:32 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:49a:1ab0:1dad:577d:c46b:c479? ([2a00:1fa0:49a:1ab0:1dad:577d:c46b:c479])
-        by smtp.gmail.com with ESMTPSA id s2sm1335424ljs.39.2020.05.28.02.36.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 02:36:31 -0700 (PDT)
-Subject: Re: [PATCH 1/3] ARM: dts: r8a7742-iwg21d-q7: Enable HSUSB, USB2.0 and
- XHCI
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <1590611013-26029-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590611013-26029-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <ecd8d191-6e52-ebae-facb-c4a211dcb1ef@cogentembedded.com>
-Date:   Thu, 28 May 2020 12:36:19 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8pYGFtFyatP+IpEQk4dFYcmOyF7X2b0QYiv1bngggIM=;
+        b=ZbSgCd7ks7qWCHLDzzdEFMZ1bFQeQTyqAaHbhfqwByWY/43nn5dCz0v/y9JDSePgWZ
+         Mj3rvxAIXb7r1F3Ar6dtPbCBElBmvkQGRwmjOyYq7/JUtUL9Ng9ApUTCkFpXTrpkxqQW
+         k9Mov4jwAud8+S7dCodt/mSvNr6Ll1d+SjT3iavRTwdlIfQTBIASxeTj4vZaQN1T58uj
+         BLoKK8IVz94wDYR21re9o7sohwCEcuOUVfHTmS+AvdTT9xhAWnZfjP1b1y3ONQtnNWaR
+         1Kz8Epu6+8J5VhE5LbvtzfiK33do2g7HqZcX0DocD/oklrcm9/mZ9o3A87In7AQf0Vhg
+         ToXQ==
+X-Gm-Message-State: AOAM530+mO7e28MyTvGGOdyS2IQpbgc1OWdlnCLxd6Ew9BM23aA6qaNh
+        NcfMh+fvlZdG4z/2Db2uWdc9z+VkXCK+ug3DQNQ=
+X-Google-Smtp-Source: ABdhPJwEUCALhLYjNIRgWe3b4phiryyKuwHSM/2W0YurC8R6JrROmO0iWcdAiHjfnVjJnC6PIDA8gr0bzjxR8A79E6U=
+X-Received: by 2002:a4a:e0d1:: with SMTP id e17mr2328258oot.1.1590670271933;
+ Thu, 28 May 2020 05:51:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1590611013-26029-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+ <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+ <20200428154718.GA24923@lunn.ch> <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
+ <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
+ <20200429092616.7ug4kdgdltxowkcs@pengutronix.de> <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
+ <3a6f6ecc5ea4de7600716a23739c13dc5b02771e.camel@toradex.com>
+In-Reply-To: <3a6f6ecc5ea4de7600716a23739c13dc5b02771e.camel@toradex.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 28 May 2020 14:51:00 +0200
+Message-ID: <CAMuHMdWnSPrAX1=Q3PQNr3QaE3nrtfr4jbE_r1_BmKke-rC92w@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+To:     Philippe Schenker <philippe.schenker@toradex.com>
+Cc:     "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "david@protonic.nl" <david@protonic.nl>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kazuya.mizuguchi.ks@renesas.com" <kazuya.mizuguchi.ks@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Philippe,
 
-On 27.05.2020 23:23, Lad Prabhakar wrote:
+On Thu, May 28, 2020 at 10:20 AM Philippe Schenker
+<philippe.schenker@toradex.com> wrote:
+> On Wed, 2020-05-27 at 21:11 +0200, Geert Uytterhoeven wrote:
+> > On Wed, Apr 29, 2020 at 11:26 AM Oleksij Rempel <
+> > o.rempel@pengutronix.de> wrote:
+> > > On Wed, Apr 29, 2020 at 10:45:35AM +0200, Geert Uytterhoeven wrote:
+> > > > On Tue, Apr 28, 2020 at 6:16 PM Philippe Schenker
+> > > > <philippe.schenker@toradex.com> wrote:
+> > > > > On Tue, 2020-04-28 at 17:47 +0200, Andrew Lunn wrote:
+> > > > > > On Tue, Apr 28, 2020 at 05:28:30PM +0200, Geert Uytterhoeven
+> > > > > > wrote:
+> > > > > > > This triggers on Renesas Salvator-X(S):
+> > > > > > >
+> > > > > > >     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-
+> > > > > > > ffffffff:00:
+> > > > > > > *-skew-ps values should be used only with phy-mode = "rgmii"
+> > > > > > >
+> > > > > > > which uses:
+> > > > > > >
+> > > > > > >         phy-mode = "rgmii-txid";
+> > > > > > >
+> > > > > > > and:
+> > > > > > >
+> > > > > > >         rxc-skew-ps = <1500>;
+> > > > > > >
+> > > > > > > If I understand
+> > > > > > > Documentation/devicetree/bindings/net/ethernet-
+> > > > > > > controller.yaml
+> > > > > > > correctly:
+> > > > > >
+> > > > > > Checking for skews which might contradict the PHY-mode is new.
+> > > > > > I think
+> > > > > > this is the first PHY driver to do it. So i'm not too
+> > > > > > surprised it has
+> > > > > > triggered a warning, or there is contradictory documentation.
+> > > > > >
+> > > > > > Your use cases is reasonable. Have the normal transmit delay,
+> > > > > > and a
+> > > > > > bit shorted receive delay. So we should allow it. It just
+> > > > > > makes the
+> > > > > > validation code more complex :-(
+> > > > >
+> > > > > I reviewed Oleksij's patch that introduced this warning. I just
+> > > > > want to
+> > > > > explain our thinking why this is a good thing, but yes maybe we
+> > > > > change
+> > > > > that warning a little bit until it lands in mainline.
+> > > > >
+> > > > > The KSZ9031 driver didn't support for proper phy-modes until now
+> > > > > as it
+> > > > > don't have dedicated registers to control tx and rx delays. With
+> > > > > Oleksij's patch this delay is now done accordingly in skew
+> > > > > registers as
+> > > > > best as possible. If you now also set the rxc-skew-ps registers
+> > > > > those
+> > > > > values you previously set with rgmii-txid or rxid get
+> > > > > overwritten.
+> >
+> > While I don't claim that the new implementation is incorrect, my
+> > biggest
+> > gripe is that this change breaks existing setups (cfr. Grygorii's
+> > report,
+> > plus see below).  People fine-tuned the parameters in their DTS files
+> > according to the old driver behavior, and now have to update their
+> > DTBs,
+> > which violates DTB backwards-compatibility rules.
+> > I know it's ugly, but I'm afraid the only backwards-compatible
+> > solution
+> > is to add a new DT property to indicate if the new rules apply.
+> >
+> > > > > We chose the warning to occur on phy-modes 'rgmii-id', 'rgmii-
+> > > > > rxid' and
+> > > > > 'rgmii-txid' as on those, with the 'rxc-skew-ps' value present,
+> > > > > overwriting skew values could occur and you end up with values
+> > > > > you do
+> > > > > not wanted. We thought, that most of the boards have just
+> > > > > 'rgmii' set in
+> > > > > phy-mode with specific skew-values present.
+> > > > >
+> > > > > @Geert if you actually want the PHY to apply RXC and TXC delays
+> > > > > just
+> > > > > insert 'rgmii-id' in your DT and remove those *-skew-ps values.
+> > > > > If you
+> > > >
+> > > > That seems to work for me, but of course doesn't take into account
+> > > > PCB
+> > > > routing.
+> >
+> > Of course I talked too soon.  Both with the existing DTS that triggers
+> > the warning, and after changing the mode to "rgmii-id", and dropping
+> > the
+> > *-skew-ps values, Ethernet became flaky on R-Car M3-W ES1.0.  While
+> > the
+> > system still boots, it boots very slow.
+> > Using nuttcp, I discovered TX performance dropped from ca. 400 Mbps to
+> > 0.1-0.3 Mbps, while RX performance looks unaffected.
+> >
+> > So I did some more testing:
+> >   1. Plain "rgmii-txid" and "rgmii" break the network completely, on
+> > all
+> >      R-Car Gen3 platforms,
+> >   2. "rgmii-id" and "rgmii-rxid" work, but cause slowness on R-Car M3-
+> > W,
+> >   3. "rgmii" with *-skew-ps values that match the old values (default
+> >      420 for everything, but default 900 for txc-skew-ps, and the 1500
+> >      override for rxc-skew-ps), behaves exactly the same as "rgmii-
+> > id",
+> >   4. "rgmii-txid" with *-skew-ps values that match the old values does
+> > work, i.e.
+> >      adding to arch/arm64/boot/dts/renesas/salvator-common.dtsi:
+> >      +               rxd0-skew-ps = <420>;
+> >      +               rxd1-skew-ps = <420>;
+> >      +               rxd2-skew-ps = <420>;
+> >      +               rxd3-skew-ps = <420>;
+> >      +               rxdv-skew-ps = <420>;
+> >      +               txc-skew-ps = <900>;
+> >      +               txd0-skew-ps = <420>;
+> >      +               txd1-skew-ps = <420>;
+> >      +               txd2-skew-ps = <420>;
+> >      +               txd3-skew-ps = <420>;
+> >      +               txen-skew-ps = <420>;
+> >
+> > You may wonder what's the difference between 3 and 4? It's not just
+> > the
+> > PHY driver that looks at phy-mode!
+> > drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
+> > does, and configures an additional TX clock delay of 1.8 ns if TXID is
+> > enabled.  Doing so fixes R-Car M3-W, but doesn't seem to be needed,
+> > or harm, on R-Car H3 ES2.0 and R-Car M3-N.
+>
+> Sorry for chiming in on this topic but I also did make my thoughts about
+> this implementation.
+>
+> The documentation in Documentation/devicetree/bindings/net/ethernet-
+> controller.yaml clearly states, that rgmii-id is meaning the delay is
+> provided by the PHY and MAC should not add anything in this case.
 
-> Enable support for HSUB, USB2.0 and xhci on iWave RZ/G1H carrier board.
+Thank you for your very valuable comment!
+That means the semantics are clear, and is the reason behind the existence
+of properties like "amlogic,tx-delay-ns", which do apply to the MAC.
 
-    HSUSB, xHCI.
+Gr{oetje,eeting}s,
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-[...]
+                        Geert
 
-MBR, Sergei
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
