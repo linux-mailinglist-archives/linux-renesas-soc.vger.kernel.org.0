@@ -2,212 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8DC31E6168
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 14:51:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2111E61D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 15:10:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389912AbgE1MvO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 May 2020 08:51:14 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:36172 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389871AbgE1MvN (ORCPT
+        id S2390150AbgE1NKX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 May 2020 09:10:23 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38257 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390089AbgE1NKU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 May 2020 08:51:13 -0400
-Received: by mail-oo1-f66.google.com with SMTP id 18so955162ooy.3;
-        Thu, 28 May 2020 05:51:12 -0700 (PDT)
+        Thu, 28 May 2020 09:10:20 -0400
+Received: by mail-ot1-f65.google.com with SMTP id o13so2292930otl.5;
+        Thu, 28 May 2020 06:10:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8pYGFtFyatP+IpEQk4dFYcmOyF7X2b0QYiv1bngggIM=;
-        b=ZbSgCd7ks7qWCHLDzzdEFMZ1bFQeQTyqAaHbhfqwByWY/43nn5dCz0v/y9JDSePgWZ
-         Mj3rvxAIXb7r1F3Ar6dtPbCBElBmvkQGRwmjOyYq7/JUtUL9Ng9ApUTCkFpXTrpkxqQW
-         k9Mov4jwAud8+S7dCodt/mSvNr6Ll1d+SjT3iavRTwdlIfQTBIASxeTj4vZaQN1T58uj
-         BLoKK8IVz94wDYR21re9o7sohwCEcuOUVfHTmS+AvdTT9xhAWnZfjP1b1y3ONQtnNWaR
-         1Kz8Epu6+8J5VhE5LbvtzfiK33do2g7HqZcX0DocD/oklrcm9/mZ9o3A87In7AQf0Vhg
-         ToXQ==
-X-Gm-Message-State: AOAM530+mO7e28MyTvGGOdyS2IQpbgc1OWdlnCLxd6Ew9BM23aA6qaNh
-        NcfMh+fvlZdG4z/2Db2uWdc9z+VkXCK+ug3DQNQ=
-X-Google-Smtp-Source: ABdhPJwEUCALhLYjNIRgWe3b4phiryyKuwHSM/2W0YurC8R6JrROmO0iWcdAiHjfnVjJnC6PIDA8gr0bzjxR8A79E6U=
-X-Received: by 2002:a4a:e0d1:: with SMTP id e17mr2328258oot.1.1590670271933;
- Thu, 28 May 2020 05:51:11 -0700 (PDT)
+        bh=PFNpJOdNreBWIv2VXMSlp6vZWYItaUUXM5F73hUgu2U=;
+        b=KpQoZKEgtjmy/OOFtS570wk2BDehWspjwu2oiW6u4Nh7DMWo8+BNVlCyQN+1/cUUDh
+         ep6glPMsAsTxuSFtiwG8YLVvlWt1xFWHazoddEIda541+eICaBml8k00X0eJQxff8sFw
+         DuCyFe3Kj6jNnwdxaRX4PlZOYvjdkNfrfF6qOm5oqasLPR/qe6GTsfl6D8+rpTdiTfrB
+         CANT2HD+3DyYv2fs+6nXlQG7m5GBeYHz+AhJV/YkxWYbqmuchqDw0WmF+1ao33QNJRTx
+         tA+gjGYCWt/yVkkGk/XMG9quRQa+1foPW0YlkYL1PYMfKS+1wjH6DeSGkytKWsKuEgLZ
+         48ug==
+X-Gm-Message-State: AOAM531X2dl/1sRaJjcixleNQYJ7XPBxGnjoc9uAlutVUE2D7CPx/aSb
+        4xBRv4jBODSR28GOfYYA12OSLheCINli4AMJ97s=
+X-Google-Smtp-Source: ABdhPJx7BFJvf8y044qIdsQT28FXaoi9YVaS20PEV9bo5HB3o3F1La8Ij5WEwjXvIjPgrBgQKFqsHnZ++oV/3FFNeaY=
+X-Received: by 2002:a05:6830:1151:: with SMTP id x17mr2247633otq.250.1590671418177;
+ Thu, 28 May 2020 06:10:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200422072137.8517-1-o.rempel@pengutronix.de>
  <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
  <20200428154718.GA24923@lunn.ch> <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
  <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
  <20200429092616.7ug4kdgdltxowkcs@pengutronix.de> <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
- <3a6f6ecc5ea4de7600716a23739c13dc5b02771e.camel@toradex.com>
-In-Reply-To: <3a6f6ecc5ea4de7600716a23739c13dc5b02771e.camel@toradex.com>
+ <20200527205221.GA818296@lunn.ch>
+In-Reply-To: <20200527205221.GA818296@lunn.ch>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 May 2020 14:51:00 +0200
-Message-ID: <CAMuHMdWnSPrAX1=Q3PQNr3QaE3nrtfr4jbE_r1_BmKke-rC92w@mail.gmail.com>
+Date:   Thu, 28 May 2020 15:10:06 +0200
+Message-ID: <CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com>
 Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
  the KSZ9031 PHY
-To:     Philippe Schenker <philippe.schenker@toradex.com>
-Cc:     "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>,
-        "andrew@lunn.ch" <andrew@lunn.ch>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
         "sergei.shtylyov@cogentembedded.com" 
         <sergei.shtylyov@cogentembedded.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "david@protonic.nl" <david@protonic.nl>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "kazuya.mizuguchi.ks@renesas.com" <kazuya.mizuguchi.ks@renesas.com>
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Philippe,
+Hi Andrew,
 
-On Thu, May 28, 2020 at 10:20 AM Philippe Schenker
-<philippe.schenker@toradex.com> wrote:
-> On Wed, 2020-05-27 at 21:11 +0200, Geert Uytterhoeven wrote:
-> > On Wed, Apr 29, 2020 at 11:26 AM Oleksij Rempel <
-> > o.rempel@pengutronix.de> wrote:
-> > > On Wed, Apr 29, 2020 at 10:45:35AM +0200, Geert Uytterhoeven wrote:
-> > > > On Tue, Apr 28, 2020 at 6:16 PM Philippe Schenker
-> > > > <philippe.schenker@toradex.com> wrote:
-> > > > > On Tue, 2020-04-28 at 17:47 +0200, Andrew Lunn wrote:
-> > > > > > On Tue, Apr 28, 2020 at 05:28:30PM +0200, Geert Uytterhoeven
-> > > > > > wrote:
-> > > > > > > This triggers on Renesas Salvator-X(S):
-> > > > > > >
-> > > > > > >     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-
-> > > > > > > ffffffff:00:
-> > > > > > > *-skew-ps values should be used only with phy-mode = "rgmii"
-> > > > > > >
-> > > > > > > which uses:
-> > > > > > >
-> > > > > > >         phy-mode = "rgmii-txid";
-> > > > > > >
-> > > > > > > and:
-> > > > > > >
-> > > > > > >         rxc-skew-ps = <1500>;
-> > > > > > >
-> > > > > > > If I understand
-> > > > > > > Documentation/devicetree/bindings/net/ethernet-
-> > > > > > > controller.yaml
-> > > > > > > correctly:
-> > > > > >
-> > > > > > Checking for skews which might contradict the PHY-mode is new.
-> > > > > > I think
-> > > > > > this is the first PHY driver to do it. So i'm not too
-> > > > > > surprised it has
-> > > > > > triggered a warning, or there is contradictory documentation.
-> > > > > >
-> > > > > > Your use cases is reasonable. Have the normal transmit delay,
-> > > > > > and a
-> > > > > > bit shorted receive delay. So we should allow it. It just
-> > > > > > makes the
-> > > > > > validation code more complex :-(
-> > > > >
-> > > > > I reviewed Oleksij's patch that introduced this warning. I just
-> > > > > want to
-> > > > > explain our thinking why this is a good thing, but yes maybe we
-> > > > > change
-> > > > > that warning a little bit until it lands in mainline.
-> > > > >
-> > > > > The KSZ9031 driver didn't support for proper phy-modes until now
-> > > > > as it
-> > > > > don't have dedicated registers to control tx and rx delays. With
-> > > > > Oleksij's patch this delay is now done accordingly in skew
-> > > > > registers as
-> > > > > best as possible. If you now also set the rxc-skew-ps registers
-> > > > > those
-> > > > > values you previously set with rgmii-txid or rxid get
-> > > > > overwritten.
-> >
-> > While I don't claim that the new implementation is incorrect, my
-> > biggest
-> > gripe is that this change breaks existing setups (cfr. Grygorii's
-> > report,
-> > plus see below).  People fine-tuned the parameters in their DTS files
-> > according to the old driver behavior, and now have to update their
-> > DTBs,
-> > which violates DTB backwards-compatibility rules.
-> > I know it's ugly, but I'm afraid the only backwards-compatible
-> > solution
-> > is to add a new DT property to indicate if the new rules apply.
-> >
-> > > > > We chose the warning to occur on phy-modes 'rgmii-id', 'rgmii-
-> > > > > rxid' and
-> > > > > 'rgmii-txid' as on those, with the 'rxc-skew-ps' value present,
-> > > > > overwriting skew values could occur and you end up with values
-> > > > > you do
-> > > > > not wanted. We thought, that most of the boards have just
-> > > > > 'rgmii' set in
-> > > > > phy-mode with specific skew-values present.
-> > > > >
-> > > > > @Geert if you actually want the PHY to apply RXC and TXC delays
-> > > > > just
-> > > > > insert 'rgmii-id' in your DT and remove those *-skew-ps values.
-> > > > > If you
-> > > >
-> > > > That seems to work for me, but of course doesn't take into account
-> > > > PCB
-> > > > routing.
-> >
-> > Of course I talked too soon.  Both with the existing DTS that triggers
-> > the warning, and after changing the mode to "rgmii-id", and dropping
-> > the
-> > *-skew-ps values, Ethernet became flaky on R-Car M3-W ES1.0.  While
-> > the
-> > system still boots, it boots very slow.
-> > Using nuttcp, I discovered TX performance dropped from ca. 400 Mbps to
-> > 0.1-0.3 Mbps, while RX performance looks unaffected.
-> >
-> > So I did some more testing:
-> >   1. Plain "rgmii-txid" and "rgmii" break the network completely, on
-> > all
-> >      R-Car Gen3 platforms,
-> >   2. "rgmii-id" and "rgmii-rxid" work, but cause slowness on R-Car M3-
-> > W,
-> >   3. "rgmii" with *-skew-ps values that match the old values (default
-> >      420 for everything, but default 900 for txc-skew-ps, and the 1500
-> >      override for rxc-skew-ps), behaves exactly the same as "rgmii-
-> > id",
-> >   4. "rgmii-txid" with *-skew-ps values that match the old values does
-> > work, i.e.
-> >      adding to arch/arm64/boot/dts/renesas/salvator-common.dtsi:
-> >      +               rxd0-skew-ps = <420>;
-> >      +               rxd1-skew-ps = <420>;
-> >      +               rxd2-skew-ps = <420>;
-> >      +               rxd3-skew-ps = <420>;
-> >      +               rxdv-skew-ps = <420>;
-> >      +               txc-skew-ps = <900>;
-> >      +               txd0-skew-ps = <420>;
-> >      +               txd1-skew-ps = <420>;
-> >      +               txd2-skew-ps = <420>;
-> >      +               txd3-skew-ps = <420>;
-> >      +               txen-skew-ps = <420>;
-> >
-> > You may wonder what's the difference between 3 and 4? It's not just
-> > the
+On Wed, May 27, 2020 at 10:52 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> > You may wonder what's the difference between 3 and 4? It's not just the
 > > PHY driver that looks at phy-mode!
 > > drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
 > > does, and configures an additional TX clock delay of 1.8 ns if TXID is
-> > enabled.  Doing so fixes R-Car M3-W, but doesn't seem to be needed,
-> > or harm, on R-Car H3 ES2.0 and R-Car M3-N.
+> > enabled.
 >
-> Sorry for chiming in on this topic but I also did make my thoughts about
-> this implementation.
->
-> The documentation in Documentation/devicetree/bindings/net/ethernet-
-> controller.yaml clearly states, that rgmii-id is meaning the delay is
-> provided by the PHY and MAC should not add anything in this case.
+> That sounds like a MAC bug. Either the MAC insert the delay, or the
+> PHY does. If the MAC decides it is going to insert the delay, it
+> should be masking what it passes to phylib so that the PHY does not
+> add a second delay.
 
-Thank you for your very valuable comment!
-That means the semantics are clear, and is the reason behind the existence
-of properties like "amlogic,tx-delay-ns", which do apply to the MAC.
+And so I gave this a try, and modified the ravb driver to pass "rgmii"
+to the PHY if it has inserted a delay.
+That fixes the speed issue on R-Car M3-W!
+And gets rid of the "*-skew-ps values should be used only with..."
+message.
+
+I also tried if I can get rid of "rxc-skew-ps = <1500>". After dropping
+the property, DHCP failed.  Compensating by changing the PHY mode in DT
+from "rgmii-txid" to "rgmii-id" makes it work again.
+
+However, given Philippe's comment that the rgmi-*id apply to the PHY
+only, I think we need new DT properties for enabling MAC internal delays.
+
+> This whole area of RGMII delays has a number of historical bugs, which
+> often counter act each other. So you fix one, and it break somewhere
+> else.
+
+Indeed...
+
+> In this case, not allowing skews for plain RGMII is probably being too
+> strict. We probably should relax that constrain in this case, for this
+> PHY driver.
+
+That description is not quite correct: the driver expects skews for
+plain RGMII only. For RGMII-*ID, it prints a warning, but still applies
+the supplied skew values.
+
+
+To fix the issue, I came up with the following problem statement and
+plan:
+
+A. Old behavior:
+
+  1. ravb acts upon "rgmii-*id" (on SoCs that support it[1]),
+  2. ksz9031 ignored "rgmii-*id", using hardware defaults for skew
+     values.
+
+B. New behavior (broken):
+
+  1. ravb acts upon "rgmii-*id",
+  2. ksz9031 acts upon "rgmii-*id".
+
+C. Quick fix for v5.8 (workaround, backwards-compatible with old DTB):
+
+  1. ravb acts upon "rgmii-*id", but passes "rgmii" to phy,
+  2. ksz9031 acts upon "rgmi", using new "rgmii" skew values.
+
+D. Long-term fix:
+  1. Check if new boolean "renesas,[rt]x-delay"[2] values are
+      specified in DTB.
+       No: ravb acts upon "rgmii-*id", but passes "rgmii" to phy, for
+           backwards-compatibility,
+       Yes: ravb enables TX clock delay of 2.0 ns and/or RX clock delay
+            of 1.8 ns, based on "renesas,[rt]x-delay" values, and passes
+            the unmodified interface type to phy,
+  2. ksz9031 acts upon "rgmii*",
+  3. Salvator-X(S) DTS makes things explicit by changing it from
+
+        phy-mode = "rgmii-txid";
+        rxc-skew-ps = <1500>;
+
+     to:
+
+        phy-mode = "rgmii";
+        renesas,rx-delay = <false>;
+        renesas,tx-delay = <true>;
+        rxc-skew-ps = <1500>;
+
+     or:
+
+        phy-mode = "rgmii";
+        renesas,rx-delay = <true>;
+        renesas,tx-delay = <true>;
+
+[2] Should we use numerical "renesas,[rt]x-delay-ps" instead?
+     The only supported values are 0 and 2000 (TX) or 1800 (RX).
+
+The ULCB boards are very similar to Salvator-X(S), so I guess they
+behave the same, and are thus affected.
+
+Unfortunately there are other boards that use R-Car Gen3 EtherAVB:
+  - The Silicon Linux sub board for CAT874 (CAT875) connects EtherAVB to
+    an RTL8211E PHY.  As it uses the "rgmii" mode, it should not be
+    affected.
+  - The HiHope RZ/G2M sub board connects EtherAVB to an RTL8211E PHY.
+    It uses the "rgmii-txid" mode, so it will be affacted by modifying
+    the ravb driver.
+  - Eagle and V3MSK connect EtherAVB to a KSZ9031, and use the "rgmii-id"
+    mode with rxc-skew-ps = <1500>, so they are affected.
+  - Ebisu and Draak connect EtherAVB to a KSZ9031, and use the "rgmii"
+    mode with rxc-skew-ps = <1500>.  However, they're limited to 100
+    Mbps, as EtherAVB on R-Car E3 and D3 do not support TX clock
+    internal delay mode[1], and the delays provided by KSZ9031 clock pad
+    skew were deemed insufficient.
+
+Obviously, the affected boards will need testing (I only have
+Salvator-X(S) and Ebisu).
+
+Does the above make sense?
+Thanks!
 
 Gr{oetje,eeting}s,
 
