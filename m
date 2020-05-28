@@ -2,109 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 991201E662F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 17:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01CA31E671C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 18:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404433AbgE1PdT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 May 2020 11:33:19 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:33014 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404218AbgE1PdS (ORCPT
+        id S2404868AbgE1QI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 May 2020 12:08:57 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:54856 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404666AbgE1QI4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 May 2020 11:33:18 -0400
-Received: by mail-oo1-f66.google.com with SMTP id q6so5822386oot.0;
-        Thu, 28 May 2020 08:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BwvPrfZ8wSg4ph9zMdOEHVQNrGJxP0cUS3oI9/YOGpQ=;
-        b=QpwqjFTsadK3mu7urI3IfM1rL6tr9ztPKMnoyrW7GQqMX5igix/k9dhHLHJKlX+QoI
-         XBBoQSXFkwTM3UbSizQhWIndyeBKKk/1TjOK5wgzYCqYOVL9Mh3Hf5vqvbsiZcAKVH2U
-         i5m4Z3iR7AAXWrMp+pTab7419V0Yf8Moo3G3dM5JSTJDjNasCsFH2Q3N8y3VTXDLUbiQ
-         VYms1wPIp8aymnP4bneBUlrU0U+vp+MmMoXqlUbAC/pP6SHCNNIsiyHkdOUiHAMNpetR
-         FGIubYztWG5GSahTJrFvbyq56zPluCH5YtmAS7fEUpHNBoZaJtYtifg6rs4WO4OcCgeO
-         sX1Q==
-X-Gm-Message-State: AOAM533NAu2ppUzQserN6stdvj2DRLSH+vNElmo1XKqd42FoWSzqxH4S
-        7I4AxZXGoUxOohLtIwrdZYqsYFguYz4bSXbIuko=
-X-Google-Smtp-Source: ABdhPJzYnIPD026r8y0hPgfUlAn0bDcx+vTjLCisCeIZ4o+tCY/6uQdRsn4J2v/VaqLjNOwZ97xJOv6mtqydzoFJdxQ=
-X-Received: by 2002:a4a:e0d1:: with SMTP id e17mr2914462oot.1.1590679997128;
- Thu, 28 May 2020 08:33:17 -0700 (PDT)
+        Thu, 28 May 2020 12:08:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=g7+apd5iHU977x2lEJZNWTIWFaiZlqB3L4cjMfiaFus=; b=Jd6iDpEQBLUDuOqaWacjCVx/2B
+        pKIy/DvQhu5S7s1CtK2HrpqAjbQXs/VUjDxTUI8XMRAo8kbHZH11jxz9W3Gn0KqYLkBZRPh5SMC4s
+        NwuCBb18aDQwUAxKexPuHsZY/XSUDGT+X9pW6cGaNJUjuAmTLUDY4y5fMuXBzZ0m/Dwg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.93)
+        (envelope-from <andrew@lunn.ch>)
+        id 1jeL5D-003YEr-B5; Thu, 28 May 2020 18:08:39 +0200
+Date:   Thu, 28 May 2020 18:08:39 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "david@protonic.nl" <david@protonic.nl>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+Message-ID: <20200528160839.GE840827@lunn.ch>
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+ <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+ <20200428154718.GA24923@lunn.ch>
+ <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
+ <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
+ <20200429092616.7ug4kdgdltxowkcs@pengutronix.de>
+ <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
+ <20200527205221.GA818296@lunn.ch>
+ <CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com>
 MIME-Version: 1.0
-References: <1590356277-19993-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200528142139.GA28290@e121166-lin.cambridge.arm.com>
-In-Reply-To: <20200528142139.GA28290@e121166-lin.cambridge.arm.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 28 May 2020 17:33:06 +0200
-Message-ID: <CAMuHMdVNi2dwrbsX9Zbxo3GGaGZ6EwtsVhFFORNTYkcGfynkQQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] R8A7742 add support for HSUSB and USB2.0/3.0
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lorenzo,
-
-On Thu, May 28, 2020 at 4:21 PM Lorenzo Pieralisi
-<lorenzo.pieralisi@arm.com> wrote:
-> On Sun, May 24, 2020 at 10:37:49PM +0100, Lad Prabhakar wrote:
-> > This patch series adds support for HSUSB, USB2.0 and USB3.0 to
-> > R8A7742 SoC DT.
+On Thu, May 28, 2020 at 03:10:06PM +0200, Geert Uytterhoeven wrote:
+> Hi Andrew,
+> 
+> On Wed, May 27, 2020 at 10:52 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> > > You may wonder what's the difference between 3 and 4? It's not just the
+> > > PHY driver that looks at phy-mode!
+> > > drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
+> > > does, and configures an additional TX clock delay of 1.8 ns if TXID is
+> > > enabled.
 > >
-> > This patch series applies on-top of [1].
-> >
-> > [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=288491
->
-> I think Geert will pull this series, so I'd drop it from the PCI
-> patchwork unless there is a reason I should not, please let me know.
+> > That sounds like a MAC bug. Either the MAC insert the delay, or the
+> > PHY does. If the MAC decides it is going to insert the delay, it
+> > should be masking what it passes to phylib so that the PHY does not
+> > add a second delay.
+> 
+> And so I gave this a try, and modified the ravb driver to pass "rgmii"
+> to the PHY if it has inserted a delay.
+> That fixes the speed issue on R-Car M3-W!
+> And gets rid of the "*-skew-ps values should be used only with..."
+> message.
+> 
+> I also tried if I can get rid of "rxc-skew-ps = <1500>". After dropping
+> the property, DHCP failed.  Compensating by changing the PHY mode in DT
+> from "rgmii-txid" to "rgmii-id" makes it work again.
 
-I'll take the DTS patches only.
+In general, i suggest that the PHY implements the delay, not the MAC.
+Most PHYs support it, where as most MACs don't. It keeps maintenance
+and understanding easier, if everything is the same. But there are
+cases where the PHY does not have the needed support, and the MAC does
+the delays.
 
-You may want to take 2/8, or leave it to Rob.
+> However, given Philippe's comment that the rgmi-*id apply to the PHY
+> only, I think we need new DT properties for enabling MAC internal delays.
 
-> > Lad Prabhakar (8):
-> >   dt-bindings: phy: rcar-gen2: Add r8a7742 support
-> >   dt-bindings: PCI: pci-rcar-gen2: Add device tree support for r8a7742
-> >   dt-bindings: usb: renesas,usbhs: Add support for r8a7742
-> >   dt-bindings: dmaengine: renesas,usb-dmac: Add binding for r8a7742
-> >   dt-bindings: usb: usb-xhci: Document r8a7742 support
-> >   ARM: dts: r8a7742: Add USB 2.0 host support
-> >   ARM: dts: r8a7742: Add USB-DMAC and HSUSB device nodes
-> >   ARM: dts: r8a7742: Add xhci support
-> >
-> >  .../devicetree/bindings/dma/renesas,usb-dmac.yaml  |   1 +
-> >  .../devicetree/bindings/pci/pci-rcar-gen2.txt      |   3 +-
-> >  .../devicetree/bindings/phy/rcar-gen2-phy.txt      |   3 +-
-> >  .../devicetree/bindings/usb/renesas,usbhs.yaml     |   1 +
-> >  Documentation/devicetree/bindings/usb/usb-xhci.txt |   1 +
-> >  arch/arm/boot/dts/r8a7742.dtsi                     | 173 +++++++++++++++++++++
-> >  6 files changed, 180 insertions(+), 2 deletions(-)
+Do you actually need MAC internal delays?
 
-Gr{oetje,eeting}s,
+> That description is not quite correct: the driver expects skews for
+> plain RGMII only. For RGMII-*ID, it prints a warning, but still applies
+> the supplied skew values.
 
-                        Geert
+O.K. so not so bad.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> To fix the issue, I came up with the following problem statement and
+> plan:
+> 
+> A. Old behavior:
+> 
+>   1. ravb acts upon "rgmii-*id" (on SoCs that support it[1]),
+>   2. ksz9031 ignored "rgmii-*id", using hardware defaults for skew
+>      values.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+So two bugs which cancelled each other out :-)
+
+> B. New behavior (broken):
+> 
+>   1. ravb acts upon "rgmii-*id",
+>   2. ksz9031 acts upon "rgmii-*id".
+> 
+> C. Quick fix for v5.8 (workaround, backwards-compatible with old DTB):
+> 
+>   1. ravb acts upon "rgmii-*id", but passes "rgmii" to phy,
+>   2. ksz9031 acts upon "rgmi", using new "rgmii" skew values.
+> 
+> D. Long-term fix:
+
+I don't know if it is possible, but i would prefer that ravb does
+nothing and the PHY does the delay. The question is, can you get to
+this state without more things breaking?
+
+     Andrew
