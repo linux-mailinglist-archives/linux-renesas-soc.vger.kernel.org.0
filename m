@@ -2,1039 +2,246 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F1B1E6FED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 01:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 505111E70D5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 01:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728638AbgE1XEm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 May 2020 19:04:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57974 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728629AbgE1XEi (ORCPT
+        id S2437770AbgE1Xwr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 May 2020 19:52:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437693AbgE1Xwk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 May 2020 19:04:38 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D76AE2A8;
-        Fri, 29 May 2020 01:04:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1590707074;
-        bh=NkLFU1lGVrngCpsagvs/+jL3KcMwCsMCh3BtwfDEfjE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IgKSkqXuHNMXbQJ2AyRoBp51Qqr9n+65voqBALl1ZlkzTV67Cdif5vTMiFNuxbOl6
-         1z46scVXW+iq68qhH6XewIHrwHxLoDdCbmD4D7/egijpiAV6MzwXCD4xDkNVj47gTw
-         RUNfuypROaw1YAMjPNqQsT2Isr/5miTUFkH+9sB8=
-Date:   Fri, 29 May 2020 02:04:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH] dt-bindings: display: renesas,du: Convert binding to YAML
-Message-ID: <20200528230419.GF14756@pendragon.ideasonboard.com>
-References: <20200515003340.18191-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200528185244.GA400585@bogus>
+        Thu, 28 May 2020 19:52:40 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F70C08C5C8;
+        Thu, 28 May 2020 16:31:49 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id z26so211127pfk.12;
+        Thu, 28 May 2020 16:31:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=E+nZrtxSAOnTyef/x7Km+Sp4EW2/Q1B3nXudz3MSLgQ=;
+        b=ESFcXUSymq2cv/URV30y1IePV5mEmk0jutEFxX+IRLPY7hL/BuEIO90Gq/u//dR2u2
+         HV+9w2+KjR81hNmlYtkrQgXHdIaLuN/qMB82se2kxWc4o8Kjkp8vWOxPQZ3mSFAc32nT
+         oDbZqC8T99UCIwbnu3LQfY+kKBdRNX2L46mVS4aDqhaf/lhSXos5EKijCMbrNj1X4V4i
+         N2Mur8Dozz1IgRYKN5AOMc9esRddWs+8HothP5zvzD5HapxpMQxi3BLcQDDkvO9S4glM
+         1fdu9CSY8Mq07UIWW68Ghx8wIHOmOhnwLqoyaUFpURlmzBUhRsoy3C36DlMMjUFqO/+v
+         of8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=E+nZrtxSAOnTyef/x7Km+Sp4EW2/Q1B3nXudz3MSLgQ=;
+        b=M+xDyWZLV1Hshk702U7XnOfIORmC+X13FzHO7HLzNilCwXEARAU6D9K+z8+EbR08H/
+         3sGuIGUyeCOih4gjPji0efjD2YaarSYvCkoRU/3ylStBw/C+CGzCd+l4y8KlX3gvq9hs
+         eVn1HR1aaLlVbmoYrzOqjKPX+lTkXx1ktQ6F1GgTzItY63SECDENQBfLdMWS6m3Tp+U4
+         6EMRhP1geB06dLtN3QVmaGxRAt+EIS9+yIMUaW6nNjkCXNHoVlW1JRqfVesF3iKxOhj5
+         8jqtSYLeYn5+SnRznjCbS2HO39Sk8qGblXBsUyhIXFwQ9SGvBFvamx7rr/Rssj76+5kW
+         Fo5Q==
+X-Gm-Message-State: AOAM532cLQciKQC+OwM9AbMpbmNAOHN6y640AYwEKGUhbtNKEvIfEYxC
+        +CbqGloHlS3l1qmpjXLjgog=
+X-Google-Smtp-Source: ABdhPJx27VlmPXA/JP81DuWPq/Ao6qL/fLP+X6SwDDBAAR8wX2gdY/zj4C7a43HpJAJN5nlEpMNlOw==
+X-Received: by 2002:a62:ed10:: with SMTP id u16mr5783670pfh.0.1590708709128;
+        Thu, 28 May 2020 16:31:49 -0700 (PDT)
+Received: from [10.230.188.43] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id g18sm5319097pgn.47.2020.05.28.16.31.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 May 2020 16:31:48 -0700 (PDT)
+Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+ the KSZ9031 PHY
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Philippe Schenker <philippe.schenker@toradex.com>
+Cc:     "o.rempel@pengutronix.de" <o.rempel@pengutronix.de>,
+        "andrew@lunn.ch" <andrew@lunn.ch>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "grygorii.strashko@ti.com" <grygorii.strashko@ti.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "sergei.shtylyov@cogentembedded.com" 
+        <sergei.shtylyov@cogentembedded.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "david@protonic.nl" <david@protonic.nl>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "kazuya.mizuguchi.ks@renesas.com" <kazuya.mizuguchi.ks@renesas.com>
+References: <20200422072137.8517-1-o.rempel@pengutronix.de>
+ <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
+ <20200428154718.GA24923@lunn.ch>
+ <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
+ <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
+ <20200429092616.7ug4kdgdltxowkcs@pengutronix.de>
+ <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
+ <3a6f6ecc5ea4de7600716a23739c13dc5b02771e.camel@toradex.com>
+ <CAMuHMdWnSPrAX1=Q3PQNr3QaE3nrtfr4jbE_r1_BmKke-rC92w@mail.gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <9eb1d7db-2762-fcec-673d-1f5bd38aaa58@gmail.com>
+Date:   Thu, 28 May 2020 16:31:46 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.8.1
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWnSPrAX1=Q3PQNr3QaE3nrtfr4jbE_r1_BmKke-rC92w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200528185244.GA400585@bogus>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
 
-On Thu, May 28, 2020 at 12:52:44PM -0600, Rob Herring wrote:
-> On Fri, May 15, 2020 at 03:33:40AM +0300, Laurent Pinchart wrote:
-> > Convert the Renesas R-Car DU text binding to YAML.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  .../bindings/display/renesas,du.txt           | 139 ---
-> >  .../bindings/display/renesas,du.yaml          | 915 ++++++++++++++++++
+
+On 5/28/2020 5:51 AM, Geert Uytterhoeven wrote:
+> Hi Philippe,
 > 
-> A 'normal' conversion is about double the lines. I guess this is a sign 
-> that the original was not well specified.
-
-The original was specified in a much more compressed form (for instance
-there was a table with one line per SoC to describe the port node, the
-YAML equivalent has to be longer).
-
-> Maybe this can be split to reduce some of the if/then? One way is define 
-> a common 'include' file that each specific instance can reference
-
-With your recommendation of using pattern instead of enum for the dclkin
-clock names, we're down to 848 lines, it's already a bit better :-)
-
-I could indeed split the file, but I'll then run into naming issues. If
-you look at the compatible strings for each of the if...then...else,
-they don't have easy patterns that could be used to name files. I could
-name the files based on one arbitrarily chosen compat string among the
-multiple values that are supported, but I think that would become
-confusing. I could also have one file per SoC, but we'll then end up
-with lots of files, several of them being totally identical except for
-the compatible string. Would you mind keeping it as-is, or do you think
-it really needs to be split ?
-
-> [...]
+> On Thu, May 28, 2020 at 10:20 AM Philippe Schenker
+> <philippe.schenker@toradex.com> wrote:
+>> On Wed, 2020-05-27 at 21:11 +0200, Geert Uytterhoeven wrote:
+>>> On Wed, Apr 29, 2020 at 11:26 AM Oleksij Rempel <
+>>> o.rempel@pengutronix.de> wrote:
+>>>> On Wed, Apr 29, 2020 at 10:45:35AM +0200, Geert Uytterhoeven wrote:
+>>>>> On Tue, Apr 28, 2020 at 6:16 PM Philippe Schenker
+>>>>> <philippe.schenker@toradex.com> wrote:
+>>>>>> On Tue, 2020-04-28 at 17:47 +0200, Andrew Lunn wrote:
+>>>>>>> On Tue, Apr 28, 2020 at 05:28:30PM +0200, Geert Uytterhoeven
+>>>>>>> wrote:
+>>>>>>>> This triggers on Renesas Salvator-X(S):
+>>>>>>>>
+>>>>>>>>     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-
+>>>>>>>> ffffffff:00:
+>>>>>>>> *-skew-ps values should be used only with phy-mode = "rgmii"
+>>>>>>>>
+>>>>>>>> which uses:
+>>>>>>>>
+>>>>>>>>         phy-mode = "rgmii-txid";
+>>>>>>>>
+>>>>>>>> and:
+>>>>>>>>
+>>>>>>>>         rxc-skew-ps = <1500>;
+>>>>>>>>
+>>>>>>>> If I understand
+>>>>>>>> Documentation/devicetree/bindings/net/ethernet-
+>>>>>>>> controller.yaml
+>>>>>>>> correctly:
+>>>>>>>
+>>>>>>> Checking for skews which might contradict the PHY-mode is new.
+>>>>>>> I think
+>>>>>>> this is the first PHY driver to do it. So i'm not too
+>>>>>>> surprised it has
+>>>>>>> triggered a warning, or there is contradictory documentation.
+>>>>>>>
+>>>>>>> Your use cases is reasonable. Have the normal transmit delay,
+>>>>>>> and a
+>>>>>>> bit shorted receive delay. So we should allow it. It just
+>>>>>>> makes the
+>>>>>>> validation code more complex :-(
+>>>>>>
+>>>>>> I reviewed Oleksij's patch that introduced this warning. I just
+>>>>>> want to
+>>>>>> explain our thinking why this is a good thing, but yes maybe we
+>>>>>> change
+>>>>>> that warning a little bit until it lands in mainline.
+>>>>>>
+>>>>>> The KSZ9031 driver didn't support for proper phy-modes until now
+>>>>>> as it
+>>>>>> don't have dedicated registers to control tx and rx delays. With
+>>>>>> Oleksij's patch this delay is now done accordingly in skew
+>>>>>> registers as
+>>>>>> best as possible. If you now also set the rxc-skew-ps registers
+>>>>>> those
+>>>>>> values you previously set with rgmii-txid or rxid get
+>>>>>> overwritten.
+>>>
+>>> While I don't claim that the new implementation is incorrect, my
+>>> biggest
+>>> gripe is that this change breaks existing setups (cfr. Grygorii's
+>>> report,
+>>> plus see below).  People fine-tuned the parameters in their DTS files
+>>> according to the old driver behavior, and now have to update their
+>>> DTBs,
+>>> which violates DTB backwards-compatibility rules.
+>>> I know it's ugly, but I'm afraid the only backwards-compatible
+>>> solution
+>>> is to add a new DT property to indicate if the new rules apply.
+>>>
+>>>>>> We chose the warning to occur on phy-modes 'rgmii-id', 'rgmii-
+>>>>>> rxid' and
+>>>>>> 'rgmii-txid' as on those, with the 'rxc-skew-ps' value present,
+>>>>>> overwriting skew values could occur and you end up with values
+>>>>>> you do
+>>>>>> not wanted. We thought, that most of the boards have just
+>>>>>> 'rgmii' set in
+>>>>>> phy-mode with specific skew-values present.
+>>>>>>
+>>>>>> @Geert if you actually want the PHY to apply RXC and TXC delays
+>>>>>> just
+>>>>>> insert 'rgmii-id' in your DT and remove those *-skew-ps values.
+>>>>>> If you
+>>>>>
+>>>>> That seems to work for me, but of course doesn't take into account
+>>>>> PCB
+>>>>> routing.
+>>>
+>>> Of course I talked too soon.  Both with the existing DTS that triggers
+>>> the warning, and after changing the mode to "rgmii-id", and dropping
+>>> the
+>>> *-skew-ps values, Ethernet became flaky on R-Car M3-W ES1.0.  While
+>>> the
+>>> system still boots, it boots very slow.
+>>> Using nuttcp, I discovered TX performance dropped from ca. 400 Mbps to
+>>> 0.1-0.3 Mbps, while RX performance looks unaffected.
+>>>
+>>> So I did some more testing:
+>>>   1. Plain "rgmii-txid" and "rgmii" break the network completely, on
+>>> all
+>>>      R-Car Gen3 platforms,
+>>>   2. "rgmii-id" and "rgmii-rxid" work, but cause slowness on R-Car M3-
+>>> W,
+>>>   3. "rgmii" with *-skew-ps values that match the old values (default
+>>>      420 for everything, but default 900 for txc-skew-ps, and the 1500
+>>>      override for rxc-skew-ps), behaves exactly the same as "rgmii-
+>>> id",
+>>>   4. "rgmii-txid" with *-skew-ps values that match the old values does
+>>> work, i.e.
+>>>      adding to arch/arm64/boot/dts/renesas/salvator-common.dtsi:
+>>>      +               rxd0-skew-ps = <420>;
+>>>      +               rxd1-skew-ps = <420>;
+>>>      +               rxd2-skew-ps = <420>;
+>>>      +               rxd3-skew-ps = <420>;
+>>>      +               rxdv-skew-ps = <420>;
+>>>      +               txc-skew-ps = <900>;
+>>>      +               txd0-skew-ps = <420>;
+>>>      +               txd1-skew-ps = <420>;
+>>>      +               txd2-skew-ps = <420>;
+>>>      +               txd3-skew-ps = <420>;
+>>>      +               txen-skew-ps = <420>;
+>>>
+>>> You may wonder what's the difference between 3 and 4? It's not just
+>>> the
+>>> PHY driver that looks at phy-mode!
+>>> drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
+>>> does, and configures an additional TX clock delay of 1.8 ns if TXID is
+>>> enabled.  Doing so fixes R-Car M3-W, but doesn't seem to be needed,
+>>> or harm, on R-Car H3 ES2.0 and R-Car M3-N.
+>>
+>> Sorry for chiming in on this topic but I also did make my thoughts about
+>> this implementation.
+>>
+>> The documentation in Documentation/devicetree/bindings/net/ethernet-
+>> controller.yaml clearly states, that rgmii-id is meaning the delay is
+>> provided by the PHY and MAC should not add anything in this case.
 > 
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > new file mode 100644
-> > index 000000000000..ca48065afe1f
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > @@ -0,0 +1,915 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/renesas,du.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas R-Car Display Unit (DU)
-> > +
-> > +maintainers:
-> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > +
-> > +description: |
-> > +  These DT bindings describe the Display Unit embedded in the Renesas R-Car
-> > +  Gen1, R-Car Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - renesas,du-r8a7743 # for RZ/G1M compatible DU
-> > +      - renesas,du-r8a7744 # for RZ/G1N compatible DU
-> > +      - renesas,du-r8a7745 # for RZ/G1E compatible DU
-> > +      - renesas,du-r8a77470 # for RZ/G1C compatible DU
-> > +      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
-> > +      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
-> > +      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
-> > +      - renesas,du-r8a7779 # for R-Car H1 compatible DU
-> > +      - renesas,du-r8a7790 # for R-Car H2 compatible DU
-> > +      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
-> > +      - renesas,du-r8a7792 # for R-Car V2H compatible DU
-> > +      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
-> > +      - renesas,du-r8a7794 # for R-Car E2 compatible DU
-> > +      - renesas,du-r8a7795 # for R-Car H3 compatible DU
-> > +      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
-> > +      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
-> > +      - renesas,du-r8a77970 # for R-Car V3M compatible DU
-> > +      - renesas,du-r8a77980 # for R-Car V3H compatible DU
-> > +      - renesas,du-r8a77990 # for R-Car E3 compatible DU
-> > +      - renesas,du-r8a77995 # for R-Car D3 compatible DU
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  # See compatible-specific constraints below.
-> > +  clocks: true
-> > +  clock-names: true
-> > +  interrupts: true
-> > +  resets: true
-> > +  reset-names: true
-> > +
-> > +  ports:
-> > +    type: object
-> > +    description: |
-> > +      The connections to the DU output video ports are modeled using the OF
-> > +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-> > +      The number of ports and their assignment are model-dependent. Each port
-> > +      shall have a single endpoint.
-> > +
-> > +    properties:
-> > +      '#address-cells':
-> > +        const: 1
-> > +
-> > +      '#size-cells':
-> > +        const: 0
-> > +
-> > +    patternProperties:
-> > +      "^port@[0-3]$":
-> > +        type: object
-> > +
-> > +        properties:
-> > +          reg:
-> > +            maxItems: 1
-> > +
-> > +          endpoint:
-> > +            type: object
-> > +
-> > +            properties:
-> > +              remote-endpoint:
-> > +                $ref: /schemas/types.yaml#/definitions/phandle
-> > +
-> > +            required:
-> > +              - remote-endpoint
-> > +
-> > +            additionalProperties: false
-> > +
-> > +        additionalProperties: false
-> 
-> You can drop this and assume there's a generic check for this. Though I 
-> guess this does ensure only 'remote-endpoint' is present which a generic 
-> schema couldn't do.
+> Thank you for your very valuable comment!
+> That means the semantics are clear, and is the reason behind the existence
+> of properties like "amlogic,tx-delay-ns", which do apply to the MAC.
 
-When you say I can drop "this", which part do you mean exactly ? I
-indeed wanted to specify that no other property than remote-endpoint can
-be present. What's your recommendation ?
-
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +    additionalProperties: false
-> > +
-> > +  renesas,cmms:
-> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> > +    description:
-> > +      A list of phandles to the CMM instances present in the SoC, one for each
-> > +      available DU channel.
-> > +
-> > +  renesas,vsps:
-> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> > +    description:
-> > +      A list of phandle and channel index tuples to the VSPs that handle the
-> > +      memory interfaces for the DU channels. The phandle identifies the VSP
-> > +      instance that serves the DU channel, and the channel index identifies
-> > +      the LIF instance in that VSP.
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - interrupts
-> > +  - resets
-> > +  - ports
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,du-r8a7779
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 1
-> > +          maxItems: 3
-> > +          items:
-> > +            - description: Functional clock
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 1
-> > +          maxItems: 3
-> > +          items:
-> > +            - const: du.0
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> 
-> Here and elsewhere:
-> 
-> - pattern: "^dclkin\.[01]$"
-
-I assume you meant
-
-- pattern: "^dclkin\\.[01]$"
-
-Will fix.
-
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 1
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: DPAD 1
-> > +            # port@2 is TCON, not supported yet
-> 
-> Does that matter?
-
-It's a nice reminder that we should add support for it. And I don't
-meant in the driver, even if that part is also required, but in the DT
-bindings. I don't want to blindly state
-
-            port@2:
-              description: TCON
-
-without working on TCON support on the driver side to validate that the
-DT binding is fine and that I haven't overlooked something. Do you mind
-keeping the comment for now ?
-
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +      required:
-> > +        - interrupts
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a7743
-> > +              - renesas,du-r8a7744
-> > +              - renesas,du-r8a7791
-> > +              - renesas,du-r8a7793
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 2
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: LVDS 0
-> > +            # port@2 is TCON, not supported yet
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a7745
-> > +              - renesas,du-r8a7792
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 2
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: DPAD 1
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a7794
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 2
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: DPAD 1
-> > +            # port@2 is TCON, not supported yet
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a77470
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 2
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: DPAD 1
-> > +            port@2:
-> > +              description: LVDS 0
-> > +            # port@3 is DVENC, not supported yet
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a7790
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: Functional clock for DU2
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +            - description: DU_DOTCLKIN2 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - const: du.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +
-> > +        interrupts:
-> > +          maxItems: 3
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: LVDS 0
-> > +            port@2:
-> > +              description: LVDS 1
-> > +            # port@3 is TCON, not supported yet
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a7795
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 4
-> > +          maxItems: 8
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: Functional clock for DU2
-> > +            - description: Functional clock for DU4
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +            - description: DU_DOTCLKIN2 input clock
-> > +            - description: DU_DOTCLKIN3 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 4
-> > +          maxItems: 8
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - const: du.2
-> > +            - const: du.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +              - dclkin.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +              - dclkin.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +              - dclkin.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +              - dclkin.3
-> > +
-> > +        interrupts:
-> > +          maxItems: 4
-> > +
-> > +        resets:
-> > +          maxItems: 2
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.2
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: HDMI 0
-> > +            port@2:
-> > +              description: HDMI 1
-> > +            port@3:
-> > +              description: LVDS 0
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +            - port@3
-> > +
-> > +        renesas,cmms:
-> > +          minItems: 4
-> > +
-> > +        renesas,vsps:
-> > +          minItems: 4
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a774a1
-> > +              - renesas,du-r8a7796
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: Functional clock for DU2
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +            - description: DU_DOTCLKIN2 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - const: du.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.2
-> > +
-> > +        interrupts:
-> > +          maxItems: 3
-> > +
-> > +        resets:
-> > +          maxItems: 2
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.2
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: HDMI 0
-> > +            port@2:
-> > +              description: LVDS 0
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +
-> > +        renesas,cmms:
-> > +          minItems: 3
-> > +
-> > +        renesas,vsps:
-> > +          minItems: 3
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a774b1
-> > +              - renesas,du-r8a77965
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: Functional clock for DU3
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +            - description: DU_DOTCLKIN3 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 3
-> > +          maxItems: 6
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - const: du.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.3
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +              - dclkin.3
-> > +
-> > +        interrupts:
-> > +          maxItems: 3
-> > +
-> > +        resets:
-> > +          maxItems: 2
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.3
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: HDMI 0
-> > +            port@2:
-> > +              description: LVDS 0
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +
-> > +        renesas,cmms:
-> > +          minItems: 3
-> > +
-> > +        renesas,vsps:
-> > +          minItems: 3
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a77970
-> > +              - renesas,du-r8a77980
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 1
-> > +          maxItems: 2
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 1
-> > +          maxItems: 2
-> > +          items:
-> > +            - const: du.0
-> > +            - const: dclkin.0
-> > +
-> > +        interrupts:
-> > +          maxItems: 1
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: LVDS 0
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +        renesas,vsps:
-> > +          minItems: 1
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r8a774c0
-> > +              - renesas,du-r8a77990
-> > +              - renesas,du-r8a77995
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - description: Functional clock for DU0
-> > +            - description: Functional clock for DU1
-> > +            - description: DU_DOTCLKIN0 input clock
-> > +            - description: DU_DOTCLKIN1 input clock
-> > +
-> > +        clock-names:
-> > +          minItems: 2
-> > +          maxItems: 4
-> > +          items:
-> > +            - const: du.0
-> > +            - const: du.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +            - enum:
-> > +              - dclkin.0
-> > +              - dclkin.1
-> > +
-> > +        interrupts:
-> > +          maxItems: 2
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du.0
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: LVDS 0
-> > +            port@2:
-> > +              description: LVDS 1
-> > +            # port@3 is TCON, not supported yet
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +            - port@2
-> > +
-> > +        renesas,cmms:
-> > +          minItems: 2
-> > +
-> > +        renesas,vsps:
-> > +          minItems: 2
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  # R-Car H3 ES2.0 DU
-> > +  - |
-> > +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    display@feb00000 {
-> > +        compatible = "renesas,du-r8a7795";
-> > +        reg = <0xfeb00000 0x80000>;
-> > +        interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-> > +                     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-> > +                     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
-> > +                     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks = <&cpg CPG_MOD 724>,
-> > +                 <&cpg CPG_MOD 723>,
-> > +                 <&cpg CPG_MOD 722>,
-> > +                 <&cpg CPG_MOD 721>;
-> > +        clock-names = "du.0", "du.1", "du.2", "du.3";
-> > +        resets = <&cpg 724>, <&cpg 722>;
-> > +        reset-names = "du.0", "du.2";
-> > +
-> > +        renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
-> > +        renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-> > +
-> > +        ports {
-> > +            #address-cells = <1>;
-> > +            #size-cells = <0>;
-> > +
-> > +            port@0 {
-> > +                reg = <0>;
-> > +                endpoint {
-> > +                    remote-endpoint = <&adv7123_in>;
-> > +                };
-> > +            };
-> > +            port@1 {
-> > +                reg = <1>;
-> > +                endpoint {
-> > +                    remote-endpoint = <&dw_hdmi0_in>;
-> > +                };
-> > +            };
-> > +            port@2 {
-> > +                reg = <2>;
-> > +                endpoint {
-> > +                    remote-endpoint = <&dw_hdmi1_in>;
-> > +                };
-> > +            };
-> > +            port@3 {
-> > +                reg = <3>;
-> > +                endpoint {
-> > +                    remote-endpoint = <&lvds0_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-
+They are clear now, but they were not always clear which is why it is
+possible that some Ethernet MACs act on the phy_interface_t value when
+they should not. There is not a good way to guard against such things
+other than reviewing drivers carefully, RGMII was not designed with plug
+and play in mind, just reduced pin count.
 -- 
-Regards,
-
-Laurent Pinchart
+Florian
