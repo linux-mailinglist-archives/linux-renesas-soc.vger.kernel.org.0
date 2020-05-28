@@ -2,84 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 841741E6B28
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 21:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4813B1E6BD8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 May 2020 22:03:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406639AbgE1Tgt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 28 May 2020 15:36:49 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:45740 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406319AbgE1Tgq (ORCPT
+        id S2406845AbgE1UDf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 28 May 2020 16:03:35 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:44275 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406768AbgE1UDc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 28 May 2020 15:36:46 -0400
-Received: by mail-io1-f66.google.com with SMTP id y5so8596721iob.12;
-        Thu, 28 May 2020 12:36:45 -0700 (PDT)
+        Thu, 28 May 2020 16:03:32 -0400
+Received: by mail-io1-f68.google.com with SMTP id p20so18110717iop.11;
+        Thu, 28 May 2020 13:03:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=anLARnrJJYeYAOB5KTKHSKOnzH0boPrtofWMELzWPU8=;
-        b=eszk8+Dr5DGsMPVkuuDZkT9s0FqOEuL1kSXDU6CHHdpAyv3w59G8WWWangxo2itI7P
-         gdqo/85HaK7KV1rX91Tm/xqSvCXUQIWJLGSWEOPsbfb9Jek0r5nY6Pd9cMomYu3b5QdG
-         TCkRoRjcXt5EzyBPYCfdagT+RCcARPRm1LhSEftBII4FSKFbwPF1ioV1QxX5kqHUsOh/
-         6BBQuE6OH7gMfQqJg965LiGH+xTj+M3aSWJKtro02rXNBHZf0eAYqhkqV3i3D2ikH2c2
-         espqQS17WeqLU0FNHkkk/Jy/i9yrNWyWmE9TOqorkJXyWlEU60T+zlJrqqdTW1NcJUUO
-         G6xA==
-X-Gm-Message-State: AOAM5331Wh+sRBbU3q3jArtjh/jDaaPjv5624qImiZdzwnCBUfJrKtjx
-        rbXVztGWDclvMpWfPr9eorkUj2k=
-X-Google-Smtp-Source: ABdhPJxAbgV9QaVK5dOC48fScjQWHA5Gld2FnTR86BVEq9Vbv9X4kGVbNWcHJZhyKd7pm6KmH4S+0Q==
-X-Received: by 2002:a5d:88d3:: with SMTP id i19mr3781474iol.194.1590694605038;
-        Thu, 28 May 2020 12:36:45 -0700 (PDT)
+        bh=WOZJJYcxACXW/f86CWGzaIWG9UVyWDM2VBeq6ibxzFA=;
+        b=faJNQ/AMpjNpyEqqNZ6VWKJDQzjwOpCUerNO/r9v3nkLHNsvHlMnEzDbhHlq/rkXPi
+         /FHxFKJj8LXCX9+GT51wXmhXc4xUPu1QGeG2dvAfyTrivimr6IL7FZLRLcJpZLC1x0IR
+         SZ+QiHRgrrrz1c9RmiAs+yvuE15/oL7+dmqPZWfCxHVnGGaDKdwfAmPtC//etQm5gUNG
+         ko8+xR/wsL4/g8sIk1dLadaxvzpatJ5Ko2gHs5IoPUMZuteE/2gS50IUAhxDSBqWj+XI
+         KlWLTw0XoTbtoOiR9+/CC1kQuYS9csG/9sEOdIyZRq33yBbyumVhmBvXmd5CqF/g0fAK
+         G8+A==
+X-Gm-Message-State: AOAM5316ZiHeGm1kXkgEsY3PBD7GjI1lj5+R04mn1SG/JEWBYpFYIZst
+        Ct6949y/2CqiooLkG6hACA==
+X-Google-Smtp-Source: ABdhPJy6bw+eVdj/3BkqQEG8iWgPJd3s+TdcOk/LXrCK3tBxvHyGnDNQ1TXnU6AiW/ROgs77w1FZzg==
+X-Received: by 2002:a02:c8d2:: with SMTP id q18mr4157449jao.127.1590696211401;
+        Thu, 28 May 2020 13:03:31 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id v2sm1938613iol.36.2020.05.28.12.36.43
+        by smtp.gmail.com with ESMTPSA id n22sm2921088ioh.46.2020.05.28.13.03.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2020 12:36:44 -0700 (PDT)
-Received: (nullmailer pid 553763 invoked by uid 1000);
-        Thu, 28 May 2020 19:36:42 -0000
-Date:   Thu, 28 May 2020 13:36:42 -0600
+        Thu, 28 May 2020 13:03:30 -0700 (PDT)
+Received: (nullmailer pid 589004 invoked by uid 1000);
+        Thu, 28 May 2020 20:03:29 -0000
+Date:   Thu, 28 May 2020 14:03:29 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-serial@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        devicetree@vger.kernel.org, dmaengine@vger.kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v2 03/10] dt-bindings: serial: renesas,scifa: Document
- r8a7742 bindings
-Message-ID: <20200528193642.GA552811@bogus>
-References: <1588542414-14826-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1588542414-14826-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200512222056.GA7267@bogus>
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, linux-mmc@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        devicetree@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH 01/17] dt-bindings: i2c: renesas,i2c: Document r8a7742
+ support
+Message-ID: <20200528200329.GA588958@bogus>
+References: <1589555337-5498-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1589555337-5498-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200512222056.GA7267@bogus>
+In-Reply-To: <1589555337-5498-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 12, 2020 at 05:20:56PM -0500, Rob Herring wrote:
-> On Sun,  3 May 2020 22:46:47 +0100, Lad Prabhakar wrote:
-> > RZ/G1H (R8A7742) SoC also has the R-Car gen2 compatible SCIFA ports,
-> > so document the SoC specific bindings.
-> > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/serial/renesas,scifa.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
+On Fri, 15 May 2020 16:08:41 +0100, Lad Prabhakar wrote:
+> Document i2c controller for RZ/G1H (R8A7742) SoC, which is compatible
+> with R-Car Gen2 SoC family.
 > 
-> Acked-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/i2c/renesas,i2c.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Geert asked me to apply this one, so I have now.
-
-Rob
+Applied, thanks!
