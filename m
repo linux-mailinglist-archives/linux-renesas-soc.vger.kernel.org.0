@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 080431E7E62
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 15:15:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF2601E7EEB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 15:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726990AbgE2NPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 09:15:37 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44832 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726467AbgE2NPg (ORCPT
+        id S1726882AbgE2Njt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 May 2020 09:39:49 -0400
+Received: from mail-oo1-f66.google.com ([209.85.161.66]:44707 "EHLO
+        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726476AbgE2Njt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 09:15:36 -0400
-Received: by mail-ot1-f68.google.com with SMTP id f18so1845827otq.11;
-        Fri, 29 May 2020 06:15:36 -0700 (PDT)
+        Fri, 29 May 2020 09:39:49 -0400
+Received: by mail-oo1-f66.google.com with SMTP id u40so471114ooi.11;
+        Fri, 29 May 2020 06:39:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=49RdcpXaSsv8n0+9Svc8c226Mooo3bw3+KfG0LmEHBg=;
-        b=N/8B3nmfPyKUn01oXLs9z0b92mBJrbXrib/7/m/pSOK8Xsn7yxBags2+mc5DXiBv/w
-         XSKq4crdXttV6Fe4f+GANyZvWgTiZqyZOkspMFUXtGqGdNkER/FPS7PidnQHvpGyHBlS
-         koHT4l9TlWup9VijCVemkaFu+f95GlQY583JcwRw//3TBsPxDXGP2p3rxB3ZXmEfiHkS
-         k9BJvibZNvqNLkA9c+ml2NikiABfTjx063KFydDgDdNmTvf6B2dDk/HDBfSNCjsPoxRx
-         VcmgLlxoaA/aDAFrb+Z44fr0Dp+fJHSi9EUBTMReFeYmKvzLK7RbX2viqEgeqSET51we
-         mfPA==
-X-Gm-Message-State: AOAM530TYdupHWnkYSwCoRTVa7T4ICpmZrKafT0Ac3Fuhk3st//6aJCW
-        cEbE7gZyr0dKeSglfcJWi17+bqTUXq/Qbk0rQsOcOQ==
-X-Google-Smtp-Source: ABdhPJy9r8uif0PDOCfxyGQ3SCUhIxSizUHgxywxMK8H5ulX1pmWMhohG7vyprf0iT6fNyV8tJ1FjRGIe/kvE6JlD04=
-X-Received: by 2002:a05:6830:1151:: with SMTP id x17mr6090773otq.250.1590758135755;
- Fri, 29 May 2020 06:15:35 -0700 (PDT)
+        bh=Q3f28yw0QDcaEzHgGdMpHejbPMhbDBFHHK/0bqlZmX8=;
+        b=c2hq2C7XLX/A4vgjrqP4tMtYamwq+4CpsDaft7zDOumqUlXvVFXuj8OtPTlDts+3Bz
+         TRuWjjzNvmvjityh53YTx6C05kjYAvw9aALkUQzBMVAzRHSj1ONpd8GwlafoBmVA/yyl
+         wn1tA8eiUHBXTBISj94tJ7zzwaM/espgXKdap6UMXvwIMuynei7cu9Zae4ndsDZZzWwX
+         GRe2ZKiV1c7aI9s/CGYi58ezZBGmGrBkoF88vBbDLlgEDj2GPPAT+V1A50rhpqBjgRcA
+         oH8gr9B4irRdmBNDPn6oH+5U9jfZZ7pWYsRRMZncTVjSQTlVFi94teaSi/iZ+VBp3INq
+         xaeg==
+X-Gm-Message-State: AOAM532ie1ocITZr8FqUiN9gZk5VFKKRtW0CrxjJEXOk5kPHECPFyCGz
+        ThxvX3PCdOexh9EfRQ92PXiGzgs6IyZXTJRJg2U=
+X-Google-Smtp-Source: ABdhPJwm/rZ3o5sWjux4TP2w0te6CgxFjYJHWYjLax6PNzOmNuPAKH/6xILv9+rUMhcbfW2+qjgQ5Z3waEshJY+3lRk=
+X-Received: by 2002:a4a:95d0:: with SMTP id p16mr6533251ooi.40.1590759587218;
+ Fri, 29 May 2020 06:39:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <1590614320-30160-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590614320-30160-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1590614320-30160-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590614320-30160-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1590614320-30160-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 May 2020 15:15:24 +0200
-Message-ID: <CAMuHMdU5NgySkQoUy8KnUksEQ2a1GPQN0tk8jLXHxxwSqtnDew@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ARM: dts: r8a7742: Add thermal device to DT
+Date:   Fri, 29 May 2020 15:39:33 +0200
+Message-ID: <CAMuHMdXYJ1W3KPvFusKivv21hJNgFT_qLLxCOiem85NBxKMwKA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] ARM: dts: r8a7742: Add CMT SoC specific support
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -54,8 +54,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, May 27, 2020 at 11:19 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> This patch instantiates the thermal sensor module with thermal-zone
-> support.
+> Add CMT[01] support to r8a7742 SoC DT.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
