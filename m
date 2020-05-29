@@ -2,86 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 800B71E8970
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 23:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95A3D1E8A06
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 23:29:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727879AbgE2VF7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 17:05:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60618 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727106AbgE2VF7 (ORCPT
+        id S1728071AbgE2V3E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 May 2020 17:29:04 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39430 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727947AbgE2V3E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 17:05:59 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B23F2071A;
-        Fri, 29 May 2020 21:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590786359;
-        bh=yfwNCXrFucrgFYrVKVn8fL7LFVMrfvLgzxcwh9thVVY=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=pbsCiYReClUUxyAv28MLuIdI6N8cHQQGlkWWq5fZlLKw3fw0WRYBWCW4jJL6t9vGr
-         8wbtqEPOKlN41R92OjINWE4iX0yF/k7MGjulOJxvy0phLJSwdIGAc+XV8FumLYjLTF
-         doNheVmFm/qmqbZZUNiODRetF8GNrVJxKNDmW3L4=
-Date:   Fri, 29 May 2020 22:05:56 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        alsa-devel@alsa-project.org
-In-Reply-To: <1590526904-13855-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1590526904-13855-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 0/2] RZ/G1H enable sound support
-Message-Id: <159078634846.20958.14587227744466968136.b4-ty@kernel.org>
+        Fri, 29 May 2020 17:29:04 -0400
+Received: by mail-io1-f65.google.com with SMTP id c8so893145iob.6;
+        Fri, 29 May 2020 14:29:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EkE+6//HPeALlSFIVg26ucZzI23gJBcyX6L2mQ0CHFs=;
+        b=cZaSzUQZGN1emh1zU0wqcDOGdmS4sjd1QtKidYEsml1bZDRhj1ImCJMi3vflY87Nny
+         ApuVW12+UAcJQG4NnCHpMrxmE06Vk3Htuq3mqnh9hX5Rj+aLRLhIc1ZJijSQiimrlx+M
+         RrQomsilsUNWQdrWjMknE0RNhU9B2lBeEkmDYh6o+ixDxcU04u3XniWxQKzoO9gOc2RK
+         FjFdkGSioEeD/VkFDeTKB7szlCLrdeNKWAynylJBUiMH1aj4UFlHul4qPPyhxpU6VyKp
+         TluP8Sz5Qwa84UxXJkF8I6b+dr/prpse0oQUZT8WYFg/+OoYHBWdC0klbnvRnBqWNaKN
+         A4kw==
+X-Gm-Message-State: AOAM530wA8O3/N8ymURSKm+iaycgMKXrYAy2neOGC7MUb/kn4JsTf/9R
+        oqeWbdRXPgEia9hiJ+TutJ+ZNvnK4g==
+X-Google-Smtp-Source: ABdhPJy6pahK2/QoZLOirJ/eOuHSg4yWPD0tIkE0E0gvSPYs2cAWTAlQy6a6rNMU7W6RfA/dmm7/pQ==
+X-Received: by 2002:a02:b88e:: with SMTP id p14mr8865236jam.36.1590787743197;
+        Fri, 29 May 2020 14:29:03 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id v14sm5258547ilm.66.2020.05.29.14.29.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 14:29:02 -0700 (PDT)
+Received: (nullmailer pid 3002091 invoked by uid 1000);
+        Fri, 29 May 2020 21:29:01 -0000
+Date:   Fri, 29 May 2020 15:29:01 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas: cmt: Convert to
+ json-schema
+Message-ID: <20200529212901.GA3000996@bogus>
+References: <20200505155127.4836-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200505155127.4836-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 26 May 2020 22:01:42 +0100, Lad Prabhakar wrote:
-> This patch series adds support for sound in R8A7742 SoC DT.
+On Tue, May 05, 2020 at 05:51:27PM +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas Compare Match Timer (CMT) Device Tree binding
+> documentation to json-schema.
 > 
-> Cheers,
-> Prabhakar
+> Document missing properties.
+> Update the example to match reality.
 > 
-> Lad Prabhakar (2):
->   dt-bindings: ASoC: renesas,rsnd: Add r8a7742 support
->   ARM: dts: r8a7742: Add audio support
-> 
-> [...]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> v2:
+>   - Add missing "additionalProperties: false",
+>   - Add Reviewed-by.
+> ---
+>  .../devicetree/bindings/timer/renesas,cmt.txt | 110 -----------
+>  .../bindings/timer/renesas,cmt.yaml           | 182 ++++++++++++++++++
+>  2 files changed, 182 insertions(+), 110 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.txt
+>  create mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.yaml
 
-Applied to
+Looks like this didn't get applied yet, so I've applied it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] dt-bindings: ASoC: renesas,rsnd: Add r8a7742 support
-      commit: b6f10d3f2e6dfccf58c54e81c8af586b66a80ce4
-[2/2] ARM: dts: r8a7742: Add audio support
-      (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Rob
