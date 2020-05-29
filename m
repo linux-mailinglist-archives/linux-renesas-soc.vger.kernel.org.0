@@ -2,166 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C7761E7A58
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 12:17:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C17371E7D1B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 14:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgE2KRu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 06:17:50 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40439 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgE2KRs (ORCPT
+        id S1726687AbgE2MZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 May 2020 08:25:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49460 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbgE2MZv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 06:17:48 -0400
-Received: by mail-ot1-f68.google.com with SMTP id d26so1517350otc.7;
-        Fri, 29 May 2020 03:17:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z9BmuzUr28lndKnWGaiy4syXkTAirc9FJ7D/uyoX+nc=;
-        b=rqcqOfTwryeHHXY72Env8yrho+Q65A+BXv9NfPv3/Khjm2+avFSxx7nJiHDDLLCcc+
-         W+hylBs8dDpayZXCbi5XFRNUWRGCcexcmnpdqNTxodAVd9+0FoFL5kz+6nKPFiyQcLaN
-         wSF+FsO90K4rbLS/BPpak2MNdmf/7Y0/N2+hWFB8GjZTgMzqvhPI7RO3s8WGazpXedhq
-         HmSU3HFkVPcc8QRBHC7Wa9gwbbsQJdPBz/OeSsz5xx2MPX6lwGGtGX9JxGNpvxV6eq1s
-         vAk9uD1zftAMS6P7wIlEscUllxCkazSXGkw+7fq5BOs853tAtWYReDRpYCq5htBAKJX7
-         8Ylg==
-X-Gm-Message-State: AOAM530dhyk3GDIcQlCxyfyJCfAj3HWgjyJZ80oortn6gZJI3zM0QCBT
-        6FmAjq0BdNh8ouKQ9S84O/vHR7ajF2eGGzXeATc=
-X-Google-Smtp-Source: ABdhPJxYlXmYWJSTbTVK16+swo/L6kueAvtmF+PmbbiKpVdS/0VV2PW8/+MR+uaZBhrM33Nkn4EV4c1oiIvOxCpXzAs=
-X-Received: by 2002:a05:6830:1151:: with SMTP id x17mr5562112otq.250.1590747467553;
- Fri, 29 May 2020 03:17:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200422072137.8517-1-o.rempel@pengutronix.de>
- <CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com>
- <20200428154718.GA24923@lunn.ch> <6791722391359fce92b39e3a21eef89495ccf156.camel@toradex.com>
- <CAMuHMdXm7n6cE5-ZjwxU_yKSrCaZCwqc_tBA+M_Lq53hbH2-jg@mail.gmail.com>
- <20200429092616.7ug4kdgdltxowkcs@pengutronix.de> <CAMuHMdWf1f95ZcOLd=k1rd4WE98T1qh_3YsJteyDGtYm1m_Nfg@mail.gmail.com>
- <20200527205221.GA818296@lunn.ch> <CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com>
- <20200528160839.GE840827@lunn.ch>
-In-Reply-To: <20200528160839.GE840827@lunn.ch>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 29 May 2020 12:17:36 +0200
-Message-ID: <CAMuHMdUXC8O8fqfDkbV+LzoPH5Jke0rZroGQiUihW31-yhGckg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
- the KSZ9031 PHY
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Fri, 29 May 2020 08:25:51 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84241C03E969
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 May 2020 05:25:51 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:21:946d:6344:ccc1])
+        by baptiste.telenet-ops.be with bizsmtp
+        id kcRi2200155ue4H01cRi43; Fri, 29 May 2020 14:25:49 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jee4z-0005Pb-Sb; Fri, 29 May 2020 14:25:41 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jee4z-0008Ah-Ot; Fri, 29 May 2020 14:25:41 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
         Philippe Schenker <philippe.schenker@toradex.com>,
-        "sergei.shtylyov@cogentembedded.com" 
-        <sergei.shtylyov@cogentembedded.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
-        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "david@protonic.nl" <david@protonic.nl>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH RFT] ravb: Mask PHY mode to avoid inserting delays twice
+Date:   Fri, 29 May 2020 14:25:40 +0200
+Message-Id: <20200529122540.31368-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andrew,
+Until recently, the Micrel KSZ9031 PHY driver ignored any PHY mode
+("RGMII-*ID") settings, but used the hardware defaults, augmented by
+explicit configuration of individual skew values using the "*-skew-ps"
+DT properties.  The lack of PHY mode support was compensated by the
+EtherAVB MAC driver, which configures TX and/or RX internal delay
+itself, based on the PHY mode.
 
-On Thu, May 28, 2020 at 6:08 PM Andrew Lunn <andrew@lunn.ch> wrote:
-> On Thu, May 28, 2020 at 03:10:06PM +0200, Geert Uytterhoeven wrote:
-> > On Wed, May 27, 2020 at 10:52 PM Andrew Lunn <andrew@lunn.ch> wrote:
-> > > > You may wonder what's the difference between 3 and 4? It's not just the
-> > > > PHY driver that looks at phy-mode!
-> > > > drivers/net/ethernet/renesas/ravb_main.c:ravb_set_delay_mode() also
-> > > > does, and configures an additional TX clock delay of 1.8 ns if TXID is
-> > > > enabled.
-> > >
-> > > That sounds like a MAC bug. Either the MAC insert the delay, or the
-> > > PHY does. If the MAC decides it is going to insert the delay, it
-> > > should be masking what it passes to phylib so that the PHY does not
-> > > add a second delay.
-> >
-> > And so I gave this a try, and modified the ravb driver to pass "rgmii"
-> > to the PHY if it has inserted a delay.
-> > That fixes the speed issue on R-Car M3-W!
-> > And gets rid of the "*-skew-ps values should be used only with..."
-> > message.
-> >
-> > I also tried if I can get rid of "rxc-skew-ps = <1500>". After dropping
-> > the property, DHCP failed.  Compensating by changing the PHY mode in DT
-> > from "rgmii-txid" to "rgmii-id" makes it work again.
->
-> In general, i suggest that the PHY implements the delay, not the MAC.
-> Most PHYs support it, where as most MACs don't. It keeps maintenance
-> and understanding easier, if everything is the same. But there are
-> cases where the PHY does not have the needed support, and the MAC does
-> the delays.
+However, now the KSZ9031 driver has gained PHY mode support, delays may
+be configured twice, causing regressions.  E.g. on the Renesas
+Salvator-X board with R-Car M3-W ES1.0, TX performance dropped from ca.
+400 Mbps to 0.1-0.3 Mbps, as measured by nuttcp.
 
-I can confirm disabling the MAC delay ("phy-mode = "rgmii""), and adding
-a PHY delay ("txc-skew-ps = <1500>") also fixes the slowness on
-Salvator-X with R-Car M3-W ES1.0.
+As internal delay configuration supported by the KSZ9031 PHY is too
+limited for some use cases, the ability to configure MAC internal delay
+is deemed useful and necessary.  Hence a proper fix would involve
+splitting internal delay configuration in two parts, one for the PHY,
+and one for the MAC.  However, this would require adding new DT
+properties, thus breaking DTB backwards-compatibility.
 
-However, I would like to be a cit cautious here: on Ebisu with R-Car E3,
-the hardware engineers advised to add "max-speed = <100>", as EtherAVB
-on R-Car E3 does not support the MAC delay, and the KSZ9031 does not
-allow sufficient delay, leading to unreliable communication.
-Nevertheless, I never had problems without that limitation, and 1 Gbps
-still seems to work after removing it, with and without "txc-skew-ps =
-<1500>".
+Hence fix the regression in a backwards-compatibility way, by letting
+the EtherAVB driver mask the PHY mode when it has inserted a delay, to
+avoid the PHY driver adding a second delay.  This also fixes messages
+like:
 
-> > However, given Philippe's comment that the rgmi-*id apply to the PHY
-> > only, I think we need new DT properties for enabling MAC internal delays.
->
-> Do you actually need MAC internal delays?
+    Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: *-skew-ps values should be used only with phy-mode = "rgmii"
 
-Given the Ebisu issue, I think we do.
-Note that the EtherAVB MAC TX delay, when enabled, is 2.0 ns, and
-KSZ9031 supports 0..1860 ps, with 900 ps being the centerpoint, so AFAIU
-that is -900..960 ps, i.e. much less than 2.0 ns.
+as the PHY no longer sees the original RGMII-*ID mode.
 
-> > To fix the issue, I came up with the following problem statement and
-> > plan:
-> >
-> > A. Old behavior:
-> >
-> >   1. ravb acts upon "rgmii-*id" (on SoCs that support it[1]),
-> >   2. ksz9031 ignored "rgmii-*id", using hardware defaults for skew
-> >      values.
->
-> So two bugs which cancelled each other out :-)
->
-> > B. New behavior (broken):
-> >
-> >   1. ravb acts upon "rgmii-*id",
-> >   2. ksz9031 acts upon "rgmii-*id".
-> >
-> > C. Quick fix for v5.8 (workaround, backwards-compatible with old DTB):
-> >
-> >   1. ravb acts upon "rgmii-*id", but passes "rgmii" to phy,
-> >   2. ksz9031 acts upon "rgmi", using new "rgmii" skew values.
-> >
-> > D. Long-term fix:
->
-> I don't know if it is possible, but i would prefer that ravb does
-> nothing and the PHY does the delay. The question is, can you get to
-> this state without more things breaking?
+Solving the issue by splitting configuration in two parts can be handled
+in future patches, and would require retaining a backwards-compatibility
+mode anyway.
 
-While that seems to work for me, the delay would be a bit too small to work
-reliably, according to the hardware engineers.
+Fixes: bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for the KSZ9031 PHY")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Tested on:
+  - Salvator-X with R-Car H3 ES1.0 (limited too 100M, hardware erratum),
+  - Salvator-X with R-Car M3-W ES1.0,
+  - Salvator-XS with R-Car H3 ES2.0,
+  - Salvator-XS with R-Car M3-N ES1.0,
+  - Ebisu-4D with R-Car E3 ES1.0 (limited to 100M, no MAC TX delay).
 
-Hence my proposal for C now, to fix the regressions, and D later.
+Needs testing on:
+  - ULCB with various R-Car H3, M3-W, and M3-N SoCs and revisions,
+  - HiHope RZ/G2M sub board, using RGMII-TXID,
+  - Eagle and V3MSK with R-Car V3M, using RGMII-ID,
 
-Thanks!
+Not affected by this patch, but may still be impacted by the micrel
+patch, as it changed skew values for all RGMII* modes, not just for
+RGMII-*ID modes, so needs testing:
+  - Condor with R-Car V3H, using GEther MAC (support for TX/RX internal
+    delay not yet implemented) and RGMII-ID.
+  - V3HSK with R-Car V3H, using GEther MAC and RGMII,
+  - Draak with R-Car D3 using EtherAVB MAC and RGMII (limited to 100M,
+    no MAC TX delay).
 
-Gr{oetje,eeting}s,
+Reference:
+  "Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
+  the KSZ9031 PHY"
+  (https://lore.kernel.org/r/CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com/)
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-                        Geert
-
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 067ad25553b92e43..a442bcf64b9cd875 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1014,6 +1014,7 @@ static int ravb_phy_init(struct net_device *ndev)
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	struct phy_device *phydev;
+ 	struct device_node *pn;
++	phy_interface_t iface;
+ 	int err;
+ 
+ 	priv->link = 0;
+@@ -1032,8 +1033,13 @@ static int ravb_phy_init(struct net_device *ndev)
+ 		}
+ 		pn = of_node_get(np);
+ 	}
+-	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0,
+-				priv->phy_interface);
++
++	iface = priv->phy_interface;
++	if (priv->chip_id != RCAR_GEN2 && phy_interface_mode_is_rgmii(iface)) {
++		/* ravb_set_delay_mode() takes care of internal delay mode */
++		iface = PHY_INTERFACE_MODE_RGMII;
++	}
++	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
+ 	of_node_put(pn);
+ 	if (!phydev) {
+ 		netdev_err(ndev, "failed to connect PHY\n");
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
