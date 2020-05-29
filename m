@@ -2,98 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69AE41E84D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 19:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 411A61E85BD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 19:51:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbgE2RbZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 13:31:25 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:41856 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726857AbgE2RXB (ORCPT
+        id S1728033AbgE2Rur (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 May 2020 13:50:47 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:40057 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728012AbgE2Ruq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 13:23:01 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id EAFDB2A194B
-Subject: Re: [PATCH v4 05/11] thermal: remove get_mode() operation of drivers
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Fri, 29 May 2020 13:50:46 -0400
+Received: by mail-il1-f193.google.com with SMTP id t8so2806266ilm.7;
+        Fri, 29 May 2020 10:50:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=aZMImuOMErdosJw902w3lfnnqYNAbBeX5tzr7TiMmoE=;
+        b=jjXD8JYRB9kL4yAYfByvrPi5szWrSQ73Ke/yrYwX/ezHQJKItg/V8rtuAZ8/7e9pQ4
+         BwaxwoldxZOyjXsMqbKLAlMB38J7z0C0FK/idECL1BVOtfyH+pZ7582VShmlMCQNUxxt
+         U6bmI7gb9RUcLf2kJHdwfzcTqEF/VrOULpNp68vPumMbVJwNzPyZr7bWh8wbuZ6Vp+Um
+         PLVYSUGXvKcjFzm8mNwOgtlP+WIHUwlr6SCiu6pyr0htcRdsFxm64DnEPbpLZJ2q5ick
+         Pa1DtcCFiK+igj4+1uEOjhKwgP+ju8vDaNQALIiQ92YTjJ4fiQR4jWaETADXQNdviFpo
+         upjQ==
+X-Gm-Message-State: AOAM530G6DXqiUp2php6HYUwAROCved1R/gcAbDMayj9K+x9Vddpan/6
+        ED7HTxh+4Fq0QyxdpwQxIl+NO0TQ7g==
+X-Google-Smtp-Source: ABdhPJx2Ns3zNiNxUdzgyDku6xMKAeXBcxz6x0Fk8S26HMB57s65sJE/GP7d3bzt0EqhR0Xyk9Bf6Q==
+X-Received: by 2002:a92:ba05:: with SMTP id o5mr8844482ili.263.1590774645587;
+        Fri, 29 May 2020 10:50:45 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id v2sm3151751iol.36.2020.05.29.10.50.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 10:50:44 -0700 (PDT)
+Received: (nullmailer pid 2647017 invoked by uid 1000);
+        Fri, 29 May 2020 17:50:43 -0000
+Date:   Fri, 29 May 2020 11:50:43 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     alsa-devel@alsa-project.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Allison Randal <allison@lohutok.net>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Len Brown <lenb@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Enrico Weigelt <info@metux.net>,
-        Peter Kaestle <peter@piie.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andy Shevchenko <andy@infradead.org>
-References: <20200529154910.GA158174@roeck-us.net>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <1c4a029e-bb5b-fcfd-1b4b-beea1d6fd577@collabora.com>
-Date:   Fri, 29 May 2020 19:22:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: ASoC: renesas,rsnd: Add r8a7742 support
+Message-ID: <20200529175043.GA2646968@bogus>
+References: <1590526904-13855-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590526904-13855-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20200529154910.GA158174@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1590526904-13855-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guenter,
-
-W dniu 29.05.2020 o 17:49, Guenter Roeck pisze:
-> On Thu, May 28, 2020 at 09:20:45PM +0200, Andrzej Pietrasiewicz wrote:
->> get_mode() is now redundant, as the state is stored in struct
->> thermal_zone_device.
->>
->> Consequently the "mode" attribute in sysfs can always be visible, because
->> it is always possible to get the mode from struct tzd.
->>
->> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+On Tue, 26 May 2020 22:01:43 +0100, Lad Prabhakar wrote:
+> Document RZ/G1H (R8A7742) SoC bindings.
 > 
-> There is a slight semantic change for the two drivers which still have
-> a local copy of enum thermal_device_mode: Previously trying to read the
-> mode for those would return -EPERM since they don't have a get_mode
-> function. Now the global value for mode is returned, but I am not sure
-> if it matches the local value.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/sound/renesas,rsnd.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Please see my replies to your comment about patch 4/11.
-
-Regards,
-
-Andrzej
+Acked-by: Rob Herring <robh@kernel.org>
