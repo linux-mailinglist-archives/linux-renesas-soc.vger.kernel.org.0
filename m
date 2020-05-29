@@ -2,146 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C17371E7D1B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 14:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF4EF1E7D8F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 14:48:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726687AbgE2MZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 08:25:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726282AbgE2MZv (ORCPT
+        id S1726712AbgE2Msn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 May 2020 08:48:43 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:36650 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726467AbgE2Msn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 08:25:51 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84241C03E969
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 29 May 2020 05:25:51 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:21:946d:6344:ccc1])
-        by baptiste.telenet-ops.be with bizsmtp
-        id kcRi2200155ue4H01cRi43; Fri, 29 May 2020 14:25:49 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jee4z-0005Pb-Sb; Fri, 29 May 2020 14:25:41 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jee4z-0008Ah-Ot; Fri, 29 May 2020 14:25:41 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH RFT] ravb: Mask PHY mode to avoid inserting delays twice
-Date:   Fri, 29 May 2020 14:25:40 +0200
-Message-Id: <20200529122540.31368-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 29 May 2020 08:48:43 -0400
+Received: by mail-oi1-f195.google.com with SMTP id a137so2445969oii.3;
+        Fri, 29 May 2020 05:48:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nQnnhZYiSaAVNfmOynBhMEuWSSLFHfXzuga/6Jf95e8=;
+        b=tUeW104byl8qoElqvzV1FukAmX39opmMfmzYbkcjXpYiyx4VjgIRqObeuFwGbQxmEW
+         h2Mm1gpgt8Ob0eQkehqoHEd5LKobAj4Rh/3YLqEYW5KN8WySxBExVhx08jDSbEySuaYW
+         MzRwZpWOfibNU0jlbXga0feGQBSo5jDzcXa4m1AlNzy6z8zSc9vFhLuumfWc593Ecghl
+         hm7rzURlRD+UwvGgMRcvbsdxZ36Piu2eLQtmeA4EH8MX57AsV+PUyEeVusK6WOl6TSBb
+         eyzcXV7Ubi4oO3aR6pIpS6YnYEEFgMUj43TDmdiycWUBOC7Cv6qqme+gdOmHxURQY+6i
+         aO5w==
+X-Gm-Message-State: AOAM531EFGSFeXepJ52qdS9ymgz8qgyzImv77Wq/yFbXAodNZyYcuPgS
+        ZJ8GKYW5Dp5P2WsAWAzI1XGkW0jUIQo01XryRLM=
+X-Google-Smtp-Source: ABdhPJygD5qVee9JLy1UhfZq3AVAg+UringKygup+26OO3s37IRuDaetiYy8zEMeGYSzfDJQcmnRb3RskGicpxpM3Ts=
+X-Received: by 2002:aca:644:: with SMTP id 65mr5053121oig.148.1590756522627;
+ Fri, 29 May 2020 05:48:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <1590614320-30160-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1590614320-30160-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1590614320-30160-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 29 May 2020 14:48:31 +0200
+Message-ID: <CAMuHMdWxNh8zbEdNU2SH_jKi3zFVDj-cW3g+Bx+uVsN+-TZoJg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: thermal: rcar-thermal: Add device tree
+ support for r8a7742
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Until recently, the Micrel KSZ9031 PHY driver ignored any PHY mode
-("RGMII-*ID") settings, but used the hardware defaults, augmented by
-explicit configuration of individual skew values using the "*-skew-ps"
-DT properties.  The lack of PHY mode support was compensated by the
-EtherAVB MAC driver, which configures TX and/or RX internal delay
-itself, based on the PHY mode.
+On Wed, May 27, 2020 at 11:19 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add thermal sensor support for r8a7742 SoC. The Renesas RZ/G1H
+> (r8a7742) thermal sensor module is identical to the R-Car Gen2 family.
+>
+> No driver change is needed due to the fallback compatible value
+> "renesas,rcar-gen2-thermal".
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-However, now the KSZ9031 driver has gained PHY mode support, delays may
-be configured twice, causing regressions.  E.g. on the Renesas
-Salvator-X board with R-Car M3-W ES1.0, TX performance dropped from ca.
-400 Mbps to 0.1-0.3 Mbps, as measured by nuttcp.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-As internal delay configuration supported by the KSZ9031 PHY is too
-limited for some use cases, the ability to configure MAC internal delay
-is deemed useful and necessary.  Hence a proper fix would involve
-splitting internal delay configuration in two parts, one for the PHY,
-and one for the MAC.  However, this would require adding new DT
-properties, thus breaking DTB backwards-compatibility.
+Gr{oetje,eeting}s,
 
-Hence fix the regression in a backwards-compatibility way, by letting
-the EtherAVB driver mask the PHY mode when it has inserted a delay, to
-avoid the PHY driver adding a second delay.  This also fixes messages
-like:
+                        Geert
 
-    Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: *-skew-ps values should be used only with phy-mode = "rgmii"
 
-as the PHY no longer sees the original RGMII-*ID mode.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Solving the issue by splitting configuration in two parts can be handled
-in future patches, and would require retaining a backwards-compatibility
-mode anyway.
-
-Fixes: bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for the KSZ9031 PHY")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Tested on:
-  - Salvator-X with R-Car H3 ES1.0 (limited too 100M, hardware erratum),
-  - Salvator-X with R-Car M3-W ES1.0,
-  - Salvator-XS with R-Car H3 ES2.0,
-  - Salvator-XS with R-Car M3-N ES1.0,
-  - Ebisu-4D with R-Car E3 ES1.0 (limited to 100M, no MAC TX delay).
-
-Needs testing on:
-  - ULCB with various R-Car H3, M3-W, and M3-N SoCs and revisions,
-  - HiHope RZ/G2M sub board, using RGMII-TXID,
-  - Eagle and V3MSK with R-Car V3M, using RGMII-ID,
-
-Not affected by this patch, but may still be impacted by the micrel
-patch, as it changed skew values for all RGMII* modes, not just for
-RGMII-*ID modes, so needs testing:
-  - Condor with R-Car V3H, using GEther MAC (support for TX/RX internal
-    delay not yet implemented) and RGMII-ID.
-  - V3HSK with R-Car V3H, using GEther MAC and RGMII,
-  - Draak with R-Car D3 using EtherAVB MAC and RGMII (limited to 100M,
-    no MAC TX delay).
-
-Reference:
-  "Re: [PATCH net-next v3] net: phy: micrel: add phy-mode support for
-  the KSZ9031 PHY"
-  (https://lore.kernel.org/r/CAMuHMdU1ZmSm_tjtWxoFNako2fzmranGVz5qqD2YRNEFRjX0Sw@mail.gmail.com/)
----
- drivers/net/ethernet/renesas/ravb_main.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 067ad25553b92e43..a442bcf64b9cd875 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1014,6 +1014,7 @@ static int ravb_phy_init(struct net_device *ndev)
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	struct phy_device *phydev;
- 	struct device_node *pn;
-+	phy_interface_t iface;
- 	int err;
- 
- 	priv->link = 0;
-@@ -1032,8 +1033,13 @@ static int ravb_phy_init(struct net_device *ndev)
- 		}
- 		pn = of_node_get(np);
- 	}
--	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0,
--				priv->phy_interface);
-+
-+	iface = priv->phy_interface;
-+	if (priv->chip_id != RCAR_GEN2 && phy_interface_mode_is_rgmii(iface)) {
-+		/* ravb_set_delay_mode() takes care of internal delay mode */
-+		iface = PHY_INTERFACE_MODE_RGMII;
-+	}
-+	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
- 	of_node_put(pn);
- 	if (!phydev) {
- 		netdev_err(ndev, "failed to connect PHY\n");
--- 
-2.17.1
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
