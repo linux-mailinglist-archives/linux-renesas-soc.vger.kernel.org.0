@@ -2,81 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95A3D1E8A06
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 May 2020 23:29:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD7591E95B7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 31 May 2020 06:51:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbgE2V3E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 May 2020 17:29:04 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:39430 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727947AbgE2V3E (ORCPT
+        id S1726220AbgEaEvJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 31 May 2020 00:51:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726020AbgEaEvJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 May 2020 17:29:04 -0400
-Received: by mail-io1-f65.google.com with SMTP id c8so893145iob.6;
-        Fri, 29 May 2020 14:29:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EkE+6//HPeALlSFIVg26ucZzI23gJBcyX6L2mQ0CHFs=;
-        b=cZaSzUQZGN1emh1zU0wqcDOGdmS4sjd1QtKidYEsml1bZDRhj1ImCJMi3vflY87Nny
-         ApuVW12+UAcJQG4NnCHpMrxmE06Vk3Htuq3mqnh9hX5Rj+aLRLhIc1ZJijSQiimrlx+M
-         RrQomsilsUNWQdrWjMknE0RNhU9B2lBeEkmDYh6o+ixDxcU04u3XniWxQKzoO9gOc2RK
-         FjFdkGSioEeD/VkFDeTKB7szlCLrdeNKWAynylJBUiMH1aj4UFlHul4qPPyhxpU6VyKp
-         TluP8Sz5Qwa84UxXJkF8I6b+dr/prpse0oQUZT8WYFg/+OoYHBWdC0klbnvRnBqWNaKN
-         A4kw==
-X-Gm-Message-State: AOAM530wA8O3/N8ymURSKm+iaycgMKXrYAy2neOGC7MUb/kn4JsTf/9R
-        oqeWbdRXPgEia9hiJ+TutJ+ZNvnK4g==
-X-Google-Smtp-Source: ABdhPJy6pahK2/QoZLOirJ/eOuHSg4yWPD0tIkE0E0gvSPYs2cAWTAlQy6a6rNMU7W6RfA/dmm7/pQ==
-X-Received: by 2002:a02:b88e:: with SMTP id p14mr8865236jam.36.1590787743197;
-        Fri, 29 May 2020 14:29:03 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id v14sm5258547ilm.66.2020.05.29.14.29.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 14:29:02 -0700 (PDT)
-Received: (nullmailer pid 3002091 invoked by uid 1000);
-        Fri, 29 May 2020 21:29:01 -0000
-Date:   Fri, 29 May 2020 15:29:01 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas: cmt: Convert to
- json-schema
-Message-ID: <20200529212901.GA3000996@bogus>
-References: <20200505155127.4836-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200505155127.4836-1-geert+renesas@glider.be>
+        Sun, 31 May 2020 00:51:09 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04DE2C05BD43;
+        Sat, 30 May 2020 21:51:08 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id B4C0E128FE1E8;
+        Sat, 30 May 2020 21:51:04 -0700 (PDT)
+Date:   Sat, 30 May 2020 21:51:02 -0700 (PDT)
+Message-Id: <20200530.215102.921642191346859546.davem@davemloft.net>
+To:     geert+renesas@glider.be
+Cc:     sergei.shtylyov@cogentembedded.com, kuba@kernel.org,
+        andrew@lunn.ch, linux@rempel-privat.de,
+        philippe.schenker@toradex.com, f.fainelli@gmail.com,
+        hkallweit1@gmail.com, linux@armlinux.org.uk,
+        kazuya.mizuguchi.ks@renesas.com, grygorii.strashko@ti.com,
+        wsa+renesas@sang-engineering.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFT] ravb: Mask PHY mode to avoid inserting delays twice
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200529122540.31368-1-geert+renesas@glider.be>
+References: <20200529122540.31368-1-geert+renesas@glider.be>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 30 May 2020 21:51:06 -0700 (PDT)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 05, 2020 at 05:51:27PM +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas Compare Match Timer (CMT) Device Tree binding
-> documentation to json-schema.
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Fri, 29 May 2020 14:25:40 +0200
+
+> Until recently, the Micrel KSZ9031 PHY driver ignored any PHY mode
+> ("RGMII-*ID") settings, but used the hardware defaults, augmented by
+> explicit configuration of individual skew values using the "*-skew-ps"
+> DT properties.  The lack of PHY mode support was compensated by the
+> EtherAVB MAC driver, which configures TX and/or RX internal delay
+> itself, based on the PHY mode.
 > 
-> Document missing properties.
-> Update the example to match reality.
+> However, now the KSZ9031 driver has gained PHY mode support, delays may
+> be configured twice, causing regressions.  E.g. on the Renesas
+> Salvator-X board with R-Car M3-W ES1.0, TX performance dropped from ca.
+> 400 Mbps to 0.1-0.3 Mbps, as measured by nuttcp.
 > 
+> As internal delay configuration supported by the KSZ9031 PHY is too
+> limited for some use cases, the ability to configure MAC internal delay
+> is deemed useful and necessary.  Hence a proper fix would involve
+> splitting internal delay configuration in two parts, one for the PHY,
+> and one for the MAC.  However, this would require adding new DT
+> properties, thus breaking DTB backwards-compatibility.
+> 
+> Hence fix the regression in a backwards-compatibility way, by letting
+> the EtherAVB driver mask the PHY mode when it has inserted a delay, to
+> avoid the PHY driver adding a second delay.  This also fixes messages
+> like:
+> 
+>     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: *-skew-ps values should be used only with phy-mode = "rgmii"
+> 
+> as the PHY no longer sees the original RGMII-*ID mode.
+> 
+> Solving the issue by splitting configuration in two parts can be handled
+> in future patches, and would require retaining a backwards-compatibility
+> mode anyway.
+> 
+> Fixes: bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for the KSZ9031 PHY")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
->   - Add missing "additionalProperties: false",
->   - Add Reviewed-by.
-> ---
->  .../devicetree/bindings/timer/renesas,cmt.txt | 110 -----------
->  .../bindings/timer/renesas,cmt.yaml           | 182 ++++++++++++++++++
->  2 files changed, 182 insertions(+), 110 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.txt
->  create mode 100644 Documentation/devicetree/bindings/timer/renesas,cmt.yaml
 
-Looks like this didn't get applied yet, so I've applied it.
-
-Rob
+Applied to net-next, thank you.
