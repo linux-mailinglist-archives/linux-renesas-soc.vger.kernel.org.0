@@ -2,138 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D4901E9FDD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jun 2020 10:15:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8855B1EA18E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jun 2020 12:09:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbgFAIPG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Jun 2020 04:15:06 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:51439 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726142AbgFAIPG (ORCPT
+        id S1725943AbgFAKJT convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 1 Jun 2020 06:09:19 -0400
+Received: from piie.net ([80.82.223.85]:40710 "EHLO piie.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725788AbgFAKJT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Jun 2020 04:15:06 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.93)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1jffb5-003TZ8-1w; Mon, 01 Jun 2020 10:15:03 +0200
-Received: from x4d0bb5f7.dyn.telefonica.de ([77.11.181.247] helo=[192.168.1.7])
-          by inpost2.zedat.fu-berlin.de (Exim 4.93)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1jffb4-002gAO-RO; Mon, 01 Jun 2020 10:15:03 +0200
-Subject: Re: [PATCH] sh: fixup strncpy()
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        Karl Nasrallah <knnspeed@aol.com>,
-        Linux-SH <linux-sh@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <8736dijdit.wl-kuninori.morimoto.gx@renesas.com>
- <87zhfqhyuf.wl-kuninori.morimoto.gx@renesas.com>
- <b1336fcf-8b04-e16c-420c-ed7e766fef12@physik.fu-berlin.de>
- <87eeqzzn4m.wl-kuninori.morimoto.gx@renesas.com>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
- 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
- scOkTAZQGVpD/8AaLH4v1w==
-Message-ID: <2d4ac135-3fed-a526-daf5-81d3b51197ed@physik.fu-berlin.de>
-Date:   Mon, 1 Jun 2020 10:15:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <87eeqzzn4m.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 77.11.181.247
+        Mon, 1 Jun 2020 06:09:19 -0400
+X-Greylist: delayed 389 seconds by postgrey-1.27 at vger.kernel.org; Mon, 01 Jun 2020 06:09:17 EDT
+Received: from mail.piie.net (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+        (Client did not present a certificate)
+        by piie.net (Postfix) with ESMTPSA id 8D0C3163C;
+        Mon,  1 Jun 2020 12:02:43 +0200 (CEST)
+Mime-Version: 1.0
+Date:   Mon, 01 Jun 2020 10:02:43 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: RainLoop/1.11.3
+From:   "=?utf-8?B?UGV0ZXIgS8Okc3RsZQ==?=" <peter@piie.net>
+Message-ID: <23327363eae19d051b7c960d3cbc1523@piie.net>
+Subject: Re: [PATCH v4 00/11] Stop monitoring disabled devices
+To:     "Andrzej Pietrasiewicz" <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        "Len Brown" <lenb@kernel.org>,
+        "Vishal Kulkarni" <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Jiri Pirko" <jiri@mellanox.com>,
+        "Ido Schimmel" <idosch@mellanox.com>,
+        "Johannes Berg" <johannes.berg@intel.com>,
+        "Emmanuel Grumbach" <emmanuel.grumbach@intel.com>,
+        "Luca Coelho" <luciano.coelho@intel.com>,
+        "Intel Linux Wireless" <linuxwifi@intel.com>,
+        "Kalle Valo" <kvalo@codeaurora.org>,
+        "Darren Hart" <dvhart@infradead.org>,
+        "Andy Shevchenko" <andy@infradead.org>,
+        "Sebastian Reichel" <sre@kernel.org>,
+        "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        "Daniel Lezcano" <daniel.lezcano@linaro.org>,
+        "Amit Kucheria" <amit.kucheria@verdurent.com>,
+        "Support Opensource" <support.opensource@diasemi.com>,
+        "Shawn Guo" <shawnguo@kernel.org>,
+        "Sascha Hauer" <s.hauer@pengutronix.de>,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Fabio Estevam" <festevam@gmail.com>,
+        "NXP Linux Team" <linux-imx@nxp.com>,
+        "=?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?=" 
+        <niklas.soderlund@ragnatech.se>,
+        "Heiko Stuebner" <heiko@sntech.de>,
+        "Orson Zhai" <orsonzhai@gmail.com>,
+        "Baolin Wang" <baolin.wang7@gmail.com>,
+        "Chunyan Zhang" <zhang.lyra@gmail.com>,
+        "Zhang Rui" <rui.zhang@intel.com>,
+        "Allison Randal" <allison@lohutok.net>,
+        "Enrico Weigelt" <info@metux.net>,
+        "Gayatri Kammela" <gayatri.kammela@intel.com>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "Bartlomiej Zolnierkiewicz" <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+In-Reply-To: <20200528192051.28034-1-andrzej.p@collabora.com>
+References: <20200528192051.28034-1-andrzej.p@collabora.com> <Message-ID:
+ <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kuninori!
+Hi,
 
-On 6/1/20 1:43 AM, Kuninori Morimoto wrote:
->> Since I don't want your fixes to fall off the table, you can ask Andrew
->> Morton to pick up your patches which is apparently the normal path to
->> choose when the original maintainers are currently not available.
-> 
-> Actually, I had been posted it to Andrew many times [1],
-> but nothing happened.
+28. Mai 2020 21:21, "Andrzej Pietrasiewicz" <andrzej.p@collabora.com> schrieb:
 
-Okay, that's unfortunate.
+[...]
 
-> And according to [2], it seems SH maintainers are still working,
-> thus, normal path is still them.
+> This v4 series addresses those concerns: it takes a more gradual
+> approach and uses explicit tzd state initialization, hence there are more
+> insertions than in v3, and the net effect is -63 lines versus -139 lines
+> in v3.
 
-Yes, Rich seems to be back on track.
+I'd like to test it.  Which git repo / branch do you base this series of patches on?
 
-> I had been worked for SH before, and posted many fixup patches
-> for many times to both Andrew and SH maintainers.
-> But their are still not yet reviewd/accepted.
-> And unfortunately, it seems I'm judged as spam from SH maintainers [2].
-> So I can do nothing anymore...
+[...]
 
-I really appreciate your help and I would like to see more of your fixes
-come in. Please don't be let down and let's try to get your patches
-merged.
+> base-commit: 351f4911a477ae01239c42f771f621d85b06ea10
 
-Rich has promised that he will create a new tree on his website, so I think
-your patches will be merged soon.
-
-If you have more ideas for fixes, please feel encouraged to post patches, I
-will try to help you to get all of them merged. I'm very sorry that you had
-to wait for such a long time.
-
-Adrian
+Can't find this hashref anywhere.
 
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+thanks
+--peter;
