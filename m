@@ -2,106 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46DF41EBC15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2020 14:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5EC1EBD98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2020 16:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726894AbgFBMvj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Jun 2020 08:51:39 -0400
-Received: from www.zeus03.de ([194.117.254.33]:46328 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725940AbgFBMvj (ORCPT
+        id S1725957AbgFBOC4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Jun 2020 10:02:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725919AbgFBOCz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Jun 2020 08:51:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=dSzMw+UaS/C9XBwiXA9Iifmw5RLL
-        NDrtXcnh4fJlcZY=; b=lwAphbARv6z64CpPcAMAZ3Pea/Kt/oWUUTrRNSNqfs3C
-        fFCNFiPFyA02PbMdoycco1ALCNq2ISpf5jj3uS4RyLoUIrz4DAkU+g+bgBCxH8GF
-        k76y5pl0EkdR0No/9Z3WU5covS5HPsxgIe1maymqmjXL+UdFvfarzhZ0HU4sEuI=
-Received: (qmail 952765 invoked from network); 2 Jun 2020 14:51:37 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Jun 2020 14:51:37 +0200
-X-UD-Smtp-Session: l3s3148p1@dFE2XxmnEOkgAwDPXw/+APwanz+b4yd7
-Date:   Tue, 2 Jun 2020 14:51:31 +0200
-From:   "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] mmc: tmio and renesas_sdhi_internal_dmac: fix dma
- unmapping
-Message-ID: <20200602125131.GA1318@ninjato>
-References: <1590044466-28372-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 2 Jun 2020 10:02:55 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B695C08C5C0
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jun 2020 07:02:55 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:d5a9:cf1c:d29a:7bea])
+        by albert.telenet-ops.be with bizsmtp
+        id mE2t2200r1u9Dj506E2tZX; Tue, 02 Jun 2020 16:02:53 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jg7VF-0008Mk-Ey
+        for linux-renesas-soc@vger.kernel.org; Tue, 02 Jun 2020 16:02:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jg7VF-0005QB-Bu
+        for linux-renesas-soc@vger.kernel.org; Tue, 02 Jun 2020 16:02:53 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-06-02-v5.7
+Date:   Tue,  2 Jun 2020 16:02:53 +0200
+Message-Id: <20200602140253.20797-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+I have pushed renesas-drivers-2020-06-02-v5.7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
---wac7ysb48OaltWcw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Hi Shimoda-san,
+Today's version is based on renesas-devel-2020-06-02-v5.7.
 
-thanks for the patches and for providing a test case. I was not able to
-reproduce the issue, though. I'll explain...
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-> Note that this patch series is tested by using additional debug code [1],
-> because there is difficult to reproduce this issue. Before apply patch,
-> When I enabled CONFIG_DMA_API_DEBUG and CONFIG_DMA_API_DEBUG_SG,
-> I observed lacking dma unmapping on /sys/kernel/debug/dma-api/dump.
-> And then I confirmed the patch can fix the issue.
+Included fixes:
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-So, I have this debug patch applied on top of mmc/next. I have the above
-CONFIG_ symbols enabled. I have _not_ applied your three patches which
-fix the issue. I mounted the eMMC and read a large file. I see the
-injected timeouts happening:
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
 
-[   94.079560] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
-[   94.088668] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
-[   94.097727] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
-[   94.106768] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
-[   94.115848] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
-[   99.300589] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for hardware interrupt (CMD13)
+Gr{oetje,eeting}s,
 
-But I do not see any output from the DMA debug system about a missing
-unmapping. I expected that, though, because your fixes are not applied.
-The testfile could even be correctly checksummed after reading, just
-awfully slow, of course.
+						Geert
 
-Am I missing something?
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-All the best,
-
-   Wolfram
-
-
---wac7ysb48OaltWcw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7WS08ACgkQFA3kzBSg
-KbZa6Q//e7N/DQAOB/qjQcezOiFcIx0c2MI00ts+DL5aTELoNi/557uxeOm+jGE0
-z7J/Br6PHWa5hBxpaQuDYacvXsF/c5tlhpjG6bSB3RRkRrqrascjJGVlQ8soPt41
-Dx4Ih7u68SgNE6izCy+5Kw+yu+lMAsv74Bmr4wIKUhFHE9vOLlmiAOkM7FLkKRRu
-CKPbuWib4ESMzVImO6dAPyHMUOFqksJ/ufF15i7LiVMeCpn2H4pgZqi3FeuaZckO
-CbVxKHUwJuomXQHrLQwAooMYdwde79kobFrJbk0REqvaUiBY5IBXbqql4R60B15k
-2R7M7fDLVqc6zcntzTGMAwnSh2Z6+H/BZxDvoL49HHC83R/eH4RrECApBqjfPVam
-9mo62ZaBeG2OeNODVpJCLIiTPdqB9cq/zUL4+bqed2X9OiY7t/QoDURLXugput2G
-jt53lw3OBkvOUrkiYHmqqTv5dEceQ/Q01gyceEDFMiwCTyEIPb5gTh4rjkKH4An8
-6tj8TlOtwegeYqhtdAb/UQk3tRY+CjVM4hOJy8aU5c8F2XknI4OiFp3HqU5e2U1z
-zhbRDPwBDO6NP4x0cx0ktwzIu6MZhwm4Pl9DLREc48AH0M3QxWGHfDO4py7rUXrx
-eNf4pz3i5br3f3ICbZ/b0rRbC2K7c5GeV6MxmwmHzog4dJ7sAmg=
-=fGu8
------END PGP SIGNATURE-----
-
---wac7ysb48OaltWcw--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
