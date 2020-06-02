@@ -2,195 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3C61EC1CC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2020 20:30:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D6401EC32C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2020 21:52:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726223AbgFBSaj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Jun 2020 14:30:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:35581 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726139AbgFBSaj (ORCPT
+        id S1728634AbgFBTwK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Jun 2020 15:52:10 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:53741 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728275AbgFBTvD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Jun 2020 14:30:39 -0400
-IronPort-SDR: L0CCZzb3JymSgWRydw9S+lTEJV0CV+7mg3OOLgoeNF+57WKn7ci2b7WmdTBI5wvV99kJR0BRRW
- VbkRyxRg3e6g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2020 11:30:38 -0700
-IronPort-SDR: 8hGaFSp6GGaxdVfp0qOtlDDl01Do0a/3+1Odzv4HSrFHlqbaeTe+gAI9e6jfMaNpmQGafxZuqH
- 6xTUFN9WGqoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,465,1583222400"; 
-   d="scan'208";a="293674742"
-Received: from lkp-server01.sh.intel.com (HELO e5a7ad696f24) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Jun 2020 11:30:37 -0700
-Received: from kbuild by e5a7ad696f24 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jgBgK-000067-Mn; Tue, 02 Jun 2020 18:30:36 +0000
-Date:   Wed, 03 Jun 2020 02:30:05 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
- 4f0c94c7bbb83cf53a74bcaea9ef394f0b15ae53
-Message-ID: <5ed69aad.0szGkAl0rF7wRZMW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 2 Jun 2020 15:51:03 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3FF913C04C1;
+        Tue,  2 Jun 2020 21:50:59 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id sQ2OMu6SAg4D; Tue,  2 Jun 2020 21:50:53 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 80A043C00B5;
+        Tue,  2 Jun 2020 21:50:53 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.11) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 2 Jun 2020
+ 21:50:53 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>, <stable@vger.kernel.org>
+Subject: [PATCH v2] media: vsp1: dl: Fix NULL pointer dereference on unbind
+Date:   Tue, 2 Jun 2020 21:50:16 +0200
+Message-ID: <20200602195016.803-1-erosca@de.adit-jv.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.72.94.11]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
-branch HEAD: 4f0c94c7bbb83cf53a74bcaea9ef394f0b15ae53  ARM: dts: r8a7742: Add CMT SoC specific support
+In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+command pools"), the vsp pointer used for referencing the VSP1 device
+structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
+not populated.
 
-elapsed time: 483m
+Correctly assign the pointer to prevent the following
+null-pointer-dereference when removing the device:
 
-configs tested: 135
-configs skipped: 6
+[*] h3ulcb-kf #>
+echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
+ Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+ Mem abort info:
+   ESR = 0x96000006
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+ Data abort info:
+   ISV = 0, ISS = 0x00000006
+   CM = 0, WnR = 0
+ user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
+ [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
+ Internal error: Oops: 96000006 [#1] PREEMPT SMP
+ Modules linked in:
+ CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
+ Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
+ pstate: 40000005 (nZcv daif -PAN -UAO)
+ pc : vsp1_dlm_destroy+0xe4/0x11c
+ lr : vsp1_dlm_destroy+0xc8/0x11c
+ sp : ffff800012963b60
+ x29: ffff800012963b60 x28: ffff0006f83fc440
+ x27: 0000000000000000 x26: ffff0006f5e13e80
+ x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
+ x23: ffff0006f5e13ed0 x22: dead000000000122
+ x21: ffff0006f5e3a080 x20: ffff0006f5df2938
+ x19: ffff0006f5df2980 x18: 0000000000000003
+ x17: 0000000000000000 x16: 0000000000000016
+ x15: 0000000000000003 x14: 00000000000393c0
+ x13: ffff800011a5ec18 x12: ffff800011d8d000
+ x11: ffff0006f83fcc68 x10: ffff800011a53d70
+ x9 : ffff8000111f3000 x8 : 0000000000000000
+ x7 : 0000000000210d00 x6 : 0000000000000000
+ x5 : ffff800010872e60 x4 : 0000000000000004
+ x3 : 0000000078068000 x2 : ffff800012781000
+ x1 : 0000000000002c00 x0 : 0000000000000000
+ Call trace:
+  vsp1_dlm_destroy+0xe4/0x11c
+  vsp1_wpf_destroy+0x10/0x20
+  vsp1_entity_destroy+0x24/0x4c
+  vsp1_destroy_entities+0x54/0x130
+  vsp1_remove+0x1c/0x40
+  platform_drv_remove+0x28/0x50
+  __device_release_driver+0x178/0x220
+  device_driver_detach+0x44/0xc0
+  unbind_store+0xe0/0x104
+  drv_attr_store+0x20/0x30
+  sysfs_kf_write+0x48/0x70
+  kernfs_fop_write+0x148/0x230
+  __vfs_write+0x18/0x40
+  vfs_write+0xdc/0x1c4
+  ksys_write+0x68/0xf0
+  __arm64_sys_write+0x18/0x20
+  el0_svc_common.constprop.0+0x70/0x170
+  do_el0_svc+0x20/0x80
+  el0_sync_handler+0x134/0x1b0
+  el0_sync+0x140/0x180
+ Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
+ ---[ end trace 3875369841fb288a ]---
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
+Cc: stable@vger.kernel.org # v4.19+
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-mips                malta_qemu_32r6_defconfig
-arm                      footbridge_defconfig
-sh                            shmin_defconfig
-mips                     loongson1b_defconfig
-sh                        sh7763rdp_defconfig
-ia64                              allnoconfig
-sh                           se7619_defconfig
-mips                           ip28_defconfig
-xtensa                generic_kc705_defconfig
-arc                             nps_defconfig
-arm                        keystone_defconfig
-arm                        multi_v5_defconfig
-arm                        shmobile_defconfig
-mips                           xway_defconfig
-arm                          ixp4xx_defconfig
-sh                           se7780_defconfig
-alpha                            alldefconfig
-mips                  maltasmvp_eva_defconfig
-sh                        dreamcast_defconfig
-sh                          lboxre2_defconfig
-arm                           corgi_defconfig
-arm                         bcm2835_defconfig
-sh                         microdev_defconfig
-powerpc                mpc7448_hpc2_defconfig
-arm                            u300_defconfig
-arm                          simpad_defconfig
-arm                           efm32_defconfig
-nios2                         3c120_defconfig
-powerpc                      pasemi_defconfig
-m68k                       m5208evb_defconfig
-sh                         apsh4a3a_defconfig
-arm                    vt8500_v6_v7_defconfig
-arm                         hackkit_defconfig
-mips                     cu1000-neo_defconfig
-x86_64                              defconfig
-arm                         lpc18xx_defconfig
-arm                              zx_defconfig
-ia64                             alldefconfig
-mips                        nlm_xlp_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20200602
-i386                 randconfig-a006-20200602
-i386                 randconfig-a002-20200602
-i386                 randconfig-a005-20200602
-i386                 randconfig-a003-20200602
-i386                 randconfig-a004-20200602
-x86_64               randconfig-a011-20200602
-x86_64               randconfig-a016-20200602
-x86_64               randconfig-a013-20200602
-x86_64               randconfig-a012-20200602
-x86_64               randconfig-a014-20200602
-x86_64               randconfig-a015-20200602
-i386                 randconfig-a014-20200602
-i386                 randconfig-a015-20200602
-i386                 randconfig-a011-20200602
-i386                 randconfig-a016-20200602
-i386                 randconfig-a012-20200602
-i386                 randconfig-a013-20200602
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+Changes in v2:
+ - Rephrased the description based on Kieran's proposal
+ - Added the Reviewed-by/Tested-by signatures
+ - No change in the contents
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+index d7b43037e500..e07b135613eb 100644
+--- a/drivers/media/platform/vsp1/vsp1_dl.c
++++ b/drivers/media/platform/vsp1/vsp1_dl.c
+@@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
+ 	if (!pool)
+ 		return NULL;
+ 
++	pool->vsp1 = vsp1;
++
+ 	spin_lock_init(&pool->lock);
+ 	INIT_LIST_HEAD(&pool->free);
+ 
+-- 
+2.26.2
+
