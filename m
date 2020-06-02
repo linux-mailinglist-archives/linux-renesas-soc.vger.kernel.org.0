@@ -2,189 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D10841EA51B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jun 2020 15:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DF41EBC15
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jun 2020 14:51:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgFANkQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 1 Jun 2020 09:40:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52628 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725847AbgFANkP (ORCPT
+        id S1726894AbgFBMvj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Jun 2020 08:51:39 -0400
+Received: from www.zeus03.de ([194.117.254.33]:46328 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725940AbgFBMvj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 1 Jun 2020 09:40:15 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C1FC061A0E;
-        Mon,  1 Jun 2020 06:40:15 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id g5so3480323pfm.10;
-        Mon, 01 Jun 2020 06:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=T+tbUzmqUtPdaDA66y4P6TRaUz7TGSaGcJXEbYmiSzg=;
-        b=uLtD6u/XsIMVTNcATS2idiC4if137SRCOEPB45k8KxH13VvUwDWSAiISAG8jYS8on4
-         4Btd2LjJH46nl8L4BDNSEKoUtMQoz/tmgdIq2erS9GZEBO8eDKqduJ2f+PbjhyrxXnob
-         JSadCGwfAuXhxmuWp/kwWNRBYH0LWrbV6OlibwU+HBufVwFPpi1ZttgLz2rL7V685xRW
-         WfoXhM+0M95NEiE9EQniCHzFmMa5Z9WCwzKR/Fs4Jw+tU47HKXGjOEfUaepQE96aSEvb
-         tb7+uhR0LcmlYbf4lSQCj0Ki0esHpTikVtgdcWnmS2BDrCrAqGz1lsREF2rPVx3nqBiM
-         RK5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=T+tbUzmqUtPdaDA66y4P6TRaUz7TGSaGcJXEbYmiSzg=;
-        b=YF47ddKP9KuMXN26HOjSNVvtH/FIOXQu2s2uC1o3qvspEZetANzyRkeGrJRFAJWeVG
-         XV7ClSllLhLuH9pLco2FZAhEqZH25l/DcVLFp0AR3kgQyJ9xFwrwjzz82e6Wxe0Ttod7
-         qUVogFyVrfFKMCOU5WG936lBP9xtmktVctbxHw4X235OPJzr/n++JsswL4STU/6ZJGgo
-         UapFWWLi0RWUVIk5A2aLzu+McrLyll1js7ZgCiUzbdQkvTILlNxJM01gT6X/78tJSGxT
-         aqd6plFpks4WA7weMsLn8p00QLfCFCHVC1fXjldQD/HwPMmUJueeHWrjItqC0wfBxry5
-         zRwQ==
-X-Gm-Message-State: AOAM532CEWKSuohRm0GE4m0+xuN8aO2kPoRJUwsquV+mxCsU5DZapEio
-        /OV8v/TGEvwq7EumvT5Tl5M=
-X-Google-Smtp-Source: ABdhPJz9uZmUvDPe8JKDfXKHXvArOKo2nWSjDoBahLC2TKpkgYBovP1dvZKrdW+w+hKyGCgq2vUEew==
-X-Received: by 2002:aa7:85c1:: with SMTP id z1mr19639747pfn.184.1591018814740;
-        Mon, 01 Jun 2020 06:40:14 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 3sm4088275pfe.85.2020.06.01.06.40.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2020 06:40:14 -0700 (PDT)
-Subject: Re: [PATCH v4 06/11] thermal: Add mode helpers
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        kernel@collabora.com, Fabio Estevam <festevam@gmail.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Allison Randal <allison@lohutok.net>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Len Brown <lenb@kernel.org>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Enrico Weigelt <info@metux.net>,
-        Peter Kaestle <peter@piie.net>,
-        Sebastian Reichel <sre@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Andy Shevchenko <andy@infradead.org>
-References: <20200529155206.GA158553@roeck-us.net>
- <526286da-70d2-7c55-3c41-15fd2c969a39@collabora.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <c5780899-c471-4ce3-7581-5ab39a3cf219@roeck-us.net>
-Date:   Mon, 1 Jun 2020 06:40:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 2 Jun 2020 08:51:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=dSzMw+UaS/C9XBwiXA9Iifmw5RLL
+        NDrtXcnh4fJlcZY=; b=lwAphbARv6z64CpPcAMAZ3Pea/Kt/oWUUTrRNSNqfs3C
+        fFCNFiPFyA02PbMdoycco1ALCNq2ISpf5jj3uS4RyLoUIrz4DAkU+g+bgBCxH8GF
+        k76y5pl0EkdR0No/9Z3WU5covS5HPsxgIe1maymqmjXL+UdFvfarzhZ0HU4sEuI=
+Received: (qmail 952765 invoked from network); 2 Jun 2020 14:51:37 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Jun 2020 14:51:37 +0200
+X-UD-Smtp-Session: l3s3148p1@dFE2XxmnEOkgAwDPXw/+APwanz+b4yd7
+Date:   Tue, 2 Jun 2020 14:51:31 +0200
+From:   "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/3] mmc: tmio and renesas_sdhi_internal_dmac: fix dma
+ unmapping
+Message-ID: <20200602125131.GA1318@ninjato>
+References: <1590044466-28372-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <526286da-70d2-7c55-3c41-15fd2c969a39@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/1/20 4:16 AM, Andrzej Pietrasiewicz wrote:
-> Hi Guenter,
-> 
-> W dniu 29.05.2020 o 17:52, Guenter Roeck pisze:
->> On Thu, May 28, 2020 at 09:20:46PM +0200, Andrzej Pietrasiewicz wrote:
->>> Prepare for making the drivers not access tzd's private members.
->>>
->>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> 
-> <snip>
-> 
->>> +
->> Nit: unnecessary empty line.
->>
->>> +        return ret;
-> 
-> <snip>
-> 
->>> +    return thermal_zone_device_set_mode(tz, THERMAL_DEVICE_ENABLED);
->>> +}
->>> +EXPORT_SYMBOL(thermal_zone_device_enable);
->>
->> Other exports in thermal/ use EXPORT_SYMBOL_GPL.
-> 
-> Other than that does it look good to you?
 
-Yes, it does.
+--wac7ysb48OaltWcw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> I can send a v5 where the two above will be corrected, but did you have
-> a chance to review patches 7-11?
-> 
-Not yet. I got distracted, sorry. Hopefully I'll get to it
-today or tomorrow.
+Hi Shimoda-san,
 
-Guenter
+thanks for the patches and for providing a test case. I was not able to
+reproduce the issue, though. I'll explain...
+
+> Note that this patch series is tested by using additional debug code [1],
+> because there is difficult to reproduce this issue. Before apply patch,
+> When I enabled CONFIG_DMA_API_DEBUG and CONFIG_DMA_API_DEBUG_SG,
+> I observed lacking dma unmapping on /sys/kernel/debug/dma-api/dump.
+> And then I confirmed the patch can fix the issue.
+
+So, I have this debug patch applied on top of mmc/next. I have the above
+CONFIG_ symbols enabled. I have _not_ applied your three patches which
+fix the issue. I mounted the eMMC and read a large file. I see the
+injected timeouts happening:
+
+[   94.079560] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
+[   94.088668] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
+[   94.097727] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
+[   94.106768] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
+[   94.115848] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for SD bus idle
+[   99.300589] renesas_sdhi_internal_dmac ee140000.sd: timeout waiting for hardware interrupt (CMD13)
+
+But I do not see any output from the DMA debug system about a missing
+unmapping. I expected that, though, because your fixes are not applied.
+The testfile could even be correctly checksummed after reading, just
+awfully slow, of course.
+
+Am I missing something?
+
+All the best,
+
+   Wolfram
+
+
+--wac7ysb48OaltWcw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7WS08ACgkQFA3kzBSg
+KbZa6Q//e7N/DQAOB/qjQcezOiFcIx0c2MI00ts+DL5aTELoNi/557uxeOm+jGE0
+z7J/Br6PHWa5hBxpaQuDYacvXsF/c5tlhpjG6bSB3RRkRrqrascjJGVlQ8soPt41
+Dx4Ih7u68SgNE6izCy+5Kw+yu+lMAsv74Bmr4wIKUhFHE9vOLlmiAOkM7FLkKRRu
+CKPbuWib4ESMzVImO6dAPyHMUOFqksJ/ufF15i7LiVMeCpn2H4pgZqi3FeuaZckO
+CbVxKHUwJuomXQHrLQwAooMYdwde79kobFrJbk0REqvaUiBY5IBXbqql4R60B15k
+2R7M7fDLVqc6zcntzTGMAwnSh2Z6+H/BZxDvoL49HHC83R/eH4RrECApBqjfPVam
+9mo62ZaBeG2OeNODVpJCLIiTPdqB9cq/zUL4+bqed2X9OiY7t/QoDURLXugput2G
+jt53lw3OBkvOUrkiYHmqqTv5dEceQ/Q01gyceEDFMiwCTyEIPb5gTh4rjkKH4An8
+6tj8TlOtwegeYqhtdAb/UQk3tRY+CjVM4hOJy8aU5c8F2XknI4OiFp3HqU5e2U1z
+zhbRDPwBDO6NP4x0cx0ktwzIu6MZhwm4Pl9DLREc48AH0M3QxWGHfDO4py7rUXrx
+eNf4pz3i5br3f3ICbZ/b0rRbC2K7c5GeV6MxmwmHzog4dJ7sAmg=
+=fGu8
+-----END PGP SIGNATURE-----
+
+--wac7ysb48OaltWcw--
