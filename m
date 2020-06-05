@@ -2,86 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF5D21EEB05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jun 2020 21:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79C301EEFDC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jun 2020 05:23:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728727AbgFDTVH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Jun 2020 15:21:07 -0400
-Received: from www.zeus03.de ([194.117.254.33]:40566 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728696AbgFDTVH (ORCPT
+        id S1726112AbgFEDX0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Jun 2020 23:23:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60060 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725954AbgFEDX0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Jun 2020 15:21:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=WiGsQ2qsBhvS3Xj7NDBbPyphfBwY
-        +yhHsYYqF17bInQ=; b=F/CIgZLClYzydv7oHc1cNqtlSf2cnHcyRF43yEmoMVY9
-        R0N61nSoPli8p+rDJ7KUlZLtQGCuDxZTgXbAkao9jJlXt5q/OTuEtIPUbnEDYFi+
-        aDxb1M7g0ACYLHSoVl4HXyG4rByl+RgOcZVVz3qhyHxE4QYkg3EwuGVxz8Zvr4c=
-Received: (qmail 1832535 invoked from network); 4 Jun 2020 21:21:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jun 2020 21:21:04 +0200
-X-UD-Smtp-Session: l3s3148p1@Ary3C0enjoQgAwDPXw1XANux7yWtmp4Z
-Date:   Thu, 4 Jun 2020 21:21:04 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Thu, 4 Jun 2020 23:23:26 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124DBC08C5C0;
+        Thu,  4 Jun 2020 20:23:23 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id j8so8727413iog.13;
+        Thu, 04 Jun 2020 20:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=liGwaubP6mRdOHGTrmXeXAs4GL+KhvggzrIcxZzyx0s=;
+        b=BsECjqK/peoemX1wSKgJWtYnYAwXEFm3muWD8NLgko+6QYL8xjksliOJm54JMZ2qq9
+         iuJDTR4sFH2cIsTu/toCDJpvHQ1JRzzbloU7G3Ne8r1uRgTQ5TcwDMKPwjp9M0nfBiv7
+         mJu75OQe0m1Epn/xL78C/zwsVAHPMVGDDqy+UcJzyahDNgbiWiMWrMbNvGMiaGC8Rl1y
+         Xrqy98jXFQVy/d3Rk4Kk9qzcJjQ26Y3fSqAiqFjGUj5oln6jgWiS1J7zHSHrSMKNcjUd
+         DBxjZ6GhvEIMT1w/t95w3j4K2AfZY6SbXPmGsVYpRz3o+RO6KnsXmSda17GAqdW9U0TQ
+         y7Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=liGwaubP6mRdOHGTrmXeXAs4GL+KhvggzrIcxZzyx0s=;
+        b=TRDpcQgE4CZagH/SD+oZ/67FsJRbiPBWFkqK0OXAmXfGg/z0c+rPm9Wr2zwAhANDNQ
+         UvxAXV22WRBQoTJKAJLVYUlpAsAwyp9DxKT+k8Vy2DSIc9d5iaRXHQLPoCRH0l+fk0Fv
+         GxXgJ+3kGG+mI/TkIzRRfLDDTIma35EHieNoLFzrW8rjGY2aYJQ6GkmY9VaVfNnj/VLL
+         ETTxhAyNVA5z/ue+133IZBRTHiOhXEcFbHCvAF5e+1U7L7zWpwd/iAT/Hli3VOI4FttZ
+         YrvzKotigM3NYpIPl5Um6gzsjZ/jm8TNZV4lDaKn2OKceSd9lyYBSNBz1jB865Wml80R
+         IovQ==
+X-Gm-Message-State: AOAM532upp7g+NIkdw7kzzqngwKZ4IL+KVcLTb89KnyV3ot56I8Vyy/x
+        2Eif4HSgyV5QVKuWn4z7WlY=
+X-Google-Smtp-Source: ABdhPJyOP4IZmR82ZM345ctXo67aV+7jNU5IS3XlCDu55+aWNLOqM3cD5hOm3ggE4dnuAOCV+l3B/g==
+X-Received: by 2002:a02:2581:: with SMTP id g123mr6733130jag.35.1591327402381;
+        Thu, 04 Jun 2020 20:23:22 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id 13sm2315880ilg.24.2020.06.04.20.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 20:23:21 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>
-Subject: Re: [RFC PATCH v3 2/2] mmc: renesas_sdhi: support manual calibration
-Message-ID: <20200604192104.GA26501@ninjato>
-References: <20200604120633.22795-1-wsa+renesas@sang-engineering.com>
- <20200604120633.22795-3-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
-Content-Disposition: inline
-In-Reply-To: <20200604120633.22795-3-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: [PATCH] PCI: rcar: handle the failure case of pm_runtime_get_sync
+Date:   Thu,  4 Jun 2020 22:23:15 -0500
+Message-Id: <20200605032315.39071-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Calling pm_runtime_get_sync increments the counter even in case of
+failure, causing incorrect ref count. Call pm_runtime_put if
+pm_runtime_get_sync fails.
 
---wac7ysb48OaltWcw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/pci/controller/pcie-rcar.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index 759c6542c5c8..6b4181c0710e 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -1137,7 +1137,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	err = pm_runtime_get_sync(pcie->dev);
+ 	if (err < 0) {
+ 		dev_err(pcie->dev, "pm_runtime_get_sync failed\n");
+-		goto err_pm_disable;
++		goto err_pm_put;
+ 	}
+ 
+ 	err = rcar_pcie_get_resources(pcie);
+@@ -1208,8 +1208,6 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 
+ err_pm_put:
+ 	pm_runtime_put(dev);
+-
+-err_pm_disable:
+ 	pm_runtime_disable(dev);
+ 	pci_free_resource_list(&pcie->resources);
+ 
+-- 
+2.17.1
 
-> +	if (ver == SDHI_VER_GEN3_SDMMC && quirks && quirks->hs400_calib_table) {
-> +		host->fixup_request = renesas_sdhi_fixup_request;
-> +		priv->adjust_hs400_calib_table = *(
-> +			res->start == SDHI_GEN3_MMC0_ADDR ?
-> +			quirks->hs400_calib_table :
-> +			quirks->hs400_calib_table + 1);
-> +	}
-> +
-
-Testing revealed that this chunk should be moved up before calling
-tmio_mmc_host_probe(). After that, output from R-Car M3-N and H3 ES2.0
-were as expected. Updated debug test patch was pushed out to the branch
-as well. Tomorrow, I will test R-Car H2 and if all goes well, I will
-send out the fixed and non-RFC version of this series.
-
-
---wac7ysb48OaltWcw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7ZSZwACgkQFA3kzBSg
-KbbY/Q/+NiC7/Src/5Iai+hH/M8S2HdKtBIZ1E7pXzdPpAkDBma6B8NYKG+2pf78
-iLNJzW2uxfLSvbcwg7Xf5OCYk+9S3lwNAxtCZfi598nbhnmp5NOGR5odfixW9ZwT
-Gur36AhJzbpYMHYOmkDGzfVcxMoUMdVWjWBOrUeB+k8eP5H/Cwa9gZLzkPt4H/3+
-my92rqw0cy7CIlqHMEHv3RXG+FfytvVxNBLr9ECi19MlZM5V6aMp61OfosIU5p8I
-x5caTY3Z0qWBAjgjThzNN+oX722u7cwIrOSyp2jpxJXAZ17bGes40irSaIl+6s9U
-NwZ1djFe58nE/gzgpn/IynGwzdSmz205qD7632a8G7FhOzle2OrRTXF6czaJXwBu
-SwXcMianV7vIztjKIlTrUHeT0R0/B4Hs/W/Ft9F1TSZ5xwlU2bs8l+3Qthsw+P79
-cJRnrJsCrAp4dy43hG8qKhma2fIebmle6QOHC0tlqdJBECsXSoYlzGm4TlX1aWVd
-ls5RgvxWg92+A9YM3u1QqSsph90ZFxGdQv5sgh/+g6ieBe5ldARlMGhgfmXfztDJ
-brjTbt5GVIP+nur3TwM18LiwWyYu2jZem9B+7fDr1Fgg27k2bJQEBlVsKyxg5IH9
-VPPj2R/SV/G2QrcPTEGyN6pRbUr2byHRUimNy0QqBC1BdrYFf3Q=
-=1tZH
------END PGP SIGNATURE-----
-
---wac7ysb48OaltWcw--
