@@ -2,63 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADB1F1F0A39
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jun 2020 08:18:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 197E61F0AA3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jun 2020 11:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbgFGGSf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Jun 2020 02:18:35 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:57224 "EHLO zju.edu.cn"
+        id S1726427AbgFGJcA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Jun 2020 05:32:00 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:8716 "EHLO zju.edu.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726192AbgFGGSd (ORCPT
+        id S1726418AbgFGJcA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Jun 2020 02:18:33 -0400
-Received: by ajax-webmail-mail-app3 (Coremail) ; Sun, 7 Jun 2020 14:18:15
- +0800 (GMT+08:00)
-X-Originating-IP: [10.192.85.18]
-Date:   Sun, 7 Jun 2020 14:18:15 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   dinghao.liu@zju.edu.cn
-To:     "Marek Vasut" <marek.vasut@gmail.com>
-Cc:     kjlu@umn.edu,
-        "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        "Lorenzo Pieralisi" <lorenzo.pieralisi@arm.com>,
-        "Rob Herring" <robh@kernel.org>,
-        "Bjorn Helgaas" <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Sun, 7 Jun 2020 05:32:00 -0400
+Received: from localhost.localdomain (unknown [10.192.85.18])
+        by mail-app2 (Coremail) with SMTP id by_KCgB375b2s9xeoZiZAA--.56237S4;
+        Sun, 07 Jun 2020 17:31:38 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] PCI: rcar: fix runtime pm imbalance on error
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
- Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
-In-Reply-To: <5cf73d31-33ab-b9ba-c9d5-faa3977484eb@gmail.com>
-References: <20200520082228.26881-1-dinghao.liu@zju.edu.cn>
- <5cf73d31-33ab-b9ba-c9d5-faa3977484eb@gmail.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <176a80c.fc77b.1728d6dfd9b.Coremail.dinghao.liu@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cC_KCgDnX0OnhtxeMzVaAA--.20998W
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgUABlZdtOcIbQAQss
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUblCS07vEb7Iv0x
-        C_Jr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
-        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
-        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
-        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIAIbVA2z4x0Y4vEx4A2jsIE14v26r
-        xl6s0DMIAIbVA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lV2xY62AIxVAIcxkEcVAq
-        07x20xvEncxIr21lV2xY6c02F40EFcxC0VAKzVAqx4xG6I80ewCS07vEYx0E2Ix0cI8IcV
-        AFwI0_Jr0_Jr4lV2xY6cIj6I8E87Iv67AKxVWUJVW8JwCS07vEOx8S6xCaFVCjc4AY6r1j
-        6r4UMIAIbVCjxxvEw4WlV2xY6xkI7II2jI8vz4vEwIxGrwCS07vE42xK82IY6x8ErcxFaV
-        Av8VW8uw4UJr1UMIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lV2xY
-        6I8I3I0E5I8CrVAFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14v26r106r1rMIAIbVC2zV
-        AF1VAY17CE14v26r1q6r43MIAIbVCI42IY6xIIjxv20xvE14v26r1j6r1xMIAIbVCI42IY
-        6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lV2xY6IIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s
-        0DMIAIbVCI42IY6I8E87Iv67AKxVWUJVW8JwCS07vEIxAIcVC2z280aVCY1x0267AKxVWU
-        JVW8JbIYCTnIWIevJa73U
+Subject: [PATCH] [v2] PCI: rcar: Fix runtime PM imbalance on error
+Date:   Sun,  7 Jun 2020 17:31:33 +0800
+Message-Id: <20200607093134.6393-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgB375b2s9xeoZiZAA--.56237S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFyDGryUXFyDAryfXw4fXwb_yoW8Jw4rpF
+        W7Way2yF4kX3y5Zr45JF1kZFyav3ZYy347J397Ww17Zwnxua4ktryFkFyFqFyUKFW8X3WU
+        t3W5tay8CFW5JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvK1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+        6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28I
+        cxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJV
+        W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+        1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+        IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF
+        0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+        VjvjDU0xZFpf9x0JUdHUDUUUUU=
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgsEBlZdtOgTHAAAsT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-PiA+ICAKPiA+ICBlcnJfcG1fcHV0Ogo+IAo+IFlvdSBtaWdodCB3YW50IHRvIHJlbW92ZSB0aGlz
-IGxhYmVsIHRvby4KClRoYW5rIHlvdSBmb3IgcG9pbnRpbmcgb3V0IHRoaXMhIEkgd2lsbCBmaXgg
-dGhpcyBpbiB0aGUgCm5leHQgdmVyc2lvbiBvZiBwYXRjaC4K
+pm_runtime_get_sync() increments the runtime PM usage counter even
+the call returns an error code. Thus a corresponding decrement is
+needed on the error handling path to keep the counter balanced.
+
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+
+Changelog:
+
+v2: - Remove unnecessary 'err_pm_put' label.
+      Refine commit message.
+---
+ drivers/pci/controller/pcie-rcar.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index 759c6542c5c8..f9595ab54bc4 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -1143,7 +1143,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	err = rcar_pcie_get_resources(pcie);
+ 	if (err < 0) {
+ 		dev_err(dev, "failed to request resources: %d\n", err);
+-		goto err_pm_put;
++		goto err_pm_disable;
+ 	}
+ 
+ 	err = clk_prepare_enable(pcie->bus_clk);
+@@ -1206,10 +1206,8 @@ static int rcar_pcie_probe(struct platform_device *pdev)
+ 	irq_dispose_mapping(pcie->msi.irq2);
+ 	irq_dispose_mapping(pcie->msi.irq1);
+ 
+-err_pm_put:
+-	pm_runtime_put(dev);
+-
+ err_pm_disable:
++	pm_runtime_put(dev);
+ 	pm_runtime_disable(dev);
+ 	pci_free_resource_list(&pcie->resources);
+ 
+-- 
+2.17.1
+
