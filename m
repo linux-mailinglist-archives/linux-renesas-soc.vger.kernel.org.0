@@ -2,192 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 182711F093C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jun 2020 03:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4330F1F095A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  7 Jun 2020 04:31:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728879AbgFGBY1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 6 Jun 2020 21:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36286 "EHLO
+        id S1728910AbgFGCbp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 6 Jun 2020 22:31:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728723AbgFGBY1 (ORCPT
+        with ESMTP id S1728887AbgFGCbp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 6 Jun 2020 21:24:27 -0400
+        Sat, 6 Jun 2020 22:31:45 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3469C08C5C2
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  6 Jun 2020 18:24:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAB4C08C5C2
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  6 Jun 2020 19:31:45 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67A162C9;
-        Sun,  7 Jun 2020 03:24:25 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ED5C2C9;
+        Sun,  7 Jun 2020 04:31:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591493065;
-        bh=hjxc+CECuOuAuOXyZxLgapJQ0U3wz/XP5fVTS3RERr8=;
+        s=mail; t=1591497103;
+        bh=k6GUkAiVWnx1R+MY998+a9ktYfpmTRgrQ8gsymV4gSg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WTJ8diBRyiDL4KNvGfD+N/ngsmF0bjeye109jfL+aVisia9sdSkmRVl299bAAPnhG
-         A3Sq+8xxDIPi2vaaxS/wMUoCq93sAsgo92KPpkeQ5hnJvpt5BqyixjTzUfx+dJ8PFW
-         9fgaZ8WipJLhFwKvW7ro7FsUj8g4gCsiyr3ZwguY=
-Date:   Sun, 7 Jun 2020 04:24:06 +0300
+        b=Z1Q4WbmaVKgFMpncihwQuMIDAI5cTMn9kc/bOEHYT5oS3hryM4cBmpjMDPTKqn7sR
+         MMdg5V84NPR7i1JKM2LkqgrMzJuGl/ZsLdrztUZ+3OfHbyCgMNuw25x3Gzqo0wAF3O
+         7L/qruWD024i7uwGTbJrFoFvHjCxYBPqUG9a7FSU=
+Date:   Sun, 7 Jun 2020 05:31:24 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 23/27] drm: bridge: dw-hdmi: Attach to next bridge if
- available
-Message-ID: <20200607012406.GX7339@pendragon.ideasonboard.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-24-laurent.pinchart+renesas@ideasonboard.com>
- <f75a9b4f-a283-53b1-ecb1-2bb6c9a278d6@baylibre.com>
- <b803dc36-f3f1-f90c-ac53-302d24397c2b@kwiboo.se>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [VSP-Tests PATCH] tests: Provide {un,}bind testing
+Message-ID: <20200607023124.GB7339@pendragon.ideasonboard.com>
+References: <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
+ <20200525132148.3454488-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b803dc36-f3f1-f90c-ac53-302d24397c2b@kwiboo.se>
+In-Reply-To: <20200525132148.3454488-1-kieran.bingham@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jonas,
+Hi Kieran,
 
-On Tue, May 26, 2020 at 02:23:33PM +0000, Jonas Karlman wrote:
-> On 2020-05-26 14:50, Neil Armstrong wrote:
-> > On 26/05/2020 03:15, Laurent Pinchart wrote:
-> >> On all platforms except i.MX and Rockchip, the dw-hdmi DT bindings
-> >> require a video output port connected to an HDMI sink (most likely an
-> >> HDMI connector, in rare cases another bridges converting HDMI to another
-> >> protocol). For those platforms, retrieve the next bridge and attach it
-> >> from the dw-hdmi bridge attach handler.
-> >>
-> >> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >> ---
-> >>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 52 ++++++++++++++++++++++-
-> >>  include/drm/bridge/dw_hdmi.h              |  2 +
-> >>  2 files changed, 53 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> >> index 6148a022569a..512e67bb1c32 100644
-> >> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> >> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> >> @@ -143,6 +143,7 @@ struct dw_hdmi_phy_data {
-> >>  struct dw_hdmi {
-> >>  	struct drm_connector connector;
-> >>  	struct drm_bridge bridge;
-> >> +	struct drm_bridge *next_bridge;
-> >>  
-> >>  	unsigned int version;
-> >>  
-> >> @@ -2797,7 +2798,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
-> >>  	struct dw_hdmi *hdmi = bridge->driver_private;
-> >>  
-> >>  	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
-> >> -		return 0;
-> >> +		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
-> >> +					 bridge, flags);
-> >>  
-> >>  	return dw_hdmi_connector_create(hdmi);
-> >>  }
-> >> @@ -3179,6 +3181,50 @@ static void dw_hdmi_init_hw(struct dw_hdmi *hdmi)
-> >>  		hdmi->phy.ops->setup_hpd(hdmi, hdmi->phy.data);
-> >>  }
-> >>  
-> >> +static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
-> >> +{
-> >> +	struct device_node *endpoint;
-> >> +	struct device_node *remote;
-> >> +
-> >> +	if (!hdmi->plat_data->output_port)
-> >> +		return 0;
-> >> +
-> >> +	endpoint = of_graph_get_endpoint_by_regs(hdmi->dev->of_node,
-> >> +						 hdmi->plat_data->output_port,
-> >> +						 -1);
-> >> +	if (!endpoint) {
-> >> +		/*
-> >> +		 * Don't treat this as a fatal error as the Rockchip DW-HDMI
-> >> +		 * binding doesn't make the output port mandatory.
-> >> +		 */
-> >> +		dev_dbg(hdmi->dev, "Missing endpoint in port@%u\n",
-> >> +			hdmi->plat_data->output_port);
-> >> +		return 0;
+Thank you for the patch.
+
+On Mon, May 25, 2020 at 02:21:48PM +0100, Kieran Bingham wrote:
+> Perform unbind-bind testing of the VSP devices to validate
+> successful removal of the drivers.
 > 
-> After this series only rcar-du set output_port so this block should only
-> run for rcar-du, for platforms without output_port the if-statement
-> for !hdmi->plat_data->output_port already return success so you can
-> probably return fatal error here.
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> ---
+>  tests/vsp-unit-test-0026.sh | 63 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100755 tests/vsp-unit-test-0026.sh
 > 
-> The comment is a little bit misleading because of the if-statement above
-> or am I missing something?
+> diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
+> new file mode 100755
+> index 000000000000..86c523a65651
+> --- /dev/null
+> +++ b/tests/vsp-unit-test-0026.sh
+> @@ -0,0 +1,63 @@
+> +#!/bin/sh
+> +
+> +#
+> +# Test unbinding and binding all VSP1 devices, performing a simple
+> +# copy test to validate the hardware afterwards.
+> +#
+> +
+> +. ./vsp-lib.sh
+> +
+> +features="rpf.0 wpf.0"
+> +
+> +vsp1_driver=/sys/bus/platform/drivers/vsp1
+> +vsps=$(cd /sys/bus/platform/devices/; ls | grep vsp)
+> +
+> +unbind_vsp() {
+> +	echo $1 > $vsp1_driver/unbind
+> +}
+> +
+> +bind_vsp() {
+> +	echo $1 > $vsp1_driver/bind
+> +}
+> +
+> +# Input is directly copied to the output. No change in format or size.
+> +test_copy() {
+> +	local format=$1
+> +	local insize=$2
+> +
+> +	test_start "simple hardware validation after unbind/bind cycles"
+> +
+> +	pipe_configure rpf-wpf 0 0
+> +	format_configure rpf-wpf 0 0 $format $insize $format
+> +
+> +	vsp_runner rpf.0 &
+> +	vsp_runner wpf.0
+> +
+> +	local result=$(compare_frames)
+> +
+> +	test_complete $result
+> +}
+> +
+> +test_main() {
+> +	local format
+> +
+> +	# Unbind and rebind individually
+> +	for v in $vsps; do
+> +		unbind_vsp $v;
+> +		bind_vsp $v;
 
-You're right, I'll turn this into an error.
+No need for the ; at the end of those two lines.
 
-> >> +	}
-> >> +
-> >> +	remote = of_graph_get_remote_port_parent(endpoint);
-> >> +	of_node_put(endpoint);
-> >> +	if (!remote) {
-> >> +		dev_err(hdmi->dev, "Endpoint in port@%u unconnected\n",
-> >> +			hdmi->plat_data->output_port);
-> >> +		return -ENODEV;
-> >> +	}
-> >> +
-> >> +	if (!of_device_is_available(remote)) {
-> >> +		dev_err(hdmi->dev, "port@%u remote device is disabled\n",
-> >> +			hdmi->plat_data->output_port);
-> >> +		of_node_put(remote);
-> >> +		return -ENODEV;
-> >> +	}
-> >> +
-> >> +	hdmi->next_bridge = of_drm_find_bridge(remote);
-> >> +	of_node_put(remote);
-> >> +	if (!hdmi->next_bridge)
-> >> +		return -EPROBE_DEFER;
-> > 
-> > I'll be safer to print a warn for now until all platforms has been tested.
-> > 
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static struct dw_hdmi *
-> >>  __dw_hdmi_probe(struct platform_device *pdev,
-> >>  		const struct dw_hdmi_plat_data *plat_data)
-> >> @@ -3216,6 +3262,10 @@ __dw_hdmi_probe(struct platform_device *pdev,
-> >>  	mutex_init(&hdmi->cec_notifier_mutex);
-> >>  	spin_lock_init(&hdmi->audio_lock);
-> >>  
-> >> +	ret = dw_hdmi_parse_dt(hdmi);
-> >> +	if (ret < 0)
-> >> +		return ERR_PTR(ret);
-> >> +
-> >>  	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
-> >>  	if (ddc_node) {
-> >>  		hdmi->ddc = of_get_i2c_adapter_by_node(ddc_node);
-> >> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> >> index ea34ca146b82..8ebeb65d6371 100644
-> >> --- a/include/drm/bridge/dw_hdmi.h
-> >> +++ b/include/drm/bridge/dw_hdmi.h
-> >> @@ -126,6 +126,8 @@ struct dw_hdmi_phy_ops {
-> >>  struct dw_hdmi_plat_data {
-> >>  	struct regmap *regm;
-> >>  
-> >> +	unsigned int output_port;
-> >> +
-> >>  	unsigned long input_bus_encoding;
-> >>  	bool use_drm_infoframe;
-> >>  	bool ycbcr_420_allowed;
-> >>
-> > 
-> > I must check on meson, since I'm not sure for now if the connector probes.
-> > 
-> > Anyway, this looks fine.
-> > 
-> > Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-> > 
+> +	done
+> +
+> +	# Unbind, then rebind all VSPs at once
+> +	for v in $vsps; do
+> +		unbind_vsp $v;
+
+Same here.
+
+> +	done
+> +	for v in $vsps; do
+> +		bind_vsp $v;
+> +	done;
+
+And here, including after 'done'.
+
+Do we need both, isn't the invidual unbind/rebind enough ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Feel free to push after addressing those issues.
+
+> +
+> +	# Perform a simple copy test to validate HW is alive
+> +	test_copy RGB24 128x128
+> +}
+> +
+> +test_init $0 "$features"
+> +test_run
 
 -- 
 Regards,
