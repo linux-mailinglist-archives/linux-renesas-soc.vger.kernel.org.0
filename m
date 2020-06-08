@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D42001F1A58
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 15:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0CF1F1A68
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 15:50:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729543AbgFHNtk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 09:49:40 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33334 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729051AbgFHNtk (ORCPT
+        id S1729833AbgFHNuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 09:50:22 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:45804 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729674AbgFHNuV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 09:49:40 -0400
-Received: by mail-ot1-f68.google.com with SMTP id n6so4319296otl.0;
-        Mon, 08 Jun 2020 06:49:38 -0700 (PDT)
+        Mon, 8 Jun 2020 09:50:21 -0400
+Received: by mail-oi1-f194.google.com with SMTP id p70so15293947oic.12;
+        Mon, 08 Jun 2020 06:50:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vE39FsAHEzS4nlgN+9+kwQFUunfNcIp+asj1pK6LsSA=;
-        b=UDvq0ADbA9s1c1QDythwQEyISVMLMrl8PpO8mVoL/rLRhB7w9RQZ7HdGc5XjPw44V0
-         MX9x8S7NTA8rP09KAdBeGP9IXekXFxVN01TzD/SBajfrKzXwC4SFrkutt/nimdAvTLHU
-         berPo/9OjOr3mslDiZjG1nSftFDhUF9fzhk7f9Sb8Zm5oLqTO4wCp0AzKxG9+CQc/gJk
-         oUonLhPm8+YvvcSc0B6l/qVGhaUsQFlpvTi6YmFvTPBEhsG2xPXUxA7uJFWUi0JRe0zM
-         6Ov8AwoZdyzcZshlqn5LrJplcEGLLChsOBJ+VmklKVAJ6V705ZiCMX98zukfccbQHjN+
-         mBQA==
-X-Gm-Message-State: AOAM532WNfWRKm+8T60+bmXHdKCCJv4bjxv/u1DBLRLFEgFIFbIArkz9
-        ZgvGTzII4SjE3Um4UQjWp6mnuHdCANXX+0qDSC+R8A==
-X-Google-Smtp-Source: ABdhPJzrpsaHVulgjeel/2KAtDHbnuBIT+dYk9JWN0/9nspbGEIkFKUO/9zqOstvoXxWfyptUtPaaXqLx8mot6VJEVE=
-X-Received: by 2002:a9d:62c2:: with SMTP id z2mr17279541otk.145.1591624178388;
- Mon, 08 Jun 2020 06:49:38 -0700 (PDT)
+        bh=LoBXZChFhFBHCAkIAQbE9ACXjpMIB+fC8bSF51f2aWc=;
+        b=Oi1JV+iOrC6Fz0vZtz9BnXQLvULm/VK9Zn12fvWo1ZfOLbKHXFz651IV7Se0j60b6b
+         e3oA2859K9ksf52g2x9v+FCvGbWNa4pFFwieXf8Mfjd5Lw2Qz7n4bzs0b3rGDHsKVEE3
+         +M+pdruzQIPjFNvP1FGn8mkpVzU13EKTxbTNdblvWWMFvKoS9F3GDrwaqIwbhXMYhqQd
+         2JGCHqDlFGNHJeQNHWKtQjnmIM9YDaAOsLxuhMlGqW7mgupIcxrZ7PMwNWK3wt73V6oo
+         vijEfM+B0cRCqXXu+gYv5cNW7NBN6ObZ+2lxp8GOqxxleqUqOM4KjbSXrUFUVD0fWmD3
+         6dLA==
+X-Gm-Message-State: AOAM5312+E3y7k+dEM5/6aD85V1km5Lm6HtG3Fim23+EAYRW6mQ7jO3w
+        UZ1sqwY2zTS+tnkNJHZlHjJdAGeTogDb16w/1f4=
+X-Google-Smtp-Source: ABdhPJxu+xASA+2ZNb44ekDJEVwU5qFhT7U9QCnbCegaQTenwVkQmEVG4N8NU8yCgqlmPa3KP9HE51+OyaTr6GMiSHs=
+X-Received: by 2002:a54:4006:: with SMTP id x6mr3364279oie.148.1591624221004;
+ Mon, 08 Jun 2020 06:50:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1591555267-21822-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1591555267-21822-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Jun 2020 15:49:26 +0200
-Message-ID: <CAMuHMdVgL6VOU3oxjtpCc=oQTfpsz3LXxm6cHK-V5N-46HMrVQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] arm64: dts: renesas: r8a774a1-hihope-rzg2m[-ex/-ex-idk-1110wr]:
- Rename HiHope RZ/G2M boards
+Date:   Mon, 8 Jun 2020 15:50:09 +0200
+Message-ID: <CAMuHMdVjHdwpm62mephmGPtDrYOeQyP38PaQD2=SOYD6Xj5ZaQ@mail.gmail.com>
+Subject: Re: [PATCH 02/11] arm64: dts: renesas: r8a774b1-hihope-rzg2n[-ex]:
+ Rename HiHope RZ/G2N boards
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -54,7 +55,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Sun, Jun 7, 2020 at 8:41 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The existing DTS files for HiHope RZ/G2M boards are for Rev.2.0 version
+> The existing DTS files for HiHope RZ/G2N boards are for Rev.2.0 version
 > so reflect the same for the DTS file names so that the existing naming
 > convention can be used for Rev.3.0/4.0 boards.
 >
