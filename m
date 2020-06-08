@@ -2,87 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00EAA1F2177
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 23:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 606D91F217E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 23:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbgFHV1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 17:27:04 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47964 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726705AbgFHV1E (ORCPT
+        id S1726746AbgFHVaD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 17:30:03 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46176 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726705AbgFHVaC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 17:27:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=WUtagRU3g82ExRNn7D1biyJuJW4q
-        PcLsdg41K1ak1Z4=; b=IjiDGA+VB91wi74TeiYO7piJXtggNmfsc+zFBhI9QMR/
-        46FmrQUWcCo+DT10K+cqYngPkHgcDuT9MKsKa695UvBgj43wR0TdFCSLRESShFsp
-        XDj8d1LlNSoakFFdqcnl4NY5VpCsEt8l3eTBe0NNhEJ69Uw4UArla/wxOm53WWc=
-Received: (qmail 3147057 invoked from network); 8 Jun 2020 23:27:02 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jun 2020 23:27:02 +0200
-X-UD-Smtp-Session: l3s3148p1@aA6URZmnKIQgAwDPXwXUAIYwoJSUoKNc
-Date:   Mon, 8 Jun 2020 23:27:02 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: keep SCC clock active when tuning
-Message-ID: <20200608212702.GD917@ninjato>
-References: <20200604112040.22144-1-wsa+renesas@sang-engineering.com>
- <20200604112040.22144-3-wsa+renesas@sang-engineering.com>
- <TY2PR01MB36923A1D7091431CE3F73195D8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Mon, 8 Jun 2020 17:30:02 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC9B62C9;
+        Mon,  8 Jun 2020 23:29:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591651800;
+        bh=5648b7zLWqMKR5MbS2MpnHHlZD+5zBO3a0GztfnN9s0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Swx/mncbCCeCY3s9gmp/Kg9vFqKn3uGXqIwzumYd/BGYjbpKLdGkl5YTVs0Lf9JMU
+         b70JvRt5/kHzCorFR6BeVE8xagLHUM5dHDx0pjQz5S9H6kze3uszPUFU9tEoNsiueP
+         8utZUFXIdQLA1izbWrsYXb4P0yT+BkBgaFvhPA4k=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] [v2] media: vsp1: Fix runtime PM imbalance on error
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <dad95caa-0cbc-7df2-8187-af5f38dee1da@ideasonboard.com>
+Date:   Mon, 8 Jun 2020 22:29:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mSxgbZZZvrAyzONB"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB36923A1D7091431CE3F73195D8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Dinghao,
 
---mSxgbZZZvrAyzONB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 08/06/2020 06:29, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
+> 
+
+Looks good to me:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Fix the imbalance in vsp1_device_get().
+>       Use vsp1_device_get() and vsp1_device_put()
+>       to replace pm_runtime_get_sync() and
+>       pm_runtime_put_sync() in vsp1_probe().
+
+That looks like a helpful addition!
+
+> ---
+>  drivers/media/platform/vsp1/vsp1_drv.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> index c650e45bb0ad..dc62533cf32c 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -562,7 +562,12 @@ int vsp1_device_get(struct vsp1_device *vsp1)
+>  	int ret;
+>  
+>  	ret = pm_runtime_get_sync(vsp1->dev);
+> -	return ret < 0 ? ret : 0;
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(vsp1->dev);
+
+Hrm... I was going to query the _noidle here, as I presume the device is
+likely already idle ... but actually this looks like it simply adds
+protection against decrementing the refcnt below zero, so it is likely
+useful.
 
 
-> > +	/* Tuning done, no special handling for SCC clock needed anymore */
-> > +	priv->keep_scc_freq =3D false;
-> > +
->=20
-> Setting keep_scc_freq to false is only here. But, I'm thinking
-> we should set it in some error paths like below somehow too:
->  - error paths before hs400_complete() in mmc_select_hs400().
->  - error path of mmc_execute_tuning() in mmc_retune().
 
-Hmm, I guess you are right. That would kind of spoil my approach taken
-here. Maybe we need another flag in the core like 'doing_tune' to
-supplement 'doing_retune', so or driver knows when any kind of tuning is
-going on?
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -845,12 +850,12 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	/* Configure device parameters based on the version register. */
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> -	ret = pm_runtime_get_sync(&pdev->dev);
+> +	ret = vsp1_device_get(vsp1);
+>  	if (ret < 0)
+>  		goto done;
+>  
+>  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+> -	pm_runtime_put_sync(&pdev->dev);
+> +	vsp1_device_put(vsp1);
+>  
+>  	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+>  		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> 
 
-
---mSxgbZZZvrAyzONB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7erSIACgkQFA3kzBSg
-Kbbn1RAAhE/rLNgZtVHTTSY62gEMuwVKYtXCu3n79wQGRVLKAbEgL+My4jAEMaQ6
-D2OCdOZggJp8auuT473zjfXf8tKtMP6nQWf1ViopAawj7GS6oitwi/iPkPBbG/tr
-ZIOL9YoK1Gg0JEQhE376SRAyIPeC8l4q2rvFDgGM1FhpKa4i9H7V9bA82vZSvyAx
-RuAN0TDmM72g9Fm6nD5oY/l5bXN2d+cyB7WsrIoLAigNQD9tBsqE3e4aRXSFYS25
-z67igCDSEVUuTzXEWs1AoYQJnrkhyBT0Q5vSxiZ1O2pFmQ5IIWUD/BBFxAyAYSW+
-jRowL54vaqFwPKQQB61bVAUyExK0TIygDnF+P6wuNwRrvcVem7lyp4v0/tR5blaZ
-eewhrsE4i7i6m1/ENS3WZmz8VxqrvGaj+0fFhcawSHEKke2XsBf7CRiD6ns1b7HD
-+IJTxL0XLDzVxKIG81FL7FfXwsj/H4veebEWsGNZAe8brRnk+vZzbKLs67W3I0E/
-0jQ/a/bVlmE9eTenWQS9TDZdN+/g2wa2cmC+rhaq7il71yZrKuZBnnvBq+AH8Dtg
-mCRJQA6w2aobRgngqbqqEyXJflf4G663VSAr26iUnd0azMzrdH1YjQsWAmnP07a4
-PMbOR699kYNMgxttdoC8nmhF3HkPRRCSewBPPGUdAhKUTEqgFOM=
-=SS9v
------END PGP SIGNATURE-----
-
---mSxgbZZZvrAyzONB--
