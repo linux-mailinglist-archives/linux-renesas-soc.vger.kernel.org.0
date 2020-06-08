@@ -2,97 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEEE71F11AB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 05:16:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A321F11C2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 05:34:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728725AbgFHDQo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Jun 2020 23:16:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51394 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728065AbgFHDQm (ORCPT
+        id S1728964AbgFHDeb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Jun 2020 23:34:31 -0400
+Received: from ma-dnext03.denso.co.jp ([133.192.181.78]:54988 "EHLO
+        ma-dnext03.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728065AbgFHDea (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Jun 2020 23:16:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3EC9C08C5C3;
-        Sun,  7 Jun 2020 20:16:42 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3307E50E;
-        Mon,  8 Jun 2020 05:16:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591586201;
-        bh=6TgKI1jVQYslyb1a1HdNbPziRJxdo68JBXeIOXHORE0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vAfR95G9CZ5d43UoGZriq6t1D22VF4sqB2cWxJ/OSVmmldGfUkntZ0ljOl2rkt0uY
-         lFOBKZJV6w0dla1LkUQQ76xSCIN00g2A+k7HdyuAjpJYlq1MR7O3fdK2LTxjz1x0+L
-         YPQpn8oEBUuLPBCul4W2BluLnSOxxf/sGRngEUHs=
-Date:   Mon, 8 Jun 2020 06:16:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Qian Cai <cai@lca.pw>
-Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
-Message-ID: <20200608031622.GQ22208@pendragon.ideasonboard.com>
-References: <20200608025340.3050-1-cai@lca.pw>
- <20200608031442.GP22208@pendragon.ideasonboard.com>
+        Sun, 7 Jun 2020 23:34:30 -0400
+X-Greylist: delayed 555 seconds by postgrey-1.27 at vger.kernel.org; Sun, 07 Jun 2020 23:34:29 EDT
+Received: from grdma01h.denso.co.jp (unknown [133.192.24.24])
+        by ma-dnext03.denso.co.jp (Postfix) with ESMTP id D5B7E5D011C;
+        Mon,  8 Jun 2020 12:25:12 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
+        s=jpadit-jvmail2011; t=1591586712;
+        bh=holotR25MoQcrX0pBCrpZj4TxKa2LtqzjI7kvv+9c3A=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=4Luth47sSIPifry+JR5PvbuLwOPeDbnJIupuG0UKhqGOi7og2FsQG6DVbrYyxyMY3
+         KHz5SR3swOo06IuYLb5YDm7qv8ikaINN4poiD0Zz7Gn0EbfBZ+wC95tq1XtE65ZNBe
+         wId2eDwv2MWI9SOM/NUSKAvZ9oA9mc7MWysVNkC8TjQ+mRHuIYeNnIzejhpY8VE01A
+         lMZ8SnoCEEwmqyFs+ZSole+Fs5drbUh7TE2pL9gfBUOYuh4N9flTKpl2/jGbSrRryo
+         xDN76+ZQn3KWGShatk12K4Ke5Y8ei0NzO0TnN60mCs35dG3AibDTp6t+rrWdqwap9L
+         iT2aQPqkSv57Q==
+Received: by grdma01h.denso.co.jp (Postfix, from userid 0)
+        id CC4D6C04E02; Mon,  8 Jun 2020 12:25:12 +0900 (JST)
+Received: from smtp0.denso.co.jp [133.192.24.87] 
+         by grdma01h. with ESMTP id NAA09474;
+         Mon, 8 Jun 2020 12:25:12 +0900
+Received: from ky0exch01.adit-jv.com ([10.71.113.8])
+        by smtp00.denso.co.jp (MOS 4.4.7-GA)
+        with ESMTP id FZQ69071;
+        Mon, 8 Jun 2020 12:25:12 +0900
+Received: from jp-u0004.adit-jv.com (10.71.112.120) by ky0exch01.adit-jv.com
+ (10.71.113.8) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 8 Jun 2020
+ 12:25:11 +0900
+From:   Suresh Udipi <sudipi@jp.adit-jv.com>
+To:     <mrodin@de.adit-jv.com>
+CC:     <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <mchehab@kernel.org>,
+        <michael@rodin.online>, <niklas.soderlund@ragnatech.se>,
+        <sudipi@jp.adit-jv.com>, <securitycheck@denso.co.jp>,
+        Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+Subject: [PATCH v6] media: rcar-csi2: Correct the selection of hsfreqrange
+Date:   Mon, 8 Jun 2020 12:25:03 +0900
+Message-ID: <1591586703-32246-1-git-send-email-sudipi@jp.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200605184426.GA5206@vmlxhi-121.adit-jv.com>
+References: <20200605184426.GA5206@vmlxhi-121.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200608031442.GP22208@pendragon.ideasonboard.com>
+Content-Type: text/plain
+X-Originating-IP: [10.71.112.120]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Qian,
+hsfreqrange should be chosen based on the calculated mbps which
+is closer to the default bit rate  and within the range as per
+table[1]. But current calculation always selects first value which
+is greater than or equal to the calculated mbps which may lead
+to chosing a wrong range in some cases.
 
-I forgot to mention, I think the subject line should be
+For example for 360 mbps for H3/M3N
+Existing logic selects
+Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
 
-drm/rcar-du: Make DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU
+This hsfreqrange is out of range.
 
-Could you please let me know if you're OK with these two small changes ?
+The logic is changed to get the default value which is closest to the
+calculated value [1]
 
-On Mon, Jun 08, 2020 at 06:14:43AM +0300, Laurent Pinchart wrote:
-> On Sun, Jun 07, 2020 at 10:53:40PM -0400, Qian Cai wrote:
-> > There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
-> 
-> s/DRM=n/DRM_RCAR_DU=n/ here.
-> 
-> > the generated .config a bit ugly.
-> > 
-> >  # ARM devices
-> >  #
-> >  # end of ARM devices
-> > 
-> >  CONFIG_DRM_RCAR_WRITEBACK=y
-> > 
-> >  #
-> >  # Frame buffer Devices
-> > 
-> > Let DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU instead.
-> > 
-> > Signed-off-by: Qian Cai <cai@lca.pw>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> No need to submit a v3 if you agree with the above change, I'll fix it
-> in my tree.
-> 
-> > ---
-> >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > index 0919f1f159a4..3304b41f5611 100644
-> > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
-> >  config DRM_RCAR_WRITEBACK
-> >  	bool
-> >  	default y if ARM64
-> > +	depends on DRM_RCAR_DU
+Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
 
+[1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+
+Please note that According to Renesas in Table 25.9 the range for
+220 default value is corrected as below
+
+ |Range (Mbps)     |  Default  Bit rate (Mbps) |
+ -----------------------------------------------
+ | 197.125-244.125 |     220                   |
+ -----------------------------------------------
+
+Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+
+Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+---
+ Changes in v2:
+  - Added the boundary check for the maximum bit rate.
+
+  - Simplified the logic by remmoving range check
+    as only the closest default value covers most
+    of the use cases.
+
+  - Aligning the commit message based on the above change
+
+
+ Changes in v3:
+    - Added max member from struct rcsi2_mbps_reg.
+      mbps varialbe cannot be removed from rcsi2_mbps_reg,
+      since this structure is reused for
+      phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+      used.
+
+
+   -  Update the walk of the array in rcsi2_set_phypll() so that it finds
+      the first entry where the calculated bit rate is less than the max.
+
+   - Support lower bit rates less than 80Mbps like 48Mbps
+     (Raspberry pi camera 640x480 connected to Kingfisher)
+     can also be supported by selecting the lowest default bit rate 80Mbps
+     as done before this fix
+
+   - Alignement of the commit message based on above changes.
+
+ Changes in v4:
+  -  Remove unncessary braces.
+
+ Changes in v5:
+   - Removed mbps variable in rcsi2_mbps_reg and aligned all 
+     tables accordingly
+	 
+ Changes in v6
+   - Renesas correct the range of default value 220Mbps. Now
+     if we select the nearest value to the default value all
+	 the values are in range. So reverting back to original patch
+	 
+   - Added warning for values less than Minimum 80Mbps
+
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 151e6a9..8c502b7 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -199,6 +199,8 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+ /* PHY Frequency Control */
+ #define PHYPLL_REG			0x68
+ #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
++#define PHYPLL_HSFREQRANGE_MAX		1500
++#define PHYPLL_HSFREQRANGE_MIN		  80
+ 
+ static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+ 	{ .mbps =   80, .reg = 0x00 },
+@@ -431,16 +433,27 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+ {
+ 	const struct rcsi2_mbps_reg *hsfreq;
++	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+ 
+-	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+-		if (hsfreq->mbps >= mbps)
+-			break;
+-
+-	if (!hsfreq->mbps) {
++	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
+ 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+ 		return -ERANGE;
+ 	}
+ 
++	if (mbps < PHYPLL_HSFREQRANGE_MIN)
++		dev_warn(priv->dev, "PHY speed (%u Mbps) less \
++			 than Min 80Mbps\n", mbps);
++
++	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
++		if (hsfreq->mbps >= mbps)
++			break;
++		hsfreq_prev = hsfreq;
++	}
++
++	if (hsfreq_prev &&
++	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
++		hsfreq = hsfreq_prev;
++
+ 	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+ 
+ 	return 0;
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
