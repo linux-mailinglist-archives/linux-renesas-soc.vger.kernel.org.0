@@ -2,46 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C82FC1F1AF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 16:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B11C1F1B44
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 16:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729280AbgFHO1o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 10:27:44 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45769 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728472AbgFHO1n (ORCPT
+        id S1730055AbgFHOrR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 10:47:17 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39789 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729958AbgFHOrQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 10:27:43 -0400
-Received: by mail-ot1-f66.google.com with SMTP id m2so13756726otr.12;
-        Mon, 08 Jun 2020 07:27:42 -0700 (PDT)
+        Mon, 8 Jun 2020 10:47:16 -0400
+Received: by mail-ot1-f67.google.com with SMTP id g5so13825243otg.6;
+        Mon, 08 Jun 2020 07:47:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UXkSZNHi/WgIFB2sRa6DAx0hWylWs93z0GvndY1AAZs=;
-        b=rvlE251EcZtMNJsFOuM3VOfmXPvbgMbN6ZI906LhX4VQTWlcEs1Ew8fQ7nPNzu2qjr
-         j7actgTCI3/eJYd1j6zkpIqQ69INraX2p8dgth9L7n19mESEi2ZuUvpe0s9e51znz9QT
-         MnPToWl1sw/FT+8WbR/n1/EUu4HtICPM5GjBGhTM7S7wdeLVJBMoJ42eoYTZq6RvJhV1
-         QKgX+kigY0PiAMLlc0+UIbixPnueNAdxwWpr8GG3Gz/Wgezqnl2cXYrwFdaO8TQLt6Bp
-         dc05ebg+2Z3Bpj7wWKGOP+dseKdTWXRinvK+NkIaHuTfX+lc/wrRvuq/3S9+DTZ+0WIH
-         YbKQ==
-X-Gm-Message-State: AOAM533KUCT+O7ZEJA2oUmA6BTZDa80patA50dVIGnc5n+jhMKS1dDdu
-        sRqqRysUusJw/XdkSEfoir1X+4jsAYjZSyGhyPw=
-X-Google-Smtp-Source: ABdhPJxNgjxje+XshY61E4Thz/w6k4S3aOlbBBI4Xqo+OMNuRMsgD44RP+i7RwXHJABQLDAYJVkZB3AufOf/JKhLqYI=
-X-Received: by 2002:a05:6830:141a:: with SMTP id v26mr17972661otp.250.1591626461597;
- Mon, 08 Jun 2020 07:27:41 -0700 (PDT)
+        bh=ZNiDF0QbRkAC5PAOtg/PZzyEBv0aXwpLIdiYmMTWuTc=;
+        b=b+hF0HVggEGlmJeLVLQUigCTohD01p4PxOaneGxkPxViDAr3uzMNjwRcEoOkSd1WRt
+         UY5KU2J7WgcWTQqZCzFa20V2iUnspwT3vAlkcBIskKrJtszfAawtnSRJ1rq1A/S33x5B
+         MRUkC3NDA1h4QV7ZPyw0lCouQL0AUrBpaagNOagaB/IipBw+e8HNOHIYnQW+B19Uiuvf
+         ceIGbLU2cdjbFwo1puzAj4n4k6IwTJf1CLX3B8L6PgrPG8xI5aIuWstSzb0KrH4y4vQQ
+         iAYhnMXcYnFA2Mc/E5AjdO+t6K/pefcT+fSVtgxkX9Z+7GG/Lrf31Erp3mp4TgeIGJ+W
+         urww==
+X-Gm-Message-State: AOAM532emiWgISRNWtfzfyrWZ430nLUItyyvNBYtZNw/0ASwxKLX8+Zg
+        TRAB3EyEUhdw8qznc4wY3yz59W17t7gUha8WnZ8CfQ==
+X-Google-Smtp-Source: ABdhPJwFXW1J7g59xQQtXSD0pqJ6GWtqJJB8QVdlpiTxNufVuBC9KwHKN3UJS4dx7m96rMgujU5VUpDYNuVG2Kl16iU=
+X-Received: by 2002:a9d:62c2:: with SMTP id z2mr17492225otk.145.1591627635517;
+ Mon, 08 Jun 2020 07:47:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <1591555267-21822-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 In-Reply-To: <1591555267-21822-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Jun 2020 16:27:30 +0200
-Message-ID: <CAMuHMdU35fvy2TM+u=Zu3-4aVnzOC1Sxophu8WaExS7unVH1fg@mail.gmail.com>
+Date:   Mon, 8 Jun 2020 16:47:03 +0200
+Message-ID: <CAMuHMdWKhq63yT9XbbV4Nmr0EJZcGQ396pVCqkrzMTmgunznaQ@mail.gmail.com>
 Subject: Re: [PATCH 03/11] arm64: dts: renesas: hihope-common: Separate out
  Rev.2.0 specific into hihope-common-rev2.dtsi file
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -56,8 +55,6 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-Thanks for your patch!
-
 On Sun, Jun 7, 2020 at 8:41 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > Separate out Rev.2.0 specific hardware changes into
@@ -67,10 +64,11 @@ On Sun, Jun 7, 2020 at 8:41 PM Lad Prabhakar
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
 > --- /dev/null
 > +++ b/arch/arm64/boot/dts/renesas/hihope-common-rev2.dtsi
+
+Perhaps just hihope-rev2.dtsi, i.e. without the "common-"?
+
 > @@ -0,0 +1,101 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
@@ -81,22 +79,79 @@ Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > + */
 > +
 > +#include <dt-bindings/gpio/gpio.h>
+> +
+> +/ {
+> +       leds {
+> +               compatible = "gpio-leds";
+> +
+> +               bt_active_led {
+> +                       label = "blue:bt";
+> +                       gpios = <&gpio7  0 GPIO_ACTIVE_HIGH>;
+> +                       linux,default-trigger = "hci0-power";
+> +                       default-state = "off";
+> +               };
+> +
+> +               led0 {
+> +                       gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
+> +               };
+> +
+> +               led1 {
+> +                       gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
+> +               };
+> +
+> +               led2 {
+> +                       gpios = <&gpio6 13 GPIO_ACTIVE_HIGH>;
+> +               };
+> +
+> +               led3 {
+> +                       gpios = <&gpio0  0 GPIO_ACTIVE_HIGH>;
+> +               };
 
-What about adding
+led1, led2, and led3 are present on both, so I'd keep them in
+hihope-common.dtsi.
 
-    #include "hihope-common.dtsi"
+> +
+> +               wlan_active_led {
+> +                       label = "yellow:wlan";
+> +                       gpios = <&gpio7  1 GPIO_ACTIVE_HIGH>;
+> +                       linux,default-trigger = "phy0tx";
+> +                       default-state = "off";
+> +               };
+> +       };
+> +
+> +       wlan_en_reg: regulator-wlan_en {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "wlan-en-regulator";
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <1800000>;
+> +               startup-delay-us = <70000>;
+> +
+> +               gpio = <&gpio_expander 1 GPIO_ACTIVE_HIGH>;
+> +               enable-active-high;
+> +       };
 
-here?
-Then the *rev2.dts files have to include only "hihope-common-rev2.dtsi",
-and get "hihope-common.dtsi" for free?
+Same for the WLAN regulator, especially as it is referenced from
+hihope-common.dtsi.
+As the GPIO  line differs between the two variants, you just need
+to add the gpio property in the revision-specific file.
 
-The same is true for the rev4.dtsi and the rev4.dts files.
+> +};
+> +
+> +&hscif0 {
+> +       bluetooth {
+> +               compatible = "ti,wl1837-st";
+> +               enable-gpios = <&gpio_expander 2 GPIO_ACTIVE_HIGH>;
+> +       };
+> +};
+
+As node is small, and the GPIO line differs from the two variants,
+I think duplicating it in both revision-specific files is fine, though.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
