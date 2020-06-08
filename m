@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 060941F20C8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 22:41:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00EAA1F2177
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 23:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbgFHUlR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 16:41:17 -0400
-Received: from www.zeus03.de ([194.117.254.33]:37018 "EHLO mail.zeus03.de"
+        id S1726755AbgFHV1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 17:27:04 -0400
+Received: from www.zeus03.de ([194.117.254.33]:47964 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726522AbgFHUlQ (ORCPT
+        id S1726705AbgFHV1E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 16:41:16 -0400
+        Mon, 8 Jun 2020 17:27:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=lfRlR6rk2IoTNg54fbivRcobce3D
-        Ce6/iyfI/FoAao8=; b=l4NudZ+Md4P0yig/iC5VtKIDZs0cgxh9TOZadm4uY8Qt
-        Gi7BjWgzLam6A6VoE6BXyQ/62il0sCaW564AvYn3d20/I3KZ8mtcBqe4oGPonw/0
-        Znqjsq6YSF8N1tutRR8ThaHGhpQ7L6/CbF4T+WBeWZf9sF2IsnXmYTWyHl5e/e4=
-Received: (qmail 3137612 invoked from network); 8 Jun 2020 22:41:14 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jun 2020 22:41:14 +0200
-X-UD-Smtp-Session: l3s3148p1@aIrEoZinIoQgAwDPXwXUAIYwoJSUoKNc
-Date:   Mon, 8 Jun 2020 22:41:14 +0200
+        :content-type:in-reply-to; s=k1; bh=WUtagRU3g82ExRNn7D1biyJuJW4q
+        PcLsdg41K1ak1Z4=; b=IjiDGA+VB91wi74TeiYO7piJXtggNmfsc+zFBhI9QMR/
+        46FmrQUWcCo+DT10K+cqYngPkHgcDuT9MKsKa695UvBgj43wR0TdFCSLRESShFsp
+        XDj8d1LlNSoakFFdqcnl4NY5VpCsEt8l3eTBe0NNhEJ69Uw4UArla/wxOm53WWc=
+Received: (qmail 3147057 invoked from network); 8 Jun 2020 23:27:02 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jun 2020 23:27:02 +0200
+X-UD-Smtp-Session: l3s3148p1@aA6URZmnKIQgAwDPXwXUAIYwoJSUoKNc
+Date:   Mon, 8 Jun 2020 23:27:02 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] mmc: core: when downgrading HS400, callback into
- drivers earlier
-Message-ID: <20200608204113.GC917@ninjato>
+Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: keep SCC clock active when tuning
+Message-ID: <20200608212702.GD917@ninjato>
 References: <20200604112040.22144-1-wsa+renesas@sang-engineering.com>
- <20200604112040.22144-2-wsa+renesas@sang-engineering.com>
- <TY2PR01MB369228A84C46D582D1219EFFD8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <20200604112040.22144-3-wsa+renesas@sang-engineering.com>
+ <TY2PR01MB36923A1D7091431CE3F73195D8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GPJrCs/72TxItFYR"
+        protocol="application/pgp-signature"; boundary="mSxgbZZZvrAyzONB"
 Content-Disposition: inline
-In-Reply-To: <TY2PR01MB369228A84C46D582D1219EFFD8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB36923A1D7091431CE3F73195D8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -45,70 +44,45 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---GPJrCs/72TxItFYR
+--mSxgbZZZvrAyzONB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
 
-thank you very much for the review!
-
-> > The driver specific downgrade function makes more sense if we run it
-> > before we switch anything, not after we already switched. Otherwise some
-> > non-HS400 communication has already happened.
-> >=20
-> > No need to convert users. There is only one currenty which needs this
-> > change in a later patchset.
->=20
-> Perhaps, should we add Fixes tag like below?
->=20
-> Fixes: ba6c7ac3a2f4 ("mmc: core: more fine-grained hooks for HS400 tuning=
-")
-
-I am not sure. While it is more correct to move the call to
-hs400_downgrade upwards, it does not really fix a bug on its own.
-Without patch 2/2 of this series, there is not really a huge difference
-when we disable the SCC the old way. For the new way, this patch is a
-prerequisite.
-
-
-> > +	/* Prepare host to downgrade to HS timing */
-> > +	if (host->ops->hs400_downgrade)
-> > +		host->ops->hs400_downgrade(host);
+> > +	/* Tuning done, no special handling for SCC clock needed anymore */
+> > +	priv->keep_scc_freq =3D false;
 > > +
 >=20
-> IICU, we should call hs400_downgrade() between the __mmc_switch("EXT_CSD_=
-TIMING_HS")
-> and mmc_set_timing(card->host, MMC_TIMING_MMC_HS) because the switch comm=
-and should
-> be issued in HS400 mode.
+> Setting keep_scc_freq to false is only here. But, I'm thinking
+> we should set it in some error paths like below somehow too:
+>  - error paths before hs400_complete() in mmc_select_hs400().
+>  - error path of mmc_execute_tuning() in mmc_retune().
 
-Yes, of course, you are right. Will fix!
-
-Kind regards,
-
-   Wolfram
+Hmm, I guess you are right. That would kind of spoil my approach taken
+here. Maybe we need another flag in the core like 'doing_tune' to
+supplement 'doing_retune', so or driver knows when any kind of tuning is
+going on?
 
 
---GPJrCs/72TxItFYR
+--mSxgbZZZvrAyzONB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7eomkACgkQFA3kzBSg
-Kbb0dw/+IU1CyXHkDLpFjZWmvXBJoVZRsi6HF8MvNbabaGPWw36gkISpfZ4aZHgo
-VHk0zWGSnTDOYM6cBTYfz8m8cO2+4ULp2vbxdW5jThklxstICFeBXV73DhHE5yoS
-1mskaAnSiuvCFu5QNLWGZkAk0FbSmkl1k3iNRifqH7BuafTR0AqqTGOqgJ5fGH/8
-FjrBVUtZHYM+VIcdRonMf/BXzx3DX8tAr8pxF7DKurIHZT/LCWmQ7w88ZykWjSV+
-5gw5LZC6N9HzyC9P6OvXGurtnzovQEXkPxUANwPavddjghVkNIGkXMf8RoVl4lgl
-06te1UgzewW/U0qIsU8OqxLvffGL65WK+oyzYcKzvp75AS0oMk2UmBgT/w9JwfTK
-T146VxkD5KxKpbwH6eruITNAvIPCE5rH4dRbkcof5ecD8uEFcg+u/wZp/eB6/URR
-19HcddbiBD3mdwTU3TNTZLfJvfZF0vtv7Wcc+0xx/rVRPGjmU1Gby8nNyWtUjWir
-HFXLbZtYU7/u6PQlW1FdTQvfKdJLTyO4YGyq7T+d0ocCFNWNIedV84/lHQUar5b8
-iclRvm3IhkLqerUgjtnFE9YrU45OTmiygTnaq10XdquFAmmQ9uDb2nPsAqbtTPtx
-ps0qE20X9sqytR09J1coq+n0j4aLz3WZRrlpISDgCJqvuGQNqlY=
-=hZd4
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7erSIACgkQFA3kzBSg
+Kbbn1RAAhE/rLNgZtVHTTSY62gEMuwVKYtXCu3n79wQGRVLKAbEgL+My4jAEMaQ6
+D2OCdOZggJp8auuT473zjfXf8tKtMP6nQWf1ViopAawj7GS6oitwi/iPkPBbG/tr
+ZIOL9YoK1Gg0JEQhE376SRAyIPeC8l4q2rvFDgGM1FhpKa4i9H7V9bA82vZSvyAx
+RuAN0TDmM72g9Fm6nD5oY/l5bXN2d+cyB7WsrIoLAigNQD9tBsqE3e4aRXSFYS25
+z67igCDSEVUuTzXEWs1AoYQJnrkhyBT0Q5vSxiZ1O2pFmQ5IIWUD/BBFxAyAYSW+
+jRowL54vaqFwPKQQB61bVAUyExK0TIygDnF+P6wuNwRrvcVem7lyp4v0/tR5blaZ
+eewhrsE4i7i6m1/ENS3WZmz8VxqrvGaj+0fFhcawSHEKke2XsBf7CRiD6ns1b7HD
++IJTxL0XLDzVxKIG81FL7FfXwsj/H4veebEWsGNZAe8brRnk+vZzbKLs67W3I0E/
+0jQ/a/bVlmE9eTenWQS9TDZdN+/g2wa2cmC+rhaq7il71yZrKuZBnnvBq+AH8Dtg
+mCRJQA6w2aobRgngqbqqEyXJflf4G663VSAr26iUnd0azMzrdH1YjQsWAmnP07a4
+PMbOR699kYNMgxttdoC8nmhF3HkPRRCSewBPPGUdAhKUTEqgFOM=
+=SS9v
 -----END PGP SIGNATURE-----
 
---GPJrCs/72TxItFYR--
+--mSxgbZZZvrAyzONB--
