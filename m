@@ -2,39 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 412D21F3072
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 02:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4E5C1F312A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 03:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728217AbgFIA7Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 20:59:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54028 "EHLO mail.kernel.org"
+        id S1728349AbgFIBGm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 21:06:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728198AbgFHXIh (ORCPT
+        id S1727797AbgFHXHH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:08:37 -0400
+        Mon, 8 Jun 2020 19:07:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5376A2086A;
-        Mon,  8 Jun 2020 23:08:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 71BB520E65;
+        Mon,  8 Jun 2020 23:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657717;
-        bh=FmZBpMkmKEa+BWw2RykpSg1I5MeKBmsg8bPHuXEZEK8=;
+        s=default; t=1591657626;
+        bh=vqpwzmqgPum7xJcl5MJ2NPLpxEZEaPhP2tB5CEtYRks=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W6rJQxXlXjAc6JHfSj3g+msk86nQMQ/0uy8joQExtx0+6ZXEydKKqv+4pdOYFI4Jm
-         l0Kp0u90Fxcj1sy470gnqMabTahGul1mNJgZlLvyRsG9VgYORvSi/io2tOxlFzuZLf
-         TPm/aDgogJGEyXAaP33CUPEx7ZlY2VO5xwTZ6XBc=
+        b=Mbx6w96Z4cmh5Gfw70rt7gu75XExqtWtB0QTHvxWBs1rvA6ksDQxik/AP2k6sSNu3
+         do57LiRDahAAf3fddaY94Bak3241hftJmkNomEJVhjzn6rHgUTLJ9CBRblTfGBDJrc
+         4I13GiUevcIR/tmSytux5JOpjYDJz0D6FIFJRXDw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 111/274] media: platform: fcp: Set appropriate DMA parameters
-Date:   Mon,  8 Jun 2020 19:03:24 -0400
-Message-Id: <20200608230607.3361041-111-sashal@kernel.org>
+Cc:     Tomohito Esaki <etom@igel.co.jp>,
+        Yoshihito Ogawa <yoshihito.ogawa.kc@renesas.com>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Daniel Stone <daniels@collabora.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 046/274] drm: rcar-du: Set primary plane zpos immutably at initializing
+Date:   Mon,  8 Jun 2020 19:02:19 -0400
+Message-Id: <20200608230607.3361041-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -47,69 +48,80 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+From: Tomohito Esaki <etom@igel.co.jp>
 
-[ Upstream commit dd844fb8e50b12e65bbdc5746c9876c6735500df ]
+[ Upstream commit 7982471d01aac33994276bf567c8f1f3a137648a ]
 
-Enabling CONFIG_DMA_API_DEBUG=y and CONFIG_DMA_API_DEBUG_SG=y will
-enable extra validation on DMA operations ensuring that the size
-restraints are met.
+According to drm_plane_create_zpos_property() function documentation,
+all planes zpos range should be set if zpos property is supported.
+However, the rcar-du driver didn't set primary plane zpos range. Since
+the primary plane's zpos is fixed, set it immutably.
 
-When using the FCP in conjunction with the VSP1/DU, and display frames,
-the size of the DMA operations is larger than the default maximum
-segment size reported by the DMA core (64K). With the DMA debug enabled,
-this produces a warning such as the following:
-
-"DMA-API: rcar-fcp fea27000.fcp: mapping sg segment longer than device
-claims to support [len=3145728] [max=65536]"
-
-We have no specific limitation on the segment size which isn't already
-handled by the VSP1/DU which actually handles the DMA allcoations and
-buffer management, so define a maximum segment size of up to 4GB (a 32
-bit mask).
-
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 7b49235e83b2 ("[media] v4l: Add Renesas R-Car FCP driver")
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reported-by: Yoshihito Ogawa <yoshihito.ogawa.kc@renesas.com>
+Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Daniel Stone <daniels@collabora.com>
+[Turn continue into if ... else ...]
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar-fcp.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c | 16 +++++++++-------
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 14 ++++++++------
+ 2 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-index 43c78620c9d8..5c6b00737fe7 100644
---- a/drivers/media/platform/rcar-fcp.c
-+++ b/drivers/media/platform/rcar-fcp.c
-@@ -8,6 +8,7 @@
-  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+index c6430027169f..a0021fc25b27 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+@@ -785,13 +785,15 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
  
- #include <linux/device.h>
-+#include <linux/dma-mapping.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-@@ -21,6 +22,7 @@
- struct rcar_fcp_device {
- 	struct list_head list;
- 	struct device *dev;
-+	struct device_dma_parameters dma_parms;
- };
+ 		drm_plane_create_alpha_property(&plane->plane);
  
- static LIST_HEAD(fcp_devices);
-@@ -136,6 +138,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+-		if (type == DRM_PLANE_TYPE_PRIMARY)
+-			continue;
+-
+-		drm_object_attach_property(&plane->plane.base,
+-					   rcdu->props.colorkey,
+-					   RCAR_DU_COLORKEY_NONE);
+-		drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
++		if (type == DRM_PLANE_TYPE_PRIMARY) {
++			drm_plane_create_zpos_immutable_property(&plane->plane,
++								 0);
++		} else {
++			drm_object_attach_property(&plane->plane.base,
++						   rcdu->props.colorkey,
++						   RCAR_DU_COLORKEY_NONE);
++			drm_plane_create_zpos_property(&plane->plane, 1, 1, 7);
++		}
+ 	}
  
- 	fcp->dev = &pdev->dev;
+ 	return 0;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 5e4faf258c31..f1a81c9b184d 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -392,12 +392,14 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 		drm_plane_helper_add(&plane->plane,
+ 				     &rcar_du_vsp_plane_helper_funcs);
  
-+	fcp->dev->dma_parms = &fcp->dma_parms;
-+	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
-+
- 	pm_runtime_enable(&pdev->dev);
+-		if (type == DRM_PLANE_TYPE_PRIMARY)
+-			continue;
+-
+-		drm_plane_create_alpha_property(&plane->plane);
+-		drm_plane_create_zpos_property(&plane->plane, 1, 1,
+-					       vsp->num_planes - 1);
++		if (type == DRM_PLANE_TYPE_PRIMARY) {
++			drm_plane_create_zpos_immutable_property(&plane->plane,
++								 0);
++		} else {
++			drm_plane_create_alpha_property(&plane->plane);
++			drm_plane_create_zpos_property(&plane->plane, 1, 1,
++						       vsp->num_planes - 1);
++		}
+ 	}
  
- 	mutex_lock(&fcp_lock);
+ 	return 0;
 -- 
 2.25.1
 
