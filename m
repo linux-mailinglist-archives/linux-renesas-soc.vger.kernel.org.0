@@ -2,91 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B46561F1141
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 03:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D97D31F1146
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 04:02:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgFHB6R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 7 Jun 2020 21:58:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49732 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727871AbgFHB6Q (ORCPT
+        id S1728462AbgFHCCc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 7 Jun 2020 22:02:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727972AbgFHCCc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 7 Jun 2020 21:58:16 -0400
+        Sun, 7 Jun 2020 22:02:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFF8C08C5C3;
+        Sun,  7 Jun 2020 19:02:32 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0236850E;
-        Mon,  8 Jun 2020 03:58:13 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C23D50E;
+        Mon,  8 Jun 2020 04:02:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591581494;
-        bh=kcSGifrZH0vrfhOepIzNiPEXoGz1SBN5lXlZ12cYQpk=;
+        s=mail; t=1591581749;
+        bh=i1AmAGyM1Zj7pRO9Jd3l5vQMRbYrocwi6kzrZnDqAuI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Cc6QbwlbOTUwp4EbGm6u9dFm9iIWITUC2ld5fSq5Faw3hfSwfhk8KZYhBE0ggL/Cn
-         m77xIz3INTQRio8IlFIlYVncxu+v9QorTJURet8GCIwSlpo+RGqSpFJkP+ab1DeGKw
-         qmULqOiagpVXiVbziheoQOeMkG+IVqxkx/qt1bB0=
-Date:   Mon, 8 Jun 2020 04:57:53 +0300
+        b=WirakFtdzE9ijjcmNr56wAKu+9v5XXpAX6UQl84sa6ca884vfIBDMyIUbrEvwKLxv
+         ayFeIaQI5/ipbHhNHxtjZc4rFrca5XJzxn/cIAC5KYcNQDSzUd/QT3Zvo1mWZ6CE+u
+         JWX7OkvNg2JXfVcVmP1Mi5nR51kQNp1tLH9ogrLk=
+Date:   Mon, 8 Jun 2020 05:02:07 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
-Message-ID: <20200608015753.GK22208@pendragon.ideasonboard.com>
-References: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
- <20200608015456.GJ22208@pendragon.ideasonboard.com>
+To:     Qian Cai <cai@lca.pw>
+Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
+Message-ID: <20200608020207.GL22208@pendragon.ideasonboard.com>
+References: <20200608014818.2814-1-cai@lca.pw>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200608015456.GJ22208@pendragon.ideasonboard.com>
+In-Reply-To: <20200608014818.2814-1-cai@lca.pw>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 04:54:57AM +0300, Laurent Pinchart wrote:
-> Hi Dinghao,
-> 
-> Thank you for the patch.
-> 
-> On Sat, May 23, 2020 at 07:54:26PM +0800, Dinghao Liu wrote:
-> > pm_runtime_get_sync() increments the runtime PM usage counter even
-> > when it returns an error code. Thus a pairing decrement is needed on
-> > the error handling path to keep the counter balanced.
-> 
-> I wonder how many bugs we have today, and how many bugs will keep
-> appearing in the future, due to this historical design mistake :-( 
-> 
-> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> > ---
-> >  drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> > index c650e45bb0ad..017a54f2fdd8 100644
-> > --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> > +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> > @@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
-> >  	pm_runtime_enable(&pdev->dev);
-> >  
-> >  	ret = pm_runtime_get_sync(&pdev->dev);
-> > -	if (ret < 0)
-> > +	if (ret < 0) {
-> > +		pm_runtime_put_sync(&pdev->dev);
-> >  		goto done;
-> > +	}
-> 
-> This change looks good to me, but we also need a similar change in the
-> vsp1_device_get() function if I'm not mistaken. Could you combine both
-> in the same patch ?
+Hi Qian,
 
-And actually, after fixing vsp1_device_get(), we should replace the
-pm_runtime_get_sync() call here with vsp1_device_get(), and the
-pm_runtime_put_sync() below with vsp1_device_put(), so there would be no
-need to call pm_runtime_put_sync() manually in the error path here.
+Thank you for the patch.
 
-> >  
-> >  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-> >  	pm_runtime_put_sync(&pdev->dev);
+On Sun, Jun 07, 2020 at 09:48:18PM -0400, Qian Cai wrote:
+> There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
+> the generated .config a bit ugly.
+> 
+>  # ARM devices
+>  #
+>  # end of ARM devices
+> 
+>  CONFIG_DRM_RCAR_WRITEBACK=y
+> 
+>  #
+>  # Frame buffer Devices
+> 
+> Signed-off-by: Qian Cai <cai@lca.pw>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 0919f1f159a4..d80696455d3e 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
+>  config DRM_RCAR_WRITEBACK
+>  	bool
+>  	default y if ARM64
+> +	depends on DRM
+
+How about depending on DRM_RCAR_DU instead, as DRM_RCAR_WRITEBACK is
+used to select compilation of rcar_du_writeback.c that is part of the
+rcar-du driver ?
 
 -- 
 Regards,
