@@ -2,161 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1561F1B73
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 16:52:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EBE41F1B6B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 16:51:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730124AbgFHOv2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 10:51:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45730 "EHLO
+        id S1730071AbgFHOvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 10:51:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730050AbgFHOv0 (ORCPT
+        with ESMTP id S1730050AbgFHOvY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 10:51:26 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29155C08C5C4
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jun 2020 07:51:24 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id q69so760520vkq.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jun 2020 07:51:24 -0700 (PDT)
+        Mon, 8 Jun 2020 10:51:24 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A56F1C08C5C2;
+        Mon,  8 Jun 2020 07:51:23 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id p70so15494793oic.12;
+        Mon, 08 Jun 2020 07:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QatI1r4zgYT60LXPJCHacRlmfL//mgtNnDdWSg8Upwg=;
-        b=rz4vo/CcIIKMfmGj2Yba8XTLaA6mEYAkioCYNoLv3GuYjiHlw4n0t+WiK1ltYwI2Ev
-         wfLlcfoJliIaMOduNo2jDjcpsyo12SyFARI7A669Dx9QkTz+OUGifp2zmuAw0DKflEp0
-         QQENiR17FLLz7zAhF9uN83biP1s63x0onp0aIwuo5DeZ82LImsYIBLI5dhaQZMfl04Jo
-         m/HeacvA+b/eZ4fDBZnBmi9bPMyIT6RbOOhXcwlJiWRubuBngrkJqqJssiKLbUj89qxH
-         vcPbF+i94YMU2AJXWs94Z+tSgxsX2fa8+zWb0yT6oLCYCKmYI7+HajtpWQG0qjCDE7+G
-         DBrA==
+        bh=g3MBGN2/qgTthG7Bacadsg6LtdGnLpRJHzYte56MVk0=;
+        b=KxOcWy9pwItkMt83neB0L38db9zig/d8b2mnHE4kHmdjkewZojJOAriIxN40VsBkFI
+         i+ipccwbysvUQNgYvzucBL2u7OhHBuGqAiTgkyw6fHuV0cpgVo1mFiCcusXgOyMb9cBR
+         RZl6eQJd1+0PBzew2+MOoIsc7QB/S8MqsO8WcAKCN38SL2f2FwXQelEX9k1VUzutbVHM
+         VRP8kXZn4M1vvc5YHsStL3Awt6BhvX0adPBHMspwzRi9tFSkrsbTT6ktZn8leh8/q1m/
+         nWF1bp9pp7fl/stliiVtyHtGqvJiTwxVImQL7QbZWHVqadD/SqOgfST6NM9V5QbZcceo
+         b+bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QatI1r4zgYT60LXPJCHacRlmfL//mgtNnDdWSg8Upwg=;
-        b=LxHKLsHs8Id/cibLf5BaMfCXpY65FAHoewXzYSJnS+pJ8R5WR47TqiK1Y/KfwU+efe
-         KQMa0yYe7/s8toELEeHbNe/Xlf2B0vDe/CT+6oKLnX3U4KjDHZmI8ZapmZ/D6yvZVSvp
-         Q4AE4buxVl8PZUnXkD6OVa8I+q7c1Yixn/pROEhJQEM76qRa3oggTWkqZ6toRNncEa37
-         XaO49RpMjn7XCtdPvfi+QeGaoAFr7psCrKrzoQ5RY/fy6gKGQVPLT2VTxJhsrPt3zXx3
-         IePyloMWQ++GK0WI00ck/SmK/jns1Naf94PISKBCtb5aS1qFgWK7UzrUj/7vWvOzVa2k
-         lLdw==
-X-Gm-Message-State: AOAM531j5ErBedootaMukBmYjq2yCKnod+wYvsaK5KrlcMQlCO3PKI7e
-        CuXbPoD7uUATy3lUCo+BI7Cao3UyJy2XigL4lKHmHqjI+8/CMg==
-X-Google-Smtp-Source: ABdhPJzUTPIVVBVLg0YMLSJwnmUXyhDonfAtBvWnmnqEbQ8NkKDFitW9cQXtUxCUy0qvwf2etDBgySXasofAH2+z6MU=
-X-Received: by 2002:a1f:25d7:: with SMTP id l206mr15744371vkl.53.1591627883182;
- Mon, 08 Jun 2020 07:51:23 -0700 (PDT)
+        bh=g3MBGN2/qgTthG7Bacadsg6LtdGnLpRJHzYte56MVk0=;
+        b=AG+15wEPT1t18Kw6b1TZ7xt9HrUu/vs0ogYvmMow3lbSZtxvohlcTXkb1a/ZAKJYyc
+         sqvlg89TnDfTlfP8exMY5DxD1pPQAofHKcDIEbSIYNSLfaqtBus8/zvwoTXDQCFCrrgF
+         fO73hw6kkDxFw3/Pp5EQAL81sXWhcl9j0gwzVkb8v1KpMDFuhUTqwJZFeHM42mXhJjmL
+         ApvfQjJYzyQqGqekp438v9sAGAojexghAKh9k0xKZKlrC/eo66/TIl0MMzjjevuvfJof
+         D0MUm74pCQxllHghzjwMbpX5FjDwcEmFUoxuPvS3gAQyYhv4lUFXgkmHBrcdhKjf0093
+         Endw==
+X-Gm-Message-State: AOAM532MiJfh32yX/5x2awXtpCAR6FAMAEHtFSqscMyIvK7W44MQEteD
+        OVhpeWli2aZs993DnWQg2wu7OBXaR9sy3dN9kHM=
+X-Google-Smtp-Source: ABdhPJw4lJWKcqGnl1NRTWwU003loPTNSBnIDpBym8xuClC9RdPx9fW7bWemVW/+2NhhZD5TJBhfXuNpIyhwv7XsPrs=
+X-Received: by 2002:aca:d68f:: with SMTP id n137mr10914828oig.62.1591627882881;
+ Mon, 08 Jun 2020 07:51:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1589887988-7362-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <TY2PR01MB3692FD4D8058D5EEFC761D47D8890@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAPDyKFptcUJj3u2LChz+tk61u8WcOrpaZLmDcj5Xb3HNuJv_qw@mail.gmail.com>
- <TY2PR01MB3692FAFE6FCA89538FA3AC4DD8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAPDyKFrcENub_NCP5s0v+3A09O55qGrK+gNrVswYjdqoLzPVzA@mail.gmail.com> <CAMuHMdXK2QkxMr3Lh6JnAh9RzHm4-CwpO_GLjD0+Vh-cM5a7nw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXK2QkxMr3Lh6JnAh9RzHm4-CwpO_GLjD0+Vh-cM5a7nw@mail.gmail.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 8 Jun 2020 16:50:46 +0200
-Message-ID: <CAPDyKFrHHJE7zc+Mz5ddZ4iy6AA-K5ba8-rmsdzW1C6fGSWgeQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC] mmc: core: Issue power_off_notify for eMMC Suspend-to-RAM
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+References: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1591555267-21822-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdU35fvy2TM+u=Zu3-4aVnzOC1Sxophu8WaExS7unVH1fg@mail.gmail.com>
+In-Reply-To: <CAMuHMdU35fvy2TM+u=Zu3-4aVnzOC1Sxophu8WaExS7unVH1fg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 8 Jun 2020 15:50:56 +0100
+Message-ID: <CA+V-a8vOErQGkSYtiQ=8QLg+0WRyDZ1dHWfuxm6P2E-gAiirzA@mail.gmail.com>
+Subject: Re: [PATCH 03/11] arm64: dts: renesas: hihope-common: Separate out
+ Rev.2.0 specific into hihope-common-rev2.dtsi file
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 8 Jun 2020 at 14:36, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Hi Geert,
+
+Thank you for the review.
+
+On Mon, Jun 8, 2020 at 3:27 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Ulf,
+> Hi Prabhakar,
 >
-> On Mon, Jun 8, 2020 at 1:47 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > On Mon, 8 Jun 2020 at 12:39, Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > From: Ulf Hansson, Sent: Monday, June 8, 2020 5:14 PM
-> > > > On Thu, 4 Jun 2020 at 14:17, Yoshihiro Shimoda
-> > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > > > From: Yoshihiro Shimoda, Sent: Tuesday, May 19, 2020 8:33 PM
-> > > > > >
-> > > > > > The commit 432356793415 ("mmc: core: Enable power_off_notify for
-> > > > > > eMMC shutdown sequence") enabled the power off notification
-> > > > > > even if MMC_CAP2_POWEROFF_NOTIFY (MMC_CAP2_FULL_PWR_CYCLE now) is
-> > > > > > not set. However, the mmc core lacks to issue the power off
-> > > > > > notificaiton when Suspend-to-{RAM,Disk} happens on the system.
-> > > > > >
-> > > > > > So, add Suspend-to-RAM support at first because this is easy to
-> > > > > > check by using pm_suspend_target_state condition on _mmc_suspend().
-> > > > > >
-> > > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > > >
-> > > > > I'd like to add more detail why this patch is needed.
-> > > > > I think we should think some events (which are Shutdown, Suspend-to-idle,
-> > > > > Suspend-to-RAM) for the Power off Notification control.
-> > > > > I described these events like below.
-> > > > >
-> > > > > Assumption of the host : MMC_CAP2_FULL_PWR_CYCLE=false
-> > > > > Assumption of the eMMC : in POWERED_ON
-> > > > >
-> > > > > 1) Event  : Shutdown
-> > > > > - power   : going to VCC=OFF & VCCQ=OFF
-> > > > > - ideal   : Either POWER_OFF_LONG or POWER_OFF_SHORT
-> > > > > - current : POWER_OFF_LONG --> Perfect
-> > > > > - Remarks : the commit 432356793415
-> > > > >
-> > > > > 2) Event  : Suspend-to-Idle
-> > > > > - power   : Keep VCC=ON & VCCQ=ON
-> > > > > - ideal   : issue MMC_SLEEP_AWAKE and keep the power (because the host could not change VCC=OFF)
-> > > > > - current : issue MMC_SLEEP_AWAKE and keep the power --> Perfect
-> > > > > - Remarks : IIUC, even if the eMMC is in POWERED_ON, a host can issue CMD5 (sleep).
-> > > >
-> > > > As a matter of fact, VCCQ *must* remain on in sleep state, while VCC
-> > > > can be powered off.
-> > >
-> > > I got it.
-> > >
-> > > > >
-> > > > > 3) Event  : Suspend-to-RAM
-> > > > > - power   : going to VCC=OFF & VCCQ=OFF
-> > > >
-> > > > I don't understand why you think S2R should be treated differently
-> > > > from S2I? At least from the MMC subsystem point of view, there is no
-> > > > difference. No?
-> > >
-> > > On my environment, VCC & VCCQ condition differs like below.
-> > >  S2I: VCC=ON & VCCQ=ON
-> > >  S2R: VCC=OFF & VCCQ=OFF
+> Thanks for your patch!
+>
+> On Sun, Jun 7, 2020 at 8:41 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Separate out Rev.2.0 specific hardware changes into
+> > hihope-common-rev2.dtsi file so that hihope-common.dtsi can be used
+> > by all the variants for RZ/G2M[N] boards.
 > >
-> > Can you explain why it differs? Who is managing the regulators and who
-> > decides to turn them off?
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> The firmware does, through PSCI system suspend.
-> And what it does exactly is not standardized.
-
-This sounds really weird. Especially, to let PSCI handle the VCC
-regulator seems wrong, while PSCI is about power for CPUs and CPU
-clusters (and corresponding power rails).
-
-Oh well, nevermind.
-
-> Perhaps we do need an "arm,psci-system-suspend-is-power-down"[1]
-> DT property?
-
-Hmm.
-
-I wouldn't limit this to PSCI, but rather see this as a generic FW issue.
-
-In principle, it sounds to me, like we need to dynamically allow the
-mmc host to update MMC_CAP2_FULL_PWR_CYCLE, depending on what system
-suspend mode we are about to enter. Or something along those lines.
-
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> > Perhaps this is a regulator-enable usage count problem?
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/hihope-common-rev2.dtsi
+> > @@ -0,0 +1,101 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the HiHope RZ/G2[MN] main board Rev.2.0 common
+> > + * parts
+> > + *
+> > + * Copyright (C) 2020 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
 >
-> Unfortunately not. Else we could fix it :-)
+> What about adding
+>
+>     #include "hihope-common.dtsi"
+>
+> here?
+> Then the *rev2.dts files have to include only "hihope-common-rev2.dtsi",
+> and get "hihope-common.dtsi" for free?
+>
+> The same is true for the rev4.dtsi and the rev4.dts files.
+>
+Agreed.
 
-I see.
+Cheers,
+--Prabhakar
 
-[...]
-
-Kind regards
-Uffe
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
