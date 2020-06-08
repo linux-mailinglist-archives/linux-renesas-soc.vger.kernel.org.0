@@ -2,193 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9912C1F15C6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 11:44:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F8781F1616
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jun 2020 11:59:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729302AbgFHJor (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 05:44:47 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:59102 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729245AbgFHJor (ORCPT
+        id S1729312AbgFHJ7t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 05:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729227AbgFHJ7q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 05:44:47 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id F11B43C057C;
-        Mon,  8 Jun 2020 11:44:42 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id GxN9Ro1gAF_T; Mon,  8 Jun 2020 11:44:37 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id DDF413C00BB;
-        Mon,  8 Jun 2020 11:44:37 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.48) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 8 Jun 2020
- 11:44:37 +0200
-Date:   Mon, 8 Jun 2020 11:44:32 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-CC:     <hien.dang.eb@renesas.com>, <michael.klein@renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        <kieran.bingham+renesas@ideasonboard.com>, <geert@linux-m68k.org>,
-        <horms@verge.net.au>, <uli+renesas@fpond.eu>,
-        <VenkataRajesh.Kalakodima@in.bosch.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>, <koji.matsuoka.xm@renesas.com>,
-        <muroya@ksk.co.jp>, <Harsha.ManjulaMallikarjun@in.bosch.com>,
-        <ezequiel@collabora.com>, <seanpaul@chromium.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <michael.dege@renesas.com>, <gotthard.voellmeke@renesas.com>,
-        <efriedrich@de.adit-jv.com>, <mrodin@de.adit-jv.com>,
-        <ChaitanyaKumar.Borah@in.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200608094432.GA27063@lxhi-065.adit-jv.com>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <20200605132900.on527xcggg6f6pil@uno.localdomain>
- <20200605134124.GA28734@lxhi-065.adit-jv.com>
- <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
- <20200607024158.GD7339@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200607024158.GD7339@pendragon.ideasonboard.com>
-X-Originating-IP: [10.72.94.48]
+        Mon, 8 Jun 2020 05:59:46 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 639C5C00862D
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jun 2020 02:59:44 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:c85f:a5bf:b1bd:702b])
+        by michel.telenet-ops.be with bizsmtp
+        id oZzi2200A0R8aca06Zziol; Mon, 08 Jun 2020 11:59:42 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jiEZC-0007P0-Ak; Mon, 08 Jun 2020 11:59:42 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jiEZC-0007x4-8K; Mon, 08 Jun 2020 11:59:42 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Chris Brandt <chris.brandt@renesas.com>, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/8] spi: rspi: Bit rate improvements
+Date:   Mon,  8 Jun 2020 11:59:32 +0200
+Message-Id: <20200608095940.30516-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+	Hi Mark,
 
-Many thanks for your comments and involvement.
+This patch series contains several improvements for the Renesas SPI/QSPI
+driver related to bit rate configuration.
 
-On Sun, Jun 07, 2020 at 05:41:58AM +0300, Laurent Pinchart wrote:
-> On Fri, Jun 05, 2020 at 03:53:15PM +0200, Jacopo Mondi wrote:
-> > On Fri, Jun 05, 2020 at 03:41:24PM +0200, Eugeniu Rosca wrote:
-> > > On Fri, Jun 05, 2020 at 03:29:00PM +0200, Jacopo Mondi wrote:
-> > >> On Wed, May 27, 2020 at 09:15:55AM +0200, Eugeniu Rosca wrote:
-> > >>> Could you kindly share the cross compilation steps for your kmsxx fork?
-> > >>
-> > >> I usually build it on the target :)
-> > >
-> > > Interesting approach. With ARM getting more and more potent, why not? :)
-> > 
-> > For 'small' utilities like kmsxx it's doable
-> > 
-> > >>> Just out of curiosity, have you ever tried to pull the display's HDMI
-> > >>> cable while reading from CM2_LUT_TBL?
-> > >>
-> > >> Ahem, not really :) Did I get you right, you mean disconnecting the
-> > >> HDMI cable from the board ?
-> > >
-> > > Right.
-> > 
-> > So, no, I have not tried. Do you see any intersting failure with the
-> > mainline version ?
-> 
-> Jacopo, would you be able to give this a try ?
+This has been tested on RSK+RZA1 (RSPI) and R-Car M2-W/Koelsch (QSPI),
+using a scope and logic analyzer, except for the by-one divider on QSPI.
+This has not been tested on legacy SuperH, due to lack of hardware.
 
-FWIW, I seem to hit pre-existing issues in vanilla rcar-du,
-while unplugging HDMI cable during a cyclic suspend-resume:
+Thanks for your comments!
 
-HW: H3 ES2.0 Salvator-X
-SW: renesas-drivers-2020-06-02-v5.7
-.config: renesas_defconfig +CONFIG_PM_DEBUG +CONFIG_PM_ADVANCED_DEBUG
-Use-case:
+Geert Uytterhoeven (8):
+  spi: rspi: Remove useless .set_config_register() check
+  spi: rspi: Use requested instead of maximum bit rate
+  spi: rspi: Clean up Bit Rate Division Setting handling
+  spi: rspi: Increase bit rate accuracy on RZ/A
+  spi: rspi: Increase bit rate range for RSPI on SH
+  spi: rspi: Increase bit rate range for QSPI
+  spi: rspi: Fill in spi_transfer.effective_speed_hz
+  spi: rspi: Fill in controller speed limits
 
-  --------8<---------
-$ cat s2ram.sh
-modprobe i2c-dev
-echo 9 > /proc/sys/kernel/printk
-i2cset -f -y 7 0x30 0x20 0x0F
-echo 0 > /sys/module/suspend/parameters/pm_test_delay
-echo core  > /sys/power/pm_test
-echo deep > /sys/power/mem_sleep
-echo 1 > /sys/power/pm_debug_messages
-echo 0 > /sys/power/pm_print_times
-echo mem > /sys/power/state
-
-$ while true; do sh s2ram.sh ; done
-$ # unplug HDMI cable several times
-
-[   55.568051] PM: noirq resume of devices complete after 3.862 msecs
-[   55.583253] PM: early resume of devices complete after 8.496 msecs
-[   65.757023] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-[   75.996123] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-[   86.236112] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-[   96.476111] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:80:HDMI-A-1] flip_done timed out
-[  106.716109] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:45:plane-5] flip_done timed out
-[  116.956111] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-[  127.196112] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-[  137.436116] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:80:HDMI-A-1] flip_done timed out
-[  147.676111] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:45:plane-5] flip_done timed out
-[  157.916110] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-  --------8<---------
-
-This looks to be unrelated to the CMM lockup I initially reported.
-
-JYI, graphics pipelines in production R-Car3 targets are significantly
-more complex (involving binding/unbinding serializer ICs at runtime
-during non-trivial shutdown/suspend/resume sequences), as opposed
-to the relatively straightforward VGA/HDMI outputs present on the
-reference targets. So, my hope is that Renesas community can take
-HDMI hot plugging seriously and make it a regular test-case during
-rcar-du patch review, since this is a precondition for the R-Car3
-platform and products to succeed as a whole.
-
-BTW, if you happen to know an affordable programmable HDMI switcher
-which can do the hot-plugging job in an automated test environment,
-please let me know.
-
-> 
-> > >>> At least with the out-of-tree CMM implementation [*], this sends the
-> > >>> R-Car3 reference targets into an unrecoverable freeze, with no lockup
-> > >>> reported by the kernel (i.e. looks like an serious HW issue).
-> > >>>
-> > >>>> CMM functionalities are retained between suspend/resume cycles (tested with
-> > >>>> suspend-to-idle) without requiring a re-programming of the LUT tables.
-> > >>>
-> > >>> Hmm. Is this backed up by any statement in the HW User's manual?
-> > >>> This comes in contrast with the original Renesas CMM implementation [**]
-> > >>> which does make use of suspend (where the freeze actually happens).
-> > >>>
-> > >>> Can we infer, based on your statement, that we could also get rid of
-> > >>> the suspend callback in [**]?
-> > >>
-> > >> As Geert (thanks) explained what I've tested with is suspend-to-idle,
-> > >> which retains the state of the LUT tables (and I assume other
-> > >> not-yet-implemented CMM features, like CLU). I recall the out-of-tree
-> > >> driver has suspend/resume routines but I never really tested that.
-> > >
-> > > I see. JFYI, there is a flaw in the suspend handling in the out-of-tree
-> > > CMM patch [*], which renders the SoC unresponsive on HDMI hotplug. The
-> > > fix is currently under review. Hopefully it will make its way to [*]
-> > > in the nearest future. Just to keep in mind for the moment when CMM
-> > > s2ram will become a mainline feature.
-> > 
-> > Thanks, let's keep this in mind. Next week I'll run a few tests again
-> > with s2ram and will get back to you.
-> 
-> Note that the CMM driver is controlled by the DU driver. As the DU
-> driver will reenable the display during resume, it will call
-> rcar_du_cmm_setup() at resume time, which will reprogram the CMM. There
-> should thus be no need for manual suspend/resume handling in the CMM as
-> far as I can tell, but we need to ensure that the CMM is suspended
-> before and resumed after the DU. I believe this could be implemented
-> using device links.
-
-Does this apply to vanilla rcar-du only (where CMM support differs
-from [*]) or would also be relevant for rcar.9.6 kernel?
-
-> 
-> > >>> [*] https://github.com/renesas-rcar/du_cmm
-> > >>> [**] https://github.com/renesas-rcar/du_cmm/blob/c393ed49834bdbc/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0001-drm-rcar-du-Add-DU-CMM-support.patch#L1912
+ drivers/spi/spi-rspi.c | 101 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 69 insertions(+), 32 deletions(-)
 
 -- 
-Best regards,
-Eugeniu Rosca
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
