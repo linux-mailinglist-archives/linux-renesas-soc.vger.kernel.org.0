@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD0361F2814
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 01:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54C381F2697
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 01:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732493AbgFHXs0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jun 2020 19:48:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52540 "EHLO mail.kernel.org"
+        id S1731410AbgFHX1N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jun 2020 19:27:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55378 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731332AbgFHXZp (ORCPT
+        id S1729356AbgFHX1L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:25:45 -0400
+        Mon, 8 Jun 2020 19:27:11 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 36B6E20812;
-        Mon,  8 Jun 2020 23:25:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C829920812;
+        Mon,  8 Jun 2020 23:27:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658745;
-        bh=gurwdtib4L861NscFcX0tABfxzET9woljcbtDY2AjP4=;
+        s=default; t=1591658830;
+        bh=kcCuyZoiJ+pUggvJQfB4raYkD2sDjxEX9vIpKv3z4/Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UJjd5vCRnVZM8opQB2aMIgc9oDwPrwADeQTlIw5NxVWN7kv6cJ6i1T2kI7C1Jilb9
-         4ivg0Z1y4elic79nDzXq9BPWGCEfHGY7lu3azYDlNacsNLwvKEFCmS467bxliodRmY
-         KqcmiRqh/fLDU0FVFsM1sgauvwfi1a3j73fN7TK0=
+        b=yYlmJKsYiQXkgfyfYEvqMZMcS0j2JP6PFhGufOAlaCToZw5hB7kmzxd/hezJp5qTH
+         uRLII+b5qV5qbwP6L1ORPJnbItczYdKsj1ba6Yr51oibGai7gEeIQGWOCc0dSnUVVy
+         5YhOhF+ZS0WG7o3VKudwB4ZWMmS98FuajnY2Xs9Q=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -32,12 +32,12 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 31/72] media: platform: fcp: Set appropriate DMA parameters
-Date:   Mon,  8 Jun 2020 19:24:19 -0400
-Message-Id: <20200608232500.3369581-31-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 21/50] media: platform: fcp: Set appropriate DMA parameters
+Date:   Mon,  8 Jun 2020 19:26:11 -0400
+Message-Id: <20200608232640.3370262-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
-References: <20200608232500.3369581-1-sashal@kernel.org>
+In-Reply-To: <20200608232640.3370262-1-sashal@kernel.org>
+References: <20200608232640.3370262-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -81,7 +81,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-index 2988031d285d..0047d144c932 100644
+index f3a3f31cdfa9..8e9c3bd36d03 100644
 --- a/drivers/media/platform/rcar-fcp.c
 +++ b/drivers/media/platform/rcar-fcp.c
 @@ -12,6 +12,7 @@
@@ -100,7 +100,7 @@ index 2988031d285d..0047d144c932 100644
  };
  
  static LIST_HEAD(fcp_devices);
-@@ -139,6 +141,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+@@ -140,6 +142,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
  
  	fcp->dev = &pdev->dev;
  
