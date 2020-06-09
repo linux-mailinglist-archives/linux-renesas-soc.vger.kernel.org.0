@@ -2,42 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B2741F3ADD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1D541F3B15
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:48:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729398AbgFIMqX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Jun 2020 08:46:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727048AbgFIMqV (ORCPT
+        id S1729839AbgFIMr4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Jun 2020 08:47:56 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54176 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727928AbgFIMqX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Jun 2020 08:46:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5272C05BD1E;
-        Tue,  9 Jun 2020 05:46:20 -0700 (PDT)
+        Tue, 9 Jun 2020 08:46:23 -0400
 Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A22231F;
-        Tue,  9 Jun 2020 14:46:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 787005A7;
+        Tue,  9 Jun 2020 14:46:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591706776;
-        bh=a7uVQzE49137RdV07bw9OGdl1LVEpyOGkBAVLWh288A=;
+        s=mail; t=1591706777;
+        bh=F3Ya/6PQv1SlRbTx4KyzibdoKoXxwCzeytd+fhCKwkY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=taZU2srR0rq3tgq0s/XYJ2NbHuZs6zcUWj6cz+aBT1b1hB61FHXbyOHh9JXUzTZ12
-         LVQwPXpUuMpxeZ/R4EJSZbNfQblSD22m3FzzTFP0XOvUygWwbDAMGb3vTHEEd6Wxpt
-         tF41LyJbmXKQ7v6f5wO7MMyx34q6QqND8H+03DB8=
+        b=SDySORNGnG1mum/ZNj+SeAgtP5e5qLE7lerIUS6G8lIW0rlzBn5tg0A04g0h50g08
+         VgXqzuAxVGnCEwaxszxwGexbdxm5jEDbH64LPNeWS8UZkp/3JS1M/kXr4VKNHm1S4b
+         85JaNNvIoSy80En3mX8pTLj77i5VWuUqfTYYIwR0=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Russell King <linux@armlinux.org.uk>,
+        Mike Marciniszyn <mike.marciniszyn@intel.com>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jiri Kosina <trivial@kernel.org>,
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM
-        SUB-ARCHITECTURES), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 01/17] arch: arm: mach-davinci: Fix trivial spelling
-Date:   Tue,  9 Jun 2020 13:45:54 +0100
-Message-Id: <20200609124610.3445662-2-kieran.bingham+renesas@ideasonboard.com>
+        linux-rdma@vger.kernel.org (open list:HFI1 DRIVER),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 02/17] drivers: infiniband: Fix trivial spelling
+Date:   Tue,  9 Jun 2020 13:45:55 +0100
+Message-Id: <20200609124610.3445662-3-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
@@ -55,22 +53,36 @@ Fix it up accordingly:
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- arch/arm/mach-davinci/board-da830-evm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/infiniband/hw/hfi1/iowait.h      | 2 +-
+ drivers/infiniband/hw/hfi1/verbs_txreq.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/mach-davinci/board-da830-evm.c b/arch/arm/mach-davinci/board-da830-evm.c
-index a273ab25c668..1076886938b6 100644
---- a/arch/arm/mach-davinci/board-da830-evm.c
-+++ b/arch/arm/mach-davinci/board-da830-evm.c
-@@ -266,7 +266,7 @@ static struct mtd_partition da830_evm_nand_partitions[] = {
- 	}
- };
- 
--/* flash bbt decriptors */
-+/* flash bbt descriptors */
- static uint8_t da830_evm_nand_bbt_pattern[] = { 'B', 'b', 't', '0' };
- static uint8_t da830_evm_nand_mirror_pattern[] = { '1', 't', 'b', 'B' };
- 
+diff --git a/drivers/infiniband/hw/hfi1/iowait.h b/drivers/infiniband/hw/hfi1/iowait.h
+index 07847cb72169..d580aa17ae37 100644
+--- a/drivers/infiniband/hw/hfi1/iowait.h
++++ b/drivers/infiniband/hw/hfi1/iowait.h
+@@ -399,7 +399,7 @@ static inline void iowait_get_priority(struct iowait *w)
+  * @wait_head: the wait queue
+  *
+  * This function is called to insert an iowait struct into a
+- * wait queue after a resource (eg, sdma decriptor or pio
++ * wait queue after a resource (eg, sdma descriptor or pio
+  * buffer) is run out.
+  */
+ static inline void iowait_queue(bool pkts_sent, struct iowait *w,
+diff --git a/drivers/infiniband/hw/hfi1/verbs_txreq.h b/drivers/infiniband/hw/hfi1/verbs_txreq.h
+index bfa6e081cb56..d2d526c5a756 100644
+--- a/drivers/infiniband/hw/hfi1/verbs_txreq.h
++++ b/drivers/infiniband/hw/hfi1/verbs_txreq.h
+@@ -91,7 +91,7 @@ static inline struct verbs_txreq *get_txreq(struct hfi1_ibdev *dev,
+ 	tx->mr = NULL;
+ 	tx->sde = priv->s_sde;
+ 	tx->psc = priv->s_sendcontext;
+-	/* so that we can test if the sdma decriptors are there */
++	/* so that we can test if the sdma descriptors are there */
+ 	tx->txreq.num_desc = 0;
+ 	/* Set the header type */
+ 	tx->phdr.hdr.hdr_type = priv->hdr_type;
 -- 
 2.25.1
 
