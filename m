@@ -2,40 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1D541F3B15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11EEC1F3B11
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729839AbgFIMr4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1728570AbgFIMr4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 9 Jun 2020 08:47:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54176 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54182 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727928AbgFIMqX (ORCPT
+        with ESMTP id S1728082AbgFIMqX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Tue, 9 Jun 2020 08:46:23 -0400
 Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 787005A7;
-        Tue,  9 Jun 2020 14:46:17 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F19D1227;
+        Tue,  9 Jun 2020 14:46:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591706777;
-        bh=F3Ya/6PQv1SlRbTx4KyzibdoKoXxwCzeytd+fhCKwkY=;
+        s=mail; t=1591706778;
+        bh=7whrIeN77UWRmsTr1S+zsP7M0XhqPGZPPuqIh/7NIH0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SDySORNGnG1mum/ZNj+SeAgtP5e5qLE7lerIUS6G8lIW0rlzBn5tg0A04g0h50g08
-         VgXqzuAxVGnCEwaxszxwGexbdxm5jEDbH64LPNeWS8UZkp/3JS1M/kXr4VKNHm1S4b
-         85JaNNvIoSy80En3mX8pTLj77i5VWuUqfTYYIwR0=
+        b=RyP9JX2MWv5mksB6QTdQ5K3EngDF2sSHwmOzAq+oRaA5vcfl53GHpfar2IbXC9lHx
+         FbYFXeOJO/xriftHoBcRIKlK4HuZ+NBv++xrH2kP71jrPdspofYEwtmhgWPocS/Qkg
+         xA0gRZTcyT3x+6oGZR3prnmqLH9YLCudeFX95FY4=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mike Marciniszyn <mike.marciniszyn@intel.com>,
-        Dennis Dalessandro <dennis.dalessandro@intel.com>,
-        Doug Ledford <dledford@redhat.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jiri Kosina <trivial@kernel.org>,
-        linux-rdma@vger.kernel.org (open list:HFI1 DRIVER),
+        linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM),
         linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 02/17] drivers: infiniband: Fix trivial spelling
-Date:   Tue,  9 Jun 2020 13:45:55 +0100
-Message-Id: <20200609124610.3445662-3-kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH 03/17] drivers: gpio: Fix trivial spelling
+Date:   Tue,  9 Jun 2020 13:45:56 +0100
+Message-Id: <20200609124610.3445662-4-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
@@ -53,36 +51,22 @@ Fix it up accordingly:
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/infiniband/hw/hfi1/iowait.h      | 2 +-
- drivers/infiniband/hw/hfi1/verbs_txreq.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpio/TODO | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/hw/hfi1/iowait.h b/drivers/infiniband/hw/hfi1/iowait.h
-index 07847cb72169..d580aa17ae37 100644
---- a/drivers/infiniband/hw/hfi1/iowait.h
-+++ b/drivers/infiniband/hw/hfi1/iowait.h
-@@ -399,7 +399,7 @@ static inline void iowait_get_priority(struct iowait *w)
-  * @wait_head: the wait queue
-  *
-  * This function is called to insert an iowait struct into a
-- * wait queue after a resource (eg, sdma decriptor or pio
-+ * wait queue after a resource (eg, sdma descriptor or pio
-  * buffer) is run out.
-  */
- static inline void iowait_queue(bool pkts_sent, struct iowait *w,
-diff --git a/drivers/infiniband/hw/hfi1/verbs_txreq.h b/drivers/infiniband/hw/hfi1/verbs_txreq.h
-index bfa6e081cb56..d2d526c5a756 100644
---- a/drivers/infiniband/hw/hfi1/verbs_txreq.h
-+++ b/drivers/infiniband/hw/hfi1/verbs_txreq.h
-@@ -91,7 +91,7 @@ static inline struct verbs_txreq *get_txreq(struct hfi1_ibdev *dev,
- 	tx->mr = NULL;
- 	tx->sde = priv->s_sde;
- 	tx->psc = priv->s_sendcontext;
--	/* so that we can test if the sdma decriptors are there */
-+	/* so that we can test if the sdma descriptors are there */
- 	tx->txreq.num_desc = 0;
- 	/* Set the header type */
- 	tx->phdr.hdr.hdr_type = priv->hdr_type;
+diff --git a/drivers/gpio/TODO b/drivers/gpio/TODO
+index b989c9352da2..e560e45e84f8 100644
+--- a/drivers/gpio/TODO
++++ b/drivers/gpio/TODO
+@@ -5,7 +5,7 @@ subsystem.
+ GPIO descriptors
+ 
+ Starting with commit 79a9becda894 the GPIO subsystem embarked on a journey
+-to move away from the global GPIO numberspace and toward a decriptor-based
++to move away from the global GPIO numberspace and toward a descriptor-based
+ approach. This means that GPIO consumers, drivers and machine descriptions
+ ideally have no use or idea of the global GPIO numberspace that has/was
+ used in the inception of the GPIO subsystem.
 -- 
 2.25.1
 
