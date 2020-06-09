@@ -2,37 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBD9A1F3B02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18D791F3AF5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:47:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728707AbgFIMrc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Jun 2020 08:47:32 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54322 "EHLO
+        id S1729642AbgFIMqn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Jun 2020 08:46:43 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54342 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729556AbgFIMqk (ORCPT
+        with ESMTP id S1729599AbgFIMql (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Jun 2020 08:46:40 -0400
+        Tue, 9 Jun 2020 08:46:41 -0400
 Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0AA61314;
-        Tue,  9 Jun 2020 14:46:36 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AE0118DB;
+        Tue,  9 Jun 2020 14:46:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1591706797;
-        bh=OOH+LAXUnO54rY/U8UNrIE1qIeSrYaq/xrNetIgDJ/Q=;
+        bh=yUDqaHQhhkfOJfrOhGeYQXYgQdqAUyO9Sr1tp6uX60I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d0tSCri1MiOPPEmnFQJsxZ1iXXrFBfNY1UgzCqbmHnRQpzb2sBVwxrnhpt1YvIDYM
-         9O8tEfYEuTcvx5LLozaR/xhnD/5vEVFulm666XCiyTYhALNo39jq6cX8p2WEBBzA3y
-         vKJ+C0jjMUv9voc3ni4x0DkMUH/yrGowKq38GeiE=
+        b=IBCBcaXwIMaM66OViixlYA8SyKxFiFbHL9Yri62GKuhsNOJMRe3zBQt9R3Yw2k9UH
+         fJbDUt4Fru0lRk8QWRxEw90O39W+HKkA8erw4s8brfvYT/+37xP8PiD26J+pdxPZkT
+         ZtEH/kPqZDllya2EHmEFhOWf6eXB5ZjMII/eppaU=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mike Marciniszyn <mike.marciniszyn@intel.com>,
+        Dennis Dalessandro <dennis.dalessandro@intel.com>,
+        Doug Ledford <dledford@redhat.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Jiri Kosina <trivial@kernel.org>,
-        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
-        , TOUCHSCREEN)...), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 10/17] drivers: input: joystick: Fix trivial spelling
-Date:   Tue,  9 Jun 2020 13:46:03 +0100
-Message-Id: <20200609124610.3445662-11-kieran.bingham+renesas@ideasonboard.com>
+        linux-rdma@vger.kernel.org (open list:HFI1 DRIVER),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 11/17] drivers: infiniband: Fix trivial spelling
+Date:   Tue,  9 Jun 2020 13:46:04 +0100
+Message-Id: <20200609124610.3445662-12-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
@@ -50,22 +53,22 @@ Fix it up accordingly:
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/input/joystick/spaceball.c | 2 +-
+ drivers/infiniband/hw/hfi1/ipoib_tx.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/input/joystick/spaceball.c b/drivers/input/joystick/spaceball.c
-index cf7cbcd0c29d..92002a8b9e8b 100644
---- a/drivers/input/joystick/spaceball.c
-+++ b/drivers/input/joystick/spaceball.c
-@@ -124,7 +124,7 @@ static void spaceball_process_packet(struct spaceball* spaceball)
- }
+diff --git a/drivers/infiniband/hw/hfi1/ipoib_tx.c b/drivers/infiniband/hw/hfi1/ipoib_tx.c
+index 883cb9d48022..175290c56db9 100644
+--- a/drivers/infiniband/hw/hfi1/ipoib_tx.c
++++ b/drivers/infiniband/hw/hfi1/ipoib_tx.c
+@@ -364,7 +364,7 @@ static struct ipoib_txreq *hfi1_ipoib_send_dma_common(struct net_device *dev,
+ 	if (unlikely(!tx))
+ 		return ERR_PTR(-ENOMEM);
  
- /*
-- * Spaceball 4000 FLX packets all start with a one letter packet-type decriptor,
-+ * Spaceball 4000 FLX packets all start with a one letter packet-type descriptor,
-  * and end in 0x0d. It uses '^' as an escape for CR, XOFF and XON characters which
-  * can occur in the axis values.
-  */
+-	/* so that we can test if the sdma decriptors are there */
++	/* so that we can test if the sdma descriptors are there */
+ 	tx->txreq.num_desc = 0;
+ 	tx->priv = priv;
+ 	tx->txq = txp->txq;
 -- 
 2.25.1
 
