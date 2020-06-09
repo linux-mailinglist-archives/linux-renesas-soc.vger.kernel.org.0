@@ -2,86 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41C0C1F3B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7430A1F3B2A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jun 2020 14:54:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgFIMuN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Jun 2020 08:50:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52742 "EHLO mail.kernel.org"
+        id S1728403AbgFIMyu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Jun 2020 08:54:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726083AbgFIMuM (ORCPT
+        id S1728217AbgFIMyt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Jun 2020 08:50:12 -0400
+        Tue, 9 Jun 2020 08:54:49 -0400
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2DD05206A4;
-        Tue,  9 Jun 2020 12:50:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C1C2720820;
+        Tue,  9 Jun 2020 12:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591707010;
-        bh=mb5BHpg+BlUVM5LIoAF9EaqEf3JUMMSjWdvZrwmh12o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dNfcud/2EeiI0vJXbs00wfklZgUQEggKGn7xblQN/w+qUYxzQn5XiaSyx8eXHvzhw
-         3LTuY1EMw4fVrZ6VlNlDAH5nT2bHcG4amnTwFNMCbWbgMvM4yHY+Fj4KQqmKNgAKN/
-         wlVy9k3mxN67vHj69NPv0LPy2meEp3hoUBoDi+qE=
-Date:   Tue, 9 Jun 2020 13:50:07 +0100
+        s=default; t=1591707289;
+        bh=2MPHkxwzXyONifMaPM7sXNmQR9wT77/yj06LmZf+Jb0=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=DIF86yhHwT5I1CvFf89UUgertwlbpk7lVYisk5QSauuw25o1Kd87gyzW33YCHVIie
+         d++esUMQkMN4rq8pFAPrfipMQGPh6IJKxfwFfssjVA0s++m6B8aTzQCbvMnadJSdQ+
+         UmFD/RQ+0c0bouWh2xAGKWoTLT71ufcrQLQKwTus=
+Date:   Tue, 09 Jun 2020 13:54:47 +0100
 From:   Mark Brown <broonie@kernel.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jiri Kosina <trivial@kernel.org>,
-        "open list:VOLTAGE AND CURRENT REGULATOR FRAMEWORK" 
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 09/17] drivers: regulator: Fix trivial spelling
-Message-ID: <20200609125007.GD4583@sirena.org.uk>
-References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
- <20200609124610.3445662-10-kieran.bingham+renesas@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LTeJQqWS0MN7I/qa"
-Content-Disposition: inline
-In-Reply-To: <20200609124610.3445662-10-kieran.bingham+renesas@ideasonboard.com>
-X-Cookie: Be careful!  Is it classified?
-User-Agent: Mutt/1.10.1 (2018-07-13)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-sh@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-spi@vger.kernel.org
+In-Reply-To: <20200608095940.30516-1-geert+renesas@glider.be>
+References: <20200608095940.30516-1-geert+renesas@glider.be>
+Subject: Re: [PATCH 0/8] spi: rspi: Bit rate improvements
+Message-Id: <159170728714.39829.17212206680435918911.b4-ty@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, 8 Jun 2020 11:59:32 +0200, Geert Uytterhoeven wrote:
+> 	Hi Mark,
+> 
+> This patch series contains several improvements for the Renesas SPI/QSPI
+> driver related to bit rate configuration.
+> 
+> This has been tested on RSK+RZA1 (RSPI) and R-Car M2-W/Koelsch (QSPI),
+> using a scope and logic analyzer, except for the by-one divider on QSPI.
+> This has not been tested on legacy SuperH, due to lack of hardware.
+> 
+> [...]
 
---LTeJQqWS0MN7I/qa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Tue, Jun 09, 2020 at 01:46:02PM +0100, Kieran Bingham wrote:
-> The word 'descriptor' is misspelled throughout the tree.
->=20
-> Fix it up accordingly:
->     decriptors -> descriptors
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-For changes like these that are a bunch of trivial fixes independent of
-each other it's generally better to send them independently rather than
-as a series since only having part of the series (as is the case here)
-usually begs questions about dependencies.  I'm hoping there aren't any
-here and will queue these...
+Thanks!
 
---LTeJQqWS0MN7I/qa
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] spi: rspi: Use requested instead of maximum bit rate
+      commit: e0fe70051f12c25c4afb04cb10ca8648c6e761cf
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7fhX4ACgkQJNaLcl1U
-h9B9nQf9FwzB5vMSW8IRVFyyLTJL2DnPj/ZQNSsCDnVu5DnIAhT15EjuZKPfDy1y
-/7mBvH1pdxlrneDLatcc732i4hMWSr0VdypgXYgauc7IV6mL5exIXNZqS7yTe/7X
-VL7LxPR97oetlOpjRvwOjme3dwx+RqG1fQ4Wej1aPowIMmTN7eEcmiVhnQwy1l3j
-xIj7PTBgVT/B5iSjTNPFbhVxFsfNJjkNwgrbG5TwH/p0g+/uqvVIjmMycaNqlg+i
-4cFbtIiHr+hPIvmZoNoD4fyxv8TPbe8OxYTXnfOtYdBiM7E+JXU33n9e9uTVNDK6
-Lm9LCoA+9DagbXmca9dfbRi+5tk/VQ==
-=NQ5y
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---LTeJQqWS0MN7I/qa--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
