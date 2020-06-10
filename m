@@ -2,94 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F4C81F540C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 13:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A8A61F5516
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 14:46:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728683AbgFJL7h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 07:59:37 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33607 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728480AbgFJL7g (ORCPT
+        id S1728595AbgFJMqc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 08:46:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50540 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727927AbgFJMqb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 07:59:36 -0400
-Received: by mail-ot1-f67.google.com with SMTP id n6so1498371otl.0;
-        Wed, 10 Jun 2020 04:59:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8ZG/HJT7rPSiNIE05gFVcJqpFa/5aewZ1WUsbuSs15s=;
-        b=Knl+eXYUL2rNk1pwnsIyVkxwPUID5ylX6uN0Cq4uGovGfoMB3X817iMRC/Fl7GeGMD
-         ZGR872roQZKuyuXcXKB85qsNl66ri4iFO+SOKJz8+TwC4ZdF/NxJGEZkLnmF8e3Un7aE
-         YSpGTsmQ8Pt0MSx3UKVIDivwVicpiYvDsd1moDm9ajyv1AnjnnD0a/8qvvEI6iC79gaa
-         e7OJKhcRZcZKXihHqgVzBLlnahWeJCRew1CCVJhQ1vyYrKFpb4b3tdyhe7ifSQs41QD6
-         DjlBW/PN4MBDGYNPQ/lmkOJRMaU5Em3b6uZ7fBPkmRQc7/bQuT5MNXQigGpt+DsJ1j55
-         YqKw==
-X-Gm-Message-State: AOAM532HmBnodkKH3ydymaA9kO9v6t6ijiGkWSt7KhFueXxlUkVeP8WE
-        G8hampJ3GXspEw5FFHOQFgWbu0lAf7S4GvKMMJ0XgvXK
-X-Google-Smtp-Source: ABdhPJz4zTu2IPb7LBk7svTC/4Ryb7wQelQ/gCq4Psv1ev4MAuApJsbFdmNc5XwduPkB767t96+jNabtE2GhD0tH3NY=
-X-Received: by 2002:a9d:c29:: with SMTP id 38mr2147470otr.107.1591790375776;
- Wed, 10 Jun 2020 04:59:35 -0700 (PDT)
+        Wed, 10 Jun 2020 08:46:31 -0400
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7882A29E;
+        Wed, 10 Jun 2020 14:46:27 +0200 (CEST)
+From:   Kieran Bingham <kieran@ksquared.org.uk>
+To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v9.2 0/9] GMSL fixups ready for v10.
+Date:   Wed, 10 Jun 2020 13:46:14 +0100
+Message-Id: <20200610124623.51085-1-kieran@bingham.xyz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1591736054-568-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1591736054-568-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200610110810.GD5005@sirena.org.uk>
-In-Reply-To: <20200610110810.GD5005@sirena.org.uk>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 10 Jun 2020 13:59:24 +0200
-Message-ID: <CAMuHMdWCHeSB9mjpdSX_-qxwo33kMb1_1R93CjBtVBPFPKkEOg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: spi: renesas,sh-msiof: Add r8a7742 support
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-On Wed, Jun 10, 2020 at 1:08 PM Mark Brown <broonie@kernel.org> wrote:
-> On Tue, Jun 09, 2020 at 09:54:13PM +0100, Lad Prabhakar wrote:
-> > Document RZ/G1H (R8A7742) SoC bindings.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
->
-> To repeat my previous feedback I'd expect a driver update as well.
+Unfortunately we missed the 5.8 window with reviews that came in really
+late in the merge window, but hey  ... more time to do more fixups to
+GMSL....
 
-No driver update is needed.
+Jacopo has done various updates to fix the DT Yaml validation, though
+there is probably some scope there that means we might need a
+meta-schema for I2C-Muxes ... but that gets more complicated and
+probably a bit out of scope for now.
 
-Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml says:
+I've taken more review comments into consideration and handled more
+fixes for the drivers, which we expect to get to a point that these can
+now be merged for the next release.
 
-  compatible:
-    oneOf:
-      - items:
-          - enum:
-             - renesas,msiof-r8a7742       # RZ/G1H
-               ...
-          - const: renesas,rcar-gen2-msiof  # generic R-Car Gen2 and RZ/G1
-                                            # compatible device
+Sakari has at least provisionalyl given us his blessing - so lets hope
+v10 is the last - and we can finally see max9286/rdacm20 get upstream.
 
-drivers/spi/spi-sh-msiof.c matches against "renesas,rcar-gen2-msiof".
+--
+Kieran
 
-Gr{oetje,eeting}s,
 
-                        Geert
+Jacopo Mondi (1):
+  fixes! [max9286-dt]: Fix dt-validation
+
+Kieran Bingham (8):
+  fixes! [max9286]: Fix whitespace indent
+  fixes! [max9286]: Validate link formats
+  fixes! [max9286]: Use single sample per pixel
+  fixes! [max9286]: Remove redundant DPHY check
+  fixes! [max9286]: Remove redundant call
+  fixes! [max9286-dt]: Add GPIO controller support
+  fixes! [max9286-dt]: Correctly match the hex camera node reg
+  fixes! [rdacm20]: Use usleep_range over mdelay(10)
+
+ .../bindings/media/i2c/maxim,max9286.yaml     | 91 +++++++++++++++++--
+ drivers/media/i2c/max9286.c                   | 45 ++++-----
+ drivers/media/i2c/rdacm20.c                   |  4 +-
+ 3 files changed, 107 insertions(+), 33 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
