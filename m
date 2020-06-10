@@ -2,27 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F26E71F5518
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 14:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 203E81F551B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 14:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728933AbgFJMqf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 08:46:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50566 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728540AbgFJMqe (ORCPT
+        id S1728986AbgFJMqi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 08:46:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47664 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728540AbgFJMqi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 08:46:34 -0400
+        Wed, 10 Jun 2020 08:46:38 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21348C03E96B
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 05:46:37 -0700 (PDT)
 Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4D1FCFD1;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B304BFD2;
         Wed, 10 Jun 2020 14:46:28 +0200 (CEST)
 From:   Kieran Bingham <kieran@ksquared.org.uk>
 To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v9.2 2/9] fixes! [max9286]: Validate link formats
-Date:   Wed, 10 Jun 2020 13:46:16 +0100
-Message-Id: <20200610124623.51085-3-kieran@bingham.xyz>
+Subject: [PATCH v9.2 3/9] fixes! [max9286]: Use single sample per pixel
+Date:   Wed, 10 Jun 2020 13:46:17 +0100
+Message-Id: <20200610124623.51085-4-kieran@bingham.xyz>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200610124623.51085-1-kieran@bingham.xyz>
 References: <20200610124623.51085-1-kieran@bingham.xyz>
@@ -35,54 +38,61 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Disallow setting a format on the source link, but enable link validation
-by returning the format of the first bound source when getting the
-format of the source pad.
+MBUS formats for a serial bus should be specified as a single sample
+point.
+
+This change requires updating user-space test scripts to configure as
+1x16 accordingly:
+
+-    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_2X8/1280x800 field:none]"
++    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_1X16/1280x800 field:none]"
 
 Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/max9286.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/media/i2c/max9286.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index ef824d2b26b8..7e59391a5736 100644
+index 7e59391a5736..807024a9a149 100644
 --- a/drivers/media/i2c/max9286.c
 +++ b/drivers/media/i2c/max9286.c
-@@ -711,7 +711,11 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
- 	struct max9286_priv *priv = sd_to_max9286(sd);
- 	struct v4l2_mbus_framefmt *cfg_fmt;
- 
--	if (format->pad >= MAX9286_SRC_PAD)
-+	/* TODO:
-+	 * Multiplexed Stream Support: Prevent setting the format on the shared
-+	 * multiplexed bus.
-+	 */
-+	if (format->pad == MAX9286_SRC_PAD)
+@@ -684,7 +684,7 @@ static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+ 	if (code->pad || code->index > 0)
  		return -EINVAL;
+ 
+-	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
++	code->code = MEDIA_BUS_FMT_UYVY8_1X16;
+ 
+ 	return 0;
+ }
+@@ -720,13 +720,13 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
  
  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
-@@ -743,11 +747,18 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+ 	switch (format->format.code) {
+-	case MEDIA_BUS_FMT_UYVY8_2X8:
+-	case MEDIA_BUS_FMT_VYUY8_2X8:
+-	case MEDIA_BUS_FMT_YUYV8_2X8:
+-	case MEDIA_BUS_FMT_YVYU8_2X8:
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_VYUY8_1X16:
++	case MEDIA_BUS_FMT_YUYV8_1X16:
++	case MEDIA_BUS_FMT_YVYU8_1X16:
+ 		break;
+ 	default:
+-		format->format.code = MEDIA_BUS_FMT_UYVY8_2X8;
++		format->format.code = MEDIA_BUS_FMT_UYVY8_1X16;
+ 		break;
+ 	}
+ 
+@@ -788,7 +788,7 @@ static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
  {
- 	struct max9286_priv *priv = sd_to_max9286(sd);
- 	struct v4l2_mbus_framefmt *cfg_fmt;
-+	unsigned int pad = format->pad;
- 
--	if (format->pad >= MAX9286_SRC_PAD)
--		return -EINVAL;
-+	/* TODO:
-+	 * Multiplexed Stream Support: Support link validation by returning the
-+	 * format of the first bound link. All links must have the same format,
-+	 * as we do not support mixing, and matching of cameras connected to
-+	 * the max9286.
-+	 */
-+	if (pad == MAX9286_SRC_PAD)
-+		pad = __ffs(priv->bound_sources);
- 
--	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-+	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
- 	if (!cfg_fmt)
- 		return -EINVAL;
- 
+ 	fmt->width		= 1280;
+ 	fmt->height		= 800;
+-	fmt->code		= MEDIA_BUS_FMT_UYVY8_2X8;
++	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
+ 	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
+ 	fmt->field		= V4L2_FIELD_NONE;
+ 	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
 -- 
 2.25.1
 
