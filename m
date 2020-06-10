@@ -2,92 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E618E1F56ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 16:41:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14EA41F56FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 16:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgFJOlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 10:41:15 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:43783 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726801AbgFJOlO (ORCPT
+        id S1726801AbgFJOpU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 10:45:20 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:40831 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726799AbgFJOpU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 10:41:14 -0400
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        Wed, 10 Jun 2020 10:45:20 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 39890100015;
-        Wed, 10 Jun 2020 14:41:11 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 88334C000A;
+        Wed, 10 Jun 2020 14:45:17 +0000 (UTC)
+Date:   Wed, 10 Jun 2020 16:48:40 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran@ksquared.org.uk>
+Cc:     linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
-Date:   Wed, 10 Jun 2020 16:44:21 +0200
-Message-Id: <20200610144421.22592-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200610124623.51085-1-kieran@bingham.xyz>
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v9.2 0/9] GMSL fixups ready for v10.
+Message-ID: <20200610144840.mpqmbac5hrlvyy2k@uno.localdomain>
 References: <20200610124623.51085-1-kieran@bingham.xyz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200610124623.51085-1-kieran@bingham.xyz>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
----
- .../devicetree/bindings/media/i2c/maxim,max9286.yaml   | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Hi Kieran,
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-index 34e0431d0bc1..8307c41f2cae 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-@@ -176,6 +176,8 @@ properties:
-                 description: The remote device compatible string.
+On Wed, Jun 10, 2020 at 01:46:14PM +0100, Kieran Bingham wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> Unfortunately we missed the 5.8 window with reviews that came in really
+> late in the merge window, but hey  ... more time to do more fixups to
+> GMSL....
+>
+> Jacopo has done various updates to fix the DT Yaml validation, though
+> there is probably some scope there that means we might need a
+> meta-schema for I2C-Muxes ... but that gets more complicated and
+> probably a bit out of scope for now.
 
-               reg:
-+                minItems: 2
-+                maxItems: 3
-                 description: |
-                   The I2C addresses to be assigned to the remote devices through
-                   address reprogramming. The number of entries depends on the
-@@ -294,7 +296,7 @@ examples:
+I've replied with a patch that fixes the dt-schema validation warning we had.
 
-             camera@51 {
-               compatible = "imi,rdacm20";
--              reg = <0x51 0x61>;
-+              reg = <0x51>, <0x61>;
+The example in the schema was actually wrong.
 
-               port {
-                 rdacm20_out0: endpoint {
-@@ -312,7 +314,7 @@ examples:
+If you agree with the patch, please squash it in forthcoming v10.
 
-             camera@52 {
-               compatible = "imi,rdacm20";
--              reg = <0x52 0x62>;
-+              reg = <0x52>, <0x62>;
+Thanks
+  j
 
-               port {
-                 rdacm20_out1: endpoint {
-@@ -329,7 +331,7 @@ examples:
-
-             camera@53 {
-               compatible = "imi,rdacm20";
--              reg = <0x53 0x63>;
-+              reg = <0x53>, <0x63>;
-
-               port {
-                 rdacm20_out2: endpoint {
-@@ -346,7 +348,7 @@ examples:
-
-             camera@54 {
-               compatible = "imi,rdacm20";
--              reg = <0x54 0x64>;
-+              reg = <0x54>, <0x64>;
-
-               port {
-                 rdacm20_out3: endpoint {
---
-2.27.0
-
+>
+> I've taken more review comments into consideration and handled more
+> fixes for the drivers, which we expect to get to a point that these can
+> now be merged for the next release.
+>
+> Sakari has at least provisionalyl given us his blessing - so lets hope
+> v10 is the last - and we can finally see max9286/rdacm20 get upstream.
+>
+> --
+> Kieran
+>
+>
+> Jacopo Mondi (1):
+>   fixes! [max9286-dt]: Fix dt-validation
+>
+> Kieran Bingham (8):
+>   fixes! [max9286]: Fix whitespace indent
+>   fixes! [max9286]: Validate link formats
+>   fixes! [max9286]: Use single sample per pixel
+>   fixes! [max9286]: Remove redundant DPHY check
+>   fixes! [max9286]: Remove redundant call
+>   fixes! [max9286-dt]: Add GPIO controller support
+>   fixes! [max9286-dt]: Correctly match the hex camera node reg
+>   fixes! [rdacm20]: Use usleep_range over mdelay(10)
+>
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 91 +++++++++++++++++--
+>  drivers/media/i2c/max9286.c                   | 45 ++++-----
+>  drivers/media/i2c/rdacm20.c                   |  4 +-
+>  3 files changed, 107 insertions(+), 33 deletions(-)
+>
+> --
+> 2.25.1
+>
