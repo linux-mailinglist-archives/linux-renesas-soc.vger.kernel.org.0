@@ -2,150 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABA1D1F5549
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 15:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B3811F5590
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 15:17:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729168AbgFJNAa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 09:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729163AbgFJNA3 (ORCPT
+        id S1729120AbgFJNRf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 09:17:35 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:38305 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728864AbgFJNRf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 09:00:29 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F6F9C08C5C1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 06:00:28 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id 9so2339609ljc.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 06:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PNyrBZppNk3Cjv2T06G1zQBWJHpOfeyJqDojTtGkqc0=;
-        b=Qbll/Bjm7pPCbjqueebN+hgqtenuC0SeH2KoV1L2PcrPvu1yr0DVTGD35LdOIPOFGb
-         rIUL5CIDe3nVW7glCNLBRARyF2Hd/kOd6yH9rVut2I1yxnc5fIE4tKF1eML+3wiJYmzW
-         k47efqsigrCnZmaJOG1bj5Y+Z9GxJLHG+7y0dfoelNMlFa7Kmia9UsST1NVNP3XIh7fW
-         k1tZ1o1Gytst8WLFzGcavIjhKjKIx/zZeNFNXovrOfbLgHNNsrp6SRkyvdvBzKsj8Imh
-         v/dQO/fuSL5us9jXZoS4Ps56ircqY/aQM+akRQnc/WHRxe1jBYlFsWzNF/NGn1O71Pb/
-         rj7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=PNyrBZppNk3Cjv2T06G1zQBWJHpOfeyJqDojTtGkqc0=;
-        b=YisGmnN1sc7JMmPJwh/w1XiDnK30Y0U9E3o3BaVGvnJS4gWIoUnDmqYe/UrPwG0k6d
-         QO03fmlaaKEY05l8L76kv4l+Cx6XzNEQCcG6rWZnWWe61y70U/HWCMTMj2iZvMlpExXT
-         v0wbgMj4oMcwcF3vZxdNL7YaGAHZJMou2vPX80DcmbguRNM0rKA14L0t7mCaLh0CILTu
-         5qAFoql8RoA8kh0WX+J0+RK1edg4F6KLPQor5t3YqfnLhUd9cj8kMTTbeZpnlqUp78Ik
-         n4wEVpWAazoMOmUYcU4YmUdun4XDa+y1WO5ZKsOOPhiEO03rRRLnoNaut8vH9J5gjUPa
-         dd1w==
-X-Gm-Message-State: AOAM5333o2YG8qTK/ilyfk+BPGO8Xl8EjBv6fAvEzH1UFki5SNxoLOek
-        UQlGBEjdF8b6FaJ7YhPaD+F0SA==
-X-Google-Smtp-Source: ABdhPJyz49dL94Sea0DJLV1WyFieZrGEQPrJqr/qrzgylWAQVW3IiN5+3jH4CECthyOGqzH2YpP66g==
-X-Received: by 2002:a2e:8554:: with SMTP id u20mr1734783ljj.188.1591794026560;
-        Wed, 10 Jun 2020 06:00:26 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id h15sm1001700ljk.24.2020.06.10.06.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 06:00:25 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 15:00:24 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] media: rcar-vin: Invalidate pipeline if
- conversion is not possible on input formats
-Message-ID: <20200610130024.GA184623@oden.dyn.berto.se>
-References: <1590581810-19317-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590581810-19317-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 10 Jun 2020 09:17:35 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 3DB1E20005;
+        Wed, 10 Jun 2020 13:17:32 +0000 (UTC)
+Date:   Wed, 10 Jun 2020 15:20:55 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran@ksquared.org.uk>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v9.2 9/9] fixes! [rdacm20]: Use usleep_range over
+ mdelay(10)
+Message-ID: <20200610132055.2umlz3ekkejvmgqz@uno.localdomain>
+References: <20200610124623.51085-1-kieran@bingham.xyz>
+ <20200610124623.51085-10-kieran@bingham.xyz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1590581810-19317-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200610124623.51085-10-kieran@bingham.xyz>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
+Hi Kieran,
 
-Thanks for your work.
+On Wed, Jun 10, 2020 at 01:46:23PM +0100, Kieran Bingham wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> Prefer usleep_range rather than the busy looping mdelay for 10ms waits.
+>
+> msleep( n < 20 ) may sleep up to 20 milliseconds, but in this instance I
+> don't think that's a issue here. All the same, use usleep_range between
+> 10, 15 milliseconds.
 
-On 2020-05-27 13:16:48 +0100, Lad Prabhakar wrote:
-> Up until now the VIN was capable to convert any of its supported input mbus
-> formats to any of it's supported output pixel formats. With the addition of
-> RAW formats this is no longer true.
-> 
-> This patch invalidates the pipeline by adding a check if given vin input
-> format can be converted to supported output pixel format.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+I think a rather conservative sleep interval like this one is fine, as
+I don't have a characterization of the resest delay for this chip. The
+10ms came from BSp code, and I'm not sure that was an empirical
+measurement of was supported by some document.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 
+Thanks
+   j
+
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  |  6 +++++-
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 11 ++++++++---
->  2 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 1a30cd036371..2b26204910fd 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1110,11 +1110,15 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  	case MEDIA_BUS_FMT_UYVY8_2X8:
->  	case MEDIA_BUS_FMT_UYVY10_2X10:
->  	case MEDIA_BUS_FMT_RGB888_1X24:
-> -		vin->mbus_code = fmt.format.code;
-> +		break;
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
-> +			return -EPIPE;
->  		break;
->  	default:
->  		return -EPIPE;
->  	}
-> +	vin->mbus_code = fmt.format.code;
->  
->  	switch (fmt.format.field) {
->  	case V4L2_FIELD_TOP:
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index f421e2584875..d3b6a992b4a2 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -350,9 +350,9 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
->  	 * all of the related pixel formats. If mbus_code is not set enumerate
->  	 * all possible pixelformats.
->  	 *
-> -	 * TODO: Once raw capture formats are added to the driver this needs
-> -	 * to be extended so raw media bus codes only result in raw pixel
-> -	 * formats.
-> +	 * TODO: Once raw MEDIA_BUS_FMT_SRGGB12_1X12 format is added to the
-> +	 * driver this needs to be extended so raw media bus code only result in
-> +	 * raw pixel format.
+>  drivers/media/i2c/rdacm20.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index cda3e6372ea9..1ed928c4ca70 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -488,9 +488,9 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
 >  	 */
->  	switch (f->mbus_code) {
->  	case 0:
-> @@ -362,6 +362,11 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
->  	case MEDIA_BUS_FMT_UYVY10_2X10:
->  	case MEDIA_BUS_FMT_RGB888_1X24:
->  		break;
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		if (f->index)
-> +			return -EINVAL;
-> +		f->pixelformat = V4L2_PIX_FMT_SRGGB8;
-> +		return 0;
->  	default:
->  		return -EINVAL;
->  	}
-> -- 
-> 2.17.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+>  	max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> -	mdelay(10);
+> +	usleep_range(10000, 15000);
+>  	max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> -	mdelay(10);
+> +	usleep_range(10000, 15000);
+>
+>  again:
+>  	ret = ov10635_read16(dev, OV10635_PID);
+> --
+> 2.25.1
+>
