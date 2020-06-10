@@ -2,133 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76EC61F57E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 17:32:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF8FE1F5814
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 17:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730224AbgFJPcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 11:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45208 "EHLO
+        id S1728132AbgFJPrj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 11:47:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726988AbgFJPcP (ORCPT
+        with ESMTP id S1728096AbgFJPri (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 11:32:15 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4889C03E96B
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 08:32:14 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id j10so2769943wrw.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 08:32:14 -0700 (PDT)
+        Wed, 10 Jun 2020 11:47:38 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89D6DC03E96B
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 08:47:38 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q19so3106372lji.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jun 2020 08:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=L/g86dBUZKjl5KTVUeFxtA/4wg+xhUm8BJGegAmb5Js=;
-        b=juAtCCLziMVmylfyjAk8fr0gNLiH3XWI7z40EkMsjyFvbdVai3ORIxsV2BFJijThoJ
-         1g7J023Qy8yQiVLtgS9ojBkn15n0fmjlb4w84EY98IztkprceRsEhhi3/gABkwjyLLAa
-         XkrYRg0eOwmbNcES1JGPnazCavOWfb/35HXsM=
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=x5kqbLnke0T8OdTg7ovqN11fixyiEJS+wsZrUT0NKuw=;
+        b=yRAuDn2RmfLWA3AS/2Z6VtyO5Q8yFeRgJC9Vp3uQ5LLmq/x97HP3LdENn80GmWib7v
+         fuH8iTwQnB1RxV+7riEwlW3BthtuC+nC5nsse/RmEaxJRrKVWtWSimrfg5ekZni1CmIv
+         75HNdwkh/Yl3vjqd9E+x4FO7qKoBRXw3REn2OqnVzTGj99JaWNbvAgS7JNYYaYOO0aZ/
+         srIRUXVXTbjO9Q47itzVEgHpwQEzDdus0bmfzkp5Cb8KVyXbD2k8UTwrUW0p/G3wp97P
+         o1z2IYJhxl1CVbIFUPQaPmfuQ/6shlw7SLlQGMDWslUNjhPDT8SvV0kh7vI0kObNLamp
+         QMTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=L/g86dBUZKjl5KTVUeFxtA/4wg+xhUm8BJGegAmb5Js=;
-        b=ojaKyJBUqu0EyDbGgZBDG/cYtmP+f5wFoTgjt9gv0bqAQSJqJiLreYPviJTA82NMaP
-         EdBHR6Y0hvk73ygOocH2TX/zMY4gcDD5cgDosxxagLJo2/xhOX0BisCojHT6uwg03fVD
-         BAK+PRNqMzx09qUb1swteosn4mNHkTGRquUwSzQDgPy4w829VLCAGrn7u9+n3y0OwwVV
-         zv64acJDMVp1gzBxK7UesncdzcajEo6mBipml1iUw1TcIthCp1EpTFQyBozxfP5M31tO
-         DN7+HqJKCniBzAe9GNFeuROPhPCt4HrFrpO9I6ZQBi7HVfgF96ZxCeSxwAOb2agxsdHS
-         vDMg==
-X-Gm-Message-State: AOAM530IH5bQLCxTbeJEIxklgOAJTC9lTPZhoLMLc0MxpQMxpAYg0SpV
-        HsWhybcPBTRmSI/5ZIq+SCwkTQ==
-X-Google-Smtp-Source: ABdhPJyDyoyk9tr3zTqwPfbRN2CNQ0mYPBBQU8gPh438yGWw6/DWZOjH0T/7JDpZdKCb0c9Mz+oYLw==
-X-Received: by 2002:adf:8b0c:: with SMTP id n12mr4705954wra.340.1591803133698;
-        Wed, 10 Jun 2020 08:32:13 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id a1sm101094wmd.28.2020.06.10.08.32.12
+        bh=x5kqbLnke0T8OdTg7ovqN11fixyiEJS+wsZrUT0NKuw=;
+        b=Hm2nihmQatkZfD3tMygefQZ+l/XpwgDQ2j6SGV1WOflypt6ijO7W2G2di5nX+7oGnk
+         gEBEiSfO53mcpF6P1qIUjb1LXiugXNnCZ8PqI6JKhwritp9UBFi2tjcVtIsl8WPEXWZT
+         rXgu9RxAuTpgM/1A4PPp0KM+633/PXsx71wSH+zIA6FJPO1Zmhh1RjcuPpGwVKL3hnIy
+         Gh60okByml0tNARJF7FFaMsad2OhIIWjyt547Ru3ebKt/F5tyffA1UzLHAfES58cKmIT
+         iZEPsXPHEZThmwE0GJHUMOGMp+hB5yb5evCinOQcMbei/U/rWQI4i6nO0ZFUs431KAl4
+         uuwA==
+X-Gm-Message-State: AOAM5317ryTpL6wQOwjsmRSsZhacJbMFiJ4ooGy8xS02nHpokR+gW3b9
+        8lX+gMI57ldDc5GZAiVetgYCD4Zdecg=
+X-Google-Smtp-Source: ABdhPJwNzdL+MBwDiF8S0hvfcxWUMu97c493CaFV/3Hzbi3SQFw6lwXcaEcxmrA1dqsQsqBdEq1x9Q==
+X-Received: by 2002:a2e:390a:: with SMTP id g10mr1989519lja.373.1591804056925;
+        Wed, 10 Jun 2020 08:47:36 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id h26sm30745lji.42.2020.06.10.08.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 08:32:12 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 17:32:10 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jiri Kosina <trivial@kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 08/17] drivers: gpu: drm: Fix trivial spelling
-Message-ID: <20200610153210.GA20149@phenom.ffwll.local>
-Mail-Followup-To: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>, Jiri Kosina <trivial@kernel.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
- <20200609124610.3445662-9-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 10 Jun 2020 08:47:35 -0700 (PDT)
+Date:   Wed, 10 Jun 2020 17:47:35 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] gmsl-yavta: Use UYVY8_1X16 format
+Message-ID: <20200610154735.GK192296@oden.dyn.berto.se>
+References: <20200610151228.23845-1-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200609124610.3445662-9-kieran.bingham+renesas@ideasonboard.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200610151228.23845-1-jacopo@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 09, 2020 at 01:46:01PM +0100, Kieran Bingham wrote:
-> The word 'descriptor' is misspelled throughout the tree.
-> 
-> Fix it up accordingly:
->     decriptors -> descriptors
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Hi Jacopo,
 
-Queued for 5.9, thanks for your patch.
--Daniel
+Thanks for your patch.
+
+On 2020-06-10 17:12:28 +0200, Jacopo Mondi wrote:
+> Update the gmsl capture script to use the format required by the latest
+> max9286 driver version.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+And applied.
 
 > ---
->  drivers/gpu/drm/drm_dp_helper.c | 2 +-
->  include/drm/drm_dp_helper.h     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  gmsl-yavta.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 19c99dddcb99..8f1b329df16d 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -1365,7 +1365,7 @@ EXPORT_SYMBOL(drm_dp_get_edid_quirks);
->  /**
->   * drm_dp_read_desc - read sink/branch descriptor from DPCD
->   * @aux: DisplayPort AUX channel
-> - * @desc: Device decriptor to fill from DPCD
-> + * @desc: Device descriptor to fill from DPCD
->   * @is_branch: true for branch devices, false for sink devices
->   *
->   * Read DPCD 0x400 (sink) or 0x500 (branch) into @desc. Also debug log the
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 2035ac44afde..1165ec105638 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1701,7 +1701,7 @@ enum drm_dp_quirk {
->  
->  /**
->   * drm_dp_has_quirk() - does the DP device have a specific quirk
-> - * @desc: Device decriptor filled by drm_dp_read_desc()
-> + * @desc: Device descriptor filled by drm_dp_read_desc()
->   * @edid_quirks: Optional quirk bitmask filled by drm_dp_get_edid_quirks()
->   * @quirk: Quirk to query for
->   *
-> -- 
-> 2.25.1
+> diff --git a/gmsl-yavta.sh b/gmsl-yavta.sh
+> index 0ec0560..6e15555 100755
+> --- a/gmsl-yavta.sh
+> +++ b/gmsl-yavta.sh
+> @@ -16,7 +16,7 @@ function conf() {
+>      IDX="$2"
+>      VIN="$3"
+> 
+> -    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_2X8/1280x800 field:none]"
+> +    media-ctl -d $mdev -V "'$CSI':$IDX [fmt:UYVY8_1X16/1280x800 field:none]"
+>      mc_set_link "$CSI" $IDX "$VIN" 1
+>  }
+> 
+> --
+> 2.27.0
 > 
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Regards,
+Niklas Söderlund
