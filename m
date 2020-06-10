@@ -2,119 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8149E1F50CD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 11:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D18C51F50EC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jun 2020 11:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbgFJJG0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 05:06:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45224 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726219AbgFJJG0 (ORCPT
+        id S1727074AbgFJJJp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 05:09:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbgFJJJo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 05:06:26 -0400
+        Wed, 10 Jun 2020 05:09:44 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D841C03E96B;
+        Wed, 10 Jun 2020 02:09:44 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CEBCA29E;
-        Wed, 10 Jun 2020 11:06:22 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 46A4029E;
+        Wed, 10 Jun 2020 11:09:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591779983;
-        bh=jDahtic4X/hGHdvUIUQ4poL1ADmSmvhjqpE/zX70PGE=;
+        s=mail; t=1591780180;
+        bh=x/1WGCYPX9wQegZ9rXJrtiwtlR3b2ASX7G+NGvgVKVA=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=ESqqyDvXadCuJ/5DhuogFj+9nhJ3DYr6jXzQxi/YaQMldGP+LuS1pyEQwt1Sa1cto
-         jxwC62SWsTHQjWCidDleNwcwmXRRBKe625Tu2BhfSmNsmGvUgRMvORTQ9Mmra8Zz/5
-         zJvB6DLBCFmx+gonkYuhV07BxIg4L7gOC+vP03pw=
+        b=fU6nJzNW910hSS6BxGkwYlQ9H1AN5gcEKblZhCdLSSuaQ0IHG2lJcRpTnvTGS23Tx
+         68COWHb73PGvNoS1OWt5h7SXGRce4a2KHTboa624X4L7+spsbEaUwtfe91Au/99Xh4
+         DaBuaSEzHCPFL+0iuEQwxN5N9iSgLa/m6m8LITo0=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2] mm/balloon_compaction: Fix trivial spelling
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 17/17] scripts/spelling.txt: Add descriptors correction
+To:     Joe Perches <joe@perches.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        "open list:VIRTIO CORE AND NET DRIVERS" 
-        <virtualization@lists.linux-foundation.org>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
+        Colin Ian King <colin.king@canonical.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Xiong <xndchn@gmail.com>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
         open list <linux-kernel@vger.kernel.org>
-References: <20200609124610.3445662-16-kieran.bingham+renesas@ideasonboard.com>
- <20200609143412.3456484-1-kieran.bingham+renesas@ideasonboard.com>
- <6b13243c-db22-ef33-8aed-9b385cc10b58@cogentembedded.com>
+References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200609124610.3445662-18-kieran.bingham+renesas@ideasonboard.com>
+ <77778948acc1f475e82ad36d015ba76dc96352ff.camel@perches.com>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <731a9af2-57eb-3b4e-458e-b652df446d04@ideasonboard.com>
-Date:   Wed, 10 Jun 2020 10:06:20 +0100
+Message-ID: <c65821d4-43bf-d6df-d485-9ad4febd6466@ideasonboard.com>
+Date:   Wed, 10 Jun 2020 10:09:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <6b13243c-db22-ef33-8aed-9b385cc10b58@cogentembedded.com>
+In-Reply-To: <77778948acc1f475e82ad36d015ba76dc96352ff.camel@perches.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Joe,
 
-On 10/06/2020 10:00, Sergei Shtylyov wrote:
-> Hello!
+On 09/06/2020 17:08, Joe Perches wrote:
+> On Tue, 2020-06-09 at 13:46 +0100, Kieran Bingham wrote:
+>> After coming across the s/decriptors/descriptors/ spelling error twice,
+>> a scan of the tree showed it was a pervasive mistake.
+> []
+>> diff --git a/scripts/spelling.txt b/scripts/spelling.txt
+> []
+>> @@ -404,6 +404,7 @@ decendants||descendants
+>>  decompres||decompress
+>>  decsribed||described
+>>  decription||description
+>> +decriptors||descriptors
 > 
-> On 09.06.2020 17:34, Kieran Bingham wrote:
+> spelling.txt does not check singular and plural
+> uses unless each is described separately so please
+> add the singular one too:
 > 
->> The word 'descriptor' is misspelled throughout the tree.
->>
->> Fix it up accordingly:
->>      decriptors -> descriptors
+> decriptor|descriptor
 > 
->       decriptor -> descriptor really. ;-)
+> $ git grep -i -w decriptor | wc -l
+> 18
+> $ git grep -i -w decriptors | wc -l
+> 12
 
-Ayeee ... that's what I get for doing a batch fixup ...
+I believe my conversion was based on the non-pluralised version, so I
+think I changed all occurences, but then foolishly somehow ended up
+using the plural for the commit message, which translated into being the
+entry I put in spelling.txt. Sorry ... :-S
 
-Which - I believe I probably actually did a sed conversion on decriptor,
-anyway, so I'm not even sure why the commit messages ended up all
-pluralised ;-)
+I'll fix up, and re-validate any missing fixups after the rebase. I
+think I originally did this at about v5.0, and I already picked up a
+couple extra when I did the rebase, and now you've highlighted the
+plural - I bet I missed some non-plural versions too ;-)
 
-Thanks for the highlight, I'll fix up in any resends.
+Will re-check and correct.
+
+Thanks.
+
 --
 Kieran
 
 
-
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/balloon_compaction.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/mm/balloon_compaction.c b/mm/balloon_compaction.c
->> index 26de020aae7b..907fefde2572 100644
->> --- a/mm/balloon_compaction.c
->> +++ b/mm/balloon_compaction.c
->> @@ -58,7 +58,7 @@ EXPORT_SYMBOL_GPL(balloon_page_list_enqueue);
->>   /**
->>    * balloon_page_list_dequeue() - removes pages from balloon's page
->> list and
->>    *                 returns a list of the pages.
->> - * @b_dev_info: balloon device decriptor where we will grab a page from.
->> + * @b_dev_info: balloon device descriptor where we will grab a page
->> from.
->>    * @pages: pointer to the list of pages that would be returned to
->> the caller.
->>    * @n_req_pages: number of requested pages.
->>    *
->> @@ -157,7 +157,7 @@ EXPORT_SYMBOL_GPL(balloon_page_enqueue);
->>   /*
->>    * balloon_page_dequeue - removes a page from balloon's page list
->> and returns
->>    *              its address to allow the driver to release the page.
->> - * @b_dev_info: balloon device decriptor where we will grab a page from.
->> + * @b_dev_info: balloon device descriptor where we will grab a page
->> from.
->>    *
->>    * Driver must call this function to properly dequeue a previously
->> enqueued page
->>    * before definitively releasing it back to the guest system.
-> 
-> MBR, Sergei
 
