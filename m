@@ -2,81 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2561F6A7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 17:01:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F801F6BE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 18:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728104AbgFKPBU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Jun 2020 11:01:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52306 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728059AbgFKPBU (ORCPT
+        id S1726290AbgFKQNl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Jun 2020 12:13:41 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:39671 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbgFKQNl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Jun 2020 11:01:20 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F924F9;
-        Thu, 11 Jun 2020 17:01:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591887678;
-        bh=Z1ZON2VjTI2WborDhVXC15TaxtmH61fqtnlgTg7UebU=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=Kh3zRlaD4Na8xgx4Hf3+T9Gr2U/vepPOX6rCPNfj1Ew87oHvAYSAd0kSfr74W15/z
-         XLut2FFMwO8KNuUxtMCN2wZYNCtTnaU9FMNZZkjzMPLvm2m2tV9QJWqKeoDuVPvyW2
-         N/Y2HPtypD1ll28cYfT34zrpTXSfSUeOJtQab6iI=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [VIN-Tests PATCH] scripts: boards: Support alternative H3 variant
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Thu, 11 Jun 2020 12:13:41 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E1869C0006;
+        Thu, 11 Jun 2020 16:13:35 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-References: <20200611142601.359091-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <8bbb22d2-f10e-7079-b789-277befbe9877@ideasonboard.com>
-Date:   Thu, 11 Jun 2020 16:01:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Subject: [PATCH v4 0/9] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
+Date:   Thu, 11 Jun 2020 18:16:42 +0200
+Message-Id: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200611142601.359091-1-kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hello
+   in this v4 I have addressed few minor comments received on v3, but mostly,
+this new version removes g|s_mbus_config video operations instead of just
+deprecating them.
 
-On 11/06/2020 15:26, Kieran Bingham wrote:
-> The Salvator-X H3 has had a rename of it's model information.
-> Support the new naming.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  scripts/boards.sh | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/boards.sh b/scripts/boards.sh
-> index 0ec2981..001c017 100644
-> --- a/scripts/boards.sh
-> +++ b/scripts/boards.sh
-> @@ -3,7 +3,8 @@
->  info=$(strings /proc/device-tree/model)
->  
->  case $info in
-> -    "Renesas Salvator-X board based on r8a7795 ES1.x")
-> +    "Renesas Salvator-X board based on r8a7795 ES1.x" |
-> +        "Renesas Salvator-X board based on r8a77950")
+I also changed a few things in the pxa and ov6650 drivers, ported to use the new
+operations.
 
-Sorry - not sure what happened in creating this patch, but there is
-supposed to be a \ line contniuation and better indenting there...
+Quiting v3 cover letter:
+-------------------------------------------------------------------------------
+Most of the existing users are i2c camera drivers reporting a static media bus
+configuration though g_mbus_config. Porting them is performed in a single
+hopefully not controversial patch [2/8]
 
-Expect a (working) v2 soon.
+Two existing users stand-out, and they've probably been developed together:
+pxa_camera and ov6650. Those have bee ported separately in single patches
+with extensive change logs as their operations semantic had to change to port
+them to use the new operations. Not having any of those two platforms, the
+changes have been compile-tested only.
+
+The only existing users of the s|g_mbus_config ops are now the soc_camera based
+drivers currently living in staging.
+
+The last three patches are similar to the ones posted in v2, with the exception
+that they have been updated to use the V4L2_MBUS_* flags as well.
+-------------------------------------------------------------------------------
+
+Will report again the use cases I'm trying to address here:
+------------------------------------------------------------------------------
+Quoting:
+https://patchwork.kernel.org/cover/10855919/
+"The use case this series cover is the following one:
+the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
+connected to its CSI-2 receivers. The ADV748x chip has recently gained support
+for routing both HDMI and analogue video streams through its 4 lanes TXA
+transmitter, specifically to support the Ebisu board that has a single CSI-2
+receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
+to different CSI-2 receivers, and where analogue video is streamed out from the
+ADV748x single lane TXB transmitter.
+To properly support transmission of analogue video through TXA, the number of
+data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
+CSI-2 minimum clock frequency requirements"
+
+During the discussion of the RFC, Dave reported another use case for media
+bus parameter negotiation on his platform:
+https://patchwork.kernel.org/patch/10855923/#22569149
+
+Hyun is now using this series to configure GMSL devices.
+------------------------------------------------------------------------------
+
+Thanks
+   j
+
+v3->v4:
+- Remove g/s_mbus_config video operation
+- Adjust pxa quick capture interface to properly handle bus mastering
+- Reword the two new operations documentation
+
+v2->v3:
+- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+- Port existing drivers
+- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+
+v1->v2:
+- Address Sakari's comment to use unsigned int in place of bools
+- Add two new patches to address documentation
+- Adjust rcar-csi2 patch as much as possible according to Niklas comments
+- Add Niklas's tags
+
+Jacopo Mondi (9):
+  media: v4l2-subdv: Introduce [get|set]_mbus_config pad ops
+  media: i2c: Use the new get_mbus_config pad op
+  media: i2c: ov6650: Use new [get|set]_mbus_config ops
+  media: pxa_camera: Use the new set_mbus_config op
+  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+  staging: media: imx: Update TODO entry
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 +-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 +-
+ drivers/media/i2c/mt9m001.c                 |   7 +-
+ drivers/media/i2c/mt9m111.c                 |   7 +-
+ drivers/media/i2c/ov6650.c                  |  56 ++++--
+ drivers/media/i2c/ov9640.c                  |   7 +-
+ drivers/media/i2c/tc358743.c                |   7 +-
+ drivers/media/i2c/tvp5150.c                 |   7 +-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  61 ++++++-
+ drivers/staging/media/imx/TODO              |   4 +
+ include/media/v4l2-subdev.h                 |  37 ++--
+ 15 files changed, 263 insertions(+), 196 deletions(-)
 
 --
-Kieran
-
-
->          gen="gen3"
->          vins="0 1 2 3 4 5 6 7"
->          csis="20 21 40 41"
-> 
+2.27.0
 
