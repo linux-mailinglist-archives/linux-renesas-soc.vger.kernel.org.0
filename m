@@ -2,84 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E14141F5E8E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 01:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CDA71F6055
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 05:10:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbgFJXGD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jun 2020 19:06:03 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:28040 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726776AbgFJXGD (ORCPT
+        id S1726468AbgFKDKe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jun 2020 23:10:34 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45448 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726306AbgFKDKe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jun 2020 19:06:03 -0400
-X-Halon-ID: f05f6433-ab6e-11ea-933e-005056917a89
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p4fca2eca.dip0.t-ipconnect.de [79.202.46.202])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id f05f6433-ab6e-11ea-933e-005056917a89;
-        Thu, 11 Jun 2020 01:05:55 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Wed, 10 Jun 2020 23:10:34 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BB5826A;
+        Thu, 11 Jun 2020 05:10:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591845032;
+        bh=UWpt1sM6SDAiqZs/tZljy1+goqPHhJWDJtZFS/FLfYA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=L1naQBxfM/aT8W79pntzbW3pnUH9yrXyX2d+oGqFA32u7RWRBNg4pVz1Pr0P+KQDb
+         d8l+5EkRE4S1QpNqPzfdUeoFp2oVLrZuKit/jqrahTIQmXiLBPLxw4VASwns7gtUFa
+         A/tpBlt/voJ9lHscvO5ae6UseVLJCHWccCS+ZNb8=
+Date:   Thu, 11 Jun 2020 06:10:11 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 5/5] rcar-vin: Do not unregister video device when a subdevice is unbound
-Date:   Thu, 11 Jun 2020 01:05:41 +0200
-Message-Id: <20200610230541.1603067-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/5] v4l2-async: Flag when media graph is complete
+Message-ID: <20200611031011.GD13598@pendragon.ideasonboard.com>
 References: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200610230541.1603067-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200610230541.1603067-4-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-If the v4l2-async notifier have once been complete and the video
-device(s) have been register, do not unregister them if one subdevice is
-unbound. Depending on which subdevice is unbound other parts of the
-pipeline could still be functional. For example if one of multiple
-sensors connected to a CSI-2 transmitter is unbound other sensors in
-that pipeline are still useable.
+Hi Niklas,
 
-This problem is extra critical for R-Car VIN which registers two
-independent CSI-2 receivers in the same media graph as they can both be
-used by the same dma-engines. If one of the CSI-2 receivers are unbound
-the other CSI-2 receiver pipeline is still fully functional.
+Thank you for the patch.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-core.c | 5 -----
- 1 file changed, 5 deletions(-)
+On Thu, Jun 11, 2020 at 01:05:39AM +0200, Niklas Söderlund wrote:
+> When the notifier completes set the complete flag in the struct
+> media_device. This flag can can then be reported to user-space to let it
+> know the graph is complete.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 8bde33c21ce45f98..331594ca5b3bb723 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -217,6 +217,11 @@ v4l2_async_notifier_try_complete(struct v4l2_async_notifier *notifier)
+>  	if (!v4l2_async_notifier_can_complete(notifier))
+>  		return 0;
+>  
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +	if (notifier->v4l2_dev->mdev)
+> +		notifier->v4l2_dev->mdev->complete = true;
+> +#endif
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 7440c8965d27e64f..6b0f13618556cac4 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -525,7 +525,6 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
- 
- static void rvin_parallel_subdevice_detach(struct rvin_dev *vin)
- {
--	rvin_v4l2_unregister(vin);
- 	vin->parallel->subdev = NULL;
- 
- 	if (!vin->info->use_mc) {
-@@ -747,10 +746,6 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
- 	struct rvin_dev *vin = v4l2_dev_to_vin(notifier->v4l2_dev);
- 	unsigned int i;
- 
--	for (i = 0; i < RCAR_VIN_NUM; i++)
--		if (vin->group->vin[i])
--			rvin_v4l2_unregister(vin->group->vin[i]);
--
- 	mutex_lock(&vin->group->lock);
- 
- 	for (i = 0; i < RVIN_CSI_MAX; i++) {
+Does this work with sub-notifiers ?
+
+> +
+>  	return v4l2_async_notifier_call_complete(notifier);
+
+Isn't there a race here, if we report the complete flag before the
+notifier calls the .complete() operation ?
+
+>  }
+>  
+
 -- 
-2.27.0
+Regards,
 
+Laurent Pinchart
