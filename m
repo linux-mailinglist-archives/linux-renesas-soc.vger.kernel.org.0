@@ -2,149 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A13B61F6657
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 13:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DB961F67A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 14:10:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgFKLNs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Jun 2020 07:13:48 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:44890 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726817AbgFKLNs (ORCPT
+        id S1728273AbgFKMKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Jun 2020 08:10:08 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:41556 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728264AbgFKMKH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Jun 2020 07:13:48 -0400
-X-IronPort-AV: E=Sophos;i="5.73,499,1583161200"; 
-   d="scan'208";a="49411402"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2020 20:13:46 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8D10842B8E84;
-        Thu, 11 Jun 2020 20:13:46 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH/RFC] arm64: dts: renesas: r8a77961: add IPMMU nodes
-Date:   Thu, 11 Jun 2020 20:13:41 +0900
-Message-Id: <1591874021-10209-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 11 Jun 2020 08:10:07 -0400
+Received: by mail-oi1-f195.google.com with SMTP id a21so5159831oic.8;
+        Thu, 11 Jun 2020 05:10:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lcgXSywPB08+B3kJ8noSU/N9DMgy+4xXYB/CxnY7Amg=;
+        b=YlTfujDe8X3ycDRnEGMpvy3bI3Tq0C2HNBKvyHBn+b3eKbGpjTj1BPopvaFzcm4c6+
+         /XkYAFrBbV3DlbIRnPnht+/dvtzUUJuQgNGQj2xMw6Ul4cPlp/m7hkFqmyzWlhJ4Xtjo
+         T2WX62k3daDoVOGM6wssDUASmM4Ac+CpycC89ua56x/65V55krS9VlGA3/Dba9NiySJ7
+         W5l+wxVK10jf53cb6tr9wdqb5cRSIbnDas91RDLiKfSIDmDMr4krpyflRcu5waBMHdAx
+         X227idctfxto4tJgrqUeyKACQ2q+CKgBxPTy4bTMwYRwh2QVmYSdbvWE8n+dOEzR590A
+         FooQ==
+X-Gm-Message-State: AOAM533KxYHZl4DFqx84sQMs1Mw0mnlVVVL5iVqq3DColwRfvGpgjm6v
+        emJr3ARUxdoeOommDDoIs11UR9LsGfc8bhDh37OP/Q==
+X-Google-Smtp-Source: ABdhPJxkw8nBqOmM/doJ6JuZq8minHv6eu19aEc1wibYnTv7Nh6qLqRMw7fVRT/pWWz4P5jRTR0aBz/eVhKqpwoAW/s=
+X-Received: by 2002:aca:1a19:: with SMTP id a25mr6016101oia.54.1591877405773;
+ Thu, 11 Jun 2020 05:10:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <1591736054-568-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1591736054-568-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200610110810.GD5005@sirena.org.uk> <CAMuHMdWCHeSB9mjpdSX_-qxwo33kMb1_1R93CjBtVBPFPKkEOg@mail.gmail.com>
+ <20200610164928.GJ5005@sirena.org.uk> <CAMuHMdUNo0tMxWsnXi4q8NwubPWHqTvzGOA-0hOr7oo2cRvvUg@mail.gmail.com>
+ <20200611085004.GC4671@sirena.org.uk>
+In-Reply-To: <20200611085004.GC4671@sirena.org.uk>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 11 Jun 2020 14:09:54 +0200
+Message-ID: <CAMuHMdUBp79ix5hPjXBARTrOokg-pWY+Rdno9-dd6dBTv+TRcw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: spi: renesas,sh-msiof: Add r8a7742 support
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add IPMMU nodes for r8a77961 (R-Car M3-W+).
+Hi Mark,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Since dt-binding doc for r8a77961 is now under review [1],
- I marked RFC to this patch.
+On Thu, Jun 11, 2020 at 10:50 AM Mark Brown <broonie@kernel.org> wrote:
+> On Wed, Jun 10, 2020 at 09:18:19PM +0200, Geert Uytterhoeven wrote:
+> > On Wed, Jun 10, 2020 at 6:49 PM Mark Brown <broonie@kernel.org> wrote:
+>
+> > > I'm much more comfortable explicitly listing the new compatible so that
+> > > even if someone makes a DT that doesn't bother listing the fallbacks
+> > > things will work.
+>
+> > Adding all of them would cause even more churn when adding support for
+> > a new SoC... There are already more than 700 "renesas," compatible
+> > values documented that are not directly matched by drivers.
+>
+> I'm not sure it's a particular concern, especially since you'll be
+> sending this stuff in the same series as a bindings update and an extra
+> patch in a series makes very little difference.
 
- [1]
- https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=301223
+Until the DT bindings are split off into their own project...
 
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 89 +++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+Listing unneeded compatible values in drivers also increases binary size.
+For RSPI and MSIOF that would be +2.5 KiB each.  Times tens of drivers.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 760e738..de5770c 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -883,6 +883,95 @@
- 			dma-channels = <16>;
- 		};
- 
-+		ipmmu_ds0: iommu@e6740000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xe6740000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 0>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_ds1: iommu@e7740000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xe7740000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 1>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_hc: iommu@e6570000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xe6570000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 2>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_ir: iommu@ff8b0000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xff8b0000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 3>;
-+			power-domains = <&sysc R8A77961_PD_A3IR>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_mm: iommu@e67b0000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xe67b0000 0 0x1000>;
-+			interrupts = <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 197 IRQ_TYPE_LEVEL_HIGH>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_mp: iommu@ec670000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xec670000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 4>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_pv0: iommu@fd800000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xfd800000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 5>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_pv1: iommu@fd950000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xfd950000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 6>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_rt: iommu@ffc80000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xffc80000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 7>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_vc0: iommu@fe6b0000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xfe6b0000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 8>;
-+			power-domains = <&sysc R8A77961_PD_A3VC>;
-+			#iommu-cells = <1>;
-+		};
-+
-+		ipmmu_vi0: iommu@febd0000 {
-+			compatible = "renesas,ipmmu-r8a77961";
-+			reg = <0 0xfebd0000 0 0x1000>;
-+			renesas,ipmmu-main = <&ipmmu_mm 9>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			#iommu-cells = <1>;
-+		};
-+
- 		avb: ethernet@e6800000 {
- 			compatible = "renesas,etheravb-r8a77961",
- 				     "renesas,etheravb-rcar-gen3";
+Considering the RSPI driver itself is only 9 KiB, and some RZ/A1 systems
+are really memory-constrained, I think it's better to avoid that.
+
+> > Nowadays we have "make dtbs_check", so if a DTS doesn't conform to the
+> > binding, it will be flagged.
+>
+> For things that are upstream.
+
+The DT bindings apply to out-of-tree DTS files, too ;-)
+If they're not compliant, all odds are off.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
