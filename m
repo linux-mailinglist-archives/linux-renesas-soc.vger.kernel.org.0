@@ -2,48 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E5E81F6C15
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 18:20:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39EFC1F6DFF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 21:33:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725796AbgFKQUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Jun 2020 12:20:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60060 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725782AbgFKQUk (ORCPT
+        id S1726380AbgFKTdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Jun 2020 15:33:05 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:16128 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgFKTdF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Jun 2020 12:20:40 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591892440;
-        bh=Ft7mNhAe4nANqwizRX8DwX1JBU0kn9CaT547nkFfMbA=;
-        h=Subject:From:Date:To:From;
-        b=TFwdRHIwh2Oxl0xY68va5H7ojwbHlM7evcx/aYEoZbv+SGbAhbB1pg2SODXGeaYQz
-         vtOjXe1zZNFWkKB8OfAsCaUdulISOJX9ynglMBX3MI+GWquCFs0iA+oivY8puXzQWS
-         F/mYRYevqHBzf/pQ3HkQDH4nhggIFhnAbwGRkT/I=
+        Thu, 11 Jun 2020 15:33:05 -0400
+X-Halon-ID: 4cab2a92-ac1a-11ea-8fb8-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2eca.dip0.t-ipconnect.de [79.202.46.202])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 4cab2a92-ac1a-11ea-8fb8-005056917f90;
+        Thu, 11 Jun 2020 21:33:03 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] rcar-csi2: Rename confirm_start() to phy_post_init() to match its usage
+Date:   Thu, 11 Jun 2020 21:32:32 +0200
+Message-Id: <20200611193232.128721-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159189244017.704.11502669910200080396.git-patchwork-housekeeping@kernel.org>
-Date:   Thu, 11 Jun 2020 16:20:40 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v4] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-06-11T16:16:42)
-  Superseding: [v3] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-05-14T16:45:31):
-    [v3,1/8] media: v4l2-subdv: Introduce get_mbus_config pad op
-    [v3,2/8] media: i2c: Use the new get_mbus_config pad op
-    [v3,3/8] media: i2c: ov6650: Use new [g|s]_mbus_config op
-    [v3,4/8] media: pxa_camera: Use the new set_mbus_config op
-    [v3,5/8] media: v4l2-subdev: Deprecate g_mbus_config video op
-    [v3,6/8] media: i2c: adv748x: Adjust TXA data lanes number
-    [v3,7/8] media: i2c: adv748x: Implement get_mbus_config
-    [v3,8/8] media: rcar-csi2: Negotiate data lanes number
+Since the driver was picked-up the starting of the PHY have changed
+quiet a bit. An artifact of these changes is the now poorly named
+callback confirm_start(). It used to confirm start of the PHY but now
+performs post PHY start initialization, rename it to phy_post_init() to
+reflect this.
 
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 151e6a90c5fbc70e..6dbfac9dcf775f84 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -344,7 +344,7 @@ enum rcar_csi2_pads {
+ 
+ struct rcar_csi2_info {
+ 	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
+-	int (*confirm_start)(struct rcar_csi2 *priv);
++	int (*phy_post_init)(struct rcar_csi2 *priv);
+ 	const struct rcsi2_mbps_reg *hsfreqrange;
+ 	unsigned int csi0clkfreqrange;
+ 	unsigned int num_channels;
+@@ -575,9 +575,9 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Confirm start */
+-	if (priv->info->confirm_start) {
+-		ret = priv->info->confirm_start(priv);
++	/* Run post PHY start initialization, if needed. */
++	if (priv->info->phy_post_init) {
++		ret = priv->info->phy_post_init(priv);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -975,7 +975,7 @@ static int rcsi2_init_phtw_v3m_e3(struct rcar_csi2 *priv, unsigned int mbps)
+ 	return rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3m_e3, 0x44);
+ }
+ 
+-static int rcsi2_confirm_start_v3m_e3(struct rcar_csi2 *priv)
++static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
+ {
+ 	static const struct phtw_value step1[] = {
+ 		{ .data = 0xee, .code = 0x34 },
+@@ -1059,7 +1059,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
+ 
+ static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
+ 	.init_phtw = rcsi2_init_phtw_v3m_e3,
+-	.confirm_start = rcsi2_confirm_start_v3m_e3,
++	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+ 	.num_channels = 4,
+ };
+ 
+@@ -1072,7 +1072,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
+ 
+ static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
+ 	.init_phtw = rcsi2_init_phtw_v3m_e3,
+-	.confirm_start = rcsi2_confirm_start_v3m_e3,
++	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+ 	.num_channels = 2,
+ };
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.27.0
+
