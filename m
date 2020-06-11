@@ -2,85 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7149B1F6600
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 12:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C47941F664A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jun 2020 13:10:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727823AbgFKKxK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Jun 2020 06:53:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54280 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbgFKKxF (ORCPT
+        id S1727887AbgFKLKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Jun 2020 07:10:50 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:6075 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726708AbgFKLKk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Jun 2020 06:53:05 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA29C08C5C1;
-        Thu, 11 Jun 2020 03:53:04 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 2EE30634C87;
-        Thu, 11 Jun 2020 13:52:58 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jjKpN-0000NW-Ny; Thu, 11 Jun 2020 13:52:57 +0300
-Date:   Thu, 11 Jun 2020 13:52:57 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/5] v4l2-async: Flag when media graph is complete
-Message-ID: <20200611105256.GF805@valkosipuli.retiisi.org.uk>
-References: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
- <20200610230541.1603067-4-niklas.soderlund+renesas@ragnatech.se>
- <20200611105019.GD805@valkosipuli.retiisi.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200611105019.GD805@valkosipuli.retiisi.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 11 Jun 2020 07:10:40 -0400
+X-IronPort-AV: E=Sophos;i="5.73,499,1583161200"; 
+   d="scan'208";a="49411148"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 11 Jun 2020 20:10:39 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EDC7042B6920;
+        Thu, 11 Jun 2020 20:10:38 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     joro@8bytes.org, robh+dt@kernel.org
+Cc:     iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/2] iommu/renesas: Add support for r8a77961
+Date:   Thu, 11 Jun 2020 20:10:28 +0900
+Message-Id: <1591873830-10128-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 01:50:19PM +0300, Sakari Ailus wrote:
-> Hi Niklas,
-> 
-> On Thu, Jun 11, 2020 at 01:05:39AM +0200, Niklas Söderlund wrote:
-> > When the notifier completes set the complete flag in the struct
-> > media_device. This flag can can then be reported to user-space to let it
-> > know the graph is complete.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > index 8bde33c21ce45f98..331594ca5b3bb723 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -217,6 +217,11 @@ v4l2_async_notifier_try_complete(struct v4l2_async_notifier *notifier)
-> >  	if (!v4l2_async_notifier_can_complete(notifier))
-> >  		return 0;
-> >  
-> > +#if defined(CONFIG_MEDIA_CONTROLLER)
-> > +	if (notifier->v4l2_dev->mdev)
-> > +		notifier->v4l2_dev->mdev->complete = true;
-> > +#endif
-> > +
-> >  	return v4l2_async_notifier_call_complete(notifier);
-> >  }
-> >  
-> 
-> Do we need this? Could you not use the complete callback from the main
-> notifier, that gets called only when all async subdevs have been bound?
+This patch series is based on next-20200611.
 
-Ah. Please ignore the comment. Something like this is needed for the flag.
+Yoshihiro Shimoda (2):
+  dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a77961 support
+  iommu/renesas: Add support for r8a77961
+
+ Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 1 +
+ drivers/iommu/ipmmu-vmsa.c                                      | 6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
 -- 
-Sakari Ailus
+2.7.4
+
