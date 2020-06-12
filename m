@@ -2,141 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6142C1F76DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2020 12:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6BA31F77EC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2020 14:28:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgFLKpe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Jun 2020 06:45:34 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57903 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726219AbgFLKpd (ORCPT
+        id S1726101AbgFLM2J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Jun 2020 08:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgFLM2I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Jun 2020 06:45:33 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id jhBgjnxcRK7ldjhBjjNJPz; Fri, 12 Jun 2020 12:45:31 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591958731; bh=UwdbdwfSNPwrcmDFFB2N0FFhFIjPtn1kAxKHOHGNRpA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BNoYpKBzMIuRdKwR9CycU852BQiUF/lzJ7GCkSHzlc+jZWcfEGMhxCqDuX0XpUSTy
-         EL1BcMYJqR+iEUzoiAzXLONNZyJq80xvB4VvouZ0wySkP6hM3+qoyWyzR8LmE9AnEQ
-         outJGTnGqjfEekzIE5zqp6ZGOfphKB6C6E5VWAlflIt5LSdD9dhjQbiMgAGwfDr27a
-         KCTbl6EF75riuwUXAhL5YAa7P8ojoXYBwgN+mjpobQhciMY3zjN+Rtp0H4WEFvo1SD
-         v35fnhWr/EUE6nbosmlCY4JqqnSEGChNtoxndjoyDfvuiDkz2Arv5yGB0tdT1T4g62
-         C9CH5RYYw7/Lg==
-Subject: Re: [PATCH 0/5] media-device: Report if graph is complete
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        Fri, 12 Jun 2020 08:28:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 769CFC03E96F
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jun 2020 05:28:07 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17E5E24F;
+        Fri, 12 Jun 2020 14:28:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591964883;
+        bh=w2jJAibkp/4eL/jTZbal6EWWwYGmS64YxHhSo86w1hE=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=M3V9+LnvbfJaocyF0APuY7pQMG64qeE2c0C5hCIoahpKwIxZw6aFGUV8nTa5WVshE
+         h95b47Qt8RrUDdMj3VniLvZAgxLd2qU49hRzfjNuo7GnZsRZ3N9OcUy9LFFIyIJ7kU
+         mz91xhIVxMQjd20L6C0ukh9cULj94f+FZvzMFQeE=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b40536d2-7e02-85d2-ccb4-3ae07294fafe@xs4all.nl>
-Date:   Fri, 12 Jun 2020 12:45:28 +0200
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20200610124623.51085-1-kieran@bingham.xyz>
+ <20200610144421.22592-1-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <a5854f2f-c868-103d-6eab-65d2c7155540@ideasonboard.com>
+Date:   Fri, 12 Jun 2020 13:28:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20200610144421.22592-1-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfA6XG5nmsIhON1lJT29g+Z7oqtFvWkn0QZIf50B6Ji1R3Dtfy6aXqifPmqElEEz0zMWinnt28u/qEGJsfYraX5YlryBNEAkUXhBTQ1LqaQPKWhJJ2Zsb
- qRV9SQN+p2nLjRnovnqa89LfxwNnV7BoVv3smRNmafpmW9sbS7gxfVap3qo3qw9oi98nyOZMbLp8x1ttkmQU75DN24xIuWdGE0VxhIMOXc+1LrxpdTi+X1gC
- 3tPCqHKpl0GcwPuOB/3fCvLTRS3DOEXxf/CL8Cr/0FIS7k1pdRZcJARN95kfVwvY8CUr5LIPP5eCpO2pgxhxSP9PkALgDf8pe3pmWwvcva8=
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Jacopo,
 
-On 11/06/2020 01:05, Niklas Söderlund wrote:
-> Hi,
+Thanks - this looks good to me, and fixes the validation.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Thanks, will integrate into the current patches.
+
+
+On 10/06/2020 15:44, Jacopo Mondi wrote:
+> ---
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml   | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 > 
-> This series is an attempt to scratch an old itch, it's problematic to
-> support unbind and then a second call to complete in v4l2-async. When
-> the second complete call happens a lot of things can go wrong.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 34e0431d0bc1..8307c41f2cae 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -176,6 +176,8 @@ properties:
+>                  description: The remote device compatible string.
 > 
-> When v4l2-async complete callback is called multiple video devices are
-> registered with video_register_device(). Then if a v4l2-async unbind
-> happens they are unregistered with video_unregister_device().
+>                reg:
+> +                minItems: 2
+> +                maxItems: 3
+>                  description: |
+>                    The I2C addresses to be assigned to the remote devices through
+>                    address reprogramming. The number of entries depends on the
+> @@ -294,7 +296,7 @@ examples:
 > 
-> Their are multiple problems with this, specially for R-Car VIN.
+>              camera@51 {
+>                compatible = "imi,rdacm20";
+> -              reg = <0x51 0x61>;
+> +              reg = <0x51>, <0x61>;
 > 
-> 1. Depending on which subdevice is unbound parts of the video pipeline
->    can still function. There are for example two CSI-2 receivers
->    connected to two different CSI-2 buses in the pipeline. If one of the
->    receivers are unbound the other can still function perfectly well.
->    But with the current setup everything goes away, this is bad for
->    operational safety.
-
-But even with this series, the R-Car VIN will still wait at boot time until
-the graph is completed before registering the devices, right?
-
-So this doesn't solve the case where e.g. one of the two CSI-2 receivers
-is broken or a sensor is broken, but you still want to be able to work
-with the remaining pipeline.
-
+>                port {
+>                  rdacm20_out0: endpoint {
+> @@ -312,7 +314,7 @@ examples:
 > 
-> 2. The struct video_device contains a static struct device, which in
->    turn contains a static struct kref. When the kref is release by
->    calling video_unregister_device() and then later trying to
->    re-register the video device video_register_device() the kref life
->    time management kicks in and produces warnings in later kernels or
->    OOPS in older ones.
-
-This is a bug in the driver or v4l2 core code (I would need to know the
-details first). And this should be fixed rather than basically papering
-over it.
-
-I think this relates to this kobject warnings:
-
-https://www.mail-archive.com/linux-media@vger.kernel.org/msg117573.html
-
+>              camera@52 {
+>                compatible = "imi,rdacm20";
+> -              reg = <0x52 0x62>;
+> +              reg = <0x52>, <0x62>;
 > 
-> It has been discussed in the past at various conferences that it could
-> be OK to not video_unregister_device() if a v4l2-async unbind happens.
-> The argument against it was that user-space needed a way to check if a
-> pipeline was completely probed or not. And this used to be that the
-> video devices where only present if everything was available.
+>                port {
+>                  rdacm20_out1: endpoint {
+> @@ -329,7 +331,7 @@ examples:
 > 
-> It was agreed in principle that if an alternate way for media controller
-> centric devices could be found to inform user-space of this fact could
-> be found it would be OK to not unregister video devices in case of an
-> unbind or even allow registering the video devices at probe time instead
-> of at v4l2-async complete time.
+>              camera@53 {
+>                compatible = "imi,rdacm20";
+> -              reg = <0x53 0x63>;
+> +              reg = <0x53>, <0x63>;
 > 
-> This series aims to provide such a mechanism using the media device
-> itself to report if the media graph is complete or not.
-
-This series really addresses only a small corner case of a much larger
-issue: what to do if for some reason only part of the media topology
-comes up or if a part disappears/breaks during operation?
-
-This larger issue requires a proper RFC.
-
-It may well be that this complete flag is still needed when you look at
-the big picture, but in this series it feels very much like a hack.
-
-Regards,
-
-	Hans
-
+>                port {
+>                  rdacm20_out2: endpoint {
+> @@ -346,7 +348,7 @@ examples:
 > 
-> Niklas Söderlund (5):
->   uapi/linux/media.h: add flags field to struct media_v2_topology
->   media-device: Add a complete flag to struct media_device
->   v4l2-async: Flag when media graph is complete
->   mc-device.c: Report graph complete to user-space
->   rcar-vin: Do not unregister video device when a subdevice is unbound
+>              camera@54 {
+>                compatible = "imi,rdacm20";
+> -              reg = <0x54 0x64>;
+> +              reg = <0x54>, <0x64>;
 > 
->  drivers/media/mc/mc-device.c                | 2 +-
->  drivers/media/platform/rcar-vin/rcar-core.c | 5 -----
->  drivers/media/v4l2-core/v4l2-async.c        | 5 +++++
->  include/media/media-device.h                | 2 ++
->  include/uapi/linux/media.h                  | 4 +++-
->  5 files changed, 11 insertions(+), 7 deletions(-)
+>                port {
+>                  rdacm20_out3: endpoint {
+> --
+> 2.27.0
 > 
 
