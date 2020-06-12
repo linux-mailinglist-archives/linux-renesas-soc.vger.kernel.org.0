@@ -2,199 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9991F7A55
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2020 17:08:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 567571F7B00
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2020 17:36:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726257AbgFLPIx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Jun 2020 11:08:53 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:58039 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbgFLPIx (ORCPT
+        id S1726296AbgFLPgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Jun 2020 11:36:22 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:46235 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726085AbgFLPgW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Jun 2020 11:08:53 -0400
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E67C8100012;
-        Fri, 12 Jun 2020 15:08:44 +0000 (UTC)
-Date:   Fri, 12 Jun 2020 17:12:09 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hien.dang.eb@renesas.com, michael.klein@renesas.com,
+        Fri, 12 Jun 2020 11:36:22 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 86DF73C04C1;
+        Fri, 12 Jun 2020 17:36:18 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id yz9nHupVRJU1; Fri, 12 Jun 2020 17:36:13 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5FC0B3C00BB;
+        Fri, 12 Jun 2020 17:36:13 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.12) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 12 Jun
+ 2020 17:36:13 +0200
+Date:   Fri, 12 Jun 2020 17:36:07 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
-        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        michael.dege@renesas.com, gotthard.voellmeke@renesas.com,
-        efriedrich@de.adit-jv.com, mrodin@de.adit-jv.com,
-        ChaitanyaKumar.Borah@in.bosch.com,
+        <kieran.bingham+renesas@ideasonboard.com>, <geert@linux-m68k.org>,
+        <horms@verge.net.au>, <uli+renesas@fpond.eu>,
+        <VenkataRajesh.Kalakodima@in.bosch.com>, <airlied@linux.ie>,
+        <daniel@ffwll.ch>, <koji.matsuoka.xm@renesas.com>,
+        <muroya@ksk.co.jp>, <Harsha.ManjulaMallikarjun@in.bosch.com>,
+        <ezequiel@collabora.com>, <seanpaul@chromium.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        <michael.dege@renesas.com>, <gotthard.voellmeke@renesas.com>,
+        <efriedrich@de.adit-jv.com>, <mrodin@de.adit-jv.com>,
+        <ChaitanyaKumar.Borah@in.bosch.com>,
         Eugeniu Rosca <roscaeugeniu@gmail.com>
 Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200612151209.xdaqimvpq7ysvu2q@uno.localdomain>
+Message-ID: <20200612153607.GA23962@lxhi-065.adit-jv.com>
 References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
  <20200527071555.GA23912@lxhi-065.adit-jv.com>
  <20200605132900.on527xcggg6f6pil@uno.localdomain>
  <20200605134124.GA28734@lxhi-065.adit-jv.com>
  <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
  <20200607024158.GD7339@pendragon.ideasonboard.com>
- <20200608094432.GA27063@lxhi-065.adit-jv.com>
+ <20200609142959.GA621@lxhi-065.adit-jv.com>
+ <20200612150032.pnqaqip54qfrbqst@uno.localdomain>
+ <20200612151005.GA28336@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20200608094432.GA27063@lxhi-065.adit-jv.com>
+In-Reply-To: <20200612151005.GA28336@pendragon.ideasonboard.com>
+X-Originating-IP: [10.72.94.12]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu
+Hi,
 
-On Mon, Jun 08, 2020 at 11:44:32AM +0200, Eugeniu Rosca wrote:
-> Hello,
->
-> Many thanks for your comments and involvement.
->
-> On Sun, Jun 07, 2020 at 05:41:58AM +0300, Laurent Pinchart wrote:
-> > On Fri, Jun 05, 2020 at 03:53:15PM +0200, Jacopo Mondi wrote:
-> > > On Fri, Jun 05, 2020 at 03:41:24PM +0200, Eugeniu Rosca wrote:
-> > > > On Fri, Jun 05, 2020 at 03:29:00PM +0200, Jacopo Mondi wrote:
-> > > >> On Wed, May 27, 2020 at 09:15:55AM +0200, Eugeniu Rosca wrote:
-> > > >>> Could you kindly share the cross compilation steps for your kmsxx fork?
-> > > >>
-> > > >> I usually build it on the target :)
-> > > >
-> > > > Interesting approach. With ARM getting more and more potent, why not? :)
+On Fri, Jun 12, 2020 at 06:10:05PM +0300, Laurent Pinchart wrote:
+> On Fri, Jun 12, 2020 at 05:00:32PM +0200, Jacopo Mondi wrote:
+> > On Tue, Jun 09, 2020 at 04:29:59PM +0200, Eugeniu Rosca wrote:
+> > > On Sun, Jun 07, 2020 at 05:41:58AM +0300, Laurent Pinchart wrote:
+> > > > Note that the CMM driver is controlled by the DU driver. As the DU
+> > > > driver will reenable the display during resume, it will call
+> > > > rcar_du_cmm_setup() at resume time, which will reprogram the CMM. There
+> > > > should thus be no need for manual suspend/resume handling in the CMM as
+> > > > far as I can tell, but we need to ensure that the CMM is suspended
+> > > > before and resumed after the DU. I believe this could be implemented
+> > > > using device links.
 > > >
-> > > For 'small' utilities like kmsxx it's doable
+> > > Based on below quote [*] from Jacopo's commit [**], isn't the device
+> > > link relationship already in place?
+> > 
+> > Yes, it's in place already.
+> > 
+> > I added pm_ops to cmm just to be able to printout when suspend/resume
+> > happens and the sequence is what comment [*] reports
+> > 
+> > [  222.909002] rcar_du_pm_suspend:505
+> > [  223.145497] rcar_cmm_pm_suspend:193
+> > 
+> > [  223.208053] rcar_cmm_pm_resume:200
+> > [  223.460094] rcar_du_pm_resume:513
+> > 
+> > However, Laurent mentioned that in his comment here that he expects
+> > the opposite sequence to happen (CMM to suspend before and resume after
+> > DU).
+> > 
+> > I still think what is implemented is correct:
+> > - CMM is suspended after DU: when CMM is suspended, DU is not feeding
+> >   it with data
+> > - CMM is resumed before: once DU restart operations CMM is ready to
+> >   receive data.
+> > 
+> > Laurent, what do you think ?
+> 
+> I think I shouldn't have written the previous e-mail in the middle of
+> the night :-) Suspending CMM after DU is obviously correct.
+
+Thanks to Renesas team (kudos to Gotthard and Michael), we've
+figured out that below sequence of clock handling (happening during
+concurrent suspend and HDMI display unplug) leads to SoC lockup:
+
+cmm1 OFF 	(caused by HDMI unplug)
+x21-clock OFF 	(caused by HDMI unplug)
+du1 OFF 	(caused by HDMI unplug)
+cmm1 ON (caused by suspend to ram, as preparation for CMM register save)
+# Freeze happens
+
+That seems to be explained by Chapter 35A.4.3 "Restriction of enabling
+clock signal of the CMM" of HW User's manual (Rev.2.00 Jul 2019):
+
+ -----8<-----
+ When the clock signal of the CMM is enabled (RMSTPCR7.CMMn or
+ SMSTPCR7.CMMn = 0), the clock signal of the DU should be also enabled
+ (RMSTPCR7.DUn or SMSTPCR7.DUn = 0).
+ -----8<-----
+
+So, the lesson learned from the above is: do not enable the CMMi clock
+while the DUi clock is disabled. I expect this to also potentially
+give some input w.r.t. what to suspend/resume first, CMM or DU.
+
+> 
+> > > [*] Quote from commit [**]
+> > >    Enforce the probe and suspend/resume ordering of DU and CMM by
+> > >    creating a stateless device link between the two.
 > > >
-> > > >>> Just out of curiosity, have you ever tried to pull the display's HDMI
-> > > >>> cable while reading from CM2_LUT_TBL?
-> > > >>
-> > > >> Ahem, not really :) Did I get you right, you mean disconnecting the
-> > > >> HDMI cable from the board ?
-> > > >
-> > > > Right.
-> > >
-> > > So, no, I have not tried. Do you see any intersting failure with the
-> > > mainline version ?
-> >
-> > Jacopo, would you be able to give this a try ?
->
-> FWIW, I seem to hit pre-existing issues in vanilla rcar-du,
-> while unplugging HDMI cable during a cyclic suspend-resume:
->
-> HW: H3 ES2.0 Salvator-X
-> SW: renesas-drivers-2020-06-02-v5.7
-> .config: renesas_defconfig +CONFIG_PM_DEBUG +CONFIG_PM_ADVANCED_DEBUG
-> Use-case:
->
->   --------8<---------
-> $ cat s2ram.sh
-> modprobe i2c-dev
-> echo 9 > /proc/sys/kernel/printk
-> i2cset -f -y 7 0x30 0x20 0x0F
+> > > [**] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8de707aeb45241
+> > >     ("drm: rcar-du: kms: Initialize CMM instances")
 
-According to
-https://elinux.org/R-Car/Boards/Salvator-X#Suspend-to-RAM
-this is not needed anymore
-
-> echo 0 > /sys/module/suspend/parameters/pm_test_delay
-> echo core  > /sys/power/pm_test
-> echo deep > /sys/power/mem_sleep
-> echo 1 > /sys/power/pm_debug_messages
-> echo 0 > /sys/power/pm_print_times
-> echo mem > /sys/power/state
->
-> $ while true; do sh s2ram.sh ; done
-> $ # unplug HDMI cable several times
-
-I tried unplugging an plugging the cable while the system was
-suspended and after resume but I was not able to reproduce anything.
-
-Could you provide more precise instructions on how to reproduce this ?
-I.e. when to disconnect the cable to trigger the below error.
-
-Thanks
-  j
-
->
-> [   55.568051] PM: noirq resume of devices complete after 3.862 msecs
-> [   55.583253] PM: early resume of devices complete after 8.496 msecs
-> [   65.757023] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-> [   75.996123] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-> [   86.236112] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-> [   96.476111] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:80:HDMI-A-1] flip_done timed out
-> [  106.716109] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:45:plane-5] flip_done timed out
-> [  116.956111] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-> [  127.196112] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:74:crtc-1] flip_done timed out
-> [  137.436116] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CONNECTOR:80:HDMI-A-1] flip_done timed out
-> [  147.676111] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [PLANE:45:plane-5] flip_done timed out
-> [  157.916110] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:74:crtc-1] flip_done timed out
->   --------8<---------
->
-> This looks to be unrelated to the CMM lockup I initially reported.
->
-> JYI, graphics pipelines in production R-Car3 targets are significantly
-> more complex (involving binding/unbinding serializer ICs at runtime
-> during non-trivial shutdown/suspend/resume sequences), as opposed
-> to the relatively straightforward VGA/HDMI outputs present on the
-> reference targets. So, my hope is that Renesas community can take
-> HDMI hot plugging seriously and make it a regular test-case during
-> rcar-du patch review, since this is a precondition for the R-Car3
-> platform and products to succeed as a whole.
->
-> BTW, if you happen to know an affordable programmable HDMI switcher
-> which can do the hot-plugging job in an automated test environment,
-> please let me know.
->
-> >
-> > > >>> At least with the out-of-tree CMM implementation [*], this sends the
-> > > >>> R-Car3 reference targets into an unrecoverable freeze, with no lockup
-> > > >>> reported by the kernel (i.e. looks like an serious HW issue).
-> > > >>>
-> > > >>>> CMM functionalities are retained between suspend/resume cycles (tested with
-> > > >>>> suspend-to-idle) without requiring a re-programming of the LUT tables.
-> > > >>>
-> > > >>> Hmm. Is this backed up by any statement in the HW User's manual?
-> > > >>> This comes in contrast with the original Renesas CMM implementation [**]
-> > > >>> which does make use of suspend (where the freeze actually happens).
-> > > >>>
-> > > >>> Can we infer, based on your statement, that we could also get rid of
-> > > >>> the suspend callback in [**]?
-> > > >>
-> > > >> As Geert (thanks) explained what I've tested with is suspend-to-idle,
-> > > >> which retains the state of the LUT tables (and I assume other
-> > > >> not-yet-implemented CMM features, like CLU). I recall the out-of-tree
-> > > >> driver has suspend/resume routines but I never really tested that.
-> > > >
-> > > > I see. JFYI, there is a flaw in the suspend handling in the out-of-tree
-> > > > CMM patch [*], which renders the SoC unresponsive on HDMI hotplug. The
-> > > > fix is currently under review. Hopefully it will make its way to [*]
-> > > > in the nearest future. Just to keep in mind for the moment when CMM
-> > > > s2ram will become a mainline feature.
-> > >
-> > > Thanks, let's keep this in mind. Next week I'll run a few tests again
-> > > with s2ram and will get back to you.
-> >
-> > Note that the CMM driver is controlled by the DU driver. As the DU
-> > driver will reenable the display during resume, it will call
-> > rcar_du_cmm_setup() at resume time, which will reprogram the CMM. There
-> > should thus be no need for manual suspend/resume handling in the CMM as
-> > far as I can tell, but we need to ensure that the CMM is suspended
-> > before and resumed after the DU. I believe this could be implemented
-> > using device links.
->
-> Does this apply to vanilla rcar-du only (where CMM support differs
-> from [*]) or would also be relevant for rcar.9.6 kernel?
->
-> >
-> > > >>> [*] https://github.com/renesas-rcar/du_cmm
-> > > >>> [**] https://github.com/renesas-rcar/du_cmm/blob/c393ed49834bdbc/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0001-drm-rcar-du-Add-DU-CMM-support.patch#L1912
->
-> --
-> Best regards,
-> Eugeniu Rosca
+-- 
+Best regards,
+Eugeniu Rosca
