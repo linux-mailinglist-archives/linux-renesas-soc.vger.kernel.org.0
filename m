@@ -2,262 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B5731F7C78
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jun 2020 19:28:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D907C1F7EBE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jun 2020 00:10:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbgFLR2Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Jun 2020 13:28:25 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:46611 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726085AbgFLR2Y (ORCPT
+        id S1726304AbgFLWKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Jun 2020 18:10:08 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:34410 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726268AbgFLWKH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Jun 2020 13:28:24 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 8EE263C04C1;
-        Fri, 12 Jun 2020 19:28:20 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id F4mlFpUaCfBe; Fri, 12 Jun 2020 19:28:11 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id EC9273C00BB;
-        Fri, 12 Jun 2020 19:28:11 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 12 Jun
- 2020 19:28:11 +0200
-Date:   Fri, 12 Jun 2020 19:28:06 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Suresh Udipi <sudipi@jp.adit-jv.com>
-CC:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        <mrodin@de.adit-jv.com>, <efriedrich@de.adit-jv.com>,
-        <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <mchehab@kernel.org>, <michael@rodin.online>,
-        <securitycheck@denso.co.jp>,
-        Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-Subject: Re: [PATCH v6] media: rcar-csi2: Correct the selection of hsfreqrange
-Message-ID: <20200612172806.GA46338@vmlxhi-121.adit-jv.com>
-References: <20200605184426.GA5206@vmlxhi-121.adit-jv.com>
- <1591586703-32246-1-git-send-email-sudipi@jp.adit-jv.com>
- <20200610134004.GA192296@oden.dyn.berto.se>
- <20200612031051.GA18602@jp-u0004>
+        Fri, 12 Jun 2020 18:10:07 -0400
+Received: by mail-io1-f67.google.com with SMTP id m81so11894322ioa.1;
+        Fri, 12 Jun 2020 15:10:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=vsuC0ZvFk/M7QGOO3kSRJo1w4ApK2NBX1I3MVGpo8VE=;
+        b=aMA1PcyIHNhE7/p+WO2u6/9ia01zoX0VolxTv+nR0z7z6+b2enCBL3QRelqeC/ztZn
+         ssXlK1Qw0ERneertwj1lOolPzRFkfgYEnf3Lvij1+w0mDxW9lDX6jcDp9VEd1zmmosQq
+         gnkmXN4xgn8LFF3/KQkLzXjcikZcZ2bfeaxJWVHLZ1kLsMWnuNpJLQA9ZSAMmvjajFze
+         8BL8VIb6rGohOiffPcYL22eONm3pSfVQF9nkjc2IkfmqtCoBdJXGb32GRwnYHiWroauq
+         hbaoo74urFf2XzqM7L1spEssdjxI7mZoMZVkUH1ISkcpnpVThzOOD/PCxSHiVAN8+4sN
+         rIBA==
+X-Gm-Message-State: AOAM532Dkex2TUJvMsrplSVzfhHcl2NkhEH5szNmgRKBEqboopV5PDpd
+        CnwuvrZ7FrV7OuXwl3QCdQ==
+X-Google-Smtp-Source: ABdhPJy83PHqKXsJJnuK0EqeA7WoMB0lsts9S5KbBiViaHT8hFTKrbldXaRx+cTqZx0MZ3b3ePGpYQ==
+X-Received: by 2002:a6b:5b02:: with SMTP id v2mr15968865ioh.161.1591999806019;
+        Fri, 12 Jun 2020 15:10:06 -0700 (PDT)
+Received: from xps15 ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id n7sm3689656ile.76.2020.06.12.15.10.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2020 15:10:05 -0700 (PDT)
+Received: (nullmailer pid 3902065 invoked by uid 1000);
+        Fri, 12 Jun 2020 22:10:03 -0000
+Date:   Fri, 12 Jun 2020 16:10:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        sakari.ailus@iki.fi,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        devicetree@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v10 1/4] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+Message-ID: <20200612221003.GA3901624@bogus>
+References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200612031051.GA18602@jp-u0004>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
+In-Reply-To: <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
-Hi Suresh,
-
-On Fri, Jun 12, 2020 at 12:10:51PM +0900, Suresh Udipi wrote:
-> On Wed, Jun 10, 2020 at 03:40:04PM +0200, Niklas SÃ¶derlund wrote:
-> > Hi Suresh,
-> > 
-> > Thanks for your persistent work!
-> > 
-> > On 2020-06-08 12:25:03 +0900, Suresh Udipi wrote:
-> > > hsfreqrange should be chosen based on the calculated mbps which
-> > > is closer to the default bit rate  and within the range as per
-> > > table[1]. But current calculation always selects first value which
-> > > is greater than or equal to the calculated mbps which may lead
-> > > to chosing a wrong range in some cases.
-> > > 
-> > > For example for 360 mbps for H3/M3N
-> > > Existing logic selects
-> > > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
-> > > 
-> > > This hsfreqrange is out of range.
-> > > 
-> > > The logic is changed to get the default value which is closest to the
-> > > calculated value [1]
-> > > 
-> > > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
-> > > 
-> > > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
-> > > 
-> > > Please note that According to Renesas in Table 25.9 the range for
-> > > 220 default value is corrected as below
-> > > 
-> > >  |Range (Mbps)     |  Default  Bit rate (Mbps) |
-> > >  -----------------------------------------------
-> > >  | 197.125-244.125 |     220                   |
-> > >  -----------------------------------------------
-> > > 
-> > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > > 
-> > > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-> > > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > ---
-> > >  Changes in v2:
-> > >   - Added the boundary check for the maximum bit rate.
-> > > 
-> > >   - Simplified the logic by remmoving range check
-> > >     as only the closest default value covers most
-> > >     of the use cases.
-> > > 
-> > >   - Aligning the commit message based on the above change
-> > > 
-> > > 
-> > >  Changes in v3:
-> > >     - Added max member from struct rcsi2_mbps_reg.
-> > >       mbps varialbe cannot be removed from rcsi2_mbps_reg,
-> > >       since this structure is reused for
-> > >       phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
-> > >       used.
-> > > 
-> > > 
-> > >    -  Update the walk of the array in rcsi2_set_phypll() so that it finds
-> > >       the first entry where the calculated bit rate is less than the max.
-> > > 
-> > >    - Support lower bit rates less than 80Mbps like 48Mbps
-> > >      (Raspberry pi camera 640x480 connected to Kingfisher)
-> > >      can also be supported by selecting the lowest default bit rate 80Mbps
-> > >      as done before this fix
-> > > 
-> > >    - Alignement of the commit message based on above changes.
-> > > 
-> > >  Changes in v4:
-> > >   -  Remove unncessary braces.
-> > > 
-> > >  Changes in v5:
-> > >    - Removed mbps variable in rcsi2_mbps_reg and aligned all 
-> > >      tables accordingly
-> > > 	 
-> > >  Changes in v6
-> > >    - Renesas correct the range of default value 220Mbps. Now
-> > >      if we select the nearest value to the default value all
-> > > 	 the values are in range. So reverting back to original patch
-> > > 	 
-> > >    - Added warning for values less than Minimum 80Mbps
-> > > 
-> > > 
-> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 23 ++++++++++++++++++-----
-> > >  1 file changed, 18 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > index 151e6a9..8c502b7 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > @@ -199,6 +199,8 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
-> > >  /* PHY Frequency Control */
-> > >  #define PHYPLL_REG			0x68
-> > >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
-> > > +#define PHYPLL_HSFREQRANGE_MAX		1500
-> > > +#define PHYPLL_HSFREQRANGE_MIN		  80
-> > >  
-> > >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
-> > >  	{ .mbps =   80, .reg = 0x00 },
-> > > @@ -431,16 +433,27 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> > >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> > >  {
-> > >  	const struct rcsi2_mbps_reg *hsfreq;
-> > > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> > >  
-> > > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-> > > -		if (hsfreq->mbps >= mbps)
-> > > -			break;
-> > > -
-> > > -	if (!hsfreq->mbps) {
-> > > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
-> > >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> > >  		return -ERANGE;
-> > >  	}
-> > >  
-> > > +	if (mbps < PHYPLL_HSFREQRANGE_MIN)
-> > > +		dev_warn(priv->dev, "PHY speed (%u Mbps) less \
-> > > +			 than Min 80Mbps\n", mbps);
-> > 
-> > I would drop this warning.
-> > 
+On Fri, 12 Jun 2020 15:47:10 +0100, Kieran Bingham wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
->   This was suggested by Michael. Michael is it ok to drop this warning
->   as it is not available before this changes also. 
+> The MAX9286 deserializes video data received on up to 4 Gigabit
+> Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> to 4 data lanes.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> ---
+> 
+> v7:
+>  - Collect Rob's RB tag
+>  - Remove redundant maxItems from remote-endpoints
+>  - Fix SPDX licence tag
+> 
+> v10:
+> [Jacopo]
+>  - Fix dt-validation
+>  - Fix dt-binding examples with 2 reg entries
+> 
+> [Kieran]
+>  - Correctly match the hex camera node reg
+>  - Add (required) GPIO controller support
+> 
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 366 ++++++++++++++++++
+>  1 file changed, 366 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
 > 
 
-I strongly disagree. We should keep the warning for the following reasons:
 
- 1. Renesas explicitly states in the hardware manual tables, that 80Mbps is
-    the lowest supported bit rate (I guess, for a good reason), so using
-    devices with lower bit rates is at our own risk.
- 2. Failing for mbps > PHYPLL_HSFREQRANGE_MAX with an ERANGE error but
-    silently succeeding for mbps < PHYPLL_HSFREQRANGE_MIN does not look
-    consistent. Both values are out of the official hardware specs.
- 3. Although rcar csi2 seems to work with at least 1 device in the range
-    mbps < PHYPLL_HSFREQRANGE_MIN, there is no guarantee that ALL devices
-    work. And from my experience, users are very happy about any warning,
-    which points them to a possible reason, why their new device does not
-    work ;)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> > > +
-> > > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > > +		if (hsfreq->mbps >= mbps)
-> > > +			break;
-> > > +		hsfreq_prev = hsfreq;
-> > > +	}
-> > > +
-> > > +	if (hsfreq_prev &&
-> > > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > 
-> > Longer lines are now OK [1] and I think it would add to the readability 
-> > here.
-> > 
-> > > +		hsfreq = hsfreq_prev;
-> > > +
-> > 
-> > How about
-> > 
-> > static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> > {
-> >     const struct rcsi2_mbps_reg *hsfreq;
-> >     const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> > 
-> >     for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > 	if (hsfreq->mbps >= mbps)
-> > 		break;
-> > 	hsfreq_prev = hsfreq;
-> >     }
-> > 
-> >     if (!hsfreq->mbps) {
-> > 	dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> > 	return -ERANGE;
-> >     }
-> > 
-> >     if (hsfreq_prev && ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > 	hsfreq = hsfreq_prev;
-> > 
-> >     rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> > 
-> >     return 0;
-> > }
-> > 
-> > >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> > >  
-> > >  	return 0;
-> 
-> Agreed I will do the changes and update.
-> > > -- 
-> > > 2.7.4
-> > > 
-> > 
-> > 1. https://lkml.org/lkml/2020/5/29/1038
-> > 
-> > -- 
-> > Regards,
-> > Niklas SÃ¶derlund
-> 
-> -- 
-> Best Regards,
-> Suresh Udipi.
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: example-0: i2c@e66d8000:reg:0: [0, 3865935872, 0, 64] is too long
 
--- 
-Best Regards,
-Michael
+
+See https://patchwork.ozlabs.org/patch/1308280
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
