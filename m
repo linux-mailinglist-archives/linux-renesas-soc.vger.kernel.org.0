@@ -2,77 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E021F85A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jun 2020 00:30:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E374F1F85CD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jun 2020 01:04:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726796AbgFMWaS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 13 Jun 2020 18:30:18 -0400
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:35698 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbgFMWaQ (ORCPT
+        id S1726258AbgFMXEl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 13 Jun 2020 19:04:41 -0400
+Received: from mta-p8.oit.umn.edu ([134.84.196.208]:52454 "EHLO
+        mta-p8.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726462AbgFMXEk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 13 Jun 2020 18:30:16 -0400
+        Sat, 13 Jun 2020 19:04:40 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 49ksjg2HN2z9vLGk
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 22:30:15 +0000 (UTC)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49ktTN02dSz9vbsc
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 23:04:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xYzhji0CeGOu for <linux-renesas-soc@vger.kernel.org>;
-        Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+Received: from mta-p8.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 2-j9xymvm8Br for <linux-renesas-soc@vger.kernel.org>;
+        Sat, 13 Jun 2020 18:04:39 -0500 (CDT)
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 49ksjg0f5Wz9vLGx
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 49ksjg0f5Wz9vLGx
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 49ksjg0f5Wz9vLGx
-Received: by mail-io1-f72.google.com with SMTP id n123so8689185iod.17
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 15:30:15 -0700 (PDT)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49ktTM5LY3z9vbsT
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 18:04:39 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49ktTM5LY3z9vbsT
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49ktTM5LY3z9vbsT
+Received: by mail-io1-f71.google.com with SMTP id l22so8676223iob.23
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 16:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=umn.edu; s=google;
         h=from:to:cc:subject:date:message-id;
-        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
-        b=UTcTy5Ma0D3H+UNggPpPgtobBvnEipOK3UTIavkiBqbVnmTivWYf+Qid/kDhNQ1a3/
-         9iHBC+AhG4g9tSZZoRFeWc6lDotCffcCCFYZBMss4xnpW63moFTVBTg8BAV26pxXfTcd
-         tCYSdvxjJHQoqcWH8gfxEcfFnFBxgjClgVb7jjmBQy12GguFVkMcG4Wxd4No9xuwgHNm
-         Xx3hAje2Y5DAUqL+1kizKpQ5t5E6Zgr2ZyIlPgxO9Uk7eHERkuIc2AVhZ29T1U+WOXMt
-         X74lkRBJEr16CFildX3duiDZ5BpKOtibECBLMS43VuKFOLaWVWd6Lka8nCH/Yl9KphoZ
-         Hvrw==
+        bh=vdWthCsmOsBiHMJwiA3g9GCqF/ZUI6PIYJxkxVMjZH8=;
+        b=Edt0rD6Yt02A/FMLC1/3iWyMUZULyWs4zPYMO1nwpQz4AKx88deJY9VPwnjFkVAIdw
+         kkJpM78kvFvwUyN/G2xmEetRViIQBSUtLQJ8MHV1tC+Umei/gQp/YNM4dbJh1pAxcaaN
+         HXNwOSXVM8SoJCS2nQu/dASQ3p+DkWsDn2QNHiAUC5gSg6jnBzpW0VArxHYrmJYTaorT
+         +IwYA72fIoDNfYYIpRDk5u9lNKHHzH2O8KIqXDrvbs44FvNMKvDvJyGPQm8hctAbdh5X
+         GCvjJP0O2st2YGsdaioTAJqjXlRtU/4b43v7VNdDE74YbKuh2AtuxzdP7V67C546UweH
+         V1+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
-        b=IC3MW4oDJMcjTo21v6Wb8iOd67DPpnauwPf87fqHPA0U3zpFg4C4jdYreQWVcm/mKW
-         SC42RjeFNdPCQm7IjNyr/l6ThZX4x0qIHJ8htkDVNRVhrplVYKKaHQ2qwaHFNhmGevB5
-         SHgYBdHUzKqjeI0W5oZMnzwym6kCd3Ku6N3Eg/8rhYDEZbbfrYrO2O5SDjQ+rrOkMadB
-         tYHDlTaWECMkRWzd2nEQ68exkwPKLxorYiTBvTYUPUCCEVqC6KzBHJprc5zXJ7AIfh7b
-         CleudMe1EYH7HXSnS3x2iaEmFKVXRA9LIlQs/2f7d36G8ZydevD46a0L8Vrr/Bi7coRv
-         IzGw==
-X-Gm-Message-State: AOAM5314ocMcP0/yUcnSVGHpzHqkutMF8yb6WX4NLoJedsQWr1+RGLth
-        UJ+sMj+klUgiBzPdwIwascHuRsLsOTY9ApVbyLtcxOKTZ8OaTYWaaXLE+Fk3BU1dX4KyoDhqS2F
-        JURAvF8LHM0hjTY1ITHoivKPV5gwMbp4sKgM=
-X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424575ill.170.1592087414652;
-        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3aCzYvSn3AD2YCTZMEa/8FnqJZqsaL4OFcyPyR3T5Pf1RakQxKA/DqGRCemkZQY1BudpzSw==
-X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424556ill.170.1592087414428;
-        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
+        bh=vdWthCsmOsBiHMJwiA3g9GCqF/ZUI6PIYJxkxVMjZH8=;
+        b=b9Xl1/Bv3t/Kr8UUvKhNn8JmjPlHME4m0tHxwkq3d5hE1kExdNYgoCCF1CAPE5c4ba
+         M9JTiIKT65b6Cp2gTRFif4dAuLAO9Jmw8E3Y38B/d0juryUg5H7SsB6mD+/IX3kjZmP7
+         Acn1E6Eu83x2n4eI4pUXp2TyuaVf9eI04VyQkGFBZdDqmIt01hDaEWAzu9Pvhc0krmOr
+         /1ylfCdOBePi0xDV8i7GFPZEv6HQM+IiYzZuTfSqSNiuZYwKFE2RfmghC+U0XDaaJ5VI
+         XXGx6vd8e+Zt6Ehp0zKhHo0vc2ySz5B3cMrY9WYLgFiAPKe6h7HsObCthIFzLI6zYQOL
+         fJWg==
+X-Gm-Message-State: AOAM531ZBL0sA9x0kBNMzz6RxxkNf/uKvme/73s9LT97aTHReRXPFLdE
+        hHjI2sK5Ds8X1/EW6tRRC9DJlI+91HZHedSjqofcJL8TBWaJW48/8vJy+QhNyBGoYJOzsxAVi0U
+        Jlu5pO80RWNgor8/MFDlL4k+sR1MQ+njixhc=
+X-Received: by 2002:a92:b699:: with SMTP id m25mr14652656ill.208.1592089479228;
+        Sat, 13 Jun 2020 16:04:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2Amm5x/e+7fkof5wamzDW0mUfhmnXCG35Wi4I575sv2CQNQ8SYgfivVcBHqk1UbbABGletA==
+X-Received: by 2002:a92:b699:: with SMTP id m25mr14652640ill.208.1592089478980;
+        Sat, 13 Jun 2020 16:04:38 -0700 (PDT)
 Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id c85sm5596290ilg.41.2020.06.13.15.30.13
+        by smtp.gmail.com with ESMTPSA id m90sm5546517ilb.79.2020.06.13.16.04.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 15:30:13 -0700 (PDT)
+        Sat, 13 Jun 2020 16:04:38 -0700 (PDT)
 From:   wu000273@umn.edu
 To:     kjlu@umn.edu
 Cc:     wu000273@umn.edu,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: [PATCH] media: rcar-vin: Fix a reference count leak.
-Date:   Sat, 13 Jun 2020 17:30:08 -0500
-Message-Id: <20200613223008.11720-1-wu000273@umn.edu>
+Date:   Sat, 13 Jun 2020 18:04:32 -0500
+Message-Id: <20200613230432.13025-1-wu000273@umn.edu>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -85,17 +86,17 @@ pm_runtime_get_sync() increments the runtime PM usage counter even
 when it returns an error code. Thus call pm_runtime_put_noidle()
 if pm_runtime_get_sync() fails.
 
-Fixes: 90dedce9bc54 ("media: rcar-vin: add function to manipulate Gen3 chsel value")
+Fixes: 2a18fbec1dab ("media: rcar-vin: Move pm_runtime_{get,put} out of helpers")
 Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
- drivers/media/platform/rcar-vin/rcar-dma.c | 4 +++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 1a30cd036371..95bc9e0e8792 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1392,8 +1392,10 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index f421e2584875..06808be35f98 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -835,8 +835,10 @@ static int rvin_open(struct file *file)
  	int ret;
  
  	ret = pm_runtime_get_sync(vin->dev);
@@ -105,8 +106,8 @@ index 1a30cd036371..95bc9e0e8792 100644
  		return ret;
 +	}
  
- 	/* Make register writes take effect immediately. */
- 	vnmc = rvin_read(vin, VNMC_REG);
+ 	ret = mutex_lock_interruptible(&vin->lock);
+ 	if (ret)
 -- 
 2.17.1
 
