@@ -2,99 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE3C1F8324
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jun 2020 13:55:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A9EF1F8337
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jun 2020 14:29:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbgFMLzJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 13 Jun 2020 07:55:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54462 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726100AbgFMLzJ (ORCPT
+        id S1726313AbgFMM2v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 13 Jun 2020 08:28:51 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:37649 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726021AbgFMM2u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 13 Jun 2020 07:55:09 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BE92C03E96F;
-        Sat, 13 Jun 2020 04:55:08 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id h185so5583905pfg.2;
-        Sat, 13 Jun 2020 04:55:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=neCcG1dk3gHcTR94EupwHe3jWPWKcFSQgRt8l5SAAfw=;
-        b=W+Gc4oBh+/wch7Ht8yeb+NznsMjrv0+yvhqeFNVv8zQYreozgTPMCqo51zNBZ8R9Sl
-         YqD/wB60lKQ2iQW0uh4i8c2x/hd5R/JchCMgmw0TuCWGOQTiZFxenqstub2gbOSDWnmD
-         LayCE1D/qMnsh31F9H+EnD02dHbomn2HtSZ32Sf2SoP3vcTUFPO14o85PZ/mWt1S5Fcc
-         Y2PQlxPClH0tDWEQiMz9ZxogLxNivSvS0M9kHq9XS6NZcNtX1q740/kiPODDd6xx6CpA
-         AEvLk7mqtC5T/t4oKtVMBX0VjcUGRD/oDdOY3lYMzU7SFxgZmtj574kuGqxF0n6zzNmh
-         JPNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=neCcG1dk3gHcTR94EupwHe3jWPWKcFSQgRt8l5SAAfw=;
-        b=RX3eSdZ8T4Lu1Auv8rHqintGU7S6p75oQ/U+MMKNsPK/c+HetNfjMENrZqApaHGU7j
-         V+JjCxO4s4ZuwsIXc8y4ip47Ip7uKru+UEH1glTtnscdjLED3emcp8VxZdGkQZTvj+Vp
-         3wMkNqi39taUgilYFARpfirZsOauB4AZfVW8J6VRKUQuM9KOdljfluYky/von1NqAzm3
-         Fn8nS+nXLog3wuu0NgqGWIg660KVwTHCut0/zaBLNVbvXI9UM+shlnfsUp76ZzWbhD+V
-         JdND8F/kaBVUeTy7zoVirufBKmlTm+TjTeLLNzXrFfdLLXrliopNFYXWxK1yBkoZDiP7
-         1xPA==
-X-Gm-Message-State: AOAM533TBMUhqgzyfsXfRT/rofWosgKpJlik3nQlNu74lx7KS4+PoeWv
-        1RJlUNt5nCyBcFuf+1vNAVP44FS3ATVX41dBYpA=
-X-Google-Smtp-Source: ABdhPJxGk4xboMH+GIcahbHKTkvpHYFaoS74gHxMBcezBknBQLLvTdaPWmzQTQyuzNWrMzwar/u2sbQroeEXGEqSRK4=
-X-Received: by 2002:a63:ff52:: with SMTP id s18mr14923524pgk.203.1592049308294;
- Sat, 13 Jun 2020 04:55:08 -0700 (PDT)
+        Sat, 13 Jun 2020 08:28:50 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0F0CB1BF204;
+        Sat, 13 Jun 2020 12:28:43 +0000 (UTC)
+Date:   Sat, 13 Jun 2020 14:32:07 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hyun Kwon <hyunk@xilinx.com>, linux-media@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        sakari.ailus@iki.fi,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        devicetree@vger.kernel.org,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v10 1/4] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+Message-ID: <20200613123207.6ey6y5spfa5ajk4h@uno.localdomain>
+References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
+ <20200612221003.GA3901624@bogus>
 MIME-Version: 1.0
-References: <20200612124844.19422-1-wsa+renesas@sang-engineering.com>
- <CAHp75VdMPt60CKnP1HtkN8=3iY7+Kgrv6b9DTjcj-KMKaRknvw@mail.gmail.com> <20200613113924.GA5578@kunai>
-In-Reply-To: <20200613113924.GA5578@kunai>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 13 Jun 2020 14:54:51 +0300
-Message-ID: <CAHp75Vckh3NERodBs3e8wo3NxbrP=BPRY5g7MLmA4szqLFcfjA@mail.gmail.com>
-Subject: Re: [PATCH] lib: update DEBUG_SHIRQ docs to match reality
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200612221003.GA3901624@bogus>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jun 13, 2020 at 2:39 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > > There is no extra interrupt when registering a shared interrupt handler
-> > > since 2011. Update the Kconfig text to make it clear and to avoid wrong
-> > > assumptions when debugging issues found by it.
-> > >
+Hi Rob,
+
+On Fri, Jun 12, 2020 at 04:10:03PM -0600, Rob Herring wrote:
+> On Fri, 12 Jun 2020 15:47:10 +0100, Kieran Bingham wrote:
+> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > >
-> > I'm not sure.
-> > I have recently fixed a bug in the IIO sensor during ->probe() due to
-> > an issued test interrupt exactly as soon as the handler is registered.
+> > The MAX9286 deserializes video data received on up to 4 Gigabit
+> > Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> > to 4 data lanes.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> >
+> > ---
+> >
+> > v7:
+> >  - Collect Rob's RB tag
+> >  - Remove redundant maxItems from remote-endpoints
+> >  - Fix SPDX licence tag
+> >
+> > v10:
+> > [Jacopo]
+> >  - Fix dt-validation
+> >  - Fix dt-binding examples with 2 reg entries
+> >
+> > [Kieran]
+> >  - Correctly match the hex camera node reg
+> >  - Add (required) GPIO controller support
+> >
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 366 ++++++++++++++++++
+> >  1 file changed, 366 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> >
 >
-> $ git grep DEBUG_SHIRQ_FIXME
-> kernel/irq/manage.c:#ifdef CONFIG_DEBUG_SHIRQ_FIXME
 >
-> There is no place to enable this code.
+> My bot found errors running 'make dt_binding_check' on your patch:
 >
-> Maybe your case was like Krzysztof's case where the issue turned out to
-> be the extra interrupt on deregistering after a deferred probe? He
-> thought it was the initial interrupt but it wasn't.
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: example-0: i2c@e66d8000:reg:0: [0, 3865935872, 0, 64] is too long
+>
+>
+> See https://patchwork.ozlabs.org/patch/1308280
+>
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure dt-schema is up to date:
+>
+> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+>
 
-Commit
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/iio/pressure/bmp280-core.c?id=97b31a6f5fb95b1ec6575b78a7240baddba34384
+I have updated my dt-schema installation to the latest github master
+-------------------------------------------------------------------------------
+Successfully installed dtschema-2020.6.dev8+g4d2d86c
 
-The relevant IRQ core code
-https://elixir.bootlin.com/linux/latest/source/kernel/irq/manage.c#L1774
+https://github.com/devicetree-org/dt-schema/commit/4d2d86c5cd65cd3944ce0aaa400866bc36727bea
 
-It runs it at deregistering, right.
+$ /usr/bin/dt-validate -V
+2020.6.dev8+g4d2d86c
+-------------------------------------------------------------------------------
 
--- 
-With Best Regards,
-Andy Shevchenko
+But I still cannot reproduce the error.
+
+However, I see this commit in your next branch
+https://github.com/devicetree-org/dt-schema/commit/b72500282cfd2eba6f9df4d7553f696544b40ee6
+"schemas: Add a schema to check 'reg' sizes "
+
+Which sounds very likely related to the above reported error.
+Was this intentional ?
+
+I'm not sure how I should handle this. The error reports the i2c node
+parents should have both address-cells and size-cells properties set
+to 2, but in the example there is not i2c node parent at all :)
+Should I add a parent node for the i2c in the example snippet ?
+
+Thanks
+  j
+
+> Please check and re-submit.
+>
