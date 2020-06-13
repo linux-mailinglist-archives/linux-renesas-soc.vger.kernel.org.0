@@ -2,136 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A9EF1F8337
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jun 2020 14:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 800BC1F849B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jun 2020 20:37:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgFMM2v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 13 Jun 2020 08:28:51 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:37649 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726021AbgFMM2u (ORCPT
+        id S1726404AbgFMShz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 13 Jun 2020 14:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726102AbgFMShz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 13 Jun 2020 08:28:50 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0F0CB1BF204;
-        Sat, 13 Jun 2020 12:28:43 +0000 (UTC)
-Date:   Sat, 13 Jun 2020 14:32:07 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hyun Kwon <hyunk@xilinx.com>, linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        sakari.ailus@iki.fi,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        devicetree@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v10 1/4] dt-bindings: media: i2c: Add bindings for Maxim
- Integrated MAX9286
-Message-ID: <20200613123207.6ey6y5spfa5ajk4h@uno.localdomain>
-References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
- <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
- <20200612221003.GA3901624@bogus>
+        Sat, 13 Jun 2020 14:37:55 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E81B4C08C5C2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 11:37:53 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id c12so7240094lfc.10
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jun 2020 11:37:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:organization:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=BmSBD7h3njitpLi5QsmTDnHJWiGkucDb02pMa3UrBRI=;
+        b=D5iDPVYgmwGhaOr/Y/znPRPv2TpXLV42qx5RUn1NcoKYPcKfoUd32dXgvYfy7HpZtR
+         CWaB5oSu91X5BT8+OyBx0ASylvZkf1iyeNEyybMEjpleXYYbgQAPxTyUFbTo4O0Lb71b
+         NV5c9umDsLOX2+IgzvEbOcYBQHcKl6oHO6p0Xy55wPAA0S1Qu+y00FxMlmwCorviTut2
+         SxHPOHX08qX0RIkgYTfPZiujKldY/BT4iybzMdfMWX8HXRumTn0tKtuckpGr3qgN3Bh5
+         zjRRnSZMnVMyR9FYk1eBS548LdgE6ksGLupV/Nkd1Hx2dSz5UEc7y86MT0GvqLyFA3/c
+         Xelg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:organization:message-id:date
+         :user-agent:mime-version:content-language:content-transfer-encoding;
+        bh=BmSBD7h3njitpLi5QsmTDnHJWiGkucDb02pMa3UrBRI=;
+        b=h2pIJ9dREUmpHWZH8rqyQZTbZoWFBsLyT2i/ecHsqfqPKWk5HULjPW1fy+ajf5S8N0
+         lXs5LV4CefclJdbVW8s82EAWa6gl3FkP9YY32+y0mdpSJOn0w2NJfemzBgLvv9BPUj0S
+         6hSSTv/wpQYQtbiegFDRMPxsMqHSi7fcC2IVoJRNrCPpzS6D08GQNMVrMbmPxPEUlCrH
+         n8Tflq4YrV6OYFknCirRbZMemTzPNZ5m5vwnenElF/zzvGZS7jt0ILo0YWr4cvQVP1I1
+         rGOLqj4qRL1RbYAXGwSSwJoVdubuqx0GB+KT5bm8FRY8fv41NlQzUAcsnFFKbVxgvWKn
+         3WaA==
+X-Gm-Message-State: AOAM533/zf0TTbX8fk7qwCDJQl+q6nP1siNdQ414uQulJCiphCzwZU/B
+        1KWWKMZ5D7xjq6hoLaIzkpq+tH6qVJo=
+X-Google-Smtp-Source: ABdhPJwrV3vFpHEGmswCk7rvxEQ6MzcJH8kO3I0D3hgg8DwJsce6wYaVTijjPPpx61Zz6riIeJE6aQ==
+X-Received: by 2002:a19:5216:: with SMTP id m22mr9870055lfb.14.1592073470253;
+        Sat, 13 Jun 2020 11:37:50 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:2e2:84d1:c335:1451:e577:e115])
+        by smtp.gmail.com with ESMTPSA id o16sm3324961ljg.90.2020.06.13.11.37.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 13 Jun 2020 11:37:49 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: [PATCH v3 0/2] Add Renesas RPC-IF support
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Organization: Cogent Embedded
+Message-ID: <721e5306-6dc5-4a3a-2bbb-459be6261357@cogentembedded.com>
+Date:   Sat, 13 Jun 2020 21:37:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200612221003.GA3901624@bogus>
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hello!
 
-On Fri, Jun 12, 2020 at 04:10:03PM -0600, Rob Herring wrote:
-> On Fri, 12 Jun 2020 15:47:10 +0100, Kieran Bingham wrote:
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > The MAX9286 deserializes video data received on up to 4 Gigabit
-> > Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
-> > to 4 data lanes.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> >
-> > ---
-> >
-> > v7:
-> >  - Collect Rob's RB tag
-> >  - Remove redundant maxItems from remote-endpoints
-> >  - Fix SPDX licence tag
-> >
-> > v10:
-> > [Jacopo]
-> >  - Fix dt-validation
-> >  - Fix dt-binding examples with 2 reg entries
-> >
-> > [Kieran]
-> >  - Correctly match the hex camera node reg
-> >  - Add (required) GPIO controller support
-> >
-> >  .../bindings/media/i2c/maxim,max9286.yaml     | 366 ++++++++++++++++++
-> >  1 file changed, 366 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> >
->
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: example-0: i2c@e66d8000:reg:0: [0, 3865935872, 0, 64] is too long
->
->
-> See https://patchwork.ozlabs.org/patch/1308280
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
->
-> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
->
+Here's a set of 2 patches against Linus' repo. Renesas Reduced Pin Count
+Interface (RPC-IF) allows a SPI flash or HyperFlash connected to the SoC
+to be accessed via the external address space read mode or the manual mode.
+The memory controller driver for RPC-IF registers either SPI or HyperFLash
+subdevice, depending on the contents of the device tree subnode; it also
+provides the abstract "back end" API that can be used by the "front end"
+SPI/MTD drivers to talk to the real hardware...
 
-I have updated my dt-schema installation to the latest github master
--------------------------------------------------------------------------------
-Successfully installed dtschema-2020.6.dev8+g4d2d86c
+Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
 
-https://github.com/devicetree-org/dt-schema/commit/4d2d86c5cd65cd3944ce0aaa400866bc36727bea
+[1/2] dt-bindings: memory: document Renesas RPC-IF bindings
+[2/2] memory: add Renesas RPC-IF driver
 
-$ /usr/bin/dt-validate -V
-2020.6.dev8+g4d2d86c
--------------------------------------------------------------------------------
-
-But I still cannot reproduce the error.
-
-However, I see this commit in your next branch
-https://github.com/devicetree-org/dt-schema/commit/b72500282cfd2eba6f9df4d7553f696544b40ee6
-"schemas: Add a schema to check 'reg' sizes "
-
-Which sounds very likely related to the above reported error.
-Was this intentional ?
-
-I'm not sure how I should handle this. The error reports the i2c node
-parents should have both address-cells and size-cells properties set
-to 2, but in the example there is not i2c node parent at all :)
-Should I add a parent node for the i2c in the example snippet ?
-
-Thanks
-  j
-
-> Please check and re-submit.
->
+MBR, Sergei
