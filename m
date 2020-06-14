@@ -2,84 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7AE71F87F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jun 2020 11:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B97531F881E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jun 2020 11:31:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgFNJIO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 14 Jun 2020 05:08:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40390 "EHLO mail.kernel.org"
+        id S1726460AbgFNJbn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 14 Jun 2020 05:31:43 -0400
+Received: from sauhun.de ([88.99.104.3]:53300 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725265AbgFNJIO (ORCPT
+        id S1725265AbgFNJbn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 14 Jun 2020 05:08:14 -0400
+        Sun, 14 Jun 2020 05:31:43 -0400
 Received: from localhost (p5486c990.dip0.t-ipconnect.de [84.134.201.144])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 683BF206B7;
-        Sun, 14 Jun 2020 09:08:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592125693;
-        bh=n3wKxNIkrL79MBfu8VNibHzqLBHsYDEtzNsdn1+bG30=;
-        h=Date:From:To:Cc:Subject:From;
-        b=MwzA4lWmdKlzDuvDp/rQWKyGX/B5LpuRztl0h03Bnuv2BFvNQccvI8zDaVX6PhVYP
-         OqSYTbStdNJpcix67C2skZ9kGELNieh9zTqtxXtrbgpTeY0G4HlA1xtEgrB2ctPH8j
-         V30F3m4bHOiVpz7kxrx/CKUjmDdbAcoMK+Zy8wWo=
-Date:   Sun, 14 Jun 2020 11:07:51 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Subject: RFC: a failing pm_runtime_get increases the refcnt?
-Message-ID: <20200614090751.GA2878@kunai>
+        by pokefinder.org (Postfix) with ESMTPSA id C8C0F2C05DF;
+        Sun, 14 Jun 2020 11:31:32 +0200 (CEST)
+Date:   Sun, 14 Jun 2020 11:31:31 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH] i2c: sh_mobile: implement atomic transfers
+Message-ID: <20200614093131.GD2878@kunai>
+References: <1591817591-852-1-git-send-email-uli+renesas@fpond.eu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
+        protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
 Content-Disposition: inline
+In-Reply-To: <1591817591-852-1-git-send-email-uli+renesas@fpond.eu>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---1yeeQ81UyVL57Vl7
+--C1iGAkRnbeBonpVg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Linux-PM,
+On Wed, Jun 10, 2020 at 09:33:11PM +0200, Ulrich Hecht wrote:
+> Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
+> similar boards.
+>=20
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-both in the I2C subsystem and also for Renesas drivers I maintain, I am
-starting to get boilerplate patches doing some pm_runtime_put_* variant
-because a failing pm_runtime_get is supposed to increase the ref
-counters? Really? This feels wrong and unintuitive to me. I expect there
-has been a discussion around it but I couldn't find it. I wonder why we
-don't fix the code where the incremented refcount is expected for some
-reason.
+Thanks, Uli! Works fine here. Really nice to finally being able to
+reboot now without WARNings.
 
-Can I have some pointers please?
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks,
+Some review comments:
+
+
+> @@ -366,7 +369,7 @@ static int sh_mobile_i2c_isr_tx(struct sh_mobile_i2c_=
+data *pd)
+> =20
+>  static int sh_mobile_i2c_isr_rx(struct sh_mobile_i2c_data *pd)
+>  {
+> -	unsigned char data;
+> +	unsigned char data =3D 0;
+
+Please rebase against i2c/for-next. 'data' is gone since recently.
+
+> -static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+> -			      struct i2c_msg *msgs,
+> -			      int num)
+> +static int xfer(struct sh_mobile_i2c_data *pd, struct i2c_msg *msgs, int=
+ num)
+
+'xfer' is too generic IMO. '__sh_mobile_i2c_xfer' maybe?
+
+> -	pm_runtime_get_sync(pd->dev);
+> +	if (!pd->atomic_xfer)
+> +		pm_runtime_get_sync(pd->dev);
+
+This was a small surprise to me. I assume RPM is disabled that late?
+But can we be sure the clock is on, then?
+
+> +		if (pd->atomic_xfer) {
+> +			unsigned long j =3D jiffies + pd->adap.timeout;
+> +
+> +			timeout =3D 1;
+> +			while (!time_after(jiffies, j) &&
+
+To avoid the negation, maybe 'time_before_eq(...)'?
+
+> +			       !(pd->sr & (ICSR_TACK | SW_DONE))) {
+> +				unsigned char sr =3D iic_rd(pd, ICSR);
+> +
+> +				if (sr & (ICSR_AL   | ICSR_TACK |
+> +					  ICSR_WAIT | ICSR_DTE)) {
+> +					sh_mobile_i2c_isr(0, pd);
+> +					udelay(150);
+> +				} else
+> +					cpu_relax();
+
+Braces for else block.
+
+> +			}
+> +
+> +			if (time_after(jiffies, j))
+> +				timeout =3D 0;
+
+Uhh, 'timeout' should have been named 'time_left' back then. Then, this
+all would be more readable and we could do here:
+
+	time_left =3D time_before_eq(...);
+
+and avoid both 'timeout' assignments above.
+
+> +static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+> +			      struct i2c_msg *msgs,
+> +			      int num)
+> +{
+> +	struct sh_mobile_i2c_data *pd =3D i2c_get_adapdata(adapter);
+> +
+> +	pd->atomic_xfer =3D false;
+
+
+Maybe move this above to the xfer function ...
+
+> +	return xfer(pd, msgs, num);
+
+
+=2E.. and have here only:
+
+	return __sh_mobile_i2c_xfer(adapter, msgs, num, false);
+
+But yeah, this is bike-shedding. I don't mind much.
+
+>  static const struct i2c_algorithm sh_mobile_i2c_algorithm =3D {
+> -	.functionality	=3D sh_mobile_i2c_func,
+> -	.master_xfer	=3D sh_mobile_i2c_xfer,
+> +	.functionality		=3D sh_mobile_i2c_func,
+> +	.master_xfer		=3D sh_mobile_i2c_xfer,
+> +	.master_xfer_atomic	=3D sh_mobile_i2c_xfer_atomic,
+
+Just convert to a single space before the '=3D'.
+
+All the best,
 
    Wolfram
 
 
---1yeeQ81UyVL57Vl7
+--C1iGAkRnbeBonpVg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7l6OEACgkQFA3kzBSg
-KbZYyA/+PkFktu53VSUsaXjSYl3UQhAp3f9gxaeCTcak82twshL7bPkzKzW7mzPu
-EMkPt07vTWMlwl3kTclqzf0X3CB3nmTxxbsIkSUO1pUk2uFMSYew2zUpqGIKy7/J
-RTGiLarBS+uQ6IlFVQn5/CgOJFhW3NzEeZ6ArtyD4rdOWI4Zyp9Xeh+W2g/ElQnb
-BmDUv6rES6CpNNJitt9ZbcbgOKyDLFWwxIVFuAQCoqrsylsh13/A7+AfNfGP/biy
-X2mRo1L/ZfbDJrRdSUel/9eUm5KvFNabPZCKP7xiIlJwaQ2RbeDuowC+lO5Nj9Hf
-Vvd8LXdLOk1EDQ+kzGIXdJDThY+8ySBGvR06o5AJFYYTaocFKU6tEmsk/RVp+DXF
-J7EZkpYBTyxg5C7iV6C9EkD8+TicENFYpJupkYC2ggZPrgK4qDo1EhUvT55hCgbV
-C3yUcFqviNK9gsMPbJHfhoTW/XGSR62nBSdnZJYBzM36eXwNk01f1qO3eW60XO1m
-vetWZfFBbPNPrNL8hGHwl5+5SOeuCKDIxz0deo4ff00cfkGhx35qJGDrvEoVv6lr
-ptOzytwAjL+ZGaPbKHcQgGSDvY/7Zimsy2kuCn3KzV6p6KmIB8zscKENmVCPibSS
-AeW3s7q2kuALMdLjlfDTUDZtFKsvfyvLkMo7OJuyixaSwNYRhso=
-=CpY1
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7l7nMACgkQFA3kzBSg
+KbY+IA//URtUK50ZFWfVncEynBlLxygtPLvoDTCc5SHEtQc8fV3p1dib3Yj2sbaI
+jVJc+8+n8T52j4jT9cmTT/bpAcGThpofQ5NwA2QDY4NPBJ31VFRINqIbxX+hKN3V
+s3fSttAQCvW7LgkA5ru2ZgW2MrUXzQgeTfzqQLFV/ffc+mOyaWkR9B1qhHFN1S+d
+GORH4p1SPZBZeT3xru7KitXC2SJwm1XqTAhmLcQmc2hizwtncjxwX2rD5DpPUG0m
+FpCMvwKok2eDitpb/KrEiJdeuBI7hydOapjL6KM+H80aP4UiJXYxmzhFTmemJi9a
+EFkjMfYX1uwWV6EPZrhzR7uUMTav7hmuw7TUO6pWlbY7R/EZxA3ZGRVRxQDc723I
+7VqFm4QImB0r24MAQXoDWQ2U/QGJOrpc8IroG9b4FLjxZEMAcAX3maSMRLaFVzTu
+6r+bgupq78a8uxujsxb0GDNcJXAB6tmzHY7NzjAuFxpoMU9Xni1X1PjQazzb2aNI
+dLdfnAfgyMNxrPfeq3WMne5T74YZ7iu2tEc3+LP23Jd9SfojoluG7LYIhWmoS2Au
+ukzWfvrHyVkUrGHcgBo2VznE8G6SENcQ8saRCgGVXw+Wcpx8Yj4F2OsUd3OElnlQ
+9DQBc0QNiaD3vh96h8qSity9C8T6/VBSNXf6IREI9P3QXDGKpxM=
+=u5Qi
 -----END PGP SIGNATURE-----
 
---1yeeQ81UyVL57Vl7--
+--C1iGAkRnbeBonpVg--
