@@ -2,71 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C2861FA497
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 01:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D7851FA49B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 01:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbgFOXlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jun 2020 19:41:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54060 "EHLO mail.kernel.org"
+        id S1726763AbgFOXl2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Jun 2020 19:41:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54670 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725960AbgFOXlR (ORCPT
+        id S1725960AbgFOXl2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jun 2020 19:41:17 -0400
+        Mon, 15 Jun 2020 19:41:28 -0400
 Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9B32D20714;
-        Mon, 15 Jun 2020 23:41:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5D5F5208E4;
+        Mon, 15 Jun 2020 23:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592264477;
-        bh=4B3zxx0t4t/cAMnTcb1CgWAE+WyO6z4UCRqXbi4xzFg=;
+        s=default; t=1592264487;
+        bh=fg+QK74w7DovwX+kaioGzFK7Y14YlPIKeG07Nz40WuQ=;
         h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=AxBMUE88327gyD7AWPGhve+Wh8ybmWBfw1Vr5OWesrVIVG7NxKRQswpbnAXtofFbO
-         sLu3+N4jgXfA/ewD0/dj0zcDJeqxyFwsdjQymufuXtNvL6JVXHeVeKRAOTHmv+8yXX
-         grzN41FYi/g6IrCDmey/eZzzF6h2ijQ5jvrYbNpA=
-Date:   Tue, 16 Jun 2020 00:41:15 +0100
+        b=EduD8uu/VZNaReB5hEYoCb5RlzG9hh/MsJNenffiwAA1mSuanUEBX7lgewmcFaWku
+         iZq7UsZYtghm3YVXeQTxeiDFpaw3y8+GXmBow5GYZD0w5V31caF6o5SNtT0VDHEzDr
+         HUy4QB+D2ERdOPvQ1eTMSPZ1dv1Imk2mqbWQdw2E=
+Date:   Tue, 16 Jun 2020 00:41:25 +0100
 From:   Mark Brown <broonie@kernel.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-gpio@vger.kernel.org, ath10k@lists.infradead.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-rdma@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH 00/17] spelling.txt: /decriptors/descriptors/
-Message-Id: <159226447507.27673.16785893373246037922.b4-ty@kernel.org>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        linux-spi@vger.kernel.org
+Cc:     Mason Yang <masonccyang@mxic.com.tw>,
+        linux-renesas-soc@vger.kernel.org,
+        Chris Brandt <chris.brandt@renesas.com>
+In-Reply-To: <1ece0e6c-71af-f0f1-709e-571f4b0b4853@cogentembedded.com>
+References: <ad503d6e-4739-9744-64b4-fd13f44ea6fe@cogentembedded.com> <1ece0e6c-71af-f0f1-709e-571f4b0b4853@cogentembedded.com>
+Subject: Re: [PATCH v4] spi: add Renesas RPC-IF driver
+Message-Id: <159226448570.27735.17453498854310254061.b4-ty@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 9 Jun 2020 13:45:53 +0100, Kieran Bingham wrote:
-> I wouldn't normally go through spelling fixes, but I caught sight of
-> this typo twice, and then foolishly grepped the tree for it, and saw how
-> pervasive it was.
+On Sat, 13 Jun 2020 22:18:34 +0300, Sergei Shtylyov wrote:
+> Add the SPI driver for the Renesas RPC-IF.  It's the "front end" driver
+> using the "back end" APIs in the main driver to talk to the real hardware.
+> We only implement the 'spi-mem' interface -- there's no need to implement
+> the usual SPI driver methods...
 > 
-> so here I am ... fixing a typo globally... but with an addition in
-> scripts/spelling.txt so it shouldn't re-appear ;-)
-> 
-> [...]
+> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
 Thanks!
 
-[1/2] regulator: Fix trivial spelling
-      commit: d3f3723387f97118c337689fc73e4199fb4331ce
-[2/2] regulator: gpio: Fix trivial spelling
-      commit: 1f0b740004f09d2f1b716fd6c2fdca81004ded05
+[1/1] spi: add Renesas RPC-IF driver
+      commit: eb8d6d464a27850498dced21a8450e85d4a02009
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
