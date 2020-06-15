@@ -2,77 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A4131F9CA2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2020 18:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88D141F9F0D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2020 20:08:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730447AbgFOQJq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jun 2020 12:09:46 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:44506 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730426AbgFOQJq (ORCPT
+        id S1729402AbgFOSI1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Jun 2020 14:08:27 -0400
+Received: from mga03.intel.com ([134.134.136.65]:58757 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728585AbgFOSI1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jun 2020 12:09:46 -0400
-Received: by mail-il1-f196.google.com with SMTP id i1so15772635ils.11;
-        Mon, 15 Jun 2020 09:09:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Nnum2C4PhSpPEfhThcj8nUToxxJitXHNbBnp8YsxMRk=;
-        b=nHNF3at8lOny0OmnYg2NfU28goLlyMRmH6wSp4UN3MNXxEzc09/9Ixr8xi4VFEPwej
-         E2IeG4tneHQ4NnVA/1eFqtvdFTcqRJ1GSTNU+t/vemqKL6UYiB05PJu/VN1syvwZXahp
-         1fvrQPlC39HM+bDWXFya6fsXhPbIfhmDxfEyXdP6xeo+cbSBEC/m38w8x4ijjW8CUJot
-         S1kQjISKtpzy2Xk5C0iXcr0iV7paQLjxR2eAICnIFFHZRQ9j2hKLKvgIajQIHCXk7Nue
-         WumDedU4zL0UHgvhs8AfGh7qMH+CHgpYcWZSRuEJI5Rbx0pY0/eExwwVswWI86JskuKM
-         Fw5Q==
-X-Gm-Message-State: AOAM532AnbhweoAk/nPGV7tX7nAFhyDh/82PP+XgG29ABqHgFMKuvdE+
-        Q4DpwqCGiPyqUC4F+6T4wg==
-X-Google-Smtp-Source: ABdhPJw+XZZMbcw5q6e9ZPoHyfPayYNgKmpC2lmw3amkyFocbJjFVs0xj6wgLmEd9xyiUTfpovFVMg==
-X-Received: by 2002:a92:c6c5:: with SMTP id v5mr25902857ilm.1.1592237385404;
-        Mon, 15 Jun 2020 09:09:45 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id 13sm8260749ilg.24.2020.06.15.09.09.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 09:09:44 -0700 (PDT)
-Received: (nullmailer pid 1861367 invoked by uid 1000);
-        Mon, 15 Jun 2020 16:09:43 -0000
-Date:   Mon, 15 Jun 2020 10:09:43 -0600
-From:   Rob Herring <robh@kernel.org>
+        Mon, 15 Jun 2020 14:08:27 -0400
+IronPort-SDR: vvFexW+RXFSsERnXNbr5LVKgcEGNfK9ugD9Q3FAzVarwxkeOflx5iTH29T22UPXxSuKo5KromY
+ nxW1a5JRrRjw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 11:08:26 -0700
+IronPort-SDR: MFRF9kyqY3RJ24NZpjUO7f7ejMa5RL/UWfLDHnRyp8e2LQmvYowyd+Bwl70DC+eC/fGliK7vRm
+ jaPLQLb0VEIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,515,1583222400"; 
+   d="scan'208";a="308817474"
+Received: from lkp-server02.sh.intel.com (HELO ec7aa6149bd9) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2020 11:08:25 -0700
+Received: from kbuild by ec7aa6149bd9 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jktWy-00008O-R3; Mon, 15 Jun 2020 18:08:24 +0000
+Date:   Tue, 16 Jun 2020 02:08:06 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jason Cooper <jason@lakedaemon.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>
-Subject: Re: [PATCH] dt-bindings: irqchip: renesas-rza1-irqc: Convert to
- json-schema
-Message-ID: <20200615160943.GA1861039@bogus>
-References: <20200528132853.1751-1-geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
+ aa2165cf2ece9176e7f5ff036d5d20186166b5b8
+Message-ID: <5ee7b906.V3uFbpz1AvdCnU55%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200528132853.1751-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 28 May 2020 15:28:53 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas RZ/A1 Interrupt Controller Device Tree binding
-> documentation to json-schema.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Validation depends on "[PATCH dt-schema] Fix interrupt controllers with
-> interrupt-map".
-> http://lore.kernel.org/r/20200528132323.30288-1-geert+renesas@glider.be
-> ---
->  .../renesas,rza1-irqc.txt                     | 43 ----------
->  .../renesas,rza1-irqc.yaml                    | 80 +++++++++++++++++++
->  2 files changed, 80 insertions(+), 43 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.yaml
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
+branch HEAD: aa2165cf2ece9176e7f5ff036d5d20186166b5b8  pinctrl: sh-pfc: r8a77980: Add RPC pins, groups, and functions
 
-Applied, thanks!
+elapsed time: 481m
+
+configs tested: 103
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm                             pxa_defconfig
+um                           x86_64_defconfig
+mips                      pic32mzda_defconfig
+arm                       versatile_defconfig
+ia64                      gensparse_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a006-20200615
+i386                 randconfig-a002-20200615
+i386                 randconfig-a001-20200615
+i386                 randconfig-a004-20200615
+i386                 randconfig-a005-20200615
+i386                 randconfig-a003-20200615
+x86_64               randconfig-a015-20200615
+x86_64               randconfig-a011-20200615
+x86_64               randconfig-a016-20200615
+x86_64               randconfig-a012-20200615
+x86_64               randconfig-a014-20200615
+x86_64               randconfig-a013-20200615
+i386                 randconfig-a015-20200615
+i386                 randconfig-a011-20200615
+i386                 randconfig-a014-20200615
+i386                 randconfig-a013-20200615
+i386                 randconfig-a016-20200615
+i386                 randconfig-a012-20200615
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
