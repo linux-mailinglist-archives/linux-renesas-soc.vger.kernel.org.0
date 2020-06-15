@@ -2,88 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44DF31F9018
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2020 09:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F0F01F90E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jun 2020 10:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728708AbgFOHiz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jun 2020 03:38:55 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:40406 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728465AbgFOHiz (ORCPT
+        id S1728162AbgFOIBt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Jun 2020 04:01:49 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:34419 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726318AbgFOIBt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jun 2020 03:38:55 -0400
-Received: by mail-ot1-f65.google.com with SMTP id s13so12358142otd.7;
-        Mon, 15 Jun 2020 00:38:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PFfNHgVox7KX7C95z1fc2WDvt6ykxqikNS/QtJNZ6S8=;
-        b=nRR8nAQssd3tHaanXqlUNMKKplCGhFMDhveZQzz+Vu61zi4sbskOc058CE654nlSiT
-         WIN9s3uYdOMTNw2bxVveEEz6ZRHv0B9XZfXMY2PGzXXLJ7CTD+ePQpRveaQuM8IWlvQa
-         zrvgwGJgawZZisnV0Id1i2/+n4gK/SK4rN3l1TY+m/LnMQd4+DbNUfsTccIxIm9ZlBFj
-         jKdYkzSs8QjncbwDGEXNeZpIuSNYKurJ12kmk4MCsZ/NYuR+CxbbgMV8V67DXClDrzc0
-         UkACb+mJ4qvRli2M/jHqx7FZh0bIh9sjMfnFFU5g6X1zSgHTPp8AVk0jyMMXFNQ5Y/jr
-         XA0Q==
-X-Gm-Message-State: AOAM531UrOiZWiIPUQXrRg8vqFV0AWVXJwp78i/UC7SwT3E/lfBMPi4d
-        lP5cvJuXVZp6W15CfDoKBIwKaHG5QA8wxc0+aDEoyYdh
-X-Google-Smtp-Source: ABdhPJw1n6MZZyE41PxKdYk9SuES7QIn4SjvHd3chD7k1FUdfaufEWwdkiYC+uoydTPHuFwA5x2yDo0fkj7opPN6ftE=
-X-Received: by 2002:a9d:c29:: with SMTP id 38mr19213763otr.107.1592206732676;
- Mon, 15 Jun 2020 00:38:52 -0700 (PDT)
+        Mon, 15 Jun 2020 04:01:49 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 09E2620012;
+        Mon, 15 Jun 2020 08:01:45 +0000 (UTC)
+Date:   Mon, 15 Jun 2020 10:05:10 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-csi2: Rename confirm_start() to phy_post_init() to
+ match its usage
+Message-ID: <20200615080510.h35ftz36esrl2cx5@uno.localdomain>
+References: <20200611193232.128721-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <cover.1592203542.git.mchehab+huawei@kernel.org> <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
-In-Reply-To: <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 15 Jun 2020 09:38:41 +0200
-Message-ID: <CAMuHMdV=omjGQUTZL0vBYhHDX+6GGn_Lx=2tMuGc4csJ9EKbkQ@mail.gmail.com>
-Subject: Re: [PATCH 12/29] dt: update a reference for reneases pcar file
- renamed to yaml
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200611193232.128721-1-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mauro,
+Hi Niklas,
 
-On Mon, Jun 15, 2020 at 8:47 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> This file was renamed, but its reference at pfc-pinctl.txt is
-
-pfc-pinctrl.txt
-
-> still pointing to the old file.
+On Thu, Jun 11, 2020 at 09:32:32PM +0200, Niklas Söderlund wrote:
+> Since the driver was picked-up the starting of the PHY have changed
+> quiet a bit. An artifact of these changes is the now poorly named
+> callback confirm_start(). It used to confirm start of the PHY but now
+> performs post PHY start initialization, rename it to phy_post_init() to
+> reflect this.
 >
-> Fixes: 7f7d408e5a00 ("dt-bindings: gpio: rcar: Convert to json-schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Thanks!
+Seems reasonable
+Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks
+  j
 
-Note that the reference will go away with the pfc-pinctrl.txt json-schema
-conversion.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index 151e6a90c5fbc70e..6dbfac9dcf775f84 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -344,7 +344,7 @@ enum rcar_csi2_pads {
+>
+>  struct rcar_csi2_info {
+>  	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
+> -	int (*confirm_start)(struct rcar_csi2 *priv);
+> +	int (*phy_post_init)(struct rcar_csi2 *priv);
+>  	const struct rcsi2_mbps_reg *hsfreqrange;
+>  	unsigned int csi0clkfreqrange;
+>  	unsigned int num_channels;
+> @@ -575,9 +575,9 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+>  	if (ret)
+>  		return ret;
+>
+> -	/* Confirm start */
+> -	if (priv->info->confirm_start) {
+> -		ret = priv->info->confirm_start(priv);
+> +	/* Run post PHY start initialization, if needed. */
+> +	if (priv->info->phy_post_init) {
+> +		ret = priv->info->phy_post_init(priv);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -975,7 +975,7 @@ static int rcsi2_init_phtw_v3m_e3(struct rcar_csi2 *priv, unsigned int mbps)
+>  	return rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3m_e3, 0x44);
+>  }
+>
+> -static int rcsi2_confirm_start_v3m_e3(struct rcar_csi2 *priv)
+> +static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
+>  {
+>  	static const struct phtw_value step1[] = {
+>  		{ .data = 0xee, .code = 0x34 },
+> @@ -1059,7 +1059,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
+>
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
+>  	.init_phtw = rcsi2_init_phtw_v3m_e3,
+> -	.confirm_start = rcsi2_confirm_start_v3m_e3,
+> +	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+>  	.num_channels = 4,
+>  };
+>
+> @@ -1072,7 +1072,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
+>
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
+>  	.init_phtw = rcsi2_init_phtw_v3m_e3,
+> -	.confirm_start = rcsi2_confirm_start_v3m_e3,
+> +	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+>  	.num_channels = 2,
+>  };
+>
+> --
+> 2.27.0
+>
