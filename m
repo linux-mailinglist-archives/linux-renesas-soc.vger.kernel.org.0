@@ -2,83 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DB5B1FA49E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 01:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8B5C1FA64A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 04:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbgFOXld (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jun 2020 19:41:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54942 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726546AbgFOXld (ORCPT
+        id S1726044AbgFPCH5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 15 Jun 2020 22:07:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725978AbgFPCH5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jun 2020 19:41:33 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 54BD52080D;
-        Mon, 15 Jun 2020 23:41:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592264492;
-        bh=N1Ij/usB8zQH3UBOLC7sOuqSq5QNpKZThVTtUkokQlU=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=kvFwLRFSbEs5scz61K7kuHQL196g5fyYJPoHYLKA+b/8sSSzZW+z0JTFrUwPYQ1it
-         l3zXX3FSQv2cQ6/9Dep7/KG1wkUqiJU5uF4WKW7zYSwH//iofye5WkOtT7cxxx+D0J
-         NMiwC4OSbciUwPUuyr3j0oBN/0W+xSoNk9tlvl6c=
-Date:   Tue, 16 Jun 2020 00:41:30 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org
-In-Reply-To: <1591736054-568-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1591736054-568-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 0/2] Add MSIOF support for R8A7742 SOC
-Message-Id: <159226448569.27735.1827248945903303044.b4-ty@kernel.org>
+        Mon, 15 Jun 2020 22:07:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF09EC061A0E;
+        Mon, 15 Jun 2020 19:07:56 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1E75F9;
+        Tue, 16 Jun 2020 04:07:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1592273275;
+        bh=xYElGteoaj0H9zLGTP6RnYkFontC7H09EZpYQcLGUtM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=okB8LYmHYqilwBUAYyvrfQ8bW0QAZyYKM6eyUYx/nrm21scB5YMBKSQYZ1vtTbfyG
+         3aB2gQ73t4FEa5lDTz9s5RTQ1UDF7/TRujuLWEr0X3HErtSH3HRtE6/WK3lgf1mFXW
+         mzAhcKHvXnUVNu8akz1Y2/cdsrgG/Dm+PsjrCjmo=
+Date:   Tue, 16 Jun 2020 05:07:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     wu000273@umn.edu
+Cc:     kjlu@umn.edu,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: vsp1: Fix a reference count leak.
+Message-ID: <20200616020732.GK1629@pendragon.ideasonboard.com>
+References: <20200613232357.18155-1-wu000273@umn.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200613232357.18155-1-wu000273@umn.edu>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 9 Jun 2020 21:54:12 +0100, Lad Prabhakar wrote:
-> This patch series adds support for MSIOF on R8A7742 SOC.
+Hi Qiushi,
+
+(CC'ing Rafael and Geert)
+
+Thank you for the patch.
+
+On Sat, Jun 13, 2020 at 06:23:57PM -0500, wu000273@umn.edu wrote:
+> From: Qiushi Wu <wu000273@umn.edu>
 > 
-> Cheers,
-> Prabhakar
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code, causing incorrect ref count if
+> pm_runtime_put_noidle() is not called in error handling paths.
+> Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
 > 
-> Lad Prabhakar (2):
->   dt-bindings: spi: renesas,sh-msiof: Add r8a7742 support
->   ARM: dts: r8a7742: Add MSIOF[0123] support
+> Fixes: 1e6af546ee66 ("[media] v4l: vsp1: Implement runtime PM support")
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+
+https://lore.kernel.org/dri-devel/20200614134655.GA5960@pendragon.ideasonboard.com/
+
+I really wonder if mass-patching all drivers is the best way forward.
+
+> ---
+>  drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> [...]
+> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+> index c650e45bb0ad..222c9e1261a0 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
+> @@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	pm_runtime_enable(&pdev->dev);
+>  
+>  	ret = pm_runtime_get_sync(&pdev->dev);
+> -	if (ret < 0)
+> +	if (ret < 0) {
+> +		pm_runtime_put_noidle(&pdev->dev);
+>  		goto done;
+> +	}
+>  
+>  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+>  	pm_runtime_put_sync(&pdev->dev);
 
-Applied to
+-- 
+Regards,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[1/1] spi: renesas,sh-msiof: Add r8a7742 support
-      commit: 6383b118efafff8cce8fc8fa5b7e893a523b698f
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Laurent Pinchart
