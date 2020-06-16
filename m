@@ -2,49 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0ECB1FB417
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 16:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B83A1FB471
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 16:32:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbgFPOUk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Jun 2020 10:20:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50826 "EHLO mail.kernel.org"
+        id S1728445AbgFPOcJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jun 2020 10:32:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58294 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726526AbgFPOUk (ORCPT
+        id S1725775AbgFPOcJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Jun 2020 10:20:40 -0400
-Content-Type: text/plain; charset="utf-8"
+        Tue, 16 Jun 2020 10:32:09 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 405D42080D;
+        Tue, 16 Jun 2020 14:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592317239;
-        bh=s4TUl0nLYF0VoX5QEiTbb5nn76AFoAtT0p/ptlvFZv8=;
-        h=Subject:From:Date:To:From;
-        b=GT2R5m+nL/vj7pdPpacL+vfTI8joGixk55nqoLOAzlAVXpQ0JruyPa0hQkTFKtZJX
-         HMMDmASMw3LPjs8wWMYx1Q3LPEhEqt8yQMhOsaG5cPpU+zmynuHpiQWgYQOohj0eKi
-         qDmg22qX7tXCj4oYl0E1EwwvSObTNn2g/nzA9Jto=
+        s=default; t=1592317928;
+        bh=AQEBglD1re8iMCYAQaMZEV0L5h/Oc59pqeZGe0n+MWk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XTatioz421DPyfsmMDJ0dAiwyraASuHcyB/AL2Lbob4vfzOsFOF3YE0rJDTXxytQF
+         aRi8k7mt0M1oWIxm/TDEo6cSf/0wK06U/0V0OEreHv7lqgf/lLHLzcEFC514F3JNI8
+         GiUROshXHbbnNAPwMVKrv9iMJot+Kpfra3j5RWUA=
+Date:   Tue, 16 Jun 2020 15:32:06 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     linux-spi@vger.kernel.org, Mason Yang <masonccyang@mxic.com.tw>,
+        linux-renesas-soc@vger.kernel.org,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v4] spi: add Renesas RPC-IF driver
+Message-ID: <20200616143206.GN4447@sirena.org.uk>
+References: <ad503d6e-4739-9744-64b4-fd13f44ea6fe@cogentembedded.com>
+ <1ece0e6c-71af-f0f1-709e-571f4b0b4853@cogentembedded.com>
+ <159226448570.27735.17453498854310254061.b4-ty@kernel.org>
+ <6fd4533e-c548-5d14-2d21-96efa0c58a0b@cogentembedded.com>
+ <20200616083856.GF4447@sirena.org.uk>
+ <6730033e-c966-d465-9273-75137e7ccbcd@cogentembedded.com>
+ <20200616093404.GH4447@sirena.org.uk>
+ <48df1997-31d8-06b4-7fce-a3b9b5cfaac8@cogentembedded.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159231723968.30726.1143815980353210274.git-patchwork-housekeeping@kernel.org>
-Date:   Tue, 16 Jun 2020 14:20:39 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Tb77rFjxeKqknTuc"
+Content-Disposition: inline
+In-Reply-To: <48df1997-31d8-06b4-7fce-a3b9b5cfaac8@cogentembedded.com>
+X-Cookie: Offer may end without notice.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v5] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-06-16T14:12:35)
-  Superseding: [v4] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-06-11T16:16:42):
-    [v4,1/9] media: v4l2-subdv: Introduce [get|set]_mbus_config pad ops
-    [v4,2/9] media: i2c: Use the new get_mbus_config pad op
-    [v4,3/9] media: i2c: ov6650: Use new [get|set]_mbus_config ops
-    [v4,4/9] media: pxa_camera: Use the new set_mbus_config op
-    [v4,5/9] media: v4l2-subdev: Remove [s|g]_mbus_config video ops
-    [v4,6/9] staging: media: imx: Update TODO entry
-    [v4,7/9] media: i2c: adv748x: Adjust TXA data lanes number
-    [v4,8/9] media: i2c: adv748x: Implement get_mbus_config
-    [v4,9/9] media: rcar-csi2: Negotiate data lanes number
 
+--Tb77rFjxeKqknTuc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+On Tue, Jun 16, 2020 at 03:55:24PM +0300, Sergei Shtylyov wrote:
+> On 16.06.2020 12:34, Mark Brown wrote:
+
+> > Nobody appears to have ever actually sent me these to me so they're not
+> > getting applied...
+
+>    Ah, you need to be explicitly CCed! I seem to be relying on the patchwork
+> too much... OK, I'm going for v5 of the core driver/bindings later today
+> (with r8a77970 added to compatibles -- I tested it yesterday).
+
+Yeah, I won't see anything that's only sent to the list.  I don't use
+patchwork at all any more, even in my scripting.
+
+> > >     Everybody seems to be in a silent agreement. :-)
+
+> > Or lost track of things given how long this has been going on :(
+
+>    Sorry, there was a lat of hardware issues slowing me down. :-(
+
+Sorry, didn't mean to get at you there - this has been going on for a
+long time before you started working on it!
+
+--Tb77rFjxeKqknTuc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7o1+UACgkQJNaLcl1U
+h9B5swf7BAjRgGW/6PvstixkStLyLE2qhXYPaTpGwOwRlKcVNYjTRB8bgLoRJ0ot
+T2CYTApSGkdrbN5axybJf/35h75dK856kzoVQ/ubCTWYhHQ048LExVnL/y9XPqHI
+8+BT9xLeb9fhIwazCpLrAvjzjOsA6XzzGw3Gyw+f+92P72TT+aAzJBylNnrwpPPO
+0sh5k1xdwLP+JOHf8h0pMPRRS6h1Vz1EkSUYpTtqOiR8yaw2XuWul2pAi0Is68qZ
+gzV4YTISgTUgUC7piGQv+690X97s20vHzjkFgehLe4Ya8YM4TWp7czj15mgnDPXP
+rDcPnxs7ewvEPxv1VOwwdEbUrtnTEw==
+=xUzd
+-----END PGP SIGNATURE-----
+
+--Tb77rFjxeKqknTuc--
