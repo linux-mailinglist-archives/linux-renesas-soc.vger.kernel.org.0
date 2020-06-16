@@ -2,59 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 977571FB7D7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 17:51:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34EEF1FBBA5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 18:27:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732572AbgFPPuJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Jun 2020 11:50:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45520 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731672AbgFPPuH (ORCPT
+        id S1729957AbgFPQ0n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jun 2020 12:26:43 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:34157 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729386AbgFPQ0l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Jun 2020 11:50:07 -0400
-Received: from localhost (unknown [171.61.66.58])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 02290214F1;
-        Tue, 16 Jun 2020 15:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592322607;
-        bh=ZA8j5WqRei9ADYlTjOJG9AlPyaO9kaM1e46RYsUIRSA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hv7CDE1f09U9T8Dbm2NdIvxnDyzUKqh38iLINrGJ55qKG9Vyk5n9hxhPIaefZMunF
-         uYU6dQPT9/Iz22twkm217Kxwp6KY+Fr8qZJ7iGwGTxSOilsfjp09LvLxFmnd8YQ2eR
-         yAnek6/UmQfvax8A18Gyv9HwdAVah6vGFFrQOWOE=
-Date:   Tue, 16 Jun 2020 21:20:01 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 4/8] dt-bindings: dmaengine: renesas,usb-dmac: Add
- binding for r8a7742
-Message-ID: <20200616155001.GH2324254@vkoul-mobl>
-References: <1590356277-19993-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1590356277-19993-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 16 Jun 2020 12:26:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1592324798;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=FmE7e/I76oFWjpwU42EMD8UxbMc1b3P7Wn4az0pRclA=;
+        b=gnef0ImJvc3dV+FcTiLcOkM+9aKtcW7Ioaw5YeJ7qrgzMlIXyWfXqJh62jUMNRtLMO
+        nJWUgTztfdvAsHgESO44TeGhCXgcL6RVSDp0lypp6nUDLrI1rUeRd4QdhguJvEr71zSC
+        A47AcboO1iaP0aplKrlVzdKlA80tVvckXKHkceTEmHJ6t3lfRxW+6ug26AfOUXBsGDmE
+        7LIZDXxlFgmTh3nd38XWJ+Jg2EhiLcztO+4XI5IGoB2IsVzBSztG526Ia7kX1ZjD3I83
+        itABRtA6J/UdfB/SZ+faAEvYx28WWSTsSlQ6vzGZvXKvpXrpC3hiO/rXZTjwdQwgcgA4
+        qYTw==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR8WdEaEuFwQ=="
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 46.10.4 DYNA|AUTH)
+        with ESMTPSA id a0ab6bw5GGQZFwQ
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Tue, 16 Jun 2020 18:26:35 +0200 (CEST)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-clk@vger.kernel.org, wsa@the-dreams.de, geert@linux-m68k.org,
+        magnus.damm@gmail.com, Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: [PATCH v4 0/3] clk: renesas: cpg-mssr: add RWDT to critical clocks
+Date:   Tue, 16 Jun 2020 18:26:23 +0200
+Message-Id: <20200616162626.27944-1-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1590356277-19993-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24-05-20, 22:37, Lad Prabhakar wrote:
-> Document RZ/G1H (R8A7742) SoC bindings.
+(was: "clk: renesas: cpg-mssr: add never-disable option")
 
-Applied, thanks
+Hi!
+
+The purpose of this series is to allow a WDT that has been enabled by the
+bootloader to survive these events:
+
+- deferred probing of the WDT device, which can lead the clock driver
+  to disable the WDT clock until the WDT is re-probed, giving it a
+  blind spot
+- probe failure in the WDT driver
+
+Following a suggestion by Geert, this revision, instead of adding another
+list of clocks with special handling, changes the semantics of the
+crit_mod_clks[] array slightly by only marking clocks critical that are
+enabled at boot time. That way it can be used for RWDT without forcing the
+clock on unnecessarily.
+
+The other existing user of crit_mod_clks[] (INTC-AP) is always on at boot time
+and should thus not be affected by this change.
+
+There are a number of Gen2 and RZ/G1 SoCs that have the RWDT clock declared
+as critical already in order to allow SMP bringup code to work. That should
+still work with this series applied, assuming that the WDT clock is on at
+boot time.
+
+CU
+Uli
+
+
+Changes since v3:
+- drop separate array, add RWDT to crit_mod_clks[]
+- only mark clocks as critical if they are enabled on boot
+
+Changes since v2:
+- use the term "never-disable" instead of "ignore-unused"
+- do the handling internally instead of relying on the behavior of
+  CLK_IGNORE_UNUSED
+
+Changes since v1:
+- rename data structures for clarity
+- squash SoC-specific patches into one per family
+
+
+Ulrich Hecht (3):
+  clk: renesas: cpg-mssr: mark clocks as critical only if on at boot
+  clk: renesas: rcar-gen3: mark RWDT clocks as critical
+  clk: renesas: rzg2: mark RWDT clock as critical
+
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c |  1 +
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c |  1 +
+ drivers/clk/renesas/r8a774c0-cpg-mssr.c |  1 +
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  |  2 +-
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  |  2 +-
+ drivers/clk/renesas/r8a77965-cpg-mssr.c |  1 +
+ drivers/clk/renesas/r8a77970-cpg-mssr.c |  2 +-
+ drivers/clk/renesas/r8a77980-cpg-mssr.c |  2 +-
+ drivers/clk/renesas/r8a77990-cpg-mssr.c |  1 +
+ drivers/clk/renesas/r8a77995-cpg-mssr.c |  2 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c  | 17 +++++++++--------
+ 11 files changed, 19 insertions(+), 13 deletions(-)
 
 -- 
-~Vinod
+2.20.1
+
