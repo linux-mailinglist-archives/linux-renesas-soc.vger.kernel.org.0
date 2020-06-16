@@ -2,99 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 041D71FBC2A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 18:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10FD41FBD0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 19:34:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729578AbgFPQz4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Jun 2020 12:55:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49976 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728928AbgFPQzz (ORCPT
+        id S1730997AbgFPRc6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jun 2020 13:32:58 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:40860 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730978AbgFPRc5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Jun 2020 12:55:55 -0400
-Received: from localhost (unknown [171.61.66.58])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Tue, 16 Jun 2020 13:32:57 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EE0E43C00BA;
+        Tue, 16 Jun 2020 19:32:54 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RkBGNM8CkM4J; Tue, 16 Jun 2020 19:32:48 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 542F9208E4;
-        Tue, 16 Jun 2020 16:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592326555;
-        bh=yKr5wwutWeyD3jubWBBo/Tas2qiPPBydjljqL+ty00U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=suSvvi7UEgk7SHH3CDiT9fDfcZkrta8DfsVoYixnnZSWh4FovZpdkOIKLGf7/WET6
-         MqoIWN8gpYEago792XBC2Lg+Zlhj7OynR+Lx2+zHHmYitDLieLZfncOjLdLRuMkkH+
-         N1Ihtd+UUsTbX5KITGBLYq5Lo4b3iS4CyBE+qIdg=
-Date:   Tue, 16 Jun 2020 22:25:50 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dma: sh: usb-dmac: Fix residue after the commit
- 24461d9792c2
-Message-ID: <20200616165550.GP2324254@vkoul-mobl>
-References: <1590061573-12576-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id EABF03C0022;
+        Tue, 16 Jun 2020 19:32:48 +0200 (CEST)
+Received: from vmlxhi-121.localdomain (10.72.92.132) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 16 Jun
+ 2020 19:32:48 +0200
+From:   Michael Rodin <mrodin@de.adit-jv.com>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>
+Subject: [PATCH] media: rcar-vin: Move media_device_register to async completion
+Date:   Tue, 16 Jun 2020 19:31:36 +0200
+Message-ID: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1590061573-12576-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain
+X-Originating-IP: [10.72.92.132]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 21-05-20, 20:46, Yoshihiro Shimoda wrote:
-> This driver assumed that freed descriptors have "done_cookie".
-> But, after the commit 24461d9792c2 ("dmaengine: virt-dma: Fix
-> access after free in vchan_complete()"), since the desc is freed
-> after callback function was called, this driver could not
-> match any done_cookie when a client driver (renesas_usbhs driver)
-> calls dmaengine_tx_status() in the callback function.
+From: Steve Longerbeam <steve_longerbeam@mentor.com>
 
-Hmmm, I am not sure about this, why should we try to match! cookie is
-monotonically increasing number so if you see that current cookie
-completed is > requested you should return DMA_COMPLETE
+The media_device is registered during driver probe, before async
+completion, so it is possible for .link_notify to be called before
+all devices are bound.
 
-The below case of checking residue should not even get executed
+Fix this by moving media_device_register() to rvin_group_notify_complete().
+This ensures that all devices are now bound (the rcar-csi2 subdevices and
+and video capture devices) before .link_notify can be called.
 
-> So, add to check both descriptor types (freed and got) to fix
-> the issue.
-> 
-> Reported-by: Hien Dang <hien.dang.eb@renesas.com>
-> Fixes: 24461d9792c2 ("dmaengine: virt-dma: Fix access after free in vchan_complete()")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/dma/sh/usb-dmac.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
-> index b218a01..c0adc1c8 100644
-> --- a/drivers/dma/sh/usb-dmac.c
-> +++ b/drivers/dma/sh/usb-dmac.c
-> @@ -488,16 +488,17 @@ static u32 usb_dmac_chan_get_residue_if_complete(struct usb_dmac_chan *chan,
->  						 dma_cookie_t cookie)
->  {
->  	struct usb_dmac_desc *desc;
-> -	u32 residue = 0;
->  
-> +	list_for_each_entry_reverse(desc, &chan->desc_got, node) {
-> +		if (desc->done_cookie == cookie)
-> +			return desc->residue;
-> +	}
->  	list_for_each_entry_reverse(desc, &chan->desc_freed, node) {
-> -		if (desc->done_cookie == cookie) {
-> -			residue = desc->residue;
-> -			break;
-> -		}
-> +		if (desc->done_cookie == cookie)
-> +			return desc->residue;
->  	}
->  
-> -	return residue;
-> +	return 0;
->  }
->  
->  static u32 usb_dmac_chan_get_residue(struct usb_dmac_chan *chan,
-> -- 
-> 2.7.4
+Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+---
+ drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+index 7440c89..e70f83b 100644
+--- a/drivers/media/platform/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/rcar-vin/rcar-core.c
+@@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+ 	struct media_device *mdev = &group->mdev;
+ 	const struct of_device_id *match;
+ 	struct device_node *np;
+-	int ret;
+ 
+ 	mutex_init(&group->lock);
+ 
+@@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+ 	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
+ 
+ 	mdev->dev = vin->dev;
+-	mdev->ops = &rvin_media_ops;
+ 
+ 	match = of_match_node(vin->dev->driver->of_match_table,
+ 			      vin->dev->of_node);
+@@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+ 
+ 	media_device_init(mdev);
+ 
+-	ret = media_device_register(&group->mdev);
+-	if (ret)
+-		rvin_group_cleanup(group);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static void rvin_group_release(struct kref *kref)
+@@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+ 		return ret;
+ 	}
+ 
++	vin->group->mdev.ops = &rvin_media_ops;
++
+ 	/* Register all video nodes for the group. */
+ 	for (i = 0; i < RCAR_VIN_NUM; i++) {
+ 		if (vin->group->vin[i] &&
+@@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+ 		}
+ 	}
+ 	mutex_unlock(&vin->group->lock);
++	if (ret)
++		return ret;
+ 
+-	return ret;
++	return media_device_register(&vin->group->mdev);
+ }
+ 
+ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
 -- 
-~Vinod
+2.7.4
+
