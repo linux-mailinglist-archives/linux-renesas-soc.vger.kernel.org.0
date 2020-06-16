@@ -2,115 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F4B1FA689
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 04:56:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D9BA1FA744
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 06:01:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbgFPC4a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jun 2020 22:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgFPC43 (ORCPT
+        id S1726926AbgFPEAi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jun 2020 00:00:38 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:41498 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbgFPEAh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jun 2020 22:56:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B43CC061A0E;
-        Mon, 15 Jun 2020 19:56:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B06CEF9;
-        Tue, 16 Jun 2020 04:56:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592276184;
-        bh=+p29mN3O4KA8+pYMxFKIjzQpJJOcdUqinFmYsFDSJwI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LDcDxbJuHmMXCEwXE1fgvV7P0DQ7rvDH5MFaa0/spasIzJiZrahiaSyVccQo7PxvF
-         Hq9o1J5LX87Zvb548SyDFIR60KZiH6Nx1ygbLLuKTv9XFQwYcQVFcoex2uaTF+5WtP
-         BmtiYGcHquXcbee0W6D5KMulWW+a0goZwTeP/p2k=
-Date:   Tue, 16 Jun 2020 05:56:02 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] media: vsp1: Fix runtime PM imbalance on error
-Message-ID: <20200616025602.GG29596@pendragon.ideasonboard.com>
-References: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+        Tue, 16 Jun 2020 00:00:37 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G3w8xb194145;
+        Tue, 16 Jun 2020 04:00:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=TkXWLHBUcq6GrqGb8B/sbaIZ/YHDymjYC75g5tesDI8=;
+ b=s0bTOq51QseDHq3DCV1eok86CuoPzPpKYMVoC9U62ArE0saDMsnZyPLX69xmMmiHf234
+ GhtCzXclPyAD2lvezqNJX8FgmH65sQ9KccDDY5XWfo8Aa7QHwrwmkBM3HdBxQgVizkwR
+ TWYYw16ccvp5fkc32sMx4T+djKHsND99VSK/XK3ZASboQzuMEu3UqLhJCMYcF1rztbLF
+ 8thcP+Q59Z1RQaqEhadQSZY1Ppzp8aM+nArYVhqLkdXswKRcQPS43Kk7a4rkdXR3hFtv
+ lGelrDKD8kNKh9uCoaCrNMnAejMfsXhLT4QgfQMCt4BhcPh9j0Tooxa1V88YIFFXPo+U 2Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 31p6e5vda1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 16 Jun 2020 04:00:10 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05G3xOvH131174;
+        Tue, 16 Jun 2020 04:00:09 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 31p6dcadma-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 16 Jun 2020 04:00:09 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05G406xx021363;
+        Tue, 16 Jun 2020 04:00:06 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 15 Jun 2020 21:00:06 -0700
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        netdev@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-mm@kvack.org,
+        linux-rdma@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-scsi@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+        ath10k@lists.infradead.org
+Subject: Re: [PATCH 00/17] spelling.txt: /decriptors/descriptors/
+Date:   Mon, 15 Jun 2020 23:59:55 -0400
+Message-Id: <159227986422.24883.1110692977647896521.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
+References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 mlxscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006160028
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9653 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
+ suspectscore=0 spamscore=0 bulkscore=0 malwarescore=0 impostorscore=0
+ cotscore=-2147483648 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006160027
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Dinghao,
+On Tue, 9 Jun 2020 13:45:53 +0100, Kieran Bingham wrote:
 
-Thank you for the patch.
-
-On Mon, Jun 08, 2020 at 01:29:19PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code. Thus a pairing decrement is needed on
-> the error handling path to keep the counter balanced.
+> I wouldn't normally go through spelling fixes, but I caught sight of
+> this typo twice, and then foolishly grepped the tree for it, and saw how
+> pervasive it was.
 > 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I have however received multiple similar patches recently, for different
-drivers. I've CC'ed Rafael, the PM maintainer, in one of those e-mail
-threads, and questioned whether we should really mass-patch drivers, or
-fix the issue in pm_runtime_get_sync(). I'll defer pushing this patch
-until that discussion comes to a conclusion.
-
-> ---
+> so here I am ... fixing a typo globally... but with an addition in
+> scripts/spelling.txt so it shouldn't re-appear ;-)
 > 
-> Changelog:
-> 
-> v2: - Fix the imbalance in vsp1_device_get().
->       Use vsp1_device_get() and vsp1_device_put()
->       to replace pm_runtime_get_sync() and
->       pm_runtime_put_sync() in vsp1_probe().
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index c650e45bb0ad..dc62533cf32c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -562,7 +562,12 @@ int vsp1_device_get(struct vsp1_device *vsp1)
->  	int ret;
->  
->  	ret = pm_runtime_get_sync(vsp1->dev);
-> -	return ret < 0 ? ret : 0;
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(vsp1->dev);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  /*
-> @@ -845,12 +850,12 @@ static int vsp1_probe(struct platform_device *pdev)
->  	/* Configure device parameters based on the version register. */
->  	pm_runtime_enable(&pdev->dev);
->  
-> -	ret = pm_runtime_get_sync(&pdev->dev);
-> +	ret = vsp1_device_get(vsp1);
->  	if (ret < 0)
->  		goto done;
->  
->  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-> -	pm_runtime_put_sync(&pdev->dev);
-> +	vsp1_device_put(vsp1);
->  
->  	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
->  		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+> [...]
+
+Applied to 5.9/scsi-queue, thanks!
+
+[06/17] scsi: Fix trivial spelling
+        https://git.kernel.org/mkp/scsi/c/0a19a725c0ed
 
 -- 
-Regards,
-
-Laurent Pinchart
+Martin K. Petersen	Oracle Linux Engineering
