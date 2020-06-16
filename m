@@ -2,115 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAFE51FB13A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 14:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D30F71FB39E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jun 2020 16:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbgFPMzj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Jun 2020 08:55:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbgFPMzi (ORCPT
+        id S1729018AbgFPOJd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jun 2020 10:09:33 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:43393 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726606AbgFPOJc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Jun 2020 08:55:38 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3491FC03C1A1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jun 2020 05:55:38 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id y13so840763lfe.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jun 2020 05:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+Datn+viOleu9MknfYNeqDNbA+m3HBOER2JlnejiUEQ=;
-        b=dy+cayGqqxh0JvhYSwla0nivVwNGzQlvP4QJr2fRWIaeHuFWOimZaJjWAi0JvTL/Ek
-         Rm3+82casS4aV4yflm+8SL2tfAvpeX+fAC71M4juLly4c6yjVsWQ35eIg8kzM+MADxVo
-         PYVvDSPqxE1650YwPrzAiRlcIuLtT08N8j/TxpmIH6QSxXxb10es3Dbn7qAeE3eCos+B
-         EyueOw9r1S4pnCsc6p7ooMPKlwe7Yk85mWa96g3DuGlxRo3b9UD/CapFtr1uB0cR3JTH
-         c7YzfHiYIT2zIwLKAaYWfZGwzMfPz1oz1y0Jbg4pLzqjRssIg2RoAvNA3t5XjI5A85B+
-         qwaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+Datn+viOleu9MknfYNeqDNbA+m3HBOER2JlnejiUEQ=;
-        b=OKepVVksgiGwmW3n2deMj0/QmOd/QxJTJ0u+Z5BPvYDOzBGYHkMkAXhYVT/Z5tXnJm
-         emTC5mN79bTPkmqtFNRUtadynhd5Ybs2ZfatyFsyCcGYslvtFaBC1JfpLMXTWlCZaP0B
-         uadGm1UMuXz9XCC0HZ2TkGne08kzyf5+o8ktpZKogHIaesKIOTWel4RENpGDsd2xwYFn
-         s4u105gtAQKdwduFemZjmkyWTs8Pkx81azVFV7ZI4D9fxJ9RQdd+DibdYTl7gXVXIldm
-         7NGZKehimLRFGWsK6CRlTyrVVWyr4DoRsQFpKTMqYP75oy5xtQPfaMyl7GdRNAOlJHqi
-         hrUA==
-X-Gm-Message-State: AOAM532uDFFE5k68Nv5wEKMTbN6h08bdpdtVShrR+P8he7IMI37BU45m
-        gGsRMBDBh5XMK6fEreGFiAadbw==
-X-Google-Smtp-Source: ABdhPJy3aFfEOkHJSu2DE2oUwPUJUWCgIed4AuBzzv1i7K5LJqk4X9vL1C35CnLTBQrGhdrhs1ZGZg==
-X-Received: by 2002:a05:6512:60f:: with SMTP id b15mr1659496lfe.159.1592312133923;
-        Tue, 16 Jun 2020 05:55:33 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:653:6173:f86a:f3bf:1caa:fd38? ([2a00:1fa0:653:6173:f86a:f3bf:1caa:fd38])
-        by smtp.gmail.com with ESMTPSA id l5sm3506234lfp.9.2020.06.16.05.55.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2020 05:55:33 -0700 (PDT)
-Subject: Re: [PATCH v4] spi: add Renesas RPC-IF driver
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-spi@vger.kernel.org, Mason Yang <masonccyang@mxic.com.tw>,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>
-References: <ad503d6e-4739-9744-64b4-fd13f44ea6fe@cogentembedded.com>
- <1ece0e6c-71af-f0f1-709e-571f4b0b4853@cogentembedded.com>
- <159226448570.27735.17453498854310254061.b4-ty@kernel.org>
- <6fd4533e-c548-5d14-2d21-96efa0c58a0b@cogentembedded.com>
- <20200616083856.GF4447@sirena.org.uk>
- <6730033e-c966-d465-9273-75137e7ccbcd@cogentembedded.com>
- <20200616093404.GH4447@sirena.org.uk>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <48df1997-31d8-06b4-7fce-a3b9b5cfaac8@cogentembedded.com>
-Date:   Tue, 16 Jun 2020 15:55:24 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Tue, 16 Jun 2020 10:09:32 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 835E0E000F;
+        Tue, 16 Jun 2020 14:09:26 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v5 0/9] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
+Date:   Tue, 16 Jun 2020 16:12:35 +0200
+Message-Id: <20200616141244.49407-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200616093404.GH4447@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16.06.2020 12:34, Mark Brown wrote:
+Minor update: fixed a patch subject, addressed Sakari comments on 1/9 and 9/9,
+added Kieran's tags to a few patches and fixed a warning reported from the
+kernel test robot in ov6650 driver.
 
->>>>      You realize that the SPI driver won't build alone, w/o the
->>>> drivers/memory/ core driver merged, right?
-> 
->>> Those aren't merged yet?  There was no mention of any dependencies in
-> 
->>     No. I thought we had an agreement about this (core) driver going in thru
->> the SPI tree (because there's no repo for drivers/memory/ anyway). Looking
->> at the DT patchwork:
-> 
->> https://patchwork.ozlabs.org/project/devicetree-bindings/patch/4becbd3b-c9b9-070a-5771-48cade6651e5@cogentembedded.com/
-> 
-> Nobody appears to have ever actually sent me these to me so they're not
-> getting applied...
+Quoting here the previous cover letters:
 
-    Ah, you need to be explicitly CCed! I seem to be relying on the patchwork 
-too much... OK, I'm going for v5 of the core driver/bindings later today (with 
-r8a77970 added to compatibles -- I tested it yesterday).
+Quiting v3 cover letter:
+-------------------------------------------------------------------------------
+Most of the existing users are i2c camera drivers reporting a static media bus
+configuration though g_mbus_config. Porting them is performed in a single
+hopefully not controversial patch [2/8]
 
->> the DT bindings still need to be reviewed -- but by whom? The "Checks"
->> section indicates that they did pass the DT checks this time around).
->> Rob?
-> 
-> There's a backlog on YAML binding reviews, I'm sure Rob will get to it
-> in time.
+Two existing users stand-out, and they've probably been developed together:
+pxa_camera and ov6650. Those have bee ported separately in single patches
+with extensive change logs as their operations semantic had to change to port
+them to use the new operations. Not having any of those two platforms, the
+changes have been compile-tested only.
 
->>> the patch, no feedback for months on the patch and I've not seen any
->>> ongoing discussion.
-> 
->>     Everybody seems to be in a silent agreement. :-)
-> 
-> Or lost track of things given how long this has been going on :(
+The only existing users of the s|g_mbus_config ops are now the soc_camera based
+drivers currently living in staging.
 
-    Sorry, there was a lat of hardware issues slowing me down. :-(
+The last three patches are similar to the ones posted in v2, with the exception
+that they have been updated to use the V4L2_MBUS_* flags as well.
+-------------------------------------------------------------------------------
 
-MBR, Sergei
+Will report again the use cases I'm trying to address here:
+------------------------------------------------------------------------------
+Quoting:
+https://patchwork.kernel.org/cover/10855919/
+"The use case this series cover is the following one:
+the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
+connected to its CSI-2 receivers. The ADV748x chip has recently gained support
+for routing both HDMI and analogue video streams through its 4 lanes TXA
+transmitter, specifically to support the Ebisu board that has a single CSI-2
+receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
+to different CSI-2 receivers, and where analogue video is streamed out from the
+ADV748x single lane TXB transmitter.
+To properly support transmission of analogue video through TXA, the number of
+data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
+CSI-2 minimum clock frequency requirements"
+
+During the discussion of the RFC, Dave reported another use case for media
+bus parameter negotiation on his platform:
+https://patchwork.kernel.org/patch/10855923/#22569149
+
+Hyun is now using this series to configure GMSL devices.
+------------------------------------------------------------------------------
+
+Thanks
+   j
+
+v4->v5:
+- Address Sakari's comment on documentation (s/should/shall)
+- Use a local variable for the number of active lanes in 9/9
+- Add Kieran's tags to 7/9 and 8/9
+- Fix a warning on operator precedence on 3/9
+
+v3->v4:
+- Remove g/s_mbus_config video operation
+- Adjust pxa quick capture interface to properly handle bus mastering
+- Reword the two new operations documentation
+
+v2->v3:
+- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+- Port existing drivers
+- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+
+v1->v2:
+- Address Sakari's comment to use unsigned int in place of bools
+- Add two new patches to address documentation
+- Adjust rcar-csi2 patch as much as possible according to Niklas comments
+- Add Niklas's tags
+
+Jacopo Mondi (9):
+  media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+  media: i2c: Use the new get_mbus_config pad op
+  media: i2c: ov6650: Use new [get|set]_mbus_config ops
+  media: pxa_camera: Use the new set_mbus_config op
+  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+  staging: media: imx: Update TODO entry
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 +-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 +-
+ drivers/media/i2c/mt9m001.c                 |   7 +-
+ drivers/media/i2c/mt9m111.c                 |   7 +-
+ drivers/media/i2c/ov6650.c                  |  56 ++++--
+ drivers/media/i2c/ov9640.c                  |   7 +-
+ drivers/media/i2c/tc358743.c                |   7 +-
+ drivers/media/i2c/tvp5150.c                 |   7 +-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  74 +++++++-
+ drivers/staging/media/imx/TODO              |   4 +
+ include/media/v4l2-subdev.h                 |  37 ++--
+ 15 files changed, 272 insertions(+), 200 deletions(-)
+
+--
+2.27.0
+
