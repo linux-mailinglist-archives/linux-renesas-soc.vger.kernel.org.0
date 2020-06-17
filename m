@@ -2,205 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAD181FD43B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2020 20:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C59851FD4A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2020 20:36:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbgFQSSR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Jun 2020 14:18:17 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:38194 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbgFQSSQ (ORCPT
+        id S1727015AbgFQSg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Jun 2020 14:36:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726926AbgFQSgw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Jun 2020 14:18:16 -0400
-IronPort-SDR: efYVrKFao1abJfgAjuK3Z7ZhcR4PPWKob2D0Sc0JUt0fxhdrIifeNFsfw4j787EcYLyq0puyF2
- 8SuFunk0L7IEehqBId+wX9i+j/VH5Yv2fLbyYDwXquJteTC8znMTAMj+UOSMnJ/R3Vd9uDEGmI
- VuNJOv7wXFdQ6KzOc4d80QFvy17O9dySPk22vdYYoQfaZ5OyGCIrpDYhQ5ZYiCeneAYwUFqecg
- /tE6vIdEEjJdrpNVhvr+PhJAI6/88xeUDSb0U/MoY2bJJ4/UCr//4NX9EA429+iiUpInuti+/4
- vj0=
-X-IronPort-AV: E=Sophos;i="5.73,523,1583222400"; 
-   d="scan'208";a="49938173"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 17 Jun 2020 10:18:15 -0800
-IronPort-SDR: wGbn1KzcJ5/BWQql3TKTC64LOt6hWVJy0IhGWCQ5oxSBO0w2LzdQodM1mTQSpcGF+INKHZcuId
- KbyDtj0Fjq+skL/iCZOkpSXdtR/vvNTtgkXY7JTt4XvnTA8VvPnT5pxJfgeysIA8a/nf8Q8HQ+
- nCx+d7eNxggs0e3Tmyp9HjQ9okWZJDcmruAYLUiZtC56+mMtR3Kdzm1ZH63sZ+d5pE1fdZiuqL
- EzvPW4lbnxHIjaDIeKJOSxg5BaglbmWhF611PqhKVu5Oa8MBy+EMfyRQgtMCGS/mpBfpzj+urO
- HPM=
-Subject: Re: [PATCH] media: rcar-vin: Move media_device_register to async
- completion
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Rodin <mrodin@de.adit-jv.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-References: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
- <20200617105646.GB2850317@oden.dyn.berto.se>
- <20200617151537.GB88066@vmlxhi-121.adit-jv.com>
- <20200617152857.GA2936315@oden.dyn.berto.se>
-From:   Steve Longerbeam <steve_longerbeam@mentor.com>
-Message-ID: <888de4f6-3d89-5b74-750c-376173404832@mentor.com>
-Date:   Wed, 17 Jun 2020 11:18:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Wed, 17 Jun 2020 14:36:52 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F02C061755
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2020 11:36:52 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id p70so2650219oic.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2020 11:36:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m743QY4j4N0DmjtOs9fMZ2T8zbdzv+0xDLVnEkgz8Xs=;
+        b=R04g9HSVEDCQQpAj4Fk2rkQDJgelNkX6wYPlwKU4hWgdpTKguFVt0V0/I7rk+UWoC7
+         y16mWHOEbe169ktuBkCp5ctFMIQnGqToadXzfD5XQGYb/+gRjCqWJfua2tV/HuvWGNmP
+         EL9ZaGmrYL6uCuxqjTW4Uu36mEK9mu29OG+zh8dEJj2MKZTUGnOcT6bsRf3CwqdiGo5l
+         rEqQrRnZzWxfp33TrhalkbIM24y97ZOLaoRuyfEqfsFm2ZPjy2Kg7OT2b12zzSWgg7Tn
+         j7N6sWyQQoYrKctp+dnnTnqwJ0tFdObNQD+maCXc9VGKdFjrtD+nFF+2Tb6iCby/vR8A
+         KDqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m743QY4j4N0DmjtOs9fMZ2T8zbdzv+0xDLVnEkgz8Xs=;
+        b=Vwkl84PthpzhjUaAwtDdOqiOJnW8rXyapc7GiB5IfUtAzFHUqf3VJx6AYw724QDca3
+         zSp1a1tXiDQJ8tv5+OD6W4n3yuM98HpylI2SjuuJMfOh2ljtjB06NI4d+JxRzmssxoV6
+         pHFZu71qXVbW9Uo92Y1JYhRStO+rrHWg1OyPdaDEGDk7jh6cgUAhmPND7Ua2FHM7pLJs
+         S684XmW2ACcREF12TBuVaEbxU2n0xSIhotcQTt8uVi/1cRdTyYWCjdG+19NtEpwwI/rZ
+         JK2JRYfi3aLA1V5P4iWxWiQTNAei3/RvU6EGHN7XuTEcdDkUIhLrzKzK0mlYvJqPQiu1
+         BXxg==
+X-Gm-Message-State: AOAM533fd5hIkHZHY16YtXwDPkeD+LvNChnCQqvHFZaNDSxGOfPTHVsQ
+        CMwcMG9oSIjwvXKzoij1J1yZTylHGLcE17TTwAYb8w==
+X-Google-Smtp-Source: ABdhPJy1DeZtFko5KqEH1OkAXfc+QWxNhghwaA9TZRXvML2oplG4BdrzrsqYZHmUTIvdb3uTTchPN7CNviG7SM1cpt0=
+X-Received: by 2002:aca:530e:: with SMTP id h14mr86929oib.172.1592419011313;
+ Wed, 17 Jun 2020 11:36:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200617152857.GA2936315@oden.dyn.berto.se>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) To
- svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
+References: <20200515053500.215929-1-saravanak@google.com> <20200515053500.215929-5-saravanak@google.com>
+ <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 17 Jun 2020 11:36:15 -0700
+Message-ID: <CAGETcx9JKbNQWQwNah7pO5ppVSAe86R-OmMujZPYNkuTCLwKnQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] of: platform: Batch fwnode parsing when adding all
+ top level devices
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Ji Luo <ji.luo@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas, Michael,
+Hi Geert,
 
-On 6/17/20 8:28 AM, Niklas Söderlund wrote:
-> Hi Michael,
+On Wed, Jun 17, 2020 at 5:20 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> On 2020-06-17 17:15:37 +0200, Michael Rodin wrote:
->> Hi Niklas and Steve,
->>
->> On Wed, Jun 17, 2020 at 12:56:46PM +0200, Niklas Söderlund wrote:
->>> Hi Michael and Steve,
->>>
->>> On 2020-06-16 19:31:36 +0200, Michael Rodin wrote:
->>>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
->>>>
->>>> The media_device is registered during driver probe, before async
->>>> completion, so it is possible for .link_notify to be called before
->>>> all devices are bound.
->>>>
->>>> Fix this by moving media_device_register() to rvin_group_notify_complete().
->>>> This ensures that all devices are now bound (the rcar-csi2 subdevices and
->>>> and video capture devices) before .link_notify can be called.
->>> I'm curious to what situation created the need for this change. I'm
->>> currently trying to take the VIN driver in the opposite direction [1]
->>> with the end goal of registering video devices at probe time and then
->>> allow the media graph to populate as devices becomes available.
->> It looks like almost all platform drivers call media_device_register() in
->> the completion callback. From my understaning it is necessary to ensure
->> that all subdevices are bound and all links are created before the user
->> can enable any link (which would trigger link_notify callback execution)
->> and set formats. If I am not mistaken, Steve could observe an "OOPS" or
->> at least it is theoretically possible.
-> If an OOPS have been observed I would be interested to see it. That way
-> we can fix the OOPS and keep the media graph registration where it is
-> today.
-
-It's been a long time since I looked at this on a Salvator-X. But I do 
-remember there was an OOPS if an attempt was made to enable a link 
-before all devices had bound. Unfortunately I no longer have access to 
-RCAR h/w to prove this point.
-
->> Actually I found that this patch alone is not enough even if it is correct,
->> because we also have to register the media device in rvin_parallel_notify_complete()
->> in case if there is only a parallel video input device attached.
->>
->>> My reason for this is that we could have a functional pipeline inside
->>> the graph even if it's not complete. This came out of the GMSL work done
->>> a while pack where I had a faulty camera that would prevent the other 7
->>> in the system to function.
->> I agree that if a probe of a faulty subdevice fails, this should not affect
->> functionality of the other attached subdevices. The "complete" callback of
->> the async notifier is probably not executed in this case, so I guess, we
->> would have to register the media device in the "bound" callback after the first
->> subdevice has been probed? Otherwise there is not much sense to have video
->> capture devices, which are not connected to any source.
-> Calling it in the bound callback is mostly the same as it is today, as
-> link_notify could then be called when not all entities are in the graph.
-> In fact even if we where tp move the media device registration to the t
-> complete callback we have this problem if any of the subdevices are
-> unbound. Then we are back to the state with a registerd media device
-> where not all entities are present.
+> Hi Saravana,
 >
-> I think the solution here is to address the issue (if any) in the
-> link_notify callback when the graph is not fully populated.
+> On Fri, May 15, 2020 at 7:38 AM Saravana Kannan <saravanak@google.com> wrote:
+> > The fw_devlink_pause() and fw_devlink_resume() APIs allow batching the
+> > parsing of the device tree nodes when a lot of devices are added. This
+> > will significantly cut down parsing time (as much a 1 second on some
+> > systems). So, use them when adding devices for all the top level device
+> > tree nodes in a system.
+> >
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+>
+> This is now commit 93d2e4322aa74c1a ("of: platform: Batch fwnode parsing
+> when adding all top level devices") in v5.8-rc1, and I have bisected a
+> regression to it: on r8a7740/armadillo and sh73a0/kzm9g, the system can
+> no longer be woken up from s2ram by a GPIO key. Reverting the commit
+> fixes the issue.
+>
+> On these systems, the GPIO/PFC block has its interrupt lines connected
+> to intermediate interrupt controllers (Renesas INTC), which are in turn
+> connected to the main interrupt controller (ARM GIC).  The INTC block is
+> part of a power and clock domain.  Hence if a GPIO is enabled as a
+> wake-up source, the INTC is part of the wake-up path, and thus must be
+> kept enabled when entering s2ram.
+>
+> While this commit has no impact on probe order for me (unlike in Marek's
+> case), it does have an impact on suspend order:
+>   - Before this commit:
+>       1. The keyboard (gpio-keys) is suspended, and calls
+>          enable_irq_wake() to inform the upstream interrupt controller
+>          (INTC) that it is part of the wake-up path,
+>       2. INTC is suspended, and calls device_set_wakeup_path() to inform
+>          the device core that it must be kept enabled,
+>       3. The system is woken by pressing a wake-up key.
+>
+>   - After this commit:
+>       1. INTC is suspended, and is not aware it is part of the wake-up
+>          path, so it is disabled by the device core,
+>       2. gpio-keys is suspended, and calls enable_irq_wake() in vain,
+>       3. Pressing a wake-up key has no effect, as INTC is disabled, and
+>          the interrupt does not come through.
+>
+> It looks like no device links are involved, as both gpio-keys and INTC have
+> no links.
+> Do you have a clue?
+>
+> Thanks!
 
-I like the idea of allowing a functional pipeline without all devices 
-bound. So I understand the desire to keep media device registration in 
-probe.
+That patch of mine defers probe on all devices added by the
+of_platform_default_populate() call, and then once the call returns,
+it immediately triggers a deferred probe.
 
-So in that case I agree link_notify should be fixed if it still needs 
-fixing to handle non-bound subdevices.
+So all these devices are being probed in parallel in the deferred
+probe workqueue while the main "initcall thread" continues down to
+further initcalls. It looks like some of the drivers in subsequent
+initcalls are assuming that devices in the earlier initcalls always
+probe and can't be deferred?
 
-Steve
+There are two options.
+1. Fix these drivers.
+2. Add a "flush deferred workqueue" in fw_devlink_resume()
 
->> (Delayed) population of the media graph after media device registration
->> sounds also like a requirement for device tree overlay support, which would
->> also be a nice feature.
->>
->>> 1. [PATCH 0/5] media-device: Report if graph is complete
->>>
->>>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
->>>> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
->>>> ---
->>>>   drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
->>>>   1 file changed, 6 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
->>>> index 7440c89..e70f83b 100644
->>>> --- a/drivers/media/platform/rcar-vin/rcar-core.c
->>>> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
->>>> @@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
->>>>   	struct media_device *mdev = &group->mdev;
->>>>   	const struct of_device_id *match;
->>>>   	struct device_node *np;
->>>> -	int ret;
->>>>   
->>>>   	mutex_init(&group->lock);
->>>>   
->>>> @@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
->>>>   	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
->>>>   
->>>>   	mdev->dev = vin->dev;
->>>> -	mdev->ops = &rvin_media_ops;
->>>>   
->>>>   	match = of_match_node(vin->dev->driver->of_match_table,
->>>>   			      vin->dev->of_node);
->>>> @@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
->>>>   
->>>>   	media_device_init(mdev);
->>>>   
->>>> -	ret = media_device_register(&group->mdev);
->>>> -	if (ret)
->>>> -		rvin_group_cleanup(group);
->>>> -
->>>> -	return ret;
->>>> +	return 0;
->>>>   }
->>>>   
->>>>   static void rvin_group_release(struct kref *kref)
->>>> @@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
->>>>   		return ret;
->>>>   	}
->>>>   
->>>> +	vin->group->mdev.ops = &rvin_media_ops;
->>>> +
->>>>   	/* Register all video nodes for the group. */
->>>>   	for (i = 0; i < RCAR_VIN_NUM; i++) {
->>>>   		if (vin->group->vin[i] &&
->>>> @@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
->>>>   		}
->>>>   	}
->>>>   	mutex_unlock(&vin->group->lock);
->>>> +	if (ret)
->>>> +		return ret;
->>>>   
->>>> -	return ret;
->>>> +	return media_device_register(&vin->group->mdev);
->>>>   }
->>>>   
->>>>   static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
->>>> -- 
->>>> 2.7.4
->>>>
->>> -- 
->>> Regards,
->>> Niklas Söderlund
->> -- 
->> Best Regards,
->> Michael
+I'd rather we fix the drivers so that they handle deferred probes
+correctly. Thoughts?
 
+-Saravana
