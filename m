@@ -2,143 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C59851FD4A5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jun 2020 20:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBC0F1FD8FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 00:38:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbgFQSg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Jun 2020 14:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726926AbgFQSgw (ORCPT
+        id S1726864AbgFQWiD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Jun 2020 18:38:03 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34660 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726761AbgFQWiD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Jun 2020 14:36:52 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F02C061755
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2020 11:36:52 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id p70so2650219oic.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jun 2020 11:36:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m743QY4j4N0DmjtOs9fMZ2T8zbdzv+0xDLVnEkgz8Xs=;
-        b=R04g9HSVEDCQQpAj4Fk2rkQDJgelNkX6wYPlwKU4hWgdpTKguFVt0V0/I7rk+UWoC7
-         y16mWHOEbe169ktuBkCp5ctFMIQnGqToadXzfD5XQGYb/+gRjCqWJfua2tV/HuvWGNmP
-         EL9ZaGmrYL6uCuxqjTW4Uu36mEK9mu29OG+zh8dEJj2MKZTUGnOcT6bsRf3CwqdiGo5l
-         rEqQrRnZzWxfp33TrhalkbIM24y97ZOLaoRuyfEqfsFm2ZPjy2Kg7OT2b12zzSWgg7Tn
-         j7N6sWyQQoYrKctp+dnnTnqwJ0tFdObNQD+maCXc9VGKdFjrtD+nFF+2Tb6iCby/vR8A
-         KDqA==
+        Wed, 17 Jun 2020 18:38:03 -0400
+Received: by mail-io1-f65.google.com with SMTP id m81so4894565ioa.1;
+        Wed, 17 Jun 2020 15:38:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m743QY4j4N0DmjtOs9fMZ2T8zbdzv+0xDLVnEkgz8Xs=;
-        b=Vwkl84PthpzhjUaAwtDdOqiOJnW8rXyapc7GiB5IfUtAzFHUqf3VJx6AYw724QDca3
-         zSp1a1tXiDQJ8tv5+OD6W4n3yuM98HpylI2SjuuJMfOh2ljtjB06NI4d+JxRzmssxoV6
-         pHFZu71qXVbW9Uo92Y1JYhRStO+rrHWg1OyPdaDEGDk7jh6cgUAhmPND7Ua2FHM7pLJs
-         S684XmW2ACcREF12TBuVaEbxU2n0xSIhotcQTt8uVi/1cRdTyYWCjdG+19NtEpwwI/rZ
-         JK2JRYfi3aLA1V5P4iWxWiQTNAei3/RvU6EGHN7XuTEcdDkUIhLrzKzK0mlYvJqPQiu1
-         BXxg==
-X-Gm-Message-State: AOAM533fd5hIkHZHY16YtXwDPkeD+LvNChnCQqvHFZaNDSxGOfPTHVsQ
-        CMwcMG9oSIjwvXKzoij1J1yZTylHGLcE17TTwAYb8w==
-X-Google-Smtp-Source: ABdhPJy1DeZtFko5KqEH1OkAXfc+QWxNhghwaA9TZRXvML2oplG4BdrzrsqYZHmUTIvdb3uTTchPN7CNviG7SM1cpt0=
-X-Received: by 2002:aca:530e:: with SMTP id h14mr86929oib.172.1592419011313;
- Wed, 17 Jun 2020 11:36:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ksvsgsjdaZcMUEmgk684MCGB6ZGZGrqLwnOCtcep1MA=;
+        b=ka9gpXtBIf7I30x0iAP7vrJPkPacAok7Yyu5mPijxrPfzyV+vmsdUeVSMFDxfjcpAk
+         GMhYdYg/fo3ceO3oeS/o8YDH5aNNbZQn0WtieSQKb4A8xpvOI3T1eY168Tz9a40npm4w
+         VRxxveRcmut3Vyb20OFwEmChhTPuG+Yzx1mtDWDDbQsVtim61Jp4KCJP7J8m2misEm+5
+         owARabUdRQJL17+VFloMV99UaGDcgiqkqYai8r+O4yXOL0quYyA9jNCZDIoL0mC5H2pZ
+         smOnOUSZ0dz1g0a3DvSXa6opPGBWFltt4J2Lag1uekkdenFLpx2WU+hZMwvq9wRXV2Ol
+         6y5g==
+X-Gm-Message-State: AOAM530XOoIEeh3JnPaKYsuIhUQwss+xC+XitVG5/aXqX2B3CAYN9ctM
+        Hdy+SpKuEQm6cdPMXWPiH09+IHb4Ag==
+X-Google-Smtp-Source: ABdhPJyFzeWwL7OayI26A4GqFjHOYTLMKOxLa56FuTpcSoIToqXI02vzGs7qF3hOCwGOKyHLOvEOzw==
+X-Received: by 2002:a5e:a705:: with SMTP id b5mr1873841iod.12.1592433481280;
+        Wed, 17 Jun 2020 15:38:01 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id b13sm521573ilq.20.2020.06.17.15.38.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 15:38:00 -0700 (PDT)
+Received: (nullmailer pid 2965977 invoked by uid 1000);
+        Wed, 17 Jun 2020 22:38:00 -0000
+Date:   Wed, 17 Jun 2020 16:38:00 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     robh+dt@kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, joro@8bytes.org,
+        iommu@lists.linux-foundation.org
+Subject: Re: [PATCH 1/2] dt-bindings: iommu: renesas,ipmmu-vmsa: add r8a77961
+ support
+Message-ID: <20200617223800.GA2965923@bogus>
+References: <1591873830-10128-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1591873830-10128-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <20200515053500.215929-1-saravanak@google.com> <20200515053500.215929-5-saravanak@google.com>
- <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 17 Jun 2020 11:36:15 -0700
-Message-ID: <CAGETcx9JKbNQWQwNah7pO5ppVSAe86R-OmMujZPYNkuTCLwKnQ@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] of: platform: Batch fwnode parsing when adding all
- top level devices
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Ji Luo <ji.luo@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1591873830-10128-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, 11 Jun 2020 20:10:29 +0900, Yoshihiro Shimoda wrote:
+> Add support for r8a77961 (R-Car M3-W+).
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-On Wed, Jun 17, 2020 at 5:20 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> On Fri, May 15, 2020 at 7:38 AM Saravana Kannan <saravanak@google.com> wrote:
-> > The fw_devlink_pause() and fw_devlink_resume() APIs allow batching the
-> > parsing of the device tree nodes when a lot of devices are added. This
-> > will significantly cut down parsing time (as much a 1 second on some
-> > systems). So, use them when adding devices for all the top level device
-> > tree nodes in a system.
-> >
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
->
-> This is now commit 93d2e4322aa74c1a ("of: platform: Batch fwnode parsing
-> when adding all top level devices") in v5.8-rc1, and I have bisected a
-> regression to it: on r8a7740/armadillo and sh73a0/kzm9g, the system can
-> no longer be woken up from s2ram by a GPIO key. Reverting the commit
-> fixes the issue.
->
-> On these systems, the GPIO/PFC block has its interrupt lines connected
-> to intermediate interrupt controllers (Renesas INTC), which are in turn
-> connected to the main interrupt controller (ARM GIC).  The INTC block is
-> part of a power and clock domain.  Hence if a GPIO is enabled as a
-> wake-up source, the INTC is part of the wake-up path, and thus must be
-> kept enabled when entering s2ram.
->
-> While this commit has no impact on probe order for me (unlike in Marek's
-> case), it does have an impact on suspend order:
->   - Before this commit:
->       1. The keyboard (gpio-keys) is suspended, and calls
->          enable_irq_wake() to inform the upstream interrupt controller
->          (INTC) that it is part of the wake-up path,
->       2. INTC is suspended, and calls device_set_wakeup_path() to inform
->          the device core that it must be kept enabled,
->       3. The system is woken by pressing a wake-up key.
->
->   - After this commit:
->       1. INTC is suspended, and is not aware it is part of the wake-up
->          path, so it is disabled by the device core,
->       2. gpio-keys is suspended, and calls enable_irq_wake() in vain,
->       3. Pressing a wake-up key has no effect, as INTC is disabled, and
->          the interrupt does not come through.
->
-> It looks like no device links are involved, as both gpio-keys and INTC have
-> no links.
-> Do you have a clue?
->
-> Thanks!
-
-That patch of mine defers probe on all devices added by the
-of_platform_default_populate() call, and then once the call returns,
-it immediately triggers a deferred probe.
-
-So all these devices are being probed in parallel in the deferred
-probe workqueue while the main "initcall thread" continues down to
-further initcalls. It looks like some of the drivers in subsequent
-initcalls are assuming that devices in the earlier initcalls always
-probe and can't be deferred?
-
-There are two options.
-1. Fix these drivers.
-2. Add a "flush deferred workqueue" in fw_devlink_resume()
-
-I'd rather we fix the drivers so that they handle deferred probes
-correctly. Thoughts?
-
--Saravana
+Acked-by: Rob Herring <robh@kernel.org>
