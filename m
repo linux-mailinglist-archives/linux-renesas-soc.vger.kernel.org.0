@@ -2,182 +2,244 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 229F11FF2DA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 15:18:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DEAA1FF625
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 17:05:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730058AbgFRNSN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jun 2020 09:18:13 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:11915 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728049AbgFRNSF (ORCPT
+        id S1728788AbgFRPFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jun 2020 11:05:43 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.25]:21011 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726193AbgFRPFl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jun 2020 09:18:05 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id C9EE7240005;
-        Thu, 18 Jun 2020 13:17:56 +0000 (UTC)
-Date:   Thu, 18 Jun 2020 15:21:22 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     jmkrzyszt@gmail.com
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 03/10] media: i2c: ov6650: Use new
- [get|set]_mbus_config ops
-Message-ID: <20200618132122.ekxt2xeat3gybvvi@uno.localdomain>
-References: <20200616141244.49407-1-jacopo+renesas@jmondi.org>
- <20200616141244.49407-4-jacopo+renesas@jmondi.org>
+        Thu, 18 Jun 2020 11:05:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1592492737;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=PdMGNp1/4TC0LY7Kui6lc6X4DfxW1NBsdvYRQoEGXyk=;
+        b=ZSwIecerz16fvGmb/MbU1tLLkh0UK6rmVwSo1jjxlYqN7SezE/NbBV8D/oBFsMP+DH
+        4BiSIFDL92Vbxjm6mixFYI+wSrFUi9lp0eH8jFbu1DxpA6olMr9wfx/NskthnPMT7CgS
+        krvdF1pnRcGliwb10Lt06XYojHY5ScIIodXXG9s2TtzIC3vMEqrSMmAS4pDmPR6GlKYC
+        ng/xaRqT1O2QleyFV7nWVtj4oZP5xbS9uMl6g6vK3yC0hPf9WgdC5VxiWtX01f3T5XQy
+        tGI3VTSjznwPODCWz8Aw3eOXltHV+Oezq8JHpPQkZpA+5iZr1UkVyNuQSPZj+R+uPfLe
+        qphA==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR92tEaIWfcg=="
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 46.10.4 DYNA|AUTH)
+        with ESMTPSA id a0ab6bw5IF5XOds
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Thu, 18 Jun 2020 17:05:33 +0200 (CEST)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     wsa@the-dreams.de, geert@linux-m68k.org, linux-i2c@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] i2c: sh_mobile: implement atomic transfers
+Date:   Thu, 18 Jun 2020 17:05:32 +0200
+Message-Id: <20200618150532.2923-1-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200616141244.49407-4-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Janusz,
-On Tue, Jun 16, 2020 at 04:12:38PM +0200, Jacopo Mondi wrote:
-> Use the new get_mbus_config and set_mbus_config pad operations in place
-> of the video operations currently in use.
->
-> Compared to other drivers where the same conversion has been performed,
-> ov6650 proved to be a bit more tricky, as the existing g_mbus_config
-> implementation did not report the currently applied configuration but
-> the set of all possible configuration options.
->
-> Adapt the driver to support the semantic of the two newly introduced
-> operations:
-> - get_mbus_config reports the current media bus configuration
-> - set_mbus_config applies only changes explicitly requested and updates
->   the provided cfg parameter to report what has actually been applied to
->   the hardware.
->
-> Compile-tested only.
+Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
+similar boards.
 
-As the original author of this driver, are you still looking after it ?
-Do you have any opinion on this patch/series? I should have cc-ed you
-from the beginning probably, but get_maintainer didn't point to you :)
+Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 
-Thanks
-   j
+Hi!
 
->
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/ov6650.c | 56 ++++++++++++++++++++++++++------------
->  1 file changed, 39 insertions(+), 17 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> index 91906b94f978..d2e7a8556ed7 100644
-> --- a/drivers/media/i2c/ov6650.c
-> +++ b/drivers/media/i2c/ov6650.c
-> @@ -921,46 +921,68 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
->  };
->
->  /* Request bus settings on camera side */
-> -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
-> -				struct v4l2_mbus_config *cfg)
-> +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> +				  unsigned int pad,
-> +				  struct v4l2_mbus_config *cfg)
->  {
-> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	u8 comj, comf;
-> +	int ret;
-> +
-> +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
-> +	if (ret)
-> +		return ret;
->
-> -	cfg->flags = V4L2_MBUS_MASTER |
-> -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
-> -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
-> -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
-> -		V4L2_MBUS_DATA_ACTIVE_HIGH;
-> +	ret = ov6650_reg_read(client, REG_COMF, &comf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	cfg->flags = V4L2_MBUS_MASTER
-> +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-> +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-> +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
-> +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
->  	cfg->type = V4L2_MBUS_PARALLEL;
->
->  	return 0;
->  }
->
->  /* Alter bus settings on camera side */
-> -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
-> -				const struct v4l2_mbus_config *cfg)
-> +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
-> +				  unsigned int pad,
-> +				  struct v4l2_mbus_config *cfg)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> -	int ret;
-> +	int ret = 0;
->
->  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
->  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
-> -	else
-> +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
->  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
->  	if (ret)
-> -		return ret;
-> +		goto error;
->
->  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
->  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
-> -	else
-> +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
->  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
->  	if (ret)
-> -		return ret;
-> +		goto error;
->
->  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
->  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
-> -	else
-> +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
->  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
->
-> +error:
-> +	/*
-> +	 * Update the configuration to report what is actually applied to
-> +	 * the hardware.
-> +	 */
-> +	ov6650_get_mbus_config(sd, pad, cfg);
-> +
->  	return ret;
->  }
->
-> @@ -968,8 +990,6 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
->  	.s_stream	= ov6650_s_stream,
->  	.g_frame_interval = ov6650_g_frame_interval,
->  	.s_frame_interval = ov6650_s_frame_interval,
-> -	.g_mbus_config	= ov6650_g_mbus_config,
-> -	.s_mbus_config	= ov6650_s_mbus_config,
->  };
->
->  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
-> @@ -978,6 +998,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
->  	.set_selection	= ov6650_set_selection,
->  	.get_fmt	= ov6650_get_fmt,
->  	.set_fmt	= ov6650_set_fmt,
-> +	.get_mbus_config = ov6650_get_mbus_config,
-> +	.set_mbus_config = ov6650_set_mbus_config,
->  };
->
->  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
-> --
-> 2.27.0
->
+This revision drops disabling runtime PM as it is unnecessary and implements
+a couple of style and logic tweaks. Thanks to Geert and Wolfram for the review.
+  
+CU
+Uli
+   
+   
+Changes since v1:
+- don't disable runtime PM operations for atomic transfers
+- rename xfer() to sh_mobile_xfer()
+- rename timeout to time_left in sh_mobile_xfer() and simplify logic
+- minor style tweaks
+- rebase
+- add Tested-by's
+
+
+ drivers/i2c/busses/i2c-sh_mobile.c | 95 ++++++++++++++++++++++--------
+ 1 file changed, 70 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
+index 2cca1b21e26e..c863f9640fcc 100644
+--- a/drivers/i2c/busses/i2c-sh_mobile.c
++++ b/drivers/i2c/busses/i2c-sh_mobile.c
+@@ -129,6 +129,7 @@ struct sh_mobile_i2c_data {
+ 	int sr;
+ 	bool send_stop;
+ 	bool stop_after_dma;
++	bool atomic_xfer;
+ 
+ 	struct resource *res;
+ 	struct dma_chan *dma_tx;
+@@ -330,13 +331,15 @@ static unsigned char i2c_op(struct sh_mobile_i2c_data *pd, enum sh_mobile_i2c_op
+ 		ret = iic_rd(pd, ICDR);
+ 		break;
+ 	case OP_RX_STOP: /* enable DTE interrupt, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+ 	case OP_RX_STOP_DATA: /* enable DTE interrupt, read data, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		ret = iic_rd(pd, ICDR);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+@@ -429,7 +432,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
+ 
+ 	if (wakeup) {
+ 		pd->sr |= SW_DONE;
+-		wake_up(&pd->wait);
++		if (!pd->atomic_xfer)
++			wake_up(&pd->wait);
+ 	}
+ 
+ 	/* defeat write posting to avoid spurious WAIT interrupts */
+@@ -581,12 +585,14 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
+ 	pd->pos = -1;
+ 	pd->sr = 0;
+ 
+-	pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
+-	if (pd->dma_buf)
+-		sh_mobile_i2c_xfer_dma(pd);
+-
+-	/* Enable all interrupts to begin with */
+-	iic_wr(pd, ICIC, ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++	if (!pd->atomic_xfer) {
++		pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
++		if (pd->dma_buf)
++			sh_mobile_i2c_xfer_dma(pd);
++		/* Enable all interrupts to begin with */
++		iic_wr(pd, ICIC,
++		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++	}
+ }
+ 
+ static int poll_dte(struct sh_mobile_i2c_data *pd)
+@@ -637,15 +643,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
+ 	return i ? 0 : -ETIMEDOUT;
+ }
+ 
+-static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+-			      struct i2c_msg *msgs,
+-			      int num)
++static int sh_mobile_xfer(struct sh_mobile_i2c_data *pd,
++			 struct i2c_msg *msgs, int num)
+ {
+-	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
+ 	struct i2c_msg	*msg;
+ 	int err = 0;
+ 	int i;
+-	long timeout;
++	long time_left;
+ 
+ 	/* Wake up device and enable clock */
+ 	pm_runtime_get_sync(pd->dev);
+@@ -662,15 +666,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 		if (do_start)
+ 			i2c_op(pd, OP_START);
+ 
+-		/* The interrupt handler takes care of the rest... */
+-		timeout = wait_event_timeout(pd->wait,
+-				       pd->sr & (ICSR_TACK | SW_DONE),
+-				       adapter->timeout);
++		if (pd->atomic_xfer) {
++			unsigned long j = jiffies + pd->adap.timeout;
++
++			time_left = time_before_eq(jiffies, j);
++			while (time_left &&
++			       !(pd->sr & (ICSR_TACK | SW_DONE))) {
++				unsigned char sr = iic_rd(pd, ICSR);
++
++				if (sr & (ICSR_AL   | ICSR_TACK |
++					  ICSR_WAIT | ICSR_DTE)) {
++					sh_mobile_i2c_isr(0, pd);
++					udelay(150);
++				} else {
++					cpu_relax();
++				}
++			}
++		} else {
++			/* The interrupt handler takes care of the rest... */
++			time_left = wait_event_timeout(pd->wait,
++					pd->sr & (ICSR_TACK | SW_DONE),
++					pd->adap.timeout);
++
++			/* 'stop_after_dma' tells if DMA xfer was complete */
++			i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg,
++						 pd->stop_after_dma);
+ 
+-		/* 'stop_after_dma' tells if DMA transfer was complete */
+-		i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg, pd->stop_after_dma);
++		}
+ 
+-		if (!timeout) {
++		if (!time_left) {
+ 			dev_err(pd->dev, "Transfer request timed out\n");
+ 			if (pd->dma_direction != DMA_NONE)
+ 				sh_mobile_i2c_cleanup_dma(pd);
+@@ -696,14 +720,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 	return err ?: num;
+ }
+ 
++static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
++			      struct i2c_msg *msgs,
++			      int num)
++{
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = false;
++	return sh_mobile_xfer(pd, msgs, num);
++}
++
++static int sh_mobile_i2c_xfer_atomic(struct i2c_adapter *adapter,
++				     struct i2c_msg *msgs,
++				     int num)
++{
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = true;
++	return sh_mobile_xfer(pd, msgs, num);
++}
++
+ static u32 sh_mobile_i2c_func(struct i2c_adapter *adapter)
+ {
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_PROTOCOL_MANGLING;
+ }
+ 
+ static const struct i2c_algorithm sh_mobile_i2c_algorithm = {
+-	.functionality	= sh_mobile_i2c_func,
+-	.master_xfer	= sh_mobile_i2c_xfer,
++	.functionality = sh_mobile_i2c_func,
++	.master_xfer = sh_mobile_i2c_xfer,
++	.master_xfer_atomic = sh_mobile_i2c_xfer_atomic,
+ };
+ 
+ static const struct i2c_adapter_quirks sh_mobile_i2c_quirks = {
+-- 
+2.20.1
+
