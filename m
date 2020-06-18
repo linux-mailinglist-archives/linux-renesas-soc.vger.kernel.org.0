@@ -2,210 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 534A21FF962
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 18:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9FAF1FF975
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 18:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728929AbgFRQjh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jun 2020 12:39:37 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33093 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727114AbgFRQjh (ORCPT
+        id S1728523AbgFRQlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jun 2020 12:41:52 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:42819 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728587AbgFRQlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jun 2020 12:39:37 -0400
-Received: by mail-oi1-f195.google.com with SMTP id i74so5670786oib.0;
-        Thu, 18 Jun 2020 09:39:34 -0700 (PDT)
+        Thu, 18 Jun 2020 12:41:52 -0400
+Received: by mail-il1-f194.google.com with SMTP id j19so6380947ilk.9;
+        Thu, 18 Jun 2020 09:41:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2S2OZsPCKAM4csibK9QSj1TPoAyTBhXpQ95zpmfcEi0=;
-        b=OalT2aZmo0/bxDSmypDtmVwKJ2mjG378o0fpshr5j0a8pYln2ll/oPDZb3Wwrgkpds
-         x7FbRZbXpH55TiXYaD0sRRLsjwMs4SwFOatqMibd09O3Q5X4z9IZ5o4SvjDccJHv4ORs
-         QlEnwq6S0eJQb1WVL7To8N52xMh5+kG4zk6ejO3G8zwHY0lSFjOLyDuxiw27adOh1PYw
-         F7advU/W2dL8c8jHSJObcMK/CFRe+M/xpG9RL8zsz8FsnOP+LaPPjem6J3wv5NSkeBri
-         e75XMhii7aSrydXe2g6L6rMCZdEPhNVcdt+FpIUMKNCN6WyphrvMPMtrGIyPlkgzzrQL
-         NrkQ==
-X-Gm-Message-State: AOAM532pXpcD2OIj6lkfMEwcl6w5It+2CsgHwYf5Zkem3UcLGZ1Yiz4a
-        1149EBOE0MmcsMaCBpiFg48GiLPgLLVyUdNGo/W9cpl4
-X-Google-Smtp-Source: ABdhPJyrx3TL7d2g8wmfUN5NWtmPOZ2+pa1l0G3G0sM+8K7G9UStCQmNxxi/WBQcsWwJ+WxSYd6q3FmkJjmnmxxEfOc=
-X-Received: by 2002:aca:1a19:: with SMTP id a25mr3732279oia.54.1592498374464;
- Thu, 18 Jun 2020 09:39:34 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fVuJAsw1olJOL1LysYgB0jXFgoOC6I7GuVE/JaxXuhE=;
+        b=gYrP7hk4aY6wgg782/avFsZlPV028A8HW6tUOidv8YWgMTLq1xx2FzAdTGuvjS8c7r
+         FdCdPNmvEy4kb70lchg0UfVGnfQtJOo2+6UDi7Ya7MCo4weXDbE8BeVyhxyUIlvjSzjf
+         h6mikpjvSUS2ow/Ms1xE8TjNtqVRdn4ngtkW49eW7DcsUZteU7YHVj0S5aDVFiT8WXtx
+         VcjHBKBH0etoImVwCg0SKhcTWoxz0fc6AMB5D/9/HzA+kZa6xfPQ6HbvBB87MYFFgxHo
+         llnwwk4a5SDlVknmfU5LG1xy0Z+5Z9wIqWiyrmsOiWBn6nrVbl7SkZYYpaWaFtsxr8E6
+         O55Q==
+X-Gm-Message-State: AOAM530r16jYEEfGfwcIKTpO6DrAzTlyGG2m4uNpqy4Z/EtD6s7te87v
+        Nx+qx6+HoCvCvfMyUAPgpQ==
+X-Google-Smtp-Source: ABdhPJw1uAYQlQaYW4i9ro0et3qdLVpy3ZMSLGoanLWJPOU7Ad6UZ4jxcldsw6DcwZ1gNBHNmCypxw==
+X-Received: by 2002:a05:6e02:13ee:: with SMTP id w14mr4659208ilj.190.1592498510970;
+        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id j80sm1811247ili.65.2020.06.18.09.41.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
+Received: (nullmailer pid 500124 invoked by uid 1000);
+        Thu, 18 Jun 2020 16:41:49 -0000
+Date:   Thu, 18 Jun 2020 10:41:49 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 12/29] dt: update a reference for reneases pcar file
+ renamed to yaml
+Message-ID: <20200618164149.GA499887@bogus>
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+ <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-References: <20200618150532.2923-1-uli+renesas@fpond.eu>
-In-Reply-To: <20200618150532.2923-1-uli+renesas@fpond.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 18 Jun 2020 18:39:23 +0200
-Message-ID: <CAMuHMdUE4v+8Dz+eowX5RNJuRGmXcFuYQCe7JQxrFXEQV3xKJA@mail.gmail.com>
-Subject: Re: [PATCH v2] i2c: sh_mobile: implement atomic transfers
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
+On Mon, 15 Jun 2020 08:46:51 +0200, Mauro Carvalho Chehab wrote:
+> This file was renamed, but its reference at pfc-pinctl.txt is
+> still pointing to the old file.
+> 
+> Fixes: 7f7d408e5a00 ("dt-bindings: gpio: rcar: Convert to json-schema")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt         | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-On Thu, Jun 18, 2020 at 5:05 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
-> similar boards.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks for your patch!
-
-> --- a/drivers/i2c/busses/i2c-sh_mobile.c
-> +++ b/drivers/i2c/busses/i2c-sh_mobile.c
-
-> @@ -581,12 +585,14 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
->         pd->pos = -1;
->         pd->sr = 0;
->
-
-    if (pd->atomic_xfer)
-            return;
-
-and be done with it?
-
-> -       pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
-> -       if (pd->dma_buf)
-> -               sh_mobile_i2c_xfer_dma(pd);
-> -
-> -       /* Enable all interrupts to begin with */
-> -       iic_wr(pd, ICIC, ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
-> +       if (!pd->atomic_xfer) {
-> +               pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
-> +               if (pd->dma_buf)
-> +                       sh_mobile_i2c_xfer_dma(pd);
-> +               /* Enable all interrupts to begin with */
-> +               iic_wr(pd, ICIC,
-> +                      ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
-> +       }
->  }
->
->  static int poll_dte(struct sh_mobile_i2c_data *pd)
-> @@ -637,15 +643,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
->         return i ? 0 : -ETIMEDOUT;
->  }
->
-> -static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
-> -                             struct i2c_msg *msgs,
-> -                             int num)
-> +static int sh_mobile_xfer(struct sh_mobile_i2c_data *pd,
-> +                        struct i2c_msg *msgs, int num)
->  {
-> -       struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
->         struct i2c_msg  *msg;
->         int err = 0;
->         int i;
-> -       long timeout;
-> +       long time_left;
->
->         /* Wake up device and enable clock */
->         pm_runtime_get_sync(pd->dev);
-
-pm_runtime_get_sync() is a wrapper around __pm_runtime_resume(), which
-does:
-
-        might_sleep_if(!(rpmflags & RPM_ASYNC) && !dev->power.irq_safe &&
-                        dev->power.runtime_status != RPM_ACTIVE);
-
-So if the device is not active (it is not), the might_sleep() is
-triggered, and I expect a BUG splat.
-However, with CONFIG_DEBUG_ATOMIC_SLEEP disabled (I disabled it on
-koelsch, as it increases kernel size beyond the bootloader limit),
-might_sleep() is a no-op, so nothing happens.
-After enabling it (and disabling drm and media), still nothing...
-
-It turns out ___might_sleep() does:
-
-    if ((preempt_count_equals(preempt_offset) && !irqs_disabled() &&
-         !is_idle_task(current) && !current->non_block_count) ||
-        system_state == SYSTEM_BOOTING || system_state > SYSTEM_RUNNING ||
-        oops_in_progress)
-            return;
-
-and as per:
-
-    static inline bool i2c_in_atomic_xfer_mode(void)
-    {
-            return system_state > SYSTEM_RUNNING && irqs_disabled();
-    }
-
-system_state > SYSTEM_RUNNING, and ___might_sleep() just ignores any
-issues. Oops...
-After removing that check, it starts complaining:
-
-    BUG: sleeping function called from invalid context at
-kernel/locking/mutex.c:281
-    in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 1, name:
-systemd-shutdow
-
-In general, pm_runtime_get_sync() is not safe to call from atomic
-context.
-For Renesas SoCs, I think both the power and clock domains are safe, as
-the respective drivers don't sleep.  The PM core might, though.
-
-> @@ -662,15 +666,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
->                 if (do_start)
->                         i2c_op(pd, OP_START);
->
-> -               /* The interrupt handler takes care of the rest... */
-> -               timeout = wait_event_timeout(pd->wait,
-> -                                      pd->sr & (ICSR_TACK | SW_DONE),
-> -                                      adapter->timeout);
-> +               if (pd->atomic_xfer) {
-> +                       unsigned long j = jiffies + pd->adap.timeout;
-> +
-> +                       time_left = time_before_eq(jiffies, j);
-> +                       while (time_left &&
-
-Who's updating time_left?
-
-> +                              !(pd->sr & (ICSR_TACK | SW_DONE))) {
-> +                               unsigned char sr = iic_rd(pd, ICSR);
-> +
-> +                               if (sr & (ICSR_AL   | ICSR_TACK |
-> +                                         ICSR_WAIT | ICSR_DTE)) {
-> +                                       sh_mobile_i2c_isr(0, pd);
-> +                                       udelay(150);
-> +                               } else {
-> +                                       cpu_relax();
-> +                               }
-> +                       }
-> +               } else {
-> +                       /* The interrupt handler takes care of the rest... */
-> +                       time_left = wait_event_timeout(pd->wait,
-> +                                       pd->sr & (ICSR_TACK | SW_DONE),
-> +                                       pd->adap.timeout);
-> +
-> +                       /* 'stop_after_dma' tells if DMA xfer was complete */
-> +                       i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg,
-> +                                                pd->stop_after_dma);
->
-> -               /* 'stop_after_dma' tells if DMA transfer was complete */
-> -               i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg, pd->stop_after_dma);
-> +               }
->
-> -               if (!timeout) {
-> +               if (!time_left) {
->                         dev_err(pd->dev, "Transfer request timed out\n");
->                         if (pd->dma_direction != DMA_NONE)
->                                 sh_mobile_i2c_cleanup_dma(pd);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Applied, thanks!
