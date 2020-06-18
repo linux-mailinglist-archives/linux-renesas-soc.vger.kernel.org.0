@@ -2,40 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DD901FE559
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 04:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87BD81FE4DB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 04:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729826AbgFRCZZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Jun 2020 22:25:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48604 "EHLO mail.kernel.org"
+        id S1730165AbgFRCVR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Jun 2020 22:21:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50246 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728719AbgFRBRZ (ORCPT
+        id S1729992AbgFRBSl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:17:25 -0400
+        Wed, 17 Jun 2020 21:18:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95BC521D82;
-        Thu, 18 Jun 2020 01:17:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C6316206F1;
+        Thu, 18 Jun 2020 01:18:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443045;
-        bh=H0tB5CLrfqC4eBdg95LLl8Ih+5nTvZlXEJaOMCsV8F8=;
+        s=default; t=1592443120;
+        bh=rJPraC/C8Ksrn6ifI008vEA8iGgmjPEhbid1XHUD2y4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oSvDpf4rPnr6DoLl5/EXNZPsP30zWnOavNMwKSENWWklvisRGjv6EDJgFUxiuAPst
-         yZ/KzJL9mSkMG6hTJwSc1Oh+oufwJ2qA2BAbdZyu1U9cOa4lAWpl2fLMT4Q8SNU7bM
-         U+JS/DPs5f1Ijq3j5dHBCCOIDop36hKBm8n7/aXQ=
+        b=yoyvw7E/XSM6riLrmVIp7gWf9F+WFxyVyfVOnsf+CtHMBspy2X5Bha+UVyMyRhJda
+         pTvn9vafLwr6A7OOFW9nZmrmvz/LsFObxDqr1ZVQhIZPvDrSxuEfJ94xb9kbxI7qlQ
+         ZozPFncVrZogErIET4USGTG7E7041wMeJ365BADk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Jason Yan <yanaijie@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 040/266] clk: renesas: cpg-mssr: Fix STBCR suspend/resume handling
-Date:   Wed, 17 Jun 2020 21:12:45 -0400
-Message-Id: <20200618011631.604574-40-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 095/266] pinctrl: rza1: Fix wrong array assignment of rza1l_swio_entries
+Date:   Wed, 17 Jun 2020 21:13:40 -0400
+Message-Id: <20200618011631.604574-95-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
 References: <20200618011631.604574-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -44,58 +46,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Jason Yan <yanaijie@huawei.com>
 
-[ Upstream commit ace342097768e35fd41934285604fa97da1e235a ]
+[ Upstream commit 4b4e8e93eccc2abc4209fe226ec89e7fbe9f3c61 ]
 
-On SoCs with Standby Control Registers (STBCRs) instead of Module Stop
-Control Registers (MSTPCRs), the suspend handler saves the wrong
-registers, and the resume handler prints the wrong register in an error
-message.
+The rza1l_swio_entries referred to the wrong array rza1h_swio_pins,
+which was intended to be rza1l_swio_pins. So let's fix it.
 
-Fortunately this cannot happen yet, as the suspend/resume code is used
-on PSCI systems only, and systems with STBCRs (RZ/A1 and RZ/A2) do not
-use PSCI.  Still, it is better to fix this, to avoid this becoming a
-problem in the future.
+This is detected by the following gcc warning:
 
-Distinguish between STBCRs and MSTPCRs where needed.  Replace the
-useless printing of the virtual register address in the resume error
-message by printing the register index.
+drivers/pinctrl/pinctrl-rza1.c:401:35: warning: ‘rza1l_swio_pins’
+defined but not used [-Wunused-const-variable=]
+ static const struct rza1_swio_pin rza1l_swio_pins[] = {
+                                   ^~~~~~~~~~~~~~~
 
-Fixes: fde35c9c7db5732c ("clk: renesas: cpg-mssr: Add R7S9210 support")
+Fixes: 039bc58e73b77723 ("pinctrl: rza1: Add support for RZ/A1L")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jason Yan <yanaijie@huawei.com>
+Link: https://lore.kernel.org/r/20200417111604.19143-1-yanaijie@huawei.com
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/r/20200507074713.30113-1-geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/clk/renesas/renesas-cpg-mssr.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/pinctrl/pinctrl-rza1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 132cc96895e3..6f9612c169af 100644
---- a/drivers/clk/renesas/renesas-cpg-mssr.c
-+++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -800,7 +800,8 @@ static int cpg_mssr_suspend_noirq(struct device *dev)
- 	/* Save module registers with bits under our control */
- 	for (reg = 0; reg < ARRAY_SIZE(priv->smstpcr_saved); reg++) {
- 		if (priv->smstpcr_saved[reg].mask)
--			priv->smstpcr_saved[reg].val =
-+			priv->smstpcr_saved[reg].val = priv->stbyctrl ?
-+				readb(priv->base + STBCR(reg)) :
- 				readl(priv->base + SMSTPCR(reg));
- 	}
+diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
+index 017fc6b3e27e..ca9da61cfc4e 100644
+--- a/drivers/pinctrl/pinctrl-rza1.c
++++ b/drivers/pinctrl/pinctrl-rza1.c
+@@ -418,7 +418,7 @@ static const struct rza1_bidir_entry rza1l_bidir_entries[RZA1_NPORTS] = {
+ };
  
-@@ -860,8 +861,9 @@ static int cpg_mssr_resume_noirq(struct device *dev)
- 		}
+ static const struct rza1_swio_entry rza1l_swio_entries[] = {
+-	[0] = { ARRAY_SIZE(rza1h_swio_pins), rza1h_swio_pins },
++	[0] = { ARRAY_SIZE(rza1l_swio_pins), rza1l_swio_pins },
+ };
  
- 		if (!i)
--			dev_warn(dev, "Failed to enable SMSTP %p[0x%x]\n",
--				 priv->base + SMSTPCR(reg), oldval & mask);
-+			dev_warn(dev, "Failed to enable %s%u[0x%x]\n",
-+				 priv->stbyctrl ? "STB" : "SMSTP", reg,
-+				 oldval & mask);
- 	}
- 
- 	return 0;
+ /* RZ/A1L (r7s72102x) pinmux flags table */
 -- 
 2.25.1
 
