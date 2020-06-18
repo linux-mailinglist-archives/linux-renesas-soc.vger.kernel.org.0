@@ -2,75 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9FAF1FF975
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 18:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8BA21FFBF9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 21:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbgFRQlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jun 2020 12:41:52 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:42819 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728587AbgFRQlw (ORCPT
+        id S1727024AbgFRTq7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jun 2020 15:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47802 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729227AbgFRTq6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jun 2020 12:41:52 -0400
-Received: by mail-il1-f194.google.com with SMTP id j19so6380947ilk.9;
-        Thu, 18 Jun 2020 09:41:51 -0700 (PDT)
+        Thu, 18 Jun 2020 15:46:58 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4BF4C0613ED
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 12:46:57 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id y11so8736044ljm.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 12:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:references:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=38NFAZrZCilaoP+G+R4y65FmBGQAZF14rWjlMMLwX38=;
+        b=cTyALCVUOhQ/s/xvPr2QIfzYG38TpiwUcfJG8+SS+rV72GgdA2fJSHeFbwxGgV83V8
+         E80uQUq3QhAUDAh8fSDltOVWKTxNde6bNz9l4gtuJu9BEAnl97tEGr3vFZH/sq57Pjfr
+         u0K9NZrBZjDcJ0bPcsFGp6/HL3nBCTKbMXMM2E9dCYIai5pZvLt9Rer+p9TRZTwSdy41
+         jRA2fQirhYOzNsgLkkiojGTm8kfhv8NU77g9puLzvvDmkWJihobubE41bYxH8wLZosrw
+         Vaao4WRNXgPRRwp+mwU5ybZCi7S/RiZBHewi1CCZcezdRzZPC6QWWN3wNPjmxUroBeF8
+         7jrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=fVuJAsw1olJOL1LysYgB0jXFgoOC6I7GuVE/JaxXuhE=;
-        b=gYrP7hk4aY6wgg782/avFsZlPV028A8HW6tUOidv8YWgMTLq1xx2FzAdTGuvjS8c7r
-         FdCdPNmvEy4kb70lchg0UfVGnfQtJOo2+6UDi7Ya7MCo4weXDbE8BeVyhxyUIlvjSzjf
-         h6mikpjvSUS2ow/Ms1xE8TjNtqVRdn4ngtkW49eW7DcsUZteU7YHVj0S5aDVFiT8WXtx
-         VcjHBKBH0etoImVwCg0SKhcTWoxz0fc6AMB5D/9/HzA+kZa6xfPQ6HbvBB87MYFFgxHo
-         llnwwk4a5SDlVknmfU5LG1xy0Z+5Z9wIqWiyrmsOiWBn6nrVbl7SkZYYpaWaFtsxr8E6
-         O55Q==
-X-Gm-Message-State: AOAM530r16jYEEfGfwcIKTpO6DrAzTlyGG2m4uNpqy4Z/EtD6s7te87v
-        Nx+qx6+HoCvCvfMyUAPgpQ==
-X-Google-Smtp-Source: ABdhPJw1uAYQlQaYW4i9ro0et3qdLVpy3ZMSLGoanLWJPOU7Ad6UZ4jxcldsw6DcwZ1gNBHNmCypxw==
-X-Received: by 2002:a05:6e02:13ee:: with SMTP id w14mr4659208ilj.190.1592498510970;
-        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id j80sm1811247ili.65.2020.06.18.09.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 09:41:50 -0700 (PDT)
-Received: (nullmailer pid 500124 invoked by uid 1000);
-        Thu, 18 Jun 2020 16:41:49 -0000
-Date:   Thu, 18 Jun 2020 10:41:49 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 12/29] dt: update a reference for reneases pcar file
- renamed to yaml
-Message-ID: <20200618164149.GA499887@bogus>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
- <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
+        h=x-gm-message-state:from:subject:to:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=38NFAZrZCilaoP+G+R4y65FmBGQAZF14rWjlMMLwX38=;
+        b=XP3wSncQR657w7tMUMs39E78oMyoNCPUGkHdzVK1QS9y7x3R8Y5FRvggKYvTNz4tkH
+         VLrBHqkWEzXbNlulBbLJOSrbMtT/uhamF5+/QylpjoYyYWMO612DWpZb+L0HWO73LaaN
+         Mcg+XLwK+O3g0NKywA3IO0qb3/cEEh3vZZt2HR+UKAAJ4LCoapoMOySnoIRTChpSPchF
+         IWEEbFfuXYZOx42WJff98gHMbxAou3mH6O9FlhCk4Or6EBFSks8Ubqh/zAMBGCnUqCo4
+         IIKuokgWU1M3b1fZtiD0+Eh9n9vrigz2oyIs3k58I8E4QxYkAJUPdIQ/IydUiYQjrKMC
+         dCMQ==
+X-Gm-Message-State: AOAM530OEs6AJamKj/eGOxxBvqKgZxj2UpEwgLtNLrXiQ3JOXP7U5JO9
+        qnTAcfxFFtbKdhX5N4tnp6DNdg2gaeI=
+X-Google-Smtp-Source: ABdhPJwHqSYBwoRPYOMg13H7HJZ81iM9Fr7TFd2XkgYtPaJzzSqyZ3fgptHKR5CnDomkQRpryqC6Kg==
+X-Received: by 2002:a2e:9141:: with SMTP id q1mr10152ljg.196.1592509615827;
+        Thu, 18 Jun 2020 12:46:55 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:6f7:bb80:c069:9e2a:dc05:427f])
+        by smtp.gmail.com with ESMTPSA id w20sm802578lji.7.2020.06.18.12.46.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jun 2020 12:46:55 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: [PATCH] pinctrl: sh-pfc: r8a77970: add RPC pins, groups, and
+ functions
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+References: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <d3907b56-e346-f246-694e-6088d060bd27@cogentembedded.com>
+Date:   Thu, 18 Jun 2020 22:46:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72d7ec91a60e852d34f3e15bc5faef1f62a8260e.1592203542.git.mchehab+huawei@kernel.org>
+In-Reply-To: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 15 Jun 2020 08:46:51 +0200, Mauro Carvalho Chehab wrote:
-> This file was renamed, but its reference at pfc-pinctl.txt is
-> still pointing to the old file.
-> 
-> Fixes: 7f7d408e5a00 ("dt-bindings: gpio: rcar: Convert to json-schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt         | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: pinctrl: sh-pfc: r8a77970: Add RPC pins, groups, and functions
 
-Applied, thanks!
+Add the RPC pins/groups/functions to the R8A77970 PFC driver.
+They can be used if an Octal-SPI flash or HyperFlash is connected.
+
+Based on the patch by Dmitry Shifrin <dmitry.shifrin@cogentembedded.com>.
+
+Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+---
+The patch is against the 'sh-pfc' branch of Geert's 'renesas-drivers.git' repo.
+
+ drivers/pinctrl/sh-pfc/pfc-r8a77970.c |   76 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+
+Index: renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+===================================================================
+--- renesas-drivers.orig/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
++++ renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+@@ -1416,6 +1416,64 @@ static const unsigned int qspi1_data4_mu
+ 	QSPI1_IO2_MARK, QSPI1_IO3_MARK
+ };
+ 
++/* - RPC -------------------------------------------------------------------- */
++static const unsigned int rpc_clk1_pins[] = {
++	/* Octal-SPI flash: C/SCLK */
++	RCAR_GP_PIN(5, 0),
++};
++static const unsigned int rpc_clk1_mux[] = {
++	QSPI0_SPCLK_MARK,
++};
++static const unsigned int rpc_clk2_pins[] = {
++	/* HyperFlash: CK, CK# */
++	RCAR_GP_PIN(5, 0), RCAR_GP_PIN(5, 6),
++};
++static const unsigned int rpc_clk2_mux[] = {
++	QSPI0_SPCLK_MARK, QSPI1_SPCLK_MARK,
++};
++static const unsigned int rpc_ctrl_pins[] = {
++	/* Octal-SPI flash: S#/CS, DQS */
++	/* HyperFlash: CS#, RDS */
++	RCAR_GP_PIN(5, 5), RCAR_GP_PIN(5, 11),
++};
++static const unsigned int rpc_ctrl_mux[] = {
++	QSPI0_SPCLK_MARK, QSPI0_SSL_MARK,
++};
++static const unsigned int rpc_data_pins[] = {
++	/* DQ[0:7] */
++	RCAR_GP_PIN(5, 1), RCAR_GP_PIN(5, 2),
++	RCAR_GP_PIN(5, 3), RCAR_GP_PIN(5, 4),
++	RCAR_GP_PIN(5, 7), RCAR_GP_PIN(5, 8),
++	RCAR_GP_PIN(5, 9), RCAR_GP_PIN(5, 10),
++};
++static const unsigned int rpc_data_mux[] = {
++	QSPI0_MOSI_IO0_MARK, QSPI0_MISO_IO1_MARK,
++	QSPI0_IO2_MARK, QSPI0_IO3_MARK,
++	QSPI1_MOSI_IO0_MARK, QSPI1_MISO_IO1_MARK,
++	QSPI1_IO2_MARK, QSPI1_IO3_MARK,
++};
++static const unsigned int rpc_reset_pins[] = {
++	/* RPC_RESET# */
++	RCAR_GP_PIN(5, 12),
++};
++static const unsigned int rpc_reset_mux[] = {
++	RPC_RESET_N_MARK,
++};
++static const unsigned int rpc_int_pins[] = {
++	/* RPC_INT# */
++	RCAR_GP_PIN(5, 14),
++};
++static const unsigned int rpc_int_mux[] = {
++	RPC_INT_N_MARK,
++};
++static const unsigned int rpc_wp_pins[] = {
++	/* RPC_WP# */
++	RCAR_GP_PIN(5, 13),
++};
++static const unsigned int rpc_wp_mux[] = {
++	RPC_WP_N_MARK,
++};
++
+ /* - SCIF Clock ------------------------------------------------------------- */
+ static const unsigned int scif_clk_a_pins[] = {
+ 	/* SCIF_CLK */
+@@ -1750,6 +1808,13 @@ static const struct sh_pfc_pin_group pin
+ 	SH_PFC_PIN_GROUP(qspi1_ctrl),
+ 	SH_PFC_PIN_GROUP(qspi1_data2),
+ 	SH_PFC_PIN_GROUP(qspi1_data4),
++	SH_PFC_PIN_GROUP(rpc_clk1),
++	SH_PFC_PIN_GROUP(rpc_clk2),
++	SH_PFC_PIN_GROUP(rpc_ctrl),
++	SH_PFC_PIN_GROUP(rpc_data),
++	SH_PFC_PIN_GROUP(rpc_reset),
++	SH_PFC_PIN_GROUP(rpc_int),
++	SH_PFC_PIN_GROUP(rpc_wp),
+ 	SH_PFC_PIN_GROUP(scif_clk_a),
+ 	SH_PFC_PIN_GROUP(scif_clk_b),
+ 	SH_PFC_PIN_GROUP(scif0_data),
+@@ -1954,6 +2019,16 @@ static const char * const qspi1_groups[]
+ 	"qspi1_data4",
+ };
+ 
++static const char * const rpc_groups[] = {
++	"rpc_clk1",
++	"rpc_clk2",
++	"rpc_ctrl",
++	"rpc_data",
++	"rpc_reset",
++	"rpc_int",
++	"rpc_wp",
++};
++
+ static const char * const scif_clk_groups[] = {
+ 	"scif_clk_a",
+ 	"scif_clk_b",
+@@ -2039,6 +2114,7 @@ static const struct sh_pfc_function pinm
+ 	SH_PFC_FUNCTION(pwm4),
+ 	SH_PFC_FUNCTION(qspi0),
+ 	SH_PFC_FUNCTION(qspi1),
++	SH_PFC_FUNCTION(rpc),
+ 	SH_PFC_FUNCTION(scif_clk),
+ 	SH_PFC_FUNCTION(scif0),
+ 	SH_PFC_FUNCTION(scif1),
