@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FAE81FE802
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 04:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 198AE1FE7A3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 04:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbgFRCpO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Jun 2020 22:45:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38634 "EHLO mail.kernel.org"
+        id S1728821AbgFRBL7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Jun 2020 21:11:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728686AbgFRBK6 (ORCPT
+        id S1727828AbgFRBL5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:10:58 -0400
+        Wed, 17 Jun 2020 21:11:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2BF8821D93;
-        Thu, 18 Jun 2020 01:10:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 33C4C20B1F;
+        Thu, 18 Jun 2020 01:11:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592442658;
-        bh=8hjRe8VoNic6N/Bn+lsV9IGG9UN9K+eQy3lY4cPPuu8=;
+        s=default; t=1592442717;
+        bh=qETL6FZDyJQkLmfpP6vp9sPwcPD3ihNUu0hjmYnP98c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=istH83S1nMxoJOGsd7RlAEI2atmlruqWetwOJJhRLOxoflYwahM61oZ81hCkEDLni
-         MpTCxOxciI0GvMcp+JkT3y+0PcP3QIPpvcp5qx/bA9WAjLMc7l2jCh3AfuutmAtJU3
-         0F8FQtWdVRq1WBnz8gWnYuoLWbTF3BgQQTHFLLtw=
+        b=YgHKPNJht2iXx/rUGTT+U0vLKCTL0EuK+P2GZAJebyBM/gYADmfjMe2e0PViYyffw
+         DHV1y+S4qabr2xcTRBY851w+ARmTEiJV4Pvw978nc/kMX9i9+b85OvC3tWzxLi9s1Q
+         v+8OyND+smOHnTwLkdmqtL+p2xXNU61dEnD6jXqQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jason Yan <yanaijie@huawei.com>, Hulk Robot <hulkci@huawei.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 129/388] pinctrl: rza1: Fix wrong array assignment of rza1l_swio_entries
-Date:   Wed, 17 Jun 2020 21:03:46 -0400
-Message-Id: <20200618010805.600873-129-sashal@kernel.org>
+Cc:     Andrew Murray <andrew.murray@arm.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sasha Levin <sashal@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 176/388] PCI: rcar: Fix incorrect programming of OB windows
+Date:   Wed, 17 Jun 2020 21:04:33 -0400
+Message-Id: <20200618010805.600873-176-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
 References: <20200618010805.600873-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -46,43 +46,72 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Jason Yan <yanaijie@huawei.com>
+From: Andrew Murray <andrew.murray@arm.com>
 
-[ Upstream commit 4b4e8e93eccc2abc4209fe226ec89e7fbe9f3c61 ]
+[ Upstream commit 2b9f217433e31d125fb697ca7974d3de3ecc3e92 ]
 
-The rza1l_swio_entries referred to the wrong array rza1h_swio_pins,
-which was intended to be rza1l_swio_pins. So let's fix it.
+The outbound windows (PCIEPAUR(x), PCIEPALR(x)) describe a mapping between
+a CPU address (which is determined by the window number 'x') and a
+programmed PCI address - Thus allowing the controller to translate CPU
+accesses into PCI accesses.
 
-This is detected by the following gcc warning:
+However the existing code incorrectly writes the CPU address - lets fix
+this by writing the PCI address instead.
 
-drivers/pinctrl/pinctrl-rza1.c:401:35: warning: ‘rza1l_swio_pins’
-defined but not used [-Wunused-const-variable=]
- static const struct rza1_swio_pin rza1l_swio_pins[] = {
-                                   ^~~~~~~~~~~~~~~
+For memory transactions, existing DT users describe a 1:1 identity mapping
+and thus this change should have no effect. However the same isn't true for
+I/O.
 
-Fixes: 039bc58e73b77723 ("pinctrl: rza1: Add support for RZ/A1L")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Jason Yan <yanaijie@huawei.com>
-Link: https://lore.kernel.org/r/20200417111604.19143-1-yanaijie@huawei.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/20191004132941.6660-1-andrew.murray@arm.com
+Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
+Tested-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Signed-off-by: Andrew Murray <andrew.murray@arm.com>
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Marek Vasut <marek.vasut+renesas@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/pinctrl-rza1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/controller/pcie-rcar.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
-index da2d8365c690..ff4a7fb518bb 100644
---- a/drivers/pinctrl/pinctrl-rza1.c
-+++ b/drivers/pinctrl/pinctrl-rza1.c
-@@ -418,7 +418,7 @@ static const struct rza1_bidir_entry rza1l_bidir_entries[RZA1_NPORTS] = {
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index 759c6542c5c8..1bae6a4abaae 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -333,11 +333,12 @@ static struct pci_ops rcar_pcie_ops = {
  };
  
- static const struct rza1_swio_entry rza1l_swio_entries[] = {
--	[0] = { ARRAY_SIZE(rza1h_swio_pins), rza1h_swio_pins },
-+	[0] = { ARRAY_SIZE(rza1l_swio_pins), rza1l_swio_pins },
- };
+ static void rcar_pcie_setup_window(int win, struct rcar_pcie *pcie,
+-				   struct resource *res)
++				   struct resource_entry *window)
+ {
+ 	/* Setup PCIe address space mappings for each resource */
+ 	resource_size_t size;
+ 	resource_size_t res_start;
++	struct resource *res = window->res;
+ 	u32 mask;
  
- /* RZ/A1L (r7s72102x) pinmux flags table */
+ 	rcar_pci_write_reg(pcie, 0x00000000, PCIEPTCTLR(win));
+@@ -351,9 +352,9 @@ static void rcar_pcie_setup_window(int win, struct rcar_pcie *pcie,
+ 	rcar_pci_write_reg(pcie, mask << 7, PCIEPAMR(win));
+ 
+ 	if (res->flags & IORESOURCE_IO)
+-		res_start = pci_pio_to_address(res->start);
++		res_start = pci_pio_to_address(res->start) - window->offset;
+ 	else
+-		res_start = res->start;
++		res_start = res->start - window->offset;
+ 
+ 	rcar_pci_write_reg(pcie, upper_32_bits(res_start), PCIEPAUR(win));
+ 	rcar_pci_write_reg(pcie, lower_32_bits(res_start) & ~0x7F,
+@@ -382,7 +383,7 @@ static int rcar_pcie_setup(struct list_head *resource, struct rcar_pcie *pci)
+ 		switch (resource_type(res)) {
+ 		case IORESOURCE_IO:
+ 		case IORESOURCE_MEM:
+-			rcar_pcie_setup_window(i, pci, res);
++			rcar_pcie_setup_window(i, pci, win);
+ 			i++;
+ 			break;
+ 		case IORESOURCE_BUS:
 -- 
 2.25.1
 
