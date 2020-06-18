@@ -2,197 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8BA21FFBF9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jun 2020 21:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83C9F1FFE6E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2020 01:01:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbgFRTq7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jun 2020 15:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47802 "EHLO
+        id S1730790AbgFRXBQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jun 2020 19:01:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729227AbgFRTq6 (ORCPT
+        with ESMTP id S1730869AbgFRXBN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jun 2020 15:46:58 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4BF4C0613ED
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 12:46:57 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id y11so8736044ljm.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 12:46:57 -0700 (PDT)
+        Thu, 18 Jun 2020 19:01:13 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3AAEC0613F0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 16:01:12 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id z145so1517604ooa.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jun 2020 16:01:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=from:subject:to:references:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=38NFAZrZCilaoP+G+R4y65FmBGQAZF14rWjlMMLwX38=;
-        b=cTyALCVUOhQ/s/xvPr2QIfzYG38TpiwUcfJG8+SS+rV72GgdA2fJSHeFbwxGgV83V8
-         E80uQUq3QhAUDAh8fSDltOVWKTxNde6bNz9l4gtuJu9BEAnl97tEGr3vFZH/sq57Pjfr
-         u0K9NZrBZjDcJ0bPcsFGp6/HL3nBCTKbMXMM2E9dCYIai5pZvLt9Rer+p9TRZTwSdy41
-         jRA2fQirhYOzNsgLkkiojGTm8kfhv8NU77g9puLzvvDmkWJihobubE41bYxH8wLZosrw
-         Vaao4WRNXgPRRwp+mwU5ybZCi7S/RiZBHewi1CCZcezdRzZPC6QWWN3wNPjmxUroBeF8
-         7jrQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yc8mFXvH9+bvXdPbuCrBKeuEjVF5zsJFmzpNjkxHWMo=;
+        b=F6Qzk43n9hOMr0F4NODTytpPzKoJejgC53DX0hNIAani5BvakYsEg5BYejBSfJJRFK
+         Xveb1M2471hR5+hXD0nrRKJPWetO+Sm9CXdnLQ/354Jwx2+SAROf9zcH9nOj1f4r2BmG
+         4OhP4aiWNVP3N1Z3PnwsXKCCcwprjP/r7yknNF074Mqx5ocK34Qoz+i0yhVtZqSNZl8E
+         IbSthlYnPjQ4Ifcop0/QphEEIYcIl9WJqyKdM1ZE+wTYMUHzs/utKyK0LIdSCWoIkVRg
+         TFlIL6ILcD4OJudkIbjNqm5Ppsq4BTPCwfwbR9kT+/5+LeKmP6bHS9Q4Wvj+BLy2p9Uj
+         P1AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=38NFAZrZCilaoP+G+R4y65FmBGQAZF14rWjlMMLwX38=;
-        b=XP3wSncQR657w7tMUMs39E78oMyoNCPUGkHdzVK1QS9y7x3R8Y5FRvggKYvTNz4tkH
-         VLrBHqkWEzXbNlulBbLJOSrbMtT/uhamF5+/QylpjoYyYWMO612DWpZb+L0HWO73LaaN
-         Mcg+XLwK+O3g0NKywA3IO0qb3/cEEh3vZZt2HR+UKAAJ4LCoapoMOySnoIRTChpSPchF
-         IWEEbFfuXYZOx42WJff98gHMbxAou3mH6O9FlhCk4Or6EBFSks8Ubqh/zAMBGCnUqCo4
-         IIKuokgWU1M3b1fZtiD0+Eh9n9vrigz2oyIs3k58I8E4QxYkAJUPdIQ/IydUiYQjrKMC
-         dCMQ==
-X-Gm-Message-State: AOAM530OEs6AJamKj/eGOxxBvqKgZxj2UpEwgLtNLrXiQ3JOXP7U5JO9
-        qnTAcfxFFtbKdhX5N4tnp6DNdg2gaeI=
-X-Google-Smtp-Source: ABdhPJwHqSYBwoRPYOMg13H7HJZ81iM9Fr7TFd2XkgYtPaJzzSqyZ3fgptHKR5CnDomkQRpryqC6Kg==
-X-Received: by 2002:a2e:9141:: with SMTP id q1mr10152ljg.196.1592509615827;
-        Thu, 18 Jun 2020 12:46:55 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:6f7:bb80:c069:9e2a:dc05:427f])
-        by smtp.gmail.com with ESMTPSA id w20sm802578lji.7.2020.06.18.12.46.54
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jun 2020 12:46:55 -0700 (PDT)
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Subject: [PATCH] pinctrl: sh-pfc: r8a77970: add RPC pins, groups, and
- functions
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org
-References: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <d3907b56-e346-f246-694e-6088d060bd27@cogentembedded.com>
-Date:   Thu, 18 Jun 2020 22:46:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yc8mFXvH9+bvXdPbuCrBKeuEjVF5zsJFmzpNjkxHWMo=;
+        b=po2+ZqLLyZDt7r7MTFWPPC0QluInwJryvYFegMDaO+dETriCUJkKXblzMUy1yGziyu
+         BAkk23JcNRTCTTjgMCGmyj6GbMJLnInMvKzwe0HsS/lbblfOIdq1afZgzfckH/XDGHPH
+         H+4Zpg5J4zMp9AWqj6fCg1+XzsQqmGRTFDAkdFkmDbaVODE53QzE2gf8uiCKQTlSyMvH
+         lA7tuw6GelVET45knki6OqUZdeirVggNU27qhHKonfLQ79J6hQ74mfeiFERRdLnjl/3y
+         7GqGFIgegHQR6mJ4pByjXnzy3d1zcFvLGw8aU8IP6QA0pcI4R5bVdsoD539SB0U5PQ0u
+         yB5g==
+X-Gm-Message-State: AOAM530PxCyMi+AtPuqCZ3YnqHR14dNaD6keoiC7LbwmZEVtHHi7TwoG
+        XML5EbiezvZohRP4FY6B3TVJfpVP706naqOfzn5y0A==
+X-Google-Smtp-Source: ABdhPJze5y3/R2DKImLZ7iiLzxaS6HhogUtDTZ6f6c1zd9yAOujkemUlEPJ8VwbBuyiv/TUaV+zXkBMoEOzKC1JUTAg=
+X-Received: by 2002:a4a:7ac2:: with SMTP id a185mr1035246ooc.84.1592521269356;
+ Thu, 18 Jun 2020 16:01:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+References: <20200515053500.215929-1-saravanak@google.com> <20200515053500.215929-5-saravanak@google.com>
+ <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
+ <CAGETcx9JKbNQWQwNah7pO5ppVSAe86R-OmMujZPYNkuTCLwKnQ@mail.gmail.com> <CAMuHMdU2gF=aTeVxRvtzAMLGY=GyBDfBwrYZxoRkL1tV7dL56g@mail.gmail.com>
+In-Reply-To: <CAMuHMdU2gF=aTeVxRvtzAMLGY=GyBDfBwrYZxoRkL1tV7dL56g@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Thu, 18 Jun 2020 16:00:33 -0700
+Message-ID: <CAGETcx-rHFthf-aLb_S-ST6Evozvgis5XX5u0LNxyvfMoJOLKQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] of: platform: Batch fwnode parsing when adding all
+ top level devices
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Ji Luo <ji.luo@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Subject: pinctrl: sh-pfc: r8a77970: Add RPC pins, groups, and functions
+On Thu, Jun 18, 2020 at 12:32 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Wed, Jun 17, 2020 at 8:36 PM Saravana Kannan <saravanak@google.com> wrote:
+> > On Wed, Jun 17, 2020 at 5:20 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Fri, May 15, 2020 at 7:38 AM Saravana Kannan <saravanak@google.com> wrote:
+> > > > The fw_devlink_pause() and fw_devlink_resume() APIs allow batching the
+> > > > parsing of the device tree nodes when a lot of devices are added. This
+> > > > will significantly cut down parsing time (as much a 1 second on some
+> > > > systems). So, use them when adding devices for all the top level device
+> > > > tree nodes in a system.
+> > > >
+> > > > Signed-off-by: Saravana Kannan <saravanak@google.com>
+> > >
+> > > This is now commit 93d2e4322aa74c1a ("of: platform: Batch fwnode parsing
+> > > when adding all top level devices") in v5.8-rc1, and I have bisected a
+> > > regression to it: on r8a7740/armadillo and sh73a0/kzm9g, the system can
+> > > no longer be woken up from s2ram by a GPIO key. Reverting the commit
+> > > fixes the issue.
+> > >
+> > > On these systems, the GPIO/PFC block has its interrupt lines connected
+> > > to intermediate interrupt controllers (Renesas INTC), which are in turn
+> > > connected to the main interrupt controller (ARM GIC).  The INTC block is
+> > > part of a power and clock domain.  Hence if a GPIO is enabled as a
+> > > wake-up source, the INTC is part of the wake-up path, and thus must be
+> > > kept enabled when entering s2ram.
+> > >
+> > > While this commit has no impact on probe order for me (unlike in Marek's
+> > > case), it does have an impact on suspend order:
+> > >   - Before this commit:
+> > >       1. The keyboard (gpio-keys) is suspended, and calls
+> > >          enable_irq_wake() to inform the upstream interrupt controller
+> > >          (INTC) that it is part of the wake-up path,
+> > >       2. INTC is suspended, and calls device_set_wakeup_path() to inform
+> > >          the device core that it must be kept enabled,
+> > >       3. The system is woken by pressing a wake-up key.
+> > >
+> > >   - After this commit:
+> > >       1. INTC is suspended, and is not aware it is part of the wake-up
+> > >          path, so it is disabled by the device core,
+> > >       2. gpio-keys is suspended, and calls enable_irq_wake() in vain,
+> > >       3. Pressing a wake-up key has no effect, as INTC is disabled, and
+> > >          the interrupt does not come through.
+> > >
+> > > It looks like no device links are involved, as both gpio-keys and INTC have
+> > > no links.
+> > > Do you have a clue?
+> > >
+> > > Thanks!
+> >
+> > That patch of mine defers probe on all devices added by the
+> > of_platform_default_populate() call, and then once the call returns,
+> > it immediately triggers a deferred probe.
+> >
+> > So all these devices are being probed in parallel in the deferred
+> > probe workqueue while the main "initcall thread" continues down to
+> > further initcalls. It looks like some of the drivers in subsequent
+> > initcalls are assuming that devices in the earlier initcalls always
+> > probe and can't be deferred?
+> >
+> > There are two options.
+> > 1. Fix these drivers.
+> > 2. Add a "flush deferred workqueue" in fw_devlink_resume()
+> >
+> > I'd rather we fix the drivers so that they handle deferred probes
+> > correctly. Thoughts?
+>
+> While the affected drivers should handle deferred probe fine, none of
+> the affected drivers is subject to deferred probing: they all probe
+> successfully on first try (I had added debug prints to
+> platform_drv_probe() to be sure).
+> The affected drivers are still probed in the same order (INTC is one of
+> the earliest drivers probed, gpio-keys is the last).
 
-Add the RPC pins/groups/functions to the R8A77970 PFC driver.
-They can be used if an Octal-SPI flash or HyperFlash is connected.
+Thanks, this is useful info. Now I know that my patch isn't somehow
+reordering devices that would have probed as soon as
+of_platform_default_populate_init() added them.
 
-Based on the patch by Dmitry Shifrin <dmitry.shifrin@cogentembedded.com>.
+When you say the "The affected drivers are still probed in the same
+order", are you only referring to the devices that would have probed
+before of_platform_default_populate_init() returns? Or ALL devices in
+the system are probing in the same order?
 
-Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+I assume gpio-keys gets probed in the "normal init thread" and not by
+the deferred probe workqueue? I'm guessing this because gpio_keys
+driver seems to register during late_initcall() whereas
+of_platform_default_populate_init() runs as an arch_initcall_sync().
 
----
-The patch is against the 'sh-pfc' branch of Geert's 'renesas-drivers.git' repo.
+> However, during
+> system suspend, gpio-keys is suspended before INTC, which is wrong, as
+> gpio-keys uses an interrupt provided by INTC.
+>
+> Perhaps the "in parallel" is the real culprit, and there is a race
+> condition somewhere?
 
- drivers/pinctrl/sh-pfc/pfc-r8a77970.c |   76 ++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+I tried digging into the gpio_keys driver code to see how it interacts
+with INTC and if gpio-keys defers probe if INTC hasn't probed yet. But
+it seems like a rabbit hole that'd be easier to figure out when you
+have the device. Can you check if gpio-keys is probing before INTC in
+the "bad" case?
 
-Index: renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
-===================================================================
---- renesas-drivers.orig/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
-+++ renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
-@@ -1416,6 +1416,64 @@ static const unsigned int qspi1_data4_mu
- 	QSPI1_IO2_MARK, QSPI1_IO3_MARK
- };
- 
-+/* - RPC -------------------------------------------------------------------- */
-+static const unsigned int rpc_clk1_pins[] = {
-+	/* Octal-SPI flash: C/SCLK */
-+	RCAR_GP_PIN(5, 0),
-+};
-+static const unsigned int rpc_clk1_mux[] = {
-+	QSPI0_SPCLK_MARK,
-+};
-+static const unsigned int rpc_clk2_pins[] = {
-+	/* HyperFlash: CK, CK# */
-+	RCAR_GP_PIN(5, 0), RCAR_GP_PIN(5, 6),
-+};
-+static const unsigned int rpc_clk2_mux[] = {
-+	QSPI0_SPCLK_MARK, QSPI1_SPCLK_MARK,
-+};
-+static const unsigned int rpc_ctrl_pins[] = {
-+	/* Octal-SPI flash: S#/CS, DQS */
-+	/* HyperFlash: CS#, RDS */
-+	RCAR_GP_PIN(5, 5), RCAR_GP_PIN(5, 11),
-+};
-+static const unsigned int rpc_ctrl_mux[] = {
-+	QSPI0_SPCLK_MARK, QSPI0_SSL_MARK,
-+};
-+static const unsigned int rpc_data_pins[] = {
-+	/* DQ[0:7] */
-+	RCAR_GP_PIN(5, 1), RCAR_GP_PIN(5, 2),
-+	RCAR_GP_PIN(5, 3), RCAR_GP_PIN(5, 4),
-+	RCAR_GP_PIN(5, 7), RCAR_GP_PIN(5, 8),
-+	RCAR_GP_PIN(5, 9), RCAR_GP_PIN(5, 10),
-+};
-+static const unsigned int rpc_data_mux[] = {
-+	QSPI0_MOSI_IO0_MARK, QSPI0_MISO_IO1_MARK,
-+	QSPI0_IO2_MARK, QSPI0_IO3_MARK,
-+	QSPI1_MOSI_IO0_MARK, QSPI1_MISO_IO1_MARK,
-+	QSPI1_IO2_MARK, QSPI1_IO3_MARK,
-+};
-+static const unsigned int rpc_reset_pins[] = {
-+	/* RPC_RESET# */
-+	RCAR_GP_PIN(5, 12),
-+};
-+static const unsigned int rpc_reset_mux[] = {
-+	RPC_RESET_N_MARK,
-+};
-+static const unsigned int rpc_int_pins[] = {
-+	/* RPC_INT# */
-+	RCAR_GP_PIN(5, 14),
-+};
-+static const unsigned int rpc_int_mux[] = {
-+	RPC_INT_N_MARK,
-+};
-+static const unsigned int rpc_wp_pins[] = {
-+	/* RPC_WP# */
-+	RCAR_GP_PIN(5, 13),
-+};
-+static const unsigned int rpc_wp_mux[] = {
-+	RPC_WP_N_MARK,
-+};
-+
- /* - SCIF Clock ------------------------------------------------------------- */
- static const unsigned int scif_clk_a_pins[] = {
- 	/* SCIF_CLK */
-@@ -1750,6 +1808,13 @@ static const struct sh_pfc_pin_group pin
- 	SH_PFC_PIN_GROUP(qspi1_ctrl),
- 	SH_PFC_PIN_GROUP(qspi1_data2),
- 	SH_PFC_PIN_GROUP(qspi1_data4),
-+	SH_PFC_PIN_GROUP(rpc_clk1),
-+	SH_PFC_PIN_GROUP(rpc_clk2),
-+	SH_PFC_PIN_GROUP(rpc_ctrl),
-+	SH_PFC_PIN_GROUP(rpc_data),
-+	SH_PFC_PIN_GROUP(rpc_reset),
-+	SH_PFC_PIN_GROUP(rpc_int),
-+	SH_PFC_PIN_GROUP(rpc_wp),
- 	SH_PFC_PIN_GROUP(scif_clk_a),
- 	SH_PFC_PIN_GROUP(scif_clk_b),
- 	SH_PFC_PIN_GROUP(scif0_data),
-@@ -1954,6 +2019,16 @@ static const char * const qspi1_groups[]
- 	"qspi1_data4",
- };
- 
-+static const char * const rpc_groups[] = {
-+	"rpc_clk1",
-+	"rpc_clk2",
-+	"rpc_ctrl",
-+	"rpc_data",
-+	"rpc_reset",
-+	"rpc_int",
-+	"rpc_wp",
-+};
-+
- static const char * const scif_clk_groups[] = {
- 	"scif_clk_a",
- 	"scif_clk_b",
-@@ -2039,6 +2114,7 @@ static const struct sh_pfc_function pinm
- 	SH_PFC_FUNCTION(pwm4),
- 	SH_PFC_FUNCTION(qspi0),
- 	SH_PFC_FUNCTION(qspi1),
-+	SH_PFC_FUNCTION(rpc),
- 	SH_PFC_FUNCTION(scif_clk),
- 	SH_PFC_FUNCTION(scif0),
- 	SH_PFC_FUNCTION(scif1),
+Also, in general, can you see if there's a difference in the probe
+order between all the devices in the system? Adding a log to
+really_probe() would be better in case non-platform devices are
+getting reordered (my change affects all devices that are created from
+DT, not just platform devices).
+
+I want to make sure we understand the real issue before we try to fix it.
+
+Thanks,
+Saravana
