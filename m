@@ -2,215 +2,199 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48D452019B9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2020 19:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A822019D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2020 19:56:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403921AbgFSRrY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Jun 2020 13:47:24 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:44825 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403903AbgFSRrX (ORCPT
+        id S1732608AbgFSRyh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Jun 2020 13:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731600AbgFSRyg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Jun 2020 13:47:23 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id B88DA3C057C;
-        Fri, 19 Jun 2020 19:47:20 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PJi1VxIm3hlR; Fri, 19 Jun 2020 19:47:15 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AF3FF3C00BA;
-        Fri, 19 Jun 2020 19:47:15 +0200 (CEST)
-Received: from vmlxhi-121.localdomain (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 19 Jun
- 2020 19:47:15 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-Subject: [PATCH 2/2] [RFC] media: rcar-vin: make timeout of the irq timer configurable via v4l2 control
-Date:   Fri, 19 Jun 2020 19:46:11 +0200
-Message-ID: <1592588777-100596-2-git-send-email-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
-References: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
+        Fri, 19 Jun 2020 13:54:36 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC42CC0613EE
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 10:54:35 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id 9so12487997ljc.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 10:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:references:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LtdXAlu47wyWf4vxXj+jp7xPrK3QijfjtnczPQlueO0=;
+        b=GNpLO4HZKTC4YqSMmEzbk/RJt9ckyq3PgYrKdPRAv+CByjKGlE29K+luI2g3BvtS6V
+         LQtXZupFHrxqnaQx/kkADdiNtzHGWZk2fADdzzNDw29qDkE3EdY2gOZ+2dyGBti5GJNE
+         Y7PbxewVZUUPmUq7f/ghs/FEeyDMPG2N7CHWPmS0p+lEn6USlNB8476oNJ2k7twi3VIE
+         00yVYJ6DGdLAxMwgQ1/ZhJA4dSjYniapSW5A5KUSdU/6wOjfW4qQESdUepJha/9DQpQE
+         pZzs37w4XakexgDTexKOh2VvEyzKY9gmXBljdnX9/Q6OXKDJLm+4+z1D/tVhpe2adQWg
+         uT1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=LtdXAlu47wyWf4vxXj+jp7xPrK3QijfjtnczPQlueO0=;
+        b=YGhIwaEILpUGwjMEpJp85yMCla5CRGXisKTsQaOp18hRqx5XyJ1NxTzEQX4yTvLzbl
+         ApWE+kZcvP0kY7f3G2hzH2DiwTOGxJQ3bYk9E76U8u5noMx4n8sId8iNtOYPiQs69ZEE
+         VbGJh5BfUt1WmV4H8tv/KWiwT/4DzQZLUoj0j0ssyIfr7p6AQwaoyEQ4vYNfQ7vXnlCS
+         9jLt5AAXkGuDZg2iq2qVRA9//WgxIG3nJ4/8tIJXDCYAitQogqYGusVAHkDsAyWFNYuT
+         ryqBMcyMgobB1wwKm4AgKownv9vr8ATf4OjxjXSWkZxplAvGV5DZaPoKIEsEocKsceAA
+         qVWw==
+X-Gm-Message-State: AOAM532M/ydb5hbh4e9XiXRFFbVzbWvVeB3fAFfLxgB/13Elh6pQ7RRv
+        Kpmumx2wun6mIXBwn42Q3DKajefUEDk=
+X-Google-Smtp-Source: ABdhPJzX8vTlKzbr4Uo1H644IY61Ap3uE5v5Cba+I3vvKu/jdR5vq0jWtC6acJJ6A2+8r5y5BmvE6g==
+X-Received: by 2002:a2e:6a05:: with SMTP id f5mr2487019ljc.272.1592589274122;
+        Fri, 19 Jun 2020 10:54:34 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:441c:ac8f:7564:6e7d:9e36:7ded])
+        by smtp.gmail.com with ESMTPSA id n10sm1512799lfb.82.2020.06.19.10.54.33
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 Jun 2020 10:54:33 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: [PATCH] pinctrl: sh-pfc: r8a77970: add RPC pins, groups, and
+ functions
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+References: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <3982785f-4fca-96f9-2b6a-a0d1828cb0ad@cogentembedded.com>
+Date:   Fri, 19 Jun 2020 20:54:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.72.92.132]
+In-Reply-To: <21306a59-8f20-ad08-fdc1-bcc6333c01d4@cogentembedded.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Different framerates imply different periods between successive frames.
-Therefore it is reasonable to make the timeout of the irq_timer
-configurable at the run time so userspace can avoid unnecessary long
-waiting times. Therefore this commit adds a new custom control to rcar-vin.
-This allows to change the timeout before the start of streaming.
+Add the RPC pins/groups/functions to the R8A77970 PFC driver.
+They can be used if an Octal-SPI flash or HyperFlash is connected.
 
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Based on the patch by Dmitry Shifrin <dmitry.shifrin@cogentembedded.com>.
+
+Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
 ---
- drivers/media/platform/rcar-vin/rcar-core.c | 17 ++++++++++++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c  | 14 +++++++++-----
- drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++++
- include/uapi/linux/rcar-vin.h               |  7 +++++++
- include/uapi/linux/v4l2-controls.h          |  6 ++++++
- 5 files changed, 43 insertions(+), 6 deletions(-)
+The patch is against the 'sh-pfc' branch of Geert's 'renesas-drivers.git' repo.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 7440c89..81faa87 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -884,6 +884,17 @@ static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
- 	return 0;
- }
- 
-+static const struct v4l2_ctrl_config rvin_ctrl_irq_timeout = {
-+	.ops = &rvin_ctrl_ops,
-+	.id = V4L2_CID_RCAR_VIN_IRQ_TIMEOUT,
-+	.name = "frame completion timeout",
-+	.type = V4L2_CTRL_TYPE_INTEGER,
-+	.min = 0,
-+	.max = S32_MAX,
-+	.step = 1,
-+	.def = IRQ_TIMEOUT_MS,
-+};
-+
- static int rvin_mc_init(struct rvin_dev *vin)
- {
- 	int ret;
-@@ -901,13 +912,17 @@ static int rvin_mc_init(struct rvin_dev *vin)
- 	if (ret)
- 		rvin_group_put(vin);
- 
--	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
-+	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 2);
- 	if (ret < 0)
- 		return ret;
- 
- 	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
- 			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
- 
-+	vin->ctrl_irq_timeout = v4l2_ctrl_new_custom(&vin->ctrl_handler,
-+						     &rvin_ctrl_irq_timeout,
-+						     NULL);
-+
- 	if (vin->ctrl_handler.error) {
- 		ret = vin->ctrl_handler.error;
- 		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index bf8d733..062f338 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -947,7 +947,7 @@ static void rvin_irq_timer_function(struct timer_list *timer)
- 					    irq_timer);
- 
- 	vin_err(vin, "%s: frame completion timeout after %i ms!\n",
--		__func__, IRQ_TIMEOUT_MS);
-+		__func__, jiffies_to_msecs(vin->irq_timeout));
- 	v4l2_event_queue(&vin->vdev, &rvin_irq_timeout);
- }
- 
-@@ -1022,7 +1022,7 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
- 	}
- 
--	mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-+	mod_timer(&vin->irq_timer, jiffies + vin->irq_timeout);
- 
- 	vin->sequence++;
- 
-@@ -1233,6 +1233,7 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	struct rvin_dev *vin = vb2_get_drv_priv(vq);
- 	unsigned long flags;
- 	int ret;
-+	s32 irq_timeout = v4l2_ctrl_g_ctrl(vin->ctrl_irq_timeout);
- 
- 	/* Allocate scratch buffer. */
- 	vin->scratch = dma_alloc_coherent(vin->dev, vin->format.sizeimage,
-@@ -1265,11 +1266,14 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
- 
- 	spin_unlock_irqrestore(&vin->qlock, flags);
- out:
--	if (ret)
-+	if (ret) {
- 		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
- 				  vin->scratch_phys);
--	else
--		mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-+	} else {
-+		vin->irq_timeout = msecs_to_jiffies(irq_timeout);
-+		mod_timer(&vin->irq_timer, jiffies + vin->irq_timeout);
-+		vin_dbg(vin, "%s: set irq timer to %i ms\n", __func__, irq_timeout);
-+	}
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 7408f67..4e514e7 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -201,6 +201,9 @@ struct rvin_info {
-  * @src_rect:		active size of the video source
-  * @std:		active video standard of the video source
-  * @irq_timer:		monitors regular capturing of frames in rvin_irq()
-+ * @irq_timeout:	timeout value in jiffies, which is currently used by
-+ *			@irq_timer and can be changed via @ctrl_irq_timeout
-+ * @ctrl_irq_timeout:	controls value of @irq_timeout
-  *
-  * @alpha:		Alpha component to fill in for supported pixel formats
-  */
-@@ -246,6 +249,8 @@ struct rvin_dev {
- 	v4l2_std_id std;
- 
- 	struct timer_list irq_timer;
-+	unsigned long irq_timeout;
-+	struct v4l2_ctrl *ctrl_irq_timeout;
- 	unsigned int alpha;
+Changes in version 2:
+- fixed up the initializer for rpc_ctrl_mux[];
+- added Geert's tag.
+
+ drivers/pinctrl/sh-pfc/pfc-r8a77970.c |   76 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+
+Index: renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+===================================================================
+--- renesas-drivers.orig/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
++++ renesas-drivers/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+@@ -1416,6 +1416,64 @@ static const unsigned int qspi1_data4_mu
+ 	QSPI1_IO2_MARK, QSPI1_IO3_MARK
  };
  
-diff --git a/include/uapi/linux/rcar-vin.h b/include/uapi/linux/rcar-vin.h
-index 4eb7f5e..6c72584 100644
---- a/include/uapi/linux/rcar-vin.h
-+++ b/include/uapi/linux/rcar-vin.h
-@@ -3,8 +3,15 @@
- #ifndef RCAR_VIN_USER_H
- #define RCAR_VIN_USER_H
- 
-+#include <linux/v4l2-controls.h>
-+
- /* class for events sent by the rcar-vin driver */
- #define V4L2_EVENT_RCAR_VIN_CLASS	V4L2_EVENT_PRIVATE_START
- #define V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT	(V4L2_EVENT_RCAR_VIN_CLASS | 0x1)
- 
-+/* private controls for rcar-vin */
-+enum rcar_vin_ctrl_id {
-+	V4L2_CID_RCAR_VIN_IRQ_TIMEOUT = V4L2_CID_USER_RCAR_VIN_BASE
++/* - RPC -------------------------------------------------------------------- */
++static const unsigned int rpc_clk1_pins[] = {
++	/* Octal-SPI flash: C/SCLK */
++	RCAR_GP_PIN(5, 0),
++};
++static const unsigned int rpc_clk1_mux[] = {
++	QSPI0_SPCLK_MARK,
++};
++static const unsigned int rpc_clk2_pins[] = {
++	/* HyperFlash: CK, CK# */
++	RCAR_GP_PIN(5, 0), RCAR_GP_PIN(5, 6),
++};
++static const unsigned int rpc_clk2_mux[] = {
++	QSPI0_SPCLK_MARK, QSPI1_SPCLK_MARK,
++};
++static const unsigned int rpc_ctrl_pins[] = {
++	/* Octal-SPI flash: S#/CS, DQS */
++	/* HyperFlash: CS#, RDS */
++	RCAR_GP_PIN(5, 5), RCAR_GP_PIN(5, 11),
++};
++static const unsigned int rpc_ctrl_mux[] = {
++	QSPI0_SSL_MARK, QSPI1_SSL_MARK,
++};
++static const unsigned int rpc_data_pins[] = {
++	/* DQ[0:7] */
++	RCAR_GP_PIN(5, 1), RCAR_GP_PIN(5, 2),
++	RCAR_GP_PIN(5, 3), RCAR_GP_PIN(5, 4),
++	RCAR_GP_PIN(5, 7), RCAR_GP_PIN(5, 8),
++	RCAR_GP_PIN(5, 9), RCAR_GP_PIN(5, 10),
++};
++static const unsigned int rpc_data_mux[] = {
++	QSPI0_MOSI_IO0_MARK, QSPI0_MISO_IO1_MARK,
++	QSPI0_IO2_MARK, QSPI0_IO3_MARK,
++	QSPI1_MOSI_IO0_MARK, QSPI1_MISO_IO1_MARK,
++	QSPI1_IO2_MARK, QSPI1_IO3_MARK,
++};
++static const unsigned int rpc_reset_pins[] = {
++	/* RPC_RESET# */
++	RCAR_GP_PIN(5, 12),
++};
++static const unsigned int rpc_reset_mux[] = {
++	RPC_RESET_N_MARK,
++};
++static const unsigned int rpc_int_pins[] = {
++	/* RPC_INT# */
++	RCAR_GP_PIN(5, 14),
++};
++static const unsigned int rpc_int_mux[] = {
++	RPC_INT_N_MARK,
++};
++static const unsigned int rpc_wp_pins[] = {
++	/* RPC_WP# */
++	RCAR_GP_PIN(5, 13),
++};
++static const unsigned int rpc_wp_mux[] = {
++	RPC_WP_N_MARK,
 +};
 +
- #endif /* RCAR_VIN_USER_H */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 6227141..cf4f085 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -198,6 +198,12 @@ enum v4l2_colorfx {
-  */
- #define V4L2_CID_USER_ATMEL_ISC_BASE		(V4L2_CID_USER_BASE + 0x10c0)
+ /* - SCIF Clock ------------------------------------------------------------- */
+ static const unsigned int scif_clk_a_pins[] = {
+ 	/* SCIF_CLK */
+@@ -1750,6 +1808,13 @@ static const struct sh_pfc_pin_group pin
+ 	SH_PFC_PIN_GROUP(qspi1_ctrl),
+ 	SH_PFC_PIN_GROUP(qspi1_data2),
+ 	SH_PFC_PIN_GROUP(qspi1_data4),
++	SH_PFC_PIN_GROUP(rpc_clk1),
++	SH_PFC_PIN_GROUP(rpc_clk2),
++	SH_PFC_PIN_GROUP(rpc_ctrl),
++	SH_PFC_PIN_GROUP(rpc_data),
++	SH_PFC_PIN_GROUP(rpc_reset),
++	SH_PFC_PIN_GROUP(rpc_int),
++	SH_PFC_PIN_GROUP(rpc_wp),
+ 	SH_PFC_PIN_GROUP(scif_clk_a),
+ 	SH_PFC_PIN_GROUP(scif_clk_b),
+ 	SH_PFC_PIN_GROUP(scif0_data),
+@@ -1954,6 +2019,16 @@ static const char * const qspi1_groups[]
+ 	"qspi1_data4",
+ };
  
-+/*
-+ * The base for the rcar-vin driver controls.
-+ * We reserve 16 controls for this driver.
-+ */
-+#define V4L2_CID_USER_RCAR_VIN_BASE		(V4L2_CID_USER_BASE + 0x10d0)
++static const char * const rpc_groups[] = {
++	"rpc_clk1",
++	"rpc_clk2",
++	"rpc_ctrl",
++	"rpc_data",
++	"rpc_reset",
++	"rpc_int",
++	"rpc_wp",
++};
 +
- /* MPEG-class control IDs */
- /* The MPEG controls are applicable to all codec controls
-  * and the 'MPEG' part of the define is historical */
--- 
-2.7.4
-
+ static const char * const scif_clk_groups[] = {
+ 	"scif_clk_a",
+ 	"scif_clk_b",
+@@ -2039,6 +2114,7 @@ static const struct sh_pfc_function pinm
+ 	SH_PFC_FUNCTION(pwm4),
+ 	SH_PFC_FUNCTION(qspi0),
+ 	SH_PFC_FUNCTION(qspi1),
++	SH_PFC_FUNCTION(rpc),
+ 	SH_PFC_FUNCTION(scif_clk),
+ 	SH_PFC_FUNCTION(scif0),
+ 	SH_PFC_FUNCTION(scif1),
