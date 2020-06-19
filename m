@@ -2,257 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FA12201BFB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2020 22:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B687201C46
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jun 2020 22:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733193AbgFSUIL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 19 Jun 2020 16:08:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47002 "EHLO
+        id S2391915AbgFSUU0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Jun 2020 16:20:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732841AbgFSUIL (ORCPT
+        with ESMTP id S2391932AbgFSUUZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 19 Jun 2020 16:08:11 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29D6BC0613F0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 13:08:11 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id 127so2128801ooc.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 13:08:11 -0700 (PDT)
+        Fri, 19 Jun 2020 16:20:25 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AA6BC0613EE
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 13:20:23 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id n23so12913878ljh.7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 19 Jun 2020 13:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6cChN1CWJKAIkfkaDzcS4umHpeFkFLGnn2w8hUos2oI=;
-        b=q6lwCzCD+nc+ZvxijEpZHJ3Hp1Eh+wg0jLHu+ESMzOz9HPbhomMmAdLQIps/HyaMN8
-         tBqKXXjTVdtVWvqEqCVpxtA6GcUpmj6q/fCRfKZ34EZluf76f/sJpOug+Du0mwd+zbKs
-         iwxl3f/6W0/0kwNWXi1m/wmGFdUVy+kjMe+l0MwepRdFDpGUinJWCU6UG/FYx5utqsan
-         5KeRuUuKhCZGldyvFxRffNQTFjDhJM1Pj/+9/cuBaf1W7iV5fcBt8WoKnzcCRKWFGu6k
-         1+ysmFEh8UhjJO++6bdbIU3giHNhSMgtjfTtc+YGOfxGx1ypt/RT5urPugI2L6mV48XN
-         qFfA==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:organization:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=E7L9r0z3/t6FzQeUpWNZ1H0U1n9mxr0xJxprU/23UXA=;
+        b=R/Z5ulzLOEi4Zu98oH9KytyUWyT0BLLPsu82Xx1VGBwKKHVvsVWE8eN3tYi4dpDJUH
+         v2PqoCJBmR9q3ghNgQGWlOzWLttFwuyLjMio1ugoptNHAlXWkqR+kUKAmAzzgv4BIcQE
+         V8bcO4aN6I+Ov3Boh8Lp8OFLo0rc7rUYK53S9RFgrVqYrTeZUnWIaGjbnsQfNYTt5O7S
+         S5/+E9yuXeL/PuzQFXHS5exqZs9+I1rY/Wxp5r1g5AkQuEZBZZaJ+np8sU/LVRPKW4d7
+         9y72XLlpQTvyBJef7mBoaf46RzCOJ8ZWFQUeEFmo8mf8L+CfskZVJ6dvREukt3lJidci
+         0kGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6cChN1CWJKAIkfkaDzcS4umHpeFkFLGnn2w8hUos2oI=;
-        b=dwwgggtrClk63NZiRqck1BKFQG8lObvrDTmD1vqJZBpTw7u1UaRdLt2kLeuip2e274
-         u+UgxUDB6gK8XNMSC56ykQueRGAn/w7ZlhBT0G46w0dv479otqZfE0hszoWQnGBlOAd9
-         ZJDwM8CU5bGz00Tw8qYQFw83c5HNTBbHXs4Xc25NgbB+LXtIkxPuSqklwqyImHC+/4nz
-         vDt7oOk1sCBgs/3/tsoLEyp8/7PKBn//TrhERJ8mYyJ6bKObaOXidkfWzwwKlptwaXsU
-         JS0h4BGEXT41k8b4wXfi4HNp2DGW0C6EXelOXfQZMJexCGGjjw8Mea3hVZk8e1MqHLQx
-         LeVg==
-X-Gm-Message-State: AOAM531/z8Co3oq+vuySkoz0DxalnVwZ8Cq1gC9Q11gjmBcQ8H+hwlYj
-        FupcAw5jExSl9a9m/1HgJQXbX3oacmqViuabPiviLQ==
-X-Google-Smtp-Source: ABdhPJxq+u3aiSnnm9ryW3GqhCLWVL1G2jUnd7WtdsL4sMJKoJqYGI0+CY1vicH2J/uzXbApgUXWAErr+EQMPVVJO+s=
-X-Received: by 2002:a4a:374b:: with SMTP id r72mr4855925oor.15.1592597289633;
- Fri, 19 Jun 2020 13:08:09 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:organization:message-id:date
+         :user-agent:mime-version:content-language:content-transfer-encoding;
+        bh=E7L9r0z3/t6FzQeUpWNZ1H0U1n9mxr0xJxprU/23UXA=;
+        b=G2Refx3FBUYwDJhJnVzPAIkwsfzrBqP+Z1+/twRYR2e7Ob3uNaiiUR9hPHulhuq2v8
+         SKH2dRL3f5LJZTginysArmd+YjOuEOe0tu8o10PVqm4x+whnTsO7JucT/t5dHRylgZqz
+         HKc9qN1wZkP46IsjXQdlULUQ1d6yMKy0pDQQoUFwaXl9EsR3POx8lS7th9W8ar4SIB3t
+         mPfaTcQqvvMd8/MT32vyXC7CuI0WwNTcU1aNc0FUCOZbItvdQE5JT89HMdsAB/kI5AWd
+         3CHLu3yZW+PtyhIC/OGS9ifz8/yKxStTwDa9G2N9LjiGsW4aenagPhLjqFleYSN9dj76
+         RvoA==
+X-Gm-Message-State: AOAM531C15LrBy3XkQtujlyhSVgFg/D5CHX8o5BIhccfCLG9jFC86NTn
+        wUlAifA+eUqKVl0ciJUO61kOpQ==
+X-Google-Smtp-Source: ABdhPJy9WBcdq8Qh7iQJJdk5T+VHTJmTWSXfO00qnlKV96pTDYj7e/D/mGxz/LSoxOtW4KOj1sqrZg==
+X-Received: by 2002:a2e:9bc6:: with SMTP id w6mr2821858ljj.429.1592598021989;
+        Fri, 19 Jun 2020 13:20:21 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:441c:ac8f:7564:6e7d:9e36:7ded])
+        by smtp.gmail.com with ESMTPSA id t16sm1318040ljj.57.2020.06.19.13.20.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 Jun 2020 13:20:21 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: [PATCH v2 0/2] Add R8A77970 RPC-IF support
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>
+Organization: Cogent Embedded
+Message-ID: <13425133-eedf-081f-4ed7-cd9012ce7d6d@cogentembedded.com>
+Date:   Fri, 19 Jun 2020 23:20:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-References: <20200515053500.215929-1-saravanak@google.com> <20200515053500.215929-5-saravanak@google.com>
- <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
- <CAGETcx9JKbNQWQwNah7pO5ppVSAe86R-OmMujZPYNkuTCLwKnQ@mail.gmail.com>
- <CAMuHMdU2gF=aTeVxRvtzAMLGY=GyBDfBwrYZxoRkL1tV7dL56g@mail.gmail.com>
- <CAGETcx-rHFthf-aLb_S-ST6Evozvgis5XX5u0LNxyvfMoJOLKQ@mail.gmail.com> <CAMuHMdXW0jM-A5cvYtFVcgc1Gm3tKkvr0+kWpeJqpJDzNOuYeA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXW0jM-A5cvYtFVcgc1Gm3tKkvr0+kWpeJqpJDzNOuYeA@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Fri, 19 Jun 2020 13:07:33 -0700
-Message-ID: <CAGETcx8W96KAw-d_siTX4qHB_-7ddk0miYRDQeHE6E0_8qx-6Q@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] of: platform: Batch fwnode parsing when adding all
- top level devices
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Len Brown <lenb@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Ji Luo <ji.luo@nxp.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Snipped a bunch of old context.
+Hello!
 
-On Fri, Jun 19, 2020 at 5:24 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> On Fri, Jun 19, 2020 at 1:01 AM Saravana Kannan <saravanak@google.com> wrote:
-> >
-> > When you say the "The affected drivers are still probed in the same
-> > order", are you only referring to the devices that would have probed
-> > before of_platform_default_populate_init() returns? Or ALL devices in
-> > the system are probing in the same order?
->
-> I was referring to all platform devices (based on a debug print added to
-> platform_drv_probe()). See more below.
->
-> > I assume gpio-keys gets probed in the "normal init thread" and not by
-> > the deferred probe workqueue? I'm guessing this because gpio_keys
-> > driver seems to register during late_initcall() whereas
-> > of_platform_default_populate_init() runs as an arch_initcall_sync().
->
-> After adding a WARN(1, ...) to gpio_keys_probe(), the backtrace shows it
-> is called directly from do_one_initcall(), in both the good and the bad
-> case.
->
-> > > However, during
-> > > system suspend, gpio-keys is suspended before INTC, which is wrong, as
-> > > gpio-keys uses an interrupt provided by INTC.
-> > >
-> > > Perhaps the "in parallel" is the real culprit, and there is a race
-> > > condition somewhere?
-> >
-> > I tried digging into the gpio_keys driver code to see how it interacts
-> > with INTC and if gpio-keys defers probe if INTC hasn't probed yet. But
-> > it seems like a rabbit hole that'd be easier to figure out when you
-> > have the device. Can you check if gpio-keys is probing before INTC in
-> > the "bad" case?
->
-> It is not, gpio-keys is always probed very late.
->
-> Hence for testing, I moved gpio-keys initialization just before INTC, so
-> it is probed before INTC. Then gpio-keys is deferred, as expected, and
-> reprobes successfully later.
-> Interestingly, that fixes my wake-up issue, too?!?
->
-> > Also, in general, can you see if there's a difference in the probe
-> > order between all the devices in the system? Adding a log to
-> > really_probe() would be better in case non-platform devices are
-> > getting reordered (my change affects all devices that are created from
-> > DT, not just platform devices).
-> >
-> > I want to make sure we understand the real issue before we try to fix it.
->
-> Enabling all debug prints in really_probe(), comparing the output
-> before/after the bad commit, and filtering out all noise, I get:
->
->      bus: 'platform': really_probe: probing driver reg-dummy with
-> device reg-dummy
-> B    bus: 'platform': really_probe: probing driver renesas_intc_irqpin
-> with device e6900000.interrupt-controller
->      bus: 'platform': really_probe: probing driver renesas_intc_irqpin
-> with device e6900004.interrupt-controller
-> A   +Workqueue: events deferred_probe_work_func
->      bus: 'platform': really_probe: probing driver renesas_intc_irqpin
-> with device e6900008.interrupt-controller
-> C    bus: 'platform': really_probe: probing driver renesas_intc_irqpin
-> with device e690000c.interrupt-controller
->      bus: 'platform': really_probe: probing driver sh-pfc with device
-> e6050000.pin-controller
->      bus: 'platform': really_probe: probing driver reg-fixed-voltage
-> with device regulator-1p8v
->      bus: 'platform': really_probe: probing driver reg-fixed-voltage
-> with device regulator-3p3v
->      bus: 'platform': really_probe: probing driver reg-fixed-voltage
-> with device regulator-vmmc-sdhi0
->      bus: 'platform': really_probe: probing driver reg-fixed-voltage
-> with device regulator-vmmc-sdhi2
->      bus: 'platform': really_probe: probing driver i2c-sh_mobile with
-> device e6820000.i2c
->      bus: 'i2c': really_probe: probing driver as3711 with device 0-0040
->      bus: 'platform': really_probe: probing driver as3711-regulator
-> with device as3711-regulator
->      bus: 'platform': really_probe: probing driver i2c-sh_mobile with
-> device e6822000.i2c
->      bus: 'platform': really_probe: probing driver i2c-sh_mobile with
-> device e6826000.i2c
->      bus: 'i2c': really_probe: probing driver pcf857x with device 2-0020
->      bus: 'platform': really_probe: probing driver sh_cmt with device
-> e6138000.timer
->      bus: 'platform': really_probe: probing driver armv7-pmu with device pmu
->      bus: 'platform': really_probe: probing driver simple-pm-bus with
-> device fec10000.bus
->      bus: 'platform': really_probe: probing driver as3711-backlight
-> with device as3711-backlight
->      bus: 'platform': really_probe: probing driver sh-sci with device
-> e6c80000.serial
->      bus: 'platform': really_probe: probing driver smsc911x with
-> device 10000000.ethernet
->      bus: 'i2c': really_probe: probing driver st1232-ts with device 1-0055
->      bus: 'i2c': really_probe: probing driver adxl34x with device 0-001d
->      bus: 'i2c': really_probe: probing driver rtc-rs5c372 with device 0-0032
->      bus: 'platform': really_probe: probing driver rmobile_reset with
-> device e6180000.system-controller
->      bus: 'platform': really_probe: probing driver cpufreq-dt with
-> device cpufreq-dt
->      bus: 'platform': really_probe: probing driver sh_mobile_sdhi with
-> device ee100000.sd
->      bus: 'platform': really_probe: probing driver sh_mobile_sdhi with
-> device ee140000.sd
->      bus: 'platform': really_probe: probing driver sh_mmcif with
-> device e6bd0000.mmc
->      bus: 'platform': really_probe: probing driver leds-gpio with device leds
->      bus: 'i2c': really_probe: probing driver ak8975 with device 0-000c
->      bus: 'platform': really_probe: probing driver snd-soc-dummy with
-> device snd-soc-dummy
->      bus: 'i2c': really_probe: probing driver ak4642-codec with device 0-0012
->      bus: 'platform': really_probe: probing driver asoc-simple-card
-> with device sound
->      bus: 'platform': really_probe: probing driver fsi-pcm-audio with
-> device ec230000.sound
->      bus: 'platform': really_probe: probing driver asoc-simple-card
-> with device sound
->      bus: 'platform': really_probe: probing driver gpio-keys with
-> device keyboard"
->      bus: 'mmc': really_probe: probing driver mmcblk with device mmc2:0001
->
-> So all devices are probed in the exact same order.
-> A: Note the addition of the message "Workqueue: events
->    deferred_probe_work_func", which might give a clue?
-> B,C: "e6900000.interrupt-controller" and "e6900008.interrupt-controller"
->      are the two devices that are suspended later in the wrong order.
->      One of them is probed before A, one after, so A may be a red herring?
->
+Here's the set of 2 patches against Geert's 'renesas-devel.git' repo's
+'renesas-devel-2020-06-15-v5.8-rc1' tag. I'm adding the RPC-IF device node
+for R8A77970 (based on the RPC-IF driver) and describing the QSPI flashes
+connected to RPC-IF on the Eagle and V3M Starter Kit boards. Feel free to
+merge the 1st patch back to the R8A77980 patch from which the former one
+was split.
 
-Thanks! Your logs and the tip above helped!
+[1/2] arm64: dts: renesas: r8a77970: add RPC-IF support
+[2/2] arm64: dts: renesas: r8a77980: eagle/v3msk: add QSPI flash support
 
-*face palm*/Sigh... (for what is happening)
-
-In the absence of other info (like device links, parent-child
-relationship, etc) the device_add() order is used as an implicit order
-for suspend (in reverse) and resume.
-device_add() -> device_pm_add() -> list_add_tail(..., &dpm_list)
-
-But the deferred probe code reorders the deferred devices:
-deferred_probe_work_func() -> device_pm_move_to_tail()
-
-So, this is what is happening:
-1. of_platform_default_populate() adds all the top level devices in DT order.
-2. So dpm_list is: ... INTC, ..., gpio-keys
-3. Only devices with drivers already registered by this time get added
-to the deferred probe list (because that only happens when a driver
-matches)
-4. INTC is one of them.
-5. So when deferred_probe_work_func() gets to INTC, it moves it to the
-end of the dpm_list
-6. So dpm_list is now: ..., gpio-keys, ... INTC
-
-Things fail.
-
-Obviously, my patch is causing this unintended behavior and I could
-try to fix it. But I'm not really sure if the actual bug is in my
-patch...
-
-Deferred probe is supposed to allow a driver to defer probe without
-worrying something else is going to get screwed up. Also, order of
-devices in DT isn't supposed to affect functionality. Both of these
-are not true with the current behavior.
-
-I think instead of deferred_probe_work_func() moving the device to the
-end of the dpm_list, I think the device probing successfully is what
-should move it to the end of the dpm_list. That way, the dpm_list is
-actually ordered by when the devices become functional and not the
-random order in DT or random probe order which can get pretty
-convoluted with multiple deferred probes. This feels right and will
-make suspend/resume more robust against DT ordering -- but I'm not
-sure what other wide ranging impact this has for other platforms.
-
-Greg/Rafael, do you agree with the paragraph above? If yes, I can send
-a patch out that orders dpm_list by probe success order.
-
-Thanks,
-Saravana
+WBR, Sergei
