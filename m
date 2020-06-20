@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8275E2025FB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jun 2020 20:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60EC5202613
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 20 Jun 2020 21:04:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728424AbgFTSfV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 20 Jun 2020 14:35:21 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:45332 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728408AbgFTSfU (ORCPT
+        id S1728481AbgFTTEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 20 Jun 2020 15:04:36 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:39183 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728424AbgFTTEf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 20 Jun 2020 14:35:20 -0400
-Received: by mail-lj1-f194.google.com with SMTP id i27so15010089ljb.12
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Jun 2020 11:35:19 -0700 (PDT)
+        Sat, 20 Jun 2020 15:04:35 -0400
+Received: by mail-lj1-f193.google.com with SMTP id a9so15085320ljn.6
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 20 Jun 2020 12:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ZDnWtPHPaOLUtABOCxMTzOdKJ3ttE96ZinRb322rFx0=;
-        b=eq6Aj1TWfX62VaSFm8GnPxrXZNN+8/K8sypfOxY1QeqKihH8NJWlgN9A+0TKZN5cnl
-         qAWgj9uiqZuOPqOL6DF23YRMMgvmxnqj+4dYT1WDslruTsvDBvfYfT/MmRXPwH6+Wtxw
-         2Qd7iK1LroPvJO2/JzDajs5JREYR3E+UXGrTN2vwHqW2sr+2M9op5YurGJgxD+IAFg7Y
-         tor1wc3MUUFJjDNjeP+Jq5pBI5quxpbwf4QSff7VDem1n7AmwZyx0k1yQXyTuA8vr7vI
-         fvNoLzEOvZfymYFAjzPWX1xFP06AqT2JjzvnCBX3/cAoSvPFsx5Pf/ua9bedWdJb8li1
-         tpaQ==
+        bh=gt87KtJU3Py2Xwggx3DihBEvBGQErKAovzogrK/Y7Og=;
+        b=sWaxqeRiMDYEKs3Z+H86iGb4nPp0cOYA25+AhFEFnHeRk+/OQWg6x/DvGURYiQ8Zq4
+         gUjApymfUikESf21dumpMFLmPOMrHFUQaJxks86JZ+xi85eZFzjgM4dNc0T3+yC220CG
+         7j+8iPvgxRo/59SLecApE4+NP7Y3TXm6dhUJTZyVTk8PQ3gfkgS5xFtbVdIARTqtOzLD
+         3Q9twdq1R6+u+UdAXAbLhhN5M+raYYOuumQSgtT3SH8d3DpMzpdWw/kJZOeu4CoJbMzN
+         c6UDL5yXSkpJWmWeRnISqf4OiPwoiz3jtFxXLcjDUHKzrSGIOp7lpnjBwFg/GepINoum
+         GUVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=ZDnWtPHPaOLUtABOCxMTzOdKJ3ttE96ZinRb322rFx0=;
-        b=aQzzq9yePsSIweNEp1XDElHOk2epTqxox7AmwA0m2Js7g5A32EkdGEYrHw6BypRI8e
-         DfbtFcVuT01KLkB2cW7TIkdFpTwwoKdrLEFAd3btfWGXzymqNBxVvjJr+BNH9qiFStvY
-         YRfxESMsKtS1zMojW0wkrzSfoKcidW4kXU3d7Gjzvlgeked9LdDxfZxQSbyzbSmi79OD
-         Glpe1KzK9CIdmpM3YEyrLTsYWxqZ5wKTBqukZUaZqx2c5f5r6RoTOmRKMwAIlB5OjCRy
-         YTikWcRfcqN6T+QDxhZPe9Puqbr8O+kpK4zccs0dlalW9h93414IrMMd1xf+zJfo3vW/
-         L26A==
-X-Gm-Message-State: AOAM533eEgW2o37U4/oKJ3wqssnWEf82HuELR/TsqXOOIgqSJZdACk2p
-        weCtCT7fzG0A4x0B1Q66hK6y162OwMo=
-X-Google-Smtp-Source: ABdhPJz1js9/2hjpd6079DaMq9b36qjlv/9tLhUqKKYyHRN3m6/2hoCtQItXPNpPodjiLRzzL2hWvA==
-X-Received: by 2002:a2e:8346:: with SMTP id l6mr4404144ljh.209.1592678058239;
-        Sat, 20 Jun 2020 11:34:18 -0700 (PDT)
+        bh=gt87KtJU3Py2Xwggx3DihBEvBGQErKAovzogrK/Y7Og=;
+        b=Ke+uniz5cJj6EQtmCXBqd4uBdKNbUxNSIJew08grJBXJU3Qs+tQzfb70Dh/HAANgRW
+         w5WC3888lC+TUjMBM8w2YZ+J6Y8UeT8KlTnx4aC/sKIFpVFg/xDGl27tvUApek2XJUCv
+         08GYxH0g4iP1VJ0HbxyRWzVKDvmznDowpTBGtF78+hrgC2AYiYeTk9tMGGNwGc/id6d2
+         kXZ62Dunrx5CQIW4FrluMH/xz8LBaRje516zNM7gAvm/dy0IJJ6pLm0WtSRUFEMILiDg
+         zpcgU+scaOYv89xit6UDDoWRPYoK/Ue8z5wNpCs5DLeS423qvH6L/uD9Izh5yJAmOnMK
+         elgA==
+X-Gm-Message-State: AOAM5312VEnO9C9uYIfaPz4hSx3WqBQIwtepxaTvcX0p1sXKi8qKHeIB
+        l/PaOpOaeeo+BnlfNsP1d9j6o/1snpc=
+X-Google-Smtp-Source: ABdhPJw93ovWZoxrXKvmkItjVDf94YDZeudxy0paHQYMT1hCqW6/dQs8UC01ensQsGNSHhUcHyNg+A==
+X-Received: by 2002:a2e:3603:: with SMTP id d3mr4369653lja.259.1592679812386;
+        Sat, 20 Jun 2020 12:03:32 -0700 (PDT)
 Received: from wasted.cogentembedded.com ([2a00:1fa0:462b:c4af:1cf5:65ea:51a9:9da1])
-        by smtp.gmail.com with ESMTPSA id q13sm2218822lfb.55.2020.06.20.11.34.16
+        by smtp.gmail.com with ESMTPSA id x64sm151223lff.14.2020.06.20.12.03.30
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 20 Jun 2020 11:34:17 -0700 (PDT)
-Subject: Re: [PATCH/RFC 2/5] ravb: Split delay handling in parsing and
- applying
+        Sat, 20 Jun 2020 12:03:31 -0700 (PDT)
+Subject: Re: [PATCH/RFC 3/5] ravb: Add support for explicit internal clock
+ delay configuration
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -63,15 +63,15 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         netdev@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
 References: <20200619191554.24942-1-geert+renesas@glider.be>
- <20200619191554.24942-3-geert+renesas@glider.be>
+ <20200619191554.24942-4-geert+renesas@glider.be>
 From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 Organization: Cogent Embedded
-Message-ID: <cc7f8090-2713-7b9a-55ad-effd43b7a61b@cogentembedded.com>
-Date:   Sat, 20 Jun 2020 21:34:16 +0300
+Message-ID: <6935aea3-0acd-f1b9-b36c-553b8c3106d1@cogentembedded.com>
+Date:   Sat, 20 Jun 2020 22:03:29 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20200619191554.24942-3-geert+renesas@glider.be>
+In-Reply-To: <20200619191554.24942-4-geert+renesas@glider.be>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
@@ -82,13 +82,97 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 06/19/2020 10:15 PM, Geert Uytterhoeven wrote:
 
-> Currently, full delay handling is done in both the probe and resume
-> paths.  Split it in two parts, so the resume path doesn't have to redo
-> the parsing part over and over again.
+> Some EtherAVB variants support internal clock delay configuration, which
+> can add larger delays than the delays that are typically supported by
+> the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
+> properties).
+> 
+> Historically, the EtherAVB driver configured these delays based on the
+> "rgmii-*id" PHY mode.  This caused issues with PHY drivers that
+> implement PHY internal delays properly[1].  Hence a backwards-compatible
+> workaround was added by masking the PHY mode[2].
+> 
+> Add proper support for explicit configuration of the MAC internal clock
+> delays using the new "renesas,[rt]xc-delay-ps" properties.
+> Fall back to the old handling if none of these properties is present.
+> 
+> [1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for
+>     the KSZ9031 PHY")
+> [2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
+>     delays twice").
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+> ---
+>  drivers/net/ethernet/renesas/ravb.h      |  1 +
+>  drivers/net/ethernet/renesas/ravb_main.c | 35 ++++++++++++++++++------
+>  2 files changed, 27 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index e5ca12ce93c730a9..7453b17a37a2c8d0 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1038,6 +1038,7 @@ struct ravb_private {
+>  	unsigned wol_enabled:1;
+>  	unsigned rxcidm:1;		/* RX Clock Internal Delay Mode */
+>  	unsigned txcidm:1;		/* TX Clock Internal Delay Mode */
+> +	unsigned rgmii_override:1;	/* Deprecated rgmii-*id behavior */
+>  	int num_tx_desc;		/* TX descriptors per packet */
+>  };
+>  
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index f326234d1940f43e..0582846bec7726b6 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -1967,20 +1963,41 @@ static const struct soc_device_attribute ravb_delay_mode_quirk_match[] = {
+>  };
+>  
+>  /* Set tx and rx clock internal delay modes */
+> -static void ravb_parse_delay_mode(struct net_device *ndev)
+> +static void ravb_parse_delay_mode(struct device_node *np, struct net_device *ndev)
+>  {
+>  	struct ravb_private *priv = netdev_priv(ndev);
+> +	bool explicit_delay = false;
+> +	u32 delay;
+> +
+> +	if (!of_property_read_u32(np, "renesas,rxc-delay-ps", &delay)) {
+> +		/* Valid values are 0 and 1800, according to DT bindings */
+> +		priv->rxcidm = !!delay;
+> +		explicit_delay = true;
+> +	}
+> +	if (!of_property_read_u32(np, "renesas,txc-delay-ps", &delay)) {
+> +		/* Valid values are 0 and 2000, according to DT bindings */
+> +		priv->txcidm = !!delay;
+> +		explicit_delay = true;
+> +	}
+>  
+> +	if (explicit_delay)
+> +		return;
+> +
+> +	/* Fall back to legacy rgmii-*id behavior */
+>  	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
+> -	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID)
+> +	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID) {
+>  		priv->rxcidm = true;
+> +		priv->rgmii_override = true;
+
+   Mhm, these fields are not bool...
+
+> +	}
+>  
+>  	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
+>  	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_TXID) {
+>  		if (!WARN(soc_device_match(ravb_delay_mode_quirk_match),
+>  			  "phy-mode %s requires TX clock internal delay mode which is not supported by this hardware revision. Please update device tree",
+> -			  phy_modes(priv->phy_interface)))
+> +			  phy_modes(priv->phy_interface))) {
+>  			priv->txcidm = true;
+> +			priv->rgmii_override = true;
+
+    Same here...
 
 [...]
 
