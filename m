@@ -2,163 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCA91202998
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2020 10:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF4B20299C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2020 10:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729509AbgFUIZW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Jun 2020 04:25:22 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:57412 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729491AbgFUIZW (ORCPT
+        id S1729502AbgFUI0b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Jun 2020 04:26:31 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35542 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729491AbgFUI0a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Jun 2020 04:25:22 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 2CE7C20024;
-        Sun, 21 Jun 2020 10:25:18 +0200 (CEST)
-Date:   Sun, 21 Jun 2020 10:25:16 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>
-Subject: Re: [PATCH 03/27] drm: bridge: adv7511: Implement bridge connector
- operations
-Message-ID: <20200621082516.GJ74146@ravnborg.org>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-4-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 21 Jun 2020 04:26:30 -0400
+Received: by mail-ot1-f66.google.com with SMTP id d4so10685273otk.2;
+        Sun, 21 Jun 2020 01:26:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8jIlyp2B7ykXOcWiVp62uD7ENm39Ed6/smtH5dOsm2M=;
+        b=WlDdisQ7AxF7BZksZ2zU7pDDaEabHMYizdGgm+qMZjrB0v0MhMU8C9Xsrk6dekQrZO
+         p8iRNx6xLZQ6NxogJ6JRjmq84hYR+7cFU5UViUAKl++jnSjsG21KMOWNIP7xzTuS/Eob
+         JkVtnjQTV7TrbtNh5ugHKJAiRq3Xe0bTDmKl1rlkp1trOFg70UjS/x4dQd0aRRuFe+Dh
+         pVsscF0FiBhU7H8nkT6hMBcjrsTg8nm9I1w8W1c7pttuV+xWdaaz+ahwcwVkoFLqSFnq
+         qIfNUz69fxsF5mYifqk0GY2DUGW2HcEXm2NWQ6os04GPQDNg+HNPT93w9EJZhaW/b0Ve
+         XV+A==
+X-Gm-Message-State: AOAM5322Dz8rtEpPRC9bUDG9R+vpkMx44/9Ys6kgKfcSkZ9fssbwUYlG
+        h0PBmehRIIiMrwY8+zY769YDRnz2Lg1XuX/L3m4=
+X-Google-Smtp-Source: ABdhPJygY7oFa/A9Kf3E95G6PnoadxKwUQtLuqblMJ2djDeLg7T6KT5IExuVAgpURBzJN2ZmWSIgPmN+Kt1YEheJgXg=
+X-Received: by 2002:a9d:c29:: with SMTP id 38mr9054714otr.107.1592727988626;
+ Sun, 21 Jun 2020 01:26:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200526011505.31884-4-laurent.pinchart+renesas@ideasonboard.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
-        a=SKQEPIvcsN8yE0TeSHAA:9 a=hIzy9EQ5asbxjusu:21 a=YUHg5pYENprv0Tb-:21
-        a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22 a=E9Po1WZjFZOl8hwRPBS3:22
-        a=Vxmtnl_E_bksehYqCbjh:22
+References: <20200619191554.24942-1-geert+renesas@glider.be>
+ <20200619191554.24942-2-geert+renesas@glider.be> <75d3e6c2-9dbd-eec0-12e6-55eaef7c745a@cogentembedded.com>
+In-Reply-To: <75d3e6c2-9dbd-eec0-12e6-55eaef7c745a@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 21 Jun 2020 10:26:17 +0200
+Message-ID: <CAMuHMdWQ6kGZyUNfcNwrbQhnREA=U8TVpHD0cXPY9dWqFxvjhQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 1/5] dt-bindings: net: renesas,ravb: Document internal
+ clock delay properties
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 26, 2020 at 04:14:41AM +0300, Laurent Pinchart wrote:
-> Implement the bridge connector-related .get_edid(), .detect() and
-> .hpd_notify() operations, and report the related bridge capabilities.
-> 
-> Output status detection is implemented using the same backend as for the
-> DRM connector, but requires making mode retrieval at detection time
-> optional as no pointer to the connector is available to the bridge
-> .detect() operation. The reason for the need to retrieve modes at
-> detection time is unclear to me, and this may benefit from further
-> refactoring of hot plug handling code.
-As discussed before the get_modes is likely not needed.
-But this patch should not remove it - so fine
-> 
-> Hot plug detection is notified through the bridge HPD notification
-> framework when the bridge is used without creating a connector, and
-> falls back to the existing implementation otherwise. CEC handling of
-> disconnection is handled in the new .hpd_notify() operation in the new
-> code path.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 43 ++++++++++++++++++--
->  1 file changed, 39 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> index f0992b6d654f..2662f28f8007 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -443,9 +443,14 @@ static void adv7511_hpd_work(struct work_struct *work)
->  
->  	if (adv7511->connector.status != status) {
->  		adv7511->connector.status = status;
-> -		if (status == connector_status_disconnected)
-> -			cec_phys_addr_invalidate(adv7511->cec_adap);
-> -		drm_kms_helper_hotplug_event(adv7511->connector.dev);
-> +
-> +		if (adv7511->connector.dev) {
-> +			if (status == connector_status_disconnected)
-> +				cec_phys_addr_invalidate(adv7511->cec_adap);
-> +			drm_kms_helper_hotplug_event(adv7511->connector.dev);
-> +		} else {
-> +			drm_bridge_hpd_notify(&adv7511->bridge, status);
-> +		}
->  	}
->  }
->  
-> @@ -661,7 +666,8 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_connector *connector)
->  	if (status == connector_status_connected && hpd && adv7511->powered) {
->  		regcache_mark_dirty(adv7511->regmap);
->  		adv7511_power_on(adv7511);
-> -		adv7511_get_modes(adv7511, connector);
-> +		if (connector)
-> +			adv7511_get_modes(adv7511, connector);
->  		if (adv7511->status == connector_status_connected)
->  			status = connector_status_disconnected;
->  	} else {
-> @@ -917,11 +923,38 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
->  	return ret;
->  }
->  
-> +static enum drm_connector_status adv7511_bridge_detect(struct drm_bridge *bridge)
-> +{
-> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
-> +
-> +	return adv7511_detect(adv, NULL);
-> +}
-> +
-> +static struct edid *adv7511_bridge_get_edid(struct drm_bridge *bridge,
-> +					    struct drm_connector *connector)
-> +{
-> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
-> +
-> +	return adv7511_get_edid(adv, connector);
-> +}
-> +
-> +static void adv7511_bridge_hpd_notify(struct drm_bridge *bridge,
-> +				      enum drm_connector_status status)
-> +{
-> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
-> +
-> +	if (status == connector_status_disconnected)
-> +		cec_phys_addr_invalidate(adv->cec_adap);
-> +}
-> +
->  static const struct drm_bridge_funcs adv7511_bridge_funcs = {
->  	.enable = adv7511_bridge_enable,
->  	.disable = adv7511_bridge_disable,
->  	.mode_set = adv7511_bridge_mode_set,
->  	.attach = adv7511_bridge_attach,
-> +	.detect = adv7511_bridge_detect,
-> +	.get_edid = adv7511_bridge_get_edid,
-> +	.hpd_notify = adv7511_bridge_hpd_notify,
->  };
->  
->  /* -----------------------------------------------------------------------------
-> @@ -1250,6 +1283,8 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
->  		goto err_unregister_cec;
->  
->  	adv7511->bridge.funcs = &adv7511_bridge_funcs;
-> +	adv7511->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
-> +			    | DRM_BRIDGE_OP_HPD;
->  	adv7511->bridge.of_node = dev->of_node;
->  
->  	drm_bridge_add(&adv7511->bridge);
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Hi Sergei,
+
+On Sat, Jun 20, 2020 at 8:16 PM Sergei Shtylyov
+<sergei.shtylyov@cogentembedded.com> wrote:
+> On 06/19/2020 10:15 PM, Geert Uytterhoeven wrote:
+> > Some EtherAVB variants support internal clock delay configuration, which
+> > can add larger delays than the delays that are typically supported by
+> > the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
+> > properties).
+> >
+> > Add properties for configuring the internal MAC delays.
+> > These properties are mandatory, even when specified as zero, to
+> > distinguish between old and new DTBs.
+> >
+> > Update the example accordingly.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> > --- a/Documentation/devicetree/bindings/net/renesas,ravb.txt
+> > +++ b/Documentation/devicetree/bindings/net/renesas,ravb.txt
+> > @@ -64,6 +64,18 @@ Optional properties:
+> >                        AVB_LINK signal.
+> >  - renesas,ether-link-active-low: boolean, specify when the AVB_LINK signal is
+> >                                active-low instead of normal active-high.
+> > +- renesas,rxc-delay-ps: Internal RX clock delay.
+> > +                     This property is mandatory and valid only on R-Car Gen3
+> > +                     and RZ/G2 SoCs.
+> > +                     Valid values are 0 and 1800.
+> > +                     A non-zero value is allowed only if phy-mode = "rgmii".
+> > +                     Zero is not supported on R-Car D3.
+>
+>    Hm, where did you see about the D3 limitation?
+
+R-Car Gen3 Hardware User's Manual, Section 50.2.7 ("AVB-DMAC Product
+Specific Register (APSR)"), "RDM" bit:
+
+    For R-Car D3, delayed mode is only available
+
+> > +- renesas,txc-delay-ps: Internal TX clock delay.
+> > +                     This property is mandatory and valid only on R-Car H3,
+> > +                     M3-W, M3-W+, M3-N, V3M, and V3H, and RZ/G2M and RZ/G2N.
+> > +                     Valid values are 0 and 2000.
+> > +                     A non-zero value is allowed only if phy-mode = "rgmii".
+> > +                     Zero is not supported on R-Car V3H.
+>
+>   Same question about V3H here...
+
+Same section, "TDM" bit:
+
+    For R-Car V3H, delayed mode is only available.
+
+> > @@ -105,8 +117,10 @@ Example:
+> >                                 "ch24";
+> >               clocks = <&cpg CPG_MOD 812>;
+> >               power-domains = <&cpg>;
+> > -             phy-mode = "rgmii-id";
+> > +             phy-mode = "rgmii";
+> >               phy-handle = <&phy0>;
+> > +             renesas,rxc-delay-ps = <0>;
+>
+>    Mhm, zero RX delay in RGMII-ID mode?
+
+Please ignore the actual contents of the old example.  It was based on a
+very old DTS, which has received several fixes in the mean time.
+
+Should have written:
+
+    Update the (bogus) example accordingly.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
