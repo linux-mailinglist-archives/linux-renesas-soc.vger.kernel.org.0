@@ -2,119 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6DE2029AF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2020 10:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A17A202A54
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 21 Jun 2020 13:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729522AbgFUIkH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 21 Jun 2020 04:40:07 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:58558 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729509AbgFUIkG (ORCPT
+        id S1729930AbgFULiv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 21 Jun 2020 07:38:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729878AbgFULiv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 21 Jun 2020 04:40:06 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 8EEC620021;
-        Sun, 21 Jun 2020 10:40:01 +0200 (CEST)
-Date:   Sun, 21 Jun 2020 10:40:00 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200621084000.GM74146@ravnborg.org>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 21 Jun 2020 07:38:51 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91348C061794;
+        Sun, 21 Jun 2020 04:38:50 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id cy7so4799781edb.5;
+        Sun, 21 Jun 2020 04:38:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=l9uNU0IHBkSlq+p0nJKAVbuoarH+N5mW84+WqlF1L+k=;
+        b=urFwwLk+VJaKpK85RSe67FdiTEc1rPH6IJ8wOXUbdGBXhdwjI92ztBtjG6dSjbNdix
+         vuhLZh+jH3pdfkLlHRo2de7kxz1v6/90rKSQSHeWfcRl6U4xuWlRZ2YTnvhaLHDE+Zsb
+         qx42J6ZygqDfMlJM55Yxmj9J4YEeoc+0/m6EvrTjffkz/Pnf+468QKnDI/xw/MXGJia6
+         4P94d/mwXXlHmTSY3WGic+/g6AO5tyOSRPorPhMMGCG3nyMBZQm7wzWZtnusnvPJOoeg
+         qeYMnTuwpkLwXuxyGykyI6eVRHWNpZ0l1Tcx9BQkxLgzZsgNDGsvKVwAPd0UKSaB9aiV
+         GGtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=l9uNU0IHBkSlq+p0nJKAVbuoarH+N5mW84+WqlF1L+k=;
+        b=lpQlI85Z7x5sQU58WYmwumjkZ/68cOunYi57QFOoNehDpeIoeCCymA/Rv6gbJ0Znts
+         7nB8tf3h93Ane2l377sgWACwazSPvPO7733S3Q1VQ2qibrofFwHYprQ/6x4OvbNxVfd6
+         kchlhbN0qEGhKc0kOKtJSYz8vIQYDcSVafZ8OZl7vZgzNhwXYZ5MGCdFNK+U73CT0vuc
+         /kcp6oTFtXJtVT4Xq04xlPnZFVT2m4D+cSdatS5oTMVgaBJcDHNJHFfPRs55ucIDJ6lP
+         DfwD/n8z1ZmvMRoI+WaNMmRvrX6ux5PSG3/jNdV4QGM+vuTHF0CqHbqptW/MnTQERUiK
+         oDwA==
+X-Gm-Message-State: AOAM532F18p2aaAjcsgR44PP1R6+jjndES374100867ZkqwnY0q9/x02
+        zFNZN9VxjyhZGO7nm3xhITY=
+X-Google-Smtp-Source: ABdhPJxUalCWexUHlOi4Q0N3BAc3txP8IvYBNPWnG+H1URXIxVa5iQxNJh+67H/mMSGe+nwJIIkP6g==
+X-Received: by 2002:a05:6402:170d:: with SMTP id y13mr11027783edu.319.1592739529046;
+        Sun, 21 Jun 2020 04:38:49 -0700 (PDT)
+Received: from z50.localnet (109241122244.gdansk.vectranet.pl. [109.241.122.244])
+        by smtp.gmail.com with ESMTPSA id m16sm1678478eji.23.2020.06.21.04.38.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2020 04:38:48 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 03/10] media: i2c: ov6650: Use new [get|set]_mbus_config ops
+Date:   Sun, 21 Jun 2020 13:38:46 +0200
+Message-ID: <1837100.yKVeVyVuyW@z50>
+In-Reply-To: <20200616141244.49407-4-jacopo+renesas@jmondi.org>
+References: <20200616141244.49407-1-jacopo+renesas@jmondi.org> <20200616141244.49407-4-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
-        a=2dXFqMFcpVJmOLD-spwA:9 a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
-        a=E9Po1WZjFZOl8hwRPBS3:22 a=Vxmtnl_E_bksehYqCbjh:22
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
-> The DRM CRTC helpers add default modes to connectors in the connected
-> state if no mode can be retrieved from the connector. This behaviour is
-> useful for VGA or DVI outputs that have no connected DDC bus. However,
-> in such cases, the status of the output usually can't be retrieved and
-> is reported as connector_status_unknown.
-> 
-> Extend the addition of default modes to connectors in an unknown state
-> to support outputs that can retrieve neither the modes nor the
-> connection status.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Hi Jacopo,
 
-From your description sounds like an OK approach.
-But this is not something I feel too familiar with.
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Thanks for bringing my attention to this patch.
 
+On Tuesday, June 16, 2020 4:12:38 P.M. CEST Jacopo Mondi wrote:
+> Use the new get_mbus_config and set_mbus_config pad operations in place
+> of the video operations currently in use.
+> 
+> Compared to other drivers where the same conversion has been performed,
+> ov6650 proved to be a bit more tricky, as the existing g_mbus_config
+> implementation did not report the currently applied configuration but
+> the set of all possible configuration options.
+
+Assuming that was in line with officially supported semantics of the old API, 
+not a misinterpretation, I would really like to see that limitation of the new 
+API actually compensated with V4L2_SUBDEV_FORMAT_TRY support added to it.
+
+> 
+> Adapt the driver to support the semantic of the two newly introducedV4L2_SUBDEV_FORMAT_TRY
+> operations:
+> - get_mbus_config reports the current media bus configuration
+> - set_mbus_config applies only changes explicitly requested and updates
+>   the provided cfg parameter to report what has actually been applied to
+>   the hardware.
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
->  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
->  2 files changed, 9 insertions(+), 2 deletions(-)
+>  drivers/media/i2c/ov6650.c | 56 ++++++++++++++++++++++++++------------
+>  1 file changed, 39 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index f5d141e0400f..9055d9573c90 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
->  	if (count == 0 && connector->status == connector_status_connected)
->  		count = drm_add_override_edid_modes(connector);
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index 91906b94f978..d2e7a8556ed7 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -921,46 +921,68 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
+>  };
 >  
-> -	if (count == 0 && connector->status == connector_status_connected)
-> +	if (count == 0 && (connector->status == connector_status_connected ||
-> +			   connector->status == connector_status_unknown))
->  		count = drm_add_modes_noedid(connector, 1024, 768);
->  	count += drm_helper_probe_add_cmdline_mode(connector);
->  	if (count == 0)
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index 421a30f08463..afe55e2e93d2 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
->  	 * The usual way to implement this is to cache the EDID retrieved in the
->  	 * probe callback somewhere in the driver-private connector structure.
->  	 * In this function drivers then parse the modes in the EDID and add
-> -	 * them by calling drm_add_edid_modes(). But connectors that driver a
-> +	 * them by calling drm_add_edid_modes(). But connectors that drive a
->  	 * fixed panel can also manually add specific modes using
->  	 * drm_mode_probed_add(). Drivers which manually add modes should also
->  	 * make sure that the &drm_connector.display_info,
->  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
->  	 * filled in.
->  	 *
-> +	 * Note that the caller function will automatically add standard VESA
-> +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
-> +	 * no mode and if the connector status is connector_status_connected or
-> +	 * connector_status_unknown. There is no need to call
-> +	 * drm_add_edid_modes() manually in that case.
-> +	 *
->  	 * Virtual drivers that just want some standard VESA mode with a given
->  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
->  	 * one using drm_set_preferred_mode().
-> -- 
-> Regards,
+>  /* Request bus settings on camera side */
+> -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
+> -				struct v4l2_mbus_config *cfg)
+> +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> +				  unsigned int pad,
+> +				  struct v4l2_mbus_config *cfg)
+>  {
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	u8 comj, comf;
+> +	int ret;
+> +
+> +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
+> +	if (ret)
+> +		return ret;
+>  
+> -	cfg->flags = V4L2_MBUS_MASTER |
+> -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
+> -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
+> -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
+> -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+> +	ret = ov6650_reg_read(client, REG_COMF, &comf);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cfg->flags = V4L2_MBUS_MASTER
+> +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+> +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+> +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+> +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
+
+You probably missed hardware default V4L2_MBUS_DATA_ACTIVE_HIGH.
+
+>  	cfg->type = V4L2_MBUS_PARALLEL;
+>  
+>  	return 0;
+>  }
+>  
+>  /* Alter bus settings on camera side */
+> -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
+> -				const struct v4l2_mbus_config *cfg)
+> +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> +				  unsigned int pad,
+> +				  struct v4l2_mbus_config *cfg)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> -	int ret;
+> +	int ret = 0;
+>  
+>  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+
+Have you thought of extending v4l2_subdev_call_pad_wrappers with a check for 
+only one of mutually exclusive flags specified by user?
+
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+>  	if (ret)
+> -		return ret;
+> +		goto error;
+>  
+>  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+>  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+>  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+>  	if (ret)
+> -		return ret;
+> +		goto error;
+>  
+>  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+>  
+> +error:
+> +	/*
+> +	 * Update the configuration to report what is actually applied to
+> +	 * the hardware.
+> +	 */
+> +	ov6650_get_mbus_config(sd, pad, cfg);
+
+Populating cfg->flags by ov6650_get_mbus_config() without checking for a 
+potential error it may return can result in invalid data silently returned to 
+user.  Maybe it would be better to fetch current hardware status first, fail on 
+error, then update the result with successfully performed hardware state 
+modifications.
+
+Thanks,
+Janusz
+
+> +
+>  	return ret;
+>  }
+>  
+> @@ -968,8 +990,6 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+>  	.s_stream	= ov6650_s_stream,
+>  	.g_frame_interval = ov6650_g_frame_interval,
+>  	.s_frame_interval = ov6650_s_frame_interval,
+> -	.g_mbus_config	= ov6650_g_mbus_config,
+> -	.s_mbus_config	= ov6650_s_mbus_config,
+>  };
+>  
+>  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> @@ -978,6 +998,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+>  	.set_selection	= ov6650_set_selection,
+>  	.get_fmt	= ov6650_get_fmt,
+>  	.set_fmt	= ov6650_set_fmt,
+> +	.get_mbus_config = ov6650_get_mbus_config,
+> +	.set_mbus_config = ov6650_set_mbus_config,
+>  };
+>  
+>  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
 > 
-> Laurent Pinchart
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+
+
+
