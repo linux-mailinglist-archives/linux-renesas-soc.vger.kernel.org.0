@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F38B203713
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 14:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A4520372A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 14:48:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728056AbgFVMoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 08:44:06 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33882 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727940AbgFVMoF (ORCPT
+        id S1728123AbgFVMsJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 08:48:09 -0400
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:38275 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728010AbgFVMsJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 08:44:05 -0400
-Received: by mail-ot1-f65.google.com with SMTP id n5so12934875otj.1;
-        Mon, 22 Jun 2020 05:44:05 -0700 (PDT)
+        Mon, 22 Jun 2020 08:48:09 -0400
+Received: by mail-oo1-f67.google.com with SMTP id f2so3316398ooo.5;
+        Mon, 22 Jun 2020 05:48:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=r2pqvv2p5cRl0AhDVTKno1VFxc+4Nq9uvMsZtz+prlQ=;
-        b=s4dz0FOugkhxBAMcD5bmrMHu4dTR+dLFun5g4NR9kaXk0bA1tOmYZp7PUgAsxbXKQO
-         4pnJ0PJh1TwiZamtxLWQezii3yOO8YxZGxAnFAJMXYiWXiSckQEWASad8FxZkWPaNOWW
-         h/v/F00s5Zb5UC1kgj9i/qT4aSygsfJfmJ5YkOlsAioU9fIJ/p5DzLeS94NeXRiAJNhe
-         r6OxQMNvhSQJiq9k92YxM88hlOGpQiBERSPNEff7vsGL9vgzzC6sR72cUEp0UpOsEMjX
-         zPXG/sKkpBNXp1zmXSMrSs9MFdEQY3eOjCqKT6MyzlQxTYiHfi6HonRvfnJ50phfVzx8
-         XYbg==
-X-Gm-Message-State: AOAM5321CKz51wMpl02xjJFH2R0xGlMOZvcpkLo22bCfJ+uSDwUfQxLB
-        sA0Na10Aao4H4POJYzBmHXYojX9WTUJbUTSgoBpwzl/K
-X-Google-Smtp-Source: ABdhPJw4yDjoqiFgwYIZto3QPv/0I1Fk2APtBoVYh9DzLxLoLlAnngyuwUVSS/JT/zAgdNlJOqTm0EjuaYuPCovg2jM=
-X-Received: by 2002:a9d:62c2:: with SMTP id z2mr13446164otk.145.1592829844736;
- Mon, 22 Jun 2020 05:44:04 -0700 (PDT)
+        bh=7CLPJ8+Le4k5gV5yNEa4L5aQ+1liis/EugptBK4fkV8=;
+        b=E0wS8kT/MOmpfXov58ODiRwrwP0SjxTiiWg7i4DkDs912AzrSxwvL++OyRQGKfhhuU
+         1Y8VfhNRuviOuRvAXd2MHtq9tij2lc4YVwIR4f25k4c7UtrbHChKdgvTsDgSBRImEdgH
+         5m9Kf92bUW2kJA3gb0qvQ+sNXjmzWSxhPbcgE7mMv3RSOEfTNTMjlfOVb/GwfZ1mu+ul
+         CXMk9chMWrm4UUcQl7pbenscS29+AYdCG24FIEg3fe5/tEmCBa1dTSTzDZ6i0AAzZFGJ
+         rB9GtpwlRmCdYHuOyPSvYlseRN3yP9d/F/d+wygMNQ/2YV8Yb+5OteFcgM9kvHD2ezoU
+         sY3A==
+X-Gm-Message-State: AOAM532tpQwdq+0z6RkuGpeOy/0MvoDEN2WRL4onVcbJiiFtKyIsTrxP
+        c9Eu+ZWCFviaGtd4woI20CV929JWOM0U/U01k1s=
+X-Google-Smtp-Source: ABdhPJz5yzVjWAKvq5b+dYFwn1xxZMokS9XOjLsRdcCMMgNeorz6934+g57TWo+JAa4MYw7S2318EBC2h25CTeftg9k=
+X-Received: by 2002:a4a:db4b:: with SMTP id 11mr14343005oot.11.1592830088466;
+ Mon, 22 Jun 2020 05:48:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1591555267-21822-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1591555267-21822-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1591555267-21822-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1591555267-21822-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 22 Jun 2020 14:43:53 +0200
-Message-ID: <CAMuHMdUWawKp_gcedDHFx3zbs2iST7HSrFR9zK4j0Gq7HixD3Q@mail.gmail.com>
-Subject: Re: [PATCH 06/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0
- sub board support
+Date:   Mon, 22 Jun 2020 14:47:57 +0200
+Message-ID: <CAMuHMdV=AxvQ3HHSFrU_u_8D+MSMmvndwE_QYNLxpQt9135TUg@mail.gmail.com>
+Subject: Re: [PATCH 07/11] arm64: dts: renesas: hihope-rzg2-ex: Separate out
+ lvds specific nodes into common file
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -53,32 +53,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Sun, Jun 7, 2020 at 8:42 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The HiHope RZ/G2M sub board sits below the HiHope RZ/G2M Rev.3.0/4.0
-> main board.
+> Separate out LVDS specific nodes into common file
+> hihope-rzg2-ex-lvds.dtsi so that this can be re-used by RZ/G2M[N]
+> variants.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts
-
-> +
-> +/* SW43 should be OFF, if in ON state SATA port will be activated */
-
-Looks like having this comment in r8a774a1-hihope-rzg2m-rev2-ex.dts
-would be useful, too?
-
-> +&pciec1 {
-> +       status = "okay";
-> +};
-> --
-> 2.17.1
 
 Gr{oetje,eeting}s,
 
