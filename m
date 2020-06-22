@@ -2,126 +2,175 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 055292034EB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 12:34:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D09A32034EF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 12:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbgFVKep (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 06:34:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726710AbgFVKeo (ORCPT
+        id S1727022AbgFVKhg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 06:37:36 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:33303 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726776AbgFVKhg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 06:34:44 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F018C061794
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 03:34:44 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id x18so18668032lji.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 03:34:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=EUetM1OwvvKS/l+9zOBnaOQe8AqONoc8Aw8G3NO2Kos=;
-        b=CsvrxQKEpyExUCmuP8aAD3NSZIoHgA0uym4x7uW7G4w5yWzYCKuJF69dqI3uS+er4c
-         nJ8xJPsBrVVeMVjvQ3QEBYnegxEAe3Dnr9Fithexz/IIHKSEuzq9+CGvK8RQcEn7CBnW
-         Pz5BmVhqNvLz29Vb9VziCB76eG30QPjbQHdJypb5NvUFGgoBkPIrfTNqIjUt1m0C2ugd
-         CtG/K6UiR3aCbA9ensF0W4zzmS9uZnnaCuJF+DGinfAjwRcne2cGfm6H1594YaBA1rWj
-         pmH1FBOCNH/F6qNK7nqWpds5GDhE3ociUlJSwGr6fwDr6fxhgVnSmzraumh+czq+Qt3L
-         +IJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=EUetM1OwvvKS/l+9zOBnaOQe8AqONoc8Aw8G3NO2Kos=;
-        b=J8YgQFkGiAeYHkkKpObeDSBL5xHoR52O8bd9lrIvUOE06uxkh3x99GdQJCiIiLhwTY
-         xQ01up5UK+dEnuvJAOjg7+6wRTF8S1Rn6xFejDEOywtcSTxZCbdhOe9wEOWVJKMiZbOS
-         QhXLccN0n1Goo96ujKKoREy4FXS4R2A9XTT9uv6lecpk79bMR0jS3ZMvr1Ob1m+fp40s
-         WG1JGfHruxiSTP3W/eTdPa1DfuyMWBxX4Z0lLddNMc4tl2dA8PFnBGn5nCl5hKX0nnNz
-         S7JQwjfoPg88sESFGItTgdVT9hEpzKr/X2/YIhAdnl2ThfJPulh2MRB3iEyIkOP3w8wy
-         9naA==
-X-Gm-Message-State: AOAM530rNqMyJXF/XeJrorYK2HCoFLLbvKAUWxW99DOD32luAJceo69d
-        6bLmFFYyOZADmaS+M2aMIijrcg==
-X-Google-Smtp-Source: ABdhPJwEh/Art1He8FxU4JttOpzChtBbltnbVvXo6H6W+h4L+XYWMjQqLEZc2VxCojGbmY2k52tIxg==
-X-Received: by 2002:a05:651c:30e:: with SMTP id a14mr8532270ljp.311.1592822082960;
-        Mon, 22 Jun 2020 03:34:42 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id y2sm1930046lfh.1.2020.06.22.03.34.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 03:34:42 -0700 (PDT)
-Date:   Mon, 22 Jun 2020 12:34:41 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] scripts/boards.sh: Fix M3-W identifier
-Message-ID: <20200622103441.GA3448812@oden.dyn.berto.se>
-References: <20200615121935.108142-1-jacopo@jmondi.org>
- <20200615121935.108142-2-jacopo@jmondi.org>
- <21e37cce-f1f2-bb8f-111c-1592f73d01d6@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <21e37cce-f1f2-bb8f-111c-1592f73d01d6@ideasonboard.com>
+        Mon, 22 Jun 2020 06:37:36 -0400
+X-IronPort-AV: E=Sophos;i="5.75,266,1589209200"; 
+   d="scan'208";a="50072171"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Jun 2020 19:37:34 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A2208400855F;
+        Mon, 22 Jun 2020 19:37:34 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, robh+dt@kernel.org
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2] dt-bindings: usb: renesas,usb-xhci: convert to YAML
+Date:   Mon, 22 Jun 2020 19:37:32 +0900
+Message-Id: <1592822252-12338-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Convert Renesas related parts of usb-xhci to YAML because
+they are not compatible with generic-xhci.
 
-On 2020-06-22 10:53:12 +0100, Kieran Bingham wrote:
-> Hi Jacopo,
-> 
-> On 15/06/2020 13:19, Jacopo Mondi wrote:
-> > The M3-W SoC has been renamed to r8a77960, adjust the board.sh script to
-> > identify it correctly.
-> > 
-> 
-> We probably don't need to keep backwards compatibility indeed ...
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from v1:
+ - Update the commit description.
+ - Use SoC part names instead of part numbers in the comments.
+ - Add comments on renesas,rcar-gen[23]-xhci.
+ - Add power-domains and resets to required.
+ https://patchwork.kernel.org/patch/11604565/
 
-If the cost is low, as in this case I think backwards compatibility is 
-nice. More often then not do I bisect over large ranges and then it's 
-nice that things like this "just work" ;-)
+ .../devicetree/bindings/usb/renesas,usb-xhci.yaml  | 86 ++++++++++++++++++++++
+ Documentation/devicetree/bindings/usb/usb-xhci.txt | 18 -----
+ 2 files changed, 86 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
 
-> 
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  scripts/boards.sh | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/scripts/boards.sh b/scripts/boards.sh
-> > index 0ec2981..2069494 100644
-> > --- a/scripts/boards.sh
-> > +++ b/scripts/boards.sh
-> > @@ -13,7 +13,7 @@ case $info in
-> >          vins="0 1 2 3 4 5 6 7"
-> >          csis="20 40 41"
-> >          ;;
-> > -    "Renesas Salvator-X board based on r8a7796" | \
-> > +    "Renesas Salvator-X board based on r8a77960" | \
-> >          "Renesas Salvator-X 2nd version board based on r8a77965")
-> 
-> But I wonder if this script should use more 'wildcard' matching.
-> It does seem awkward to match generically in some cases though, so
-> nothing wrong with keeping things explicit for now.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> But now I've written that I see these patches are already integrated ...
-> never mind.
-> --
-> Kieran
-> 
-> 
-> >          gen="gen3"
-> >          vins="0 1 2 3 4 5 6 7"
-> > 
-> 
-
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+new file mode 100644
+index 0000000..add9f7b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/renesas,usb-xhci.yaml
+@@ -0,0 +1,86 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/renesas,usb-xhci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas USB xHCI controllers
++
++maintainers:
++  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++allOf:
++  - $ref: "usb-hcd.yaml"
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,xhci-r8a7742 # RZ/G1H
++              - renesas,xhci-r8a7743 # RZ/G1M
++              - renesas,xhci-r8a7744 # RZ/G1N
++              - renesas,xhci-r8a7790 # R-Car H2
++              - renesas,xhci-r8a7791 # R-Car M2-W
++              - renesas,xhci-r8a7793 # R-Car M2-N
++          - const: renesas,rcar-gen2-xhci # R-Car Gen2 and RZ/G1
++      - items:
++          - enum:
++              - renesas,xhci-r8a774a1 # RZ/G2M
++              - renesas,xhci-r8a774b1 # RZ/G2N
++              - renesas,xhci-r8a774c0 # RZ/G2E
++              - renesas,xhci-r8a7795  # R-Car H3
++              - renesas,xhci-r8a7796  # R-Car M3-W
++              - renesas,xhci-r8a77961 # R-Car M3-W+
++              - renesas,xhci-r8a77965 # R-Car M3-N
++              - renesas,xhci-r8a77990 # R-Car E3
++          - const: renesas,rcar-gen3-xhci # R-Car Gen3 and RZ/G2
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    maxItems: 1
++    items:
++      - const: usb
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - power-domains
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7795-sysc.h>
++
++    xhci0: usb@ee000000 {
++        compatible = "renesas,xhci-r8a7795", "renesas,rcar-gen3-xhci";
++        reg = <0xee000000 0xc00>;
++        interrupts = <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 328>;
++        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++        resets = <&cpg 328>;
++    };
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+index b120dd6..0c5cff8 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+@@ -7,24 +7,6 @@ Required properties:
+     - "marvell,armada3700-xhci" for Armada 37xx SoCs
+     - "marvell,armada-375-xhci" for Armada 375 SoCs
+     - "marvell,armada-380-xhci" for Armada 38x SoCs
+-    - "renesas,xhci-r8a7742" for r8a7742 SoC
+-    - "renesas,xhci-r8a7743" for r8a7743 SoC
+-    - "renesas,xhci-r8a7744" for r8a7744 SoC
+-    - "renesas,xhci-r8a774a1" for r8a774a1 SoC
+-    - "renesas,xhci-r8a774b1" for r8a774b1 SoC
+-    - "renesas,xhci-r8a774c0" for r8a774c0 SoC
+-    - "renesas,xhci-r8a7790" for r8a7790 SoC
+-    - "renesas,xhci-r8a7791" for r8a7791 SoC
+-    - "renesas,xhci-r8a7793" for r8a7793 SoC
+-    - "renesas,xhci-r8a7795" for r8a7795 SoC
+-    - "renesas,xhci-r8a7796" for r8a77960 SoC
+-    - "renesas,xhci-r8a77961" for r8a77961 SoC
+-    - "renesas,xhci-r8a77965" for r8a77965 SoC
+-    - "renesas,xhci-r8a77990" for r8a77990 SoC
+-    - "renesas,rcar-gen2-xhci" for a generic R-Car Gen2 or RZ/G1 compatible
+-      device
+-    - "renesas,rcar-gen3-xhci" for a generic R-Car Gen3 or RZ/G2 compatible
+-      device
+     - "brcm,bcm7445-xhci" for Broadcom STB SoCs with XHCI
+     - "xhci-platform" (deprecated)
+ 
 -- 
-Regards,
-Niklas Söderlund
+2.7.4
+
