@@ -2,123 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E06E20350A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 12:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E63A02036BC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 14:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727868AbgFVKpv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 06:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727094AbgFVKpv (ORCPT
+        id S1728101AbgFVMaM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 08:30:12 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:44491 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728096AbgFVMaL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 06:45:51 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87D9C061794
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 03:45:50 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56D1930D;
-        Mon, 22 Jun 2020 12:45:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592822749;
-        bh=+m0fg+AKm7xotCQ0LoY7GcVc5EhPb/HEsQ0ae84Ablg=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=pW5thTjZtB2zN1FOUDF3JBGC0UoBN4C+uqTdycofNWUz8z48Nq6aZ3Z1QS8UD6ZXl
-         MrdR2rKHBB0OEpCWeT35wyPB7bp7IH0B1OSSJwkludbDpNhGpgBwhA3Lisx9IbI5vm
-         vS/Yj+HJyCFxGNFvYfPopHjR/AdQNYq9J0J6iROQ=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 1/3] scripts/boards.sh: Fix M3-W identifier
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org
-References: <20200615121935.108142-1-jacopo@jmondi.org>
- <20200615121935.108142-2-jacopo@jmondi.org>
- <21e37cce-f1f2-bb8f-111c-1592f73d01d6@ideasonboard.com>
- <20200622103441.GA3448812@oden.dyn.berto.se>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <2628f76b-b26f-c1e1-d3e3-1809d8113cae@ideasonboard.com>
-Date:   Mon, 22 Jun 2020 11:45:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 22 Jun 2020 08:30:11 -0400
+Received: by mail-oi1-f194.google.com with SMTP id x202so15447217oix.11;
+        Mon, 22 Jun 2020 05:30:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wUf2mgqzANpf58KfTkdrvQevUYdxCsq8Gy2S0qYPluE=;
+        b=XA6lMltiwyuj74ldP2cyqJIPMzY72M9/U6C5m7VaUuQS2POY/SBwQvUYyRqeK71d1a
+         b/O+3+blJicLkoc5UPqfaSioh7oWgVfDWsTJDZMnzQ9lNFKjSskvJsUct5GDVDbv8R0d
+         Qf8U1SGVlDoduuNcSffoqxp8u3Q5dxVhShrEsYOhpNqteQo6q39nY+tlmla+BRqY8mxn
+         umXBIKZgoPdyXjo9LcDXxfJ7ttOeBtobcAJOnIAc8ql9HB1DxIgmhQfy5zBRzYitpBwL
+         BTCTVEzrR0hhJD7rQvTF8nOWARQO54Y7CoTgDRfJxL/obXxOQh0cg/Yv/H7qrJOUjp7n
+         Pv+A==
+X-Gm-Message-State: AOAM531syVYDfOniVTYCUUUT541yfnjdiJ4SHXKoOX3UYvbX9KQr3TfW
+        rgutWFnvkuJYZ37DQ1A0+Q5nIKM9g/zrFHhJm60=
+X-Google-Smtp-Source: ABdhPJxlQo1tJrJJVaafpm79N7qRXn2WYE8WaGELUD+n01IZGPz7ANHXWS3syVTv3yGjIDor8rlhUuJPHyHEuMK4U8w=
+X-Received: by 2002:aca:849:: with SMTP id 70mr11777168oii.153.1592829010830;
+ Mon, 22 Jun 2020 05:30:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200622103441.GA3448812@oden.dyn.berto.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <1591555267-21822-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1591555267-21822-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1591555267-21822-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 22 Jun 2020 14:29:59 +0200
+Message-ID: <CAMuHMdXTMUwdPVVMq2jyYy4nphu0nNsaN9xTFtuOvkncn77UvA@mail.gmail.com>
+Subject: Re: [PATCH 04/11] arm64: dts: renesas: Add HiHope RZ/G2M[N]
+ Rev.3.0/4.0 specific into common file
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22/06/2020 11:34, Niklas Söderlund wrote:
-> Hi Kieran,
-> 
-> On 2020-06-22 10:53:12 +0100, Kieran Bingham wrote:
->> Hi Jacopo,
->>
->> On 15/06/2020 13:19, Jacopo Mondi wrote:
->>> The M3-W SoC has been renamed to r8a77960, adjust the board.sh script to
->>> identify it correctly.
->>>
->>
->> We probably don't need to keep backwards compatibility indeed ...
-> 
-> If the cost is low, as in this case I think backwards compatibility is 
-> nice. More often then not do I bisect over large ranges and then it's 
-> nice that things like this "just work" ;-)
+Hi Prabhakar,
 
-Ah yes, bisecting indeed would be useful here.
+On Sun, Jun 7, 2020 at 8:41 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Rev.3.0 and Rev.4.0 are identical and can be identified by using GP5_19
+> and GP5_21.
+>
+>         Rev             GP5_19  GP5_21
+>         ==============================
+>         Rev.3.0         0       0
+>         Rev.4.0         0       1
+>
+> This patch creates hihope-common-rev4.dtsi file with
+> Rev.3.0/4.0 specific changes for HopeRun HiHope RZ/G2M[N] boards.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> 
->>
->>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>> ---
->>>  scripts/boards.sh | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/scripts/boards.sh b/scripts/boards.sh
->>> index 0ec2981..2069494 100644
->>> --- a/scripts/boards.sh
->>> +++ b/scripts/boards.sh
->>> @@ -13,7 +13,7 @@ case $info in
->>>          vins="0 1 2 3 4 5 6 7"
->>>          csis="20 40 41"
->>>          ;;
->>> -    "Renesas Salvator-X board based on r8a7796" | \
+Gr{oetje,eeting}s,
 
-So perhaps this line should be re-added, or the fields updated for
-wildcards some how, or a better form of matching the target.
+                        Geert
 
-Things like the H3 could be tricky though where the ES1 and ES2
-revisions (I think from what I recall) might have subtle differences.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I guess in that case it's harder to make a catch-all match, but that's
-just a per-target thing to consider.
-
---
-Kieran
-
-
->>> +    "Renesas Salvator-X board based on r8a77960" | \
->>>          "Renesas Salvator-X 2nd version board based on r8a77965")
->>
->> But I wonder if this script should use more 'wildcard' matching.
->> It does seem awkward to match generically in some cases though, so
->> nothing wrong with keeping things explicit for now.
->>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>
->> But now I've written that I see these patches are already integrated ...
->> never mind.
->> --
->> Kieran
->>
->>
->>>          gen="gen3"
->>>          vins="0 1 2 3 4 5 6 7"
->>>
->>
-> 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
