@@ -2,187 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A53092040E2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 22:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7A3204173
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 22:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728973AbgFVUEm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 16:04:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728967AbgFVUEl (ORCPT
+        id S1730724AbgFVUKB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 16:10:01 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:43516 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730802AbgFVUJz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 16:04:41 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B54B4C061573
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 13:04:40 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id i27so20760823ljb.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 13:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GI2HHNZ9gqZ+5Dmai68yTkhXYHMNey1Kp/NbRXupY1g=;
-        b=wO3cMTXCazG8NMjBFRopORQBMfk+avBjNT7LCgZPgPpbxtAX1BapllUZnzvAHuTyyo
-         Elk8ZiHGQLDdBZMLiMJwEkue13hYunxtnQvyK9oZkvW+j3f6Shag1N3/jJiwIQ+zKx2+
-         momEguFa3ACunAys3wEQZ3l5MkxakQe1kXr1GH/ecpfHlBn7gLM3g9IkuUbX4/qLvJs5
-         k1wDvbiQ5pXb1m17VYvQhl5qdeXNrvm9WpPhws7ap+vvLQ63rJ9vKDUVwcafO9Ko3/zE
-         o1yEhOuL33LgUnFNj6zby/ekkXs71TpU+5cOk9psNG9ei8P96ZokLPj+TUV2yVPwpQS4
-         zKlg==
+        Mon, 22 Jun 2020 16:09:55 -0400
+Received: by mail-oi1-f194.google.com with SMTP id j189so16756559oih.10;
+        Mon, 22 Jun 2020 13:09:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=GI2HHNZ9gqZ+5Dmai68yTkhXYHMNey1Kp/NbRXupY1g=;
-        b=CrYj4L6kuG27Z2zZ5Y12hdWUYfDpB2ZGzJU8Xi59bJ0f83BcG/sweZEG78PevLzihD
-         s2JnjLeC8HRI/5o37sOSkhdyseeHU6DicP2dR2317NwPvC65j1o6tCnm4ksTaze+O9VF
-         WBVMf02au4xQzfLVwQ66rjqPVx4jd19R/a1gKncY8oE/y+axnw+1DQAmhMxu1MhPHheE
-         JUKpHKY9TQxZbQDQ/ywOInL+SBxW6UnuE/Li58usyVYgYsNIlzMTNjq9T5fvv4iGBRS/
-         4X/Ws4/4J1EZ1/g+2FL3x/LKOtW2DW8by0un4rS8A5anm/SH8nV/t/SOccgDunzgTO+5
-         NEng==
-X-Gm-Message-State: AOAM531jbIGnvbU/QfnrhFEm93tdD4kcilZJg7OMetpFZBoUQFTIxpTM
-        sNedpDI0Dp178uL4J886WNpiJA==
-X-Google-Smtp-Source: ABdhPJxaQEp4KH3s96BySjZEQ8j52vi5htdaEbU950oS/ZVIaS98tqjjk9rnuh/YtHhSe0tyXmby/Q==
-X-Received: by 2002:a05:651c:3cc:: with SMTP id f12mr9199933ljp.244.1592856279008;
-        Mon, 22 Jun 2020 13:04:39 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:4203:64df:af75:c7a5:2eac:da37])
-        by smtp.gmail.com with ESMTPSA id n10sm3651851lfb.82.2020.06.22.13.04.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jun 2020 13:04:38 -0700 (PDT)
-Subject: Re: [PATCH/RFC] dt-bindings: net: renesas,etheravb: Convert to
- json-schema
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-References: <20200621081710.10245-1-geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <8d90ef9a-32d3-659f-f808-5d62d1d7ac6d@cogentembedded.com>
-Date:   Mon, 22 Jun 2020 23:04:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OiePC4i/uqD+1c3W+5eApnEHXPxElxi4Y3ejQe4iWbM=;
+        b=SOcV7Ek+XJl/Z5MySWcz+Gj4FJ4CjEth1z+Y0TMrw7vjGuYTBqQwcplHBnyF87avJR
+         OfclI33KAc+s8FcncurRU61LFwPiwQw/PNApMExA7FMDpwEqAXYEZP0rR9+whHH9wyz5
+         vQCTgH+H6z+i9los66XxsC7URxfvwXtbN07FCMWSENuU9D9Z819t2UZ+WAYFUfYSEKXz
+         DogsY4ayz1DE2rbWmpJmR3miatx2JqncNJUt03ypP8OSFreKueTPOZXE5mJjDLq7JPrU
+         m9d8jw5G6UGeyZoZ03GIGdVLUyx2j8k4mU0e9Ezl+BBPtm+L5TlvPzAZC6Vvaz9zyImt
+         Vs+g==
+X-Gm-Message-State: AOAM533r80KqgqVw/21t7oNCbdoCo7EKIax9LEPSRsWb9IQ8OtjRRNel
+        +drmHRSAE3/lhpCQLpIFoLTKbEiCorrfKyqGHEm46onF
+X-Google-Smtp-Source: ABdhPJwm8jCWTZ8wTPreeBQUXPLsl6F4YxPDq2wFJCIfu8r7ux3hmF4g5TPzSR2txESMgnjTGIt4VHqMIsRVL+CEsfw=
+X-Received: by 2002:aca:1a19:: with SMTP id a25mr13968777oia.54.1592856594434;
+ Mon, 22 Jun 2020 13:09:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200621081710.10245-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+References: <20200621081710.10245-1-geert+renesas@glider.be> <8d90ef9a-32d3-659f-f808-5d62d1d7ac6d@cogentembedded.com>
+In-Reply-To: <8d90ef9a-32d3-659f-f808-5d62d1d7ac6d@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 22 Jun 2020 22:09:43 +0200
+Message-ID: <CAMuHMdXN1o9iG+CM-S5DaikkD_W7zyYAwRpZbEE39EY8PjWHLw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] dt-bindings: net: renesas,etheravb: Convert to json-schema
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Sergei,
 
-On 06/21/2020 11:17 AM, Geert Uytterhoeven wrote:
+On Mon, Jun 22, 2020 at 10:04 PM Sergei Shtylyov
+<sergei.shtylyov@cogentembedded.com> wrote:
+> On 06/21/2020 11:17 AM, Geert Uytterhoeven wrote:
+> > Convert the Renesas Ethernet AVB (EthernetAVB-IF) Device Tree binding
+> > documentation to json-schema.
+> >
+> > Add missing properties.
+> > Update the example to match reality.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+>    As I'm only seeing the formatting issues, here's my:
+>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
-> Convert the Renesas Ethernet AVB (EthernetAVB-IF) Device Tree binding
-> documentation to json-schema.
-> 
-> Add missing properties.
-> Update the example to match reality.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thank you!
 
-   As I'm only seeing the formatting issues, here's my:
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> > @@ -0,0 +1,269 @@
+> [...]
+> > +maintainers:
+> > +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
+>
+>    Thank you! :-)
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+You're (very) welcome ;-)
 
-> diff --git a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-> new file mode 100644
-> index 0000000000000000..c87d8c6389328eaa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-> @@ -0,0 +1,269 @@
-[...]
-> +maintainers:
-> +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
+>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - renesas,etheravb-r8a7742      # RZ/G1H
+> > +              - renesas,etheravb-r8a7743      # RZ/G1M
+> > +              - renesas,etheravb-r8a7744      # RZ/G1N
+> > +              - renesas,etheravb-r8a7745      # RZ/G1E
+> > +              - renesas,etheravb-r8a77470     # RZ/G1C
+> > +              - renesas,etheravb-r8a7790      # R-Car H2
+> > +              - renesas,etheravb-r8a7791      # R-Car M2-W
+> > +              - renesas,etheravb-r8a7792      # R-Car V2H
+> > +              - renesas,etheravb-r8a7793      # R-Car M2-N
+> > +              - renesas,etheravb-r8a7794      # R-Car E2
+>
+>    Hm, overindented starting with "- items:"?
 
-   Thank you! :-)
+I believe this is consistent with e.g. commit 9f60a65bc5e6cd88
+("dt-bindings: Clean-up schema indentation formatting").
 
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,etheravb-r8a7742      # RZ/G1H
-> +              - renesas,etheravb-r8a7743      # RZ/G1M
-> +              - renesas,etheravb-r8a7744      # RZ/G1N
-> +              - renesas,etheravb-r8a7745      # RZ/G1E
-> +              - renesas,etheravb-r8a77470     # RZ/G1C
-> +              - renesas,etheravb-r8a7790      # R-Car H2
-> +              - renesas,etheravb-r8a7791      # R-Car M2-W
-> +              - renesas,etheravb-r8a7792      # R-Car V2H
-> +              - renesas,etheravb-r8a7793      # R-Car M2-N
-> +              - renesas,etheravb-r8a7794      # R-Car E2
+Gr{oetje,eeting}s,
 
-   Hm, overindented starting with "- items:"?
+                        Geert
 
-> +          - const: renesas,etheravb-rcar-gen2 # R-Car Gen2 and RZ/G1
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,etheravb-r8a774a1     # RZ/G2M
-> +              - renesas,etheravb-r8a774b1     # RZ/G2N
-> +              - renesas,etheravb-r8a774c0     # RZ/G2E
-> +              - renesas,etheravb-r8a7795      # R-Car H3
-> +              - renesas,etheravb-r8a7796      # R-Car M3-W
-> +              - renesas,etheravb-r8a77961     # R-Car M3-W+
-> +              - renesas,etheravb-r8a77965     # R-Car M3-N
-> +              - renesas,etheravb-r8a77970     # R-Car V3M
-> +              - renesas,etheravb-r8a77980     # R-Car V3H
-> +              - renesas,etheravb-r8a77990     # R-Car E3
-> +              - renesas,etheravb-r8a77995     # R-Car D3
-> +          - const: renesas,etheravb-rcar-gen3 # R-Car Gen3 and RZ/G2
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-   Here as well...
-
-[...]
-> +allOf:
-> +  - $ref: ethernet-controller.yaml#
-> +
-> +  - if:
-> +      properties:
-
-   Overindented?
-
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,etheravb-rcar-gen2
-> +              - renesas,etheravb-r8a7795
-> +              - renesas,etheravb-r8a7796
-> +              - renesas,etheravb-r8a77961
-> +              - renesas,etheravb-r8a77965
-[...]
-> +  - if:
-> +      properties:
-
-   Overindented?
-
-> +  - if:
-> +      properties:
-
-   Overindented?
-
-> +        compatible:
-> +          contains:
-> +            const: renesas,etheravb-r8a77995
-> +    then:
-> +      properties:
-> +        renesas,rxc-delay-ps:
-> +          const: 1800
-> +
-> +  - if:
-> +      properties:
-
-   Overindented?
-
-[...]
-
-MBR, Sergei
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
