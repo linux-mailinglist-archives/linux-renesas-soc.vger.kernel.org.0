@@ -2,125 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AA332034B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 12:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055292034EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jun 2020 12:34:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgFVKV7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 06:21:59 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33529 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726841AbgFVKV4 (ORCPT
+        id S1726905AbgFVKep (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 06:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49044 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726710AbgFVKeo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 06:21:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nJaFj10Rvn3JWnJaJjZhof; Mon, 22 Jun 2020 12:21:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592821313; bh=L8WW833T8W2P1xOE2BDz+8QVVAqC2sMxUCnZhk49lAY=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=RE1Xhlmw/69K4sdCOhopK6M7uMg043puIeJvVyvz/zfWZ8AKsjtkaKWhsaEvcUSLw
-         Rd9LnmPp/kNYPjxBNBGAR0UoXfycBfu0RRvSkVZv8hHJSxb4dbje8LZuK4G9coaQbi
-         xzBNobZsXWxSCNd5hxr2fMGoj5aw2OJg5lo/LJvfRQKbJqIdnsFLmK/aNiohBIKhA6
-         WW/cKeEExueTGx8c+CTRpJd63i/8B3khh52QyJe+8Hve5Li0PEJctxL8Fwz+nLvdQ1
-         dnEiDC+6CNXkuR8W2fzuaa8Lmlj/0ilHkM1AJlMJHQGEWRxVHea8phMbFphh17Luve
-         J5f7uUvP0PxDw==
-Subject: Re: [PATCH] media: vsp1: Fix a reference count leak.
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        wu000273@umn.edu
-Cc:     kjlu@umn.edu,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Aditya Pakki <pakki001@umn.edu>
-References: <20200613232357.18155-1-wu000273@umn.edu>
- <20200616020732.GK1629@pendragon.ideasonboard.com>
- <20200616020956.GL1629@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <812c778d-2bdc-574c-eb72-fb2570ac2c11@xs4all.nl>
-Date:   Mon, 22 Jun 2020 12:21:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Mon, 22 Jun 2020 06:34:44 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F018C061794
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 03:34:44 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id x18so18668032lji.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jun 2020 03:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=EUetM1OwvvKS/l+9zOBnaOQe8AqONoc8Aw8G3NO2Kos=;
+        b=CsvrxQKEpyExUCmuP8aAD3NSZIoHgA0uym4x7uW7G4w5yWzYCKuJF69dqI3uS+er4c
+         nJ8xJPsBrVVeMVjvQ3QEBYnegxEAe3Dnr9Fithexz/IIHKSEuzq9+CGvK8RQcEn7CBnW
+         Pz5BmVhqNvLz29Vb9VziCB76eG30QPjbQHdJypb5NvUFGgoBkPIrfTNqIjUt1m0C2ugd
+         CtG/K6UiR3aCbA9ensF0W4zzmS9uZnnaCuJF+DGinfAjwRcne2cGfm6H1594YaBA1rWj
+         pmH1FBOCNH/F6qNK7nqWpds5GDhE3ociUlJSwGr6fwDr6fxhgVnSmzraumh+czq+Qt3L
+         +IJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=EUetM1OwvvKS/l+9zOBnaOQe8AqONoc8Aw8G3NO2Kos=;
+        b=J8YgQFkGiAeYHkkKpObeDSBL5xHoR52O8bd9lrIvUOE06uxkh3x99GdQJCiIiLhwTY
+         xQ01up5UK+dEnuvJAOjg7+6wRTF8S1Rn6xFejDEOywtcSTxZCbdhOe9wEOWVJKMiZbOS
+         QhXLccN0n1Goo96ujKKoREy4FXS4R2A9XTT9uv6lecpk79bMR0jS3ZMvr1Ob1m+fp40s
+         WG1JGfHruxiSTP3W/eTdPa1DfuyMWBxX4Z0lLddNMc4tl2dA8PFnBGn5nCl5hKX0nnNz
+         S7JQwjfoPg88sESFGItTgdVT9hEpzKr/X2/YIhAdnl2ThfJPulh2MRB3iEyIkOP3w8wy
+         9naA==
+X-Gm-Message-State: AOAM530rNqMyJXF/XeJrorYK2HCoFLLbvKAUWxW99DOD32luAJceo69d
+        6bLmFFYyOZADmaS+M2aMIijrcg==
+X-Google-Smtp-Source: ABdhPJwEh/Art1He8FxU4JttOpzChtBbltnbVvXo6H6W+h4L+XYWMjQqLEZc2VxCojGbmY2k52tIxg==
+X-Received: by 2002:a05:651c:30e:: with SMTP id a14mr8532270ljp.311.1592822082960;
+        Mon, 22 Jun 2020 03:34:42 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id y2sm1930046lfh.1.2020.06.22.03.34.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 03:34:42 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 12:34:41 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] scripts/boards.sh: Fix M3-W identifier
+Message-ID: <20200622103441.GA3448812@oden.dyn.berto.se>
+References: <20200615121935.108142-1-jacopo@jmondi.org>
+ <20200615121935.108142-2-jacopo@jmondi.org>
+ <21e37cce-f1f2-bb8f-111c-1592f73d01d6@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200616020956.GL1629@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA+D8HR7+7RpJYj/+jTPeJo/BoeYGufrTWr4WgMf436hetOblzYq+W++Fi5KnZH0DPyhCPkrWZ9EQTA0giCxanUHOC1L2jUfwK4acs2xnMfpe0mclqyh
- RrbxK91lFVarg61urjG1pMgo5jnNyO6RimmbO7EyvhECHWzcI6G/Ymb2k7hP9G/CyeljqVu5idrgw6g5SEbssrvVdSLuWyxV+ymwAweBKyPDnWhvOG6kX7Xp
- 55F8XWZo8KcSUBUry3ZepkZ+nQS2SKLe4kPMtQmFmw7I8DWSfeg+R7w9CTbrA8D4ZFJzQO1+/7MR+LGOOipmBypDrNcf1N10QmNBE7JdPKu0HFapkrH3tgdg
- N8U02pdN63PCLTZzcX5uvl7O6h47bFj0iNdyNOeoO694di2orXpvK5ACc4ACjv3fAbORjFawI/bGfQ69IqxsKiPVJ5Gac8o0b3fj65xPDtlWw+4iDxEmJ37T
- CfHP5p/7EYyhUy+rWdafmdpTHhPEbAf7OQ3s6z3grCXAmSnpTvCngvOYnMM0G+0BRSTiXLyWL5Q8spBBoV9zTl53s2KsvMx95vevBQ==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <21e37cce-f1f2-bb8f-111c-1592f73d01d6@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16/06/2020 04:09, Laurent Pinchart wrote:
-> On Tue, Jun 16, 2020 at 05:07:34AM +0300, Laurent Pinchart wrote:
->> Hi Qiushi,
->>
->> (CC'ing Rafael and Geert)
->>
->> Thank you for the patch.
->>
->> On Sat, Jun 13, 2020 at 06:23:57PM -0500, wu000273@umn.edu wrote:
->>> From: Qiushi Wu <wu000273@umn.edu>
->>>
->>> pm_runtime_get_sync() increments the runtime PM usage counter even
->>> when it returns an error code, causing incorrect ref count if
->>> pm_runtime_put_noidle() is not called in error handling paths.
->>> Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
->>>
->>> Fixes: 1e6af546ee66 ("[media] v4l: vsp1: Implement runtime PM support")
->>> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
->>
->> https://lore.kernel.org/dri-devel/20200614134655.GA5960@pendragon.ideasonboard.com/
->>
->> I really wonder if mass-patching all drivers is the best way forward.
+Hi Kieran,
+
+On 2020-06-22 10:53:12 +0100, Kieran Bingham wrote:
+> Hi Jacopo,
 > 
-> Also,
+> On 15/06/2020 13:19, Jacopo Mondi wrote:
+> > The M3-W SoC has been renamed to r8a77960, adjust the board.sh script to
+> > identify it correctly.
+> > 
 > 
-> https://lore.kernel.org/linux-media/20200608052919.4984-1-dinghao.liu@zju.edu.cn/
+> We probably don't need to keep backwards compatibility indeed ...
 
-I also stop applying these patches. In part because of what Laurent says (I'd
-like to have some consensus on this as well), and in part because there are
-at least three different devs working on this (Qiushi Wu <wu000273@umn.edu>,
-Aditya Pakki <pakki001@umn.edu> and Dinghao Liu <dinghao.liu@zju.edu.cn>) and
-I am getting duplicate patches.
+If the cost is low, as in this case I think backwards compatibility is 
+nice. More often then not do I bisect over large ranges and then it's 
+nice that things like this "just work" ;-)
 
-So I stop applying these pm_runtime_get_sync() patches until it is clear that
-this is the way forward. Other ref count issues I will still apply, but it
-would be great if Qiushi Wu, Aditya Pakki and Dinghao Liu can work together
-to avoid duplicate patches.
+> 
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  scripts/boards.sh | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/boards.sh b/scripts/boards.sh
+> > index 0ec2981..2069494 100644
+> > --- a/scripts/boards.sh
+> > +++ b/scripts/boards.sh
+> > @@ -13,7 +13,7 @@ case $info in
+> >          vins="0 1 2 3 4 5 6 7"
+> >          csis="20 40 41"
+> >          ;;
+> > -    "Renesas Salvator-X board based on r8a7796" | \
+> > +    "Renesas Salvator-X board based on r8a77960" | \
+> >          "Renesas Salvator-X 2nd version board based on r8a77965")
+> 
+> But I wonder if this script should use more 'wildcard' matching.
+> It does seem awkward to match generically in some cases though, so
+> nothing wrong with keeping things explicit for now.
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> But now I've written that I see these patches are already integrated ...
+> never mind.
+> --
+> Kieran
+> 
+> 
+> >          gen="gen3"
+> >          vins="0 1 2 3 4 5 6 7"
+> > 
+> 
 
+-- 
 Regards,
-
-	Hans
-
-> 
->>> ---
->>>  drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
->>> index c650e45bb0ad..222c9e1261a0 100644
->>> --- a/drivers/media/platform/vsp1/vsp1_drv.c
->>> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
->>> @@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
->>>  	pm_runtime_enable(&pdev->dev);
->>>  
->>>  	ret = pm_runtime_get_sync(&pdev->dev);
->>> -	if (ret < 0)
->>> +	if (ret < 0) {
->>> +		pm_runtime_put_noidle(&pdev->dev);
->>>  		goto done;
->>> +	}
->>>  
->>>  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
->>>  	pm_runtime_put_sync(&pdev->dev);
-> 
-
+Niklas Söderlund
