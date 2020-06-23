@@ -2,150 +2,209 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44A552054F1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 16:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D62B3205B31
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 20:55:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732880AbgFWOh6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jun 2020 10:37:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732855AbgFWOh5 (ORCPT
+        id S1733188AbgFWSz3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jun 2020 14:55:29 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:45796 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733170AbgFWSz3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jun 2020 10:37:57 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C21C061797
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 07:37:57 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id q15so1562815wmj.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 07:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
-        b=S/38hRP9jJeEO0648j5i0HwQUkmAn8MPLasoGaNt8LdCbQqEVydbz8k0QMIB7TcSxT
-         mB8W7q1gDfv+vrDORU79pdT175xGSNJNn9FeFSOeCambF0o+fNWV7YZc6bTiG/1Z6IfR
-         QyqfeR3sUuTOxKqqFW+5Mj6QQ1oGWLVdX8LKSRdVg1scMMyLuhkobEB7qpI1w1w/qH7z
-         jwaDjR41jrisZougD+3Uuakf/CAy6jS5bQHpWHTAieha1OiW3LJqSFRQr/vLShLUiHPk
-         yPP9bihWulsfYdzcIcoqxokyu81EfkMggDs54t64ujxNzfIYZShzXVRQcjXTRd7mV3TJ
-         lmtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
-        b=YGTUdmjbPAY65EFm4XVQ9nZ9uaLv9QrA9JQwpGhDd/Bz4Iy3jxkyehsMRaqaXp3eT1
-         gzazATpW9GV1eqSIOFuHJr0ysm4r9m4T52YSncOPibYCqz5l9q0P+q/Tt7MF5ndaIAfA
-         2+O7PzFyBtK/8pzlQlqdEb3Ephnz1Hc4j+INlrpTbNYiDXa7i/N5na0sxMDENu08WUBU
-         wJqi6WqMqDiWLEUZ62WFrPO6F3eBa3Zz+h+VrE/HRTjh1eSeRTOJfbbYuD3Btz9ZJAGc
-         LXvtKXzKK2wezLshcvmUuWoJV8AsozsgHYnMjNncQXB1l7nnFgjSHP5T5MBlQK0b63KW
-         3iqg==
-X-Gm-Message-State: AOAM530IgFI+gqVmB2U4vVJAOBubYpk9n6aUzuAzvvWJ1oHau8jaasC2
-        36zByfpFB2QtI23fb9Af1FPchA==
-X-Google-Smtp-Source: ABdhPJzFhA2lwUjrw8Uh+XlYz4CBl1VsesMxrJl8KjSj+B5PacC6wuAYbyLBKbmaRzqOKAPJJSOTSQ==
-X-Received: by 2002:a1c:9943:: with SMTP id b64mr24802648wme.102.1592923075430;
-        Tue, 23 Jun 2020 07:37:55 -0700 (PDT)
-Received: from [192.168.0.41] (lns-bzn-59-82-252-131-168.adsl.proxad.net. [82.252.131.168])
-        by smtp.googlemail.com with ESMTPSA id h14sm6949375wrt.36.2020.06.23.07.37.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 07:37:54 -0700 (PDT)
-Subject: Re: [PATCH v4 00/11] Stop monitoring disabled devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Tue, 23 Jun 2020 14:55:29 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id DCF952002C;
+        Tue, 23 Jun 2020 20:55:23 +0200 (CEST)
+Date:   Tue, 23 Jun 2020 20:55:22 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
- <20200528192051.28034-1-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <9cbffad6-69e4-0b33-4640-fde7c4f6a6e7@linaro.org>
-Date:   Tue, 23 Jun 2020 16:37:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH 00/27] Converter R-Car DU to the DRM bridge connector
+ helper
+Message-ID: <20200623185522.GA1795323@ravnborg.org>
+References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200528192051.28034-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=edQTgYMH c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8 a=P1BnusSwAAAA:8 a=e5mUnYsNAAAA:8
+        a=FqmmVZ2fx0WSPBDdU20A:9 a=7hGc-AWk-oUOk1JA:21 a=hoYb6stkjdD2QXBk:21
+        a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22 a=D0XLA9XvdZm18NrgonBM:22
+        a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Laurent.
 
-Hi Andrzej,
-
-
-On 28/05/2020 21:20, Andrzej Pietrasiewicz wrote:
-> There is already a reviewed v3 (not to be confused with RFC v3), which can
-> be considered for merging:
+On Tue, May 26, 2020 at 04:14:38AM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> https://lore.kernel.org/linux-pm/20200423165705.13585-2-andrzej.p@collabora.com/
+> This patch series converts the R-Car DU driver to use the DRM bridge
+> connector helper drm_bridge_connector_init().
 > 
-> Let me cite Bartlomiej Zolnierkiewicz:
+> The bulk of the series is conversion of the adv7511, simple-bridge,
+> rcar-lbds and dw-hdmi drivers to make connector creation optional
+> (through the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag).
 > 
-> "I couldn't find the problems with the patch itself (no new issues
-> being introduced, all changes seem to be improvements over the current
-> situation).
+> The series starts with the adv7511 driver, previously posted as "[PATCH
+> 0/4] drm: bridge: adv7511: Enable usage with DRM bridge connector
+> helper" ([1]). Patches 01/27 to 04/27 incorporate all the received
+> review comments.
 > 
-> Also the patch is not small but it also not that big and it mostly
-> removes the code:
+> The next three patches address the simple-bridge driver, previously
+> posted as "[PATCH 0/2] drm: bridge: simple-bridge: Enable usage with DRM
+> bridge connector helper". Patch 05/27 is an additional fix that stems
+> from the review, and patches 06/27 and 07/27 incorporate all the
+> received review comments.
 > 
-> 17 files changed, 105 insertions(+), 244 deletions(-)"
+> Patch 08/27 is a new patch that addresses the rcar-lvds driver. Instead
+> of implementing direct support for DRM_BRIDGE_ATTACH_NO_CONNECTOR, it
+> simply removes code that shouldn't have been in the driver in the first
+> place by switching to the panel bridge helper.
+> 
+> Patches 09/27 to 22/27 then address the dw-hdmi driver. That's a more
+> sizeable rework, due to the fact that the driver implements a mid-layer
+> for platform-specific glue, with the internal drm_connector being used
+> throughout the whole code. There's no rocket science there, but patch
+> 10/27 should be noted for adding a new argument to the
+> drm_bridge_funcs.mode_valid() function. Please see individual patches
+> for details.
+> 
+> Patch 23/27 adds support to the dw-hdmi driver to attach to a downstream
+> bridge if one is specified in DT. As the DT port number corresponding to
+> the video output differs between platforms that integrate the dw-hdmi
+> (some of them even don't have a video output port, which should probably
+> be fixed, but that's out of scope for this series), the port number has
+> to be specified by the platform glue layer. Patch 24/27 does so for the
+> R-Car dw-hdmi driver.
+> 
+> Patch 25/27 is a drive-by fix for an error path issue in the rcar-du
+> driver. Patch 26/27 finally makes use of the drm_bridge_connector_init()
+> helper.
+> 
+> Unfortunately, this breaks the VGA output on R-Car Gen3 platforms. On
+> those platforms, the VGA DDC lines are not connected, and there is no
+> mean for software to detect the VGA output connection status. When the
+> simple-bridge driver creates a connector, it automatically adds default
+> modes when no DDC is available. This behavious is also present int the
+> DRM probe helper drm_helper_probe_single_connector_modes(), but only
+> when the connector status is connector_status_connected. As the driver
+> (rightfully) reports connector_status_unconnected, no modes are added.
+> Patch 27/27 fixes this issue by extending addition of default modes in
+> drm_helper_probe_single_connector_modes() when the output status is
+> unknown. An alternative approach would be to implement this behaviour in
+> the bridge connector helper (drm_bridge_connector.c).
+> 
+> All the modified drivers have been compile-tested, and the series has
+> been tested on a Renesas R-Car Salvator-XS board with the VGA, HDMI and
+> LVDS outputs.
+> 
+> [1] https://lore.kernel.org/dri-devel/20200409004610.12346-1-laurent.pinchart+renesas@ideasonboard.com/
+> [2] https://lore.kernel.org/dri-devel/20200409003636.11792-1-laurent.pinchart+renesas@ideasonboard.com/
 
+As we briefly discussed on IRC the first 21 patches are now applied to
+drm-misc-next.
+The rcar-du specific patches was left out and the last patch was
+likewise not applied in this round- mostly because it was the coming
+after several rcar-du patches and I was not sure if there was some
+dependencies to consider.
 
-Thanks for this nice cleanup. Given the series was tested, reviewed and
-acked, I would like to merge it as soon as possible.
+With this set in we have more examples in the tree how to do proper
+bridges which is good.
 
-Can you send the V5 with the EXPORT_SYMBOL_GPL fixed ? So the series can
-enter the integration loop.
+While applying the new r-bs was ofc added.
 
-Thanks
+	Sam
 
- -- Daniel
-
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> 
+> Laurent Pinchart (27):
+>   drm: bridge: adv7511: Split EDID read to a separate function
+>   drm: bridge: adv7511: Split connector creation to a separate function
+>   drm: bridge: adv7511: Implement bridge connector operations
+>   drm: bridge: adv7511: Make connector creation optional
+>   drm: bridge: Return NULL on error from drm_bridge_get_edid()
+>   drm: bridge: simple-bridge: Delegate operations to next bridge
+>   drm: bridge: simple-bridge: Make connector creation optional
+>   drm: rcar-du: lvds: Convert to DRM panel bridge helper
+>   drm: edid: Constify connector argument to infoframe functions
+>   drm: bridge: Pass drm_display_info to drm_bridge_funcs .mode_valid()
+>   drm: bridge: dw-hdmi: Pass private data pointer to .mode_valid()
+>   drm: bridge: dw-hdmi: Pass private data pointer to .configure_phy()
+>   drm: bridge: dw-hdmi: Remove unused field from dw_hdmi_plat_data
+>   drm: meson: dw-hdmi: Use dw_hdmi context to replace hack
+>   drm: bridge: dw-hdmi: Pass drm_display_info to .mode_valid()
+>   drm: bridge: dw-hdmi: Constify mode argument to dw_hdmi_phy_ops
+>     .init()
+>   drm: bridge: dw-hdmi: Constify mode argument to internal functions
+>   drm: bridge: dw-hdmi: Pass drm_display_info to dw_hdmi_support_scdc()
+>   drm: bridge: dw-hdmi: Split connector creation to a separate function
+>   drm: bridge: dw-hdmi: Store current connector in struct dw_hdmi
+>   drm: bridge: dw-hdmi: Pass drm_connector to internal functions as
+>     needed
+>   drm: bridge: dw-hdmi: Make connector creation optional
+>   drm: bridge: dw-hdmi: Attach to next bridge if available
+>   drm: rcar-du: dw-hdmi: Set output port number
+>   drm: rcar-du: Fix error handling in rcar_du_encoder_init()
+>   drm: rcar-du: Use drm_bridge_connector_init() helper
+>   drm: Add default modes for connectors in unknown state
+> 
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c  | 159 +++++---
+>  .../drm/bridge/analogix/analogix-anx6345.c    |   1 +
+>  .../drm/bridge/analogix/analogix-anx78xx.c    |   1 +
+>  drivers/gpu/drm/bridge/cdns-dsi.c             |   1 +
+>  drivers/gpu/drm/bridge/chrontel-ch7033.c      |   1 +
+>  drivers/gpu/drm/bridge/nwl-dsi.c              |   1 +
+>  drivers/gpu/drm/bridge/sii9234.c              |   1 +
+>  drivers/gpu/drm/bridge/sil-sii8620.c          |   1 +
+>  drivers/gpu/drm/bridge/simple-bridge.c        | 113 +++---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 357 ++++++++++++------
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c |   1 +
+>  drivers/gpu/drm/bridge/tc358767.c             |   1 +
+>  drivers/gpu/drm/bridge/tc358768.c             |   1 +
+>  drivers/gpu/drm/bridge/thc63lvd1024.c         |   1 +
+>  drivers/gpu/drm/bridge/ti-tfp410.c            |  11 +-
+>  drivers/gpu/drm/drm_atomic_helper.c           |   3 +-
+>  drivers/gpu/drm/drm_bridge.c                  |  10 +-
+>  drivers/gpu/drm/drm_edid.c                    |  12 +-
+>  drivers/gpu/drm/drm_probe_helper.c            |   7 +-
+>  drivers/gpu/drm/i2c/tda998x_drv.c             |   1 +
+>  drivers/gpu/drm/imx/dw_hdmi-imx.c             |   6 +-
+>  drivers/gpu/drm/meson/meson_dw_hdmi.c         |  34 +-
+>  drivers/gpu/drm/omapdrm/dss/dpi.c             |   1 +
+>  drivers/gpu/drm/omapdrm/dss/sdi.c             |   1 +
+>  drivers/gpu/drm/omapdrm/dss/venc.c            |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c     |  26 +-
+>  drivers/gpu/drm/rcar-du/rcar_dw_hdmi.c        |   7 +-
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c           | 124 +-----
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |   6 +-
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c         |   6 +-
+>  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h         |   3 +-
+>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c        |   3 +-
+>  include/drm/bridge/dw_hdmi.h                  |  28 +-
+>  include/drm/drm_bridge.h                      |   3 +
+>  include/drm/drm_edid.h                        |   6 +-
+>  include/drm/drm_modeset_helper_vtables.h      |   8 +-
+>  36 files changed, 541 insertions(+), 406 deletions(-)
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
