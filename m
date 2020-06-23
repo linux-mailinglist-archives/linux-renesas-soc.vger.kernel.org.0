@@ -2,105 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED77205054
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 13:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A28C72051C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 14:06:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732189AbgFWLPv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jun 2020 07:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52576 "EHLO
+        id S1732539AbgFWMGy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jun 2020 08:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732487AbgFWLPq (ORCPT
+        with ESMTP id S1732333AbgFWMGx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jun 2020 07:15:46 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8DD8C061796
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 04:15:45 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id l11so20114437wru.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 04:15:45 -0700 (PDT)
+        Tue, 23 Jun 2020 08:06:53 -0400
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9BB9C061755
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 05:06:53 -0700 (PDT)
+Received: by mail-vk1-xa41.google.com with SMTP id m23so4763516vko.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 05:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=Xyy6aY3CzpTrB1jWSxZ+AZN1wwOD7LD+LfCki0d12w2TW+w1X0sGlX5yRgU+UcE3Xc
-         Sai4+ze5dk2Qt+18TpmHM4m07NxQq9zk94Aa8Z6DDOBMIfknaKRUDr9Qa4eAKRV1j2nJ
-         /ZzQzpn3D5WMkKao8WnmlQTHXZseJbZXbNWPxcMMEYSKiry/6/ClOjOSl58CrMkwNWcO
-         wQBzDNzdqe4GIGpXvGLIwxrqzJCn1eGIBa2J0WLaTzi+STb+HsZ0ZLxF09nkzg52CzUK
-         PcaoRXHmgLv/PBKUNmTO4JtULArsNuajcBSmFANYWYzFtMjegRI8J5HTV4/DSXdlz5fy
-         6iLg==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MvMXHhq+2NXSlQ0VxA/FKQ9PJItTwUoUNVjQj2ToK20=;
+        b=IgZ2WLFPg8aUvzMOKHeBblyB/RLQhvJCgzxaUbdaIrmAPo5rkvLoMLUdEUU2LltL0w
+         tOUsjceIQIUr+vDaR3cXgWKu3ucGNYAKWBoFskye6TwAg4BZ7E7uBGKMKDaFkerBPKTA
+         qosnNK1QD0sZRhCvkzad0OjRyqWzzA/thpJIta3zstAT05Z61+uhW8S1VWVo4dqZwErH
+         cndTRjhZ5sHbTPkGGiK3C09LQ0/aeoObjDjM9l09bU66tovrxuupS1pg0wL0yrXJMT5X
+         JB6/Z7GK+whBsUzWXr3n5UJkA9nl1oLRk0Wrn1Tbwkt8ymG6CiLAcJTHmDZe0co7QXfO
+         ctag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
-        b=r0fXo6zRcJ9RDhhsbWLdAbTR+H+V0xZ9tVlT/XelxZ5+tDeRNBylFxN+lOktet126q
-         HFaUog7nb0s4MQyEyxA0aF5BSFGJMUOYoOxMV5LEZBR1sj6SN2yEtqVrydXxnXdJld4+
-         afUddlXQwnaS8sRL7+yNSs7HYKetrUla7HZuLdRMadFP2lz3prQkOzMe+qHO/EKdNfDa
-         U5jq7YTIpxII37lCY0ZEN0uDSGMnDbPIlT0YXDGgH0C9GMhDG6mDgzMOKZv5pmtWYp51
-         xX6c7b5FQir4/hRLBpM10I1WRnZiDYufwQ3SSArAwMRjQc/aRXHF2GaFDdOP3dSizd5e
-         U63A==
-X-Gm-Message-State: AOAM533sCxQyy5kjxrK79YRuY+U9CXI29OdCLirbEumB2PuPPbjGdpoS
-        CoWHsazL9nfRns5hW6LLXt4jm9djjeo+uRi3qL4=
-X-Google-Smtp-Source: ABdhPJxtc+iGLXTpGncJsl55fUtNTlaYI1GL+Syh9U32BbYvKWSnrFcDUTy2CHQaVlATc2cvuwKiGrujIn2Ws91mXPU=
-X-Received: by 2002:adf:e948:: with SMTP id m8mr20918122wrn.398.1592910944654;
- Tue, 23 Jun 2020 04:15:44 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MvMXHhq+2NXSlQ0VxA/FKQ9PJItTwUoUNVjQj2ToK20=;
+        b=jwZhxwl19C+yYq/1bGJGr35+kmKNOfvayXmKveF3INRRZNDeG1L8sOMry6h+UG7A+O
+         m0mQzqwAyrBimIswV7dT/DLR5xMCxzWWqBjXgLwkk1dQ6QUi+6Tm+JTTygCvMxodG8vI
+         a14VzXxMPV6EW30N+TTbqzScOHY49Ut7Gbzw0wNdluMmZPL883mOEv1rAsbOcm1qj2KS
+         U1d5DWYby4k3QXuX8ANLgO+NmeajpF2Nt7I12SjAjI6kiDP1B/HwD0Hnl/B3k1ebR711
+         kx2s8XwBz+wyLaU7uaabcKY/tZCPCO285srj9yoiBhNa4hqPqQEJ4q7Fg6otJnSccf4L
+         i8Lg==
+X-Gm-Message-State: AOAM531LH813MjZQzJVwzhHp6e4SIadtQXJCxc0clod6d/+WBWKnyR2L
+        9VWSqVP4VxPYy0nW4Z+GfFxZwz7T7LmZ0oqHJERBoA==
+X-Google-Smtp-Source: ABdhPJxDSHXtW5m1dVDzqMXNbJ15G50w48MEPPMvuHd0IZtHCeCnuTvqKdT/kQKwxcrQAWPPa6fdLlL7KvI+lwbBCs4=
+X-Received: by 2002:a1f:b202:: with SMTP id b2mr19506666vkf.86.1592914012493;
+ Tue, 23 Jun 2020 05:06:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a1c:f002:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 04:15:44
- -0700 (PDT)
-Reply-To: sarahkoffi389@yahoo.co.jp
-From:   Sarah Koffi <paulwiliam782@gmail.com>
-Date:   Tue, 23 Jun 2020 12:15:44 +0100
-Message-ID: <CAHqcnY13QZ9cNfV--WUT2Yv7Bbg50EpH9YkPHEnJWyKR7jVZoA@mail.gmail.com>
-Subject: Greetings From Mrs. Sarah Koffi
-To:     sarahkoffi389@yahoo.co.jp
+References: <1591703110-14869-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1591703110-14869-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Amit Kucheria <amit.kucheria@linaro.org>
+Date:   Tue, 23 Jun 2020 17:36:41 +0530
+Message-ID: <CAHLCerOxKuqhzfNSEMk6dB7B8Y_nvhQ0F0yO+BGrUE-P4SKBEA@mail.gmail.com>
+Subject: Re: [PATCH v2] thermal: rcar_gen3_thermal: Fix undefined temperature
+ if negative
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        niklas.soderlund+renesas@ragnatech.se, van.do.xw@renesas.com,
+        dien.pham.ry@renesas.com, Linux PM list <linux-pm@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Greetings From Mrs. Sarah Koffi
+Hi,
 
-I'm contacting you based on your good profiles I read and for a good
-reasons, I am in search of a property to buy in your country as I
-intended to come over to your
-country for investment, Though I have not meet with you before but I
-believe that one has to risk confiding in someone to succeed sometimes
-in life.
+On Tue, Jun 9, 2020 at 5:15 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+>
+> From: Dien Pham <dien.pham.ry@renesas.com>
+>
+> As description for DIV_ROUND_CLOSEST in file include/linux/kernel.h.
+>   "Result is undefined for negative divisors if the dividend variable
+>    type is unsigned and for negative dividends if the divisor variable
+>    type is unsigned."
+>
+> In current code, the FIXPT_DIV uses DIV_ROUND_CLOSEST but has not
+> checked sign of divisor before using. It makes undefined temperature
+> value in case the value is negative.
+>
+> This patch fixes to satisfy DIV_ROUND_CLOSEST description
+> and fix bug too. Note that the name "reg" is not good because it should
+> be the same type as rcar_gen3_thermal_read(). So, rename it with "ctemp".
+>
+> Signed-off-by: Van Do <van.do.xw@renesas.com>
+> Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
+> [shimoda: minor fixes, add Fixes tag]
+> Fixes: 564e73d283af ("thermal: rcar_gen3_thermal: Add R-Car Gen3 thermal driver")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Changes from v1:
+>  - Use int instead of long.
+>  - Rename "reg" with "ctemp".
+>  https://patchwork.kernel.org/patch/11593051/
+>
+>  drivers/thermal/rcar_gen3_thermal.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+> index 58fe7c1..49ea330 100644
+> --- a/drivers/thermal/rcar_gen3_thermal.c
+> +++ b/drivers/thermal/rcar_gen3_thermal.c
+> @@ -167,16 +167,16 @@ static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
+>  {
+>         struct rcar_gen3_thermal_tsc *tsc = devdata;
+>         int mcelsius, val;
+> -       u32 reg;
+> +       int ctemp;
 
-My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
-Federal Government of Sudan and he has a personal Oil firm in Bentiu
-Oil zone town and Upper
-Nile city. What I have experience physically, I don't wish to
-experience it again in my life due to the recent civil Ethnic war
-cause by our President Mr. Salva Kiir
-and the rebel leader Mr Riek Machar, I have been Under United Nation
-refuge camp in chad to save my life and that of my little daughter.
+Wouldn't it be better to change the variable type to fix the bug in
+this patch and make a separate one for the variable rename?
 
-Though, I do not know how you will feel to my proposal, but the truth
-is that I sneaked into Chad our neighboring country where I am living
-now as a refugee.
-I escaped with my little daughter when the rebels bust into our house
-and killed my husband as one of the big oil dealers in the country,
-ever since then, I have being on the run.
+Regards,
+Amit
 
-I left my country and move to Chad our neighboring country with the
-little ceasefire we had, due to the face to face peace meeting accord
-coordinated by the US Secretary of State, Mr John Kerry and United
-Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
-and the rebel leader Mr Riek Machar to stop this war.
-
-I want to solicit for your partnership with trust to invest the $8
-million dollars deposited by my late husband in Bank because my life
-is no longer safe in our country, since the rebels are looking for the
-families of all the oil business men in the country to kill, saying
-that they are they one that is milking the country dry.
-
-I will offer you 20% of the total fund for your help while I will
-partner with you for the investment in your country.
-If I get your reply.
-
-I will wait to hear from you so as to give you details.With love from
-
- i need you to contact me here sarahkoffi389@yahoo.co.jp
-
-Mrs. Sarah Koffi
+>         /* Read register and convert to mili Celsius */
+> -       reg = rcar_gen3_thermal_read(tsc, REG_GEN3_TEMP) & CTEMP_MASK;
+> +       ctemp = rcar_gen3_thermal_read(tsc, REG_GEN3_TEMP) & CTEMP_MASK;
+>
+> -       if (reg <= thcode[tsc->id][1])
+> -               val = FIXPT_DIV(FIXPT_INT(reg) - tsc->coef.b1,
+> +       if (ctemp <= thcode[tsc->id][1])
+> +               val = FIXPT_DIV(FIXPT_INT(ctemp) - tsc->coef.b1,
+>                                 tsc->coef.a1);
+>         else
+> -               val = FIXPT_DIV(FIXPT_INT(reg) - tsc->coef.b2,
+> +               val = FIXPT_DIV(FIXPT_INT(ctemp) - tsc->coef.b2,
+>                                 tsc->coef.a2);
+>         mcelsius = FIXPT_TO_MCELSIUS(val);
+>
+> --
+> 2.7.4
+>
