@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9143E2047E5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 05:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96AC42047EB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 05:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731694AbgFWDW0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jun 2020 23:22:26 -0400
-Received: from mga14.intel.com ([192.55.52.115]:55815 "EHLO mga14.intel.com"
+        id S1731803AbgFWDWn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jun 2020 23:22:43 -0400
+Received: from mga04.intel.com ([192.55.52.120]:22293 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731122AbgFWDW0 (ORCPT
+        id S1731792AbgFWDWm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jun 2020 23:22:26 -0400
-IronPort-SDR: cKNT1bAY/IFNM3XXOpcqJgPdlyMBHOqS32YwaqZCQ/jSuPSsEgFq3aA/QxUfGo1jLbiV1RZdUl
- SG9mEnfEGS7g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="143012037"
+        Mon, 22 Jun 2020 23:22:42 -0400
+IronPort-SDR: sbhnKO91czOoM8mT76s2AN7My5nA7GFeLTehph2PG9RNJpzMUW4RqZUPMVdflC7SBwQ9TyIpN9
+ wL/qWkHtwyFw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="141445839"
 X-IronPort-AV: E=Sophos;i="5.75,269,1589266800"; 
-   d="scan'208";a="143012037"
+   d="scan'208";a="141445839"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2020 20:22:25 -0700
-IronPort-SDR: 3CpX1igh4CcLq330TMIovm+kk10AODEAqYp6VGPPOvXAlaM9Bwkbp8n8GnDAVE65Xrn8cKJya6
- vnaImERVYU0g==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2020 20:22:41 -0700
+IronPort-SDR: HpqUs1ggEGzKficLNC9pjXHOkhGDH3gQ+azfxai8ee3sV2tYHYZacJzZIToz2wqxpkdTOOpA8o
+ mP+naUTAF36Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,269,1589266800"; 
-   d="scan'208";a="263177310"
+   d="scan'208";a="301060524"
 Received: from lkp-server01.sh.intel.com (HELO f484c95e4fd1) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Jun 2020 20:22:24 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 22 Jun 2020 20:22:39 -0700
 Received: from kbuild by f484c95e4fd1 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jnZVv-0000aD-Kf; Tue, 23 Jun 2020 03:22:23 +0000
-Date:   Tue, 23 Jun 2020 11:21:52 +0800
+        id 1jnZWA-0000aP-EJ; Tue, 23 Jun 2020 03:22:38 +0000
+Date:   Tue, 23 Jun 2020 11:21:56 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
- b2fc9b4eb1d79c03fd78e50b810c2ea27178e1e3
-Message-ID: <5ef17550.VNk30ITzSX2OnTrz%lkp@intel.com>
+Subject: [renesas-drivers:clk-renesas] BUILD SUCCESS
+ 52bc5ea6edde35bc65ed6ecd7639534e78002c74
+Message-ID: <5ef17554.ryuss0tuvEevGtk1%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,8 +47,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
-branch HEAD: b2fc9b4eb1d79c03fd78e50b810c2ea27178e1e3  pinctrl: sh-pfc: r8a77970: Add RPC pins, groups, and functions
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas
+branch HEAD: 52bc5ea6edde35bc65ed6ecd7639534e78002c74  clk: renesas: rzg2: Mark RWDT clocks as critical
 
 elapsed time: 727m
 
@@ -136,6 +136,12 @@ powerpc                          allyesconfig
 powerpc                          rhel-kconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
+x86_64               randconfig-a004-20200622
+x86_64               randconfig-a002-20200622
+x86_64               randconfig-a003-20200622
+x86_64               randconfig-a005-20200622
+x86_64               randconfig-a001-20200622
+x86_64               randconfig-a006-20200622
 i386                 randconfig-a006-20200622
 i386                 randconfig-a002-20200622
 i386                 randconfig-a003-20200622
@@ -148,12 +154,6 @@ i386                 randconfig-a012-20200622
 i386                 randconfig-a014-20200622
 i386                 randconfig-a015-20200622
 i386                 randconfig-a011-20200622
-x86_64               randconfig-a004-20200622
-x86_64               randconfig-a002-20200622
-x86_64               randconfig-a003-20200622
-x86_64               randconfig-a005-20200622
-x86_64               randconfig-a001-20200622
-x86_64               randconfig-a006-20200622
 riscv                            allyesconfig
 riscv                             allnoconfig
 riscv                               defconfig
