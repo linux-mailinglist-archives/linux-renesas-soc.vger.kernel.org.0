@@ -2,66 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C532205202
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 14:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A552054F1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jun 2020 16:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732476AbgFWMLB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jun 2020 08:11:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
+        id S1732880AbgFWOh6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jun 2020 10:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55802 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732555AbgFWMLA (ORCPT
+        with ESMTP id S1732855AbgFWOh5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jun 2020 08:11:00 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCDFAC061573
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 05:11:00 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id u8so2442875qvj.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 05:11:00 -0700 (PDT)
+        Tue, 23 Jun 2020 10:37:57 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13C21C061797
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 07:37:57 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id q15so1562815wmj.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 07:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=MeR/WOow1KY0zvqtloRWsa0CH1epLy0CCeAMsBAaQiPLVx1lr/1IBpxsRfonwVetoJ
-         pjnorGdpdpmBNqPJBL1jySCJPUh+rs0yJxLy5LCclBIjk7PCJb+QJ822ryx9h9Ju7CTg
-         ZbNp+Gp7MIQYghBjQjkuRtaJGExC7SpnF08Ck/JcwspCyYWqvNPVbVHid0AWXjbFx6F7
-         MRr3XvUh77pw7xlAL8RjXyxHyPgrGs1FUGPY4UQRO6mALTjujeDbcnadXwufT2JpzPKg
-         DNl+CfPqYs56AuIk0qh9hFsrT65vLPoJ95kDpK9rlIC/sqkmgW7Pq+Irw5SIKtWMrsTH
-         B7Pg==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
+        b=S/38hRP9jJeEO0648j5i0HwQUkmAn8MPLasoGaNt8LdCbQqEVydbz8k0QMIB7TcSxT
+         mB8W7q1gDfv+vrDORU79pdT175xGSNJNn9FeFSOeCambF0o+fNWV7YZc6bTiG/1Z6IfR
+         QyqfeR3sUuTOxKqqFW+5Mj6QQ1oGWLVdX8LKSRdVg1scMMyLuhkobEB7qpI1w1w/qH7z
+         jwaDjR41jrisZougD+3Uuakf/CAy6jS5bQHpWHTAieha1OiW3LJqSFRQr/vLShLUiHPk
+         yPP9bihWulsfYdzcIcoqxokyu81EfkMggDs54t64ujxNzfIYZShzXVRQcjXTRd7mV3TJ
+         lmtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=cB2var6dDzZhIJZAdJxl4vmpvik4TUjKqsqfSNGYhpU/u+6jYyRsdG4f5lLzmi54iG
-         3DL0q7jltpUmOLG9j+RwNFcFGNdKJG6OZT/U++gTIg1LBcn6JjQ7h7XtEjRs995FhGb6
-         mszwlH5JS7LjtgDiIqg41mOqwfe0tofZoq1A16kB7OzXCb+VHiz7uz8BxRJ4ELa6OiCO
-         IJzV87zjPb/YLx7yfDXW1NwwsulUZ/v4rcu34ErgpI8BXLf8UZyvYnuV4K1yyzgzCJt1
-         oVUjCw6zwEwOJDxoSTq/3rHi5iRTqdvbfNvSnYCgUnS87vMYgL1OTQRY/xWs+/eu6IiJ
-         8mvA==
-X-Gm-Message-State: AOAM530kMfg26LMRCbEe5Y8RoOvvdR/HLw+I4wyWWL+sN6ipxVBNYdJ3
-        age/YGrR4NXQtDtQgegS8I7YetLmmCyxVooxdXs=
-X-Google-Smtp-Source: ABdhPJxD8Npc7pdPVYurK6CtpGU+poPObbH79+K3yQjKF6Ou07T+Qw4qGQLLWYyorYTiO45eGtX9T/5smmfzv9pl6jk=
-X-Received: by 2002:ad4:4671:: with SMTP id z17mr26399231qvv.86.1592914260069;
- Tue, 23 Jun 2020 05:11:00 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ceG/rp64xRAj8gur9y870c/+SKauz/Pvvf3Ek5gAYHE=;
+        b=YGTUdmjbPAY65EFm4XVQ9nZ9uaLv9QrA9JQwpGhDd/Bz4Iy3jxkyehsMRaqaXp3eT1
+         gzazATpW9GV1eqSIOFuHJr0ysm4r9m4T52YSncOPibYCqz5l9q0P+q/Tt7MF5ndaIAfA
+         2+O7PzFyBtK/8pzlQlqdEb3Ephnz1Hc4j+INlrpTbNYiDXa7i/N5na0sxMDENu08WUBU
+         wJqi6WqMqDiWLEUZ62WFrPO6F3eBa3Zz+h+VrE/HRTjh1eSeRTOJfbbYuD3Btz9ZJAGc
+         LXvtKXzKK2wezLshcvmUuWoJV8AsozsgHYnMjNncQXB1l7nnFgjSHP5T5MBlQK0b63KW
+         3iqg==
+X-Gm-Message-State: AOAM530IgFI+gqVmB2U4vVJAOBubYpk9n6aUzuAzvvWJ1oHau8jaasC2
+        36zByfpFB2QtI23fb9Af1FPchA==
+X-Google-Smtp-Source: ABdhPJzFhA2lwUjrw8Uh+XlYz4CBl1VsesMxrJl8KjSj+B5PacC6wuAYbyLBKbmaRzqOKAPJJSOTSQ==
+X-Received: by 2002:a1c:9943:: with SMTP id b64mr24802648wme.102.1592923075430;
+        Tue, 23 Jun 2020 07:37:55 -0700 (PDT)
+Received: from [192.168.0.41] (lns-bzn-59-82-252-131-168.adsl.proxad.net. [82.252.131.168])
+        by smtp.googlemail.com with ESMTPSA id h14sm6949375wrt.36.2020.06.23.07.37.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2020 07:37:54 -0700 (PDT)
+Subject: Re: [PATCH v4 00/11] Stop monitoring disabled devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
+ <20200528192051.28034-1-andrzej.p@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <9cbffad6-69e4-0b33-4640-fde7c4f6a6e7@linaro.org>
+Date:   Tue, 23 Jun 2020 16:37:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Received: by 2002:ac8:47c2:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 05:10:59
- -0700 (PDT)
-Reply-To: bektery@outlook.com
-From:   YAVUZ BEKTER <bakert.jg@gmail.com>
-Date:   Tue, 23 Jun 2020 05:10:59 -0700
-Message-ID: <CAAUSuTUxrx9psxYoOe6=dc3mJQNE+XxKdLPUPRXrwJY6AZtbUg@mail.gmail.com>
-Subject: Hello.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200528192051.28034-1-andrzej.p@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I am the foreign operations director of Bank of Turkey.
-My name is Mr, Yavuz. I have a sensitive investment project to discuss
-with you, please reply now.
-________________________
-Ik ben de directeur buitenlandse activiteiten van de Bank of Turkey.
-Mijn naam is meneer Yavuz. Ik moet een gevoelig investeringsproject bespreken
-met u, antwoord dan nu.
+
+Hi Andrzej,
+
+
+On 28/05/2020 21:20, Andrzej Pietrasiewicz wrote:
+> There is already a reviewed v3 (not to be confused with RFC v3), which can
+> be considered for merging:
+> 
+> https://lore.kernel.org/linux-pm/20200423165705.13585-2-andrzej.p@collabora.com/
+> 
+> Let me cite Bartlomiej Zolnierkiewicz:
+> 
+> "I couldn't find the problems with the patch itself (no new issues
+> being introduced, all changes seem to be improvements over the current
+> situation).
+> 
+> Also the patch is not small but it also not that big and it mostly
+> removes the code:
+> 
+> 17 files changed, 105 insertions(+), 244 deletions(-)"
+
+
+Thanks for this nice cleanup. Given the series was tested, reviewed and
+acked, I would like to merge it as soon as possible.
+
+Can you send the V5 with the EXPORT_SYMBOL_GPL fixed ? So the series can
+enter the integration loop.
+
+Thanks
+
+ -- Daniel
+
+
+
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
