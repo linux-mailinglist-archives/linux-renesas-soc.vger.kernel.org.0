@@ -2,254 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1031D206E9D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 10:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 214F7206ECC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 10:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388203AbgFXIHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jun 2020 04:07:45 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:42289 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387732AbgFXIHo (ORCPT
+        id S2388916AbgFXIQP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 04:16:15 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:52790 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388048AbgFXIQO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 04:07:44 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 9C81CE0009;
-        Wed, 24 Jun 2020 08:07:38 +0000 (UTC)
-Date:   Wed, 24 Jun 2020 10:11:06 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v5 03/10] media: i2c: ov6650: Use new
- [get|set]_mbus_config ops
-Message-ID: <20200624081106.njf535vhbwb3fhwk@uno.localdomain>
-References: <20200616141244.49407-1-jacopo+renesas@jmondi.org>
- <20200616141244.49407-4-jacopo+renesas@jmondi.org>
- <1837100.yKVeVyVuyW@z50>
+        Wed, 24 Jun 2020 04:16:14 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200624081611euoutp01537180a859292b0c073d831d2b55e9ad~bbNi2URUA1103511035euoutp01S;
+        Wed, 24 Jun 2020 08:16:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200624081611euoutp01537180a859292b0c073d831d2b55e9ad~bbNi2URUA1103511035euoutp01S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1592986571;
+        bh=EHndB5QzgamLkOVrkzrSmd1+bAEHOFM//FEnnR45Bo4=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=Ttjv3W55vyImYB59xCPQGIkn8zbRLXBGasQGUJiz/6sVRQB/SP1QXjVJV0rckcjIA
+         DzXxc/v4LaHLIL3c/8BbMl1q6vOp/OqLyPvixrG6e7B85XhSnhZ0nQBi0A7oVwzy0v
+         fSncipZy8duCvq/9fJ6GPWB8OH792pT13dKUEuTA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200624081611eucas1p226b8963e5ae702345134f941d6b96727~bbNisDFHe0174401744eucas1p2H;
+        Wed, 24 Jun 2020 08:16:11 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 86.DD.05997.ACB03FE5; Wed, 24
+        Jun 2020 09:16:10 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200624081610eucas1p1fb83289f3916bf59400b2ea737c124d1~bbNiOoyMc2767127671eucas1p1U;
+        Wed, 24 Jun 2020 08:16:10 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200624081610eusmtrp1ab30ef185830ae9fc608a966fd014c18~bbNiNZNoB3260232602eusmtrp1X;
+        Wed, 24 Jun 2020 08:16:10 +0000 (GMT)
+X-AuditID: cbfec7f4-65dff7000000176d-3a-5ef30bcaa20a
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 67.73.06017.ACB03FE5; Wed, 24
+        Jun 2020 09:16:10 +0100 (BST)
+Received: from [106.120.51.71] (unknown [106.120.51.71]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200624081608eusmtip1aca323a1e91aaac71dd2e364feb4b059~bbNgn-YNL1894018940eusmtip1J;
+        Wed, 24 Jun 2020 08:16:08 +0000 (GMT)
+Subject: Re: [PATCH v4 01/11] acpi: thermal: Fix error handling in the
+ register function
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>, kernel@collabora.com
+From:   Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Message-ID: <ecaae46b-5ba5-3c08-2451-34d0dba46143@samsung.com>
+Date:   Wed, 24 Jun 2020 10:16:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1837100.yKVeVyVuyW@z50>
+In-Reply-To: <20200528192051.28034-2-andrzej.p@collabora.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUxTZxTH89x7e9syyi5F7BO2xaVxMzMT3NzYiaLRwYf7bX5Uoow6bpBI
+        q2uhTGUbkvHWKeMlglZ0KMa+oBsWKBSQELrJsFLBZagbb1VAcJa3diIOytpeyPj2O/9z/s//
+        nA+PiJSWCKNEaaoMTq1SpMvpEMp6e8G55c5rnqStvvE4MP3mo2DeuUDAtSdDFJSdWybh5ikX
+        AZc8b0HVve8o0F3eCnnWQQG4/vgM8j3nKFh+/Le/6oiHR6daCaia0MJjo14I9c7TAjCftVFw
+        xXSZBpvLTYOh/QcElif9AtC9MpHgOfMLgsbJKQLmRvxBz40DQiiqL0Vgb6wmwF7QLoDb1euh
+        q6JYAJUzFxD09h6A2rYJEu467gtg1FVMw1KThYKJBhk4WjPgVl4fCfWWsyT0V3soMIy0CHe/
+        z166fpIda64SsL8XnyHY5sGriG0wPSJY41wMa9MPCtl642a2pm2SYC3mIpod6G+j2Smn069f
+        /ZadfT4qZMcr7QRbMuOm9+LEkLgULj1Ny6ljdiWHHK7puUEdmw37auGeF+WgilAdEosw8xEu
+        KHwg1KEQkZQxItxtOY/4wovwsO+ZgC88CHfmPiRWLc4cCxVgKWNAeMhE8ENuhG858oONCCYR
+        T04VBXkdsw0vWN3BDJLRSbD7absw0KCZ7bi0wIwCLGF24daCf+kAU8w72Do/HtQjmX14bsQu
+        4GfCcff50eCjYmYnrmj8PrgRycjwn6M/rvAG3OSuIgNhmHkhxqXTdppfOwFb/xmjeI7Az7oa
+        hDy/iR3lpyne8BPCS4UTK+4mhA3lvhX3DjzgfOVnkT/iPfxzSwwv78FN5psoIGMmDD90h/NL
+        hOEyayXJyxJcmC/lp9/Fddfq6NVYnc1EliC5fs1p+jXn6Neco/8/txpRZiTjMjXKVE7zoYrL
+        itYolJpMVWr0F0eVFuT/Jw5fl7cZtSwe6kSMCMlDJXUjs0lSgUKrOa7sRFhEytdJPu1xJEkl
+        KYrjJzj10c/VmemcphO9IaLkMsm2K5MHpUyqIoM7wnHHOPVqlxCJo3JQdF+WzHN/w+t7cvfP
+        fD12JDbP21OjiPjypUqzsTd7i/TF3evDF3Ofbu84WGUafvDJ9F9LsPOiNSFRHDpkOZB2qFeb
+        Ipo+ERepXVbGRyVIyy/seNnVXbup4U7H7vbYt5cM2b747CnvRl+ycn/Wx2G28Njkxb4yV23z
+        N+W/zp/0rY/cuyinNIcVH2wm1RrFf9z+H0sjBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxiHd+69vS1il7OC4wRFXRNCNFuxXLAvBrtFY7zxD1lmtiyO4Tq4
+        AzJKTW9p5kwUpwh0yocG0K5BkG5C12Wu5aMMZrQssg0twrJmEFn46AhEacCaGLYObMEl/Pc7
+        v/M8581JXhmtaGETZUUlJsFYoitWshuYweWB8Td+iw3l7vrTsxnaf1lm4JlviYJvpv9i4NKV
+        FRp+ODNJQVMoCWxD5xiwtOyC8q5xCUz+kQ3nQ1cYWJl6FDnd3g+jZ3opsM2aYarNKgW374IE
+        HPU9DFxvb2GhZ3KehRu3ahC4pv0SsPzTTkPo4s8IOueCFDyZiAx63PZQClXuOgT9nc0U9Ffc
+        ksDd5ldhoKFaAo0LXyF48CAHvu2bpeHe4IgEApPVLPzX7WJgtiMBBntN8FP5MA1uVz0N/uYQ
+        AzcmfpS+9Trf5DzJ/+2xSfjfqy9SvGfcjviO9lGKb3uSyvdYx6W8u20n39o3R/EuRxXLP/T3
+        sXzQ54v09tP84uOAlJ9p7Kf42oV59m1yVJVlNJSahO2FBtG0V/mBGtJU6kxQpaVnqtSc5sM9
+        aRnKVG1WvlBcZBaMqdqPVIWt979jji++/NnS0FNUhho2WlCMjOB04itzMdGswF8jcu2LTyxI
+        Fum3kIHvzWtIHAn7LawFbYggjxCpnHJKoxdx+CiZC1atuvGYI0td89IoRONqOemdcUrXjHKK
+        eIa9VJRi8R5SV+FA0SzHWtJb8S8bzQxOJl3PZlb7Tfh90u+xvmBeIb9eDaxOiMF7SUPnl6vv
+        0DiFhJtG6LWcQMYC117020j3vI2uRQrrOt26TrGuU6zrlGbEOFC8UCrqC/RimkrU6cXSkgJV
+        nkHvQpH17Lq71OFBluARL8IypNwovzmxmKuQ6MziCb0XERmtjJfvuz+Yq5Dn6058LhgNx4yl
+        xYLoRRmRz9XRiZvyDJFlLzEdU2eoNZCp1nAabjcoE+SV+E6OAhfoTMKngnBcMP7vUbKYxDKU
+        GW8fGuFS/O9dbfHm67vvaVeGZnbgg7G3L52drV1IOmWoDC9ypw3DzsuOOa6e+9h/+KWE5Jxl
+        Ma/Qbd8W+67ulMf8jrmIzcGdgcrdjW9qRs014XJn9gF72JekNG6tiMtKDuKxovSasZs7FvSX
+        s++EDpW9ZoNAyuh0nauV0yoZsVCn3kkbRd1z33/Dy7QDAAA=
+X-CMS-MailID: 20200624081610eucas1p1fb83289f3916bf59400b2ea737c124d1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200528192122eucas1p29d209ad5a885b31deb04dcad13f98ad5
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200528192122eucas1p29d209ad5a885b31deb04dcad13f98ad5
+References: <Message-ID: <4493c0e4-51aa-3907-810c-74949ff27ca4@samsung.com>
+        <20200528192051.28034-1-andrzej.p@collabora.com>
+        <CGME20200528192122eucas1p29d209ad5a885b31deb04dcad13f98ad5@eucas1p2.samsung.com>
+        <20200528192051.28034-2-andrzej.p@collabora.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Janusz,
-   thanks for your quick reply
 
-On Sun, Jun 21, 2020 at 01:38:46PM +0200, Janusz Krzysztofik wrote:
-> Hi Jacopo,
->
-> Thanks for bringing my attention to this patch.
->
-> On Tuesday, June 16, 2020 4:12:38 P.M. CEST Jacopo Mondi wrote:
-> > Use the new get_mbus_config and set_mbus_config pad operations in place
-> > of the video operations currently in use.
-> >
-> > Compared to other drivers where the same conversion has been performed,
-> > ov6650 proved to be a bit more tricky, as the existing g_mbus_config
-> > implementation did not report the currently applied configuration but
-> > the set of all possible configuration options.
->
-> Assuming that was in line with officially supported semantics of the old API,
-> not a misinterpretation, I would really like to see that limitation of the new
-> API actually compensated with V4L2_SUBDEV_FORMAT_TRY support added to it.
->
+On 5/28/20 9:20 PM, Andrzej Pietrasiewicz wrote:
+> The acpi_thermal_register_thermal_zone() is missing any error handling.
+> This needs to be fixed.
+> 
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-I'm not sure this is a limitation, it's more by design that the new
-get_mbus_config() only reports the current configuration.
+Reviewed-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 
-To be honest, compared to the other users of the old g_mbus_config()
-this driver was the only one implementing the operation in this way,
-maybe as it's the sole user of s_mbus_config() left out of staging ?
+Best regards,
+--
+Bartlomiej Zolnierkiewicz
+Samsung R&D Institute Poland
+Samsung Electronics
 
-I would however consider supporting FORMAT_TRY even if I'm not
-actually sure if fully makes sense. For the format operations
-(get/set_format()) FORMAT_TRY is used for concurrent applications to
-test a format without stepping on each other toes.
-get|set_mbus_config() are kAPI only, and I'm not sure we need to stay
-safe against concurrent configuration attempts... I'll think about
-this a bit more. Seems a development that could go on top, right ?
+> ---
+>  drivers/acpi/thermal.c | 20 ++++++++++++++++----
+>  1 file changed, 16 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/acpi/thermal.c b/drivers/acpi/thermal.c
+> index 19067a5e5293..6de8066ca1e7 100644
+> --- a/drivers/acpi/thermal.c
+> +++ b/drivers/acpi/thermal.c
+> @@ -901,23 +901,35 @@ static int acpi_thermal_register_thermal_zone(struct acpi_thermal *tz)
+>  	result = sysfs_create_link(&tz->device->dev.kobj,
+>  				   &tz->thermal_zone->device.kobj, "thermal_zone");
+>  	if (result)
+> -		return result;
+> +		goto unregister_tzd;
+>  
+>  	result = sysfs_create_link(&tz->thermal_zone->device.kobj,
+>  				   &tz->device->dev.kobj, "device");
+>  	if (result)
+> -		return result;
+> +		goto remove_tz_link;
+>  
+>  	status =  acpi_bus_attach_private_data(tz->device->handle,
+>  					       tz->thermal_zone);
+> -	if (ACPI_FAILURE(status))
+> -		return -ENODEV;
+> +	if (ACPI_FAILURE(status)) {
+> +		result = -ENODEV;
+> +		goto remove_dev_link;
+> +	}
+>  
+>  	tz->tz_enabled = 1;
+>  
+>  	dev_info(&tz->device->dev, "registered as thermal_zone%d\n",
+>  		 tz->thermal_zone->id);
+> +
+>  	return 0;
+> +
+> +remove_dev_link:
+> +	sysfs_remove_link(&tz->thermal_zone->device.kobj, "device");
+> +remove_tz_link:
+> +	sysfs_remove_link(&tz->device->dev.kobj, "thermal_zone");
+> +unregister_tzd:
+> +	thermal_zone_device_unregister(tz->thermal_zone);
+> +
+> +	return result;
+>  }
+>  
+>  static void acpi_thermal_unregister_thermal_zone(struct acpi_thermal *tz)
+> 
 
-> >
-> > Adapt the driver to support the semantic of the two newly introducedV4L2_SUBDEV_FORMAT_TRY
-> > operations:
-> > - get_mbus_config reports the current media bus configuration
-> > - set_mbus_config applies only changes explicitly requested and updates
-> >   the provided cfg parameter to report what has actually been applied to
-> >   the hardware.
-> >
-> > Compile-tested only.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ov6650.c | 56 ++++++++++++++++++++++++++------------
-> >  1 file changed, 39 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-> > index 91906b94f978..d2e7a8556ed7 100644
-> > --- a/drivers/media/i2c/ov6650.c
-> > +++ b/drivers/media/i2c/ov6650.c
-> > @@ -921,46 +921,68 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
-> >  };
-> >
-> >  /* Request bus settings on camera side */
-> > -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
-> > -				struct v4l2_mbus_config *cfg)
-> > +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-> > +				  unsigned int pad,
-> > +				  struct v4l2_mbus_config *cfg)
-> >  {
-> > +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > +	u8 comj, comf;
-> > +	int ret;
-> > +
-> > +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
-> > +	if (ret)
-> > +		return ret;
-> >
-> > -	cfg->flags = V4L2_MBUS_MASTER |
-> > -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
-> > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
-> > -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
-> > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
-> > +	ret = ov6650_reg_read(client, REG_COMF, &comf);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	cfg->flags = V4L2_MBUS_MASTER
-> > +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-> > +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-> > +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
-> > +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
->
-> You probably missed hardware default V4L2_MBUS_DATA_ACTIVE_HIGH.
->
-
-Indeed I did :/
-
-Thanks for spotting
-
-> >  	cfg->type = V4L2_MBUS_PARALLEL;
-> >
-> >  	return 0;
-> >  }
-> >
-> >  /* Alter bus settings on camera side */
-> > -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
-> > -				const struct v4l2_mbus_config *cfg)
-> > +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
-> > +				  unsigned int pad,
-> > +				  struct v4l2_mbus_config *cfg)
-> >  {
-> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> > -	int ret;
-> > +	int ret = 0;
-> >
-> >  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> >  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
-> > -	else
-> > +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
->
-> Have you thought of extending v4l2_subdev_call_pad_wrappers with a check for
-> only one of mutually exclusive flags specified by user?
->
-
-Good question, but I wonder if this shouldn't be an accepted
-behaviour. The caller can provide all settings it want to allow the
-callee to chose which one to apply. The operation returns what has
-been actually applied by the callee, so that the caller can adjust
-itself to what the callee chose.
-
-Alternatively, it's up to the caller to specify its preference without
-mutually exclusive options, and the callee tries to adjust to what has
-been requested. Also in this case the operation returns what has
-actually been applied, so the caller can later adjust if it could.
-
-Seems like a small difference, but it might be good to exapnd the
-operations description to describe this to avoid each single
-implementer going in slightly different directions ?
-
-> >  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
-> >  	if (ret)
-> > -		return ret;
-> > +		goto error;
-> >
-> >  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> >  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
-> > -	else
-> > +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> >  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
-> >  	if (ret)
-> > -		return ret;
-> > +		goto error;
-> >
-> >  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
-> >  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
-> > -	else
-> > +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> >  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
-> >
-> > +error:
-> > +	/*
-> > +	 * Update the configuration to report what is actually applied to
-> > +	 * the hardware.
-> > +	 */
-> > +	ov6650_get_mbus_config(sd, pad, cfg);
->
-> Populating cfg->flags by ov6650_get_mbus_config() without checking for a
-> potential error it may return can result in invalid data silently returned to
-> user.  Maybe it would be better to fetch current hardware status first, fail on
-> error, then update the result with successfully performed hardware state
-> modifications.
-
-I'm not sure I got what you mean 8)
-
-Would if be enough to check for the return value of
-ov6650_get_mbus_config() (or actually returning it directly at the end
-of this function).
-
-Thanks
-   j
-
->
-> Thanks,
-> Janusz
->
-> > +
-> >  	return ret;
-> >  }
-> >
-> > @@ -968,8 +990,6 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
-> >  	.s_stream	= ov6650_s_stream,
-> >  	.g_frame_interval = ov6650_g_frame_interval,
-> >  	.s_frame_interval = ov6650_s_frame_interval,
-> > -	.g_mbus_config	= ov6650_g_mbus_config,
-> > -	.s_mbus_config	= ov6650_s_mbus_config,
-> >  };
-> >
-> >  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
-> > @@ -978,6 +998,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
-> >  	.set_selection	= ov6650_set_selection,
-> >  	.get_fmt	= ov6650_get_fmt,
-> >  	.set_fmt	= ov6650_set_fmt,
-> > +	.get_mbus_config = ov6650_get_mbus_config,
-> > +	.set_mbus_config = ov6650_set_mbus_config,
-> >  };
-> >
-> >  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
-> >
->
->
->
->
