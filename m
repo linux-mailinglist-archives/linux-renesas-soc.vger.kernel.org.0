@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A23C0207496
+	by mail.lfdr.de (Postfix) with ESMTP id AAACB207497
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 15:31:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403946AbgFXNbC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S2403943AbgFXNbC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 24 Jun 2020 09:31:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403953AbgFXNbC (ORCPT
+        with ESMTP id S2403936AbgFXNbB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 09:31:02 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC661C06179A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 06:31:01 -0700 (PDT)
+        Wed, 24 Jun 2020 09:31:01 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4BF1C061573
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 06:31:00 -0700 (PDT)
 Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:55d:3294:1dc4:d387])
-        by xavier.telenet-ops.be with bizsmtp
-        id v1Wz2200X3ySsk1011Wz2E; Wed, 24 Jun 2020 15:30:59 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id v1Wz2200G3ySsk1061WzlF; Wed, 24 Jun 2020 15:30:59 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jo5UR-0002a2-EH; Wed, 24 Jun 2020 15:30:59 +0200
+        id 1jo5UR-0002a4-F2; Wed, 24 Jun 2020 15:30:59 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jo5UR-0001XU-DC; Wed, 24 Jun 2020 15:30:59 +0200
+        id 1jo5UR-0001XX-E7; Wed, 24 Jun 2020 15:30:59 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL 3/7] arm64: renesas: defconfig: Enable GETHER support
-Date:   Wed, 24 Jun 2020 15:30:53 +0200
-Message-Id: <20200624133057.5860-4-geert+renesas@glider.be>
+Subject: [PATCH/LOCAL 4/7] arm64: renesas: defconfig: Enable ADV7180 and ADV7604 support
+Date:   Wed, 24 Jun 2020 15:30:54 +0200
+Message-Id: <20200624133057.5860-5-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200624133057.5860-1-geert+renesas@glider.be>
 References: <20200624133057.5860-1-geert+renesas@glider.be>
@@ -40,26 +40,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable support for the Gigabit Ethernet Controller on R-Car V3H, which
-is used on the Condor and V3HSK boards.
+Enable support for the Analog Devices ADV71780 video decoder and ADV7604
+HDMI receiver, which are used on the Draak board.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/configs/renesas_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/configs/renesas_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 1b626e1894bb90c8..a5b3c987680516b8 100644
+index a5b3c987680516b8..0d4c7597f7d65258 100644
 --- a/arch/arm64/configs/renesas_defconfig
 +++ b/arch/arm64/configs/renesas_defconfig
-@@ -119,6 +119,7 @@ CONFIG_SATA_RCAR=y
- CONFIG_NETDEVICES=y
- CONFIG_TUN=y
- CONFIG_VIRTIO_NET=y
-+CONFIG_SH_ETH=y
- CONFIG_RAVB=y
- CONFIG_MDIO_BUS_MUX_MMIOREG=y
- CONFIG_MICREL_PHY=y
+@@ -179,7 +179,10 @@ CONFIG_VIDEO_RENESAS_FCP=y
+ CONFIG_VIDEO_RENESAS_VSP1=y
+ CONFIG_SDR_PLATFORM_DRIVERS=y
+ CONFIG_VIDEO_RCAR_DRIF=y
++CONFIG_VIDEO_ADV7180=y
+ CONFIG_VIDEO_ADV748X=y
++CONFIG_VIDEO_ADV7604=y
++CONFIG_VIDEO_ADV7604_CEC=y
+ # CONFIG_MEDIA_TUNER_SIMPLE is not set
+ # CONFIG_MEDIA_TUNER_TDA18250 is not set
+ # CONFIG_MEDIA_TUNER_TDA8290 is not set
 -- 
 2.17.1
 
