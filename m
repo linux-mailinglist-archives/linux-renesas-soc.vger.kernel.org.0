@@ -2,51 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09D2D207456
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 15:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA5E207499
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 15:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388123AbgFXNUo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jun 2020 09:20:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51408 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387915AbgFXNUn (ORCPT
+        id S2403953AbgFXNbD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 09:31:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403951AbgFXNbC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 09:20:43 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593004843;
-        bh=7sm5kpSt/BXDy3KEHFUH+6inxHuH7lwitg/cy1rhUzk=;
-        h=Subject:From:Date:To:From;
-        b=Jw15gz5S4nC7bCMcmpAxr5PaA0qaU36pitj6Kg3TotchriitQxQtK3BOgZA1qv/jK
-         j5Jpez+xPGvkTenC9BMTv2D7YA/Qj3zTqwaBIIdFFvUd4cLR4zXL40OPZDtVGJTEsA
-         zLKAzIxxH2qPAoNyds/4qfHE2UvqTva08fNscdw0=
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159300484337.14195.7228507137282580345.git-patchwork-housekeeping@kernel.org>
-Date:   Wed, 24 Jun 2020 13:20:43 +0000
-To:     linux-renesas-soc@vger.kernel.org
+        Wed, 24 Jun 2020 09:31:02 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E5BC061799
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 06:31:01 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:55d:3294:1dc4:d387])
+        by xavier.telenet-ops.be with bizsmtp
+        id v1Wz2200V3ySsk1011Wz2C; Wed, 24 Jun 2020 15:30:59 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jo5UR-0002Zw-CQ; Wed, 24 Jun 2020 15:30:59 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jo5UR-0001XM-Az; Wed, 24 Jun 2020 15:30:59 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/LOCAL 0/7] arm64: renesas: defconfig: Update for v5.8-rc1
+Date:   Wed, 24 Jun 2020 15:30:50 +0200
+Message-Id: <20200624133057.5860-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] Add support for HiHope RZ/G2M[N] Rev.3.0/4.0 (2020-06-24T13:11:59)
-  Superseding: [v1] Add support for HiHope RZ/G2M[N] Rev.3.0/4.0 (2020-06-07T18:34:35):
-    [01/11] arm64: dts: renesas: r8a774a1-hihope-rzg2m[-ex/-ex-idk-1110wr]: Rename HiHope RZ/G2M boards
-    [02/11] arm64: dts: renesas: r8a774b1-hihope-rzg2n[-ex]: Rename HiHope RZ/G2N boards
-    [03/11] arm64: dts: renesas: hihope-common: Separate out Rev.2.0 specific into hihope-common-rev2.dtsi file
-    [04/11] arm64: dts: renesas: Add HiHope RZ/G2M[N] Rev.3.0/4.0 specific into common file
-    [05/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 main board support
-    [06/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 sub board support
-    [07/11] arm64: dts: renesas: hihope-rzg2-ex: Separate out lvds specific nodes into common file
-    [08/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 board with idk-1110wr display
-    [09/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 main board support
-    [10/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 sub board support
-    [11/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev2.0/3.0/4.0 board with idk-1110wr display
+	Hi all,
 
+This patch series refreshes the defconfig for Renesas R-Car Gen3 and
+RZ/G2 boards for v5.8-rc1, and enables missing support.
+
+This is not intended for upstream merge, but I intend to apply this to
+the topic/renesas-defconfig branch of my renesas-drivers repository.
+I also plan to send a similar (but modular) version for the arm64
+defconfig.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (7):
+  arm64: renesas: defconfig: Refresh for v5.8-rc1
+  arm64: renesas: defconfig: Enable WL1837 support
+  arm64: renesas: defconfig: Enable GETHER support
+  arm64: renesas: defconfig: Enable ADV7180 and ADV7604 support
+  arm64: renesas: defconfig: Enable IMX219 and OV5645 support
+  arm64: renesas: defconfig: Enable ADV7511 support
+  arm64: renesas: defconfig: Enable HD3SS3220 support
+
+ arch/arm64/configs/renesas_defconfig | 32 +++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
