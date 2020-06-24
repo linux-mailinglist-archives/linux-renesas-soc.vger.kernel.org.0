@@ -2,126 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B24A720695B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 03:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C8C206C17
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 08:02:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388074AbgFXBMi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jun 2020 21:12:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387916AbgFXBMh (ORCPT
+        id S2388724AbgFXGCV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 02:02:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388307AbgFXGCV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jun 2020 21:12:37 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F0E8C061573
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jun 2020 18:12:37 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74B962A9;
-        Wed, 24 Jun 2020 03:12:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592961155;
-        bh=RUOEeSmJX14CTX33gPvKu3UYxqdpKTDunJy6H0wsVGU=;
+        Wed, 24 Jun 2020 02:02:21 -0400
+Received: from localhost (unknown [171.61.66.58])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0EA6C2085B;
+        Wed, 24 Jun 2020 06:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592978541;
+        bh=3XIvBjkB95tczXXLOOekIN2aQotuf3cKPQMbiB6HV6Q=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fZ7dw5wNeeVmIweJoenHmW4+fen1ycAAGEbLsWc74voni2gMz+D4WflUyYkXgqgb8
-         uaNlF2BUkt9kPSMLPUhqPXqZkRVwBN7AM3CeR1b2P8TZUjRGOkjD+kRSQs3LXX7eT3
-         D8zvIqHtKB3T390GvNQkkIheU5Zw5SLr6h93wojs=
-Date:   Wed, 24 Jun 2020 04:12:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200624011209.GU5870@pendragon.ideasonboard.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
+        b=IjhSCyMuB3rM0xwChkv+9A+AuPl9xC4GkRdkMnur7/Pt6eCop4sgEbEKgFTZyNNa0
+         GlMeak4GnJ9q8InUQViPJz8mZayO7OUuACPfpYtBe8rNH08yXPiUWSZbEYmvTTxtAq
+         /uPRWDVDh6Lyyb3nM0veO1ZBL7tEsQpOkz5ZY290=
+Date:   Wed, 24 Jun 2020 11:32:17 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] dma: sh: usb-dmac: Fix residue after the commit
+ 24461d9792c2
+Message-ID: <20200624060217.GA2324254@vkoul-mobl>
+References: <1590061573-12576-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200616165550.GP2324254@vkoul-mobl>
+ <TY2PR01MB3692283C5F3695033D20A7AFD89B0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200621084000.GM74146@ravnborg.org>
+In-Reply-To: <TY2PR01MB3692283C5F3695033D20A7AFD89B0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam,
-
-On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
-> On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
-> > The DRM CRTC helpers add default modes to connectors in the connected
-> > state if no mode can be retrieved from the connector. This behaviour is
-> > useful for VGA or DVI outputs that have no connected DDC bus. However,
-> > in such cases, the status of the output usually can't be retrieved and
-> > is reported as connector_status_unknown.
-> > 
-> > Extend the addition of default modes to connectors in an unknown state
-> > to support outputs that can retrieve neither the modes nor the
-> > connection status.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On 18-06-20, 00:56, Yoshihiro Shimoda wrote:
+> Hi Vinod,
 > 
-> From your description sounds like an OK approach.
-> But this is not something I feel too familiar with.
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
-too.
-
-> > ---
-> >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > From: Vinod Koul, Sent: Wednesday, June 17, 2020 1:56 AM
 > > 
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> > index f5d141e0400f..9055d9573c90 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
-> >  	if (count == 0 && connector->status == connector_status_connected)
-> >  		count = drm_add_override_edid_modes(connector);
-> >  
-> > -	if (count == 0 && connector->status == connector_status_connected)
-> > +	if (count == 0 && (connector->status == connector_status_connected ||
-> > +			   connector->status == connector_status_unknown))
-> >  		count = drm_add_modes_noedid(connector, 1024, 768);
-> >  	count += drm_helper_probe_add_cmdline_mode(connector);
-> >  	if (count == 0)
-> > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > index 421a30f08463..afe55e2e93d2 100644
-> > --- a/include/drm/drm_modeset_helper_vtables.h
-> > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
-> >  	 * The usual way to implement this is to cache the EDID retrieved in the
-> >  	 * probe callback somewhere in the driver-private connector structure.
-> >  	 * In this function drivers then parse the modes in the EDID and add
-> > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
-> > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
-> >  	 * fixed panel can also manually add specific modes using
-> >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
-> >  	 * make sure that the &drm_connector.display_info,
-> >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
-> >  	 * filled in.
-> >  	 *
-> > +	 * Note that the caller function will automatically add standard VESA
-> > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
-> > +	 * no mode and if the connector status is connector_status_connected or
-> > +	 * connector_status_unknown. There is no need to call
-> > +	 * drm_add_edid_modes() manually in that case.
-> > +	 *
-> >  	 * Virtual drivers that just want some standard VESA mode with a given
-> >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
-> >  	 * one using drm_set_preferred_mode().
+> > On 21-05-20, 20:46, Yoshihiro Shimoda wrote:
+> > > This driver assumed that freed descriptors have "done_cookie".
+> > > But, after the commit 24461d9792c2 ("dmaengine: virt-dma: Fix
+> > > access after free in vchan_complete()"), since the desc is freed
+> > > after callback function was called, this driver could not
+> > > match any done_cookie when a client driver (renesas_usbhs driver)
+> > > calls dmaengine_tx_status() in the callback function.
+> > 
+> > Hmmm, I am not sure about this, why should we try to match! cookie is
+> > monotonically increasing number so if you see that current cookie
+> > completed is > requested you should return DMA_COMPLETE
+> 
+> The reason is this hardware is possible to stop the transfer even if
+> all transfer length is not received. This is related to one of USB
+> specification which allows to stop when getting a short packet.
+> So, a client driver has to get residue even if DMA_COMPLETE.
+
+We have additional dma_async_tx_callback_result callback to indicate the
+residue in these cases, please use that
+
+> > The below case of checking residue should not even get executed
+> 
+> I see...
+> So, I'm thinking the current implementation was a tricky because we didn't
+> have dma_async_tx_callback_result when I wrote this usb-dmac driver.
+> I'll try this to fix the issue.
+
+Right :)
+
+Also please use tag dmaengine: .. for these patches
 
 -- 
-Regards,
-
-Laurent Pinchart
+~Vinod
