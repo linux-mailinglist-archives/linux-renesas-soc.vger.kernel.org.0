@@ -2,143 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED81920968B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 00:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3EE209726
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 01:23:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389153AbgFXWr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jun 2020 18:47:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36144 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389016AbgFXWr6 (ORCPT
+        id S2389077AbgFXXXT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 19:23:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388989AbgFXXXS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 18:47:58 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21CD22A8;
-        Thu, 25 Jun 2020 00:47:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593038875;
-        bh=1phuELyAWC9kiLJ0qWlCpumeJ0WEjE52rPQPBrntzdU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uzkvI7/3NU65bdE16DR0ZnU58cC2uQGTek3RWQs5WYtZruSJi4ZeMZ8vPOp7xyzIu
-         ho/8fi0PXgpTC9SUpq5vmEzNsH43eQZZ5veeuix7YW2OyDpLI5A8xoREXUj58kEfGh
-         /SGkLTs9eACNuCF4tpF4Rm3dKHMiucQXs88hfGIk=
-Date:   Thu, 25 Jun 2020 01:47:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown
- state
-Message-ID: <20200624224754.GJ5980@pendragon.ideasonboard.com>
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org>
- <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local>
+        Wed, 24 Jun 2020 19:23:18 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3C04C061573
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 16:23:17 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id w17so2655720oie.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 16:23:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dGipXZ9X17I+u12oD4DZ2rzNuQVhucODHVNdBawnSmI=;
+        b=M1wwfU36UoerE5HtEt7AEffn18uiUdtoM8XXl0AWGojXJGk3IpAdJ2M0usNyP93xIJ
+         C4K+tOo4fi/6g4LDkLfnGygf2naXQEjHsl+hfIdob42HpSMDH+RoiClBIpgTZBx++Gwz
+         F071ruwPJDr/lHuDqNMAs+amwuavPxIJt1JaWWxFc3xFISohL1QELXY5uKA9Dywb7DaN
+         A20RNPw7+ZloQGbS1jfx4jB/8WXiwu33UjOTyKHHu0VlWpJLIrtQtLaEzmdXeT9EE5GB
+         owoWOoO1ON0J7TmZDzZtNI5C/NRXNrd0BXcvAjC8iei4HAH1VMd+PspPMOJfibAazSDi
+         2QXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dGipXZ9X17I+u12oD4DZ2rzNuQVhucODHVNdBawnSmI=;
+        b=YuXQ4UQNJ69kGRx2oQvjUEaJId2NU1zyIg7II9tvSLxBNHOHZwgtP6+QObKGEZCPcR
+         JCBp+fSLvmkndNRm+fXDR56QX1SV9r0ilcI/145Y3jSDy+yw6wQWxmUfAtKV6yxW0NTD
+         SFXLSqLAsXODrrIN0aDz6rScUhQHet5CYnP1z61JQ6Ki2fpEO9L0fityaMlNz7dHNgBy
+         +w9FNg+7yqe//9J/mjXVBM18wWgR5W+kIRz//pGtWYK8gM3nPrxxtQwJRaeOywc8/6eL
+         qzkq/yvu5h46vsZdcRPhxF9epBtK9By4qjd6Atmatb+JPpX4rJDD2R6l3RUZIeBPyhWD
+         vKWA==
+X-Gm-Message-State: AOAM530kSAhFXigl8fUZmPDCFsMBzbAqnpLKYhXvpEotQ1r7gkf2VsC9
+        7fBbFKNUdZckrk8xcCyq84oOXsMN4gbUX10wShgigg==
+X-Google-Smtp-Source: ABdhPJx5V5Rup3zninLm3/4nlfZ5WpzvvNUIwQf1nRP1tGt6s55UEoBgS6WnEaNkB6yHnFN0OU4E08/nB8eF6a04daw=
+X-Received: by 2002:aca:6208:: with SMTP id w8mr126619oib.69.1593040996906;
+ Wed, 24 Jun 2020 16:23:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200624072304.GT20149@phenom.ffwll.local>
+References: <20200515053500.215929-1-saravanak@google.com> <20200515053500.215929-5-saravanak@google.com>
+ <CAMuHMdUnbDvn6GdK51MN-+5iRp6zYRf-yzKY+OwcQOGrYqOZPA@mail.gmail.com>
+ <CAGETcx9JKbNQWQwNah7pO5ppVSAe86R-OmMujZPYNkuTCLwKnQ@mail.gmail.com>
+ <CAMuHMdU2gF=aTeVxRvtzAMLGY=GyBDfBwrYZxoRkL1tV7dL56g@mail.gmail.com>
+ <CAGETcx-rHFthf-aLb_S-ST6Evozvgis5XX5u0LNxyvfMoJOLKQ@mail.gmail.com>
+ <CAMuHMdXW0jM-A5cvYtFVcgc1Gm3tKkvr0+kWpeJqpJDzNOuYeA@mail.gmail.com>
+ <CAGETcx8W96KAw-d_siTX4qHB_-7ddk0miYRDQeHE6E0_8qx-6Q@mail.gmail.com>
+ <CAGETcx87JNfKEu4brQ3S-9wObv=OwXkAoDBSREQH5dAD68TPsA@mail.gmail.com> <CAMuHMdUsWAQ3XUGh1Jg_Y3LWz4G5aaZfHqL8JjNZv3DrW3TjvQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUsWAQ3XUGh1Jg_Y3LWz4G5aaZfHqL8JjNZv3DrW3TjvQ@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 24 Jun 2020 16:22:40 -0700
+Message-ID: <CAGETcx_gOQWbxUAS6joxEgLDx_wuXwn3AFqDuio_42XeeG++PQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] of: platform: Batch fwnode parsing when adding all
+ top level devices
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Len Brown <lenb@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Ji Luo <ji.luo@nxp.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+On Mon, Jun 22, 2020 at 8:49 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> On Sat, Jun 20, 2020 at 4:33 AM Saravana Kannan <saravanak@google.com> wrote:
+> > On Fri, Jun 19, 2020 at 1:07 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > I think instead of deferred_probe_work_func() moving the device to the
+> > > end of the dpm_list, I think the device probing successfully is what
+> > > should move it to the end of the dpm_list. That way, the dpm_list is
+> > > actually ordered by when the devices become functional and not the
+> > > random order in DT or random probe order which can get pretty
+> > > convoluted with multiple deferred probes. This feels right and will
+> > > make suspend/resume more robust against DT ordering -- but I'm not
+> > > sure what other wide ranging impact this has for other platforms.
+> >
+> > If you want to play around with a potential fix to test my hypothesis,
+> > I think it's just adding this one line to driver_bound():
+> > ============
+> > klist_add_tail(&dev->p->knode_driver, &dev->driver->p->klist_devices);
+> > device_links_driver_bound(dev);
+> > +device_pm_move_to_tail(dev);
+> >
+> > device_pm_check_callbacks(dev);
+> > ============
+>
+> Thanks, that seems to fix the issue for me, on both affected systems!
+> Note that this has quite some impact on the order devices are suspended,
+> but this seems harmless.
+>
+> Will try on more systems later...
 
-On Wed, Jun 24, 2020 at 09:23:04AM +0200, Daniel Vetter wrote:
-> On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
-> > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
-> > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
-> > > > The DRM CRTC helpers add default modes to connectors in the connected
-> > > > state if no mode can be retrieved from the connector. This behaviour is
-> > > > useful for VGA or DVI outputs that have no connected DDC bus. However,
-> > > > in such cases, the status of the output usually can't be retrieved and
-> > > > is reported as connector_status_unknown.
-> > > > 
-> > > > Extend the addition of default modes to connectors in an unknown state
-> > > > to support outputs that can retrieve neither the modes nor the
-> > > > connection status.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > 
-> > > From your description sounds like an OK approach.
-> > > But this is not something I feel too familiar with.
-> > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
-> > too.
-> 
-> Makes sense, and at least pre-coffee me can't immediately think of a
-> scenario where we're going to regret this. _unknown status is pretty much
-> limited to old VGA and similar things where load detect somehow isn't well
-> supported by the hw.
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> > > > ---
-> > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> > > >  2 files changed, 9 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> > > > index f5d141e0400f..9055d9573c90 100644
-> > > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
-> > > >  	if (count == 0 && connector->status == connector_status_connected)
-> > > >  		count = drm_add_override_edid_modes(connector);
-> > > >  
-> > > > -	if (count == 0 && connector->status == connector_status_connected)
-> > > > +	if (count == 0 && (connector->status == connector_status_connected ||
-> > > > +			   connector->status == connector_status_unknown))
-> > > >  		count = drm_add_modes_noedid(connector, 1024, 768);
-> > > >  	count += drm_helper_probe_add_cmdline_mode(connector);
-> > > >  	if (count == 0)
-> > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> > > > index 421a30f08463..afe55e2e93d2 100644
-> > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
-> > > >  	 * The usual way to implement this is to cache the EDID retrieved in the
-> > > >  	 * probe callback somewhere in the driver-private connector structure.
-> > > >  	 * In this function drivers then parse the modes in the EDID and add
-> > > > -	 * them by calling drm_add_edid_modes(). But connectors that driver a
-> > > > +	 * them by calling drm_add_edid_modes(). But connectors that drive a
-> > > >  	 * fixed panel can also manually add specific modes using
-> > > >  	 * drm_mode_probed_add(). Drivers which manually add modes should also
-> > > >  	 * make sure that the &drm_connector.display_info,
-> > > >  	 * &drm_connector.width_mm and &drm_connector.height_mm fields are
-> > > >  	 * filled in.
-> > > >  	 *
-> > > > +	 * Note that the caller function will automatically add standard VESA
-> > > > +	 * DMT modes up to 1024x768 if the .get_modes() helper operation returns
-> > > > +	 * no mode and if the connector status is connector_status_connected or
-> > > > +	 * connector_status_unknown. There is no need to call
-> > > > +	 * drm_add_edid_modes() manually in that case.
-> 
-> Hm calling drm_add_edid_modes if you have no edid is a bit a funny idea
-> ... Personally I'd just leave out the last sentence, I think that only
-> confuses readers. Or I'm not grasphing what you're trying to tell here.
+Thanks for testing. Maybe I should just send that change as a patch
+and see what Greg/Rafael have to say to that.
 
-Sorry, I meant drm_add_modes_noedid(). Is that clearer ?
+It's a general fix anyway. So, might as well send it out.
 
-> r-b with or without this change since imo super tiny nit.
-> 
-> > > > +	 *
-> > > >  	 * Virtual drivers that just want some standard VESA mode with a given
-> > > >  	 * resolution can call drm_add_modes_noedid(), and mark the preferred
-> > > >  	 * one using drm_set_preferred_mode().
-
--- 
-Regards,
-
-Laurent Pinchart
+-Saravana
