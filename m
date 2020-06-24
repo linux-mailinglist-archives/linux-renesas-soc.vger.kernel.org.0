@@ -2,84 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56C8C206C17
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 08:02:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 751F2206C25
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 08:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388724AbgFXGCV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jun 2020 02:02:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60908 "EHLO mail.kernel.org"
+        id S2389016AbgFXGFT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 02:05:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34860 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388307AbgFXGCV (ORCPT
+        id S2388164AbgFXGFS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 02:02:21 -0400
+        Wed, 24 Jun 2020 02:05:18 -0400
 Received: from localhost (unknown [171.61.66.58])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0EA6C2085B;
-        Wed, 24 Jun 2020 06:02:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 965B9207DD;
+        Wed, 24 Jun 2020 06:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592978541;
-        bh=3XIvBjkB95tczXXLOOekIN2aQotuf3cKPQMbiB6HV6Q=;
+        s=default; t=1592978718;
+        bh=qghxJVkkiMtbRfQ/7Mj6wJLlOvY1Uw7KdE34MrVEL8U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IjhSCyMuB3rM0xwChkv+9A+AuPl9xC4GkRdkMnur7/Pt6eCop4sgEbEKgFTZyNNa0
-         GlMeak4GnJ9q8InUQViPJz8mZayO7OUuACPfpYtBe8rNH08yXPiUWSZbEYmvTTxtAq
-         /uPRWDVDh6Lyyb3nM0veO1ZBL7tEsQpOkz5ZY290=
-Date:   Wed, 24 Jun 2020 11:32:17 +0530
+        b=SAfLleMJAysulcapubK8TBWNSkbmmaZZwroyqS+YlQaAb+NTEx+zhW6JqVVoI79rh
+         KRL4tufD9YkGtQodvTLF/PTCgY0mFzvyRwNQ3swQB6tGC3MS0hM61HuY/DY7SSLWmY
+         /KKwvpmWdFsgRHH3DviBEs7eQ+UyjKoKxdymSlcw=
+Date:   Wed, 24 Jun 2020 11:35:14 +0530
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] dma: sh: usb-dmac: Fix residue after the commit
- 24461d9792c2
-Message-ID: <20200624060217.GA2324254@vkoul-mobl>
-References: <1590061573-12576-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20200616165550.GP2324254@vkoul-mobl>
- <TY2PR01MB3692283C5F3695033D20A7AFD89B0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dmaengine: sh: usb-dmac: set tx_result parameters
+Message-ID: <20200624060514.GC2324254@vkoul-mobl>
+References: <1592482053-19433-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TY2PR01MB3692283C5F3695033D20A7AFD89B0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <1592482053-19433-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 18-06-20, 00:56, Yoshihiro Shimoda wrote:
-> Hi Vinod,
+On 18-06-20, 21:07, Yoshihiro Shimoda wrote:
+> A client driver (renesas_usbhs) assumed that
+> dmaengine_tx_status() could return the residue even if
+> the transfer was completed. However, this was not correct
+> usage [1] and this caused to break getting the residue after
+> the commit 24461d9792c2 ("dmaengine: virt-dma: Fix access after
+> free in vchan_complete()") actually. So, this is possible to get
+> wrong received size if the usb controller gets a short packet.
+> For example, g_zero driver causes "bad OUT byte" errors.
 > 
-> > From: Vinod Koul, Sent: Wednesday, June 17, 2020 1:56 AM
-> > 
-> > On 21-05-20, 20:46, Yoshihiro Shimoda wrote:
-> > > This driver assumed that freed descriptors have "done_cookie".
-> > > But, after the commit 24461d9792c2 ("dmaengine: virt-dma: Fix
-> > > access after free in vchan_complete()"), since the desc is freed
-> > > after callback function was called, this driver could not
-> > > match any done_cookie when a client driver (renesas_usbhs driver)
-> > > calls dmaengine_tx_status() in the callback function.
-> > 
-> > Hmmm, I am not sure about this, why should we try to match! cookie is
-> > monotonically increasing number so if you see that current cookie
-> > completed is > requested you should return DMA_COMPLETE
+> To use the tx_result from the renesas_usbhs driver when
+> the transfer is completed, set the tx_result parameters.
 > 
-> The reason is this hardware is possible to stop the transfer even if
-> all transfer length is not received. This is related to one of USB
-> specification which allows to stop when getting a short packet.
-> So, a client driver has to get residue even if DMA_COMPLETE.
-
-We have additional dma_async_tx_callback_result callback to indicate the
-residue in these cases, please use that
-
-> > The below case of checking residue should not even get executed
+> Notes that the renesas_usbhs driver needs to update for it.
 > 
-> I see...
-> So, I'm thinking the current implementation was a tricky because we didn't
-> have dma_async_tx_callback_result when I wrote this usb-dmac driver.
-> I'll try this to fix the issue.
+> [1]
+> https://lore.kernel.org/dmaengine/20200616165550.GP2324254@vkoul-mobl/
 
-Right :)
-
-Also please use tag dmaengine: .. for these patches
+Applied, thanks
 
 -- 
 ~Vinod
