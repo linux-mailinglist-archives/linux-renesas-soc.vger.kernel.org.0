@@ -2,274 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31312207626
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 16:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0AC207754
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jun 2020 17:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391254AbgFXOy2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jun 2020 10:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54326 "EHLO
+        id S2404376AbgFXPYW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jun 2020 11:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389187AbgFXOy1 (ORCPT
+        with ESMTP id S2404017AbgFXPYV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jun 2020 10:54:27 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4B4EC0613ED
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 07:54:26 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id 9so2885874ljv.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 07:54:26 -0700 (PDT)
+        Wed, 24 Jun 2020 11:24:21 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C805FC061573
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 08:24:20 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id j94so2725727wrj.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jun 2020 08:24:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=UvdVkukB4v6pJHs3wM26SQ3ySNLoRLpv1KxPyWDhY1Y=;
-        b=AjjEgFuNdk7hTDHZipXvQ8Eo1tQO8RhNrOo8v6X65Pu8sRwX5GqMM81pSx/+CfotL1
-         HLk+nz2FUJ5VswmAvKu2b0ydW+RRYdbtyg3zJOjEts+tieqhnAZ9WwYbnwrJR7P4+ngB
-         oVU2jd7ZFt/WJ/t7fwGMYMKBxJ7vXoFIk15krrBIxWTqj8KgHRZU2kruldyfHBRZYNSh
-         c63bc6tf0H/WrmojDDpIuLVt3xW9q27s2u/qdfuKIMhUJH4As7gaW/DZ4Pm/ciyqWmlS
-         r8W0uPMO3GxxAL3aJA/wBzrFFjhTSNTBEBgicHvaWfjEil9sG6GrGGLoxcd1cDrE+T8t
-         M/VQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8RW6xMuNqonc9o+6sGZMq3yrKDuW2zFZ61r+fXzAtZw=;
+        b=QSUyXuv4ANHusxM4s+cHxNora9hpwMi7RaAiXxztnO+HT4SgdMuqJ+SNZDCpCq1q6j
+         IA9QuiHgApMkFPASOL47dm7lxV1bzRSBRHNGK7SViNgZTDWwXKybjRwrkMerA2m+ym2p
+         HmQYUOT78LgsHiLls3rjWmJf+VGI0Ied2YUsRk6a4vqgvlVNLqiQMLgL62aOd52nhUY9
+         sOmF/kVrrnlhektLAV3ELtw9bRsTrYsqy5doBImnF3LxVE49cSOhYUMn5LTw3bGTWb5i
+         61RFBrTs3CUrJf+aS9jSitaxeTnPqnG/F1BM+j70cs46X7k0TZxCROz/KXPDANMD+SZg
+         Dgcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=UvdVkukB4v6pJHs3wM26SQ3ySNLoRLpv1KxPyWDhY1Y=;
-        b=EaFqHiJOZn6y5ivEAKwMgNOVkS4nO7UmC+FeThLnVH86zbDFeI2jawolMzygUP5bme
-         FhBNWdZzS8xR8iH3lKOSsjok2j1VpYwWejo5M1HU5pKSwVkCiSS37ODZh+E02z70icUS
-         xTEM1JpdFl3m9jbdBl87xBEIdYygRJ+Qm3vnnuJuRYPqZaL1YekSrVIcu6AJneczQmVd
-         NBXhGby5sXfXtto7GveuDHrDicjvFm1xkNF5jcA+QKtaAlAuJy0mVtB3zj+NPQGrNh3w
-         micOtDRikU2s/nHqnLXuN+ToJMee37ZoHE8qccguurapU99hlKyTzQVlHP3unAOJ7wYa
-         UFkA==
-X-Gm-Message-State: AOAM5316AXBPkQGuKR5D79aozX4GKYEm5goD6edrYTPBeXzHN5dGYG6z
-        G4829693bQ86RBWt+R0/9i/mNg==
-X-Google-Smtp-Source: ABdhPJxSdSFQ0XlSLVXpLeaY4R+JTYfToQsKL8BdtfwpzOdvtWfjZicEBNxu2lz4AUXjIaAFmCp3YQ==
-X-Received: by 2002:a2e:3314:: with SMTP id d20mr14154391ljc.359.1593010465220;
-        Wed, 24 Jun 2020 07:54:25 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id k22sm5232608lfg.69.2020.06.24.07.54.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 07:54:24 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 16:54:23 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, michael@rodin.online,
-        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com,
-        Steve Longerbeam <steve_longerbeam@mentor.com>
-Subject: Re: [PATCH] media: rcar-vin: Move media_device_register to async
- completion
-Message-ID: <20200624145423.GA1595450@oden.dyn.berto.se>
-References: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
- <20200617105646.GB2850317@oden.dyn.berto.se>
- <20200617151537.GB88066@vmlxhi-121.adit-jv.com>
- <20200617152857.GA2936315@oden.dyn.berto.se>
- <427325ff-e21f-91fd-6236-6d1f6615ca41@xs4all.nl>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8RW6xMuNqonc9o+6sGZMq3yrKDuW2zFZ61r+fXzAtZw=;
+        b=gfCUIaVA1gdqWtyPkYqMk8lSXJBjNgGQIZmsSa0CNysO6V5DebV8lKvyQMAAYi5trx
+         fbxFdUbDqIP+tb5jZRCSlxOmwInucDN3y1zUgN/66i6eWl1SEnw0hxg0yxLV7zTxpj3F
+         xQgE3OBBls/t69HEGtSJKrBZhKVrsj2L4mIneCsMoY0b+S2azWvX4pnLPBXe5kgzEbj1
+         CYFLyX6Bfdht6lypgpLL8+I5Z906UJcb+FcLaMKj0CY4/T6Mt7cHiKql1B0KLoeYvGlp
+         jLB8V/JAg7WkNY66Fqy5INWNkcx9CCG+FNGgmrLBHzSMD/m6OFotry4Y99d+4BtmYHbP
+         PM+A==
+X-Gm-Message-State: AOAM531W2nTAW8M8u7Ip2I8hZp9pP/dlnc67MV/7S4IlInS6KmcxEklf
+        TUBoomoU6X31bcxyRZDP52lFzxAEjRhos4Q2Xgo=
+X-Google-Smtp-Source: ABdhPJxLceYmEYUlekOp3d7GqC+rxzHyQplsSwS25SH1p/7FEMRIWchNwCuVh/oNoDGEqvrCXLFaAi2XFss0ImiH6Jg=
+X-Received: by 2002:adf:ef89:: with SMTP id d9mr18037365wro.124.1593012259425;
+ Wed, 24 Jun 2020 08:24:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <427325ff-e21f-91fd-6236-6d1f6615ca41@xs4all.nl>
+References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621084000.GM74146@ravnborg.org> <20200624011209.GU5870@pendragon.ideasonboard.com>
+ <20200624072304.GT20149@phenom.ffwll.local>
+In-Reply-To: <20200624072304.GT20149@phenom.ffwll.local>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Wed, 24 Jun 2020 11:24:08 -0400
+Message-ID: <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
+Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown state
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+On Wed, Jun 24, 2020 at 3:23 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wrote:
+> > Hi Sam,
+> >
+> > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrote:
+> > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchart wrote:
+> > > > The DRM CRTC helpers add default modes to connectors in the connected
+> > > > state if no mode can be retrieved from the connector. This behaviour is
+> > > > useful for VGA or DVI outputs that have no connected DDC bus. However,
+> > > > in such cases, the status of the output usually can't be retrieved and
+> > > > is reported as connector_status_unknown.
+> > > >
+> > > > Extend the addition of default modes to connectors in an unknown state
+> > > > to support outputs that can retrieve neither the modes nor the
+> > > > connection status.
+> > > >
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > >
+> > > From your description sounds like an OK approach.
+> > > But this is not something I feel too familiar with.
+> > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> >
+> > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedback on this
+> > too.
+>
+> Makes sense, and at least pre-coffee me can't immediately think of a
+> scenario where we're going to regret this. _unknown status is pretty much
+> limited to old VGA and similar things where load detect somehow isn't well
+> supported by the hw.
+>
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+> >
+> > > > ---
+> > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
+> > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
+> > > >  2 files changed, 9 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > > > index f5d141e0400f..9055d9573c90 100644
+> > > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+> > > >   if (count == 0 && connector->status == connector_status_connected)
+> > > >           count = drm_add_override_edid_modes(connector);
+> > > >
+> > > > - if (count == 0 && connector->status == connector_status_connected)
+> > > > + if (count == 0 && (connector->status == connector_status_connected ||
+> > > > +                    connector->status == connector_status_unknown))
+> > > >           count = drm_add_modes_noedid(connector, 1024, 768);
+> > > >   count += drm_helper_probe_add_cmdline_mode(connector);
+> > > >   if (count == 0)
+> > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> > > > index 421a30f08463..afe55e2e93d2 100644
+> > > > --- a/include/drm/drm_modeset_helper_vtables.h
+> > > > +++ b/include/drm/drm_modeset_helper_vtables.h
+> > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs {
+> > > >    * The usual way to implement this is to cache the EDID retrieved in the
+> > > >    * probe callback somewhere in the driver-private connector structure.
+> > > >    * In this function drivers then parse the modes in the EDID and add
+> > > > -  * them by calling drm_add_edid_modes(). But connectors that driver a
+> > > > +  * them by calling drm_add_edid_modes(). But connectors that drive a
+> > > >    * fixed panel can also manually add specific modes using
+> > > >    * drm_mode_probed_add(). Drivers which manually add modes should also
+> > > >    * make sure that the &drm_connector.display_info,
+> > > >    * &drm_connector.width_mm and &drm_connector.height_mm fields are
+> > > >    * filled in.
+> > > >    *
+> > > > +  * Note that the caller function will automatically add standard VESA
+> > > > +  * DMT modes up to 1024x768 if the .get_modes() helper operation returns
+> > > > +  * no mode and if the connector status is connector_status_connected or
+> > > > +  * connector_status_unknown. There is no need to call
+> > > > +  * drm_add_edid_modes() manually in that case.
+>
+> Hm calling drm_add_edid_modes if you have no edid is a bit a funny idea
+> ... Personally I'd just leave out the last sentence, I think that only
+> confuses readers. Or I'm not grasphing what you're trying to tell here.
 
-On 2020-06-24 15:31:01 +0200, Hans Verkuil wrote:
-> On 17/06/2020 17:28, Niklas Söderlund wrote:
-> > Hi Michael,
-> > 
-> > On 2020-06-17 17:15:37 +0200, Michael Rodin wrote:
-> >> Hi Niklas and Steve,
-> >>
-> >> On Wed, Jun 17, 2020 at 12:56:46PM +0200, Niklas Söderlund wrote:
-> >>> Hi Michael and Steve,
-> >>>
-> >>> On 2020-06-16 19:31:36 +0200, Michael Rodin wrote:
-> >>>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
-> >>>>
-> >>>> The media_device is registered during driver probe, before async
-> >>>> completion, so it is possible for .link_notify to be called before
-> >>>> all devices are bound.
-> >>>>
-> >>>> Fix this by moving media_device_register() to rvin_group_notify_complete().
-> >>>> This ensures that all devices are now bound (the rcar-csi2 subdevices and
-> >>>> and video capture devices) before .link_notify can be called.
-> >>>
-> >>> I'm curious to what situation created the need for this change. I'm 
-> >>> currently trying to take the VIN driver in the opposite direction [1] 
-> >>> with the end goal of registering video devices at probe time and then 
-> >>> allow the media graph to populate as devices becomes available.
-> >>
-> >> It looks like almost all platform drivers call media_device_register() in
-> >> the completion callback. From my understaning it is necessary to ensure
-> >> that all subdevices are bound and all links are created before the user
-> >> can enable any link (which would trigger link_notify callback execution)
-> >> and set formats. If I am not mistaken, Steve could observe an "OOPS" or
-> >> at least it is theoretically possible.
-> > 
-> > If an OOPS have been observed I would be interested to see it. That way 
-> > we can fix the OOPS and keep the media graph registration where it is 
-> > today.
-> > 
-> >>
-> >> Actually I found that this patch alone is not enough even if it is correct,
-> >> because we also have to register the media device in rvin_parallel_notify_complete()
-> >> in case if there is only a parallel video input device attached.
-> >>
-> >>> My reason for this is that we could have a functional pipeline inside 
-> >>> the graph even if it's not complete. This came out of the GMSL work done
-> >>> a while pack where I had a faulty camera that would prevent the other 7 
-> >>> in the system to function.
-> >>
-> >> I agree that if a probe of a faulty subdevice fails, this should not affect
-> >> functionality of the other attached subdevices. The "complete" callback of
-> >> the async notifier is probably not executed in this case, so I guess, we
-> >> would have to register the media device in the "bound" callback after the first
-> >> subdevice has been probed? Otherwise there is not much sense to have video
-> >> capture devices, which are not connected to any source.
-> > 
-> > Calling it in the bound callback is mostly the same as it is today, as 
-> > link_notify could then be called when not all entities are in the graph.  
-> > In fact even if we where tp move the media device registration to the t
-> > complete callback we have this problem if any of the subdevices are 
-> > unbound. Then we are back to the state with a registerd media device 
-> > where not all entities are present.
-> > 
-> > I think the solution here is to address the issue (if any) in the 
-> > link_notify callback when the graph is not fully populated.
-> 
-> As I have mentioned in other threads in this mailinglist (e.g.
-> https://www.spinics.net/lists/linux-media/msg171067.html), this is part
-> of a bigger problem: what to do if only part of a graph comes up, or
-> a part disappears. Today this is not supported.
-> 
-> It is certainly desirable to support this, but I want to see an RFC first
-> detailing the interaction with userspace. And remember that today the
-> expectation of applications is that device nodes are only created if all
-> components of the device probed successfully.
-> 
-> My preference is that rcar-vin is first changed to conform to current
-> expectations (i.e. /dev/mediaX is only registered at async completion).
+IIRC, some drivers used and desktop environments expected unknown
+rather than off for LVDS/eDP panels when the lid was shut or if the
+mux was switched to another device in the case of hybrid laptops.
 
-I do not object to first making rcar-vin behave in this way. However for 
-that work to be truly useful it should also solve what happens with all 
-video, subdevices and media devices in the scenario where one device of 
-the graph is unbound after complete have been called and how they can 
-reregisterd if the graph becomes complete again.
+Alex
 
-If I understand things correctly the idea is to register video and 
-subdevices at the time complete is called. However I'm unsure what is 
-suppose to happen when unbound is called, shall all video and subdevices 
-of the graph then be unregistered? Currently this happens for video 
-devices in rcar-vin but it has a huge drawback, if the device that was 
-unbound is rebound and complete() is called a second time the kernel 
-prints big warnings on newer kernels and crashes in older. This is due 
-to the kref involved in the V4L2 core. Also I'm unaware of how one could 
-unregister all subdevies if another subdev in the graph is removed.
 
-Figuring this out would make me happy as it's been a pet problem of mine 
-for many years. I also think making this work could help in the 
-discussion on how we can build partial initialization on top.
-
-> 
-> After a proper discussion on how to handle partial initialization and
-> after we have a good plan, then this can be implemented in rcar-vin.
-> 
-> Note that I really want to support partial initialization, but I want
-> to see an RFC with a proper analysis and proposal first.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> >>
-> >> (Delayed) population of the media graph after media device registration
-> >> sounds also like a requirement for device tree overlay support, which would
-> >> also be a nice feature.
-> >>
-> >>> 1. [PATCH 0/5] media-device: Report if graph is complete
-> >>>
-> >>>>
-> >>>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
-> >>>> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> >>>> ---
-> >>>>  drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
-> >>>>  1 file changed, 6 insertions(+), 8 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> >>>> index 7440c89..e70f83b 100644
-> >>>> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> >>>> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> >>>> @@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >>>>  	struct media_device *mdev = &group->mdev;
-> >>>>  	const struct of_device_id *match;
-> >>>>  	struct device_node *np;
-> >>>> -	int ret;
-> >>>>  
-> >>>>  	mutex_init(&group->lock);
-> >>>>  
-> >>>> @@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >>>>  	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
-> >>>>  
-> >>>>  	mdev->dev = vin->dev;
-> >>>> -	mdev->ops = &rvin_media_ops;
-> >>>>  
-> >>>>  	match = of_match_node(vin->dev->driver->of_match_table,
-> >>>>  			      vin->dev->of_node);
-> >>>> @@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >>>>  
-> >>>>  	media_device_init(mdev);
-> >>>>  
-> >>>> -	ret = media_device_register(&group->mdev);
-> >>>> -	if (ret)
-> >>>> -		rvin_group_cleanup(group);
-> >>>> -
-> >>>> -	return ret;
-> >>>> +	return 0;
-> >>>>  }
-> >>>>  
-> >>>>  static void rvin_group_release(struct kref *kref)
-> >>>> @@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> >>>>  		return ret;
-> >>>>  	}
-> >>>>  
-> >>>> +	vin->group->mdev.ops = &rvin_media_ops;
-> >>>> +
-> >>>>  	/* Register all video nodes for the group. */
-> >>>>  	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> >>>>  		if (vin->group->vin[i] &&
-> >>>> @@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> >>>>  		}
-> >>>>  	}
-> >>>>  	mutex_unlock(&vin->group->lock);
-> >>>> +	if (ret)
-> >>>> +		return ret;
-> >>>>  
-> >>>> -	return ret;
-> >>>> +	return media_device_register(&vin->group->mdev);
-> >>>>  }
-> >>>>  
-> >>>>  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> >>>> -- 
-> >>>> 2.7.4
-> >>>>
-> >>>
-> >>> -- 
-> >>> Regards,
-> >>> Niklas Söderlund
-> >>
-> >> -- 
-> >> Best Regards,
-> >> Michael
-> > 
-> 
-
--- 
-Regards,
-Niklas Söderlund
+>
+> r-b with or without this change since imo super tiny nit.
+>
+> Cheers, Daniel
+>
+> > > > +  *
+> > > >    * Virtual drivers that just want some standard VESA mode with a given
+> > > >    * resolution can call drm_add_modes_noedid(), and mark the preferred
+> > > >    * one using drm_set_preferred_mode().
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
