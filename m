@@ -2,108 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AD2A209B92
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 10:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1282209BE0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 11:26:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390586AbgFYI6C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 04:58:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390330AbgFYI6C (ORCPT
+        id S2390143AbgFYJ00 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 05:26:26 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:41444 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbgFYJ00 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 04:58:02 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE05CC0613ED
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 01:58:00 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id 9so5614697ljc.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 01:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fQj8GSzsb1+pdtgnS8aKkWuOlGiJbZZkRjMYogMxMTI=;
-        b=1EWytFWvMUGPjkoyq01zk1IliKJQ84AmrrPW33B1e7rNo9Ut8nGhjDBjgaU9Qgkfff
-         KrU1gDUGypDzp2buWc0un/jKmONipjFfHGZD1TnfljvD02mLT9vun0t7fLA4Vz7PZhps
-         ok5lX6EWdv4mxfGY9VwTciEkkifSvCHENNXcaIgrA+IxSkUpiHKQwfWpBH+Hy2sLzkGX
-         uh2kpE1K3RgGkP7ACtHMJjJlaLuH3LLkpGZl8agU/yxLTymwULCUYZQGvs861TAFMbKP
-         QhWuWD/ozt9lTu9FQaQRiuzzh55vk5JZaD7OouF9QZyS05g6xC+89M4IoYNDhB0mg5FZ
-         XJAA==
+        Thu, 25 Jun 2020 05:26:26 -0400
+Received: by mail-oi1-f195.google.com with SMTP id a21so4365338oic.8;
+        Thu, 25 Jun 2020 02:26:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fQj8GSzsb1+pdtgnS8aKkWuOlGiJbZZkRjMYogMxMTI=;
-        b=hib2ZR5YMUspTGwzRKblB3NHZOD+Had7es1c7wDctkdcUvhNRfHBlf2z+Rq1vaEPIR
-         uajeMBuOpfZS1mEa+en7Ln1R4IjLMf2v1xpD3LYunIkaUz/rrDrJvWbJkT/lPpAzP9Pi
-         fuF4NMpLryfGy1jLwrVhleAP7pzDaAqkbP4iIQavGRBGv4pScxOxkd5LP/B3tz0Y/T0x
-         O5c3sVBxrpf6kh1kW8+W4t6heRQW85Urk7AYsGWKEYzAcDkil1eh8Y/z/ztqnc0h5Mnu
-         VpIV2HmmtAqoRfQgOQJQnTJc84Y/9XAaIAMq6VuXKHXfdwZJ3g7DXGgCr//XgTfkdRJe
-         5nKg==
-X-Gm-Message-State: AOAM5338oS9wTByEl5zDKcBMsYU8gspVR2hFopOHYiSl9QxbpLGiV82U
-        Zpe17fBmRklLV7OHXa2dQtmhTshpB3kwIw==
-X-Google-Smtp-Source: ABdhPJyO5HRSKP5oqtkzIm8TtNZ0ZVzBzQuBPqObhKqjTV1lNH34HDQicYxSmxAYD7MnkvyMmcSsZg==
-X-Received: by 2002:a05:651c:338:: with SMTP id b24mr15335953ljp.87.1593075479157;
-        Thu, 25 Jun 2020 01:57:59 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8? ([2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8])
-        by smtp.gmail.com with ESMTPSA id w1sm4690973ljo.80.2020.06.25.01.57.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2020 01:57:58 -0700 (PDT)
-Subject: Re: [PATCH v3] thermal: rcar_gen3_thermal: Fix undefined temperature
- if negative
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        rui.zhang@intel.com, daniel.lezcano@linaro.org,
-        amit.kucheria@verdurent.com
-Cc:     niklas.soderlund+renesas@ragnatech.se, van.do.xw@renesas.com,
-        dien.pham.ry@renesas.com, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <1593053768-31016-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <db9e3bd3-d3f0-61d2-7ffe-3306003f57d8@cogentembedded.com>
-Date:   Thu, 25 Jun 2020 11:57:56 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=yjzuDu5iqeNsu8xsS5EjF8Gr+ffGuq2vYXMsQZ3k7jM=;
+        b=t5r1W+kC9nS+TaTm1T6GoKesiKPG6wHWBa3urlMP2Wk5ej3xwKueRPVpEvMznSE1C8
+         1dj2ne/+ypF24KAPqm05ZX+caR+PNr2FLFuPXmE0RSqF589iHjzCr6YsjeMgxm8QGyyx
+         S0NLHObNlI54stIVoGyuT+mKt7NxCYXPwmIXZqtUEv1o+u6GxNyE45W9+ocMWsAD9esq
+         j7d3qgTnn7oaMK/XV6/h3qxYmUsBma5GA0QZKibtwm8KiOUthLpR5ZFZYOTcltlDpfg5
+         BWGHA315ckMAkqSINUp9By5e1MUOJsvvyIzeT4hImlp9PCw1XVa5kW8UkVRTK8ikAx/D
+         uIDQ==
+X-Gm-Message-State: AOAM530sP7mjd//Ylw9yurtMjjquLVT90WIhi29S6GeSxUkGJfoHM4n6
+        V1fwXuNCXpJjtNM+u3crtis2qkpFObyz43NfQPs=
+X-Google-Smtp-Source: ABdhPJwsgOEyHOyhQZQfhnuYyoD/aYDE50iovKEbQsMjIg8T4WNNLfeSIQT55JpX+5PPkCNy8BmSIizKd1H9+owNtRU=
+X-Received: by 2002:a54:4006:: with SMTP id x6mr1352366oie.148.1593077185115;
+ Thu, 25 Jun 2020 02:26:25 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1593053768-31016-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1592792699-24638-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1592792699-24638-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAPDyKFq-dEPaU094hrk2xg18VpJAsbnf8enieFmcMhKiB1bW1A@mail.gmail.com>
+ <CAMuHMdXjU7N4oG89YsozGijMpjgKGN6ezw2qm6FeGX=JyRhsvg@mail.gmail.com> <TY2PR01MB36921A71A493ABD624A28C42D8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB36921A71A493ABD624A28C42D8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 25 Jun 2020 11:26:14 +0200
+Message-ID: <CAMuHMdWLWBvZmHNqPFk2GW6XLnBx-sqfCo6d=B4iei88ONWX=w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] mmc: core: Call mmc_poweroff_nofity() if pm_suspend_via_firmware()
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Shimoda-san,
 
-On 25.06.2020 5:56, Yoshihiro Shimoda wrote:
+CC broonie
 
-> From: Dien Pham <dien.pham.ry@renesas.com>
-> 
-> As description for DIV_ROUND_CLOSEST in file include/linux/kernel.h.
->    "Result is undefined for negative divisors if the dividend variable
->     type is unsigned and for negative dividends if the divisor variable
->     type is unsigned."
-> 
-> In current code, the FIXPT_DIV uses DIV_ROUND_CLOSEST but has not
-> checked sign of divisor before using. It makes undefined temperature
-> value in case the value is negative.
-> 
-> This patch fixes to satisfy DIV_ROUND_CLOSEST description
-> and fix bug too. Note that the variable name "reg" is not good
-> because it should be the same type as rcar_gen3_thermal_read().
-> However, there is better to rename it in a further patch as
+On Thu, Jun 25, 2020 at 8:31 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Wednesday, June 24, 2020 8:13 PM
+> > On Wed, Jun 24, 2020 at 12:06 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+> > > On Mon, 22 Jun 2020 at 04:25, Yoshihiro Shimoda
+> > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > If pm_suspend_via_firmware() returns true, the system will be able
+> > > > to cut both vcc and vccq in the suspend. So, call
+> > > > mmc_poweroff_nofity() if pm_suspend_via_firmware() returns true.
+> > > >
+> > > > Note that we should not update the MMC_CAP2_FULL_PWR_CYCLE caps
+> > > > because the mmc_select_voltage() checks the caps when attaches
+> > > > a mmc/sd.
+> >
+> > > > --- a/drivers/mmc/core/mmc.c
+> > > > +++ b/drivers/mmc/core/mmc.c
+> > > > @@ -2038,7 +2039,8 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
+> > > >                 goto out;
+> > > >
+> > > >         if (mmc_can_poweroff_notify(host->card) &&
+> > > > -               ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend))
+> > > > +           ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
+> > > > +            pm_suspend_via_firmware()))
+> > >
+> > > Sorry, but this doesn't work.
+> > >
+> > > Even if PSCI is a generic FW interface, it doesn't mean that all PSCI
+> > > implementations will cut the vcc and vccq for the MMC card at system
+> > > suspend.
+> >
+> > Indeed, there's nothing guaranteed here.  Nor documented how it should
+> > behave.  Basically the firmware is free to power off the SoC. Or not do that.
+> > "If firmware is involved, all odds are off".
+>
+> I thought we could be guaranteed. But, I understood we could not be guaranteed...
+>
+> > > Instead, you need to decide this based on some specific DT property.
+> > > Perhaps in conjunction with using pm_suspend_via_firmware().
+> >
+> > Last time I was involved in a discussion about this, the PSCI people
+> > didn't want to add any properties describing particular PSCI behavior...
+> > "If firmware is involved, all odds are off".
+> >
+> > So the only safe thing to do is to expect the worst, and prepare for it...
+>
+> A headache point is an eMMC device consumes much power if that the system
+> doesn't cut the vcc and vccq and doesn’t enter the sleep mode.
+> In other words, in power consumption point of view, this patch will
+> cause a regression in such a case...
 
-    It's better.
+Indeed.
 
-> cleanup.
-> 
-> Signed-off-by: Van Do <van.do.xw@renesas.com>
-> Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
-> [shimoda: minor fixes, add Fixes tag]
-> Fixes: 564e73d283af ("thermal: rcar_gen3_thermal: Add R-Car Gen3 thermal driver")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Niklas Soderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Niklas Soderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
+> By the way, about adding specific DT property, the regulator can have
+> regulator-off-in-suspend property in regulator-state-mem subnode.
+> For now, we doesn't seem to get the property from a regulator consumer though.
+> So, I'll try to add an API of regulator for it.
 
-MBR, Sergei
+Oh right, the eMMC is described in DT as being connected to two
+regulators.
+Note that the semantics of regulator-off-in-suspend are that the
+regulator should be disabled (by the regulator core) during suspend, not
+that the regulator is disabled during suspend by a third party.
+No idea if that will work with a fixed-regulator without GPIO control,
+but of course you can try.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
