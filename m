@@ -2,100 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3726120A1B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 17:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A567020A33D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 18:43:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405612AbgFYPRB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 11:17:01 -0400
-Received: from sauhun.de ([88.99.104.3]:46564 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405309AbgFYPRB (ORCPT
+        id S2403912AbgFYQm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 12:42:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404697AbgFYQm4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 11:17:01 -0400
-Received: from localhost (p54b332a0.dip0.t-ipconnect.de [84.179.50.160])
-        by pokefinder.org (Postfix) with ESMTPSA id 4CD6F2C20B1;
-        Thu, 25 Jun 2020 17:16:59 +0200 (CEST)
-Date:   Thu, 25 Jun 2020 17:16:58 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v2] i2c: sh_mobile: implement atomic transfers
-Message-ID: <20200625151658.GB1041@ninjato>
-References: <20200618150532.2923-1-uli+renesas@fpond.eu>
- <CAMuHMdUE4v+8Dz+eowX5RNJuRGmXcFuYQCe7JQxrFXEQV3xKJA@mail.gmail.com>
- <20200625070636.GB970@ninjato>
- <CAMuHMdWM3VUNUY-r_4cJw8FNFHcfpjY=s=sj2CiC67FRmNkALA@mail.gmail.com>
+        Thu, 25 Jun 2020 12:42:56 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED625C08C5DB
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 09:42:55 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id n23so7258186ljh.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 09:42:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=zClFgpz3ZMsyGeYZHhNVEHPebUS6ZTida1tC/1yV4wQ=;
+        b=XnU7x3eOw/bSXbFDAG1leuCXtQ6csxKA+CSU5cYRceR41Mzu3Z/ZhE3lCLKlBDURcJ
+         NPqgX8GTfDUS3sPfoc0jVhrFaUCAsuY2sroqnqqMz6BU3F2HHnijYOoL/qv47JkxRov7
+         P+W1Wq5bGFFhZP+n4lQxfVLgIDUpKtEr7ZwtJxEL/5orJIqhv536mi1S8dQSCSZY742k
+         33sZG2kY5jKA16DOr3AlP7TzFVFthfyo0Teiqx3pozw45lOLwKH8QbOJujhj/OFsDGte
+         6xBla455Fpt0gAZflbHtqieLXZ0P/64hUGCKZvomaOLQT+ExQ66Ls3kJbH1BSJKkcIvF
+         QxNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=zClFgpz3ZMsyGeYZHhNVEHPebUS6ZTida1tC/1yV4wQ=;
+        b=Tkqc/u9qV/tPeB49lO7SIFwTNH0xcckJuiJSj0oAD8/jZkJww6EVcAjFlg1v8hwPTg
+         m9L+52szsKPoXktB7PWNqjGjqdbJ2hQgPT6QSmtfDtBQfjjeNBC+SSvYNNmdLd2dqlOC
+         tZ5W1zrjOcruSwxnGlX5BcC5EwJwfyDmJ9oKvpZYp6djHslvHvysiiSugdw/0E9jzmER
+         umk6HCSFI+X4WH7FxeUhfG1hDCz8YWD+QUNH2CGgyn0CPl/ysxPZO7vjA+ySWwVkbMPS
+         13fVbFr2CPCWCJiQu7+s/gGxVvFffghPA9kyOQeYBj4GtKzS2Yz0HlibyBPBHxEIFVKi
+         xdTg==
+X-Gm-Message-State: AOAM533G7IfcCmeAYNMX1zAGTrPh+Dx42Kam1flgaVVHzrVQVsXVSoTI
+        cQuKFZ+hAD3K8VXA/gzoOmNTV3KKBo1fFQ==
+X-Google-Smtp-Source: ABdhPJzDdobcvIkvsC4t6+0mpz7c88hWpFSnrXKSvIHdOg1LwgQ2M+PnVjApc9f2/lRfyOfCsQpEkA==
+X-Received: by 2002:a2e:7011:: with SMTP id l17mr18238543ljc.424.1593103374304;
+        Thu, 25 Jun 2020 09:42:54 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:6ae:209b:f7ba:a780:4a06:8d86])
+        by smtp.gmail.com with ESMTPSA id 2sm5696247lfr.48.2020.06.25.09.42.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Jun 2020 09:42:53 -0700 (PDT)
+Subject: Re: [PATCH v3] thermal: rcar_gen3_thermal: Fix undefined temperature
+ if negative
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "rui.zhang@intel.com" <rui.zhang@intel.com>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
+        "amit.kucheria@verdurent.com" <amit.kucheria@verdurent.com>
+Cc:     "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Van Do <van.do.xw@renesas.com>,
+        Dien Pham <dien.pham.ry@renesas.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <1593053768-31016-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <db9e3bd3-d3f0-61d2-7ffe-3306003f57d8@cogentembedded.com>
+ <TY2PR01MB3692CC45140FF53CACD097BBD8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <cb207009-7af6-72cf-1551-b38445a557c8@cogentembedded.com>
+Date:   Thu, 25 Jun 2020 19:42:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mxv5cy4qt+RJ9ypb"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWM3VUNUY-r_4cJw8FNFHcfpjY=s=sj2CiC67FRmNkALA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <TY2PR01MB3692CC45140FF53CACD097BBD8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 06/25/2020 02:34 PM, Yoshihiro Shimoda wrote:
 
---mxv5cy4qt+RJ9ypb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+>>> From: Dien Pham <dien.pham.ry@renesas.com>
+>>>
+>>> As description for DIV_ROUND_CLOSEST in file include/linux/kernel.h.
+>>>    "Result is undefined for negative divisors if the dividend variable
+>>>     type is unsigned and for negative dividends if the divisor variable
+>>>     type is unsigned."
+>>>
+>>> In current code, the FIXPT_DIV uses DIV_ROUND_CLOSEST but has not
+>>> checked sign of divisor before using. It makes undefined temperature
+>>> value in case the value is negative.
+>>>
+>>> This patch fixes to satisfy DIV_ROUND_CLOSEST description
+>>> and fix bug too. Note that the variable name "reg" is not good
+>>> because it should be the same type as rcar_gen3_thermal_read().
+>>> However, there is better to rename it in a further patch as
+>>
+>>     It's better.
+> 
+> Thank you for your review! I'll fix it.
 
-Hi Geert,
+   Note that "there" isn't needed there, I wasn't explicit enough, it seems... 
 
-I spend some more thoughts on this.
+> Best regards,
+> Yoshihiro Shimoda
 
-> > > In general, pm_runtime_get_sync() is not safe to call from atomic
-> > > context.
-> > > For Renesas SoCs, I think both the power and clock domains are safe, as
-> > > the respective drivers don't sleep.  The PM core might, though.
-> >
-> > Still, that sounds to me like we should protect these calls as in V1?
-
-I still think we should guard these calls just because it is not safe to
-call them from atomic contexts.
-
-> And talk to the i2c controller while it is disabled?
-
-Is there maybe some "always-on" property which we could add to the
-respective IIC clock?
-
-> That does seem to work on R-Car Gen2 (similar to SMP bringup accessing
-> registers of a disabled WDT?), though.
-
-Yes. Uli's patch will not cause a regression because we are already
-calling i2c_transfer very late. And we do call the runtime_pm functions
-currently. So, it will improve the situation there.
-
-> Needs testing on R-Mobile A1....
-
-That's armadillo, right? I don't have that, sadly.
-
-Thanks,
-
-   Wolfram
-
-
---mxv5cy4qt+RJ9ypb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl70v+YACgkQFA3kzBSg
-KbZh3A//eIkvsDHPdTMkp5WPV3l20XlTCHjKQwV9mmmZwbF8bmBMu8a9gRCb/jnO
-ULWvz6PlbJ7El6Y6err+s4UZ+bm9J7P4Iav/G5Fuy+HJRGwD2pyK4DrXkQVzg1o6
-a06yugDvODpxh23BL/nFw3bImdTgORiqj3YD8j/w0FJK2fulWci3mp1xLE8cKTLV
-dsWhlZ/a/5cnQjYhh6PrR23ZsvlYVVRo0HKYKzb2vuVGobh29FXLbjyKQKyViXJf
-+9bsFNlJe76noK7daznQTWUcO7eZJV7976K1DDeEcf0x0LYPiLj9BUIbHvFj99Zc
-wZth86j8B+7DLbGuIPneyJU2/9re27fYsiSUiEuhf+ViMNLV3SMUGpaZ0AmrNW8n
-f+lEEvKl5wL3QoeL83jEnRtWseKSkWgnP9qxw03OLdd+MlPL8WZpvrBC64jF1+OO
-kdGJK2ulvqcdPCjENPnFpWQLMtoEjbD/Cf25/xH4PL1/2P7q1dI1rnS8UuFt4RRm
-AYrK6A0bCG938CS0I4VVP7aRxDp+zYUUoH12qUiBiGWHGa/0f0CmSg2jAXqawcMP
-3Zpvm1/QUXql4vF3Zu5Dus8OUa5csAPjacWgvTNxPDYbQ255TuVjTO06YBdIOy6M
-9MQZXk4AyQ2uJnN6bQttbJ2vFsRBx7AmtM5Ypk23I0Nc2cRGsMU=
-=Y6XR
------END PGP SIGNATURE-----
-
---mxv5cy4qt+RJ9ypb--
+MBR, Sergei
