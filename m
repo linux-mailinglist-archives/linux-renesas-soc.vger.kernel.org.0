@@ -2,111 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A567020A33D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 18:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 433F120A38A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 19:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403912AbgFYQm5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 12:42:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39462 "EHLO
+        id S2406549AbgFYRDN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 13:03:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404697AbgFYQm4 (ORCPT
+        with ESMTP id S2406538AbgFYRDM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 12:42:56 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED625C08C5DB
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 09:42:55 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id n23so7258186ljh.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 09:42:55 -0700 (PDT)
+        Thu, 25 Jun 2020 13:03:12 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA5AC08C5DB
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 10:03:12 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id d4so5947771otk.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 10:03:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zClFgpz3ZMsyGeYZHhNVEHPebUS6ZTida1tC/1yV4wQ=;
-        b=XnU7x3eOw/bSXbFDAG1leuCXtQ6csxKA+CSU5cYRceR41Mzu3Z/ZhE3lCLKlBDURcJ
-         NPqgX8GTfDUS3sPfoc0jVhrFaUCAsuY2sroqnqqMz6BU3F2HHnijYOoL/qv47JkxRov7
-         P+W1Wq5bGFFhZP+n4lQxfVLgIDUpKtEr7ZwtJxEL/5orJIqhv536mi1S8dQSCSZY742k
-         33sZG2kY5jKA16DOr3AlP7TzFVFthfyo0Teiqx3pozw45lOLwKH8QbOJujhj/OFsDGte
-         6xBla455Fpt0gAZflbHtqieLXZ0P/64hUGCKZvomaOLQT+ExQ66Ls3kJbH1BSJKkcIvF
-         QxNg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lHuq6EogiKBbM82Ii0dKYIDH5EuifFInWULAf51Dtt8=;
+        b=R10MgnbP1v4wyVm4/QHmMZdVG9DqxpMPO72tK0gXDVkiywHm0irKEx+UqGMfzqp73J
+         xKFPxNUN4HTEBLkjbeo5Kn/CdFYsGCvbGEfnJgiBeIm2cPlkAJbI60H3XPCG5NOBAktH
+         V2kiW36UhOmIkqFkhxrPxZEaEWZVVSYHVqjccUodku9SShsHenOyyFk0MlhGjurxfnL8
+         i0Kp14hGvwj8uT+oLqYsh9UcYH5psChX9dXDm4qjbLLz36+tvm+AnllszwpMKtFwYnQ7
+         HhcW/f8j2S1roSRfiNT1TsIyrDDmbgztRdk+UQClm7Iatn3kL0h+rgBRwDhW9noex7Fb
+         Af4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=zClFgpz3ZMsyGeYZHhNVEHPebUS6ZTida1tC/1yV4wQ=;
-        b=Tkqc/u9qV/tPeB49lO7SIFwTNH0xcckJuiJSj0oAD8/jZkJww6EVcAjFlg1v8hwPTg
-         m9L+52szsKPoXktB7PWNqjGjqdbJ2hQgPT6QSmtfDtBQfjjeNBC+SSvYNNmdLd2dqlOC
-         tZ5W1zrjOcruSwxnGlX5BcC5EwJwfyDmJ9oKvpZYp6djHslvHvysiiSugdw/0E9jzmER
-         umk6HCSFI+X4WH7FxeUhfG1hDCz8YWD+QUNH2CGgyn0CPl/ysxPZO7vjA+ySWwVkbMPS
-         13fVbFr2CPCWCJiQu7+s/gGxVvFffghPA9kyOQeYBj4GtKzS2Yz0HlibyBPBHxEIFVKi
-         xdTg==
-X-Gm-Message-State: AOAM533G7IfcCmeAYNMX1zAGTrPh+Dx42Kam1flgaVVHzrVQVsXVSoTI
-        cQuKFZ+hAD3K8VXA/gzoOmNTV3KKBo1fFQ==
-X-Google-Smtp-Source: ABdhPJzDdobcvIkvsC4t6+0mpz7c88hWpFSnrXKSvIHdOg1LwgQ2M+PnVjApc9f2/lRfyOfCsQpEkA==
-X-Received: by 2002:a2e:7011:: with SMTP id l17mr18238543ljc.424.1593103374304;
-        Thu, 25 Jun 2020 09:42:54 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:6ae:209b:f7ba:a780:4a06:8d86])
-        by smtp.gmail.com with ESMTPSA id 2sm5696247lfr.48.2020.06.25.09.42.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Jun 2020 09:42:53 -0700 (PDT)
-Subject: Re: [PATCH v3] thermal: rcar_gen3_thermal: Fix undefined temperature
- if negative
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "rui.zhang@intel.com" <rui.zhang@intel.com>,
-        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
-        "amit.kucheria@verdurent.com" <amit.kucheria@verdurent.com>
-Cc:     "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Van Do <van.do.xw@renesas.com>,
-        Dien Pham <dien.pham.ry@renesas.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <1593053768-31016-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <db9e3bd3-d3f0-61d2-7ffe-3306003f57d8@cogentembedded.com>
- <TY2PR01MB3692CC45140FF53CACD097BBD8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <cb207009-7af6-72cf-1551-b38445a557c8@cogentembedded.com>
-Date:   Thu, 25 Jun 2020 19:42:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lHuq6EogiKBbM82Ii0dKYIDH5EuifFInWULAf51Dtt8=;
+        b=djX2mPQun3XIagZLgWPUc6LNM/LB7cekVna6WlsPfTVCyV4YdMfiJPQYeqyBiY73+F
+         Fx2L7VWMFegqnjnY0utmlmqdDYe8f6mj+pgBHaBNs1yQNgHwtOif1o8I8c4WKzR+4TK6
+         nD5zRFKLwlkKgHbo+GPDVh3OVl+5bdgxi35E1e2c1GAMJUXUr+gBgiDIwR0/QQ9cj1LN
+         GLBb4/tc7QVOMJDPRp3L21ocC7tSh3g0Snr0+OuTXzQFRipFIX1DywcvGsWjS4MPdgnP
+         CKIGpZ7Y9AXX7KDbldnrGqLFVBUJXwEYOvhHyJ/fKeoZJXe4UQom5l3gwpCAv5W8gg8r
+         pyLg==
+X-Gm-Message-State: AOAM531ZgQHbEgzHjER26URjFQj6w8pBjqj9V+x8ydvEhDFRDBdWBetJ
+        kLTukPtBi3FQgX8M9DUSY1lN3mheUp4v57BzMVkl2w==
+X-Google-Smtp-Source: ABdhPJzE23GYlnoRC3yDPliU+2Co4m7tdsZmDCRADzlN90DyT9/weTVohPePBoe23TV9oHNEbMgz1fYQjyyMa2P7zZ8=
+X-Received: by 2002:a9d:6048:: with SMTP id v8mr29686218otj.231.1593104590270;
+ Thu, 25 Jun 2020 10:03:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <TY2PR01MB3692CC45140FF53CACD097BBD8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+References: <20200625032430.152447-1-saravanak@google.com> <CAMuHMdWiAPOGPh+LCwxebfwZTxQvwEi7G3R1btdEz6xWkbFPUQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWiAPOGPh+LCwxebfwZTxQvwEi7G3R1btdEz6xWkbFPUQ@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Thu, 25 Jun 2020 10:02:34 -0700
+Message-ID: <CAGETcx-93ps8GFSfY5eeBtxoekB5TtT+HPHV8aVoDLtXz48bVA@mail.gmail.com>
+Subject: Re: [PATCH v1] driver core: Fix suspend/resume order issue with
+ deferred probe
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 06/25/2020 02:34 PM, Yoshihiro Shimoda wrote:
+Dropping Feng and Toan due to mail bounces.
 
->>> From: Dien Pham <dien.pham.ry@renesas.com>
->>>
->>> As description for DIV_ROUND_CLOSEST in file include/linux/kernel.h.
->>>    "Result is undefined for negative divisors if the dividend variable
->>>     type is unsigned and for negative dividends if the divisor variable
->>>     type is unsigned."
->>>
->>> In current code, the FIXPT_DIV uses DIV_ROUND_CLOSEST but has not
->>> checked sign of divisor before using. It makes undefined temperature
->>> value in case the value is negative.
->>>
->>> This patch fixes to satisfy DIV_ROUND_CLOSEST description
->>> and fix bug too. Note that the variable name "reg" is not good
->>> because it should be the same type as rcar_gen3_thermal_read().
->>> However, there is better to rename it in a further patch as
->>
->>     It's better.
-> 
-> Thank you for your review! I'll fix it.
+On Thu, Jun 25, 2020 at 1:58 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Saravana,
+>
+> Thanks for your patch!
+>
+> On Thu, Jun 25, 2020 at 5:24 AM Saravana Kannan <saravanak@google.com> wrote:
+> > Under the following conditions:
+> > - driver A is built in and can probe device-A
+> > - driver B is a module and can probe device-B
+>
+> I think this is not correct: in my case driver B is builtin, too.
 
-   Note that "there" isn't needed there, I wasn't explicit enough, it seems... 
+This is a correct example, it just doesn't match with your case :)
 
-> Best regards,
-> Yoshihiro Shimoda
+Talking about fw_devlink_pause/resume() just distracts from the real
+issue that's also present in systems that don't use DT.
 
-MBR, Sergei
+You have this problem even on an ACPI system -- distributions loading
+all the modules in a PC. We want suspend/resume to work for those too.
+So, I'm just going for a simpler example.
+
+> > - device-A is supplier of device-B
+> >
+> > Without this patch:
+> > 1. device-A is added.
+> > 2. device-B is added.
+> > 3. dpm_list is now [device-A, device-B].
+> > 4. driver-A defers probe of device-A.
+> > 5. deferred probe of device-A is reattempted
+>
+> I think this is misleading: in my case driver-A did not defer the probe
+> of device-A, and driver-A never returned -EPROBE_DEFER.
+> Probing was merely paused, due to fw_devlink_pause();
+
+What I said above. fw_devlink_pause() just defers the probe for the
+device -- that's how it pauses and resumes probing. For example,
+device link can defer the probe for a device without ever getting to
+the driver too.
+
+> > 6. device-A is moved to end of dpm_list.
+> > 6. dpm_list is now [device-B, device-A].
+> > 7. driver-B is loaded and probes device-B.
+> > 8. dpm_list stays as [device-B, device-A].
+> >
+> > Suspend (which goes in the reverse order of dpm_list) fails because
+> > device-A (supplier) is suspended before device-B (consumer).
+> >
+> > With this patch:
+> > 1. device-A is added.
+> > 2. device-B is added.
+> > 3. dpm_list is now [device-A, device-B].
+> > 4. driver-A defers probe of device-A.
+> > 5. deferred probe of device-A is reattempted later.
+> > 6. dpm_list is now [device-B, device-A].
+> > 7. driver-B is loaded and probes device-B.
+> > 8. dpm_list is now [device-A, device-B].
+> >
+> > Suspend works because device-B (consumer) is suspended before device-A
+> > (supplier).
+> >
+> > Fixes: 494fd7b7ad10 ("PM / core: fix deferred probe breaking suspend resume order")
+> > Fixes: 716a7a259690 ("driver core: fw_devlink: Add support for batching fwnode parsing")
+> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Signed-off-by: Saravana Kannan <saravanak@google.com>
+>
+> This fixes wake-up by GPIO key on r8a7740/armadillo and sh73a0/kzm9g.
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thanks!
+
+>
+> > --- a/drivers/base/dd.c
+> > +++ b/drivers/base/dd.c
+> > @@ -109,6 +109,8 @@ static void deferred_probe_work_func(struct work_struct *work)
+> >                  * probe makes that very unsafe.
+> >                  */
+> >                 device_pm_move_to_tail(dev);
+> > +               /* Greg/Rafael: SHOULD I DELETE THIS? ^^ I think I should, but
+> > +                * I'm worried if it'll have some unintended consequeneces. */
+>
+> Works fine for me with the call to device_pm_move_to_tail() removed, too
+> (at least on the two boards that showed the issue before).
+
+Yes, it feels right to remove this, but I just wanted to get a few
+more opinions.
+
+
+-Saravana
