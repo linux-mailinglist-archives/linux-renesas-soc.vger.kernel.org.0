@@ -2,84 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC193209B8A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 10:53:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22D1F209B94
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 10:58:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390400AbgFYIxA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 04:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390330AbgFYIw7 (ORCPT
+        id S2390771AbgFYI6F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 04:58:05 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37192 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390330AbgFYI6F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 04:52:59 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 151E7C061573
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 01:52:58 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id 9so5617066ljv.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 01:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fdFrHIZhBZS/7plt7r7Xv74Rwfn5L2PjN5vY0UMuaSo=;
-        b=WZrh02H4MWYSgcB3+NqWBoKrD8cCaEhtpUv3lmljKnaSFY+oPzl3ZWyr4pU2EmA4tH
-         AE0ODqWyrXgtr5PcxUA/UyggYUPih7HHctY1RrdsHnA8PPEAzJTtsWjP8JBhpDhA4O+v
-         C248PpHUmnvhHk4IMOvSvETvrXIPTlSOG92a8Dd7Pe9hs2lQlNqb07Tl7oNx6+mYbD0n
-         Mw3WEClOBuZ90A8+6M+sftI+dztJGxt6KqgTYCvog0kPDnF573lpqAdS6u1ZpZcnyd13
-         97bvdMR3tLkTdZ/a3/FkemN1YMT7Ae8mWNExKiXuDkMNdoiJY38tEFHgHCq2Yrbcpgh7
-         12Xg==
+        Thu, 25 Jun 2020 04:58:05 -0400
+Received: by mail-ot1-f66.google.com with SMTP id v13so4576756otp.4;
+        Thu, 25 Jun 2020 01:58:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fdFrHIZhBZS/7plt7r7Xv74Rwfn5L2PjN5vY0UMuaSo=;
-        b=Q/uwXBRx9Cc6WrHmUFglIWd5xdjQaHszc/1FEEqbMHa7wPUlXO+Bbix2xYWkvpRPqY
-         lwdbZhMLzKNGxR9Eb5f8fbmfJTUdLLRIjx6GSRVKUQke1W0cYnHoymGi8VPaf40h6lIv
-         KYbkqAXPF5hbVfWgwO360+RUWQzKF8bvRaW49Wxojw3UiLhbDrUNhFvpu5w8uVJMfJQK
-         IA+yt1PAwnuLjksuSyGb+zgW8RohScIhplwaXLRqPJctnUnM+t0fXGpFx3R9d67i4NAi
-         zcgAReC9quagnp4sdHRgWafuqrxdaSqYQRRsavfELsoNHA4yP/++fET2BM7oy80DEddx
-         ullA==
-X-Gm-Message-State: AOAM533/Nz8ayrqCp+llVB7rwaMHfgrTQEmb+3HlN8ZvnmelJXTolbhA
-        aFHoqHZAhH7gME5iqPi+xwFsskwdiZyKdQ==
-X-Google-Smtp-Source: ABdhPJy4o2NNubK/0CUG3eE02dw9aLIsJs/wZPhkQoxeOtUSW8d981CXMfvMwvHsa4yecZ/X5KJ/+Q==
-X-Received: by 2002:a05:651c:2cc:: with SMTP id f12mr15398947ljo.329.1593075176422;
-        Thu, 25 Jun 2020 01:52:56 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8? ([2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8])
-        by smtp.gmail.com with ESMTPSA id l22sm4677486lji.120.2020.06.25.01.52.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2020 01:52:55 -0700 (PDT)
-Subject: Re: [PATCH/LOCAL 4/7] arm64: renesas: defconfig: Enable ADV7180 and
- ADV7604 support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200624133057.5860-1-geert+renesas@glider.be>
- <20200624133057.5860-5-geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <135e8a7f-68ff-ea28-5e9d-733ca85a4d82@cogentembedded.com>
-Date:   Thu, 25 Jun 2020 11:52:54 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qLPZD7PFE1Gd0rOLnIGy3Ohui9fGoP3OOJI6weOrvCc=;
+        b=GlgKsX1EvGkXIGaSR7PKaPyxJPWvYATJ/wF/js5HVj1f87/5u+a1dTEYxDY4Di6sWV
+         P6Lz8uZ3FxBAlyEbYnHPi49IVuueTxMlq4Qcc1Id6xfiXg7Lt/jAD3Jtjxl5NYAVJgpN
+         qC5juJ3YtbSrJ2KcHUFUJcqOy1UVPIrTxFxAP3UyA7cqX1Wu8M4TWNjhZU309oCTvbyu
+         Vb6bKnIYZP1So6lZ5lWgEoYjrZOkxcRj/gmhk9aXDyPxGKI+MpQVS0tLRyonJdHqzTKS
+         lL7bNI1Q+iUheJ5Gax7kqdfM8KiXRPpuA5TCsB6FLqD2vY2zuBnHbLnHIs/KENBIzB+X
+         uR7w==
+X-Gm-Message-State: AOAM533YdzmxTHT5aZQnG4IYDQaeZ2wtArHwpa38fLBIr0ilEOthYOBv
+        bkfJSg411pzpNhPyVI/NPkUfkpsqapDjIK+UeZo=
+X-Google-Smtp-Source: ABdhPJykpfn0DLcmVLEthmAqqqmjCHMhTsy0UwLlx+zOOQgay++hZ1cGg1mJxWDV9LviySSWeN+kBuSsGmUWVMQOlpQ=
+X-Received: by 2002:a9d:6254:: with SMTP id i20mr1590023otk.145.1593075483314;
+ Thu, 25 Jun 2020 01:58:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200624133057.5860-5-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200625032430.152447-1-saravanak@google.com>
+In-Reply-To: <20200625032430.152447-1-saravanak@google.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 25 Jun 2020 10:57:52 +0200
+Message-ID: <CAMuHMdWiAPOGPh+LCwxebfwZTxQvwEi7G3R1btdEz6xWkbFPUQ@mail.gmail.com>
+Subject: Re: [PATCH v1] driver core: Fix suspend/resume order issue with
+ deferred probe
+To:     Saravana Kannan <saravanak@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>, Toan Le <toanle@apm.com>,
+        Feng Kan <fkan@apm.com>,
+        Android Kernel Team <kernel-team@android.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24.06.2020 16:30, Geert Uytterhoeven wrote:
+Hi Saravana,
 
-> Enable support for the Analog Devices ADV71780 video decoder and ADV7604
+Thanks for your patch!
 
-   ADV7180? :-)
+On Thu, Jun 25, 2020 at 5:24 AM Saravana Kannan <saravanak@google.com> wrote:
+> Under the following conditions:
+> - driver A is built in and can probe device-A
+> - driver B is a module and can probe device-B
 
-> HDMI receiver, which are used on the Draak board.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-[...]
+I think this is not correct: in my case driver B is builtin, too.
 
-MBR, Sergei
+> - device-A is supplier of device-B
+>
+> Without this patch:
+> 1. device-A is added.
+> 2. device-B is added.
+> 3. dpm_list is now [device-A, device-B].
+> 4. driver-A defers probe of device-A.
+> 5. deferred probe of device-A is reattempted
+
+I think this is misleading: in my case driver-A did not defer the probe
+of device-A, and driver-A never returned -EPROBE_DEFER.
+Probing was merely paused, due to fw_devlink_pause();
+
+> 6. device-A is moved to end of dpm_list.
+> 6. dpm_list is now [device-B, device-A].
+> 7. driver-B is loaded and probes device-B.
+> 8. dpm_list stays as [device-B, device-A].
+>
+> Suspend (which goes in the reverse order of dpm_list) fails because
+> device-A (supplier) is suspended before device-B (consumer).
+>
+> With this patch:
+> 1. device-A is added.
+> 2. device-B is added.
+> 3. dpm_list is now [device-A, device-B].
+> 4. driver-A defers probe of device-A.
+> 5. deferred probe of device-A is reattempted later.
+> 6. dpm_list is now [device-B, device-A].
+> 7. driver-B is loaded and probes device-B.
+> 8. dpm_list is now [device-A, device-B].
+>
+> Suspend works because device-B (consumer) is suspended before device-A
+> (supplier).
+>
+> Fixes: 494fd7b7ad10 ("PM / core: fix deferred probe breaking suspend resume order")
+> Fixes: 716a7a259690 ("driver core: fw_devlink: Add support for batching fwnode parsing")
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Saravana Kannan <saravanak@google.com>
+
+This fixes wake-up by GPIO key on r8a7740/armadillo and sh73a0/kzm9g.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/base/dd.c
+> +++ b/drivers/base/dd.c
+> @@ -109,6 +109,8 @@ static void deferred_probe_work_func(struct work_struct *work)
+>                  * probe makes that very unsafe.
+>                  */
+>                 device_pm_move_to_tail(dev);
+> +               /* Greg/Rafael: SHOULD I DELETE THIS? ^^ I think I should, but
+> +                * I'm worried if it'll have some unintended consequeneces. */
+
+Works fine for me with the call to device_pm_move_to_tail() removed, too
+(at least on the two boards that showed the issue before).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
