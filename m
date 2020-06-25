@@ -2,157 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 433F120A38A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 19:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0865720A945
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2020 01:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406549AbgFYRDN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 13:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406538AbgFYRDM (ORCPT
+        id S1726354AbgFYXio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 19:38:44 -0400
+Received: from mga01.intel.com ([192.55.52.88]:31575 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725985AbgFYXin (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 13:03:12 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA5AC08C5DB
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 10:03:12 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id d4so5947771otk.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 10:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lHuq6EogiKBbM82Ii0dKYIDH5EuifFInWULAf51Dtt8=;
-        b=R10MgnbP1v4wyVm4/QHmMZdVG9DqxpMPO72tK0gXDVkiywHm0irKEx+UqGMfzqp73J
-         xKFPxNUN4HTEBLkjbeo5Kn/CdFYsGCvbGEfnJgiBeIm2cPlkAJbI60H3XPCG5NOBAktH
-         V2kiW36UhOmIkqFkhxrPxZEaEWZVVSYHVqjccUodku9SShsHenOyyFk0MlhGjurxfnL8
-         i0Kp14hGvwj8uT+oLqYsh9UcYH5psChX9dXDm4qjbLLz36+tvm+AnllszwpMKtFwYnQ7
-         HhcW/f8j2S1roSRfiNT1TsIyrDDmbgztRdk+UQClm7Iatn3kL0h+rgBRwDhW9noex7Fb
-         Af4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lHuq6EogiKBbM82Ii0dKYIDH5EuifFInWULAf51Dtt8=;
-        b=djX2mPQun3XIagZLgWPUc6LNM/LB7cekVna6WlsPfTVCyV4YdMfiJPQYeqyBiY73+F
-         Fx2L7VWMFegqnjnY0utmlmqdDYe8f6mj+pgBHaBNs1yQNgHwtOif1o8I8c4WKzR+4TK6
-         nD5zRFKLwlkKgHbo+GPDVh3OVl+5bdgxi35E1e2c1GAMJUXUr+gBgiDIwR0/QQ9cj1LN
-         GLBb4/tc7QVOMJDPRp3L21ocC7tSh3g0Snr0+OuTXzQFRipFIX1DywcvGsWjS4MPdgnP
-         CKIGpZ7Y9AXX7KDbldnrGqLFVBUJXwEYOvhHyJ/fKeoZJXe4UQom5l3gwpCAv5W8gg8r
-         pyLg==
-X-Gm-Message-State: AOAM531ZgQHbEgzHjER26URjFQj6w8pBjqj9V+x8ydvEhDFRDBdWBetJ
-        kLTukPtBi3FQgX8M9DUSY1lN3mheUp4v57BzMVkl2w==
-X-Google-Smtp-Source: ABdhPJzE23GYlnoRC3yDPliU+2Co4m7tdsZmDCRADzlN90DyT9/weTVohPePBoe23TV9oHNEbMgz1fYQjyyMa2P7zZ8=
-X-Received: by 2002:a9d:6048:: with SMTP id v8mr29686218otj.231.1593104590270;
- Thu, 25 Jun 2020 10:03:10 -0700 (PDT)
+        Thu, 25 Jun 2020 19:38:43 -0400
+IronPort-SDR: oHRoG4JNtMbeDDAcgPYo8WWhOZ7+ArDO+bdewnnBOLpEyBYiZsk6FHYRN0TuzMZHyQuyxdjU9K
+ 7oGJafu96IkQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="163201453"
+X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; 
+   d="scan'208";a="163201453"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2020 16:38:42 -0700
+IronPort-SDR: vt7fz58TiT4tSWpv5oXuLntMPEdbP3+vB4bpE2rqEn1DDNy9vHkbMv6ja5+5E6v72ysNDix1g0
+ 1kw+uN1nPrUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,280,1589266800"; 
+   d="scan'208";a="311256061"
+Received: from lkp-server01.sh.intel.com (HELO 538b5e3c8319) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 25 Jun 2020 16:38:41 -0700
+Received: from kbuild by 538b5e3c8319 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jobS4-0001rx-F3; Thu, 25 Jun 2020 23:38:40 +0000
+Date:   Fri, 26 Jun 2020 07:38:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:for-neg] BUILD SUCCESS
+ 5b99adab4cdc8f24a0cfdf91b6f631bb407e2278
+Message-ID: <5ef5357a.hwKEdv0+M1S0XjzF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200625032430.152447-1-saravanak@google.com> <CAMuHMdWiAPOGPh+LCwxebfwZTxQvwEi7G3R1btdEz6xWkbFPUQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWiAPOGPh+LCwxebfwZTxQvwEi7G3R1btdEz6xWkbFPUQ@mail.gmail.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Thu, 25 Jun 2020 10:02:34 -0700
-Message-ID: <CAGETcx-93ps8GFSfY5eeBtxoekB5TtT+HPHV8aVoDLtXz48bVA@mail.gmail.com>
-Subject: Re: [PATCH v1] driver core: Fix suspend/resume order issue with
- deferred probe
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Android Kernel Team <kernel-team@android.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dropping Feng and Toan due to mail bounces.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  for-neg
+branch HEAD: 5b99adab4cdc8f24a0cfdf91b6f631bb407e2278  Merge branch 'topic/renesas-defconfig' into for-neg
 
-On Thu, Jun 25, 2020 at 1:58 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Saravana,
->
-> Thanks for your patch!
->
-> On Thu, Jun 25, 2020 at 5:24 AM Saravana Kannan <saravanak@google.com> wrote:
-> > Under the following conditions:
-> > - driver A is built in and can probe device-A
-> > - driver B is a module and can probe device-B
->
-> I think this is not correct: in my case driver B is builtin, too.
+elapsed time: 720m
 
-This is a correct example, it just doesn't match with your case :)
+configs tested: 119
+configs skipped: 5
 
-Talking about fw_devlink_pause/resume() just distracts from the real
-issue that's also present in systems that don't use DT.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-You have this problem even on an ACPI system -- distributions loading
-all the modules in a PC. We want suspend/resume to work for those too.
-So, I'm just going for a simpler example.
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arc                     haps_hs_smp_defconfig
+s390                             allyesconfig
+powerpc                          g5_defconfig
+mips                        jmr3927_defconfig
+sh                           se7751_defconfig
+arm                       imx_v6_v7_defconfig
+arm                            xcep_defconfig
+arm                      pxa255-idp_defconfig
+arm                          tango4_defconfig
+arm                       mainstone_defconfig
+arm                          moxart_defconfig
+m68k                            q40_defconfig
+sh                          sdk7786_defconfig
+s390                              allnoconfig
+arm                            mps2_defconfig
+arm                             pxa_defconfig
+arm                         lpc18xx_defconfig
+mips                           ip27_defconfig
+arm                     eseries_pxa_defconfig
+i386                             alldefconfig
+sh                           se7724_defconfig
+mips                     loongson1b_defconfig
+nds32                             allnoconfig
+parisc                            allnoconfig
+arm                            lart_defconfig
+mips                      loongson3_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20200624
+x86_64               randconfig-a002-20200624
+x86_64               randconfig-a003-20200624
+x86_64               randconfig-a005-20200624
+x86_64               randconfig-a001-20200624
+x86_64               randconfig-a006-20200624
+i386                 randconfig-a002-20200624
+i386                 randconfig-a006-20200624
+i386                 randconfig-a003-20200624
+i386                 randconfig-a001-20200624
+i386                 randconfig-a005-20200624
+i386                 randconfig-a004-20200624
+i386                 randconfig-a013-20200624
+i386                 randconfig-a016-20200624
+i386                 randconfig-a012-20200624
+i386                 randconfig-a011-20200624
+i386                 randconfig-a015-20200624
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                                allnoconfig
+um                                  defconfig
+um                               allmodconfig
+um                               allyesconfig
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
 
-> > - device-A is supplier of device-B
-> >
-> > Without this patch:
-> > 1. device-A is added.
-> > 2. device-B is added.
-> > 3. dpm_list is now [device-A, device-B].
-> > 4. driver-A defers probe of device-A.
-> > 5. deferred probe of device-A is reattempted
->
-> I think this is misleading: in my case driver-A did not defer the probe
-> of device-A, and driver-A never returned -EPROBE_DEFER.
-> Probing was merely paused, due to fw_devlink_pause();
-
-What I said above. fw_devlink_pause() just defers the probe for the
-device -- that's how it pauses and resumes probing. For example,
-device link can defer the probe for a device without ever getting to
-the driver too.
-
-> > 6. device-A is moved to end of dpm_list.
-> > 6. dpm_list is now [device-B, device-A].
-> > 7. driver-B is loaded and probes device-B.
-> > 8. dpm_list stays as [device-B, device-A].
-> >
-> > Suspend (which goes in the reverse order of dpm_list) fails because
-> > device-A (supplier) is suspended before device-B (consumer).
-> >
-> > With this patch:
-> > 1. device-A is added.
-> > 2. device-B is added.
-> > 3. dpm_list is now [device-A, device-B].
-> > 4. driver-A defers probe of device-A.
-> > 5. deferred probe of device-A is reattempted later.
-> > 6. dpm_list is now [device-B, device-A].
-> > 7. driver-B is loaded and probes device-B.
-> > 8. dpm_list is now [device-A, device-B].
-> >
-> > Suspend works because device-B (consumer) is suspended before device-A
-> > (supplier).
-> >
-> > Fixes: 494fd7b7ad10 ("PM / core: fix deferred probe breaking suspend resume order")
-> > Fixes: 716a7a259690 ("driver core: fw_devlink: Add support for batching fwnode parsing")
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Signed-off-by: Saravana Kannan <saravanak@google.com>
->
-> This fixes wake-up by GPIO key on r8a7740/armadillo and sh73a0/kzm9g.
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Thanks!
-
->
-> > --- a/drivers/base/dd.c
-> > +++ b/drivers/base/dd.c
-> > @@ -109,6 +109,8 @@ static void deferred_probe_work_func(struct work_struct *work)
-> >                  * probe makes that very unsafe.
-> >                  */
-> >                 device_pm_move_to_tail(dev);
-> > +               /* Greg/Rafael: SHOULD I DELETE THIS? ^^ I think I should, but
-> > +                * I'm worried if it'll have some unintended consequeneces. */
->
-> Works fine for me with the call to device_pm_move_to_tail() removed, too
-> (at least on the two boards that showed the issue before).
-
-Yes, it feels right to remove this, but I just wanted to get a few
-more opinions.
-
-
--Saravana
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
