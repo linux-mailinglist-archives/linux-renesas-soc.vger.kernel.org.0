@@ -2,136 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1282209BE0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 11:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5336C209BFA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 11:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390143AbgFYJ00 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 05:26:26 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:41444 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbgFYJ00 (ORCPT
+        id S2390074AbgFYJhB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 05:37:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58020 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390903AbgFYJhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 05:26:26 -0400
-Received: by mail-oi1-f195.google.com with SMTP id a21so4365338oic.8;
-        Thu, 25 Jun 2020 02:26:25 -0700 (PDT)
+        Thu, 25 Jun 2020 05:37:00 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DE69C061573
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 02:36:59 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id u25so2859171lfm.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 02:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RnEBrQRLE1A17BuChdvyxVDc8sepHuIB2gbe0rLfuU4=;
+        b=HqiQRb0B9Qp4jZNOzOBU+ZZsG9BHYPfyxziQLBKS9VUqlBTmHcupeuVRnB9px8fXta
+         GGapfozqxbJezjsIEcZzgjsRkmFA1I8Qr7O4DVcRz0qX2MawDB9w7tqlf75MclgSR2Bq
+         FIkblQKNbXMWHzERLB9HU8Vh/SSMV8jmOhLgFU5TfnVq8CtqonZInsdNqR7dgxrSEtcE
+         n8cKY1chcOdpMR0pSJbkfYoXUKWBMH5XNxoj+Zqs6mlqgJC4CvzLXcZA9zI4ivg5dKzK
+         B+ohs2+wFfpn4SYqHtcieM7C9zOdbIdwvPhU+SGvGh/MLqNoulp2r86JzMQ3O1slb2kf
+         5IAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yjzuDu5iqeNsu8xsS5EjF8Gr+ffGuq2vYXMsQZ3k7jM=;
-        b=t5r1W+kC9nS+TaTm1T6GoKesiKPG6wHWBa3urlMP2Wk5ej3xwKueRPVpEvMznSE1C8
-         1dj2ne/+ypF24KAPqm05ZX+caR+PNr2FLFuPXmE0RSqF589iHjzCr6YsjeMgxm8QGyyx
-         S0NLHObNlI54stIVoGyuT+mKt7NxCYXPwmIXZqtUEv1o+u6GxNyE45W9+ocMWsAD9esq
-         j7d3qgTnn7oaMK/XV6/h3qxYmUsBma5GA0QZKibtwm8KiOUthLpR5ZFZYOTcltlDpfg5
-         BWGHA315ckMAkqSINUp9By5e1MUOJsvvyIzeT4hImlp9PCw1XVa5kW8UkVRTK8ikAx/D
-         uIDQ==
-X-Gm-Message-State: AOAM530sP7mjd//Ylw9yurtMjjquLVT90WIhi29S6GeSxUkGJfoHM4n6
-        V1fwXuNCXpJjtNM+u3crtis2qkpFObyz43NfQPs=
-X-Google-Smtp-Source: ABdhPJwsgOEyHOyhQZQfhnuYyoD/aYDE50iovKEbQsMjIg8T4WNNLfeSIQT55JpX+5PPkCNy8BmSIizKd1H9+owNtRU=
-X-Received: by 2002:a54:4006:: with SMTP id x6mr1352366oie.148.1593077185115;
- Thu, 25 Jun 2020 02:26:25 -0700 (PDT)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RnEBrQRLE1A17BuChdvyxVDc8sepHuIB2gbe0rLfuU4=;
+        b=im8e6L/3/dHCnhxNmvssObh5+Tha+DBa79Zea3tj5jhwALIdFg3NAZf5ILm7L4GPqN
+         b8RNa+vUE7GuXodXgr8/nQotXbJ5gfSjXJuhpMuudahPI8hHJDiWSv0cU3wh0MighLaK
+         RXwTV4C3g4C5VkQks/BrbvcxQc4iIQfUUxeA8h5B1+1+MBIvQ3M6cHvxlmvttEfWSlvB
+         sBJxhC6i+fJnxwJfJaNTBM8edPEfNhpXOMNtYcmYqMMatTxFFHM7ChQZ8dc5tZprG2FR
+         SmUYWta5SEXdvITVCg0ZaDTdW516SgKCeHu+sWCeR1cgT0sYwySOAG+KkycLhbZN3FIj
+         +p8w==
+X-Gm-Message-State: AOAM531UVHs1TfrQbvfJ4fVmwHg057D33xbo5O/ZguC9H0I2iKZs3r1x
+        zxT6uAWmLXN7KAAzh05Fa6n/QNT5L/Q=
+X-Google-Smtp-Source: ABdhPJyZ0zneCUtrqOHUqrWXK+RPvNM0tIG8pZ6lhxr+NlOHHWGvv+DvxhiWHMqfb7FGDS5i4e1zWg==
+X-Received: by 2002:a19:83c7:: with SMTP id f190mr18042262lfd.14.1593077817815;
+        Thu, 25 Jun 2020 02:36:57 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8? ([2a00:1fa0:44da:b8e6:887f:f9f8:ffc4:9fb8])
+        by smtp.gmail.com with ESMTPSA id f11sm231400ljg.10.2020.06.25.02.36.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 02:36:56 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a77980: eagle/v3msk: add
+ QSPI flash support
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>
+References: <13425133-eedf-081f-4ed7-cd9012ce7d6d@cogentembedded.com>
+ <fca1d012-29bf-eead-1c0d-4dd837c0bc68@cogentembedded.com>
+Message-ID: <2bc79e8e-953f-2d9a-1bfb-798aac9ae2ce@cogentembedded.com>
+Date:   Thu, 25 Jun 2020 12:36:55 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <1592792699-24638-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1592792699-24638-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAPDyKFq-dEPaU094hrk2xg18VpJAsbnf8enieFmcMhKiB1bW1A@mail.gmail.com>
- <CAMuHMdXjU7N4oG89YsozGijMpjgKGN6ezw2qm6FeGX=JyRhsvg@mail.gmail.com> <TY2PR01MB36921A71A493ABD624A28C42D8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB36921A71A493ABD624A28C42D8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 25 Jun 2020 11:26:14 +0200
-Message-ID: <CAMuHMdWLWBvZmHNqPFk2GW6XLnBx-sqfCo6d=B4iei88ONWX=w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] mmc: core: Call mmc_poweroff_nofity() if pm_suspend_via_firmware()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <fca1d012-29bf-eead-1c0d-4dd837c0bc68@cogentembedded.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hello!
 
-CC broonie
-
-On Thu, Jun 25, 2020 at 8:31 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, June 24, 2020 8:13 PM
-> > On Wed, Jun 24, 2020 at 12:06 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> > > On Mon, 22 Jun 2020 at 04:25, Yoshihiro Shimoda
-> > > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > If pm_suspend_via_firmware() returns true, the system will be able
-> > > > to cut both vcc and vccq in the suspend. So, call
-> > > > mmc_poweroff_nofity() if pm_suspend_via_firmware() returns true.
-> > > >
-> > > > Note that we should not update the MMC_CAP2_FULL_PWR_CYCLE caps
-> > > > because the mmc_select_voltage() checks the caps when attaches
-> > > > a mmc/sd.
-> >
-> > > > --- a/drivers/mmc/core/mmc.c
-> > > > +++ b/drivers/mmc/core/mmc.c
-> > > > @@ -2038,7 +2039,8 @@ static int _mmc_suspend(struct mmc_host *host, bool is_suspend)
-> > > >                 goto out;
-> > > >
-> > > >         if (mmc_can_poweroff_notify(host->card) &&
-> > > > -               ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend))
-> > > > +           ((host->caps2 & MMC_CAP2_FULL_PWR_CYCLE) || !is_suspend ||
-> > > > +            pm_suspend_via_firmware()))
-> > >
-> > > Sorry, but this doesn't work.
-> > >
-> > > Even if PSCI is a generic FW interface, it doesn't mean that all PSCI
-> > > implementations will cut the vcc and vccq for the MMC card at system
-> > > suspend.
-> >
-> > Indeed, there's nothing guaranteed here.  Nor documented how it should
-> > behave.  Basically the firmware is free to power off the SoC. Or not do that.
-> > "If firmware is involved, all odds are off".
->
-> I thought we could be guaranteed. But, I understood we could not be guaranteed...
->
-> > > Instead, you need to decide this based on some specific DT property.
-> > > Perhaps in conjunction with using pm_suspend_via_firmware().
-> >
-> > Last time I was involved in a discussion about this, the PSCI people
-> > didn't want to add any properties describing particular PSCI behavior...
-> > "If firmware is involved, all odds are off".
-> >
-> > So the only safe thing to do is to expect the worst, and prepare for it...
->
-> A headache point is an eMMC device consumes much power if that the system
-> doesn't cut the vcc and vccq and doesn’t enter the sleep mode.
-> In other words, in power consumption point of view, this patch will
-> cause a regression in such a case...
-
-Indeed.
-
-> By the way, about adding specific DT property, the regulator can have
-> regulator-off-in-suspend property in regulator-state-mem subnode.
-> For now, we doesn't seem to get the property from a regulator consumer though.
-> So, I'll try to add an API of regulator for it.
-
-Oh right, the eMMC is described in DT as being connected to two
-regulators.
-Note that the semantics of regulator-off-in-suspend are that the
-regulator should be disabled (by the regulator core) during suspend, not
-that the regulator is disabled during suspend by a third party.
-No idea if that will work with a fixed-regulator without GPIO control,
-but of course you can try.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+    The subject should read r8a77970, thanks Geert for noticing...
