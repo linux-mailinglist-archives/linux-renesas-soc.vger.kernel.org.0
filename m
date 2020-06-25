@@ -2,297 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F335209D02
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 12:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E583B209D90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jun 2020 13:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404000AbgFYKou (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jun 2020 06:44:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403997AbgFYKou (ORCPT
+        id S2404294AbgFYLeV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jun 2020 07:34:21 -0400
+Received: from mail-eopbgr1320138.outbound.protection.outlook.com ([40.107.132.138]:8800
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2404239AbgFYLeV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jun 2020 06:44:50 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78A7C061573
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 03:44:48 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id l63so4510549oih.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jun 2020 03:44:48 -0700 (PDT)
+        Thu, 25 Jun 2020 07:34:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HgiGAhRDFvIoo2y6d9UQOpwHEOncSajCcwe5/4dovzbGZFzJc0NFeJDGn74rAhXv08pa70YRJWc9QAEODiIG2U56+3GDx9IG//vxsotF+2xqST9byz0I6jQgmO2nkxlbd3LGzEIM4qqxcGakhPFB3EDW6J281MNGpRWF8MESvXr6W2MsbGWYhHoNLONXhAVC0AiOTCeGhcZlqnaFCKzKvGYf0MiLa6bwG9VjzcbqjtRWdRXbmleKtv85V0ZhfJxj1iNUPCZBF1uwmwg8bS89+icPIoQbuALngvgv1Pdx3XeEl/13o6ZVXq1Pf7XY5NwldwVVmEHFwoLvmoVFkIgP8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A0/0UvnsL67ncjdCFuKgWmvyJix4LtHHuV1ma/s4VBo=;
+ b=b3brZ8yRkYJJ8hVeFPJ0jpQAjnjYX7pyDo00GCZ4eePjUWORrV/GgsNhlgfVZIunZV/MxwbNX8H8i6UBjrT+YoQm6Gzy6kvN2XA7OtElPyHiApC+yQnH3TsMD6w1hnqHWwdiYNGYpL8ak/i0+CY8MBocUNLK1o+VfEcmeOavAP7LMmwKYisDIw4/QztkrwDZikG+/G+i8+0lM4nRRa1m2btbabOYcH+1sO42efjv7zxSnyENaPvU62USFml+VNdALNx1hX96kxfjo52FMsKGLM4rY2u+hpHbtP7s36ma6emUCkkH7+0NO+M6/rq2SxKGy3LOsRpEifqSfx0tR1Gc2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WpyDZDv0VZa6G1CZkLbWwVx9TEcB23chx8xye5GG6IQ=;
-        b=TdrtuzgxLziRkx0FvmJ1ROKweF0BgOTdzbhnsuwPPXZeCgGloIwFlMX8U4ZV74xQjp
-         nw7GZMzjdsF7S0lAgOu9CeAwzPg1PbHEZaqeIlxxMRvxkrzrldYMGNdB2pg+Ocg4ISbs
-         11ZBCSvB9mBH36dZnI4O30qmQ93Ll/msOqgfg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WpyDZDv0VZa6G1CZkLbWwVx9TEcB23chx8xye5GG6IQ=;
-        b=M/g9b0rEdFjnh3qMYZ6fCOb6W7KTO6m9sXpCQJyDFFt3l/0omHFHuTH4FIVAWD0IAI
-         xG9gmSo48KAm3yLuxmQnzoIkBSTcosCZRjrPUSm6YbnpxaEqN0SMRJx7RxO1ZM9yc5jz
-         lHSysF8tuJhQg1cqm6XXJYOud76RQcfsk016YjaYtmAERPdAFJgqPl5zMQqmpodkrJo7
-         qFfdQkWwqX6kgJvzolwl7w+6vUGF1CAfavGKZUXoF74kI5DtCsadjjDY7LwkHKKF0Qzm
-         hUcKsMnd9CvHB78JK3BCbufRdgFw9Vl1AWOZSUibLK5faqPzbjSFfXFGtkrNowtKWbLs
-         coag==
-X-Gm-Message-State: AOAM531ka4GPKywywRWjLHAuSp4KjT04ezQahwBLSk5jESC3jac/dPj3
-        kbX4PisJiswWsiuHn++RVHiaCP3j8wPwVCbaAGQlnA==
-X-Google-Smtp-Source: ABdhPJxqYn5tV7KhPOHvXEuIrgMLjhgULxaBg9P8R9GpT6nYIdfkVhlb7wRnK9PgSbmG6RppnxWJUHbojNMNlk/VbYY=
-X-Received: by 2002:aca:dc82:: with SMTP id t124mr1674852oig.14.1593081887835;
- Thu, 25 Jun 2020 03:44:47 -0700 (PDT)
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A0/0UvnsL67ncjdCFuKgWmvyJix4LtHHuV1ma/s4VBo=;
+ b=opKa9FEOIiN1ewXMElyTeCjllBKZyN2OzWtLTOSzE4ov5RqsB5ZmRE5Qgjlf8dduGKTtI0IFHhRpioZ/X7AAFPCayKmNywI5iSfIz+t0yxgjBrQqCRbH9/L3Ppa+lnCer+tFlDLWKiSpZo5o52+4nZrVJWJQmdaqC/0v9k2kiAA=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB3290.jpnprd01.prod.outlook.com (2603:1096:404:7b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.21; Thu, 25 Jun
+ 2020 11:34:16 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3131.020; Thu, 25 Jun 2020
+ 11:34:16 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "rui.zhang@intel.com" <rui.zhang@intel.com>,
+        "daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>,
+        "amit.kucheria@verdurent.com" <amit.kucheria@verdurent.com>
+CC:     "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Van Do <van.do.xw@renesas.com>,
+        Dien Pham <dien.pham.ry@renesas.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3] thermal: rcar_gen3_thermal: Fix undefined temperature
+ if negative
+Thread-Topic: [PATCH v3] thermal: rcar_gen3_thermal: Fix undefined temperature
+ if negative
+Thread-Index: AQHWSpw39QjzWq9LJEeQfL0+FtB5WajpCDcAgAArcNA=
+Date:   Thu, 25 Jun 2020 11:34:15 +0000
+Message-ID: <TY2PR01MB3692CC45140FF53CACD097BBD8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1593053768-31016-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <db9e3bd3-d3f0-61d2-7ffe-3306003f57d8@cogentembedded.com>
+In-Reply-To: <db9e3bd3-d3f0-61d2-7ffe-3306003f57d8@cogentembedded.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: cogentembedded.com; dkim=none (message not signed)
+ header.d=none;cogentembedded.com; dmarc=none action=none
+ header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 2f63b306-889f-431c-40ce-08d818fbb132
+x-ms-traffictypediagnostic: TY2PR01MB3290:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY2PR01MB32903B772A8363E3EECEA63ED8920@TY2PR01MB3290.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0445A82F82
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: cmDSpDQ7UoQDddDjhAyszY6JjlsFiN9tGP3PMPk+zxOp0JQ/Cr3OMxXUhJHa30p4UAIt44lmuybwr7814lwXw5TaxzENA4MUK55wNzTC945E4BN1HVGLNu36EOtWPHr4RoZp56zltrmHormVrYZBrCZGO9kLPX9L/0HZM3l43lRdhw7MwLkfgkj0SeYYF/Bgip8Ux27zUIjTxMXfUwAuSWBNtqhP8PG0B3+BQrYiKbyL0f3b9zuLsSner88AdTqzJu0BvJ1NvZMIoCyMeZ4zGpF0xwTT2+/haoNGxXLCwWhw+22FPTfjVAPQTsJphg5Y
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(9686003)(76116006)(7696005)(66446008)(64756008)(86362001)(110136005)(66476007)(478600001)(83380400001)(66556008)(5660300002)(54906003)(316002)(8936002)(55236004)(55016002)(26005)(6506007)(186003)(4326008)(71200400001)(66946007)(8676002)(2906002)(4744005)(52536014)(33656002)(53546011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: MgBq+rtpD+TLa7P1HCbJaLX2QszxWYwSmI/pZ1N9fcHTg51fSvMR3RdhCuUxgvsLAz2zNOHo49aXQNcC1dnBUhi5baS5HZJutQdPl1hbD6RJZ4YfIYaradjA1aGMpGibyraq0VWYxmjW1pPZFE0snMZSDrv9tjuLvSx8Rn/UH2oRp2obnZpPPFURfsEq48d/cgAZRRhiphacdBWQr6nF8MEiBMvK2TkEgd61KvsVhOItgRAi+m2ZguHJXrREvEthKw1FX7tuCqsyEiVZ/Zy5UMgzaexhSqYXk+aDdYH78hRSUB5prB4Un4QoAlzJgtFAmOkCH37+vFi8fHNaNndD2sdtvEwor/0TYqcBTQN1MK/Pv9LHw7hiYNjMJeUeUb7kGyY7bJKAAdEHYdp0U7OjbaT6r9Wx19B/E2JqAfwyJrjp2L4VULbNbWfumtYVebW/dLkl1n2C+pQ+hxJuI82uPqrYf2B2/28BEXrRGrUStY5y3c7eyXXItXAUf0dMD4pm
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200526011505.31884-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200526011505.31884-28-laurent.pinchart+renesas@ideasonboard.com>
- <20200621084000.GM74146@ravnborg.org> <20200624011209.GU5870@pendragon.ideasonboard.com>
- <20200624072304.GT20149@phenom.ffwll.local> <CADnq5_PidPnShdxNwCN4v++CirpKvPiY4yuN5eyK-R5+FcQV4A@mail.gmail.com>
- <CAKMK7uEKeY=onmhrMdb+c-uW7iyPXGDdbc-3jO4XuXPEpMn2ig@mail.gmail.com>
- <CADnq5_OyZb9xs+aLQ1rRUv8qvLTrnKD8Y7eUs=iVD3pUrc3RiA@mail.gmail.com>
- <20200625075655.GC3278063@phenom.ffwll.local> <CAKMK7uF70UO=vDDnERnQ49rH1yN8gQQD91GKq1j8+eQV9mf1xA@mail.gmail.com>
- <20200625133157.0e749602@eldfell>
-In-Reply-To: <20200625133157.0e749602@eldfell>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 25 Jun 2020 12:44:36 +0200
-Message-ID: <CAKMK7uGF_t+zW4tyO42HN2BbV1j6fVFfVHF8Xph10bAygdsXPQ@mail.gmail.com>
-Subject: Re: [PATCH 27/27] drm: Add default modes for connectors in unknown state
-To:     Pekka Paalanen <ppaalanen@gmail.com>
-Cc:     Alex Deucher <alexdeucher@gmail.com>,
-        Simon Ser <contact@emersion.fr>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f63b306-889f-431c-40ce-08d818fbb132
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2020 11:34:16.0264
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zDajThmS+go6jiuLoMMNimnFPlLILFZeQxXIFiWod6S8vaHbEem05MIZ9PxZnMAyhAQb3RmJPpd4g1a2w832bDmsNAO33KS1F3CIZYlfb498sMyhDq//+o1k2GzH+FHt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3290
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 25, 2020 at 12:32 PM Pekka Paalanen <ppaalanen@gmail.com> wrote=
-:
->
-> On Thu, 25 Jun 2020 09:57:44 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Thu, Jun 25, 2020 at 9:56 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Wed, Jun 24, 2020 at 03:40:42PM -0400, Alex Deucher wrote:
-> > > > On Wed, Jun 24, 2020 at 3:31 PM Daniel Vetter <daniel@ffwll.ch> wro=
-te:
-> > > > >
-> > > > > On Wed, Jun 24, 2020 at 5:24 PM Alex Deucher <alexdeucher@gmail.c=
-om> wrote:
-> > > > > >
-> > > > > > On Wed, Jun 24, 2020 at 3:23 AM Daniel Vetter <daniel@ffwll.ch>=
- wrote:
-> > > > > > >
-> > > > > > > On Wed, Jun 24, 2020 at 04:12:09AM +0300, Laurent Pinchart wr=
-ote:
-> > > > > > > > Hi Sam,
-> > > > > > > >
-> > > > > > > > On Sun, Jun 21, 2020 at 10:40:00AM +0200, Sam Ravnborg wrot=
-e:
-> > > > > > > > > On Tue, May 26, 2020 at 04:15:05AM +0300, Laurent Pinchar=
-t wrote:
-> > > > > > > > > > The DRM CRTC helpers add default modes to connectors in=
- the connected
-> > > > > > > > > > state if no mode can be retrieved from the connector. T=
-his behaviour is
-> > > > > > > > > > useful for VGA or DVI outputs that have no connected DD=
-C bus. However,
-> > > > > > > > > > in such cases, the status of the output usually can't b=
-e retrieved and
-> > > > > > > > > > is reported as connector_status_unknown.
-> > > > > > > > > >
-> > > > > > > > > > Extend the addition of default modes to connectors in a=
-n unknown state
-> > > > > > > > > > to support outputs that can retrieve neither the modes =
-nor the
-> > > > > > > > > > connection status.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renes=
-as@ideasonboard.com>
-> > > > > > > > >
-> > > > > > > > > From your description sounds like an OK approach.
-> > > > > > > > > But this is not something I feel too familiar with.
-> > > > > > > > > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > > > > > > >
-> > > > > > > > Thanks for the ack. I'd like to have Daniel's (CC'ed) feedb=
-ack on this
-> > > > > > > > too.
-> > > > > > >
-> > > > > > > Makes sense, and at least pre-coffee me can't immediately thi=
-nk of a
-> > > > > > > scenario where we're going to regret this. _unknown status is=
- pretty much
-> > > > > > > limited to old VGA and similar things where load detect someh=
-ow isn't well
-> > > > > > > supported by the hw.
-> > > > > > >
-> > > > > > > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > > > >
-> > > > > > > >
-> > > > > > > > > > ---
-> > > > > > > > > >  drivers/gpu/drm/drm_probe_helper.c       | 3 ++-
-> > > > > > > > > >  include/drm/drm_modeset_helper_vtables.h | 8 +++++++-
-> > > > > > > > > >  2 files changed, 9 insertions(+), 2 deletions(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drive=
-rs/gpu/drm/drm_probe_helper.c
-> > > > > > > > > > index f5d141e0400f..9055d9573c90 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > > > > > > > > @@ -491,7 +491,8 @@ int drm_helper_probe_single_connect=
-or_modes(struct drm_connector *connector,
-> > > > > > > > > >   if (count =3D=3D 0 && connector->status =3D=3D connec=
-tor_status_connected)
-> > > > > > > > > >           count =3D drm_add_override_edid_modes(connect=
-or);
-> > > > > > > > > >
-> > > > > > > > > > - if (count =3D=3D 0 && connector->status =3D=3D connec=
-tor_status_connected)
-> > > > > > > > > > + if (count =3D=3D 0 && (connector->status =3D=3D conne=
-ctor_status_connected ||
-> > > > > > > > > > +                    connector->status =3D=3D connector=
-_status_unknown))
-> > > > > > > > > >           count =3D drm_add_modes_noedid(connector, 102=
-4, 768);
-> > > > > > > > > >   count +=3D drm_helper_probe_add_cmdline_mode(connecto=
-r);
-> > > > > > > > > >   if (count =3D=3D 0)
-> > > > > > > > > > diff --git a/include/drm/drm_modeset_helper_vtables.h b=
-/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > > index 421a30f08463..afe55e2e93d2 100644
-> > > > > > > > > > --- a/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > > +++ b/include/drm/drm_modeset_helper_vtables.h
-> > > > > > > > > > @@ -876,13 +876,19 @@ struct drm_connector_helper_funcs=
- {
-> > > > > > > > > >    * The usual way to implement this is to cache the ED=
-ID retrieved in the
-> > > > > > > > > >    * probe callback somewhere in the driver-private con=
-nector structure.
-> > > > > > > > > >    * In this function drivers then parse the modes in t=
-he EDID and add
-> > > > > > > > > > -  * them by calling drm_add_edid_modes(). But connecto=
-rs that driver a
-> > > > > > > > > > +  * them by calling drm_add_edid_modes(). But connecto=
-rs that drive a
-> > > > > > > > > >    * fixed panel can also manually add specific modes u=
-sing
-> > > > > > > > > >    * drm_mode_probed_add(). Drivers which manually add =
-modes should also
-> > > > > > > > > >    * make sure that the &drm_connector.display_info,
-> > > > > > > > > >    * &drm_connector.width_mm and &drm_connector.height_=
-mm fields are
-> > > > > > > > > >    * filled in.
-> > > > > > > > > >    *
-> > > > > > > > > > +  * Note that the caller function will automatically a=
-dd standard VESA
-> > > > > > > > > > +  * DMT modes up to 1024x768 if the .get_modes() helpe=
-r operation returns
-> > > > > > > > > > +  * no mode and if the connector status is connector_s=
-tatus_connected or
-> > > > > > > > > > +  * connector_status_unknown. There is no need to call
-> > > > > > > > > > +  * drm_add_edid_modes() manually in that case.
-> > > > > > >
-> > > > > > > Hm calling drm_add_edid_modes if you have no edid is a bit a =
-funny idea
-> > > > > > > ... Personally I'd just leave out the last sentence, I think =
-that only
-> > > > > > > confuses readers. Or I'm not grasphing what you're trying to =
-tell here.
-> > > > > >
-> > > > > > IIRC, some drivers used and desktop environments expected unkno=
-wn
-> > > > > > rather than off for LVDS/eDP panels when the lid was shut or if=
- the
-> > > > > > mux was switched to another device in the case of hybrid laptop=
-s.
-> > > > >
-> > > > > We seem to have totally ditched that in
-> > > > >
-> > > > > commit 05c72e77ccda89ff624108b1b59a0fc43843f343
-> > > > > Author: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> > > > > Date:   Tue Jul 17 20:42:14 2018 +0300
-> > > > >
-> > > > >     drm/i915: Nuke the LVDS lid notifier
-> > > > >
-> > > > > No screaming yet.
-> > > > >
-> > > > > But I'm also a bit confused, for a panel there's generally an edi=
-d
-> > > > > around, or a fixed (list of) modes. That's enough to stop this
-> > > > > fallback from running, so should be all fine.
-> > > >
-> > > > No, you are right; you will have the EDID so this shouldn't be an
-> > > > issue.  I was mis-remembering the original issue.  We originally
-> > > > always reported connected for LVDS in radeon if the panel was prese=
-nt,
-> > > > but then we got flack because some userspace expected unknown in
-> > > > certain cases (e.g., lid or muxed displays).  Either way the EDID i=
-nfo
-> > > > is still there.
-> > >
-> > > Yeah I think i915 started that habit, but I guess people realized it'=
-s
-> > > unreliable enough that they should have their own lid handler in the
-> > > desktop enviromnent doing whatever they want to do on lid close.
-> > >
-> > > Should we perhaps document that somewhere, that panels are always mar=
-ked
-> > > as connected? Not even sure where to put that in the docs ...
-> > >
-> > > Maybe adding a few of the usual suspects from the compositor side, Si=
-mon,
-> > > Pekka?
-> >
-> > Actually adding Simon and Pekka this time around ...
->
-> I don't know what anyone else does, but Weston (is not a DE) does not
-> look at any lid switch, and assumes that if connector status is not
-> DRM_MODE_CONNECTED, then it is disconnected. So, if a driver switched
-> to "Unknown" status, it would be taken as disconnected.
-
-Maybe an aside, but the guideline is for autoconfiguration:
-- Light up everything that has connector status connected.
-- If nothing has that status, try to light up the connectors with
-status "unknown".
-
-This is only really relevant on older platforms, mostly for VGA and
-somewhat for dvi outputs.
-
-Maybe another thing we should put down somewhere in the uapi docs ...
--Daniel
-
-
->
-> I never knew what "Unknown" was relevant for. In weston.ini you can
-> also force a connector on, so users could drive it regardless.
->
-> However, I would also say that Weston is not supposed to react to any
-> lid action exactly because it does not watch the lid switch. Personally
-> I would expect a built-in screen to stay on even if lid closed.
->
-> Panels that are always connected showing up as always connected, sounds
-> good to me.
->
->
-> Thanks,
-> pq
-
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+SGVsbG8hDQoNCj4gRnJvbTogU2VyZ2VpIFNodHlseW92LCBTZW50OiBUaHVyc2RheSwgSnVuZSAy
+NSwgMjAyMCA1OjU4IFBNDQo+IA0KPiBIZWxsbyENCj4gDQo+IE9uIDI1LjA2LjIwMjAgNTo1Niwg
+WW9zaGloaXJvIFNoaW1vZGEgd3JvdGU6DQo+IA0KPiA+IEZyb206IERpZW4gUGhhbSA8ZGllbi5w
+aGFtLnJ5QHJlbmVzYXMuY29tPg0KPiA+DQo+ID4gQXMgZGVzY3JpcHRpb24gZm9yIERJVl9ST1VO
+RF9DTE9TRVNUIGluIGZpbGUgaW5jbHVkZS9saW51eC9rZXJuZWwuaC4NCj4gPiAgICAiUmVzdWx0
+IGlzIHVuZGVmaW5lZCBmb3IgbmVnYXRpdmUgZGl2aXNvcnMgaWYgdGhlIGRpdmlkZW5kIHZhcmlh
+YmxlDQo+ID4gICAgIHR5cGUgaXMgdW5zaWduZWQgYW5kIGZvciBuZWdhdGl2ZSBkaXZpZGVuZHMg
+aWYgdGhlIGRpdmlzb3IgdmFyaWFibGUNCj4gPiAgICAgdHlwZSBpcyB1bnNpZ25lZC4iDQo+ID4N
+Cj4gPiBJbiBjdXJyZW50IGNvZGUsIHRoZSBGSVhQVF9ESVYgdXNlcyBESVZfUk9VTkRfQ0xPU0VT
+VCBidXQgaGFzIG5vdA0KPiA+IGNoZWNrZWQgc2lnbiBvZiBkaXZpc29yIGJlZm9yZSB1c2luZy4g
+SXQgbWFrZXMgdW5kZWZpbmVkIHRlbXBlcmF0dXJlDQo+ID4gdmFsdWUgaW4gY2FzZSB0aGUgdmFs
+dWUgaXMgbmVnYXRpdmUuDQo+ID4NCj4gPiBUaGlzIHBhdGNoIGZpeGVzIHRvIHNhdGlzZnkgRElW
+X1JPVU5EX0NMT1NFU1QgZGVzY3JpcHRpb24NCj4gPiBhbmQgZml4IGJ1ZyB0b28uIE5vdGUgdGhh
+dCB0aGUgdmFyaWFibGUgbmFtZSAicmVnIiBpcyBub3QgZ29vZA0KPiA+IGJlY2F1c2UgaXQgc2hv
+dWxkIGJlIHRoZSBzYW1lIHR5cGUgYXMgcmNhcl9nZW4zX3RoZXJtYWxfcmVhZCgpLg0KPiA+IEhv
+d2V2ZXIsIHRoZXJlIGlzIGJldHRlciB0byByZW5hbWUgaXQgaW4gYSBmdXJ0aGVyIHBhdGNoIGFz
+DQo+IA0KPiAgICAgSXQncyBiZXR0ZXIuDQoNClRoYW5rIHlvdSBmb3IgeW91ciByZXZpZXchIEkn
+bGwgZml4IGl0Lg0KDQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0KDQo=
