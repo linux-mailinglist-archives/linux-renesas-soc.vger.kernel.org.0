@@ -2,64 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 796FB20AF4F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2020 12:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB0D020AF71
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2020 12:13:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbgFZKAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Jun 2020 06:00:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725883AbgFZKAf (ORCPT
+        id S1726917AbgFZKNk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Jun 2020 06:13:40 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42722 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726553AbgFZKNk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Jun 2020 06:00:35 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593165635;
-        bh=G1dSBJ2MhTQTj0wU8Wg7ADNhvazdZWw3MMb428Hb+b0=;
-        h=Subject:From:Date:To:From;
-        b=D+MGPdR6jQSOvyKFaZgdM29DRKCHlrQVXdM1THrIjV7QIKYVgTEHA/JAm/BLwe8GU
-         xaW2LaGhV34SNor+dRW5UVJe7WMEz0XW3TZAmgv968qlBVVCAQKxQq/Yplbbq7mOHN
-         FaAkuijqur1mJTh0AjRdcYlPmoTSOm4w8xxjKhsc=
+        Fri, 26 Jun 2020 06:13:40 -0400
+Received: by mail-ot1-f67.google.com with SMTP id t6so8084837otk.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jun 2020 03:13:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r0z2YyCdGC+xU3ACdwlZEI1kOh3mIWBIFw/ZGb32d3U=;
+        b=OjyloDzLrOASubhQR1BuVfsMMeQ8G35HeUxQTDs292c9+qAym+Ord4menAqTmifmWn
+         FCDqdVt5vHE1vJReyTCmnDQ/w23nKezOlyxMFUlx0M4cZ0UP0vzoKJxY69GiB3AK5/Il
+         JrgVBN/WTSi398XWSqbg7zT2lcWm49vRI+NhrzQCFHzAXJwGCKLC2dzm6EfvatjFpYnJ
+         TgcwWRFu/cFpo1be6qM+BMcsi5KNtUyRufzE8G376ef3gU7nw65VUbD3hsnBZ9AnL2Yq
+         aEWFlcGZXIA8klj6atXousf4z9F76Xxi1AK8qGN2Zl6NikXdQd554uVI7eAFp4bwuK13
+         MAlg==
+X-Gm-Message-State: AOAM532Tr9NKWAg8DfJzP3G9WzbIP+1f5L3ftepvoEcgdTjYdM3WhsyV
+        rdCzdlBrb+gfMNsoAPhcX+FjaCO5Bgoxdusyrn14rw==
+X-Google-Smtp-Source: ABdhPJzK6XKnotHvwxIUZCpYVhiP/BVvzavep/gIy/ZFe5xWhYp5qP5OeOT7l1rhJectloVYDpW+T4zIpphUmdVt27A=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr1615175otb.107.1593166419680;
+ Fri, 26 Jun 2020 03:13:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159316563499.27998.3093973921853873921.git-patchwork-summary@kernel.org>
-Date:   Fri, 26 Jun 2020 10:00:34 +0000
-To:     linux-renesas-soc@vger.kernel.org
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 26 Jun 2020 12:13:28 +0200
+Message-ID: <CAMuHMdU0OEA7seCDadrSsNYXHQJOuSRrm8O439PK_pf3NoLxsg@mail.gmail.com>
+Subject: Re: [PATCH/RFC v4 0/4] treewide: add regulator condition on _mmc_suspend()
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Hi Shimoda-san,
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel (refs/heads/next):
+[reducing audience]
 
-Series: Add support for HiHope RZ/G2M[N] Rev.3.0/4.0
-  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=307887
-  Link: <1593004330-5039-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-    Patches: [v2,01/11] arm64: dts: renesas: r8a774a1-hihope-rzg2m[-ex/-ex-idk-1110wr]: Rename HiHope RZ/G2M boards
-             [v2,02/11] arm64: dts: renesas: r8a774b1-hihope-rzg2n[-ex]: Rename HiHope RZ/G2N boards
-             [v2,03/11] arm64: dts: renesas: hihope-common: Separate out Rev.2.0 specific into hihope-common-rev2.dtsi file
-             [v2,04/11] arm64: dts: renesas: Add HiHope RZ/G2M[N] Rev.3.0/4.0 specific into common file
-             [v2,05/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 main board support
-             [v2,06/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 sub board support
-             [v2,07/11] arm64: dts: renesas: hihope-rzg2-ex: Separate out lvds specific nodes into common file
-             [v2,08/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 board with idk-1110wr display
-             [v2,09/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 main board support
-             [v2,10/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 sub board support
-             [v2,11/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev2.0/3.0/4.0 board with idk-1110wr display
+On Fri, Jun 26, 2020 at 11:32 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Note that v5.8-rc2 with r8a77951-salvator-xs seems to cause panic from
+> PCI driver when the system is suspended. So, I disabled the PCI
+> devices when I tested this patch series.
 
-Patch: [PATCH/RFC] arm64: dts: renesas: r8a77961: add IPMMU nodes
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=301227
-  Link: <1591874021-10209-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Does this happen with current renesas-devel and renesas_defconfig?
+(it doesn't for me)
+Do you have any PCIe devices attached? (I haven't)
 
-Total patches: 12
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
