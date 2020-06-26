@@ -2,84 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 848E920AF49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2020 11:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 796FB20AF4F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jun 2020 12:00:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgFZJ6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Jun 2020 05:58:43 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38643 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgFZJ6m (ORCPT
+        id S1727017AbgFZKAf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Jun 2020 06:00:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39588 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725883AbgFZKAf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Jun 2020 05:58:42 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 64so8077880oti.5;
-        Fri, 26 Jun 2020 02:58:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e2dqcwXTdyOJAFVvkqHrRHyY1o/I4KrR4eUDymmwSkA=;
-        b=HLkuc+2j9EcYcjRBflVwOSdSJo0EPSb1rOy2KiiSM6KQNnRENndSASWtaVWINRlovW
-         ZErHl+7juS00Xc77/dIirSyU1FDiAO5o7q2SAyucM5+WsfPE/u7evsqWHjRA9k5PDgO9
-         C3EGfH9YeVND9jz/WRFkcn9Qmp2WWpzHuAG99JdDqf477plyBXyx91sNsl06VUggHtVV
-         6o+7EUFmvYnAysl9ZQxVqJIUw7Ki5epxHbT873DJOEsNhiyc8M/0GzODg7iDhkFvZHGD
-         uItxdxnin3O6tbcSM21/ksr5Gs5DriNFUZqJLPljeMR44oBudHpqDuAtGRFY/sbwQQK5
-         E7BQ==
-X-Gm-Message-State: AOAM530WNjCd65mR5tIiRfkJBXHpwiRudx9T1eTcYYHxCcp9SbAx84OC
-        SoP0ILThw0H9durxMXh1+GkS41nIbB/BrHKe7E4=
-X-Google-Smtp-Source: ABdhPJy2mJyJ72REVvD0ZwWCNMyRQAYZeawpbyg+bPbm81IWgnDp+gA1PIi22cZ3RKxCTxZSNukTskI2qqvQ2O4VQIQ=
-X-Received: by 2002:a4a:db4b:: with SMTP id 11mr1707518oot.11.1593165521783;
- Fri, 26 Jun 2020 02:58:41 -0700 (PDT)
+        Fri, 26 Jun 2020 06:00:35 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593165635;
+        bh=G1dSBJ2MhTQTj0wU8Wg7ADNhvazdZWw3MMb428Hb+b0=;
+        h=Subject:From:Date:To:From;
+        b=D+MGPdR6jQSOvyKFaZgdM29DRKCHlrQVXdM1THrIjV7QIKYVgTEHA/JAm/BLwe8GU
+         xaW2LaGhV34SNor+dRW5UVJe7WMEz0XW3TZAmgv968qlBVVCAQKxQq/Yplbbq7mOHN
+         FaAkuijqur1mJTh0AjRdcYlPmoTSOm4w8xxjKhsc=
 MIME-Version: 1.0
-References: <1593004330-5039-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1593004330-5039-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 26 Jun 2020 11:58:30 +0200
-Message-ID: <CAMuHMdVAnmE6d3cc7ejnOZuFTZbPgavB3rpTZ0R6H-SQjw4COA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] Add support for HiHope RZ/G2M[N] Rev.3.0/4.0
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159316563499.27998.3093973921853873921.git-patchwork-summary@kernel.org>
+Date:   Fri, 26 Jun 2020 10:00:34 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello:
 
-On Wed, Jun 24, 2020 at 3:12 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> This patch series adds supports for HiHope RZ/G2M[N] Rev.3.0/4.0
-> boards.
->
-> Patches are based on top of renesas-arm-dt-for-v5.9 branch [1].
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
->
-> Changes for v2:
-> * Added Reviewed-by tag from Geert
-> * Renamed hihope-common-rev2.dtsi to hihope-rev2.dtsi
-> * Added comment wrt SW43 in r8a774a1-hihope-rzg2m-rev2-ex.dts
-> * Renamed hihope-common-rev4.dtsi to hihope-rev4.dtsi
-> * LED node names in hihope-common.dtsi are updated according to Rev.4.0
-> * Removed extra line from patch 10/11
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/next):
 
-Thanks, queued in renesas-devel for v5.9, with the old hihope-common-rev*
-references updated.
+Series: Add support for HiHope RZ/G2M[N] Rev.3.0/4.0
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=307887
+  Link: <1593004330-5039-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+    Patches: [v2,01/11] arm64: dts: renesas: r8a774a1-hihope-rzg2m[-ex/-ex-idk-1110wr]: Rename HiHope RZ/G2M boards
+             [v2,02/11] arm64: dts: renesas: r8a774b1-hihope-rzg2n[-ex]: Rename HiHope RZ/G2N boards
+             [v2,03/11] arm64: dts: renesas: hihope-common: Separate out Rev.2.0 specific into hihope-common-rev2.dtsi file
+             [v2,04/11] arm64: dts: renesas: Add HiHope RZ/G2M[N] Rev.3.0/4.0 specific into common file
+             [v2,05/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 main board support
+             [v2,06/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 sub board support
+             [v2,07/11] arm64: dts: renesas: hihope-rzg2-ex: Separate out lvds specific nodes into common file
+             [v2,08/11] arm64: dts: renesas: Add HiHope RZ/G2M Rev.3.0/4.0 board with idk-1110wr display
+             [v2,09/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 main board support
+             [v2,10/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev.3.0/4.0 sub board support
+             [v2,11/11] arm64: dts: renesas: Add HiHope RZ/G2N Rev2.0/3.0/4.0 board with idk-1110wr display
 
-Gr{oetje,eeting}s,
+Patch: [PATCH/RFC] arm64: dts: renesas: r8a77961: add IPMMU nodes
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=301227
+  Link: <1591874021-10209-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 
-                        Geert
+Total patches: 12
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
