@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABDD20BC3A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jun 2020 00:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3940420BC39
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jun 2020 00:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725803AbgFZWMi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1725834AbgFZWMi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 26 Jun 2020 18:12:38 -0400
-Received: from mga17.intel.com ([192.55.52.151]:21751 "EHLO mga17.intel.com"
+Received: from mga01.intel.com ([192.55.52.88]:19541 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725832AbgFZWMi (ORCPT
+        id S1725803AbgFZWMi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 26 Jun 2020 18:12:38 -0400
-IronPort-SDR: WoButE836GL+QGYa7HoGZjL9Ba614JDz5Hv6ZJ7YDVmeUDif5zpRObYUh1551tci6tn+xrmFsB
- 5FcVGX5+ok2Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9664"; a="125683765"
+IronPort-SDR: 001T8/tOVac0ptBmBbDGhfF9Y7NSmJgG+3oLKCJBdxAPoQcDXgE6DFHOn9iqoVw8AQR7fyoxvR
+ R1ntOd7hPHoQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9664"; a="163539222"
 X-IronPort-AV: E=Sophos;i="5.75,285,1589266800"; 
-   d="scan'208";a="125683765"
+   d="scan'208";a="163539222"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2020 15:12:36 -0700
-IronPort-SDR: FqgObh91Nx+FPm37IlEv9d6iE98m30+j8rLjIJ+CuFdmnWrLQqfb7cVwKJ/Yk1qrl2d9MZxbk+
- 9EaXuDAJHA7w==
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2020 15:12:36 -0700
+IronPort-SDR: 13v5wblLOKf5L+AH83QlMS4dRxj8nBWYQA5i0aJFMxcC/lpis9+7Flr39UlS8in0OYxUWrJ2/d
+ VKRbdtz+iI7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,285,1589266800"; 
-   d="scan'208";a="385883430"
+   d="scan'208";a="265726802"
 Received: from lkp-server01.sh.intel.com (HELO 538b5e3c8319) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Jun 2020 15:12:35 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Jun 2020 15:12:35 -0700
 Received: from kbuild by 538b5e3c8319 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jowaJ-0002UG-49; Fri, 26 Jun 2020 22:12:35 +0000
-Date:   Sat, 27 Jun 2020 06:11:40 +0800
+        id 1jowaJ-0002UE-3Y; Fri, 26 Jun 2020 22:12:35 +0000
+Date:   Sat, 27 Jun 2020 06:11:43 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 858861023cecc8ebd10e52a1ce69bea6b325374f
-Message-ID: <5ef6729c.lmcT7OlqO8xfZYWj%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
+ 667175f5029c5f6ec7a72811fc6b14c33d252286
+Message-ID: <5ef6729f.MJM/YGefcTQlcepB%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,13 +47,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: 858861023cecc8ebd10e52a1ce69bea6b325374f  Merge branch 'renesas-arm-dt-for-v5.9' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
+branch HEAD: 667175f5029c5f6ec7a72811fc6b14c33d252286  arm64: dts: renesas: Add HiHope RZ/G2N Rev2.0/3.0/4.0 board with idk-1110wr display
 
 elapsed time: 721m
 
 configs tested: 112
-configs skipped: 103
+configs skipped: 107
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -80,7 +80,6 @@ i386                             alldefconfig
 nds32                             allnoconfig
 sh                           se7724_defconfig
 mips                     loongson1b_defconfig
-parisc                            allnoconfig
 arm                            lart_defconfig
 i386                              allnoconfig
 i386                             allyesconfig
@@ -118,6 +117,7 @@ microblaze                        allnoconfig
 mips                             allyesconfig
 mips                              allnoconfig
 mips                             allmodconfig
+parisc                            allnoconfig
 parisc                              defconfig
 parisc                           allyesconfig
 parisc                           allmodconfig
