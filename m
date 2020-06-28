@@ -2,157 +2,301 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E276820C84A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jun 2020 15:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CFE20C906
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jun 2020 18:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgF1NuS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 28 Jun 2020 09:50:18 -0400
-Received: from mail-eopbgr20053.outbound.protection.outlook.com ([40.107.2.53]:12353
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726344AbgF1NuS (ORCPT
+        id S1726143AbgF1QjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 28 Jun 2020 12:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgF1QjF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 28 Jun 2020 09:50:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VX4NO+2QefpPiLY9mVoLr/yAUn1vaP/s3+0fqRBOipZayLbtzhmvTP68UplpZJ8F07givaf15QfnZ5cDJAGe3bnEtge1vu8dlJSd7iMbrGRF7ZhXQNvXX+Nu8/ppsUTuT/vXsOrAE8PPsxNMNdLKFopAxI4QGTIa/XuHV3Q0dI7z1A7lSxsT/H5OyXZOJKCtJzibhsT+M0Ay/PSZHBHV7VQbj+ENQOcWiNwzH/8MGNB1/JeKPNbhaCd4sBe637ZQBjQAaD1ua2AFl0uBDHxaQT1KzdJ72g5RJwa61gGezMlTwlUjCHm2xFp9b1euYz5TEKfDeugeT+FaVyT6ve2n7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MVyY4PtiefelYoXosk1WKVAlsoMUecVd4Ow0u6teA4w=;
- b=TCfqNlTSb0tu24IUORt2ldwWcplYn8NyhPMyCmn7BEjf7+UxBmjBK+a5kyKqzHTpM/HElBoEDiQfwOtbZOnlOb8h7Yf6Hjjreffm77sp+QeEVSTkS1/DUU9lhIkAgyFHQVaPVFuXWVl/IL1iE+5UHDT81/v21+EPLY7QbxSqOgDxlFjDlKkHFXgbRmhVyDVhB9+QyQhcdTBRhOZ3OHIXR2lac2DGroKKf5S7OTsXUjoMVcOKanwSKSBvCFCYXBUt5uL+eAAzkuBYwpYDeT++WKiecvfUKSyhps3vk41OoKtZZ7F9a2LxpCYJUxNH2sVavLdbXOzk1AOFmJS0WjgyoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MVyY4PtiefelYoXosk1WKVAlsoMUecVd4Ow0u6teA4w=;
- b=D6gkX8cc4oPxMlXYUqKEOJbVDlVN4h/nqlVveIrniDRb6Awmr2TuIIEeUSlNt/FuRg+CXpN381c9AcyAG6Svnm7OjtO87qvktYb6Ge/jVDPolwaH/rP482LggF8onD8tOav+VzLO7wT8czBHoRuYWfV73bNsk7aQVWvJMpNt+7Q=
-Received: from AM6PR05MB6168.eurprd05.prod.outlook.com (2603:10a6:20b:2a::21)
- by AM6PR05MB5078.eurprd05.prod.outlook.com (2603:10a6:20b:12::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Sun, 28 Jun
- 2020 13:50:14 +0000
-Received: from AM6PR05MB6168.eurprd05.prod.outlook.com
- ([fe80::a5c8:67a9:1634:8a08]) by AM6PR05MB6168.eurprd05.prod.outlook.com
- ([fe80::a5c8:67a9:1634:8a08%3]) with mapi id 15.20.3131.026; Sun, 28 Jun 2020
- 13:50:14 +0000
-From:   Michael Shych <michaelsh@mellanox.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Vadim Pasternak <vadimp@mellanox.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC PATCH 1/2] i2c: mlxcpld: check correct size of maximum
- RECV_LEN packet
-Thread-Topic: [RFC PATCH 1/2] i2c: mlxcpld: check correct size of maximum
- RECV_LEN packet
-Thread-Index: AQHWTUKphTsXSb6mkkaM23FqIchUdKjuCozg
-Date:   Sun, 28 Jun 2020 13:50:14 +0000
-Message-ID: <AM6PR05MB61688309AFCF832CA4D67696D9910@AM6PR05MB6168.eurprd05.prod.outlook.com>
-References: <20200628115245.9638-1-wsa+renesas@sang-engineering.com>
- <20200628115245.9638-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200628115245.9638-2-wsa+renesas@sang-engineering.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=mellanox.com;
-x-originating-ip: [109.186.100.168]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 73a1c4e0-0962-4c45-6db0-08d81b6a2f03
-x-ms-traffictypediagnostic: AM6PR05MB5078:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR05MB5078E3BF3029AC6879B39E07D9910@AM6PR05MB5078.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0448A97BF2
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 12XXaOow/Qv74lHwDzRY4YF26KHQZ7M4m9u0pveI9F+Ci97rOJQa8jFUL07XkVPtgv0y+I+rmxUx8lR33IrxJHmOf7R4TXUG2Na2D3X+7jXcE6mxRYbSj8FAUOCJsQhJDsFoWYidUXO5CXgX6sZPRCtxvMeuHAexppSIc26SXr8WowPMrjA2HbkkAO76MWXnYbrn+mBRbAN2oPL4jO2lkzOjCS1yoAHioZukBsTXXBXGl+w8yTiFz4e/v5oX2pW98E4UX+oquQyK2LECqT3wcoxYdTKoc6DnDKAGHyyXfWg6kMciZHwfQAmNUrUDQb/PU/tEzktGU5VJeKt5N39rMnCLldJP/MtVNA7fEG6GyB7/Sw2bfYc5Ca4zDIf76oV1
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR05MB6168.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(346002)(39860400002)(366004)(136003)(396003)(9686003)(66476007)(186003)(66946007)(52536014)(76116006)(66556008)(64756008)(66446008)(71200400001)(26005)(7696005)(8936002)(33656002)(53546011)(4326008)(8676002)(5660300002)(83380400001)(478600001)(2906002)(55016002)(54906003)(316002)(86362001)(110136005)(6506007)(133343001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: q4gm8pvwoXLlwdpk+5DTGU0jwKeKK9pfIE3b6hTXzGQR24I91sGhdxC6yp4D1sDTqpsZc97dODRXhonu3z2JYbgEu0nh9w8OfHOfJGJI9aaqTevwp9iYqwdkSTe7rdWvZBfmnfxciD3UOfeGq+sEGg3crxEIYAuvYjvhZ2mm52lpfgEIGgEiMlpox2RChYHBBEt8z2huBTp4+4EusbVsu8OF/INkjPPY2ao4DrYiUg5iBhf3cr0dDOC6X5Fulwxak4f4JXxdqgj8SqUJXvS7vdr1J5c9pvUVCQAFhPAqwoiWunJvcROoPl7smygo5lk4Sx/wK2MoSTkZovhSIRdAaZunT9WcXXStsqmNJy41M2TpGAdWeeA1fjbSByGQL0sOrMI5kuYIBjMDSKAumUmrm4YVvucAxNtnhKHwF4DiWl6LpWbyr/FmwzO/gi3dwcJY//KQxLnB41WQNL9WEE26kL2kKHjEfkslX3FF56wMVPHmzY8lGegFfM/Z+AfwGvtk
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Sun, 28 Jun 2020 12:39:05 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A06FC03E979
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Jun 2020 09:39:05 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id t74so7796900lff.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Jun 2020 09:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=44jYHq4vsT34apIFOBTKIM6GNTAQfLucICyAOjYoaHI=;
+        b=xv5roH2MW70tL4MGfmDBsFBeMTFdN8HNMhSdntgUB8K6FBEY94yiMfdU5C8R+2Itif
+         Q2uET52Mhl6EtTC9yvqAKxK2SC6ri8KaAnJqUlrtUib8JviVdboxI0VYNAIlJDOHB89X
+         CpDjkZKhLrykUkPIfKwtkeqN0Z2Z0Fz4eVehJuHLOQtm/HsRzmZyOuRIwFPxxQLoI0Zo
+         cQgYzTe8RkQtMmyaDhUPjJ1mUpPKEMnx6wcYU+5LSWcMAqJup6/xgxA6rvYPqtndi+E5
+         I6eLaCHaCz4+iI9Iyu0u7vt2kfzr4AMb14WKl18mxiOwJ81sxOa8WoqH8EM2EK6GmVwY
+         EYGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=44jYHq4vsT34apIFOBTKIM6GNTAQfLucICyAOjYoaHI=;
+        b=LmcopSsA+D9aIfpdAwVBYd7WplibPvmxqSyem5Bgx3MOZ2aPjgJWyAMFgydLU0XgUP
+         4qK+Ht04GjvW3LK8KfHhg8BZUbaKRAR0rPO81SyCkg8f7oXC2SXsU5nUj0Y4DKIZ/sNd
+         enJYfp5vxXidGsuBeS/ovsCydbdfmbmKuDB487zH6K+AmZGx/BSE7CwgsO2ii9GMQclc
+         +1fUl1wcu+xSgZDQ2SC+whenaBu0WApTzKwtfV/UBRkWvIjXSc3OtypLXXSCZLrK3rIZ
+         ZsiU65A8epUJS1QJt2IE1hzbGs3ltcpe7qW8Th9aPEQsuLo8qnb+p4WQmRqkzCmoeBnF
+         V+/g==
+X-Gm-Message-State: AOAM533prJZtg5IRssBJLKKCRpToLLRxBgXoryV5R2CugHaGjziEapBB
+        DJ42Trgm+76/PU2mbGOdCS0CRw==
+X-Google-Smtp-Source: ABdhPJwYFpUzHoFTLqaCGCMebyfNZi6L+IyBYJ6JYAp5+Z0/nV2LtvHVREUDHQBCfrnQ0V+l7CWZ1g==
+X-Received: by 2002:a19:4805:: with SMTP id v5mr7212954lfa.75.1593362343618;
+        Sun, 28 Jun 2020 09:39:03 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id j22sm10354676lfe.63.2020.06.28.09.39.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2020 09:39:03 -0700 (PDT)
+Date:   Sun, 28 Jun 2020 18:39:02 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Convert to
+ json-schema
+Message-ID: <20200628163902.GI1105424@oden.dyn.berto.se>
+References: <20200626143638.16512-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR05MB6168.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73a1c4e0-0962-4c45-6db0-08d81b6a2f03
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2020 13:50:14.1372
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7kBgOUcFHN/445Iqd8WR/jn8j1yGNyK9WUXerYNGUnVb1kH9zVHhXqSAbKjR0XHKsJP54yV4RXOiAMzLxkcWtQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5078
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200626143638.16512-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Geert,
 
-You are right, +1 isn't required.
-Checked your patch also on HW. It works OK.
+Thanks for your work.
 
-Thank you,
-    Michael.
-
-> -----Original Message-----
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Sent: Sunday, June 28, 2020 2:53 PM
-> To: linux-i2c@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org; Wolfram Sang <wsa+renesas@sang-
-> engineering.com>; Vadim Pasternak <vadimp@mellanox.com>; Michael Shych
-> <michaelsh@mellanox.com>; Wolfram Sang <wsa@kernel.org>; linux-
-> kernel@vger.kernel.org
-> Subject: [RFC PATCH 1/2] i2c: mlxcpld: check correct size of maximum RECV=
-_LEN
-> packet
->=20
-> I2C_SMBUS_BLOCK_MAX defines already the maximum number as defined in
-> the
-> SMBus 2.0 specs. I don't see a reason to add 1 here. Also, fix the errno
-> to what is suggested for this error.
->=20
-> Fixes: c9bfdc7c16cb ("i2c: mlxcpld: Add support for smbus block read
-> transaction")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 2020-06-26 16:36:38 +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas RZ/A2 combined Pin and GPIO controller Device Tree
+> binding documentation to json-schema.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->=20
-> Only build tested, I don't have the HW. Please let me know if I
-> overlooked something, but to the best of my knowledge, this +1 is wrong.
->=20
->  drivers/i2c/busses/i2c-mlxcpld.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/i2c/busses/i2c-mlxcpld.c b/drivers/i2c/busses/i2c-ml=
-xcpld.c
-> index 2fd717d8dd30..71d7bae2cbca 100644
-> --- a/drivers/i2c/busses/i2c-mlxcpld.c
-> +++ b/drivers/i2c/busses/i2c-mlxcpld.c
-> @@ -337,9 +337,9 @@ static int mlxcpld_i2c_wait_for_tc(struct mlxcpld_i2c=
-_priv
-> *priv)
->  		if (priv->smbus_block && (val &
-> MLXCPLD_I2C_SMBUS_BLK_BIT)) {
->  			mlxcpld_i2c_read_comm(priv,
-> MLXCPLD_LPCI2C_NUM_DAT_REG,
->  					      &datalen, 1);
-> -			if (unlikely(datalen > (I2C_SMBUS_BLOCK_MAX + 1))) {
-> +			if (unlikely(datalen > I2C_SMBUS_BLOCK_MAX)) {
->  				dev_err(priv->dev, "Incorrect smbus block read
-> message len\n");
-> -				return -E2BIG;
-> +				return -EPROTO;
->  			}
->  		} else {
->  			datalen =3D priv->xfer.data_len;
-> --
-> 2.20.1
+>  .../bindings/pinctrl/renesas,rza2-pinctrl.txt |  87 ---------------
+>  .../pinctrl/renesas,rza2-pinctrl.yaml         | 100 ++++++++++++++++++
+>  2 files changed, 100 insertions(+), 87 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> deleted file mode 100644
+> index a63ccd476cdaf919..0000000000000000
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> +++ /dev/null
+> @@ -1,87 +0,0 @@
+> -Renesas RZ/A2 combined Pin and GPIO controller
+> -
+> -The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO controller.
+> -Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> -Each port features up to 8 pins, each of them configurable for GPIO
+> -function (port mode) or in alternate function mode.
+> -Up to 8 different alternate function modes exist for each single pin.
+> -
+> -Pin controller node
+> --------------------
+> -
+> -Required properties:
+> -  - compatible: shall be:
+> -    - "renesas,r7s9210-pinctrl": for RZ/A2M
+> -  - reg
+> -    Address base and length of the memory area where the pin controller
+> -    hardware is mapped to.
+> -  - gpio-controller
+> -    This pin controller also controls pins as GPIO
+> -  - #gpio-cells
+> -    Must be 2
+> -  - gpio-ranges
+> -    Expresses the total number of GPIO ports/pins in this SoC
+> -
+> -Example: Pin controller node for RZ/A2M SoC (r7s9210)
+> -
+> -	pinctrl: pin-controller@fcffe000 {
+> -		compatible = "renesas,r7s9210-pinctrl";
+> -		reg = <0xfcffe000 0x1000>;
+> -
+> -		gpio-controller;
+> -		#gpio-cells = <2>;
+> -		gpio-ranges = <&pinctrl 0 0 176>;
+> -	};
+> -
+> -Sub-nodes
+> ----------
+> -
+> -The child nodes of the pin controller designate pins to be used for
+> -specific peripheral functions or as GPIO.
+> -
+> -- Pin multiplexing sub-nodes:
+> -  A pin multiplexing sub-node describes how to configure a set of
+> -  (or a single) pin in some desired alternate function mode.
+> -  The values for the pinmux properties are a combination of port name, pin
+> -  number and the desired function index. Use the RZA2_PINMUX macro located
+> -  in include/dt-bindings/pinctrl/r7s9210-pinctrl.h to easily define these.
+> -  For assigning GPIO pins, use the macro RZA2_PIN also in r7s9210-pinctrl.h
+> -  to express the desired port pin.
+> -
+> -  Required properties:
+> -    - pinmux:
+> -      integer array representing pin number and pin multiplexing configuration.
+> -      When a pin has to be configured in alternate function mode, use this
+> -      property to identify the pin by its global index, and provide its
+> -      alternate function configuration number along with it.
+> -      When multiple pins are required to be configured as part of the same
+> -      alternate function they shall be specified as members of the same
+> -      argument list of a single "pinmux" property.
+> -      Helper macros to ease assembling the pin index from its position
+> -      (port where it sits on and pin number) and alternate function identifier
+> -      are provided by the pin controller header file at:
+> -      <dt-bindings/pinctrl/r7s9210-pinctrl.h>
+> -      Integers values in "pinmux" argument list are assembled as:
+> -      ((PORT * 8 + PIN) | MUX_FUNC << 16)
+> -
+> -  Example: Board specific pins configuration
+> -
+> -	&pinctrl {
+> -		/* Serial Console */
+> -		scif4_pins: serial4 {
+> -			pinmux = <RZA2_PINMUX(PORT9, 0, 4)>,	/* TxD4 */
+> -				 <RZA2_PINMUX(PORT9, 1, 4)>;	/* RxD4 */
+> -		};
+> -	};
+> -
+> -  Example: Assigning a GPIO:
+> -
+> -	leds {
+> -		status = "okay";
+> -		compatible = "gpio-leds";
+> -
+> -		led0 {
+> -			/* P6_0 */
+> -			gpios = <&pinctrl RZA2_PIN(PORT6, 0) GPIO_ACTIVE_HIGH>;
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> new file mode 100644
+> index 0000000000000000..b7911a994f3a9f12
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> @@ -0,0 +1,100 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/renesas,rza2-pinctrl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/A2 combined Pin and GPIO controller
+> +
+> +maintainers:
+> +  - Chris Brandt <chris.brandt@renesas.com>
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +description:
+> +  The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO
+> +  controller.
+> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> +  Each port features up to 8 pins, each of them configurable for GPIO function
+> +  (port mode) or in alternate function mode.
+> +  Up to 8 different alternate function modes exist for each single pin.
 
+This paragraph formatting looks odd, but I'm not sure it's intentional 
+or not :-) In either case with or without this changed,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> +
+> +properties:
+> +  compatible:
+> +    const: "renesas,r7s9210-pinctrl" # RZ/A2M
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +    description:
+> +      The first cell contains the global GPIO port index, constructed using the
+> +      RZA2_PIN() helper macro in r7s9210-pinctrl.h.
+> +      E.g. "RZA2_PIN(PORT6, 0)" for P6_0.
+> +
+> +  gpio-ranges:
+> +    maxItems: 1
+> +
+> +patternProperties:
+> +  "^.*$":
+> +    if:
+> +      type: object
+> +    then:
+> +      allOf:
+> +        - $ref: pincfg-node.yaml#
+> +        - $ref: pinmux-node.yaml#
+> +      description:
+> +        The child nodes of the pin controller designate pins to be used for
+> +        specific peripheral functions or as GPIO.
+> +
+> +        A pin multiplexing sub-node describes how to configure a set of
+> +        (or a single) pin in some desired alternate function mode.
+> +        The values for the pinmux properties are a combination of port name,
+> +        pin number and the desired function index. Use the RZA2_PINMUX macro
+> +        located in include/dt-bindings/pinctrl/r7s9210-pinctrl.h to easily
+> +        define these.
+> +        For assigning GPIO pins, use the macro RZA2_PIN also in
+> +        to express the desired port pin.
+> +
+> +      properties:
+> +        phandle: true
+> +
+> +        pinmux:
+> +          description:
+> +            Values are constructed from GPIO port number, pin number, and
+> +            alternate function configuration number using the RZA2_PINMUX()
+> +            helper macro in r7s9210-pinctrl.h.
+> +
+> +      required:
+> +        - pinmux
+> +
+> +      additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - gpio-controller
+> +  - '#gpio-cells'
+> +  - gpio-ranges
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/pinctrl/r7s9210-pinctrl.h>
+> +    pinctrl: pin-controller@fcffe000 {
+> +            compatible = "renesas,r7s9210-pinctrl";
+> +            reg = <0xfcffe000 0x1000>;
+> +
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            gpio-ranges = <&pinctrl 0 0 176>;
+> +
+> +            /* Serial Console */
+> +            scif4_pins: serial4 {
+> +                    pinmux = <RZA2_PINMUX(PORT9, 0, 4)>, /* TxD4 */
+> +                             <RZA2_PINMUX(PORT9, 1, 4)>; /* RxD4 */
+> +            };
+> +    };
+> -- 
+> 2.17.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
