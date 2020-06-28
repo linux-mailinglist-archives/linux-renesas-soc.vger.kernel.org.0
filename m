@@ -2,301 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85CFE20C906
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jun 2020 18:39:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2D920C9B0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jun 2020 20:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726143AbgF1QjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 28 Jun 2020 12:39:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726007AbgF1QjF (ORCPT
+        id S1726750AbgF1SqD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 28 Jun 2020 14:46:03 -0400
+Received: from www.zeus03.de ([194.117.254.33]:49530 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726699AbgF1SqC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 28 Jun 2020 12:39:05 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A06FC03E979
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Jun 2020 09:39:05 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id t74so7796900lff.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Jun 2020 09:39:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=44jYHq4vsT34apIFOBTKIM6GNTAQfLucICyAOjYoaHI=;
-        b=xv5roH2MW70tL4MGfmDBsFBeMTFdN8HNMhSdntgUB8K6FBEY94yiMfdU5C8R+2Itif
-         Q2uET52Mhl6EtTC9yvqAKxK2SC6ri8KaAnJqUlrtUib8JviVdboxI0VYNAIlJDOHB89X
-         CpDjkZKhLrykUkPIfKwtkeqN0Z2Z0Fz4eVehJuHLOQtm/HsRzmZyOuRIwFPxxQLoI0Zo
-         cQgYzTe8RkQtMmyaDhUPjJ1mUpPKEMnx6wcYU+5LSWcMAqJup6/xgxA6rvYPqtndi+E5
-         I6eLaCHaCz4+iI9Iyu0u7vt2kfzr4AMb14WKl18mxiOwJ81sxOa8WoqH8EM2EK6GmVwY
-         EYGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=44jYHq4vsT34apIFOBTKIM6GNTAQfLucICyAOjYoaHI=;
-        b=LmcopSsA+D9aIfpdAwVBYd7WplibPvmxqSyem5Bgx3MOZ2aPjgJWyAMFgydLU0XgUP
-         4qK+Ht04GjvW3LK8KfHhg8BZUbaKRAR0rPO81SyCkg8f7oXC2SXsU5nUj0Y4DKIZ/sNd
-         enJYfp5vxXidGsuBeS/ovsCydbdfmbmKuDB487zH6K+AmZGx/BSE7CwgsO2ii9GMQclc
-         +1fUl1wcu+xSgZDQ2SC+whenaBu0WApTzKwtfV/UBRkWvIjXSc3OtypLXXSCZLrK3rIZ
-         ZsiU65A8epUJS1QJt2IE1hzbGs3ltcpe7qW8Th9aPEQsuLo8qnb+p4WQmRqkzCmoeBnF
-         V+/g==
-X-Gm-Message-State: AOAM533prJZtg5IRssBJLKKCRpToLLRxBgXoryV5R2CugHaGjziEapBB
-        DJ42Trgm+76/PU2mbGOdCS0CRw==
-X-Google-Smtp-Source: ABdhPJwYFpUzHoFTLqaCGCMebyfNZi6L+IyBYJ6JYAp5+Z0/nV2LtvHVREUDHQBCfrnQ0V+l7CWZ1g==
-X-Received: by 2002:a19:4805:: with SMTP id v5mr7212954lfa.75.1593362343618;
-        Sun, 28 Jun 2020 09:39:03 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id j22sm10354676lfe.63.2020.06.28.09.39.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2020 09:39:03 -0700 (PDT)
-Date:   Sun, 28 Jun 2020 18:39:02 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Convert to
- json-schema
-Message-ID: <20200628163902.GI1105424@oden.dyn.berto.se>
-References: <20200626143638.16512-1-geert+renesas@glider.be>
+        Sun, 28 Jun 2020 14:46:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=a6xrq37McHjNGAyMgyOHvSKoKT/
+        F4htXhJMNKmjgDp4=; b=fGDLvCRYUb/HLPfcM9BuoPBVRF4EhlvwFYG483gzPyC
+        4dVkFX3o+cDqg+sTZwEvm0Gpwi2PpbaY3yqbnOB1lBD3yAUuuUR27RMka8exXgmv
+        nyQ/NIZsA1pdxSIYElq9OW19yaOQC+lgWgva75XBcAlYrJe1dDXl++DqefjR0RhU
+        =
+Received: (qmail 1785945 invoked from network); 28 Jun 2020 20:46:00 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jun 2020 20:46:00 +0200
+X-UD-Smtp-Session: l3s3148p1@Z9aDWimpfK8gAwDPXykLAJ34nb66bSnN
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: slave-eeprom: update documentation
+Date:   Sun, 28 Jun 2020 20:45:54 +0200
+Message-Id: <20200628184554.4401-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200626143638.16512-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Add more details which have either been missing ever since or describe
+recent additions.
 
-Thanks for your work.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/i2c/slave-eeprom-backend.rst | 22 +++++++++++++++++-----
+ drivers/i2c/Kconfig                        |  3 +++
+ 2 files changed, 20 insertions(+), 5 deletions(-)
 
-On 2020-06-26 16:36:38 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas RZ/A2 combined Pin and GPIO controller Device Tree
-> binding documentation to json-schema.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../bindings/pinctrl/renesas,rza2-pinctrl.txt |  87 ---------------
->  .../pinctrl/renesas,rza2-pinctrl.yaml         | 100 ++++++++++++++++++
->  2 files changed, 100 insertions(+), 87 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
-> deleted file mode 100644
-> index a63ccd476cdaf919..0000000000000000
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
-> +++ /dev/null
-> @@ -1,87 +0,0 @@
-> -Renesas RZ/A2 combined Pin and GPIO controller
-> -
-> -The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO controller.
-> -Pin multiplexing and GPIO configuration is performed on a per-pin basis.
-> -Each port features up to 8 pins, each of them configurable for GPIO
-> -function (port mode) or in alternate function mode.
-> -Up to 8 different alternate function modes exist for each single pin.
-> -
-> -Pin controller node
-> --------------------
-> -
-> -Required properties:
-> -  - compatible: shall be:
-> -    - "renesas,r7s9210-pinctrl": for RZ/A2M
-> -  - reg
-> -    Address base and length of the memory area where the pin controller
-> -    hardware is mapped to.
-> -  - gpio-controller
-> -    This pin controller also controls pins as GPIO
-> -  - #gpio-cells
-> -    Must be 2
-> -  - gpio-ranges
-> -    Expresses the total number of GPIO ports/pins in this SoC
-> -
-> -Example: Pin controller node for RZ/A2M SoC (r7s9210)
-> -
-> -	pinctrl: pin-controller@fcffe000 {
-> -		compatible = "renesas,r7s9210-pinctrl";
-> -		reg = <0xfcffe000 0x1000>;
-> -
-> -		gpio-controller;
-> -		#gpio-cells = <2>;
-> -		gpio-ranges = <&pinctrl 0 0 176>;
-> -	};
-> -
-> -Sub-nodes
-> ----------
-> -
-> -The child nodes of the pin controller designate pins to be used for
-> -specific peripheral functions or as GPIO.
-> -
-> -- Pin multiplexing sub-nodes:
-> -  A pin multiplexing sub-node describes how to configure a set of
-> -  (or a single) pin in some desired alternate function mode.
-> -  The values for the pinmux properties are a combination of port name, pin
-> -  number and the desired function index. Use the RZA2_PINMUX macro located
-> -  in include/dt-bindings/pinctrl/r7s9210-pinctrl.h to easily define these.
-> -  For assigning GPIO pins, use the macro RZA2_PIN also in r7s9210-pinctrl.h
-> -  to express the desired port pin.
-> -
-> -  Required properties:
-> -    - pinmux:
-> -      integer array representing pin number and pin multiplexing configuration.
-> -      When a pin has to be configured in alternate function mode, use this
-> -      property to identify the pin by its global index, and provide its
-> -      alternate function configuration number along with it.
-> -      When multiple pins are required to be configured as part of the same
-> -      alternate function they shall be specified as members of the same
-> -      argument list of a single "pinmux" property.
-> -      Helper macros to ease assembling the pin index from its position
-> -      (port where it sits on and pin number) and alternate function identifier
-> -      are provided by the pin controller header file at:
-> -      <dt-bindings/pinctrl/r7s9210-pinctrl.h>
-> -      Integers values in "pinmux" argument list are assembled as:
-> -      ((PORT * 8 + PIN) | MUX_FUNC << 16)
-> -
-> -  Example: Board specific pins configuration
-> -
-> -	&pinctrl {
-> -		/* Serial Console */
-> -		scif4_pins: serial4 {
-> -			pinmux = <RZA2_PINMUX(PORT9, 0, 4)>,	/* TxD4 */
-> -				 <RZA2_PINMUX(PORT9, 1, 4)>;	/* RxD4 */
-> -		};
-> -	};
-> -
-> -  Example: Assigning a GPIO:
-> -
-> -	leds {
-> -		status = "okay";
-> -		compatible = "gpio-leds";
-> -
-> -		led0 {
-> -			/* P6_0 */
-> -			gpios = <&pinctrl RZA2_PIN(PORT6, 0) GPIO_ACTIVE_HIGH>;
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
-> new file mode 100644
-> index 0000000000000000..b7911a994f3a9f12
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
-> @@ -0,0 +1,100 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/renesas,rza2-pinctrl.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/A2 combined Pin and GPIO controller
-> +
-> +maintainers:
-> +  - Chris Brandt <chris.brandt@renesas.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description:
-> +  The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO
-> +  controller.
-> +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
-> +  Each port features up to 8 pins, each of them configurable for GPIO function
-> +  (port mode) or in alternate function mode.
-> +  Up to 8 different alternate function modes exist for each single pin.
-
-This paragraph formatting looks odd, but I'm not sure it's intentional 
-or not :-) In either case with or without this changed,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> +
-> +properties:
-> +  compatible:
-> +    const: "renesas,r7s9210-pinctrl" # RZ/A2M
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  gpio-controller: true
-> +
-> +  '#gpio-cells':
-> +    const: 2
-> +    description:
-> +      The first cell contains the global GPIO port index, constructed using the
-> +      RZA2_PIN() helper macro in r7s9210-pinctrl.h.
-> +      E.g. "RZA2_PIN(PORT6, 0)" for P6_0.
-> +
-> +  gpio-ranges:
-> +    maxItems: 1
-> +
-> +patternProperties:
-> +  "^.*$":
-> +    if:
-> +      type: object
-> +    then:
-> +      allOf:
-> +        - $ref: pincfg-node.yaml#
-> +        - $ref: pinmux-node.yaml#
-> +      description:
-> +        The child nodes of the pin controller designate pins to be used for
-> +        specific peripheral functions or as GPIO.
-> +
-> +        A pin multiplexing sub-node describes how to configure a set of
-> +        (or a single) pin in some desired alternate function mode.
-> +        The values for the pinmux properties are a combination of port name,
-> +        pin number and the desired function index. Use the RZA2_PINMUX macro
-> +        located in include/dt-bindings/pinctrl/r7s9210-pinctrl.h to easily
-> +        define these.
-> +        For assigning GPIO pins, use the macro RZA2_PIN also in
-> +        to express the desired port pin.
-> +
-> +      properties:
-> +        phandle: true
-> +
-> +        pinmux:
-> +          description:
-> +            Values are constructed from GPIO port number, pin number, and
-> +            alternate function configuration number using the RZA2_PINMUX()
-> +            helper macro in r7s9210-pinctrl.h.
-> +
-> +      required:
-> +        - pinmux
-> +
-> +      additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - gpio-controller
-> +  - '#gpio-cells'
-> +  - gpio-ranges
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/pinctrl/r7s9210-pinctrl.h>
-> +    pinctrl: pin-controller@fcffe000 {
-> +            compatible = "renesas,r7s9210-pinctrl";
-> +            reg = <0xfcffe000 0x1000>;
-> +
-> +            gpio-controller;
-> +            #gpio-cells = <2>;
-> +            gpio-ranges = <&pinctrl 0 0 176>;
-> +
-> +            /* Serial Console */
-> +            scif4_pins: serial4 {
-> +                    pinmux = <RZA2_PINMUX(PORT9, 0, 4)>, /* TxD4 */
-> +                             <RZA2_PINMUX(PORT9, 1, 4)>; /* RxD4 */
-> +            };
-> +    };
-> -- 
-> 2.17.1
-> 
-
+diff --git a/Documentation/i2c/slave-eeprom-backend.rst b/Documentation/i2c/slave-eeprom-backend.rst
+index 0b8cd83698e0..38d951f10302 100644
+--- a/Documentation/i2c/slave-eeprom-backend.rst
++++ b/Documentation/i2c/slave-eeprom-backend.rst
+@@ -1,14 +1,26 @@
+ ==============================
+-Linux I2C slave eeprom backend
++Linux I2C slave EEPROM backend
+ ==============================
+ 
+-by Wolfram Sang <wsa@sang-engineering.com> in 2014-15
++by Wolfram Sang <wsa@sang-engineering.com> in 2014-20
+ 
+-This is a proof-of-concept backend which acts like an EEPROM on the connected
+-I2C bus. The memory contents can be modified from userspace via this file
+-located in sysfs::
++This backend simulates an EEPROM on the connected I2C bus. Its memory contents
++can be accessed from userspace via this file located in sysfs::
+ 
+ 	/sys/bus/i2c/devices/<device-directory>/slave-eeprom
+ 
++The following types are available: 24c02, 24c32, 24c64, and 24c512. Read-only
++variants are also supported. The name needed for instantiating has the form
++'slave-<type>[ro]'. Examples follow:
++
++24c02, read/write, address 0x64:
++  # echo slave-24c02 0x1064 > /sys/bus/i2c/devices/i2c-1/new_device
++
++24c512, read-only, address 0x42:
++  # echo slave-24c512ro 0x1042 > /sys/bus/i2c/devices/i2c-1/new_device
++
++You can also preload data during boot if a device-property named
++'firmware-name' contains a valid filename (DT or ACPI only).
++
+ As of 2015, Linux doesn't support poll on binary sysfs files, so there is no
+ notification when another master changed the content.
+diff --git a/drivers/i2c/Kconfig b/drivers/i2c/Kconfig
+index ef39c83aaf33..53d916b8db47 100644
+--- a/drivers/i2c/Kconfig
++++ b/drivers/i2c/Kconfig
+@@ -119,6 +119,9 @@ if I2C_SLAVE
+ config I2C_SLAVE_EEPROM
+ 	tristate "I2C eeprom slave driver"
+ 
++	  This backend makes Linux behave like an I2C EEPROM. Please read
++	  Documentation/i2c/slave-eeprom-backend.rst for further details.
++
+ endif
+ 
+ config I2C_DEBUG_CORE
 -- 
-Regards,
-Niklas Söderlund
+2.20.1
+
