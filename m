@@ -2,120 +2,424 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06DB520CBD8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 04:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A1320D25C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 20:51:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725983AbgF2Cte (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 28 Jun 2020 22:49:34 -0400
-Received: from mail-eopbgr1400130.outbound.protection.outlook.com ([40.107.140.130]:34748
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725934AbgF2Cte (ORCPT
+        id S1729228AbgF2Ssr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 14:48:47 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:34180 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729030AbgF2Ssp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 28 Jun 2020 22:49:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YC+wdMeL6KxPxwW7anJIJ2NFmH6ai1Iqu32imfqnLoBmCt1/74cH8HwhmIKdOnrOBqB6svJ1kU0zamxVL9giIuDiNHtv7kB/w/AykK6kb8tiAt4u4ZdA+uHj16E5qBWgNpkiSM1Av1t6Z9Bg6rxwA/NME7qr2Rjc4a66IVLsWnXRWb3O1JJr2XcvPPXzYUTMtD9wtGSuY4xb5zNCPxjunyOu3rxgAnGE3KU+N2+uza8DKK/ZNFhyozbke2YT7iJMhgVfi3V38J/CSzHOF9ROxsok0nbtsM17noigtR/HFiOBqBor5AOXd0D5QQyw5Hl6V3hRHnYW0U46PFU2J/88CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FE1V1JHUxciUnSqOxiMQ0Ld99J67xsUFcnbEWx7VBXk=;
- b=X/Q73dzTvTE/RWHmqhcdssOWny/MFL5MikPW1yQLpsDsF/biuRrU21cu3d6iFDBrRD3B9dlCpCWfq2cqFCb8lded63UiVhHHc8DKAXCxndLLjaIf8ucm6r1gFw6SmCbMYGs4YCkZlZqExkTWH0lI8TuXAtkJc7niL8XPreOPDwm9Bksz+6HQV8cJEtNQ0ipeCMYFtFXGlTGKQKSNdktPzhdwWSO76eEREi2ldl//ZdWaLYVgrJaDh1rA/O36QiJtbc5DZIee4sfjeh0U7wrvNc/GPq70IwnSRxJEcx0MvLTSJrfQuLrY328I4aRbfPCwrLYr4+OD3P6VQauGQEoXDg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FE1V1JHUxciUnSqOxiMQ0Ld99J67xsUFcnbEWx7VBXk=;
- b=WO+QZ4pcq7m8obCi5qa+KebnKVygDAoQNspHmYMBe0crIwPcy19X+6/wY0dzZgISn6ajigKKY7qm+mLSLjGgfiHJEIxKJO9gdl0zzOLvKScu99cmhHK+gkOMlE49zM+7tVgwY/UCliQTZUtnq8TxOAtlr5hu+4hI0qL50EN7nLM=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB4221.jpnprd01.prod.outlook.com (2603:1096:404:cc::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Mon, 29 Jun
- 2020 02:49:30 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
- 02:49:30 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Mark Brown <broonie@kernel.org>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH/RFC v4 3/4] mmc: core: Call mmc_poweroff_nofity() if
- regulators are disabled
-Thread-Topic: [PATCH/RFC v4 3/4] mmc: core: Call mmc_poweroff_nofity() if
- regulators are disabled
-Thread-Index: AQHWS5y2P9SOm+4ShEmD+FQrAiQE9qjrAYcAgAPlY2A=
-Date:   Mon, 29 Jun 2020 02:49:30 +0000
-Message-ID: <TY2PR01MB36925C9FF9C023C9FAD63D13D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1593163942-5087-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20200626151342.GF5289@sirena.org.uk>
-In-Reply-To: <20200626151342.GF5289@sirena.org.uk>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: efb09d15-6652-4777-ccd3-08d81bd70c37
-x-ms-traffictypediagnostic: TYAPR01MB4221:
-x-microsoft-antispam-prvs: <TYAPR01MB42212410969BC37D32DE6777D86E0@TYAPR01MB4221.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2657;
-x-forefront-prvs: 044968D9E1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZDeskdBBfwKoWd/C2XIKqM5vbne8B4vRs4lL1AeaifgdC3V8/H/oZF5o8f05YRqscz+s+3/bie1XTkPkxAGfTge4p7ZuQvzYTYZuiHd9RWmFyS/hB0MI+kjQKeExWodb20OTsBKqaZ+RulQtyZ3dty26iZ4ll/nqcDpubVWX09b2jWyDkNXc7tILXYo0+07fbApmHqs9U97sdvCyo9vGNNlvR6nZjNgDGC2r+Oai2woBkjv5ZmHJfggz1kCGd9OLTgcQrZ+NeZ6w5bK2vGdpAucNbcBZq84p2Y5eR89wq3CI+2VaZ2L3xfZcYCXVN3Yv
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(136003)(396003)(39860400002)(376002)(346002)(26005)(6506007)(55236004)(8936002)(54906003)(8676002)(186003)(2906002)(33656002)(52536014)(66476007)(66446008)(66556008)(66946007)(64756008)(86362001)(5660300002)(4744005)(316002)(76116006)(9686003)(83380400001)(7696005)(55016002)(6916009)(478600001)(71200400001)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: g++oz9OeQigpgZxDerU33vauhqfaLEgHn6AEEOcY2GWTHw00327o678zOBl/9u9vy1qoFWAtIIUAqW4+p0zrRGljAAydJNwpv77VuFo+2n0WmgFvrho7SKh2w8er85HWGDPu/PeMnVj+M5i15p38TrbG+5kpCcuaU77j0M/Lp2Wy25a5jDQ7tJeuDZWgZIYe+3sb+ffL1+okuDubGC96ahJNUyW7b68WVSlruI392+oJr2sriTxCUFajHW+hC968txi6nYIc2CaRH2uRxvbYNY2EPfhrCkxk3YTb/RCKpHXeLOpuJNcw7CpYkbEdF624PWwVIxl9GXJam5adSxyW9zxgGSauTZdvcBXGoX2z45Q4QpS+OBFLzYRKUAWSIKkWwNuhOvelQkw7ZMOBgRYvvl0ryA3sfEgs9HuKI5nvzPtM2YP83hz7sg/XXJjG3hw5a67Frs3ead6zB9/FIQm8MurISB1xv724y/toJIzsmPd2HabO621aPxsKYpHfaQnX
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 29 Jun 2020 14:48:45 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 89EDA20022;
+        Mon, 29 Jun 2020 10:10:02 +0200 (CEST)
+Date:   Mon, 29 Jun 2020 10:10:01 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v1.2 4/4] dt-bindings: display: bridge: renesas, lvds:
+ Convert binding to YAML
+Message-ID: <20200629081001.GF227119@ravnborg.org>
+References: <20200514213742.GO5955@pendragon.ideasonboard.com>
+ <20200514214211.9036-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efb09d15-6652-4777-ccd3-08d81bd70c37
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 02:49:30.8348
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BDw5C5sN6f6uGPgKvIlqQhJhFBaQkY4NJWKtjlzwb5//jjBJ68fwFxFtOfUzAOZJGR0vW/dbGqNMBoOUQaW2jzSPhHN8feUXgtjFQC7ZYEjIJZQ/W2hSa3IOGBYmJGz9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4221
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200514214211.9036-1-laurent.pinchart+renesas@ideasonboard.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=f+hm+t6M c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8 a=VwQbUJbxAAAA:8 a=gEfo2CItAAAA:8
+        a=e5mUnYsNAAAA:8 a=vIy2krY81Hc4w-0O1hIA:9 a=ceIAV-CWiIWtxpYm:21
+        a=KnaoSmhylLll0vfv:21 a=CjuIK1q_8ugA:10 a=D0XLA9XvdZm18NrgonBM:22
+        a=AjGcO6oz07-iQ99wixmX:22 a=sptkURWiP4Gy88Gu7hUp:22
+        a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+On Fri, May 15, 2020 at 12:42:11AM +0300, Laurent Pinchart wrote:
+> Convert the Renesas R-Car LVDS encoder text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Changes since v1:
+> 
+> - Mention RZ/G1 and R2/G2 explicitly
+> - Drop the part numbers in comments, only keep the SoC names
+> - Use one address and size cell in the examples
 
-> From: Mark Brown, Sent: Saturday, June 27, 2020 12:14 AM
->=20
-> On Fri, Jun 26, 2020 at 06:32:21PM +0900, Yoshihiro Shimoda wrote:
-> > Note that this is possible to happen when the regulator-fixed driver
-> > turns the vmmc and vqmmc off by firmware like PSCI while the system
-> > is suspended.
->=20
-> This is not a good interface, if there's a need to query the state over
-> suspend then we should query the state over suspend rather than trying
-> to somehow shoehorn it via the runtime enable state which is going to
-> break any other users and relies on the regulator driver doing dodgy
-> stuff representing the enable state.
+Seems this was not picked up so I went ahead and applied to
+drm-misc-next.
 
-I understood it.
-So, as I mentioned other email thread, I'm thinking adding a new property
-into MMC is better.
+	Sam
 
-Best regards,
-Yoshihiro Shimoda
-
+> ---
+>  .../bindings/display/bridge/renesas,lvds.txt  |  85 ------
+>  .../bindings/display/bridge/renesas,lvds.yaml | 248 ++++++++++++++++++
+>  2 files changed, 248 insertions(+), 85 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> deleted file mode 100644
+> index c62ce2494ed9..000000000000
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> +++ /dev/null
+> @@ -1,85 +0,0 @@
+> -Renesas R-Car LVDS Encoder
+> -==========================
+> -
+> -These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
+> -Gen2, R-Car Gen3 and RZ/G SoCs.
+> -
+> -Required properties:
+> -
+> -- compatible : Shall contain one of
+> -  - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
+> -  - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
+> -  - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
+> -  - "renesas,r8a774b1-lvds" for R8A774B1 (RZ/G2N) compatible LVDS encoders
+> -  - "renesas,r8a774c0-lvds" for R8A774C0 (RZ/G2E) compatible LVDS encoders
+> -  - "renesas,r8a7790-lvds" for R8A7790 (R-Car H2) compatible LVDS encoders
+> -  - "renesas,r8a7791-lvds" for R8A7791 (R-Car M2-W) compatible LVDS encoders
+> -  - "renesas,r8a7793-lvds" for R8A7793 (R-Car M2-N) compatible LVDS encoders
+> -  - "renesas,r8a7795-lvds" for R8A7795 (R-Car H3) compatible LVDS encoders
+> -  - "renesas,r8a7796-lvds" for R8A7796 (R-Car M3-W) compatible LVDS encoders
+> -  - "renesas,r8a77965-lvds" for R8A77965 (R-Car M3-N) compatible LVDS encoders
+> -  - "renesas,r8a77970-lvds" for R8A77970 (R-Car V3M) compatible LVDS encoders
+> -  - "renesas,r8a77980-lvds" for R8A77980 (R-Car V3H) compatible LVDS encoders
+> -  - "renesas,r8a77990-lvds" for R8A77990 (R-Car E3) compatible LVDS encoders
+> -  - "renesas,r8a77995-lvds" for R8A77995 (R-Car D3) compatible LVDS encoders
+> -
+> -- reg: Base address and length for the memory-mapped registers
+> -- clocks: A list of phandles + clock-specifier pairs, one for each entry in
+> -  the clock-names property.
+> -- clock-names: Name of the clocks. This property is model-dependent.
+> -  - The functional clock, which mandatory for all models, shall be listed
+> -    first, and shall be named "fck".
+> -  - On R8A77990, R8A77995 and R8A774C0, the LVDS encoder can use the EXTAL or
+> -    DU_DOTCLKINx clocks. Those clocks are optional. When supplied they must be
+> -    named "extal" and "dclkin.x" respectively, with "x" being the DU_DOTCLKIN
+> -    numerical index.
+> -  - When the clocks property only contains the functional clock, the
+> -    clock-names property may be omitted.
+> -- resets: A phandle + reset specifier for the module reset
+> -
+> -Required nodes:
+> -
+> -The LVDS encoder has two video ports. Their connections are modelled using the
+> -OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> -
+> -- Video port 0 corresponds to the parallel RGB input
+> -- Video port 1 corresponds to the LVDS output
+> -
+> -Each port shall have a single endpoint.
+> -
+> -Optional properties:
+> -
+> -- renesas,companion : phandle to the companion LVDS encoder. This property is
+> -  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
+> -  the second encoder to be used as a companion in dual-link mode. It shall not
+> -  be set for any other LVDS encoder.
+> -
+> -
+> -Example:
+> -
+> -	lvds0: lvds@feb90000 {
+> -		compatible = "renesas,r8a77990-lvds";
+> -		reg = <0 0xfeb90000 0 0x20>;
+> -		clocks = <&cpg CPG_MOD 727>;
+> -		power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> -		resets = <&cpg 727>;
+> -
+> -		renesas,companion = <&lvds1>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -				lvds0_in: endpoint {
+> -					remote-endpoint = <&du_out_lvds0>;
+> -				};
+> -			};
+> -			port@1 {
+> -				reg = <1>;
+> -				lvds0_out: endpoint {
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> new file mode 100644
+> index 000000000000..98c7330a9485
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
+> @@ -0,0 +1,248 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,lvds.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car LVDS Encoder
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  These DT bindings describe the LVDS encoder embedded in the Renesas R-Car
+> +  Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a7743-lvds # for RZ/G1M compatible LVDS encoders
+> +      - renesas,r8a7744-lvds # for RZ/G1N compatible LVDS encoders
+> +      - renesas,r8a774a1-lvds # for RZ/G2M compatible LVDS encoders
+> +      - renesas,r8a774b1-lvds # for RZ/G2N compatible LVDS encoders
+> +      - renesas,r8a774c0-lvds # for RZ/G2E compatible LVDS encoders
+> +      - renesas,r8a7790-lvds # for R-Car H2 compatible LVDS encoders
+> +      - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
+> +      - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
+> +      - renesas,r8a7795-lvds # for R-Car H3 compatible LVDS encoders
+> +      - renesas,r8a7796-lvds # for R-Car M3-W compatible LVDS encoders
+> +      - renesas,r8a77965-lvds # for R-Car M3-N compatible LVDS encoders
+> +      - renesas,r8a77970-lvds # for R-Car V3M compatible LVDS encoders
+> +      - renesas,r8a77980-lvds # for R-Car V3H compatible LVDS encoders
+> +      - renesas,r8a77990-lvds # for R-Car E3 compatible LVDS encoders
+> +      - renesas,r8a77995-lvds # for R-Car D3 compatible LVDS encoders
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 4
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      This device has two video ports. Their connections are modelled using the
+> +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> +      Each port shall have a single endpoint.
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description: Parallel RGB input port
+> +
+> +      port@1:
+> +        type: object
+> +        description: LVDS output port
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +    additionalProperties: false
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  renesas,companion:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the companion LVDS encoder. This property is mandatory
+> +      for the first LVDS encoder on D3 and E3 SoCs, and shall point to
+> +      the second encoder to be used as a companion in dual-link mode. It
+> +      shall not be set for any other LVDS encoder.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +  - ports
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      enum:
+> +        - renesas,r8a774c0-lvds
+> +        - renesas,r8a77990-lvds
+> +        - renesas,r8a77995-lvds
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - description: Functional clock
+> +        - description: EXTAL input clock
+> +        - description: DU_DOTCLKIN0 input clock
+> +        - description: DU_DOTCLKIN1 input clock
+> +
+> +    clock-names:
+> +      minItems: 1
+> +      maxItems: 4
+> +      items:
+> +        - const: fck
+> +        # The LVDS encoder can use the EXTAL or DU_DOTCLKINx clocks.
+> +        # These clocks are optional.
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +        - enum:
+> +          - extal
+> +          - dclkin.0
+> +          - dclkin.1
+> +
+> +  required:
+> +    - clock-names
+> +
+> +else:
+> +  properties:
+> +    clocks:
+> +      maxItems: 1
+> +      items:
+> +        - description: Functional clock
+> +
+> +    clock-names:
+> +      maxItems: 1
+> +      items:
+> +        - const: fck
+> +
+> +    renesas,companion: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    lvds@feb90000 {
+> +        compatible = "renesas,r8a7795-lvds";
+> +        reg = <0xfeb90000 0x14>;
+> +        clocks = <&cpg CPG_MOD 727>;
+> +        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +        resets = <&cpg 727>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                lvds_in: endpoint {
+> +                    remote-endpoint = <&du_out_lvds0>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                lvds_out: endpoint {
+> +                    remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a77990-sysc.h>
+> +
+> +    lvds0: lvds@feb90000 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0xfeb90000 0x20>;
+> +        clocks = <&cpg CPG_MOD 727>,
+> +                 <&x13_clk>,
+> +                 <&extal_clk>;
+> +        clock-names = "fck", "dclkin.0", "extal";
+> +        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> +        resets = <&cpg 727>;
+> +
+> +        renesas,companion = <&lvds1>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                lvds0_in: endpoint {
+> +                    remote-endpoint = <&du_out_lvds0>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                lvds0_out: endpoint {
+> +                    remote-endpoint = <&panel_in1>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +    lvds1: lvds@feb90100 {
+> +        compatible = "renesas,r8a77990-lvds";
+> +        reg = <0xfeb90100 0x20>;
+> +        clocks = <&cpg CPG_MOD 727>,
+> +                 <&x13_clk>,
+> +                 <&extal_clk>;
+> +        clock-names = "fck", "dclkin.0", "extal";
+> +        power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> +        resets = <&cpg 726>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                lvds1_in: endpoint {
+> +                    remote-endpoint = <&du_out_lvds1>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                lvds1_out: endpoint {
+> +                    remote-endpoint = <&panel_in2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
