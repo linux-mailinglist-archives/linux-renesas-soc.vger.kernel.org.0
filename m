@@ -2,301 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6791A20DA10
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 22:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2399020DFB5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 23:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732803AbgF2Txa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 15:53:30 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43738 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730106AbgF2Tx3 (ORCPT
+        id S2388811AbgF2UjL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 16:39:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43394 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731727AbgF2TOP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:53:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=lqZUmstMNT4gD0
-        Zj6S7k7KsrZLOZpCrTBlqmktbSzV8=; b=ysZs96y3hbmYSbSQ5UjhZisV0auIGX
-        vJl8aQN1qhW/MXJzjyaNrzvIL/QuGaOXphq7OYzVWVq1kuh2wyBv91Op0aMr+34v
-        nxA+pUZnt9GYBHekOD5oaec/4iIY7LOgQkEJy0BGHEEI1e9J+cGnIOTXNOnTqgvb
-        L34iZ5Jfkr5QA=
-Received: (qmail 2142431 invoked from network); 29 Jun 2020 20:53:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2020 20:53:25 +0200
-X-UD-Smtp-Session: l3s3148p1@sBDUkj2pYrQgAwDPXwOPAD5GWjq5uCZs
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Alain Volmat <alain.volmat@st.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFC 1/1] i2c: add slave testunit driver
-Date:   Mon, 29 Jun 2020 20:53:18 +0200
-Message-Id: <20200629185318.23381-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200629185318.23381-1-wsa+renesas@sang-engineering.com>
-References: <20200629185318.23381-1-wsa+renesas@sang-engineering.com>
+        Mon, 29 Jun 2020 15:14:15 -0400
+Received: from APC01-HK2-obe.outbound.protection.outlook.com (mail-hk2apc01on0708.outbound.protection.outlook.com [IPv6:2a01:111:f400:febc::708])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18B38C08E81A;
+        Sun, 28 Jun 2020 22:16:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FbwSdYtd2/mf/m7RXuPMTauDzJ3pWf8RvE+Wz/bKtsinBV0ukAO8zHlo/cCwognWYOH+DGLronSpaKQPdkoKy4jVte6wOfQitUSHjmFrdU/FM5Ctspgx0endem3uvqSsedYB7MTrQFtqSGIqR1m6dFzsM9I21hs9vMF3BzZSTuVsUpl3LQb9jYbiXwY3I7OC83RRNus/fMGVCqCyi6ldu0J07KZRlqDI7LuB71denGRPJjbm2Up7cOh+NP+7FQEZky7NkZvCbyWCQxcXwozLLd3AxMNBSGQJtqodqOV4nkaaj2V9kJa+vI82WoT4Y1MQHfdir3vsWhVi9vLjNrjENg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jU6bJVp5twjwAufNmBP/C37WJ4RjFc7sz331r/5OrWI=;
+ b=RJPX2DV5f9wRtQghopIoE/iHsGv78YBsKT9U6PkkXtHOTsoeaDDFaPijE8W5nzBn0tVFZB4AH4H0rWIuIn6xsW8cJ/j4B2xbtxV+wsprFtvMPgxgIzVx92Yma3lsRvKg4YCcLxCWkhlJlFxDUzTJSTdfaIeAukQYJZXTY52rgjgD6ecz+RxCrN7Pqlw6l6I592HKTLIASlxxCOqM6e12kaqV7B3RZQTxXM0uZMwzFbCjNHvrQCV1xKfzpFYuxmv5zlvidRY2TghynuRery1DiEBTI9cIXwKFpowrzDu9Cpr2KO76puOYAWmQ1ghyboRKupscqTXnUsUrnbhbOwKIZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jU6bJVp5twjwAufNmBP/C37WJ4RjFc7sz331r/5OrWI=;
+ b=WOBCG3x6dry9y9wWJbxj7umJK2XwMaiBpHH28O4m36BGOVSZAfKR/BaJOWbOodqWd0a+QhmqKACIiHUe57fPf1UjqML7laUmuTbIICGRKCgTcSsvgDxLEi7cM4Nqqs/qtUKgtgoyuJ1t0+xXKu/UzH06hEq/YGVvkh3vRTNb/Js=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB2329.jpnprd01.prod.outlook.com (2603:1096:404:6b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.25; Mon, 29 Jun
+ 2020 05:16:46 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
+ 05:16:46 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>
+Subject: RE: [PATCH/RFC v4 3/4] mmc: core: Call mmc_poweroff_nofity() if
+ regulators are disabled
+Thread-Topic: [PATCH/RFC v4 3/4] mmc: core: Call mmc_poweroff_nofity() if
+ regulators are disabled
+Thread-Index: AQHWS5y2P9SOm+4ShEmD+FQrAiQE9qjrDL+AgAQErAA=
+Date:   Mon, 29 Jun 2020 05:16:46 +0000
+Message-ID: <TY2PR01MB3692D8D02FF1680B2A7391B8D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1593163942-5087-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <059bced3-00d3-cf2e-6628-a8c9f1544909@cogentembedded.com>
+In-Reply-To: <059bced3-00d3-cf2e-6628-a8c9f1544909@cogentembedded.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: cogentembedded.com; dkim=none (message not signed)
+ header.d=none;cogentembedded.com; dmarc=none action=none
+ header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b318ef9b-1faf-430c-3a10-08d81beb9ec8
+x-ms-traffictypediagnostic: TY2PR01MB2329:
+x-microsoft-antispam-prvs: <TY2PR01MB2329B5A32CB041739EE4BC83D86E0@TY2PR01MB2329.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1303;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wsdhJlkxId8q8l9Xot95x7fdTmruznnK7H/b5WqTXp1/HFfdyuHRrsP5VuARnvTGxdnAGYX7NitkQLPzfZnB6Ta4MOMMExhHnEl9r3RyNySD/x6SdZzsQU3NXavwhNtaMw3DCYB84AWMcAqT8wOLbwF4NF9OKYnh38RrNnw+nRDCx07in6erEuIGERn6quxwntapDaOcStpkqecm0VB4phoYiWYuuWj/yIYt9/qfGcckMhLTDIeeHccTUhRScwfMBIl+fdjVoHzyAASLvgUIWozZga1g6463GSEkkcLrBHwVIk8t+fXCuCHS1pwK+aXBWhmyWoZgG+492MSt37uFxA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(136003)(376002)(39860400002)(396003)(366004)(71200400001)(7696005)(83380400001)(86362001)(26005)(4744005)(186003)(64756008)(66476007)(66446008)(76116006)(53546011)(52536014)(5660300002)(66556008)(66946007)(55236004)(6506007)(54906003)(4326008)(316002)(8936002)(2906002)(55016002)(8676002)(9686003)(478600001)(33656002)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: cebFixr0WPYa6cLiz0eUHvHULn7AoKnVNh1ma2O1geG9RwPD3yxpMfdW7i26hiF3qKU5CmiHWnit49byFN0ze6Lzrij0fdInCYxncKDW9b043/HwUrT4wvYol1tPuRag1p3Dr3Zf/DGmyXjMW+HkvOb2gY5t1h4IwUsKREEkPHETYjGIPPBEmaHfG++3t8YUHWURNX603CDuyVcN2sCilt8hUCpt2S0bBshJP4BgAOvw4rCw1rYeinVSdrMwykZFjJIZVBY+WyYb2ud0F1YbCivDbHF2xIHI/clEZUhNVv6oFKHY0hkEtQND9Y84EEhWpVXjFMugknij3tnC7mnP9PGtwb4ZeVDqdP+i6LpHyqRRf0A5YNldFlzz0xEfQHvlpV2My4nX43fg8vUWHOV0FLdT0aIqXjnoDQZxF4sZNT5JZiWBQJKp/wqUJSK9RPFbirRVIMfBI+hls1LTGXowTrGlt3ukrMge9nQSAun3wy/2lyvcGcXPzhEIOAGnaNjz
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b318ef9b-1faf-430c-3a10-08d81beb9ec8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 05:16:46.6422
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tlNaZPy/8Ky5AW437YMByKVrNHdIYbjQGWmyD71atULmP1JJCm7OqzZrQcQz8/QYyapVBLx95i5I4yj6S3zYUecObVVYTO/sOW1AtdPeD9y7XULErtHHEVrTAq5V0Vcl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2329
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Here is a I2C slave backend driver which allows to test some uncommon
-functionalities of the I2C and SMBus world. Usually, you need specific
-devices to test e.g. SMBus Host Notify and such. With this driver you
-just need the slave interface of your host controller.
-
-This initial version has testcases for multi-master and SMBus Host
-Notify. Already planned but not yet implemented are SMBus Alert and
-messages with I2C_M_RECV_LEN.
-
-Please read the documentation for further details.
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/i2c/slave-testunit-backend.rst |  48 ++++++
- drivers/i2c/Kconfig                          |   8 +
- drivers/i2c/Makefile                         |   1 +
- drivers/i2c/i2c-slave-testunit.c             | 146 +++++++++++++++++++
- 4 files changed, 203 insertions(+)
- create mode 100644 Documentation/i2c/slave-testunit-backend.rst
- create mode 100644 drivers/i2c/i2c-slave-testunit.c
-
-diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
-new file mode 100644
-index 000000000000..f4f79db0917a
---- /dev/null
-+++ b/Documentation/i2c/slave-testunit-backend.rst
-@@ -0,0 +1,48 @@
-+================================
-+Linux I2C slave testunit backend
-+================================
-+
-+by Wolfram Sang <wsa@sang-engineering.com> in 2020
-+
-+This backend can be used to trigger test cases for I2C bus masters which
-+require a remote device with certain capabilities (and which are usually not so
-+easy to obtain). Examples include multi-master testing, and SMBus Host Notify
-+testing. For tests marked with '*', your I2C controller must be able to switch
-+between master and slave mode because it needs to send data.
-+
-+Instantiating the device is regular. Example for bus 0, address 0x30:
-+
-+# echo "slave-testunit 0x1030" > /sys/bus/i2c/devices/i2c-0/new_device
-+
-+After that, you will have a write-only device listening. Reads will only return
-+0xff. The device consists of 4 8-bit registers and all must be written to start
-+a testcase, i.e. you must always write 4 bytes to the device. The registers are:
-+
-+0x00 CMD   - which test to trigger
-+0x01 DATAL - configuration byte 1 for the test
-+0x02 DATAH - configuration byte 2 for the test
-+0x03 DELAY - delay in n * 100ms until test is started
-+
-+Commands
-+--------
-+
-+0x00 READ_BYTES*
-+   DATAL - address to read data from
-+   DATAH - number of bytes to read
-+
-+This is useful to test if your bus master driver is handling multi-master
-+correctly. You can trigger the testunit to read bytes from another device on
-+the bus. If the bus master under test also wants to access the bus, it will be
-+busy. Example to read 128 bytes from device 0x50 after 500ms of delay:
-+
-+# i2cset -y 1 0x30 0x00 0x50 0x80 0x05 i
-+
-+0x01 SMBUS_HOST_NOTIFY*
-+   DATAL - low byte of the status word to send
-+   DATAH - high byte of the status word to send
-+
-+This test will send an SMBUS_HOST_NOTIFY message to the host. Note that the
-+status word is currently ignored in the Linux Kernel. Example to send a
-+notification after 100ms:
-+
-+# i2cset -y 1 0x30 0x01 0x42 0x42 0x01 i
-diff --git a/drivers/i2c/Kconfig b/drivers/i2c/Kconfig
-index bae1dc08ec9a..2b550b5168e5 100644
---- a/drivers/i2c/Kconfig
-+++ b/drivers/i2c/Kconfig
-@@ -126,6 +126,14 @@ config I2C_SLAVE_EEPROM
- 	  This backend makes Linux behave like an I2C EEPROM. Please read
- 	  Documentation/i2c/slave-eeprom-backend.rst for further details.
- 
-+config I2C_SLAVE_TESTUNIT
-+	tristate "I2C eeprom testunit driver"
-+	help
-+	  This backend can be used to trigger test cases for I2C bus masters
-+	  which require a remote device with certain capabilities, e.g.
-+	  multi-master, SMBus Host Notify, etc. Please read
-+	  Documentation/i2c/slave-testunit-backend.rst for further details.
-+
- endif
- 
- config I2C_DEBUG_CORE
-diff --git a/drivers/i2c/Makefile b/drivers/i2c/Makefile
-index bed6ba63c983..c1d493dc9bac 100644
---- a/drivers/i2c/Makefile
-+++ b/drivers/i2c/Makefile
-@@ -16,5 +16,6 @@ obj-$(CONFIG_I2C_MUX)		+= i2c-mux.o
- obj-y				+= algos/ busses/ muxes/
- obj-$(CONFIG_I2C_STUB)		+= i2c-stub.o
- obj-$(CONFIG_I2C_SLAVE_EEPROM)	+= i2c-slave-eeprom.o
-+obj-$(CONFIG_I2C_SLAVE_TESTUNIT)	+= i2c-slave-testunit.o
- 
- ccflags-$(CONFIG_I2C_DEBUG_CORE) := -DDEBUG
-diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
-new file mode 100644
-index 000000000000..ba82712eac5f
---- /dev/null
-+++ b/drivers/i2c/i2c-slave-testunit.c
-@@ -0,0 +1,146 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * I2C slave mode testunit
-+ *
-+ * Copyright (C) 2020 by Wolfram Sang, Sang Engineering <wsa@sang-engineering.com>
-+ * Copyright (C) 2020 by Renesas Electronics Corporation
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/slab.h>
-+#include <linux/workqueue.h> // FIXME: own workqueue?
-+
-+enum testunit_cmds {
-+	TU_CMD_READ_BYTES,
-+	TU_CMD_HOST_NOTIFY,
-+};
-+
-+enum testunit_regs {
-+	TU_REG_CMD,
-+	TU_REG_DATAL,
-+	TU_REG_DATAH,
-+	TU_REG_DELAY,
-+	TU_NUM_REGS
-+};
-+
-+struct testunit_data {
-+	u8 regs[TU_NUM_REGS];	//FIXME: add locking
-+	u8 reg_idx;
-+	struct i2c_client *client;
-+	struct delayed_work worker;
-+	struct i2c_msg msg;
-+	u8 msgbuf[256];
-+};
-+
-+static void i2c_slave_testunit_work(struct work_struct *work)
-+{
-+	struct testunit_data *tu = container_of(work, struct testunit_data, worker.work);
-+	int ret;
-+
-+	switch (tu->regs[TU_REG_CMD]) {
-+
-+	case TU_CMD_READ_BYTES:
-+		tu->msg.addr = tu->regs[TU_REG_DATAL];
-+		tu->msg.flags = I2C_M_RD;
-+		tu->msg.len = tu->regs[TU_REG_DATAH];
-+		break;
-+
-+	case TU_CMD_HOST_NOTIFY:
-+		tu->msg.addr = 0x08;
-+		tu->msg.flags = 0;
-+		tu->msg.len = 3;
-+		tu->msgbuf[0] = tu->client->addr;
-+		tu->msgbuf[1] = tu->regs[TU_REG_DATAL];
-+		tu->msgbuf[2] = tu->regs[TU_REG_DATAH];
-+		break;
-+	}
-+
-+	ret = i2c_transfer(tu->client->adapter, &tu->msg, 1);
-+	if (ret != 1)
-+		dev_err(&tu->client->dev, "CMD%02X failed (%d)\n", tu->regs[TU_REG_CMD], ret);
-+}
-+
-+static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
-+				     enum i2c_slave_event event, u8 *val)
-+{
-+	struct testunit_data *tu = i2c_get_clientdata(client);
-+	int ret = 0;
-+
-+	switch (event) {
-+	case I2C_SLAVE_WRITE_REQUESTED:
-+		break;
-+
-+	case I2C_SLAVE_WRITE_RECEIVED:
-+		if (tu->reg_idx < TU_NUM_REGS)
-+			tu->regs[tu->reg_idx] = *val;
-+		else
-+			ret = -EMSGSIZE;
-+
-+		if (tu->reg_idx <= TU_NUM_REGS)
-+			tu->reg_idx++;
-+
-+		break;
-+
-+	case I2C_SLAVE_STOP:
-+		if (tu->reg_idx == TU_NUM_REGS)
-+			queue_delayed_work(system_long_wq, &tu->worker,
-+					   msecs_to_jiffies(100 * tu->regs[TU_REG_DELAY]));
-+		tu->reg_idx = 0;
-+		break;
-+
-+	case I2C_SLAVE_READ_REQUESTED:
-+	case I2C_SLAVE_READ_PROCESSED:
-+		*val = 0xff;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int i2c_slave_testunit_probe(struct i2c_client *client)
-+{
-+	struct testunit_data *tu;
-+
-+	tu = devm_kzalloc(&client->dev, sizeof(struct testunit_data), GFP_KERNEL);
-+	if (!tu)
-+		return -ENOMEM;
-+
-+	tu->msg.buf = tu->msgbuf;
-+	tu->client = client;
-+	i2c_set_clientdata(client, tu);
-+	INIT_DELAYED_WORK(&tu->worker, i2c_slave_testunit_work);
-+
-+	return i2c_slave_register(client, i2c_slave_testunit_slave_cb);
-+};
-+
-+static int i2c_slave_testunit_remove(struct i2c_client *client)
-+{
-+	struct testunit_data *tu = i2c_get_clientdata(client);
-+
-+	cancel_delayed_work_sync(&tu->worker);
-+	i2c_slave_unregister(client);
-+	return 0;
-+}
-+
-+static const struct i2c_device_id i2c_slave_testunit_id[] = {
-+	{ "slave-testunit", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, i2c_slave_testunit_id);
-+
-+static struct i2c_driver i2c_slave_testunit_driver = {
-+	.driver = {
-+		.name = "i2c-slave-testunit",
-+	},
-+	.probe_new = i2c_slave_testunit_probe,
-+	.remove = i2c_slave_testunit_remove,
-+	.id_table = i2c_slave_testunit_id,
-+};
-+module_i2c_driver(i2c_slave_testunit_driver);
-+
-+MODULE_AUTHOR("Wolfram Sang <wsa@sang-engineering.com>");
-+MODULE_DESCRIPTION("I2C slave mode test unit");
-+MODULE_LICENSE("GPL v2");
--- 
-2.20.1
-
+SGVsbG8hDQoNCj4gRnJvbTogU2VyZ2VpIFNodHlseW92LCBTZW50OiBTYXR1cmRheSwgSnVuZSAy
+NywgMjAyMCAxMjo1NCBBTQ0KPiANCj4gSGVsbG8hDQo+IA0KPiBPbiAwNi8yNi8yMDIwIDEyOjMy
+IFBNLCBZb3NoaWhpcm8gU2hpbW9kYSB3cm90ZToNCj4gDQo+ID4gSWYgcmVndWxhdG9yX2lzX2Vu
+YWJsZWQoKSBvZiBib3RoIHZtbWMgYW5kIHZxbW1jIHJldHVybnMgZmFsc2UsDQo+ID4gX21tY19z
+dXNwZW5kKCkgc2hvdWxkIGNhbGwgbW1jX3Bvd2Vyb2ZmX25vZml0eSgpIGluc3RlYWQgb2YNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXl5eXl5eDQo+ICAgVGhh
+dCBoYXJkIHdvcmQgYWdhaW4uIDotKQ0KDQpPb3BzISBUaGFuayB5b3UgZm9yIHBvaW50ZWQgaXQg
+b3V0IQ0KIyBBbHNvLCB0aGUgc3ViamVjdCB3YXMgaW5jb3JyZWN0Li4uDQoNCkJlc3QgcmVnYXJk
+cywNCllvc2hpaGlybyBTaGltb2RhDQoNCg0K
