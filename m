@@ -2,50 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B70B620D3EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 21:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C02E20D499
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 21:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729814AbgF2TDW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 15:03:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730413AbgF2TCn (ORCPT
+        id S1730938AbgF2TJ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 15:09:57 -0400
+Received: from foss.arm.com ([217.140.110.172]:38490 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729895AbgF2TJ4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:02:43 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600B1C02E2E7;
-        Mon, 29 Jun 2020 07:15:51 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id w17so7769603otl.4;
-        Mon, 29 Jun 2020 07:15:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=leTe6xkmfV5KnrwHpQkBH2Ot1AVMzXutDXCiCMkdL0s=;
-        b=D5bxn+vX+hJkiQ6u1hDgpe9Ubh1O0+/hI/a0YTh2p5W53gAiGr+TsqHj3R0KJjllPD
-         lAQkiUzVr7Ks2MMGvmDtt/201TPW6DPQgtEN0ILCj6hby+Haqn/hos9zgYrqHdDF6frO
-         s7ishahv4ICygo1rBBFyA21At4caf5OHAj0cqU1yVsipK1XhO+vC2gaFScs8VH3z3Gso
-         +xRQ/2qN1ZaYpTxB5Hwk45i4UZz7g3HSw8g89fC9oiINa6SzVeM7gB45FXmaKwdOopf0
-         eHkaWWOtWkxGNELgMqUROit391OAo0TnzJ8aXhREK1fdHQ7PG5VojgsdiIi9hLtDYubU
-         Fhpg==
-X-Gm-Message-State: AOAM530eVcbRLWoVhdQU8uXJztWyMEgLA6znS4rKeWlMY5YVVZhKqdVc
-        YLpC9K/bF4uBYX7CG6nVOP1RjquYytZ4pCG+MFNtp+oI
-X-Google-Smtp-Source: ABdhPJwF+ox3rAUQ3Gu09b9KiRz1EEaQAg3j/GWpph6pRu+ljyWkQE4GLirKio8p4W53YNrwzMy+Qjdw3v8DIct2tQc=
-X-Received: by 2002:a4a:b804:: with SMTP id g4mr14026744oop.40.1593440150627;
- Mon, 29 Jun 2020 07:15:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1593163942-5087-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20200626143914.GE5289@sirena.org.uk> <TY2PR01MB3692A3B12CEF7F9708A8A59CD86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <20200629125756.GC5499@sirena.org.uk> <20200629134011.GA23284@bogus>
-In-Reply-To: <20200629134011.GA23284@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jun 2020 16:15:39 +0200
-Message-ID: <CAMuHMdU81-EAve+jHhL8+ohCd5YXrgLWpMgaCvgXFDLO7p17pQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC v4 2/4] regulator: fixed: add regulator_ops members
- for suspend/resume
-To:     Sudeep Holla <sudeep.holla@arm.com>
-Cc:     Mark Brown <broonie@kernel.org>,
+        Mon, 29 Jun 2020 15:09:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A226715AD;
+        Mon, 29 Jun 2020 09:42:13 -0700 (PDT)
+Received: from bogus (unknown [10.37.8.30])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8DAED3F71E;
+        Mon, 29 Jun 2020 09:42:10 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 17:42:07 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
         "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
@@ -53,108 +29,112 @@ Cc:     Mark Brown <broonie@kernel.org>,
         "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <linux-renesas-soc@vger.kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH/RFC v4 2/4] regulator: fixed: add regulator_ops members
+ for suspend/resume
+Message-ID: <20200629164207.GB27911@bogus>
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1593163942-5087-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200626143914.GE5289@sirena.org.uk>
+ <TY2PR01MB3692A3B12CEF7F9708A8A59CD86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <20200629125756.GC5499@sirena.org.uk>
+ <20200629134011.GA23284@bogus>
+ <CAMuHMdU81-EAve+jHhL8+ohCd5YXrgLWpMgaCvgXFDLO7p17pQ@mail.gmail.com>
+ <20200629150728.GA27911@bogus>
+ <20200629161450.GE5499@sirena.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200629161450.GE5499@sirena.org.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sudeep,
-
-On Mon, Jun 29, 2020 at 3:40 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
-> On Mon, Jun 29, 2020 at 01:57:56PM +0100, Mark Brown wrote:
-> > On Mon, Jun 29, 2020 at 02:42:26AM +0000, Yoshihiro Shimoda wrote:
-> > > > From: Mark Brown, Sent: Friday, June 26, 2020 11:39 PM
-> > > > According to the changelog this is all about reflecting changes in the
-> > > > system state done by firmware but there's no interaction with firmware
-> > > > here which means this will be at best fragile.  If we need to reflect
-> > > > changes in firmware configuration I'd expect there to be some
-> > > > interaction with firmware about how it is configured, or at least that
-> > > > the configuration would come from the same source.
+On Mon, Jun 29, 2020 at 05:14:50PM +0100, Mark Brown wrote:
+> On Mon, Jun 29, 2020 at 04:07:28PM +0100, Sudeep Holla wrote:
+> > On Mon, Jun 29, 2020 at 04:15:39PM +0200, Geert Uytterhoeven wrote:
 >
-> I agree.
+> > > This is all about how to know what exactly PSCI is powering down during
+> > > SYSTEM_SUSPEND.  In this specific case, it is about knowing if the eMMC
+> > > is powered down or not, as Linux should follow a specific procedure to
+> > > prepare the eMMC for that, and Linux should not if that isn't the case.
 >
-> > > I should have described background of previous patch series though,
-> > > according to previous discussion [1] the firmware side (like PSCI) is
-> > > also fragile unfortunately... So, I thought using regulator-off-in-suspend
-> > > in a regulator was better.
+> > OK, unless you are optimising, you shouldn't care then what PSCI does.
+> > If you don't need eMMC, just suspend/power it off before you enter system/
+> > psci suspend.
 >
-> Please fix the firmware. You might have bigger problem than this if the
-> PSCI firmware is fragile as you state. Better to disable power management
-> on the platform if the firmware can't be fixed.
-
-Saying the implementation is "fragile" might be bad wording.
-The issue is more with the specification being vague (see more below).
-
-> > > On other hand, Ulf is talking about either adding a property (perhaps like
-> > > regulator-off-in-suspend) into a regulator or just adding a new property
-> > > into MMC [2]. What do you think about Ulf' comment? I'm thinking
-> > > adding a new property "full-pwr-cycle-in-suspend" is the best solution.
-> > > This is because using a regulator property and reflecting a state of regulator without
-> > > firmware is fragile, as you said.
+> That only works if the power off procedure doesn't require that power be
+> removed as part of the procedure.  There's a reasonable argument that
+> specs that have such requirements are unhelpful but that doesn't mean
+> that nobody will make hardware with such requrements which creates
+> problems for generic code that needs to control that hardware if it
+> can't discover the power state over suspend.
 >
-> I haven't followed all the threads, but if it related to the policy you
-> want in the Linux, then may be use DT property or something. I don't know.
-> But if this is to indicate something based on firmware runtime/configuration,
-> then NACK for any approaches unconditionally.
 
-Like "arm,psci-system-suspend-is-power-down"[1]?
+Fair enough.
 
-> > TBH I worry about a property drifting out of sync with the firmware on
-> > systems where the firmware can be updated.  Personally my default
-> > assumption would always be that we're going to loose power for anything
-
-OK, so that's the "safe" way to handle this: assume power is lost.
-
-> > except the RAM and whatever is needed for wake sources during suspend so
-
-Oh, even wake-up sources may become unpowered[2] ;-)
-And thus stop working ;-(
-
-> > I find the discussion a bit surprising but in any case that seems like a
-> > better option than trying to shoehorn things in the way the series here
-> > did.  Like I said in my earlier replies if this is done through the
-> > regulator API I'd expect it to be via the suspend interface.
+> > > I had a quick look at the latest revision of the PSCI specification, and
+> > > it doesn't look like anything has changed in that area since my old patch
+> > > series from 2017.  So it still boils down to: we don't know what a
+> > > specific PSCI implementation will do, as basically anything is
+> > > compliant, so the only safe thing is to assume the worst.
 >
-> +1. If this platform needs Linux to keep some state on for users in the
-> firmware or anything outside Linux, it must resume back in the same state
-> as we entered the suspend state from the kernel.
+> > The specification states clearly:
+> > "... all devices in the system must be in a state that is compatible
+> > with entry into the system state. These preconditions are beyond the scope
+> > of this specification and are therefore not described here."
+> > "Prior to the call, the OS must disable all sources of wakeup other than
+> > those it needs to support for its implementation of suspend to RAM."
+>
+> This gets a bit circular for a generic OS since the OS needs some way to
+> figure out what it's supposed to do on a given platform - for example
+> the OS may be happy to use wakeup sources that the firmware is just
+> going to cut power on.
+>
 
-I think you're misunderstanding the issue: this is not related at all
-to Linux keeping state for non-Linux users.
+While I understand the sentiments here, PSCI is targeted to address CPU
+power state management mainly and system states like suspend/reset and
+poweroff which involves last CPU. This is one of the reason it is out of
+the scope of the specification.
 
-This is all about how to know what exactly PSCI is powering down during
-SYSTEM_SUSPEND.  In this specific case, it is about knowing if the eMMC
-is powered down or not, as Linux should follow a specific procedure to
-prepare the eMMC for that, and Linux should not if that isn't the case.
+Here is my understanding. DT specifies all the wakeup sources. Linux
+can configure those and user may choose to enable a subset of them is
+wakeup. As stated in the spec and also based on what we already do in
+the kernel, we disable all other wakeup sources.
 
-I had a quick look at the latest revision of the PSCI specification, and
-it doesn't look like anything has changed in that area since my old patch
-series from 2017.  So it still boils down to: we don't know what a
-specific PSCI implementation will do, as basically anything is
-compliant, so the only safe thing is to assume the worst.
+The PSCI firmware can then either read those from the interrupt controller
+or based on static platform understanding, must not disable those wakeup
+sources.
 
-Or am I missing something?
-Thanks!
+> > I see nothing has been fixed in the firmware too and we are still
+> > discussing the same after 3 years 😄. Clearly we should start trusting
+> > firmware and built capability to fix and replace it if there are bugs
+> > just like kernel and stop hacking around in the kernel to deal with
+> > just broken platform/psci firmware.
+>
+> This isn't just an issue of buggy firmware as far as I can see, it's
+> also a lack of ability for the OS and firmware to communicate
+> information about their intentions to each other.  As things stand you'd
+> need to put static information in the DT.
 
-[1] "[PATCH/RFC 4/6] drivers: firmware: psci: Fix non-PMIC wake-up if
-    SYSTEM_SUSPEND cuts power"
-    https://lore.kernel.org/linux-arm-kernel/1487622809-25127-5-git-send-email-geert+renesas@glider.be/
+It is easy for DT to get out of sync with firmware unless it is generated
+by the same firmware. That's the reason why I am against such multiple
+sources of information. I understand ACPI has more flexibility and I did
+discuss this in LPC few years back and people were happy to have simple
+model as I have mentioned above. I was pushing to add more clarity to
+the specification but as I mentioned it was rejected as it is more a cpu
+and system centric spec and avoids talking about devices which I kind
+of agree.
 
-[2] [PATCH/RFC 0/6] PSCI: Fix non-PMIC wake-up if SYSTEM_SUSPEND cuts
-    power
-    https://lore.kernel.org/linux-arm-kernel/1487622809-25127-1-git-send-email-geert+renesas@glider.be/
+Each device or platform having its specific property in DT is not scalable.
+Not sure if it is a generic problem. If it is, I would like to understand
+more details on such lack of ability for communtication between OS and
+firmware.
 
-[3] https://developer.arm.com/architectures/system-architectures/software-standards/psci
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Regards,
+Sudeep
