@@ -2,264 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 894F920D11B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 20:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FFA820D1EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 20:50:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbgF2Sik (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 14:38:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727928AbgF2SiC (ORCPT
+        id S1729251AbgF2So5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 14:44:57 -0400
+Received: from foss.arm.com ([217.140.110.172]:35692 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728132AbgF2So4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:38:02 -0400
-Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF974C02A541
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 05:49:02 -0700 (PDT)
-Received: by mail-ua1-x941.google.com with SMTP id u6so2487190uau.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 05:49:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=verdurent-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/czzbe3TtUcJIflJ99q2lIskXBgVNXfpcq83W982SW4=;
-        b=WeSAP/a5lZp6nQMEdDIM8axmsEfnvdtP2chd3VGBSckQwa2U21YukiLtyPPobyXRuz
-         qYvGnoJy2SUKgfnYrOr3jRhoupwpMs3QX+xGwrqTeAtGDEL8iTdjC6PN+tFU5iplVnnH
-         3ucRfvHL7WjJ+gtGhev0U+/hV5HrD3ymzqRKeQrv4+5ImAO6zhR9vLGZVRJQqMfrVxZw
-         uToRn6fmJ1MVQd0H0L4UGrVpsm529MFKG1jOf/g8cOtAWlx/5fXAYzhwDiBp5fWyHkNG
-         fKlGAU5e05jHLGweiiNV7g/5A5MRWrfBh7NP6PF2Tq8mI41CfWsoaTZ3omYxPZGLOXHS
-         jCbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/czzbe3TtUcJIflJ99q2lIskXBgVNXfpcq83W982SW4=;
-        b=EMCbDz6BDiGvmihEVdesiPhzM1H8vs5dclfcSfj7qYIL1gZen6o7IxjEfAi3lH5S1C
-         i8+9H9LKv1uUZ7fl+beEmmGk0R4JZaclf8zn66k8k8dtF1v3KdFqIoRkdQDcMdNubbYz
-         LWf3ErBhGEkq9v8cgDMANziLIHzoXvigrsknScbGTMUqTNuyRUoS9boHwv9R/qgL4J0q
-         x0cPAKKQWcZOifcCTrrNYWhjQFvZFWqSbq17h/lMASE/jZdsPNnxMX2y9CYRcn2bUrtm
-         4wofFYnwA/E9TtgukmGqIPBVgOSvpb/Vfvk0J7EbpSh8N7WCgQc0hWx3qO2k87XWt1qG
-         XsTg==
-X-Gm-Message-State: AOAM5317o3yQuy7GUAUgAGuSmIxGvdHbJ4kNahjyE6O9YwqCXWZrz+vJ
-        gppMj5bRdq8jLKbAJ1AjMmu+Ui3i8T3DnOPTrWRQqA==
-X-Google-Smtp-Source: ABdhPJykO05gG5Bb+nA0Vnr/X3v2J1XSrulYz3voXHdt/RxIAbgJ9ID8IoL5WSwYX4Qy51z7VQCupXXNmThb4Z9Upd0=
-X-Received: by 2002:ab0:232:: with SMTP id 47mr10473617uas.48.1593434941649;
- Mon, 29 Jun 2020 05:49:01 -0700 (PDT)
+        Mon, 29 Jun 2020 14:44:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7BD50C0A;
+        Mon, 29 Jun 2020 08:07:38 -0700 (PDT)
+Received: from bogus (unknown [10.37.8.30])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A6D43F73C;
+        Mon, 29 Jun 2020 08:07:35 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 16:07:28 +0100
+From:   Sudeep Holla <sudeep.holla@arm.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Sudeep Holla <sudeep.holla@arm.com>
+Subject: Re: [PATCH/RFC v4 2/4] regulator: fixed: add regulator_ops members
+ for suspend/resume
+Message-ID: <20200629150728.GA27911@bogus>
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1593163942-5087-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200626143914.GE5289@sirena.org.uk>
+ <TY2PR01MB3692A3B12CEF7F9708A8A59CD86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <20200629125756.GC5499@sirena.org.uk>
+ <20200629134011.GA23284@bogus>
+ <CAMuHMdU81-EAve+jHhL8+ohCd5YXrgLWpMgaCvgXFDLO7p17pQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200629122925.21729-1-andrzej.p@collabora.com> <20200629122925.21729-12-andrzej.p@collabora.com>
-In-Reply-To: <20200629122925.21729-12-andrzej.p@collabora.com>
-From:   Amit Kucheria <amit.kucheria@verdurent.com>
-Date:   Mon, 29 Jun 2020 18:18:50 +0530
-Message-ID: <CAHLCerONdxx=x_ykO=JjpM5AB08ZX3ukhKVWgPARcS5V7q80Gw@mail.gmail.com>
-Subject: Re: [PATCH v7 11/11] thermal: Rename set_mode() to change_mode()
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     Linux PM list <linux-pm@vger.kernel.org>,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        lakml <linux-arm-kernel@lists.infradead.org>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU81-EAve+jHhL8+ohCd5YXrgLWpMgaCvgXFDLO7p17pQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 6:00 PM Andrzej Pietrasiewicz
-<andrzej.p@collabora.com> wrote:
+On Mon, Jun 29, 2020 at 04:15:39PM +0200, Geert Uytterhoeven wrote:
+> Hi Sudeep,
 >
-> set_mode() is only called when tzd's mode is about to change. Actual
-> setting is performed in thermal_core, in thermal_zone_device_set_mode().
-> The meaning of set_mode() callback is actually to notify the driver about
-> the mode being changed and giving the driver a chance to oppose such
-> change.
+> On Mon, Jun 29, 2020 at 3:40 PM Sudeep Holla <sudeep.holla@arm.com> wrote:
+> > On Mon, Jun 29, 2020 at 01:57:56PM +0100, Mark Brown wrote:
+> > > On Mon, Jun 29, 2020 at 02:42:26AM +0000, Yoshihiro Shimoda wrote:
+> > > > > From: Mark Brown, Sent: Friday, June 26, 2020 11:39 PM
+> > > > > According to the changelog this is all about reflecting changes in the
+> > > > > system state done by firmware but there's no interaction with firmware
+> > > > > here which means this will be at best fragile.  If we need to reflect
+> > > > > changes in firmware configuration I'd expect there to be some
+> > > > > interaction with firmware about how it is configured, or at least that
+> > > > > the configuration would come from the same source.
+> >
+> > I agree.
+> >
+> > > > I should have described background of previous patch series though,
+> > > > according to previous discussion [1] the firmware side (like PSCI) is
+> > > > also fragile unfortunately... So, I thought using regulator-off-in-suspend
+> > > > in a regulator was better.
+> >
+> > Please fix the firmware. You might have bigger problem than this if the
+> > PSCI firmware is fragile as you state. Better to disable power management
+> > on the platform if the firmware can't be fixed.
 >
-> To better reflect the purpose of the method rename it to change_mode()
+> Saying the implementation is "fragile" might be bad wording.
+> The issue is more with the specification being vague (see more below).
 >
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> [for acerhdf]
-> Acked-by: Peter Kaestle <peter@piie.net>
-> Reviewed-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 
-Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+Please elaborate on the vague part of the specification, happy to help you
+get that fixed if it really needs to be.
 
-> ---
->  drivers/platform/x86/acerhdf.c                          | 6 +++---
->  drivers/thermal/imx_thermal.c                           | 8 ++++----
->  drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 6 +++---
->  drivers/thermal/intel/intel_quark_dts_thermal.c         | 6 +++---
->  drivers/thermal/thermal_core.c                          | 4 ++--
->  include/linux/thermal.h                                 | 2 +-
->  6 files changed, 16 insertions(+), 16 deletions(-)
+> > > > On other hand, Ulf is talking about either adding a property (perhaps like
+> > > > regulator-off-in-suspend) into a regulator or just adding a new property
+> > > > into MMC [2]. What do you think about Ulf' comment? I'm thinking
+> > > > adding a new property "full-pwr-cycle-in-suspend" is the best solution.
+> > > > This is because using a regulator property and reflecting a state of regulator without
+> > > > firmware is fragile, as you said.
+> >
+> > I haven't followed all the threads, but if it related to the policy you
+> > want in the Linux, then may be use DT property or something. I don't know.
+> > But if this is to indicate something based on firmware runtime/configuration,
+> > then NACK for any approaches unconditionally.
 >
-> diff --git a/drivers/platform/x86/acerhdf.c b/drivers/platform/x86/acerhdf.c
-> index 76323855c80c..f816a8a13039 100644
-> --- a/drivers/platform/x86/acerhdf.c
-> +++ b/drivers/platform/x86/acerhdf.c
-> @@ -413,8 +413,8 @@ static inline void acerhdf_enable_kernelmode(void)
->   *          the temperature and the fan.
->   * disabled: the BIOS takes control of the fan.
->   */
-> -static int acerhdf_set_mode(struct thermal_zone_device *thermal,
-> -                           enum thermal_device_mode mode)
-> +static int acerhdf_change_mode(struct thermal_zone_device *thermal,
-> +                              enum thermal_device_mode mode)
->  {
->         if (mode == THERMAL_DEVICE_DISABLED && kernelmode)
->                 acerhdf_revert_to_bios_mode();
-> @@ -473,7 +473,7 @@ static struct thermal_zone_device_ops acerhdf_dev_ops = {
->         .bind = acerhdf_bind,
->         .unbind = acerhdf_unbind,
->         .get_temp = acerhdf_get_ec_temp,
-> -       .set_mode = acerhdf_set_mode,
-> +       .change_mode = acerhdf_change_mode,
->         .get_trip_type = acerhdf_get_trip_type,
->         .get_trip_hyst = acerhdf_get_trip_hyst,
->         .get_trip_temp = acerhdf_get_trip_temp,
-> diff --git a/drivers/thermal/imx_thermal.c b/drivers/thermal/imx_thermal.c
-> index a02398118d88..9700ae39feb7 100644
-> --- a/drivers/thermal/imx_thermal.c
-> +++ b/drivers/thermal/imx_thermal.c
-> @@ -330,8 +330,8 @@ static int imx_get_temp(struct thermal_zone_device *tz, int *temp)
->         return 0;
->  }
+> Like "arm,psci-system-suspend-is-power-down"[1]?
 >
-> -static int imx_set_mode(struct thermal_zone_device *tz,
-> -                       enum thermal_device_mode mode)
-> +static int imx_change_mode(struct thermal_zone_device *tz,
-> +                          enum thermal_device_mode mode)
->  {
->         struct imx_thermal_data *data = tz->devdata;
->         struct regmap *map = data->tempmon;
-> @@ -447,7 +447,7 @@ static struct thermal_zone_device_ops imx_tz_ops = {
->         .bind = imx_bind,
->         .unbind = imx_unbind,
->         .get_temp = imx_get_temp,
-> -       .set_mode = imx_set_mode,
-> +       .change_mode = imx_change_mode,
->         .get_trip_type = imx_get_trip_type,
->         .get_trip_temp = imx_get_trip_temp,
->         .get_crit_temp = imx_get_crit_temp,
-> @@ -860,7 +860,7 @@ static int __maybe_unused imx_thermal_suspend(struct device *dev)
->          * Need to disable thermal sensor, otherwise, when thermal core
->          * try to get temperature before thermal sensor resume, a wrong
->          * temperature will be read as the thermal sensor is powered
-> -        * down. This is done in set_mode() operation called from
-> +        * down. This is done in change_mode() operation called from
->          * thermal_zone_device_disable()
->          */
->         ret = thermal_zone_device_disable(data->tz);
-> diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> index ce49d3b100d5..d3732f624913 100644
-> --- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> +++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
-> @@ -377,8 +377,8 @@ static int int3400_thermal_get_temp(struct thermal_zone_device *thermal,
->         return 0;
->  }
+
+Really sounds hack to me.
+
+> > > TBH I worry about a property drifting out of sync with the firmware on
+> > > systems where the firmware can be updated.  Personally my default
+> > > assumption would always be that we're going to loose power for anything
 >
-> -static int int3400_thermal_set_mode(struct thermal_zone_device *thermal,
-> -                               enum thermal_device_mode mode)
-> +static int int3400_thermal_change_mode(struct thermal_zone_device *thermal,
-> +                                      enum thermal_device_mode mode)
->  {
->         struct int3400_thermal_priv *priv = thermal->devdata;
->         int result = 0;
-> @@ -399,7 +399,7 @@ static int int3400_thermal_set_mode(struct thermal_zone_device *thermal,
+> OK, so that's the "safe" way to handle this: assume power is lost.
 >
->  static struct thermal_zone_device_ops int3400_thermal_ops = {
->         .get_temp = int3400_thermal_get_temp,
-> -       .set_mode = int3400_thermal_set_mode,
-> +       .change_mode = int3400_thermal_change_mode,
->  };
+> > > except the RAM and whatever is needed for wake sources during suspend so
 >
->  static struct thermal_zone_params int3400_thermal_params = {
-> diff --git a/drivers/thermal/intel/intel_quark_dts_thermal.c b/drivers/thermal/intel/intel_quark_dts_thermal.c
-> index e29c3e330b17..3eafc6b0e6c3 100644
-> --- a/drivers/thermal/intel/intel_quark_dts_thermal.c
-> +++ b/drivers/thermal/intel/intel_quark_dts_thermal.c
-> @@ -298,8 +298,8 @@ static int sys_get_curr_temp(struct thermal_zone_device *tzd,
->         return 0;
->  }
+> Oh, even wake-up sources may become unpowered[2] ;-)
+
+That is some serious issue. If there is no power, how can you expect it
+to be wake up source ? Sounds something wrong fundamentally IMO.
+
+> And thus stop working ;-(
 >
-> -static int sys_set_mode(struct thermal_zone_device *tzd,
-> -                               enum thermal_device_mode mode)
-> +static int sys_change_mode(struct thermal_zone_device *tzd,
-> +                          enum thermal_device_mode mode)
->  {
->         int ret;
+> > > I find the discussion a bit surprising but in any case that seems like a
+> > > better option than trying to shoehorn things in the way the series here
+> > > did.  Like I said in my earlier replies if this is done through the
+> > > regulator API I'd expect it to be via the suspend interface.
+> >
+> > +1. If this platform needs Linux to keep some state on for users in the
+> > firmware or anything outside Linux, it must resume back in the same state
+> > as we entered the suspend state from the kernel.
 >
-> @@ -319,7 +319,7 @@ static struct thermal_zone_device_ops tzone_ops = {
->         .get_trip_type = sys_get_trip_type,
->         .set_trip_temp = sys_set_trip_temp,
->         .get_crit_temp = sys_get_crit_temp,
-> -       .set_mode = sys_set_mode,
-> +       .change_mode = sys_change_mode,
->  };
+> I think you're misunderstanding the issue: this is not related at all
+> to Linux keeping state for non-Linux users.
 >
->  static void free_soc_dts(struct soc_sensor_entry *aux_entry)
-> diff --git a/drivers/thermal/thermal_core.c b/drivers/thermal/thermal_core.c
-> index e613f5c07bad..a61e91513584 100644
-> --- a/drivers/thermal/thermal_core.c
-> +++ b/drivers/thermal/thermal_core.c
-> @@ -482,8 +482,8 @@ static int thermal_zone_device_set_mode(struct thermal_zone_device *tz,
->                 return ret;
->         }
+
+OK, thanks for confirming.
+
+> This is all about how to know what exactly PSCI is powering down during
+> SYSTEM_SUSPEND.  In this specific case, it is about knowing if the eMMC
+> is powered down or not, as Linux should follow a specific procedure to
+> prepare the eMMC for that, and Linux should not if that isn't the case.
 >
-> -       if (tz->ops->set_mode)
-> -               ret = tz->ops->set_mode(tz, mode);
-> +       if (tz->ops->change_mode)
-> +               ret = tz->ops->change_mode(tz, mode);
+
+OK, unless you are optimising, you shouldn't care then what PSCI does.
+If you don't need eMMC, just suspend/power it off before you enter system/
+psci suspend.
+
+> I had a quick look at the latest revision of the PSCI specification, and
+> it doesn't look like anything has changed in that area since my old patch
+> series from 2017.  So it still boils down to: we don't know what a
+> specific PSCI implementation will do, as basically anything is
+> compliant, so the only safe thing is to assume the worst.
 >
->         if (!ret)
->                 tz->mode = mode;
-> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> index df013c39ba9b..b9efaa780d88 100644
-> --- a/include/linux/thermal.h
-> +++ b/include/linux/thermal.h
-> @@ -76,7 +76,7 @@ struct thermal_zone_device_ops {
->                        struct thermal_cooling_device *);
->         int (*get_temp) (struct thermal_zone_device *, int *);
->         int (*set_trips) (struct thermal_zone_device *, int, int);
-> -       int (*set_mode) (struct thermal_zone_device *,
-> +       int (*change_mode) (struct thermal_zone_device *,
->                 enum thermal_device_mode);
->         int (*get_trip_type) (struct thermal_zone_device *, int,
->                 enum thermal_trip_type *);
-> --
-> 2.17.1
->
+
+The specification states clearly:
+"... all devices in the system must be in a state that is compatible
+with entry into the system state. These preconditions are beyond the scope
+of this specification and are therefore not described here."
+"Prior to the call, the OS must disable all sources of wakeup other than
+those it needs to support for its implementation of suspend to RAM."
+
+And of course, the firmware must rely on OSPM to do proper device PM if
+it is not shared resource. Trying to be aggressive and turning off all
+the wakeup sources which out knowledge of it is broken firmware.
+
+I see nothing has been fixed in the firmware too and we are still
+discussing the same after 3 years 😄. Clearly we should start trusting
+firmware and built capability to fix and replace it if there are bugs
+just like kernel and stop hacking around in the kernel to deal with
+just broken platform/psci firmware.
+
+--
+Regards,
+Sudeep
