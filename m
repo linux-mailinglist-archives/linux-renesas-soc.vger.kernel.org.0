@@ -2,91 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F249720E23C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 00:00:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 529E120E1E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 23:59:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387740AbgF2VD2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 17:03:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43358 "EHLO
+        id S2389941AbgF2VAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 17:00:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731139AbgF2TMr (ORCPT
+        with ESMTP id S1731217AbgF2TM7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:12:47 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82283C014AF6;
-        Mon, 29 Jun 2020 00:52:22 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id n5so14663135otj.1;
-        Mon, 29 Jun 2020 00:52:22 -0700 (PDT)
+        Mon, 29 Jun 2020 15:12:59 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C779C008754
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 01:40:31 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id b25so13464808ljp.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 01:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Y2atqIGK37ILgDNJdohonospx0r47MxOkSdYCiw2OJ0=;
+        b=QH3wWILFXt++weWn8Jl3dFoenZHdPyjJ5FAS+RaeaG3fC1AABhjaHwN5BnrGer1+8q
+         8Y1NuQOpAMgCEYANJKgY74lbxJjoUJ/wW3PkCV5cofA+Cinmxb/nrsooqG4GIIxVhxaw
+         exhMXOpDwweJ45PE2/C/AyDfadJx1Dt/C4Nws8+5oJznMyOLTngIutMlPbVLvEL/MK2j
+         tnNMxL2dTdcHeORQFeNmkFyg9z3h69oE4bQ4gFJ/jWjvGzKY25egrUYu0dx3KkspC9AE
+         JEl/jRaSv6HPXeQ3pYQC1zPWWEa1JA1IcDx7WGnluhEnMWSUDnZpVaoYX5j1nXNSp7Rx
+         lWIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R8C4z0LbSPVGbsZE7eGY71Dl895FwzE8KMTiHFJ686g=;
-        b=CsBBz3sw+x14/KDc2Mtr+yEO17isSUhQWOWr4ZOKK3ycosYbAmNhjLgUtyVqbEpw4M
-         ywCfkLE3pTNEEnpho7+47zvR/xjP1lzaO/DLPz9/KGV42ie/XdiqKDRlo9Dd13l9b3+p
-         ngSmrV77F9sKPaKRRJJz3e/qZW7px80GaOPrkSgmfmprhonlG/S7W09nyY2yX1dsArPk
-         yZyO+R8LnF4fQ4BSUQnKbvuBASo2QuuQGBpmFQCKP/zLhZJAFQSXNCeg9VfZBRr3jZAf
-         J8vMZ7mwrZ6znW6JYi+u43I9+O+DxY+gTgK9r0nCCsZQKk07M9c8bShOzXh4QmPzaGiu
-         wbKQ==
-X-Gm-Message-State: AOAM533FFSTUX80FniXR9m90X81ptWrpxlxjTZIiyKYaVnMSH8Vihecp
-        ncmFscXJv6hhSCVt2AAEXWL873kS128fta+rY7fECA==
-X-Google-Smtp-Source: ABdhPJxJc71RlIZxkeDk4vk/lTshWvVLMLmeFCUJ3eDN66OBqLNV8HFtnLGutc+cZtJMrPclYfomQUnMQVLI4ZieYkA=
-X-Received: by 2002:a9d:2646:: with SMTP id a64mr11515761otb.107.1593417141825;
- Mon, 29 Jun 2020 00:52:21 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Y2atqIGK37ILgDNJdohonospx0r47MxOkSdYCiw2OJ0=;
+        b=g7ZdcyU139g5ycPk6tTOv+XmJ/YRFVC9AYA8kola5hD9TUamh5KkxAbyVfea8i96N2
+         ED6Wd2+IzKKwRxBfoQMzPd/sW3t+QsIH64lqjo7jkj2/MOqCqK3zDZDMGKRtBBaimlPR
+         Gj4jgdwkTDioZIjvcoWxAQz/Pan/kT58FUpEzsWRD4vb+yYrRtOwcInJg4I54VtLJ9ig
+         bvXfWWQyQmXYgMgqKWr8gW8F7oy1HWlXVLHpB98C/Ct7h7o+ZVyh65kEc7bsToucgpF1
+         V6t6uQodWyrndc3vjD0AXOuZuolNOom745NWMtjKjX9wcLGkjFiGRamEhaaxIELQ3JXc
+         5ObA==
+X-Gm-Message-State: AOAM532CmKaxgjFWyP+VFKEzkqq9GQEPYqF1n4Epz1zWwIpZpOm8cnWp
+        etbx7pJQvdULBMusX7Uo5kkv1g==
+X-Google-Smtp-Source: ABdhPJyHHNhD5t2xjkbSGZiHt6KbdhAMKDi84P+mmkiT/V0jyrY+MpmJ+m/QKyI3DPkEbvRil0hrTg==
+X-Received: by 2002:a2e:3003:: with SMTP id w3mr7315031ljw.11.1593420029479;
+        Mon, 29 Jun 2020 01:40:29 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:8f5:df87:b899:8d19:71e5:a71? ([2a00:1fa0:8f5:df87:b899:8d19:71e5:a71])
+        by smtp.gmail.com with ESMTPSA id c14sm787394ljj.112.2020.06.29.01.40.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2020 01:40:28 -0700 (PDT)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH/RFC] net: ethernet: ravb: Try to wake subqueue instead of
+ stop on timeout
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     "REE dirk.behme@de.bosch.com" <dirk.behme@de.bosch.com>,
+        "Shashikant.Suguni@in.bosch.com" <Shashikant.Suguni@in.bosch.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>
+References: <1590486419-9289-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <TY2PR01MB369266A27D1ADF5297A3CFFCD89C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <9f71873b-ee5e-7ae3-8a5a-caf7bf38a68e@gmail.com>
+ <TY2PR01MB36926D80F2080A3D6109F11AD8980@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <TY2PR01MB36926B67ED0643A9EAA9A4F3D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Message-ID: <a1dc573d-78b0-7137-508d-efcdfa68d936@cogentembedded.com>
+Date:   Mon, 29 Jun 2020 11:40:22 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200628185522.5902-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200628185522.5902-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jun 2020 09:51:59 +0200
-Message-ID: <CAMuHMdXFgR__hnUO-o+2ukxOYc_6U63wjP1PJyip3KGg277gDA@mail.gmail.com>
-Subject: Re: [PATCH] i2c: add Kconfig help text for slave mode
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <TY2PR01MB36926B67ED0643A9EAA9A4F3D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hello!
 
-On Sun, Jun 28, 2020 at 8:55 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> I can't recall why there was none, but we surely want to have it.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 29.06.2020 8:24, Yoshihiro Shimoda wrote:
 
-Thanks for your patch!
+>>>>> From: Yoshihiro Shimoda, Sent: Tuesday, May 26, 2020 6:47 PM
+>>>>>
+>>>>> According to the report of [1], this driver is possible to cause
+>>>>> the following error in ravb_tx_timeout_work().
+>>>>>
+>>>>> ravb e6800000.ethernet ethernet: failed to switch device to config mode
+>>>>>
+>>>>> This error means that the hardware could not change the state
+>>>>> from "Operation" to "Configuration" while some tx queue is operating.
+>>>>> After that, ravb_config() in ravb_dmac_init() will fail, and then
+>>>>> any descriptors will be not allocaled anymore so that NULL porinter
+>>>>> dereference happens after that on ravb_start_xmit().
+>>>>>
+>>>>> Such a case is possible to be caused because this driver supports
+>>>>> two queues (NC and BE) and the ravb_stop_dma() is possible to return
+>>>>> without any stopping process if TCCR or CSR register indicates
+>>>>> the hardware is operating for TX.
+>>>>>
+>>>>> To fix the issue, just try to wake the subqueue on
+>>>>> ravb_tx_timeout_work() if the descriptors are not full instead
+>>>>> of stop all transfers (all queues of TX and RX).
+>>>>>
+>>>>> [1]
+>>>>> https://lore.kernel.org/linux-renesas-soc/20200518045452.2390-1-dirk.behme@de.bosch.com/
+>>>>>
+>>>>> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+>>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>>>> ---
+>>>>>    I'm guessing that this issue is possible to happen if:
+>>>>>    - ravb_start_xmit() calls netif_stop_subqueue(), and
+>>>>>    - ravb_poll() will not be called with some reason, and
+>>>>>    - netif_wake_subqueue() will be not called, and then
+>>>>>    - dev_watchdog() in net/sched/sch_generic.c calls ndo_tx_timeout().
+>>>>>
+>>>>>    However, unfortunately, I didn't reproduce the issue yet.
+>>>>>    To be honest, I'm also guessing other queues (SR) of this hardware
+>>>>>    which out-of tree driver manages are possible to reproduce this issue,
+>>>>>    but I didn't try such environment for now...
+>>>>>
+>>>>>    So, I marked RFC on this patch now.
+>>>>
+>>>> I'm afraid, but do you have any comments about this patch?
+>>>
+>>>      I agree that we should now reset only the stuck queue, not both but I
+>>> doubt your solution is good enough. Let me have another look...
+>>
+>> Thank you for your comment! I hope this solution is good enough...
+> 
+> I'm sorry again and again. But, do you have any time to look this patch?
 
-> --- a/drivers/i2c/Kconfig
-> +++ b/drivers/i2c/Kconfig
-> @@ -114,6 +114,11 @@ config I2C_STUB
->  config I2C_SLAVE
->         bool "I2C slave support"
->
+    Yes, in the sense of reviewing -- I don't consider it complete. And no, in 
+the sense of looking into the issue myself... Can we do a per-queue tear-down
+and re-init (not necessarily all in 1 patch)?
 
-Why the blank line here ^^^?
+> Best regards,
+> Yoshihiro Shimoda
 
-> +       help
-> +         This enables Linux to act as an I2C slave device. Note that your I2C
-> +         bus master driver also needs to support this functionality. Please
-> +         read Documentation/i2c/slave-interface.rst for further details.
-> +
->  if I2C_SLAVE
->
->  config I2C_SLAVE_EEPROM
-
-The rest looks fine to me.
-As you don't like conditional R-b's, I'll add mine on v2 ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
