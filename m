@@ -2,151 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 212E020E633
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 00:08:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E224820E544
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 00:06:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbgF2VpR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 17:45:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37562 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727780AbgF2Sho (ORCPT
+        id S1728588AbgF2Ve4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 17:34:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60654 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728566AbgF2Skz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:37:44 -0400
-Received: from mail-vk1-xa43.google.com (mail-vk1-xa43.google.com [IPv6:2607:f8b0:4864:20::a43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE2BC02A544
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 05:51:33 -0700 (PDT)
-Received: by mail-vk1-xa43.google.com with SMTP id h190so3694479vkh.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jun 2020 05:51:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=verdurent-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xHEvnwaXIaI22DXPizYpJcrsTL4/AwhMEQ6IhYTQKlQ=;
-        b=OQH0L9cBVHLRgTVZhw1jd+9UWSypZQN30gG3yvEpHJvc2VXIoNz+hyJGcfUcBU+7e4
-         oCc7XEKBqBQPleKnUVnLbIp6WsDfC+WCcVQhpW8dNcfHdlE37M0unZrcRr+0gg3/aEvf
-         PMdPFYwgtQ+R9ZtNcXAgyQyPNtpr4cbByuURBHAnjcHM+1N71I+sWI1yfCbGzQcEdiAN
-         yY4uALwvM8jRmBCwqjPgXEIl4AGsHRadzBeA2q8DcqrH+lwiFBEB3A6DNV046uaF3RHg
-         gXgPPRlYEZ8ZU+Sn3QHjIt7k5b5qK/HGOI6FP26Yjc3r+mq7qoc4ZOwpVuG+VUgxyPPT
-         2jyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xHEvnwaXIaI22DXPizYpJcrsTL4/AwhMEQ6IhYTQKlQ=;
-        b=PBF0s7FHdVlQxtYQ4/HnnChbSEZ7/k+K8+EQyWejLm4GefAtJXIc07Pd12eGYb1jD6
-         Jp7EeUM8/pL2vI+Z5mEkeVktN39NYhtYVbLMDkVEMDEd051InbnjlmceY3B5DXn94RB3
-         r16qGqnnBiC6Apr1tFw/wqMUTdLZ9a8KCo/MvsRlWoIvF/zs7nqJFy4ukI4pMpZssU8B
-         h2NXg281pTs1IedBWL1ROHW1W+dt5STCeDjRXxmgxSeM4q+pd/y7wkIf0yaszaQ6UtyK
-         hSJOgfBf7LBAQFkNn8IDfkLGe+2b3r+hukzthqVyn/ljMonJFfb0Q7MzaafX+hPbQX0X
-         TtEA==
-X-Gm-Message-State: AOAM5316/Rw2dvphbIsbw/rNt0GsrdelsOzJxDlf+Albl9xy+AS4EiQ/
-        jf+eSNeaanHTZcBgzGBe4QbbNTmNguSioe5yOLAeLKgvFOGGxw==
-X-Google-Smtp-Source: ABdhPJxV2IA2m9d5l16yBy3n1SZ0g7UHEZV6/cJ+b6V/XLPjujs0azTgjgMwltUJn2YBO0p0U04OWasRwsCDgvXmOEE=
-X-Received: by 2002:ac5:c189:: with SMTP id z9mr9880244vkb.79.1593435092807;
- Mon, 29 Jun 2020 05:51:32 -0700 (PDT)
+        Mon, 29 Jun 2020 14:40:55 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 51FD823D25;
+        Mon, 29 Jun 2020 12:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593435478;
+        bh=bcyRH8SrIJRpWOCioAE7dQk1Zwno7fu5lbGQHD57n+M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aSSuD7UPU9scWauVRzNqe8ZN1yN6QlsyN7rZk8VrNsWYDgD/+hATBOQzmvBCe2E+t
+         D3Xh+qBwPFvd/SS8ZHrwu7i6dNvNqobYG+MXCWb6C9721v0VwWQxe/CzBuVBy5sWdE
+         YIMT3SzvxnbDL+UZ6JEuxwTiUHnlnblRL/az3+KA=
+Date:   Mon, 29 Jun 2020 13:57:56 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH/RFC v4 2/4] regulator: fixed: add regulator_ops members
+ for suspend/resume
+Message-ID: <20200629125756.GC5499@sirena.org.uk>
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1593163942-5087-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200626143914.GE5289@sirena.org.uk>
+ <TY2PR01MB3692A3B12CEF7F9708A8A59CD86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <20200619151541.15069-1-geert+renesas@glider.be>
-In-Reply-To: <20200619151541.15069-1-geert+renesas@glider.be>
-From:   Amit Kucheria <amit.kucheria@verdurent.com>
-Date:   Mon, 29 Jun 2020 18:21:21 +0530
-Message-ID: <CAHLCerMfp42VHDxhCfnFmxphic0OVD55ZzmzwnrEvfF6WUARgg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: thermal: rcar-thermal: Improve schema validation
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB3692A3B12CEF7F9708A8A59CD86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+X-Cookie: Real programs don't eat cache.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 8:45 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->   - Document missing "#thermal-sensor-cells",
->   - Factor out common required properties,
->   - "interrupts", "clocks", and "power-domains" are required on R-Mobile
->     APE6, too,
->   - Invert logic to simplify descriptions,
->   - Add "additionalProperties: false".
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  .../bindings/thermal/rcar-thermal.yaml        | 53 ++++++++++++-------
->  1 file changed, 34 insertions(+), 19 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-> index 0994693d240f9ff4..88787b98992fe7c9 100644
-> --- a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-> @@ -59,25 +59,40 @@ properties:
->    resets:
->      maxItems: 1
->
-> -if:
-> -  properties:
-> -    compatible:
-> -      contains:
-> -        enum:
-> -          - renesas,thermal-r8a73a4 # R-Mobile APE6
-> -          - renesas,thermal-r8a7779 # R-Car H1
-> -then:
-> -  required:
-> -    - compatible
-> -    - reg
-> -else:
-> -  required:
-> -    - compatible
-> -    - reg
-> -    - interrupts
-> -    - clocks
-> -    - power-domains
-> -    - resets
-> +  '#thermal-sensor-cells':
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +allOf:
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - renesas,thermal-r8a73a4 # R-Mobile APE6
-> +                - renesas,thermal-r8a7779 # R-Car H1
-> +    then:
-> +      required:
-> +        - resets
-> +        - '#thermal-sensor-cells'
-> +
-> +  - if:
-> +      not:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              const: renesas,thermal-r8a7779 # R-Car H1
-> +    then:
-> +      required:
-> +        - interrupts
-> +        - clocks
-> +        - power-domains
-> +
-> +additionalProperties: false
->
->  examples:
->    # Example (non interrupt support)
-> --
-> 2.17.1
->
+On Mon, Jun 29, 2020 at 02:42:26AM +0000, Yoshihiro Shimoda wrote:
+> > From: Mark Brown, Sent: Friday, June 26, 2020 11:39 PM
+
+Copying in Sudeep for the feedback on firmware interfaces.
+
+> > According to the changelog this is all about reflecting changes in the
+> > system state done by firmware but there's no interaction with firmware
+> > here which means this will be at best fragile.  If we need to reflect
+> > changes in firmware configuration I'd expect there to be some
+> > interaction with firmware about how it is configured, or at least that
+> > the configuration would come from the same source.
+
+> I should have described background of previous patch series though,
+> according to previous discussion [1] the firmware side (like PSCI) is
+> also fragile unfortunately... So, I thought using regulator-off-in-suspend
+> in a regulator was better.
+
+> On other hand, Ulf is talking about either adding a property (perhaps like
+> regulator-off-in-suspend) into a regulator or just adding a new property
+> into MMC [2]. What do you think about Ulf' comment? I'm thinking
+> adding a new property "full-pwr-cycle-in-suspend" is the best solution.
+> This is because using a regulator property and reflecting a state of regu=
+lator without
+> firmware is fragile, as you said.
+
+TBH I worry about a property drifting out of sync with the firmware on
+systems where the firmware can be updated.  Personally my default
+assumption would always be that we're going to loose power for anything
+except the RAM and whatever is needed for wake sources during suspend so
+I find the discussion a bit surprising but in any case that seems like a
+better option than trying to shoehorn things in the way the series here
+did.  Like I said in my earlier replies if this is done through the
+regulator API I'd expect it to be via the suspend interface.
+
+> [1]
+> https://lore.kernel.org/linux-renesas-soc/CAMuHMdXjU7N4oG89YsozGijMpjgKGN=
+6ezw2qm6FeGX=3DJyRhsvg@mail.gmail.com/
+>=20
+> [2]
+> https://lore.kernel.org/linux-renesas-soc/CAPDyKFpiBU1D+a7zb+Ggm0_HZ+YR4=
+=3DLXJZ5MPytXtT=3DuBEdjPA@mail.gmail.com/
+>=20
+> Best regards,
+> Yoshihiro Shimoda
+>=20
+
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl755VMACgkQJNaLcl1U
+h9BCWAf/alYjM1GUf8o0xC1cfZB+/ZQDJlP1ynAY3yBAz6znDVqyB0+0YHESvJeZ
+H9rCGXZ4YyH+CRLnd3TzJrAYfJ9wedaSQiabb5GE7hUKuC/SYPgLHX/3201Kgwl+
++MNM6w0kvzjyU/0OzvYI0SXBFu5g21LAZLR5FSaYcReUfqOJah+OtilSFdO+z86h
+YsX6CMecRYl+4gwHkKlr1mQ7ZvrdtFkYynwxr3CZaD/ZsxZQ5DFL/p4h46D/ewKJ
+qYoD8RX0S5QnWLxNBWmy10XtW67Rznftmh5lSBV9UkG2zxIIYL8878fmVecdLsiI
+ZeLVxrKgg+Jq0Jzcy+7yux7aucvd+A==
+=ENZF
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
