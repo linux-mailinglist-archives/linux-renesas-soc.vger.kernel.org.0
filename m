@@ -2,33 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36BDA20DC6E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 22:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 521C420DA12
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jun 2020 22:12:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729880AbgF2UPM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jun 2020 16:15:12 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47824 "EHLO mail.zeus03.de"
+        id S1733231AbgF2Txc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jun 2020 15:53:32 -0400
+Received: from www.zeus03.de ([194.117.254.33]:43734 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732380AbgF2UPL (ORCPT
+        id S1731118AbgF2Tx2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jun 2020 16:15:11 -0400
+        Mon, 29 Jun 2020 15:53:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=eDBC4KfM5z9+QNVxmf00W2P5GNG
-        LaUKgVLYgC8/H4o4=; b=ZaIA8gSdSz+Qb76S0qX641pIYj82nUPmcldnJeLBeeQ
-        5BrvkNHt12a4f7AvAUrS3Hp2hFZDCx266RCh2iRysWrg6TnKnu7aiyxA/fr0G8X0
-        3fOyi6uUl+7e7OKwRlGrMD5/5GS1nO0iqlw7S5KZzs2kFj1OQlEfCebhM5saFVPQ
+        :content-transfer-encoding; s=k1; bh=FpyLO74xYjwKVoBrUpqtoejScYA
+        bwTvzYbQXG0AzIBU=; b=nQ1EUsahMFmEkwYyu5L8gzzK0xSmXQHQpDVLCkDqXoO
+        v4t/EgmTCxUIckP1tzbNOvdWoLmZznuQMu95FjgmVhplDTnP3JFypGn0hzCODzfR
+        c9INa5KqnlKywhP4lfOt2gtgpaYnsQxoCeoKdnuOdv65OwtYHSU3mCqB2zUpeh/M
         =
-Received: (qmail 2108455 invoked from network); 29 Jun 2020 18:15:08 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2020 18:15:08 +0200
-X-UD-Smtp-Session: l3s3148p1@XVbLXDupTLMgAwDPXwOPAD5GWjq5uCZs
+Received: (qmail 2142400 invoked from network); 29 Jun 2020 20:53:24 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2020 20:53:24 +0200
+X-UD-Smtp-Session: l3s3148p1@sQ7Okj2pYLQgAwDPXwOPAD5GWjq5uCZs
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-i2c@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v2] i2c: rcar: slave: only send STOP event when we have been addressed
-Date:   Mon, 29 Jun 2020 18:15:06 +0200
-Message-Id: <20200629161506.20617-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH RFC 0/1] i2c: add slave testunit driver
+Date:   Mon, 29 Jun 2020 20:53:17 +0200
+Message-Id: <20200629185318.23381-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -37,60 +38,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When the SSR interrupt is activated, it will detect every STOP condition
-on the bus, not only the ones after we have been addressed. So, enable
-this interrupt only after we have been addressed, and disable it
-otherwise.
+Motivated by a series by Alain Volmat which implements SMBus Host Notify
+support as a slave backend[1], I wondered how I could actually test it.
+Then, I picked up my old idea of a "custom remote device" and
+implemented it as another slave backend. This is the first draft and it
+works quite well on my Renesas Lager board where I connected two I2C
+busses where both I2C controllers are master and slave. One slave is the
+testunit, one slave is the HostNotify listener.
 
-Fixes: de20d1857dd6 ("i2c: rcar: add slave support")
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+While I really like Alain's approach, there is still some more testing
+needed. So, I already release my testing environment, maybe other people
+are interested, too. This patch depends on a documentation update. Also,
+for Renesas R-Car SoCs, some fixes are needed. I suggest you simply pull
+this branch here:
 
-Change since v1: It is probably cleaner to clear the SSR flag before we
-enable the SSR interrupt.
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/i2c/slave-testunit
 
- drivers/i2c/busses/i2c-rcar.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+As mentioned elsewhere, support for SMBus Alert and I2C_M_RECV_LEN are
+already planned. But I guess you can do much more.
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index a45c4bf1ec01..51a3909f8688 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -572,6 +572,9 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
- 
- 	/* address detected */
- 	if (ssr_filtered & SAR) {
-+		/* Clear SSR, too, because of old STOPs to other clients than us */
-+		rcar_i2c_write(priv, ICSSR, ~(SAR | SSR) & 0xff);
-+
- 		/* read or write request */
- 		if (ssr_raw & STM) {
- 			i2c_slave_event(priv->slave, I2C_SLAVE_READ_REQUESTED, &value);
-@@ -582,14 +585,12 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
- 			rcar_i2c_read(priv, ICRXTX);	/* dummy read */
- 			rcar_i2c_write(priv, ICSIER, SDR | SSR | SAR);
- 		}
--
--		rcar_i2c_write(priv, ICSSR, ~SAR & 0xff);
- 	}
- 
- 	/* master sent stop */
- 	if (ssr_filtered & SSR) {
- 		i2c_slave_event(priv->slave, I2C_SLAVE_STOP, &value);
--		rcar_i2c_write(priv, ICSIER, SAR | SSR);
-+		rcar_i2c_write(priv, ICSIER, SAR);
- 		rcar_i2c_write(priv, ICSSR, ~SSR & 0xff);
- 	}
- 
-@@ -853,7 +854,7 @@ static int rcar_reg_slave(struct i2c_client *slave)
- 	priv->slave = slave;
- 	rcar_i2c_write(priv, ICSAR, slave->addr);
- 	rcar_i2c_write(priv, ICSSR, 0);
--	rcar_i2c_write(priv, ICSIER, SAR | SSR);
-+	rcar_i2c_write(priv, ICSIER, SAR);
- 	rcar_i2c_write(priv, ICSCR, SIE | SDBS);
- 
- 	return 0;
+Ideas and comments welcome!
+
+Happy hacking,
+
+   Wolfram
+
+[1] http://patchwork.ozlabs.org/project/linux-i2c/list/?series=185718&state=*
+
+Wolfram Sang (1):
+  i2c: add slave testunit driver
+
+ Documentation/i2c/slave-testunit-backend.rst |  48 ++++++
+ drivers/i2c/Kconfig                          |   8 +
+ drivers/i2c/Makefile                         |   1 +
+ drivers/i2c/i2c-slave-testunit.c             | 146 +++++++++++++++++++
+ 4 files changed, 203 insertions(+)
+ create mode 100644 Documentation/i2c/slave-testunit-backend.rst
+ create mode 100644 drivers/i2c/i2c-slave-testunit.c
+
 -- 
 2.20.1
 
