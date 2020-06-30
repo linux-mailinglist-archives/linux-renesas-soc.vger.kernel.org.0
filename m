@@ -2,111 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 497DF20FF6F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 23:48:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F9BB20FFD1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 00:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729245AbgF3Vs4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 17:48:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36944 "EHLO
+        id S1726268AbgF3WD5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 18:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728308AbgF3Vs4 (ORCPT
+        with ESMTP id S1726150AbgF3WD4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 17:48:56 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0E9BC03E979
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 14:48:55 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id m26so12310870lfo.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 14:48:55 -0700 (PDT)
+        Tue, 30 Jun 2020 18:03:56 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9723AC03E979
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 15:03:56 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id q7so11254329ljm.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 15:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Jm1jEr9MLNh0iwu6xOCQxX50sDT2pwTDrdwoFLoZlas=;
-        b=EEs4eSixnt3LdF6NEVvLSKXpWpgLxOqtNH7aVll6BMEvkkFF1OwFuq8h7TilXIWtaY
-         /Ur/aOVX1b4hk7athFcr0r0A6Lsf/QEiGPWlPmP8fqpixX0zAJ9tm5HDGnN2HjMPd6Bl
-         adOtwDKs4bQ38Mtpo8+7YdmViCKOPzTBGcaeRtRrMkqQVXI3BajxnaizeHuwckoWfX7F
-         fK9lINPKQrEIeHEq3bRsLMvZbu+nxaBgl9S1IdSh6jqwTJF0aEm1nJuuDZjSbMADTrha
-         2rxp+4p7frxpU56LxgIPUVnNPLq7t7PYnnqBrCuAFKBCQ0RDfPYk12F+9oqw/VVUnIua
-         vpJA==
+        bh=xdNoXenycdknAZtX1Bd4pirlygryBFdZq5W7DISDEy4=;
+        b=S1+omJoiEMRnT0XLriHCwXfXnnWsNgUS3wg9ns59m7eyzAViGx1zAwYojbKooCeo0k
+         p32CN3QVNMxkjZqhNYFr+5H6BE/0sJCMZJoAy+gD9MthYbzQclpyF5Bc9jHvaWo4ltWP
+         wUJmspg/rgiWsVGwVbk1oZ1K9G0M0M6KkYoccVlqJkpD64xdpOoRyGxJU2RPOGj78Uhy
+         cBSM6ECzaIiVsXO6iEJrFSrnZZKM4fVZa43XnEH0Ns2GTpwMeHVPPSIcU9hqAJ3w7uC9
+         z9M3YWFf9igVtCzlzZWmPwhu0h0vN6wsbBU94MDZXUeZJmah3y7ZfgAOj4lYQziV1FFk
+         FyEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=Jm1jEr9MLNh0iwu6xOCQxX50sDT2pwTDrdwoFLoZlas=;
-        b=oMwuLWq6wJlXZw/Q60FWoUJ+G1YrPWI0jm5IsKzdQr9LUArEdRkutO/amgb953Z2vc
-         yWOurZM3umHE+Wm/u0DLbbVh+/xTx+QRVmBkOFXBLV6nYEdsZkI998lyrz/VHzKspKhR
-         TRxUeSyRLw5wp+XWkiq5uXR+Az4YAhRir379vawdkJY3rIh5iVQiz3pgX1AqMVH88ZSp
-         LP46YjxmZy2+FYu2Vf0kglytfh5Cvqz8pbxE8AG4ni90wnUwTbFPPV4Qh/d8XE92FcWj
-         fqNgC5TmcbIanEECTKFmh371sJy5GnKpLnrjkfIDdCdXQVXf0QPHhHvYCs5HZChHF/yV
-         B+EA==
-X-Gm-Message-State: AOAM532lFKnyuacD9VNlpYSqteOCq+t5oZFnRRcKT1m5pvWX7L4YKyZv
-        ewsoGJBCl4z1Ur+ybROEkI30H60Ewrg=
-X-Google-Smtp-Source: ABdhPJw7IQehrrrPHyMcohEA5LINdzv8/cxXHnQz/bbQNI1sb+axgmmTHyzAzfloEx+dzLeaOxiPBA==
-X-Received: by 2002:ac2:5e29:: with SMTP id o9mr12699995lfg.196.1593553734135;
-        Tue, 30 Jun 2020 14:48:54 -0700 (PDT)
+        bh=xdNoXenycdknAZtX1Bd4pirlygryBFdZq5W7DISDEy4=;
+        b=oefJlTgM0YuA+dSjmDeu7DTpcZzRCh6hLVSOvvh6CzfqzwAEdB/dV1JIFWRVkfmon8
+         nuh/pS+jwcYBSH1lY05romcBFRb38UmmxqYenrrShK9BhW6Qyc4moLPzYbdm+W02DZJZ
+         HN9D/aYhJKH/t1f9KWH/sOMKAJs43SmA85XCHOkGOeVYuXEjtvGJGhQHHTsTSVCdfb+h
+         J8lMJTDqs+4tjP+x/iZwAwQdpW1qO49JfHRrex7lGtajzv7n9aiE7IwR3YYdb4Wi1QpU
+         BnfWsmjCQp14Skni85H29bMgRHauLg4bPwtC0NZTJvhX3PCH8dgZwTMpcgPfj4R95RKm
+         PE2Q==
+X-Gm-Message-State: AOAM533Q8LKdS9ha1Vx0+U9xlU4w9ksrFYun+NvpBvp2gcvPEnOxD3Ad
+        q/51w5ue2Vs0UW9wtDb70pwyLQ==
+X-Google-Smtp-Source: ABdhPJy/V4jlChNsI5ZIPhawDkQpYe3Ajx4aHOxXwknaD2WISsRIG0xD7nVmJYMjCAEqwH50kqOyPw==
+X-Received: by 2002:a2e:b0f0:: with SMTP id h16mr4867724ljl.167.1593554634836;
+        Tue, 30 Jun 2020 15:03:54 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id q13sm1243830lfb.55.2020.06.30.14.48.52
+        by smtp.gmail.com with ESMTPSA id v20sm983322lfr.74.2020.06.30.15.03.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 14:48:53 -0700 (PDT)
-Date:   Tue, 30 Jun 2020 23:48:52 +0200
+        Tue, 30 Jun 2020 15:03:54 -0700 (PDT)
+Date:   Wed, 1 Jul 2020 00:03:53 +0200
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 0/3] media: v4l2-async: Accept endpoints and devices
- for fwnode matching
-Message-ID: <20200630214852.GI2365286@oden.dyn.berto.se>
-References: <20200621000028.4591-1-laurent.pinchart+renesas@ideasonboard.com>
+To:     Suresh Udipi <sudipi@jp.adit-jv.com>
+Cc:     mrodin@de.adit-jv.com, akiyama@nds-osk.co.jp,
+        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, mchehab@kernel.org,
+        michael@rodin.online, securitycheck@denso.co.jp
+Subject: Re: [PATCH v8 1/3] media: rcar-csi2: Correct the selection of
+ hsfreqrange
+Message-ID: <20200630220353.GJ2365286@oden.dyn.berto.se>
+References: <20200617133705.GA88066@vmlxhi-121.adit-jv.com>
+ <1592476472-26235-1-git-send-email-sudipi@jp.adit-jv.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200621000028.4591-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <1592476472-26235-1-git-send-email-sudipi@jp.adit-jv.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Suresh,
 
-Thanks for keep continued work on this.
+Thanks for your work.
 
-For the whole series,
+On 2020-06-18 19:34:30 +0900, Suresh Udipi wrote:
+> hsfreqrange should be chosen based on the calculated mbps which
+> is closer to the default bit rate  and within the range as per
+> table[1]. But current calculation always selects first value which
+> is greater than or equal to the calculated mbps which may lead
+> to chosing a wrong range in some cases.
+> 
+> For example for 360 mbps for H3/M3N
+> Existing logic selects
+> Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+> 
+> This hsfreqrange is out of range.
+> 
+> The logic is changed to get the default value which is closest to the
+> calculated value [1]
+> 
+> Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+> 
+> [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+> 
+> Please note that According to Renesas in Table 25.9 the range for
+> 220 default value is corrected as below
+> 
+>  |Range (Mbps)     |  Default  Bit rate (Mbps) |
+>  -----------------------------------------------
+>  | 197.125-244.125 |     220                   |
+>  -----------------------------------------------
+> 
+> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> 
+> Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+> Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
 
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On 2020-06-21 03:00:25 +0300, Laurent Pinchart wrote:
-> Hello,
+> ---
+>  Changes in v2:
+>   - Added the boundary check for the maximum bit rate.
 > 
-> This patch series is the third version of fwnode endpoint matching
-> support in v4l2-async. The secon version can be found at [1].
+>   - Simplified the logic by remmoving range check
+>     as only the closest default value covers most
+>     of the use cases.
 > 
-> Compared to v2, review comments have been incorporated, patch 4/4 got
-> squashed in 1/4 (now 1/3), and the code has been rebased on top of
-> v5.8-rc1.
+>   - Aligning the commit message based on the above change
 > 
-> Sakari, is they way that patch 1/3 determines if a fwnode is an endpoint
-> acceptable for you (and for ACPI) ?
 > 
-> [1] https://lore.kernel.org/linux-media/20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com
+>  Changes in v3:
+>     - Added max member from struct rcsi2_mbps_reg.
+>       mbps varialbe cannot be removed from rcsi2_mbps_reg,
+>       since this structure is reused for
+>       phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+>       used.
 > 
-> Laurent Pinchart (3):
->   media: v4l2-async: Accept endpoints and devices for fwnode matching
->   media: v4l2-async: Pass notifier pointer to match functions
->   media: v4l2-async: Log message in case of heterogeneous fwnode match
 > 
->  drivers/media/v4l2-core/v4l2-async.c | 85 +++++++++++++++++++++++++---
->  1 file changed, 77 insertions(+), 8 deletions(-)
+>    -  Update the walk of the array in rcsi2_set_phypll() so that it finds
+>       the first entry where the calculated bit rate is less than the max.
 > 
+>    - Support lower bit rates less than 80Mbps like 48Mbps
+>      (Raspberry pi camera 640x480 connected to Kingfisher)
+>      can also be supported by selecting the lowest default bit rate 80Mbps
+>      as done before this fix
+> 
+>    - Alignement of the commit message based on above changes.
+> 
+>  Changes in v4:
+>   -  Remove unncessary braces.
+> 
+>  Changes in v5:
+>    - Removed mbps variable in rcsi2_mbps_reg and aligned all
+>      tables accordingly
+> 
+> 
+>  Changes in v6
+>    - Renesas correct the range of default value 220Mbps. Now
+>      if we select the nearest value to the default value all
+>          the values are in range. So reverting back to original patch
+>   
+>    - Added warning for values less than Minimum 80Mbps
+>       
+> Changes in v7
+>   - Create a seperate commit for the warning message less
+>     than minimum 80Mbps 
+>   
+>   - Reorder the statements to increase readability
+>   
+> Changes in v8
+>   - Extended the logic of selection of nearest mbps to
+>     PHTW registers value less than 250Mbps. A new commit
+>     is added
+> 	
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index 151e6a9..f18dedc 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -431,16 +431,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+>  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+>  {
+>  	const struct rcsi2_mbps_reg *hsfreq;
+> +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+>  
+> -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+> +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+>  		if (hsfreq->mbps >= mbps)
+>  			break;
+> +		hsfreq_prev = hsfreq;
+> +	}
+>  
+>  	if (!hsfreq->mbps) {
+>  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+>  		return -ERANGE;
+>  	}
+>  
+> +	if (hsfreq_prev &&
+> +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> +		hsfreq = hsfreq_prev;
+> +
+>  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+>  
+>  	return 0;
 > -- 
-> Regards,
-> 
-> Laurent Pinchart
+> 2.7.4
 > 
 
 -- 
