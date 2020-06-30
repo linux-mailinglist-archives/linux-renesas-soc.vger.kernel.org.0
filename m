@@ -2,187 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59AAD20F530
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 14:58:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1D6020F57E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 15:19:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388066AbgF3M6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 08:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387952AbgF3M55 (ORCPT
+        id S1726736AbgF3NTW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 09:19:22 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38595 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbgF3NTV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 08:57:57 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50099C061755
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 05:57:57 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z15so8750781wrl.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 05:57:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WwiCRMR/atAzHQdqmr8uQelMa6OcJuGWGuwIRfhRdfs=;
-        b=PjtHdZDyhsfzOMknUBCzAw98LBJLOT+lMKu8FyLjhCUmY5zqFEKQjOpc0es34kiYw7
-         TEnUSoSJ3f61hHZTPcBVtChXqTKUT14Z1ygKNwosPCBzB0Pm7msxtjo5fYPA+1w7D3U4
-         JYy/2C4+NLEFNGgD3gyxAeXQqJVZpzuBvxQOI3xU1q0cTX7uddeB860HGcA+R9a2NxlU
-         qOTSAPhfdHAEOvdlwOeQX21T5qSrN6jUZabswuo4hqHGPCBCpAOpGIbYLHfj2nkekTdR
-         6EPB/JQvmiyH9Shvv0lfPtAWdeC/xfUmMiaNaQy2sSG+IcFqZJPB8yJf2CCLCRJbaFfP
-         TXnA==
+        Tue, 30 Jun 2020 09:19:21 -0400
+Received: by mail-ot1-f68.google.com with SMTP id t18so5553913otq.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 06:19:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WwiCRMR/atAzHQdqmr8uQelMa6OcJuGWGuwIRfhRdfs=;
-        b=kStd8LtD623XVX9MTsnBxBHHaPxH0ewnrT1xn3MzPKKQkOTJHZeAbrFYB9TlVIhMJW
-         yg5ZPwq1eLI2FF44hmMBzb0iXsqK/a6hoF2ONgm90GJsPaLhuz0ZD4jGOAGOA+96i1i8
-         10OkDZItouvHaAww8bc3zs7f/DUCTSqeMQXD01bMqBuBs+Xck0WIdlEJ1FfLi0d1S2Dr
-         +gBTeudUeLURlOSRwNxAT+rbNEf6/vZzFClYsI1IfHgcRSndjLaARk3KHf+cP7ipHKi+
-         VGJBkXDV1avmpZVutdaWpbLTZnagMrSzvNglNMJyZMAJkE1ac3YM8DG64WMgV2BcVVj/
-         mVbg==
-X-Gm-Message-State: AOAM530t+/RCYhFc4SEfsANB2Lajp+++9AB2p7c+qAPZH7hp8Vr4sr1z
-        NBTXjhHhT6blZEkR8F8GNkUXAw==
-X-Google-Smtp-Source: ABdhPJwAuU8HZu7bzQUdUK7N+9kAxLdtAij91dHnV4cLlG9pUpOpa87mO5UpON9ihs0/vm3ANHX4DA==
-X-Received: by 2002:adf:ec42:: with SMTP id w2mr21971589wrn.269.1593521875852;
-        Tue, 30 Jun 2020 05:57:55 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
-        by smtp.googlemail.com with ESMTPSA id 133sm3823861wme.5.2020.06.30.05.57.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 05:57:55 -0700 (PDT)
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
-Date:   Tue, 30 Jun 2020 14:57:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2Vv3oKfTUTLjhvdZMhnpZ2Ycz4NvPJuLRaYdFI2N2bE=;
+        b=FaqDCOPhXSJP3xad3vqd6RcrsfAR//uzsc373kbp98xPNUQmu3SIrQinrLBoBc2dqD
+         n06Ce/sK0oJiisxU8SYS9VOM++giRue/9D7CA1ibuO3sl6aKDnywRHyhoLbC0BAf15kW
+         o38BqvlNj4dEgXpCAyvR02tkEFeJYnAhQzqDRNV/AGbKJg7/0VzZjRNpZhXT4B1Zwwuh
+         hBBEtVO4LcG0/DHdYPn8uYjNk1jgB++WCaPIqlFQdq4u3PGkwnA1qUOKoyPsMHOGHxbn
+         55rJv96lnjg7O2iyYEtH5MzTH+ueQIhBjvE03/bGr+kw9ZkrdoxeALHJSNI8NvEVTPsW
+         /b2A==
+X-Gm-Message-State: AOAM5304SQVxW5ic4I6VV9eDGdq1TvmxJxpAXzKcL6BKfLUebhwMpzx0
+        7HNvBB/r3vcFPY6FKX9Lfil3MXeMJPLB4paDVUc=
+X-Google-Smtp-Source: ABdhPJx2CbhwSUW9CdiX1Zkw4dTdbHFXV4X5yfDACvQ20+KKs4itk/4TIIY/dSasNzkHw8dR9dbRKUydabnqLfGIm7Q=
+X-Received: by 2002:a9d:6254:: with SMTP id i20mr17680562otk.145.1593523160419;
+ Tue, 30 Jun 2020 06:19:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200629122925.21729-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdU0OEA7seCDadrSsNYXHQJOuSRrm8O439PK_pf3NoLxsg@mail.gmail.com>
+ <TY2PR01MB3692FBE296EC373130842219D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <CAMuHMdXh1Hh6H35Mp8hBJBykUucRNwxTmW+U9SHM+xhrcwasDA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXh1Hh6H35Mp8hBJBykUucRNwxTmW+U9SHM+xhrcwasDA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 30 Jun 2020 15:19:08 +0200
+Message-ID: <CAMuHMdX93Q9WhKLqv_wNPzArbc68NcbVN8jJ9MDKxAcicpBQ5Q@mail.gmail.com>
+Subject: Re: [PATCH/RFC v4 0/4] treewide: add regulator condition on _mmc_suspend()
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Shimoda-san,
 
-Hi Andrzej,
+On Mon, Jun 29, 2020 at 1:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Jun 29, 2020 at 12:04 PM Yoshihiro Shimoda
+> <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > From: Geert Uytterhoeven, Sent: Friday, June 26, 2020 7:13 PM
+> > > On Fri, Jun 26, 2020 at 11:32 AM Yoshihiro Shimoda
+> > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > Note that v5.8-rc2 with r8a77951-salvator-xs seems to cause panic from
+> > > > PCI driver when the system is suspended. So, I disabled the PCI
+> > > > devices when I tested this patch series.
+> > >
+> > > Does this happen with current renesas-devel and renesas_defconfig?
+> > > (it doesn't for me)
+> >
+> > Yes. I enabled PM_DEBUG and E1000E though.
+> >
+> > > Do you have any PCIe devices attached? (I haven't)
+> >
+> > Yes. (Intel Ethernet card is connected to the PCI slot.)
+> >
+> > < my environment >
+> > - r8a77961-salvator-xs
+> > - renesas-devel-2020-06-26-v5.8-rc2
+> >  + renesas_defconfig + PM_DEBUG + E1000E
+> > - initramfs
+>
+> Doesn't fail for me on R-Car H3 ES2.0, so it needs the presence of a
+> PCIe card.  Unfortunately I haven't any (added to shopping wishlist).
 
-I've tested your series with kernelci and there are 3 regressions for
-the imx6.
+[...]
 
-https://kernelci.org/test/job/thermal/branch/testing/kernel/v5.8-rc3-11-gf5e50bf4d3ef/plan/baseline/
+> The failure mode looks like the PCI card is accessed while the PCI host
+> bridge has been suspended.
 
+Does "[PATCH v1] driver core: Fix suspend/resume order issue with
+deferred probe"[1] help?
 
-On 29/06/2020 14:29, Andrzej Pietrasiewicz wrote:
-> A respin of v6 with these changes:
-> 
-> v6..v7:
-> - removed duplicate S-o-b line from patch 6/11
-> 
-> v5..v6:
-> - staticized thermal_zone_device_set_mode() (kbuild test robot)
-> 
-> v4..v5:
-> 
-> - EXPORT_SYMBOL -> EXPORT_SYMBOL_GPL (Daniel)
-> - dropped unnecessary thermal_zone_device_enable() in int3400_thermal.c
-> and in thermal_of.c (Bartlomiej)
-> 
-> Andrzej Pietrasiewicz (11):
->   acpi: thermal: Fix error handling in the register function
->   thermal: Store thermal mode in a dedicated enum
->   thermal: Add current mode to thermal zone device
->   thermal: Store device mode in struct thermal_zone_device
->   thermal: remove get_mode() operation of drivers
->   thermal: Add mode helpers
->   thermal: Use mode helpers in drivers
->   thermal: Explicitly enable non-changing thermal zone devices
->   thermal: core: Stop polling DISABLED thermal devices
->   thermal: Simplify or eliminate unnecessary set_mode() methods
->   thermal: Rename set_mode() to change_mode()
-> 
->  drivers/acpi/thermal.c                        | 75 +++++----------
->  .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  8 ++
->  .../ethernet/mellanox/mlxsw/core_thermal.c    | 91 ++++---------------
->  drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  9 +-
->  drivers/platform/x86/acerhdf.c                | 33 +++----
->  drivers/platform/x86/intel_mid_thermal.c      |  6 ++
->  drivers/power/supply/power_supply_core.c      |  9 +-
->  drivers/thermal/armada_thermal.c              |  6 ++
->  drivers/thermal/da9062-thermal.c              | 16 +---
->  drivers/thermal/dove_thermal.c                |  6 ++
->  drivers/thermal/hisi_thermal.c                |  6 +-
->  drivers/thermal/imx_thermal.c                 | 57 ++++--------
->  .../intel/int340x_thermal/int3400_thermal.c   | 38 ++------
->  .../int340x_thermal/int340x_thermal_zone.c    |  5 +
->  drivers/thermal/intel/intel_pch_thermal.c     |  5 +
->  .../thermal/intel/intel_quark_dts_thermal.c   | 34 ++-----
->  drivers/thermal/intel/intel_soc_dts_iosf.c    |  3 +
->  drivers/thermal/intel/x86_pkg_temp_thermal.c  |  6 ++
->  drivers/thermal/kirkwood_thermal.c            |  7 ++
->  drivers/thermal/rcar_thermal.c                |  9 +-
->  drivers/thermal/rockchip_thermal.c            |  6 +-
->  drivers/thermal/spear_thermal.c               |  7 ++
->  drivers/thermal/sprd_thermal.c                |  6 +-
->  drivers/thermal/st/st_thermal.c               |  5 +
->  drivers/thermal/thermal_core.c                | 76 ++++++++++++++--
->  drivers/thermal/thermal_of.c                  | 41 +--------
->  drivers/thermal/thermal_sysfs.c               | 37 +-------
->  include/linux/thermal.h                       | 19 +++-
->  28 files changed, 275 insertions(+), 351 deletions(-)
-> 
-> 
-> base-commit: 9ebcfadb0610322ac537dd7aa5d9cbc2b2894c68
-> 
+[1] https://lore.kernel.org/lkml/20200625032430.152447-1-saravanak@google.com/
 
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
