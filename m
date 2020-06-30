@@ -2,111 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9766120F5C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 15:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5B7920F600
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 15:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388163AbgF3Neh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 09:34:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44964 "EHLO
+        id S2387743AbgF3Nn2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 09:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388162AbgF3Ndy (ORCPT
+        with ESMTP id S2387429AbgF3Nn1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 09:33:54 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286BCC08C5DD
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 06:33:53 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:503c:ab8:1424:9638])
-        by michel.telenet-ops.be with bizsmtp
-        id xRZq2200249uj5306RZq9L; Tue, 30 Jun 2020 15:33:50 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jqGOT-00054v-U8
-        for linux-renesas-soc@vger.kernel.org; Tue, 30 Jun 2020 15:33:49 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jqGOT-0007Jz-Pe
-        for linux-renesas-soc@vger.kernel.org; Tue, 30 Jun 2020 15:33:49 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2020-06-30-v5.8-rc3
-Date:   Tue, 30 Jun 2020 15:33:49 +0200
-Message-Id: <20200630133349.28101-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 30 Jun 2020 09:43:27 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63520C061755;
+        Tue, 30 Jun 2020 06:43:27 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id EDD2D2A4A92
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+Date:   Tue, 30 Jun 2020 15:43:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2020-06-30-v5.8-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi Daniel,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+I am reading the logs and can't find anything specific to thermal.
 
-Today's version is based on renesas-devel-2020-06-29-v5.8-rc3.
+What I can see is
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - topic/ravb-internal-clock-delays-v1
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+"random: crng init done"
 
-Included fixes:
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+with large times (~200s) and then e.g.
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+'auto-login-action timed out after 283 seconds'
 
-Gr{oetje,eeting}s,
+I'm looking at e.g. 
+https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
 
-						Geert
+Is there anywhere else I can look at?
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Andrzej
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+W dniu 30.06.2020 o 14:57, Daniel Lezcano pisze:
+> 
+> Hi Andrzej,
+> 
+> I've tested your series with kernelci and there are 3 regressions for
+> the imx6.
+> 
+> https://kernelci.org/test/job/thermal/branch/testing/kernel/v5.8-rc3-11-gf5e50bf4d3ef/plan/baseline/
+> 
+> 
+> On 29/06/2020 14:29, Andrzej Pietrasiewicz wrote:
+>> A respin of v6 with these changes:
+>>
+>> v6..v7:
+>> - removed duplicate S-o-b line from patch 6/11
+>>
+>> v5..v6:
+>> - staticized thermal_zone_device_set_mode() (kbuild test robot)
+>>
+>> v4..v5:
+>>
+>> - EXPORT_SYMBOL -> EXPORT_SYMBOL_GPL (Daniel)
+>> - dropped unnecessary thermal_zone_device_enable() in int3400_thermal.c
+>> and in thermal_of.c (Bartlomiej)
+>>
+>> Andrzej Pietrasiewicz (11):
+>>    acpi: thermal: Fix error handling in the register function
+>>    thermal: Store thermal mode in a dedicated enum
+>>    thermal: Add current mode to thermal zone device
+>>    thermal: Store device mode in struct thermal_zone_device
+>>    thermal: remove get_mode() operation of drivers
+>>    thermal: Add mode helpers
+>>    thermal: Use mode helpers in drivers
+>>    thermal: Explicitly enable non-changing thermal zone devices
+>>    thermal: core: Stop polling DISABLED thermal devices
+>>    thermal: Simplify or eliminate unnecessary set_mode() methods
+>>    thermal: Rename set_mode() to change_mode()
+>>
+>>   drivers/acpi/thermal.c                        | 75 +++++----------
+>>   .../ethernet/chelsio/cxgb4/cxgb4_thermal.c    |  8 ++
+>>   .../ethernet/mellanox/mlxsw/core_thermal.c    | 91 ++++---------------
+>>   drivers/net/wireless/intel/iwlwifi/mvm/tt.c   |  9 +-
+>>   drivers/platform/x86/acerhdf.c                | 33 +++----
+>>   drivers/platform/x86/intel_mid_thermal.c      |  6 ++
+>>   drivers/power/supply/power_supply_core.c      |  9 +-
+>>   drivers/thermal/armada_thermal.c              |  6 ++
+>>   drivers/thermal/da9062-thermal.c              | 16 +---
+>>   drivers/thermal/dove_thermal.c                |  6 ++
+>>   drivers/thermal/hisi_thermal.c                |  6 +-
+>>   drivers/thermal/imx_thermal.c                 | 57 ++++--------
+>>   .../intel/int340x_thermal/int3400_thermal.c   | 38 ++------
+>>   .../int340x_thermal/int340x_thermal_zone.c    |  5 +
+>>   drivers/thermal/intel/intel_pch_thermal.c     |  5 +
+>>   .../thermal/intel/intel_quark_dts_thermal.c   | 34 ++-----
+>>   drivers/thermal/intel/intel_soc_dts_iosf.c    |  3 +
+>>   drivers/thermal/intel/x86_pkg_temp_thermal.c  |  6 ++
+>>   drivers/thermal/kirkwood_thermal.c            |  7 ++
+>>   drivers/thermal/rcar_thermal.c                |  9 +-
+>>   drivers/thermal/rockchip_thermal.c            |  6 +-
+>>   drivers/thermal/spear_thermal.c               |  7 ++
+>>   drivers/thermal/sprd_thermal.c                |  6 +-
+>>   drivers/thermal/st/st_thermal.c               |  5 +
+>>   drivers/thermal/thermal_core.c                | 76 ++++++++++++++--
+>>   drivers/thermal/thermal_of.c                  | 41 +--------
+>>   drivers/thermal/thermal_sysfs.c               | 37 +-------
+>>   include/linux/thermal.h                       | 19 +++-
+>>   28 files changed, 275 insertions(+), 351 deletions(-)
+>>
+>>
+>> base-commit: 9ebcfadb0610322ac537dd7aa5d9cbc2b2894c68
+>>
+> 
+> 
+
