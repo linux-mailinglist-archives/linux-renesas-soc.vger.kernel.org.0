@@ -2,174 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF6DE20FBCB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 20:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E32A20FC5F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 21:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390832AbgF3Sdw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 14:33:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34816 "EHLO
+        id S1726392AbgF3TAG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 15:00:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729676AbgF3Sdu (ORCPT
+        with ESMTP id S1726245AbgF3TAG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:33:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B856DC03E979
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id o11so21155187wrv.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
+        Tue, 30 Jun 2020 15:00:06 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E10B3C061755
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 12:00:05 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id n23so23897769ljh.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 12:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
-        b=QtRvGqVxjzxpiFVybIea7lqehIQLky2ZFc2aG1M6771qlNANmaszRuCoEuuKojC4wO
-         e3gUMOhd6TiyI5C3zuqPkGO0Q61l1AUfwUIyFir+LMpB+pXEgIoiTyIse+E+W0JIoF1S
-         Ulyhd/nP9MSIRL7CQFpcHG+cwScKqaWXcQ/tUEnD/6C37OGTdUaiJf+DPwkPtWe/8/+H
-         pW6dOiQPIe+l5evZRZ/JGlvO4MKwSS91ACC5sj6UoHMgGtVpVLEnFRxyvyjuZIe8ACvV
-         zt1UeqXVyKh3Xxm3WcxDd6DXGrfYHQSZ3gPsXzrDcM2C9jWuSc6Z39R9xenraJNNEyLy
-         YGMQ==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=8AkG+ozoxKky42qVOcqYFaJyVLeAXk8Kq6YDSBbE30k=;
+        b=CiSrZvcEEueCUwVkwH2cN85Fmgac2GyHYyd0vApfOoaO1mIWx19lLR1VPhzpfZDsyi
+         JqeCQlyYTP4IMELpngByqW7jdgYXecM4vzN7jeegOrljou84dZhdzY0gwG/YPvBjiQnR
+         U9l5uaxiDWtMtpWs1YJLHxH14VO6DihvuRI0P7hbe7inZw6bqkpaIuBSRHjDdL9sqfN+
+         BA2TXwzF/LiNweZTmxHiqPtPXGBRWfFUz202ng4+/vh+wnGbeXe28GINQibsi0gZqIL4
+         iZWia+nQ+GjwN/ymFbQITJqee6K3suR6pXhoMdQ9XgOtpPIFIzwRgSoSbiSRd/WTOaB0
+         pULw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
-        b=S4YKTbv6z8+P3WfrmJeBlaZ6S7W4Ms4re9l6Q2brroNKo+xbaO6Iu2gBR9kvZuZ5cv
-         DBkWJXHj8xaN14yIHXQgaJJClO1ClWB1S6j6TqwNtmGZpQE+4r/EdPGOm07QZZp6aOER
-         zo77lIF6m1B7ZWFHcpkHmsFXaJwGDUKn0I9UfjYTWE9ocSxK9CDI5ST2F5gZQWCsZaR9
-         T/UCKFIfWrB6iw2McjlxaHYoHjy0QXQjfsrIRBRHsglEPqUPEpSQMc8jpamyBqVpq47w
-         RXJC76f4ay9aK8sjdSKp3etSmNbNcisix/PRFS/hy7rYXUK9sr4Ejw426tFv2RBPXC+I
-         hCbg==
-X-Gm-Message-State: AOAM533xx2L/x1omhnogSvSIp/FTsLUtwMCC95dcZUlex+zyHUdlQMH3
-        QLToRBHcjNWACeOS8nmx2+qkoA==
-X-Google-Smtp-Source: ABdhPJxLhcXrkHLv2/YCvgyaaG9WujOJsdKLAP5iiMsukPW0YrKfbKY169ibr3i+yNbysUtJLv4bdw==
-X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr22357628wrw.123.1593542028223;
-        Tue, 30 Jun 2020 11:33:48 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
-        by smtp.googlemail.com with ESMTPSA id b10sm4104203wmj.30.2020.06.30.11.33.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 11:33:47 -0700 (PDT)
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=8AkG+ozoxKky42qVOcqYFaJyVLeAXk8Kq6YDSBbE30k=;
+        b=dbFM9sXVEQ9ZSi2WEA/Nf4MlzFpy3MXh2UrJBTYMtZgGgn3UhyqZREzgTd+d3HgOwo
+         3oV/YPsMWDofqqgNgQwyMoy4jXmqFcpvPAE5G62Qne24hschtLSB54jwmPPJoOqxdj95
+         3GIABwG+4LLyeuxio5/JUOu/P28zc4Fiw+ahcRFWSZM+SI4Kxwrno7uxb2IfDYgSGeQr
+         XvpoqLwsk6cpTX/VWkCRBv5q0N3nH930kbQ32mYzw+kBhrZ9u+IwROTH2MGR+WcUOXw0
+         hYt66tMEiQOWjZoh9wIMGvH1oqKT1lgi6r3KgCE+v+rTVD80gHimHsohfv8p1xuXGuUK
+         k3fA==
+X-Gm-Message-State: AOAM531nJAJbPO3mV54bP1wwx8t87uywRJitohCk5xXHbzGfrAe1++OC
+        TrL3yhzhLzxtfOP5O7P8oTCpKg==
+X-Google-Smtp-Source: ABdhPJycYs1FeTE0dGaO0FGSr/8UOOSTNotK13+UnbUcOf0moCWdLSHZW0BPeOxy4ea5g20kQots5Q==
+X-Received: by 2002:a2e:3a14:: with SMTP id h20mr1687565lja.331.1593543604285;
+        Tue, 30 Jun 2020 12:00:04 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id y24sm991922ljy.91.2020.06.30.12.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 12:00:03 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 21:00:03 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
         linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
- <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-Date:   Tue, 30 Jun 2020 20:33:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] ARM: multi_v7_defconfig: Enable additional support for
+ Renesas platforms
+Message-ID: <20200630190003.GB2259976@oden.dyn.berto.se>
+References: <20200630171237.11077-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200630171237.11077-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
-> Hi,
+Hi Geert.
+
+Thanks for your work.
+
+On 2020-06-30 19:12:37 +0200, Geert Uytterhoeven wrote:
+> Increase build and test coverage by enabling support for more hardware
+> present on Renesas SoCs and boards:
+>   - Dialog DA9063 PMIC "ONKEY", as used on the Stout and Silk boards,
+>   - Renesas RZ/A watchdog timer, as used on RZ/A1H and RZ/A2M boards,
+>   - Renesas RZ/A1H Capture Engine Unit, as used on the GR-Peach
+>     audiocamera shield expansion board,
+>   - Analog Devices ADV7612 HDMI receiver (incl. CEC), as used on the
+>     Koelsch and Lager boards,
+
+Nice.
+
+>   - Renesas RZ/A1H Realtime Clock, as used on the Genmai and RSK+RZA1
+>     boards.
 > 
-> W dniu 30.06.2020 oÂ 17:53, Daniel Lezcano pisze:
->> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
->>> Hi Daniel,
->>>
->>> W dniu 30.06.2020 oÂ 16:53, Daniel Lezcano pisze:
->>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
->>>>> Hi Daniel,
->>>>>
->>>>> I am reading the logs and can't find anything specific to thermal.
->>>>>
->>>>> What I can see is
->>>>>
->>>>> "random: crng init done"
->>>>>
->>>>> with large times (~200s) and then e.g.
->>>>>
->>>>> 'auto-login-action timed out after 283 seconds'
->>>>>
->>>>> I'm looking at e.g.
->>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
->>>>>
->>>>>
->>>>>
->>>
->>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
->>> PATCH 11/11 renames a method and the code compiles, so it seems
->>> unlikely that this is causing problems. One should never say never,
->>> though ;)
->>
->> The sha1 is just the HEAD for the kernel reference. The regression
->> happens with your series, somewhere.
->>
->>> The reported failure is not due to some test failing but rather due
->>> to timeout logging into the test system. Could it be that there is
->>> some other problem?
->>
->> I did reproduce:
->>
->> v5.8-rc3 + series => imx6 hang at boot time
->> v5.8-rc3 => imx6 boots correctly
->>
+> All of the above are modular (CEC support is an optional feature of the
+> modular ADV7604 driver).
 > 
-> I kindly ask for a bisect.
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I will give a try but it is a very long process as the board is running
-on kernelci.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-I was not able to reproduce it on imx7 despite it is the same sensor :/
-
+> ---
+> To be queued in renesas-devel for v5.9.
+> 
+>  arch/arm/configs/multi_v7_defconfig | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+> index 95543914d3c7f01c..f6dbbdc4be9c66ff 100644
+> --- a/arch/arm/configs/multi_v7_defconfig
+> +++ b/arch/arm/configs/multi_v7_defconfig
+> @@ -314,6 +314,7 @@ CONFIG_INPUT_MAX77693_HAPTIC=m
+>  CONFIG_INPUT_MAX8997_HAPTIC=m
+>  CONFIG_INPUT_CPCAP_PWRBUTTON=m
+>  CONFIG_INPUT_AXP20X_PEK=m
+> +CONFIG_INPUT_DA9063_ONKEY=m
+>  CONFIG_INPUT_ADXL34X=m
+>  CONFIG_INPUT_STPMIC1_ONKEY=y
+>  CONFIG_SERIO_AMBAKMI=y
+> @@ -520,6 +521,7 @@ CONFIG_TEGRA_WATCHDOG=m
+>  CONFIG_MESON_WATCHDOG=y
+>  CONFIG_DIGICOLOR_WATCHDOG=y
+>  CONFIG_RENESAS_WDT=m
+> +CONFIG_RENESAS_RZAWDT=m
+>  CONFIG_STPMIC1_WATCHDOG=y
+>  CONFIG_BCM47XX_WDT=y
+>  CONFIG_BCM2835_WDT=y
+> @@ -618,6 +620,7 @@ CONFIG_V4L_PLATFORM_DRIVERS=y
+>  CONFIG_VIDEO_MMP_CAMERA=m
+>  CONFIG_VIDEO_ASPEED=m
+>  CONFIG_VIDEO_STM32_DCMI=m
+> +CONFIG_VIDEO_RENESAS_CEU=m
+>  CONFIG_VIDEO_SAMSUNG_EXYNOS4_IS=m
+>  CONFIG_VIDEO_S5P_FIMC=m
+>  CONFIG_VIDEO_S5P_MIPI_CSIS=m
+> @@ -640,6 +643,8 @@ CONFIG_VIDEO_VIVID=m
+>  CONFIG_CEC_PLATFORM_DRIVERS=y
+>  CONFIG_CEC_SAMSUNG_S5P=m
+>  CONFIG_VIDEO_ADV7180=m
+> +CONFIG_VIDEO_ADV7604=m
+> +CONFIG_VIDEO_ADV7604_CEC=y
+>  CONFIG_VIDEO_ML86V7667=m
+>  CONFIG_IMX_IPUV3_CORE=m
+>  CONFIG_DRM=y
+> @@ -901,6 +906,7 @@ CONFIG_RTC_DRV_EFI=m
+>  CONFIG_RTC_DRV_DIGICOLOR=m
+>  CONFIG_RTC_DRV_S3C=m
+>  CONFIG_RTC_DRV_SA1100=m
+> +CONFIG_RTC_DRV_SH=m
+>  CONFIG_RTC_DRV_PL031=y
+>  CONFIG_RTC_DRV_AT91RM9200=m
+>  CONFIG_RTC_DRV_AT91SAM9=m
+> -- 
+> 2.17.1
+> 
 
 -- 
-<http://www.linaro.org/> Linaro.org â”‚ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+Regards,
+Niklas Söderlund
