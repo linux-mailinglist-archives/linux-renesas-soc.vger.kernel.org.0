@@ -2,127 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85B0220F9F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 18:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 751B620FA3A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 19:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387977AbgF3Q4T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 12:56:19 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35770 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729867AbgF3Q4T (ORCPT
+        id S2387958AbgF3RMm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 13:12:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50622 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729963AbgF3RMm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 12:56:19 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 9B6B92A1B1F
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Tue, 30 Jun 2020 13:12:42 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FAD5C061755
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 10:12:41 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:503c:ab8:1424:9638])
+        by andre.telenet-ops.be with bizsmtp
+        id xVCe2200N49uj5301VCe7m; Tue, 30 Jun 2020 19:12:39 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jqJoE-0002qm-I7; Tue, 30 Jun 2020 19:12:38 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jqJoE-0002tP-FO; Tue, 30 Jun 2020 19:12:38 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>
+Cc:     linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
-Date:   Tue, 30 Jun 2020 18:56:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: multi_v7_defconfig: Enable additional support for Renesas platforms
+Date:   Tue, 30 Jun 2020 19:12:37 +0200
+Message-Id: <20200630171237.11077-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Increase build and test coverage by enabling support for more hardware
+present on Renesas SoCs and boards:
+  - Dialog DA9063 PMIC "ONKEY", as used on the Stout and Silk boards,
+  - Renesas RZ/A watchdog timer, as used on RZ/A1H and RZ/A2M boards,
+  - Renesas RZ/A1H Capture Engine Unit, as used on the GR-Peach
+    audiocamera shield expansion board,
+  - Analog Devices ADV7612 HDMI receiver (incl. CEC), as used on the
+    Koelsch and Lager boards,
+  - Renesas RZ/A1H Realtime Clock, as used on the Genmai and RSK+RZA1
+    boards.
 
-W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
-> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
->> Hi Daniel,
->>
->> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
->>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
->>>> Hi Daniel,
->>>>
->>>> I am reading the logs and can't find anything specific to thermal.
->>>>
->>>> What I can see is
->>>>
->>>> "random: crng init done"
->>>>
->>>> with large times (~200s) and then e.g.
->>>>
->>>> 'auto-login-action timed out after 283 seconds'
->>>>
->>>> I'm looking at e.g.
->>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
->>>>
->>>>
->>
->> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
->> PATCH 11/11 renames a method and the code compiles, so it seems
->> unlikely that this is causing problems. One should never say never,
->> though ;)
-> 
-> The sha1 is just the HEAD for the kernel reference. The regression
-> happens with your series, somewhere.
-> 
->> The reported failure is not due to some test failing but rather due
->> to timeout logging into the test system. Could it be that there is
->> some other problem?
-> 
-> I did reproduce:
-> 
-> v5.8-rc3 + series => imx6 hang at boot time
-> v5.8-rc3 => imx6 boots correctly
-> 
+All of the above are modular (CEC support is an optional feature of the
+modular ADV7604 driver).
 
-I kindly ask for a bisect.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.9.
 
-Andrzej
+ arch/arm/configs/multi_v7_defconfig | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 95543914d3c7f01c..f6dbbdc4be9c66ff 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -314,6 +314,7 @@ CONFIG_INPUT_MAX77693_HAPTIC=m
+ CONFIG_INPUT_MAX8997_HAPTIC=m
+ CONFIG_INPUT_CPCAP_PWRBUTTON=m
+ CONFIG_INPUT_AXP20X_PEK=m
++CONFIG_INPUT_DA9063_ONKEY=m
+ CONFIG_INPUT_ADXL34X=m
+ CONFIG_INPUT_STPMIC1_ONKEY=y
+ CONFIG_SERIO_AMBAKMI=y
+@@ -520,6 +521,7 @@ CONFIG_TEGRA_WATCHDOG=m
+ CONFIG_MESON_WATCHDOG=y
+ CONFIG_DIGICOLOR_WATCHDOG=y
+ CONFIG_RENESAS_WDT=m
++CONFIG_RENESAS_RZAWDT=m
+ CONFIG_STPMIC1_WATCHDOG=y
+ CONFIG_BCM47XX_WDT=y
+ CONFIG_BCM2835_WDT=y
+@@ -618,6 +620,7 @@ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_VIDEO_MMP_CAMERA=m
+ CONFIG_VIDEO_ASPEED=m
+ CONFIG_VIDEO_STM32_DCMI=m
++CONFIG_VIDEO_RENESAS_CEU=m
+ CONFIG_VIDEO_SAMSUNG_EXYNOS4_IS=m
+ CONFIG_VIDEO_S5P_FIMC=m
+ CONFIG_VIDEO_S5P_MIPI_CSIS=m
+@@ -640,6 +643,8 @@ CONFIG_VIDEO_VIVID=m
+ CONFIG_CEC_PLATFORM_DRIVERS=y
+ CONFIG_CEC_SAMSUNG_S5P=m
+ CONFIG_VIDEO_ADV7180=m
++CONFIG_VIDEO_ADV7604=m
++CONFIG_VIDEO_ADV7604_CEC=y
+ CONFIG_VIDEO_ML86V7667=m
+ CONFIG_IMX_IPUV3_CORE=m
+ CONFIG_DRM=y
+@@ -901,6 +906,7 @@ CONFIG_RTC_DRV_EFI=m
+ CONFIG_RTC_DRV_DIGICOLOR=m
+ CONFIG_RTC_DRV_S3C=m
+ CONFIG_RTC_DRV_SA1100=m
++CONFIG_RTC_DRV_SH=m
+ CONFIG_RTC_DRV_PL031=y
+ CONFIG_RTC_DRV_AT91RM9200=m
+ CONFIG_RTC_DRV_AT91SAM9=m
+-- 
+2.17.1
 
