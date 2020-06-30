@@ -2,99 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A224920FD3D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 21:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A7E420FE1B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 22:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729062AbgF3T6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 15:58:49 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:45714 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728878AbgF3T6s (ORCPT
+        id S1726096AbgF3UtX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 16:49:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726119AbgF3UtW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 15:58:48 -0400
-Received: by mail-oi1-f194.google.com with SMTP id j11so15851032oiw.12;
-        Tue, 30 Jun 2020 12:58:47 -0700 (PDT)
+        Tue, 30 Jun 2020 16:49:22 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2EE1C03E979
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 13:49:21 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id 9so24231360ljc.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 13:49:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xvMzBYx/+eZkL1U4iAm8DZ6iRc4MRD6poHIjEeZk1I0=;
+        b=JXQFgrWPHof0j3cDBxYmxzEqX9RoavpSkASuonw6dNEvCOEvPn6X2dMDaw063EBgEQ
+         KYGF46P6F52DF0TNrG7OrpNghsS8Ls3+ozRCcOWE+PRp4wsxTvwvUX6Xgy7UlVRbT/gU
+         82vG4ANNWRsprwLsb9SYwpZnKTrVt+JUaHCISqJZGGfDuJxy5Nl24LfxZ3NWdYSYwfoG
+         xO3FrjHlpPN3NT8+jl85xT64F0jnPOuR8LgSWG9xSn65OMEifV73tw0WfZm6FArgHmMP
+         Uj4fpkYzuK8FVBsDLRO3ID5ZQbhmgTsAxE36chU8KC0ny2Je80/vq31H68vWx63swFWX
+         oEDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h8P84lbXdopf9xm3H9H/4Fl7/z4QR1K2/q+QCfjbLtU=;
-        b=MtLNHjA/27gNHCHMA9rAvxykdXYP7y/ijshd+U5MK6rnyyJvcGrA0P4/w4I5VkR+DT
-         Z6y80E0v5h0vqk1W4vrGW9ri9jwQ84BglKi8iB908PCJQpZCy7Emt2jABXsQXOqSYodq
-         JuNP60KB3zmIPjqegoEer7E+9TJedcVeudvlp/+fF3Hb8F10ai+pYqCgv+XC6/7G3YEY
-         Wx8jnB3nCCgijwYSoc9htgKzZFoQBTbNyr8EFnobiiXQDhJWCEMi+p1YB1zxp2+lXKDR
-         ohgq1LAeYOvgabrPDBArFL8B6b928hFbTFFA87qZzIBIXwa4vSPCofrTUm/trRJFj1Kr
-         +K4A==
-X-Gm-Message-State: AOAM5335vf9xDyDlAvdKAdF8FUQNWY6fH6CG008ArQexPFksZjf2XC0v
-        hwBefuT/oJJx24xDFARzDxznc2qlD0QagWGQ8GO4QkEn
-X-Google-Smtp-Source: ABdhPJxDeKi05m0Q4XZGeUMo+RA5ECKcFS85EPriaIopHaQFEUuvaw4iqh8JHtU1Ok6cVTuTs0Y8AFkeY8Hkc9QpU4g=
-X-Received: by 2002:aca:1801:: with SMTP id h1mr12683870oih.148.1593547127392;
- Tue, 30 Jun 2020 12:58:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xvMzBYx/+eZkL1U4iAm8DZ6iRc4MRD6poHIjEeZk1I0=;
+        b=o7AvzlybA648OnH4Uz0IDOyE1W/fSDcxP/0dVSY5lMwVQH5BPsrn9Tg3vsyvd8FiNR
+         rUze3dt7m0loBQ7fe/QCZNRnrskMOcKafNxp13UQ7i7YhisJQkYUzrolY1jVFfAgNgqt
+         8snPX8QJjNSHhDJiVctu18ri1HPYhSHos8WMZ2lHlof6jvTH1Rz9D9ZuSHQvxsrFoOCL
+         EYcZQXx++KG0r9BCVJ+NrZ0HvSyPX9PVsmjKnnzdbfMOkCKVqjUMDrotFWR4wq8TZXHa
+         pQe8tDxq4U+jDH+W9vqpwYaLrBV4pCRUKEBsUbiqn64N3ZmrNpW4gDGb+WR7vk6LM40X
+         0EuA==
+X-Gm-Message-State: AOAM532hvNm9dSUPPH4S320Gf5b3YkiPfGFc3IwME2suhCg6LgkeBlw0
+        eZBUsxVSsLE6JEFLwI85Ww+aJg==
+X-Google-Smtp-Source: ABdhPJyvN++jQvWmhL1Nhi4QY7ErV0bsXsbkHZP2JNUtRN07KQpUgLR60RQJZ/BTWYqFLoid4vKvUg==
+X-Received: by 2002:a2e:580f:: with SMTP id m15mr11054422ljb.357.1593550159379;
+        Tue, 30 Jun 2020 13:49:19 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id q1sm1195630lfp.42.2020.06.30.13.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 13:49:18 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 22:49:18 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 1/8] dt-bindings: media: renesas,fcp: Convert binding
+ to YAML
+Message-ID: <20200630204918.GA2365286@oden.dyn.berto.se>
+References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621004734.28602-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20200618150532.2923-1-uli+renesas@fpond.eu> <CAMuHMdUE4v+8Dz+eowX5RNJuRGmXcFuYQCe7JQxrFXEQV3xKJA@mail.gmail.com>
- <20200625070636.GB970@ninjato> <CAMuHMdWM3VUNUY-r_4cJw8FNFHcfpjY=s=sj2CiC67FRmNkALA@mail.gmail.com>
- <20200625151658.GB1041@ninjato> <20200630194528.GB999@ninjato>
-In-Reply-To: <20200630194528.GB999@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Jun 2020 21:58:36 +0200
-Message-ID: <CAMuHMdVmtwhTncN=Vu8=wFX9MhnNDHTG019xN+pL0ahRUHpSzw@mail.gmail.com>
-Subject: Re: [PATCH v2] i2c: sh_mobile: implement atomic transfers
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200621004734.28602-2-laurent.pinchart+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Laurent,
 
-On Tue, Jun 30, 2020 at 9:45 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> On Thu, Jun 25, 2020 at 05:16:58PM +0200, Wolfram Sang wrote:
-> > I spend some more thoughts on this.
-> >
-> > > > > In general, pm_runtime_get_sync() is not safe to call from atomic
-> > > > > context.
-> > > > > For Renesas SoCs, I think both the power and clock domains are safe, as
-> > > > > the respective drivers don't sleep.  The PM core might, though.
-> > > >
-> > > > Still, that sounds to me like we should protect these calls as in V1?
-> >
-> > I still think we should guard these calls just because it is not safe to
-> > call them from atomic contexts.
-> >
-> > > And talk to the i2c controller while it is disabled?
-> >
-> > Is there maybe some "always-on" property which we could add to the
-> > respective IIC clock?
->
-> Ping to this question...
+Thanks for your work.
 
-You mean in DT? DT describes hardware, not software policy.
+On 2020-06-21 03:47:27 +0300, Laurent Pinchart wrote:
+> Convert the Renesas R-Car FCP text binding to YAML.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Changes since v1:
+> 
+> - Simplify comments on compatible strings
+> - Update MAINTAINERS
+> ---
+>  .../devicetree/bindings/media/renesas,fcp.txt | 34 -----------
+>  .../bindings/media/renesas,fcp.yaml           | 56 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 57 insertions(+), 35 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.txt b/Documentation/devicetree/bindings/media/renesas,fcp.txt
+> deleted file mode 100644
+> index 79c37395b396..000000000000
+> --- a/Documentation/devicetree/bindings/media/renesas,fcp.txt
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -Renesas R-Car Frame Compression Processor (FCP)
+> ------------------------------------------------
+> -
+> -The FCP is a companion module of video processing modules in the Renesas R-Car
+> -Gen3 and RZ/G2 SoCs. It provides data compression and decompression, data
+> -caching, and conversion of AXI transactions in order to reduce the memory
+> -bandwidth.
+> -
+> -There are three types of FCP: FCP for Codec (FCPC), FCP for VSP (FCPV) and FCP
+> -for FDP (FCPF). Their configuration and behaviour depend on the module they
+> -are paired with. These DT bindings currently support the FCPV and FCPF.
+> -
+> - - compatible: Must be one or more of the following
+> -
+> -   - "renesas,fcpv" for generic compatible 'FCP for VSP'
+> -   - "renesas,fcpf" for generic compatible 'FCP for FDP'
+> -
+> - - reg: the register base and size for the device registers
+> - - clocks: Reference to the functional clock
+> -
+> -Optional properties:
+> - - power-domains : power-domain property defined with a power domain specifier
+> -		   to respective power domain.
+> -
+> -
+> -Device node example
+> --------------------
+> -
+> -	fcpvd1: fcp@fea2f000 {
+> -		compatible = "renesas,fcpv";
+> -		reg = <0 0xfea2f000 0 0x200>;
+> -		clocks = <&cpg CPG_MOD 602>;
+> -		power-domains = <&sysc R8A7795_PD_A3VP>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/renesas,fcp.yaml b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> new file mode 100644
+> index 000000000000..9241bf3c5efc
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,fcp.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,fcp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car Frame Compression Processor (FCP)
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +description: |
+> +  The FCP is a companion module of video processing modules in the Renesas
+> +  R-Car Gen3 and RZ/G2 SoCs. It provides data compression and decompression,
+> +  data caching, and conversion of AXI transactions in order to reduce the
+> +  memory bandwidth.
+> +
+> +  There are three types of FCP: FCP for Codec (FCPC), FCP for VSP (FCPV) and
+> +  FCP for FDP (FCPF). Their configuration and behaviour depend on the module
+> +  they are paired with. These DT bindings currently support the FCPV and FCPF.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,fcpv # FCP for VSP
+> +      - renesas,fcpf # FCP for FDP
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # R8A7790 (R-Car H2) VSP1-S
 
-Anyway, won't help on R-Mobile A1, as there's a real power domain.
+Hum, R8A7790 is H2 but the example below is from H3 R8A7795[01] is it 
+not? With this fixed,
 
-> > > That does seem to work on R-Car Gen2 (similar to SMP bringup accessing
-> > > registers of a disabled WDT?), though.
-> >
-> > Yes. Uli's patch will not cause a regression because we are already
-> > calling i2c_transfer very late. And we do call the runtime_pm functions
-> > currently. So, it will improve the situation there.
-> >
-> > > Needs testing on R-Mobile A1....
-> >
-> > That's armadillo, right? I don't have that, sadly.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    fcp@fea2f000 {
+> +        compatible = "renesas,fcpv";
+> +        reg = <0xfea2f000 0x200>;
+> +        clocks = <&cpg CPG_MOD 602>;
+> +        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 68f21d46614c..660ed6606de2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10700,7 +10700,7 @@ L:	linux-media@vger.kernel.org
+>  L:	linux-renesas-soc@vger.kernel.org
+>  S:	Supported
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/renesas,fcp.txt
+> +F:	Documentation/devicetree/bindings/media/renesas,fcp.yaml
+>  F:	drivers/media/platform/rcar-fcp.c
+>  F:	include/media/rcar-fcp.h
+>  
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
