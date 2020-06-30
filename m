@@ -2,41 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 307E320FA69
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 19:20:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6DE20FBCB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jun 2020 20:33:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390228AbgF3RUt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jun 2020 13:20:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38818 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730584AbgF3RUt (ORCPT
+        id S2390832AbgF3Sdw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jun 2020 14:33:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729676AbgF3Sdu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jun 2020 13:20:49 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593537649;
-        bh=woAgZBPxVbZ5pmjCf+FCWy3q/sXXKtlLscJ1An/E17A=;
-        h=Subject:From:Date:To:From;
-        b=IwdhJ7CHeFHXOtXCNeCdy9ma3jzIhiL0c9jz/Ea5h8hZPe1Zu2O/UpAzxU5YnQfvU
-         NBjYHSgQPl9Nd1KMC2zF8m9QxOXpFZhCstlQ2w5k93LwgXRlYjUOXbQf5b9IcOhA46
-         GlkU9YeV4n5ImKJZkZA5HijIgIAYYliuwG7SLOzs=
+        Tue, 30 Jun 2020 14:33:50 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B856DC03E979
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id o11so21155187wrv.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jun 2020 11:33:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
+        b=QtRvGqVxjzxpiFVybIea7lqehIQLky2ZFc2aG1M6771qlNANmaszRuCoEuuKojC4wO
+         e3gUMOhd6TiyI5C3zuqPkGO0Q61l1AUfwUIyFir+LMpB+pXEgIoiTyIse+E+W0JIoF1S
+         Ulyhd/nP9MSIRL7CQFpcHG+cwScKqaWXcQ/tUEnD/6C37OGTdUaiJf+DPwkPtWe/8/+H
+         pW6dOiQPIe+l5evZRZ/JGlvO4MKwSS91ACC5sj6UoHMgGtVpVLEnFRxyvyjuZIe8ACvV
+         zt1UeqXVyKh3Xxm3WcxDd6DXGrfYHQSZ3gPsXzrDcM2C9jWuSc6Z39R9xenraJNNEyLy
+         YGMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fJpxH5/djWt9U3VYoQjuqMYzJN+p95+ihodoPPW+SNQ=;
+        b=S4YKTbv6z8+P3WfrmJeBlaZ6S7W4Ms4re9l6Q2brroNKo+xbaO6Iu2gBR9kvZuZ5cv
+         DBkWJXHj8xaN14yIHXQgaJJClO1ClWB1S6j6TqwNtmGZpQE+4r/EdPGOm07QZZp6aOER
+         zo77lIF6m1B7ZWFHcpkHmsFXaJwGDUKn0I9UfjYTWE9ocSxK9CDI5ST2F5gZQWCsZaR9
+         T/UCKFIfWrB6iw2McjlxaHYoHjy0QXQjfsrIRBRHsglEPqUPEpSQMc8jpamyBqVpq47w
+         RXJC76f4ay9aK8sjdSKp3etSmNbNcisix/PRFS/hy7rYXUK9sr4Ejw426tFv2RBPXC+I
+         hCbg==
+X-Gm-Message-State: AOAM533xx2L/x1omhnogSvSIp/FTsLUtwMCC95dcZUlex+zyHUdlQMH3
+        QLToRBHcjNWACeOS8nmx2+qkoA==
+X-Google-Smtp-Source: ABdhPJxLhcXrkHLv2/YCvgyaaG9WujOJsdKLAP5iiMsukPW0YrKfbKY169ibr3i+yNbysUtJLv4bdw==
+X-Received: by 2002:a5d:6ac1:: with SMTP id u1mr22357628wrw.123.1593542028223;
+        Tue, 30 Jun 2020 11:33:48 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07? ([2a01:e34:ed2f:f020:54f4:a99f:ab88:bc07])
+        by smtp.googlemail.com with ESMTPSA id b10sm4104203wmj.30.2020.06.30.11.33.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2020 11:33:47 -0700 (PDT)
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+ <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+ <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+ <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+ <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+ <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+Date:   Tue, 30 Jun 2020 20:33:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159353764896.1988.11127837451874408358.git-patchwork-housekeeping@kernel.org>
-Date:   Tue, 30 Jun 2020 17:20:48 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v1] arm64: defconfig: Enable additional support for Renesas platforms (2020-06-30T17:15:00)
-  Superseding: [v1] arm64: defconfig: Enable additional support for Renesas platforms (2020-02-17T10:32:51):
-    arm64: defconfig: Enable additional support for Renesas platforms
+On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
+> Hi,
+> 
+> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
+>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
+>>> Hi Daniel,
+>>>
+>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
+>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
+>>>>> Hi Daniel,
+>>>>>
+>>>>> I am reading the logs and can't find anything specific to thermal.
+>>>>>
+>>>>> What I can see is
+>>>>>
+>>>>> "random: crng init done"
+>>>>>
+>>>>> with large times (~200s) and then e.g.
+>>>>>
+>>>>> 'auto-login-action timed out after 283 seconds'
+>>>>>
+>>>>> I'm looking at e.g.
+>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
+>>>>>
+>>>>>
+>>>>>
+>>>
+>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
+>>> PATCH 11/11 renames a method and the code compiles, so it seems
+>>> unlikely that this is causing problems. One should never say never,
+>>> though ;)
+>>
+>> The sha1 is just the HEAD for the kernel reference. The regression
+>> happens with your series, somewhere.
+>>
+>>> The reported failure is not due to some test failing but rather due
+>>> to timeout logging into the test system. Could it be that there is
+>>> some other problem?
+>>
+>> I did reproduce:
+>>
+>> v5.8-rc3 + series => imx6 hang at boot time
+>> v5.8-rc3 => imx6 boots correctly
+>>
+> 
+> I kindly ask for a bisect.
+
+I will give a try but it is a very long process as the board is running
+on kernelci.
+
+I was not able to reproduce it on imx7 despite it is the same sensor :/
 
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
