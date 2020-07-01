@@ -2,151 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D118F210929
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 12:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E0F3210A7A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 13:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729881AbgGAKXj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 06:23:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        id S1730456AbgGALmW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 07:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729781AbgGAKXi (ORCPT
+        with ESMTP id S1730453AbgGALmV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 06:23:38 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 248D4C03E979;
-        Wed,  1 Jul 2020 03:23:38 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 339872A530D
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
- <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
- <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
-Date:   Wed, 1 Jul 2020 12:23:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Wed, 1 Jul 2020 07:42:21 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBA6BC03E97A
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2020 04:42:20 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:503c:ab8:1424:9638])
+        by michel.telenet-ops.be with bizsmtp
+        id xniJ2200z49uj5306niJUo; Wed, 01 Jul 2020 13:42:18 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jqb84-0006Pq-6w; Wed, 01 Jul 2020 13:42:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jqb84-0002EB-4V; Wed, 01 Jul 2020 13:42:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/2] gpio: aggregator: Misc parsing improvements
+Date:   Wed,  1 Jul 2020 13:42:10 +0200
+Message-Id: <20200701114212.8520-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+	Hi Linus, Bartosz, Andy,
 
-W dniu 30.06.2020 o 20:33, Daniel Lezcano pisze:
-> On 30/06/2020 18:56, Andrzej Pietrasiewicz wrote:
->> Hi,
->>
->> W dniu 30.06.2020 o 17:53, Daniel Lezcano pisze:
->>> On 30/06/2020 17:29, Andrzej Pietrasiewicz wrote:
->>>> Hi Daniel,
->>>>
->>>> W dniu 30.06.2020 o 16:53, Daniel Lezcano pisze:
->>>>> On 30/06/2020 15:43, Andrzej Pietrasiewicz wrote:
->>>>>> Hi Daniel,
->>>>>>
->>>>>> I am reading the logs and can't find anything specific to thermal.
->>>>>>
->>>>>> What I can see is
->>>>>>
->>>>>> "random: crng init done"
->>>>>>
->>>>>> with large times (~200s) and then e.g.
->>>>>>
->>>>>> 'auto-login-action timed out after 283 seconds'
->>>>>>
->>>>>> I'm looking at e.g.
->>>>>> https://storage.kernelci.org/thermal/testing/v5.8-rc3-11-gf5e50bf4d3ef/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-sabrelite.html
->>>>>>
->>>>>>
->>>>>>
->>>>
->>>> f5e50bf4d3ef is PATCH 11/11. Does the problem happen at PATCH 1-10/11?
->>>> PATCH 11/11 renames a method and the code compiles, so it seems
->>>> unlikely that this is causing problems. One should never say never,
->>>> though ;)
->>>
->>> The sha1 is just the HEAD for the kernel reference. The regression
->>> happens with your series, somewhere.
->>>
->>>> The reported failure is not due to some test failing but rather due
->>>> to timeout logging into the test system. Could it be that there is
->>>> some other problem?
->>>
->>> I did reproduce:
->>>
->>> v5.8-rc3 + series => imx6 hang at boot time
->>> v5.8-rc3 => imx6 boots correctly
->>>
+This patch series contains two improvements for the parsing code in the
+GPIO Aggregator.
 
-What did you reproduce? Timeout logging in to the test system or a "real" 
-failure of a test?
+The second one converts the driver to use bitmap_parselist() for parsing
+GPIO offsets and/or ranges, as suggested by Andy[1].  This should have
+no impact on the format of the configuration parameters written to the
+"new_device" virtual file in sysfs.
 
->>
->> I kindly ask for a bisect.
-> 
-> I will give a try but it is a very long process as the board is running
-> on kernelci.
-> 
-> I was not able to reproduce it on imx7 despite it is the same sensor :/
-> 
-> 
+Changes compared to v1:
+  - Rename mask to bitmap,
+  - Allocate bitmap dynamically.
 
-Could it be that the thermal sensors somehow contribute to entropy and after
-the series is applied on some machines it takes more time to gather enough
-entropy?
+Thanks for your comments!
 
-Andrzej
+[1] https://lore.kernel.org/r/20200520121420.GA1867563@smile.fi.intel.com
+
+Geert Uytterhoeven (2):
+  gpio: aggregator: Drop pre-initialization in get_arg()
+  gpio: aggregator: Use bitmap_parselist() for parsing GPIO offsets
+
+ drivers/gpio/gpio-aggregator.c | 63 +++++++++++++++-------------------
+ 1 file changed, 28 insertions(+), 35 deletions(-)
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
