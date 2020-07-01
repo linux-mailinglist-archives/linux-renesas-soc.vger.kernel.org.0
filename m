@@ -2,106 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F2F2111CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 19:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 314DC2112FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 20:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729465AbgGARRt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 13:17:49 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:41009 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726432AbgGARRs (ORCPT
+        id S1726021AbgGASqp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 14:46:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbgGASqo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 13:17:48 -0400
-Received: by mail-ot1-f66.google.com with SMTP id k15so21958879otp.8;
-        Wed, 01 Jul 2020 10:17:47 -0700 (PDT)
+        Wed, 1 Jul 2020 14:46:44 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B9AC08C5C1;
+        Wed,  1 Jul 2020 11:46:44 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id 12so14988554oir.4;
+        Wed, 01 Jul 2020 11:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=u5c83WCGX0NDyaUCMmG0xgffkHyXstMK7mXxU0DUqNM=;
+        b=dwkLGxYa3+N9fekdfFDFa5FVj3CBLbagAn/Nr7MHAjYudTprLVSdReSc2VzzdNArpW
+         8QsAVf+aLNZMoQvO7x5uQk49CqeV4qe10P3PN4OwLL2q0PbJWg9uxtrsogXHCEdp2ZW6
+         yngjH/EXW4oizpkILGQoSyyRWsqCDs6+ZDeFKXg9D0E+m7ucWbzmQ6nnTgtDwZ3DXagw
+         3YMIdW4r55KKXHaUuCTYYjd43m0nQRV2P3ryCy0iC/PrgWOesB0WFUyuqIC9UpM19k1b
+         UzdNPlf+DwaUD1qcwu94oPFV4T2FwATGcALYrW0Mz1WBFHVRCqYrEMgyCg8m177BHSOZ
+         EavQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4DeJKT3rF87H8O2OZ1E1YXv2QMAJ3DSeaSi7+IyNvX0=;
-        b=OkLCFK/7dazsHs3C/Lif6TQIX9HAbvJEOC/R7WYIkbiQDycXW2jgHVt1JIJubuxWFH
-         qjlKe0HpENn0H5QkVMw5my6ObH1vAZGwkVlpajsq+0QAW0G0/OzZxVPVXGvxHvr1uaEN
-         bwCG+d3EuDWvG3TAifX93jupQBW3vUg88heLLqBr6uVydM6hnqLoqs/aKN5+n5wzQQMC
-         gN2bDV2cx3SrnuvyCKfxdPLlmQQu7YaEnhY8NjjAa7BWVPkRze2zy5fLc8cOHKGpczFv
-         eGIO82YsC2WMLsrxR2ZuXnYiU//tpUAkWiXTC3Sm4nIYk/hqATiBobDNj49LJ8IJPftV
-         fA9w==
-X-Gm-Message-State: AOAM533RaLAxAfW5BLoR5iloaHaofUn1D/E+E+nnthoYX0UxV7kWqQZl
-        8zQ599wt8yEJW0pBAV3RhY9K6OUGFunYka7g9x0=
-X-Google-Smtp-Source: ABdhPJwI1jpyvfp6Syqw8VPHxjayT22lizXhfFASeRsifC+fTjXmjqOeKnVBTI4zyPXPDV+t6Og7OsZoD6/VwVAjvLA=
-X-Received: by 2002:a9d:6254:: with SMTP id i20mr23441092otk.145.1593623867483;
- Wed, 01 Jul 2020 10:17:47 -0700 (PDT)
+        bh=u5c83WCGX0NDyaUCMmG0xgffkHyXstMK7mXxU0DUqNM=;
+        b=aM2i0KvOaQQw40jN4E5ecCjNE2Md5SeXFnZfzllag4OqN3Ke1fDqVr6dvOUhIT3/Jq
+         5aPR5JbARRjECk3ndkCdsIJbJZzGHPJKd9jc3HJ7bcA7GNS7KL5+e+ei0vVPkccu/jxf
+         oDvZv5yoHl3M21MsOJ+sCzI8/J+AX631Wt4Xs33/tDImxCOdZ+vU2cLdArZx7tBXHNDF
+         DRHAMIGg20WelocpuL6/ELTMaTSe+rBVUBPHpFCX8jLvyQJoOpYz2zwinzLGg/bkmsq1
+         9gy9k7shnGavLslm5Igak5bn0z6zyCMwvSV6zqUdhnpCb7T0KZzyIV3ufiFB7o/sShkS
+         5q2w==
+X-Gm-Message-State: AOAM532kkvdqRMKrx8mzuh+qvczgqy4u9tabCGd69MrUcAQEcue9hcse
+        bo9tYN4OsCzkqhERm1f/GQBxB3qwnT+251WFlxM=
+X-Google-Smtp-Source: ABdhPJwHzMay7ZnRljIpduOFKx31p6b8NTrJ1RgzCwos45MT0JO3GrKNQSxxo1iYRBFfO5WFOQgVImjaRqbMF/+LGUc=
+X-Received: by 2002:a54:4518:: with SMTP id l24mr21862766oil.8.1593629204142;
+ Wed, 01 Jul 2020 11:46:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 1 Jul 2020 19:17:36 +0200
-Message-ID: <CAMuHMdWU7kVJMuNMSGxZSjErmj7rB=tvXH3GANmPRjYz+=JP1g@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Initialize spinlock for uart console
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
+References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com> <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 1 Jul 2020 19:46:17 +0100
+Message-ID: <CA+V-a8s6izi09GKU83LBmgXGaGcnuCDnf0ZZOSBTkHhB3JsxqQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
+ fwnode is a graph endpoint
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Laurent,
 
-On Wed, Jul 1, 2020 at 5:42 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> serial core expects the spinlock to be initialized by the controller
-> driver for serial console, this patch makes sure the spinlock is
-> initialized, fixing the below issue:
+Thank you for the patch.
+
+On Wed, Jul 1, 2020 at 7:21 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
 >
-> [    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
-> [    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-> [    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
-> [    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
-> [    0.865968] Call trace:
-> [    0.865979]  dump_backtrace+0x0/0x1d8
-> [    0.865985]  show_stack+0x14/0x20
-> [    0.865996]  dump_stack+0xe8/0x130
-> [    0.866006]  spin_dump+0x6c/0x88
-> [    0.866012]  do_raw_spin_lock+0xb0/0xf8
-> [    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
-> [    0.866032]  uart_add_one_port+0x3a4/0x4e0
-> [    0.866039]  sci_probe+0x504/0x7c8
-> [    0.866048]  platform_drv_probe+0x50/0xa0
-> [    0.866059]  really_probe+0xdc/0x330
-> [    0.866066]  driver_probe_device+0x58/0xb8
-> [    0.866072]  device_driver_attach+0x6c/0x90
-> [    0.866078]  __driver_attach+0x88/0xd0
-> [    0.866085]  bus_for_each_dev+0x74/0xc8
-> [    0.866091]  driver_attach+0x20/0x28
-> [    0.866098]  bus_add_driver+0x14c/0x1f8
-> [    0.866104]  driver_register+0x60/0x110
-> [    0.866109]  __platform_driver_register+0x40/0x48
-> [    0.866119]  sci_init+0x2c/0x34
-> [    0.866127]  do_one_initcall+0x88/0x428
-> [    0.866137]  kernel_init_freeable+0x2c0/0x328
-> [    0.866143]  kernel_init+0x10/0x108
-> [    0.866150]  ret_from_fork+0x10/0x18
+> Drivers may need to test if a fwnode is a graph endpoint. To avoid
+> hand-written solutions that wouldn't work for all fwnode types, add a
+> new fwnode_graph_is_endpoint() function for this purpose. We don't need
+> to wire it up to different backends for OF and ACPI for now, as the
+> implementation can simply be based on checkout the presence of a
+> remote-endpoint property.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  include/linux/property.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Interesting...
+Cheers,
+--Prabhakar
 
-How can I reproduce that? I do have CONFIG_DEBUG_SPINLOCK=y.
-I'm wondering why haven't we seen this before...
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index 10d03572f52e..9f805c442819 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -389,6 +389,11 @@ struct fwnode_handle *
+>  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
+>                              u32 endpoint);
+>
+> +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
+> +{
+> +       return fwnode_property_present(fwnode, "remote-endpoint");
+> +}
+> +
+>  /*
+>   * Fwnode lookup flags
+>   *
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
