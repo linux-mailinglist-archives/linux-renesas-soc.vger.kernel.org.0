@@ -2,91 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 722F42114B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 23:03:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 645B821155A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 23:48:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbgGAVDz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 17:03:55 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38330 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725915AbgGAVDz (ORCPT
+        id S1727866AbgGAVsi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 17:48:38 -0400
+Received: from www.zeus03.de ([194.117.254.33]:57710 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727862AbgGAVsi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 17:03:55 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66530556;
-        Wed,  1 Jul 2020 23:03:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1593637432;
-        bh=TyqOYY5bPX6PzpPTn6UuigSjdI+MbC4/QJcZTARm6N8=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GYz8WtwAmke1VrHccMfs4aFu+eIxZX/GXFJkN9TBdI4OIF5PRSP/I3pt66ZpnTmgw
-         TS1JCmC/ILwY7ExuPfVRafdCRtn+b9wbvJ7kKuEDMZ241gX3dsPFPq4nC+9c3r4ypM
-         AL2qyhMKjZFIz0SXshFmO1zpwXh5sDOshF5HlLAg=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
- fwnode is a graph endpoint
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <c5087cd5-ff4f-3c62-2b38-2dee549e47bb@ideasonboard.com>
-Date:   Wed, 1 Jul 2020 22:03:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Wed, 1 Jul 2020 17:48:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=lV4rVEU06zzJo6BqacCA+LQtCQz
+        l4u3O5dvm7O9wVH8=; b=hVYr7emwsPHwtsEy8tCKkz2k5OsarQwkvNrtArv2KCw
+        ZgrXs/ETDWqIqefzbzUolHrFr3yAdPe625VcAOoZt6bx/7RHNsMXsdKgZ1aDTLUx
+        T/1x5nxKN8Dm75vmvEsaxTuZILlDWpgiOW8AjH0xq6d7yc9kVYMKGUnfoNK0BV0o
+        =
+Received: (qmail 678364 invoked from network); 1 Jul 2020 23:48:35 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2020 23:48:35 +0200
+X-UD-Smtp-Session: l3s3148p1@/XICQWipVt8gAwDPXwRGAHjapuWXvfu/
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: add binding to mark a bus as SMBus
+Date:   Wed,  1 Jul 2020 23:48:30 +0200
+Message-Id: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+SMBus is largely compatible with I2C but there are some specifics. In
+case we need them on a bus, we can now use this new binding.
 
-On 01/07/2020 07:21, Laurent Pinchart wrote:
-> Drivers may need to test if a fwnode is a graph endpoint. To avoid
-> hand-written solutions that wouldn't work for all fwnode types, add a
-> new fwnode_graph_is_endpoint() function for this purpose. We don't need
-> to wire it up to different backends for OF and ACPI for now, as the
-> implementation can simply be based on checkout the presence of a
-> remote-endpoint property.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Great, this makes the usage in [2/4] much more readable, and isolates
-the internal knowledge of fw_node_properties where it should be.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  include/linux/property.h | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 10d03572f52e..9f805c442819 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -389,6 +389,11 @@ struct fwnode_handle *
->  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
->  			     u32 endpoint);
->  
-> +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
-> +{
-> +	return fwnode_property_present(fwnode, "remote-endpoint");
-> +}
-> +
->  /*
->   * Fwnode lookup flags
->   *
-> 
+diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Documentation/devicetree/bindings/i2c/i2c.txt
+index 438ae123107e..d1f8cf3bd236 100644
+--- a/Documentation/devicetree/bindings/i2c/i2c.txt
++++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+@@ -77,6 +77,11 @@ wants to support one of the below features, it should adapt these bindings.
+ 	this information to detect a stalled bus more reliably, for example.
+ 	Can not be combined with 'multi-master'.
+ 
++- smbus
++	states that additional SMBus restrictions and features apply to this bus.
++	Examples of features are SMBusHostNotify and SMBusAlert. Examples of
++	restrictions are more reserved addresses and timeout definitions.
++
+ Required properties (per child device)
+ --------------------------------------
+ 
+-- 
+2.27.0
 
