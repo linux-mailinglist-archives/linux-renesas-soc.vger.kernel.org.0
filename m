@@ -2,67 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 645B821155A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 23:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B83C42115E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 00:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727866AbgGAVsi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 17:48:38 -0400
-Received: from www.zeus03.de ([194.117.254.33]:57710 "EHLO mail.zeus03.de"
+        id S1727101AbgGAWYQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 18:24:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727862AbgGAVsi (ORCPT
+        id S1726464AbgGAWYQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 17:48:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=lV4rVEU06zzJo6BqacCA+LQtCQz
-        l4u3O5dvm7O9wVH8=; b=hVYr7emwsPHwtsEy8tCKkz2k5OsarQwkvNrtArv2KCw
-        ZgrXs/ETDWqIqefzbzUolHrFr3yAdPe625VcAOoZt6bx/7RHNsMXsdKgZ1aDTLUx
-        T/1x5nxKN8Dm75vmvEsaxTuZILlDWpgiOW8AjH0xq6d7yc9kVYMKGUnfoNK0BV0o
-        =
-Received: (qmail 678364 invoked from network); 1 Jul 2020 23:48:35 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2020 23:48:35 +0200
-X-UD-Smtp-Session: l3s3148p1@/XICQWipVt8gAwDPXwRGAHjapuWXvfu/
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Alain Volmat <alain.volmat@st.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] i2c: add binding to mark a bus as SMBus
-Date:   Wed,  1 Jul 2020 23:48:30 +0200
-Message-Id: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 1 Jul 2020 18:24:16 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 11AF8207E8;
+        Wed,  1 Jul 2020 22:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593642255;
+        bh=HguEhSuy+TQJwfPgAmeSVzUPU4XvdrCi4pUBHZc9nX0=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=QnDFizlnL7MCgV5wrTnsU7SP536qZzWl81Skg2dTtNoDE1mD7h8OkeeTLzU+zJIp6
+         Ri5j2qRZuyWrNqSwLQASaB+PC7B8in5SjMeG/RzbZjDCQZnZgQ21GezocLLm6GZsQ8
+         /DyYPtilrzyb3VVFGimpzp+hCIE2HPamV7xBCMhM=
+Date:   Wed, 01 Jul 2020 23:24:13 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        devicetree@vger.kernel.org
+Cc:     Mason Yang <masonccyang@mxic.com.tw>,
+        linux-mtd@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-spi@vger.kernel.org
+In-Reply-To: <9969c8a1-e6be-38a9-ced5-ce8c5ff07046@cogentembedded.com>
+References: <9969c8a1-e6be-38a9-ced5-ce8c5ff07046@cogentembedded.com>
+Subject: Re: [PATCH v5 0/2] Add Renesas RPC-IF support
+Message-Id: <159364224814.10988.6815822575560386098.b4-ty@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SMBus is largely compatible with I2C but there are some specifics. In
-case we need them on a bus, we can now use this new binding.
+On Tue, 16 Jun 2020 23:00:20 +0300, Sergei Shtylyov wrote:
+> Here's a set of 2 patches against Linus' repo. Renesas Reduced Pin Count
+> Interface (RPC-IF) allows a SPI flash or HyperFlash connected to the SoC
+> to be accessed via the external address space read mode or the manual mode.
+> The memory controller driver for RPC-IF registers either SPI or HyperFLash
+> subdevice, depending on the contents of the device tree subnode; it also
+> provides the abstract "back end" API that can be used by the "front end"
+> SPI/MTD drivers to talk to the real hardware...
+> 
+> [...]
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+Applied to
 
-diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Documentation/devicetree/bindings/i2c/i2c.txt
-index 438ae123107e..d1f8cf3bd236 100644
---- a/Documentation/devicetree/bindings/i2c/i2c.txt
-+++ b/Documentation/devicetree/bindings/i2c/i2c.txt
-@@ -77,6 +77,11 @@ wants to support one of the below features, it should adapt these bindings.
- 	this information to detect a stalled bus more reliably, for example.
- 	Can not be combined with 'multi-master'.
- 
-+- smbus
-+	states that additional SMBus restrictions and features apply to this bus.
-+	Examples of features are SMBusHostNotify and SMBusAlert. Examples of
-+	restrictions are more reserved addresses and timeout definitions.
-+
- Required properties (per child device)
- --------------------------------------
- 
--- 
-2.27.0
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
+Thanks!
+
+[1/2] dt-bindings: memory: document Renesas RPC-IF bindings
+      commit: ab1c362061d92556bd96fd2c0b188f8e4223e3e3
+[2/2] memory: add Renesas RPC-IF driver
+      commit: ca7d8b980b67f133317525c4273e144116ee1ae5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
