@@ -2,105 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AC47210E28
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 16:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BCB3210F8D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 17:42:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgGAO5U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 10:57:20 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43138 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726854AbgGAO5U (ORCPT
+        id S1731645AbgGAPmH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 11:42:07 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:34032 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731441AbgGAPmG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 10:57:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=ixsaqyBVatpjFGlKvxteR7MZYNGi
-        CdYi3qR8OOCYrOw=; b=PAbP2lGQCaYaVequRWufII7gAi3d8c61yHxifXAN5YRm
-        hr/9w06qZzetaUzVHDwK4cPQz7LBigqRbIAU3jgJeIM2X7C4Lr6AcYKFxKCTgKdV
-        p2pmooTxdX6Sp22srl+xUpXpA+U+AhB0LS9XX5H/KhHUPaZw3G9v6kY0ilZ38vo=
-Received: (qmail 587987 invoked from network); 1 Jul 2020 16:57:17 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2020 16:57:17 +0200
-X-UD-Smtp-Session: l3s3148p1@uLAVgmKpAuAgAwDPXwRGAHjapuWXvfu/
-Date:   Wed, 1 Jul 2020 16:57:14 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Alain Volmat <alain.volmat@st.com>
-Subject: Re: [RFC PATCH] WIP: i2c: rcar: add HostNotify support
-Message-ID: <20200701145714.GA2808@kunai>
-References: <20200701080904.11022-1-wsa+renesas@sang-engineering.com>
- <20200701092731.GD2261@ninjato>
- <20200701121633.GI2261@ninjato>
- <20200701123207.GC3457@gnbcxd0016.gnb.st.com>
- <20200701132145.GJ2261@ninjato>
- <20200701143738.GF3457@gnbcxd0016.gnb.st.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
-Content-Disposition: inline
-In-Reply-To: <20200701143738.GF3457@gnbcxd0016.gnb.st.com>
+        Wed, 1 Jul 2020 11:42:06 -0400
+X-IronPort-AV: E=Sophos;i="5.75,300,1589209200"; 
+   d="scan'208";a="50853456"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 02 Jul 2020 00:42:04 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F082400CE8B;
+        Thu,  2 Jul 2020 00:42:01 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] serial: sh-sci: Initialize spinlock for uart console
+Date:   Wed,  1 Jul 2020 16:41:40 +0100
+Message-Id: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+serial core expects the spinlock to be initialized by the controller
+driver for serial console, this patch makes sure the spinlock is
+initialized, fixing the below issue:
 
---Qxx1br4bt0+wmkIi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
+[    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+[    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
+[    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
+[    0.865968] Call trace:
+[    0.865979]  dump_backtrace+0x0/0x1d8
+[    0.865985]  show_stack+0x14/0x20
+[    0.865996]  dump_stack+0xe8/0x130
+[    0.866006]  spin_dump+0x6c/0x88
+[    0.866012]  do_raw_spin_lock+0xb0/0xf8
+[    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
+[    0.866032]  uart_add_one_port+0x3a4/0x4e0
+[    0.866039]  sci_probe+0x504/0x7c8
+[    0.866048]  platform_drv_probe+0x50/0xa0
+[    0.866059]  really_probe+0xdc/0x330
+[    0.866066]  driver_probe_device+0x58/0xb8
+[    0.866072]  device_driver_attach+0x6c/0x90
+[    0.866078]  __driver_attach+0x88/0xd0
+[    0.866085]  bus_for_each_dev+0x74/0xc8
+[    0.866091]  driver_attach+0x20/0x28
+[    0.866098]  bus_add_driver+0x14c/0x1f8
+[    0.866104]  driver_register+0x60/0x110
+[    0.866109]  __platform_driver_register+0x40/0x48
+[    0.866119]  sci_init+0x2c/0x34
+[    0.866127]  do_one_initcall+0x88/0x428
+[    0.866137]  kernel_init_freeable+0x2c0/0x328
+[    0.866143]  kernel_init+0x10/0x108
+[    0.866150]  ret_from_fork+0x10/0x18
 
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/tty/serial/sh-sci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> Hum ... sorry ... I'm having some doubt about such a generic 'smbus' nami=
-ng.
-> I mean, stating 'smbus' within the controller node kind of says
-> "I am working in SMBus mode", and not only "I am supporting Host-Notify &=
- Alert".
-> In such case, NOT having 'smbus' would mean that the driver do not support
-> SMBUS and SMBus xfer and all smbus related stuff would get disabled ...
-> We for sure do not want to have everybody add a smbus property in their DT
-> if they support SMBus xfer for example.
->=20
-> This is probably too wide, don't you think ?
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index ae8463a..2d3169f 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -3298,6 +3298,9 @@ static int sci_probe_single(struct platform_device *dev,
+ 		sciport->port.flags |= UPF_HARD_FLOW;
+ 	}
+ 
++	if (sci_uart_driver.cons->index == sciport->port.line)
++		spin_lock_init(&sciport->port.lock);
++
+ 	ret = uart_add_one_port(&sci_uart_driver, &sciport->port);
+ 	if (ret) {
+ 		sci_cleanup_single(sciport);
+-- 
+2.7.4
 
-It would be, yet I don't think this is case.
-
-The "smbus" property means that _additional_ SMBus restrictions apply to
-that bus. Like additional timeout values, reserved addresses etc...
-
-It does not mean that we can't use SMBus style communication on an I2C
-bus. We can because we can easily emulate it. This is not an additional
-restriction.
-
-So it rather means "SMBus restrictions apply here". No such properties
-means no such restrictions. But then you can't have HostNotify and Alert
-because the addresses are not reserved.
-
-We can update the binding to "smbus-restrictions" perhaps, although it
-doesn't really sound nice to me. Maybe Rob also has an idea.
-
-I'll send a patch later and then we will see what he says.
-
-D'accord?
-
-
---Qxx1br4bt0+wmkIi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl78pEcACgkQFA3kzBSg
-KbaP8w/+IkbpGpmiBMjJPMoV428Q8QibtzE0DmO00+hg6JDKiOH66/h1Ajramcgj
-mSB4zbu3RuQaAhudtrZo+IeQNHKATGNB5C77pFwu6dXRx+0hceiG4lV9rUzwg1PD
-g3QWqOk7+KONqLI6AkK6igxUaaQa2aeM6LaFmPFy90Ia8oMoVN8UI+l/0GWqGsqy
-tIYe5kxPo/PMIXknC5nGOAq9yulU3e2w9/cUSNgcJvKMnNClJ1JE67hEQZQ/DIKR
-fVCX9I8gkp6K3d/2d8kQIoalJtM8Ou9TRbBAM2DLexnkIX2T5nMIwQR//v0c5iuX
-NH0tjyE+IQmagmakRJjqUQeAW0vFbEXGHpUO2cGv7WS0UwxfYfYLadZX8Nq2uoXM
-7z7oG/9aJ+bn2bDBk+I3WuBRndxkTnvu2tfByRMPobp/eVT5rjELKwGlPN2pFnx9
-KtH2SeuLZzC424XUUiiCSEOXDffQRsB3LkGjFCRDGZXy2xy6QBCh/e/EzlbjXWln
-Cof79HHjF5tZAMfu16NDixd9b24ZKwTlnObB2vjgtErRPan3YiL9QTUCayo0rwPO
-otieSBc7aefSo84Uvmv+fv/MNKgYK+HSB4LCXVObJq5lVgGNRCUoeIuhikbyQXTN
-io+bx7DOKaKjHrN1s1ZXrFrBtOPZMUJq7tv0+bNd3Vdnr1roiqo=
-=twv3
------END PGP SIGNATURE-----
-
---Qxx1br4bt0+wmkIi--
