@@ -2,98 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DC70210AF1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 14:19:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02C36210B12
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 14:32:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730500AbgGAMTe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 08:19:34 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37974 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730161AbgGAMTe (ORCPT
+        id S1730542AbgGAMcP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 08:32:15 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:12084 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730199AbgGAMcO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 08:19:34 -0400
-Received: by mail-oi1-f193.google.com with SMTP id r8so20400313oij.5;
-        Wed, 01 Jul 2020 05:19:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0lKvcHCLUJbtgdK0hdZoGgT86fGFZZmtsMyR7+SlSG8=;
-        b=SivwNhHrv051c1WrI7MmTPYmCFRbL72Ma7NFNH0PWWCsEYqO8j7OSW2DxNxPJURiA9
-         0SPlTRdzonTBeyo9rrEkR/EZpszEX3MeTUHXxB/96S6BCRp305ofQoEfXPxTiPq00SkT
-         hkXi4apvHmOAclxAJCRGDsBia2q6jrxnMKTvW66fJfjZX7Ga0FZRH7JKcAMhURe6M6fK
-         fo7MI353ZQ98WZ7Wj5+3ZiHrkm7MJIvS0SwwDD30L0hda3O3o7HxAM+EI5F3A+R00Wgl
-         TlDQZXED/klnnE/01aHhIW4ERsrBTEyYFvHhJYTVj9LlJ3el8EZ8ki4yXn1kg5ug31B+
-         m8pg==
-X-Gm-Message-State: AOAM531HWV7sgzYASrw6ValD39opv2PxafgI+ulpbC56wWvHHqgdLCR2
-        WE9bhj34dkkYsYbZsQtPw0HIDGkVg/N5/Ke3qhY=
-X-Google-Smtp-Source: ABdhPJzLCE9xDXtcTvnQkYUY3+XR2ef/vN6UYnES49W6m7DDHnWOZ49LApIokEJcUPpwfIuEYqxZbZ1YV2pb+qGUQ3g=
-X-Received: by 2002:aca:4a89:: with SMTP id x131mr20767181oia.103.1593605973188;
- Wed, 01 Jul 2020 05:19:33 -0700 (PDT)
+        Wed, 1 Jul 2020 08:32:14 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 061CLAA7017980;
+        Wed, 1 Jul 2020 14:32:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=STMicroelectronics;
+ bh=aRnUGJXPym2nTJ3OV7/xIAapMnyHBhNDTd8+zS4DKDE=;
+ b=FYNsolw93kv6ju264IqCMwi2lvNOS2zA/ZNXIQmQFWv4otsvsVPs5ubqUFNgf8H7+Zeg
+ z8M4T0Zf2kC3dwPJuA81RmLY2uooKV1Y6cvQ60Loi1j8VGo/DoTH/AS3V9YIeXcBR+Pb
+ a1HtHO4QKpkE1B7SAZxRGf2HJ4tOdtuC0yKl50k44VRAoKWywZgMpGgeM0Uf1H0SS3cc
+ 59H9P8MCgIyQrCksFrdz9SCVckWtQURuXMuyGg6ZTl/bZffMQhkHPJkPU84ecz9Z0p1f
+ YFpOYC54evXq0KCt9w99p03EEfKINeCIzG0O40CmLKXjlkvCRlojAeBCVA2/nn9Lz5Id JQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 31wu89tbnh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Jul 2020 14:32:10 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B470E10002A;
+        Wed,  1 Jul 2020 14:32:08 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C7E072AFEF9;
+        Wed,  1 Jul 2020 14:32:08 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.75.127.46) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 1 Jul
+ 2020 14:32:08 +0200
+Date:   Wed, 1 Jul 2020 14:32:07 +0200
+From:   Alain Volmat <alain.volmat@st.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [RFC PATCH] WIP: i2c: rcar: add HostNotify support
+Message-ID: <20200701123207.GC3457@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200701080904.11022-1-wsa+renesas@sang-engineering.com>
+ <20200701092731.GD2261@ninjato>
+ <20200701121633.GI2261@ninjato>
 MIME-Version: 1.0
-References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com> <20200701073405.GB836@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20200701073405.GB836@valkosipuli.retiisi.org.uk>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Wed, 1 Jul 2020 14:19:21 +0200
-Message-ID: <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
- fwnode is a graph endpoint
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200701121633.GI2261@ninjato>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-07-01_08:2020-07-01,2020-07-01 signatures=0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 1, 2020 at 9:34 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Laurent,
->
-> On Wed, Jul 01, 2020 at 09:21:37AM +0300, Laurent Pinchart wrote:
-> > Drivers may need to test if a fwnode is a graph endpoint. To avoid
-> > hand-written solutions that wouldn't work for all fwnode types, add a
-> > new fwnode_graph_is_endpoint() function for this purpose. We don't need
-> > to wire it up to different backends for OF and ACPI for now, as the
-> > implementation can simply be based on checkout the presence of a
-> > remote-endpoint property.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  include/linux/property.h | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/include/linux/property.h b/include/linux/property.h
-> > index 10d03572f52e..9f805c442819 100644
-> > --- a/include/linux/property.h
-> > +++ b/include/linux/property.h
-> > @@ -389,6 +389,11 @@ struct fwnode_handle *
-> >  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
-> >                            u32 endpoint);
-> >
-> > +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
-> > +{
-> > +     return fwnode_property_present(fwnode, "remote-endpoint");
-> > +}
+On Wed, Jul 01, 2020 at 02:16:33PM +0200, Wolfram Sang wrote:
+> 
+> > BTW I think the DTS additions don't look too bad? It is a grey area,
+> > though...
+> > 
+> >  &i2c3  {
+> >         pinctrl-0 = <&i2c3_pins>;
+> >         pinctrl-names = "i2c-pwr";
 > > +
-> >  /*
-> >   * Fwnode lookup flags
-> >   *
->
-> Thanks for the patch. I've bounced it to devicetree and linux-acpi lists
-> (now cc'd) --- hope that works.
->
-> Rafael: do you think this simple patch could go though the media tree,
-> assuming that folks are generally fine with the patch as such?
+> > +       enable-host-notify;
+> 
+> I got another idea. What about a boolean binding "smbus"?
+> 
+> This describes the bus as SMBus (and not I2C bus), so the additional
+> SMBus restrictions/requirements apply. HostNotify is required for SMBus,
+> so address 0x08 can't be used. Alert is optional, but still it uses a
+> reserved address. SMBus timeouts maybe can be handled through this as
+> well (there is the HWMON specific "smbus-timeout-disable" so far).
+> 
+> So, we have one simple binding for HostNotify and Alert which really
+> describes the HW.
 
-Yes, it could.
+I much prefer this solution than the usage of the smbus_alert irq value
+(in case of the i2c-stm32f7). In that case, I'd only set smbus boolean
+to enable both SMBus Host-Notify & SMBus Alert.
+In case of a device having a dedicated irq for SMBus Alert, smbus_alert
+irq binding would still be needed.
+
+Just my 2 cents about another aspect regarding SMBus Alert, since alert
+is coming from another pin and not the usual SCL / SCK, when SMBus Alert
+has to be used, there is a very good chance to have a pinctrl entry which
+is different from not using SMBus Alert.
+Indeed, even if we need SMBus, but don't need SMBus Alert, the SMBus Alert
+input pin might be used for something else.
+But this of course doesn't prevent to use the smbus boolean binding.
+
+> 
+
+
