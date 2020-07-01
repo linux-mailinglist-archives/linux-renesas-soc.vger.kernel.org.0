@@ -2,192 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5683921086C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 11:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32F462108A3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 11:53:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729508AbgGAJlf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 05:41:35 -0400
-Received: from mga17.intel.com ([192.55.52.151]:23285 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729402AbgGAJle (ORCPT
+        id S1729772AbgGAJxM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 05:53:12 -0400
+Received: from ma-dnext02.denso.co.jp ([133.192.181.77]:33306 "EHLO
+        adnmlgw02h.denso.co.jp" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729125AbgGAJxM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 05:41:34 -0400
-IronPort-SDR: zZyMzr/FeDVA8J1PvaTsCft5AcSWm1ED/+Gcq9KA+fxTzUf5nBCeiKJaM87AZnxcIbsDV3IOAU
- N6UQuU3bKG/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="126617705"
-X-IronPort-AV: E=Sophos;i="5.75,299,1589266800"; 
-   d="scan'208";a="126617705"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 02:41:33 -0700
-IronPort-SDR: OPYsJ1/r1/+FTjcoLXs9QbFNNmIoJSj1BOzMBUmbnL+zDpRdH/Gp6UqQqMt8H6EgY8TDjC/DyF
- p7yvkLx8eUmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,299,1589266800"; 
-   d="scan'208";a="303783601"
-Received: from lkp-server01.sh.intel.com (HELO 28879958b202) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 01 Jul 2020 02:41:32 -0700
-Received: from kbuild by 28879958b202 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jqZFD-0002tL-C8; Wed, 01 Jul 2020 09:41:31 +0000
-Date:   Wed, 01 Jul 2020 17:40:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- a43002bdb359937912a939189332b104c98c863b
-Message-ID: <5efc5a05.2A/MbsvyLr/neeu2%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 1 Jul 2020 05:53:12 -0400
+Received: from grdma02h.denso.co.jp (unknown [133.192.24.24])
+        by adnmlgw02h.denso.co.jp (Postfix) with ESMTP id 0A75D2003C32;
+        Wed,  1 Jul 2020 18:53:10 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adit-jv.com;
+        s=jpadit-jvmail2020; t=1593597190;
+        bh=7vMnJFc58ZUxgfOr5zdrARnb6OS0Vcw9IaskaHz/0Sc=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+        b=gzV88vIeTaGB1+7N4bQZj18bmbwzwyUKP2ppcWUBfNwqy0r0cRpbNk9O60J//AOO1
+         B2i29zcTPn0VKDhcBkVFWbCfHBW0ERd7rQTpCXXCuXLdNrMv3MFZezfCEMj+LNRNGQ
+         Zxx8WUX0kzMn6kUQyTwwal/x6ZmkkG8FeAicXs0OOXaTJLyh5DCm07EB0elcnXbtMg
+         bSfIQNzpkWjkJfkcDpGaph7pCsjKM/vxjIB68Ygf8/FPnj6xyU927GrNSwfe5jyIz1
+         hM7NU27cLmuNZ1p3awx8hMLYK2jIVIJMG+alrnIrr4wnYJL0X4tICsydHfMQgubSyR
+         a3mqZcJEL7Rdw==
+Received: by grdma02h.denso.co.jp (Postfix, from userid 0)
+        id 079A3C04E01; Wed,  1 Jul 2020 18:53:10 +0900 (JST)
+Received: from smtp1.denso.co.jp [133.192.24.88] 
+         by grdma02h. with ESMTP id UAA29947;
+         Wed, 1 Jul 2020 18:53:09 +0900
+Received: from ky0exch01.adit-jv.com ([10.71.113.8])
+        by smtp01.denso.co.jp (MOS 4.4.7-GA)
+        with ESMTP id GDD18802;
+        Wed, 1 Jul 2020 18:53:08 +0900
+Received: from jp-u0004.adit-jv.com (10.71.112.120) by ky0exch01.adit-jv.com
+ (10.71.113.8) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 1 Jul 2020
+ 18:53:07 +0900
+From:   Suresh Udipi <sudipi@jp.adit-jv.com>
+To:     <niklas.soderlund@ragnatech.se>
+CC:     <akiyama@nds-osk.co.jp>, <efriedrich@de.adit-jv.com>,
+        <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <mchehab@kernel.org>, <michael@rodin.online>,
+        <mrodin@de.adit-jv.com>, <securitycheck@denso.co.jp>,
+        <sudipi@jp.adit-jv.com>
+Subject: [PATCH v9 1/3] media: rcar-csi2: Correct the selection of hsfreqrange
+Date:   Wed, 1 Jul 2020 18:52:59 +0900
+Message-ID: <1593597181-8296-1-git-send-email-sudipi@jp.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200630220816.GL2365286@oden.dyn.berto.se>
+References: <20200630220816.GL2365286@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.71.112.120]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  master
-branch HEAD: a43002bdb359937912a939189332b104c98c863b  [LOCAL] arm64: defconfig: Update renesas_defconfig
+hsfreqrange should be chosen based on the calculated mbps which
+is closer to the default bit rate  and within the range as per
+table[1]. But current calculation always selects first value which
+is greater than or equal to the calculated mbps which may lead
+to chosing a wrong range in some cases.
 
-elapsed time: 1129m
+For example for 360 mbps for H3/M3N
+Existing logic selects
+Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
 
-configs tested: 129
-configs skipped: 1
+This hsfreqrange is out of range.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The logic is changed to get the default value which is closest to the
+calculated value [1]
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-sh                          urquell_defconfig
-parisc                generic-64bit_defconfig
-um                             i386_defconfig
-c6x                         dsk6455_defconfig
-arm                      footbridge_defconfig
-arm                           corgi_defconfig
-mips                           ip27_defconfig
-arm                            lart_defconfig
-arm                         s5pv210_defconfig
-c6x                        evmc6472_defconfig
-arc                          axs103_defconfig
-alpha                            alldefconfig
-arc                         haps_hs_defconfig
-powerpc                    gamecube_defconfig
-arm                           tegra_defconfig
-arm                         orion5x_defconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                              allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a003-20200630
-i386                 randconfig-a002-20200630
-i386                 randconfig-a004-20200630
-i386                 randconfig-a002-20200701
-i386                 randconfig-a001-20200701
-i386                 randconfig-a006-20200701
-i386                 randconfig-a005-20200701
-i386                 randconfig-a004-20200701
-i386                 randconfig-a003-20200701
-x86_64               randconfig-a012-20200701
-x86_64               randconfig-a016-20200701
-x86_64               randconfig-a014-20200701
-x86_64               randconfig-a011-20200701
-x86_64               randconfig-a015-20200701
-x86_64               randconfig-a013-20200701
-x86_64               randconfig-a011-20200630
-x86_64               randconfig-a014-20200630
-x86_64               randconfig-a013-20200630
-x86_64               randconfig-a015-20200630
-x86_64               randconfig-a016-20200630
-x86_64               randconfig-a012-20200630
-i386                 randconfig-a011-20200701
-i386                 randconfig-a015-20200701
-i386                 randconfig-a014-20200701
-i386                 randconfig-a016-20200701
-i386                 randconfig-a012-20200701
-i386                 randconfig-a013-20200701
-i386                 randconfig-a011-20200630
-i386                 randconfig-a016-20200630
-i386                 randconfig-a015-20200630
-i386                 randconfig-a012-20200630
-i386                 randconfig-a014-20200630
-i386                 randconfig-a013-20200630
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
+Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
 
+[1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+
+Please note that According to Renesas in Table 25.9 the range for
+220 default value is corrected as below
+
+ |Range (Mbps)     |  Default  Bit rate (Mbps) |
+ -----------------------------------------------
+ | 197.125-244.125 |     220                   |
+ -----------------------------------------------
+
+Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Changes in v2:
+  - Added the boundary check for the maximum bit rate.
+  - Simplified the logic by remmoving range check
+    as only the closest default value covers most
+    of the use cases.
+  - Aligning the commit message based on the above change
+ 
+Changes in v3:
+  - Added max member from struct rcsi2_mbps_reg.
+    mbps varialbe cannot be removed from rcsi2_mbps_reg,
+    since this structure is reused for
+    phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+    used.
+
+  - Update the walk of the array in rcsi2_set_phypll() so that it finds
+    the first entry where the calculated bit rate is less than the max.
+ 
+  - Support lower bit rates less than 80Mbps like 48Mbps
+    (Raspberry pi camera 640x480 connected to Kingfisher)
+    can also be supported by selecting the lowest default bit rate 80Mbps
+    as done before this fix
+
+  - Alignement of the commit message based on above changes.
+ 
+Changes in v4:
+  -  Remove unncessary braces.
+
+Changes in v5:
+   - Removed mbps variable in rcsi2_mbps_reg and aligned all
+     tables accordingly
+
+Changes in v6
+   - Renesas correct the range of default value 220Mbps. Now
+    if we select the nearest value to the default value all
+    the values are in range. So reverting back to original patch
+  
+   - Added warning for values less than Minimum 80Mbps
+       
+Changes in v7
+   - Create a seperate commit for the warning message less
+     than minimum 80Mbps
+  
+   - Reorder the statements to increase readability
+   
+Changes in v8
+   - Extended the logic of selection of nearest mbps to
+     PHTW registers value less than 250Mbps. A new commit
+     is added
+ 	
+Changes in v9
+  - Added Reviewed-by.
+  - Removed  unncessary space in commit msg and commits
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 151e6a9..f18dedc 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -431,16 +431,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+ {
+ 	const struct rcsi2_mbps_reg *hsfreq;
++	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+ 
+-	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
++	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+ 		if (hsfreq->mbps >= mbps)
+ 			break;
++		hsfreq_prev = hsfreq;
++	}
+ 
+ 	if (!hsfreq->mbps) {
+ 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+ 		return -ERANGE;
+ 	}
+ 
++	if (hsfreq_prev &&
++	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
++		hsfreq = hsfreq_prev;
++
+ 	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+ 
+ 	return 0;
+-- 
+2.7.4
+
