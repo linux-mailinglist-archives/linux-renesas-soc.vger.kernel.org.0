@@ -2,168 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89764210A7D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 13:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C06210ADB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jul 2020 14:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730435AbgGALmU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 07:42:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730324AbgGALmT (ORCPT
+        id S1730422AbgGAMQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 Jul 2020 08:16:36 -0400
+Received: from www.zeus03.de ([194.117.254.33]:59974 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730205AbgGAMQg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 07:42:19 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E85DC03E979
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  1 Jul 2020 04:42:19 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:503c:ab8:1424:9638])
-        by laurent.telenet-ops.be with bizsmtp
-        id xniG2200249uj5301niG47; Wed, 01 Jul 2020 13:42:16 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jqb84-0006Pu-92; Wed, 01 Jul 2020 13:42:16 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jqb84-0002EF-73; Wed, 01 Jul 2020 13:42:16 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 2/2] gpio: aggregator: Use bitmap_parselist() for parsing GPIO offsets
-Date:   Wed,  1 Jul 2020 13:42:12 +0200
-Message-Id: <20200701114212.8520-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200701114212.8520-1-geert+renesas@glider.be>
-References: <20200701114212.8520-1-geert+renesas@glider.be>
+        Wed, 1 Jul 2020 08:16:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=jWhT3nVfHxPYeRxg3Fa7jQFBFVis
+        CbNVJ8JFZkBIZHE=; b=y9ymZJBHCTwOAcPmuycbl+aeVVa2JkKPxtCLAScXch7I
+        eRZiy0GbTP59aQ1VtBgiy5W9iN5r1y48unkOyVoQ7ukH4peU1t6rb2QBDyA8o9N4
+        z/ApzOOq3L+FZrqV2NGfUm+8oRWvN7PoPJXEONMVavDTQss09vKoBgNO54ga6So=
+Received: (qmail 539308 invoked from network); 1 Jul 2020 14:16:34 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Jul 2020 14:16:34 +0200
+X-UD-Smtp-Session: l3s3148p1@SWNFQ2Cpft0gAwDPXwRGALjtBlSZf+V/
+Date:   Wed, 1 Jul 2020 14:16:33 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>
+Subject: Re: [RFC PATCH] WIP: i2c: rcar: add HostNotify support
+Message-ID: <20200701121633.GI2261@ninjato>
+References: <20200701080904.11022-1-wsa+renesas@sang-engineering.com>
+ <20200701092731.GD2261@ninjato>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="XRI2XbIfl/05pQwm"
+Content-Disposition: inline
+In-Reply-To: <20200701092731.GD2261@ninjato>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace the custom code to parse GPIO offsets and/or GPIO offset ranges
-by a call to bitmap_parselist(), and an iteration over the returned bit
-mask.
 
-This should have no impact on the format of the configuration parameters
-written to the "new_device" virtual file in sysfs.
+--XRI2XbIfl/05pQwm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Rename mask to bitmap,
-  - Allocate bitmap dynamically.
----
- drivers/gpio/gpio-aggregator.c | 59 +++++++++++++++-------------------
- 1 file changed, 26 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
-index 62a3fcbd4b4bb106..424a3d25350bf50d 100644
---- a/drivers/gpio/gpio-aggregator.c
-+++ b/drivers/gpio/gpio-aggregator.c
-@@ -10,6 +10,7 @@
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
- #include <linux/ctype.h>
-+#include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/gpio/machine.h>
-@@ -111,55 +112,45 @@ static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *key,
- 
- static int aggr_parse(struct gpio_aggregator *aggr)
- {
--	unsigned int first_index, last_index, i, n = 0;
--	char *name, *offsets, *first, *last, *next;
- 	char *args = aggr->args;
--	int error;
-+	unsigned long *bitmap;
-+	unsigned int i, n = 0;
-+	char *name, *offsets;
-+	int error = 0;
-+
-+	bitmap = bitmap_alloc(ARCH_NR_GPIOS, GFP_KERNEL);
-+	if (!bitmap)
-+		return -ENOMEM;
- 
- 	for (name = get_arg(&args), offsets = get_arg(&args); name;
- 	     offsets = get_arg(&args)) {
- 		if (IS_ERR(name)) {
- 			pr_err("Cannot get GPIO specifier: %pe\n", name);
--			return PTR_ERR(name);
-+			error = PTR_ERR(name);
-+			goto free_bitmap;
- 		}
- 
- 		if (!isrange(offsets)) {
- 			/* Named GPIO line */
- 			error = aggr_add_gpio(aggr, name, U16_MAX, &n);
- 			if (error)
--				return error;
-+				goto free_bitmap;
- 
- 			name = offsets;
- 			continue;
- 		}
- 
- 		/* GPIO chip + offset(s) */
--		for (first = offsets; *first; first = next) {
--			next = strchrnul(first, ',');
--			if (*next)
--				*next++ = '\0';
--
--			last = strchr(first, '-');
--			if (last)
--				*last++ = '\0';
--
--			if (kstrtouint(first, 10, &first_index)) {
--				pr_err("Cannot parse GPIO index %s\n", first);
--				return -EINVAL;
--			}
--
--			if (!last) {
--				last_index = first_index;
--			} else if (kstrtouint(last, 10, &last_index)) {
--				pr_err("Cannot parse GPIO index %s\n", last);
--				return -EINVAL;
--			}
--
--			for (i = first_index; i <= last_index; i++) {
--				error = aggr_add_gpio(aggr, name, i, &n);
--				if (error)
--					return error;
--			}
-+		error = bitmap_parselist(offsets, bitmap, ARCH_NR_GPIOS);
-+		if (error) {
-+			pr_err("Cannot parse %s: %d\n", offsets, error);
-+			goto free_bitmap;
-+		}
-+
-+		for_each_set_bit(i, bitmap, ARCH_NR_GPIOS) {
-+			error = aggr_add_gpio(aggr, name, i, &n);
-+			if (error)
-+				goto free_bitmap;
- 		}
- 
- 		name = get_arg(&args);
-@@ -167,10 +158,12 @@ static int aggr_parse(struct gpio_aggregator *aggr)
- 
- 	if (!n) {
- 		pr_err("No GPIOs specified\n");
--		return -EINVAL;
-+		error = -EINVAL;
- 	}
- 
--	return 0;
-+free_bitmap:
-+	bitmap_free(bitmap);
-+	return error;
- }
- 
- static ssize_t new_device_store(struct device_driver *driver, const char *buf,
--- 
-2.17.1
+> BTW I think the DTS additions don't look too bad? It is a grey area,
+> though...
+>=20
+>  &i2c3  {
+>         pinctrl-0 =3D <&i2c3_pins>;
+>         pinctrl-names =3D "i2c-pwr";
+> +
+> +       enable-host-notify;
 
+I got another idea. What about a boolean binding "smbus"?
+
+This describes the bus as SMBus (and not I2C bus), so the additional
+SMBus restrictions/requirements apply. HostNotify is required for SMBus,
+so address 0x08 can't be used. Alert is optional, but still it uses a
+reserved address. SMBus timeouts maybe can be handled through this as
+well (there is the HWMON specific "smbus-timeout-disable" so far).
+
+So, we have one simple binding for HostNotify and Alert which really
+describes the HW.
+
+
+--XRI2XbIfl/05pQwm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl78fpwACgkQFA3kzBSg
+Kbb0bg//c0DVUtplrSy9Pt+dcv7MYBHTMdQ8/5NWZka5vV6cBAA61eLnmk3PKdi1
+hfX1I3VQged9YTjnqrC1NB1Y3udzXrNA9JKCRj1QzAzthZzfVeH5r3T/BiMrW6oC
+o9u/JYCJC5+eZvxU8FvQMKGO4O+t3kC/sUIBwncnwJOfTKPf7GvIO4A+Anwz2mru
+oPP012NKdwfnFDx4a6csg4gl6OU3VcATSDJXZQbDo26ejJZg7gp/1nzRuNZvFLVe
+qaXAFA/hDwSGRfeUDmdfF2MuRh1Ih97KFsTP8B84wcH3XykiMJ7oMF5OgyLH5Mcv
+Q2cb8qdziRurbRnqFnivsU/IVqoQityXt+MqfmTOf32J6oZxtWooHU1Ev9J4zadM
+gDDA9/y/QSiXsuzYnbqnb9ep/YiqZQb+McLlDGx/YoqPWtzBb0uBKHn4nooEkni7
+9IEJ+k3VrppPu/pPmgGlyCYdA2U7TM9RvRDFHlF7iW1MMyXSdtog9dYvgLxadD0K
+HrKr1E7Dmow7TRQ79oISxNWxF0gOHMvD5Dez4gGZ+0bHsRhPeop3fbQrW78zUuMN
+jFskbH8bzURfbjNn/+6TYfG2fkR9hg0klfd5ZYw2JOsnZifwA8CncRgd78CbMo/h
+JINzSDYGRT+rn1JGIcdNVUu+Ek6HbruN/OsBI2Z2DHnzgM8O4+I=
+=uWeR
+-----END PGP SIGNATURE-----
+
+--XRI2XbIfl/05pQwm--
