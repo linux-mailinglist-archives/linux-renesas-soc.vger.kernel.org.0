@@ -2,155 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E70B42126E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 16:49:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F715212731
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 16:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730321AbgGBOtJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 10:49:09 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35412 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730312AbgGBOtI (ORCPT
+        id S1729883AbgGBO6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 10:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgGBO6d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 10:49:08 -0400
-Received: by mail-ot1-f67.google.com with SMTP id d4so24344899otk.2;
-        Thu, 02 Jul 2020 07:49:06 -0700 (PDT)
+        Thu, 2 Jul 2020 10:58:33 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFCC9C08C5DD
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2020 07:58:32 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id g75so27153867wme.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2020 07:58:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x8u1Qd58Jra03vuD/Ujnb8vgjM3oVoZL6nudEwpIjQU=;
+        b=MuVybhw3sv5NBKOe6y2sDqWGb6wf25zluQ+REINq2DD7Z+G0/vL+1PjKXCx7BKu36I
+         rkOhMxsrdH5ggNXyGtUArqqK6FFDtfoucPppNg9Ac+hzT2ib7NgaqP0jqhE6wN/Uu+8z
+         v+G0SlqZQN+IlE68CkVhUzr6RbLF8Keh04beeKuAifk1Z731BvyUs42Io9/Px37GRxeX
+         yncDnRQqK5X92hTB50me7klYSTEYamFN0yXSRdJF0BHVUgiLPDfmTBzIkJZE4CJvAKyL
+         RaMTiVIc2TEWIqPmtRek99oHZherYcLqVesA9MCxFhhjk91a5Rg2NrQso0apj3CruhoK
+         A3Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WuhVfNAZUsHwdGGVre6U87YOfHxjCbHm/sJoV4RDVi4=;
-        b=qOILtWIPloAHcVKQBBnOP4ox/xdlDMB3Ud3t7s2gYEV7MI6qJ4VEZuCYtxxJEqAhP2
-         G1SbQlFtQt7OufGtpHYkMhAVDjMJtPJg1pVax6+yNycqvoMd2fA/YJYDAWIuZgqB/YES
-         D2an8hUc3NdndDMkubtjTPYmwKuaFfc6zykvhGDMOzHFC8Qy9MazGLqeFibJHYRURtj5
-         0CQheTZGR6QbuWHbuoGBA+BorvgZyz7zqq+R5TOs4v6Umfg6vcMnT2Gvhg4cHByvqwEB
-         Rcn8y5H/g30Gp2qf3rL3Yl8JxPULlEx0RjM+ZyY9vHUcNoVxmzWCAtubZJQY1qMEACzi
-         ODYw==
-X-Gm-Message-State: AOAM531T3hYGLezknL+8iRMaJPgODoPYexOg9UBrwPJQm1VCLaqHS7fu
-        98qtfgrRwUF0Aafm09eH6HbHwp5GRRCGOuFjnwR5me1a9qY=
-X-Google-Smtp-Source: ABdhPJyclt1UeyUm0bHvdNeHnAeyynojoJb+gjjxKBPFtu6qL3+USd95fh1KkMvch4B4yzP8znhFKUkLvlJHWzgP90c=
-X-Received: by 2002:a9d:6254:: with SMTP id i20mr26956706otk.145.1593701346474;
- Thu, 02 Jul 2020 07:49:06 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x8u1Qd58Jra03vuD/Ujnb8vgjM3oVoZL6nudEwpIjQU=;
+        b=nhGtoKvN3tDEXH7BXcoGCjJ6XD0nmzok1V72L+E9HapIOwOrgdo/Rg63tdb8u7sSeu
+         xnNoda4qZovzFun0BQ8RZoMQQKoh0AdjU/uE5wfECEoUai1H2ExvjEJuFE1yRX/ycIFu
+         b+jSfOYa4T/q8HFV2CPCqL86K7Y5PugQFeTA3QVmqyC/SLvyNW/ol3pljAKGmQYPB/TH
+         ZuDlSgCZMazI0LCLQIjDR5GJuaPhZnO/+wCtDs5z8yAcwyqyGCo8EZSOrFLsEhUbQLp1
+         ETJLCu7aLmNtBHUJ1l4jtq3xNVfC1ddGCdJLqQCpABuIJio6yBJg6/3SDtzAH8WOcNtC
+         8dhg==
+X-Gm-Message-State: AOAM533lOecuWKtIHkVi4m5c8Eh2xuRq+xd5rq4bI+yQhfDtJI6d7+Ah
+        YyyaZDDJ83EyPHqvNzNletbVSw==
+X-Google-Smtp-Source: ABdhPJwDLcM1T+80bGDziotECthUV0hMUrJkGQgjNgyDlPfrA+vwPUEsl/LS3IvbqZBTaU5G7yjFLg==
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr30660667wmj.115.1593701911400;
+        Thu, 02 Jul 2020 07:58:31 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0? ([2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0])
+        by smtp.googlemail.com with ESMTPSA id v24sm13394737wrd.92.2020.07.02.07.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jul 2020 07:58:30 -0700 (PDT)
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+ <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+ <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+ <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+ <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+ <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+ <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+ <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+ <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+ <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
+ <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <134e1e38-02d0-32ed-bd59-cf283a161b35@linaro.org>
+Date:   Thu, 2 Jul 2020 16:58:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200217114016.49856-1-andriy.shevchenko@linux.intel.com>
- <20200217114016.49856-3-andriy.shevchenko@linux.intel.com> <20200524171032.GA218301@roeck-us.net>
-In-Reply-To: <20200524171032.GA218301@roeck-us.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 2 Jul 2020 16:48:55 +0200
-Message-ID: <CAMuHMdXvummZiDBu72WJmdanyP2r4dab8SbVLZaTRNrBfnRmTw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/6] serial: core: Allow detach and attach serial
- device for console
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Tony Lindgren <tony@atomide.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
+On 02/07/2020 15:53, Andrzej Pietrasiewicz wrote:
+> Hi Daniel,
+> 
+> <snip>
+> 
+>>>>>>
+>>>>>> I did reproduce:
+>>>>>>
+>>>>>> v5.8-rc3 + series => imx6 hang at boot time
+>>>>>> v5.8-rc3 => imx6 boots correctly
+>>
+>> So finally I succeeded to reproduce it on my imx7 locally. The sensor
+>> was failing to initialize for another reason related to the legacy
+>> cooling device, this is why it is not appearing on the imx7.
+>>
+>> I can now git-bisect :)
+>>
+> 
+> That would be very kind of you, thank you!
 
-On Sun, May 24, 2020 at 7:11 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On Mon, Feb 17, 2020 at 01:40:12PM +0200, Andy Shevchenko wrote:
-> > In the future we would like to disable power management on the serial devices
-> > used as kernel consoles to avoid weird behaviour in some cases. However,
-> > disabling PM may prevent system to go to deep sleep states, which in its turn
-> > leads to the higher power consumption.
-> >
-> > Tony Lindgren proposed a work around, i.e. allow user to detach such consoles
-> > to make PM working again. In case user wants to see what's going on, it also
-> > provides a mechanism to attach console back.
-> >
-> > Link: https://lists.openwall.net/linux-kernel/2018/09/29/65
-> > Suggested-by: Tony Lindgren <tony@atomide.com>
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Author: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date:   Mon Jun 29 14:29:21 2020 +0200
 
-> > --- a/drivers/tty/serial/serial_core.c
-> > +++ b/drivers/tty/serial/serial_core.c
-> > @@ -1919,7 +1919,7 @@ static inline bool uart_console_enabled(struct uart_port *port)
-> >   */
-> >  static inline void uart_port_spin_lock_init(struct uart_port *port)
-> >  {
-> > -     if (uart_console_enabled(port))
-> > +     if (uart_console(port))
->
-> This results in lockdep splashes such as the one attached below. Is there
+    thermal: Use mode helpers in drivers
 
-Or "BUG: spinlock bad magic on CPU#3, swapper/0/1", cfr. [1].
-So far I hadn't noticed that, as the issue only shows up when using the
-legacy way of passing a "console=ttyS*" kernel command line parameter,
-and not when relying on the modern "chosen/stdout-path" DT property.
+    Use thermal_zone_device_{en|dis}able() and
+thermal_zone_device_is_enabled().
 
-> any special reason for this change ? It is not really explained in the
-> commit description.
 
-Indeed. Why this change?
-
-I also don't agree with your typical fix for drivers, which is like:
-
-    @@ -567,6 +567,9 @@ static int hv_probe(struct platform_device *op)
-            sunserial_console_match(&sunhv_console, op->dev.of_node,
-                                    &sunhv_reg, port->line, false);
-
-    +       /* We need to initialize lock even for non-registered console */
-    +       spin_lock_init(&port->lock);
-    +
-            err = uart_add_one_port(&sunhv_reg, port);
-                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                  calls uart_port_spin_lock_init()
-
-            if (err)
-                    goto out_unregister_driver;
-
-as this initializes the spinlock twice for non-console= ports.
-
-> [   15.439094] INFO: trying to register non-static key.
-> [   15.439146] the code is fine but needs lockdep annotation.
-> [   15.439196] turning off the locking correctness validator.
-> [   15.439392] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.7.0-rc6-00244-gcaffb99b6929 #1
-> [   15.439469] Hardware name: Freescale i.MX6 Ultralite (Device Tree)
-> [   15.439887] [<c0112578>] (unwind_backtrace) from [<c010c4f4>] (show_stack+0x10/0x14)
-> [   15.439982] [<c010c4f4>] (show_stack) from [<c06dfcb0>] (dump_stack+0xe4/0x11c)
-> [   15.440053] [<c06dfcb0>] (dump_stack) from [<c01883e4>] (register_lock_class+0x8a0/0x924)
-> [   15.440127] [<c01883e4>] (register_lock_class) from [<c01884d4>] (__lock_acquire+0x6c/0x2e80)
-> [   15.440202] [<c01884d4>] (__lock_acquire) from [<c018756c>] (lock_acquire+0xf8/0x4f4)
-> [   15.440274] [<c018756c>] (lock_acquire) from [<c0ddf02c>] (_raw_spin_lock_irqsave+0x50/0x64)
-> [   15.440350] [<c0ddf02c>] (_raw_spin_lock_irqsave) from [<c07af5d8>] (uart_add_one_port+0x3a4/0x504)
-> [   15.440431] [<c07af5d8>] (uart_add_one_port) from [<c089c990>] (platform_drv_probe+0x48/0x98)
-> [   15.440506] [<c089c990>] (platform_drv_probe) from [<c089a708>] (really_probe+0x214/0x344)
-> [   15.440578] [<c089a708>] (really_probe) from [<c089a948>] (driver_probe_device+0x5c/0x16c)
-> [   15.440650] [<c089a948>] (driver_probe_device) from [<c089ac00>] (device_driver_attach+0x58/0x60)
-> [   15.440727] [<c089ac00>] (device_driver_attach) from [<c089ac8c>] (__driver_attach+0x84/0xc0)
-> [   15.440800] [<c089ac8c>] (__driver_attach) from [<c08987e8>] (bus_for_each_dev+0x70/0xb4)
-> [   15.440874] [<c08987e8>] (bus_for_each_dev) from [<c08999a4>] (bus_add_driver+0x154/0x1e0)
-> [   15.440946] [<c08999a4>] (bus_add_driver) from [<c089ba38>] (driver_register+0x74/0x108)
-> [   15.441020] [<c089ba38>] (driver_register) from [<c144edb8>] (imx_uart_init+0x20/0x40)
-> [   15.441090] [<c144edb8>] (imx_uart_init) from [<c010232c>] (do_one_initcall+0x80/0x3ac)
-> [   15.441162] [<c010232c>] (do_one_initcall) from [<c1400ff0>] (kernel_init_freeable+0x170/0x204)
-> [   15.441241] [<c1400ff0>] (kernel_init_freeable) from [<c0dd5c48>] (kernel_init+0x8/0x118)
-> [   15.441313] [<c0dd5c48>] (kernel_init) from [<c0100134>] (ret_from_fork+0x14/0x20)
-> [   15.441414] Exception stack(0xc609ffb0 to 0xc609fff8)
-> [   15.441571] ffa0:                                     00000000 00000000 00000000 00000000
-> [   15.441738] ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [   15.441872] ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
-
-Thanks for your answer!
-
-[1] https://lore.kernel.org/r/1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-Gr{oetje,eeting}s,
-
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
