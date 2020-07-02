@@ -2,310 +2,200 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A530212360
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 14:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 675F3212379
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 14:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728848AbgGBMd4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 08:33:56 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54977 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728830AbgGBMd4 (ORCPT
+        id S1729044AbgGBMhK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 08:37:10 -0400
+Received: from mail-eopbgr1410100.outbound.protection.outlook.com ([40.107.141.100]:52960
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728961AbgGBMhJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 08:33:56 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3EBF63C0065;
-        Thu,  2 Jul 2020 14:33:52 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 1qgV4JLFGWk6; Thu,  2 Jul 2020 14:33:47 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 26FB13C0022;
-        Thu,  2 Jul 2020 14:33:47 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 2 Jul 2020
- 14:33:46 +0200
-Date:   Thu, 2 Jul 2020 14:33:41 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-Subject: Re: [PATCH 1/2] [RFC] media: rcar-vin: send a V4L2 event to vdev if
- no frame captured after a timeout
-Message-ID: <20200702123341.GA65262@vmlxhi-121.adit-jv.com>
-References: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
- <20200630221710.GM2365286@oden.dyn.berto.se>
-MIME-Version: 1.0
+        Thu, 2 Jul 2020 08:37:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YrqVGWWlTOTk3qvvj9nYUZ4yZ3U/BUvTrT/juzr8wwlkW+PKIjDDc551aTs+dw9rcdQLAJGo7yxBfaGKSEHWWcxUbe6tLuI/QAiIIr1lpYCSmw69aUX7S/NSuIr2t+C9Jjw/DJ9ecARktO9txZU/h/su1ZBh2CTpzOpmhCEZFV1Sm8RAmzDLRkuiFhx3x+KfwO8i+bif9sWsuxRZlk/qFpxEene+ybSCBUTIky1UTQwREImydvXuJSykZqAckfyVeD/9iQlc3ccof4Sdhtx26LZB53f7SfrEiOQVLoliwTyrx8JkHEhtxNlCiuBU22v5ymVB1E0FYyR6cJz0QmfGqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/x00ktEtMRUle/CBnA4JHiBpcHWs8Q2AB2TGWQCMziU=;
+ b=kRho/5KpmWsSyTv24vYJ9SUVQYwFiJiOmBO1O7dElomf2DishoPMou59hIBVUPIybW9gu5jE+9sMQHCb/kvzfyD2Ls2aLmrCoZORu/pBrfqn0uOwBtnQ1Th8sWGEDk2rtEGys4UOvKLsN+eWauxlaP7SX0uHmdBumTGD5EV3CzId1IgN8pv4j4Gyz6uBkci4XmkOofeF86EIu7AuQYQKb4/XQRLaOsrfJumoUxcbYGrxacQcpXcJ/DRGOc+9VEzlPP0/jWJWo8HDxZGrpOq91bQ83VQK10/v1HLeW0ArwdatNRJjEXjXoCLsyRQahkIjkbZUwovkEsQrAY7mgAG13g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/x00ktEtMRUle/CBnA4JHiBpcHWs8Q2AB2TGWQCMziU=;
+ b=boXt1uot7nywn+x4WBrk+dIiPYsHnbWWe9YTXFtfprzx+SSbN1ITVeqCFYYH1TDMsiECviIRHYEmU90CO4u2m/PIEmqJTm3Xi+v4cW2vUgHPEQ7CXo8F3EUQklliOU4JiIWsIZKhd1y5OW7xo5VGTMlMden6dxkQ3ZhuvF0QFBE=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TYAPR01MB2960.jpnprd01.prod.outlook.com (2603:1096:404:82::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Thu, 2 Jul
+ 2020 12:37:05 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3153.021; Thu, 2 Jul 2020
+ 12:37:05 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: RE: [PATCH v3 2/2] mmc: core: Call mmc_poweroff_nofity() if
+ pm_suspend_via_firmware()
+Thread-Topic: [PATCH v3 2/2] mmc: core: Call mmc_poweroff_nofity() if
+ pm_suspend_via_firmware()
+Thread-Index: AQHWSDxc4WkWJe7NmU+vEp59xfJ7+ajnjXWAgAATDICAATp98IAAOeAAgAGtdYCACXWQoA==
+Date:   Thu, 2 Jul 2020 12:37:05 +0000
+Message-ID: <TY2PR01MB36927A37B98684B6C62E3473D86D0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1592792699-24638-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1592792699-24638-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAPDyKFq-dEPaU094hrk2xg18VpJAsbnf8enieFmcMhKiB1bW1A@mail.gmail.com>
+ <CAMuHMdXjU7N4oG89YsozGijMpjgKGN6ezw2qm6FeGX=JyRhsvg@mail.gmail.com>
+ <TY2PR01MB36921A71A493ABD624A28C42D8920@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <CAMuHMdWLWBvZmHNqPFk2GW6XLnBx-sqfCo6d=B4iei88ONWX=w@mail.gmail.com>
+ <CAPDyKFpiBU1D+a7zb+Ggm0_HZ+YR4=LXJZ5MPytXtT=uBEdjPA@mail.gmail.com>
+In-Reply-To: <CAPDyKFpiBU1D+a7zb+Ggm0_HZ+YR4=LXJZ5MPytXtT=uBEdjPA@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:a83c:8321:5fa3:d8c8]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e65d235b-3cf1-4f7e-b72c-08d81e84a0e7
+x-ms-traffictypediagnostic: TYAPR01MB2960:
+x-microsoft-antispam-prvs: <TYAPR01MB29605D81953064657A770E39D86D0@TYAPR01MB2960.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0452022BE1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: E/jpit7L8f3PtsvlS7T6j9spNnlMPlM+DhNVonycrz/SX/rDvE7t0le52o5JhL2PSaKRvBSwLJ5rx0BCqlbAu6KpRSFoS+bzh7d6oaNAUtDbnMM+kB+XHRc3j71V6ti5Rc1YUXOcdcDvO1m11CVBwsm+TLhRDBaBQPCbaK6X4C1QAc4kTTjm65HIwBkvSeS+8GkqJslhIjqvjqqlG1vih14MOtXBmuuY3tvSD/cjSfF7bi2akhsYFSz/+wMtnuQcQgToJxL1Ld6+f3MzszRoF3JPHIv8cBc4DUhJnID76cwer88QOEIfZqrO8apZ2AaZPP2zIjvLsNorwhVIGyvlL8pnVH7aNWnEDFSQy9EX8Xhwylxp1ZdsLInN8AurMvmM0Yhy4AdO7qDLI3MvCBu9Rg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(346002)(396003)(366004)(376002)(39860400002)(6916009)(83380400001)(5660300002)(4326008)(86362001)(71200400001)(186003)(55016002)(52536014)(33656002)(54906003)(66946007)(66476007)(316002)(8676002)(478600001)(8936002)(53546011)(966005)(66556008)(9686003)(64756008)(7696005)(6506007)(66446008)(2906002)(76116006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: bUD3hpRG2efBp/UX3KHHmiDE+9PkwFCfunLOJ99O3PY+V/QTA78Pip0xk+UHJYtDnsP30Bw2yllQDXGEqgUP2hlyXuX1G0uCEJkk8pGg2cE5tQnBYPjF/NnQGHzS4QyNSPCQzHz5LDU+6B49bO/Gpog50HBtdkNat8B4XVRuohurssyavWiRqhvbMzOq/MbvIZtSSCQDzg4vxiWFdT4t7jRbmAIdHx17OxW+Np3uxE0U6Pzjwsbxc5Y8hdUlKc33k+5584Wx7ZiAs5Li6CGQXtsAyO18B8qspubcWmK5zLQgC8yWcljkB+Nfrrajhvk+iwME6GrD01eBE58lImD8mdWBt7z00w1mYGnWlreAy6cTsKA7L/TjVaZu6orfrKw6IonoCECbpgs2+IWzXNde6W6m4tNm4D5VH7eIxXVOM4og3MJblzHiU5ENq1OKKWhjfwE7ICGlezfLk9lAZ13CbD3J85MSi4HYUe1fNDXHsIiWXBnH5eID0vGZOarz3k3iTTHcWmnHboBO7oImWqXRytAjZCnuaWEZdU7kdLbx8oI=
+x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200630221710.GM2365286@oden.dyn.berto.se>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e65d235b-3cf1-4f7e-b72c-08d81e84a0e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2020 12:37:05.5482
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LaHUQq83M+3/zlb2s2lmhXreSGZaazXXff1zlV9nH6DyhruEebf8wmtUJX3gR0kRqfq6ZQuezpcLFWODoQICMW5dQtklVMdJVrY+tp5ep7OnIRkw9feGruJpISNvm07Y
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2960
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
-
-On Wed, Jul 01, 2020 at 12:17:10AM +0200, Niklas Söderlund wrote:
-> Hi Michael,
-> 
-> Thanks for your RFC.
-
-Thanks your your feedback!
-
-> On 2020-06-19 19:46:10 +0200, Michael Rodin wrote:
-> > Data flow from an upstream subdevice can stop permanently due to:
-> >  - CSI2 transmission errors
-> >  - silent failure of the source subdevice
-> >  - disconnection of the source subdevice
-> > In those cases userspace waits for new buffers for an infinitely long time.
-> > In order to address this issue, use a timer to monitor, that rvin_irq() is
-> > capturing at least one frame within a IRQ_TIMEOUT_MS period. Otherwise send
-> > a new private v4l2 event to userspace. This event is exported to userspace
-> > via a new uapi header.
-> 
-> I think there is value for user-space to detecting the error cases 
-> above. But I think the problem could be addressed at a different lever.  
-> Defining a VIN specific events and controls for something that applies 
-> any video device might not be the neatest solution.
-> 
-> Another thing hits me when reading this series, could this not be done 
-> in user-space? In 2/2 you add a control which sets the timeout based on 
-> the framerate, so user-space must know about that to be able to set the 
-> control. User-space also knows when it receives/dequeus a buffer from 
-> the video device so the timeout logic could be implemented in the 
-> application. Given that the application anyhow needs special care to 
-> handle the VIN specific event and control I wonder if it's not neater to 
-> make it handle all of it. Do you see any specific benefit of having 
-> parts of it in the driver?
-
-Originally I have started this patch series to implement a replacement for
-the CSI-2 error handling you have added in
-commit 4ab44ff ("media: rcar-csi2: restart CSI-2 link if error is detected"),
-which is not correct for multiple reasons:
-1. The commit message states that the user is informed that something is
-   not right. But you have just added new messages which only appear in
-   dmesg. This might be sufficient for a desktop PC but not for an embedded
-   system, where the user normally can not see dmesg log. So I think that
-   V4L2 events are the correct solution for this kind of notification,
-   because they are passed directly to the application and the developer
-   can implement handling for this issue or display an error in the
-   custom human-machine interface.
-2. It is not correct to restart the CSI-2 link if you don't restart VIN
-   module as well. Renesas HW manual R19UH0105EJ0200 Rev.2.00
-   (Jul 31, 2019) requires a reset or stop of capture in the VIN module
-   before a reset of CSI-2 module (chapter 25.3.13 "Software Reset"). This
-   also applies to CSI-2 error handling.
-3. The CSI-2 driver restarts CSI-2 module for any CSI-2 error. However not
-   all CSI2 errors are critical. In some setups they are really harmless so
-   streaming can continue without any unnecessary restart. In some setups
-   they _always_ occur at each start of streaming and are harmless as
-   well, so automatic restart in CSI-2 module ends in an endless restart
-   loop, which never comes to an end and breaks streaming instead of any
-   help. It is better to leave such errors unhandled and therefore it is
-   important to detect whether DMA transfers really stop in rvin_irq().
-4. Video streaming applications in the automotive/embedded industry often
-   want to control when the video streaming pipeline is stopped or started
-   to be able to do some tasks in between, so an automatic restart of the
-   pipeline is not acceptable for them. It should be at least optional and
-   we should do this in rcar-dma.c, e.g. in the proposed irq timeout
-   function. However I am not sure yet how to implement a restart of
-   streaming inside of the rcar-vin driver correctly.
-
-I think, my patch series provides technically a good solution for the
-described issues. Also it is generic enough to allow also handling of
-failures in upstream subdevices connected to an R-Car3 CSI2 receiver or
-even parallel video input devices in cases when such failures can not be
-fixed or detected in the subdevice drivers and result in a stop of data
-flow on the chip level.
-
-Theoretically, applications also could use timeout parameter of the poll()
-syscall to implement the timeout (which can be e.g. a multiple of the frame
-interval), but the problem is that userspace does not know whether the
-timeout happened because there are no DMA transfers in the driver (i.e. one
-of the upstream subdevices or VIN failed) or because the driver is just
-using the "scratch buffer". The event which I have introduced explicitly
-monitors whether rcar-vin regularly receives new frames from upstream
-and allows applications to try a recovery (I have now renamed the event to
-"FRAME_TIMEOUT" to be more precise about its purpose).
-
-Another reason, why I think that the new v4l2 event is the right solution,
-are proprietary applications, where it is not possible to change the code
-to add any additional handling of driver failures but it is possible to
-start/stop streaming via inter process communication. Since V4L2 events can
-be subscribed and received by a separate process, it is possible to
-implement a middleware in user space, which monitors V4L2 events. Typically
-this middleware could also take over all of the complicated media-ctl
-configuration and monitoring of source changes and other events from
-subdevices, but this is a bit off-topic. I think that (private) V4L2 events
-are really useful in embedded systems where applications/middlewares are
-aware of the underlying hardware and want to be better informed about
-hardware related events than desktop applications.
-
-So if my arguments sound reasonable and you don't reject the overall
-concept of the series, I would send an improved version, where I have fixed
-some details of the timer implementation. I have also a patch for rcar-csi2
-driver with a private CSI-2 error event, which is useful to let the
-application know that the reason for the frame timeout event might be a
-CSI-2 error and not e.g. paused playback.
-
-> > 
-> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++++
-> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  1 +
-> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  6 ++++++
-> >  include/uapi/linux/rcar-vin.h               | 10 ++++++++++
-> >  4 files changed, 38 insertions(+)
-> >  create mode 100644 include/uapi/linux/rcar-vin.h
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index 1a30cd0..bf8d733 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -937,6 +937,20 @@ static void rvin_capture_stop(struct rvin_dev *vin)
-> >  #define RVIN_TIMEOUT_MS 100
-> >  #define RVIN_RETRIES 10
-> >  
-> > +static const struct v4l2_event rvin_irq_timeout = {
-> > +	.type = V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT,
-> > +};
-> > +
-> > +static void rvin_irq_timer_function(struct timer_list *timer)
-> > +{
-> > +	struct rvin_dev *vin = container_of(timer, struct rvin_dev,
-> > +					    irq_timer);
-> > +
-> > +	vin_err(vin, "%s: frame completion timeout after %i ms!\n",
-> > +		__func__, IRQ_TIMEOUT_MS);
-> > +	v4l2_event_queue(&vin->vdev, &rvin_irq_timeout);
-> > +}
-> > +
-> >  static irqreturn_t rvin_irq(int irq, void *data)
-> >  {
-> >  	struct rvin_dev *vin = data;
-> > @@ -1008,6 +1022,8 @@ static irqreturn_t rvin_irq(int irq, void *data)
-> >  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
-> >  	}
-> >  
-> > +	mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-> > +
-> >  	vin->sequence++;
-> >  
-> >  	/* Prepare for next frame */
-> > @@ -1252,6 +1268,8 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  	if (ret)
-> >  		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> >  				  vin->scratch_phys);
-> > +	else
-> > +		mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-> >  
-> >  	return ret;
-> >  }
-> > @@ -1305,6 +1323,8 @@ static void rvin_stop_streaming(struct vb2_queue *vq)
-> >  	/* Free scratch buffer. */
-> >  	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> >  			  vin->scratch_phys);
-> > +
-> > +	del_timer_sync(&vin->irq_timer);
-> >  }
-> >  
-> >  static const struct vb2_ops rvin_qops = {
-> > @@ -1370,6 +1390,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
-> >  		goto error;
-> >  	}
-> >  
-> > +	timer_setup(&vin->irq_timer, rvin_irq_timer_function, 0);
-> >  	return 0;
-> >  error:
-> >  	rvin_dma_unregister(vin);
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > index f421e25..c644134 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > @@ -581,6 +581,7 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
-> >  {
-> >  	switch (sub->type) {
-> >  	case V4L2_EVENT_SOURCE_CHANGE:
-> > +	case V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT:
-> >  		return v4l2_event_subscribe(fh, sub, 4, NULL);
-> >  	}
-> >  	return v4l2_ctrl_subscribe_event(fh, sub);
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > index c19d077..7408f67 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > @@ -14,12 +14,14 @@
-> >  #define __RCAR_VIN__
-> >  
-> >  #include <linux/kref.h>
-> > +#include <linux/rcar-vin.h>
-> >  
-> >  #include <media/v4l2-async.h>
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-dev.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/videobuf2-v4l2.h>
-> > +#include <media/v4l2-event.h>
-> >  
-> >  /* Number of HW buffers */
-> >  #define HW_BUFFER_NUM 3
-> > @@ -30,6 +32,8 @@
-> >  /* Max number on VIN instances that can be in a system */
-> >  #define RCAR_VIN_NUM 8
-> >  
-> > +#define IRQ_TIMEOUT_MS 1000
-> > +
-> >  struct rvin_group;
-> >  
-> >  enum model_id {
-> > @@ -196,6 +200,7 @@ struct rvin_info {
-> >   * @compose:		active composing
-> >   * @src_rect:		active size of the video source
-> >   * @std:		active video standard of the video source
-> > + * @irq_timer:		monitors regular capturing of frames in rvin_irq()
-> >   *
-> >   * @alpha:		Alpha component to fill in for supported pixel formats
-> >   */
-> > @@ -240,6 +245,7 @@ struct rvin_dev {
-> >  	struct v4l2_rect src_rect;
-> >  	v4l2_std_id std;
-> >  
-> > +	struct timer_list irq_timer;
-> >  	unsigned int alpha;
-> >  };
-> >  
-> > diff --git a/include/uapi/linux/rcar-vin.h b/include/uapi/linux/rcar-vin.h
-> > new file mode 100644
-> > index 00000000..4eb7f5e
-> > --- /dev/null
-> > +++ b/include/uapi/linux/rcar-vin.h
-> > @@ -0,0 +1,10 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > +
-> > +#ifndef RCAR_VIN_USER_H
-> > +#define RCAR_VIN_USER_H
-> > +
-> > +/* class for events sent by the rcar-vin driver */
-> > +#define V4L2_EVENT_RCAR_VIN_CLASS	V4L2_EVENT_PRIVATE_START
-> > +#define V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT	(V4L2_EVENT_RCAR_VIN_CLASS | 0x1)
-> > +
-> > +#endif /* RCAR_VIN_USER_H */
-> > -- 
-> > 2.7.4
-> > 
-> 
-> -- 
-> Regards,
-> Niklas Söderlund
-
--- 
-Best Regards,
-Michael
+SGkgVWxmLA0KDQo+IEZyb206IFVsZiBIYW5zc29uLCBTZW50OiBGcmlkYXksIEp1bmUgMjYsIDIw
+MjAgODowMyBQTQ0KPiANCj4gKyBSb2INCj4gDQo+IE9uIFRodSwgMjUgSnVuIDIwMjAgYXQgMTE6
+MjYsIEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+IHdyb3RlOg0KPiA+
+DQo+ID4gSGkgU2hpbW9kYS1zYW4sDQo+ID4NCj4gPiBDQyBicm9vbmllDQo+ID4NCj4gPiBPbiBU
+aHUsIEp1biAyNSwgMjAyMCBhdCA4OjMxIEFNIFlvc2hpaGlybyBTaGltb2RhDQo+ID4gPHlvc2hp
+aGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiA+ID4gRnJvbTogR2VlcnQg
+VXl0dGVyaG9ldmVuLCBTZW50OiBXZWRuZXNkYXksIEp1bmUgMjQsIDIwMjAgODoxMyBQTQ0KPiA+
+ID4gPiBPbiBXZWQsIEp1biAyNCwgMjAyMCBhdCAxMjowNiBQTSBVbGYgSGFuc3NvbiA8dWxmLmhh
+bnNzb25AbGluYXJvLm9yZz4gd3JvdGU6DQo+ID4gPiA+ID4gT24gTW9uLCAyMiBKdW4gMjAyMCBh
+dCAwNDoyNSwgWW9zaGloaXJvIFNoaW1vZGENCj4gPiA+ID4gPiA8eW9zaGloaXJvLnNoaW1vZGEu
+dWhAcmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4gPiA+ID4gSWYgcG1fc3VzcGVuZF92aWFfZmly
+bXdhcmUoKSByZXR1cm5zIHRydWUsIHRoZSBzeXN0ZW0gd2lsbCBiZSBhYmxlDQo+ID4gPiA+ID4g
+PiB0byBjdXQgYm90aCB2Y2MgYW5kIHZjY3EgaW4gdGhlIHN1c3BlbmQuIFNvLCBjYWxsDQo+ID4g
+PiA+ID4gPiBtbWNfcG93ZXJvZmZfbm9maXR5KCkgaWYgcG1fc3VzcGVuZF92aWFfZmlybXdhcmUo
+KSByZXR1cm5zIHRydWUuDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gTm90ZSB0aGF0IHdlIHNo
+b3VsZCBub3QgdXBkYXRlIHRoZSBNTUNfQ0FQMl9GVUxMX1BXUl9DWUNMRSBjYXBzDQo+ID4gPiA+
+ID4gPiBiZWNhdXNlIHRoZSBtbWNfc2VsZWN0X3ZvbHRhZ2UoKSBjaGVja3MgdGhlIGNhcHMgd2hl
+biBhdHRhY2hlcw0KPiA+ID4gPiA+ID4gYSBtbWMvc2QuDQo+ID4gPiA+DQo+ID4gPiA+ID4gPiAt
+LS0gYS9kcml2ZXJzL21tYy9jb3JlL21tYy5jDQo+ID4gPiA+ID4gPiArKysgYi9kcml2ZXJzL21t
+Yy9jb3JlL21tYy5jDQo+ID4gPiA+ID4gPiBAQCAtMjAzOCw3ICsyMDM5LDggQEAgc3RhdGljIGlu
+dCBfbW1jX3N1c3BlbmQoc3RydWN0IG1tY19ob3N0ICpob3N0LCBib29sIGlzX3N1c3BlbmQpDQo+
+ID4gPiA+ID4gPiAgICAgICAgICAgICAgICAgZ290byBvdXQ7DQo+ID4gPiA+ID4gPg0KPiA+ID4g
+PiA+ID4gICAgICAgICBpZiAobW1jX2Nhbl9wb3dlcm9mZl9ub3RpZnkoaG9zdC0+Y2FyZCkgJiYN
+Cj4gPiA+ID4gPiA+IC0gICAgICAgICAgICAgICAoKGhvc3QtPmNhcHMyICYgTU1DX0NBUDJfRlVM
+TF9QV1JfQ1lDTEUpIHx8ICFpc19zdXNwZW5kKSkNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICgo
+aG9zdC0+Y2FwczIgJiBNTUNfQ0FQMl9GVUxMX1BXUl9DWUNMRSkgfHwgIWlzX3N1c3BlbmQgfHwN
+Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgICBwbV9zdXNwZW5kX3ZpYV9maXJtd2FyZSgpKSkNCj4g
+PiA+ID4gPg0KPiA+ID4gPiA+IFNvcnJ5LCBidXQgdGhpcyBkb2Vzbid0IHdvcmsuDQo+ID4gPiA+
+ID4NCj4gPiA+ID4gPiBFdmVuIGlmIFBTQ0kgaXMgYSBnZW5lcmljIEZXIGludGVyZmFjZSwgaXQg
+ZG9lc24ndCBtZWFuIHRoYXQgYWxsIFBTQ0kNCj4gPiA+ID4gPiBpbXBsZW1lbnRhdGlvbnMgd2ls
+bCBjdXQgdGhlIHZjYyBhbmQgdmNjcSBmb3IgdGhlIE1NQyBjYXJkIGF0IHN5c3RlbQ0KPiA+ID4g
+PiA+IHN1c3BlbmQuDQo+ID4gPiA+DQo+ID4gPiA+IEluZGVlZCwgdGhlcmUncyBub3RoaW5nIGd1
+YXJhbnRlZWQgaGVyZS4gIE5vciBkb2N1bWVudGVkIGhvdyBpdCBzaG91bGQNCj4gPiA+ID4gYmVo
+YXZlLiAgQmFzaWNhbGx5IHRoZSBmaXJtd2FyZSBpcyBmcmVlIHRvIHBvd2VyIG9mZiB0aGUgU29D
+LiBPciBub3QgZG8gdGhhdC4NCj4gPiA+ID4gIklmIGZpcm13YXJlIGlzIGludm9sdmVkLCBhbGwg
+b2RkcyBhcmUgb2ZmIi4NCj4gPiA+DQo+ID4gPiBJIHRob3VnaHQgd2UgY291bGQgYmUgZ3VhcmFu
+dGVlZC4gQnV0LCBJIHVuZGVyc3Rvb2Qgd2UgY291bGQgbm90IGJlIGd1YXJhbnRlZWQuLi4NCj4g
+PiA+DQo+ID4gPiA+ID4gSW5zdGVhZCwgeW91IG5lZWQgdG8gZGVjaWRlIHRoaXMgYmFzZWQgb24g
+c29tZSBzcGVjaWZpYyBEVCBwcm9wZXJ0eS4NCj4gPiA+ID4gPiBQZXJoYXBzIGluIGNvbmp1bmN0
+aW9uIHdpdGggdXNpbmcgcG1fc3VzcGVuZF92aWFfZmlybXdhcmUoKS4NCj4gPiA+ID4NCj4gPiA+
+ID4gTGFzdCB0aW1lIEkgd2FzIGludm9sdmVkIGluIGEgZGlzY3Vzc2lvbiBhYm91dCB0aGlzLCB0
+aGUgUFNDSSBwZW9wbGUNCj4gPiA+ID4gZGlkbid0IHdhbnQgdG8gYWRkIGFueSBwcm9wZXJ0aWVz
+IGRlc2NyaWJpbmcgcGFydGljdWxhciBQU0NJIGJlaGF2aW9yLi4uDQo+ID4gPiA+ICJJZiBmaXJt
+d2FyZSBpcyBpbnZvbHZlZCwgYWxsIG9kZHMgYXJlIG9mZiIuDQo+ID4gPiA+DQo+ID4gPiA+IFNv
+IHRoZSBvbmx5IHNhZmUgdGhpbmcgdG8gZG8gaXMgdG8gZXhwZWN0IHRoZSB3b3JzdCwgYW5kIHBy
+ZXBhcmUgZm9yIGl0Li4uDQo+ID4gPg0KPiA+ID4gQSBoZWFkYWNoZSBwb2ludCBpcyBhbiBlTU1D
+IGRldmljZSBjb25zdW1lcyBtdWNoIHBvd2VyIGlmIHRoYXQgdGhlIHN5c3RlbQ0KPiA+ID4gZG9l
+c24ndCBjdXQgdGhlIHZjYyBhbmQgdmNjcSBhbmQgZG9lc27igJl0IGVudGVyIHRoZSBzbGVlcCBt
+b2RlLg0KPiA+ID4gSW4gb3RoZXIgd29yZHMsIGluIHBvd2VyIGNvbnN1bXB0aW9uIHBvaW50IG9m
+IHZpZXcsIHRoaXMgcGF0Y2ggd2lsbA0KPiA+ID4gY2F1c2UgYSByZWdyZXNzaW9uIGluIHN1Y2gg
+YSBjYXNlLi4uDQo+ID4NCj4gPiBJbmRlZWQuDQo+ID4NCj4gPiA+IEJ5IHRoZSB3YXksIGFib3V0
+IGFkZGluZyBzcGVjaWZpYyBEVCBwcm9wZXJ0eSwgdGhlIHJlZ3VsYXRvciBjYW4gaGF2ZQ0KPiA+
+ID4gcmVndWxhdG9yLW9mZi1pbi1zdXNwZW5kIHByb3BlcnR5IGluIHJlZ3VsYXRvci1zdGF0ZS1t
+ZW0gc3Vibm9kZS4NCj4gPiA+IEZvciBub3csIHdlIGRvZXNuJ3Qgc2VlbSB0byBnZXQgdGhlIHBy
+b3BlcnR5IGZyb20gYSByZWd1bGF0b3IgY29uc3VtZXIgdGhvdWdoLg0KPiA+ID4gU28sIEknbGwg
+dHJ5IHRvIGFkZCBhbiBBUEkgb2YgcmVndWxhdG9yIGZvciBpdC4NCj4gPg0KPiA+IE9oIHJpZ2h0
+LCB0aGUgZU1NQyBpcyBkZXNjcmliZWQgaW4gRFQgYXMgYmVpbmcgY29ubmVjdGVkIHRvIHR3bw0K
+PiA+IHJlZ3VsYXRvcnMuDQo+ID4gTm90ZSB0aGF0IHRoZSBzZW1hbnRpY3Mgb2YgcmVndWxhdG9y
+LW9mZi1pbi1zdXNwZW5kIGFyZSB0aGF0IHRoZQ0KPiA+IHJlZ3VsYXRvciBzaG91bGQgYmUgZGlz
+YWJsZWQgKGJ5IHRoZSByZWd1bGF0b3IgY29yZSkgZHVyaW5nIHN1c3BlbmQsIG5vdA0KPiA+IHRo
+YXQgdGhlIHJlZ3VsYXRvciBpcyBkaXNhYmxlZCBkdXJpbmcgc3VzcGVuZCBieSBhIHRoaXJkIHBh
+cnR5Lg0KPiA+IE5vIGlkZWEgaWYgdGhhdCB3aWxsIHdvcmsgd2l0aCBhIGZpeGVkLXJlZ3VsYXRv
+ciB3aXRob3V0IEdQSU8gY29udHJvbCwNCj4gPiBidXQgb2YgY291cnNlIHlvdSBjYW4gdHJ5Lg0K
+DQpBcyBvdGhlciBlbWFpbCB0aHJlYWQgb2YgdGhpcyB0cmlhbCBhcyB2NCwgSSBjb3VsZCBub3Qg
+Z2V0IGFwcHJvdmFsIFsxXS4NCg0KWzFdDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1y
+ZW5lc2FzLXNvYy9DQU11SE1kWDkzUTlXaEtMcXZfd05QekFyYmM2OE5jYlZOOGpKOU1ES3hBY2lj
+cEJRNVFAbWFpbC5nbWFpbC5jb20vVC8jbTcwODgzY2M1ZGU0ZmE3ZmNhNTAxMThkYWQ3NDNjODM2
+ZDVlM2I0NTENCg0KPiBGb3IgbW1jIHdlIGFscmVhZHkgaGF2ZSBhIERUIHByb3BlcnR5LCAiZnVs
+bC1wd3ItY3ljbGUiLiBXaGljaCB0ZWxscw0KPiB3aGV0aGVyIHRoZSBob3N0IGlzIGFibGUgdG8g
+Y29tcGxldGVseSBwb3dlci1jeWNsZSB0aGUgY2FyZCAoc29tZQ0KPiBob3N0J3MgbWFuYWdlIHBv
+d2VyIGludGVybmFsbHkpLg0KPiANCj4gSG93ZXZlciwgbWF5YmUgdGhlIHByb3BlciB0aGluZyBo
+ZXJlIHdvdWxkIGJlIHRvIGFkZCBhIHByb3BlcnR5IG9mDQo+IHJlZ3VsYXRvciBpbnN0ZWFkLg0K
+DQpNeSB2NCBwYXRjaCB3YXMgdXNpbmcgYSByZWd1bGF0b3IgcHJvcGVydHkuIEJ1dCBzaW5jZSBJ
+IGNvdWxkIG5vdCBnZXQNCmFwcHJvdmFsLCB3ZSBjb3VsZCBub3QgdXNlIHRoaXMgd2F5LCBJIHRo
+aW5rLg0KDQo+IElmIHRoYXQgZG9lc24ndCBtYWtlIHNlbnNlLCBJIGFtIGFsc28gb3BlbiB0byBh
+ZGQgYQ0KPiBuZXcgTU1DIHByb3BlcnR5LCAiZnVsbC1wd3ItY3ljbGUtaW4tc3VzcGVuZCIuDQoN
+CkkgdGhvdWdodCB0aGlzIHdheSB3YXMgYmV0dGVyLiBIb3dldmVyLCBJJ20gd29uZGVyaW5nIGlm
+IGFkZGluZyBzdWNoIGEgbmV3IE1NQw0KcHJvcGVydHkgdG8gaXNzdWUgUG93ZXIgT2ZmIE5vdGlm
+aWNhdGlvbiBpbiBtbWNfc3VzcGVuZCgpIGlzIHJlYWxseSBiZXR0ZXINCnRoYW4gdGhlIGN1cnJl
+bnQgaW1wbGVtZW50YXRpb24uIFRoaXMgaXMgYmVjYXVzZSB3ZSBkb24ndCBoYXZlIGFueSBjb21w
+bGV0ZWx5DQpzb2x1dGlvbnMgbm93Og0KIC0gRGVwZW5kIG9uIGJvYXJkIGNvbmZpZ3VyYXRpb24g
+KFRoZSBib2FyZCBkb2Vzbid0IGhhdmUgImZ1bGwtcHdyLWN5Y2xlIikuDQogLSBEZXBlbmQgb24g
+ZmlybXdhcmUgb24gYm9hcmQgWzJdLiBTbywgZXZlbiBpZiBhZGRpbmcgYSBuZXcgTU1DIHByb3Bl
+cnR5LA0KICAgaXQgY2Fubm90IHN5bmMgdGhlIGZpcm13YXJlIGNvbmRpdGlvbi4gSW4gZmFjdCwg
+dGhpcyBpcyBwb3NzaWJsZSB0bw0KICAgY2F1c2UgcmVncmVzc2lvbiBpbiBwb3dlciBjb25zdW1w
+dGlvbiBwb2ludCBvZiB2aWV3IFszXS4NCiAtIE15IGVudmlyb25tZW50IChQU0NJIHdoaWNoIGlz
+IG9uZSBvZiBmaXJtd2FyZSkgZG9lc24ndCBzdXBwb3J0DQogICBhbnkgYWJpbGl0eSB0byBzeW5j
+IGJldHdlZW4gdGhlIGZpcm13YXJlIGFuZCBPUyBmb3Igbm93IFs0XS4NCg0KQnV0LCB3aGF0IGRv
+IHlvdSB0aGluaz8NCg0KWzJdDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yZW5lc2Fz
+LXNvYy8xNTkyNzkyNjk5LTI0NjM4LTEtZ2l0LXNlbmQtZW1haWwteW9zaGloaXJvLnNoaW1vZGEu
+dWhAcmVuZXNhcy5jb20vVC8jbWRlMzhkNTg2NmI3ZjNlZGM5YTJlZDEwNWFjMDZiNGZkYTRjM2U5
+OWUNCg0KWzNdDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yZW5lc2FzLXNvYy8xNTky
+NzkyNjk5LTI0NjM4LTEtZ2l0LXNlbmQtZW1haWwteW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNh
+cy5jb20vVC8jbWY4ZTdhYmRmMTM1NTg2YmEwYjcwYTFjMjM1NDEwYTZmOTRjNjAwN2QNCg0KWzRd
+DQpodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yZW5lc2FzLXNvYy9DQU11SE1kWDkzUTlX
+aEtMcXZfd05QekFyYmM2OE5jYlZOOGpKOU1ES3hBY2ljcEJRNVFAbWFpbC5nbWFpbC5jb20vVC8j
+bTQ0MmEyY2U5NzJjZmRiM2ZmMzM2MzdjMTIwYzhkMDk2ZTRkMDdhZjgNCg0KQmVzdCByZWdhcmRz
+LA0KWW9zaGloaXJvIFNoaW1vZGENCg0KPiBLaW5kIHJlZ2FyZHMNCj4gVWZmZQ0K
