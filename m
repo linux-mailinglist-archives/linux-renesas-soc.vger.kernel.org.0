@@ -2,148 +2,402 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5AAB212187
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 12:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED46212244
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 13:27:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbgGBKtb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 06:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41388 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbgGBKtb (ORCPT
+        id S1728502AbgGBL1c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 07:27:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46780 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728514AbgGBL1a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 06:49:31 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66984C08C5C1;
-        Thu,  2 Jul 2020 03:49:31 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id k22so11955631oib.0;
-        Thu, 02 Jul 2020 03:49:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Gxqq8NCF6HVwevmO1JjZvMIZt+L9jEoM+QxI55ZZgMw=;
-        b=K7T/iMX2sqHgOdzMW1RXGrOV4jlVBLKHXJFQm+0xI92qgXEdmCzOLzY5H+TDel2YWt
-         xMKNSTWqnZPBL3ywzEDQRUQhuG9+GXUT0nzTR5yr7GvGR6bhxgb/ZTWwIkD91ukaG0VW
-         f5FrdFEfK8j/EtnsRjAbu3nQEMaRh+KjRBNAryCWGCLpYU3/xqTRWK3uW8/KIjukOcAW
-         470xfbJ6WwhJfhfvX4yuvUnsAkWiHcMOUf/JBEDyUX+Af9j7A8JXR4LAvogrefQtJo9i
-         FwDKpE4TCdJBZA9htOW/ysKzBG1dmYIw7+YkM0/nH6zhLmET0y2BTwW24kayL57VXlSX
-         LUGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Gxqq8NCF6HVwevmO1JjZvMIZt+L9jEoM+QxI55ZZgMw=;
-        b=JDOUVPCqGWd7p7mD3mOCzdOGjLBWKXOKUQzXk/z+QEBum18Tn7o/oBSAJqo4uviWJg
-         8y5/dqGu/ptRiwmGVC8qYkQSFzbQq5J38B2BvDLxbjJnB9ySaFkDmbDPIy6j4/QfQGJr
-         wXzhnN5j+L6xhYykVmy6zWR71bWj0oTgMto8KmQcxsmWAXEUP9TPg6eeceM5GENP9lUX
-         iAjxeT8IZpwLeaRaJhghlMp49FVAPR4hArc2jkzbH2cRd7pouqdhPj3S/w3O2FK5OFuq
-         XdaWHU2prtS+Fkm/34h1tFXtJ6t7mLkzxwT+Y/octKEvZ6V4ACOcZGKxNNCqLhI0qlNW
-         M1+Q==
-X-Gm-Message-State: AOAM5308AF13nFN+0NMMIumxbPbwlfAPFTmTNOtDo1RhwtzxiLyEbDVu
-        mwlVQsCgp8ymJuCv/j2SHZdWlGHATWiK4+jyars=
-X-Google-Smtp-Source: ABdhPJzW+zDa07jaIg+VLfamaq0OKviXSCjIADr2Zt4zLPT/+HVYjP41UbGUQjkpemrHHoVXl54erQqEZUqLsEl4ayw=
-X-Received: by 2002:aca:4fd3:: with SMTP id d202mr21117225oib.142.1593686970753;
- Thu, 02 Jul 2020 03:49:30 -0700 (PDT)
+        Thu, 2 Jul 2020 07:27:30 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D83C0293;
+        Thu,  2 Jul 2020 13:27:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1593689246;
+        bh=g2lIxs47leX/mB93KVA/O9epkrEmj+JszqtCJsZa/So=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=islN+/5cMLvVnzCc4kC4QAjJbrsq/zoS48zAAlX0aQnBoJkLKnsj7mdxBSiXhQ8MS
+         j9l89bUq1T8pucDGMXgX+ezRDxq254XTcVKDcLWtK6b5ZmxwOOofJBkEMw9TOZHQw0
+         uWs7BaPw6S9r6ZA6G+tem0Xl73vZGpA0X72tipwM=
+Date:   Thu, 2 Jul 2020 14:27:22 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
+        "James (Qian) Wang" <james.qian.wang@arm.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-tegra@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 1/8] drm/atomic-helper: reset vblank on crtc reset
+Message-ID: <20200702112722.GA18036@pendragon.ideasonboard.com>
+References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-References: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWU7kVJMuNMSGxZSjErmj7rB=tvXH3GANmPRjYz+=JP1g@mail.gmail.com>
- <CA+V-a8v+2fhqwRNCaGYbmh8E1FDyc2Xss3PHk12dpTt_pgmCFg@mail.gmail.com> <CAMuHMdVdCH-r-xMnDgUYzJfDCzUJCYt8CkSDp9E=tgfP01FrKw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVdCH-r-xMnDgUYzJfDCzUJCYt8CkSDp9E=tgfP01FrKw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 2 Jul 2020 11:49:04 +0100
-Message-ID: <CA+V-a8s3JgtGsSSsCF335p1S6Yq5veqe6nAQNK03wNSxAU0XCA@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Initialize spinlock for uart console
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Daniel,
 
-On Thu, Jul 2, 2020 at 10:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Jul 1, 2020 at 7:28 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Wed, Jul 1, 2020 at 6:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Wed, Jul 1, 2020 at 5:42 PM Lad Prabhakar
-> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > serial core expects the spinlock to be initialized by the controller
-> > > > driver for serial console, this patch makes sure the spinlock is
-> > > > initialized, fixing the below issue:
-> > > >
-> > > > [    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
-> > > > [    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-> > > > [    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
-> > > > [    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
-> > > > [    0.865968] Call trace:
-> > > > [    0.865979]  dump_backtrace+0x0/0x1d8
-> > > > [    0.865985]  show_stack+0x14/0x20
-> > > > [    0.865996]  dump_stack+0xe8/0x130
-> > > > [    0.866006]  spin_dump+0x6c/0x88
-> > > > [    0.866012]  do_raw_spin_lock+0xb0/0xf8
-> > > > [    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
-> > > > [    0.866032]  uart_add_one_port+0x3a4/0x4e0
-> > > > [    0.866039]  sci_probe+0x504/0x7c8
-> > > > [    0.866048]  platform_drv_probe+0x50/0xa0
-> > > > [    0.866059]  really_probe+0xdc/0x330
-> > > > [    0.866066]  driver_probe_device+0x58/0xb8
-> > > > [    0.866072]  device_driver_attach+0x6c/0x90
-> > > > [    0.866078]  __driver_attach+0x88/0xd0
-> > > > [    0.866085]  bus_for_each_dev+0x74/0xc8
-> > > > [    0.866091]  driver_attach+0x20/0x28
-> > > > [    0.866098]  bus_add_driver+0x14c/0x1f8
-> > > > [    0.866104]  driver_register+0x60/0x110
-> > > > [    0.866109]  __platform_driver_register+0x40/0x48
-> > > > [    0.866119]  sci_init+0x2c/0x34
-> > > > [    0.866127]  do_one_initcall+0x88/0x428
-> > > > [    0.866137]  kernel_init_freeable+0x2c0/0x328
-> > > > [    0.866143]  kernel_init+0x10/0x108
-> > > > [    0.866150]  ret_from_fork+0x10/0x18
-> > >
-> > > Interesting...
-> > >
-> > > How can I reproduce that? I do have CONFIG_DEBUG_SPINLOCK=y.
-> > > I'm wondering why haven't we seen this before...
-> > >
-> > I have attached .config for your reference.
->
-> Thank you!
->
-> I gave it a try with v5.8-rc1 on Salvator-XS with R-Car H3 ES2.0.
-> However, I couldn't reproduce the issue.
-> Does it happen on that specific board only? Is this serdev-related?
-> Note that I had to disable CONFIG_EXTRA_FIRMWARE, as I don't have the
-> firmware blobs it referenced.  Do I need them to trigger the issue?
-> As the .config has a few non-upstream options, do you have any patches
-> applied that might impact the issue?
->
-Can't think of any patches that might cause an issue, most of it are
-just the DT's and config additions. Nor do firmware blobs should
-affect it. I'll try and reproduce it on M3N and get back to you.
+Thank you for the patch.
 
-Cheers,
---Prabhakar
+On Fri, Jun 12, 2020 at 06:00:49PM +0200, Daniel Vetter wrote:
+> Only when vblanks are supported ofc.
+> 
+> Some drivers do this already, but most unfortunately missed it. This
+> opens up bugs after driver load, before the crtc is enabled for the
+> first time. syzbot spotted this when loading vkms as a secondary
+> output. Given how many drivers are buggy it's best to solve this once
+> and for all in shared helper code.
+> 
+> Aside from moving the few existing calls to drm_crtc_vblank_reset into
+> helpers (i915 doesn't use helpers, so keeps its own) I think the
+> regression risk is minimal: atomic helpers already rely on drivers
+> calling drm_crtc_vblank_on/off correctly in their hooks when they
+> support vblanks. And driver that's failing to handle vblanks after
+> this is missing those calls already, and vblanks could only work by
+> accident when enabling a CRTC for the first time right after boot.
+> 
+> Big thanks to Tetsuo for helping track down what's going wrong here.
+> 
+> There's only a few drivers which already had the necessary call and
+> needed some updating:
+> - komeda, atmel and tidss also needed to be changed to call
+>   __drm_atomic_helper_crtc_reset() intead of open coding it
+> - tegra and msm even had it in the same place already, just code
+>   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
 
-> Thanks again!
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Should you mention rcar-du and omapdrm here ?
+
+> Only call left is in i915, which doesn't use drm_mode_config_reset,
+> but has its own fastboot infrastructure. So that's the only case where
+> we actually want this in the driver still.
+> 
+> I've also reviewed all other drivers which set up vblank support with
+> drm_vblank_init. After the previous patch fixing mxsfb all atomic
+> drivers do call drm_crtc_vblank_on/off as they should, the remaining
+> drivers are either legacy kms or legacy dri1 drivers, so not affected
+> by this change to atomic helpers.
+> 
+> v2: Use the drm_dev_has_vblank() helper.
+> 
+> v3: Laurent pointed out that omap and rcar-du used drm_crtc_vblank_off
+> instead of drm_crtc_vblank_reset. Adjust them too.
+> 
+> v4: Laurent noticed that rcar-du and omap open-code their crtc reset
+> and hence would actually be broken by this patch now. So fix them up
+> by reusing the helpers, which brings the drm_crtc_vblank_reset() back.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
+> Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Mihail Atanassov <mihail.atanassov@arm.com>
+> Cc: Brian Starkey <brian.starkey@arm.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Boris Brezillon <bbrezillon@kernel.org>
+> Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> Cc: Jyri Sarha <jsarha@ti.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Brian Masney <masneyb@onstation.org>
+> Cc: Emil Velikov <emil.velikov@collabora.com>
+> Cc: zhengbin <zhengbin13@huawei.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: linux-tegra@vger.kernel.org
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
+>  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
+>  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
+>  drivers/gpu/drm/omapdrm/omap_crtc.c              | 8 +++++---
+>  drivers/gpu/drm/omapdrm/omap_drv.c               | 4 ----
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c           | 6 +-----
+>  drivers/gpu/drm/tegra/dc.c                       | 1 -
+>  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
+>  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
+>  11 files changed, 15 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 56bd938961ee..f33418d6e1a0 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
+>  	crtc->state = NULL;
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
+>  		return err;
+>  
+>  	drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(crtc);
+>  
+>  	crtc->port = kcrtc->master->of_output_port;
+>  
+> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+> index 6feda7cb37a6..c9e1ee84b4e8 100644
+> --- a/drivers/gpu/drm/arm/malidp_drv.c
+> +++ b/drivers/gpu/drm/arm/malidp_drv.c
+> @@ -861,7 +861,6 @@ static int malidp_bind(struct device *dev)
+>  	drm->irq_enabled = true;
+>  
+>  	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> -	drm_crtc_vblank_reset(&malidp->crtc);
+>  	if (ret < 0) {
+>  		DRM_ERROR("failed to initialise vblank\n");
+>  		goto vblank_fail;
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> index 10985134ce0b..ce246b96330b 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
+>  	}
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> -	if (state) {
+> -		crtc->state = &state->base;
+> -		crtc->state->crtc = crtc;
+> -	}
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
+>  	}
+>  
+>  	drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
+> -	drm_crtc_vblank_reset(&crtc->base);
+>  
+>  	drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
+>  	drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 8fce6a115dfe..9ad74045158e 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -32,6 +32,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_plane.h>
+>  #include <drm/drm_print.h>
+> +#include <drm/drm_vblank.h>
+>  #include <drm/drm_writeback.h>
+>  
+>  #include <linux/slab.h>
+> @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+>  	if (crtc_state)
+>  		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
+>  
+> +	if (drm_dev_has_vblank(crtc->dev))
+> +		drm_crtc_vblank_reset(crtc);
+> +
+>  	crtc->state = crtc_state;
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> index e152016a6a7d..c39dad151bb6 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
+> @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
+>  		mdp5_crtc_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
+> -
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
+> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> index fce7e944a280..6d40914675da 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> @@ -697,14 +697,16 @@ static int omap_crtc_atomic_get_property(struct drm_crtc *crtc,
+>  
+>  static void omap_crtc_reset(struct drm_crtc *crtc)
+>  {
+> +	struct omap_crtc_state *state;
+> +
+>  	if (crtc->state)
+>  		__drm_atomic_helper_crtc_destroy_state(crtc->state);
+>  
+>  	kfree(crtc->state);
+> -	crtc->state = kzalloc(sizeof(struct omap_crtc_state), GFP_KERNEL);
+>  
+> -	if (crtc->state)
+> -		crtc->state->crtc = crtc;
+> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> +	if (state)
+> +		__drm_atomic_helper_crtc_reset(crtc, &state->base);
+>  }
+>  
+>  static struct drm_crtc_state *
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index 242d28281784..4526967978b7 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -595,7 +595,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>  {
+>  	const struct soc_device_attribute *soc;
+>  	struct drm_device *ddev;
+> -	unsigned int i;
+>  	int ret;
+>  
+>  	DBG("%s", dev_name(dev));
+> @@ -642,9 +641,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>  		goto err_cleanup_modeset;
+>  	}
+>  
+> -	for (i = 0; i < priv->num_pipes; i++)
+> -		drm_crtc_vblank_off(priv->pipes[i].crtc);
+> -
+>  	omap_fbdev_init(ddev);
+>  
+>  	drm_kms_helper_poll_init(ddev);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index d73e88ddecd0..fe86a3e67757 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -975,8 +975,7 @@ static void rcar_du_crtc_reset(struct drm_crtc *crtc)
+>  	state->crc.source = VSP1_DU_CRC_NONE;
+>  	state->crc.index = 0;
+>  
+> -	crtc->state = &state->state;
+> -	crtc->state->crtc = crtc;
+> +	__drm_atomic_helper_crtc_reset(crtc, &state->state);
+>  }
+>  
+>  static int rcar_du_crtc_enable_vblank(struct drm_crtc *crtc)
+> @@ -1271,9 +1270,6 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
+> -	/* Start with vertical blanking interrupt reporting disabled. */
+> -	drm_crtc_vblank_off(crtc);
+> -
+
+Could this cause an issue, as the interrupt handler can now be
+registered with the interrupt left enabled in the hardware after a
+reboot, while drm_crtc_vblank_off() would disable it ? It's something
+that should likely be handled elsewhere in the driver, with all
+interrupts disabled explicitly early in probe, and I don't think the
+driver handles enabled interrupts very well today, so it's not a blocker
+for me:
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I would however appreciate your thoughts on this topic, to know if my
+understanding is correct (and if this issue could affect other drivers).
+
+>  	/* Register the interrupt handler. */
+>  	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
+>  		/* The IRQ's are associated with the CRTC (sw)index. */
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index 83f31c6e891c..9b308b572eac 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
+>  		tegra_crtc_atomic_destroy_state(crtc, crtc->state);
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> -	drm_crtc_vblank_reset(crtc);
+>  }
+>  
+>  static struct drm_crtc_state *
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 89a226912de8..4d01c4af61cd 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
+>  		return;
+>  	}
+>  
+> -	crtc->state = &tcrtc->base;
+> -	crtc->state->crtc = crtc;
+> +	__drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
+>  }
+>  
+>  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+> index 4b99e9fa84a5..e6ab59eed259 100644
+> --- a/drivers/gpu/drm/tidss/tidss_kms.c
+> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
+> @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Start with vertical blanking interrupt reporting disabled. */
+> -	for (i = 0; i < tidss->num_crtcs; ++i)
+> -		drm_crtc_vblank_reset(tidss->crtcs[i]);
+> -
+>  	drm_mode_config_reset(ddev);
+>  
+>  	dev_dbg(tidss->dev, "%s done\n", __func__);
+
+-- 
+Regards,
+
+Laurent Pinchart
