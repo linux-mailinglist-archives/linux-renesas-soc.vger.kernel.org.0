@@ -2,461 +2,310 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09086212272
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 13:40:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A530212360
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 14:33:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728698AbgGBLkR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 07:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728694AbgGBLkQ (ORCPT
+        id S1728848AbgGBMd4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 08:33:56 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:54977 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728830AbgGBMd4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 07:40:16 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A1C9C08C5DC
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2020 04:40:16 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id 95so13237342otw.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2020 04:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lZHBtAlKw7z1oQPTdUzKwNZteR+BfBoGvnYgD7d6d3g=;
-        b=XH4Uy8OAiq7OWF5HliseB4Ml92Z9dattqtbQzA39iCyelSr9nDcOHy97ziW8iu4zKu
-         fIgU1W2EL/iSsTndTsTf84olBKRMwrP73mILkopvitRy/r3i+Ma4hJabENE7nDXmB7Yg
-         Tc5JotMr478Ob5fl8edER0N0Y4AEAV3V3wJqA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lZHBtAlKw7z1oQPTdUzKwNZteR+BfBoGvnYgD7d6d3g=;
-        b=AbhIFPjfQDDXcjTIVQWNZHxyzNUCNPSuAMqovbuO/QWGdo5BUvYfcg977pdfo+C2QE
-         onrQ8bUViIBREgnoP4L65b4ZifASVbum7DqerSbdGb5u7HbyniHzbtEILCUoxh2vclk+
-         o1tFSs7j4ur3osKkRDrLmyHCiMARwVpFIfJaXMlRe8VMsAS1MVFOxBNk8Cvete2DRfJQ
-         1RniqVF3R24M4ZaonZsKOoulzjw8iVOK4LvBbhazqtT47dKJKtR+P+TkP0eZtYu2QmdN
-         Y/5CyqTMUDhRmHnPAqzzTms9gCHqMywAWKwNkHo8SqHyV3kPCbj0LxJV410Hpvmh0Hos
-         9iHQ==
-X-Gm-Message-State: AOAM533njIeAUVGO78255w9YCOVv+avaEj9+0dAB9RghwAG2MB4X9S+K
-        KXdY6BMAnj6hmbnPTlt9yK7im5Rh3whOw2tMqMlkGw==
-X-Google-Smtp-Source: ABdhPJxWkcyXPw0DkByhZ4wcDulIL6cPJ+jZRkrMFXqe9XMDcxu44wd4dAJ9kejq7+e6rwQuG9sAA9i6Bwo/o4D+vN8=
-X-Received: by 2002:a05:6830:1613:: with SMTP id g19mr13534749otr.303.1593690015601;
- Thu, 02 Jul 2020 04:40:15 -0700 (PDT)
+        Thu, 2 Jul 2020 08:33:56 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3EBF63C0065;
+        Thu,  2 Jul 2020 14:33:52 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1qgV4JLFGWk6; Thu,  2 Jul 2020 14:33:47 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 26FB13C0022;
+        Thu,  2 Jul 2020 14:33:47 +0200 (CEST)
+Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 2 Jul 2020
+ 14:33:46 +0200
+Date:   Thu, 2 Jul 2020 14:33:41 +0200
+From:   Michael Rodin <mrodin@de.adit-jv.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <michael@rodin.online>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
+Subject: Re: [PATCH 1/2] [RFC] media: rcar-vin: send a V4L2 event to vdev if
+ no frame captured after a timeout
+Message-ID: <20200702123341.GA65262@vmlxhi-121.adit-jv.com>
+References: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
+ <20200630221710.GM2365286@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch> <20200702112722.GA18036@pendragon.ideasonboard.com>
-In-Reply-To: <20200702112722.GA18036@pendragon.ideasonboard.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 2 Jul 2020 13:40:04 +0200
-Message-ID: <CAKMK7uGny5Kssrusr5JQSV29WJE62iigD+hx8bgWYAYqhJAiYw@mail.gmail.com>
-Subject: Re: [PATCH 1/8] drm/atomic-helper: reset vblank on crtc reset
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com,
-        "James (Qian) Wang" <james.qian.wang@arm.com>,
-        Mihail Atanassov <mihail.atanassov@arm.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jyri Sarha <jsarha@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Sean Paul <seanpaul@chromium.org>,
-        Brian Masney <masneyb@onstation.org>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        zhengbin <zhengbin13@huawei.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200630221710.GM2365286@oden.dyn.berto.se>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.92.132]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 1:27 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Daniel,
->
-> Thank you for the patch.
->
-> On Fri, Jun 12, 2020 at 06:00:49PM +0200, Daniel Vetter wrote:
-> > Only when vblanks are supported ofc.
-> >
-> > Some drivers do this already, but most unfortunately missed it. This
-> > opens up bugs after driver load, before the crtc is enabled for the
-> > first time. syzbot spotted this when loading vkms as a secondary
-> > output. Given how many drivers are buggy it's best to solve this once
-> > and for all in shared helper code.
-> >
-> > Aside from moving the few existing calls to drm_crtc_vblank_reset into
-> > helpers (i915 doesn't use helpers, so keeps its own) I think the
-> > regression risk is minimal: atomic helpers already rely on drivers
-> > calling drm_crtc_vblank_on/off correctly in their hooks when they
-> > support vblanks. And driver that's failing to handle vblanks after
-> > this is missing those calls already, and vblanks could only work by
-> > accident when enabling a CRTC for the first time right after boot.
-> >
-> > Big thanks to Tetsuo for helping track down what's going wrong here.
-> >
-> > There's only a few drivers which already had the necessary call and
-> > needed some updating:
-> > - komeda, atmel and tidss also needed to be changed to call
-> >   __drm_atomic_helper_crtc_reset() intead of open coding it
-> > - tegra and msm even had it in the same place already, just code
-> >   motion, and malidp already uses __drm_atomic_helper_crtc_reset().
->
-> Should you mention rcar-du and omapdrm here ?
+Hi Niklas,
 
-Uh yes need to mention them too here, and how exactly they're a bit
-different. Will shuffle that from the v4: block below when applying.
+On Wed, Jul 01, 2020 at 12:17:10AM +0200, Niklas Söderlund wrote:
+> Hi Michael,
+> 
+> Thanks for your RFC.
 
-> > Only call left is in i915, which doesn't use drm_mode_config_reset,
-> > but has its own fastboot infrastructure. So that's the only case where
-> > we actually want this in the driver still.
-> >
-> > I've also reviewed all other drivers which set up vblank support with
-> > drm_vblank_init. After the previous patch fixing mxsfb all atomic
-> > drivers do call drm_crtc_vblank_on/off as they should, the remaining
-> > drivers are either legacy kms or legacy dri1 drivers, so not affected
-> > by this change to atomic helpers.
-> >
-> > v2: Use the drm_dev_has_vblank() helper.
-> >
-> > v3: Laurent pointed out that omap and rcar-du used drm_crtc_vblank_off
-> > instead of drm_crtc_vblank_reset. Adjust them too.
-> >
-> > v4: Laurent noticed that rcar-du and omap open-code their crtc reset
-> > and hence would actually be broken by this patch now. So fix them up
-> > by reusing the helpers, which brings the drm_crtc_vblank_reset() back.
-> >
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-> > Acked-by: Thierry Reding <treding@nvidia.com>
-> > Link: https://syzkaller.appspot.com/bug?id=0ba17d70d062b2595e1f061231474800f076c7cb
-> > Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Reported-by: syzbot+0871b14ca2e2fb64f6e3@syzkaller.appspotmail.com
-> > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Cc: "James (Qian) Wang" <james.qian.wang@arm.com>
-> > Cc: Liviu Dudau <liviu.dudau@arm.com>
-> > Cc: Mihail Atanassov <mihail.atanassov@arm.com>
-> > Cc: Brian Starkey <brian.starkey@arm.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Boris Brezillon <bbrezillon@kernel.org>
-> > Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > Cc: Jyri Sarha <jsarha@ti.com>
-> > Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> > Cc: Rob Clark <robdclark@gmail.com>
-> > Cc: Sean Paul <seanpaul@chromium.org>
-> > Cc: Brian Masney <masneyb@onstation.org>
-> > Cc: Emil Velikov <emil.velikov@collabora.com>
-> > Cc: zhengbin <zhengbin13@huawei.com>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: linux-tegra@vger.kernel.org
-> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Thanks your your feedback!
+
+> On 2020-06-19 19:46:10 +0200, Michael Rodin wrote:
+> > Data flow from an upstream subdevice can stop permanently due to:
+> >  - CSI2 transmission errors
+> >  - silent failure of the source subdevice
+> >  - disconnection of the source subdevice
+> > In those cases userspace waits for new buffers for an infinitely long time.
+> > In order to address this issue, use a timer to monitor, that rvin_irq() is
+> > capturing at least one frame within a IRQ_TIMEOUT_MS period. Otherwise send
+> > a new private v4l2 event to userspace. This event is exported to userspace
+> > via a new uapi header.
+> 
+> I think there is value for user-space to detecting the error cases 
+> above. But I think the problem could be addressed at a different lever.  
+> Defining a VIN specific events and controls for something that applies 
+> any video device might not be the neatest solution.
+> 
+> Another thing hits me when reading this series, could this not be done 
+> in user-space? In 2/2 you add a control which sets the timeout based on 
+> the framerate, so user-space must know about that to be able to set the 
+> control. User-space also knows when it receives/dequeus a buffer from 
+> the video device so the timeout logic could be implemented in the 
+> application. Given that the application anyhow needs special care to 
+> handle the VIN specific event and control I wonder if it's not neater to 
+> make it handle all of it. Do you see any specific benefit of having 
+> parts of it in the driver?
+
+Originally I have started this patch series to implement a replacement for
+the CSI-2 error handling you have added in
+commit 4ab44ff ("media: rcar-csi2: restart CSI-2 link if error is detected"),
+which is not correct for multiple reasons:
+1. The commit message states that the user is informed that something is
+   not right. But you have just added new messages which only appear in
+   dmesg. This might be sufficient for a desktop PC but not for an embedded
+   system, where the user normally can not see dmesg log. So I think that
+   V4L2 events are the correct solution for this kind of notification,
+   because they are passed directly to the application and the developer
+   can implement handling for this issue or display an error in the
+   custom human-machine interface.
+2. It is not correct to restart the CSI-2 link if you don't restart VIN
+   module as well. Renesas HW manual R19UH0105EJ0200 Rev.2.00
+   (Jul 31, 2019) requires a reset or stop of capture in the VIN module
+   before a reset of CSI-2 module (chapter 25.3.13 "Software Reset"). This
+   also applies to CSI-2 error handling.
+3. The CSI-2 driver restarts CSI-2 module for any CSI-2 error. However not
+   all CSI2 errors are critical. In some setups they are really harmless so
+   streaming can continue without any unnecessary restart. In some setups
+   they _always_ occur at each start of streaming and are harmless as
+   well, so automatic restart in CSI-2 module ends in an endless restart
+   loop, which never comes to an end and breaks streaming instead of any
+   help. It is better to leave such errors unhandled and therefore it is
+   important to detect whether DMA transfers really stop in rvin_irq().
+4. Video streaming applications in the automotive/embedded industry often
+   want to control when the video streaming pipeline is stopped or started
+   to be able to do some tasks in between, so an automatic restart of the
+   pipeline is not acceptable for them. It should be at least optional and
+   we should do this in rcar-dma.c, e.g. in the proposed irq timeout
+   function. However I am not sure yet how to implement a restart of
+   streaming inside of the rcar-vin driver correctly.
+
+I think, my patch series provides technically a good solution for the
+described issues. Also it is generic enough to allow also handling of
+failures in upstream subdevices connected to an R-Car3 CSI2 receiver or
+even parallel video input devices in cases when such failures can not be
+fixed or detected in the subdevice drivers and result in a stop of data
+flow on the chip level.
+
+Theoretically, applications also could use timeout parameter of the poll()
+syscall to implement the timeout (which can be e.g. a multiple of the frame
+interval), but the problem is that userspace does not know whether the
+timeout happened because there are no DMA transfers in the driver (i.e. one
+of the upstream subdevices or VIN failed) or because the driver is just
+using the "scratch buffer". The event which I have introduced explicitly
+monitors whether rcar-vin regularly receives new frames from upstream
+and allows applications to try a recovery (I have now renamed the event to
+"FRAME_TIMEOUT" to be more precise about its purpose).
+
+Another reason, why I think that the new v4l2 event is the right solution,
+are proprietary applications, where it is not possible to change the code
+to add any additional handling of driver failures but it is possible to
+start/stop streaming via inter process communication. Since V4L2 events can
+be subscribed and received by a separate process, it is possible to
+implement a middleware in user space, which monitors V4L2 events. Typically
+this middleware could also take over all of the complicated media-ctl
+configuration and monitoring of source changes and other events from
+subdevices, but this is a bit off-topic. I think that (private) V4L2 events
+are really useful in embedded systems where applications/middlewares are
+aware of the underlying hardware and want to be better informed about
+hardware related events than desktop applications.
+
+So if my arguments sound reasonable and you don't reject the overall
+concept of the series, I would send an improved version, where I have fixed
+some details of the timer implementation. I have also a patch for rcar-csi2
+driver with a private CSI-2 error event, which is useful to let the
+application know that the reason for the frame timeout event might be a
+CSI-2 error and not e.g. paused playback.
+
+> > 
+> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
 > > ---
-> >  drivers/gpu/drm/arm/display/komeda/komeda_crtc.c | 7 ++-----
-> >  drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
-> >  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 7 ++-----
-> >  drivers/gpu/drm/drm_atomic_state_helper.c        | 4 ++++
-> >  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c        | 2 --
-> >  drivers/gpu/drm/omapdrm/omap_crtc.c              | 8 +++++---
-> >  drivers/gpu/drm/omapdrm/omap_drv.c               | 4 ----
-> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c           | 6 +-----
-> >  drivers/gpu/drm/tegra/dc.c                       | 1 -
-> >  drivers/gpu/drm/tidss/tidss_crtc.c               | 3 +--
-> >  drivers/gpu/drm/tidss/tidss_kms.c                | 4 ----
-> >  11 files changed, 15 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > index 56bd938961ee..f33418d6e1a0 100644
-> > --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
-> > @@ -492,10 +492,8 @@ static void komeda_crtc_reset(struct drm_crtc *crtc)
-> >       crtc->state = NULL;
-> >
-> >       state = kzalloc(sizeof(*state), GFP_KERNEL);
-> > -     if (state) {
-> > -             crtc->state = &state->base;
-> > -             crtc->state->crtc = crtc;
-> > -     }
-> > +     if (state)
-> > +             __drm_atomic_helper_crtc_reset(crtc, &state->base);
-> >  }
-> >
-> >  static struct drm_crtc_state *
-> > @@ -616,7 +614,6 @@ static int komeda_crtc_add(struct komeda_kms_dev *kms,
-> >               return err;
-> >
-> >       drm_crtc_helper_add(crtc, &komeda_crtc_helper_funcs);
-> > -     drm_crtc_vblank_reset(crtc);
-> >
-> >       crtc->port = kcrtc->master->of_output_port;
-> >
-> > diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
-> > index 6feda7cb37a6..c9e1ee84b4e8 100644
-> > --- a/drivers/gpu/drm/arm/malidp_drv.c
-> > +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> > @@ -861,7 +861,6 @@ static int malidp_bind(struct device *dev)
-> >       drm->irq_enabled = true;
-> >
-> >       ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
-> > -     drm_crtc_vblank_reset(&malidp->crtc);
-> >       if (ret < 0) {
-> >               DRM_ERROR("failed to initialise vblank\n");
-> >               goto vblank_fail;
-> > diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > index 10985134ce0b..ce246b96330b 100644
-> > --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
-> > @@ -411,10 +411,8 @@ static void atmel_hlcdc_crtc_reset(struct drm_crtc *crtc)
-> >       }
-> >
-> >       state = kzalloc(sizeof(*state), GFP_KERNEL);
-> > -     if (state) {
-> > -             crtc->state = &state->base;
-> > -             crtc->state->crtc = crtc;
-> > -     }
-> > +     if (state)
-> > +             __drm_atomic_helper_crtc_reset(crtc, &state->base);
-> >  }
-> >
-> >  static struct drm_crtc_state *
-> > @@ -528,7 +526,6 @@ int atmel_hlcdc_crtc_create(struct drm_device *dev)
-> >       }
-> >
-> >       drm_crtc_helper_add(&crtc->base, &lcdc_crtc_helper_funcs);
-> > -     drm_crtc_vblank_reset(&crtc->base);
-> >
-> >       drm_mode_crtc_set_gamma_size(&crtc->base, ATMEL_HLCDC_CLUT_SIZE);
-> >       drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
-> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > index 8fce6a115dfe..9ad74045158e 100644
-> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -32,6 +32,7 @@
-> >  #include <drm/drm_device.h>
-> >  #include <drm/drm_plane.h>
-> >  #include <drm/drm_print.h>
-> > +#include <drm/drm_vblank.h>
-> >  #include <drm/drm_writeback.h>
-> >
-> >  #include <linux/slab.h>
-> > @@ -93,6 +94,9 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
-> >       if (crtc_state)
-> >               __drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
-> >
-> > +     if (drm_dev_has_vblank(crtc->dev))
-> > +             drm_crtc_vblank_reset(crtc);
+> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++++
+> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  1 +
+> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  6 ++++++
+> >  include/uapi/linux/rcar-vin.h               | 10 ++++++++++
+> >  4 files changed, 38 insertions(+)
+> >  create mode 100644 include/uapi/linux/rcar-vin.h
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 1a30cd0..bf8d733 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -937,6 +937,20 @@ static void rvin_capture_stop(struct rvin_dev *vin)
+> >  #define RVIN_TIMEOUT_MS 100
+> >  #define RVIN_RETRIES 10
+> >  
+> > +static const struct v4l2_event rvin_irq_timeout = {
+> > +	.type = V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT,
+> > +};
 > > +
-> >       crtc->state = crtc_state;
-> >  }
-> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> > index e152016a6a7d..c39dad151bb6 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c
-> > @@ -1117,8 +1117,6 @@ static void mdp5_crtc_reset(struct drm_crtc *crtc)
-> >               mdp5_crtc_destroy_state(crtc, crtc->state);
-> >
-> >       __drm_atomic_helper_crtc_reset(crtc, &mdp5_cstate->base);
-> > -
-> > -     drm_crtc_vblank_reset(crtc);
-> >  }
-> >
-> >  static const struct drm_crtc_funcs mdp5_crtc_funcs = {
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> > index fce7e944a280..6d40914675da 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> > @@ -697,14 +697,16 @@ static int omap_crtc_atomic_get_property(struct drm_crtc *crtc,
-> >
-> >  static void omap_crtc_reset(struct drm_crtc *crtc)
-> >  {
-> > +     struct omap_crtc_state *state;
+> > +static void rvin_irq_timer_function(struct timer_list *timer)
+> > +{
+> > +	struct rvin_dev *vin = container_of(timer, struct rvin_dev,
+> > +					    irq_timer);
 > > +
-> >       if (crtc->state)
-> >               __drm_atomic_helper_crtc_destroy_state(crtc->state);
-> >
-> >       kfree(crtc->state);
-> > -     crtc->state = kzalloc(sizeof(struct omap_crtc_state), GFP_KERNEL);
-> >
-> > -     if (crtc->state)
-> > -             crtc->state->crtc = crtc;
-> > +     state = kzalloc(sizeof(*state), GFP_KERNEL);
-> > +     if (state)
-> > +             __drm_atomic_helper_crtc_reset(crtc, &state->base);
-> >  }
-> >
-> >  static struct drm_crtc_state *
-> > diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > index 242d28281784..4526967978b7 100644
-> > --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> > +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> > @@ -595,7 +595,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+> > +	vin_err(vin, "%s: frame completion timeout after %i ms!\n",
+> > +		__func__, IRQ_TIMEOUT_MS);
+> > +	v4l2_event_queue(&vin->vdev, &rvin_irq_timeout);
+> > +}
+> > +
+> >  static irqreturn_t rvin_irq(int irq, void *data)
 > >  {
-> >       const struct soc_device_attribute *soc;
-> >       struct drm_device *ddev;
-> > -     unsigned int i;
-> >       int ret;
-> >
-> >       DBG("%s", dev_name(dev));
-> > @@ -642,9 +641,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
-> >               goto err_cleanup_modeset;
-> >       }
-> >
-> > -     for (i = 0; i < priv->num_pipes; i++)
-> > -             drm_crtc_vblank_off(priv->pipes[i].crtc);
-> > -
-> >       omap_fbdev_init(ddev);
-> >
-> >       drm_kms_helper_poll_init(ddev);
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > index d73e88ddecd0..fe86a3e67757 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > @@ -975,8 +975,7 @@ static void rcar_du_crtc_reset(struct drm_crtc *crtc)
-> >       state->crc.source = VSP1_DU_CRC_NONE;
-> >       state->crc.index = 0;
-> >
-> > -     crtc->state = &state->state;
-> > -     crtc->state->crtc = crtc;
-> > +     __drm_atomic_helper_crtc_reset(crtc, &state->state);
+> >  	struct rvin_dev *vin = data;
+> > @@ -1008,6 +1022,8 @@ static irqreturn_t rvin_irq(int irq, void *data)
+> >  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
+> >  	}
+> >  
+> > +	mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
+> > +
+> >  	vin->sequence++;
+> >  
+> >  	/* Prepare for next frame */
+> > @@ -1252,6 +1268,8 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  	if (ret)
+> >  		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
+> >  				  vin->scratch_phys);
+> > +	else
+> > +		mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
+> >  
+> >  	return ret;
 > >  }
-> >
-> >  static int rcar_du_crtc_enable_vblank(struct drm_crtc *crtc)
-> > @@ -1271,9 +1270,6 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
-> >
-> >       drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-> >
-> > -     /* Start with vertical blanking interrupt reporting disabled. */
-> > -     drm_crtc_vblank_off(crtc);
-> > -
->
-> Could this cause an issue, as the interrupt handler can now be
-> registered with the interrupt left enabled in the hardware after a
-> reboot, while drm_crtc_vblank_off() would disable it ? It's something
-> that should likely be handled elsewhere in the driver, with all
-> interrupts disabled explicitly early in probe, and I don't think the
-> driver handles enabled interrupts very well today, so it's not a blocker
-> for me:
-
-Atomic helpers, specifically the reset helpers I'm adjusting here
-assume that at driver load time everything is completely off. They
-_only_ reset the sw state.
-
-If you want to have more smooth takeover (flicker-free boot eventually
-even), or have some hw that's not getting reset as part of power-up or
-driver load, then that would be for the driver to handle. I think we
-recently had a discussion about what would need to be added to make
-atomic helpers support take-over of actual hw state at driver load.
-And yes if that's the case, then you'd need a different flow here to
-make sure vblank state is matching crtc state (e.g. i915 does that).
-
-Wrt this case here specifically drm_handle_vblank needs to handle
-races anyway, so it's robust against being called when the vblanks are
-disabled in software. So I don't think you'll have any serious problem
-here.
-
-Actual hw irq enable/disable is only done around drm_vblank_get/put
-(well with some delay), so I don't think that would have changed
-anything for you wrt actually getting an interrupt or not.
-
-So tldr; I think just drm_vblank_reset here fits the best with overall
-helpers we have.
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> I would however appreciate your thoughts on this topic, to know if my
-> understanding is correct (and if this issue could affect other drivers).
-
-Thanks a lot for your review, I'll apply the entire bunch later today.
--Daniel
-
->
-> >       /* Register the interrupt handler. */
-> >       if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CRTC_IRQ_CLOCK)) {
-> >               /* The IRQ's are associated with the CRTC (sw)index. */
-> > diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-> > index 83f31c6e891c..9b308b572eac 100644
-> > --- a/drivers/gpu/drm/tegra/dc.c
-> > +++ b/drivers/gpu/drm/tegra/dc.c
-> > @@ -1168,7 +1168,6 @@ static void tegra_crtc_reset(struct drm_crtc *crtc)
-> >               tegra_crtc_atomic_destroy_state(crtc, crtc->state);
-> >
-> >       __drm_atomic_helper_crtc_reset(crtc, &state->base);
-> > -     drm_crtc_vblank_reset(crtc);
+> > @@ -1305,6 +1323,8 @@ static void rvin_stop_streaming(struct vb2_queue *vq)
+> >  	/* Free scratch buffer. */
+> >  	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
+> >  			  vin->scratch_phys);
+> > +
+> > +	del_timer_sync(&vin->irq_timer);
 > >  }
-> >
-> >  static struct drm_crtc_state *
-> > diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> > index 89a226912de8..4d01c4af61cd 100644
-> > --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> > +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> > @@ -352,8 +352,7 @@ static void tidss_crtc_reset(struct drm_crtc *crtc)
-> >               return;
-> >       }
-> >
-> > -     crtc->state = &tcrtc->base;
-> > -     crtc->state->crtc = crtc;
-> > +     __drm_atomic_helper_crtc_reset(crtc, &tcrtc->base);
-> >  }
-> >
-> >  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
-> > diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> > index 4b99e9fa84a5..e6ab59eed259 100644
-> > --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> > +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> > @@ -278,10 +278,6 @@ int tidss_modeset_init(struct tidss_device *tidss)
-> >       if (ret)
-> >               return ret;
-> >
-> > -     /* Start with vertical blanking interrupt reporting disabled. */
-> > -     for (i = 0; i < tidss->num_crtcs; ++i)
-> > -             drm_crtc_vblank_reset(tidss->crtcs[i]);
-> > -
-> >       drm_mode_config_reset(ddev);
-> >
-> >       dev_dbg(tidss->dev, "%s done\n", __func__);
->
-> --
+> >  
+> >  static const struct vb2_ops rvin_qops = {
+> > @@ -1370,6 +1390,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+> >  		goto error;
+> >  	}
+> >  
+> > +	timer_setup(&vin->irq_timer, rvin_irq_timer_function, 0);
+> >  	return 0;
+> >  error:
+> >  	rvin_dma_unregister(vin);
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > index f421e25..c644134 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > @@ -581,6 +581,7 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
+> >  {
+> >  	switch (sub->type) {
+> >  	case V4L2_EVENT_SOURCE_CHANGE:
+> > +	case V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT:
+> >  		return v4l2_event_subscribe(fh, sub, 4, NULL);
+> >  	}
+> >  	return v4l2_ctrl_subscribe_event(fh, sub);
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index c19d077..7408f67 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -14,12 +14,14 @@
+> >  #define __RCAR_VIN__
+> >  
+> >  #include <linux/kref.h>
+> > +#include <linux/rcar-vin.h>
+> >  
+> >  #include <media/v4l2-async.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-dev.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/videobuf2-v4l2.h>
+> > +#include <media/v4l2-event.h>
+> >  
+> >  /* Number of HW buffers */
+> >  #define HW_BUFFER_NUM 3
+> > @@ -30,6 +32,8 @@
+> >  /* Max number on VIN instances that can be in a system */
+> >  #define RCAR_VIN_NUM 8
+> >  
+> > +#define IRQ_TIMEOUT_MS 1000
+> > +
+> >  struct rvin_group;
+> >  
+> >  enum model_id {
+> > @@ -196,6 +200,7 @@ struct rvin_info {
+> >   * @compose:		active composing
+> >   * @src_rect:		active size of the video source
+> >   * @std:		active video standard of the video source
+> > + * @irq_timer:		monitors regular capturing of frames in rvin_irq()
+> >   *
+> >   * @alpha:		Alpha component to fill in for supported pixel formats
+> >   */
+> > @@ -240,6 +245,7 @@ struct rvin_dev {
+> >  	struct v4l2_rect src_rect;
+> >  	v4l2_std_id std;
+> >  
+> > +	struct timer_list irq_timer;
+> >  	unsigned int alpha;
+> >  };
+> >  
+> > diff --git a/include/uapi/linux/rcar-vin.h b/include/uapi/linux/rcar-vin.h
+> > new file mode 100644
+> > index 00000000..4eb7f5e
+> > --- /dev/null
+> > +++ b/include/uapi/linux/rcar-vin.h
+> > @@ -0,0 +1,10 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > +
+> > +#ifndef RCAR_VIN_USER_H
+> > +#define RCAR_VIN_USER_H
+> > +
+> > +/* class for events sent by the rcar-vin driver */
+> > +#define V4L2_EVENT_RCAR_VIN_CLASS	V4L2_EVENT_PRIVATE_START
+> > +#define V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT	(V4L2_EVENT_RCAR_VIN_CLASS | 0x1)
+> > +
+> > +#endif /* RCAR_VIN_USER_H */
+> > -- 
+> > 2.7.4
+> > 
+> 
+> -- 
 > Regards,
->
-> Laurent Pinchart
-
-
+> Niklas Söderlund
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best Regards,
+Michael
