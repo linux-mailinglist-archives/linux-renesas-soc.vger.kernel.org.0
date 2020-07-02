@@ -2,180 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B3AA21164D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 00:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED697211FB6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 11:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbgGAWxj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jul 2020 18:53:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:37490 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726213AbgGAWxj (ORCPT
+        id S1727057AbgGBJX4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 05:23:56 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35220 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726183AbgGBJXz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jul 2020 18:53:39 -0400
-IronPort-SDR: RBZxE7aHO9B60amdXB9qQTizV7fEvjGoM5Ca7/dAbWQuEafjD8UfwtBpK2ayNrlDq7X+Cme4U/
- jhii1WkcZKNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9669"; a="126358143"
-X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="126358143"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2020 15:53:38 -0700
-IronPort-SDR: mxzS63rsS4pL9AnG5dKXzDQqSW1mk6uhDHivM8F7Vcu4xaGqTToAGocDCzqFGp8aj0Q0EcolyD
- fmPVlE7BDAYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,302,1589266800"; 
-   d="scan'208";a="481771801"
-Received: from lkp-server01.sh.intel.com (HELO 28879958b202) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Jul 2020 15:53:37 -0700
-Received: from kbuild by 28879958b202 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jqlbk-0003Mf-Re; Wed, 01 Jul 2020 22:53:36 +0000
-Date:   Thu, 02 Jul 2020 06:52:56 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
- 3dd0777e1c381dbce94d73016225aae4f25e3a95
-Message-ID: <5efd13c8.GYqSXGIH8hSL5YKq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 2 Jul 2020 05:23:55 -0400
+Received: by mail-oi1-f193.google.com with SMTP id k4so23132504oik.2;
+        Thu, 02 Jul 2020 02:23:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wCkBw3oirGVCWmjI/nTGUzVc7Xs3iHGv9e1O9Q6s09o=;
+        b=MP7oqvcD8TQKBP99o4o1QkIoLNPrN49j441P1gCP1a+YnoSaIzlYruP2movZULeGWr
+         3ogHW4Ra0SeG1gO0t4dZyw4joj5QcHpraNrq+fKX7mABOanN7L2h9Ydfu1x27U54QDvz
+         ZUlWDMZCH+K6rshgO85WhBpvINF1baojpWctqQ3gGAeOeHJ9EQB8HVanFtSTa5qt1DL1
+         y6Qfl1/Ka3Gm4RSSLFAkpQwuX1D+7vpySQsJi2E5VqcOI/a1ns6Cy4WWhArpGluoHpUh
+         fUqYEdY/klyqnCjovYUUuZutSGRVb7cX2CoG9UZ79TBL8KpZl/gmFRfw5PvT5VeSF2ur
+         Kmqg==
+X-Gm-Message-State: AOAM533ozLJ6g2euFbMUVvjIdUalmrF8XREbjZfFk0MH/RNIk8sNBkLE
+        OCn4ZD9qs2xQxpzMTrJ4UospF7l88d2jWdAbIoE=
+X-Google-Smtp-Source: ABdhPJw7jZ2OCXYtQuwzO2vBYZO9WzxgfjqQAWCOrpQ0MQBQ23VXQWCzTcLKpgk/3C8CRK2ZBGKgvLN1JG/aS54Niis=
+X-Received: by 2002:aca:1801:: with SMTP id h1mr18281530oih.148.1593681834441;
+ Thu, 02 Jul 2020 02:23:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWU7kVJMuNMSGxZSjErmj7rB=tvXH3GANmPRjYz+=JP1g@mail.gmail.com> <CA+V-a8v+2fhqwRNCaGYbmh8E1FDyc2Xss3PHk12dpTt_pgmCFg@mail.gmail.com>
+In-Reply-To: <CA+V-a8v+2fhqwRNCaGYbmh8E1FDyc2Xss3PHk12dpTt_pgmCFg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 2 Jul 2020 11:23:42 +0200
+Message-ID: <CAMuHMdVdCH-r-xMnDgUYzJfDCzUJCYt8CkSDp9E=tgfP01FrKw@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Initialize spinlock for uart console
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/renesas-overlays
-branch HEAD: 3dd0777e1c381dbce94d73016225aae4f25e3a95  arm64: dts: renesas: salvator-x: exio-d: Add overlay for SCIF3
+Hi Prabhakar,
 
-elapsed time: 722m
+On Wed, Jul 1, 2020 at 7:28 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Jul 1, 2020 at 6:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Wed, Jul 1, 2020 at 5:42 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > serial core expects the spinlock to be initialized by the controller
+> > > driver for serial console, this patch makes sure the spinlock is
+> > > initialized, fixing the below issue:
+> > >
+> > > [    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
+> > > [    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+> > > [    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
+> > > [    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
+> > > [    0.865968] Call trace:
+> > > [    0.865979]  dump_backtrace+0x0/0x1d8
+> > > [    0.865985]  show_stack+0x14/0x20
+> > > [    0.865996]  dump_stack+0xe8/0x130
+> > > [    0.866006]  spin_dump+0x6c/0x88
+> > > [    0.866012]  do_raw_spin_lock+0xb0/0xf8
+> > > [    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
+> > > [    0.866032]  uart_add_one_port+0x3a4/0x4e0
+> > > [    0.866039]  sci_probe+0x504/0x7c8
+> > > [    0.866048]  platform_drv_probe+0x50/0xa0
+> > > [    0.866059]  really_probe+0xdc/0x330
+> > > [    0.866066]  driver_probe_device+0x58/0xb8
+> > > [    0.866072]  device_driver_attach+0x6c/0x90
+> > > [    0.866078]  __driver_attach+0x88/0xd0
+> > > [    0.866085]  bus_for_each_dev+0x74/0xc8
+> > > [    0.866091]  driver_attach+0x20/0x28
+> > > [    0.866098]  bus_add_driver+0x14c/0x1f8
+> > > [    0.866104]  driver_register+0x60/0x110
+> > > [    0.866109]  __platform_driver_register+0x40/0x48
+> > > [    0.866119]  sci_init+0x2c/0x34
+> > > [    0.866127]  do_one_initcall+0x88/0x428
+> > > [    0.866137]  kernel_init_freeable+0x2c0/0x328
+> > > [    0.866143]  kernel_init+0x10/0x108
+> > > [    0.866150]  ret_from_fork+0x10/0x18
+> >
+> > Interesting...
+> >
+> > How can I reproduce that? I do have CONFIG_DEBUG_SPINLOCK=y.
+> > I'm wondering why haven't we seen this before...
+> >
+> I have attached .config for your reference.
 
-configs tested: 117
-configs skipped: 3
+Thank you!
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I gave it a try with v5.8-rc1 on Salvator-XS with R-Car H3 ES2.0.
+However, I couldn't reproduce the issue.
+Does it happen on that specific board only? Is this serdev-related?
+Note that I had to disable CONFIG_EXTRA_FIRMWARE, as I don't have the
+firmware blobs it referenced.  Do I need them to trigger the issue?
+As the .config has a few non-upstream options, do you have any patches
+applied that might impact the issue?
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm                       aspeed_g4_defconfig
-m68k                       m5249evb_defconfig
-arm                            mmp2_defconfig
-sh                            shmin_defconfig
-powerpc                      pmac32_defconfig
-arm                          pxa3xx_defconfig
-arm                       imx_v6_v7_defconfig
-powerpc                      ppc6xx_defconfig
-mips                          ath25_defconfig
-xtensa                generic_kc705_defconfig
-sh                ecovec24-romimage_defconfig
-arm                  colibri_pxa270_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                   rts7751r2dplus_defconfig
-alpha                            alldefconfig
-arc                         haps_hs_defconfig
-powerpc                    gamecube_defconfig
-arm                           tegra_defconfig
-arm                         orion5x_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20200701
-i386                 randconfig-a001-20200701
-i386                 randconfig-a006-20200701
-i386                 randconfig-a005-20200701
-i386                 randconfig-a004-20200701
-i386                 randconfig-a003-20200701
-x86_64               randconfig-a012-20200701
-x86_64               randconfig-a016-20200701
-x86_64               randconfig-a014-20200701
-x86_64               randconfig-a011-20200701
-x86_64               randconfig-a015-20200701
-x86_64               randconfig-a013-20200701
-i386                 randconfig-a011-20200701
-i386                 randconfig-a015-20200701
-i386                 randconfig-a014-20200701
-i386                 randconfig-a016-20200701
-i386                 randconfig-a012-20200701
-i386                 randconfig-a013-20200701
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
+Thanks again!
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
