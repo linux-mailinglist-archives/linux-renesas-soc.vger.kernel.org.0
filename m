@@ -2,167 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0F58212B97
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 19:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C8A9212C61
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 20:32:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbgGBRwZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 13:52:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
+        id S1727948AbgGBScm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 14:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726349AbgGBRwY (ORCPT
+        with ESMTP id S1727909AbgGBScl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 13:52:24 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48996C08C5DD
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2020 10:52:24 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id l17so28081466wmj.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2020 10:52:24 -0700 (PDT)
+        Thu, 2 Jul 2020 14:32:41 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96193C08C5C1;
+        Thu,  2 Jul 2020 11:32:41 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id 5so22850441oty.11;
+        Thu, 02 Jul 2020 11:32:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oglYmDMJJsMPIXYV1ITcnNL4FWv5Lg95ZCqCfgcjHUs=;
-        b=eCKvFL3ymp9ODmh1kib4C/AcPrCHfUe4eQkI84tWMNstC588Mcs/UzyYV+30IgEPIB
-         lfn4BGs06fAPfloAK0p40cJ3BQEuYzsfHY7d9o5Wr4ZrXyQrqXhtnG6F3jFX42w8e/2m
-         weKvXoukAneezHhMB60mGihkb8pcI/kk8sZmWoEft2bkOnM2yQyw4RX50kJPE3J+9MnN
-         fQinPrGJq2HYROL7Dl9fLIK+uTW325NDPRzeAtAAM2vhot8J8DATGO6hnDZGucHe9Jjs
-         qXs+mG8rCVEuhGXBHfDtewoYJIa2KlLkJMQg70p6vJf/FdlJAKW6C6ggeDUiANRQMAFK
-         P1Jw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hMrZ0Fj8O9t2zoQt5sBCV5iZNG5UmOz4mlK4r+ZvSv4=;
+        b=CzsL7kJoPW2fZd8IVxltbQ3frKNOayoCUlS4J2ae+orU+yca/P3LpW3IOwY0QpNFNa
+         wJL3LdlmG7A2T2qK5mvheSPjU2YnSOHy5cUslzy5nybq43sFzO938GNAeJzo0msS3B08
+         OBbWOguwktU9s8P5h0j5mH4fBVTR55mWir2b9XyZ0t3tbp3Wy8gjpYtSikToqWfyiIb4
+         oC1zCZmxXR+Bm0aV26KLRIZ2LQtOj2x9v0GbAK4Bw8suksDkVib0pjQ0POIQfO73JAK6
+         Heep7c9hvzBI8QtQUmYcw29cSB5t2nPgkKTQWGlAe/rM9uux+QZHFjeHOHD1Qc+ctjHp
+         QPtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oglYmDMJJsMPIXYV1ITcnNL4FWv5Lg95ZCqCfgcjHUs=;
-        b=FNmFwlephmM9WlDXpX6A/Ad3KQ0l7dXh9dRLtI2ILTOyVqvfCb9amXZQLvIHRbuXwE
-         c2Zd1WX5HsMSzUFU0HUQGhaoMCWeYlg6LKirx/HfDHGWkRL346QAb7I5uEGgx4AO/4q8
-         2/049cAByYmJGn8jxmF0DnqUIQmxml/PAV9gbry66gNf0VmWzVHRpPf9/qjNiunp/p3o
-         3GJFjBNVeEkQUYapACxz/BvV8iFNQ33fxBi0ckR2PSeWB8REy4gpHKB6dJ2JcXNb9jv3
-         nziKB1mw4/NfcxQf6BnP61f+d+mGi2DuajXeDmio9PZRHTGYsPS7gSk3VOHaNTw5NE6Q
-         nGTQ==
-X-Gm-Message-State: AOAM532KO2oVeusqTgQCLpXTjaZXHhHx2BhDN/Pejk6lR6FKC6Pod4lU
-        nw21Nsz7HC2GK+UXGYfNPs66aA==
-X-Google-Smtp-Source: ABdhPJwGnT2w1T0cKggQNb65VkNrkBamKBA/sNFXDWMPWvMyn5BHS1CuhDAFIDm0ZukJhYYRAkgr9A==
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr34629911wmc.56.1593712342780;
-        Thu, 02 Jul 2020 10:52:22 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0? ([2a01:e34:ed2f:f020:c88a:7b2b:a4a1:46d0])
-        by smtp.googlemail.com with ESMTPSA id h2sm11232487wrw.62.2020.07.02.10.52.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2020 10:52:22 -0700 (PDT)
-Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200629122925.21729-1-andrzej.p@collabora.com>
- <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
- <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
- <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
- <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
- <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
- <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
- <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
- <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
- <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
- <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
- <8aeb4f51-1813-63c1-165b-06640af5968f@linaro.org>
- <685ef627-e377-bbf1-da11-7f7556ca2dd7@collabora.com>
- <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
-Message-ID: <b773a49d-c26e-9e20-2a5e-647eb771d617@linaro.org>
-Date:   Thu, 2 Jul 2020 19:52:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hMrZ0Fj8O9t2zoQt5sBCV5iZNG5UmOz4mlK4r+ZvSv4=;
+        b=CF9GzDRCUDgkn7qYR6/0E9lYngsq7wM9NfsEO5Fhxv1MSQ6ZnqhCsV0pzTpSi4PB9z
+         UAN/Kti8g2PsYywvG0xqIr71r66VAGMV42GN3IPA/1MbYxbwazw/VvboH4mrOsuN/pc1
+         ESrg6GWkA64CN8gCpt+ePtT/QNpF8cycsSFCVu4Q96W9OPzjF0M1CMvViK0XQuEDjrX4
+         PvCfIDX86936Z3VoQo9yQxufPwj2czv7K6E75J3K81ZeIQdkykIcPY3yV05uG43PzwEt
+         t95tQTO7uzZqpLeScQGbH1EG1xlqd/pRqKvOYQYmmziHSHcTM9Ywmtrbr4XXLYfTCDks
+         305w==
+X-Gm-Message-State: AOAM530XA9n5jkQ3SGJO/2m0ol3a+yN2gdzSM3WDBJSYZsyjgto/GTOJ
+        HZGnq8zKozM6BnIp19zeQ+1h+ZHbaE7LQF+196Q=
+X-Google-Smtp-Source: ABdhPJyF4e3whEm/wKrGvNp5pUH/88OopaC3saaBmqlAoJT+L4iXrqeBT8+JVvd2NCynrZtAOa6+Sq5HjJ34LbyOtQs=
+X-Received: by 2002:a9d:7dd3:: with SMTP id k19mr15778847otn.43.1593714760853;
+ Thu, 02 Jul 2020 11:32:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWU7kVJMuNMSGxZSjErmj7rB=tvXH3GANmPRjYz+=JP1g@mail.gmail.com>
+ <CA+V-a8v+2fhqwRNCaGYbmh8E1FDyc2Xss3PHk12dpTt_pgmCFg@mail.gmail.com>
+ <CAMuHMdVdCH-r-xMnDgUYzJfDCzUJCYt8CkSDp9E=tgfP01FrKw@mail.gmail.com>
+ <CA+V-a8s3JgtGsSSsCF335p1S6Yq5veqe6nAQNK03wNSxAU0XCA@mail.gmail.com>
+ <CA+V-a8vq4rJAoA583O_28NK2cCEFAzDszDQTPRQHWiXCtDxd-w@mail.gmail.com>
+ <CAMuHMdU2N6TD9=eHZPBozo-yTP-c0uQLqmGszHmsJDc6YGHeoQ@mail.gmail.com>
+ <CA+V-a8u+NYL9MNV_oFz6JnfQzE=bNo0fx6jnzVgj2xsvquT8eg@mail.gmail.com> <CAMuHMdUSxyPtk-FJkF2M=eyTtoU1cfeioaSn3hQ7YxEpwBJWsA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUSxyPtk-FJkF2M=eyTtoU1cfeioaSn3hQ7YxEpwBJWsA@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 2 Jul 2020 19:32:13 +0100
+Message-ID: <CA+V-a8tmi=U-9pyMzc8dQL0ZPfFYuzXdj8o2SzDAWsTboDDnMA@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Initialize spinlock for uart console
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02/07/2020 19:49, Daniel Lezcano wrote:
+Hi Geert,
 
-[ ... ]
+On Thu, Jul 2, 2020 at 3:39 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Jul 2, 2020 at 4:05 PM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+>
+> > Hi Geert,
+> >
+> > On Thu, Jul 2, 2020 at 1:52 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > On Thu, Jul 2, 2020 at 1:42 PM Lad, Prabhakar
+> > > <prabhakar.csengg@gmail.com> wrote:
+> > > > On Thu, Jul 2, 2020 at 11:49 AM Lad, Prabhakar
+> > > > <prabhakar.csengg@gmail.com> wrote:
+> > > > > On Thu, Jul 2, 2020 at 10:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > On Wed, Jul 1, 2020 at 7:28 PM Lad, Prabhakar
+> > > > > > <prabhakar.csengg@gmail.com> wrote:
+> > > > > > > On Wed, Jul 1, 2020 at 6:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > > > On Wed, Jul 1, 2020 at 5:42 PM Lad Prabhakar
+> > > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > > > > > > > serial core expects the spinlock to be initialized by the controller
+> > > > > > > > > driver for serial console, this patch makes sure the spinlock is
+> > > > > > > > > initialized, fixing the below issue:
+> > > > > > > > >
+> > > > > > > > > [    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
+> > > > > > > > > [    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
+> > > > > > > > > [    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
+> > > > > > > > > [    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
+> > > > > > > > > [    0.865968] Call trace:
+> > > > > > > > > [    0.865979]  dump_backtrace+0x0/0x1d8
+> > > > > > > > > [    0.865985]  show_stack+0x14/0x20
+> > > > > > > > > [    0.865996]  dump_stack+0xe8/0x130
+> > > > > > > > > [    0.866006]  spin_dump+0x6c/0x88
+> > > > > > > > > [    0.866012]  do_raw_spin_lock+0xb0/0xf8
+> > > > > > > > > [    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
+> > > > > > > > > [    0.866032]  uart_add_one_port+0x3a4/0x4e0
+> > > > > > > > > [    0.866039]  sci_probe+0x504/0x7c8
+> > > > > > > > > [    0.866048]  platform_drv_probe+0x50/0xa0
+> > > > > > > > > [    0.866059]  really_probe+0xdc/0x330
+> > > > > > > > > [    0.866066]  driver_probe_device+0x58/0xb8
+> > > > > > > > > [    0.866072]  device_driver_attach+0x6c/0x90
+> > > > > > > > > [    0.866078]  __driver_attach+0x88/0xd0
+> > > > > > > > > [    0.866085]  bus_for_each_dev+0x74/0xc8
+> > > > > > > > > [    0.866091]  driver_attach+0x20/0x28
+> > > > > > > > > [    0.866098]  bus_add_driver+0x14c/0x1f8
+> > > > > > > > > [    0.866104]  driver_register+0x60/0x110
+> > > > > > > > > [    0.866109]  __platform_driver_register+0x40/0x48
+> > > > > > > > > [    0.866119]  sci_init+0x2c/0x34
+> > > > > > > > > [    0.866127]  do_one_initcall+0x88/0x428
+> > > > > > > > > [    0.866137]  kernel_init_freeable+0x2c0/0x328
+> > > > > > > > > [    0.866143]  kernel_init+0x10/0x108
+> > > > > > > > > [    0.866150]  ret_from_fork+0x10/0x18
+> > > > > > > >
+> > > > > > > > Interesting...
+> > > > > > > >
+> > > > > > > > How can I reproduce that? I do have CONFIG_DEBUG_SPINLOCK=y.
+> > > > > > > > I'm wondering why haven't we seen this before...
+> > > > > > > >
+> > > > > > > I have attached .config for your reference.
+> > > > > >
+> > > > > > Thank you!
+> > > > > >
+> > > > > > I gave it a try with v5.8-rc1 on Salvator-XS with R-Car H3 ES2.0.
+> > > > > > However, I couldn't reproduce the issue.
+> > > > > > Does it happen on that specific board only? Is this serdev-related?
+> > > > > > Note that I had to disable CONFIG_EXTRA_FIRMWARE, as I don't have the
+> > > > > > firmware blobs it referenced.  Do I need them to trigger the issue?
+> > > > > > As the .config has a few non-upstream options, do you have any patches
+> > > > > > applied that might impact the issue?
+> > > > > >
+> > > > > Can't think of any patches that might cause an issue, most of it are
+> > > > > just the DT's and config additions. Nor do firmware blobs should
+> > > > > affect it. I'll try and reproduce it on M3N and get back to you.
+> > > > >
+> > > > I did manage to replicate this issue on M3N (v5.8-rc3 tag with no
+> > > > modifications), I have attached the config file and also the boot log
+> > > > without this patch for your reference, after applying this patch I no
+> > > > more see this issue.
+> > >
+> > > Thanks, the boot log finally gave me a clue, and allowed me to reproduce.
+> > > The issue happens only when adding:
+> > >
+> > >     console=ttySC0,115200n8
+> > >
+> > Ack tested it on G2H.
+> >
+> > > to the kernel command line.  Which is something we never did on R-Car
+> > > Gen3, as the console= parameter had been deprecated by chosen/stdout-path
+> > > on DT systems long before.
+> > >
+> > > As we did use console= before on arm32, and drivers/tty/serial/sh-sci.c
+> > > never called spinlock_init(), I'm wondering if this spinlock bug is
+> > > actually a regression in serial_core.c?
+> > >
+> > Not sure if it's a regression in serial_core.c as I see some drivers
+> > calling spin_lock_init().
+>
+> Bisected to commit a3cb39d258efef83 ("serial: core: Allow detach and
+> attach serial device for console").
+> The first change to drivers/tty/serial/serial_core.c is the culprit:
+>
+>      static inline void uart_port_spin_lock_init(struct uart_port *port)
+>      {
+>     -       if (uart_console_enabled(port))
+>     +       if (uart_console(port))
+>                     return;
+>
+>             spin_lock_init(&port->lock);
+>
+> as it now skips the spinlock initialization if a console= parameter
+> is specified.
+>
+> Apparently we're not the only one bitten by that...
+>
+Thank you for bisecting through, that explains the culprit.
 
->> Thanks!
->>
->> That confirms your suspicions.
->>
->> So the reason is that ->get_temp() is called while the mutex is held and
->> thermal_zone_device_is_enabled() wants to take the same mutex.
-> 
-> Yes, that's correct.
-> 
->> Is adding a comment to thermal_zone_device_is_enabled() to never call
->> it while the mutex is held and adding another version of it which does
->> not take the mutex ok?
-> 
-> The thermal_zone_device_is_enabled() is only used in two places, acpi
-> and this imx driver, and given:
-> 
-> 1. as soon as the mutex is released, there is no guarantee the thermal
-> zone won't be changed right after, the lock is pointless, thus the
-> information also.
-> 
-> 2. from a design point of view, I don't see why a driver should know if
-> a thermal zone is disabled or not
-> 
-> It would make sense to end with this function and do not give the
-> different drivers an opportunity to access this information.
-> 
-> Why not add change_mode for the acpi in order to enable or disable the
-> events and for imx_thermal use irq_enabled flag instead of the thermal
-> zone mode? Moreover it is very unclear why this function is needed in
-> imx_get_temp(), and I suspect we should be able to get rid of it.
+Cheers,
+--Prabhakar
 
-If you agree with that you can send a patch on top of your series so I
-can test it fixes the imx platform.
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
