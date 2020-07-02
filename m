@@ -2,174 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A260212679
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 16:40:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E70B42126E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 16:49:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729883AbgGBOj6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 10:39:58 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35868 "EHLO
+        id S1730321AbgGBOtJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 10:49:09 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35412 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728179AbgGBOj6 (ORCPT
+        with ESMTP id S1730312AbgGBOtI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 10:39:58 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 72so24315554otc.3;
-        Thu, 02 Jul 2020 07:39:57 -0700 (PDT)
+        Thu, 2 Jul 2020 10:49:08 -0400
+Received: by mail-ot1-f67.google.com with SMTP id d4so24344899otk.2;
+        Thu, 02 Jul 2020 07:49:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xiJxaOaLoSSoP/MXad7n201rwLtW9CdhI5jJlFa+KSM=;
-        b=iXedo5ah1qsyZewSpnngZRv88M5PAD8vlUPf2+Eb1D+a/6W2HjkVJONcCt5LHuxMnN
-         NEOkwEPl6kEIUAz2gcz4NW6jNBbAkqSbkiifSbDJrqKOauag07iCZiKdH7TIbycN9fo8
-         oiLc2jZs65pBUBqZJmFrRaIJznFJnXYCr8ofGOhjHKc/YIGOZbtxZPK1o9KS9QBYMcc9
-         8wE1YsxM8PSm9ZYG0zCoWFdMnV24F0dt+eoNhVXea2mRoQZWSx6AjsEMN8Y9PeOj3+vM
-         rOnElciL1o2lYjq12e2vQU/r3GCwDG06KfoCRZI7G2BC4yvlYPwq9NtRPva98pvZbvQ/
-         2KQQ==
-X-Gm-Message-State: AOAM533ofIghtOO2/nAzK2ZJ6suGHB3j9eeWRNVlHLdvZo6vpnLqnVZs
-        NIY8qjK5djgfoKmCeYut/UTl6qNxzwQbqqV2Ylw=
-X-Google-Smtp-Source: ABdhPJyP42inE/TMOj+L+cFsJcbt3757WHyJF91kt+gPhSMX9ZNnOfpaY1Y5npS99t6WRtwjFdvvoEMDdHyzE+12ykI=
-X-Received: by 2002:a05:6830:1451:: with SMTP id w17mr14567992otp.250.1593700796830;
- Thu, 02 Jul 2020 07:39:56 -0700 (PDT)
+        bh=WuhVfNAZUsHwdGGVre6U87YOfHxjCbHm/sJoV4RDVi4=;
+        b=qOILtWIPloAHcVKQBBnOP4ox/xdlDMB3Ud3t7s2gYEV7MI6qJ4VEZuCYtxxJEqAhP2
+         G1SbQlFtQt7OufGtpHYkMhAVDjMJtPJg1pVax6+yNycqvoMd2fA/YJYDAWIuZgqB/YES
+         D2an8hUc3NdndDMkubtjTPYmwKuaFfc6zykvhGDMOzHFC8Qy9MazGLqeFibJHYRURtj5
+         0CQheTZGR6QbuWHbuoGBA+BorvgZyz7zqq+R5TOs4v6Umfg6vcMnT2Gvhg4cHByvqwEB
+         Rcn8y5H/g30Gp2qf3rL3Yl8JxPULlEx0RjM+ZyY9vHUcNoVxmzWCAtubZJQY1qMEACzi
+         ODYw==
+X-Gm-Message-State: AOAM531T3hYGLezknL+8iRMaJPgODoPYexOg9UBrwPJQm1VCLaqHS7fu
+        98qtfgrRwUF0Aafm09eH6HbHwp5GRRCGOuFjnwR5me1a9qY=
+X-Google-Smtp-Source: ABdhPJyclt1UeyUm0bHvdNeHnAeyynojoJb+gjjxKBPFtu6qL3+USd95fh1KkMvch4B4yzP8znhFKUkLvlJHWzgP90c=
+X-Received: by 2002:a9d:6254:: with SMTP id i20mr26956706otk.145.1593701346474;
+ Thu, 02 Jul 2020 07:49:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWU7kVJMuNMSGxZSjErmj7rB=tvXH3GANmPRjYz+=JP1g@mail.gmail.com>
- <CA+V-a8v+2fhqwRNCaGYbmh8E1FDyc2Xss3PHk12dpTt_pgmCFg@mail.gmail.com>
- <CAMuHMdVdCH-r-xMnDgUYzJfDCzUJCYt8CkSDp9E=tgfP01FrKw@mail.gmail.com>
- <CA+V-a8s3JgtGsSSsCF335p1S6Yq5veqe6nAQNK03wNSxAU0XCA@mail.gmail.com>
- <CA+V-a8vq4rJAoA583O_28NK2cCEFAzDszDQTPRQHWiXCtDxd-w@mail.gmail.com>
- <CAMuHMdU2N6TD9=eHZPBozo-yTP-c0uQLqmGszHmsJDc6YGHeoQ@mail.gmail.com> <CA+V-a8u+NYL9MNV_oFz6JnfQzE=bNo0fx6jnzVgj2xsvquT8eg@mail.gmail.com>
-In-Reply-To: <CA+V-a8u+NYL9MNV_oFz6JnfQzE=bNo0fx6jnzVgj2xsvquT8eg@mail.gmail.com>
+References: <20200217114016.49856-1-andriy.shevchenko@linux.intel.com>
+ <20200217114016.49856-3-andriy.shevchenko@linux.intel.com> <20200524171032.GA218301@roeck-us.net>
+In-Reply-To: <20200524171032.GA218301@roeck-us.net>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 2 Jul 2020 16:39:45 +0200
-Message-ID: <CAMuHMdUSxyPtk-FJkF2M=eyTtoU1cfeioaSn3hQ7YxEpwBJWsA@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Initialize spinlock for uart console
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Thu, 2 Jul 2020 16:48:55 +0200
+Message-ID: <CAMuHMdXvummZiDBu72WJmdanyP2r4dab8SbVLZaTRNrBfnRmTw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] serial: core: Allow detach and attach serial
+ device for console
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
         "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Tony Lindgren <tony@atomide.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Andy,
 
-On Thu, Jul 2, 2020 at 4:05 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
+On Sun, May 24, 2020 at 7:11 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> On Mon, Feb 17, 2020 at 01:40:12PM +0200, Andy Shevchenko wrote:
+> > In the future we would like to disable power management on the serial devices
+> > used as kernel consoles to avoid weird behaviour in some cases. However,
+> > disabling PM may prevent system to go to deep sleep states, which in its turn
+> > leads to the higher power consumption.
+> >
+> > Tony Lindgren proposed a work around, i.e. allow user to detach such consoles
+> > to make PM working again. In case user wants to see what's going on, it also
+> > provides a mechanism to attach console back.
+> >
+> > Link: https://lists.openwall.net/linux-kernel/2018/09/29/65
+> > Suggested-by: Tony Lindgren <tony@atomide.com>
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-> Hi Geert,
+> > --- a/drivers/tty/serial/serial_core.c
+> > +++ b/drivers/tty/serial/serial_core.c
+> > @@ -1919,7 +1919,7 @@ static inline bool uart_console_enabled(struct uart_port *port)
+> >   */
+> >  static inline void uart_port_spin_lock_init(struct uart_port *port)
+> >  {
+> > -     if (uart_console_enabled(port))
+> > +     if (uart_console(port))
 >
-> On Thu, Jul 2, 2020 at 1:52 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Thu, Jul 2, 2020 at 1:42 PM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Thu, Jul 2, 2020 at 11:49 AM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > On Thu, Jul 2, 2020 at 10:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Wed, Jul 1, 2020 at 7:28 PM Lad, Prabhakar
-> > > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > > > On Wed, Jul 1, 2020 at 6:17 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > > On Wed, Jul 1, 2020 at 5:42 PM Lad Prabhakar
-> > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > > > > > serial core expects the spinlock to be initialized by the controller
-> > > > > > > > driver for serial console, this patch makes sure the spinlock is
-> > > > > > > > initialized, fixing the below issue:
-> > > > > > > >
-> > > > > > > > [    0.865928] BUG: spinlock bad magic on CPU#0, swapper/0/1
-> > > > > > > > [    0.865945]  lock: sci_ports+0x0/0x4c80, .magic: 00000000, .owner: <none>/-1, .owner_cpu: 0
-> > > > > > > > [    0.865955] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc1+ #112
-> > > > > > > > [    0.865961] Hardware name: HopeRun HiHope RZ/G2H with sub board (DT)
-> > > > > > > > [    0.865968] Call trace:
-> > > > > > > > [    0.865979]  dump_backtrace+0x0/0x1d8
-> > > > > > > > [    0.865985]  show_stack+0x14/0x20
-> > > > > > > > [    0.865996]  dump_stack+0xe8/0x130
-> > > > > > > > [    0.866006]  spin_dump+0x6c/0x88
-> > > > > > > > [    0.866012]  do_raw_spin_lock+0xb0/0xf8
-> > > > > > > > [    0.866023]  _raw_spin_lock_irqsave+0x80/0xa0
-> > > > > > > > [    0.866032]  uart_add_one_port+0x3a4/0x4e0
-> > > > > > > > [    0.866039]  sci_probe+0x504/0x7c8
-> > > > > > > > [    0.866048]  platform_drv_probe+0x50/0xa0
-> > > > > > > > [    0.866059]  really_probe+0xdc/0x330
-> > > > > > > > [    0.866066]  driver_probe_device+0x58/0xb8
-> > > > > > > > [    0.866072]  device_driver_attach+0x6c/0x90
-> > > > > > > > [    0.866078]  __driver_attach+0x88/0xd0
-> > > > > > > > [    0.866085]  bus_for_each_dev+0x74/0xc8
-> > > > > > > > [    0.866091]  driver_attach+0x20/0x28
-> > > > > > > > [    0.866098]  bus_add_driver+0x14c/0x1f8
-> > > > > > > > [    0.866104]  driver_register+0x60/0x110
-> > > > > > > > [    0.866109]  __platform_driver_register+0x40/0x48
-> > > > > > > > [    0.866119]  sci_init+0x2c/0x34
-> > > > > > > > [    0.866127]  do_one_initcall+0x88/0x428
-> > > > > > > > [    0.866137]  kernel_init_freeable+0x2c0/0x328
-> > > > > > > > [    0.866143]  kernel_init+0x10/0x108
-> > > > > > > > [    0.866150]  ret_from_fork+0x10/0x18
-> > > > > > >
-> > > > > > > Interesting...
-> > > > > > >
-> > > > > > > How can I reproduce that? I do have CONFIG_DEBUG_SPINLOCK=y.
-> > > > > > > I'm wondering why haven't we seen this before...
-> > > > > > >
-> > > > > > I have attached .config for your reference.
-> > > > >
-> > > > > Thank you!
-> > > > >
-> > > > > I gave it a try with v5.8-rc1 on Salvator-XS with R-Car H3 ES2.0.
-> > > > > However, I couldn't reproduce the issue.
-> > > > > Does it happen on that specific board only? Is this serdev-related?
-> > > > > Note that I had to disable CONFIG_EXTRA_FIRMWARE, as I don't have the
-> > > > > firmware blobs it referenced.  Do I need them to trigger the issue?
-> > > > > As the .config has a few non-upstream options, do you have any patches
-> > > > > applied that might impact the issue?
-> > > > >
-> > > > Can't think of any patches that might cause an issue, most of it are
-> > > > just the DT's and config additions. Nor do firmware blobs should
-> > > > affect it. I'll try and reproduce it on M3N and get back to you.
-> > > >
-> > > I did manage to replicate this issue on M3N (v5.8-rc3 tag with no
-> > > modifications), I have attached the config file and also the boot log
-> > > without this patch for your reference, after applying this patch I no
-> > > more see this issue.
-> >
-> > Thanks, the boot log finally gave me a clue, and allowed me to reproduce.
-> > The issue happens only when adding:
-> >
-> >     console=ttySC0,115200n8
-> >
-> Ack tested it on G2H.
->
-> > to the kernel command line.  Which is something we never did on R-Car
-> > Gen3, as the console= parameter had been deprecated by chosen/stdout-path
-> > on DT systems long before.
-> >
-> > As we did use console= before on arm32, and drivers/tty/serial/sh-sci.c
-> > never called spinlock_init(), I'm wondering if this spinlock bug is
-> > actually a regression in serial_core.c?
-> >
-> Not sure if it's a regression in serial_core.c as I see some drivers
-> calling spin_lock_init().
+> This results in lockdep splashes such as the one attached below. Is there
 
-Bisected to commit a3cb39d258efef83 ("serial: core: Allow detach and
-attach serial device for console").
-The first change to drivers/tty/serial/serial_core.c is the culprit:
+Or "BUG: spinlock bad magic on CPU#3, swapper/0/1", cfr. [1].
+So far I hadn't noticed that, as the issue only shows up when using the
+legacy way of passing a "console=ttyS*" kernel command line parameter,
+and not when relying on the modern "chosen/stdout-path" DT property.
 
-     static inline void uart_port_spin_lock_init(struct uart_port *port)
-     {
-    -       if (uart_console_enabled(port))
-    +       if (uart_console(port))
-                    return;
+> any special reason for this change ? It is not really explained in the
+> commit description.
 
-            spin_lock_init(&port->lock);
+Indeed. Why this change?
 
-as it now skips the spinlock initialization if a console= parameter
-is specified.
+I also don't agree with your typical fix for drivers, which is like:
 
-Apparently we're not the only one bitten by that...
+    @@ -567,6 +567,9 @@ static int hv_probe(struct platform_device *op)
+            sunserial_console_match(&sunhv_console, op->dev.of_node,
+                                    &sunhv_reg, port->line, false);
+
+    +       /* We need to initialize lock even for non-registered console */
+    +       spin_lock_init(&port->lock);
+    +
+            err = uart_add_one_port(&sunhv_reg, port);
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  calls uart_port_spin_lock_init()
+
+            if (err)
+                    goto out_unregister_driver;
+
+as this initializes the spinlock twice for non-console= ports.
+
+> [   15.439094] INFO: trying to register non-static key.
+> [   15.439146] the code is fine but needs lockdep annotation.
+> [   15.439196] turning off the locking correctness validator.
+> [   15.439392] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.7.0-rc6-00244-gcaffb99b6929 #1
+> [   15.439469] Hardware name: Freescale i.MX6 Ultralite (Device Tree)
+> [   15.439887] [<c0112578>] (unwind_backtrace) from [<c010c4f4>] (show_stack+0x10/0x14)
+> [   15.439982] [<c010c4f4>] (show_stack) from [<c06dfcb0>] (dump_stack+0xe4/0x11c)
+> [   15.440053] [<c06dfcb0>] (dump_stack) from [<c01883e4>] (register_lock_class+0x8a0/0x924)
+> [   15.440127] [<c01883e4>] (register_lock_class) from [<c01884d4>] (__lock_acquire+0x6c/0x2e80)
+> [   15.440202] [<c01884d4>] (__lock_acquire) from [<c018756c>] (lock_acquire+0xf8/0x4f4)
+> [   15.440274] [<c018756c>] (lock_acquire) from [<c0ddf02c>] (_raw_spin_lock_irqsave+0x50/0x64)
+> [   15.440350] [<c0ddf02c>] (_raw_spin_lock_irqsave) from [<c07af5d8>] (uart_add_one_port+0x3a4/0x504)
+> [   15.440431] [<c07af5d8>] (uart_add_one_port) from [<c089c990>] (platform_drv_probe+0x48/0x98)
+> [   15.440506] [<c089c990>] (platform_drv_probe) from [<c089a708>] (really_probe+0x214/0x344)
+> [   15.440578] [<c089a708>] (really_probe) from [<c089a948>] (driver_probe_device+0x5c/0x16c)
+> [   15.440650] [<c089a948>] (driver_probe_device) from [<c089ac00>] (device_driver_attach+0x58/0x60)
+> [   15.440727] [<c089ac00>] (device_driver_attach) from [<c089ac8c>] (__driver_attach+0x84/0xc0)
+> [   15.440800] [<c089ac8c>] (__driver_attach) from [<c08987e8>] (bus_for_each_dev+0x70/0xb4)
+> [   15.440874] [<c08987e8>] (bus_for_each_dev) from [<c08999a4>] (bus_add_driver+0x154/0x1e0)
+> [   15.440946] [<c08999a4>] (bus_add_driver) from [<c089ba38>] (driver_register+0x74/0x108)
+> [   15.441020] [<c089ba38>] (driver_register) from [<c144edb8>] (imx_uart_init+0x20/0x40)
+> [   15.441090] [<c144edb8>] (imx_uart_init) from [<c010232c>] (do_one_initcall+0x80/0x3ac)
+> [   15.441162] [<c010232c>] (do_one_initcall) from [<c1400ff0>] (kernel_init_freeable+0x170/0x204)
+> [   15.441241] [<c1400ff0>] (kernel_init_freeable) from [<c0dd5c48>] (kernel_init+0x8/0x118)
+> [   15.441313] [<c0dd5c48>] (kernel_init) from [<c0100134>] (ret_from_fork+0x14/0x20)
+> [   15.441414] Exception stack(0xc609ffb0 to 0xc609fff8)
+> [   15.441571] ffa0:                                     00000000 00000000 00000000 00000000
+> [   15.441738] ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> [   15.441872] ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
+
+Thanks for your answer!
+
+[1] https://lore.kernel.org/r/1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com
 
 Gr{oetje,eeting}s,
 
