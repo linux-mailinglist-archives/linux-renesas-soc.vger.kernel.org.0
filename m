@@ -2,159 +2,287 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29DC2213070
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2020 02:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34748213112
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2020 03:49:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbgGCA11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 20:27:27 -0400
-Received: from mailout1.samsung.com ([203.254.224.24]:15678 "EHLO
-        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726015AbgGCA10 (ORCPT
+        id S1726670AbgGCBtb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 21:49:31 -0400
+Received: from mga12.intel.com ([192.55.52.136]:20492 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725915AbgGCBta (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 20:27:26 -0400
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200703002723epoutp01c6fab361f73aa2126d2900040066bdec~eFnzSRZy51062810628epoutp01Y
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jul 2020 00:27:23 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200703002723epoutp01c6fab361f73aa2126d2900040066bdec~eFnzSRZy51062810628epoutp01Y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1593736043;
-        bh=78YFWLUy8a6bG0IHznbUMinVUfMhZKY0hWn/f2bKTPQ=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=n/eJ46kdngbho6R0418x+3ptVzEAavlFvhuaUY2BHsla8mP5Q/RzSI/oaxSYIVt/b
-         hH/qGO48oEYjQUgkxphVrIvxE9iKB1uGwcl4n3y+g9sil1ljeA9a7ijUjRy3F/cd3b
-         L0LrT/VG/QmEcacGcXiT5+6ODkzBFLB7MuK4p7GY=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
-        20200703002722epcas1p47dc4697da12a5d1999b0f1135600081e~eFnysJkqp0272102721epcas1p4F;
-        Fri,  3 Jul 2020 00:27:22 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.158]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 49ybPz7487zMqYkk; Fri,  3 Jul
-        2020 00:27:19 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
-        B3.18.28578.76B7EFE5; Fri,  3 Jul 2020 09:27:19 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200703002719epcas1p2d9c4f9d0f4bbfdb31f21be4ab6fa4408~eFnvewYGC3267232672epcas1p2v;
-        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200703002719epsmtrp2015c4aa95c939ae170c46502b7a9dce8~eFnveA_Ur0126401264epsmtrp27;
-        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
-X-AuditID: b6c32a39-e6f5da8000006fa2-96-5efe7b67c9d6
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        6C.8E.08303.76B7EFE5; Fri,  3 Jul 2020 09:27:19 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200703002719epsmtip2bca91588d12f05b243b2729bc6967a00~eFnvQf75I2430624306epsmtip2H;
-        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
-Subject: Re: [PATCH 12/17] drivers: devfreq: Fix trivial spelling
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Jiri Kosina <trivial@kernel.org>,
-        "open list:DEVICE FREQUENCY EVENT (DEVFREQ-EVENT)" 
-        <linux-pm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-From:   Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <bc52868b-e468-70b3-74ec-782bca8ada25@samsung.com>
-Date:   Fri, 3 Jul 2020 09:38:34 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
-        Thunderbird/59.0
-MIME-Version: 1.0
-In-Reply-To: <20200609124610.3445662-13-kieran.bingham+renesas@ideasonboard.com>
-Content-Language: en-US
+        Thu, 2 Jul 2020 21:49:30 -0400
+IronPort-SDR: pDPAnHqIEgc9qTvzG23dNe2S3H8WshprYlVIWMAusLCPwXUmEUX3S0BsGR11F0xLY7PvjUPGk4
+ Y97bATK3caOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9670"; a="126675351"
+X-IronPort-AV: E=Sophos;i="5.75,306,1589266800"; 
+   d="scan'208";a="126675351"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2020 18:49:28 -0700
+IronPort-SDR: WxtVPrAQXhy3Tq//rR73agJNYbSoeNxI9e69il5TuLxOaAEwah2Lu1lizMFBFneGx1+CMLJETv
+ rOlky9ir4PGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,306,1589266800"; 
+   d="scan'208";a="482204753"
+Received: from fcwang-mobl2.ccr.corp.intel.com ([10.255.30.167])
+  by fmsmga005.fm.intel.com with ESMTP; 02 Jul 2020 18:49:16 -0700
+Message-ID: <44c622dd7de8c7bf143c4435c0edd1b98d09a3d6.camel@intel.com>
+Subject: Re: [PATCH v7 00/11] Stop monitoring disabled devices
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Vishal Kulkarni <vishal@chelsio.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jiri Pirko <jiri@mellanox.com>,
+        Ido Schimmel <idosch@mellanox.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Intel Linux Wireless <linuxwifi@intel.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Peter Kaestle <peter@piie.net>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Heiko Stuebner <heiko@sntech.de>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Enrico Weigelt <info@metux.net>,
+        Gayatri Kammela <gayatri.kammela@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        kernel@collabora.com
+Date:   Fri, 03 Jul 2020 09:49:15 +0800
+In-Reply-To: <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
+References: <20200629122925.21729-1-andrzej.p@collabora.com>
+         <aab40d90-3f72-657c-5e14-e53a34c4b420@linaro.org>
+         <3d03d1a2-ac06-b69b-93cb-e0203be62c10@collabora.com>
+         <47111821-d691-e71d-d740-e4325e290fa4@linaro.org>
+         <be9b7ee3-cad0-e462-126d-08de9b226285@collabora.com>
+         <4353a939-3f5e-8369-5bc0-ad8162b5ffc7@linaro.org>
+         <a531d80f-afd1-2dec-6c77-ed984e97595c@collabora.com>
+         <db1ff4e1-cbf8-89b3-5d64-b91a1fd88a41@linaro.org>
+         <73942aea-ae79-753c-fe90-d4a99423d548@collabora.com>
+         <374dddd9-b600-3a30-d6c3-8cfcefc944d9@linaro.org>
+         <5a28deb7-f307-8b03-faad-ab05cb8095d1@collabora.com>
+         <8aeb4f51-1813-63c1-165b-06640af5968f@linaro.org>
+         <685ef627-e377-bbf1-da11-7f7556ca2dd7@collabora.com>
+         <d41bf28f-ee91-6946-2334-f11ec81f96fe@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmnm569b84g19/LS0+XetmtNh2+jer
-        xdmmN+wWl3fNYbP43HuE0WLry3dMFrcbV7BZvN9/mcmBw2N2x0xWj02rOtk8+rasYvT4vEku
-        gCUq2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6Awl
-        hbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFlgV5xYm5xaV66XnJ+rpWhgYGRKVBh
-        QnbGvpP/mAtm8lasfDWTtYHxEVcXIyeHhICJxKbdzcxdjFwcQgI7GCXWt59khHA+MUrc2POe
-        DcL5zCjxt+kLO0zLzLcXoRK7GCXu9W1mgnDeM0p0tb1mBakSFnCU+LdsOiOILSJQILH96XKw
-        ucwCc5gkVq1dD1bEJqAlsf/FDTYQm19AUeLqj8dgDbwCdhIHD39gBrFZBFQkLj87DlYjKhAm
-        cXJbC1SNoMTJmU9Yuhg5ODgFAiRav4CNZBYQl7j1ZD4ThC0vsf3tHLDnJARmckhcXb8OrF5C
-        wEXi0Al7iG+EJV4d3wL1mZTE53d72SDsaomVJ4+wQfR2MEps2X+BFSJhLLF/6WQmkDnMApoS
-        63fpQ4QVJXb+nssIsZdP4t3XHlaIVbwSHW1CECXKEpcf3GWCsCUlFrd3sk1gVJqF5JlZSD6Y
-        heSDWQjLFjCyrGIUSy0ozk1PLTYsMEWO7U2M4CSqZbmDcfrbD3qHGJk4GA8xSnAwK4nwJqj+
-        ixPiTUmsrEotyo8vKs1JLT7EaAoM3onMUqLJ+cA0nlcSb2hqZGxsbGFiaGZqaKgkzutkfSFO
-        SCA9sSQ1OzW1ILUIpo+Jg1OqgUl1pngHy5s1wpv5ptuFb7jBk5icvKBHYXJU6owqQV8RaaOE
-        m/8fvYg+pLi643+r6IxFrRfS/63NfKRy9/++1uQ5J7cf3nWoLeCrRFaS2/73+15MtU///Ner
-        zmTPzcrCtOT47Faraz9eaYazcvhOezhnvtWZf1L5SrNYZkzcyMrZ/VqoMZ7LetZsk8lP3qga
-        P+U4eSJddmVEUFBo2aKSGWKRe7+znft34yWLR53V53vnnv+X1px7aHpi5jstS4H/IvvMuo8f
-        vyU6c/7XogO/15aZfGAMXbmEsfDSox+89Z/5DYT+VlSf1p70TvCi26bwCbd+r/dqrJf4vOx5
-        XGJ7xvKJFU73ctc3+DybmTTtWFe0EktxRqKhFnNRcSIAV+qFvisEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42LZdlhJXje9+l+cwa0bQhafrnUzWmw7/ZvV
-        4mzTG3aLy7vmsFl87j3CaLH15Tsmi9uNK9gs3u+/zOTA4TG7Yyarx6ZVnWwefVtWMXp83iQX
-        wBLFZZOSmpNZllqkb5fAlbHv5D/mgpm8FStfzWRtYHzE1cXIySEhYCIx8+1FNhBbSGAHo8Ty
-        F14QcUmJaRePMncxcgDZwhKHDxd3MXIBlbxllOje8YsFpEZYwFHi37LpjCC2iECBxNQtV5lB
-        bGaBOUwSd++XQTS8YJS4PvsmWAObgJbE/hc3wJbxCyhKXP3xGKyZV8BO4uDhD2DNLAIqEpef
-        HQerERUIk9i55DETRI2gxMmZT1hADuIUCJBo/cIKsUtd4s+8S1B7xSVuPZnPBGHLS2x/O4d5
-        AqPwLCTds5C0zELSMgtJywJGllWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMGxpKW1
-        g3HPqg96hxiZOBgPMUpwMCuJ8Cao/osT4k1JrKxKLcqPLyrNSS0+xCjNwaIkzvt11sI4IYH0
-        xJLU7NTUgtQimCwTB6dUA9OCLtbTuibpiskbXu7ass9mgnvVbPnqB3pR29ZqeCpY6Ou6yH4W
-        YZt50/Z4xA/ZW2f7b6j9nFlz/zH78pT4xlftzIeiTn79u03t1R7HA70SvSzLr7wtXp217Ia2
-        0ZkDyS+tN0j+LNiT1ul2pmGRn/HjqfdVI6qcXp5/V3kvdn3jDIbOlwIdX3Z+ylp/kWl79q3J
-        EkFv5r58xNsUVqn4x0xm/nmxXsGpL8pYDq7fFSEdO2deZT6P69rahamFzYf9DjMvPG7P9Uvy
-        0ce13Ycub9w4/xRTiuv2XY1RW2sSZ0asPJr3puN2wcG1lyazTb+kc+xZPlfYeXaV2jVe/+89
-        jUvU5TyeeoHvyyRPu89Oaa8/K7EUZyQaajEXFScCAK1qN1wUAwAA
-X-CMS-MailID: 20200703002719epcas1p2d9c4f9d0f4bbfdb31f21be4ab6fa4408
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200609124733epcas1p41612c63bd66692c16651622f4402efc4
-References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
-        <CGME20200609124733epcas1p41612c63bd66692c16651622f4402efc4@epcas1p4.samsung.com>
-        <20200609124610.3445662-13-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/9/20 9:46 PM, Kieran Bingham wrote:
-> The word 'descriptor' is misspelled throughout the tree.
+On Thu, 2020-07-02 at 19:49 +0200, Daniel Lezcano wrote:
+> On 02/07/2020 19:19, Andrzej Pietrasiewicz wrote:
+> > Hi,
+> > 
+> > W dniu 02.07.2020 o 19:01, Daniel Lezcano pisze:
+> > > On 02/07/2020 15:53, Andrzej Pietrasiewicz wrote:
+> > > > Hi Daniel,
+> > > > 
+> > > > <snip>
+> > > > 
+> > > > > > > > > 
+> > > > > > > > > I did reproduce:
+> > > > > > > > > 
+> > > > > > > > > v5.8-rc3 + series => imx6 hang at boot time
+> > > > > > > > > v5.8-rc3 => imx6 boots correctly
+> > > > > 
+> > > > > So finally I succeeded to reproduce it on my imx7 locally.
+> > > > > The sensor
+> > > > > was failing to initialize for another reason related to the
+> > > > > legacy
+> > > > > cooling device, this is why it is not appearing on the imx7.
+> > > > > 
+> > > > > I can now git-bisect :)
+> > > > > 
+> > > > 
+> > > > That would be very kind of you, thank you!
+> > > 
+> > > With the lock correctness option enabled:
+> > > 
+> > > [    4.179223] imx_thermal tempmon: Extended Commercial CPU
+> > > temperature
+> > > grade - max:105C critical:100C passive:95C
+> > > [    4.189557]
+> > > [    4.191060] ============================================
+> > > [    4.196378] WARNING: possible recursive locking detected
+> > > [    4.201699] 5.8.0-rc3-00011-gf5e50bf4d3ef #42 Not tainted
+> > > [    4.207102] --------------------------------------------
+> > > [    4.212421] kworker/0:3/54 is trying to acquire lock:
+> > > [    4.217480] ca09a3e4 (&tz->lock){+.+.}-{3:3}, at:
+> > > thermal_zone_device_is_enabled+0x18/0x34
+> > > [    4.225777]
+> > > [    4.225777] but task is already holding lock:
+> > > [    4.231615] ca09a3e4 (&tz->lock){+.+.}-{3:3}, at:
+> > > thermal_zone_get_temp+0x38/0x6c
+> > > [    4.239121]
+> > > [    4.239121] other info that might help us debug this:
+> > > [    4.245655]  Possible unsafe locking scenario:
+> > > [    4.245655]
+> > > [    4.251579]        CPU0
+> > > [    4.254031]        ----
+> > > [    4.256481]   lock(&tz->lock);
+> > > [    4.259544]   lock(&tz->lock);
+> > > [    4.262608]
+> > > [    4.262608]  *** DEADLOCK ***
+> > > [    4.262608]
+> > > [    4.268533]  May be due to missing lock nesting notation
+> > > [    4.268533]
+> > > [    4.275329] 4 locks held by kworker/0:3/54:
+> > > [    4.279517]  #0: cb0066a8 ((wq_completion)events){+.+.}-{0:0}, 
+> > > at:
+> > > process_one_work+0x224/0x808
+> > > [    4.288241]  #1: ca075f10 (deferred_probe_work){+.+.}-{0:0},
+> > > at:
+> > > process_one_work+0x224/0x808
+> > > [    4.296787]  #2: cb1a48d8 (&dev->mutex){....}-{3:3}, at:
+> > > __device_attach+0x30/0x140
+> > > [    4.304468]  #3: ca09a3e4 (&tz->lock){+.+.}-{3:3}, at:
+> > > thermal_zone_get_temp+0x38/0x6c
+> > > [    4.312408]
+> > > [    4.312408] stack backtrace:
+> > > [    4.316778] CPU: 0 PID: 54 Comm: kworker/0:3 Not tainted
+> > > 5.8.0-rc3-00011-gf5e50bf4d3ef #42
+> > > [    4.325048] Hardware name: Freescale i.MX7 Dual (Device Tree)
+> > > [    4.330809] Workqueue: events deferred_probe_work_func
+> > > [    4.335973] [<c0312384>] (unwind_backtrace) from [<c030c580>]
+> > > (show_stack+0x10/0x14)
+> > > [    4.343734] [<c030c580>] (show_stack) from [<c079d7d8>]
+> > > (dump_stack+0xe8/0x114)
+> > > [    4.351062] [<c079d7d8>] (dump_stack) from [<c03abf78>]
+> > > (__lock_acquire+0xbfc/0x2cb4)
+> > > [    4.358909] [<c03abf78>] (__lock_acquire) from [<c03ae9c4>]
+> > > (lock_acquire+0xf4/0x4e4)
+> > > [    4.366758] [<c03ae9c4>] (lock_acquire) from [<c10630fc>]
+> > > (__mutex_lock+0xb0/0xaa8)
+> > > [    4.374431] [<c10630fc>] (__mutex_lock) from [<c1063b10>]
+> > > (mutex_lock_nested+0x1c/0x24)
+> > > [    4.382452] [<c1063b10>] (mutex_lock_nested) from [<c0d932c0>]
+> > > (thermal_zone_device_is_enabled+0x18/0x34)
+> > > [    4.392036] [<c0d932c0>] (thermal_zone_device_is_enabled) from
+> > > [<c0d9da90>] (imx_get_temp+0x30/0x208)
+> > > [    4.401271] [<c0d9da90>] (imx_get_temp) from [<c0d97484>]
+> > > (thermal_zone_get_temp+0x4c/0x6c)
+> > > [    4.409640] [<c0d97484>] (thermal_zone_get_temp) from
+> > > [<c0d93df0>]
+> > > (thermal_zone_device_update+0x8c/0x258)
+> > > [    4.419310] [<c0d93df0>] (thermal_zone_device_update) from
+> > > [<c0d9401c>] (thermal_zone_device_set_mode+0x60/0x88)
+> > > [    4.429500] [<c0d9401c>] (thermal_zone_device_set_mode) from
+> > > [<c0d9e1d4>] (imx_thermal_probe+0x3e4/0x578)
+> > > [    4.439082] [<c0d9e1d4>] (imx_thermal_probe) from [<c0a78388>]
+> > > (platform_drv_probe+0x48/0x98)
+> > > [    4.447622] [<c0a78388>] (platform_drv_probe) from
+> > > [<c0a7603c>]
+> > > (really_probe+0x218/0x348)
+> > > [    4.455903] [<c0a7603c>] (really_probe) from [<c0a76278>]
+> > > (driver_probe_device+0x5c/0xb4)
+> > > [    4.464098] [<c0a76278>] (driver_probe_device) from
+> > > [<c0a743bc>]
+> > > (bus_for_each_drv+0x58/0xb8)
+> > > [    4.472638] [<c0a743bc>] (bus_for_each_drv) from [<c0a75db0>]
+> > > (__device_attach+0xd4/0x140)
+> > > [    4.480919] [<c0a75db0>] (__device_attach) from [<c0a750b0>]
+> > > (bus_probe_device+0x88/0x90)
+> > > [    4.489112] [<c0a750b0>] (bus_probe_device) from [<c0a75564>]
+> > > (deferred_probe_work_func+0x68/0x98)
+> > > [    4.498088] [<c0a75564>] (deferred_probe_work_func) from
+> > > [<c0369988>]
+> > > (process_one_work+0x2e0/0x808)
+> > > [    4.507237] [<c0369988>] (process_one_work) from [<c036a150>]
+> > > (worker_thread+0x2a0/0x59c)
+> > > [    4.515432] [<c036a150>] (worker_thread) from [<c0372208>]
+> > > (kthread+0x16c/0x178)
+> > > [    4.522843] [<c0372208>] (kthread) from [<c0300174>]
+> > > (ret_from_fork+0x14/0x20)
+> > > [    4.530074] Exception stack(0xca075fb0 to 0xca075ff8)
+> > > [    4.535138] 5fa0:                                     00000000
+> > > 00000000 00000000 00000000
+> > > [    4.543328] 5fc0: 00000000 00000000 00000000 00000000 00000000
+> > > 00000000 00000000 00000000
+> > > [    4.551516] 5fe0: 00000000 00000000 00000000 00000000 00000013
+> > > 00000000
+> > > 
+> > > 
+> > > 
+> > 
+> > Thanks!
+> > 
+> > That confirms your suspicions.
+> > 
+> > So the reason is that ->get_temp() is called while the mutex is
+> > held and
+> > thermal_zone_device_is_enabled() wants to take the same mutex.
 > 
-> Fix it up accordingly:
->     decriptors -> descriptors
+> Yes, that's correct.
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/devfreq/devfreq-event.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> > Is adding a comment to thermal_zone_device_is_enabled() to never
+> > call
+> > it while the mutex is held and adding another version of it which
+> > does
+> > not take the mutex ok?
 > 
-> diff --git a/drivers/devfreq/devfreq-event.c b/drivers/devfreq/devfreq-event.c
-> index 8c31b0f2e28f..56efbeb7851e 100644
-> --- a/drivers/devfreq/devfreq-event.c
-> +++ b/drivers/devfreq/devfreq-event.c
-> @@ -293,7 +293,7 @@ static void devfreq_event_release_edev(struct device *dev)
->  /**
->   * devfreq_event_add_edev() - Add new devfreq-event device.
->   * @dev		: the device owning the devfreq-event device being created
-> - * @desc	: the devfreq-event device's decriptor which include essential
-> + * @desc	: the devfreq-event device's descriptor which include essential
->   *		  data for devfreq-event device.
->   *
->   * Note that this function add new devfreq-event device to devfreq-event class
-> @@ -385,7 +385,7 @@ static void devm_devfreq_event_release(struct device *dev, void *res)
->  /**
->   * devm_devfreq_event_add_edev() - Resource-managed devfreq_event_add_edev()
->   * @dev		: the device owning the devfreq-event device being created
-> - * @desc	: the devfreq-event device's decriptor which include essential
-> + * @desc	: the devfreq-event device's descriptor which include essential
->   *		  data for devfreq-event device.
->   *
->   * Note that this function manages automatically the memory of devfreq-event
+> The thermal_zone_device_is_enabled() is only used in two places, acpi
+> and this imx driver, and given:
+> 
+> 1. as soon as the mutex is released, there is no guarantee the
+> thermal
+> zone won't be changed right after, the lock is pointless, thus the
+> information also.
+> 
+> 2. from a design point of view, I don't see why a driver should know
+> if
+> a thermal zone is disabled or not
+> 
+> It would make sense to end with this function and do not give the
+> different drivers an opportunity to access this information.
+
+I agree.
+> 
+> Why not add change_mode for the acpi in order to enable or disable
+> the
+> events
+
+thermal_zone_device_is_enabled() is invoked in acpi thermal driver
+because we only want to do thermal_zone_device_update() when the acpi
+thermal zone is enabled.
+
+As thermal_zone_device_update() can handle a disabled thermal zone now,
+we can just remove the check.
+
+thanks,
+rui
+
+>  and for imx_thermal use irq_enabled flag instead of the thermal
+> zone mode? Moreover it is very unclear why this function is needed in
+> imx_get_temp(), and I suspect we should be able to get rid of it.
+> 
 > 
 
-Applied it. Thanks.
-
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
