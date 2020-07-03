@@ -2,351 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A6C212EFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jul 2020 23:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29DC2213070
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2020 02:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726028AbgGBVmM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jul 2020 17:42:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbgGBVmL (ORCPT
+        id S1726029AbgGCA11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jul 2020 20:27:27 -0400
+Received: from mailout1.samsung.com ([203.254.224.24]:15678 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726015AbgGCA10 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jul 2020 17:42:11 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BDDDC08C5DD
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  2 Jul 2020 14:42:11 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id 9so34099625ljv.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 Jul 2020 14:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=FRl/DyIHs4sFPDBuyU3c3MC0e8z8bQnJMkePNYp6cfM=;
-        b=MbHSCVqYIkL/KbF7JCyYY2wx1OUSp8rPThiXhu/kDsjSGeHrNiSgz5KpNat84Q3y+f
-         w4u5c9guBWOz6nhUUlXno9DpoSO4Y7kK+eCLOHTFTTkgOZKlxt3nVsN7S7m8+UMbqxI1
-         ppxlkSvY+aHMr0Z81WGcP+sE8Vrn7vxKobgvY0X91tFHnJp8QhH4hsEUGQQJ5Ll1ZNAV
-         0Jbu7QGVnnOGiWpWT3XXJrSxsA35Eoe1IpwcZWiTRgEqsdEWzH3FL4mND1LONOo62fnq
-         ybSwAAkGiirT8Ci2ueIhqEtXj5oSBFxZBnmABrEncA3CNxsyKIWVIWZgSn6ysN0Jmqtv
-         LCdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=FRl/DyIHs4sFPDBuyU3c3MC0e8z8bQnJMkePNYp6cfM=;
-        b=rrOyZsnr4gpTx6qnsw2uOrBAQU/dttAMYBnbgxgQcMFN6PmkbyzlXqStEcTrwEDjir
-         o3tGP8Y4re6erj0jG8zZchzSPJQguEhylSC21sb1MIpfODsQUDtNkNYjra4EAF2L0RSR
-         UZEtRos21xVit/mU/ubwSM1BjVEc4KgTovi1ZkJf0MbvyY1h+9DqbOf7Rpy0g8L6zTQy
-         TBrOeiT/hEbNUrYIm8I1RrANuBxScqruAW6nCv/vV6H5jU9Az9Qfs8IJeSLHcnIP0/xS
-         RhNl8l8nFXbnYBFmA19GYqQIsi3ab/Bnj2Sy4d1L53ZRDIofmVBx9Dy/j60C2Z9UD1cO
-         M/9w==
-X-Gm-Message-State: AOAM530LrPl46PKy1izPTIkS3e6OFbf+/MaL115qKYqZv/a2K7fQen3C
-        eAsHbaZqgDPj1qbbr5SoaiPz3w==
-X-Google-Smtp-Source: ABdhPJw1le4XZxNhQjfxvjTspEmFHWfqahaHP1TuXmto9kPEKMVDsLrbFa+lppBc/cy2vGqqCiU53Q==
-X-Received: by 2002:a2e:574b:: with SMTP id r11mr5739143ljd.417.1593726129560;
-        Thu, 02 Jul 2020 14:42:09 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id q2sm3746183ljp.135.2020.07.02.14.42.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2020 14:42:08 -0700 (PDT)
-Date:   Thu, 2 Jul 2020 23:42:08 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, michael@rodin.online,
-        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com
-Subject: Re: [PATCH 1/2] [RFC] media: rcar-vin: send a V4L2 event to vdev if
- no frame captured after a timeout
-Message-ID: <20200702214208.GA3158543@oden.dyn.berto.se>
-References: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
- <20200630221710.GM2365286@oden.dyn.berto.se>
- <20200702123341.GA65262@vmlxhi-121.adit-jv.com>
+        Thu, 2 Jul 2020 20:27:26 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20200703002723epoutp01c6fab361f73aa2126d2900040066bdec~eFnzSRZy51062810628epoutp01Y
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jul 2020 00:27:23 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20200703002723epoutp01c6fab361f73aa2126d2900040066bdec~eFnzSRZy51062810628epoutp01Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1593736043;
+        bh=78YFWLUy8a6bG0IHznbUMinVUfMhZKY0hWn/f2bKTPQ=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=n/eJ46kdngbho6R0418x+3ptVzEAavlFvhuaUY2BHsla8mP5Q/RzSI/oaxSYIVt/b
+         hH/qGO48oEYjQUgkxphVrIvxE9iKB1uGwcl4n3y+g9sil1ljeA9a7ijUjRy3F/cd3b
+         L0LrT/VG/QmEcacGcXiT5+6ODkzBFLB7MuK4p7GY=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+        20200703002722epcas1p47dc4697da12a5d1999b0f1135600081e~eFnysJkqp0272102721epcas1p4F;
+        Fri,  3 Jul 2020 00:27:22 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.40.158]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 49ybPz7487zMqYkk; Fri,  3 Jul
+        2020 00:27:19 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+        epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B3.18.28578.76B7EFE5; Fri,  3 Jul 2020 09:27:19 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200703002719epcas1p2d9c4f9d0f4bbfdb31f21be4ab6fa4408~eFnvewYGC3267232672epcas1p2v;
+        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200703002719epsmtrp2015c4aa95c939ae170c46502b7a9dce8~eFnveA_Ur0126401264epsmtrp27;
+        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
+X-AuditID: b6c32a39-e6f5da8000006fa2-96-5efe7b67c9d6
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        6C.8E.08303.76B7EFE5; Fri,  3 Jul 2020 09:27:19 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200703002719epsmtip2bca91588d12f05b243b2729bc6967a00~eFnvQf75I2430624306epsmtip2H;
+        Fri,  3 Jul 2020 00:27:19 +0000 (GMT)
+Subject: Re: [PATCH 12/17] drivers: devfreq: Fix trivial spelling
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Jiri Kosina <trivial@kernel.org>,
+        "open list:DEVICE FREQUENCY EVENT (DEVFREQ-EVENT)" 
+        <linux-pm@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+From:   Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <bc52868b-e468-70b3-74ec-782bca8ada25@samsung.com>
+Date:   Fri, 3 Jul 2020 09:38:34 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+        Thunderbird/59.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200702123341.GA65262@vmlxhi-121.adit-jv.com>
+In-Reply-To: <20200609124610.3445662-13-kieran.bingham+renesas@ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBJsWRmVeSWpSXmKPExsWy7bCmnm569b84g19/LS0+XetmtNh2+jer
+        xdmmN+wWl3fNYbP43HuE0WLry3dMFrcbV7BZvN9/mcmBw2N2x0xWj02rOtk8+rasYvT4vEku
+        gCUq2yYjNTEltUghNS85PyUzL91WyTs43jne1MzAUNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6Awl
+        hbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFKToFlgV5xYm5xaV66XnJ+rpWhgYGRKVBh
+        QnbGvpP/mAtm8lasfDWTtYHxEVcXIyeHhICJxKbdzcxdjFwcQgI7GCXWt59khHA+MUrc2POe
+        DcL5zCjxt+kLO0zLzLcXoRK7GCXu9W1mgnDeM0p0tb1mBakSFnCU+LdsOiOILSJQILH96XKw
+        ucwCc5gkVq1dD1bEJqAlsf/FDTYQm19AUeLqj8dgDbwCdhIHD39gBrFZBFQkLj87DlYjKhAm
+        cXJbC1SNoMTJmU9Yuhg5ODgFAiRav4CNZBYQl7j1ZD4ThC0vsf3tHLDnJARmckhcXb8OrF5C
+        wEXi0Al7iG+EJV4d3wL1mZTE53d72SDsaomVJ4+wQfR2MEps2X+BFSJhLLF/6WQmkDnMApoS
+        63fpQ4QVJXb+nssIsZdP4t3XHlaIVbwSHW1CECXKEpcf3GWCsCUlFrd3sk1gVJqF5JlZSD6Y
+        heSDWQjLFjCyrGIUSy0ozk1PLTYsMEWO7U2M4CSqZbmDcfrbD3qHGJk4GA8xSnAwK4nwJqj+
+        ixPiTUmsrEotyo8vKs1JLT7EaAoM3onMUqLJ+cA0nlcSb2hqZGxsbGFiaGZqaKgkzutkfSFO
+        SCA9sSQ1OzW1ILUIpo+Jg1OqgUl1pngHy5s1wpv5ptuFb7jBk5icvKBHYXJU6owqQV8RaaOE
+        m/8fvYg+pLi643+r6IxFrRfS/63NfKRy9/++1uQ5J7cf3nWoLeCrRFaS2/73+15MtU///Ner
+        zmTPzcrCtOT47Faraz9eaYazcvhOezhnvtWZf1L5SrNYZkzcyMrZ/VqoMZ7LetZsk8lP3qga
+        P+U4eSJddmVEUFBo2aKSGWKRe7+znft34yWLR53V53vnnv+X1px7aHpi5jstS4H/IvvMuo8f
+        vyU6c/7XogO/15aZfGAMXbmEsfDSox+89Z/5DYT+VlSf1p70TvCi26bwCbd+r/dqrJf4vOx5
+        XGJ7xvKJFU73ctc3+DybmTTtWFe0EktxRqKhFnNRcSIAV+qFvisEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42LZdlhJXje9+l+cwa0bQhafrnUzWmw7/ZvV
+        4mzTG3aLy7vmsFl87j3CaLH15Tsmi9uNK9gs3u+/zOTA4TG7Yyarx6ZVnWwefVtWMXp83iQX
+        wBLFZZOSmpNZllqkb5fAlbHv5D/mgpm8FStfzWRtYHzE1cXIySEhYCIx8+1FNhBbSGAHo8Ty
+        F14QcUmJaRePMncxcgDZwhKHDxd3MXIBlbxllOje8YsFpEZYwFHi37LpjCC2iECBxNQtV5lB
+        bGaBOUwSd++XQTS8YJS4PvsmWAObgJbE/hc3wJbxCyhKXP3xGKyZV8BO4uDhD2DNLAIqEpef
+        HQerERUIk9i55DETRI2gxMmZT1hADuIUCJBo/cIKsUtd4s+8S1B7xSVuPZnPBGHLS2x/O4d5
+        AqPwLCTds5C0zELSMgtJywJGllWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMGxpKW1
+        g3HPqg96hxiZOBgPMUpwMCuJ8Cao/osT4k1JrKxKLcqPLyrNSS0+xCjNwaIkzvt11sI4IYH0
+        xJLU7NTUgtQimCwTB6dUA9OCLtbTuibpiskbXu7ass9mgnvVbPnqB3pR29ZqeCpY6Ou6yH4W
+        YZt50/Z4xA/ZW2f7b6j9nFlz/zH78pT4xlftzIeiTn79u03t1R7HA70SvSzLr7wtXp217Ia2
+        0ZkDyS+tN0j+LNiT1ul2pmGRn/HjqfdVI6qcXp5/V3kvdn3jDIbOlwIdX3Z+ylp/kWl79q3J
+        EkFv5r58xNsUVqn4x0xm/nmxXsGpL8pYDq7fFSEdO2deZT6P69rahamFzYf9DjMvPG7P9Uvy
+        0ce13Ycub9w4/xRTiuv2XY1RW2sSZ0asPJr3puN2wcG1lyazTb+kc+xZPlfYeXaV2jVe/+89
+        jUvU5TyeeoHvyyRPu89Oaa8/K7EUZyQaajEXFScCAK1qN1wUAwAA
+X-CMS-MailID: 20200703002719epcas1p2d9c4f9d0f4bbfdb31f21be4ab6fa4408
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20200609124733epcas1p41612c63bd66692c16651622f4402efc4
+References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
+        <CGME20200609124733epcas1p41612c63bd66692c16651622f4402efc4@epcas1p4.samsung.com>
+        <20200609124610.3445662-13-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Michael,
+On 6/9/20 9:46 PM, Kieran Bingham wrote:
+> The word 'descriptor' is misspelled throughout the tree.
+> 
+> Fix it up accordingly:
+>     decriptors -> descriptors
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/devfreq/devfreq-event.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/devfreq/devfreq-event.c b/drivers/devfreq/devfreq-event.c
+> index 8c31b0f2e28f..56efbeb7851e 100644
+> --- a/drivers/devfreq/devfreq-event.c
+> +++ b/drivers/devfreq/devfreq-event.c
+> @@ -293,7 +293,7 @@ static void devfreq_event_release_edev(struct device *dev)
+>  /**
+>   * devfreq_event_add_edev() - Add new devfreq-event device.
+>   * @dev		: the device owning the devfreq-event device being created
+> - * @desc	: the devfreq-event device's decriptor which include essential
+> + * @desc	: the devfreq-event device's descriptor which include essential
+>   *		  data for devfreq-event device.
+>   *
+>   * Note that this function add new devfreq-event device to devfreq-event class
+> @@ -385,7 +385,7 @@ static void devm_devfreq_event_release(struct device *dev, void *res)
+>  /**
+>   * devm_devfreq_event_add_edev() - Resource-managed devfreq_event_add_edev()
+>   * @dev		: the device owning the devfreq-event device being created
+> - * @desc	: the devfreq-event device's decriptor which include essential
+> + * @desc	: the devfreq-event device's descriptor which include essential
+>   *		  data for devfreq-event device.
+>   *
+>   * Note that this function manages automatically the memory of devfreq-event
+> 
 
-On 2020-07-02 14:33:41 +0200, Michael Rodin wrote:
-> Hi Niklas,
-> 
-> On Wed, Jul 01, 2020 at 12:17:10AM +0200, Niklas Söderlund wrote:
-> > Hi Michael,
-> > 
-> > Thanks for your RFC.
-> 
-> Thanks your your feedback!
-> 
-> > On 2020-06-19 19:46:10 +0200, Michael Rodin wrote:
-> > > Data flow from an upstream subdevice can stop permanently due to:
-> > >  - CSI2 transmission errors
-> > >  - silent failure of the source subdevice
-> > >  - disconnection of the source subdevice
-> > > In those cases userspace waits for new buffers for an infinitely long time.
-> > > In order to address this issue, use a timer to monitor, that rvin_irq() is
-> > > capturing at least one frame within a IRQ_TIMEOUT_MS period. Otherwise send
-> > > a new private v4l2 event to userspace. This event is exported to userspace
-> > > via a new uapi header.
-> > 
-> > I think there is value for user-space to detecting the error cases 
-> > above. But I think the problem could be addressed at a different lever.  
-> > Defining a VIN specific events and controls for something that applies 
-> > any video device might not be the neatest solution.
-> > 
-> > Another thing hits me when reading this series, could this not be done 
-> > in user-space? In 2/2 you add a control which sets the timeout based on 
-> > the framerate, so user-space must know about that to be able to set the 
-> > control. User-space also knows when it receives/dequeus a buffer from 
-> > the video device so the timeout logic could be implemented in the 
-> > application. Given that the application anyhow needs special care to 
-> > handle the VIN specific event and control I wonder if it's not neater to 
-> > make it handle all of it. Do you see any specific benefit of having 
-> > parts of it in the driver?
-> 
-> Originally I have started this patch series to implement a replacement for
-> the CSI-2 error handling you have added in
-> commit 4ab44ff ("media: rcar-csi2: restart CSI-2 link if error is detected"),
-> which is not correct for multiple reasons:
-> 1. The commit message states that the user is informed that something is
->    not right. But you have just added new messages which only appear in
->    dmesg. This might be sufficient for a desktop PC but not for an embedded
->    system, where the user normally can not see dmesg log. So I think that
->    V4L2 events are the correct solution for this kind of notification,
->    because they are passed directly to the application and the developer
->    can implement handling for this issue or display an error in the
->    custom human-machine interface.
-> 2. It is not correct to restart the CSI-2 link if you don't restart VIN
->    module as well. Renesas HW manual R19UH0105EJ0200 Rev.2.00
->    (Jul 31, 2019) requires a reset or stop of capture in the VIN module
->    before a reset of CSI-2 module (chapter 25.3.13 "Software Reset"). This
->    also applies to CSI-2 error handling.
-> 3. The CSI-2 driver restarts CSI-2 module for any CSI-2 error. However not
->    all CSI2 errors are critical. In some setups they are really harmless so
->    streaming can continue without any unnecessary restart. In some setups
->    they _always_ occur at each start of streaming and are harmless as
->    well, so automatic restart in CSI-2 module ends in an endless restart
->    loop, which never comes to an end and breaks streaming instead of any
->    help. It is better to leave such errors unhandled and therefore it is
->    important to detect whether DMA transfers really stop in rvin_irq().
-> 4. Video streaming applications in the automotive/embedded industry often
->    want to control when the video streaming pipeline is stopped or started
->    to be able to do some tasks in between, so an automatic restart of the
->    pipeline is not acceptable for them. It should be at least optional and
->    we should do this in rcar-dma.c, e.g. in the proposed irq timeout
->    function. However I am not sure yet how to implement a restart of
->    streaming inside of the rcar-vin driver correctly.
-> 
-> I think, my patch series provides technically a good solution for the
-> described issues. Also it is generic enough to allow also handling of
-> failures in upstream subdevices connected to an R-Car3 CSI2 receiver or
-> even parallel video input devices in cases when such failures can not be
-> fixed or detected in the subdevice drivers and result in a stop of data
-> flow on the chip level.
-> 
-> Theoretically, applications also could use timeout parameter of the poll()
-> syscall to implement the timeout (which can be e.g. a multiple of the frame
-> interval), but the problem is that userspace does not know whether the
-> timeout happened because there are no DMA transfers in the driver (i.e. one
-> of the upstream subdevices or VIN failed) or because the driver is just
-> using the "scratch buffer". The event which I have introduced explicitly
-> monitors whether rcar-vin regularly receives new frames from upstream
-> and allows applications to try a recovery (I have now renamed the event to
-> "FRAME_TIMEOUT" to be more precise about its purpose).
-> 
-> Another reason, why I think that the new v4l2 event is the right solution,
-> are proprietary applications, where it is not possible to change the code
-> to add any additional handling of driver failures but it is possible to
-> start/stop streaming via inter process communication. Since V4L2 events can
-> be subscribed and received by a separate process, it is possible to
-> implement a middleware in user space, which monitors V4L2 events. Typically
-> this middleware could also take over all of the complicated media-ctl
-> configuration and monitoring of source changes and other events from
-> subdevices, but this is a bit off-topic. I think that (private) V4L2 events
-> are really useful in embedded systems where applications/middlewares are
-> aware of the underlying hardware and want to be better informed about
-> hardware related events than desktop applications.
-> 
-> So if my arguments sound reasonable and you don't reject the overall
-> concept of the series, I would send an improved version, where I have fixed
-> some details of the timer implementation. I have also a patch for rcar-csi2
-> driver with a private CSI-2 error event, which is useful to let the
-> application know that the reason for the frame timeout event might be a
-> CSI-2 error and not e.g. paused playback.
-
-I'm not arguing that something is needed for user-space to detect these 
-situations. I'm arguing that adding these events directly into rcar-vin 
-and/or rcar-csi2 is the wrong level. In my view either support should be 
-added in the V4L2 subsystem core or in the user-space applications.  
-Adding custom events and logic to a single driver does not create 
-reusable and generic solution which can be used by many.
-
-If you wish to work the problem in the kernel I think you should do so 
-on a V4L2 level and not in the individual driver. As the needs you 
-describe above could be useful for others users.
-
-> 
-> > > 
-> > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++++
-> > >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  1 +
-> > >  drivers/media/platform/rcar-vin/rcar-vin.h  |  6 ++++++
-> > >  include/uapi/linux/rcar-vin.h               | 10 ++++++++++
-> > >  4 files changed, 38 insertions(+)
-> > >  create mode 100644 include/uapi/linux/rcar-vin.h
-> > > 
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > index 1a30cd0..bf8d733 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > @@ -937,6 +937,20 @@ static void rvin_capture_stop(struct rvin_dev *vin)
-> > >  #define RVIN_TIMEOUT_MS 100
-> > >  #define RVIN_RETRIES 10
-> > >  
-> > > +static const struct v4l2_event rvin_irq_timeout = {
-> > > +	.type = V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT,
-> > > +};
-> > > +
-> > > +static void rvin_irq_timer_function(struct timer_list *timer)
-> > > +{
-> > > +	struct rvin_dev *vin = container_of(timer, struct rvin_dev,
-> > > +					    irq_timer);
-> > > +
-> > > +	vin_err(vin, "%s: frame completion timeout after %i ms!\n",
-> > > +		__func__, IRQ_TIMEOUT_MS);
-> > > +	v4l2_event_queue(&vin->vdev, &rvin_irq_timeout);
-> > > +}
-> > > +
-> > >  static irqreturn_t rvin_irq(int irq, void *data)
-> > >  {
-> > >  	struct rvin_dev *vin = data;
-> > > @@ -1008,6 +1022,8 @@ static irqreturn_t rvin_irq(int irq, void *data)
-> > >  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
-> > >  	}
-> > >  
-> > > +	mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-> > > +
-> > >  	vin->sequence++;
-> > >  
-> > >  	/* Prepare for next frame */
-> > > @@ -1252,6 +1268,8 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
-> > >  	if (ret)
-> > >  		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> > >  				  vin->scratch_phys);
-> > > +	else
-> > > +		mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-> > >  
-> > >  	return ret;
-> > >  }
-> > > @@ -1305,6 +1323,8 @@ static void rvin_stop_streaming(struct vb2_queue *vq)
-> > >  	/* Free scratch buffer. */
-> > >  	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> > >  			  vin->scratch_phys);
-> > > +
-> > > +	del_timer_sync(&vin->irq_timer);
-> > >  }
-> > >  
-> > >  static const struct vb2_ops rvin_qops = {
-> > > @@ -1370,6 +1390,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
-> > >  		goto error;
-> > >  	}
-> > >  
-> > > +	timer_setup(&vin->irq_timer, rvin_irq_timer_function, 0);
-> > >  	return 0;
-> > >  error:
-> > >  	rvin_dma_unregister(vin);
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > index f421e25..c644134 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > @@ -581,6 +581,7 @@ static int rvin_subscribe_event(struct v4l2_fh *fh,
-> > >  {
-> > >  	switch (sub->type) {
-> > >  	case V4L2_EVENT_SOURCE_CHANGE:
-> > > +	case V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT:
-> > >  		return v4l2_event_subscribe(fh, sub, 4, NULL);
-> > >  	}
-> > >  	return v4l2_ctrl_subscribe_event(fh, sub);
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > index c19d077..7408f67 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > @@ -14,12 +14,14 @@
-> > >  #define __RCAR_VIN__
-> > >  
-> > >  #include <linux/kref.h>
-> > > +#include <linux/rcar-vin.h>
-> > >  
-> > >  #include <media/v4l2-async.h>
-> > >  #include <media/v4l2-ctrls.h>
-> > >  #include <media/v4l2-dev.h>
-> > >  #include <media/v4l2-device.h>
-> > >  #include <media/videobuf2-v4l2.h>
-> > > +#include <media/v4l2-event.h>
-> > >  
-> > >  /* Number of HW buffers */
-> > >  #define HW_BUFFER_NUM 3
-> > > @@ -30,6 +32,8 @@
-> > >  /* Max number on VIN instances that can be in a system */
-> > >  #define RCAR_VIN_NUM 8
-> > >  
-> > > +#define IRQ_TIMEOUT_MS 1000
-> > > +
-> > >  struct rvin_group;
-> > >  
-> > >  enum model_id {
-> > > @@ -196,6 +200,7 @@ struct rvin_info {
-> > >   * @compose:		active composing
-> > >   * @src_rect:		active size of the video source
-> > >   * @std:		active video standard of the video source
-> > > + * @irq_timer:		monitors regular capturing of frames in rvin_irq()
-> > >   *
-> > >   * @alpha:		Alpha component to fill in for supported pixel formats
-> > >   */
-> > > @@ -240,6 +245,7 @@ struct rvin_dev {
-> > >  	struct v4l2_rect src_rect;
-> > >  	v4l2_std_id std;
-> > >  
-> > > +	struct timer_list irq_timer;
-> > >  	unsigned int alpha;
-> > >  };
-> > >  
-> > > diff --git a/include/uapi/linux/rcar-vin.h b/include/uapi/linux/rcar-vin.h
-> > > new file mode 100644
-> > > index 00000000..4eb7f5e
-> > > --- /dev/null
-> > > +++ b/include/uapi/linux/rcar-vin.h
-> > > @@ -0,0 +1,10 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +
-> > > +#ifndef RCAR_VIN_USER_H
-> > > +#define RCAR_VIN_USER_H
-> > > +
-> > > +/* class for events sent by the rcar-vin driver */
-> > > +#define V4L2_EVENT_RCAR_VIN_CLASS	V4L2_EVENT_PRIVATE_START
-> > > +#define V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT	(V4L2_EVENT_RCAR_VIN_CLASS | 0x1)
-> > > +
-> > > +#endif /* RCAR_VIN_USER_H */
-> > > -- 
-> > > 2.7.4
-> > > 
-> > 
-> > -- 
-> > Regards,
-> > Niklas Söderlund
-> 
-> -- 
-> Best Regards,
-> Michael
+Applied it. Thanks.
 
 -- 
-Regards,
-Niklas Söderlund
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
