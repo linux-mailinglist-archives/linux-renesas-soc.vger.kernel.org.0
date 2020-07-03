@@ -2,148 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C537213915
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2020 13:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A37BC213920
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jul 2020 13:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726347AbgGCLG2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jul 2020 07:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40194 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726319AbgGCLG1 (ORCPT
+        id S1726022AbgGCLKO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jul 2020 07:10:14 -0400
+Received: from mail-eopbgr1410103.outbound.protection.outlook.com ([40.107.141.103]:41766
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725984AbgGCLKN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jul 2020 07:06:27 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD4EC08C5DF
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Jul 2020 04:06:26 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id g10so10716486wmc.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Jul 2020 04:06:26 -0700 (PDT)
+        Fri, 3 Jul 2020 07:10:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SQRgjYC/SjS+35FdRCNBTMRPXQSLcsTtxtpXz2SeOKkogKn/gKk0rX1EtQoX1WPlUaJYTV/3kDAvnZHXUD1dT2e0Zfo7dS29z8jvkZHTHxBnQu4EVlpEE/D2OZvQYUkgcxgDkSxZCLtoaeKfHj1artiLQQVq7NFXPGcHuoyMFcaOdUFPTXfkh7vMc70XnGBJ/sJ2ywis1uvt/GqxsaQ522FG2jQFl76BCShO3/vrDrizan3tEFqL0o8/SXrXjBWz20cr1DJOiP5X916epBtC6eiYtRBFA7cd9yyNaFDINR/85LqU7i3JAsjfiufcnzmrqkfKi+SaZ26r0MbfJ12c4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BxhPvI9JvE4eBnZncxGHdNMgZUootVfzp/9i8qmGL68=;
+ b=LJjMMdOHx4nujYEfYCFD8X5cLmW3ngApZXpIxvDemJDPxkXr/90cO4LZPP0gEJj6Rmi0kelUiGU0Z+4fTtwEXVfMLj17hbijAC6JYCmwwRcFNrAjQ6xtcU3ZCx2EBn+9ziQdKICEA2Q55/aSF9D5TvykxAhFN7WxrnKMGJnN0s1OV3sRWSRuXDIVA1meK2+MBLVgoita/34FNTy3avcemjYjacqTBzkvj11xoCLnw+WRnebfcTO7AF9U/tsqUzROCyH6MFKg0cj3uYMNsmSWiZq2UzoceAs58xu319ScOhioqUX0gdnBGVhNdjOr3sMyDaf/IAdJ33P5NdArE0XwMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=y81eMV6HsZOqLL6c1xuYsXbhUNOBcbUsGgBPDyFKgzg=;
-        b=gd8gAO8UDpxTYRl0sZn4kWJeCwGEMBxcVYS4QxJfzZ9Z7a6PS2EkXghtn42SdOPbO9
-         Lv0aIguI9URFJ/NdVQ1LSjkEv7oun7ZZpIEASsCzo8l2k2wXDEUf7hyXbYPXYx8p8c3G
-         iGEQRz/uFuBMMbZYzRrfiGdWDf0d+by8kzqOG1KOREwBu8d0D+nbod0P74qHg14A+48t
-         u4zaZrNkNsOV7fMf/DaBuNPBncf9dRCYdpT6o064KI5hFHbKvFZu3fqCzTIDH1Trt4H0
-         NjHpG4Va/DgI2BFoS3vl6JlgN6rspjHg064IGsxSyMHfasd2FRZXKB68RccVFAC0cJN6
-         pg5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=y81eMV6HsZOqLL6c1xuYsXbhUNOBcbUsGgBPDyFKgzg=;
-        b=gZQ7Tk3oHXoaUGCuSKWIWrm/lFkhbxqj3TkkyZYedS/72G2dm7uPxRwOgmEJz+bvQM
-         ZImPJEokP+h76Z2IqTAPG4VRZmP3D96XHwkS97AgN2maiou/dPNBbNY1eaPO8eRexdB4
-         QKAYmDmJPIFyDyOp7Mf2BII3nncvhCoYUNRu1YHI9l6U3umIXj6oI2ItpSNOvQBN3nRA
-         wJfXV4/ogR7e86Lbc6DuzM8JZU8JA8qY8AEdUBClqezb7j/FnbNj6qOXnNr29F6lC5cg
-         ZlnMKhTm5VNj93k0gmC+CTWUC6FPcirI/BRq1wuBJFGkdUbhjMjj9kOz0OCaJYHnZm5b
-         ZQ2w==
-X-Gm-Message-State: AOAM532QDzpfvo6ZLtgU2ms4f6hlvP3DZfY0DsWRJRiVOtAjRO/osgE2
-        Voa1VsQHe4Z5N6MFY0qSRyIq3w==
-X-Google-Smtp-Source: ABdhPJx5+hhbJDm2XrJujJyKTYGWkG0fawls1pBeitg1Zd5leR55VAdCRLM6oj6h+HEL1s7BJ19+tw==
-X-Received: by 2002:a1c:e18a:: with SMTP id y132mr35371489wmg.27.1593774385057;
-        Fri, 03 Jul 2020 04:06:25 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:7019:4e9b:2970:f860? ([2a01:e34:ed2f:f020:7019:4e9b:2970:f860])
-        by smtp.googlemail.com with ESMTPSA id r12sm13373362wrc.22.2020.07.03.04.06.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Jul 2020 04:06:24 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Fixes for stop monitoring disabled devices series
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jiri Pirko <jiri@mellanox.com>,
-        Ido Schimmel <idosch@mellanox.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Intel Linux Wireless <linuxwifi@intel.com>,
-        Kalle Valo <kvalo@codeaurora.org>,
-        Peter Kaestle <peter@piie.net>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Allison Randal <allison@lohutok.net>,
-        Enrico Weigelt <info@metux.net>,
-        Gayatri Kammela <gayatri.kammela@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        kernel@collabora.com
-References: <20200703104354.19657-1-andrzej.p@collabora.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <fc1bb7f5-2096-a604-8c30-81d34bf5b737@linaro.org>
-Date:   Fri, 3 Jul 2020 13:06:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BxhPvI9JvE4eBnZncxGHdNMgZUootVfzp/9i8qmGL68=;
+ b=q807hQjPDTtSmXui23N8O4L54RhblSUYz2G3NIznhJr52YQqQnE/CH/QwQBwKW8KmWE4tzniFTiygv0xn1GcbwEQBQsDczWp5PHPWHN63NXOHhZ1HIb4uyvtDR5OD+utZWadT88grx/0lq97TTT7xZlzwyLNXZVgZaYdClALAVU=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TYAPR01MB2958.jpnprd01.prod.outlook.com (2603:1096:404:85::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.20; Fri, 3 Jul
+ 2020 11:10:10 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3153.021; Fri, 3 Jul 2020
+ 11:10:10 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>
+Subject: RE: [PATCH/RFC v4 0/4] treewide: add regulator condition on
+ _mmc_suspend()
+Thread-Topic: [PATCH/RFC v4 0/4] treewide: add regulator condition on
+ _mmc_suspend()
+Thread-Index: AQHWS5y19quM5ast4UGUv60ketqPj6jqraUAgASyOtCAAB+QAIABq2kAgASPd0A=
+Date:   Fri, 3 Jul 2020 11:10:09 +0000
+Message-ID: <TY2PR01MB36922D383DD83EB2DE22F84FD86A0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1593163942-5087-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdU0OEA7seCDadrSsNYXHQJOuSRrm8O439PK_pf3NoLxsg@mail.gmail.com>
+ <TY2PR01MB3692FBE296EC373130842219D86E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <CAMuHMdXh1Hh6H35Mp8hBJBykUucRNwxTmW+U9SHM+xhrcwasDA@mail.gmail.com>
+ <CAMuHMdX93Q9WhKLqv_wNPzArbc68NcbVN8jJ9MDKxAcicpBQ5Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdX93Q9WhKLqv_wNPzArbc68NcbVN8jJ9MDKxAcicpBQ5Q@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linux-m68k.org; dkim=none (message not signed)
+ header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6010dfe0-bfc5-413f-4b67-08d81f41a690
+x-ms-traffictypediagnostic: TYAPR01MB2958:
+x-microsoft-antispam-prvs: <TYAPR01MB2958D3FE2B50B2E3DD51B801D86A0@TYAPR01MB2958.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:449;
+x-forefront-prvs: 045315E1EE
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: awnY333zQxw+2p4mwa83lo6MXPcLzbrin7xGT43mTVAgNi2THn43oFkD5nZYeCaCqug6ylhTxRggkv68DODqPVkblwO9N6EpGzRWHZY2Sul/6ukYPmKvDcf1zjGfUsACpH4sQTrSLxNwOiM5t7Y6TAvhsFCxH74uFAPbV2n6XBzlKQLCdrDu0yBm1H3azfqz1xF5b6djJx8nQHUjKbt3kk8ZCuZTcHXeoCvBSl/8QFu8SrG/Xhr3GsEWz6FCEw3uSCsFETXKWrWPHDtLxPeGGWPKfubMGNPRjg274ImXfHlB1Lp2EDvW+UjWHanjzjSY7F+to+fQBVP4BfxdgB4gsirjb7zTmoiQc4uQFVKX4upJPb1Wrrl93eoOjAHGowpM/hJnRnpzGwx2HAPPLV9ZwQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(53546011)(186003)(66556008)(66946007)(966005)(55236004)(316002)(76116006)(6916009)(64756008)(4326008)(33656002)(9686003)(8676002)(66446008)(26005)(66476007)(71200400001)(8936002)(55016002)(478600001)(6506007)(83380400001)(5660300002)(2906002)(54906003)(86362001)(52536014)(7696005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: zbZriIX5bsViXhCPHHNZY38CrjHdomvU66+QK7NCNn5ff7YrYLata8Yznl1LWJfapbPuP1eV66aBlK0zRWH4aMtkHgDcvcN8am8s3Ec/YPerVcPjAfug+1/e3GgI9PnjC3PX+0LoENBTLwv6eEP9Gr8OlYMHvRPdl6GT7i1IBYZmCJ3BspVgyAsak7jemf3IcL62kRFhCnC2d+i32bqPr+tQ4ANB/wmfvw38o4fQVLlX+AzsRUhekk95mhrZRhabrDjefYBA6KQPTQshELaHNAc2XLwC+ZbNXjc9iVpjPVwhYp9H/vmmnI8urzAqKcu0Dtcdboa8cP/44J/njzbDxjskvfHJMdFxjpjY82jUhZae6IwuHqHpjHkO/H0thw7RAinfxDAs8ryuR9G8qrlPXOgPSJHmzgVsdgUGYzjqCsEy/OOoy+L/oklWpcrSGoCWXVnie23tYYD+tGeKsdGMhlM6mWhGdoYc7viIzey8xauT8L+l0WkqbNFUl2JZOWNP
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20200703104354.19657-1-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6010dfe0-bfc5-413f-4b67-08d81f41a690
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2020 11:10:09.8026
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rZA0mO0UiDP3sNSUd0OhtCGgNVIWNcUoWAEtPMlNvFSkhEDnrBf7DoOQb4sLes+EaHOOaOe4MC2Z7F6zjqGmol0MLVFdaUDENzS6MfzynHwRcp1uFaRYHaLZFlnYve+/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2958
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 03/07/2020 12:43, Andrzej Pietrasiewicz wrote:
-> This short series contains fixes for "Stop monitoring disabled devices"
-> series https://www.spinics.net/lists/arm-kernel/msg817861.html
-> 
-> Invocation of thermal_zone_device_is_enabled() in acpi/thermal is now
-> redundant, because thermal_zone_device_update() now is capable of
-> handling disabled devices.
-> 
-> In imx's ->get_temp() the lock must not be taken, otherwise a deadlock
-> happens. The decision whether explicitly running a measurement cycle
-> is needed is taken based on driver's local irq_enabled variable.
-> 
-> Finally, thermal_zone_device_is_enabled() is made available to the
-> core only, as there are no driver users of it.
-> 
-> Andrzej Pietrasiewicz (3):
->   acpi: thermal: Don't call thermal_zone_device_is_enabled()
->   thermal: imx: Use driver's local data to decide whether to run a
->     measurement
->   thermal: Make thermal_zone_device_is_enabled() available to core only
-> 
->  drivers/acpi/thermal.c         | 3 ---
->  drivers/thermal/imx_thermal.c  | 7 ++++---
->  drivers/thermal/thermal_core.c | 1 -
->  drivers/thermal/thermal_core.h | 2 ++
->  include/linux/thermal.h        | 5 -----
->  5 files changed, 6 insertions(+), 12 deletions(-)
-
-Is this series easily merge-able with the other series?
-
-
-
-
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogVHVlc2Rh
+eSwgSnVuZSAzMCwgMjAyMCAxMDoxOSBQTQ0KPiANCj4gSGkgU2hpbW9kYS1zYW4sDQo+IA0KPiBP
+biBNb24sIEp1biAyOSwgMjAyMCBhdCAxOjQ5IFBNIEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRA
+bGludXgtbTY4ay5vcmc+IHdyb3RlOg0KPiA+IE9uIE1vbiwgSnVuIDI5LCAyMDIwIGF0IDEyOjA0
+IFBNIFlvc2hpaGlybyBTaGltb2RhDQo+ID4gPHlvc2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMu
+Y29tPiB3cm90ZToNCj4gPiA+ID4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuLCBTZW50OiBGcmlk
+YXksIEp1bmUgMjYsIDIwMjAgNzoxMyBQTQ0KPiA+ID4gPiBPbiBGcmksIEp1biAyNiwgMjAyMCBh
+dCAxMTozMiBBTSBZb3NoaWhpcm8gU2hpbW9kYQ0KPiA+ID4gPiA8eW9zaGloaXJvLnNoaW1vZGEu
+dWhAcmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4gPiA+IE5vdGUgdGhhdCB2NS44LXJjMiB3aXRo
+IHI4YTc3OTUxLXNhbHZhdG9yLXhzIHNlZW1zIHRvIGNhdXNlIHBhbmljIGZyb20NCj4gPiA+ID4g
+PiBQQ0kgZHJpdmVyIHdoZW4gdGhlIHN5c3RlbSBpcyBzdXNwZW5kZWQuIFNvLCBJIGRpc2FibGVk
+IHRoZSBQQ0kNCj4gPiA+ID4gPiBkZXZpY2VzIHdoZW4gSSB0ZXN0ZWQgdGhpcyBwYXRjaCBzZXJp
+ZXMuDQo+ID4gPiA+DQo+ID4gPiA+IERvZXMgdGhpcyBoYXBwZW4gd2l0aCBjdXJyZW50IHJlbmVz
+YXMtZGV2ZWwgYW5kIHJlbmVzYXNfZGVmY29uZmlnPw0KPiA+ID4gPiAoaXQgZG9lc24ndCBmb3Ig
+bWUpDQo+ID4gPg0KPiA+ID4gWWVzLiBJIGVuYWJsZWQgUE1fREVCVUcgYW5kIEUxMDAwRSB0aG91
+Z2guDQo+ID4gPg0KPiA+ID4gPiBEbyB5b3UgaGF2ZSBhbnkgUENJZSBkZXZpY2VzIGF0dGFjaGVk
+PyAoSSBoYXZlbid0KQ0KPiA+ID4NCj4gPiA+IFllcy4gKEludGVsIEV0aGVybmV0IGNhcmQgaXMg
+Y29ubmVjdGVkIHRvIHRoZSBQQ0kgc2xvdC4pDQo+ID4gPg0KPiA+ID4gPCBteSBlbnZpcm9ubWVu
+dCA+DQo+ID4gPiAtIHI4YTc3OTYxLXNhbHZhdG9yLXhzDQo+ID4gPiAtIHJlbmVzYXMtZGV2ZWwt
+MjAyMC0wNi0yNi12NS44LXJjMg0KPiA+ID4gICsgcmVuZXNhc19kZWZjb25maWcgKyBQTV9ERUJV
+RyArIEUxMDAwRQ0KPiA+ID4gLSBpbml0cmFtZnMNCj4gPg0KPiA+IERvZXNuJ3QgZmFpbCBmb3Ig
+bWUgb24gUi1DYXIgSDMgRVMyLjAsIHNvIGl0IG5lZWRzIHRoZSBwcmVzZW5jZSBvZiBhDQo+ID4g
+UENJZSBjYXJkLiAgVW5mb3J0dW5hdGVseSBJIGhhdmVuJ3QgYW55IChhZGRlZCB0byBzaG9wcGlu
+ZyB3aXNobGlzdCkuDQo+IA0KPiBbLi4uXQ0KPiANCj4gPiBUaGUgZmFpbHVyZSBtb2RlIGxvb2tz
+IGxpa2UgdGhlIFBDSSBjYXJkIGlzIGFjY2Vzc2VkIHdoaWxlIHRoZSBQQ0kgaG9zdA0KPiA+IGJy
+aWRnZSBoYXMgYmVlbiBzdXNwZW5kZWQuDQo+IA0KPiBEb2VzICJbUEFUQ0ggdjFdIGRyaXZlciBj
+b3JlOiBGaXggc3VzcGVuZC9yZXN1bWUgb3JkZXIgaXNzdWUgd2l0aA0KPiBkZWZlcnJlZCBwcm9i
+ZSJbMV0gaGVscD8NCj4gDQo+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjAw
+NjI1MDMyNDMwLjE1MjQ0Ny0xLXNhcmF2YW5ha0Bnb29nbGUuY29tLw0KDQpFdmVuIGlmIEkgYXBw
+bGllZCB0aGlzIHBhdGNoLCB0aGUgaXNzdWUgc3RpbGwgaGFwcGVuZWQgdW5mb3J0dW5hdGVseS4N
+Cg0KDQpCeSB0aGUgd2F5LCBJJ20gZ3Vlc3NpbmcgdGhlIGlzc3VlIGlzIHJlbGF0ZWQgdG8gbXkg
+ZW52aXJvbm1lbnQgd2hpY2ggdXNlcyBCU1AncyBBVEYuDQpBY2NvcmRpbmcgdG8gdGhlIGNvbW1p
+dCBsb2cgb2YgdXBzdHJlYW0gQVRGIFsxXSwgUENJZSBoYXJkd2FyZSBpcyBwb3NzaWJsZSB0byBj
+YXVzZXMgU0Vycm9yLg0KVW5mb3J0dW5hdGVseSwgSSBjYW5ub3QgdHJ5IHRvIHVwZGF0ZSB0aGUg
+ZmlybXdhcmUgZm9yIHNvbWUgcmVhc29ucyBub3cuLi4gSSdsbCBwcmVwYXJlDQp1cGRhdGVkIGZp
+cm13YXJlIHNvbWVob3cuLi4NCg0KWzFdDQpodHRwczovL2dpdGh1Yi5jb20vQVJNLXNvZnR3YXJl
+L2FybS10cnVzdGVkLWZpcm13YXJlL2NvbW1pdC8wOTY5Mzk3ZjI5NTYyMWFhMjZiM2QxNGI3NmRk
+Mzk3ZDIyYmU1OGJmDQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBTaGltb2RhDQoNCj4gR3J7
+b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICBHZWVydA0KPiAN
+Cj4gLS0NCj4gR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlv
+bmQgaWEzMiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVy
+c2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1
+dA0KPiB3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1t
+ZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgLS0gTGludXMgVG9ydmFsZHMNCg==
