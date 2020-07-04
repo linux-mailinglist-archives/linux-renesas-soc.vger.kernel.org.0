@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C38C821470B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2020 17:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8878F214725
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2020 17:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726898AbgGDPsJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 4 Jul 2020 11:48:09 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:38550 "EHLO
+        id S1726669AbgGDP7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Jul 2020 11:59:20 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:28307 "EHLO
         bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726501AbgGDPsJ (ORCPT
+        by vger.kernel.org with ESMTP id S1726638AbgGDP7U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 4 Jul 2020 11:48:09 -0400
-X-Halon-ID: bf20658e-be0d-11ea-933e-005056917a89
+        Sat, 4 Jul 2020 11:59:20 -0400
+X-Halon-ID: 4df20748-be0f-11ea-8fb8-005056917f90
 Authorized-sender: niklas@soderlund.pp.se
 Received: from bismarck.berto.se (p4fca2eca.dip0.t-ipconnect.de [79.202.46.202])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id bf20658e-be0d-11ea-933e-005056917a89;
-        Sat, 04 Jul 2020 17:48:06 +0200 (CEST)
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 4df20748-be0f-11ea-8fb8-005056917f90;
+        Sat, 04 Jul 2020 17:59:18 +0200 (CEST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] ARM: shmobile: defconfig: Resotre support for V4L2 platform devices
-Date:   Sat,  4 Jul 2020 17:47:52 +0200
-Message-Id: <20200704154752.2980029-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] ARM: dts: renesas: Cleanup ADV7180 bindings
+Date:   Sat,  4 Jul 2020 17:58:54 +0200
+Message-Id: <20200704155856.3037010-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -35,29 +35,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since commit [1] the Renesas V4L2 platform devices are no longer enabled
-with the shmobile_defconfig, restore functionality by enabling
-MEDIA_PLATFORM_SUPPORT.
+Hello,
 
-1. b0cd4fb276653f8f ("media: Kconfig: on !EMBEDDED && !EXPERT, enable driver filtering")
+While converting the ADV7180 bindings to YAML and running the checker on 
+the Renesas DTS files some issues where found. I guess all this 
+conversion of bindings can pay off :-)
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- arch/arm/configs/shmobile_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Niklas Söderlund (2):
+  ARM: dts: gose: Fix ports node name for adv7180
+  ARM: dts: renesas: Remove unused remote property from adv7180 nodes
 
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index 9cf3143025e1eea4..c14612fc06767621 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -112,6 +112,7 @@ CONFIG_MEDIA_SUPPORT=y
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_MEDIA_CONTROLLER=y
- CONFIG_VIDEO_V4L2_SUBDEV_API=y
-+CONFIG_MEDIA_PLATFORM_SUPPORT=y
- CONFIG_V4L_PLATFORM_DRIVERS=y
- CONFIG_VIDEO_RCAR_VIN=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
+ arch/arm/boot/dts/r8a7790-lager.dts   | 1 -
+ arch/arm/boot/dts/r8a7791-koelsch.dts | 1 -
+ arch/arm/boot/dts/r8a7791-porter.dts  | 1 -
+ arch/arm/boot/dts/r8a7793-gose.dts    | 3 +--
+ arch/arm/boot/dts/r8a7794-alt.dts     | 1 -
+ arch/arm/boot/dts/r8a7794-silk.dts    | 1 -
+ 6 files changed, 1 insertion(+), 7 deletions(-)
+
 -- 
 2.27.0
 
