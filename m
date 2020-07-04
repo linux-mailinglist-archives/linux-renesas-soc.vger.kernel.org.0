@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1665521423D
+	by mail.lfdr.de (Postfix) with ESMTP id 83D5E21423E
 	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2020 02:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726573AbgGDAI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1726631AbgGDAI5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 3 Jul 2020 20:08:57 -0400
-Received: from mga12.intel.com ([192.55.52.136]:36958 "EHLO mga12.intel.com"
+Received: from mga11.intel.com ([192.55.52.93]:27208 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726631AbgGDAI4 (ORCPT
+        id S1726795AbgGDAI5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jul 2020 20:08:56 -0400
-IronPort-SDR: pI4bvj2k7ljpv9DqDNP22i8ZKagESeQmjuKUSgWeVZR/hsEhgqlz3y9Q8jsIugTgVKiN1scvTa
- DS8SmkjWgxfw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="126817789"
+        Fri, 3 Jul 2020 20:08:57 -0400
+IronPort-SDR: 5xUG3Ua8RywUIKWcoFJcGOnnJV9cqwMO9joXArFKmN8yYtP+oknQ7Z3MLtcEDbgZheabUDXQqr
+ EPpVqMhJG5ag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9671"; a="145340019"
 X-IronPort-AV: E=Sophos;i="5.75,309,1589266800"; 
-   d="scan'208";a="126817789"
+   d="scan'208";a="145340019"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 17:08:56 -0700
-IronPort-SDR: UTySDWtqmwLVTHqGuO1D+HgU4rk2ClBvDMzwNTVpLe7Z8G6pvrEINEI7Oi0V+SKDQ5TMaMA/fJ
- LeA8b2/Onwgw==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2020 17:08:56 -0700
+IronPort-SDR: mNxM04YlLQoMTuc65OMbktMEAzhIT+q8kVxtvbIOY/eZvWf6Ph5JDc4DalFTgMDvRm0WZl7+sK
+ AJYI1gO1mCTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,309,1589266800"; 
-   d="scan'208";a="313422819"
+   d="scan'208";a="426408631"
 Received: from lkp-server01.sh.intel.com (HELO 6dc8ab148a5d) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 03 Jul 2020 17:08:54 -0700
+  by orsmga004.jf.intel.com with ESMTP; 03 Jul 2020 17:08:55 -0700
 Received: from kbuild by 6dc8ab148a5d with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jrVji-0000Si-6w; Sat, 04 Jul 2020 00:08:54 +0000
-Date:   Sat, 04 Jul 2020 08:08:04 +0800
+        id 1jrVji-0000So-JU; Sat, 04 Jul 2020 00:08:54 +0000
+Date:   Sat, 04 Jul 2020 08:08:14 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- a98d016e408ad2c329e16a60ec10c9d40e0252fb
-Message-ID: <5effc864.QD2/u2aoY1qD8Ojn%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-defconfig-for-v5.9] BUILD SUCCESS
+ 1d21a0a32f93e24711b13af493ac5fe728a7be1f
+Message-ID: <5effc86e.ioNcVrAUanZKeQsl%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,12 +47,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: a98d016e408ad2c329e16a60ec10c9d40e0252fb  Merge branch 'renesas-arm-defconfig-for-v5.9' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-defconfig-for-v5.9
+branch HEAD: 1d21a0a32f93e24711b13af493ac5fe728a7be1f  arm64: defconfig: Enable additional support for Renesas platforms
 
 elapsed time: 724m
 
-configs tested: 83
+configs tested: 66
 configs skipped: 96
 
 The following configs have been built successfully.
@@ -78,12 +78,6 @@ m68k                              allnoconfig
 m68k                           sun3_defconfig
 m68k                                defconfig
 m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
 nds32                               defconfig
 nds32                             allnoconfig
 csky                             allyesconfig
@@ -110,12 +104,6 @@ powerpc                          allyesconfig
 powerpc                          rhel-kconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
-x86_64               randconfig-a012-20200701
-x86_64               randconfig-a016-20200701
-x86_64               randconfig-a014-20200701
-x86_64               randconfig-a011-20200701
-x86_64               randconfig-a015-20200701
-x86_64               randconfig-a013-20200701
 i386                 randconfig-a011-20200701
 i386                 randconfig-a015-20200701
 i386                 randconfig-a014-20200701
@@ -132,11 +120,6 @@ s390                             allmodconfig
 s390                                defconfig
 um                                allnoconfig
 um                                  defconfig
-um                               allmodconfig
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
 x86_64                                   rhel
 x86_64                         rhel-7.2-clear
 x86_64                                    lkp
