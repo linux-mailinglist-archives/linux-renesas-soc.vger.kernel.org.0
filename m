@@ -2,74 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABDA21444B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2020 08:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D48AE21462B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jul 2020 15:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgGDGR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 4 Jul 2020 02:17:27 -0400
-Received: from www.zeus03.de ([194.117.254.33]:56834 "EHLO mail.zeus03.de"
+        id S1727844AbgGDNit (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Jul 2020 09:38:49 -0400
+Received: from www.zeus03.de ([194.117.254.33]:56392 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725822AbgGDGR1 (ORCPT
+        id S1727083AbgGDNit (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 4 Jul 2020 02:17:27 -0400
+        Sat, 4 Jul 2020 09:38:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=it7tgk3eC7mBPk1II/6tf4Z7/Dwg
-        MoVcTCt/5sMq5Ew=; b=Cxe/CLQCjNknARJkryp36AojnovLUTlwK4MgfZIOhAQg
-        4CWuUNbjG2JrILm6E75gg9429n7qz+Y4dq1j5kDHrtI77/dS9oMBkjT/UHEW/X3L
-        g/YdRNLADZ+jhkC5xlhtRZZxy4Nl9ntHTMPHqEhUB7P+BVCykZ7aLQArUBNwMm0=
-Received: (qmail 1448005 invoked from network); 4 Jul 2020 08:17:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jul 2020 08:17:25 +0200
-X-UD-Smtp-Session: l3s3148p1@2XJomJep0KcgAwDPXx1yAKkmpyXOLnhi
-Date:   Sat, 4 Jul 2020 08:17:25 +0200
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=fEQv6Q07DavjIOOrdC81loITw77
+        GxzEYU7AfCmKB2MU=; b=YDircEVxifTCxZpk6ANQv2xwxClmMtMPPhV+nwldzpO
+        RldSs2PVTc6YFvO/XrwNKyh1XleawWUAoG2PhH/NPhwwVYTWzGm23+8fcnzzSEls
+        8uG0QD9uTy4GpjuDq2vzcW0SwyZvZi2X6K6B9YyBxrz4AzCwN27kyyxuonv9z8nE
+        =
+Received: (qmail 1545784 invoked from network); 4 Jul 2020 15:38:46 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Jul 2020 15:38:46 +0200
+X-UD-Smtp-Session: l3s3148p1@kRPPwp2pto8gAwDPXx1yANRj5lEGkcGq
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: add Kconfig help text for slave mode
-Message-ID: <20200704061725.GE1041@kunai>
-References: <20200628185522.5902-1-wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: rcar: always clear ICSAR to avoid side effects
+Date:   Sat,  4 Jul 2020 15:38:29 +0200
+Message-Id: <20200704133829.7015-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="sfyO1m2EN8ZOtJL6"
-Content-Disposition: inline
-In-Reply-To: <20200628185522.5902-1-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On R-Car Gen2, we get a timeout when reading from the address set in
+ICSAR, even though the slave interface is disabled. Clearing it fixes
+this situation. Note that Gen3 is not affected.
 
---sfyO1m2EN8ZOtJL6
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+To reproduce: bind and undbind an I2C slave on some bus, run
+'i2cdetect' on that bus.
 
-On Sun, Jun 28, 2020 at 08:55:22PM +0200, Wolfram Sang wrote:
-> I can't recall why there was none, but we surely want to have it.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/busses/i2c-rcar.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Applied to for-current, thanks!
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 5b70047c6589..2c7c4afc15d4 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -874,6 +874,7 @@ static int rcar_unreg_slave(struct i2c_client *slave)
+ 	/* disable irqs and ensure none is running before clearing ptr */
+ 	rcar_i2c_write(priv, ICSIER, 0);
+ 	rcar_i2c_write(priv, ICSCR, 0);
++	rcar_i2c_write(priv, ICSAR, 0); /* Gen2: must be 0 if not using slave */
+ 
+ 	synchronize_irq(priv->irq);
+ 	priv->slave = NULL;
+@@ -982,6 +983,8 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto out_pm_put;
+ 
++	rcar_i2c_write(priv, ICSAR, 0); /* Gen2: must be 0 if not using slave */
++
+ 	if (priv->devtype == I2C_RCAR_GEN3) {
+ 		priv->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+ 		if (!IS_ERR(priv->rstc)) {
+-- 
+2.20.1
 
-
---sfyO1m2EN8ZOtJL6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8AHvUACgkQFA3kzBSg
-KbYx6BAAh/PiVUODzRD3P6rmh8z1uGUfykSS35OF9XcCX4u2gyHkGB1eIh3wFPvJ
-yCh4q4KjMlnplUZ7npk+l3U3SMG9av3/qjPMpEmxsOmojRzw0SQnH7hpQa+oZW0w
-zXjyYOZ8AxA8lstLagOlwQEhzSQ3lSU5aBpiqv5qyacHoHF7DgOtocK3aR4S5NBY
-9wxYSPbMD2SkMcknEYFUfStD2fzHzlh4zLzVXe/benMYQ+VXTX9JuY/0nA4G85fa
-AOy/AWy5nuq+wx1kTUUszYwznnwx+8yEybiY/W1rUUPWBDKZxzK8OSCVe1Cg2xwJ
-ULS+2Hp/FAjxN8aK+XIjlF7XP2O3MEjJGhzCobmPbhUl6DZb7FN5ijXhLZ6yt6/K
-8lxLhbxfXKtP5hDmUPWLa3wWPQmt40pK0lS+MVEMNcm9xGEwhkETx42wTMyLJP0X
-boVvkOpH8zC2EpjTibj3dDVW9fQH8Yh7OINW9CtQfdUYU3XhQFvsPx/zMs/XFK/1
-pmE3webaqrh+ROiMfcOax8XUm/PIi39xA4b3EUEDrTcug9GzPQQxWrimEsIMH00d
-JLLDioKHJ59R1OmrdMH4TjWuFEmqhEGHHMgqDvXfCHExCad21khKDIvIGP4jStea
-wr5KFsSsLBhbQAVHtEIbxk31TlgG1ZXEeBoNiJblOaOPb3NZXzI=
-=sBXw
------END PGP SIGNATURE-----
-
---sfyO1m2EN8ZOtJL6--
