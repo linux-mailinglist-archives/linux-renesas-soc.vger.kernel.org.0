@@ -2,86 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A48762158F8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 16:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 501C421599C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 16:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbgGFOAL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jul 2020 10:00:11 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49666 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728961AbgGFOAL (ORCPT
+        id S1729418AbgGFOfo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jul 2020 10:35:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729404AbgGFOfn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jul 2020 10:00:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=F8sgZ83kOxVB0Cfmp14WdTt3DZ1I
-        s0B4KV0bxn64gps=; b=B3Fw72KkTbNaqMej50LS7FJtAqvpfnJlzFO+jhJRbdrp
-        a8TzvItCildyW/B5GSg3d1EtefdkP6X/IEevIWYTtNAhg2t67g3j8xfi9hWo+Utj
-        Phk6Mn5VIIIXu9snJKUoAw6NkNd/kl0JOdaf/vI2nVYmzQ2J3zosSR2ULb3FSmU=
-Received: (qmail 2117203 invoked from network); 6 Jul 2020 16:00:09 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2020 16:00:09 +0200
-X-UD-Smtp-Session: l3s3148p1@l3TuSsapFoggAwDPXwSPAD3C42NrtmEM
-Date:   Mon, 6 Jul 2020 16:00:08 +0200
-From:   "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] mmc: tmio and renesas_sdhi_internal_dmac: fix dma
- unmapping
-Message-ID: <20200706140008.GD1046@ninjato>
-References: <1590044466-28372-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <20200602125131.GA1318@ninjato>
- <TY2PR01MB36926A830866FEA2C49735E0D8890@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAPDyKFpzZG-LFbCDZYZx7J9sH536dcyHvoatCD4F-AvzM1kaZw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="u65IjBhB3TIa72Vp"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpzZG-LFbCDZYZx7J9sH536dcyHvoatCD4F-AvzM1kaZw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Mon, 6 Jul 2020 10:35:43 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E308C08C5F7
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2020 07:35:42 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:e012:1552:6e81:c371])
+        by baptiste.telenet-ops.be with bizsmtp
+        id zqbX2200L0tDR5Q01qbXHT; Mon, 06 Jul 2020 16:35:41 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jsSDT-0004kK-9w; Mon, 06 Jul 2020 16:35:31 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jsSDT-0004mB-6R; Mon, 06 Jul 2020 16:35:31 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/7] ravb: Add support for explicit internal clock delay configuration
+Date:   Mon,  6 Jul 2020 16:35:22 +0200
+Message-Id: <20200706143529.18306-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi all,
 
---u65IjBhB3TIa72Vp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some Renesas EtherAVB variants support internal clock delay
+configuration, which can add larger delays than the delays that are
+typically supported by the PHY (using an "rgmii-*id" PHY mode, and/or
+"[rt]xc-skew-ps" properties).
 
+Historically, the EtherAVB driver configured these delays based on the
+"rgmii-*id" PHY mode.  This caused issues with PHY drivers that
+implement PHY internal delays properly[1].  Hence a backwards-compatible
+workaround was added by masking the PHY mode[2].
 
-> Just wanted to check if this is ready to go or more tests are needed?
+This patch series implements the next step of the plan outlined in [3],
+and adds proper support for explicit configuration of the MAC internal
+clock delays using new "[rt]x-internal-delay-ps" properties.  If none of
+these properties is present, the driver falls back to the old handling.
 
-=46rom my tests, this patch series fixes the issue. I'd just like to avoid
-the extra callback. However, my tries to do that failed so far. And now
-I'll be away for two weeks.
+This can be considered the MAC counterpart of commit 9150069bf5fc0e86
+("dt-bindings: net: Add tx and rx internal delays"), which applies to
+the PHY.  Note that unlike commit 92252eec913b2dd5 ("net: phy: Add a
+helper to return the index for of the internal delay"), no helpers are
+provided to parse the DT properties, as so far there is a single user
+only, which supports only zero or a single fixed value.  Of course such
+helpers can be added later, when the need arises, or when deemed useful
+otherwise.
 
-Dunno, maybe we merge the series and if I come up with something else
-that works, we can add it incrementally?
+This series consists of 4 parts:
+  1. DT binding updates documenting the new properties, for both the
+     generic ethernet-controller and the EtherAVB-specific bindings.
+     => intended to be merged through net-next.
+  2. EtherAVB driver update implementing support for the new properties.
+     => intended to be merged through net-next.
+  3. DT updates, one for R-Car Gen3 and RZ/G2 SoC families each.
+     => intended to be merged through renesas-devel and arm-soc, but
+	only _after_ 2. has hit upstream.
+  4. Conversion to json-schema of the Renesas EtherAVB DT bindings.
+     Technically, the conversion is independent of all of the above.
+     I included it in this series, as it shows how all sanity checks on
+     "[rt]x-internal-delay-ps" values are implemented as DT binding
+     checks.
+     => intended to be merged through net-next, or devicetree (ignoring
+        any conflict due to 1.).
 
+Changes compared to v1[4] (more detail in the individual patch
+descriptions):
+  - Added "[PATCH 1/7] dt-bindings: net: ethernet-controller: Add
+    internal delay properties",
+  - Replace "renesas,[rt]xc-delay-ps" by "[rt]x-internal-delay-ps",
+  - Incorporated EtherAVB DT binding conversion to json-schema.
+  - Add Reviewed-by,
 
---u65IjBhB3TIa72Vp
-Content-Type: application/pgp-signature; name="signature.asc"
+Impacted, tested:
+  - Salvator-X(S) with R-Car H3 ES1.0 and ES2.0, M3-W, and M3-N.
 
------BEGIN PGP SIGNATURE-----
+Not impacted, tested:
+  - Ebisu with R-Car E3.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8DLmQACgkQFA3kzBSg
-Kbbr4g//Su+yBQs/aWjB5AgZDz17kiqtJYGlnvgwt1U8mUO+dRemvEWV+DW7U0Hh
-krQpNmPxfyVJc6vynvWOl/rOc4BIiPo2sgHAJz+jH9FUypCPisJywMHLlNyx2qb7
-nZe/dQwDAYrhh3c6dn8iBJpBDNHGp++5VsCgTaQ4tuZEuwV+JHk1b9Ws1agklj58
-0Ru7gIq0zNnJX1mnz5uLy3tdYcdH6AtsjZFWiO70uRS2fohCguZp8vAi8VTiTBfN
-RLR6BKvSjt1ms7rstqcWwJAo9ElEsTwfEq01OSebckLfq/KDU/DmQtGqSZhehA3u
-MvQIE7Sw4reG2B9ubfKRutjpz0/VRQAeZvk+boRKZaWocUhcIpDUmEsr0VjdPPuO
-3HxqpgDBT55LBz5l2pGFH3aDCMlM30CzXMrN1nOUruIWTbkk01spO+CruSmwszEF
-M1Q4ua0emyLyvTXwN+1W4rEx0DH71uA8n65ZoH1M46df05GCVglMjJxY8oD2yMLA
-5O4u+zdIl85tJnvlq6pVC2cHe/jPc74groKjYL1+IJy3OsbTpE3VreKEsTVEOgwk
-ktosueyozMd0teZgW6K4w7ELMUdfjcSy9IZRrLOW9UaCSrzUS4OKQqEa6PiJYPFr
-el67alb1/mM/K/PYIHSr6Z8z6hrFhvK2oyE5swQXDFU5FmHrt9k=
-=madU
------END PGP SIGNATURE-----
+Impacted, not tested:
+  - Salvator-X(S) with other SoC variants,
+  - ULCB with R-Car H3/M3-W/M3-N variants,
+  - V3MSK and Eagle with R-Car V3M,
+  - Draak with R-Car V3H,
+  - HiHope RZ/G2[MN] with RZ/G2M or RZ/G2N.
 
---u65IjBhB3TIa72Vp--
+To ease testing, I have pushed this series to the
+topic/ravb-internal-clock-delays-v2 branch of my renesas-drivers
+repository at
+git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+
+Thanks for your comments!
+
+References:
+  [1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support
+      for the KSZ9031 PHY")
+  [2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
+      delays twice").
+      https://lore.kernel.org/r/20200529122540.31368-1-geert+renesas@glider.be/
+  [3] https://lore.kernel.org/r/CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com/
+  [4] https://lore.kernel.org/linux-devicetree/20200619191554.24942-1-geert+renesas@glider.be/
+
+Geert Uytterhoeven (7):
+  dt-bindings: net: ethernet-controller: Add internal delay properties
+  dt-bindings: net: renesas,ravb: Document internal clock delay
+    properties
+  ravb: Split delay handling in parsing and applying
+  ravb: Add support for explicit internal clock delay configuration
+  arm64: dts: renesas: rcar-gen3: Convert EtherAVB to explicit delay
+    handling
+  arm64: dts: renesas: rzg2: Convert EtherAVB to explicit delay handling
+  dt-bindings: net: renesas,etheravb: Convert to json-schema
+
+ .../bindings/net/ethernet-controller.yaml     |  14 +
+ .../bindings/net/renesas,etheravb.yaml        | 261 ++++++++++++++++++
+ .../devicetree/bindings/net/renesas,ravb.txt  | 134 ---------
+ .../boot/dts/renesas/hihope-rzg2-ex.dtsi      |   2 +-
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi     |   1 +
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |   2 +
+ .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   3 +-
+ .../arm64/boot/dts/renesas/r8a77970-v3msk.dts |   3 +-
+ arch/arm64/boot/dts/renesas/r8a77970.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |   1 +
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |   1 +
+ .../boot/dts/renesas/salvator-common.dtsi     |   2 +-
+ arch/arm64/boot/dts/renesas/ulcb.dtsi         |   2 +-
+ drivers/net/ethernet/renesas/ravb.h           |   5 +-
+ drivers/net/ethernet/renesas/ravb_main.c      |  53 +++-
+ 21 files changed, 346 insertions(+), 152 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/renesas,ravb.txt
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
