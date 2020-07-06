@@ -2,98 +2,270 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1CD215A04
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 16:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3DC215A32
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 17:02:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729250AbgGFOv2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jul 2020 10:51:28 -0400
-Received: from www.zeus03.de ([194.117.254.33]:55658 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729229AbgGFOv1 (ORCPT
+        id S1729231AbgGFPCS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jul 2020 11:02:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729224AbgGFPCS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jul 2020 10:51:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=61hoY3qnEMwuZ3wvs/Cbls6eGHK3
-        TP78kJ9iA1FUg/Q=; b=gv2mo5ZibbBD3XZBuUKPJsD8WU3O4o63LjBVgh0U2l/0
-        Nf8FT5vlUvybCusl81mMkC0b7s60WmTzCUerF0snXc8219Qzlq3pTCsSSjoIa+lE
-        5euOZ43/I2vTTCAb0A7J8icuZUnptF5vRT074I2NrjAoudVk+R+2UaXTD+xJ6/o=
-Received: (qmail 2131813 invoked from network); 6 Jul 2020 16:51:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2020 16:51:25 +0200
-X-UD-Smtp-Session: l3s3148p1@46xMAsepyoggAwDPXwSPAD3C42NrtmEM
-Date:   Mon, 6 Jul 2020 16:51:25 +0200
-From:   "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/3] mmc: tmio and renesas_sdhi_internal_dmac: fix dma
- unmapping
-Message-ID: <20200706145125.GG1046@ninjato>
-References: <1590044466-28372-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <20200602125131.GA1318@ninjato>
- <TY2PR01MB36926A830866FEA2C49735E0D8890@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAPDyKFpzZG-LFbCDZYZx7J9sH536dcyHvoatCD4F-AvzM1kaZw@mail.gmail.com>
- <20200706140008.GD1046@ninjato>
- <CAPDyKFoUdJLc+CzXNjQa7Er1oYmC-bqNszhPYya9ov=-THcfEQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gm5TwAJMO0F2iVRz"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFoUdJLc+CzXNjQa7Er1oYmC-bqNszhPYya9ov=-THcfEQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Mon, 6 Jul 2020 11:02:18 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3705DC061755
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2020 08:02:18 -0700 (PDT)
+Received: from ramsan ([IPv6:2a02:1810:ac12:ed20:e012:1552:6e81:c371])
+        by albert.telenet-ops.be with bizsmtp
+        id zr282200B0tDR5Q06r286F; Mon, 06 Jul 2020 17:02:16 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jsSdE-0005L5-BI; Mon, 06 Jul 2020 17:02:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jsSdE-0005kT-7b; Mon, 06 Jul 2020 17:02:08 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lukasz Stelmach <l.stelmach@samsung.com>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
+Date:   Mon,  6 Jul 2020 17:02:05 +0200
+Message-Id: <20200706150205.22053-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Currently, the start address of physical memory is obtained by masking
+the program counter with a fixed mask of 0xf8000000.  This mask value
+was chosen as a balance between the requirements of different platforms.
+However, this does require that the start address of physical memory is
+a multiple of 128 MiB, precluding booting Linux on platforms where this
+requirement is not fulfilled.
 
---gm5TwAJMO0F2iVRz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix this limitation by obtaining the start address from the DTB instead,
+if available (either explicitly passed, or appended to the kernel).
+Fall back to the traditional method when needed.
 
-On Mon, Jul 06, 2020 at 04:49:20PM +0200, Ulf Hansson wrote:
-> On Mon, 6 Jul 2020 at 16:00, wsa+renesas@sang-engineering.com
-> <wsa+renesas@sang-engineering.com> wrote:
-> >
-> >
-> > > Just wanted to check if this is ready to go or more tests are needed?
-> >
-> > From my tests, this patch series fixes the issue. I'd just like to avoid
-> > the extra callback. However, my tries to do that failed so far. And now
-> > I'll be away for two weeks.
-> >
-> > Dunno, maybe we merge the series and if I come up with something else
-> > that works, we can add it incrementally?
->=20
-> Sounds reasonable to me.
->=20
-> So, applied for next, thanks!
+This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+i.e. not at a multiple of 128 MiB.
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Cc: Lukasz Stelmach <l.stelmach@samsung.com>
+---
+Marked as RFC, because:
+  1. This is known to break crashkernel support, as the memory used by
+     the crashkernel is not marked reserved in DT (yet),
+  2. Russell won't apply this for v5.9 anyway,
 
+v7:
+  - Rebase on top of commits 161e04a5bae58a65 ("ARM: decompressor: split
+    off _edata and stack base into separate object") and
+    c7c06b8843c0aa65 ("kbuild: remove cc-option test of
+    -fno-stack-protector") in next-20200706.
 
---gm5TwAJMO0F2iVRz
-Content-Type: application/pgp-signature; name="signature.asc"
+v6:
+  - Rebase on top of commit 7ae4a78daacf240a ("ARM: 8969/1:
+    decompressor: simplify libfdt builds"),
+  - Include <linux/libfdt.h> instead of <libfdt.h>,
 
------BEGIN PGP SIGNATURE-----
+v5:
+  - Add Tested-by, Reviewed-by,
+  - Round up start of memory to satisfy 16 MiB alignment rule,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8DOm0ACgkQFA3kzBSg
-KbaCshAAhz/pIZbGpU4hIfe9xTdaTDtCzRr14phma5+/sSioudWi4WFCOOR01cqX
-JmHSs8UEKq9NV7CyIAEMzhXp+uYQ4kvHqVaN8zLiTBdXtqOqchJB8P8Ja+EALxRd
-A3wVz8rYs9alYHy8qvFi7BiA6KaoJ7TQ5W2tU0PsSQfY3yG8HaUkEXTUVL8fGN2g
-Hre6Ofw4WxkASE+dxtxsvPbZAprZb1guXHd/La9BXlsS4v49ILwYUQh/GT3XigUj
-h4Q68LyJ6kszLPOv+u4x+vF7b6qqK2nRZYyVtB/tC+hERjP7qJxq1BeMkrj7IhPI
-f6uRJ5bEOuT0ZUck1JAwnW5OFZRgv4MKsZFf88zx+olnfrvVWFQ61/RWlE2yzXjS
-5elhl5NKZiR0a10e8m3ayMViBq1iKHTT/pGH5/aRr5ci00Nd+Wn4QelFH0UQSNUM
-s0Q8M27R0Bqmv4X+AbeRc7I58jVpUrJfkzP/3tQcFmeATBC5fm6NMflIbGShZ1pt
-3DUEq3Nh3gQ0B9yNdLJjcDeu9j+y6Bh9/dzrdlRFjcN6ji0n8wT8FpnGSpZxphsY
-3pb6Vjw2qUueMCdv09PceK2j+2kucnFm5ebesbRqnhRoXEqeGWCzhOy5MYH4gDw1
-R9LukeCFBKxTvOu7LwO/Z4cUYWaqUnynu3NqkIl3vuUSn8GTuCY=
-=dFY2
------END PGP SIGNATURE-----
+v4:
+  - Fix stack location after commit 184bf653a7a452c1 ("ARM:
+    decompressor: factor out routine to obtain the inflated image
+    size"),
 
---gm5TwAJMO0F2iVRz--
+v3:
+  - Add Reviewed-by,
+  - Fix ATAGs with appended DTB,
+  - Add Tested-by,
+
+v2:
+  - Use "cmp r0, #-1", instead of "cmn r0, #1",
+  - Add missing stack setup,
+  - Support appended DTB.
+---
+ arch/arm/boot/compressed/Makefile            |  5 +-
+ arch/arm/boot/compressed/fdt_get_mem_start.c | 56 ++++++++++++++++++++
+ arch/arm/boot/compressed/head.S              | 52 +++++++++++++++++-
+ 3 files changed, 111 insertions(+), 2 deletions(-)
+ create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
+
+diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+index b1147b7f2c8d372e..b1c09faf276e9193 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -81,10 +81,13 @@ libfdt_objs := fdt_rw.o fdt_ro.o fdt_wip.o fdt.o
+ ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
+ OBJS	+= $(libfdt_objs) atags_to_fdt.o
+ endif
++ifeq ($(CONFIG_USE_OF),y)
++OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
++endif
+ 
+ # -fstack-protector-strong triggers protection checks in this code,
+ # but it is being used too early to link to meaningful stack_chk logic.
+-$(foreach o, $(libfdt_objs) atags_to_fdt.o, \
++$(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o, \
+ 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt -fno-stack-protector))
+ 
+ # These were previously generated C files. When you are building the kernel
+diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
+new file mode 100644
+index 0000000000000000..ae71fde731b869d7
+--- /dev/null
++++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
+@@ -0,0 +1,56 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/kernel.h>
++#include <linux/libfdt.h>
++#include <linux/sizes.h>
++
++static const void *getprop(const void *fdt, const char *node_path,
++			   const char *property)
++{
++	int offset = fdt_path_offset(fdt, node_path);
++
++	if (offset == -FDT_ERR_NOTFOUND)
++		return NULL;
++
++	return fdt_getprop(fdt, offset, property, NULL);
++}
++
++static uint32_t get_addr_size(const void *fdt)
++{
++	const __be32 *addr_len = getprop(fdt, "/", "#address-cells");
++
++	if (!addr_len) {
++		/* default */
++		return 1;
++	}
++
++	return fdt32_to_cpu(*addr_len);
++}
++
++/*
++ * Get the start of physical memory
++ */
++
++unsigned long fdt_get_mem_start(const void *fdt)
++{
++	uint32_t addr_size, mem_start;
++	const __be32 *memory;
++
++	if (!fdt)
++		return -1;
++
++	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
++		return -1;
++
++	/* Find the first memory node */
++	memory = getprop(fdt, "/memory", "reg");
++	if (!memory)
++		return -1;
++
++	/* There may be multiple cells on LPAE platforms */
++	addr_size = get_addr_size(fdt);
++
++	mem_start = fdt32_to_cpu(memory[addr_size - 1]);
++	/* Must be a multiple of 16 MiB for phys/virt patching */
++	return round_up(mem_start, SZ_16M);
++}
+diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+index 434a16982e344fe4..802621756ac0480b 100644
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -254,8 +254,56 @@ not_angel:
+ 		.text
+ 
+ #ifdef CONFIG_AUTO_ZRELADDR
++#ifdef CONFIG_USE_OF
+ 		/*
+-		 * Find the start of physical memory.  As we are executing
++		 * Find the start of physical memory.
++		 * Try the DTB first, if available.
++		 */
++		adr	r0, LC1
++		ldr	sp, [r0]	@ get stack location
++		add	sp, sp, r0	@ apply relocation
++
++#ifdef CONFIG_ARM_APPENDED_DTB
++		/*
++		 * Look for an appended DTB. If found, use it and
++		 * move stack away from it.
++		 */
++		ldr	r6, [r0, #4]	@ get &_edata
++		add	r6, r6, r0	@ relocate it
++		ldmia	r6, {r0, r5}	@ get DTB signature and size
++#ifndef __ARMEB__
++		ldr	r1, =0xedfe0dd0	@ sig is 0xd00dfeed big endian
++		/* convert DTB size to little endian */
++		eor	r2, r5, r5, ror #16
++		bic	r2, r2, #0x00ff0000
++		mov	r5, r5, ror #8
++		eor	r5, r5, r2, lsr #8
++#else
++		ldr	r1, =0xd00dfeed
++#endif
++		cmp	r0, r1		@ do we have a DTB there?
++		bne	1f
++
++		/* preserve 64-bit alignment */
++		add	r5, r5, #7
++		bic	r5, r5, #7
++		add	sp, sp, r5	@ if so, move stack above DTB
++		mov	r0, r6		@ and extract memory start from DTB
++		b	2f
++
++1:
++#endif /* CONFIG_ARM_APPENDED_DTB */
++
++		mov	r0, r8
++2:
++		bl	fdt_get_mem_start
++		mov	r4, r0
++		cmp	r0, #-1
++		bne	1f
++#endif /* CONFIG_USE_OF */
++
++		/*
++		 * Fall back to the traditional method.  As we are executing
+ 		 * without the MMU on, we are in the physical address space.
+ 		 * We just need to get rid of any offset by aligning the
+ 		 * address.
+@@ -273,6 +321,8 @@ not_angel:
+ 		 */
+ 		mov	r4, pc
+ 		and	r4, r4, #0xf8000000
++
++1:
+ 		/* Determine final kernel image address. */
+ 		add	r4, r4, #TEXT_OFFSET
+ #else
+-- 
+2.17.1
+
