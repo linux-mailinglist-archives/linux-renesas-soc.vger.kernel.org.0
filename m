@@ -2,85 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06A2D2159F9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 16:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76E7215A02
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 16:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729253AbgGFOuC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jul 2020 10:50:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729454AbgGFOuA (ORCPT
+        id S1729285AbgGFOvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jul 2020 10:51:00 -0400
+Received: from www.zeus03.de ([194.117.254.33]:55238 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729263AbgGFOvA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jul 2020 10:50:00 -0400
-Received: from mail-vk1-xa36.google.com (mail-vk1-xa36.google.com [IPv6:2607:f8b0:4864:20::a36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46D68C08C5DF
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Jul 2020 07:50:00 -0700 (PDT)
-Received: by mail-vk1-xa36.google.com with SMTP id h190so8635141vkh.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2020 07:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cS0UGykJG5S9ONR4xGpHa+s4l1jjOkyocdkJ+48d1fo=;
-        b=U2gB/rlPLjqZKu46T/JhoNrdkri9PVo5hFShbezqsEs8dApjiFvZbZT/DBmX6pnABx
-         9sWR3YMMULHm0opDG/kF71HQC6JVOMicIKDyLRYH/c4wIphxDS/8dyj7jes+0VMnrFAN
-         wzZ4ewTQxKn4YCooAaq/KGbSrLHk6E6uUGl29caFi4VA+2hBYXDnja0H6SRhmCS934Z/
-         /xJtzLygIGIwaI/mQxrMvnSt/rQN/TZCkDN8xA2xhRrZmUacgK2TNXcUrIzn+AXH0oV2
-         +3qvN89dlA5vd5B5UpRWsiEKn4iV8BonLViU7WfnZWJICLKW+8W92OpIlG6NwdZ6H70A
-         a49A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cS0UGykJG5S9ONR4xGpHa+s4l1jjOkyocdkJ+48d1fo=;
-        b=ildm6N8puemiY406jxf7VtsQ3tmCPpeF1lr8p1K4lHOFGd82ZPBvy7TjTeUWnR1XQa
-         0NE6A5hr794GdfdIiY4ZKPIRg16quBhQUVOpM3NZxXmOh+ugBzwXpV528v6BMsZ4rSIw
-         l8zEJHbbxajWMY8zfeFUwOzure418k1AAIw2A+f6CoUOEhazk64wotOS+Y0qPwES2hgj
-         9TWFFmddtGEiKNe8ABAQTQczZPHakA8ktERw1a9vK4qFJsAPWfhoUqvre12gN8+aakBH
-         /Voc7sBGJui2pK4f+Hw0HNXiHZeG+pXWwXCS1C0iFbEKtXrMv7fNteXM7dv+G91tzESV
-         N+qA==
-X-Gm-Message-State: AOAM532jkgSYLqP7XXHfP8vp+vaShofj+UvKnWRi7PZRN+5zvkqWGDO6
-        V19GWCTHQh+YJ+s2Zl2DNP1459Hpm/XgynFUh7YjDQ==
-X-Google-Smtp-Source: ABdhPJw5LCXlg5p88FMT/PnsnfIwwxz8F/zH0kuw+9vugiDGmpY2/NpMAybQbLXmtjilNX9lay0+cTNjxUNqttyO4zk=
-X-Received: by 2002:a1f:1889:: with SMTP id 131mr26203707vky.59.1594046999513;
- Mon, 06 Jul 2020 07:49:59 -0700 (PDT)
+        Mon, 6 Jul 2020 10:51:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=P0s1hNnrN5iV3gwBK873JosXAcBA
+        jLIMcllp7ooXce4=; b=3UtMVu5TrLyInUViVJ9f/em+jzZHk/ZTnaElFiS7evsP
+        JVrMgpaRxpiYav8zXqS6FlrQxWl0Gqgqbf5VFvb3glTGtUYPaKU9zcVhTzdclTD/
+        zKLsHf+3MGQUXt9UXe0Fo4pZwyDVLXpDmWKDarsGw6S/MRhB5oRlL1EuAqhiupI=
+Received: (qmail 2131645 invoked from network); 6 Jul 2020 16:50:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2020 16:50:58 +0200
+X-UD-Smtp-Session: l3s3148p1@D7SpAMepyIggAwDPXwSPAD3C42NrtmEM
+Date:   Mon, 6 Jul 2020 16:50:57 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] mmc: sh_mmcif: Use "kHz" for kilohertz
+Message-ID: <20200706145057.GF1046@ninjato>
+References: <20200618080321.16678-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <1590044466-28372-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <TY2PR01MB36921D805C79B829563698D6D8B70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <20200602125131.GA1318@ninjato> <TY2PR01MB36926A830866FEA2C49735E0D8890@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAPDyKFpzZG-LFbCDZYZx7J9sH536dcyHvoatCD4F-AvzM1kaZw@mail.gmail.com> <20200706140008.GD1046@ninjato>
-In-Reply-To: <20200706140008.GD1046@ninjato>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Mon, 6 Jul 2020 16:49:20 +0200
-Message-ID: <CAPDyKFoUdJLc+CzXNjQa7Er1oYmC-bqNszhPYya9ov=-THcfEQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] mmc: tmio and renesas_sdhi_internal_dmac: fix dma unmapping
-To:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gdTfX7fkYsEEjebm"
+Content-Disposition: inline
+In-Reply-To: <20200618080321.16678-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 6 Jul 2020 at 16:00, wsa+renesas@sang-engineering.com
-<wsa+renesas@sang-engineering.com> wrote:
->
->
-> > Just wanted to check if this is ready to go or more tests are needed?
->
-> From my tests, this patch series fixes the issue. I'd just like to avoid
-> the extra callback. However, my tries to do that failed so far. And now
-> I'll be away for two weeks.
->
-> Dunno, maybe we merge the series and if I come up with something else
-> that works, we can add it incrementally?
 
-Sounds reasonable to me.
+--gdTfX7fkYsEEjebm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So, applied for next, thanks!
+On Thu, Jun 18, 2020 at 10:03:21AM +0200, Geert Uytterhoeven wrote:
+> "K" stands for "kelvin".
+>=20
+> While at it, make the spacing before units consistent.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Kind regards
-Uffe
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--gdTfX7fkYsEEjebm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8DOk0ACgkQFA3kzBSg
+KbYwVQ//bJ07luUSyQMooRAeQPmMg6D259yGk/tU6HgsKQSlsb0zJo+pTPrJOnT+
+LD4XZe+PJ+cHWWqJfR0oiTBLZDVWaTqmEVmAo4gNzk2MPKxnQWnuSK9JKX5qmVvt
+hA1ABe783GgFjK56aDP4R3472+2bm5V/QaJ62U8SOgAZv8LwqqPx4QP9lc5LqaX4
+RU2nLx+1mCclNhkHlbJPv75JPDU1nSVCa9jVoQ7EYZHVEufAM14LdnskDgrARwN8
+7MYJNE3UaS3z2P2JCNHU2gXVXJhQ/IOSfJuy48KEEyrMEEt5Dpycw0VIp6UHnaYz
+W4GKt74vMpB5rLVy/2Qgue+Ed1jYqVt+prmVtCwl/aDwFUDNpfNWm5vg7c8wUlz+
+gE4Fxmi+L/5AOYohNV62l+tid1obkU+wDrHFA2uynIegndWJYZDAY8Ec9kPAVsgl
+LqmFMEuTNx6q968kLiOXGgTlo/IJ4vM3LJTcMFnVy1D8v8wd2w8NWXZzVmy+4AkQ
+uCU4E5R5pETswrWpMeiOzKEa0xNTqyhmvM5+/xIbLL1rjjSuLVr3T+zRgdUyNPS7
+zzFr2UBwrvgBuT17v8RiVUW0eLXIHXlu55DY7mXK4MwYvJ0V5fGEhilx1pP4hffz
+hvnxFfMLqX19NiXEfk9NMCOdgfeYGh+PUT6F05Xfzm+WQ7DFseI=
+=F0yf
+-----END PGP SIGNATURE-----
+
+--gdTfX7fkYsEEjebm--
