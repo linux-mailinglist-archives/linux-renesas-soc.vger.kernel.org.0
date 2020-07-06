@@ -2,75 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1600215B34
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jul 2020 17:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0E6321613A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 00:02:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729348AbgGFPvU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jul 2020 11:51:20 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:37695 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729321AbgGFPvU (ORCPT
+        id S1726540AbgGFWCo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jul 2020 18:02:44 -0400
+Received: from mga03.intel.com ([134.134.136.65]:21928 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725892AbgGFWCo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jul 2020 11:51:20 -0400
-Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1N3Xvv-1krLoC0Jdb-010cOU for <linux-renesas-soc@vger.kernel.org>; Mon, 06
- Jul 2020 17:51:19 +0200
-Received: by mail-qk1-f169.google.com with SMTP id c139so35167772qkg.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 Jul 2020 08:51:18 -0700 (PDT)
-X-Gm-Message-State: AOAM532vv16C2St67X1rIwn/GjpWRoOkDJvUW+0cT5rkCxgHh+SM8JUN
-        0anB6BpDkqqIYRY+L+EzvaAJiWrbp7fmeul+BN4=
-X-Google-Smtp-Source: ABdhPJzY2TcHbpOfmdqcLAi/aZ0HkS9a5BiH/WrsRt6IoMygszVGPkf17CVynVLE2AHIW5Ro9onjfPGdVUeI3JZzTxM=
-X-Received: by 2002:a05:620a:1654:: with SMTP id c20mr40769007qko.138.1594050678021;
- Mon, 06 Jul 2020 08:51:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200703120642.5128-1-geert+renesas@glider.be>
-In-Reply-To: <20200703120642.5128-1-geert+renesas@glider.be>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 6 Jul 2020 17:51:02 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3nHKP2uvCh1EEH1C0xb0-Az7+_0mgKP+4SQ89n_U4BHQ@mail.gmail.com>
-Message-ID: <CAK8P3a3nHKP2uvCh1EEH1C0xb0-Az7+_0mgKP+4SQ89n_U4BHQ@mail.gmail.com>
-Subject: Re: [GIT PULL 0/2] Renesas ARM SoC updates for v5.9
+        Mon, 6 Jul 2020 18:02:44 -0400
+IronPort-SDR: FxqRKWryIKdQkDT8WSb7rXwMSIWJHOYDaKIJgc93o2uYd9BYa05BXW1mfcSlI8IoKDFhQCU8MP
+ 3lYEw5jsJtPA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9674"; a="147519781"
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
+   d="scan'208";a="147519781"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2020 15:02:43 -0700
+IronPort-SDR: BBoP5IyKXathms+wJphajW24aLqvlym6OOOartRha7pSTUj+neho9TG+9ecsYs9Y2ENsrcQ1+9
+ gMfRftozFpmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,321,1589266800"; 
+   d="scan'208";a="314083545"
+Received: from lkp-server01.sh.intel.com (HELO 82346ce9ac16) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2020 15:02:41 -0700
+Received: from kbuild by 82346ce9ac16 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jsZCC-0000R4-RJ; Mon, 06 Jul 2020 22:02:40 +0000
+Date:   Tue, 07 Jul 2020 06:02:24 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:yJxJf0kzJVpKgfUwBClk3vplm41ga7Mg9D3nvX5lVCTyUIolh5e
- O+JWM6Oa4O3CyxsVOVimfKBWOfM6re3ZedcdCsVmeZlasmoQ5vIHkySWgui41GHH2jVRoGW
- w0d8inz/285cmFXu16kWTYo9HJmX/2BKMvzQJB3zohxCrQin+cqe9CctUk+OyN3tKhPnauZ
- eHMKXibF+qpyrDGxQuSxA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aUUwYleh78M=:dZw7sFLoQBt3OjFxzFG95P
- nltXbV7bXMPu1UHrWDPwWErclog5UjZf3DesBIc0aYWAS3BkCO2AKHx3wbE/pRgn086hCj1JZ
- Mz6O8JWFkMa9O3PEgQtwwyaBap+1cg/qJRZcUkij1xZvxC19Xd9BHkrc6ZS88dcqDsxFkJqL1
- pHyi6vp5R3z209F2mFFA7lj39pCpWyDl4PVUmYqS0aBXyrfCZy2rFht8WimNSVM2hYl9LSNMD
- nWfHxR+zW5XSdIsPOKh2/Sfete9dK06o4k0D/7bvX/BoytZsf8MXGcABdznwBLS+f0bhEL13j
- g2Z4EWgHTrEeQqn0g8Eo0MBqA1ILG4YpXo36rgODt0oaGZGAviI/iUvuqwSRkCRij6ToLeOQC
- DNOWwhdmwPXiHMFH5eL2TrsJA8jbZGY/F2E69C3UHMWSWKn99B6Qn6stF09VWtBoRSO31WYJk
- ioiC25kUAgy4phpgH1/ZtytfkDzt0JeFMRCkMKMlmIwaa+7CZLs2J4fi0kSlmEEmaDGdgCxDo
- jumFXA7bAQyJH17kSPEgwhSoN2n4L9AqJxUhYAStGuMEXr/lTyzGBrYASKTy8M9mQzF6mXoZr
- XcV5ONonxuqsFvSf5avqziiJJPOrIko5YVCQZYD8gDRB46houBsMeoWJSLZXaKu0F5ANjmsuV
- K4IU7NEhqnyUwodbQ8QolcxZyLyCdXVTT2pB6Cs5pCH2IoxwqRCx58goGFljDmK8NYs54ImFv
- 8MrkY61RWFYIqIsuN+NL2Vr0SJ088F/rGm7KhG2KjYM9E4nKzxCSVcZ8UmfqWt6ntFbEtP10l
- R0tcuAcfMHFHAV3KFAHEs6i+8BOM9V66Rzo1FRiUB9h2/BxULAYDyikdoSXiyRa+6wi4dFpok
- PM5ylaQA4MwVq/gLBZ7zueB2sBT8nqQ0p1QnUOh81ijWftvRROYxEAptW8GuL1j3jWPOS7Ph1
- 8kHCJkJMTl3pCNyBEf2mk61hON/tGNsXW+ofc1Dg4U06++3o95FV0
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ d3c689b3bb330d9b69bb346701ef697a2d662ba8
+Message-ID: <5f039f70.bonqjv2OlZndJLbM%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 3, 2020 at 2:06 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->         Hi arm-soc folks,
->
-> This is my first pull request for the inclusion of Renesas SoC updates
-> for v5.9.
->
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: d3c689b3bb330d9b69bb346701ef697a2d662ba8  Merge tag 'v5.8-rc4' into renesas-devel
 
-Pulled both into the soc tree, thanks
+elapsed time: 722m
 
-     Arnd
+configs tested: 118
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+sh                                  defconfig
+arm                      tct_hammer_defconfig
+powerpc64                           defconfig
+sh                        dreamcast_defconfig
+arm                         orion5x_defconfig
+mips                           ip22_defconfig
+sparc                            alldefconfig
+mips                  mips_paravirt_defconfig
+sh                     sh7710voipgw_defconfig
+s390                          debug_defconfig
+c6x                        evmc6457_defconfig
+arm                          gemini_defconfig
+arm                         bcm2835_defconfig
+mips                          ath79_defconfig
+mips                 decstation_r4k_defconfig
+sh                          rsk7269_defconfig
+m68k                        m5307c3_defconfig
+mips                         bigsur_defconfig
+arm                       versatile_defconfig
+m68k                        stmark2_defconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                              allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20200706
+i386                 randconfig-a002-20200706
+i386                 randconfig-a006-20200706
+i386                 randconfig-a004-20200706
+i386                 randconfig-a005-20200706
+i386                 randconfig-a003-20200706
+i386                 randconfig-a011-20200706
+i386                 randconfig-a014-20200706
+i386                 randconfig-a015-20200706
+i386                 randconfig-a016-20200706
+i386                 randconfig-a012-20200706
+i386                 randconfig-a013-20200706
+x86_64               randconfig-a001-20200706
+x86_64               randconfig-a006-20200706
+x86_64               randconfig-a002-20200706
+x86_64               randconfig-a003-20200706
+x86_64               randconfig-a004-20200706
+x86_64               randconfig-a005-20200706
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
