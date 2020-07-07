@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C14621736E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 18:13:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5BB921738E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 18:20:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727936AbgGGQN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 12:13:58 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:7567 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727789AbgGGQN5 (ORCPT
+        id S1728316AbgGGQSS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jul 2020 12:18:18 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:10054 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727079AbgGGQSR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 12:13:57 -0400
+        Tue, 7 Jul 2020 12:18:17 -0400
 X-IronPort-AV: E=Sophos;i="5.75,324,1589209200"; 
-   d="scan'208";a="51328764"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Jul 2020 01:13:56 +0900
+   d="scan'208";a="51540086"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Jul 2020 01:18:16 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1FC7D40062C8;
-        Wed,  8 Jul 2020 01:13:52 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 707144015EC4;
+        Wed,  8 Jul 2020 01:18:13 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -31,15 +31,11 @@ Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 01/14] dt-bindings: arm: renesas: Document RZ/G2H SoC DT bindings
-Date:   Tue,  7 Jul 2020 17:12:35 +0100
-Message-Id: <1594138368-16449-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 02/14] dt-bindings: arm: renesas: Add HopeRun RZ/G2H boards
+Date:   Tue,  7 Jul 2020 17:18:00 +0100
+Message-Id: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594138368-16449-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594138368-16449-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -47,30 +43,36 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Add device tree binding documentation for the Renesas RZ/G2H (r8a774e1)
-SoC.
+This patch adds board HiHope RZ/G2H (the main board, powered by the
+R8A774E1) and board HiHope RZ/G2 EX (the expansion board that sits on top
+of the HiHope RZ/G2H). Both boards are made by Jiangsu HopeRun Software
+Co., Ltd. (a.k.a. HopeRun).
 
 Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/arm/renesas.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-index b7d2e921150a..c5f8d925ce6e 100644
+index c5f8d925ce6e..d8fd25bccbf5 100644
 --- a/Documentation/devicetree/bindings/arm/renesas.yaml
 +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-@@ -150,6 +150,10 @@ properties:
-           - const: si-linux,cat874
-           - const: renesas,r8a774c0
+@@ -152,6 +152,14 @@ properties:
  
-+      - description: RZ/G2H (R8A774E1)
-+        items:
+       - description: RZ/G2H (R8A774E1)
+         items:
++          - enum:
++              - hoperun,hihope-rzg2h # HopeRun HiHope RZ/G2H platform
 +          - const: renesas,r8a774e1
 +
++      - items:
++          - enum:
++              - hoperun,hihope-rzg2-ex # HopeRun expansion board for HiHope RZ/G2 platforms
++          - const: hoperun,hihope-rzg2h
+           - const: renesas,r8a774e1
+ 
        - description: R-Car M1A (R8A77781)
-         items:
-           - enum:
 -- 
 2.17.1
 
