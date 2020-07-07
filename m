@@ -2,183 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A07142168CB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DFD21691A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:33:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbgGGJJO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 05:09:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47230 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725825AbgGGJJN (ORCPT
+        id S1727834AbgGGJdT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jul 2020 05:33:19 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:33170 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbgGGJdS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 05:09:13 -0400
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 754B020890
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  7 Jul 2020 09:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594112952;
-        bh=hK5nN8/Wvs1FMwASbOwqFL9C3E3fy5MqSNQBt/shppg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gEd0VKTSapPn7YQidFciomoHNt/RJYeC7sf6vQHUzZpylxxWz6bstCFryh2n6nINR
-         tzzcKcKur/fwNZkmIxrt9yvpssOb/BkngNYCkIIskR+a4Ao5w2qynCmitcRo4Q9PJZ
-         TVLet3fRBnmZIM3ynmFe/izz8xiHoroqWCbLr06M=
-Received: by mail-oi1-f170.google.com with SMTP id e4so26178012oib.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jul 2020 02:09:12 -0700 (PDT)
-X-Gm-Message-State: AOAM533bs62EcPdHMoK9lDmgR18VSCK++9slb1lWzmDdQdf0+h0DuR4L
-        qmG5YTRoW0TvwXxwUJgeuugsySPKz5396giuFmQ=
-X-Google-Smtp-Source: ABdhPJxsOX9Jy3qrafy7mGlwIGPlyia8dT+UJ6Tu/Cy/ojpSU/osSJQb+NF13/qmIw7OoRsgvtt7ZOWqTwKg47V0+Nk=
-X-Received: by 2002:aca:5516:: with SMTP id j22mr827405oib.47.1594112951685;
- Tue, 07 Jul 2020 02:09:11 -0700 (PDT)
+        Tue, 7 Jul 2020 05:33:18 -0400
+Received: by mail-oi1-f195.google.com with SMTP id k22so23033461oib.0;
+        Tue, 07 Jul 2020 02:33:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VB02tOgm4x0vvWinn0yzASS1J5cK/IPzRsdpTAQ4rQk=;
+        b=YkxXTKpihrkXtHi+nDzxQEfwLFA9LY09pLNm+srfe3FAK9VPTD1xsEiTSn4OT1JZsO
+         fceW2TxbWuHi9U9mCZDzQ3xZH3u6aXszIqtpvD869Wyy6+jOfIoyCCWRS/0DGIyAqNIy
+         GnY+7gZdMJHidQ9A1HGVZKukbGAWtauVtTDPBXmeSRN/PXauGEHnJ4AmTjtF0+1gbExI
+         X3mdl/pv+VNjbkfr8Rwp0vwb/OytkC65EE9X5rZtmLBxXxL3iTyTLv68RfXOPw5g7trN
+         hRxE5vM29c+FQFLQPV39KYs58aied1HZdpkT1DTVg+gQtwLQWy+DehkizyiMCl+8OxpX
+         nJZQ==
+X-Gm-Message-State: AOAM5321dMsNb74ufRE9+elaNSSvUFsk5jAvaxqqaiKpt0wIOPBEVqcU
+        IwmM+U0A/FThRt/gWt3yvWFCKnEbT/AXznLqnUE=
+X-Google-Smtp-Source: ABdhPJzdnmNZM58lYV9qIqWEOtbYuwfoZLGUAXoQImbx7pakXkbzqGAN57IIyGJ4TXoicdjI0ci72Uq/yPlU117sldc=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr2601380oih.54.1594114397872;
+ Tue, 07 Jul 2020 02:33:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200706150205.22053-1-geert+renesas@glider.be>
- <CAMj1kXFmpWKVAbjjTVztmUktxFpYutQQ1SOBqknPB74fcG0FEQ@mail.gmail.com>
- <CAMuHMdVn6NmSL7ke629oQMnkW4qfu1r3DGNv3pGk8+nSRYZyhQ@mail.gmail.com>
- <CAMj1kXHe96g+4uuUsWTHbKom=EvssnbzZyX9i5La463QKjhLsw@mail.gmail.com>
- <CAMuHMdU4htNtgTTXjS5Q7-oxLaCtFVXypG14j0D9un09RM1Dxg@mail.gmail.com>
- <CAMj1kXG6xXBQka+bHO7Rfr7z-1mEEes52WMjXFrkW5KiUhTQRQ@mail.gmail.com> <CAMj1kXG0ierVG8q3bui+rV0i-ZJkSpKt8sVWEQoJi0F76OuzGQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXG0ierVG8q3bui+rV0i-ZJkSpKt8sVWEQoJi0F76OuzGQ@mail.gmail.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 7 Jul 2020 12:09:00 +0300
-X-Gmail-Original-Message-ID: <CAMj1kXFQy6ZF_XXiKLfxPSPOB4NjovwJeaCaTbBG_-A=apAKZg@mail.gmail.com>
-Message-ID: <CAMj1kXFQy6ZF_XXiKLfxPSPOB4NjovwJeaCaTbBG_-A=apAKZg@mail.gmail.com>
-Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
+References: <9969c8a1-e6be-38a9-ced5-ce8c5ff07046@cogentembedded.com> <54a84c75-fa17-9976-d9a6-a69ef67c418b@cogentembedded.com>
+In-Reply-To: <54a84c75-fa17-9976-d9a6-a69ef67c418b@cogentembedded.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 7 Jul 2020 11:33:07 +0200
+Message-ID: <CAMuHMdVnjE=BHe5MBr_NsL6LeXq30vKym8OVLp28=7sZeUBAWw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: memory: document Renesas RPC-IF bindings
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Chris Brandt <chris.brandt@renesas.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Mark Brown <broonie@kernel.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 7 Jul 2020 at 11:40, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Tue, 7 Jul 2020 at 11:35, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Tue, 7 Jul 2020 at 10:58, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >
-> > > Hi Ard,
-> > >
-> > > On Tue, Jul 7, 2020 at 9:45 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > On Tue, 7 Jul 2020 at 10:39, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Tue, Jul 7, 2020 at 8:50 AM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > > > On Mon, 6 Jul 2020 at 18:02, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> > > > > > > Currently, the start address of physical memory is obtained by masking
-> > > > > > > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > > > > > > was chosen as a balance between the requirements of different platforms.
-> > > > > > > However, this does require that the start address of physical memory is
-> > > > > > > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > > > > > > requirement is not fulfilled.
-> > > > > > >
-> > > > > > > Fix this limitation by obtaining the start address from the DTB instead,
-> > > > > > > if available (either explicitly passed, or appended to the kernel).
-> > > > > > > Fall back to the traditional method when needed.
-> > > > > > >
-> > > > > > > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > > > > > > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > > > > > > i.e. not at a multiple of 128 MiB.
-> > > > > > >
-> > > > > > > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > > > > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > > > > Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > > > > > Tested-by: Dmitry Osipenko <digetx@gmail.com>
-> > > > > > > Cc: Lukasz Stelmach <l.stelmach@samsung.com>
-> > > > > > > ---
-> > > > > > > Marked as RFC, because:
-> > > > > > >   1. This is known to break crashkernel support, as the memory used by
-> > > > > > >      the crashkernel is not marked reserved in DT (yet),
-> > > > > > >   2. Russell won't apply this for v5.9 anyway,
-> > > > > > >
-> > > > > >
-> > > > > > Would it help if we make this behavior dependent on a simple heuristic, e.g.,
-> > > > > >
-> > > > > > if (round_up(load_address, 128M) >= dram_end)
-> > > > > >   use dram_start from DT
-> > > > > > else
-> > > > > >   use round_up(load_address, 128M)
-> > > > > >
-> > > > > > That way, the fix is guaranteed to only take effect for systems that
-> > > > > > cannot even boot otherwise, which fixes the crashkernel case, as well
-> > > > > > as other potential regressions due to the load address of the core
-> > > > > > kernel changing for existing boards.
-> > > > >
-> > > > > Thanks for your suggestion!
-> > > > >   1. Shouldn't the calculation use round_down() instead of round_up()?
-> > > > >   2. Likewise, "round_down(load_address, 128M) < dram_start from DT"?
-> > > > >
-> > > >
-> > > > No.
-> > > >
-> > > > What the code does today is round *up* to a multiple of 128 MB, and
-> > > > only when that leads to a problem, we should use the DT provided
-> > > > memory regions.
-> > >
-> > >                 mov     r4, pc
-> > >                 and     r4, r4, #0xf8000000
-> > >
-> > > Surely this is rounding down, isn't it?
-> > >
-> >
-> > Yes you are right.
-> >
-> > >                 add     r4, r4, #TEXT_OFFSET
-> > >
-> > > Followed by adding a small number (typically 0x00008000).
-> > >
-> > > On RZA2MEVB with 64 MiB of RAM, the result lies below dram_start.
-> >
-> > Yes, but in the general case, this is not true. Platforms that manage
-> > to boot using the current arrangement will do so by putting the
-> > decompressor above the first 128 MB aligned boundary covered by DRAM
-> > (and lose access to any memory below it via the linear mapping, but
-> > this memory could still be used via a no-map reserved-memory node
-> > AFAIK.)
-> >
-> > > BTW, how to obtain dram_end? From DT again? Do we trust it, as we
-> > > apparently cannot trust dram_start in some configurations.
-> > >
-> > > Do I need more coffee?
-> > >
-> >
-> > Maybe we both do :-)
-> >
-> > AIUI, the reason we cannot trust dram_start is because of the
-> > crashkernel case, i.e., the kernel may have deliberately been put high
-> > up in memory, and the expectation is that the load address is derived
-> > by rounding down the load address of the decompressor.
-> >
-> > Hence my suggestion to round *up* and compare with dram_end: if
-> > round_up(load_address, 128M) >= dram_end holds, it is guaranteed that
-> > no address exists in memory from which we could round down and arrive
-> > at a valid DRAM address. This would mean that your change will only
-> > affect platforms that were unable to boot to begin with, and not
-> > affect any other weird configurations including crashkernels etc
->
-> Uhm maybe not ...
->
-> Time to get that coffee...
+Hi Sergei,
 
-OK  so we know that the memory base should be a 16 MB aligned value >=
-dram_start. This holds for the crashkernel as well, although in that
-case, the memory base is much higher than dram_start, and not right
-above it.
+On Tue, Jun 16, 2020 at 10:01 PM Sergei Shtylyov
+<sergei.shtylyov@cogentembedded.com> wrote:
+> Renesas Reduced Pin Count Interface (RPC-IF) allows a SPI flash or
+> HyperFlash connected to the SoC to be accessed via the external address
+> space read mode or the manual mode.
+>
+> Document the device tree bindings for the Renesas RPC-IF found in the R-Car
+> gen3 SoCs.
+>
+> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
+>
+> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
-So how about if we *only* use the DT dram_start as the memory base if
-it is aligned to 16 MB, and if rounding down from the load_address
-produces an address that is below it? That should cover your use case,
-but very conservatively, reducing the likelihood of regressions.
+Thanks for your patch!
+
+> --- /dev/null
+> +++ linux/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
+> @@ -0,0 +1,88 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/memory-controllers/renesas,rpc-if.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas Reduced Pin Count Interface (RPC-IF)
+> +
+> +maintainers:
+> +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> +
+> +description: |
+> +  Renesas RPC-IF allows a SPI flash or HyperFlash connected to the SoC to
+> +  be accessed via the external address space read mode or the manual mode.
+> +
+> +  The flash chip itself should be represented by a subnode of the RPC-IF node.
+> +  The flash interface is selected based on the "compatible" property of this
+> +  subnode:
+> +  - if it contains "jedec,spi-nor", then SPI is used;
+> +  - if it contains "cfi-flash", then HyperFlash is used.
+
+> +patternProperties:
+> +  "flash@[0-9a-f]+$":
+> +    type: object
+> +    properties:
+> +      compatible:
+> +        enum:
+> +          - cfi-flash
+> +          - jedec,spi-nor
+
+The above does not allow specifying e.g.
+
+    compatible = "spansion,s25fs512s", "jedec,spi-nor";
+
+arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: spi@ee200000:
+flash@0:compatible: Additional items are not allowed ('jedec,spi-nor'
+was unexpected)
+arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: spi@ee200000:
+flash@0:compatible:0: 'spansion,s25fs512s' is not one of ['cfi-flash',
+'jedec,spi-nor']
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> +    #include <dt-bindings/power/r8a77995-sysc.h>
+> +
+> +    spi@ee200000 {
+> +      compatible = "renesas,r8a77995-rpc-if", "renesas,rcar-gen3-rpc-if";
+> +      reg = <0xee200000 0x200>,
+> +            <0x08000000 0x4000000>,
+> +            <0xee208000 0x100>;
+> +      reg-names = "regs", "dirmap", "wbuf";
+> +      clocks = <&cpg CPG_MOD 917>;
+> +      power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> +      resets = <&cpg 917>;
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      flash@0 {
+> +        compatible = "jedec,spi-nor";
+
+... which you nicely circumvented in the example ;-)
+
+> +        reg = <0>;
+> +        spi-max-frequency = <40000000>;
+> +        spi-tx-bus-width = <1>;
+> +        spi-rx-bus-width = <1>;
+> +      };
+> +    };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
