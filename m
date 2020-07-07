@@ -2,90 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBC2A216B40
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 13:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 375DC216C69
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 13:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgGGLQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 07:16:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:41104 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726946AbgGGLQ3 (ORCPT
+        id S1727827AbgGGL7L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jul 2020 07:59:11 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:54798 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726879AbgGGL7I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 07:16:29 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3FB7611B3;
-        Tue,  7 Jul 2020 04:16:29 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0ADDF3F71E;
-        Tue,  7 Jul 2020 04:16:27 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 12:16:22 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] PCI: rcar: Fix runtime PM imbalance on error
-Message-ID: <20200707111622.GA14935@e121166-lin.cambridge.arm.com>
-References: <20200607093134.6393-1-dinghao.liu@zju.edu.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200607093134.6393-1-dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Tue, 7 Jul 2020 07:59:08 -0400
+X-IronPort-AV: E=Sophos;i="5.75,323,1589209200"; 
+   d="scan'208";a="51316740"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Jul 2020 20:59:06 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4C22C42325F2;
+        Tue,  7 Jul 2020 20:59:06 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     ulf.hansson@linaro.org, robh+dt@kernel.org
+Cc:     linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v5 0/2] mmc: core: add a new property/caps2
+Date:   Tue,  7 Jul 2020 20:58:40 +0900
+Message-Id: <1594123122-13156-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Jun 07, 2020 at 05:31:33PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> the call returns an error code. Thus a corresponding decrement is
-> needed on the error handling path to keep the counter balanced.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
-> 
-> Changelog:
-> 
-> v2: - Remove unnecessary 'err_pm_put' label.
->       Refine commit message.
-> ---
->  drivers/pci/controller/pcie-rcar.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+Some environment (like r8a77951-salvator-xs) is possible
+to perform a full power cycle of the card in suspend via firmware
+(PSCI on arm-trusted-firmware). However, the current MMC core
+cannot issue Power Off Notification. This patch series can do it.
 
-Can you rebase it on top of v5.8-rc1 and resend it with Yoshihiro's tags
-please ?
+We discussed on the v3 email thread [1].
 
-Thanks,
-Lorenzo
+[1]
+https://lore.kernel.org/linux-renesas-soc/1592792699-24638-1-git-send-email-yoshihiro.shimoda.uh@renesas.com/T/#m9c25f35d7126b1c14ea431a773757652ad094341
 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index 759c6542c5c8..f9595ab54bc4 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -1143,7 +1143,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->  	err = rcar_pcie_get_resources(pcie);
->  	if (err < 0) {
->  		dev_err(dev, "failed to request resources: %d\n", err);
-> -		goto err_pm_put;
-> +		goto err_pm_disable;
->  	}
->  
->  	err = clk_prepare_enable(pcie->bus_clk);
-> @@ -1206,10 +1206,8 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->  	irq_dispose_mapping(pcie->msi.irq2);
->  	irq_dispose_mapping(pcie->msi.irq1);
->  
-> -err_pm_put:
-> -	pm_runtime_put(dev);
-> -
->  err_pm_disable:
-> +	pm_runtime_put(dev);
->  	pm_runtime_disable(dev);
->  	pci_free_resource_list(&pcie->resources);
->  
-> -- 
-> 2.17.1
-> 
+
+Changes from v4:
+ - Just add a new property/caps2 flag of MMC bindings to fix the issue.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=308795
+
+Changes from v3:
+ - Modify regulator subsytem and regulator/fixed driver.
+ - Use regulator_is_enabled() instead of firmware API.
+ - Update R-Car Gen3 related dts files for the reference.
+   But, I have only tested on r8a779{5,61}-salvaltor-xs.dts.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=306281
+
+Changes from v2:
+ - Fix typo of function name in patch2.
+ - Remove RFC.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=305523
+
+Changes from v1:
+ - Use pm_suspend_via_firmware() API instead of pm_suspend_target_state.
+ - Modify the psci driver to call pm_set_suspend_via_firmware.
+ https://patchwork.kernel.org/patch/11557505/
+
+
+*** BLURB HERE ***
+
+Yoshihiro Shimoda (2):
+  dt-bindings: mmc: Add full-pwr-cycle-in-suspend property
+  mmc: core: Add MMC_CAP2_FULL_PWR_CYCLE_IN_SUSPEND
+
+ Documentation/devicetree/bindings/mmc/mmc-controller.yaml | 5 +++++
+ drivers/mmc/core/host.c                                   | 2 ++
+ drivers/mmc/core/mmc.c                                    | 3 ++-
+ include/linux/mmc/host.h                                  | 1 +
+ 4 files changed, 10 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
