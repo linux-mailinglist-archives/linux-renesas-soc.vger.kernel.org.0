@@ -2,148 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32DFD21691A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8128F216955
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:42:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727834AbgGGJdT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 05:33:19 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33170 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgGGJdS (ORCPT
+        id S1727818AbgGGJm4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jul 2020 05:42:56 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:34828 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725944AbgGGJm4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 05:33:18 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k22so23033461oib.0;
-        Tue, 07 Jul 2020 02:33:18 -0700 (PDT)
+        Tue, 7 Jul 2020 05:42:56 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k4so34373319oik.2;
+        Tue, 07 Jul 2020 02:42:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VB02tOgm4x0vvWinn0yzASS1J5cK/IPzRsdpTAQ4rQk=;
-        b=YkxXTKpihrkXtHi+nDzxQEfwLFA9LY09pLNm+srfe3FAK9VPTD1xsEiTSn4OT1JZsO
-         fceW2TxbWuHi9U9mCZDzQ3xZH3u6aXszIqtpvD869Wyy6+jOfIoyCCWRS/0DGIyAqNIy
-         GnY+7gZdMJHidQ9A1HGVZKukbGAWtauVtTDPBXmeSRN/PXauGEHnJ4AmTjtF0+1gbExI
-         X3mdl/pv+VNjbkfr8Rwp0vwb/OytkC65EE9X5rZtmLBxXxL3iTyTLv68RfXOPw5g7trN
-         hRxE5vM29c+FQFLQPV39KYs58aied1HZdpkT1DTVg+gQtwLQWy+DehkizyiMCl+8OxpX
-         nJZQ==
-X-Gm-Message-State: AOAM5321dMsNb74ufRE9+elaNSSvUFsk5jAvaxqqaiKpt0wIOPBEVqcU
-        IwmM+U0A/FThRt/gWt3yvWFCKnEbT/AXznLqnUE=
-X-Google-Smtp-Source: ABdhPJzdnmNZM58lYV9qIqWEOtbYuwfoZLGUAXoQImbx7pakXkbzqGAN57IIyGJ4TXoicdjI0ci72Uq/yPlU117sldc=
-X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr2601380oih.54.1594114397872;
- Tue, 07 Jul 2020 02:33:17 -0700 (PDT)
+        bh=2/J9ij4w4oagOgUGxJf2swzffQYyMHL1ZD6eawMakeQ=;
+        b=A7RqHF6hN7qRfL1T2xRTb+1SugOS9SaPD8LXNihrT5LjViVXbQ2CtBXt0FfrqQuMzV
+         iXe4kXwAejRu6pCWkwpS8q3tgI3sNki+/8IoS/ai3weIWNFy2jovDeM6pPW0KL5KRq/s
+         WL8CPL2xxt3/6PjylQnb6qr63/I0RGQerdQlBfUjJFBlftIgNJWJeXVsyXN+kPdgivAa
+         yPJrfGKr3G78hy76SpzsFS92nL5gUz6tmK1BE3W4vKxDelx2bsUaKkp8B9drqqv4M5YE
+         gPbozgqiqdXHx2COblzmSFoMfOapzqeANcGep9e8jCDlQf9zsC35j0GqqTJnzPpFBPLB
+         pM0A==
+X-Gm-Message-State: AOAM532W9l1jE3sLhEUygNQIxEiBdZcLFgJ2vsFPCspXqXGUXvGqciic
+        hD1zdIG98u2vQhAZ9UbUFGPm7FowT6lUlVVRAhw=
+X-Google-Smtp-Source: ABdhPJy2sAY8y96MGtqbaBxFvL6ldE/wubkaiemNPB89fcdaX9osclLvSlDRk9Hhu2YzHF4jw/L08DoYguxy4kLxxmc=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr2622536oih.54.1594114976070;
+ Tue, 07 Jul 2020 02:42:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <9969c8a1-e6be-38a9-ced5-ce8c5ff07046@cogentembedded.com> <54a84c75-fa17-9976-d9a6-a69ef67c418b@cogentembedded.com>
-In-Reply-To: <54a84c75-fa17-9976-d9a6-a69ef67c418b@cogentembedded.com>
+References: <850d4a7b-4984-eb0f-de89-e5c39d61d19e@cogentembedded.com> <f18853d9-8ef9-717a-9039-2191b26e579f@cogentembedded.com>
+In-Reply-To: <f18853d9-8ef9-717a-9039-2191b26e579f@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Jul 2020 11:33:07 +0200
-Message-ID: <CAMuHMdVnjE=BHe5MBr_NsL6LeXq30vKym8OVLp28=7sZeUBAWw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: memory: document Renesas RPC-IF bindings
+Date:   Tue, 7 Jul 2020 11:42:42 +0200
+Message-ID: <CAMuHMdVBNqCsHE0frgfv3fwC534uhgyvA-vO+gxhDT5qJJsx0g@mail.gmail.com>
+Subject: Re: PATCH v2 1/2] arm64: dts: renesas: r8a77980: add RPC-IF support
 To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mason Yang <masonccyang@mxic.com.tw>
+        Magnus Damm <magnus.damm@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
-
-On Tue, Jun 16, 2020 at 10:01 PM Sergei Shtylyov
+On Tue, May 19, 2020 at 10:13 PM Sergei Shtylyov
 <sergei.shtylyov@cogentembedded.com> wrote:
-> Renesas Reduced Pin Count Interface (RPC-IF) allows a SPI flash or
-> HyperFlash connected to the SoC to be accessed via the external address
-> space read mode or the manual mode.
->
-> Document the device tree bindings for the Renesas RPC-IF found in the R-Car
-> gen3 SoCs.
->
-> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
+> Describe RPC-IF in the R8A77980 device tree.
 >
 > Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ linux/Documentation/devicetree/bindings/memory-controllers/renesas,rpc-if.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/memory-controllers/renesas,rpc-if.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas Reduced Pin Count Interface (RPC-IF)
-> +
-> +maintainers:
-> +  - Sergei Shtylyov <sergei.shtylyov@gmail.com>
-> +
-> +description: |
-> +  Renesas RPC-IF allows a SPI flash or HyperFlash connected to the SoC to
-> +  be accessed via the external address space read mode or the manual mode.
-> +
-> +  The flash chip itself should be represented by a subnode of the RPC-IF node.
-> +  The flash interface is selected based on the "compatible" property of this
-> +  subnode:
-> +  - if it contains "jedec,spi-nor", then SPI is used;
-> +  - if it contains "cfi-flash", then HyperFlash is used.
-
-> +patternProperties:
-> +  "flash@[0-9a-f]+$":
-> +    type: object
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - cfi-flash
-> +          - jedec,spi-nor
-
-The above does not allow specifying e.g.
-
-    compatible = "spansion,s25fs512s", "jedec,spi-nor";
-
-arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: spi@ee200000:
-flash@0:compatible: Additional items are not allowed ('jedec,spi-nor'
-was unexpected)
-arch/arm64/boot/dts/renesas/r8a77970-eagle.dt.yaml: spi@ee200000:
-flash@0:compatible:0: 'spansion,s25fs512s' is not one of ['cfi-flash',
-'jedec,spi-nor']
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-> +    #include <dt-bindings/power/r8a77995-sysc.h>
-> +
-> +    spi@ee200000 {
-> +      compatible = "renesas,r8a77995-rpc-if", "renesas,rcar-gen3-rpc-if";
-> +      reg = <0xee200000 0x200>,
-> +            <0x08000000 0x4000000>,
-> +            <0xee208000 0x100>;
-> +      reg-names = "regs", "dirmap", "wbuf";
-> +      clocks = <&cpg CPG_MOD 917>;
-> +      power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-> +      resets = <&cpg 917>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      flash@0 {
-> +        compatible = "jedec,spi-nor";
-
-... which you nicely circumvented in the example ;-)
-
-> +        reg = <0>;
-> +        spi-max-frequency = <40000000>;
-> +        spi-tx-bus-width = <1>;
-> +        spi-rx-bus-width = <1>;
-> +      };
-> +    };
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.9.
 
 Gr{oetje,eeting}s,
 
