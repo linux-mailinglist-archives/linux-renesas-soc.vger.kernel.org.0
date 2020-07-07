@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CA9121698F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E78E216992
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jul 2020 11:54:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727875AbgGGJyQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 05:54:16 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:44496 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725941AbgGGJyQ (ORCPT
+        id S1728149AbgGGJy3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jul 2020 05:54:29 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42157 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725941AbgGGJy3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 05:54:16 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k6so30516008oij.11;
-        Tue, 07 Jul 2020 02:54:15 -0700 (PDT)
+        Tue, 7 Jul 2020 05:54:29 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t4so16583540oij.9;
+        Tue, 07 Jul 2020 02:54:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ML+IG31NmApHhHNaAv1AOruku3M5aZvabGp/gFt0CiI=;
-        b=UDObmA8OLzu6GvtTgFzJ71p+B1PQJKLQD4CCAtQmW7xJKeLDFKlN99b7NuWXBVEXWP
-         7tov35AYc6oCWV5qA3nP8UelVdiNoHnTW59TKtUJS5AtYiHQVvsvEZny83RxeMcZZH/g
-         X0fcJ6HRjk14kAApQLWMwEzweQak+jEa7EjG8dtR+rjH5Sgmn21V33LytLmbOt/m8V96
-         0ctZeDO6rybxW0Wu0UETkv2YWoTQj2gs96RMx7+T8TEmDleziWbYzHKdJhvmc4qbCNns
-         Pt7M+D/nm6KGP13KWcW5LAEcLGfgV+qA6F0S/12WlWz9EQDH9kn+wuQqcBPhnpzCcpJR
-         mCmA==
-X-Gm-Message-State: AOAM533dlZcVRJg3s+1ssa1d4jRisqYX6+cP3yhdl1dJYu9t00TA6/XT
-        w03hHXqCWKdQG5JTVo5cdRaiKD/yX3XhdvPhSK4=
-X-Google-Smtp-Source: ABdhPJzLOmIoxWl3hy3Vu0/WCWZBCG2GC2UQdRp7NKpTq9bVt9kyh+MbUhOP5PDCfKudTp36uLg5vNMsOKizoa64YCY=
-X-Received: by 2002:aca:5c41:: with SMTP id q62mr2498841oib.148.1594115655102;
- Tue, 07 Jul 2020 02:54:15 -0700 (PDT)
+        bh=oRQPEZclk2p+vUqZ5x7KplALV6qN8KF09BgwCnIt7ds=;
+        b=EOXiUlQXuR0/sgxzwtU4C0M8TpaVctXRpDfBZwRbCD7CkpU13epFBRvxUtTbc100Cb
+         igUN/QPEZVqPxkhiOsEn5mzqx3cJh8Lz95J2M+4UiG6W7uokB4bV/0lLD1O1XHoz86c8
+         20l+Qrgn9k5CNlCSXoIt1rXdYFs+8p1Ck1PGQm1GT2KvExuZa3ROq+3vMwphek3uJ0Fw
+         XQqIrIeaguqG+3MndX9UyqMXZSG7ta+7J3qBrs6YhOguxOInIZg6aeJGikzxPD1t8wpf
+         biETYhiN7dUgecJSUsmbOIgftJmkZ0bc87fOv+EvmeL4Wv441iz9LJNM5puvbp7X2tPd
+         4leg==
+X-Gm-Message-State: AOAM532kELv0Xx/kV2HHRqpgyJS52HsiY4dP0/lFkZnJCSZeMpsFW64P
+        Y+L/PFqRh9ykClPeBzeAguq5VELwJQKNFiOXDKI=
+X-Google-Smtp-Source: ABdhPJy5HUj28BOj4+XrkqQnBHQ7+cryKtw8O9TAqRGosaPgnKZTEddk9tadxQyInqHgBk3/TfHZAtHxPF50JAJAQwY=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr2645680oih.54.1594115668145;
+ Tue, 07 Jul 2020 02:54:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <850d4a7b-4984-eb0f-de89-e5c39d61d19e@cogentembedded.com> <322ca212-a45f-cd2c-f1eb-737f0aa42d22@cogentembedded.com>
-In-Reply-To: <322ca212-a45f-cd2c-f1eb-737f0aa42d22@cogentembedded.com>
+References: <13425133-eedf-081f-4ed7-cd9012ce7d6d@cogentembedded.com> <fca1d012-29bf-eead-1c0d-4dd837c0bc68@cogentembedded.com>
+In-Reply-To: <fca1d012-29bf-eead-1c0d-4dd837c0bc68@cogentembedded.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Jul 2020 11:54:04 +0200
-Message-ID: <CAMuHMdUPyrJqibM2jScPa0QhP+h_pEO_YQe-qtAK2mFBEP29UA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a77980: condor/v3hsk: add
+Date:   Tue, 7 Jul 2020 11:54:14 +0200
+Message-ID: <CAMuHMdX1nguBr3ARDcRL9JCxL=mCGr7PC_65EerSkpXd8tVkjQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a77980: eagle/v3msk: add
  QSPI flash support
 To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -51,9 +51,9 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Sergei,
 
-On Tue, May 19, 2020 at 10:14 PM Sergei Shtylyov
+On Fri, Jun 19, 2020 at 10:22 PM Sergei Shtylyov
 <sergei.shtylyov@cogentembedded.com> wrote:
-> Define the Condor/V3HSK board dependent parts of the RPC-IF device node.
+> Define the Eagle/V3MSK board dependent parts of the RPC-IF device node.
 > Add device nodes for Spansion S25FS512S SPI flash and MTD partitions on it.
 >
 > Based on the original patches by Dmitry Shifrin.
@@ -64,14 +64,24 @@ On Tue, May 19, 2020 at 10:14 PM Sergei Shtylyov
 Thanks for your patch!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.9.
+i.e. will queue in renesas-devel for v5.9, with the subject fixed.
 
 However, one question below...
 
-> --- renesas-devel.orig/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-> +++ renesas-devel/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
-
-> @@ -273,6 +278,68 @@
+> --- renesas-devel.orig/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> +++ renesas-devel/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+> @@ -187,12 +187,79 @@
+>                 function = "i2c0";
+>         };
+>
+> +       qspi0_pins: qspi0 {
+> +               groups = "qspi0_ctrl", "qspi0_data4";
+> +               function = "qspi0";
+> +       };
+> +
+>         scif0_pins: scif0 {
+>                 groups = "scif0_data";
+>                 function = "scif0";
 >         };
 >  };
 >
@@ -87,7 +97,8 @@ However, one question below...
 > +               spi-max-frequency = <50000000>;
 > +               spi-rx-bus-width = <4>;
 
-Why no "spi-tx-bus-width = <4>;"? Same for V3HSK.
+Why no "spi-tx-bus-width = <4>;"? Same for V3MSK.
+If there's no good reason to omit it, I'll add it when applying.
 
 Gr{oetje,eeting}s,
 
