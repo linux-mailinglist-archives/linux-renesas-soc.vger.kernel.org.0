@@ -2,43 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFCD221837A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39274218399
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgGHJXw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 05:23:52 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:38674 "EHLO
+        id S1728103AbgGHJaA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 05:30:00 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:38343 "EHLO
         mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgGHJXv (ORCPT
+        with ESMTP id S1726847AbgGHJ37 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 05:23:51 -0400
-Received: by mail-oi1-f195.google.com with SMTP id r8so37250810oij.5;
-        Wed, 08 Jul 2020 02:23:50 -0700 (PDT)
+        Wed, 8 Jul 2020 05:29:59 -0400
+Received: by mail-oi1-f195.google.com with SMTP id r8so37262775oij.5;
+        Wed, 08 Jul 2020 02:29:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uRrUPcHstxq9BkgjI6vnpH4KszKClgTBJE06AkYcztc=;
-        b=CUrklVRm8yukd62BbjAKNJ9YhAu8+I5bP7oNragQUGs6WLE00i40gfVI35i/3YMjom
-         1nOg43tjhiHXDb89YDF+trRBMbgld6uQVsKMATtTkWFrkicEnt+TI2rX8dBplRB/fJ08
-         q8CqySml7Lqvxz7v7sCq8CrIC0ds7CVry+0c/1prthjGX9A4i6o7fP3LSGRTZicJaGE4
-         NQkbM7AGKH9bij1dUJL/4zqzKJvGTUzgxIbTZUoGCqpv9wpn7psyCxGI7caxiXu5WBU8
-         k7vvemsddb8I0KF2HTBF9oo94CEUav7KJJYXQB2O1U/OfiKbcgJXl5oAQ8lhAGx6lBYN
-         MGOg==
-X-Gm-Message-State: AOAM531TSCGLdYEuc6W1TdxRnmgD9OsxoVFtG2AcSdB+5DDXrp8M6Vsg
-        n0XX6Y9a5KREIpXZa0o/p5U2OcE9i/2ph87kC74=
-X-Google-Smtp-Source: ABdhPJw/h8f5Kis8UalwBsKneubiY5z2iSAtJed4AhomXo2jGp/awDUmDdgBRshyWBZ7rOIvS+O3RiJ0BAwLO/z4q9A=
-X-Received: by 2002:aca:5c41:: with SMTP id q62mr6166090oib.148.1594200230635;
- Wed, 08 Jul 2020 02:23:50 -0700 (PDT)
+        bh=SI+vX2jEKXa1zfH1mtIEuripsdBwBGbCpZ5PANny8O8=;
+        b=SBMSF73waHZNOhxpqv4bu0b+EHvi56e3BkmtsbtXWNKurvOgk0Tu2WEkfo/h33nny8
+         00LyU97WxbmoZL155C6gBAkvZc06FyMLwRdR3I9c4gXG0Ugew5B6/sf2yXhiXLwj6+mS
+         hirVf3AenI3OASZ++bVqZtw2XHnJkSVpGbP08DxQfdKt54he7HDXr9Yx3JG+pDC/Deef
+         AVG8NyAon6kGBNw5STjjd1ip9dAD4ayna4ZMl8cJrwKC8ZNcvoTJQGFaH9hG73Pv8uHf
+         wGQf4qIN5x8cxNx57D/F5O2V+rhOXyR398SIAvSHAsvEEO6lWfHDJ9jQLm3t9IKuxZ/c
+         FwBw==
+X-Gm-Message-State: AOAM532wIF7aiX36qp0UroFu2pPaHz0Q5uzfECCU/VNeMYZwnOXeoYbL
+        JZv3+AHiqmwIX7dHNDZcJx6OoPenDwFBMkRQrqI=
+X-Google-Smtp-Source: ABdhPJz4VXMTz3uA1VJ79hnUuUOe2PKu6BopJkevXqbHkHtkO5hynYd9urBlnN3HNyjsCAldWFO7yto3NsV1JWkgm2g=
+X-Received: by 2002:aca:ac10:: with SMTP id v16mr6142794oie.153.1594200598697;
+ Wed, 08 Jul 2020 02:29:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594138692-16816-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594138692-16816-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594138692-16816-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594138692-16816-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Jul 2020 11:23:39 +0200
-Message-ID: <CAMuHMdUgoeWFj0iCL=UACN6L6_9O3r-RRNXDF8iJ_ahjFSgn=w@mail.gmail.com>
-Subject: Re: [PATCH 05/14] dt-bindings: power: renesas,rcar-sysc: Document
- r8a774e1 SYSC binding
+Date:   Wed, 8 Jul 2020 11:29:47 +0200
+Message-ID: <CAMuHMdURedjjxVTR6ieTzzxaGMvjCXuXP8v=7yia5+Hhy6HXNA@mail.gmail.com>
+Subject: Re: [PATCH 06/14] dt-bindings: power: Add r8a774e1 SYSC power domain definitions
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -63,13 +62,14 @@ On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> Document bindings for the RZ/G2H (aka R8A774E1) SYSC block.
+> This patch adds power domain indices for the RZ/G2H (r8a774e1) SoC.
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.9.
+i.e. will queue in renesas-devel for v5.9, in a branch shared by driver
+and DT (renesas-r8a774e1-dt-binding-defs).
 
 Gr{oetje,eeting}s,
 
