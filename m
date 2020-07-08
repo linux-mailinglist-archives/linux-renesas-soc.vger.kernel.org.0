@@ -2,122 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C832218DA3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 18:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3AA8218E64
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 19:36:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730351AbgGHQ4g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 12:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
+        id S1726973AbgGHRgv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 13:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726124AbgGHQ4f (ORCPT
+        with ESMTP id S1726964AbgGHRgv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 12:56:35 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB43FC08C5C1;
-        Wed,  8 Jul 2020 09:56:35 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id 12so31870906oir.4;
-        Wed, 08 Jul 2020 09:56:35 -0700 (PDT)
+        Wed, 8 Jul 2020 13:36:51 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22E73C08C5C1
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jul 2020 10:36:51 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id 12so31982680oir.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jul 2020 10:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qZmo9U5aXUZDGkqB26q7sUeeEzOZwLyZGd7ARaA8d54=;
-        b=csGaN8X3gJ3gBxU3gPZD9ntGLA/y+1SAjQ7SiWOKwGzlFsI1NiGdNrzmqU1Po9Rt0T
-         S818ZXcfQYwH13Jmr082uT1HcUeVaCcANOGF2uByM7GCAeaXov6rorHpilfVoVE8WVIr
-         cNaw8aV6fFlVjXhUx20qKVUI3/xOcO1hbWetbeUmN3Auqxp0mSPdzKKsm1yfATtOUvfZ
-         M8bEWNp5NcTP4S5I7xreICMs3aTRRRtYiCH6LRc61UzuOL3Y/iJU8hxv1Uxf/epXsNA9
-         5w6Il6sM2glxaLyl6LxqX9FNrwpgf6JBCR4nMSEq4iNJSiKKA3lEMFknGafDHegmo1uV
-         uIsQ==
+        bh=xIPxHFNL2iAKNO6TfsfK5i3c3GAB1DsvCug2FocHVtY=;
+        b=QBtBrpjdEAaDgN/nY2WU1E7mnTl0LdGw45K2oFN6eGJYyIsG9ugEteWhqxsSpzq2GW
+         ReZkIkMN/gB9YQl0SS01Uwl3q5rXHR3G/28TB4+hvWifUg3fXDlrcs/J3/lkovvNWR/z
+         8Hx5UVU3acMZxZl4sazyYM+tNHZjosg8iYKGDgF0N1xNEyQCGOJtyGpQCuDn8ktQ/40g
+         gYUobTJR11Ho1MUk0ayZvLJ14uZZSB5////Dd34xOBhxWQ24H11heE9J6s4O3AZLaKdH
+         YP2w9UhijAGa26TfnVXw3p5EZ/yVBc3jnMLEIVaHEbJ5O4aWYiojSmebaryi+YYsV/Hq
+         +RKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qZmo9U5aXUZDGkqB26q7sUeeEzOZwLyZGd7ARaA8d54=;
-        b=QAUJAuAx63ooi57/VzAUagDtR+2lBgABNOMi/MGf95nSjZmkfiKX9K00sV+E1ekcdK
-         bOZi4hwvcwWXPlLcfuyVtw0rASzsMtZ1a9U+16DrO29h/N3jOlgkf205weEhVU5Gw5dv
-         vhG0QQvJeBlpSuFupyav37nuSmtQRDCI/WR+8Kt2cCLwnXMioUi6Vs23s6ia5XNVNKFN
-         EMhBwtEvuwZDPgyXcyOU22fOuyNPgkfC08VlJW6aHU4aWdNIZfjGm7ggt9rjNi+FSETr
-         hp3ynbyQcUA0JwR3yhP+uwD1AXT8rk6TGSfr0GoaqBe/tbDY2IwN1ZPk7+f+KRvqFei7
-         Pq0A==
-X-Gm-Message-State: AOAM533A1DwhqxT2CW2qlfl8T3SkyF3jnTHUo6AaN+llzMSeeNfLhsbJ
-        2TPKKwOwFLTVq85fZKrUo+UKw94ou61awSO8K/g=
-X-Google-Smtp-Source: ABdhPJxkeMfA/rVy+3SHKGbcPciz/z+GsVPQFvXGJB1w64YRbQ8QzM8XeW6dvu8cJmDU6/eE92nBVFE+t2LzbkOKaXU=
-X-Received: by 2002:aca:4fd3:: with SMTP id d202mr8216944oib.142.1594227395102;
- Wed, 08 Jul 2020 09:56:35 -0700 (PDT)
+        bh=xIPxHFNL2iAKNO6TfsfK5i3c3GAB1DsvCug2FocHVtY=;
+        b=LfnXB2e2SFDqXiYus49FI3hhrTEE0keq9wWA/63liR7TG9JH4EqiPW66ZfD2nzd7qZ
+         NWiLQxKdPpbWZrrXHaeQHCLHoEnTIFKjZVaGlOIxJu4i4aKOJggW/Xy0AIjf+55UMds0
+         fIxuSV6zLUrKVKGYL0HMqTzkfqTKA8vU4/GTbXSoEiqZuZMwtaAKBmx2Fv8Vku5Sx7XB
+         k49d9ELB08TqTlUyEwEAGh2wIRlLIzr8oLOvE+bOA/1pkn4WoMTdnZG8p+GWXiVQUlPd
+         IPCKSOvMy/0LyrK0Y3IZG4NPOsDGvSX3/qDPL4CVLOiBlpO3FLMW6fj5SJT4eL/JL+bE
+         1Vhw==
+X-Gm-Message-State: AOAM5339EgkBFWqds4FqUIEmm8JR0a4xDA2iSjtf+vu92GpKDdOMPm26
+        CMnn+V6cdcWUUZYRkI26SdYk1J5QrBBUCMVe5EaI3w==
+X-Google-Smtp-Source: ABdhPJyWOqIT8y4BnHhXxpTPX2k9Z252XO3U9PSnCYIeYLF77r6UaNqlEEbfud/bKiN6dVw2TwUs6UYwZ7wNGXbTR/k=
+X-Received: by 2002:aca:a983:: with SMTP id s125mr8215567oie.30.1594229810224;
+ Wed, 08 Jul 2020 10:36:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594138692-16816-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWQHnGJCu6zYQwG16xqQmAaQdBTfyw6T1q2OHF3uR-JQQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWQHnGJCu6zYQwG16xqQmAaQdBTfyw6T1q2OHF3uR-JQQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 8 Jul 2020 17:56:08 +0100
-Message-ID: <CA+V-a8u266t41-SzURjEvsLLgA1j2YCg9egoszZ9XQcqhJuU3A@mail.gmail.com>
-Subject: Re: [PATCH 12/14] clk: renesas: cpg-mssr: Add r8a774e1 support
+References: <20200701194259.3337652-1-saravanak@google.com>
+ <CAJZ5v0gPKHSpC+9BNt_n_wP+8Lmekb1VapfgHPwenHopekHV=w@mail.gmail.com> <CAMuHMdW+dqCCqKjtxgZAAG-sFiMpbsEs_GoVGeKq6__A7EDBxg@mail.gmail.com>
+In-Reply-To: <CAMuHMdW+dqCCqKjtxgZAAG-sFiMpbsEs_GoVGeKq6__A7EDBxg@mail.gmail.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Wed, 8 Jul 2020 10:36:14 -0700
+Message-ID: <CAGETcx-dcvsWDJPbM_c1O4ScJmPu97+WWRkygmF1g-grdAha9A@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] Fix dpm_list ordering issue due to fw_devlink optimization
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-On Wed, Jul 8, 2020 at 12:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Wed, Jul 8, 2020 at 1:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Prabhakar,
+> Hi Rafael,
 >
-> On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> On Tue, Jul 7, 2020 at 5:56 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> > On Wed, Jul 1, 2020 at 9:43 PM Saravana Kannan <saravanak@google.com> wrote:
+> > > When commit 93d2e4322aa7 ("of: platform: Batch fwnode parsing when
+> > > adding all top level devices") enabled batch processing of fw_devlink to
+> > > optimize the parsing time, it caused a suspend/resume regression due to
+> > > the use of deferred probing early on at boot.
+> > >
+> > > This series fixes the regression by avoiding the use of deferred probing
+> > > when optimizing fw_devlink parsing.
+> > >
+> > > Saravana Kannan (3):
+> > >   driver core: Don't do deferred probe in parallel with kernel_init
+> > >     thread
+> > >   driver core: Rename dev_links_info.defer_sync to defer_hook
+> > >   driver core: Avoid deferred probe due to fw_devlink_pause/resume()
+> > >
+> > >  drivers/base/base.h    |  1 -
+> > >  drivers/base/core.c    | 44 ++++++++++++++++++++++++++++++------------
+> > >  drivers/base/dd.c      |  5 -----
+> > >  include/linux/device.h |  5 +++--
+> > >  4 files changed, 35 insertions(+), 20 deletions(-)
+> > >
+> > > --
 > >
-> > Add support for the RZ/G2H (R8A774E1) SoC to the Renesas Clock
-> > Pulse Generator / Module Standby and Software Reset driver.
-> >
-> > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Geert, any chance to test this series on top of 5.8-rc?  It is
+> > expected to fix the suspend/resume regression reported by you.
 >
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in clk-renesas-for-v5.9.
+> Sorry, I had completely forgotten I hadn't tested this iteration of
+> the fix(es) yet. Thanks for the reminder!
 >
-> > --- /dev/null
-> > +++ b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
+> Works fine when applied on top of v5.8-rc4.
+> Tested on r8a7740/armadillo, sh73a0/kzm9g, r8a7791/koelsch,
+>  and r8a77951/salvator-xs.
 >
-> > +static const unsigned int r8a774e1_crit_mod_clks[] __initconst = {
->
-> As per commit f23f1101ad0ef1ac ("clk: renesas: rcar-gen3: Mark RWDT
-> clocks as critical"), I'll add a line
->
->     MOD_CLK_ID(402),        /* RWDT */
->
-> while applying.
->
-Thank you for taking care of it.
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Cheers,
---Prabhakar Lad
+Great! Thanks!
 
-> > +       MOD_CLK_ID(408),        /* INTC-AP (GIC) */
-> > +};
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+-Saravana
