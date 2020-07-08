@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7B9C218321
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D5A6218325
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:09:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbgGHJIH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 05:08:07 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37975 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgGHJIF (ORCPT
+        id S1726736AbgGHJJU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 05:09:20 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44554 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbgGHJJT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 05:08:05 -0400
-Received: by mail-oi1-f195.google.com with SMTP id r8so37219670oij.5;
-        Wed, 08 Jul 2020 02:08:05 -0700 (PDT)
+        Wed, 8 Jul 2020 05:09:19 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 5so34400513oty.11;
+        Wed, 08 Jul 2020 02:09:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+ifhTbenHl4MBKv4jBLn2jEdTHksRw2S6+cnmDHE1U4=;
-        b=UV02i6C6Qp3XK7gdGefrk3V/02ouj1GbecjPdyNZ+DFwsdiRkkkhhy+CD+se70RbHl
-         pOvnQ7DGJqfJGtwxJrqmSL0bgzNgJs9FDvya/+WZ9GJ6xW+Lyks3rLBgupj3E37+H0hr
-         oc8vHEQl5MEBPTwqDtavZjUCS+hrPFecwCyEln6SmlC2CvnNqDxQVOr0QyAxRhTVzwUk
-         TJFWv0QyM6E1sDrrz3l+3IjCrxoF0T41e+9O6m13QPOdZpq535ip8+PTaeviL71b3G/J
-         MZFTX27QUq1r4J8MQYjH2ebE7J5RMGxOREChf6ym0A5yPMeyBbL7KDqSJWAKkXb06aju
-         a1FQ==
-X-Gm-Message-State: AOAM531WF7+8bamp2IXkugKtmFJtkx/Bgy9VWjgUO1EZjoHswXySR3So
-        iq2Zm4LZVey1ha66qsrhMq4hfxt4WKpYO+xX4Lg=
-X-Google-Smtp-Source: ABdhPJwwWyEJLxoYPh5RcN1bL2Wsn47wKpNZSb2k3Td2MU09jjQfJ9847L9jUzg5coiVRc1bcKgI9oGBm2HZFLW42vs=
-X-Received: by 2002:aca:5c41:: with SMTP id q62mr6127594oib.148.1594199284723;
- Wed, 08 Jul 2020 02:08:04 -0700 (PDT)
+        bh=2TOVO6Hb9HZqjDMN7R8CrnBFLPvMAJa6aPykM+a7dds=;
+        b=iONej4vdLbgt2ACKzkM/tyRixQxWQ9UnKvZgyfs3DRVqn9EIDwXqMKKS1byqCRUtDx
+         I3D+yFBTuiw1O1hNcxnAlpN+kF/Mwhc6sofSgw8qoiyPp71yg34pfqXyONNhx6/x8ZRG
+         J00Go//wffVIfmYRnrimWZa0piEdGcO0wPMaEsR04+f2Ztof0vQJ5KkdrJG05cCkK4mh
+         cOwCSEToSURiDkDPjC4plTj0EckS86NakDE4e4LqVeJfSMzzRv58YBl4Al7xiPFwa8NM
+         Cpoo2saZKLboeIduKnxoX50xmQ7zkGMyZDGwtY6UWARFRtCHrFBQvU1ZjXjcrsMpTT8P
+         te4w==
+X-Gm-Message-State: AOAM530xGzOi/Ucb364TV3iqHgSs2WeK+FpdKKOXQA7eu2+72cnQxuCT
+        Za7PxusdEDmeLN5zxgRoYaohjkDDlBhMQ/EMV8Y=
+X-Google-Smtp-Source: ABdhPJyhkpRCJtpPAs9hAa8vrBNGvUEx4nBIs4nP7nRXvEerlITrMEI9OahTeNAuPq/kfTLdDiw/8PJ9ezSlGzPVEFo=
+X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr16283684otl.145.1594199358865;
+ Wed, 08 Jul 2020 02:09:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594138368-16449-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594138368-16449-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594138368-16449-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Jul 2020 11:07:53 +0200
-Message-ID: <CAMuHMdWLp+KHD=kco=AoM94a_D+qAiscyJkv57WoyDGGZM6WXA@mail.gmail.com>
-Subject: Re: [PATCH 01/14] dt-bindings: arm: renesas: Document RZ/G2H SoC DT bindings
+Date:   Wed, 8 Jul 2020 11:09:07 +0200
+Message-ID: <CAMuHMdXLLVhi7wj4z82Si2HjiU5P=MLecTi2=0-yoyV_6TRHEA@mail.gmail.com>
+Subject: Re: [PATCH 02/14] dt-bindings: arm: renesas: Add HopeRun RZ/G2H boards
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -51,21 +50,21 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-clk <linux-clk@vger.kernel.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 7, 2020 at 6:14 PM Lad Prabhakar
+On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> Add device tree binding documentation for the Renesas RZ/G2H (r8a774e1)
-> SoC.
+> This patch adds board HiHope RZ/G2H (the main board, powered by the
+> R8A774E1) and board HiHope RZ/G2 EX (the expansion board that sits on top
+> of the HiHope RZ/G2H). Both boards are made by Jiangsu HopeRun Software
+> Co., Ltd. (a.k.a. HopeRun).
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
