@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3B921849A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 12:04:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B93D22184A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 12:05:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728505AbgGHKEJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 06:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36848 "EHLO
+        id S1728337AbgGHKF3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 06:05:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbgGHKEJ (ORCPT
+        with ESMTP id S1726586AbgGHKF2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 06:04:09 -0400
+        Wed, 8 Jul 2020 06:05:28 -0400
 Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DAEC08C5DC;
-        Wed,  8 Jul 2020 03:04:08 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id 9so53414857ljv.5;
-        Wed, 08 Jul 2020 03:04:08 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671D4C08C5DC;
+        Wed,  8 Jul 2020 03:05:28 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id e8so19192876ljb.0;
+        Wed, 08 Jul 2020 03:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
+        h=subject:from:to:cc:references:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=p3PCjrGEb1SE194xmBZMMpyZF/VWXlP8HwS7wSkYeao=;
-        b=iq5umJlQKHxHV8mj42vsFJN601icTnUbn8VZKWxj+YDKQvvRjjc7MUWrZdazVUaibX
-         uttIPbfWha4Or0td23k8ubJvqmCKbe5Ne+uElkx03tfgnS6tfiPnwqYfQg1D2zcI1rcm
-         VlzTPSnmOR3vXg7S/Xp5saWOfIKEA5VykReOr17kFxubEtJ9g9qHeX/wHh2lWz2+pWtc
-         s40KiZQxdV49k65Qb+Uvr16bAUdUHywnVQHzEq5RDXlZW3LnrmThwrsx3DB4wbyPlrYf
-         yWEfLRRqe3yx7idiWOOhE8Hh4jANKnReiCela+nDk3D8aUraVAFaQGtOoPXx0Yvzfi9c
-         GEqA==
+        bh=4AhtWJmTt0k+SbSm8EpR4JpdwLD+1n7WbwjJUPNQsBo=;
+        b=VFiCq8eMmhTdX0ZTUz458pNxVywlXyrH4ItXqTEB6A+prYRH8TlD1UesUiyO+IutfF
+         hY7kWGI4yr5qLvEcLQQrtkBhkJkrsixI5XHeo3t9z5HbtAz4aINQpmjk6W3KKsOR6bQM
+         ysahLY9gFcTVHpNAc/Z9qvnxlMDK4jpcVt3LzhCL6RG49lDE2pOexK5woTA8wrUZpCe9
+         x6axZpPdDwMYDECpb7It3UohI7NLNTsLo359lqxX9iS041x5QO+i8wzrBBUPXllpjGpy
+         3FfSMLZOdnoR761HQZFWcLCkjo30zrYxDzlEgUP7gvpFH67xMgf5cSlnMBJcN7EhxdAN
+         XvhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
+        h=x-gm-message-state:subject:from:to:cc:references:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=p3PCjrGEb1SE194xmBZMMpyZF/VWXlP8HwS7wSkYeao=;
-        b=jwQnhmTKqHujAwmX0nsaYiqCCjU3UCLHODwoAUAa/oRZeGrmf1uu+ZJfCS+O7z/SQ2
-         ogKk33QLkhNpJf0YSf5cgs1VyyXjLvUTO/n/aB9n98UI1jP6CIhvSU5VU4NcsMktHMBA
-         FlA36hd1WGIvSdxMNkkAypJOcMpPcVU8bXNUOls5AZ9whDN9OId2+Pm3F8ZhLsFkZnWP
-         f6Uk2c3uXHcOTejg976QKkjPnUnZprXz/4a/VpcZi7gIEGYdlXhg93SWnyZALeEfMDyD
-         Y06Eeo71XR8tAIkaoB7NzRNCWlAJ25VyLzFLnOL5zbYJxLYz7MNqM2OnbJaQuVwfGbpv
-         u9dQ==
-X-Gm-Message-State: AOAM532K+z7bjpC6ZaXxAJ/otQueiOrBvyftGclHBuufP2qnQTYL5Uui
-        qz6pBeGh6Q6FkMccIKaVaAPhErvv7gc=
-X-Google-Smtp-Source: ABdhPJywUWrfVESenofUIgF5HgLJ7shdt3nonV/r6qE8P2qbwijrzP46EPqHorRfqikaoUieU3DVxw==
-X-Received: by 2002:a2e:a484:: with SMTP id h4mr33520517lji.468.1594202646990;
-        Wed, 08 Jul 2020 03:04:06 -0700 (PDT)
+        bh=4AhtWJmTt0k+SbSm8EpR4JpdwLD+1n7WbwjJUPNQsBo=;
+        b=GrZvL9sqU2vlclGhFQQ7weWwdVbtAtZ8M2ONuuHJFgxi24JVYaiJCjVEWbo/Xi9Ver
+         ZIfe0YsTect1AGrJtCxhL9TQOaLKYRAm1B4iTbrPq9NFGlGQcG/qo6rvpoBrjUY03KI5
+         5/+CnWfGQjbmrWnnaqROACguDFjBgQFpL9kfxh9iDPiODQ6hTUY6y7ct2gpQZWJucoah
+         Zu5lSwtvTlNz8rEL4FjDc7cDwMTCzdlNp011LlfwbDpyfAZ52QkaiULKkP6FxJQTk0ak
+         kuzmBN5hrRilYdCJPN97Z94CV1Z4QmgSqANsz3tNK90oLieI82x1NGlnyK3nTM8mBtRK
+         QEBw==
+X-Gm-Message-State: AOAM532U/K+BQEWMCWe++oYDODLmQXrMLZ6f6q/hzWnz+mzBlit7owzn
+        Vz2asW9agUqR+zR4QRgUc9QABGBhfks=
+X-Google-Smtp-Source: ABdhPJySCWcAWtZMXy9awCRDK0stHeq8pfcH5Y7hvZXAxTZspwn8HUBvgcQWHPyaGpe+r+RDoYGQ9w==
+X-Received: by 2002:a2e:85ce:: with SMTP id h14mr21629655ljj.356.1594202726667;
+        Wed, 08 Jul 2020 03:05:26 -0700 (PDT)
 Received: from ?IPv6:2a00:1fa0:4297:b781:8ad:e985:513e:5609? ([2a00:1fa0:4297:b781:8ad:e985:513e:5609])
-        by smtp.gmail.com with ESMTPSA id n4sm10209645lfl.40.2020.07.08.03.04.05
+        by smtp.gmail.com with ESMTPSA id w5sm483270lji.49.2020.07.08.03.05.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jul 2020 03:04:05 -0700 (PDT)
+        Wed, 08 Jul 2020 03:05:26 -0700 (PDT)
 Subject: Re: [PATCH v2 2/7] dt-bindings: net: renesas,ravb: Document internal
  clock delay properties
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -68,14 +69,14 @@ Cc:     Andrew Lunn <andrew@lunn.ch>,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20200706143529.18306-1-geert+renesas@glider.be>
  <20200706143529.18306-3-geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+ <df4affe7-922c-968d-6aa9-b92072aade4f@gmail.com>
 Organization: Brain-dead Software
-Message-ID: <df4affe7-922c-968d-6aa9-b92072aade4f@gmail.com>
-Date:   Wed, 8 Jul 2020 13:03:58 +0300
+Message-ID: <7290209a-a2e4-e663-6029-937eb8fa56a8@gmail.com>
+Date:   Wed, 8 Jul 2020 13:05:18 +0300
 User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200706143529.18306-3-geert+renesas@glider.be>
+In-Reply-To: <df4affe7-922c-968d-6aa9-b92072aade4f@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -84,25 +85,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 06.07.2020 17:35, Geert Uytterhoeven wrote:
-
-> Some EtherAVB variants support internal clock delay configuration, which
-> can add larger delays than the delays that are typically supported by
-> the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
-> properties).
+On 08.07.2020 13:03, Sergei Shtylyov wrote:
+>> Some EtherAVB variants support internal clock delay configuration, which
+>> can add larger delays than the delays that are typically supported by
+>> the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
+>> properties).
+>>
+>> Add properties for configuring the internal MAC delays.
+>> These properties are mandatory, even when specified as zero, to
+>> distinguish between old and new DTBs.
+>>
+>> Update the (bogus) example accordingly.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> Add properties for configuring the internal MAC delays.
-> These properties are mandatory, even when specified as zero, to
-> distinguish between old and new DTBs.
-> 
-> Update the (bogus) example accordingly.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+    Oops!
 
-[...]
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+> [...]
 
 MBR, Sergei
