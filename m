@@ -2,101 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1263217BB3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 01:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31FE2218212
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 10:16:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728382AbgGGXcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jul 2020 19:32:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728298AbgGGXcu (ORCPT
+        id S1727775AbgGHIQ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 04:16:56 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38669 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbgGHIQ4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jul 2020 19:32:50 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 133DAC061755;
-        Tue,  7 Jul 2020 16:32:50 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D38A9293;
-        Wed,  8 Jul 2020 01:32:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594164766;
-        bh=RaN1EJVQ4TlUXI6YSRQb0LXPVQUmoZLcSSe0eQOa5RE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ntIlaP38YOK/L6NfIV4/FNRQb7dI1CQrazAbuW0JLqnMcgGUFs1kt1G37UOqup/jA
-         yAPyLGxmF26IAPkLi1KfRI3mgSUObskV86in3pVpgDQEPLipkHM0JABQdrbcls7j8l
-         sMLxwqvLY5q7MnrPA3bMpxfhFGp2rPNBU5UpdGbA=
-Date:   Wed, 8 Jul 2020 02:32:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 12/25] drm/rcar-du: Annotate dma-fence critical section
- in commit path
-Message-ID: <20200707233240.GR19803@pendragon.ideasonboard.com>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-13-daniel.vetter@ffwll.ch>
+        Wed, 8 Jul 2020 04:16:56 -0400
+Received: by mail-oi1-f194.google.com with SMTP id r8so37122927oij.5;
+        Wed, 08 Jul 2020 01:16:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N21L20f2wYoNBu/YYYYb9FO8mr6jGm+Qo3Mfiiunjvk=;
+        b=gBFKv8rJ8IsZpTPCSkgqk+BJvZTjGJmBAz0hr/QF+exvBeB8SFqPbGCWgqVhzwywVY
+         e+RDq0RmxQCk8lZRfo7vidOAejm7b3IEbMG4vCbNWeojoBm6HBvskfqO3+HUt9hGjLQu
+         ww5fjG/mBVPw87dua/HnAeidSFhskHqykPGoAmXG3u/+H8d0RIqdf1yCOBqBxhZ1O48y
+         P98q6e5wXZNgGs8IG7pdKH04xcVSZFtCtAGzpUq73ZPWilY6ME6HY+UYJfV09jw/o/M1
+         NWSkJ7z6OsStP4IhpBIY4pkANz0MYHMmnWTr1zIbuUUru2k8tzAFRE/EKLMbKwtjw7qW
+         Wp4Q==
+X-Gm-Message-State: AOAM531UJB+hkfZNg0iK9E/ENXmd2z8wgmj0ZT28ccd1EVaF7Da6qqBr
+        vj9IyxgTpG7X6y7ccsRJWKCfUuFMmdylqv1uzIA=
+X-Google-Smtp-Source: ABdhPJwitf6XFmBDcttTNQjqLX3z+PzKegOAF+J0DKCIdF3605YbsazbnuA+w3tKmZ77u8IKR1x4xQkSh6v/0/sBvUQ=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr6327162oih.54.1594196215284;
+ Wed, 08 Jul 2020 01:16:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200707201229.472834-13-daniel.vetter@ffwll.ch>
+References: <20200701194259.3337652-1-saravanak@google.com> <CAJZ5v0gPKHSpC+9BNt_n_wP+8Lmekb1VapfgHPwenHopekHV=w@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gPKHSpC+9BNt_n_wP+8Lmekb1VapfgHPwenHopekHV=w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 Jul 2020 10:16:44 +0200
+Message-ID: <CAMuHMdW+dqCCqKjtxgZAAG-sFiMpbsEs_GoVGeKq6__A7EDBxg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] Fix dpm_list ordering issue due to fw_devlink optimization
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Saravana Kannan <saravanak@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+Hi Rafael,
 
-Thank you for the patch.
+On Tue, Jul 7, 2020 at 5:56 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> On Wed, Jul 1, 2020 at 9:43 PM Saravana Kannan <saravanak@google.com> wrote:
+> > When commit 93d2e4322aa7 ("of: platform: Batch fwnode parsing when
+> > adding all top level devices") enabled batch processing of fw_devlink to
+> > optimize the parsing time, it caused a suspend/resume regression due to
+> > the use of deferred probing early on at boot.
+> >
+> > This series fixes the regression by avoiding the use of deferred probing
+> > when optimizing fw_devlink parsing.
+> >
+> > Saravana Kannan (3):
+> >   driver core: Don't do deferred probe in parallel with kernel_init
+> >     thread
+> >   driver core: Rename dev_links_info.defer_sync to defer_hook
+> >   driver core: Avoid deferred probe due to fw_devlink_pause/resume()
+> >
+> >  drivers/base/base.h    |  1 -
+> >  drivers/base/core.c    | 44 ++++++++++++++++++++++++++++++------------
+> >  drivers/base/dd.c      |  5 -----
+> >  include/linux/device.h |  5 +++--
+> >  4 files changed, 35 insertions(+), 20 deletions(-)
+> >
+> > --
+>
+> Geert, any chance to test this series on top of 5.8-rc?  It is
+> expected to fix the suspend/resume regression reported by you.
 
-On Tue, Jul 07, 2020 at 10:12:16PM +0200, Daniel Vetter wrote:
-> Ends right after drm_atomic_helper_commit_hw_done(), absolutely
-> nothing fancy going on here.
+Sorry, I had completely forgotten I hadn't tested this iteration of
+the fix(es) yet. Thanks for the reminder!
 
-Just looking at this patch and the commit message, I have no idea what
-this does, and why. It would be nice to expand the commit message to
-give some more context, and especially explain why ending signalling
-right after drm_atomic_helper_commit_hw_done() is the right option.
+Works fine when applied on top of v5.8-rc4.
+Tested on r8a7740/armadillo, sh73a0/kzm9g, r8a7791/koelsch,
+ and r8a77951/salvator-xs.
 
-I suppose I'll have to check the whole series in the meantime :-)
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 482329102f19..42c5dc588435 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -391,6 +391,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
->  	struct drm_crtc_state *crtc_state;
->  	struct drm_crtc *crtc;
->  	unsigned int i;
-> +	bool fence_cookie = dma_fence_begin_signalling();
+Gr{oetje,eeting}s,
 
-Can this be moved right before the
-drm_atomic_helper_commit_modeset_disables() call ?
+                        Geert
 
->  
->  	/*
->  	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
-> @@ -417,6 +418,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
->  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
->  
->  	drm_atomic_helper_commit_hw_done(old_state);
-> +	dma_fence_end_signalling(fence_cookie);
->  	drm_atomic_helper_wait_for_flip_done(dev, old_state);
->  
->  	drm_atomic_helper_cleanup_planes(dev, old_state);
 
--- 
-Regards,
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
