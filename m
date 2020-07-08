@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F2C21835C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8AB321836E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 11:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727005AbgGHJRR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 05:17:17 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:46487 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgGHJRR (ORCPT
+        id S1726891AbgGHJWe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 05:22:34 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41919 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgGHJWd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 05:17:17 -0400
-Received: by mail-oo1-f66.google.com with SMTP id s190so5156596ooa.13;
-        Wed, 08 Jul 2020 02:17:16 -0700 (PDT)
+        Wed, 8 Jul 2020 05:22:33 -0400
+Received: by mail-oi1-f196.google.com with SMTP id y22so24644339oie.8;
+        Wed, 08 Jul 2020 02:22:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zfSlSoJT6hTRymRYzmoO+21wXQYQh3l9NYIqmEcTF0s=;
-        b=IFxTeiaOz38JnvM0q6vKMK55HWgEtQeagalS9ufm9Z5wsz9I9HCcIYd873iH8GJG+f
-         uT8FkauSJkOL5YLk5Q5KZ03+SrClBt4zsPFmvKCSeGuGKOYw09G/r971Dut/XgdrcJZR
-         uCNz5BT7q+hKsnxhGPu9qdWSl77Szr7gwrdK8i2QKO/npkOhPcnk6saIx8B+VFGUndZp
-         waqNpN91i+aUPSQcqlvDJ3B7g59fRn6TVSNz+MroNAJkkBzFie1z4vwcAD0gvZtjIC0Y
-         xAmFkcCtabdGoNIL5RGqQlG0CO0XRu1JRjOs8wtF3NhIY5eJ+Cbs8x1etPEAUI7R82yE
-         gA9g==
-X-Gm-Message-State: AOAM532yaFOEhEAEOKl7QEYrgGrCqABmGw/WsaGfT6C8914EpnhDIJCz
-        8Gy1m1D4mbjKLfgfjgdFBW9xOToHYnbPWqgvWNw=
-X-Google-Smtp-Source: ABdhPJwzpQITlLNiEpP+YUnYc6Xl2667LnCWQxNGWmmkC5R0KzN2IE7Ic+eKoZjzqEJpcjI9xjlJQvk9OU+un9179cE=
-X-Received: by 2002:a4a:5209:: with SMTP id d9mr33209384oob.40.1594199835974;
- Wed, 08 Jul 2020 02:17:15 -0700 (PDT)
+        bh=xvMJkAppfMGBJdTVeqhxGqEaQ6GrIw43RFY45CP3Dr8=;
+        b=joqX9MQRWLngWZRo5TW1WwhqadAG/qA/BK9ptUOXNM9UNAAetcH8b+14wGSkQR3cJX
+         uSOdSqajUkmOdckhf8PhrRRGDM8fjWfOP56/10spzEleEQEOMuiVild0wOQKRZ4szdiq
+         v/j5Fz6w/7TtjnDGuCJ2AEDt5lBhpW8aIo0ZiXZivVsfkA5dte1x+hMM2ggWNGtgUpmE
+         vuHLPPhuiB/8gdZl3meJgwucVj/VnD2U27iOmRt+Xhpb8RSXryGmInadLsJbyttvX4Ux
+         dVV7rfBjoTAj80R9BGb3cuKrnukt5WPjx49lJ1AtAgS6hWb8+RDc4glNcEXBIctj4t7M
+         gg4A==
+X-Gm-Message-State: AOAM530hL5yc406Uv1viSWkfO1ecGnjh96f+YIIBUAwYkczDR5tiqz59
+        ghRiDGX7hZ0aCVzoNxNQZKLNiAaeFcxnFUmxUhA=
+X-Google-Smtp-Source: ABdhPJzkwaNDRSSoi48tLfW9duIr6PBxhvEH7REKD3+gPHgHqBKsMqPLBYfac7rccRu8rpuHUzl0M1cejwnpFHO2tG8=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr6478500oih.54.1594200152546;
+ Wed, 08 Jul 2020 02:22:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594138692-16816-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594138692-16816-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594138692-16816-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594138692-16816-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Jul 2020 11:17:05 +0200
-Message-ID: <CAMuHMdWy7GWTWvSdanDNkNaYEN1ywJ9wqjGMy17+D1oDEROffA@mail.gmail.com>
-Subject: Re: [PATCH 03/14] soc: renesas: Identify RZ/G2H
+Date:   Wed, 8 Jul 2020 11:22:21 +0200
+Message-ID: <CAMuHMdVqopD45WJv_aLL9YrNFFTWOi1SPBxMN2q4O6-UafOX-Q@mail.gmail.com>
+Subject: Re: [PATCH 04/14] soc: renesas: Add Renesas R8A774E1 config option
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,23 +58,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Prabhakar,
+
 On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> This patch adds support for identifying the RZ/G2H (r8a774e1) SoC.
+> Add configuration option for the RZ/G2H (R8A774E1) SoC.
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Thanks for the patch!
+
+> @@ -296,6 +303,10 @@ config SYSC_R8A774C0
+>         bool "RZ/G2E System Controller support" if COMPILE_TEST
+>         select SYSC_RCAR
+>
+> +config SYSC_R8A774E1
+> +       bool "RZ/G2H System Controller support" if COMPILE_TEST
+> +       select SYSC_RCAR
+> +
+>  config SYSC_R8A7779
+>         bool "R-Car H1 System Controller support" if COMPILE_TEST
+>         select SYSC_RCAR
+
+This hunk belongs to "[PATCH 07/14] soc: renesas: rcar-sysc: Add
+r8a774e1 support". Might fix that while applying, we'll see.
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.9.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
