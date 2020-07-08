@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 898CA21861F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 13:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB361218629
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 13:31:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728841AbgGHL3l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 07:29:41 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44795 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728385AbgGHL3k (ORCPT
+        id S1728763AbgGHLbZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 07:31:25 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:44288 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728385AbgGHLbZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 07:29:40 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 5so34645064oty.11;
-        Wed, 08 Jul 2020 04:29:39 -0700 (PDT)
+        Wed, 8 Jul 2020 07:31:25 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k6so33619667oij.11;
+        Wed, 08 Jul 2020 04:31:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aZWkJZPjmEGu6QkrDQRtpdm9RrmV8YXuY6RJVeoloW8=;
-        b=STCWbR+jcfM8TA721ZniP1oimrI1qnot3QVzWayL41ym8IT+OC6lIHBdRimye2hPi4
-         ILcAIQbucHw4karzYQOuulnXg9WkSqtILho3WayDmSpiGbsSqN8G3kCZnsjtpWxuUWyp
-         9Aeq1+VqLtBaTDb++4PVYJQcL2L1QOdKfAr/jZBC2hYm97mDlzR9sjEEj7aMuHRcU9yP
-         y6mH8hRg+Z7c73Ua80uflv35lQx1VKXtcakxhMH23LFiRhIzlcI4XdceKVIOToLK7kQo
-         vO2228oP9zEi9ePvr3rC1ntiLGceGksg7yZX5nW6rI/aWnF/89kWF0HsBbSa4N6LM/fc
-         p8Ig==
-X-Gm-Message-State: AOAM530Kg9nVeRjQSg2VM/JhSgcj/hzv7NLhDvbjvB5xEq9CDAgImC8I
-        Nm3WY42KLpo89bM0XVALLzdH7SwQPsID1koQTsA=
-X-Google-Smtp-Source: ABdhPJzfw4e0G7JAOL/fQ/heiizmgAtMS6QL3JhbQJM5wIiE1u6EnJgspqcckTPH5Og3nDusyLxev6j7HbyXZXG6Ykg=
-X-Received: by 2002:a9d:2646:: with SMTP id a64mr46434915otb.107.1594207779612;
- Wed, 08 Jul 2020 04:29:39 -0700 (PDT)
+        bh=8e4hZ651cVQvM3D1punaVKh1Yt9HoxZQTsJcXMEqkDA=;
+        b=m4CeBAmYjBTwDcD5+n6LdHoOdyrGoKD5rg+xLWEASq3yMMJWNZnsqQex+A1CYd08lB
+         wVuROSHYLeY8QFmTZSIYGQG3ePHI+qSqRY9XyXhcjV+B5opgXTRIdlCW1Kxd4jrvQ/VJ
+         hSiVws5i/5XsME+1TZ4bPSqqfMWEF5/bg4nl8jhL86oCN1f88LOOm93vgE/xQ970chxc
+         s4Pyg8iEvxLTVkE3bgbW+Tp4OxITXkH++TLJ74Zo0FDV+WpT/N7Nyl7UflUN1ypyc9bR
+         xvkXJyVs6VZYTajYUu4jmEZtgZ3py4STQZ8I02glj5jqpVAkPTFDBeJgUZ+AONp3uDYA
+         Qx4g==
+X-Gm-Message-State: AOAM53243vR3RuZw5DwLZ0/WhQ9pHpKr9yx8YqbKL+iRBUnkIr+MOKyV
+        4kp4w+6k1J63Cpgvyud4rOqhAbIhZ8RmlUOfkmQ=
+X-Google-Smtp-Source: ABdhPJwafYtlIK3JfqVod814xS1tHS++kFtnvZz6/F9NZ7RsO086oPA3TeNASTK81u1+qTWjwuY65ewtSNE84DDJois=
+X-Received: by 2002:aca:5c41:: with SMTP id q62mr6476331oib.148.1594207882458;
+ Wed, 08 Jul 2020 04:31:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594138692-16816-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594138692-16816-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594138692-16816-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594138692-16816-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 Jul 2020 13:29:28 +0200
-Message-ID: <CAMuHMdWQHnGJCu6zYQwG16xqQmAaQdBTfyw6T1q2OHF3uR-JQQ@mail.gmail.com>
-Subject: Re: [PATCH 12/14] clk: renesas: cpg-mssr: Add r8a774e1 support
+Date:   Wed, 8 Jul 2020 13:31:11 +0200
+Message-ID: <CAMuHMdU92mn8cYT2hb-f=e8ob7M52=uJkEAwAwnGyRKymg=eRA@mail.gmail.com>
+Subject: Re: [PATCH 13/14] dt-bindings: pinctrl: renesas,pfc-pinctrl: Document
+ r8a774e1 PFC support
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,35 +59,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
 On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> Add support for the RZ/G2H (R8A774E1) SoC to the Renesas Clock
-> Pulse Generator / Module Standby and Software Reset driver.
+> Document PFC support for the RZ/G2H (R8A774E1) SoC.
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.9.
-
-> --- /dev/null
-> +++ b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
-
-> +static const unsigned int r8a774e1_crit_mod_clks[] __initconst = {
-
-As per commit f23f1101ad0ef1ac ("clk: renesas: rcar-gen3: Mark RWDT
-clocks as critical"), I'll add a line
-
-    MOD_CLK_ID(402),        /* RWDT */
-
-while applying.
-
-> +       MOD_CLK_ID(408),        /* INTC-AP (GIC) */
-> +};
+i.e. will queue in sh-pfc-for-v5.9.
 
 Gr{oetje,eeting}s,
 
