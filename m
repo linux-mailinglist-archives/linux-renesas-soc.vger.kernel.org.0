@@ -2,96 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60E921878B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 14:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C832218DA3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jul 2020 18:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729184AbgGHMdo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jul 2020 08:33:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60370 "EHLO
+        id S1730351AbgGHQ4g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jul 2020 12:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729224AbgGHMdb (ORCPT
+        with ESMTP id S1726124AbgGHQ4f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jul 2020 08:33:31 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81871C08EACD
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  8 Jul 2020 05:33:30 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id v6so33105422iob.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 Jul 2020 05:33:30 -0700 (PDT)
+        Wed, 8 Jul 2020 12:56:35 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB43FC08C5C1;
+        Wed,  8 Jul 2020 09:56:35 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id 12so31870906oir.4;
+        Wed, 08 Jul 2020 09:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
-        b=CtDA46Te1kJYGFqAkgr9Vub/YrG6WB2S+VlEURQEEM4x6m9sjli+Jz/yotFRmV/AMR
-         T/h2d+e8At09eChsFX2C+mUFLH+FsdwAy78KAtzHqTPpG69rhvmbmMUpZSALFUdgKxT3
-         rKV4TF8A0J+Za5tWsTPtObTKnCJJSeTUvLM0KCUCLapZUiUA/CE0qJguNsnmAcBYT7Bw
-         PUSSiRKtit7eL05YbTu8d4vZk3Rk52mtpEQs926eluhEg6IUrqIesfOKILheZFFzZp0P
-         0kRnPxRkSyAb2gIupk6cQmoDhkGW5ga2ONIfRh7Ui0T+vXHI9OfE4hLpnUDNkQjQgdsE
-         pxTA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qZmo9U5aXUZDGkqB26q7sUeeEzOZwLyZGd7ARaA8d54=;
+        b=csGaN8X3gJ3gBxU3gPZD9ntGLA/y+1SAjQ7SiWOKwGzlFsI1NiGdNrzmqU1Po9Rt0T
+         S818ZXcfQYwH13Jmr082uT1HcUeVaCcANOGF2uByM7GCAeaXov6rorHpilfVoVE8WVIr
+         cNaw8aV6fFlVjXhUx20qKVUI3/xOcO1hbWetbeUmN3Auqxp0mSPdzKKsm1yfATtOUvfZ
+         M8bEWNp5NcTP4S5I7xreICMs3aTRRRtYiCH6LRc61UzuOL3Y/iJU8hxv1Uxf/epXsNA9
+         5w6Il6sM2glxaLyl6LxqX9FNrwpgf6JBCR4nMSEq4iNJSiKKA3lEMFknGafDHegmo1uV
+         uIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
-        b=goSdvcHbg3Sw1cHKvDua1vYlnkCwY0toHJmmYiUoctZIIbHsaqFIkAK8AYetoiWzL1
-         v/Jr0Lj8Z6C231jbWC1F6+Q9LaxO7j0YR9R2DD/6OoU7nm5mXYhYyaHN8gKuBvlxXZgy
-         Px5xa8HG9IZsQ14lnpRBnCX/iut72MvuXDtuVxDHzWrwNYAlCRjkz25N93Ygam2RvUh5
-         mwIb1aJJbjvitIs/PzSEDCSWXIqsd1rgmwrCdk7wdcJ5mx8m7Y/WB+5cneH3OWx2wKPx
-         tghZ4SNOBm9U9MqEA85aPh+U9Yei5pkTFUVc54ukB8x8j6ipYQmmfTTgjwoSTptVxAJF
-         Uqcg==
-X-Gm-Message-State: AOAM5337x9YYAs1vCfgAwbB1NZ9gHqooV+EWCXIVXRPjrSlqZze16qDL
-        eT+gELD/Aq+92+57ynV4KZhFK/CGNojt4EnkRLc=
-X-Google-Smtp-Source: ABdhPJy69qBRFRW2d2u+0xyGHVfmVbQRW6SQ4gKLQIvGwSNWfhZDhNcIlxNh+7AirNZFy3An0aJSkt25Q8y7juQZu8o=
-X-Received: by 2002:a05:6638:12c7:: with SMTP id v7mr64754290jas.56.1594211609022;
- Wed, 08 Jul 2020 05:33:29 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qZmo9U5aXUZDGkqB26q7sUeeEzOZwLyZGd7ARaA8d54=;
+        b=QAUJAuAx63ooi57/VzAUagDtR+2lBgABNOMi/MGf95nSjZmkfiKX9K00sV+E1ekcdK
+         bOZi4hwvcwWXPlLcfuyVtw0rASzsMtZ1a9U+16DrO29h/N3jOlgkf205weEhVU5Gw5dv
+         vhG0QQvJeBlpSuFupyav37nuSmtQRDCI/WR+8Kt2cCLwnXMioUi6Vs23s6ia5XNVNKFN
+         EMhBwtEvuwZDPgyXcyOU22fOuyNPgkfC08VlJW6aHU4aWdNIZfjGm7ggt9rjNi+FSETr
+         hp3ynbyQcUA0JwR3yhP+uwD1AXT8rk6TGSfr0GoaqBe/tbDY2IwN1ZPk7+f+KRvqFei7
+         Pq0A==
+X-Gm-Message-State: AOAM533A1DwhqxT2CW2qlfl8T3SkyF3jnTHUo6AaN+llzMSeeNfLhsbJ
+        2TPKKwOwFLTVq85fZKrUo+UKw94ou61awSO8K/g=
+X-Google-Smtp-Source: ABdhPJxkeMfA/rVy+3SHKGbcPciz/z+GsVPQFvXGJB1w64YRbQ8QzM8XeW6dvu8cJmDU6/eE92nBVFE+t2LzbkOKaXU=
+X-Received: by 2002:aca:4fd3:: with SMTP id d202mr8216944oib.142.1594227395102;
+ Wed, 08 Jul 2020 09:56:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6602:1582:0:0:0:0 with HTTP; Wed, 8 Jul 2020 05:33:28
- -0700 (PDT)
-Reply-To: mmsafiatou057@gmail.com
-From:   "Mrs. Safitaou Zoungrana" <richardlaurentdr@gmail.com>
-Date:   Wed, 8 Jul 2020 12:33:28 +0000
-Message-ID: <CALJAiTVXhrKZYOHVoupnx6hmXXD0i2k4MOSO6HW+mj1BAydXhA@mail.gmail.com>
-Subject: My Dear Beloved One,
-To:     undisclosed-recipients:;
+References: <1594138692-16816-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594138692-16816-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWQHnGJCu6zYQwG16xqQmAaQdBTfyw6T1q2OHF3uR-JQQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWQHnGJCu6zYQwG16xqQmAaQdBTfyw6T1q2OHF3uR-JQQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 8 Jul 2020 17:56:08 +0100
+Message-ID: <CA+V-a8u266t41-SzURjEvsLLgA1j2YCg9egoszZ9XQcqhJuU3A@mail.gmail.com>
+Subject: Re: [PATCH 12/14] clk: renesas: cpg-mssr: Add r8a774e1 support
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-My Dear Beloved One,
+Hi Geert,
 
-I greet you in the name of God almighty the givers of all good things
-in life. Please kindly pardon me for any inconvenience this letter may
-cost you because I know it may come to you as a surprise as we have no
-previous correspondence.  I sent this mail praying for it to reach you
-in good health, since I myself are in a very critical health condition
-in which I sleep every night without knowing if I may be alive to see
-the next day.
+On Wed, Jul 8, 2020 at 12:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, Jul 7, 2020 at 6:18 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> >
+> > Add support for the RZ/G2H (R8A774E1) SoC to the Renesas Clock
+> > Pulse Generator / Module Standby and Software Reset driver.
+> >
+> > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in clk-renesas-for-v5.9.
+>
+> > --- /dev/null
+> > +++ b/drivers/clk/renesas/r8a774e1-cpg-mssr.c
+>
+> > +static const unsigned int r8a774e1_crit_mod_clks[] __initconst = {
+>
+> As per commit f23f1101ad0ef1ac ("clk: renesas: rcar-gen3: Mark RWDT
+> clocks as critical"), I'll add a line
+>
+>     MOD_CLK_ID(402),        /* RWDT */
+>
+> while applying.
+>
+Thank you for taking care of it.
 
-I am Mrs. Safiatou Zoungrana,  the wife of late Engineer Ralph
-Alphonso Zoungrana from Paris France but based here in Burkina Faso
-West Africa since eight years ago as a business woman dealing with
-gold exportation and Sales. We have been married for years before his
-sudden death although we were childless. I have been diagnosed with
-ovarian cancer and I have been battling with the sickness when my late
-lovely husband of a blessed memory was alive. May his soul rest in
-peace, Amen.
+Cheers,
+--Prabhakar Lad
 
-My late Husband left the sum of =E2=82=AC7.900.000.00 Seven Million Nine
-Hundred Thousand Euros in a fix/suspense account in one of the prime
-bank here in Burkina Faso. Recently, my Doctor told me that I have few
-days to live due to the cancer problem. The one that disturbs me most
-is my blood pressure sickness.
-
-Having known my health condition I decided to seek for your kind
-assistance to transfer this fund into your account and you will use it
-to establish an orphanage home in my name. I will give you more
-details about the project as soon as I receive your reply in my
-private email (mmsafiatou057@gmail.com) to handle this project because
-I do not want to state all here until I see your reply, desire and
-commitment to handle this project.
-
-My Regards to your family.
-Mrs. Safiatou Zoungrana.
+> > +       MOD_CLK_ID(408),        /* INTC-AP (GIC) */
+> > +};
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
