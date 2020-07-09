@@ -2,97 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C9C219DAA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2020 12:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 329CA219DF6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2020 12:36:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726347AbgGIKZV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jul 2020 06:25:21 -0400
-Received: from foss.arm.com ([217.140.110.172]:48956 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726140AbgGIKZU (ORCPT
+        id S1726513AbgGIKg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jul 2020 06:36:28 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:2222 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726510AbgGIKg2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jul 2020 06:25:20 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B8FEB31B;
-        Thu,  9 Jul 2020 03:25:19 -0700 (PDT)
-Received: from red-moon.cambridge.arm.com (unknown [10.57.12.214])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 14DEF3F887;
-        Thu,  9 Jul 2020 03:25:17 -0700 (PDT)
-Date:   Thu, 9 Jul 2020 11:25:12 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Hien Dang <hien.dang.eb@renesas.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v3] PCI: rcar: Fix runtime PM imbalance on error
-Message-ID: <20200709102512.GA19855@red-moon.cambridge.arm.com>
-References: <20200709064356.8800-1-dinghao.liu@zju.edu.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200709064356.8800-1-dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Thu, 9 Jul 2020 06:36:28 -0400
+X-IronPort-AV: E=Sophos;i="5.75,331,1589209200"; 
+   d="scan'208";a="51715516"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 09 Jul 2020 19:36:26 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5CA88422A5A9;
+        Thu,  9 Jul 2020 19:36:26 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     kishon@ti.com, vkoul@kernel.org
+Cc:     wsa+renesas@sang-engineering.com, geert+renesas@glider.be,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] phy: renesas: rcar-gen3-usb2: fix SError happen if DEBUG_SHIRQ is enabled
+Date:   Thu,  9 Jul 2020 19:36:18 +0900
+Message-Id: <1594290978-8205-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 09, 2020 at 02:43:56PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> the call returns an error code. Thus a corresponding decrement is
-> needed on the error handling path to keep the counter balanced.
-> 
-> Fixes: 0df6150e7ceb ("PCI: rcar: Use runtime PM to control controller
-> clock")
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+If CONFIG_DEBUG_SHIRQ was enabled, r8a77951-salvator-xs could boot
+correctly. If we appended "earlycon keep_bootcon" to the kernel
+command like, we could get kernel log like below.
 
-Applied to pci/runtime-pm but you forgot to carry over Yoshihiro's
-reviewed-by, please do pay attention to these details.
+    SError Interrupt on CPU0, code 0xbf000002 -- SError
+    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3-salvator-x-00505-g6c843129e6faaf01 #785
+    Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+    pstate: 60400085 (nZCv daIf +PAN -UAO BTYPE=--)
+    pc : rcar_gen3_phy_usb2_irq+0x14/0x54
+    lr : free_irq+0xf4/0x27c
 
-Lorenzo
+This means free_irq() calls the interrupt handler while PM runtime
+is not getting if DEBUG_SHIRQ is enabled and rcar_gen3_phy_usb2_probe()
+failed. To fix the issue, add a condition into the interrupt
+handler to avoid register access if any phys are not initialized.
 
-> ---
-> 
-> Changelog:
-> 
-> v2: - Remove unnecessary 'err_pm_put' label.
->       Refine commit message.
-> 
-> v3: - Add Fixes tag.
->       Rebase the patch on top of the latest kernel.
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index d210a36561be..060c24f5221e 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -986,7 +986,7 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->  	err = pm_runtime_get_sync(pcie->dev);
->  	if (err < 0) {
->  		dev_err(pcie->dev, "pm_runtime_get_sync failed\n");
-> -		goto err_pm_disable;
-> +		goto err_pm_put;
->  	}
->  
->  	err = rcar_pcie_get_resources(host);
-> @@ -1057,8 +1057,6 @@ static int rcar_pcie_probe(struct platform_device *pdev)
->  
->  err_pm_put:
->  	pm_runtime_put(dev);
-> -
-> -err_pm_disable:
->  	pm_runtime_disable(dev);
->  	pci_free_resource_list(&host->resources);
->  
-> -- 
-> 2.17.1
-> 
+Note that rcar_gen3_is_any_rphy_initialized() was introduced on v5.2.
+So, if we backports this patch to v5.1 or less, we need to make
+other way.
+
+Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 9f391c574efc ("phy: rcar-gen3-usb2: add runtime ID/VBUS pin detection")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index bfb22f8..91c732d 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -507,9 +507,13 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+ {
+ 	struct rcar_gen3_chan *ch = _ch;
+ 	void __iomem *usb2_base = ch->base;
+-	u32 status = readl(usb2_base + USB2_OBINTSTA);
++	u32 status;
+ 	irqreturn_t ret = IRQ_NONE;
+ 
++	if (!rcar_gen3_is_any_rphy_initialized(ch))
++		return ret;
++
++	status = readl(usb2_base + USB2_OBINTSTA);
+ 	if (status & USB2_OBINT_BITS) {
+ 		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
+ 		writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTSTA);
+-- 
+2.7.4
+
