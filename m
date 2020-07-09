@@ -2,75 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E3E521A945
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2020 22:47:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E253E21AAF4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jul 2020 00:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbgGIUrF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jul 2020 16:47:05 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:41277 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726260AbgGIUrF (ORCPT
+        id S1726789AbgGIWw1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jul 2020 18:52:27 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36624 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726228AbgGIWw0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jul 2020 16:47:05 -0400
-Received: by mail-io1-f65.google.com with SMTP id o5so3750500iow.8;
-        Thu, 09 Jul 2020 13:47:05 -0700 (PDT)
+        Thu, 9 Jul 2020 18:52:26 -0400
+Received: by mail-io1-f66.google.com with SMTP id y2so4095051ioy.3;
+        Thu, 09 Jul 2020 15:52:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wXXetMyLt/JXq+hf7AG79iHe84M94giegFW5eS3ahKs=;
-        b=OxLrrmW5tVTj0PNeeMnqvCCciUqpmk3j7n+vHHBWkGN3TECy/tFoUx/et2flAIBSyD
-         sqYUx/LC116hlwh2cpdp9Um/qpmsq1jNGtCMoJ0MonyN3PhljappnSrELWkzmrYE9mGk
-         pdwBZ6N8R4ZodLVH3MfiM3yBVzP3MSlx+J1cR9LQFnH5XH/RMp/ditdeVa474pHzIpCC
-         mbZRNSC6FhnXLLDAex+mT8jxILrv59SFGI+6RLjlDATY65WQP89scUwG57iwD23CobLc
-         b3bxtITfIqkKHCTV96dHQP4x3OnH4DjNhzYnX5K9Z+NJBh/VSs2HRXHgZbppH0O1R16u
-         PdDA==
-X-Gm-Message-State: AOAM532ub/XT5Y4t3zWBnvRyDTihXMco7LTGQJlJN7pO4AWI7qjoMzgS
-        JOH4uOQ4TZYHfHlulqiC5g==
-X-Google-Smtp-Source: ABdhPJxJwu/bLkwKh1Qj4fGMPW6l0RUYJssfxN/DYQHYqD3aqKgdw2S8XdoTT0TXkLkuh9TaCWkqZw==
-X-Received: by 2002:a02:854a:: with SMTP id g68mr17132692jai.24.1594327624709;
-        Thu, 09 Jul 2020 13:47:04 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=6LfjAawJFtBDH4x+516uZv85LV5FkHlGr9GJK4wgdsc=;
+        b=lGShhl7hMuhEmqY/MJs3ILm8BXiNuWzt18Oo6NjrxD60SSVzcqlDnmysnvxZaqTZey
+         kzbuAsg1A52b2p8jRytjKHzb7RRQSkWsigKSBipJFyrNBhSDPf1llQRhBEB0KQO+PPzO
+         OJ7LrtWCMMDd1lgUzP8senlE7rEgO1ngQalV3M+Z4at3qUTVeFaVLxeCYr4IPlj7aKfx
+         i+Gwa7pxCJFlvMVLeZlipG4qstCMePtMUdB1qFuAb2AGUGTUmiXPAiRrPRsVRNarC2Z5
+         qf1alVgd0oPn34VESv8zqqhMnlwWNPagywEn7m70AZKeoiealuaX1hfgPnHHB06i5Bqw
+         3UlA==
+X-Gm-Message-State: AOAM533pX8BMWP8Xs0QRqRdCLr1dTvCVGvpmiDTY4aAdQX6hdEvxG0Je
+        7GavSSjj203U0u5Y+DdDSddE5aqSCA==
+X-Google-Smtp-Source: ABdhPJzqId51TrJ5MSjMXnyhtyG45cZkMTMbHXKT/zLRTAVjRtl4TmYH228tsm2hY9hn3udwdQvwYQ==
+X-Received: by 2002:a05:6602:2d89:: with SMTP id k9mr44309105iow.41.1594335145902;
+        Thu, 09 Jul 2020 15:52:25 -0700 (PDT)
 Received: from xps15 ([64.188.179.254])
-        by smtp.gmail.com with ESMTPSA id p22sm2563681ili.88.2020.07.09.13.47.03
+        by smtp.gmail.com with ESMTPSA id d77sm2633769ill.67.2020.07.09.15.52.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 13:47:04 -0700 (PDT)
-Received: (nullmailer pid 859528 invoked by uid 1000);
-        Thu, 09 Jul 2020 20:47:03 -0000
-Date:   Thu, 9 Jul 2020 14:47:03 -0600
+        Thu, 09 Jul 2020 15:52:25 -0700 (PDT)
+Received: (nullmailer pid 1038901 invoked by uid 1000);
+        Thu, 09 Jul 2020 22:52:24 -0000
+Date:   Thu, 9 Jul 2020 16:52:24 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Lars-Peter Clausen <lars@metafoo.de>
-Subject: Re: [PATCH 1/2] dt-bindings: adv7180: Convert bindings to json-schema
-Message-ID: <20200709204703.GA859433@bogus>
-References: <20200704160644.3040636-1-niklas.soderlund+renesas@ragnatech.se>
- <20200704160644.3040636-2-niklas.soderlund+renesas@ragnatech.se>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        ulf.hansson@linaro.org, robh+dt@kernel.org,
+        linux-mmc@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: mmc: Add full-pwr-cycle-in-suspend
+ property
+Message-ID: <20200709225224.GA1038850@bogus>
+References: <1594123122-13156-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1594123122-13156-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200704160644.3040636-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <1594123122-13156-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 04 Jul 2020 18:06:43 +0200, Niklas Söderlund wrote:
-> Convert ADV7180 analog video decoder documentation to json-schema.
+On Tue, 07 Jul 2020 20:58:41 +0900, Yoshihiro Shimoda wrote:
+> The commit 5a36d6bcdf23 ("mmc: core: Add DT-bindings for
+> MMC_CAP2_FULL_PWR_CYCLE") added the "full-pwr-cycle" property which
+> is possible to perform a full power cycle of the card at any time.
 > 
-> As the examples in the bindings can be tested add another example to
-> test the more advance adv7180cp binding description.
+> However, some environment (like r8a77951-salvator-xs) is possible
+> to perform a full power cycle of the card in suspend via firmware
+> (PSCI on arm-trusted-firmware). So, add a new property for such
+> environment.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  .../devicetree/bindings/media/i2c/adv7180.txt |  49 -----
->  .../bindings/media/i2c/adv7180.yaml           | 184 ++++++++++++++++++
->  2 files changed, 184 insertions(+), 49 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv7180.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+>  Documentation/devicetree/bindings/mmc/mmc-controller.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
 
-Applied, thanks!
+Reviewed-by: Rob Herring <robh@kernel.org>
