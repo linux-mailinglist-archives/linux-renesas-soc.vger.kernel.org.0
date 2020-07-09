@@ -2,84 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 329CA219DF6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2020 12:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3E521A945
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jul 2020 22:47:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbgGIKg2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jul 2020 06:36:28 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:2222 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726510AbgGIKg2 (ORCPT
+        id S1726444AbgGIUrF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jul 2020 16:47:05 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:41277 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgGIUrF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jul 2020 06:36:28 -0400
-X-IronPort-AV: E=Sophos;i="5.75,331,1589209200"; 
-   d="scan'208";a="51715516"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 09 Jul 2020 19:36:26 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5CA88422A5A9;
-        Thu,  9 Jul 2020 19:36:26 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com, vkoul@kernel.org
-Cc:     wsa+renesas@sang-engineering.com, geert+renesas@glider.be,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] phy: renesas: rcar-gen3-usb2: fix SError happen if DEBUG_SHIRQ is enabled
-Date:   Thu,  9 Jul 2020 19:36:18 +0900
-Message-Id: <1594290978-8205-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 9 Jul 2020 16:47:05 -0400
+Received: by mail-io1-f65.google.com with SMTP id o5so3750500iow.8;
+        Thu, 09 Jul 2020 13:47:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wXXetMyLt/JXq+hf7AG79iHe84M94giegFW5eS3ahKs=;
+        b=OxLrrmW5tVTj0PNeeMnqvCCciUqpmk3j7n+vHHBWkGN3TECy/tFoUx/et2flAIBSyD
+         sqYUx/LC116hlwh2cpdp9Um/qpmsq1jNGtCMoJ0MonyN3PhljappnSrELWkzmrYE9mGk
+         pdwBZ6N8R4ZodLVH3MfiM3yBVzP3MSlx+J1cR9LQFnH5XH/RMp/ditdeVa474pHzIpCC
+         mbZRNSC6FhnXLLDAex+mT8jxILrv59SFGI+6RLjlDATY65WQP89scUwG57iwD23CobLc
+         b3bxtITfIqkKHCTV96dHQP4x3OnH4DjNhzYnX5K9Z+NJBh/VSs2HRXHgZbppH0O1R16u
+         PdDA==
+X-Gm-Message-State: AOAM532ub/XT5Y4t3zWBnvRyDTihXMco7LTGQJlJN7pO4AWI7qjoMzgS
+        JOH4uOQ4TZYHfHlulqiC5g==
+X-Google-Smtp-Source: ABdhPJxJwu/bLkwKh1Qj4fGMPW6l0RUYJssfxN/DYQHYqD3aqKgdw2S8XdoTT0TXkLkuh9TaCWkqZw==
+X-Received: by 2002:a02:854a:: with SMTP id g68mr17132692jai.24.1594327624709;
+        Thu, 09 Jul 2020 13:47:04 -0700 (PDT)
+Received: from xps15 ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id p22sm2563681ili.88.2020.07.09.13.47.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2020 13:47:04 -0700 (PDT)
+Received: (nullmailer pid 859528 invoked by uid 1000);
+        Thu, 09 Jul 2020 20:47:03 -0000
+Date:   Thu, 9 Jul 2020 14:47:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>
+Subject: Re: [PATCH 1/2] dt-bindings: adv7180: Convert bindings to json-schema
+Message-ID: <20200709204703.GA859433@bogus>
+References: <20200704160644.3040636-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200704160644.3040636-2-niklas.soderlund+renesas@ragnatech.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200704160644.3040636-2-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-If CONFIG_DEBUG_SHIRQ was enabled, r8a77951-salvator-xs could boot
-correctly. If we appended "earlycon keep_bootcon" to the kernel
-command like, we could get kernel log like below.
+On Sat, 04 Jul 2020 18:06:43 +0200, Niklas Söderlund wrote:
+> Convert ADV7180 analog video decoder documentation to json-schema.
+> 
+> As the examples in the bindings can be tested add another example to
+> test the more advance adv7180cp binding description.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../devicetree/bindings/media/i2c/adv7180.txt |  49 -----
+>  .../bindings/media/i2c/adv7180.yaml           | 184 ++++++++++++++++++
+>  2 files changed, 184 insertions(+), 49 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv7180.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+> 
 
-    SError Interrupt on CPU0, code 0xbf000002 -- SError
-    CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3-salvator-x-00505-g6c843129e6faaf01 #785
-    Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
-    pstate: 60400085 (nZCv daIf +PAN -UAO BTYPE=--)
-    pc : rcar_gen3_phy_usb2_irq+0x14/0x54
-    lr : free_irq+0xf4/0x27c
-
-This means free_irq() calls the interrupt handler while PM runtime
-is not getting if DEBUG_SHIRQ is enabled and rcar_gen3_phy_usb2_probe()
-failed. To fix the issue, add a condition into the interrupt
-handler to avoid register access if any phys are not initialized.
-
-Note that rcar_gen3_is_any_rphy_initialized() was introduced on v5.2.
-So, if we backports this patch to v5.1 or less, we need to make
-other way.
-
-Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 9f391c574efc ("phy: rcar-gen3-usb2: add runtime ID/VBUS pin detection")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index bfb22f8..91c732d 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -507,9 +507,13 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
- {
- 	struct rcar_gen3_chan *ch = _ch;
- 	void __iomem *usb2_base = ch->base;
--	u32 status = readl(usb2_base + USB2_OBINTSTA);
-+	u32 status;
- 	irqreturn_t ret = IRQ_NONE;
- 
-+	if (!rcar_gen3_is_any_rphy_initialized(ch))
-+		return ret;
-+
-+	status = readl(usb2_base + USB2_OBINTSTA);
- 	if (status & USB2_OBINT_BITS) {
- 		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
- 		writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTSTA);
--- 
-2.7.4
-
+Applied, thanks!
