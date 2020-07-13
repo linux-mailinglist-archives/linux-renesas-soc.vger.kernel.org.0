@@ -2,105 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3EB221CEBF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 07:17:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8F8421D05F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 09:25:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725920AbgGMFRK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jul 2020 01:17:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725804AbgGMFRK (ORCPT
+        id S1728919AbgGMHY7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jul 2020 03:24:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728737AbgGMHY6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jul 2020 01:17:10 -0400
-Received: from localhost (unknown [122.182.251.219])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2120720724;
-        Mon, 13 Jul 2020 05:17:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594617430;
-        bh=aDIzWAOIaa0QdRb3SomcHX9OzL94Axn7+kd+SCdMNdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0EsVqJ0Hy2e8BkgzejMc/xP2d9JNGv5W2rAiPkNMDrRgeotK8f8mO38If88/WUmW2
-         8UaILDeySzlj8/SaZvijSSKWKbgkdklC95JvSirBl+976h/tVGWKjtFtAXpR+Wiy7W
-         jt6Ty+7S+2vU6z3rEMFAPP8NSbYsyyVGpWt32MIo=
-Date:   Mon, 13 Jul 2020 10:47:05 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     kishon@ti.com, wsa+renesas@sang-engineering.com,
-        geert+renesas@glider.be, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: fix SError happen if
- DEBUG_SHIRQ is enabled
-Message-ID: <20200713051705.GX34333@vkoul-mobl>
-References: <1594290978-8205-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Mon, 13 Jul 2020 03:24:58 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC83C061794
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jul 2020 00:24:58 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id g2so8024644lfb.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jul 2020 00:24:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xmM2kDOe0iFtimPybuji5UfQhg9nYYX3y+aDCgMO1LE=;
+        b=yxyxR8PuZtmrqaQ4MyIWsy61a1pyGyxhKrh1ofsgRZu8nfrxPi9GbMqgnR2g707V1B
+         G5W64kcYDnu0fM/ESBZRw1NKJDSO0MMdH52jDpLKMR/A0lDRDCmLWf2HtMQEcnqhym7V
+         ktSyAiHpdYtuSFOqC6QYs6iU4QatwGlR8EZY9uiz38x/3oNFqPDB3p4Dh8dUJujksVM9
+         nPwAS7S9YRpoE6AkjIwkUYY/K6upOtoYkOSznGS3Szz/SfD/VQf21ZBucOtSzhdom8qA
+         6/Sqgc6+Oxv7mXqDIxjzbn0073ZqQ2KqMcQgRG+jnO8vROR8r/s1+MWD7IiJVTMKAILo
+         ftoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xmM2kDOe0iFtimPybuji5UfQhg9nYYX3y+aDCgMO1LE=;
+        b=MBe42Xt9UnIOiubUR1KvDTgbIBx65frpB3fS0a0lLH6O2mM3bjAFoREduLtZbAktNI
+         wG2qcfhpC10AprdgRx4QGhflvX4Idv6Dk3Jxm8SZU5GbQGiR8GedlzuDkmaFdOrjGjcG
+         ksLrpZVZ6mpO3B8OSCA/gMF/7LopbOYJyGy2pdHNft+MaEg8yCPUamPoA+GF7zKFOt34
+         IEpfLiU0VIpt5xNKvmLEO5lYoA7rod5ZYfeNy4nrzgl27+/hlPr5h7fqIWFO/hFU7Txw
+         rRABi2nyy+/ev3tUjcpLkh475OuY/8moBkKv9thtvJlEwQelT9Q0iKVDSPAOFIGYp/Au
+         nKXA==
+X-Gm-Message-State: AOAM530djBAS4QDPwVLxUGc5+X1DIOMeUKQC6Kzrs605ipVBDWlilnN9
+        4U9iHetNXx/lY8PPfkmDDrkQt/h/rbg=
+X-Google-Smtp-Source: ABdhPJwclsZiyvekJAE+OduMLQ5kD/KlbJqpdFVQcptCOEWHf/pZQ2dJjr+qd3cm6CIgrMCj4POwzQ==
+X-Received: by 2002:ac2:518c:: with SMTP id u12mr51596309lfi.91.1594625096837;
+        Mon, 13 Jul 2020 00:24:56 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id l19sm3903983ljb.15.2020.07.13.00.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2020 00:24:55 -0700 (PDT)
+Date:   Mon, 13 Jul 2020 09:24:55 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/2] ARM: dts: gose: Fix ports node name for adv7180
+Message-ID: <20200713072455.GJ1498036@oden.dyn.berto.se>
+References: <20200704155856.3037010-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200704155856.3037010-2-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUR6ouBg3LTqE80vUS1UMriXnOiVBoUpoL8SHyCAiFrWQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1594290978-8205-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdUR6ouBg3LTqE80vUS1UMriXnOiVBoUpoL8SHyCAiFrWQ@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yoshihiro,
+Hi Geert,
 
-On 09-07-20, 19:36, Yoshihiro Shimoda wrote:
-> If CONFIG_DEBUG_SHIRQ was enabled, r8a77951-salvator-xs could boot
-> correctly. If we appended "earlycon keep_bootcon" to the kernel
-> command like, we could get kernel log like below.
+On 2020-07-07 11:59:12 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
 > 
->     SError Interrupt on CPU0, code 0xbf000002 -- SError
->     CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0-rc3-salvator-x-00505-g6c843129e6faaf01 #785
->     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
->     pstate: 60400085 (nZCv daIf +PAN -UAO BTYPE=--)
->     pc : rcar_gen3_phy_usb2_irq+0x14/0x54
->     lr : free_irq+0xf4/0x27c
+> On Sat, Jul 4, 2020 at 5:59 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > When adding the adv7180 device node the ports node was misspelled as
+> > port, fix this.
+> >
+> > Fixes: 8cae359049a88b75 ("ARM: dts: gose: add composite video input")
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> This means free_irq() calls the interrupt handler while PM runtime
-> is not getting if DEBUG_SHIRQ is enabled and rcar_gen3_phy_usb2_probe()
-> failed. To fix the issue, add a condition into the interrupt
-> handler to avoid register access if any phys are not initialized.
+> Thanks for your patch!
 > 
-> Note that rcar_gen3_is_any_rphy_initialized() was introduced on v5.2.
-> So, if we backports this patch to v5.1 or less, we need to make
-> other way.
+> > --- a/arch/arm/boot/dts/r8a7793-gose.dts
+> > +++ b/arch/arm/boot/dts/r8a7793-gose.dts
+> > @@ -336,7 +336,7 @@ composite-in@20 {
+> >                         reg = <0x20>;
+> >                         remote = <&vin1>;
+> >
+> > -                       port {
+> > +                       ports {
+> >                                 #address-cells = <1>;
+> >                                 #size-cells = <0>;
+> >
+> 
+> Does this have any run-time impact, or dependencies?
 
-Should we really check phy is initialized? I think the issue here is
-that you register irq first, so your handler can be invoked. Right fix
-for this would be to move the irq registration to later in the probe
-when we are ready to handle interrupts
+No run-time impact.
+
+> Don't we need the same fix for the other boards?
+
+The only other board we have that uses the same compatible string 
+(adi,adv7180cp) is Draak and there the ports node is already correctly 
+named.
 
 > 
-> Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Fixes: 9f391c574efc ("phy: rcar-gen3-usb2: add runtime ID/VBUS pin detection")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> Gr{oetje,eeting}s,
 > 
-> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> index bfb22f8..91c732d 100644
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -507,9 +507,13 @@ static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
->  {
->  	struct rcar_gen3_chan *ch = _ch;
->  	void __iomem *usb2_base = ch->base;
-> -	u32 status = readl(usb2_base + USB2_OBINTSTA);
-> +	u32 status;
->  	irqreturn_t ret = IRQ_NONE;
->  
-> +	if (!rcar_gen3_is_any_rphy_initialized(ch))
-> +		return ret;
-> +
-> +	status = readl(usb2_base + USB2_OBINTSTA);
->  	if (status & USB2_OBINT_BITS) {
->  		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
->  		writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTSTA);
+>                         Geert
+> 
 > -- 
-> 2.7.4
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
 -- 
-~Vinod
+Regards,
+Niklas Söderlund
