@@ -2,86 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73E7421D27B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 11:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B63321D2FF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 11:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgGMJHJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jul 2020 05:07:09 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41833 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgGMJHJ (ORCPT
+        id S1729143AbgGMJkn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jul 2020 05:40:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35450 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727035AbgGMJkn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jul 2020 05:07:09 -0400
-Received: by mail-oi1-f194.google.com with SMTP id y22so10371520oie.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jul 2020 02:07:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=/74WBwfCJeg1JccG0gb8lRtFH3KFFcDKRq7G1gjOV0E=;
-        b=fUeBP1issbJjAGOMn/jV9sp+EtmK02XJuRwnt+kkBQRaw3uWi/V/xTKdoY8xA78Gjk
-         QkZ4/qgRfiQrk0o0uF/DKupl/HywhMVFdcUlomI20SBfqDKtRzzPA1cHsTMSB6uYpTEb
-         Jjy7iKx+3uBi5YAMWHV3Ad7+XKREJDsuJbXwBLfwdpUfzLpmNNSt3gKc+2xmvLe5vO50
-         ZXuxlbinC5Qj++xblwufCLuO3cQr6qjwOys1HHmjkJwDxynY9HveatPmCcz622sV6xjP
-         qJebx7t1DfUmyrzZ0K04vh4MdmXeoC1lgfkF0t0i1uAquJ9IcNW5PB8xd29GRT9VeIZl
-         4egg==
-X-Gm-Message-State: AOAM532Pm+Aym9/g5YbVgI/UE8/w+plOjqV1rcN1R3yhaarTCDfWfCew
-        /gd008vwOZMV1T0uu2nQqHlmsKBZJY/701ZKCgBwM3m3
-X-Google-Smtp-Source: ABdhPJxNrUETYlNNoVLpiO0JJzHxEqDKqKMK65bdNKt1zRUxy/u/dThjqAt4HBaXPz5wI4uxCPUwMmnuSXamvbudOyM=
-X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr13177970oih.54.1594631228547;
- Mon, 13 Jul 2020 02:07:08 -0700 (PDT)
+        Mon, 13 Jul 2020 05:40:43 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594633243;
+        bh=UpmshE1Y+Gt6ZSIIlEEt9sZUS9rKqKPuQa6FCZwf5EA=;
+        h=Subject:From:Date:To:From;
+        b=beQRX42ufkC7OyVg8gNhZdRPG/4cRxyFeyCDpSJsD5IpawwHI5tdE9GxCXjDwoa4c
+         fwKaFJkSdNThVYGNvaYKMc5huEDBNsCurtNtjYFAHCmCd3FgI0+HS0proXX9DExQfT
+         JRsFqjiz0znet1ojbSrYRVxwuCoTQFWPRJA2uKUk=
 MIME-Version: 1.0
-References: <20200704155856.3037010-1-niklas.soderlund+renesas@ragnatech.se> <20200704155856.3037010-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20200704155856.3037010-3-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Jul 2020 11:06:57 +0200
-Message-ID: <CAMuHMdVnTkB6UwNpY-Rb-rMHZj6kZAh9x7xiUPSYvASiNTgr4A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: dts: renesas: Remove unused remote property from
- adv7180 nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159463324328.26254.11034091640096603344.git-patchwork-summary@kernel.org>
+Date:   Mon, 13 Jul 2020 09:40:43 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hello:
 
-Thanks for your patch!
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/next):
 
-On Sat, Jul 4, 2020 at 5:59 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The remote property is never read by the driver, remove it.
+Series: Add R8A77970 RPC-IF support
+  Submitter: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=305843
+  Link: <13425133-eedf-081f-4ed7-cd9012ce7d6d@cogentembedded.com>
+    Patches: [v2,1/2] arm64: dts: renesas: r8a77970: add RPC-IF support
+             [v2,2/2] arm64: dts: renesas: r8a77980: eagle/v3msk: add QSPI flash support
 
-More important: the DT bindings don't mention this property ;-)
+Patch: arm64: dts: renesas: cat875: Drop superfluous phy-mode
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=313477
+  Link: <20200706151400.23105-1-geert+renesas@glider.be>
 
-Still, there are a few references left in examples:
+Patch: arm64: defconfig: enable CONFIG_PCIE_RCAR_HOST
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=288095
+  Link: <1589494238-2933-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-    $ git grep "remote =" -- Documentation/devicetree/bindings/
-    Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.txt:
-             remote = <&vin1>;
-    Documentation/devicetree/bindings/media/video-interfaces.txt:
-                     remote = <&ov772x_1_1>; /* Remote phandle */
-    Documentation/devicetree/bindings/media/video-interfaces.txt:
-                     remote = <&csi2_2>;
+Patch: arm64: dts: renesas: Restructure Makefile
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=313497
+  Link: <20200706154015.29257-1-geert+renesas@glider.be>
 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Patch: PATCH v2 1/2] arm64: dts: renesas: r8a77980: add RPC-IF support
+  Submitter: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=290421
+  Link: <f18853d9-8ef9-717a-9039-2191b26e579f@cogentembedded.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.9.
+Total patches: 6
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
