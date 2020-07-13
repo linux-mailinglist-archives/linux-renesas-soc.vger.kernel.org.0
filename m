@@ -2,85 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10CDB21D272
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 11:05:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E7421D27B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 11:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728571AbgGMJFA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jul 2020 05:05:00 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.21]:12393 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726360AbgGMJFA (ORCPT
+        id S1726380AbgGMJHJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jul 2020 05:07:09 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:41833 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726360AbgGMJHJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jul 2020 05:05:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1594631095;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=XJcRgXwIN4Zhf0ACGBnz0pccsMgYq+8GhJZN/ONtY4k=;
-        b=jPOJ22fJ8JgE/pTenBS3wd2vAjsMAFDKcFq0rRdEnsNlVUHFcEF+tHOydWG6yfYwby
-        Larm6sK4NdWdskru5bXQuXO8Ielx86NYosI1JJftCC2ELpQFegEqIVgZaby+CxBzXA8n
-        WIabfEbx0iUoZjqwBB4t+IgVxMPaeBf2RuUd7MXv0+FXaLOm3qS7akbwd+fu40kvI+eZ
-        BxYWyOsAhF06M7U1L2611KAIspKPuJTEJbbXK80SK3X7Zx4yWv0cx5cvlXV7QSdg08hw
-        4PcTJiOvE2/V27rYkS+ulkKQPvhyC2fNQ1UYFUvNjPQ6CISyuW8eyJ2jhYpAM+fRe5Lf
-        iaOQ==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGk/2mpg+g="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp03-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 46.10.5 AUTH)
-        with ESMTPSA id c08c89w6D94t5B3
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Mon, 13 Jul 2020 11:04:55 +0200 (CEST)
-Date:   Mon, 13 Jul 2020 11:04:55 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Message-ID: <1915095320.397253.1594631095168@webmail.strato.com>
-In-Reply-To: <20200713081526.GK1498036@oden.dyn.berto.se>
-References: <20200704155856.3037010-1-niklas.soderlund+renesas@ragnatech.se>
- <20200704155856.3037010-2-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdUR6ouBg3LTqE80vUS1UMriXnOiVBoUpoL8SHyCAiFrWQ@mail.gmail.com>
- <20200713072455.GJ1498036@oden.dyn.berto.se>
- <CAMuHMdUfDzDi1ELwsHeCe71Jm5zr9+rGT3o_R+cyPRqiyax3=g@mail.gmail.com>
- <20200713081526.GK1498036@oden.dyn.berto.se>
-Subject: Re: [PATCH 1/2] ARM: dts: gose: Fix ports node name for adv7180
+        Mon, 13 Jul 2020 05:07:09 -0400
+Received: by mail-oi1-f194.google.com with SMTP id y22so10371520oie.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jul 2020 02:07:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/74WBwfCJeg1JccG0gb8lRtFH3KFFcDKRq7G1gjOV0E=;
+        b=fUeBP1issbJjAGOMn/jV9sp+EtmK02XJuRwnt+kkBQRaw3uWi/V/xTKdoY8xA78Gjk
+         QkZ4/qgRfiQrk0o0uF/DKupl/HywhMVFdcUlomI20SBfqDKtRzzPA1cHsTMSB6uYpTEb
+         Jjy7iKx+3uBi5YAMWHV3Ad7+XKREJDsuJbXwBLfwdpUfzLpmNNSt3gKc+2xmvLe5vO50
+         ZXuxlbinC5Qj++xblwufCLuO3cQr6qjwOys1HHmjkJwDxynY9HveatPmCcz622sV6xjP
+         qJebx7t1DfUmyrzZ0K04vh4MdmXeoC1lgfkF0t0i1uAquJ9IcNW5PB8xd29GRT9VeIZl
+         4egg==
+X-Gm-Message-State: AOAM532Pm+Aym9/g5YbVgI/UE8/w+plOjqV1rcN1R3yhaarTCDfWfCew
+        /gd008vwOZMV1T0uu2nQqHlmsKBZJY/701ZKCgBwM3m3
+X-Google-Smtp-Source: ABdhPJxNrUETYlNNoVLpiO0JJzHxEqDKqKMK65bdNKt1zRUxy/u/dThjqAt4HBaXPz5wI4uxCPUwMmnuSXamvbudOyM=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr13177970oih.54.1594631228547;
+ Mon, 13 Jul 2020 02:07:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.2-Rev29
-X-Originating-Client: open-xchange-appsuite
+References: <20200704155856.3037010-1-niklas.soderlund+renesas@ragnatech.se> <20200704155856.3037010-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20200704155856.3037010-3-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Jul 2020 11:06:57 +0200
+Message-ID: <CAMuHMdVnTkB6UwNpY-Rb-rMHZj6kZAh9x7xiUPSYvASiNTgr4A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: renesas: Remove unused remote property from
+ adv7180 nodes
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Niklas,
 
-> On July 13, 2020 10:15 AM Niklas S=C3=B6derlund <niklas.soderlund+renesas=
-@ragnatech.se> wrote:
-> The difference as far as I can tell is only in the bindings. The older=20
-> 'adi,adv7180' compatibility string only describes where the adv7180 is=20
-> transmitting the data it collects from an undescribed connector. While=20
-> the more recent compat string 'adi,adv7180cp' describes both the=20
-> destination and the connector. A good example as you point out is to=20
-> compare koelsch with gose. From a V4L2 point of view the connector being=
-=20
-> described does not effect the capture operation.
->=20
-> Ulrich maybe you can help us shed some light on this as you added the=20
-> new compat strings?
+Thanks for your patch!
 
-Executive summary: "[Laurent and Hans] agreed that DT should model physical=
- ports."
-Full details: https://www.mail-archive.com/linux-media@vger.kernel.org/msg1=
-03799.html
+On Sat, Jul 4, 2020 at 5:59 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The remote property is never read by the driver, remove it.
 
-The reason why it's only in Gose is that that was the patch series that rai=
-sed the issue, and we didn't update the existing implementations.
+More important: the DT bindings don't mention this property ;-)
 
-CU
-Uli
+Still, there are a few references left in examples:
+
+    $ git grep "remote =" -- Documentation/devicetree/bindings/
+    Documentation/devicetree/bindings/i2c/i2c-demux-pinctrl.txt:
+             remote = <&vin1>;
+    Documentation/devicetree/bindings/media/video-interfaces.txt:
+                     remote = <&ov772x_1_1>; /* Remote phandle */
+    Documentation/devicetree/bindings/media/video-interfaces.txt:
+                     remote = <&csi2_2>;
+
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.9.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
