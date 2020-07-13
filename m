@@ -2,118 +2,230 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6048E21E26B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jul 2020 23:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9214121E368
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 01:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbgGMVgG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jul 2020 17:36:06 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:40765 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727825AbgGMVgE (ORCPT
+        id S1726356AbgGMXEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jul 2020 19:04:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726352AbgGMXEz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jul 2020 17:36:04 -0400
-X-IronPort-AV: E=Sophos;i="5.75,348,1589209200"; 
-   d="scan'208";a="51803389"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Jul 2020 06:36:03 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B6A4C40F7FC8;
-        Tue, 14 Jul 2020 06:35:59 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, iommu@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH 9/9] arm64: dts: renesas: r8a774e1: Add Ethernet AVB node
-Date:   Mon, 13 Jul 2020 22:35:20 +0100
-Message-Id: <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 13 Jul 2020 19:04:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8D7C061755
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Jul 2020 16:04:55 -0700 (PDT)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BD12C9;
+        Tue, 14 Jul 2020 01:04:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594681491;
+        bh=z/sWiRcAzasgUzNozLfAVzhTStQvqUjDjxSETv5cQlY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=XimzrWfBTnej57KrfwfTjZL4ffw5TtfGE8TavkMXnoTTD3nbKRlbkCHC0s59MmAfV
+         SmziaCRYxOSusQ73GfK86SizPgmr2H6kATzqibYdsskzrvaPEQankAaTre+cHM4ewp
+         PO49HbwIsDEl6yV0e2B+yWq2WqhXgVtSfE29GEGk=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [kms-test] [PATCH] Add license and copyright information
+Date:   Tue, 14 Jul 2020 02:04:38 +0300
+Message-Id: <20200713230438.2087-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Add SPDX tags to describe license and copyright information to all files
+in the repository.
 
-This patch adds the SoC specific part of the Ethernet AVB
-device tree node.
-
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 41 +++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
+ Makefile                         | 2 ++
+ README                           | 3 +++
+ tests/Makefile                   | 2 ++
+ tests/kms-test-allplanes.py      | 2 ++
+ tests/kms-test-brxalloc.py       | 2 ++
+ tests/kms-test-connectors.py     | 2 ++
+ tests/kms-test-crc.py            | 2 ++
+ tests/kms-test-formats.py        | 2 ++
+ tests/kms-test-legacy-modeset.py | 2 ++
+ tests/kms-test-modes.py          | 2 ++
+ tests/kms-test-modeset.py        | 2 ++
+ tests/kms-test-pageflip.py       | 2 ++
+ tests/kms-test-planeposition.py  | 2 ++
+ tests/kms-test-routing.py        | 2 ++
+ tests/kmstest.py                 | 2 ++
+ 15 files changed, 31 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index 599703d87b56..caca319aafcf 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -695,12 +695,49 @@
- 		};
+diff --git a/Makefile b/Makefile
+index 3fe6ed9604bc..1f0da15546b8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,3 +1,5 @@
++# SPDX-License-Identifier: CC0-1.0
++
+ SUBDIRS=tests
  
- 		avb: ethernet@e6800000 {
-+			compatible = "renesas,etheravb-r8a774e1",
-+				     "renesas,etheravb-rcar-gen3";
- 			reg = <0 0xe6800000 0 0x800>;
-+			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 47 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 52 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 53 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 61 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15",
-+					  "ch16", "ch17", "ch18", "ch19",
-+					  "ch20", "ch21", "ch22", "ch23",
-+					  "ch24";
-+			clocks = <&cpg CPG_MOD 812>;
-+			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-+			resets = <&cpg 812>;
-+			phy-mode = "rgmii";
-+			iommus = <&ipmmu_ds0 16>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
--
--			/* placeholder */
- 		};
+ recursive=all clean install
+diff --git a/README b/README
+index 69a3bc5eef6c..7f770d4170a3 100644
+--- a/README
++++ b/README
+@@ -1,3 +1,6 @@
++.. SPDX-License-Identifier: CC-BY-SA-4.0
++.. SPDX-FileCopyrightText: 2017 Renesas Electronics Corporation
++
+ du-tests
+ --------
  
- 		can0: can@e6c30000 {
+diff --git a/tests/Makefile b/tests/Makefile
+index 521761af28cf..0a921e5f56cd 100644
+--- a/tests/Makefile
++++ b/tests/Makefile
+@@ -1,3 +1,5 @@
++# SPDX-License-Identifier: CC0-1.0
++
+ SCRIPTS=$(wildcard *.py)
+ 
+ all:
+diff --git a/tests/kms-test-allplanes.py b/tests/kms-test-allplanes.py
+index ca7baa07af42..d88326293782 100755
+--- a/tests/kms-test-allplanes.py
++++ b/tests/kms-test-allplanes.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-brxalloc.py b/tests/kms-test-brxalloc.py
+index a0ae46a8b53e..dbdc78946b04 100755
+--- a/tests/kms-test-brxalloc.py
++++ b/tests/kms-test-brxalloc.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2018-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-connectors.py b/tests/kms-test-connectors.py
+index 25fc5dc8f60e..4c58b99f8fbf 100755
+--- a/tests/kms-test-connectors.py
++++ b/tests/kms-test-connectors.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-crc.py b/tests/kms-test-crc.py
+index e0e0eabd9950..d936d1d4fb90 100755
+--- a/tests/kms-test-crc.py
++++ b/tests/kms-test-crc.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-formats.py b/tests/kms-test-formats.py
+index 15e6f591aea9..77c9fe775a7c 100755
+--- a/tests/kms-test-formats.py
++++ b/tests/kms-test-formats.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-legacy-modeset.py b/tests/kms-test-legacy-modeset.py
+index 17a81792a2b8..4b5605345391 100755
+--- a/tests/kms-test-legacy-modeset.py
++++ b/tests/kms-test-legacy-modeset.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2018-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-modes.py b/tests/kms-test-modes.py
+index 82a1a3b21e93..b298a19beedf 100755
+--- a/tests/kms-test-modes.py
++++ b/tests/kms-test-modes.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-modeset.py b/tests/kms-test-modeset.py
+index 224b39143a8e..0dbe67fb2a4f 100755
+--- a/tests/kms-test-modeset.py
++++ b/tests/kms-test-modeset.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-pageflip.py b/tests/kms-test-pageflip.py
+index bef1f4990a10..19c3adaa601f 100755
+--- a/tests/kms-test-pageflip.py
++++ b/tests/kms-test-pageflip.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-planeposition.py b/tests/kms-test-planeposition.py
+index ac4b4d0eb407..a7cc11113aa9 100755
+--- a/tests/kms-test-planeposition.py
++++ b/tests/kms-test-planeposition.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kms-test-routing.py b/tests/kms-test-routing.py
+index a24dc1c0fb1e..806adb8c68a8 100755
+--- a/tests/kms-test-routing.py
++++ b/tests/kms-test-routing.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2019 Renesas Electronics Corporation
+ 
+ import kmstest
+ import pykms
+diff --git a/tests/kmstest.py b/tests/kmstest.py
+index 8a483d7b5259..f13e3fb7aa32 100755
+--- a/tests/kmstest.py
++++ b/tests/kmstest.py
+@@ -1,4 +1,6 @@
+ #!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ 
+ import collections.abc
+ import errno
 -- 
-2.17.1
+Regards,
+
+Laurent Pinchart
 
