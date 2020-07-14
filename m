@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 808A721EE0C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 12:34:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3205C21EE0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 12:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgGNKeW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 06:34:22 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59268 "EHLO mga01.intel.com"
+        id S1726370AbgGNKf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 06:35:27 -0400
+Received: from mga14.intel.com ([192.55.52.115]:53645 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725841AbgGNKeV (ORCPT
+        id S1725841AbgGNKf1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 06:34:21 -0400
-IronPort-SDR: OoRJ8o9GkynGaJcW8zH8erfHB/glUru0ifeUih7QtNAnbbFkDjsEBD+8/YPgRnHKSQeT25pMot
- 03DjGmaqa0Aw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="166963306"
+        Tue, 14 Jul 2020 06:35:27 -0400
+IronPort-SDR: gdBBJTINPCxPWMZkmrn6fCxEPsMsUoM3jah7yTKW+JAzMKtMAvV1dNpCg8obWNXnZSy6kK7OEg
+ TISMkQXXXz4w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="147998749"
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="166963306"
+   d="scan'208";a="147998749"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 03:34:20 -0700
-IronPort-SDR: Zen+hgfz2JoBVkZEWlvybwYrDdFteX87UH2t2+XL45yarlYywEEkKHZlRZB+x8etuBP101O0/d
- bS74xQ32NIYg==
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 03:35:26 -0700
+IronPort-SDR: FUk4zgyTF9tdGjkTp/pzaZ0+5zD9edc0HMp5EeY0gGMFBl0ns1HNc3hgPiq76L2Tsp90riQJDv
+ BFG0iHrwWZ/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="485828985"
+   d="scan'208";a="307818997"
 Received: from lkp-server02.sh.intel.com (HELO 393d9bdf0d5c) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2020 03:34:19 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jul 2020 03:35:25 -0700
 Received: from kbuild by 393d9bdf0d5c with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jvIGQ-000057-Ug; Tue, 14 Jul 2020 10:34:18 +0000
-Date:   Tue, 14 Jul 2020 18:33:32 +0800
+        id 1jvIHV-00006A-4r; Tue, 14 Jul 2020 10:35:25 +0000
+Date:   Tue, 14 Jul 2020 18:34:14 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-dt-bindings-for-v5.9] BUILD SUCCESS
- 4d938a27e18d9c9a85041bb9a94f645a0a132f37
-Message-ID: <5f0d89fc.bcb02HrG6/XnHQ0V%lkp@intel.com>
+Subject: [renesas-devel:renesas-drivers-for-v5.9] BUILD SUCCESS
+ 7f8fa833dc739c4a28574c335eb08dbde2cb23d0
+Message-ID: <5f0d8a26.Dm39Ibbk9tKLVDqd%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,12 +47,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-dt-bindings-for-v5.9
-branch HEAD: 4d938a27e18d9c9a85041bb9a94f645a0a132f37  dt-bindings: reset: renesas,rst: Document r8a774e1 reset module
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-drivers-for-v5.9
+branch HEAD: 7f8fa833dc739c4a28574c335eb08dbde2cb23d0  soc: renesas: rcar-rst: Add support for RZ/G2H
 
-elapsed time: 1171m
+elapsed time: 1172m
 
-configs tested: 161
+configs tested: 164
 configs skipped: 13
 
 The following configs have been built successfully.
@@ -84,6 +84,9 @@ mips                         bigsur_defconfig
 mips                        maltaup_defconfig
 um                            kunit_defconfig
 arm                        oxnas_v6_defconfig
+arm                          gemini_defconfig
+sparc                       sparc32_defconfig
+openrisc                 simple_smp_defconfig
 nios2                               defconfig
 sh                         ap325rxa_defconfig
 arc                                 defconfig
@@ -131,8 +134,8 @@ ia64                              allnoconfig
 ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                              allnoconfig
-m68k                             allyesconfig
 m68k                           sun3_defconfig
+m68k                             allyesconfig
 nios2                            allyesconfig
 openrisc                            defconfig
 c6x                              allyesconfig
