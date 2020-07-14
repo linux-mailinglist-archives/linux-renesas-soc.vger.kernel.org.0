@@ -2,49 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC93121F35C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 16:01:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1292221F3F6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 16:25:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725981AbgGNOAq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 10:00:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37076 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725821AbgGNOAq (ORCPT
+        id S1726945AbgGNOZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 10:25:36 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:32295 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725803AbgGNOZg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 10:00:46 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594735246;
-        bh=ICtTlO9Acy6HtQ1v1t1Ytavi6yhvX9/tEDcehzFBdtU=;
-        h=Subject:From:Date:To:From;
-        b=uxMPpNTxaajfI5k76+uenQmb/OByxoc0LcVofwXc1ozyjx1DN3px123ehv5Bh2shb
-         wLMAd4nRpzY9Hak+ITsSORtsoRGSZDr33qrih9anQzq3tkAYRY9az8CLjW2gD49mZ7
-         FE+AnoLyijDZoLOadSbjJ/3kIu+CNyMhEB4o/XEc=
+        Tue, 14 Jul 2020 10:25:36 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id BCF3E24000C;
+        Tue, 14 Jul 2020 14:25:31 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        dave.stevenson@raspberrypi.com, dongchun.zhu@mediatek.com,
+        linux-renesas-soc@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com
+Subject: [PATCH v2 0/3] dt-bidings: media: ov5647 bindings + small fix
+Date:   Tue, 14 Jul 2020 16:28:53 +0200
+Message-Id: <20200714142856.58365-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159473524629.19079.11406680159444423853.git-patchwork-housekeeping@kernel.org>
-Date:   Tue, 14 Jul 2020 14:00:46 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v6] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-07-14T13:58:03)
-  Superseding: [v5] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-06-16T14:12:35):
-    [v5,01/10] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-    [v5,02/10] media: i2c: Use the new get_mbus_config pad op
-    [v5,03/10] media: i2c: ov6650: Use new [get|set]_mbus_config ops
-    [v5,04/10] media: pxa_camera: Use the new set_mbus_config op
-    [v5,05/10] media: v4l2-subdev: Remove [s|g]_mbus_config video ops
-    [v5,06/10] staging: media: imx: Update TODO entry
-    [v5,07/10] media: i2c: adv748x: Adjust TXA data lanes number
-    [v5,08/10] media: i2c: adv748x: Implement get_mbus_config
-    [v5,09/10] media: rcar-csi2: Negotiate data lanes number
+I have added Rob's tag to patches [1/3] and [2/3].
 
+I have added to patch [1/3] an entry for the yaml binding file to MAINTAINERS
+and added a new patch which removes the existing maintainers of the driver,
+as his email address bounces back, and replaced it with myself.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+I hope this is not rude, but I have no way to contact Luis Oliveira and
+ask him, and a bouncing email is not that helpful.
+
+Dave, would you like to be added as maintainer as well, as this sensor
+is the one used by the RPi Camera Module v1 ?
+
+Thanks
+  j
+
+Jacopo Mondi (3):
+  dt-bindings: media: ov5647: Convert to json-schema
+  dt-bindings: media: i2c: Document 'remote-endpoint'
+  media: MAINTAINERS: ov5647: Add myself as maintainer
+
+ .../devicetree/bindings/media/i2c/imx219.yaml |  5 ++
+ .../devicetree/bindings/media/i2c/ov5647.txt  | 35 --------
+ .../devicetree/bindings/media/i2c/ov5647.yaml | 82 +++++++++++++++++++
+ .../devicetree/bindings/media/i2c/ov8856.yaml |  5 ++
+ MAINTAINERS                                   |  3 +-
+ 5 files changed, 94 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+
+--
+2.27.0
+
