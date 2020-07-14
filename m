@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 064B421EE10
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 12:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1080121EE12
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 12:35:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbgGNKf2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 06:35:28 -0400
-Received: from mga14.intel.com ([192.55.52.115]:53645 "EHLO mga14.intel.com"
+        id S1725841AbgGNKfe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 06:35:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20073 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725841AbgGNKf1 (ORCPT
+        id S1725955AbgGNKfe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 06:35:27 -0400
-IronPort-SDR: hDH74j12hrHOva8buYgsNY7CKzmkM2M8J2pLhtApsCSArexG4VRX//KgDDcBtjFGTLravdfnmS
- WuQJX9kvZ4BA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="147998752"
+        Tue, 14 Jul 2020 06:35:34 -0400
+IronPort-SDR: /DpBV66CWKpShZ3Y61uP0fuOb/wknxxaU2egys4mFcpc4YxuV5LECvGSX1Hw6KODW8mgiw2gnd
+ QCfLpv1Ffdeg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9681"; a="233727375"
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="147998752"
+   d="scan'208";a="233727375"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 03:35:27 -0700
-IronPort-SDR: kNJoM7pd/5xj5zq3xeLOBl+uVrszoxysvGLxI5+9wmirJUZBQqg218IqCtJTQiv/Hx0H1mv269
- ITLBO06gnH8w==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2020 03:35:26 -0700
+IronPort-SDR: 7nBVKiTUxaqvperihziqZu5fWwHAVEFll3sUCO0JJdv3yT9TS1Zbr1KxXMEfaDH/wM9uBJbCyu
+ oie+z4evcxKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,350,1589266800"; 
-   d="scan'208";a="285713414"
+   d="scan'208";a="324507332"
 Received: from lkp-server02.sh.intel.com (HELO 393d9bdf0d5c) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 14 Jul 2020 03:35:26 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2020 03:35:25 -0700
 Received: from kbuild by 393d9bdf0d5c with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jvIHV-00006D-5B; Tue, 14 Jul 2020 10:35:25 +0000
-Date:   Tue, 14 Jul 2020 18:34:23 +0800
+        id 1jvIHV-00006G-5W; Tue, 14 Jul 2020 10:35:25 +0000
+Date:   Tue, 14 Jul 2020 18:34:25 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
- f7a10e792ff4ed25b6ac8bdd5482653ae9e2bb47
-Message-ID: <5f0d8a2f.lWwd4Ms5aAlMW/p3%lkp@intel.com>
+Subject: [renesas-devel:renesas-fixes-for-v5.8] BUILD SUCCESS
+ fecc5cfcd55f7aacc483726c405a951bd6aaaf2e
+Message-ID: <5f0d8a31.1ErneXUhl/5GZ+SX%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,13 +47,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
-branch HEAD: f7a10e792ff4ed25b6ac8bdd5482653ae9e2bb47  arm64: dts: renesas: Add HiHope RZ/G2H sub board support
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-fixes-for-v5.8
+branch HEAD: fecc5cfcd55f7aacc483726c405a951bd6aaaf2e  arm64: defconfig: Enable CONFIG_PCIE_RCAR_HOST
 
 elapsed time: 1172m
 
-configs tested: 144
-configs skipped: 114
+configs tested: 136
+configs skipped: 123
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -71,11 +71,6 @@ arm64                            alldefconfig
 arm                        mini2440_defconfig
 arm                            hisi_defconfig
 powerpc                      ppc40x_defconfig
-arm                         axm55xx_defconfig
-arm                           sama5_defconfig
-sh                         apsh4a3a_defconfig
-riscv                    nommu_virt_defconfig
-m68k                                defconfig
 m68k                       m5249evb_defconfig
 m68k                         amcore_defconfig
 h8300                               defconfig
@@ -84,13 +79,9 @@ powerpc                     pq2fads_defconfig
 arm                         bcm2835_defconfig
 sh                             espt_defconfig
 ia64                        generic_defconfig
-powerpc                      mgcoge_defconfig
-m68k                        mvme16x_defconfig
-arc                            hsdk_defconfig
-arm                           h5000_defconfig
-arm                          collie_defconfig
 arm                    vt8500_v6_v7_defconfig
 powerpc                     mpc5200_defconfig
+arm                           sama5_defconfig
 sh                        apsh4ad0a_defconfig
 mips                              allnoconfig
 parisc                           alldefconfig
@@ -112,6 +103,7 @@ ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                              allnoconfig
 m68k                           sun3_defconfig
+m68k                                defconfig
 m68k                             allyesconfig
 nios2                               defconfig
 nios2                            allyesconfig
