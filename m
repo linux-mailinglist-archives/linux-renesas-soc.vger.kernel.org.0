@@ -2,125 +2,318 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E72021F2E9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 15:45:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A440C21F341
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 15:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgGNNpN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 09:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47192 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726947AbgGNNpM (ORCPT
+        id S1728257AbgGNN5a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 09:57:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34928 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728095AbgGNN53 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 09:45:12 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2A40C061794
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2020 06:45:10 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id f139so6121668wmf.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2020 06:45:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=smSfqWzZJxpTQw/VqREmipLrv4Sx7Dys34CbnDlAU7E=;
-        b=o7Zg0weyxdSjrD0g+eqgXHWEfH1xUQCcFTXIZpziuL+Ae/jug80qQ+38INEd+CeNk3
-         OUVkxKRnZx5Z+CCK0LlUJpo2dx5CtPOE/PFy4Y0lIrP7fVs5Zn6L2h+f1Be3FKlF2Vj9
-         EgBToUVUcXEue4hVPV5YVs1mCyJRsct0jGA23IhQyB/fVLwQ+hBt7d3acmjW4eIyOi5y
-         HgpArNzY9DLbtCP5MG7D5EviZLSLvoQvGJ8BklMgjmnU26hb2iWIlp7lUPpYjJUWOkSu
-         3QXpJh7UZ2HMKB5/6TLKPoDaNWwSm6u8QqF+KQRI9FxzdpxYmieTSTXacwN8CGQB4Zzz
-         S2dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=smSfqWzZJxpTQw/VqREmipLrv4Sx7Dys34CbnDlAU7E=;
-        b=qQXAbZtq4Y577U7BERiObYnYa+c+NFzewNIiRHBm/4NUedZC9tjPQE3aJJi6oshVBt
-         fVRi+Vhhm1KZWba+SOJt6tXwizQQj9OHxORnmuRnKNWd+/xkuy4/gTBfwyAmT96qe4eX
-         zPA8jRfwHnGHVGdLdPnkNJZh1T93fbrKNftfPIUjJjbSxVBBfgDqHDhBqugVmf+GlxMh
-         tLPROqO4wY2x8Ark+cXLOU0Dg9HSD5E1qBZhXt+SKt77irLK/gu2i+Ks2vubayUgLQHo
-         qiTgLvedCqTGOIsHc9lugAzML7XlK4eK4kwZ7Tsdkc7xQJF+gNJhzOlH5J1ujj7SQ2Ur
-         8aPA==
-X-Gm-Message-State: AOAM533DsPlmv9mWegXuE2/eyWLWva4fxHDO2eX2ipjjzVHHq4rWsQH/
-        W4KQ6euDVZcLdhDJX359P8TCWw==
-X-Google-Smtp-Source: ABdhPJziCnTeG9/CGGJq5nJ2MGQ74Vd+XsXnjOYZY5B8Y+Ou8W9YV+1+WO3chgu59IGqHE4wX6r9Lg==
-X-Received: by 2002:a05:600c:2249:: with SMTP id a9mr4415026wmm.163.1594734308586;
-        Tue, 14 Jul 2020 06:45:08 -0700 (PDT)
-Received: from dell ([2.31.163.61])
-        by smtp.gmail.com with ESMTPSA id z132sm4901605wmb.21.2020.07.14.06.45.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 06:45:07 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 14:45:04 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linus.walleij@linaro.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 20/25] pinctrl: pinctrl-rza1: Demote some kerneldoc
- headers and fix others
-Message-ID: <20200714134504.GA1398296@dell>
-References: <20200713144930.1034632-1-lee.jones@linaro.org>
- <20200713144930.1034632-21-lee.jones@linaro.org>
- <20200714131403.eguxpnzsioxfzzko@uno.localdomain>
+        Tue, 14 Jul 2020 09:57:29 -0400
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 890E322512;
+        Tue, 14 Jul 2020 13:57:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594735048;
+        bh=anOkgRGBEMl/XKw2buzvSOBQZ/OCdvpI2l0MBdv9laI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ttteglnPO8kwRXFeQtRwVICizqXHDJHt4IvI4Olwam2up4wa0m5vYWHRtK9hY67/n
+         hmk9iXjDD9GxA/JQ84LgJgL+x2xGODNe0uMXcm7T0Zn/XZhJkIKRAIw8+yOA4y2bRr
+         cvCtWaWII9Yvew6vnirELHNgPZQEACYfv5ds1fyI=
+Received: by mail-ot1-f54.google.com with SMTP id t18so13081680otq.5;
+        Tue, 14 Jul 2020 06:57:28 -0700 (PDT)
+X-Gm-Message-State: AOAM531F90QcZlsGOcOiclKdEsrQ8F95WPFyRW++7eJYz+vy/PBmY2fi
+        t+ZERfcJkvwGtsXI6n7qNdcqPK/qRFrnTKJXKA==
+X-Google-Smtp-Source: ABdhPJyvJtNZ6AovmC6N3Uf290TAiRrNFPNQ2ge621fVPSlVbwTn0jNpHg5QrJVyxju7szdTK7/jWtfI/J/bQ3Gynjk=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr4257242ots.192.1594735047801;
+ Tue, 14 Jul 2020 06:57:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200714131403.eguxpnzsioxfzzko@uno.localdomain>
+References: <20200713111844.528313-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200713111844.528313-3-niklas.soderlund+renesas@ragnatech.se>
+ <20200713154449.GA256154@bogus> <20200713181740.GO2866302@oden.dyn.berto.se>
+In-Reply-To: <20200713181740.GO2866302@oden.dyn.berto.se>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 14 Jul 2020 07:57:14 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKJwMET3_VqrJi3KJJMbrNy-aR0yr26VFXYbgN_yPNfGw@mail.gmail.com>
+Message-ID: <CAL_JsqKJwMET3_VqrJi3KJJMbrNy-aR0yr26VFXYbgN_yPNfGw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: adv7604: Convert bindings to json-schema
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 14 Jul 2020, Jacopo Mondi wrote:
-
-> Hi Lee,
-> 
-> On Mon, Jul 13, 2020 at 03:49:25PM +0100, Lee Jones wrote:
-> > Some description blocks are void of any description/documentation,
-> > others are missing 'struct' identifiers, there are also a couple of
-> > misspellings of function parameter names.  Fix all of them.
+On Mon, Jul 13, 2020 at 12:17 PM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+>
+> Hi Rob,
+>
+> Thanks for your feedback.
+>
+> On 2020-07-13 09:44:49 -0600, Rob Herring wrote:
+> > On Mon, Jul 13, 2020 at 01:18:43PM +0200, Niklas S=C3=B6derlund wrote:
+> > > Convert ADV7604 video decoder documentation to json-schema.
+> > >
+> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
+ech.se>
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/adv7604.txt |  87 ---------
+> > >  .../bindings/media/i2c/adv7604.yaml           | 171 ++++++++++++++++=
+++
+> > >  2 files changed, 171 insertions(+), 87 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv76=
+04.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv76=
+04.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.txt =
+b/Documentation/devicetree/bindings/media/i2c/adv7604.txt
+> > > deleted file mode 100644
+> > > index 8c7cdc7cd7aaebc8..0000000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/adv7604.txt
+> > > +++ /dev/null
+> > > @@ -1,87 +0,0 @@
+> > > -* Analog Devices ADV7604/11/12 video decoder with HDMI receiver
+> > > -
+> > > -The ADV7604 and ADV7611/12 are multiformat video decoders with an in=
+tegrated
+> > > -HDMI receiver. The ADV7604 has four multiplexed HDMI inputs and one =
+analog
+> > > -input, and the ADV7611 has one HDMI input and no analog input. The 7=
+612 is
+> > > -similar to the 7611 but has 2 HDMI inputs.
+> > > -
+> > > -These device tree bindings support the ADV7611/12 only at the moment=
+.
+> > > -
+> > > -Required Properties:
+> > > -
+> > > -  - compatible: Must contain one of the following
+> > > -    - "adi,adv7611" for the ADV7611
+> > > -    - "adi,adv7612" for the ADV7612
+> > > -
+> > > -  - reg: I2C slave addresses
+> > > -    The ADV76xx has up to thirteen 256-byte maps that can be accesse=
+d via the
+> > > -    main I2C ports. Each map has it own I2C address and acts as a st=
+andard
+> > > -    slave device on the I2C bus. The main address is mandatory, othe=
+rs are
+> > > -    optional and revert to defaults if not specified.
+> > > -
+> > > -The device node must contain one 'port' child node per device input =
+and output
+> > > -port, in accordance with the video interface bindings defined in
+> > > -Documentation/devicetree/bindings/media/video-interfaces.txt. The po=
+rt nodes
+> > > -are numbered as follows.
+> > > -
+> > > -  Port                     ADV7611    ADV7612
+> > > -------------------------------------------------------------
+> > > -  HDMI                     0             0, 1
+> > > -  Digital output   1                2
+> > > -
+> > > -The digital output port node must contain at least one endpoint.
+> > > -
+> > > -Optional Properties:
+> > > -
+> > > -  - hpd-gpios: References to the GPIOs that control the HDMI hot-plu=
+g
+> > > -    detection pins, one per HDMI input. The active flag indicates th=
+e GPIO
+> > > -    level that enables hot-plug detection.
+> > > -  - reset-gpios: Reference to the GPIO connected to the device's res=
+et pin.
+> > > -  - default-input: Select which input is selected after reset.
+> > > -  - reg-names : Names of maps with programmable addresses.
+> > > -           It can contain any map needing a non-default address.
+> > > -           Possible maps names are :
+> > > -             "main", "avlink", "cec", "infoframe", "esdp", "dpp", "a=
+fe",
+> > > -             "rep", "edid", "hdmi", "test", "cp", "vdp"
+> > > -
+> > > -Optional Endpoint Properties:
+> > > -
+> > > -  The following three properties are defined in video-interfaces.txt=
+ and are
+> > > -  valid for source endpoints only.
+> > > -
+> > > -  - hsync-active: Horizontal synchronization polarity. Defaults to a=
+ctive low.
+> > > -  - vsync-active: Vertical synchronization polarity. Defaults to act=
+ive low.
+> > > -  - pclk-sample: Pixel clock polarity. Defaults to output on the fal=
+ling edge.
+> > > -
+> > > -  If none of hsync-active, vsync-active and pclk-sample is specified=
+ the
+> > > -  endpoint will use embedded BT.656 synchronization.
+> > > -
+> > > -Example:
+> > > -
+> > > -   hdmi_receiver@4c {
+> > > -           compatible =3D "adi,adv7611";
+> > > -           /*
+> > > -            * The edid page will be accessible @ 0x66 on the I2C bus=
+. All
+> > > -            * other maps will retain their default addresses.
+> > > -            */
+> > > -           reg =3D <0x4c>, <0x66>;
+> > > -           reg-names =3D "main", "edid";
+> > > -
+> > > -           reset-gpios =3D <&ioexp 0 GPIO_ACTIVE_LOW>;
+> > > -           hpd-gpios =3D <&ioexp 2 GPIO_ACTIVE_HIGH>;
+> > > -
+> > > -           #address-cells =3D <1>;
+> > > -           #size-cells =3D <0>;
+> > > -
+> > > -           default-input =3D <0>;
+> > > -
+> > > -           port@0 {
+> > > -                   reg =3D <0>;
+> > > -           };
+> > > -           port@1 {
+> > > -                   reg =3D <1>;
+> > > -                   hdmi_in: endpoint {
+> > > -                           remote-endpoint =3D <&ccdc_in>;
+> > > -                   };
+> > > -           };
+> > > -   };
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml=
+ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+> > > new file mode 100644
+> > > index 0000000000000000..d354fd8e0cc88d93
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+> > > @@ -0,0 +1,171 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/adv7604.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Analog Devices ADV7604/11/12 video decoder with HDMI receiver
+> > > +
+> > > +maintainers:
+> > > +  - Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > +
+> > > +description:
+> > > +  The ADV7604 and ADV7611/12 are multiformat video decoders with an =
+integrated
+> > > +  HDMI receiver. The ADV7604 has four multiplexed HDMI inputs and on=
+e analog
+> > > +  input, and the ADV7611 has one HDMI input and no analog input. The=
+ 7612 is
+> > > +  similar to the 7611 but has 2 HDMI inputs.
+> > > +
+> > > +  These device tree bindings support the ADV7611/12 only at the mome=
+nt.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +        - adi,adv7611
+> > > +        - adi,adv7612
+> > > +
+> > > +  reg:
+> > > +    minItems: 1
+> > > +    maxItems: 13
+> > > +
+> > > +  reg-names:
+> > > +    items:
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
+> > > +      - enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, e=
+did, hdmi, test, cp, vdp ]
 > >
-> > Fixes the following W=1 kernel build warning(s):
+> > This can be simplified to:
 > >
-> >  drivers/pinctrl/pinctrl-rza1.c:81: warning: cannot understand function prototype: 'struct rza1_bidir_pin '
-> >  drivers/pinctrl/pinctrl-rza1.c:90: warning: cannot understand function prototype: 'struct rza1_bidir_entry '
-> >  drivers/pinctrl/pinctrl-rza1.c:98: warning: cannot understand function prototype: 'struct rza1_swio_pin '
-> >  drivers/pinctrl/pinctrl-rza1.c:108: warning: cannot understand function prototype: 'struct rza1_swio_entry '
-> >  drivers/pinctrl/pinctrl-rza1.c:116: warning: cannot understand function prototype: 'struct rza1_pinmux_conf '
-> >  drivers/pinctrl/pinctrl-rza1.c:443: warning: cannot understand function prototype: 'struct rza1_mux_conf '
-> >  drivers/pinctrl/pinctrl-rza1.c:462: warning: cannot understand function prototype: 'struct rza1_port '
-> >  drivers/pinctrl/pinctrl-rza1.c:482: warning: cannot understand function prototype: 'struct rza1_pinctrl '
-> >  drivers/pinctrl/pinctrl-rza1.c:546: warning: Function parameter or member 'port' not described in 'rza1_pinmux_get_flags'
-> >  drivers/pinctrl/pinctrl-rza1.c:546: warning: Function parameter or member 'pin' not described in 'rza1_pinmux_get_flags'
-> >  drivers/pinctrl/pinctrl-rza1.c:546: warning: Function parameter or member 'func' not described in 'rza1_pinmux_get_flags'
-> >  drivers/pinctrl/pinctrl-rza1.c:546: warning: Function parameter or member 'rza1_pctl' not described in 'rza1_pinmux_get_flags'
-> >  drivers/pinctrl/pinctrl-rza1.c:575: warning: Function parameter or member 'port' not described in 'rza1_set_bit'
-> >  drivers/pinctrl/pinctrl-rza1.c:575: warning: Function parameter or member 'reg' not described in 'rza1_set_bit'
-> >  drivers/pinctrl/pinctrl-rza1.c:575: warning: Function parameter or member 'bit' not described in 'rza1_set_bit'
-> >  drivers/pinctrl/pinctrl-rza1.c:575: warning: Function parameter or member 'set' not described in 'rza1_set_bit'
-> >  drivers/pinctrl/pinctrl-rza1.c:672: warning: Function parameter or member 'rza1_pctl' not described in 'rza1_pin_mux_single'
-> >  drivers/pinctrl/pinctrl-rza1.c:672: warning: Excess function parameter 'pinctrl' description in 'rza1_pin_mux_single'
+> > items:
+> >   enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, edid, hdmi=
+, test, cp, vdp ]
+>
+> I tried this at first,
+>
+> properties:
+>   reg-names:
+>     items:
+>       enum: [ main, avlink, cec, infoframe, esdp, dpp, afe, rep, edid, hd=
+mi, test, cp, vdp ]
+>
+> But running the dt_binding_check on it fails with,
+>
+> $ make dt_binding_check DT_SCHEMA_FILES=3DDocumentation/devicetree/bindin=
+gs/media/i2c/adv7604.yaml
+>   CHKDT   Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+> /mnt/build/linux/Documentation/devicetree/bindings/media/i2c/adv7604.yaml=
+: properties:reg-names:items: {'enum': ['main', 'avlink', 'cec', 'infoframe=
+', 'esdp', 'dpp', 'afe', 'rep', 'edid', 'hdmi', 'test', 'cp', 'vdp']} is no=
+t of type 'array'
+> make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentatio=
+n/devicetree/bindings/media/i2c/adv7604.example.dts] Error 1
+> make: *** [Makefile:1334: dt_binding_check] Error 2
+>
+> What am I missing? I'm using latest master of dt-schema [1] if it makes
+> any difference.
+
+If 'items' is not an array, you need 'minItems' and 'maxItems' since
+there is no size.
+
+> 1. 1330cddcba757bee ("schemas: Make additionalProperties/unevaluatedPrope=
+rties explicit")
+>
 > >
-> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> 
-> Thanks, at the time I had no real idea about the implications of
-> documenting with kerneldoc :)
+> > (Make items a schema applying to all items, rather than a list)
+> >
+> > Though we may want to enforce 'main' is first with:
+> >
+> > minItems: 1
+> > maxItems: 13
+> > items:
+> >   - const: main
+> >
+> > These 2 can be combined under an 'allOf'.
+>
+> I also had this idea by dropping main from the list of enums for all but
+> the first one. But I can't find any argument for why main needs to go
+> first, but I agree it feels like the right thing.
 
-You and 1000 others! :D
+For DT we want the order defined as much as possible which is usually
+required entries first, then optional entries. Unfortunately there's
+no way in json-schema to express entries may be missing from a list.
 
-Don't lose any sleep over it.
-
-> Acked-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Rob
