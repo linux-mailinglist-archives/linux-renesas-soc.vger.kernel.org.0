@@ -2,150 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C37C21EB8A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 10:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AA4E21EBA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 10:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725820AbgGNIjU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 04:39:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbgGNIjU (ORCPT
+        id S1726414AbgGNImA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 04:42:00 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37554 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725833AbgGNImA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 04:39:20 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2805CC061755
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2020 01:39:20 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id j18so3752126wmi.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jul 2020 01:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wWL0p/Vwv0P0ZyYXD3ZMaH3SKBU8WIQHi3HTc/T6A9w=;
-        b=ebQ0MwriHk720YK7jpRkgDh2q1K2tVmNTC1YJBlS9yxg5jlb36yjp65sCLFR8BptZ1
-         yZjZyyJaO41YaqFoM6++oKXxdeZXDR1ZfvX30KrXnQzzpONVPuYR1S+CF443DmyIJlu5
-         Ubb6RD5v3HGzwEZnMQENeriNav21kKQkbJstQ=
+        Tue, 14 Jul 2020 04:42:00 -0400
+Received: by mail-oi1-f193.google.com with SMTP id 12so13327377oir.4;
+        Tue, 14 Jul 2020 01:41:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wWL0p/Vwv0P0ZyYXD3ZMaH3SKBU8WIQHi3HTc/T6A9w=;
-        b=bUTh7Eht73WMJR6i9cOzsWaeCFQ3mT7i0vFhj/zfSL/lbrKhLXmahv/1sLjSUVCcmV
-         E1U22kCPBKKSDj9PfyjkRNxvrL8TwdRQ3DKlNJxi+NKWziElIk3azvw0BM8xI3aObIr7
-         T7+f9bmciXaChsGxmRDdvk2VAvTkO7WycVd5JQyfBHkD3oOlE76Z9idE5pLwCMyeX6A2
-         7a1sJHtxFBnjOgM+u8UOIDEyLJP+XUmFeZjVtnuijL5HXi41nPPXJfrJ8v6e/Jx5KhNf
-         N+6aQplbGE1HTtTqiUTNHw7nfBCuOXC1Etba14QL6uJQGhFNvHtYe6aqyEvUSzwtoK7g
-         Vc7w==
-X-Gm-Message-State: AOAM531fS4aLrOjXOG8d4UhmuALn6fUyqqSbzGYxRCzFiMt/LT5iCV06
-        xZEVV+WfmoCzhoPtaxjQYJ12uQ==
-X-Google-Smtp-Source: ABdhPJyOnLYCZDLW6HYI2v9CjdLtSc+vjAnr+zti6cxE291NZ0S4kQLPNPRV5xw+YN8juLwXY+es/Q==
-X-Received: by 2002:a7b:c054:: with SMTP id u20mr3129190wmc.2.1594715958922;
-        Tue, 14 Jul 2020 01:39:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k11sm30494142wrd.23.2020.07.14.01.39.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 01:39:18 -0700 (PDT)
-Date:   Tue, 14 Jul 2020 10:39:16 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 12/25] drm/rcar-du: Annotate dma-fence critical section
- in commit path
-Message-ID: <20200714083916.GV3278063@phenom.ffwll.local>
-References: <20200707201229.472834-1-daniel.vetter@ffwll.ch>
- <20200707201229.472834-13-daniel.vetter@ffwll.ch>
- <20200707233240.GR19803@pendragon.ideasonboard.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oQnzKz3C/NevNjTlEZYFL5iXV3ehjQViqfoH5iOv3SM=;
+        b=ZXEtkG+Wam84TPU/nvD5Wwj0MonII4buXn2A4y2s2Y3L2GtprWNx7EMJra5L96QT3j
+         nYkx05Idwq6j8lVh6THDI51bJcoVcNQyhnTAwqu3s4wAG8EwM6/RIEHUxIfZMJbLtAz2
+         BbmSP+zeSy3UCs7hwqg6Lg4Bx+7nxxlQWQXVu954QqC11CEGD+DWVxQeU1OZzrMte7QF
+         V2yhiILIg1hgILs0AUkd8TCG9602QltCBIQ4Xonhhws6xEt751XZQIxhb0GRwfuxz2ql
+         Fixvq4PJMegWvuR/NEpBgR5/4FoFInxyGsYQsz7rBDwKBB4TBDUpezEtgA9feW0XHMni
+         TBdQ==
+X-Gm-Message-State: AOAM531WbWsLPXEW/IpMQASLjoDCmgt9XphcndZaHn/JFRcW7JeB3RcT
+        fCxCDUy0rVsnpO0glmEowRgJOBNtlQivzD97c/U=
+X-Google-Smtp-Source: ABdhPJwxHQ4k7EDiUkAc1gcDGSS4Uw8Rp1iYZBGwEma0KUZbSrLDof4x63mIGl3zVqSk/DDgD3zmVlx4dejHfmNAQO0=
+X-Received: by 2002:aca:ac10:: with SMTP id v16mr2626302oie.153.1594716118642;
+ Tue, 14 Jul 2020 01:41:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200707233240.GR19803@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV4zzrk_=-2Cmgq8=PKTeU457iveJ58gYekJ-Z8SXqaCQ@mail.gmail.com> <CA+V-a8tB0mA17f51GMQQ-Cj_CUXze_JjTahrpoAtmwuOFHQV6g@mail.gmail.com>
+In-Reply-To: <CA+V-a8tB0mA17f51GMQQ-Cj_CUXze_JjTahrpoAtmwuOFHQV6g@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 14 Jul 2020 10:41:47 +0200
+Message-ID: <CAMuHMdXM3qf266exJtJrN0XAogEsJoM-k3FON9CjX+stLpuMFA@mail.gmail.com>
+Subject: Re: [PATCH 2/9] iommu/ipmmu-vmsa: Hook up R8A774E1 DT matching code
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 02:32:40AM +0300, Laurent Pinchart wrote:
-> Hi Daniel,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jul 07, 2020 at 10:12:16PM +0200, Daniel Vetter wrote:
-> > Ends right after drm_atomic_helper_commit_hw_done(), absolutely
-> > nothing fancy going on here.
-> 
-> Just looking at this patch and the commit message, I have no idea what
-> this does, and why. It would be nice to expand the commit message to
-> give some more context, and especially explain why ending signalling
-> right after drm_atomic_helper_commit_hw_done() is the right option.
-> 
-> I suppose I'll have to check the whole series in the meantime :-)
+Hi Prabhakar,
 
-Yes first three patches. They should land in the next few days. The
-explanation is a few pages long, not sure that makes much sense to
-copypaste into every driver patch here.
+On Tue, Jul 14, 2020 at 10:30 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Tue, Jul 14, 2020 at 9:09 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, Jul 13, 2020 at 11:35 PM Lad Prabhakar
+> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > >
+> > > Add support for RZ/G2H (R8A774E1) SoC IPMMUs.
+> > >
+> > > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/iommu/ipmmu-vmsa.c
+> > > +++ b/drivers/iommu/ipmmu-vmsa.c
+> > > @@ -751,6 +751,7 @@ static const struct soc_device_attribute soc_rcar_gen3[] = {
+> > >  static const struct soc_device_attribute soc_rcar_gen3_whitelist[] = {
+> > >         { .soc_id = "r8a774b1", },
+> > >         { .soc_id = "r8a774c0", },
+> > > +       { .soc_id = "r8a774e1", },
+> >
+> > Adding an entry to soc_rcar_gen3_whitelist[] doesn't do anything, unless
+> > you also add the same entry to soc_rcar_gen3[].
+> >
+> I think the comment "For R-Car Gen3 use a white list to opt-in slave
+> devices." is misleading.  Booting through the kernel I do see iommu
+> groups (attached is the logs).
 
-Also patch 16 has some more explanation specific for display.
+Indeed. Without an entry in soc_rcar_gen3[], the IPMMU is enabled
+unconditionally, and soc_rcar_gen3_whitelist[] is ignored.
+That's why you want an entry in both, unless you have an R-Car Gen3
+SoC where the IPMMU works correctly with all slave devices present.
+Perhaps soc_rcar_gen3[] should be renamed to soc_rcar_gen3_greylist[]
+(or soc_rcar_gen3_maybelist[]) to make this clear?
 
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > index 482329102f19..42c5dc588435 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > @@ -391,6 +391,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> >  	struct drm_crtc_state *crtc_state;
-> >  	struct drm_crtc *crtc;
-> >  	unsigned int i;
-> > +	bool fence_cookie = dma_fence_begin_signalling();
-> 
-> Can this be moved right before the
-> drm_atomic_helper_commit_modeset_disables() call ?
+> Also the recent patch to add
+> "r8a77961" just adds to soc_rcar_gen3_whitelist.
 
-The critical section starts even before this function starts, but for
-composability each part is individually annotated. That's why I've put it
-as the very first thing in every patch. Currently there's nothing between
-the funciton start and drm_atomic_helper_commit_modeset_disables which
-could break dma-fence rules, but the entire point of annotations is to not
-have to manually prove stuff like this. Wrapping it all is the point here.
+Oops, commit 17fe16181639801b ("iommu/renesas: Add support for r8a77961")
+did it wrong, too.
 
-Does that make sense?
+> > >         { .soc_id = "r8a7795", .revision = "ES3.*" },
+> > >         { .soc_id = "r8a77961", },
+> > >         { .soc_id = "r8a77965", },
 
-Also, what I'm realling looking for is testing with lockdep enabled.
-Neither me nor you is going to catch issues with review here :-)
--Daniel
+Gr{oetje,eeting}s,
 
-> 
-> >  
-> >  	/*
-> >  	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
-> > @@ -417,6 +418,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> >  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-> >  
-> >  	drm_atomic_helper_commit_hw_done(old_state);
-> > +	dma_fence_end_signalling(fence_cookie);
-> >  	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-> >  
-> >  	drm_atomic_helper_cleanup_planes(dev, old_state);
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+                        Geert
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
