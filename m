@@ -2,85 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDA221E5DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 04:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF06B21E60F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 05:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbgGNCpQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Jul 2020 22:45:16 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:33695 "EHLO
+        id S1726848AbgGNDBM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Jul 2020 23:01:12 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:35829 "EHLO
         mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbgGNCpP (ORCPT
+        with ESMTP id S1726722AbgGNDBL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Jul 2020 22:45:15 -0400
-Received: by mail-io1-f68.google.com with SMTP id d18so15793735ion.0;
-        Mon, 13 Jul 2020 19:45:15 -0700 (PDT)
+        Mon, 13 Jul 2020 23:01:11 -0400
+Received: by mail-io1-f68.google.com with SMTP id v8so15802533iox.2;
+        Mon, 13 Jul 2020 20:01:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=s7/p0LKnwYztNP3yOyVMCmJC/s32uIp93cOd4bT8YX0=;
-        b=D6ZHextqPjOP+2wMsTYsLaGqc8dzeeHh+7ztg9wrtwg5xUTe6tVWEUS1vj1uvy1ZTW
-         xSBe8ZQCtYfeZNSxwPpNkMDSo5sZ8LDn+uS2Vg8HLuXSE1+XkJfiT2zBatZxDdMoDPwz
-         KPDDh1kBXWj5YOrxfTaXHcmTbTO0Kq9zgTzz01koEhD+2eg2z2LsnpufIiwVpXpcEmrv
-         fWu9tN8XwQOStcCpCY11bGB31M5nHhDZXrXfp642JDUQKg5YjZHa4G5oUUAry/67D1rF
-         78o0AggzJsCs98KfQt75dj1SPCjEndoYzh6DQ76LwUDPdD1vrws8AbPUMcXvMNHBwY7/
-         N7wA==
-X-Gm-Message-State: AOAM530BhLZKEl3EfcefUQ7uXfnLHbkWLvENio7Ufrzu16r3GUzW0Ie2
-        wDwWWQ8vwwthDFipRkz6SA==
-X-Google-Smtp-Source: ABdhPJyx8UdIhIEKvxzTLlJNVLkJWx6cbMd1XvZ0aLeHH8iTfpfkEERxAxkFXceQErzACPH/C0jATg==
-X-Received: by 2002:a5d:9699:: with SMTP id m25mr2884313ion.74.1594694714687;
-        Mon, 13 Jul 2020 19:45:14 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=YxdsjHR7Y4qx5Rm04/llwJmikGRglY/mXvyLpbRKP1c=;
+        b=pC9+/X8CkwQlyT2vxL7MGKdx0Y/jU8FDfxswvf6qLpwozvKAROZnKKrPEG0Z3NcPjx
+         p+g8vt5jmd0Y9mC6rxWvz8fGfa/YP1gpeahhsgwRy2JdsJNaArB8zJ8aKGezge35PR+C
+         04e1DkDih7T9WIXOMB2gqi6jDuBr+ajJsMZ12FPGEPC2qBgM6aG2954H97+MdWlLIBMr
+         uSc4GkGCOLmG4MBkq6DjUZgDTYpbEWERamFdhosDkTBVF9e38ERoACrLv8oOhpJ6HAlS
+         7NRCkJx7bXaSpT92aJYhtaj3fFes5/6vsplHxXh2ewRTxqXx9lH+II9Du70yVi9G6XIn
+         E4ag==
+X-Gm-Message-State: AOAM531a/91z6wWNEuJU5Mo2XuFgWC17jFBc1+0C4MbPEtXs5JxWONzi
+        jsggnOEq51xsbPSJHxfzkA==
+X-Google-Smtp-Source: ABdhPJxYEuEm58DHqmsQlEEOUXc8TrvWPoUsggxv41CEB6E5XyMR6KKi23TAe32xSTU+TmgLSAxB7A==
+X-Received: by 2002:a6b:6508:: with SMTP id z8mr2910226iob.82.1594695670879;
+        Mon, 13 Jul 2020 20:01:10 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id i12sm4158331ioi.48.2020.07.13.19.45.13
+        by smtp.gmail.com with ESMTPSA id o2sm2017676ili.83.2020.07.13.20.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 19:45:13 -0700 (PDT)
-Received: (nullmailer pid 1181804 invoked by uid 1000);
-        Tue, 14 Jul 2020 02:45:12 -0000
-Date:   Mon, 13 Jul 2020 20:45:12 -0600
+        Mon, 13 Jul 2020 20:01:10 -0700 (PDT)
+Received: (nullmailer pid 1203440 invoked by uid 1000);
+        Tue, 14 Jul 2020 03:01:09 -0000
+Date:   Mon, 13 Jul 2020 21:01:09 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2.1 1/8] dt-bindings: media: renesas, fcp: Convert
- binding to YAML
-Message-ID: <20200714024512.GA1181735@bogus>
-References: <20200701060349.GE5963@pendragon.ideasonboard.com>
- <20200701060525.9748-1-laurent.pinchart+renesas@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Dan Murphy <dmurphy@ti.com>
+Subject: Re: [PATCH v2 1/7] dt-bindings: net: ethernet-controller: Add
+ internal delay properties
+Message-ID: <20200714030109.GA1203390@bogus>
+References: <20200706143529.18306-1-geert+renesas@glider.be>
+ <20200706143529.18306-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200701060525.9748-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200706143529.18306-2-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 01 Jul 2020 09:05:25 +0300, Laurent Pinchart wrote:
-> Convert the Renesas R-Car FCP text binding to YAML.
+On Mon, 06 Jul 2020 16:35:23 +0200, Geert Uytterhoeven wrote:
+> Internal Receive and Transmit Clock Delays are a common setting for
+> RGMII capable devices.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> While these delays are typically applied by the PHY, some MACs support
+> configuring internal clock delay settings, too.  Hence add standardized
+> properties to configure this.
+> 
+> This is the MAC counterpart of commit 9150069bf5fc0e86 ("dt-bindings:
+> net: Add tx and rx internal delays"), which applies to the PHY.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> Changes since v2:
+> Commit 9150069bf5fc0e86 is part of next-20200629 and later.
 > 
-> - Refer to the correct device in the comment above the example
-> 
-> Changes since v1:
-> 
-> - Simplify comments on compatible strings
-> - Update MAINTAINERS
+> v2:
+>   - New.
 > ---
->  .../devicetree/bindings/media/renesas,fcp.txt | 34 -----------
->  .../bindings/media/renesas,fcp.yaml           | 56 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 57 insertions(+), 35 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,fcp.yaml
+>  .../bindings/net/ethernet-controller.yaml          | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
