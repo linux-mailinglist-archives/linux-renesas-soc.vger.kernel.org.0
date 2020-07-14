@@ -2,190 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3D1021FBBD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jul 2020 21:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7B8220112
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 01:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730982AbgGNS40 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jul 2020 14:56:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54326 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729896AbgGNS4Z (ORCPT
+        id S1726801AbgGNXod (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jul 2020 19:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726542AbgGNXod (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jul 2020 14:56:25 -0400
-Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0D38622AAB;
-        Tue, 14 Jul 2020 18:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594752984;
-        bh=1I0jIPo3SZCaMFdDVykFs1GKYtGMomQMM+VqNQstfJg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=dgtA8cR+j01hdstpLlBLDb9TdhIStnYKNavj+wqqyuH3EJj3686EnGrrwRI1wqa/r
-         VF70QJU9tQG0jSn0ew7XrdV2+Cb8SD31SbqLEBYFUL8biYPtSXwG+4PgmUoM3ylMSb
-         vmT5ApqX+4CqbX3W0qBvhlg/FhjdDjRDJLE/SOoA=
-Date:   Tue, 14 Jul 2020 13:56:22 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Edward Cree <ecree@solarflare.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     kbuild-all@lists.01.org, linux-renesas-soc@vger.kernel.org,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-pci@vger.kernel.org
-Subject: Re: [renesas-drivers:master 69/80]
- drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse: sparse: incompatible
- types for operation (==):
-Message-ID: <20200714185622.GA408711@bjorn-Precision-5520>
+        Tue, 14 Jul 2020 19:44:33 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E47C061755;
+        Tue, 14 Jul 2020 16:44:32 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E01A771D;
+        Wed, 15 Jul 2020 01:44:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594770270;
+        bh=BlgHswt5o7rZqUfB4W5bNSHos/OcygyFLCNV4tKAzw8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fHAkLGfMZfQQf2tY4NQZfUcyIAGVPkU7FroBy4x+xhA5O8b7t1JKue/5CSHvFNeX+
+         O/zfcx2z69J2n3lnLPHnbMbx6CDyL2Dbqf+6Dfx1L5sDow85+EE3OROXT0efYmQ3/H
+         XDA2DB7lMAhQTx88WLSXV+Zo9le6EN5j4oC/LoCk=
+Date:   Wed, 15 Jul 2020 02:44:23 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        dave.stevenson@raspberrypi.com, dongchun.zhu@mediatek.com,
+        linux-renesas-soc@vger.kernel.org,
+        roman.kovalivskyi@globallogic.com, Rob Herring <robh@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: ov5647: Convert to json-schema
+Message-ID: <20200714234423.GM5854@pendragon.ideasonboard.com>
+References: <20200714142856.58365-1-jacopo+renesas@jmondi.org>
+ <20200714142856.58365-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202007150206.kfukZxuy%lkp@intel.com>
+In-Reply-To: <20200714142856.58365-2-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[+cc Luc, linux-pci]
+Hi Jacopo,
 
-On Wed, Jul 15, 2020 at 02:02:11AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-> head:   541708cc1e6ad29fdb4c294831dfa855bd64487b
-> commit: 428d2a440d43ba81b698ec71de5125e4aeddf752 [69/80] Merge remote-tracking branch 'pci/next' into renesas-drivers
-> config: parisc-randconfig-s031-20200714 (attached as .config)
-> compiler: hppa-linux-gcc (GCC) 9.3.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # apt-get install sparse
->         # sparse version: v0.6.2-41-g14e84ffc-dirty
->         git checkout 428d2a440d43ba81b698ec71de5125e4aeddf752
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=parisc 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> 
-> sparse warnings: (new ones prefixed by >>)
-> 
-> >> drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse: sparse: incompatible types for operation (==):
-> >> drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse:    incomplete type enum pci_channel_state state
-> >> drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse:    restricted pci_channel_state_t
-> >> drivers/net/ethernet/sfc/efx_common.c:1308:27: sparse: sparse: incorrect type in initializer (incompatible argument 2 (different base types)) @@     expected restricted pci_ers_result_t ( *error_detected )( ... ) @@     got restricted pci_ers_result_t ( * )( ... ) @@
-> >> drivers/net/ethernet/sfc/efx_common.c:1308:27: sparse:     expected restricted pci_ers_result_t ( *error_detected )( ... )
-> >> drivers/net/ethernet/sfc/efx_common.c:1308:27: sparse:     got restricted pci_ers_result_t ( * )( ... )
+Thank you for the patch.
 
-I think what's necessary here is to replace "enum pci_channel_state
-state" with "pci_channel_state_t state", as in 16d79cd4e23b ("PCI: Use
-'pci_channel_state_t' instead of 'enum pci_channel_state'"):
-
-https://git.kernel.org/cgit/linux/kernel/git/helgaas/pci.git/commit/?id=16d79cd4e23b
-
-This change should be safe even without 16d79cd4e23b, so there won't
-be a revlock if you make it in the renesas-drivers tree.
-
-> vim +1232 drivers/net/ethernet/sfc/efx_common.c
+On Tue, Jul 14, 2020 at 04:28:54PM +0200, Jacopo Mondi wrote:
+> Convert the ov5647 image sensor bindings to DT schema and add
+> the file entry to MAINTAINERS.
 > 
-> 21ea21252eddb3c Edward Cree 2020-06-29  1221  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1222  /* A PCI error affecting this device was detected.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1223   * At this point MMIO and DMA may be disabled.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1224   * Stop the software path and request a slot reset.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1225   */
-> 21ea21252eddb3c Edward Cree 2020-06-29  1226  static pci_ers_result_t efx_io_error_detected(struct pci_dev *pdev,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1227  					      enum pci_channel_state state)
-> 21ea21252eddb3c Edward Cree 2020-06-29  1228  {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1229  	pci_ers_result_t status = PCI_ERS_RESULT_RECOVERED;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1230  	struct efx_nic *efx = pci_get_drvdata(pdev);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1231  
-> 21ea21252eddb3c Edward Cree 2020-06-29 @1232  	if (state == pci_channel_io_perm_failure)
-> 21ea21252eddb3c Edward Cree 2020-06-29  1233  		return PCI_ERS_RESULT_DISCONNECT;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1234  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1235  	rtnl_lock();
-> 21ea21252eddb3c Edward Cree 2020-06-29  1236  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1237  	if (efx->state != STATE_DISABLED) {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1238  		efx->state = STATE_RECOVERY;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1239  		efx->reset_pending = 0;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1240  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1241  		efx_device_detach_sync(efx);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1242  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1243  		efx_stop_all(efx);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1244  		efx_disable_interrupts(efx);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1245  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1246  		status = PCI_ERS_RESULT_NEED_RESET;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1247  	} else {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1248  		/* If the interface is disabled we don't want to do anything
-> 21ea21252eddb3c Edward Cree 2020-06-29  1249  		 * with it.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1250  		 */
-> 21ea21252eddb3c Edward Cree 2020-06-29  1251  		status = PCI_ERS_RESULT_RECOVERED;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1252  	}
-> 21ea21252eddb3c Edward Cree 2020-06-29  1253  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1254  	rtnl_unlock();
-> 21ea21252eddb3c Edward Cree 2020-06-29  1255  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1256  	pci_disable_device(pdev);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1257  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1258  	return status;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1259  }
-> 21ea21252eddb3c Edward Cree 2020-06-29  1260  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1261  /* Fake a successful reset, which will be performed later in efx_io_resume. */
-> 21ea21252eddb3c Edward Cree 2020-06-29  1262  static pci_ers_result_t efx_io_slot_reset(struct pci_dev *pdev)
-> 21ea21252eddb3c Edward Cree 2020-06-29  1263  {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1264  	struct efx_nic *efx = pci_get_drvdata(pdev);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1265  	pci_ers_result_t status = PCI_ERS_RESULT_RECOVERED;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1266  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1267  	if (pci_enable_device(pdev)) {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1268  		netif_err(efx, hw, efx->net_dev,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1269  			  "Cannot re-enable PCI device after reset.\n");
-> 21ea21252eddb3c Edward Cree 2020-06-29  1270  		status =  PCI_ERS_RESULT_DISCONNECT;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1271  	}
-> 21ea21252eddb3c Edward Cree 2020-06-29  1272  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1273  	return status;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1274  }
-> 21ea21252eddb3c Edward Cree 2020-06-29  1275  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1276  /* Perform the actual reset and resume I/O operations. */
-> 21ea21252eddb3c Edward Cree 2020-06-29  1277  static void efx_io_resume(struct pci_dev *pdev)
-> 21ea21252eddb3c Edward Cree 2020-06-29  1278  {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1279  	struct efx_nic *efx = pci_get_drvdata(pdev);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1280  	int rc;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1281  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1282  	rtnl_lock();
-> 21ea21252eddb3c Edward Cree 2020-06-29  1283  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1284  	if (efx->state == STATE_DISABLED)
-> 21ea21252eddb3c Edward Cree 2020-06-29  1285  		goto out;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1286  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1287  	rc = efx_reset(efx, RESET_TYPE_ALL);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1288  	if (rc) {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1289  		netif_err(efx, hw, efx->net_dev,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1290  			  "efx_reset failed after PCI error (%d)\n", rc);
-> 21ea21252eddb3c Edward Cree 2020-06-29  1291  	} else {
-> 21ea21252eddb3c Edward Cree 2020-06-29  1292  		efx->state = STATE_READY;
-> 21ea21252eddb3c Edward Cree 2020-06-29  1293  		netif_dbg(efx, hw, efx->net_dev,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1294  			  "Done resetting and resuming IO after PCI error.\n");
-> 21ea21252eddb3c Edward Cree 2020-06-29  1295  	}
-> 21ea21252eddb3c Edward Cree 2020-06-29  1296  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1297  out:
-> 21ea21252eddb3c Edward Cree 2020-06-29  1298  	rtnl_unlock();
-> 21ea21252eddb3c Edward Cree 2020-06-29  1299  }
-> 21ea21252eddb3c Edward Cree 2020-06-29  1300  
-> 21ea21252eddb3c Edward Cree 2020-06-29  1301  /* For simplicity and reliability, we always require a slot reset and try to
-> 21ea21252eddb3c Edward Cree 2020-06-29  1302   * reset the hardware when a pci error affecting the device is detected.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1303   * We leave both the link_reset and mmio_enabled callback unimplemented:
-> 21ea21252eddb3c Edward Cree 2020-06-29  1304   * with our request for slot reset the mmio_enabled callback will never be
-> 21ea21252eddb3c Edward Cree 2020-06-29  1305   * called, and the link_reset callback is not used by AER or EEH mechanisms.
-> 21ea21252eddb3c Edward Cree 2020-06-29  1306   */
-> 21ea21252eddb3c Edward Cree 2020-06-29  1307  const struct pci_error_handlers efx_err_handlers = {
-> 21ea21252eddb3c Edward Cree 2020-06-29 @1308  	.error_detected = efx_io_error_detected,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1309  	.slot_reset	= efx_io_slot_reset,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1310  	.resume		= efx_io_resume,
-> 21ea21252eddb3c Edward Cree 2020-06-29  1311  };
-> 2d73515a1ce4ef8 Edward Cree 2020-06-30  1312  
-> 
-> :::::: The code at line 1232 was first introduced by commit
-> :::::: 21ea21252eddb3cea56845f58f87208062799bef sfc: commonise PCI error handlers
-> 
-> :::::: TO: Edward Cree <ecree@solarflare.com>
-> :::::: CC: David S. Miller <davem@davemloft.net>
-> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>  .../devicetree/bindings/media/i2c/ov5647.txt  | 35 --------
+>  .../devicetree/bindings/media/i2c/ov5647.yaml | 82 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  3 files changed, 83 insertions(+), 35 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5647.txt b/Documentation/devicetree/bindings/media/i2c/ov5647.txt
+> deleted file mode 100644
+> index 22e44945b661..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ov5647.txt
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -Omnivision OV5647 raw image sensor
+> ----------------------------------
+> -
+> -OV5647 is a raw image sensor with MIPI CSI-2 and CCP2 image data interfaces
+> -and CCI (I2C compatible) control bus.
+> -
+> -Required properties:
+> -
+> -- compatible		: "ovti,ov5647".
+> -- reg			: I2C slave address of the sensor.
+> -- clocks		: Reference to the xclk clock.
+> -
+> -The common video interfaces bindings (see video-interfaces.txt) should be
+> -used to specify link to the image data receiver. The OV5647 device
+> -node should contain one 'port' child node with an 'endpoint' subnode.
+> -
+> -Endpoint node mandatory properties:
+> -
+> -- remote-endpoint: A phandle to the bus receiver's endpoint node.
+> -
+> -Example:
+> -
+> -	i2c@2000 {
+> -		...
+> -		ov: camera@36 {
+> -			compatible = "ovti,ov5647";
+> -			reg = <0x36>;
+> -			clocks = <&camera_clk>;
+> -			port {
+> -				camera_1: endpoint {
+> -					remote-endpoint = <&csi1_ep1>;
+> -				};
+> -			};
+> -		};
+> -	};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5647.yaml b/Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> new file mode 100644
+> index 000000000000..067e222e0c7c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov5647.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV5647 raw image sensor
+> +
+> +maintainers:
+> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +
+> +description: |-
+> +  OV5647 is a raw image sensor with MIPI CSI-2 and CCP2 image data interfaces
+> +  and CCI (I2C compatible) control bus.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov5647
+> +
+> +  reg:
+> +    description: I2C device address
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: Reference to the xclk clock
+> +    maxItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description: |-
+> +      Should contain one endpoint sub-node used to model connection to the
+> +      video receiver according to the specification defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +
+> +        properties:
+> +          remote-endpoint:
+> +            description: |-
+> +              phandle to the video receiver input port
+> +
+> +        required:
+> +          - remote-endpoint
+> +
+> +        additionalProperties: false
+> +
+> +    required:
+> +      - endpoint
 
+We usually make it valid for a port to contain no endpoint. This can be
+used, for instance, to create a base DT that doesn't describe the
+connections, where an overlay will then wire the components together.
+I'd thus drop the required property here. Apart from that,
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov5647: camera@36 {
+> +            compatible = "ovti,ov5647";
+> +            reg = <0x36>;
+> +            clocks = <&camera_clk>;
+> +
+> +            port {
+> +                camera_out: endpoint {
+> +                    remote-endpoint = <&csi1_ep1>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2730af1265ea..1742fa1a88cd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12612,6 +12612,7 @@ L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	drivers/media/i2c/ov5647.c
+> +F:	Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+>  
+>  OMNIVISION OV5670 SENSOR DRIVER
+>  M:	Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
+
+-- 
+Regards,
+
+Laurent Pinchart
