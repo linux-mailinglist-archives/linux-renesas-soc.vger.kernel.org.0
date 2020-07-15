@@ -2,252 +2,339 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80E732210A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 17:15:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 460CD22110B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 17:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725866AbgGOPOP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 11:14:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58370 "EHLO
+        id S1725881AbgGOPbe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 11:31:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgGOPOO (ORCPT
+        with ESMTP id S1725861AbgGOPbd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 11:14:14 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B88FC061755
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:14:14 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id d17so3040828ljl.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:14:14 -0700 (PDT)
+        Wed, 15 Jul 2020 11:31:33 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8066C08C5DD
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id o22so3135907pjw.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uONZfFqoKk2OemHEk6YZgogfzfNyLnmNYNk1WWI5ZHc=;
-        b=ieiW8EJlD51EZa3J+l3kNfMEdWh7f6Whd/f5ytIaNYaok1FtllONqck01fWB29AQoJ
-         eMRSXwjdT39mLFfKGsigtXk7nEyBgVxrIzfn+w5AH2pzmU1GrDo5FZV9gqs81QxhHYfn
-         02gyMbpAVoJV9kxQkSE71WlxbI7X/CZen/qKeQEP6A6DQQON3g14+cBrCyXFl3VhBc29
-         1de1fWQk8H3DAGNjOY9Q7KiIJ1CncNqGBuf9mtA3+6Ib8XLMx34eG6E1lNKb2JWKmj3V
-         Tny8u23BCdNOIf9HHIHUASDBoepBNLlD4oR5Ce4bnKdetTxs5NP53s03d46wVwhfKqVl
-         36dw==
+        d=linaro.org; s=google;
+        h=date:user-agent:in-reply-to:references:mime-version
+         :content-transfer-encoding:subject:to:cc:from:message-id;
+        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
+        b=FUOGjWIq+UH0Dj6G7Jka3jH2vi0nFXHsYfJ5q/c5I8GbuUL9LurO6gwlwuRa+xr0Sb
+         SQRUgG0ezG69Fjd5TIkHMtxk0RUhRp6NhlPV0rppoYOiBY94G08ZjWCUanin33jSfvep
+         Wy6Fyv1PfVb3IUJmBl0+MNhzgl7gvfK2BVgr9kcC+kRCfikdYovv3W2x1qP4+6lUa6zm
+         yUtxaDez4Qmib67LjGIuSVmgVotG+ibnrHPTeiAIviCTehOc4iYNdWBILBXJnVv/C3Gu
+         hmhyoVJ0NUNLLUJSfFwyi785c00rCYA0aAa1FvPQl7r408SLVvk1z8bgoMFcBoMFXBXU
+         n8sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uONZfFqoKk2OemHEk6YZgogfzfNyLnmNYNk1WWI5ZHc=;
-        b=hhugvBylvHsjVcq9a+aIMBqmcOzlGLsJnHIz5+BZFWP+xQYBTK1SYRMljpYC66bAoo
-         O61xudDuzTNfehm6EAt6BiiSDBMmEeTfuqRt5+fnn16YpHC38yvv/DzGrYtsCTk5Kdws
-         E/xmFDurCI0vMIoEagzg83DLTVbZ9TSfsIjD1FINLIBLVbo5PKM/s5HALZ1Bogg2q820
-         8fWJhwDi45buV//Y3LIYBa8rjTVve/NHy0UD+EIq7CegqOF3KCV+WI39hLL9tAfL/KoU
-         Blp2flQmA+KMcEtEwXfMUTOnR6nx4QpqxIsQPttXujptSc55QaxEo3W92NEB8LIXbyqC
-         XHIA==
-X-Gm-Message-State: AOAM532mDszJm47fXlUiG2Q97ki6LmCNGBVcta1UhjkBmC/rGKx5Cvra
-        1KfCv3+yB72IBtkI0ZdrZPxLFg==
-X-Google-Smtp-Source: ABdhPJyK8uxwIY6gmJMRW3TOIwKBgkx1XQzW78Ze7lhlddtvILye06a4wAcg6UA7dSIjkPuoexRTLQ==
-X-Received: by 2002:a2e:80c8:: with SMTP id r8mr3577684ljg.423.1594826052720;
-        Wed, 15 Jul 2020 08:14:12 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id t205sm301916lff.8.2020.07.15.08.14.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 08:14:11 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 17:14:11 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6.1 9/9] media: rcar-csi2: Negotiate data lanes number
-Message-ID: <20200715151411.GK3051471@oden.dyn.berto.se>
-References: <20200714135812.55158-10-jacopo+renesas@jmondi.org>
- <20200715143820.132677-1-jacopo+renesas@jmondi.org>
+        h=x-gm-message-state:date:user-agent:in-reply-to:references
+         :mime-version:content-transfer-encoding:subject:to:cc:from
+         :message-id;
+        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
+        b=aDglShL/YrgIlilcaQ3SMis0AlekVz1ts/ZjVEF9rPLb3gAFtM8r6IOXRRvOCApssI
+         7MCa65OuwiMboZS/9j8nQq9ai2eLTXnsHvgdltQtWiRAXsa64Q84IapFvUertKxRRAtm
+         cWQ8FaAJCw/4Cq7Rf3P/ZYtsjwechlBPhM1IO2OceRJHVkS3yZ1vLCLYpt0kXQ3V6n0n
+         sbcV+Im9ihOoE2WuPdZ4K94hAiP9chdRcIfhH7BSftyEQrO0UpbUYb7xbj/Facp6yy13
+         TaAAaUnHbRf5bXBDfJJw+VCe2JLJeFC9d+v8y9FzlH8wKvF5mhGkjRUvYhDZi7OtkQhv
+         W2iw==
+X-Gm-Message-State: AOAM5309n1/eBHUK15y/IninvvpEZNxBe9iVuITVPaizKQgND4/wI2qR
+        i4ynr4AHMdN2lP9qpsLLohjB
+X-Google-Smtp-Source: ABdhPJzip+5iJSceNcg2pkLh+MNocaL8b2GFKczVRGn+4ev8O22viDzJr9m3e5nGW8nd6r9B0My4sw==
+X-Received: by 2002:a17:90b:4d10:: with SMTP id mw16mr163423pjb.143.1594827092724;
+        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
+Received: from ?IPv6:2409:4072:6d16:31bf:7111:6428:1bdc:7edc? ([2409:4072:6d16:31bf:7111:6428:1bdc:7edc])
+        by smtp.gmail.com with ESMTPSA id n62sm2683570pjb.28.2020.07.15.08.31.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
+Date:   Wed, 15 Jul 2020 21:01:23 +0530
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20200715140951.90753-3-jacopo+renesas@jmondi.org>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org> <20200715140951.90753-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200715143820.132677-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/8] dt-bindings: media: ov5645: Convert to json-schema
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org
+CC:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org,
+        Todor Tomov <todor.too@gmail.com>
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Message-ID: <60FF8603-ACA1-4CAF-B43B-04E974A8E4C4@linaro.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Jacopo,=20
 
-Thanks for your work.
+On 15 July 2020 7:39:45 PM IST, Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>=
+ wrote:
+>Convert the ov5645 bindings document to json-schema and update
+>the MAINTAINERS file accordingly, as the entry was not documented=2E
+>
+>Add myself as maintainer for odd fixes only, as I don't have the
+>sensor to test with=2E
+>
+>Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>
+>---
+>
+>Hello Todor, Manivannan
+>   I've added in this patch an entry for ov5645 in the MAINTAINERS
+>file, and I've added myself as maintainers for Odd Fixes only=2E
+>
+>As you seem to be the author and committers of this bindings
+>respectively,
+>would you be interested in maintaining this driver ?
 
-On 2020-07-15 16:38:20 +0200, Jacopo Mondi wrote:
-> Use the newly introduced get_mbus_config() subdevice pad operation to
-> retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-> the number of active data lanes accordingly.
-> 
-> In order to be able to call the remote subdevice operation cache the
-> index of the remote pad connected to the single CSI-2 input port.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
-> v6.1 diff to address Niklas' comments:
-> 
-> - s/rcsi2_config_active_lanes()/rcsi2_get_active_lanes()
-> - s/unsigned int num_lanes = (-1U);/unsigned int num_lanes = UINT_MAX;/
-> - s/active_lanes/lanes
-> 
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 74 +++++++++++++++++++--
->  1 file changed, 67 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index c6cc4f473a07..5dac8ea66358 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -364,6 +364,7 @@ struct rcar_csi2 {
->  	struct v4l2_async_notifier notifier;
->  	struct v4l2_async_subdev asd;
->  	struct v4l2_subdev *remote;
-> +	unsigned int remote_pad;
-> 
->  	struct v4l2_mbus_framefmt mf;
-> 
-> @@ -409,13 +410,14 @@ static void rcsi2_exit_standby(struct rcar_csi2 *priv)
->  	reset_control_deassert(priv->rstc);
->  }
-> 
-> -static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> +static int rcsi2_wait_phy_start(struct rcar_csi2 *priv,
-> +				unsigned int lanes)
->  {
->  	unsigned int timeout;
-> 
->  	/* Wait for the clock and data lanes to enter LP-11 state. */
->  	for (timeout = 0; timeout <= 20; timeout++) {
-> -		const u32 lane_mask = (1 << priv->lanes) - 1;
-> +		const u32 lane_mask = (1 << lanes) - 1;
-> 
->  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
->  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> @@ -447,7 +449,8 @@ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
->  	return 0;
->  }
-> 
-> -static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
-> +static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp,
-> +			   unsigned int lanes)
->  {
->  	struct v4l2_subdev *source;
->  	struct v4l2_ctrl *ctrl;
-> @@ -472,15 +475,63 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
->  	 * bps = link_freq * 2
->  	 */
->  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
-> -	do_div(mbps, priv->lanes * 1000000);
-> +	do_div(mbps, lanes * 1000000);
-> 
->  	return mbps;
->  }
-> 
-> +static int rcsi2_get_active_lanes(struct rcar_csi2 *priv,
-> +				  unsigned int *lanes)
-> +{
-> +	struct v4l2_mbus_config mbus_config = { 0 };
-> +	unsigned int num_lanes = UINT_MAX;
-> +	int ret;
-> +
-> +	*lanes = priv->lanes;
+I've worked on this driver in the past=2E So yeah, feel free to add myself=
+ and since Todor has authored the driver, it makes sense to add him too=2E=
+=20
 
-I would add a blank line here as assigning *lanes is quiet different 
-from trying to updated it bellow. With this fixed,
+Thanks,=20
+Mani
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>
+>---
+> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Etxt  |  54 --------
+> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Eyaml | 123 ++++++++++++=
+++++++
+> MAINTAINERS                                   |   8 ++
+> 3 files changed, 131 insertions(+), 54 deletions(-)
+>delete mode 100644
+>Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>create mode 100644
+>Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>
+>diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>b/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>deleted file mode 100644
+>index 72ad992f77be=2E=2E000000000000
+>--- a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
+>+++ /dev/null
+>@@ -1,54 +0,0 @@
+>-* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
+>-
+>-The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
+>sensor with
+>-an active array size of 2592H x 1944V=2E It is programmable through a
+>serial I2C
+>-interface=2E
+>-
+>-Required Properties:
+>-- compatible: Value should be "ovti,ov5645"=2E
+>-- clocks: Reference to the xclk clock=2E
+>-- clock-names: Should be "xclk"=2E
+>-- clock-frequency: Frequency of the xclk clock=2E
+>-- enable-gpios: Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This
+>corresponds
+>-  to the hardware pin PWDNB which is physically active low=2E
+>-- reset-gpios: Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This
+>corresponds to
+>-  the hardware pin RESETB=2E
+>-- vdddo-supply: Chip digital IO regulator=2E
+>-- vdda-supply: Chip analog regulator=2E
+>-- vddd-supply: Chip digital core regulator=2E
+>-
+>-The device node must contain one 'port' child node for its digital
+>output
+>-video port, in accordance with the video interface bindings defined in
+>-Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
+>-
+>-Example:
+>-
+>-	&i2c1 {
+>-		=2E=2E=2E
+>-
+>-		ov5645: ov5645@3c {
+>-			compatible =3D "ovti,ov5645";
+>-			reg =3D <0x3c>;
+>-
+>-			enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
+>-			reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
+>-			pinctrl-names =3D "default";
+>-			pinctrl-0 =3D <&camera_rear_default>;
+>-
+>-			clocks =3D <&clks 200>;
+>-			clock-names =3D "xclk";
+>-			clock-frequency =3D <24000000>;
+>-
+>-			vdddo-supply =3D <&camera_dovdd_1v8>;
+>-			vdda-supply =3D <&camera_avdd_2v8>;
+>-			vddd-supply =3D <&camera_dvdd_1v2>;
+>-
+>-			port {
+>-				ov5645_ep: endpoint {
+>-					clock-lanes =3D <1>;
+>-					data-lanes =3D <0 2>;
+>-					remote-endpoint =3D <&csi0_ep>;
+>-				};
+>-			};
+>-		};
+>-	};
+>diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>new file mode 100644
+>index 000000000000=2E=2Eff52d0fffb74
+>--- /dev/null
+>+++ b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>@@ -0,0 +1,123 @@
+>+# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
+>+%YAML 1=2E2
+>+---
+>+$id: http://devicetree=2Eorg/schemas/media/i2c/ov5645=2Eyaml#
+>+$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
+>+
+>+title: Omnivision OV5645 1/4 Inch 5Mp CMOS Digital Image Sensor
+>+
+>+maintainers:
+>+  - Jacopo Mondi <jacopo@jmondi=2Eorg>
+>+
+>+description: -|
+>+  The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
+>sensor
+>+  with an active array size of 2592H x 1944V=2E It is programmable
+>through a
+>+  serial I2C interface=2E
+>+
+>+properties:
+>+  compatible:
+>+    const: ovti,ov5645
+>+
+>+  reg:
+>+    description: I2C device address
+>+    maxItems: 1
+>+
+>+  clocks:
+>+    description: Reference to the xclk clock=2E
+>+    maxItems: 1
+>+
+>+  clock-names:
+>+    description: Should be "xclk"=2E
+>+    maxItems: 1
+>+
+>+  clock-frequency:
+>+    description: Frequency of the xclk clock=2E
+>+
+>+  enable-gpios:
+>+    description: |
+>+      Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This correspon=
+ds
+>+      to the hardware pin PWDNB which is physically active low=2E
+>+    maxItems: 1
+>+
+>+  reset-gpios:
+>+    description: |
+>+      Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This corresponds
+>to
+>+      the hardware pin RESETB=2E
+>+    maxItems: 1
+>+
+>+  vdddo-supply:
+>+    description: Chip digital IO regulator=2E
+>+    maxItems: 1
+>+
+>+  vdda-supply:
+>+    description: Chip analog regulator=2E
+>+    maxItems: 1
+>+
+>+  vddd-supply:
+>+    description: Chip digital core regulator=2E
+>+    maxItems: 1
+>+
+>+  port:
+>+    type: object
+>+    description: |
+>+      The device node must contain one 'port' child node for its
+>digital output
+>+      video port, in accordance with the video interface bindings
+>defined in
+>+      Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
+>+
+>+    properties:
+>+      endpoint:
+>+        type: object
+>+        properties:
+>+          remote-endpoint:
+>+            description: A phandle to the bus receiver's endpoint
+>node=2E
+>+
+>+        required:
+>+          - remote-endpoint
+>+
+>+    additionalProperties: false
+>+
+>+required:
+>+  - compatible
+>+  - reg
+>+  - clocks
+>+  - clock-names
+>+  - clock-frequency
+>+  - vdddo-supply
+>+  - vdda-supply
+>+  - vddd-supply
+>+  - port
+>+
+>+examples:
+>+  - |
+>+    #include <dt-bindings/gpio/gpio=2Eh>
+>+
+>+    i2c0 {
+>+        #address-cells =3D <1>;
+>+        #size-cells =3D <0>;
+>+
+>+        camera@3c {
+>+            compatible =3D "ovti,ov5645";
+>+            reg =3D <0x3c>;
+>+
+>+            enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
+>+            reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
+>+
+>+            clocks =3D <&clks 200>;
+>+            clock-names =3D "xclk";
+>+            clock-frequency =3D <24000000>;
+>+
+>+            vdddo-supply =3D <&camera_dovdd_1v8>;
+>+            vdda-supply =3D <&camera_avdd_2v8>;
+>+            vddd-supply =3D <&camera_dvdd_1v2>;
+>+
+>+            port {
+>+                ov5645_ep: endpoint {
+>+                    clock-lanes =3D <1>;
+>+                    data-lanes =3D <0 2>;
+>+                    remote-endpoint =3D <&csi0_ep>;
+>+                };
+>+            };
+>+        };
+>+    };
+>+
+>+=2E=2E=2E
+>diff --git a/MAINTAINERS b/MAINTAINERS
+>index 0160d7567ed3=2E=2Ebf8902ebbe30 100644
+>--- a/MAINTAINERS
+>+++ b/MAINTAINERS
+>@@ -12607,6 +12607,14 @@ T:	git git://linuxtv=2Eorg/media_tree=2Egit
+> F:	drivers/media/i2c/ov5640=2Ec
+> F:	Documentation/devicetree/bindings/media/i2c/ov5640=2Eyaml
+>
+>+OMNIVISION OV5645 SENSOR DRIVER
+>+M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
+>+L:	linux-media@vger=2Ekernel=2Eorg
+>+S:	Odd Fixes
+>+T:	git git://linuxtv=2Eorg/media_tree=2Egit
+>+F:	drivers/media/i2c/ov5645=2Ec
+>+F:	Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
+>+
+> OMNIVISION OV5647 SENSOR DRIVER
+> M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
+> M:	Dave Stevenson <dave=2Estevenson@raspberrypi=2Ecom>
+>--
+>2=2E27=2E0
 
-> +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-> +			       priv->remote_pad, &mbus_config);
-> +	if (ret == -ENOIOCTLCMD) {
-> +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-> +		return 0;
-> +	}
-> +
-> +	if (ret) {
-> +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-> +		return ret;
-> +	}
-> +
-> +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> +		dev_err(priv->dev, "Unsupported media bus type %u\n",
-> +			mbus_config.type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> +		num_lanes = 1;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> +		num_lanes = 2;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> +		num_lanes = 3;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> +		num_lanes = 4;
-> +
-> +	if (num_lanes > priv->lanes) {
-> +		dev_err(priv->dev,
-> +			"Unsupported mbus config: too many data lanes %u\n",
-> +			num_lanes);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*lanes = num_lanes;
-> +
-> +	return 0;
-> +}
-> +
->  static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  {
->  	const struct rcar_csi2_format *format;
->  	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
-> +	unsigned int lanes;
->  	unsigned int i;
->  	int mbps, ret;
-> 
-> @@ -522,10 +573,18 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  			fld |= FLD_FLD_NUM(1);
->  	}
-> 
-> +	/*
-> +	 * Get the number of active data lanes inspecting the remote mbus
-> +	 * configuration.
-> +	 */
-> +	ret = rcsi2_get_active_lanes(priv, &lanes);
-> +	if (ret)
-> +		return ret;
-> +
->  	phycnt = PHYCNT_ENABLECLK;
-> -	phycnt |= (1 << priv->lanes) - 1;
-> +	phycnt |= (1 << lanes) - 1;
-> 
-> -	mbps = rcsi2_calc_mbps(priv, format->bpp);
-> +	mbps = rcsi2_calc_mbps(priv, format->bpp, lanes);
->  	if (mbps < 0)
->  		return mbps;
-> 
-> @@ -572,7 +631,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ);
->  	rcsi2_write(priv, PHYCNT_REG, phycnt | PHYCNT_SHUTDOWNZ | PHYCNT_RSTZ);
-> 
-> -	ret = rcsi2_wait_phy_start(priv);
-> +	ret = rcsi2_wait_phy_start(priv, lanes);
->  	if (ret)
->  		return ret;
-> 
-> @@ -749,6 +808,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
->  	}
-> 
->  	priv->remote = subdev;
-> +	priv->remote_pad = pad;
-> 
->  	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
-> 
-> --
-> 2.27.0
-> 
-
--- 
-Regards,
-Niklas Söderlund
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
