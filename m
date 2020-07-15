@@ -2,339 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 460CD22110B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 17:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE56221148
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 17:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbgGOPbe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 11:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725861AbgGOPbd (ORCPT
+        id S1725770AbgGOPhv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 11:37:51 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38362 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbgGOPhv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 11:31:33 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8066C08C5DD
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id o22so3135907pjw.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 08:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:user-agent:in-reply-to:references:mime-version
-         :content-transfer-encoding:subject:to:cc:from:message-id;
-        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
-        b=FUOGjWIq+UH0Dj6G7Jka3jH2vi0nFXHsYfJ5q/c5I8GbuUL9LurO6gwlwuRa+xr0Sb
-         SQRUgG0ezG69Fjd5TIkHMtxk0RUhRp6NhlPV0rppoYOiBY94G08ZjWCUanin33jSfvep
-         Wy6Fyv1PfVb3IUJmBl0+MNhzgl7gvfK2BVgr9kcC+kRCfikdYovv3W2x1qP4+6lUa6zm
-         yUtxaDez4Qmib67LjGIuSVmgVotG+ibnrHPTeiAIviCTehOc4iYNdWBILBXJnVv/C3Gu
-         hmhyoVJ0NUNLLUJSfFwyi785c00rCYA0aAa1FvPQl7r408SLVvk1z8bgoMFcBoMFXBXU
-         n8sg==
+        Wed, 15 Jul 2020 11:37:51 -0400
+Received: by mail-oi1-f196.google.com with SMTP id r8so2528421oij.5;
+        Wed, 15 Jul 2020 08:37:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=hHyDEZPQlCj7ez8zgl+iUOU2RB2eEYLvFrd87IMuq64=;
-        b=aDglShL/YrgIlilcaQ3SMis0AlekVz1ts/ZjVEF9rPLb3gAFtM8r6IOXRRvOCApssI
-         7MCa65OuwiMboZS/9j8nQq9ai2eLTXnsHvgdltQtWiRAXsa64Q84IapFvUertKxRRAtm
-         cWQ8FaAJCw/4Cq7Rf3P/ZYtsjwechlBPhM1IO2OceRJHVkS3yZ1vLCLYpt0kXQ3V6n0n
-         sbcV+Im9ihOoE2WuPdZ4K94hAiP9chdRcIfhH7BSftyEQrO0UpbUYb7xbj/Facp6yy13
-         TaAAaUnHbRf5bXBDfJJw+VCe2JLJeFC9d+v8y9FzlH8wKvF5mhGkjRUvYhDZi7OtkQhv
-         W2iw==
-X-Gm-Message-State: AOAM5309n1/eBHUK15y/IninvvpEZNxBe9iVuITVPaizKQgND4/wI2qR
-        i4ynr4AHMdN2lP9qpsLLohjB
-X-Google-Smtp-Source: ABdhPJzip+5iJSceNcg2pkLh+MNocaL8b2GFKczVRGn+4ev8O22viDzJr9m3e5nGW8nd6r9B0My4sw==
-X-Received: by 2002:a17:90b:4d10:: with SMTP id mw16mr163423pjb.143.1594827092724;
-        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
-Received: from ?IPv6:2409:4072:6d16:31bf:7111:6428:1bdc:7edc? ([2409:4072:6d16:31bf:7111:6428:1bdc:7edc])
-        by smtp.gmail.com with ESMTPSA id n62sm2683570pjb.28.2020.07.15.08.31.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Jul 2020 08:31:32 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 21:01:23 +0530
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20200715140951.90753-3-jacopo+renesas@jmondi.org>
-References: <20200715140951.90753-1-jacopo+renesas@jmondi.org> <20200715140951.90753-3-jacopo+renesas@jmondi.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=I8Y+iMIBLic68sY07uOSY3D6Exe00WfEOasrAyuGf+s=;
+        b=R5R4eTBNNnULPKEihChFTlXSD6YrdiulPQmVnRnj+vWhmeMXYrXRqEG+ELNrSjgPoy
+         1Hp3uPM0zE8cB68YNXTGuXSNqAKSZU7HMuJZVk2Z1CPKlCnLEtLegMP69Z84h+/M6tTO
+         LupIF3AkeWCDUL2jdYK2HxrOIpzoZ7wJs5D9LJhjv8ES9++UoWv8c7UEwj+YgKHefVsA
+         14Gwvsku/EnHZpRd1kn0HJUS/pjinvX0cBb/upw+JJ6K12Y1h9n+FOELkqNuLFYk25cD
+         MeFWDsxzpXBKWhLXLdGNqo6rNkOGpKbp4vuggxv2sSYyyVaI44Tp/YYf1W+FVFx6xZ63
+         wtwA==
+X-Gm-Message-State: AOAM530dVXiYHHcQy0jetW+CBrXdCULVZ8xJEm1EmASjyZQw0ENZl8AH
+        HZYKBWbNuSZnOwBniSEMjd1tGNuqrk/W879Pcqz+h6/C
+X-Google-Smtp-Source: ABdhPJwtSILuH3tg5zL3hnRRNwNcfF1BCTz0ZqeqvqknIQPVE78txAnKpBzVTonE0yDuNLifqFhnvTOvFPe5ntBqUoc=
+X-Received: by 2002:aca:ac10:: with SMTP id v16mr217670oie.153.1594827469906;
+ Wed, 15 Jul 2020 08:37:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/8] dt-bindings: media: ov5645: Convert to json-schema
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org
-CC:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        linux-renesas-soc@vger.kernel.org,
-        Todor Tomov <todor.too@gmail.com>
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Message-ID: <60FF8603-ACA1-4CAF-B43B-04E974A8E4C4@linaro.org>
+References: <1567584941-13690-1-git-send-email-biju.das@bp.renesas.com>
+ <1567584941-13690-2-git-send-email-biju.das@bp.renesas.com>
+ <CAMuHMdVZkjGDFmeQ9XkOqq-ogfSZz99hd0=N-OYLai4UEzKwAQ@mail.gmail.com> <TYBPR01MB5309C98CD8BD3706394E4784867E0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB5309C98CD8BD3706394E4784867E0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 17:37:38 +0200
+Message-ID: <CAMuHMdWHqjuDFFrjK6C72fyFQPsvYy2qhZ5=RfPNXsG-_FXHyQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v7 1/3] dt-bindings: usb: hd3ss3220 device tree
+ binding document
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,=20
+Hi Biju,
 
-On 15 July 2020 7:39:45 PM IST, Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>=
- wrote:
->Convert the ov5645 bindings document to json-schema and update
->the MAINTAINERS file accordingly, as the entry was not documented=2E
+On Wed, Jul 15, 2020 at 1:42 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH RESEND v7 1/3] dt-bindings: usb: hd3ss3220 device tree
+> > binding document
+> >
+> > On Wed, Sep 4, 2019 at 10:22 AM Biju Das <biju.das@bp.renesas.com>
+> > wrote:
+> > > Add device tree binding document for TI HD3SS3220 Type-C DRP port
+> > > controller driver.
+> > >
+> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> >
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+> > > @@ -0,0 +1,38 @@
+> > > +TI HD3SS3220 TypeC DRP Port Controller.
+> > > +
+> > > +Required properties:
+> > > + - compatible: Must be "ti,hd3ss3220".
+> > > + - reg: I2C slave address, must be 0x47 or 0x67 based on ADDR pin.
+> > > + - interrupts: An interrupt specifier.
+> > > +
+> > > +Required sub-node:
+> > > + - connector: The "usb-c-connector" attached to the hd3ss3220 chip. The
+> > > +   bindings of the connector node are specified in:
+> > > +
+> > > +       Documentation/devicetree/bindings/connector/usb-connector.txt
+> > > +
+> > > +Example:
+> > > +hd3ss3220@47 {
+> > > +       compatible = "ti,hd3ss3220";
+> > > +       reg = <0x47>;
+> > > +       interrupt-parent = <&gpio6>;
+> > > +       interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+> > > +
+> > > +       connector {
+> > > +               compatible = "usb-c-connector";
+> > > +               label = "USB-C";
+> > > +               data-role = "dual";
+> > > +
+> > > +               ports {
+> > > +                       #address-cells = <1>;
+> > > +                       #size-cells = <0>;
+> > > +
+> > > +                       port@1 {
+> >
+> > This does not comply with
+> > Documentation/devicetree/bindings/connector/usb-connector.yaml:
+> >
+> >     connector: ports: 'port@0' is a required property
 >
->Add myself as maintainer for odd fixes only, as I don't have the
->sensor to test with=2E
+> But in RZ/G2E case, the connector is a SS capable connector.  May be we need to update required property
+> as port@0 or port@1? Please let me know
 >
->Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi=2Eorg>
->---
->
->Hello Todor, Manivannan
->   I've added in this patch an entry for ov5645 in the MAINTAINERS
->file, and I've added myself as maintainers for Odd Fixes only=2E
->
->As you seem to be the author and committers of this bindings
->respectively,
->would you be interested in maintaining this driver ?
+>  -    required:
+>  -      - port@0
+>  +    anyOf:
+>  +      - required:
+>  +          - port@0
+>  +      - required:
+>  +          - port@1
 
-I've worked on this driver in the past=2E So yeah, feel free to add myself=
- and since Todor has authored the driver, it makes sense to add him too=2E=
-=20
+May make sense.
+I'd like to defer to the USB experts, though.
 
-Thanks,=20
-Mani
+> > > +                               reg = <1>;
+> > > +                               hd3ss3220_ep: endpoint {
+> > > +                                       remote-endpoint = <&usb3_role_switch>;
+> > > +                               };
+> > > +                       };
+> > > +               };
+> > > +       };
+> > > +};
 
->
->---
-> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Etxt  |  54 --------
-> =2E=2E=2E/devicetree/bindings/media/i2c/ov5645=2Eyaml | 123 ++++++++++++=
-++++++
-> MAINTAINERS                                   |   8 ++
-> 3 files changed, 131 insertions(+), 54 deletions(-)
->delete mode 100644
->Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->create mode 100644
->Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->
->diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->b/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->deleted file mode 100644
->index 72ad992f77be=2E=2E000000000000
->--- a/Documentation/devicetree/bindings/media/i2c/ov5645=2Etxt
->+++ /dev/null
->@@ -1,54 +0,0 @@
->-* Omnivision 1/4-Inch 5Mp CMOS Digital Image Sensor
->-
->-The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
->sensor with
->-an active array size of 2592H x 1944V=2E It is programmable through a
->serial I2C
->-interface=2E
->-
->-Required Properties:
->-- compatible: Value should be "ovti,ov5645"=2E
->-- clocks: Reference to the xclk clock=2E
->-- clock-names: Should be "xclk"=2E
->-- clock-frequency: Frequency of the xclk clock=2E
->-- enable-gpios: Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This
->corresponds
->-  to the hardware pin PWDNB which is physically active low=2E
->-- reset-gpios: Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This
->corresponds to
->-  the hardware pin RESETB=2E
->-- vdddo-supply: Chip digital IO regulator=2E
->-- vdda-supply: Chip analog regulator=2E
->-- vddd-supply: Chip digital core regulator=2E
->-
->-The device node must contain one 'port' child node for its digital
->output
->-video port, in accordance with the video interface bindings defined in
->-Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
->-
->-Example:
->-
->-	&i2c1 {
->-		=2E=2E=2E
->-
->-		ov5645: ov5645@3c {
->-			compatible =3D "ovti,ov5645";
->-			reg =3D <0x3c>;
->-
->-			enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
->-			reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
->-			pinctrl-names =3D "default";
->-			pinctrl-0 =3D <&camera_rear_default>;
->-
->-			clocks =3D <&clks 200>;
->-			clock-names =3D "xclk";
->-			clock-frequency =3D <24000000>;
->-
->-			vdddo-supply =3D <&camera_dovdd_1v8>;
->-			vdda-supply =3D <&camera_avdd_2v8>;
->-			vddd-supply =3D <&camera_dvdd_1v2>;
->-
->-			port {
->-				ov5645_ep: endpoint {
->-					clock-lanes =3D <1>;
->-					data-lanes =3D <0 2>;
->-					remote-endpoint =3D <&csi0_ep>;
->-				};
->-			};
->-		};
->-	};
->diff --git a/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->new file mode 100644
->index 000000000000=2E=2Eff52d0fffb74
->--- /dev/null
->+++ b/Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->@@ -0,0 +1,123 @@
->+# SPDX-License-Identifier: (GPL-2=2E0-only OR BSD-2-Clause)
->+%YAML 1=2E2
->+---
->+$id: http://devicetree=2Eorg/schemas/media/i2c/ov5645=2Eyaml#
->+$schema: http://devicetree=2Eorg/meta-schemas/core=2Eyaml#
->+
->+title: Omnivision OV5645 1/4 Inch 5Mp CMOS Digital Image Sensor
->+
->+maintainers:
->+  - Jacopo Mondi <jacopo@jmondi=2Eorg>
->+
->+description: -|
->+  The Omnivision OV5645 is a 1/4-Inch CMOS active pixel digital image
->sensor
->+  with an active array size of 2592H x 1944V=2E It is programmable
->through a
->+  serial I2C interface=2E
->+
->+properties:
->+  compatible:
->+    const: ovti,ov5645
->+
->+  reg:
->+    description: I2C device address
->+    maxItems: 1
->+
->+  clocks:
->+    description: Reference to the xclk clock=2E
->+    maxItems: 1
->+
->+  clock-names:
->+    description: Should be "xclk"=2E
->+    maxItems: 1
->+
->+  clock-frequency:
->+    description: Frequency of the xclk clock=2E
->+
->+  enable-gpios:
->+    description: |
->+      Chip enable GPIO=2E Polarity is GPIO_ACTIVE_HIGH=2E This correspon=
-ds
->+      to the hardware pin PWDNB which is physically active low=2E
->+    maxItems: 1
->+
->+  reset-gpios:
->+    description: |
->+      Chip reset GPIO=2E Polarity is GPIO_ACTIVE_LOW=2E This corresponds
->to
->+      the hardware pin RESETB=2E
->+    maxItems: 1
->+
->+  vdddo-supply:
->+    description: Chip digital IO regulator=2E
->+    maxItems: 1
->+
->+  vdda-supply:
->+    description: Chip analog regulator=2E
->+    maxItems: 1
->+
->+  vddd-supply:
->+    description: Chip digital core regulator=2E
->+    maxItems: 1
->+
->+  port:
->+    type: object
->+    description: |
->+      The device node must contain one 'port' child node for its
->digital output
->+      video port, in accordance with the video interface bindings
->defined in
->+      Documentation/devicetree/bindings/media/video-interfaces=2Etxt=2E
->+
->+    properties:
->+      endpoint:
->+        type: object
->+        properties:
->+          remote-endpoint:
->+            description: A phandle to the bus receiver's endpoint
->node=2E
->+
->+        required:
->+          - remote-endpoint
->+
->+    additionalProperties: false
->+
->+required:
->+  - compatible
->+  - reg
->+  - clocks
->+  - clock-names
->+  - clock-frequency
->+  - vdddo-supply
->+  - vdda-supply
->+  - vddd-supply
->+  - port
->+
->+examples:
->+  - |
->+    #include <dt-bindings/gpio/gpio=2Eh>
->+
->+    i2c0 {
->+        #address-cells =3D <1>;
->+        #size-cells =3D <0>;
->+
->+        camera@3c {
->+            compatible =3D "ovti,ov5645";
->+            reg =3D <0x3c>;
->+
->+            enable-gpios =3D <&gpio1 6 GPIO_ACTIVE_HIGH>;
->+            reset-gpios =3D <&gpio5 20 GPIO_ACTIVE_LOW>;
->+
->+            clocks =3D <&clks 200>;
->+            clock-names =3D "xclk";
->+            clock-frequency =3D <24000000>;
->+
->+            vdddo-supply =3D <&camera_dovdd_1v8>;
->+            vdda-supply =3D <&camera_avdd_2v8>;
->+            vddd-supply =3D <&camera_dvdd_1v2>;
->+
->+            port {
->+                ov5645_ep: endpoint {
->+                    clock-lanes =3D <1>;
->+                    data-lanes =3D <0 2>;
->+                    remote-endpoint =3D <&csi0_ep>;
->+                };
->+            };
->+        };
->+    };
->+
->+=2E=2E=2E
->diff --git a/MAINTAINERS b/MAINTAINERS
->index 0160d7567ed3=2E=2Ebf8902ebbe30 100644
->--- a/MAINTAINERS
->+++ b/MAINTAINERS
->@@ -12607,6 +12607,14 @@ T:	git git://linuxtv=2Eorg/media_tree=2Egit
-> F:	drivers/media/i2c/ov5640=2Ec
-> F:	Documentation/devicetree/bindings/media/i2c/ov5640=2Eyaml
->
->+OMNIVISION OV5645 SENSOR DRIVER
->+M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
->+L:	linux-media@vger=2Ekernel=2Eorg
->+S:	Odd Fixes
->+T:	git git://linuxtv=2Eorg/media_tree=2Egit
->+F:	drivers/media/i2c/ov5645=2Ec
->+F:	Documentation/devicetree/bindings/media/i2c/ov5645=2Eyaml
->+
-> OMNIVISION OV5647 SENSOR DRIVER
-> M:	Jacopo Mondi <jacopo@jmondi=2Eorg>
-> M:	Dave Stevenson <dave=2Estevenson@raspberrypi=2Ecom>
->--
->2=2E27=2E0
+Gr{oetje,eeting}s,
 
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
