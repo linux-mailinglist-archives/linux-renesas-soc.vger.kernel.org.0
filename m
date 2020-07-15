@@ -2,285 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 289A022090B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 11:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 652562209B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:19:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730667AbgGOJnt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 05:43:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729592AbgGOJnt (ORCPT
+        id S1728001AbgGOKTK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 06:19:10 -0400
+Received: from mail-oo1-f66.google.com ([209.85.161.66]:44296 "EHLO
+        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbgGOKTK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 05:43:49 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 024B0C061755;
-        Wed, 15 Jul 2020 02:43:49 -0700 (PDT)
-Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E130564;
-        Wed, 15 Jul 2020 11:43:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1594806226;
-        bh=R72+AIB3W1UESS+YG/XWiz5Ka/52SFPsZeV0CaaHkgg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=f/wlfLjBDvmE6FjlafxtGYIXIc6yLoBUNX0AHKgxs73ikGZmYmtis9pYvIb9Ybom7
-         v+tTLe6E+wB7be8i3VJ/UxmZ34hlnVsV3VbO6FZeLtv+nAgETB9fv0/8lXXnFxYF/v
-         /zSdjkhMWBGe4m52eJUFrEj3nosD+dzeAy5f3bKo=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        sakari.ailus@iki.fi, Rob Herring <robh+dt@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v10.1 3/4] dt-bindings: media: i2c: Add bindings for IMI RDACM2x
-Date:   Wed, 15 Jul 2020 10:43:41 +0100
-Message-Id: <20200715094341.4123896-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200612144713.502006-4-kieran.bingham+renesas@ideasonboard.com>
-References: <20200612144713.502006-4-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 15 Jul 2020 06:19:10 -0400
+Received: by mail-oo1-f66.google.com with SMTP id o36so350247ooi.11;
+        Wed, 15 Jul 2020 03:19:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NAkHhGCBdih32hqt76V0j8Veg+fQ7FChhZOK219jyyg=;
+        b=HRl5wwAxXD3aa/M3k9gHxLMLja++2JYkfphFhp49MwX5QEZUmB01bmHiL6U3AQQgBp
+         PYp5mlL2JZ7HMDdwcnYGMgzNidvq+hlxlN+KYwRMfYNEK8jRY3kv4uxzLzR6glqm+cjT
+         716mYGZsVXpB/1BPXJQp/GXAdPhQPFPmT7s+PL5g/oOT5/iWo77xm71I25Uon9OS10J8
+         OxvlqgjypZC+KzrPnkceZRtZ0Kck5G73NdRpsz/VX9fqc9kpJPvjBtbGEXLUBmmQTgAz
+         B2Df6nNlqWpjFd3eO+0wEj6MpLlJaQTRYw/JxbJ4HmbZVCLYyh2mHA6G9at/DWYvoIPE
+         pT/g==
+X-Gm-Message-State: AOAM533FxjB8VOE1z/8HBpDOqPY0GWlsiZ2NcMjiGqnlqS6oYrFAmEKQ
+        pQG0hAowT0O/CYR/o7yAxJ6uAdX+Ziuj0EX7jaA=
+X-Google-Smtp-Source: ABdhPJwSAaZJfpGKxkLLTXuhq5d9bq9sTol7NAMegIgcAukEn+36YLrrN0ajD7D+Vfxo36peiJOo78hXGiX/3pGPC7k=
+X-Received: by 2002:a4a:9552:: with SMTP id n18mr8646494ooi.1.1594808349233;
+ Wed, 15 Jul 2020 03:19:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594676120-5862-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 12:18:58 +0200
+Message-ID: <CAMuHMdUH4yVek8Fn2z1xneTS0Y_vkMv+w7VwEDJvCUXR9qVQRw@mail.gmail.com>
+Subject: Re: [PATCH 3/9] arm64: dts: renesas: r8a774e1: Add IPMMU device nodes
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+On Mon, Jul 13, 2020 at 11:35 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Add RZ/G2H (R8A774E1) IPMMU nodes.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-The IMI RDACM20 and IMI RDACM21 are Gigabit Multimedia Serial Link
-(GMSL) camera capable of transmitting video and I2C control messages on
-a coax cable physical link for automotive applications.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.9.
 
-Document their device tree bindings.
+Gr{oetje,eeting}s,
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-v2:
- - Provide imi vendor prefix
- - Fix minor spelling
+                        Geert
 
-v3:
- - update binding descriptions
-
-v4:
- - No change
-
-v5:
- - Specify optional third reg address for the MCU
-
-v7:
- [Jacopo]
- - Rename to imi,rdacm2x-gmsl.yaml
- - Exand bindings to describe RDACM21
-
-v9:
-  [Jacopo]
-  - Rework 'compatible' property as suggested by Rob
-  - Re-order vendor prefixes ('g' comes before 'i' ... )
-  - Add Rob's tag
-
-v10.1:
- [Kieran]
-  - Fix up the two examples 'reg' value for the i2c nodes.
-
-
- .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  | 159 ++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- 2 files changed, 161 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
-
-diff --git a/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
-new file mode 100644
-index 000000000000..5ad4b8c356cf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
-@@ -0,0 +1,159 @@
-+# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
-+# Copyright (C) 2019 Renesas Electronics Corp.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/imi,rdacm2x-gmsl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title:  IMI D&D RDACM20 and RDACM21 Automotive Camera Platforms
-+
-+maintainers:
-+  - Jacopo Mondi <jacopo+renesas@jmondi.org>
-+  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-+
-+description: -|
-+  The IMI D&D RDACM20 and RDACM21 are GMSL-compatible camera designed for
-+  automotive applications.
-+
-+  The RDACM20 camera module encloses a Maxim Integrated MAX9271 GMSL serializer,
-+  coupled with an OV10635 image sensor and an embedded MCU. Both the MCU and
-+  the image sensor are connected to the serializer local I2C bus and are
-+  accessible by the host SoC by direct addressing.
-+
-+  The RDACM21 camera module encloses the same serializer, coupled with an
-+  OV10640 image sensor and an OV490 ISP. Only the OV490 ISP is interfaced to
-+  the serializer local I2C bus while the image sensor is not accessible from
-+  the host SoC.
-+
-+  They both connect to a remote GMSL endpoint through a coaxial cable.
-+
-+                                                   IMI RDACM20
-+  +---------------+                        +--------------------------------+
-+  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
-+  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV10635 |
-+  | de-serializer |   <- I2C messages ->   |                   \<-->MCU     |
-+  +---------------+                        +--------------------------------+
-+
-+                                                   IMI RDACM21
-+  +---------------+                        +--------------------------------+
-+  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
-+  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV490   |
-+  |               |   <- I2C messages ->   |                          |     |
-+  | de-serializer |                        |          OV10640 <-------|     |
-+  +---------------+                        +--------------------------------+
-+
-+  Both camera modules serialize video data generated by the embedded camera
-+  sensor on the GMSL serial channel to a remote GMSL de-serializer. They also
-+  receive and transmit I2C messages encapsulated and transmitted on the GMSL
-+  bidirectional control channel.
-+
-+  All I2C traffic received on the GMSL link not directed to the serializer is
-+  propagated on the local I2C bus to the remote device there connected. All the
-+  I2C traffic generated on the local I2C bus not directed to the serializer is
-+  propagated to the remote de-serializer encapsulated in the GMSL control
-+  channel.
-+
-+  The RDACM20 and RDACM21 DT node should be a direct child of the GMSL
-+  deserializer's I2C bus corresponding to the GMSL link that the camera is
-+  attached to.
-+
-+properties:
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+  compatible:
-+    enum:
-+      - imi,rdacm20
-+      - imi,rdacm21
-+
-+  reg:
-+    description: -|
-+      I2C device addresses, the first to be assigned to the serializer, the
-+      following ones to be assigned to the remote devices.
-+
-+      For RDACM20 the second entry of the property is assigned to the
-+      OV10635 image sensor and the optional third one to the embedded MCU.
-+
-+      For RDACM21 the second entry is assigned to the OV490 ISP and the optional
-+      third one ignored.
-+
-+    minItems: 2
-+    maxItems: 3
-+
-+  port:
-+    type: object
-+    additionalProperties: false
-+    description: -|
-+      Connection to the remote GMSL endpoint are modelled using the OF graph
-+      bindings in accordance with the video interface bindings defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+      The device node contains a single "port" child node with a single
-+      "endpoint" sub-device.
-+
-+    properties:
-+      endpoint:
-+        type: object
-+        additionalProperties: false
-+
-+        properties:
-+          remote-endpoint:
-+            description: -|
-+              phandle to the remote GMSL endpoint sub-node in the remote node
-+              port.
-+            maxItems: 1
-+
-+        required:
-+          - remote-endpoint
-+
-+    required:
-+      - endpoint
-+
-+required:
-+  - compatible
-+  - reg
-+  - port
-+
-+examples:
-+  - |
-+    i2c@e66d8000 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      reg = <0 0xe66d8000>;
-+
-+      camera@31 {
-+        compatible = "imi,rdacm20";
-+        reg = <0x31>, <0x41>, <0x51>;
-+
-+        port {
-+          rdacm20_out0: endpoint {
-+            remote-endpoint = <&max9286_in0>;
-+          };
-+        };
-+      };
-+    };
-+
-+  - |
-+    i2c@e66d8000 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      reg = <0 0xe66d8000>;
-+
-+      camera@31 {
-+        compatible = "imi,rdacm21";
-+        reg = <0x31>, <0x41>;
-+
-+        port {
-+          rdacm21_out0: endpoint {
-+            remote-endpoint = <&max9286_in0>;
-+          };
-+        };
-+      };
-+    };
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 9aeab66be85f..8261ede298f8 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -469,6 +469,8 @@ patternProperties:
-     description: ILI Technology Corporation (ILITEK)
-   "^img,.*":
-     description: Imagination Technologies Ltd.
-+  "^imi,.*":
-+    description: Integrated Micro-Electronics Inc.
-   "^incircuit,.*":
-     description: In-Circuit GmbH
-   "^inet-tek,.*":
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
