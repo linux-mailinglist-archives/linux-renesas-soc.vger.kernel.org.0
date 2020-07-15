@@ -2,101 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 884852209E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:22:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87D282209F9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728887AbgGOKWa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 06:22:30 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:49445 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726798AbgGOKW3 (ORCPT
+        id S1731121AbgGOK1C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 06:27:02 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45296 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731099AbgGOK1B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:22:29 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1594808549; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=ko3g57NhBIWKq4qu1jUjxFkit/z6wz9jriCusjnaDMU=;
- b=l26Njrlpn20WEoGzLM9zwcly2EbKtoJQPMo1iIeVdjmxY08dc5yIr7lRHxc6vnQ05zJGIpA9
- AoKdeK8RvN3i0d518Yrv9MFTK67RuBiCxKZXlW5Voz3H9B6vo18/6KBOXU15KbSD8r8fYUcP
- ftba+1Z+Nlj6zARaZ9pUq0bB14o=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIyZjFhOCIsICJsaW51eC1yZW5lc2FzLXNvY0B2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n12.prod.us-west-2.postgun.com with SMTP id
- 5f0ed8d2512812c070cbee86 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Jul 2020 10:22:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id F36A3C433BA; Wed, 15 Jul 2020 10:22:09 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=2.0 tests=ALL_TRUSTED,MISSING_DATE,
-        MISSING_MID,SPF_NONE autolearn=no autolearn_force=no version=3.4.0
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: kvalo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9BB90C433C9;
-        Wed, 15 Jul 2020 10:22:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9BB90C433C9
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
-Content-Type: text/plain; charset="utf-8"
+        Wed, 15 Jul 2020 06:27:01 -0400
+Received: by mail-ot1-f65.google.com with SMTP id h1so1043465otq.12;
+        Wed, 15 Jul 2020 03:27:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ciz8EkCooMhWVctMjx/enqnJ4xHAdIZyCLKimNEIWpI=;
+        b=a73Zi2gIBcJTLfSpLzuerVRm2oFaluYrs9sNObx0Xjt3HB0rEGTbbhWU0Zk3F/DPFL
+         nNnV2kFJofY5Up+nND6mZUprAMQyakCNn2dd0+PqAshUpNcfu5tH5g8+IoqehehNLE6b
+         TYV3jrZ9sYMP778eiu4qOeZnC0pX8zom7KZXFJrhXlmZRCvh8X3O5pRknG+oG0/ST+ri
+         6gfjkzjwQTeiTZ7I87XoDAdSwOHlB9HriEWZC3MRAXnEQ0rFZe3yLAO8+NZhMkYV+c00
+         wHmfD3+kDMC26Qnr20neDmeVpHHwqH3aPIIVi9zHMu5GVxobeUc39jPAlclymrVI8VZQ
+         f/tQ==
+X-Gm-Message-State: AOAM5318aQQRx76/TAE+VtzudqGRbLgmYyClOzcZ95EcgiCO+JNyxOzj
+        YqncuaRbN1JAbdxnDJL1wZNw9G+ePUQRRD+onzKvs4xx
+X-Google-Smtp-Source: ABdhPJzDVjcJOqq/OGpX+gREO1lxSpbu/5xXM3HIDSKMrJSDI1LeLrnkzgrrA+c/eG2g6EF5g4F715fy6hnKWubX3NU=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr7700840otb.107.1594808820643;
+ Wed, 15 Jul 2020 03:27:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 05/17] drivers: net: Fix trivial spelling
-From:   Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20200609124610.3445662-6-kieran.bingham+renesas@ideasonboard.com>
-References: <20200609124610.3445662-6-kieran.bingham+renesas@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Martin Habets <mhabets@solarflare.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        Colin Ian King <colin.king@canonical.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Eric Dumazet <edumazet@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Wenwen Wang <wenwen@cs.uga.edu>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-        linux-kernel@vger.kernel.org (open list),
-        ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS
-        DRIVER),
-        linux-wireless@vger.kernel.org (open list:NETWORKING DRIVERS (WIRELESS))
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20200715102209.F36A3C433BA@smtp.codeaurora.org>
-Date:   Wed, 15 Jul 2020 10:22:09 +0000 (UTC)
+References: <20200714142856.58365-1-jacopo+renesas@jmondi.org> <20200714142856.58365-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200714142856.58365-4-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 12:26:49 +0200
+Message-ID: <CAMuHMdV64srQaDcAPwjA_QR6v_FOykgQpxgdT-srRk1r7NQiGQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] media: MAINTAINERS: ov5647: Add myself as maintainer
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dongchun.zhu@mediatek.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        roman.kovalivskyi@globallogic.com,
+        Luis de Oliveira <Luis.Oliveira@synopsys.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Kieran Bingham <kieran.bingham+renesas@ideasonboard.com> wrote:
+CC Luis' last used address
 
-> The word 'descriptor' is misspelled throughout the tree.
-> 
-> Fix it up accordingly:
->     decriptors -> descriptors
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Tue, Jul 14, 2020 at 4:25 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+>
+> Since the current maintainer email address bounces back, replace
+> the entry and make myself maintainer of the driver since I have the
+> sensor and platforms to test it.
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1742fa1a88cd..e2128afd83b6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12607,7 +12607,7 @@ T:      git git://linuxtv.org/media_tree.git
+>  F:     drivers/media/i2c/ov5640.c
+>
+>  OMNIVISION OV5647 SENSOR DRIVER
+> -M:     Luis Oliveira <lolivei@synopsys.com>
+> +M:     Jacopo Mondi <jacopo@jmondi.org>
+>  L:     linux-media@vger.kernel.org
+>  S:     Maintained
+>  T:     git git://linuxtv.org/media_tree.git
 
-I recommend splitting wan and wireless changes to separate patches as I
-cannot take changes to wan subsystem.
+Gr{oetje,eeting}s,
 
-Patch set to Changes Requested.
+                        Geert
 
--- 
-https://patchwork.kernel.org/patch/11595487/
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
