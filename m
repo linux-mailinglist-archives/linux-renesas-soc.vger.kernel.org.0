@@ -2,91 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DF7E2207BA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 10:48:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AD2B2207D9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 10:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729688AbgGOIsB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 04:48:01 -0400
-Received: from dispatch1-us1.ppe-hosted.com ([67.231.154.164]:54580 "EHLO
-        dispatch1-us1.ppe-hosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729377AbgGOIsB (ORCPT
+        id S1730465AbgGOIxe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 04:53:34 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42102 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730435AbgGOIxe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 04:48:01 -0400
-Received: from mx1-us1.ppe-hosted.com (unknown [10.110.50.144])
-        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 5ED8A20055;
-        Wed, 15 Jul 2020 08:48:00 +0000 (UTC)
-Received: from us4-mdac16-74.at1.mdlocal (unknown [10.110.50.192])
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 5D39C800A4;
-        Wed, 15 Jul 2020 08:48:00 +0000 (UTC)
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mx1-us1.ppe-hosted.com (unknown [10.110.50.12])
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 19C344004D;
-        Wed, 15 Jul 2020 08:47:54 +0000 (UTC)
-Received: from webmail.solarflare.com (uk.solarflare.com [193.34.186.16])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id BD51C4005B;
-        Wed, 15 Jul 2020 08:47:53 +0000 (UTC)
-Received: from [10.17.20.203] (10.17.20.203) by ukex01.SolarFlarecom.com
- (10.17.10.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 15 Jul
- 2020 09:47:46 +0100
-Subject: Re: [renesas-drivers:master 69/80]
- drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse: sparse: incompatible
- types for operation (==):
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     <kbuild-all@lists.01.org>, <linux-renesas-soc@vger.kernel.org>,
-        "Luc Van Oostenryck" <luc.vanoostenryck@gmail.com>,
-        <linux-pci@vger.kernel.org>
-References: <20200714185622.GA408711@bjorn-Precision-5520>
-From:   Edward Cree <ecree@solarflare.com>
-Message-ID: <a18d4e1e-2ecb-21dc-2547-fa7529e76edd@solarflare.com>
-Date:   Wed, 15 Jul 2020 09:47:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Wed, 15 Jul 2020 04:53:34 -0400
+Received: by mail-ot1-f68.google.com with SMTP id g37so869001otb.9;
+        Wed, 15 Jul 2020 01:53:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fegVhyn3STlKjt12R9hh8prB5z0M+XRshkNWgzH+c0A=;
+        b=mHc61kzPm3KTsgTb4tYpSFoX9qkkpK9bCp8jdYfjOXzpDQArDgxH6RdawBLGOH2LC8
+         F9PTTmratkihAlx/Ry864wnnKvtVpDfMwYAGj4cXsmpbDLCvaRPN/EVIJDXnwBW33NKr
+         1UseVHR4qbePHFj8ltZ7KZpDY3TwwMuh1xYz2FMIwjUapYIRFEvewcfhJEXQ0anoaC9X
+         E1BiQlecFn1PSeZF9cU6EMuySni+zIO4WNr6I8O3k88bA89PJY0rlAdVMzgR4PVsz8pt
+         v3esyrqIURa24QcrfFpBjuu+IInfRPPHp1MsBZztibPLYQq4kHljxUiCG0efgNR0lO55
+         Iv/w==
+X-Gm-Message-State: AOAM531kN9T4QwTS4LdFEarRHozNlWRG7LiM8Bxv89xsZqqHhq7vjsLw
+        0PN9/OyDOAIOTVctt/5xjiyMGQe2GlSjEqrvT7E=
+X-Google-Smtp-Source: ABdhPJwzqy/71BcT98+G7u2CIKJOUb+gfsSSUeTfyxWkvI4GCs2jzfcFtPG1NotmJya2dMsYwvWAXToz7YiXdIblay8=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr7385300otb.107.1594803213089;
+ Wed, 15 Jul 2020 01:53:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200714185622.GA408711@bjorn-Precision-5520>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-Originating-IP: [10.17.20.203]
-X-ClientProxiedBy: ocex03.SolarFlarecom.com (10.20.40.36) To
- ukex01.SolarFlarecom.com (10.17.10.4)
-X-TM-AS-Product-Ver: SMEX-12.5.0.1300-8.6.1012-25542.003
-X-TM-AS-Result: No-3.164200-8.000000-10
-X-TMASE-MatchedRID: scwq2vQP8OEKZODMWRxkSfZvT2zYoYOwC/ExpXrHizxjjMm9SMavFZz/
-        bBwW32ikmWqGYs6oIWaSLFcga7P5vI+eiI05y0fpiVJZi91I9JjLRD51bz5RZC6Zl5fVYhDwSHg
-        UVMoIv2GqUwBa6QrA8isHa8EBpdHXDIaTPs5YLz8olijkrg/WpBlKjo8zguyKzP9LEqj2Ynh6xL
-        6D9mrQLm6lKwpaJzZc9cmyfKQ9I/wM8jMXjBF+sIMbH85DUZXyYxU/PH+vZxv6C0ePs7A07Y6HM
-        5rqDwqt/ICtW1gi3HFB2fMeLDfXVVPQd5RFlm6GYSut6mdoDxMF1eYA3tJgpxL8boLqOA9d6imA
-        JlIiDRcE4FNL3+X8n6eXsYmSOazI4vn0zMfSmjYrbLOj1GuP3A+hgLflG6KEo9QjuF9BKnl4IFx
-        QIbVomJRMZUCEHkRt
-X-TM-AS-User-Approved-Sender: Yes
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--3.164200-8.000000
-X-TMASE-Version: SMEX-12.5.0.1300-8.6.1012-25542.003
-X-MDID: 1594802874-AYUraoqgDHcT
+References: <20200714123419.3390-1-aford173@gmail.com>
+In-Reply-To: <20200714123419.3390-1-aford173@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 10:53:21 +0200
+Message-ID: <CAMuHMdXfc4EKKOLq1yhwiFaKE1=HT+_puuj6rJZ+OgnHv2cS8g@mail.gmail.com>
+Subject: Re: [PATCH V2 1/2] arm64: dts: Introduce r8a774a1-beacon-rzg2m-kit
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 14/07/2020 19:56, Bjorn Helgaas wrote:
-> [+cc Luc, linux-pci]
->
-> I think what's necessary here is to replace "enum pci_channel_state
-> state" with "pci_channel_state_t state", as in 16d79cd4e23b ("PCI: Use
-> 'pci_channel_state_t' instead of 'enum pci_channel_state'"):
->
-> https://git.kernel.org/cgit/linux/kernel/git/helgaas/pci.git/commit/?id=16d79cd4e23b
->
-> This change should be safe even without 16d79cd4e23b, so there won't
-> be a revlock if you make it in the renesas-drivers tree.
-This is presumably goingto happen in any tree that pulls both net-next
- and pci/next.  So shouldn't we make the change in net-next, rather than
- in a renesas tree that really has little to do with it other than being
- the first place the problem showed up?
-Apart from that question, the fix you describe sounds reasonable afaict,
- and I'll happily Ack a patch.
+Hi Adam,
 
--ed
+On Tue, Jul 14, 2020 at 2:34 PM Adam Ford <aford173@gmail.com> wrote:
+> Beacon EmebeddedWorks, formerly Logic PD is introducing a new
+> SOM and development kit based on the RZ/G2M SoC from Renesas.
+>
+> The SOM supports eMMC, WiFi and Bluetooth, along with a Cat-M1
+> cellular radio.
+>
+> The Baseboard has Ethernet, USB, HDMI, stereo audio in and out,
+> along with a variety of push buttons and LED's, and support for
+> a parallel RGB and an LVDS display.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+> ---
+> V2:  Add support for RGB display, second backlight, fix clock references,
+>      fix Makefile, remove unsupported versaclock features, and fix typos.
+
+Thanks for the update!
+Looks mostly OK to me, "make dtbs_check" found a few issues, though.
+
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -5,6 +5,7 @@ dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
+>  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-rev2.dtb
+>  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-rev2-ex.dtb
+>  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-rev2-ex-idk-1110wr.dtb
+> +dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-beacon-rzg2m-kit.dtb
+
+Please preserve alphabetical sort order.
+
+>
+>  dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n.dtb
+>  dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-ex.dtb
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+
+> +       lvds {
+> +               compatible = "panel-lvds";
+> +               power-supply = <&reg_lcd_reset>;
+> +               width-mm = <223>;
+> +               height-mm = <125>;
+> +               backlight = <&backlight_lvds>;
+> +               data-mapping = "vesa-24";
+> +
+> +               panel-timing {
+> +                       /* 800x480@60Hz */
+> +                       clock-frequency = <30000000>;
+> +                       hactive = <800>;
+> +                       vactive = <480>;
+> +                       hsync-len = <48>;
+> +                       hfront-porch = <40>;
+> +                       hback-porch = <40>;
+> +                       vfront-porch = <13>;
+> +                       vback-porch = <29>;
+> +                       vsync-len = <3>;
+> +                       hsync-active = <1>;
+> +                       vsync-active = <3>;
+
+"make dtbs_check
+DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/panel-timing.yaml":
+lvds: panel-timing:vsync-active:0:0: 3 is not one of [0, 1]
+
+> +                       de-active = <1>;
+> +                       pixelclk-active = <0>;
+> +               };
+> +
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint = <&lvds0_out>;
+> +                       };
+> +               };
+> +       };
+> +
+> +       rgb {
+> +               /* Different LCD with compatible timings */
+> +               compatible = "rocktech,rk070er9427";
+> +               backlight = <&backlight_rgb>;
+> +               enable-gpios = <&gpio1 21 GPIO_ACTIVE_HIGH>;
+> +               port {
+> +                       rgb_panel: endpoint {
+> +                               remote-endpoint = <&du_out_rgb>;
+> +                       };
+> +               };
+
+Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+rgb: 'power-supply' is a required property
+
+> +       };
+
+> +       versaclock6_bb: versaclock@6a {
+
+As per DT generic node name rules, this should be called
+"clock-controller@6a".  I'm aware that would cause issues with the
+current driver implementation, so I'll accept this for now.  But it
+would be good to resolve this later.
+
+> +               compatible = "idt,5p49v6965";
+> +               reg = <0x6a>;
+> +               #clock-cells = <1>;
+> +               clocks = <&x304_clk>;
+> +               clock-names = "xin";
+> +               /* CSI0_MCLK, CSI1_MCLK, AUDIO_CLKIN, USB_HUB_MCLK_BB */
+> +               assigned-clocks = <&versaclock6_bb 1>,
+> +                                  <&versaclock6_bb 2>,
+> +                                  <&versaclock6_bb 3>,
+> +                                  <&versaclock6_bb 4>;
+> +               assigned-clock-rates =  <24000000>, <24000000>, <24000000>, <24576000>;
+> +       };
+> +};
+
+> +       hd3ss3220@47 {
+> +               compatible = "ti,hd3ss3220";
+> +               reg = <0x47>;
+> +               interrupt-parent = <&gpio6>;
+> +               interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +               connector {
+> +                       compatible = "usb-c-connector";
+> +                       label = "USB-C";
+> +                       data-role = "dual";
+> +
+> +                       ports {
+> +                               #address-cells = <1>;
+> +                               #size-cells = <0>;
+> +
+> +                               port@1 {
+> +                                       reg = <1>;
+> +                                       hd3ss3220_ep: endpoint {
+> +                                               remote-endpoint = <&usb3_role_switch>;
+> +                                       };
+> +                               };
+
+Documentation/devicetree/bindings/connector/usb-connector.yaml
+connector: ports: 'port@0' is a required property
+
+For now, I'd ignore that, as it's a contradiction between the usb-connector
+and the hd3ss3220 bindings.
+
+> +                       };
+> +               };
+> +       };
+> +};
+
+> index 000000000000..97272f5fa0ab
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi
+
+> +       versaclock5: versaclock_som@6a {
+
+Same comment: "clock-controller@6a" (ignored for now).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
