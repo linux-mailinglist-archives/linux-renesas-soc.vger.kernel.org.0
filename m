@@ -2,101 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB840220A18
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE144220A45
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:40:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731169AbgGOKgM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 06:36:12 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:36943 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728781AbgGOKgL (ORCPT
+        id S1731306AbgGOKk0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 06:40:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37480 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731300AbgGOKk0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:36:11 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 4A288C0011;
-        Wed, 15 Jul 2020 10:36:05 +0000 (UTC)
-Date:   Wed, 15 Jul 2020 12:39:39 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Wed, 15 Jul 2020 06:40:26 -0400
+Received: from localhost (unknown [122.171.202.192])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D85CE20656;
+        Wed, 15 Jul 2020 10:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594809625;
+        bh=tclvIja3nKQXHIcIKVHINSxF+hfzpuNOonuG/8s/O+o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EKPUPtQVh86TpetcNNaX6A3SUrcSr2VetpVBZzcd/51Oc1SannqIsAotDwJ3dslDd
+         eMm4K7jAnzdbp+uqyBwzeP8AADdJJxlX+6pYgTcJ3hFVY9sZ08RB0Uwo+qxeFjw4TZ
+         K9ei/Ewyjvw/WsEW7J4HzQiNrq6C2iDSI2xcGaeY=
+Date:   Wed, 15 Jul 2020 16:10:21 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dongchun.zhu@mediatek.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        roman.kovalivskyi@globallogic.com,
-        Luis de Oliveira <Luis.Oliveira@synopsys.com>
-Subject: Re: [PATCH v2 3/3] media: MAINTAINERS: ov5647: Add myself as
- maintainer
-Message-ID: <20200715103939.rh7hhpqp4xi73av6@uno.localdomain>
-References: <20200714142856.58365-1-jacopo+renesas@jmondi.org>
- <20200714142856.58365-4-jacopo+renesas@jmondi.org>
- <CAMuHMdV64srQaDcAPwjA_QR6v_FOykgQpxgdT-srRk1r7NQiGQ@mail.gmail.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-gpio@vger.kernel.org, iommu@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 4/9] dt-bindings: dma: renesas,rcar-dmac: Document
+ R8A774E1 bindings
+Message-ID: <20200715104021.GH34333@vkoul-mobl>
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdV64srQaDcAPwjA_QR6v_FOykgQpxgdT-srRk1r7NQiGQ@mail.gmail.com>
+In-Reply-To: <1594676120-5862-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert
+On 13-07-20, 22:35, Lad Prabhakar wrote:
+> Renesas RZ/G2H (R8A774E1) SoC also has the R-Car gen3 compatible
+> DMA controllers, therefore document RZ/G2H specific bindings.
 
-On Wed, Jul 15, 2020 at 12:26:49PM +0200, Geert Uytterhoeven wrote:
-> CC Luis' last used address
->
-> On Tue, Jul 14, 2020 at 4:25 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> >
-> > Since the current maintainer email address bounces back, replace
-> > the entry and make myself maintainer of the driver since I have the
-> > sensor and platforms to test it.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  MAINTAINERS | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1742fa1a88cd..e2128afd83b6 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12607,7 +12607,7 @@ T:      git git://linuxtv.org/media_tree.git
-> >  F:     drivers/media/i2c/ov5640.c
-> >
-> >  OMNIVISION OV5647 SENSOR DRIVER
-> > -M:     Luis Oliveira <lolivei@synopsys.com>
-> > +M:     Jacopo Mondi <jacopo@jmondi.org>
-> >  L:     linux-media@vger.kernel.org
-> >  S:     Maintained
-> >  T:     git git://linuxtv.org/media_tree.git
+Applied, thanks
 
-Oh thanks!
-
-I would be happy if Luis would like to keep maintaing the driver and
-just update his address in that case. I however volounteer to help here,
-so please keep my address here as well.
-
-Thanks
-  j
-
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+-- 
+~Vinod
