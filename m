@@ -2,81 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 070962209DC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B95322209E2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 12:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731128AbgGOKVv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 06:21:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41482 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726798AbgGOKVv (ORCPT
+        id S1731131AbgGOKWA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 06:22:00 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34898 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726798AbgGOKV7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 06:21:51 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A09C061755;
-        Wed, 15 Jul 2020 03:21:50 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id rk21so1626871ejb.2;
-        Wed, 15 Jul 2020 03:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lnCPkOcNS67xMF6t5lbmMUCC2k2JGvmiyTaTvXGTcLg=;
-        b=tDAs7oEw7lD9cZ2cRvqG5IiEqJikiKKCwNR6636f4Jp2L4gEMBO2whNLP3z7xz3CcE
-         eY0f0jgqgO0GCey7Pw+UOphpDqgbMlJmq9phRN0mRY+DRoSKFlGSs/woT3FSKoW7z18h
-         iybXyB0UHw74w/vrG0Qi0ZFq5Nh0xOFPlr0V5es3NxgOIpFjMAm+kll70q8lLjbih3S5
-         2Bpy76lN41igs3xo6ag+2qGpips4xI280MyXdPnTVb/McppORjuyrW+J8Dz8vb3Upndz
-         O6v+fbCQlhRcyBvs30dIh68mWIzfBHyh+WBhhCPxeoD2puGbnFhfJdB4Iz1Qnm9JQRBd
-         eY6Q==
+        Wed, 15 Jul 2020 06:21:59 -0400
+Received: by mail-oi1-f193.google.com with SMTP id k4so1826633oik.2;
+        Wed, 15 Jul 2020 03:21:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lnCPkOcNS67xMF6t5lbmMUCC2k2JGvmiyTaTvXGTcLg=;
-        b=EtGod+CnAxElWc0FPN+HeLomO2CV4EiRp8ja8tw8FvyVVI79xO1XBTUMAj2cSSFjv8
-         iUz2r+7Xufd1MUN0XD18rGUWsTaEiH+A+vdiDQ0BXFbKyM26CSnb1AVK1Pn3Rew9pLrX
-         LDjlqVyuWQ++7IpUnIULEGmofUVjcwy/SYZGEqY7J5dp7e2vPgbT6Nx32Wh30ppEbCnp
-         uLQY6dTcl3dMdH5zt6/G7v4NHQUciLmNXqdPZtMBoFjdq3oPT4ts/SE/vyd4JXiFAsc/
-         PYHMd2mZkgXsLp8BRo1zCP15js3RCcgW+oUjav1f/Z60pOGMU6DA4/nS3SjP+JVnfLm5
-         A+Bw==
-X-Gm-Message-State: AOAM530HG0ZhNm7icXVPXQX3A0XJiPEFgqVtkMosRRbSdujwUMP+asGW
-        ypiLhBvuVCXTYzjASfs1Vps=
-X-Google-Smtp-Source: ABdhPJx3gibPeJlUU0ezZ7gBsVLu8HUUp+pNM4aa/k2HYCxOmD8uJA9mLLmm2zDTZCHnV+X7xRGqkQ==
-X-Received: by 2002:a17:906:3c46:: with SMTP id i6mr1905067ejg.66.1594808508292;
-        Wed, 15 Jul 2020 03:21:48 -0700 (PDT)
-Received: from ltop.local ([2a02:a03f:a7fb:e200:5cd9:fc:d7bc:c84f])
-        by smtp.gmail.com with ESMTPSA id b14sm1621987ejg.18.2020.07.15.03.21.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 03:21:47 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 12:21:46 +0200
-From:   Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Edward Cree <ecree@solarflare.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        kbuild-all@lists.01.org, linux-renesas-soc@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Subject: Re: [renesas-drivers:master 69/80]
- drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse: sparse: incompatible
- types for operation (==):
-Message-ID: <20200715102146.7b2nac2x4itsewma@ltop.local>
-References: <202007150206.kfukZxuy%lkp@intel.com>
- <20200714185622.GA408711@bjorn-Precision-5520>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mglmcsKPXfYjFgkpFQPfnyRmHIvI83yiimMnStaOfVM=;
+        b=aYJ0LXYJkqiycUCPoxFYnG/P6/6G0JUpDBvj6VOMILCp7N9aPAiFwrbO+izYLDrMo5
+         SigGXhM0clPigEk1O79Xskthtb1e1LOStL5P511GI3tOcgKg5bLjat1rEOYSdfVJDHLe
+         5j7HBBnD0gd8O/pXSMiueGZ4E+7Ac8DCR4hQVDDO7CiEHei4zAanKood5JY+HGvliPkK
+         BC+YifqsKxcIV8IQlS2u+j9RNH2iPAAxqiyokTCDDxARx8wSI9w865PZxHrp2m1HNEZj
+         QchuwGyvsqMAbyqL4RM+qJAxqfWc9SSazKkNfAwea15zFhOrArk2m4xwtrBVhSNFoJYA
+         yCNQ==
+X-Gm-Message-State: AOAM530UPuY/qkiT5pNqHwABLM13q0m9UOEoSvEjW0xFnsiLGNt8dBxA
+        ekv0SLZ2U21XC7OBg8Oerv8aLABdC0QGxJhaa98=
+X-Google-Smtp-Source: ABdhPJxetY2zZjsVuoA3jOWHEG6J+zzk5r64HjE7xop1bHsgYqjER5pXa5UqlqTc4KwjUMQB7HpJmP64L5RrgK0EPW4=
+X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr7226625oih.54.1594808518858;
+ Wed, 15 Jul 2020 03:21:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200714185622.GA408711@bjorn-Precision-5520>
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594676120-5862-10-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 12:21:48 +0200
+Message-ID: <CAMuHMdX63hYJ=wx08_S++TjfcZCbYrZCBd6PYY8GQmBwVsw_Bg@mail.gmail.com>
+Subject: Re: [PATCH 9/9] arm64: dts: renesas: r8a774e1: Add Ethernet AVB node
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 14, 2020 at 01:56:22PM -0500, Bjorn Helgaas wrote:
-> [+cc Luc, linux-pci]
+On Mon, Jul 13, 2020 at 11:36 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> This patch adds the SoC specific part of the Ethernet AVB
+> device tree node.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Bjorn,
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.9.
 
-What do you thnk about restoring 'enum pci_channel_state state' for one
-kernel cycle? Retrospectively, I think it was a bad idea to remove it
-directly.
+Gr{oetje,eeting}s,
 
--- Luc 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
