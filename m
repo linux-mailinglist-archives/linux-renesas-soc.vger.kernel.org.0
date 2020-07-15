@@ -2,66 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FDA220D3E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 14:45:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFE96220D6A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 14:52:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731161AbgGOMpb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 08:45:31 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:32769 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbgGOMpb (ORCPT
+        id S1729145AbgGOMwH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 08:52:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36288 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726479AbgGOMwH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 08:45:31 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id D58AAC0010;
-        Wed, 15 Jul 2020 12:45:27 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        dave.stevenson@raspberrypi.com, dongchun.zhu@mediatek.com,
+        Wed, 15 Jul 2020 08:52:07 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67981C061755;
+        Wed, 15 Jul 2020 05:52:07 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A585E564;
+        Wed, 15 Jul 2020 14:52:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594817525;
+        bh=SoEmbpkNZkembnmkPfdAOrZOiv4yoC/24TU3qWemlqw=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=TXxh4qKsDyfzzPZBpGyVHCp+0hGT2fD3gq6DsqNeDllH5KDjlNPP/ZptFy1ZSJ0B0
+         Sgzp+9SIZ4xPKXIEWouiFjKgqTBvnhMczgmSrRnJpRPifpY5VzdpcJRKl3ojBgKIOe
+         0S5lGfBRp/7wQt01/nMlVffif4LhDzZEYdfjJsuQ=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 05/17] drivers: net: Fix trivial spelling
+To:     Kalle Valo <kvalo@codeaurora.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com
-Subject: [PATCH v3 3/3] media: MAINTAINERS: ov5647: Replace maintainer
-Date:   Wed, 15 Jul 2020 14:48:38 +0200
-Message-Id: <20200715124838.84552-4-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200715124838.84552-1-jacopo+renesas@jmondi.org>
-References: <20200715124838.84552-1-jacopo+renesas@jmondi.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Martin Habets <mhabets@solarflare.com>,
+        Shannon Nelson <snelson@pensando.io>,
+        Colin Ian King <colin.king@canonical.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Eric Dumazet <edumazet@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Wenwen Wang <wenwen@cs.uga.edu>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER" 
+        <ath10k@lists.infradead.org>,
+        "open list:NETWORKING DRIVERS (WIRELESS)" 
+        <linux-wireless@vger.kernel.org>
+References: <20200609124610.3445662-6-kieran.bingham+renesas@ideasonboard.com>
+ <20200715102209.C9012C433A1@smtp.codeaurora.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <f32e309f-a214-87c3-68fe-66882b949794@ideasonboard.com>
+Date:   Wed, 15 Jul 2020 13:52:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200715102209.C9012C433A1@smtp.codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the current maintainer email address bounces back, replace
-the entry and make myself and Dave Stevenson maintainers of the driver.
+Hi Kalle,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- MAINTAINERS | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 15/07/2020 11:22, Kalle Valo wrote:
+> Kieran Bingham <kieran.bingham+renesas@ideasonboard.com> wrote:
+> 
+>> The word 'descriptor' is misspelled throughout the tree.
+>>
+>> Fix it up accordingly:
+>>     decriptors -> descriptors
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> I recommend splitting wan and wireless changes to separate patches as I
+> cannot take changes to wan subsystem.
+> 
+> Patch set to Changes Requested.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1742fa1a88cd..c74d25c58e1a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12607,7 +12607,8 @@ T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov5640.c
- 
- OMNIVISION OV5647 SENSOR DRIVER
--M:	Luis Oliveira <lolivei@synopsys.com>
-+M:	Jacopo Mondi <jacopo@jmondi.org>
-+M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--- 
-2.27.0
+Thanks, I've split this and resent the remaining outstanding patches.
+
+--
+Kieran
+
+
 
