@@ -2,87 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F40DB22081F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 11:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D131220829
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 11:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730479AbgGOJEy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 05:04:54 -0400
-Received: from dispatch1-us1.ppe-hosted.com ([148.163.129.52]:39384 "EHLO
-        dispatch1-us1.ppe-hosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730476AbgGOJEx (ORCPT
+        id S1730490AbgGOJFD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 05:05:03 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37230 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730370AbgGOJEy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 05:04:53 -0400
-Received: from mx1-us1.ppe-hosted.com (unknown [10.7.65.61])
-        by dispatch1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 5E3EF60054;
-        Wed, 15 Jul 2020 09:04:52 +0000 (UTC)
-Received: from us4-mdac16-71.ut7.mdlocal (unknown [10.7.64.190])
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id 5BC808009E;
-        Wed, 15 Jul 2020 09:04:52 +0000 (UTC)
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mx1-us1.ppe-hosted.com (unknown [10.7.65.175])
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id E622780051;
-        Wed, 15 Jul 2020 09:04:51 +0000 (UTC)
-Received: from webmail.solarflare.com (uk.solarflare.com [193.34.186.16])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 95940700066;
-        Wed, 15 Jul 2020 09:04:51 +0000 (UTC)
-Received: from [10.17.20.203] (10.17.20.203) by ukex01.SolarFlarecom.com
- (10.17.10.4) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 15 Jul
- 2020 10:04:45 +0100
-Subject: Re: [renesas-drivers:master 69/80]
- drivers/net/ethernet/sfc/efx_common.c:1232:19: sparse: sparse: incompatible
- types for operation (==):
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Bjorn Helgaas <helgaas@kernel.org>, <kbuild-all@lists.01.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        linux-pci <linux-pci@vger.kernel.org>
-References: <20200714185622.GA408711@bjorn-Precision-5520>
- <a18d4e1e-2ecb-21dc-2547-fa7529e76edd@solarflare.com>
- <CAMuHMdVDha=xAAHjKma4pm1bgNt=go0HgUMyCrc3H87cF0f5SA@mail.gmail.com>
-From:   Edward Cree <ecree@solarflare.com>
-Message-ID: <4106f92f-d3c4-a997-12bf-33ac6fc01758@solarflare.com>
-Date:   Wed, 15 Jul 2020 10:04:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Wed, 15 Jul 2020 05:04:54 -0400
+Received: by mail-ot1-f68.google.com with SMTP id w17so908204otl.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jul 2020 02:04:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MAKCnn9l0PzOfUntKz317hOMjIY5m5I3mE2SaEZSVs4=;
+        b=sSaO+0dHnNZo2j0BTacenBzOnqNG7I7qHGaAFc8lWjEaMfaagwCCO0c3o29lg2MngH
+         DOrp6VXZczsNCBBv+ORWlJVTSPL8XLDrXpzw+/pW6lAf8dMpz8r6I7iuFH/l8s6z2fLH
+         FSXYr2Fyjgx9sYcrSzC4+nbgY/fltWO6eXTVnhvMb95P2UccyLquVaq0aM+SdBXpSXLO
+         puEg8RGK/rqWC6HhW1vcsYMcP2voJyF8k1YEb/vDrux3rgFRRCJi341ig4uWFpi1Piuq
+         V5sPDdC2kO848GOTAviWuin6gNjqCanCfidPILZOboJCe8+COPR4ezQJ0GoHoogXf6Qg
+         u3Zw==
+X-Gm-Message-State: AOAM533lX2NA8S/rEA4IePeg1M/F57WMXSfc0EL8kYCzPOpP3ZhStYZw
+        ESC2zzV0UXvx+vH9oEzzKFq88Vt9KEOCKsWvLgKTVG00MjQ=
+X-Google-Smtp-Source: ABdhPJwExIQeczi+GnoWsQ302Cw+44x+nCn7TWOHWXGli+ok3fkqTmX4A4ZGYYDLYY6lRFdIUPfB0qtGDIYSOLsWbSk=
+X-Received: by 2002:a05:6830:1451:: with SMTP id w17mr7864297otp.250.1594803893466;
+ Wed, 15 Jul 2020 02:04:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdVDha=xAAHjKma4pm1bgNt=go0HgUMyCrc3H87cF0f5SA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-Originating-IP: [10.17.20.203]
-X-ClientProxiedBy: ocex03.SolarFlarecom.com (10.20.40.36) To
- ukex01.SolarFlarecom.com (10.17.10.4)
-X-TM-AS-Product-Ver: SMEX-12.5.0.1300-8.6.1012-25542.003
-X-TM-AS-Result: No-8.638400-8.000000-10
-X-TMASE-MatchedRID: oTBA/+sdKaYKZODMWRxkSR/zUsdHHUMC69aS+7/zbj+qvcIF1TcLYCer
-        McSBDjG8iAkcECWBvUjofKne0t7ekAAnYruoVDk5Lyz9QvAyHjriXOoSlo9AtSNGK7UC7ElMj8L
-        84PT++yGeQY1Vr13M6wHf5fAqYn8kwSIue2XwlRa7B1QwzOcQDxrZv1sbkSoy4PdcWsl+C/MbAG
-        SiqJr2FsJ2728pYeUdDfRUKk+cPENLRWiuDIex7p4CIKY/Hg3AnCGS1WQEGtDGr09tQ7Cw/1BIV
-        svVu9ABec3QM3secWb6Dt7X/JKpm+9N2BOaiFeP02I279sgQqBWoZ1Cqxvf7quauxDtMNFIlExl
-        QIQeRG0=
-X-TM-AS-User-Approved-Sender: Yes
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--8.638400-8.000000
-X-TMASE-Version: SMEX-12.5.0.1300-8.6.1012-25542.003
-X-MDID: 1594803892-iieVUyQibw1t
+References: <1594382612-13664-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1594382612-13664-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Jul 2020 11:04:42 +0200
+Message-ID: <CAMuHMdVqFU538syZq2B=An-MA3zo3RT115JmvaVxyt5mb-Wvsg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: add full-pwr-cycle-in-suspend into
+ eMMC nodes
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/07/2020 09:55, Geert Uytterhoeven wrote:
-> Indeed, it should be fixed at the core, not in an integration testing tree.
-> BTW, did it show up in linux-next, too, or have I done a bad merge conflict
-> resolution?
-Looking at linux-next, it appears tha|t efx_io_error_detected()||there
-|| takes a pci_channel_state_t, so Bjorn's fix has already been applied
- there, probably by way of merging pci/next (which applies a conjugate
- fix to efx.c:||efx_io_error_detected()) and net-next (which moves the
- function to efx_common.c).
-For whatever reason renesas must've come up with a different merge
- resolution, hence why they're seeing this.
+Hi Shimoda-san,
 
--ed
-|||||||||||||
+On Fri, Jul 10, 2020 at 2:03 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add full-pwr-cycle-in-suspend property to do a graceful shutdown of
+> the eMMC device in system suspend.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.9.
+
+>  arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   | 1 +
+>  arch/arm64/boot/dts/renesas/salvator-common.dtsi | 1 +
+
+I assume we need this on other boards, too?
+At least ULCB uses the BD9571 PMIC, and has a similar PSCI s2ram
+implementation as Salvator-X(S) and Ebisu.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
