@@ -2,72 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 763532215D2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 22:12:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 128DF221659
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 22:39:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726878AbgGOUKk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 16:10:40 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:37967 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726736AbgGOUKj (ORCPT
+        id S1726803AbgGOUiq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 16:38:46 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:40793 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbgGOUip (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 16:10:39 -0400
-Received: by mail-io1-f66.google.com with SMTP id l1so3625208ioh.5;
-        Wed, 15 Jul 2020 13:10:39 -0700 (PDT)
+        Wed, 15 Jul 2020 16:38:45 -0400
+Received: by mail-il1-f193.google.com with SMTP id e18so3176325ilr.7;
+        Wed, 15 Jul 2020 13:38:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PZjB8/CMEETpBkbeRKx9ftE2fCGVRM7G1ohhFyo9PMg=;
-        b=krlWrOuPvUBKpsqSlMPM9n4x+pvxebZm/Zhi2yIj7xOaagG9Ut7Nx4Gwv7eb9kfTft
-         DjviPJXJB2yQ3JK/WL72ytpv3jPq/G6zJb8mUzo6tcGWx/OuL1ZqdWiWqPpmwkA8+HtF
-         im/2QPeXzEfSLMsHAT6ldWmjIBBqbAp7YHNXEJ9Jzu8e/z+X4BV0eeWWBvQXVZLiKNZF
-         cXFNU5qN45KM6QwfTAp8TKzkndMD85r7mrnx78UGUi+chsWgmif00BobW3hWt4vcI0Fv
-         zMh0nZA6psyGOuY8EGRgq//QVhGKMtkfnlPm0k3cypVty/eMaN+IbVTMOtihsTUSgedI
-         UGbA==
-X-Gm-Message-State: AOAM5338G3Sg5W7DdG1rvewc1RdaSrAyiaQKBKL1H323ewTGsNldYwl3
-        wDnqjZQoL5SfESdQIETpQ883ZoKTUg==
-X-Google-Smtp-Source: ABdhPJy6W+PX8HhKheesu2WdiQZ34JavrPknF9JZGonu6FiRXX7RyrwS3AnDpAPkyCihjlpTtoY0XA==
-X-Received: by 2002:a6b:f012:: with SMTP id w18mr1023275ioc.5.1594843838686;
-        Wed, 15 Jul 2020 13:10:38 -0700 (PDT)
+        bh=jg/X/vpGxWxvwTtPuVd1zmcZHSjHp/pT1OFJo4RhoVo=;
+        b=fjNWmQLZpcfK8jx0h6p1pjaRvd1IG3zjI/gt9si7hZw8AxX2QJrnh1dIo7w4KkOAg4
+         VrsDMtrDvNz3V78J3al/QqST4rQs28GWbDtBvSQfpGHm2CF6qdujTNmaIdP8x0fGHn7n
+         nVW69YzeqjfkdS/Agtzk0N2FZSZDsehedtBUBWxxGjLPH42r1yKvSXHkNwcKHK1YK9pm
+         ZQ/bShzUf1zttG6dVC5TCkrsJgM55MOmXpjszNR9w6hiJ/68h0wRbhsY5fl44zfFOK2J
+         ljAfEvH71thBmbTNynzo9P3Q7Ta5SFMBaal7iQtE/0sn6laYTSbpKItLxMc+MFLgy6Lc
+         SQDw==
+X-Gm-Message-State: AOAM5335pUrZeP3lbdRkN+UzTLZwCHQ3IU0UMaFHJVd0d9xGIq63iOmp
+        cPUX/KpB2JI4Uy3lTXK1Bwgv9f1pIQ==
+X-Google-Smtp-Source: ABdhPJz0SK92/suN4UomLrs3EqKOwsXIY3wPt5SN3z7HrnBvRvVJIXZ5w5poRYlUtD5KO6O1SszALQ==
+X-Received: by 2002:a92:ca8d:: with SMTP id t13mr1241550ilo.274.1594845524792;
+        Wed, 15 Jul 2020 13:38:44 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id c9sm1509666ilm.57.2020.07.15.13.10.37
+        by smtp.gmail.com with ESMTPSA id i9sm1642617ile.48.2020.07.15.13.38.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 13:10:38 -0700 (PDT)
-Received: (nullmailer pid 740419 invoked by uid 1000);
-        Wed, 15 Jul 2020 20:10:37 -0000
-Date:   Wed, 15 Jul 2020 14:10:37 -0600
+        Wed, 15 Jul 2020 13:38:44 -0700 (PDT)
+Received: (nullmailer pid 778616 invoked by uid 1000);
+        Wed, 15 Jul 2020 20:38:43 -0000
+Date:   Wed, 15 Jul 2020 14:38:43 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Convert to
- json-schema
-Message-ID: <20200715201037.GA740389@bogus>
-References: <20200626143638.16512-1-geert+renesas@glider.be>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
+Message-ID: <20200715203843.GA776042@bogus>
+References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200626143638.16512-1-geert+renesas@glider.be>
+In-Reply-To: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 26 Jun 2020 16:36:38 +0200, Geert Uytterhoeven wrote:
-> Convert the Renesas RZ/A2 combined Pin and GPIO controller Device Tree
-> binding documentation to json-schema.
+On Wed, Jul 01, 2020 at 11:48:30PM +0200, Wolfram Sang wrote:
+> SMBus is largely compatible with I2C but there are some specifics. In
+> case we need them on a bus, we can now use this new binding.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  .../bindings/pinctrl/renesas,rza2-pinctrl.txt |  87 ---------------
->  .../pinctrl/renesas,rza2-pinctrl.yaml         | 100 ++++++++++++++++++
->  2 files changed, 100 insertions(+), 87 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
->  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+>  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Documentation/devicetree/bindings/i2c/i2c.txt
+> index 438ae123107e..d1f8cf3bd236 100644
+> --- a/Documentation/devicetree/bindings/i2c/i2c.txt
+> +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+> @@ -77,6 +77,11 @@ wants to support one of the below features, it should adapt these bindings.
+>  	this information to detect a stalled bus more reliably, for example.
+>  	Can not be combined with 'multi-master'.
+>  
+> +- smbus
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+This is a boolean?
+
+> +	states that additional SMBus restrictions and features apply to this bus.
+> +	Examples of features are SMBusHostNotify and SMBusAlert. Examples of
+
+Do features need to be enumerated separately?
+
+> +	restrictions are more reserved addresses and timeout definitions.
+> +
+>  Required properties (per child device)
+>  --------------------------------------
+>  
+> -- 
+> 2.27.0
+> 
