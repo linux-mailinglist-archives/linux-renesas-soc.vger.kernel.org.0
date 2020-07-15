@@ -2,76 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E7DE22150E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 21:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F2762215D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 22:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbgGOTZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 15:25:02 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:46170 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbgGOTZB (ORCPT
+        id S1727774AbgGOUKO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 16:10:14 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:39596 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726761AbgGOUKI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 15:25:01 -0400
-Received: by mail-io1-f66.google.com with SMTP id a12so3449501ion.13;
-        Wed, 15 Jul 2020 12:25:01 -0700 (PDT)
+        Wed, 15 Jul 2020 16:10:08 -0400
+Received: by mail-il1-f194.google.com with SMTP id k6so3111854ili.6;
+        Wed, 15 Jul 2020 13:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Av/nglgHYTh4wCaoP+Mdg19AlGfKhVEQACet9eEyJ+U=;
-        b=ENzIjbEPTEAOs/mVh9Mgj/UD7L6Mu5j8JV6+6Tl8DemAF0+1h4jox/8Oh0xHPU32Mr
-         TgM9Jb/zjNBtj+Cybw6AB2PNDYwZfReWDH6piNFVKPjvd/yQg0yflllsT4djnAFKxsCa
-         m3MltFcv0OVwpblwrPjL56dBjoNPjdH32ORenLusGhEOvxSr4ZfljoJJXh5ll4e7YpEB
-         GQFJe5jm0/dpUQCEZYWsakQYKGp1LaT4I1M35jPjhLY5XQovr/uMaPgev90gXPEMA3sV
-         kKtUPgUrqOdXEsOg1ZSwhqZWN8qShd62cSelktBF1p2UvhuvOI5934FYd8ceDkBsW4Ea
-         YiqA==
-X-Gm-Message-State: AOAM532FFEBIlA9oKOUDT6XLluz5nzVbZYvG3ar1XuPIJIEf9T9ewTlB
-        fU9afL5Uy3LWkLF1Hxy1zQ==
-X-Google-Smtp-Source: ABdhPJw+JKckZiWMOAV6s9bN5tbPRf6zRYcACbF2Zulp6ybuwhWjrcZ19V/SLqi1V5XEy8mp37hBFw==
-X-Received: by 2002:a5d:97d3:: with SMTP id k19mr844652ios.45.1594841100862;
-        Wed, 15 Jul 2020 12:25:00 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rmVtJlWO28OOYfQ7+3Cqk4pCJzcKCbIXhxW473pP140=;
+        b=MQnX2pCFZXYyxRGSpVSzPW+LVfgzWZqdqbEKz4n3PEwbEiaMNGq/lwXcJEew1aohZe
+         xo2DUlIFt7XwEzDY7HfDHQ1SXj0QmR5U0gv9Fbxof6jOwzh2b5EnOfEC13SULpBsuLDx
+         jY2Fx6anmNW3O05gBtCY07WElrXYs20NUqdsc/BdeTgBLWrArT5Yl2sEDgJ74EdAMERk
+         uf0r2HoCPexsj4mHKjcWLgYIEHPyjcEitMvdJz0fdOFU0nC0OFxWHXHycF4MC4AGbJNm
+         eTRQOWWao0W5ArXGctpYqTp6pxasjD0KBVK9ixRXx/8Sxtpn/YlLSp0SAqs5BWjcfW7P
+         s3uQ==
+X-Gm-Message-State: AOAM530qsEYuSRGomQEpXudi6IZa8KC9signcxoAdoypCMfZRTQRrX6S
+        f/EaCJ6Fkzf6FcNSgh8GBQ==
+X-Google-Smtp-Source: ABdhPJzOXUHR2YApwW/xqgdoIvFiii1UPpVML18Gnab6Oq9EntcKo7Ry/ClzqXv+/yh8XoRD1BmWsw==
+X-Received: by 2002:a92:1b8c:: with SMTP id f12mr1150301ill.93.1594843806690;
+        Wed, 15 Jul 2020 13:10:06 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id d6sm1569647ioo.9.2020.07.15.12.24.59
+        by smtp.gmail.com with ESMTPSA id x1sm1545157ilh.29.2020.07.15.13.10.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 12:25:00 -0700 (PDT)
-Received: (nullmailer pid 679381 invoked by uid 1000);
-        Wed, 15 Jul 2020 19:24:59 -0000
-Date:   Wed, 15 Jul 2020 13:24:59 -0600
+        Wed, 15 Jul 2020 13:10:05 -0700 (PDT)
+Received: (nullmailer pid 739658 invoked by uid 1000);
+        Wed, 15 Jul 2020 20:10:04 -0000
+Date:   Wed, 15 Jul 2020 14:10:04 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     devicetree@vger.kernel.org,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Zhang Rui <rui.zhang@intel.com>,
-        linux-pm@vger.kernel.org,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: thermal: rcar-thermal: Improve schema
- validation
-Message-ID: <20200715192459.GA679343@bogus>
-References: <20200619151541.15069-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Convert to
+ json-schema
+Message-ID: <20200715201004.GA735389@bogus>
+References: <20200626143638.16512-1-geert+renesas@glider.be>
+ <20200628163902.GI1105424@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200619151541.15069-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200628163902.GI1105424@oden.dyn.berto.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 19 Jun 2020 17:15:41 +0200, Geert Uytterhoeven wrote:
->   - Document missing "#thermal-sensor-cells",
->   - Factor out common required properties,
->   - "interrupts", "clocks", and "power-domains" are required on R-Mobile
->     APE6, too,
->   - Invert logic to simplify descriptions,
->   - Add "additionalProperties: false".
+On Sun, Jun 28, 2020 at 06:39:02PM +0200, Niklas Söderlund wrote:
+> Hi Geert,
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../bindings/thermal/rcar-thermal.yaml        | 53 ++++++++++++-------
->  1 file changed, 34 insertions(+), 19 deletions(-)
+> Thanks for your work.
 > 
+> On 2020-06-26 16:36:38 +0200, Geert Uytterhoeven wrote:
+> > Convert the Renesas RZ/A2 combined Pin and GPIO controller Device Tree
+> > binding documentation to json-schema.
+> > 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  .../bindings/pinctrl/renesas,rza2-pinctrl.txt |  87 ---------------
+> >  .../pinctrl/renesas,rza2-pinctrl.yaml         | 100 ++++++++++++++++++
+> >  2 files changed, 100 insertions(+), 87 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> >  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> > deleted file mode 100644
+> > index a63ccd476cdaf919..0000000000000000
+> > --- a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> > +++ /dev/null
+> > @@ -1,87 +0,0 @@
+> > -Renesas RZ/A2 combined Pin and GPIO controller
+> > -
+> > -The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO controller.
+> > -Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> > -Each port features up to 8 pins, each of them configurable for GPIO
+> > -function (port mode) or in alternate function mode.
+> > -Up to 8 different alternate function modes exist for each single pin.
+> > -
+> > -Pin controller node
+> > --------------------
+> > -
+> > -Required properties:
+> > -  - compatible: shall be:
+> > -    - "renesas,r7s9210-pinctrl": for RZ/A2M
+> > -  - reg
+> > -    Address base and length of the memory area where the pin controller
+> > -    hardware is mapped to.
+> > -  - gpio-controller
+> > -    This pin controller also controls pins as GPIO
+> > -  - #gpio-cells
+> > -    Must be 2
+> > -  - gpio-ranges
+> > -    Expresses the total number of GPIO ports/pins in this SoC
+> > -
+> > -Example: Pin controller node for RZ/A2M SoC (r7s9210)
+> > -
+> > -	pinctrl: pin-controller@fcffe000 {
+> > -		compatible = "renesas,r7s9210-pinctrl";
+> > -		reg = <0xfcffe000 0x1000>;
+> > -
+> > -		gpio-controller;
+> > -		#gpio-cells = <2>;
+> > -		gpio-ranges = <&pinctrl 0 0 176>;
+> > -	};
+> > -
+> > -Sub-nodes
+> > ----------
+> > -
+> > -The child nodes of the pin controller designate pins to be used for
+> > -specific peripheral functions or as GPIO.
+> > -
+> > -- Pin multiplexing sub-nodes:
+> > -  A pin multiplexing sub-node describes how to configure a set of
+> > -  (or a single) pin in some desired alternate function mode.
+> > -  The values for the pinmux properties are a combination of port name, pin
+> > -  number and the desired function index. Use the RZA2_PINMUX macro located
+> > -  in include/dt-bindings/pinctrl/r7s9210-pinctrl.h to easily define these.
+> > -  For assigning GPIO pins, use the macro RZA2_PIN also in r7s9210-pinctrl.h
+> > -  to express the desired port pin.
+> > -
+> > -  Required properties:
+> > -    - pinmux:
+> > -      integer array representing pin number and pin multiplexing configuration.
+> > -      When a pin has to be configured in alternate function mode, use this
+> > -      property to identify the pin by its global index, and provide its
+> > -      alternate function configuration number along with it.
+> > -      When multiple pins are required to be configured as part of the same
+> > -      alternate function they shall be specified as members of the same
+> > -      argument list of a single "pinmux" property.
+> > -      Helper macros to ease assembling the pin index from its position
+> > -      (port where it sits on and pin number) and alternate function identifier
+> > -      are provided by the pin controller header file at:
+> > -      <dt-bindings/pinctrl/r7s9210-pinctrl.h>
+> > -      Integers values in "pinmux" argument list are assembled as:
+> > -      ((PORT * 8 + PIN) | MUX_FUNC << 16)
+> > -
+> > -  Example: Board specific pins configuration
+> > -
+> > -	&pinctrl {
+> > -		/* Serial Console */
+> > -		scif4_pins: serial4 {
+> > -			pinmux = <RZA2_PINMUX(PORT9, 0, 4)>,	/* TxD4 */
+> > -				 <RZA2_PINMUX(PORT9, 1, 4)>;	/* RxD4 */
+> > -		};
+> > -	};
+> > -
+> > -  Example: Assigning a GPIO:
+> > -
+> > -	leds {
+> > -		status = "okay";
+> > -		compatible = "gpio-leds";
+> > -
+> > -		led0 {
+> > -			/* P6_0 */
+> > -			gpios = <&pinctrl RZA2_PIN(PORT6, 0) GPIO_ACTIVE_HIGH>;
+> > -		};
+> > -	};
+> > diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> > new file mode 100644
+> > index 0000000000000000..b7911a994f3a9f12
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> > @@ -0,0 +1,100 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/pinctrl/renesas,rza2-pinctrl.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas RZ/A2 combined Pin and GPIO controller
+> > +
+> > +maintainers:
+> > +  - Chris Brandt <chris.brandt@renesas.com>
+> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> > +
+> > +description:
+> > +  The Renesas SoCs of the RZ/A2 series feature a combined Pin and GPIO
+> > +  controller.
+> > +  Pin multiplexing and GPIO configuration is performed on a per-pin basis.
+> > +  Each port features up to 8 pins, each of them configurable for GPIO function
+> > +  (port mode) or in alternate function mode.
+> > +  Up to 8 different alternate function modes exist for each single pin.
+> 
+> This paragraph formatting looks odd, but I'm not sure it's intentional 
+> or not :-) In either case with or without this changed,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+If you do want the formatting here maintained, you need a '|'.
