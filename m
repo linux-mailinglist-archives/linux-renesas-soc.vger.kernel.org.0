@@ -2,88 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 128DF221659
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 22:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC8672216AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 23:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgGOUiq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 16:38:46 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:40793 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbgGOUip (ORCPT
+        id S1726670AbgGOU6h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 16:58:37 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:53114 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726424AbgGOU6h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 16:38:45 -0400
-Received: by mail-il1-f193.google.com with SMTP id e18so3176325ilr.7;
-        Wed, 15 Jul 2020 13:38:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jg/X/vpGxWxvwTtPuVd1zmcZHSjHp/pT1OFJo4RhoVo=;
-        b=fjNWmQLZpcfK8jx0h6p1pjaRvd1IG3zjI/gt9si7hZw8AxX2QJrnh1dIo7w4KkOAg4
-         VrsDMtrDvNz3V78J3al/QqST4rQs28GWbDtBvSQfpGHm2CF6qdujTNmaIdP8x0fGHn7n
-         nVW69YzeqjfkdS/Agtzk0N2FZSZDsehedtBUBWxxGjLPH42r1yKvSXHkNwcKHK1YK9pm
-         ZQ/bShzUf1zttG6dVC5TCkrsJgM55MOmXpjszNR9w6hiJ/68h0wRbhsY5fl44zfFOK2J
-         ljAfEvH71thBmbTNynzo9P3Q7Ta5SFMBaal7iQtE/0sn6laYTSbpKItLxMc+MFLgy6Lc
-         SQDw==
-X-Gm-Message-State: AOAM5335pUrZeP3lbdRkN+UzTLZwCHQ3IU0UMaFHJVd0d9xGIq63iOmp
-        cPUX/KpB2JI4Uy3lTXK1Bwgv9f1pIQ==
-X-Google-Smtp-Source: ABdhPJz0SK92/suN4UomLrs3EqKOwsXIY3wPt5SN3z7HrnBvRvVJIXZ5w5poRYlUtD5KO6O1SszALQ==
-X-Received: by 2002:a92:ca8d:: with SMTP id t13mr1241550ilo.274.1594845524792;
-        Wed, 15 Jul 2020 13:38:44 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id i9sm1642617ile.48.2020.07.15.13.38.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 13:38:44 -0700 (PDT)
-Received: (nullmailer pid 778616 invoked by uid 1000);
-        Wed, 15 Jul 2020 20:38:43 -0000
-Date:   Wed, 15 Jul 2020 14:38:43 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
-Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
-Message-ID: <20200715203843.GA776042@bogus>
-References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+        Wed, 15 Jul 2020 16:58:37 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id DB69B634C87;
+        Wed, 15 Jul 2020 23:57:17 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jvoSr-000386-U6; Wed, 15 Jul 2020 23:57:17 +0300
+Date:   Wed, 15 Jul 2020 23:57:17 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
+ fwnode is a graph endpoint
+Message-ID: <20200715205717.GF836@valkosipuli.retiisi.org.uk>
+References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
+ <20200701073405.GB836@valkosipuli.retiisi.org.uk>
+ <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 01, 2020 at 11:48:30PM +0200, Wolfram Sang wrote:
-> SMBus is largely compatible with I2C but there are some specifics. In
-> case we need them on a bus, we can now use this new binding.
+Rafael,
+
+On Wed, Jul 01, 2020 at 02:19:21PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Jul 1, 2020 at 9:34 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > Hi Laurent,
+> >
+> > On Wed, Jul 01, 2020 at 09:21:37AM +0300, Laurent Pinchart wrote:
+> > > Drivers may need to test if a fwnode is a graph endpoint. To avoid
+> > > hand-written solutions that wouldn't work for all fwnode types, add a
+> > > new fwnode_graph_is_endpoint() function for this purpose. We don't need
+> > > to wire it up to different backends for OF and ACPI for now, as the
+> > > implementation can simply be based on checkout the presence of a
+> > > remote-endpoint property.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > ---
+> > >  include/linux/property.h | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/include/linux/property.h b/include/linux/property.h
+> > > index 10d03572f52e..9f805c442819 100644
+> > > --- a/include/linux/property.h
+> > > +++ b/include/linux/property.h
+> > > @@ -389,6 +389,11 @@ struct fwnode_handle *
+> > >  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
+> > >                            u32 endpoint);
+> > >
+> > > +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
+> > > +{
+> > > +     return fwnode_property_present(fwnode, "remote-endpoint");
+> > > +}
+> > > +
+> > >  /*
+> > >   * Fwnode lookup flags
+> > >   *
+> >
+> > Thanks for the patch. I've bounced it to devicetree and linux-acpi lists
+> > (now cc'd) --- hope that works.
+> >
+> > Rafael: do you think this simple patch could go though the media tree,
+> > assuming that folks are generally fine with the patch as such?
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Documentation/devicetree/bindings/i2c/i2c.txt
-> index 438ae123107e..d1f8cf3bd236 100644
-> --- a/Documentation/devicetree/bindings/i2c/i2c.txt
-> +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
-> @@ -77,6 +77,11 @@ wants to support one of the below features, it should adapt these bindings.
->  	this information to detect a stalled bus more reliably, for example.
->  	Can not be combined with 'multi-master'.
->  
-> +- smbus
+> Yes, it could.
 
-This is a boolean?
+Thanks! I've applied this to my tree.
 
-> +	states that additional SMBus restrictions and features apply to this bus.
-> +	Examples of features are SMBusHostNotify and SMBusAlert. Examples of
+-- 
+Kind regards,
 
-Do features need to be enumerated separately?
-
-> +	restrictions are more reserved addresses and timeout definitions.
-> +
->  Required properties (per child device)
->  --------------------------------------
->  
-> -- 
-> 2.27.0
-> 
+Sakari Ailus
