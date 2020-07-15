@@ -2,104 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC8672216AE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jul 2020 23:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6882217E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 00:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbgGOU6h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jul 2020 16:58:37 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:53114 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726424AbgGOU6h (ORCPT
+        id S1726479AbgGOWml (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jul 2020 18:42:41 -0400
+Received: from mga12.intel.com ([192.55.52.136]:15663 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726356AbgGOWml (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jul 2020 16:58:37 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id DB69B634C87;
-        Wed, 15 Jul 2020 23:57:17 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jvoSr-000386-U6; Wed, 15 Jul 2020 23:57:17 +0300
-Date:   Wed, 15 Jul 2020 23:57:17 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH v4 1/4] device property: Add a function to test is a
- fwnode is a graph endpoint
-Message-ID: <20200715205717.GF836@valkosipuli.retiisi.org.uk>
-References: <20200701062140.12953-1-laurent.pinchart+renesas@ideasonboard.com>
- <20200701062140.12953-2-laurent.pinchart+renesas@ideasonboard.com>
- <20200701073405.GB836@valkosipuli.retiisi.org.uk>
- <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
+        Wed, 15 Jul 2020 18:42:41 -0400
+IronPort-SDR: EpkOBiFVA0kRJLcdZ9H9/3dLLfv7l5e+5TfKdkXQZJdrRJVAVJwcw93Z2176ZkU2YI/i1t9Tmn
+ l194n2Ueie8A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9683"; a="128850600"
+X-IronPort-AV: E=Sophos;i="5.75,357,1589266800"; 
+   d="scan'208";a="128850600"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2020 15:42:40 -0700
+IronPort-SDR: o3KJSgox7Z6KHXwlwfNVJBJaF6IGaGHOk6fRcRZyfEOkHzmEAeuBUNCQ7U2C/quabbx5soEVhY
+ X4SSD1mpuvJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,357,1589266800"; 
+   d="scan'208";a="390922492"
+Received: from lkp-server01.sh.intel.com (HELO e5b4d2dd85a6) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2020 15:42:39 -0700
+Received: from kbuild by e5b4d2dd85a6 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jvq6o-00009t-Gx; Wed, 15 Jul 2020 22:42:38 +0000
+Date:   Thu, 16 Jul 2020 06:41:56 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 828a89976a61ec3375fc9c117573c3c371ea766a
+Message-ID: <5f0f8634.lpuIxRfKMp2KZP49%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0iSpC=67p++vyH0WjcsuPG5SMtJJamit2T9vOQPb9jm0w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Rafael,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: 828a89976a61ec3375fc9c117573c3c371ea766a  Merge branch 'renesas-next' into renesas-devel
 
-On Wed, Jul 01, 2020 at 02:19:21PM +0200, Rafael J. Wysocki wrote:
-> On Wed, Jul 1, 2020 at 9:34 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> >
-> > Hi Laurent,
-> >
-> > On Wed, Jul 01, 2020 at 09:21:37AM +0300, Laurent Pinchart wrote:
-> > > Drivers may need to test if a fwnode is a graph endpoint. To avoid
-> > > hand-written solutions that wouldn't work for all fwnode types, add a
-> > > new fwnode_graph_is_endpoint() function for this purpose. We don't need
-> > > to wire it up to different backends for OF and ACPI for now, as the
-> > > implementation can simply be based on checkout the presence of a
-> > > remote-endpoint property.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > ---
-> > >  include/linux/property.h | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/include/linux/property.h b/include/linux/property.h
-> > > index 10d03572f52e..9f805c442819 100644
-> > > --- a/include/linux/property.h
-> > > +++ b/include/linux/property.h
-> > > @@ -389,6 +389,11 @@ struct fwnode_handle *
-> > >  fwnode_graph_get_remote_node(const struct fwnode_handle *fwnode, u32 port,
-> > >                            u32 endpoint);
-> > >
-> > > +static inline bool fwnode_graph_is_endpoint(struct fwnode_handle *fwnode)
-> > > +{
-> > > +     return fwnode_property_present(fwnode, "remote-endpoint");
-> > > +}
-> > > +
-> > >  /*
-> > >   * Fwnode lookup flags
-> > >   *
-> >
-> > Thanks for the patch. I've bounced it to devicetree and linux-acpi lists
-> > (now cc'd) --- hope that works.
-> >
-> > Rafael: do you think this simple patch could go though the media tree,
-> > assuming that folks are generally fine with the patch as such?
-> 
-> Yes, it could.
+elapsed time: 2301m
 
-Thanks! I've applied this to my tree.
+configs tested: 84
+configs skipped: 2
 
--- 
-Kind regards,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Sakari Ailus
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+powerpc                     pq2fads_defconfig
+powerpc                 linkstation_defconfig
+arm                           h3600_defconfig
+sh                            titan_defconfig
+csky                                defconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+i386                              allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+i386                 randconfig-a001-20200715
+i386                 randconfig-a005-20200715
+i386                 randconfig-a002-20200715
+i386                 randconfig-a006-20200715
+i386                 randconfig-a003-20200715
+i386                 randconfig-a004-20200715
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc64                             defconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+sparc                               defconfig
+sparc64                           allnoconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                                    lkp
+x86_64                              fedora-25
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
