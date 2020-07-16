@@ -2,73 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70F91222D6F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 23:09:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38F86222E43
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 23:58:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726870AbgGPVJy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 17:09:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51960 "EHLO mail.kernel.org"
+        id S1726002AbgGPV6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 17:58:49 -0400
+Received: from mga18.intel.com ([134.134.136.126]:31608 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbgGPVJy (ORCPT
+        id S1726201AbgGPV6s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 17:09:54 -0400
-Received: from embeddedor (unknown [201.162.240.161])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A08E0207DD;
-        Thu, 16 Jul 2020 21:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594933794;
-        bh=AcwhowgLvFEZNKhytEiTcdGfl0j994HbxXy5LFPSc18=;
-        h=Date:From:To:Cc:Subject:From;
-        b=WkZDqo7FDqKZ6oomojkl8Say6lmEeGL8iewbke1QHhFyqu9tTR8MbbAWx1jtqszSB
-         Jv+Vlu8aujRO7T7O4hZG02RTqSg8s3yTFFjgmyGPMe1iJQpr2P0PqEplXfmiMhoEZ7
-         ZovdgyAIR1uhQfGsmv6B3+WBA/k9JkM2w+p8hr9E=
-Date:   Thu, 16 Jul 2020 16:15:17 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH][next] PCI: rcar-gen2: Use fallthrough pseudo-keyword
-Message-ID: <20200716211517.GA17174@embeddedor>
+        Thu, 16 Jul 2020 17:58:48 -0400
+IronPort-SDR: Ui2GPsO6bJJve9n/6c80+Y+6qVzAUPb91/3xpdQLamJMl2IF2FIoHPqk48/fy5NyISBA7JChhR
+ 3hHoFiEbEVFQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="136957570"
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
+   d="scan'208";a="136957570"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 14:58:47 -0700
+IronPort-SDR: /U3xhftU95rl1xws5Ki9EWAYHSUvSm3/SyEAxk99cjEnEZpzKHNpLYDoPjqRMGnsQ7l6DDTyGx
+ 6rILBnASdzYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,360,1589266800"; 
+   d="scan'208";a="326661080"
+Received: from lkp-server01.sh.intel.com (HELO 70d1600e1569) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 16 Jul 2020 14:58:46 -0700
+Received: from kbuild by 70d1600e1569 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jwBtt-0000D8-WC; Thu, 16 Jul 2020 21:58:45 +0000
+Date:   Fri, 17 Jul 2020 05:57:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-dt-bindings-for-v5.9] BUILD SUCCESS
+ 8210a6c057703b15d75f6bb841e7611726c4a551
+Message-ID: <5f10cd5b.MuT6GFMWRkNKhoqS%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace the existing /* fall through */ comments and its variants with
-the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
-fall-through markings when it is the case.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-dt-bindings-for-v5.9
+branch HEAD: 8210a6c057703b15d75f6bb841e7611726c4a551  dt-bindings: arm: renesas: Document beacon-rzg2m
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
+elapsed time: 723m
 
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+configs tested: 86
+configs skipped: 1
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                             defconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20200716
+i386                 randconfig-a005-20200716
+i386                 randconfig-a002-20200716
+i386                 randconfig-a006-20200716
+i386                 randconfig-a003-20200716
+i386                 randconfig-a004-20200716
+i386                 randconfig-a016-20200716
+i386                 randconfig-a011-20200716
+i386                 randconfig-a015-20200716
+i386                 randconfig-a012-20200716
+i386                 randconfig-a013-20200716
+i386                 randconfig-a014-20200716
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                                    lkp
+x86_64                              fedora-25
+
 ---
- drivers/pci/controller/pci-rcar-gen2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/controller/pci-rcar-gen2.c
-index 326171cb1a97..2ec7093a7588 100644
---- a/drivers/pci/controller/pci-rcar-gen2.c
-+++ b/drivers/pci/controller/pci-rcar-gen2.c
-@@ -228,7 +228,7 @@ static int rcar_pci_setup(int nr, struct pci_sys_data *sys)
- 		pr_warn("unknown window size %ld - defaulting to 256M\n",
- 			priv->window_size);
- 		priv->window_size = SZ_256M;
--		/* fall-through */
-+		fallthrough;
- 	case SZ_256M:
- 		val |= RCAR_USBCTR_PCIAHB_WIN1_256M;
- 		break;
--- 
-2.27.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
