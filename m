@@ -2,78 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 53A07221DA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 09:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E65F221E4D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 10:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgGPHwN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 03:52:13 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43082 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725867AbgGPHwN (ORCPT
+        id S1726425AbgGPI1y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 04:27:54 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34446 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725934AbgGPI1x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 03:52:13 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 95so3503912otw.10;
-        Thu, 16 Jul 2020 00:52:13 -0700 (PDT)
+        Thu, 16 Jul 2020 04:27:53 -0400
+Received: by mail-oi1-f195.google.com with SMTP id e4so4481421oib.1;
+        Thu, 16 Jul 2020 01:27:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8WlI+YHkueSuF08RQCnLnwIMdn+ACDRoO1h1JCP5bfU=;
-        b=C8ZTow2oSWruCrATvualw8O3DNZd91TOgxfKCov/J67YLtc8lmULvkvqGzP8OPQ6cL
-         sOwyh3kTam21y1GW4mwYMO9lPY312aVp4OGP+mfj+OD5MaNfES0t+yHjiO0pPLoelRns
-         seXWoWdtXT2rE/374xknV51yJID3drLZ73HClGSAaQXRF8waRLgtVMHcPHGTP7CgpfPB
-         p5AqTe+iIbJpipvAw/gCMUTT47esCX2Vym8ycbGGNCOgXbK6o9ELHV8rXpaoGZG6LK4v
-         +lWkjoJS51q71DLUHUm3pyzKafwXxOCIKZqPs41ZI16hOJbzQW5vsszA9e6GbG6fC3By
-         0iXA==
-X-Gm-Message-State: AOAM533jxJEpedWbtx+pIw58SZAHLtDCftE+cgL3XlheIyBd8aftj5vB
-        VmpQkgkpUTPvtIVLa2oMT7syZIf/E4YMW5o9PhA=
-X-Google-Smtp-Source: ABdhPJyFWwITqb6ejbM+toUXP0VUMT8h2tr0L7qnGfNLMwwxUyIsQvFrtRpDRgKqCP4v+ZZ5x4Fa6xXPoCX6ZH6bz8U=
-X-Received: by 2002:a05:6830:1451:: with SMTP id w17mr3330266otp.250.1594885932674;
- Thu, 16 Jul 2020 00:52:12 -0700 (PDT)
+        bh=Bw5+hFRH2zrjxX766KqQ5x8VG7OfU7f1ZtUxTkUpoJw=;
+        b=R5pYqgElSt0LWrHTsOX0EMuMjIJZLSBDQIhSjaPimPHHC6D6JFfxzfB6vJuLW1VU0L
+         05ZFhkQv/uvC9JzVu/9e6r4BKlyJiUkYbTC/o93anRmY4RDFH5oJXzdf8NrUGARsxJJ/
+         TSKhTeLSDULpUJwkPq03sHRITtJgUvtKVu7XzUiox/Lu/ifS4u472Tq/I0etun4Erydc
+         Q7zsRlNkFyYXElcL2ZLlaMFGpj3POT3wdWd66+bCCfasnaEJx/RQRC8+A+L1Gs3WT5Fq
+         hrRlKljjuk8xjfz2og02tgefLKCjro7pkG2oVAdVkJaZr/tTN6qOQKjfkbdX3eKKaq5g
+         dgMg==
+X-Gm-Message-State: AOAM533S1xoMzRulEJ5ysg7MMAAA6hy+ls/L13jfDoMUypqejVjf8o7Y
+        YKgYAgoLJ54lBF8oSCoyMqo97eB3g/3jbOKFkw8=
+X-Google-Smtp-Source: ABdhPJzmVMMoJDo1pTauAT6GN+3GQe6F/6FbTlBjJH9IwS6iqkhk9C3/n9B6BXkuhyJVbqprY9aAXpVrsmnj+1oZo4I=
+X-Received: by 2002:aca:5c41:: with SMTP id q62mr2905337oib.148.1594888072391;
+ Thu, 16 Jul 2020 01:27:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
- <20200715140951.90753-2-jacopo+renesas@jmondi.org> <20200716015323.GQ6144@pendragon.ideasonboard.com>
-In-Reply-To: <20200716015323.GQ6144@pendragon.ideasonboard.com>
+References: <20200626143638.16512-1-geert+renesas@glider.be> <20200715201037.GA740389@bogus>
+In-Reply-To: <20200715201037.GA740389@bogus>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Jul 2020 09:52:01 +0200
-Message-ID: <CAMuHMdXYX-6H99B=dkKxeD3f_Mr1tETYGJGBqqKMgjR_kFF2-A@mail.gmail.com>
-Subject: Re: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+Date:   Thu, 16 Jul 2020 10:27:41 +0200
+Message-ID: <CAMuHMdWk6Ma8d3zWui0xAczfJ6jixh46byF5kj3f_JnQFnpP5Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 3:54 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Jul 15, 2020 at 04:09:44PM +0200, Jacopo Mondi wrote:
-> > Convert the ov5640 bindings document to json-schema and update
-
-> > +  rotation:
-> > +    description: |
-> > +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
-> > +      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
-> > +      down).
+On Wed, Jul 15, 2020 at 10:10 PM Rob Herring <robh@kernel.org> wrote:
+> On Fri, 26 Jun 2020 16:36:38 +0200, Geert Uytterhoeven wrote:
+> > Convert the Renesas RZ/A2 combined Pin and GPIO controller Device Tree
+> > binding documentation to json-schema.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  .../bindings/pinctrl/renesas,rza2-pinctrl.txt |  87 ---------------
+> >  .../pinctrl/renesas,rza2-pinctrl.yaml         | 100 ++++++++++++++++++
+> >  2 files changed, 100 insertions(+), 87 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.txt
+> >  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+> >
 >
-> The second sentence should be replaced with
->   enum:
->     - 0
->     - 180
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Or (ignoring Jacopo's later comment):
-
-    enum: [ 0, 180 ]
+Thanks, queueing in sh-pfc-for-v5.9.
 
 Gr{oetje,eeting}s,
 
