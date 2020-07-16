@@ -2,186 +2,500 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1E4222157
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 13:27:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C167222398
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 15:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbgGPL1l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 07:27:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726383AbgGPL1i (ORCPT
+        id S1728439AbgGPNIS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 09:08:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51190 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726537AbgGPNIR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 07:27:38 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CF04C061755;
-        Thu, 16 Jul 2020 04:27:38 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id p15so4687856ilh.13;
-        Thu, 16 Jul 2020 04:27:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r1Nbw723xRe0D2BBkUXpJ7ShezLnvTtLnosvWdL1Azg=;
-        b=AnJd5dGaykfwBK08S9lQ0poe3iNdNYwMyMBOl8233ingMIsplvheDpIsF9NBiyvME5
-         perMgBJB1kfnDh3AOpAuSFJOXg7Q6q8UnOo15c9CtCVmShd4xNKos/371dpew/q38lrp
-         MFtLc4T/W7s3xM0TD8TY2IY11PcezPW19LFo+SKs2BzLhYb0bBVp2sWAClmoa5YLRKyP
-         DsmTeN2cLpDJ/p6oGFvae8oekGjCc0blhTULpGDYptryLbEb2Ph8Ad3NOcpNGNGunmc0
-         7ZNhYz0FlWRbaJSvhkz2FSONHaCy6K8npyL0jlvuIajPpwap75DKhAJ1/UaH2+FaaYXH
-         g89A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r1Nbw723xRe0D2BBkUXpJ7ShezLnvTtLnosvWdL1Azg=;
-        b=PeZfUxMY+IE7Lp7Nslg9FENPwVLthlOFuzP4wCjdFPu5wa2TBIMechal3iGDO72+Hv
-         N1ofryzXjpYLf7Kg4iXYO07AzVTtLVHEGYITuGNTYTIqAqNZR5ScLRaEGEiBv0UltS40
-         DRwQxl9MKC/CRD2ULxfTyYoqQgdh9OSEntaZHZjOQdRTlXQ45CO3gSC+oItbNqxa9pUR
-         adhvNRI9uwECi70CYyp931CHIf0ilq4bBQRk50tLklQU+WNttlRh9ih0JCqvh4cBQCL9
-         Ns8kmomf1twFO/1fz4BYxq2fNJBteH9u7O+5F2e24lXSgqBOEoIhkwdD+CZYpI7yRXCc
-         Ro1Q==
-X-Gm-Message-State: AOAM533urvCrubZUYOHdAj/MzinYtwOaU1zeMRkOJ0UsygTzwUMbiKD6
-        kcEGo0ScQ1z07q4J1OND0ZgPtNLJs3mW9xeS0lg=
-X-Google-Smtp-Source: ABdhPJx6MgANsHMj9B5Wb2FN8dd/SUw9STBAQjeDTAUHA2tFBS9y904MgD8pFIsE8i64R3pwaf88QZQH0nvkIBxOmZc=
-X-Received: by 2002:a92:5a52:: with SMTP id o79mr4043958ilb.89.1594898857518;
- Thu, 16 Jul 2020 04:27:37 -0700 (PDT)
+        Thu, 16 Jul 2020 09:08:17 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52CF92B7;
+        Thu, 16 Jul 2020 15:08:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594904894;
+        bh=b2H92RtsUFLgBNuIdYkin8/DyTFT6u1vYp5GDgaey3o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=os3J3Qq3Jgbn1+vuuIq6rg7Y5EzObHjSViwk/59LfNoKAH5G8gBMW4OdLI/mfN4iu
+         jvm2ec5xMPNW/AQTgcpQUcdC3D7h9bibLV0CXxX/lriG9FWu6S38XURvAO+AnZcehV
+         x8E4FAKvgxUQiObtyUt3IBXRRDZ+XDLSeX9pVf8s=
+Date:   Thu, 16 Jul 2020 16:08:06 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: Re: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
+Message-ID: <20200716130806.GB5960@pendragon.ideasonboard.com>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
+ <20200715140951.90753-2-jacopo+renesas@jmondi.org>
+ <20200716015323.GQ6144@pendragon.ideasonboard.com>
+ <20200716070433.242zj5qnfnokody4@uno.localdomain>
 MIME-Version: 1.0
-References: <20200617120510.25071-1-aford173@gmail.com> <CAMuHMdWjpyi6QiGTHkwXcepMzP8hN7MkXSJ=Xnxn40VkRU9OXg@mail.gmail.com>
- <CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com>
- <CAHCN7xLygG5YRG0wt0b9JWW3PHDwMV_kiLRpJqPdSAx7gOoc9w@mail.gmail.com>
- <CAMuHMdWzcKa1xXdQ8W=fmjTKvPRN68GNVhBi4pFD5OW1_R_aAw@mail.gmail.com>
- <159485990993.1987609.15025594064431049459@swboyd.mtv.corp.google.com> <CAMuHMdVEVNOex0uk1Ko0rghskmephYWGe49e4hUbbfdgSUBCtQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVEVNOex0uk1Ko0rghskmephYWGe49e4hUbbfdgSUBCtQ@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 16 Jul 2020 06:27:26 -0500
-Message-ID: <CAHCN7xJ3ccwQtieUA-8gXAitQaTvuF=DrX-UW1hhhPcjr=tr0g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: Introduce r8a774a1-beacon-rzg2m-kit
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
-        <devicetree@vger.kernel.org>, Linux Kernel Mailing List" 
-        <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200716070433.242zj5qnfnokody4@uno.localdomain>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 2:39 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Stephen,
->
-> On Thu, Jul 16, 2020 at 2:38 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > Quoting Geert Uytterhoeven (2020-07-13 05:45:00)
-> > > On Thu, Jul 9, 2020 at 12:00 AM Adam Ford <aford173@gmail.com> wrote:
-> > > > On Wed, Jul 8, 2020 at 4:53 PM Adam Ford <aford173@gmail.com> wrote:
-> > > > > On Mon, Jun 22, 2020 at 8:20 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > > On Wed, Jun 17, 2020 at 2:05 PM Adam Ford <aford173@gmail.com> wrote:
-> > > > > > > Beacon EmebddedWorks, formerly Logic PD is introducing a new
-> > > > > > > SOM and development kit based on the RZ/G2M SoC from Renesas.
-> > > > > > >
-> > > > > > > The SOM supports eMMC, WiFi and Bluetooth, along with a Cat-M1
-> > > > > > > cellular radio.
-> > > > > > >
-> > > > > > > The Baseboard has Ethernet, USB, HDMI, stereo audio in and out,
-> > > > > > > along with a vareity of push buttons and LED's.
+Hi Jacopo,
+
+On Thu, Jul 16, 2020 at 09:04:33AM +0200, Jacopo Mondi wrote:
+> On Thu, Jul 16, 2020 at 04:53:23AM +0300, Laurent Pinchart wrote:
+> > On Wed, Jul 15, 2020 at 04:09:44PM +0200, Jacopo Mondi wrote:
+> > > Convert the ov5640 bindings document to json-schema and update
+> > > the MAINTAINERS file accordingly.
 > > >
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > > > > > > @@ -0,0 +1,733 @@
-> > > > > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > > > > +/*
-> > > > > > > + * Copyright 2020, Compass Electronics Group, LLC
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +#include <dt-bindings/gpio/gpio.h>
-> > > > > > > +#include <dt-bindings/input/input.h>
-> > > > > > > +#include <dt-bindings/clk/versaclock.h>
-> > > > > >
-> > > > > > This depends on "[PATCH V3 2/3] dt: Add additional option bindings for
-> > > > > > IDT VersaClock", which hasn't been accepted yet, AFAIK.
-> > > >
-> > > > Geert,
-> > > >
-> > > > I forgot to ask.  What is the protocol for something when new bindings
-> > > > have been accepted in one branch, but another branch where I want to
-> > > > reference them hasn't merged with the other branch?  I'd really like
-> > > > to get this board into the next kernel.  I could remove these
-> > > > references and the calling functions, but that may cause instability
-> > > > due to undefined behaviour of some of the versaclock functions because
-> > > > they are not programmed.
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > > Hi Steve,
+> > >   I've added myself as maintainer in the bindings, with your ack
+> > > I would be happy to add myself as maintainer or reviewer for this driver
+> > > in MAINTAINERS, as I've recently been looking after this driver, mostly
+> > > for the MIPI CSI-2 interface part.
 > > >
-> > > As soon as a binding update has been accepted into the maintainer's
-> > > for-next branch, I happily accept DTS patches that start using it,
-> > > unless doing so would introduce a regression.
-> > > In this case, it's not a pure binding update, but also an update to
-> > > binding definitions in a header file, thus creating a hard dependency.
-> > > Usually this is mitigated by committing the header file change to an
-> > > immutable branch, to be shared by driver and DTS, and to be pulled by
-> > > all maintainers affected by the dependency.
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+> > >  .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   1 +
+> > >  3 files changed, 182 insertions(+), 92 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
 > > >
-> > > As Stephen has already applied the binding update to his clk-next
-> > > branch, it's too late to go for the immutable branch approach.  Hence
-> > > the simplest solution would be to postpone your DTS patch to v5.10.
-> > >
-> > > > However, I would rather have the board mostly work if it means getting
-> > > > it accepted into the kernel.  Beacon hasn't shipped any outside of the
-> > > > company yet, so I am not really worried about people seeing problems.
-> > > > If the board gets accepted without these, I could apply some 'fixes'
-> > > > at a late date to correct the undefined behavior.  Let me know what
-> > > > the best way to proceed should be, and I'll send a V2 patch.
-> > >
-> > > An alternative would be for me to cherry-pick commit 34662f6e30846ae0
-> > > ("dt: Add additional option bindings for IDT VersaClock") from the
-> > > clk-next branch into renesas-devel, before applying your patch.
-> > > While that would help you, it may introduce a merge conflict for
-> > > linux-next and for upstream later, as Luca has already posted multiple
-> > > patches for idt,versaclock5.txt, to fix typos and do the json-schema
-> > > conversion.  These may or may not land in v5.9.
-> > >
-> > > Stephen: what do you think?
-> > > Thanks!
-> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> > > deleted file mode 100644
+> > > index c97c2f2da12d..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> > > +++ /dev/null
+> > > @@ -1,92 +0,0 @@
+> > > -* Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> > > -
+> > > -Required Properties:
+> > > -- compatible: should be "ovti,ov5640"
+> > > -- clocks: reference to the xclk input clock.
+> > > -- clock-names: should be "xclk".
+> > > -- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
+> > > -- AVDD-supply: Analog voltage supply, 2.8 volts
+> > > -- DVDD-supply: Digital core voltage supply, 1.5 volts
+> > > -
+> > > -Optional Properties:
+> > > -- reset-gpios: reference to the GPIO connected to the reset pin, if any.
+> > > -	       This is an active low signal to the OV5640.
+> > > -- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
+> > > -		   if any. This is an active high signal to the OV5640.
+> > > -- rotation: as defined in
+> > > -	    Documentation/devicetree/bindings/media/video-interfaces.txt,
+> > > -	    valid values are 0 (sensor mounted upright) and 180 (sensor
+> > > -	    mounted upside down).
+> > > -
+> > > -The device node must contain one 'port' child node for its digital output
+> > > -video port, in accordance with the video interface bindings defined in
+> > > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > -
+> > > -OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> > > -
+> > > -Endpoint node required properties for CSI-2 connection are:
+> > > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> > > -- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
+> > > -- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
+> > > -
+> > > -Endpoint node required properties for parallel connection are:
+> > > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> > > -- bus-width: shall be set to <8> for 8 bits parallel bus
+> > > -	     or <10> for 10 bits parallel bus
+> > > -- data-shift: shall be set to <2> for 8 bits parallel bus
+> > > -	      (lines 9:2 are used) or <0> for 10 bits parallel bus
+> > > -- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> > > -- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> > > -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+> > > -	       signal.
+> > > -
+> > > -Examples:
+> > > -
+> > > -&i2c1 {
+> > > -	ov5640: camera@3c {
+> > > -		compatible = "ovti,ov5640";
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_ov5640>;
+> > > -		reg = <0x3c>;
+> > > -		clocks = <&clks IMX6QDL_CLK_CKO>;
+> > > -		clock-names = "xclk";
+> > > -		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > > -		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > > -		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > > -		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > > -		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > > -		rotation = <180>;
+> > > -
+> > > -		port {
+> > > -			/* MIPI CSI-2 bus endpoint */
+> > > -			ov5640_to_mipi_csi2: endpoint {
+> > > -				remote-endpoint = <&mipi_csi2_from_ov5640>;
+> > > -				clock-lanes = <0>;
+> > > -				data-lanes = <1 2>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > -};
+> > > -
+> > > -&i2c1 {
+> > > -	ov5640: camera@3c {
+> > > -		compatible = "ovti,ov5640";
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_ov5640>;
+> > > -		reg = <0x3c>;
+> > > -		clocks = <&clk_ext_camera>;
+> > > -		clock-names = "xclk";
+> > > -
+> > > -		port {
+> > > -			/* Parallel bus endpoint */
+> > > -			ov5640_to_parallel: endpoint {
+> > > -				remote-endpoint = <&parallel_from_ov5640>;
+> > > -				bus-width = <8>;
+> > > -				data-shift = <2>; /* lines 9:2 are used */
+> > > -				hsync-active = <0>;
+> > > -				vsync-active = <0>;
+> > > -				pclk-sample = <1>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > -};
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > new file mode 100644
+> > > index 000000000000..9c32262a3621
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > @@ -0,0 +1,181 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/ov5640.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> > > +
+> > > +maintainers:
+> > > +  - Steve Longerbeam <slongerbeam@gmail.com>
+> > > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > > +
+> > > +description: -|
+> > > +  OV5640 is a 5 megapixels image sensor capable of producing images in RBG, RAW,
 > >
-> > Do you need to use something in clk-next as an immutable branch?
-> > Typically I don't rebase patches once applying to clk-next and all
-> > patches are put on topic branches in case something is needed in another
-> > tree. So you should be fine to pull the clk-vc5 branch (which is sort of
-> > busted) into your dts tree, or if you need the defines/numbers in the
->
-> busted?
->
+> > s/OV5640/The OV5640/
+> > s/RBG/RGB/
+> >
+> 
+> Ups, will fix
+> 
+> > > +  YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
+> > > +  interface and an I2C-compatible (CCI) control interface.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: ovti,ov5640
+> > > +
+> > > +  reg:
+> > > +    description: I2C device address
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    description: Reference to the xclk input clock.
+> >
+> > I'd drop this, it's implied by the clock-names
+> >
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    description: Should be "xclk".
+> >
+> > This should be replaced with
+> >
+> >    const: xclk
+> >
+> 
+> Ack for both
+> 
+> > > +    maxItems: 1
+> > > +
+> > > +  DOVDD-supply:
+> > > +    description: Digital I/O voltage supply, 1.8 volts.
+> > > +    maxItems: 1
+> > > +
+> > > +  AVDD-supply:
+> > > +    description: Analog voltage supply, 2.8 volts.
+> > > +    maxItems: 1
+> > > +
+> > > +  DVDD-supply:
+> > > +    description: Digital core voltage supply.
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios:
+> > > +    description: |
+> > > +      Reference to the GPIO connected to the reset pin, if any. This is an
+> > > +      active low signal to the OV5640.
+> > > +    maxItems: 1
+> > > +
+> > > +  powerdown-gpios:
+> > > +    description: |
+> > > +      Reference tot he GPIO connected to the powerdown pin, if any. This is an
+> > > +      active high signal to the OV5640.
+> > > +    maxItems: 1
+> > > +
+> > > +  rotation:
+> > > +    description: |
+> > > +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
+> > > +      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
+> > > +      down).
+> >
+> > The second sentence should be replaced with
+> >   enum:
+> >     - 0
+> >     - 180
+> >
+> 
+> I copied this from the existing bindings, but I was a bit skeptical in
+> first place. Support being limited to 0 and 180 only is a driver
+> implementation constraint, there's nothing that prevents you from
+> mounting the sensor 90deg rotated. Should the supported values be
+> mentioned in the bindings at all for this property ?
 
-I owe a fix for the VC5 driver, but I was focussed on getting the new
-dev kit pushed.  My goal is to have another revision of the fix pushed
-today.
+You're right, it doesn't belong here. My point was that constraints
+should be described with rules instead of text. I'd drop the rule in a
+separate patch, or at least explain it clearly in the commit message.
 
-> > header file you can use the raw numbers and then replace them with the
-> > includes after -rc1.
->
-> Thanks, I forgot about the raw number solution, as it's been a while I
-> used that.  In the meantime we solved the issue by postponing the new
-> VC5 options.
-> Adam: if you still want to send a v4 using the raw numbers, feel free
-> to do so.
+> > > +
+> > > +  port:
+> > > +    type: object
+> > > +    description: |
+> > > +      The device node must contain one 'port' child node for its digital output
+> > > +      video port, in accordance with the video interface bindings defined in
+> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > +
+> > > +      OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        properties:
+> > > +          remote-endpoint:
+> > > +            description: A phandle to the bus receiver's endpoint node.
+> > > +
+> > > +          clock-lanes:
+> > > +            description: Should be set to 0 (clock lane on hardware lane 0).
+> >
+> > The description of most of these properties should also be replaced with
+> > yaml schema rules. Ideally there should also be constraints that tell
+> > which properties can be specified together. For instance here's the
+> > corresponding rules from the MT9M114 DT binding (not upstream yet).
+> >
+> >   # See ../video-interfaces.txt for more details
+> >   port:
+> >     type: object
+> >     properties:
+> >       endpoint:
+> >         type: object
+> >         properties:
+> >           bus-type:
+> >             enum: [4, 5, 6]
+> 
+>                ^ this
+> 
+> Initially I considered switching on the bus type to be able to use an
+> if construct like you shown below. But that would make the property
+> mandatory, something that would break old DTB. Now, I used the word
+> "break" and not "break compatibility" as the driver would still
+> support old DTB, as it does not enforce that property being specified.
+> But it would make old DTS invalid from a dt-schema validation point of
+> view. Do we care about maintaining old DTS valid with new schema ?
 
-It's in the queue now, so I'll hold off.  I have a few other fires to
-put out before the end of the week.
+Not to my knowledge, no. We should of course fix the in-tree device tree
+sources to add the property, but anything out of tree, especially in
+binary form, can fail to validate as long as the drivers don't break
+binary compatibility.
 
-thanks,
+> >
+> >           clock-lanes:
+> >             items:
+> >               - const: 0
+> >
+> >           data-lanes:
+> >             items:
+> >               - const: 1
+> >
+> >           bus-width:
+> >             items:
+> >               - const: 8
+> >
+> >           hsync-active:
+> >             items:
+> >               - const: 1
+> >
+> >           vsync-active:
+> >             items:
+> >               - const: 1
+> >
+> >         required:
+> >           - bus-type
+> >
+> >         allOf:
+> >           - if:
+> >               properties:
+> >                 bus-type:
+> >                   const: 4
+> >             then:
+> >               properties:
+> >                 bus-width: false
+> >                 hsync-active: false
+> >                 vsync-active: false
+> >
+> >           - if:
+> >               properties:
+> >                 bus-type:
+> >                   const: 5
+> >             then:
+> >               properties:
+> >                 clock-lanes: false
+> >                 data-lanes: false
+> >
+> >           - if:
+> >               properties:
+> >                 bus-type:
+> >                   const: 6
+> >             then:
+> >               properties:
+> >                 clock-lanes: false
+> >                 data-lanes: false
+> >                 hsync-active: false
+> >                 vsync-active: false
+> >
+> >         unevaluatedProperties: false
+> >
+> > These comments apply to other patches in this series.
+> >
+> > > +
+> > > +          data-lanes:
+> > > +            description: |
+> > > +              Should be set to <1> or <1 2> (one or two CSI-2 lanes supported).
+> > > +
+> > > +          bus-width:
+> > > +            description: |
+> > > +              Shall be set to <8> for 8 bits parallel bus or <10> for 10 bits
+> > > +              parallel bus.
+> > > +
+> > > +          data-shift:
+> > > +            description: |
+> > > +              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> > > +              <0> for 10 bits parallel bus.
+> 
+> All of these 'supported values' should be expressed with a schema, I agree.
+> 
+> > > +
+> > > +          hsync-active:
+> > > +            description: |
+> > > +              Active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> > > +
+> > > +          vsync-active:
+> > > +            description: |
+> > > +              Active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> > > +
+> > > +          pclk-sample:
+> > > +            description: |
+> > > +              Sample data on rising (1) or falling (0) edge of the pixel clock
+> > > +              signal.
+> > > +
+> > > +        required:
+> > > +          - remote-endpoint
+> > > +
+> > > +    additionalProperties: false
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - DOVDD-supply
+> > > +  - AVDD-supply
+> > > +  - DVDD-supply
+> > > +  - port
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> > > +
+> > > +    i2c0 {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        camera@3c {
+> > > +            compatible = "ovti,ov5640";
+> > > +            reg = <0x3c>;
+> > > +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> > > +            clock-names = "xclk";
+> > > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > > +            rotation = <180>;
+> > > +
+> > > +            port {
+> > > +                ov5640_to_mipi_csi2: endpoint {
+> > > +                    remote-endpoint = <&mipi_csi2_from_ov5640>;
+> > > +                    clock-lanes = <0>;
+> > > +                    data-lanes = <1 2>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +    i2c1 {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +
+> > > +        camera@3c {
+> > > +            compatible = "ovti,ov5640";
+> > > +            reg = <0x3c>;
+> > > +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> > > +            clock-names = "xclk";
+> > > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > > +            rotation = <180>;
+> > > +
+> > > +            port {
+> > > +                ov5640_to_parallel: endpoint {
+> > > +                    remote-endpoint = <&parallel_from_ov5640>;
+> > > +                    bus-width = <8>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index c74d25c58e1a..0160d7567ed3 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -12605,6 +12605,7 @@ L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > >  F:	drivers/media/i2c/ov5640.c
+> > > +F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > >
+> > >  OMNIVISION OV5647 SENSOR DRIVER
+> > >  M:	Jacopo Mondi <jacopo@jmondi.org>
 
-adam
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+-- 
+Regards,
+
+Laurent Pinchart
