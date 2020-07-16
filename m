@@ -2,92 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2551A222566
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 16:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7790922253F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 16:26:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728993AbgGPOZi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 10:25:38 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37951 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728054AbgGPOZi (ORCPT
+        id S1728418AbgGPOX7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 10:23:59 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:43885 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728182AbgGPOX7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:25:38 -0400
-Received: by mail-oi1-f195.google.com with SMTP id r8so5216728oij.5;
-        Thu, 16 Jul 2020 07:25:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=91Je2qAcGCzgn2zcz7wtNREQl6Cl2nhLo4wLUfE5WtI=;
-        b=XtMOE0v7nHTx/6b7/1J2cqW3bb+rQgO8WrZycFFizVY8G0VWj7k6Hk/nX4/vFmTG+e
-         d4ad+Z1hNI+lcgFLyZNDbb+Bg38U/k/gTBknid7klI7DBz4zRBsBtY1J0E57KsPan4Vk
-         gqOWtWadqrArSikc+d2xJQT6KDDGuGTknIwmGUwOdC3dXtI+oDz2QnAY7eCYsKUsGua9
-         tz8vGAlvjagXZDyd9BXzPO0dV8UlKJ7tq9Z7vrPo9m/Hj0xWisr3g/N4ztIKPMKf0FAI
-         r0OwhcbdfecTnfIIvII0hjXZp98Vp7Q2SzwnvEvavAYH/RJ4Csi3rytoHdQ/ru5m/kt8
-         ic1w==
-X-Gm-Message-State: AOAM532DMv9PZHY1VYU2JDTNpz6cRSh/6iochJyLoORTEEvb2cKqWP6M
-        bWtpmwRyGGzHBO/S+xjhENl8a7ND7A56ao7nOWI=
-X-Google-Smtp-Source: ABdhPJwIAN8f7bRLJuYAyK2do3tAZg+scN8MvNy6h4Jd28iwoL68rvxkRime7NVAhQfqpWkxvClPG0FKsK2Ss5qAiXM=
-X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr4044483oih.54.1594909536875;
- Thu, 16 Jul 2020 07:25:36 -0700 (PDT)
+        Thu, 16 Jul 2020 10:23:59 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id DA4FA1BF203;
+        Thu, 16 Jul 2020 14:23:53 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v7 00/10] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
+Date:   Thu, 16 Jul 2020 16:27:03 +0200
+Message-Id: <20200716142713.110655-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594811350-14066-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594811350-14066-12-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Jul 2020 16:25:25 +0200
-Message-ID: <CAMuHMdWqmVSgUu6N8vBA8fRwwP0jhFCLBHN+AL4YoHn4yejn3A@mail.gmail.com>
-Subject: Re: [PATCH 11/20] dt-bindings: i2c: renesas,i2c: Document r8a774e1 support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-can@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 1:10 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document i2c controller for RZ/G2H (R8A774E1) SoC, which is compatible
-> with R-Car Gen3 SoC family.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Minor update to add a new patch [6/10] to v4l2-mediabus.h with a usage
+note on the V4L2_MBUS_* flags.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Also add Niklas' tag to [10/10] and address his final comment there.
 
-Gr{oetje,eeting}s,
+Hans, this should now be ready to be hopefully collected.
 
-                        Geert
+Thanks
+  j
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+v6.1->v7
+- Add [6/10] as suggested by Hans
+- Add Niklas tag and fix his last comment in [10/10]
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+v6->v6.1
+- Address Niklas' comments in the last patch for rcar-csi2
+
+v5->v6:
+- Report V4L2_MBUS_DATA_ACTIVE_HIGH in ov6650 get_mbus_config
+- Check for the return value of get_mbus_config() at the end of
+  set_mbus_config() in ov6650 driver
+
+v4->v5:
+- Address Sakari's comment on documentation (s/should/shall)
+- Use a local variable for the number of active lanes in 9/9
+- Add Kieran's tags to 7/9 and 8/9
+- Fix a warning on operator precedence on 3/9
+
+v3->v4:
+- Remove g/s_mbus_config video operation
+- Adjust pxa quick capture interface to properly handle bus mastering
+- Reword the two new operations documentation
+
+v2->v3:
+- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+- Port existing drivers
+- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+
+v1->v2:
+- Address Sakari's comment to use unsigned int in place of bools
+- Add two new patches to address documentation
+- Adjust rcar-csi2 patch as much as possible according to Niklas comments
+- Add Niklas's tags
+
+Jacopo Mondi (10):
+  media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+  media: i2c: Use the new get_mbus_config pad op
+  media: i2c: ov6650: Use new [get|set]_mbus_config ops
+  media: pxa_camera: Use the new set_mbus_config op
+  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+  media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
+  staging: media: imx: Update TODO entry
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 +-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 +-
+ drivers/media/i2c/mt9m001.c                 |   7 +-
+ drivers/media/i2c/mt9m111.c                 |   7 +-
+ drivers/media/i2c/ov6650.c                  |  56 ++++--
+ drivers/media/i2c/ov9640.c                  |   7 +-
+ drivers/media/i2c/tc358743.c                |   7 +-
+ drivers/media/i2c/tvp5150.c                 |   7 +-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++-
+ drivers/staging/media/imx/TODO              |   4 +
+ include/media/v4l2-mediabus.h               |  33 +++-
+ include/media/v4l2-subdev.h                 |  37 ++--
+ 16 files changed, 301 insertions(+), 205 deletions(-)
+
+--
+2.27.0
+
