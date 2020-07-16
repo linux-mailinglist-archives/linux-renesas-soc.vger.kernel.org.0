@@ -2,145 +2,493 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71E44221B79
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 06:42:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FC5B221CED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 09:01:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbgGPEm1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 00:42:27 -0400
-Received: from mail-eopbgr1410107.outbound.protection.outlook.com ([40.107.141.107]:19595
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725844AbgGPEm0 (ORCPT
+        id S1728188AbgGPHBD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 03:01:03 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:38427 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726069AbgGPHBD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 00:42:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SIjgIw/++zk6fGfjfHjnVdbXDgM+cmAh4vG/wTAApGZLquU+42lwKEdgdRsrqqhjCBueLq/erWhX0IzePddeMwbSiEKt6q+JpPztSdJA3+ViBmJNvKmLkiUHZ+Rgk6eBvK929gwHyC5SD3krDq4Srjh9yQ/3AGIaGMgzIdXzxjTfMYqon1KQ9wvgGIuhHv4d+Q/oNJWOQMLullok+f+qhgJlp+JqVJY0veuB/QxboozvRCunWuMO37IaAJFWIPmlslx+XiV6n/CxuVbVPfRqUV1H3Zmvw6iJc46eJwXeyeA9TeQ6bwINo3R7N0hOPZuVCaADsx7Pv/pacRoNxOJldw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7DVXuK7GGEsLWJlaOFlMVK7TjEgvAtSeGuZSvF7Sxeo=;
- b=fVUBFBXDvZ+zsperyvp9sRIkTCCLjcd1Tor9JQQ6j2T8WqjYcUcBQVLhzwImphhHR0dLOcGSRoxl3rVGPRiM8OLIzXlmzFTGs2rfsN7W37JYyhqWev4y68qAkSQvi4jrG/YYaz5vz4Q03eM7xGIDVrfC4LKjdH6d10jxBmG+m6tccNJ9jw9cEV7sPhERFQYO0I0OFajvs46p/2upeAu51pHdCkMxFeaFLUS9TCVrZshAUIDPvpmnm8YeTJSMC9zbp0azY8cZcUaaaagaCMh+a+VBCUCGuvzVTas/L8HeQEdHoPHUULpMfjXRy7x/QO/olMxAp1p8dNgCEZR75IzQkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7DVXuK7GGEsLWJlaOFlMVK7TjEgvAtSeGuZSvF7Sxeo=;
- b=KEtm/NyGi5hK2HI9ojd+4gDXDjKMIKzBX9A6TTFPNS2MJFutbsUn8J1ixbc6kGNnXLoH1mg6zj/fzUEvgY6zidBeBv29UfIZ4n5HmLq8Q+Y7g0jsuLeLoed9tqcPP1v2fcqFAhzfR7+MT7OYuhkgvNSRcMIkF+6FCgkYKuIT8Hw=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB2671.jpnprd01.prod.outlook.com (2603:1096:404:8d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Thu, 16 Jul
- 2020 04:42:21 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3195.017; Thu, 16 Jul 2020
- 04:42:21 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 2/9] iommu/ipmmu-vmsa: Hook up R8A774E1 DT matching code
-Thread-Topic: [PATCH 2/9] iommu/ipmmu-vmsa: Hook up R8A774E1 DT matching code
-Thread-Index: AQHWWV2MbTXg+hkXBUeG2IKsFpTIWqkGuXGAgAAF1ACAAAM3gIAALMKggAAVtICAAp3DYA==
-Date:   Thu, 16 Jul 2020 04:42:21 +0000
-Message-ID: <TY2PR01MB3692CFA8B51F91FB9735026FD87F0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594676120-5862-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV4zzrk_=-2Cmgq8=PKTeU457iveJ58gYekJ-Z8SXqaCQ@mail.gmail.com>
- <CA+V-a8tB0mA17f51GMQQ-Cj_CUXze_JjTahrpoAtmwuOFHQV6g@mail.gmail.com>
- <CAMuHMdXM3qf266exJtJrN0XAogEsJoM-k3FON9CjX+stLpuMFA@mail.gmail.com>
- <TY2PR01MB3692A868DD4E67D770C610E3D8610@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAMuHMdUry12MnLvVgmd7NJ+Gv4mA86qKKfsQobP1o-ohzKm=RQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUry12MnLvVgmd7NJ+Gv4mA86qKKfsQobP1o-ohzKm=RQ@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux-m68k.org; dkim=none (message not signed)
- header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:999:df6f:dcad:bd95]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 86c67283-184a-47a2-e326-08d82942a0aa
-x-ms-traffictypediagnostic: TYAPR01MB2671:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB26710915A5EDF2C69467A2FBD87F0@TYAPR01MB2671.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1169;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: M4RkfSw2dSVC0Ylu4gbH8smqKZ1JZ5nYHnfx1DAInZC9j4sYADG5ObrAdZAMl3mtRkvB7OprMG3AJKRWYCSPyQ76yK9OCIEOOlbiYIOrq89jGyYAy/jhjFq2FXw0Y5HLUBvQcsPZ/mYMRGLiT46/sfCYFcll+3Gubt0TmwmaB2aGu/S0XpTlg0RhgJ7Rb1TdK3TI418OVdYSeJ5R8KucXEsBTBqlayvpdE+ZZoc7Qa8buA03KhcTTppzm2WnfGi5oXIg2sKr1F5lrMuvWH5v6V8zKkJ/WgfQt3E40jcDGXOz2iKZgN6XI6kqGMn78a3uE4d0EKM+7u+Z/+OOusn5GfT1zcfL5ijZuG/mREODedYd6NLBAdpzpma+L/m39peEmYPJaiub+wHgYbhjLKyW3A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(136003)(396003)(366004)(376002)(346002)(316002)(6916009)(76116006)(86362001)(66946007)(66446008)(71200400001)(7416002)(2906002)(66556008)(9686003)(54906003)(55016002)(64756008)(66476007)(8676002)(7696005)(4326008)(33656002)(5660300002)(52536014)(6506007)(53546011)(186003)(8936002)(478600001)(52103002)(158003001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: BZQ062kPob81tYpmM06yPo4OBfHiNnEJ8giVl1UFBgDYuTwdu7M5YZDWvNT5KJeG6pXVCLn55g5mkAYx36RmQ7E3Gjx0OnEPMaRdS0prhfvpi0cgwdSaiEVWnAC4QTLXzKh26CxPzOli4cH3RtaNZdNwfe+npuKrsc06/RtMLsQR4kwvpf2toLSEOcDp5moi0OQtvgABmYWwofNEgMXYEF/oYpnzfV09YU9ZZEukQ6T/6g6iuHLIHt5QzMXKrLXpvmnTfQ8tN4am/H9U7lLW/hjrsdZV36OrXh4G0AcTPjUY5d/TPBjG2cgkknHTbITbejmpl82xQAXVtMSnMuQA3WiLE3bIFbixhQkOIzZu9POrgGan7bls5VRycI3Q4itPixUwerBT064vBVH33/bSjNMwhaX3LJFXuRihuu86Ugr+FoBp+MqV90ODVcSmB2p6PV0SqVX9n8xy6+xOWDIvAAgjJPP0AqjrKgMJ2aTEhjmriXq/GH+8rMFedIHReEj5RQV62ow+H7Q9pvp1xFO06bTOo1sRUn5qDkbQS6GdVTE=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 16 Jul 2020 03:01:03 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id B3B6424000D;
+        Thu, 16 Jul 2020 07:00:56 +0000 (UTC)
+Date:   Thu, 16 Jul 2020 09:04:33 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: Re: [PATCH 1/8] dt-bindings: media: ov5640: Convert to json-schema
+Message-ID: <20200716070433.242zj5qnfnokody4@uno.localdomain>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
+ <20200715140951.90753-2-jacopo+renesas@jmondi.org>
+ <20200716015323.GQ6144@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86c67283-184a-47a2-e326-08d82942a0aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2020 04:42:21.1420
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7z1K7SMbli5BPYc4Xt56Di64XGWfm2KzcRHuABMz1c2N0cl7vXzA/k6lasM5dL9KvKFVlSeE6tSb//WFbZoNg66zzlUpdTVp/8P+GlxDkXtAc3LE6MB0kjUCd+65XFIQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2671
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200716015323.GQ6144@pendragon.ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogVHVlc2Rh
-eSwgSnVseSAxNCwgMjAyMCA5OjQwIFBNDQo+IA0KPiBIaSBTaGltb2RhLXNhbiwNCj4gDQo+IE9u
-IFR1ZSwgSnVsIDE0LCAyMDIwIGF0IDE6NDIgUE0gWW9zaGloaXJvIFNoaW1vZGENCj4gPHlvc2hp
-aGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiA+IEZyb206IEdlZXJ0IFV5
-dHRlcmhvZXZlbiwgU2VudDogVHVlc2RheSwgSnVseSAxNCwgMjAyMCA1OjQyIFBNDQo+ID4gPiBP
-biBUdWUsIEp1bCAxNCwgMjAyMCBhdCAxMDozMCBBTSBMYWQsIFByYWJoYWthcg0KPiA+ID4gPHBy
-YWJoYWthci5jc2VuZ2dAZ21haWwuY29tPiB3cm90ZToNCj4gPiA+ID4gT24gVHVlLCBKdWwgMTQs
-IDIwMjAgYXQgOTowOSBBTSBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3Jn
-PiB3cm90ZToNCj4gPiA+ID4gPiBPbiBNb24sIEp1bCAxMywgMjAyMCBhdCAxMTozNSBQTSBMYWQg
-UHJhYmhha2FyDQo+ID4gPiA+IEFsc28gdGhlIHJlY2VudCBwYXRjaCB0byBhZGQNCj4gPiA+ID4g
-InI4YTc3OTYxIiBqdXN0IGFkZHMgdG8gc29jX3JjYXJfZ2VuM193aGl0ZWxpc3QuDQo+ID4gPg0K
-PiA+ID4gT29wcywgY29tbWl0IDE3ZmUxNjE4MTYzOTgwMWIgKCJpb21tdS9yZW5lc2FzOiBBZGQg
-c3VwcG9ydCBmb3IgcjhhNzc5NjEiKQ0KPiA+ID4gZGlkIGl0IHdyb25nLCB0b28uDQo+ID4NCj4g
-PiBUaGFuayB5b3UgZm9yIHRoZSBwb2ludCBpdCBvdXQuIFdlIHNob3VsZCBhZGQgcjhhNzc5NjEg
-dG8gdGhlIHNvY19yY2FyX2dlbjNbXS4NCj4gPiBIb3dldmVyLCBJIGRvbid0IGtub3cgd2h5IEkg
-Y291bGQgbm90IHJlYWxpemUgdGhpcyBpc3N1ZS4uLg0KPiA+IFNvLCBJIGludmVzdGlnYXRlZCB0
-aGlzIGEgbGl0dGxlIGFuZCB0aGVuLCBJSVVDLCBnbG9iX21hdGNoKCkgd2hpY2gNCj4gPiBzb2Nf
-ZGV2aWNlX21hdGNoKCkgdXNlcyBzZWVtcyB0byByZXR1cm4gdHJ1ZSwgaWYgKnBhdCA9ICJyOGE3
-Nzk2IiBhbmQgKnN0ciA9ICJyOGE3Nzk2MSIuDQo+IA0KPiBBcmUgeW91IHN1cmUgYWJvdXQgdGhp
-cz8NCg0KSSdtIHZlcnkgc29ycnkuIEkgY29tcGxldGVseSBtaXN1bmRlcnN0b29kIHRoZSBnbG9i
-X21hdGNoKCkgYmVoYXZpb3IuDQpBbmQsIG5vdyBJIHVuZGVyc3Rvb2Qgd2h5IHRoZSBjdXJyZW50
-IGNvZGUgY2FuIHVzZSBJUE1NVSBvbiByOGE3Nzk2MS4uLg0KIyBTaW5jZSB0aGUgZmlyc3Qgc29j
-X2RldmljZV9tYXRjaCgpIHdpbGwgcmV0dXJuIGZhbHNlLCBpcG1tdV9zbGF2ZV93aGl0ZWxpc3Qo
-KQ0KIyB3aWxsIHJldHVybiB0cnVlIGFuZCB0aGVuIHRoZSBpcG1tdV9vZl94bGF0ZSgpIHdpbGwg
-YmUgc3VjY2VlZGVkLg0KDQo+IEkgZW5hYmxlZCBDT05GSUdfR0xPQl9TRUxGVEVTVCwgYW5kIGds
-b2J0ZXN0IHN1Y2NlZWRlZC4NCj4gSXQgZG9lcyB0ZXN0IGdsb2JfbWF0Y2goImEiLCAiYWEiKSwg
-d2hpY2ggaXMgYSBzaW1pbGFyIHRlc3QuDQo+IA0KPiBUbyBiZSAxMDAlIHN1cmUsIEkgYWRkZWQ6
-DQo+IA0KPiAtLS0gYS9saWIvZ2xvYnRlc3QuYw0KPiArKysgYi9saWIvZ2xvYnRlc3QuYw0KPiBA
-QCAtNTksNiArNTksNyBAQCBzdGF0aWMgY2hhciBjb25zdCBnbG9iX3Rlc3RzW10gX19pbml0Y29u
-c3QgPQ0KPiAgICAgICAgICIxIiAiYVwwIiAiYVwwIg0KPiAgICAgICAgICIwIiAiYVwwIiAiYlww
-Ig0KPiAgICAgICAgICIwIiAiYVwwIiAiYWFcMCINCj4gKyAgICAgICAiMCIgInI4YTc3OTZcMCIg
-InI4YTc3OTYxXDAiDQo+ICAgICAgICAgIjAiICJhXDAiICJcMCINCj4gICAgICAgICAiMSIgIlww
-IiAiXDAiDQo+ICAgICAgICAgIjAiICJcMCIgImFcMCINCj4gDQo+IGFuZCBpdCBzdGlsbCBzdWNj
-ZWVkZWQuDQoNCkknbSB2ZXJ5IHNvcnJ5IHRvIHdhc3RlIHlvdXIgdGltZSBhYm91dCB0aGlzLi4u
-DQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBTaGltb2RhDQoNCg==
+Hi Laurent,
+
+On Thu, Jul 16, 2020 at 04:53:23AM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> Thank you for the patch.
+>
+> On Wed, Jul 15, 2020 at 04:09:44PM +0200, Jacopo Mondi wrote:
+> > Convert the ov5640 bindings document to json-schema and update
+> > the MAINTAINERS file accordingly.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> > Hi Steve,
+> >   I've added myself as maintainer in the bindings, with your ack
+> > I would be happy to add myself as maintainer or reviewer for this driver
+> > in MAINTAINERS, as I've recently been looking after this driver, mostly
+> > for the MIPI CSI-2 interface part.
+> >
+> > Thanks
+> >   j
+> >
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+> >  .../devicetree/bindings/media/i2c/ov5640.yaml | 181 ++++++++++++++++++
+> >  MAINTAINERS                                   |   1 +
+> >  3 files changed, 182 insertions(+), 92 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.txt b/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> > deleted file mode 100644
+> > index c97c2f2da12d..000000000000
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.txt
+> > +++ /dev/null
+> > @@ -1,92 +0,0 @@
+> > -* Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> > -
+> > -Required Properties:
+> > -- compatible: should be "ovti,ov5640"
+> > -- clocks: reference to the xclk input clock.
+> > -- clock-names: should be "xclk".
+> > -- DOVDD-supply: Digital I/O voltage supply, 1.8 volts
+> > -- AVDD-supply: Analog voltage supply, 2.8 volts
+> > -- DVDD-supply: Digital core voltage supply, 1.5 volts
+> > -
+> > -Optional Properties:
+> > -- reset-gpios: reference to the GPIO connected to the reset pin, if any.
+> > -	       This is an active low signal to the OV5640.
+> > -- powerdown-gpios: reference to the GPIO connected to the powerdown pin,
+> > -		   if any. This is an active high signal to the OV5640.
+> > -- rotation: as defined in
+> > -	    Documentation/devicetree/bindings/media/video-interfaces.txt,
+> > -	    valid values are 0 (sensor mounted upright) and 180 (sensor
+> > -	    mounted upside down).
+> > -
+> > -The device node must contain one 'port' child node for its digital output
+> > -video port, in accordance with the video interface bindings defined in
+> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > -
+> > -OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> > -
+> > -Endpoint node required properties for CSI-2 connection are:
+> > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> > -- clock-lanes: should be set to <0> (clock lane on hardware lane 0)
+> > -- data-lanes: should be set to <1> or <1 2> (one or two CSI-2 lanes supported)
+> > -
+> > -Endpoint node required properties for parallel connection are:
+> > -- remote-endpoint: a phandle to the bus receiver's endpoint node.
+> > -- bus-width: shall be set to <8> for 8 bits parallel bus
+> > -	     or <10> for 10 bits parallel bus
+> > -- data-shift: shall be set to <2> for 8 bits parallel bus
+> > -	      (lines 9:2 are used) or <0> for 10 bits parallel bus
+> > -- hsync-active: active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> > -- vsync-active: active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> > -- pclk-sample: sample data on rising (1) or falling (0) edge of the pixel clock
+> > -	       signal.
+> > -
+> > -Examples:
+> > -
+> > -&i2c1 {
+> > -	ov5640: camera@3c {
+> > -		compatible = "ovti,ov5640";
+> > -		pinctrl-names = "default";
+> > -		pinctrl-0 = <&pinctrl_ov5640>;
+> > -		reg = <0x3c>;
+> > -		clocks = <&clks IMX6QDL_CLK_CKO>;
+> > -		clock-names = "xclk";
+> > -		DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > -		AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > -		DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > -		powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > -		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > -		rotation = <180>;
+> > -
+> > -		port {
+> > -			/* MIPI CSI-2 bus endpoint */
+> > -			ov5640_to_mipi_csi2: endpoint {
+> > -				remote-endpoint = <&mipi_csi2_from_ov5640>;
+> > -				clock-lanes = <0>;
+> > -				data-lanes = <1 2>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > -
+> > -&i2c1 {
+> > -	ov5640: camera@3c {
+> > -		compatible = "ovti,ov5640";
+> > -		pinctrl-names = "default";
+> > -		pinctrl-0 = <&pinctrl_ov5640>;
+> > -		reg = <0x3c>;
+> > -		clocks = <&clk_ext_camera>;
+> > -		clock-names = "xclk";
+> > -
+> > -		port {
+> > -			/* Parallel bus endpoint */
+> > -			ov5640_to_parallel: endpoint {
+> > -				remote-endpoint = <&parallel_from_ov5640>;
+> > -				bus-width = <8>;
+> > -				data-shift = <2>; /* lines 9:2 are used */
+> > -				hsync-active = <0>;
+> > -				vsync-active = <0>;
+> > -				pclk-sample = <1>;
+> > -			};
+> > -		};
+> > -	};
+> > -};
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > new file mode 100644
+> > index 000000000000..9c32262a3621
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > @@ -0,0 +1,181 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ov5640.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Omnivision OV5640 MIPI CSI-2 / parallel sensor
+> > +
+> > +maintainers:
+> > +  - Steve Longerbeam <slongerbeam@gmail.com>
+> > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > +
+> > +description: -|
+> > +  OV5640 is a 5 megapixels image sensor capable of producing images in RBG, RAW,
+>
+> s/OV5640/The OV5640/
+> s/RBG/RGB/
+>
+
+Ups, will fix
+
+> > +  YUV and compressed formats. It features a MIPI CSI-2 and a parallel data
+> > +  interface and an I2C-compatible (CCI) control interface.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov5640
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    description: Reference to the xclk input clock.
+>
+> I'd drop this, it's implied by the clock-names
+>
+> > +    maxItems: 1
+> > +
+> > +  clock-names:
+> > +    description: Should be "xclk".
+>
+> This should be replaced with
+>
+>    const: xclk
+>
+
+Ack for both
+
+> > +    maxItems: 1
+> > +
+> > +  DOVDD-supply:
+> > +    description: Digital I/O voltage supply, 1.8 volts.
+> > +    maxItems: 1
+> > +
+> > +  AVDD-supply:
+> > +    description: Analog voltage supply, 2.8 volts.
+> > +    maxItems: 1
+> > +
+> > +  DVDD-supply:
+> > +    description: Digital core voltage supply.
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    description: |
+> > +      Reference to the GPIO connected to the reset pin, if any. This is an
+> > +      active low signal to the OV5640.
+> > +    maxItems: 1
+> > +
+> > +  powerdown-gpios:
+> > +    description: |
+> > +      Reference tot he GPIO connected to the powerdown pin, if any. This is an
+> > +      active high signal to the OV5640.
+> > +    maxItems: 1
+> > +
+> > +  rotation:
+> > +    description: |
+> > +      As defined in Documentation/devicetree/bindings/media/video-interfaces.txt,
+> > +      valid values are 0 (sensor mounted upright) and 180 (sensor mounted upside
+> > +      down).
+>
+> The second sentence should be replaced with
+>   enum:
+>     - 0
+>     - 180
+>
+
+I copied this from the existing bindings, but I was a bit skeptical in
+first place. Support being limited to 0 and 180 only is a driver
+implementation constraint, there's nothing that prevents you from
+mounting the sensor 90deg rotated. Should the supported values be
+mentioned in the bindings at all for this property ?
+
+> > +
+> > +  port:
+> > +    type: object
+> > +    description: |
+> > +      The device node must contain one 'port' child node for its digital output
+> > +      video port, in accordance with the video interface bindings defined in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +
+> > +      OV5640 can be connected to a MIPI CSI-2 bus or a parallel bus endpoint.
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +        properties:
+> > +          remote-endpoint:
+> > +            description: A phandle to the bus receiver's endpoint node.
+> > +
+> > +          clock-lanes:
+> > +            description: Should be set to 0 (clock lane on hardware lane 0).
+>
+> The description of most of these properties should also be replaced with
+> yaml schema rules. Ideally there should also be constraints that tell
+> which properties can be specified together. For instance here's the
+> corresponding rules from the MT9M114 DT binding (not upstream yet).
+>
+>   # See ../video-interfaces.txt for more details
+>   port:
+>     type: object
+>     properties:
+>       endpoint:
+>         type: object
+>         properties:
+>           bus-type:
+>             enum: [4, 5, 6]
+
+               ^ this
+
+Initially I considered switching on the bus type to be able to use an
+if construct like you shown below. But that would make the property
+mandatory, something that would break old DTB. Now, I used the word
+"break" and not "break compatibility" as the driver would still
+support old DTB, as it does not enforce that property being specified.
+But it would make old DTS invalid from a dt-schema validation point of
+view. Do we care about maintaining old DTS valid with new schema ?
+
+>
+>           clock-lanes:
+>             items:
+>               - const: 0
+>
+>           data-lanes:
+>             items:
+>               - const: 1
+>
+>           bus-width:
+>             items:
+>               - const: 8
+>
+>           hsync-active:
+>             items:
+>               - const: 1
+>
+>           vsync-active:
+>             items:
+>               - const: 1
+>
+>         required:
+>           - bus-type
+>
+>         allOf:
+>           - if:
+>               properties:
+>                 bus-type:
+>                   const: 4
+>             then:
+>               properties:
+>                 bus-width: false
+>                 hsync-active: false
+>                 vsync-active: false
+>
+>           - if:
+>               properties:
+>                 bus-type:
+>                   const: 5
+>             then:
+>               properties:
+>                 clock-lanes: false
+>                 data-lanes: false
+>
+>           - if:
+>               properties:
+>                 bus-type:
+>                   const: 6
+>             then:
+>               properties:
+>                 clock-lanes: false
+>                 data-lanes: false
+>                 hsync-active: false
+>                 vsync-active: false
+>
+>         unevaluatedProperties: false
+>
+> These comments apply to other patches in this series.
+>
+> > +
+> > +          data-lanes:
+> > +            description: |
+> > +              Should be set to <1> or <1 2> (one or two CSI-2 lanes supported).
+> > +
+> > +          bus-width:
+> > +            description: |
+> > +              Shall be set to <8> for 8 bits parallel bus or <10> for 10 bits
+> > +              parallel bus.
+> > +
+> > +          data-shift:
+> > +            description: |
+> > +              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> > +              <0> for 10 bits parallel bus.
+
+All of these 'supported values' should be expressed with a schema, I agree.
+
+Thanks
+  j
+
+> > +
+> > +          hsync-active:
+> > +            description: |
+> > +              Active state of the HSYNC signal, 0/1 for LOW/HIGH respectively.
+> > +
+> > +          vsync-active:
+> > +            description: |
+> > +              Active state of the VSYNC signal, 0/1 for LOW/HIGH respectively.
+> > +
+> > +          pclk-sample:
+> > +            description: |
+> > +              Sample data on rising (1) or falling (0) edge of the pixel clock
+> > +              signal.
+> > +
+> > +        required:
+> > +          - remote-endpoint
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - DOVDD-supply
+> > +  - AVDD-supply
+> > +  - DVDD-supply
+> > +  - port
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> > +
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        camera@3c {
+> > +            compatible = "ovti,ov5640";
+> > +            reg = <0x3c>;
+> > +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> > +            clock-names = "xclk";
+> > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > +            rotation = <180>;
+> > +
+> > +            port {
+> > +                ov5640_to_mipi_csi2: endpoint {
+> > +                    remote-endpoint = <&mipi_csi2_from_ov5640>;
+> > +                    clock-lanes = <0>;
+> > +                    data-lanes = <1 2>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +    i2c1 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        camera@3c {
+> > +            compatible = "ovti,ov5640";
+> > +            reg = <0x3c>;
+> > +            clocks = <&clks IMX6QDL_CLK_CKO>;
+> > +            clock-names = "xclk";
+> > +            DOVDD-supply = <&vgen4_reg>; /* 1.8v */
+> > +            AVDD-supply = <&vgen3_reg>;  /* 2.8v */
+> > +            DVDD-supply = <&vgen2_reg>;  /* 1.5v */
+> > +            powerdown-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+> > +            reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
+> > +            rotation = <180>;
+> > +
+> > +            port {
+> > +                ov5640_to_parallel: endpoint {
+> > +                    remote-endpoint = <&parallel_from_ov5640>;
+> > +                    bus-width = <8>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c74d25c58e1a..0160d7567ed3 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -12605,6 +12605,7 @@ L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  T:	git git://linuxtv.org/media_tree.git
+> >  F:	drivers/media/i2c/ov5640.c
+> > +F:	Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> >
+> >  OMNIVISION OV5647 SENSOR DRIVER
+> >  M:	Jacopo Mondi <jacopo@jmondi.org>
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
