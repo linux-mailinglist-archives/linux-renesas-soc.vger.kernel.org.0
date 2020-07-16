@@ -2,93 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B84182225D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 16:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E49292225FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jul 2020 16:40:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728688AbgGPOiE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 10:38:04 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44979 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728182AbgGPOiC (ORCPT
+        id S1728345AbgGPOkp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jul 2020 10:40:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56860 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728237AbgGPOkp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 10:38:02 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 5so4323541oty.11;
-        Thu, 16 Jul 2020 07:38:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cFt6Ih4dR+9bhvF4Z3Iyf+2RottXHRxHsSc8BPG3n+E=;
-        b=ICQpLaNGHYXZ6OwEY0O4U1XxZ9MZ+dYPwjco8/MOdtYg/sEmEkq4I5GDmgaGYfbdri
-         sldOgwedtQa3K6GvcQi8jWncsUNtPyupuzoYiocgbT8+zFJua4ox7zx1uZut1S7sHgD5
-         yA8K2g6iz9J8nercYJPdP8VF1vBtUswIwTlZt0Oh+PmR5TRcou1vi0EuQKv1MpH7Ss1W
-         +FVs5TPCkjOPfS6wCw0Q1jhBabdRDvvNIn6zKRW/Bd0QEBSFW1IBvnxIKAtqus+lKKmE
-         9Ze+HwmXyKiQWUHTJDW9JuqvkhE9UntCQowy18A8ttsHSC5hZSgiURf3vBOKwJmeWnil
-         +UZg==
-X-Gm-Message-State: AOAM531aXd/VvTXk0N53XkA5QO9OzW3G/BMzdH5XMyhNuKNSc+YhfSLT
-        I3qqWjM4lq7LzWaI7z+m85ssH84FZbHGhICfxt8=
-X-Google-Smtp-Source: ABdhPJwkPkeL5c/hqJtoC1wZ2AAYrBSLb4X8g8cBn+I7fUNaNR8wo2Ics7CsuC8wJT1X2HzPdN2+2dOWg7q7F3mH9cc=
-X-Received: by 2002:a9d:2646:: with SMTP id a64mr4463700otb.107.1594910281539;
- Thu, 16 Jul 2020 07:38:01 -0700 (PDT)
+        Thu, 16 Jul 2020 10:40:45 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594910445;
+        bh=p/5MheqAR1e5KRzYVePypjOzvbUgBvsKXzYrU26uXKU=;
+        h=Subject:From:Date:To:From;
+        b=2jSqwHvQDTth65XDDzDwRWfMQYzMsninlbgAcuUPCe3RD/EN9htTu6GHMXtr6MJaX
+         W5a0ZH+3VNpSc8+RcZO5sDTHyaxHJ3V822C05RVTpG6+WTX+0Mk8VjInLWRq5dumVt
+         Frr2G268QsZrZNfbyPhTPraah8r1zsy9jBkU5YQg=
 MIME-Version: 1.0
-References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594811350-14066-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594811350-14066-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 Jul 2020 16:37:50 +0200
-Message-ID: <CAMuHMdX3F0He8gxUpF3Z+wTUqX2hBzs+0RRgL1Wzyn-gfzTyDg@mail.gmail.com>
-Subject: Re: [PATCH 03/20] thermal: rcar_gen3_thermal: Add r8a774e1 support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-can@vger.kernel.org,
-        netdev <netdev@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159491044515.5815.129337417536378371.git-patchwork-housekeeping@kernel.org>
+Date:   Thu, 16 Jul 2020 14:40:45 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 1:09 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
->
-> Add r8a774e1 specific compatible string.
->
-> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Latest series: [v7] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-07-16T14:27:03)
+  Superseding: [v6] v4l2-subdev: Introduce [g|s]et_mbus_format pad op (2020-07-14T13:58:03):
+    [v6,1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+    [v6,2/9] media: i2c: Use the new get_mbus_config pad op
+    [v6,3/9] media: i2c: ov6650: Use new [get|set]_mbus_config ops
+    [v6,4/9] media: pxa_camera: Use the new set_mbus_config op
+    [v6,5/9] media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+    [v6,6/9] staging: media: imx: Update TODO entry
+    [v6,7/9] media: i2c: adv748x: Adjust TXA data lanes number
+    [v6,8/9] media: i2c: adv748x: Implement get_mbus_config
+    [v6,9/9] media: rcar-csi2: Negotiate data lanes number
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
