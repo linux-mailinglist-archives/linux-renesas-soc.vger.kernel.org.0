@@ -2,175 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8885622369C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 10:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2302236C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 10:17:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbgGQIJg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 04:09:36 -0400
-Received: from mail-eopbgr1400139.outbound.protection.outlook.com ([40.107.140.139]:19920
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S1726198AbgGQIRN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 04:17:13 -0400
+Received: from mail-eopbgr1320131.outbound.protection.outlook.com ([40.107.132.131]:39520
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726113AbgGQIJf (ORCPT
+        id S1726113AbgGQIRM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:09:35 -0400
+        Fri, 17 Jul 2020 04:17:12 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L6xwS8m4mE2I4b6HOaAx3lWCWsNjkDuUOitaDtSAfi9wrINavLQl3BN63FwKoIx/kFDghBbs4cutYWybBmvw6j41RjgRy0T6EiFNI9kFj9NXN67hlNWtzadMqJj9prTJDGSY14cCBNmZ+MoQhPyhnuBGBI2CKSTAvDElVMCv7/XXAP7n8uGHY7K7sse4DyxGtL2wK0XQCT88qdCfekwAvcrBtprvIyKiOxUzJxJmcfcZKnJdMsJNB3YXxy1mrMuOhXoBuqlcIJjEElqxe+CwOQrejdOr59u6N2qKO8WaMKVdDqSSgH54rSN+TAKSoV9sdj+gxcv54p8kYM2utxzOEg==
+ b=UKawKwPLRgc0VcMdN7xP7EZxu93CZJ+j6FPS6NMOwUzCnwCXVHLR4nOgt3veqV1A/Du+3iEyYfKAaGUpjUe8OxbTa6kc1vBXyeXIYUR4FKEm4tjUBB8053QaNuCFquCBXpvb5IWVbcMjo/Tyz34E/I5D4O86I754zySBNFVrO+PeIvNk1ZY/1sbbBHULX9zrNi6FOem1kkNqSBOj2Bjhm8hKkNltAoP82OnOiDADxVmK9houIhRes/ZQyL0g2srjhRntROPWYYGoYye21dWQTEKzqIb1AQ6ulWWvcpbyG5hJLGMNHyZXxm/3TaNE+UAotLVLg3XX8eQm1pIzsDUCNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHOHNhjKmoE0XibRU22aTnlev4k9xaN0xwTyNRUrpkM=;
- b=MK4EIvJSXsOMh6M4D/56M0Cup6uqbGWm2mW6WvzAMShDkJBg9ktwXz3TREtcymWFBaE+p7oSN+7CoO4EgaQtgrYrWE+FQf1sCEsVwLRlNPa0SMhSCc1c2PYm8WiN1TAnO2V5rVvLMFtY8fNa6WqLUEyOrwgkJ1r/Wk+abV2TEuwvo3Ky3UhkrJVELuyajSAX3m1jtfb9Tjc/vSgyyaYhciATrChbACLzVHhEWYyvreafZqz6EmoXC1mhyG6Y9MEfcuSARXtPeRBXaPd5FABhFlxFfpBPHHBnQOd1l5eODos6cqHznhY/X6zkVx9aOk+ZvPnw/vWjJY+EfH7iSSMgDA==
+ bh=rxKnUdS11KO50qExARLZzyc2eWRKJvikdYHYspMAEhg=;
+ b=Ze5UlERNk7JJ5pqWjLCbAk2Xi14lniDNk9gwYP2Ju1RF8mGa9cTD1odKsPoAY7pz6/Z729ZPiBDwRsK2zpgOSbCBZnkSch5l3s2ZATKH+Lc8dsv86W4FkLje3qV0WJUSsq4QtSDSnUsrE3SfiUAB/fL3EqCFiNIC/uYh4btqlSrtEYRY0Xs67t/N1uTlzGUvViFIIkuzHjxPE4jp19vB76UsZeRDR7yJ/7/Y4JiU2+UlpxziP5ufNs9DjWFuWDpPhX5uFc2pZU29WHfp0tP92LlNWgcfC3lm5ksK1ZHc2SwDxh7Vt18nbnJ0kboXMlon/EMO2Y8afIVUx7IH21GILw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHOHNhjKmoE0XibRU22aTnlev4k9xaN0xwTyNRUrpkM=;
- b=PLzdD4SE2M9EQoJ2IpRLtaNmaO3HkuNN0pBPupnios6zA27b00XKgz+JZ3xX4mZujvO01B1xv0Upti29tOQGfWI70GTGKYBFKwog6tgUhSuG64yhsv1Q1sOr0wu7tKgFIBfhAfs6fX6OOrPFqQhrPJTwP+osOPptO7sY9RHQftI=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TYAPR01MB4687.jpnprd01.prod.outlook.com
- (2603:1096:404:125::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3195.18; Fri, 17 Jul
- 2020 08:09:31 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::590e:ebc:1f09:f160]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::590e:ebc:1f09:f160%7]) with mapi id 15.20.3174.026; Fri, 17 Jul 2020
- 08:09:31 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Prashant Malani <pmalani@chromium.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thierry Reding <treding@nvidia.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ bh=rxKnUdS11KO50qExARLZzyc2eWRKJvikdYHYspMAEhg=;
+ b=S1zFrmQY/+WK++XU6oNHdI+PIvIrK1TiwkBLhrPV5isxTVwWQLDazi/6Bb1ApXlQZ8WUsO7QCkLK0SncNjvUuinBosmUeD7qdQwWan6QoyZrrWoIq1XHvshkGrvP6Y4tr3TMMFHLki1AhCRepB5fmLOPiImez/oHriBqhtR3EVE=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB3515.jpnprd01.prod.outlook.com (2603:1096:404:d6::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Fri, 17 Jul
+ 2020 08:17:08 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3195.022; Fri, 17 Jul 2020
+ 08:17:08 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Vinod Koul <vkoul@kernel.org>
+CC:     "kishon@ti.com" <kishon@ti.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: update usb-c-connector required property
-Thread-Topic: [PATCH 1/2] dt-bindings: update usb-c-connector required
- property
-Thread-Index: AQHWXA1B01B9KGsloUa+j9zNs/1Vr6kLZwAAgAACdYA=
-Date:   Fri, 17 Jul 2020 08:09:31 +0000
-Message-ID: <TYBPR01MB5309AED7152585BD238DD013867C0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <1594971274-48027-1-git-send-email-biju.das.jz@bp.renesas.com>
- <20200717075452.GD68629@google.com>
-In-Reply-To: <20200717075452.GD68629@google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] phy: renesas: rcar-gen3-usb2: fix SError happen if
+ DEBUG_SHIRQ is enabled
+Thread-Topic: [PATCH v2] phy: renesas: rcar-gen3-usb2: fix SError happen if
+ DEBUG_SHIRQ is enabled
+Thread-Index: AQHWWQ7GOkHjdBkHXUKqmcxt6gxgg6kLV8YAgAAQtGA=
+Date:   Fri, 17 Jul 2020 08:16:47 +0000
+Message-ID: <TY2PR01MB3692ED71A574F16848CD48ECD87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1594642288-9986-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200717063856.GH82923@vkoul-mobl>
+In-Reply-To: <20200717063856.GH82923@vkoul-mobl>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [193.141.220.21]
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: af2b836b-0e0a-4d07-ea13-08d82a28bbec
-x-ms-traffictypediagnostic: TYAPR01MB4687:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB46877720D92644225E829A26867C0@TYAPR01MB4687.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-office365-filtering-correlation-id: 071cfc3d-47a6-42c7-be18-08d82a29cc8c
+x-ms-traffictypediagnostic: TY2PR01MB3515:
+x-microsoft-antispam-prvs: <TY2PR01MB3515523EF3F99CEEF746EE1AD87C0@TY2PR01MB3515.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qmA/lOByk3xyMqiC6S8nm4u+gEPVeYZx59/H2haFEr/zPM9zTFoD7cDA1aXRjWAVk/oKOzdlEkhErgHe+E+WoVUg6zOqUd+XdnUQtjI6j725Em0T/Zp/NvB3RhcIZypVWFEtLKX60um3hsZYgOSPAn2jh2DRrESjCxtb/giIVYsYkBBje8jENgVtDy1bt0dc8ggZBfCX24JHppZIecw1yvm20sbvM6RxQuofjE6A2BVpQYX4jt44ezww6hx5J3YxdXHxSUy4nd1bRGsaw1b01Hp+i+M9uLEJG6ulJdtGwY3aX2QugC0AFNYDvp1B+zKGNokYdqAmdfHhH+f7U+mS9X6oF8UkZ4V2Qua1oFuUYzPNVlCnBkbv8xc1YDyCqxlW//0K0iu8GTDYVI9pUNUfdQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(136003)(39860400002)(376002)(366004)(396003)(86362001)(8936002)(55016002)(83380400001)(478600001)(5660300002)(4326008)(33656002)(2906002)(15650500001)(7696005)(7416002)(6506007)(76116006)(52536014)(966005)(66476007)(9686003)(66946007)(186003)(26005)(54906003)(316002)(6916009)(66556008)(8676002)(71200400001)(66446008)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: da8xi5HpRtjaAzOk+bOUUqfVXRuYU5IOeGcpZ56OqY2ciSmIFMQoDMwBkbuVauw53AiuzSHSGd/Ai5MLFRQfwJOcvkcRMZqU3bFukvWbbBy0f4QgX0Q3BqgCPQIt+5atB5I4KtoOY7qX7CKvWhr7kvaD0yAnmCOXQvKKh+qSJIyXNM5E7Mm+lODewnrC9cYUCeYMfN0OwVqucJc/qn9Yb/QdsOOK5AjS3S1XP9ib1nS83jb+ZIK2O4yPRHjcJvkHdeL3KwMQgKbB+t/6T4qzvYJkEV4URom+sMMONoBBzjF05gP7tOS4aRMIND+Uf1TVEt3zCX5laZzaOjWn/baq8HRPYVzkwlOxM460TX717CGjOyNAP2BHmA04c17dXACdL4Xn1jQQeu+YYAiNuKAg6aDA/Eo7ryL+u/f9zuP3fVo4jY4SR8yDEMvOKNvOYJxncfGESf4Tsgvoo79MTfTyexqkeMj1cVpP/8q1/9bk0ANzW5K1Fz7gDytMmi3dE0SY
+x-microsoft-antispam-message-info: PspqvqtpZx9ZsNrXZpFMIBPzT4Bnc0/jHpOr+i6pIYCHMmB2mCwzKJ5gEzv5IjOc1te43jpvGgLOn2GGA2X7ZEKyEPMadA3ehvYUztiK8orzK8o3v5B0lqr+FGYZzG1VLQvmc9VG35j/xxuzOsKV80lKBBVwrA1R8rKvdgxSDTumqnjSEIY8YsRxlAL9+tyZG0Oj/X6pVvki8vcQIopmA6pemk6V9IhCtyDe9rddVl3vRZPvPhp0nsAbrqGXU/U+Z8WDOYcdozCGWc2bCSCI7u6nQVrqiak/eYbJqx+43UpIvFFM7a/PbCe6yXmVBx2ankzZmYU1Fk+ME8UxKN1eeQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(366004)(376002)(346002)(136003)(39860400002)(54906003)(6506007)(71200400001)(53546011)(186003)(55236004)(26005)(7696005)(66556008)(55016002)(66946007)(66446008)(64756008)(6916009)(66476007)(86362001)(52536014)(9686003)(76116006)(33656002)(478600001)(5660300002)(2906002)(6666004)(8676002)(8936002)(4326008)(83380400001)(316002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: d92N1XtgHvqWS+5JZni+wtU5tm2EkRiUXJJ1Ogl2JPIrCdwo8FWKIE6AkHhEtClgIW2t+OtzAZ5ry6RTf/Yc9ypvIFMqTZDPKS85pA3ppcyfudmEot6PFim3t6I3dHURnd/jpe6/DQnsRbXC0UXtWI9UBpMzfHOYCxzZWhUoxLEgIVhnXVVeUHQ5WgyUVL/CdS3+CMyqQimBUfihg580R1zUvujnT0BnlnmQBu8EIzo0BzC8Hl6uQxZVrChBqIxygXDoQRGs+gsiu3LG9454PS/BaiX/VyRZmnIQwWGoUxuwD49qj8aCoEPFdLULy1D9q/YcHCrxnpOowxN00GkNI1daIwp6gZRQ3nSCNIGSL9tM0CZI2eqhPaSXGhDatvSZKP+jtN6oHRB6Z5xahkyx3GtwwaL0FhchQ1+YfN0OZuiUb+p7mLkJxn+Ay8Is/a96pemNmlAUHlw50pRd5HK6Bw1FUUrVne13rGHMFLYJZ/KNBkirIGYLBomFTr+KWtbA
+x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
+X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af2b836b-0e0a-4d07-ea13-08d82a28bbec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2020 08:09:31.1107
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 071cfc3d-47a6-42c7-be18-08d82a29cc8c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2020 08:16:47.4567
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SE29drQGrXv8gZhWLW8Z3BDeEqhIgKUJPkX5kPtpDObuWmyaKRjAYCSnLU8AmZ0VflHJabUxHReNnXGQ79w0PqgAPYO+U89PBx9xxtsyW9E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4687
+X-MS-Exchange-CrossTenant-userprincipalname: kb4Y0+Rh8bmo50iZkSWJJ/VobPYukwvJ3sNAjKm911oFNrIDk6thFD63ejgtGOdXJg/p+g2lT3Sxj3HblYbJ8sFBV680BfN9Pdtg51YCGtozJ5oSqxnEZSzC5cKl7M88
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3515
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prashant,
+Hello Vinod,
 
-Thanks for the feedback.
+> From: Vinod Koul, Sent: Friday, July 17, 2020 3:39 PM
+>=20
+> hello Yoshihiro,
+>=20
+> On 13-07-20, 21:11, Yoshihiro Shimoda wrote:
+>=20
+> Please consider revising patch subject. It tell me you are fixing an
+> error but it doesnt tell me what this patch is about :)
+>=20
+> Perhpas :move irq registration to init" maybe a better title which
+> describes the changes this patch brings in
 
-> On Fri, Jul 17, 2020 at 08:34:33AM +0100, Biju Das wrote:
-> > Some boards have a single SS capable connector. Update usb-c-connector
-> > bindings to list port@1 as at least one of the required property.
+Thank you for your suggestion! I also think your suggestion is better.
+So, I will fix it.
+
+<snip>
+> > @@ -389,12 +390,39 @@ static void rcar_gen3_init_otg(struct rcar_gen3_c=
+han *ch)
+> >  	rcar_gen3_device_recognition(ch);
+> >  }
 > >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>
-> > ---
-> >  Ref: https://patchwork.kernel.org/patch/11129567/
-> > ---
-> >  Documentation/devicetree/bindings/connector/usb-connector.yaml | 7
-> > +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > index 9bd52e6..41e0685 100644
-> > --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > +++ b/Documentation/devicetree/bindings/connector/usb-
-> connector.yaml
-> > @@ -139,8 +139,11 @@ properties:
-> >          description: Sideband Use (SBU), present in USB-C. This descri=
-bes the
-> >            alternate mode connection of which SBU is a part.
-> >
-> > -    required:
-> > -      - port@0
-> > +    anyOf:
-> > +      - required:
-> > +        - port@0
-> > +      - required:
-> > +        - port@1
->
-> So the connector[1] doesn't have any High Speed (D+/D-) lanes? Those are
-> supposed to be present on all Type C connectors.
+> > +static irqreturn_t rcar_gen3_phy_usb2_irq(int irq, void *_ch)
+> > +{
+> > +	struct rcar_gen3_chan *ch =3D _ch;
+> > +	void __iomem *usb2_base =3D ch->base;
+> > +	u32 status =3D readl(usb2_base + USB2_OBINTSTA);
+> > +	irqreturn_t ret =3D IRQ_NONE;
+> > +
+> > +	if (status & USB2_OBINT_BITS) {
+> > +		dev_vdbg(ch->dev, "%s: %08x\n", __func__, status);
+> > +		writel(USB2_OBINT_BITS, usb2_base + USB2_OBINTSTA);
+> > +		rcar_gen3_device_recognition(ch);
+> > +		ret =3D IRQ_HANDLED;
+> > +	}
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int rcar_gen3_phy_usb2_init(struct phy *p)
+> >  {
+> >  	struct rcar_gen3_phy *rphy =3D phy_get_drvdata(p);
+> >  	struct rcar_gen3_chan *channel =3D rphy->ch;
+> >  	void __iomem *usb2_base =3D channel->base;
+> >  	u32 val;
+> > +	int ret;
+> > +
+> > +	if (!rcar_gen3_is_any_rphy_initialized(channel) && channel->irq >=3D =
+0) {
+> > +		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
+> > +		ret =3D request_irq(channel->irq, rcar_gen3_phy_usb2_irq,
+> > +				  IRQF_SHARED, dev_name(channel->dev), channel);
+> > +		if (ret < 0)
+> > +			dev_err(channel->dev, "No irq handler (%d)\n",
+> > +				channel->irq);
+>=20
+> This could be in a single line :)
 
-Yes , USB-TypeC connector has  USB3HS0_DP and USB3HS0_DM signals apart from=
- USB3S0_CLK_P, USB3S0_CLK_M,USB3S0_RX_P,USB3S0_RX_M,USB3S0_TX_P,USB3S0_TX_M=
-,
-USB3HS0_DP,USB3HS0_DM, USB30_PWEN and USB30_OVC.
+Yes. We could be 80 over characters in a line now :)
+I'll fix it.
 
-But the Connector is a SS Capable connector which supports UFP/DFP and DRP.
+> Should we continue on error here?
 
-Cheers,
-Biju
+Hmm, maybe it's better if the request_irq() failed because
+it can avoid unexpected behaviors. But, original code continued on error.
+In this case, should I make a separated incremental patch to exit on error?
 
-> [1] : https://patchwork.kernel.org/patch/11129567/
->
-> Regards,
->
-> -Prashant
-> >
-> >  required:
-> >    - compatible
-> > --
-> > 2.7.4
-> >
+Best regards,
+Yoshihiro Shimoda
 
-
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
-, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
-40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
-f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
-EE reg. no.: DE 14978647
