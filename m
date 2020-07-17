@@ -2,159 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E736223F0C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 17:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC735223FC2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 17:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbgGQPCo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 11:02:44 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:34851 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726401AbgGQPCn (ORCPT
+        id S1727953AbgGQPkD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 11:40:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58844 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726256AbgGQPkC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 11:02:43 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 21AD3C000F;
-        Fri, 17 Jul 2020 15:02:32 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 17:06:05 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        hien.dang.eb@renesas.com, michael.klein@renesas.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
-        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        michael.dege@renesas.com, gotthard.voellmeke@renesas.com,
-        efriedrich@de.adit-jv.com, mrodin@de.adit-jv.com,
-        ChaitanyaKumar.Borah@in.bosch.com,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20200717150605.e46btmozsbavmfdd@uno.localdomain>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20200527071555.GA23912@lxhi-065.adit-jv.com>
- <20200605132900.on527xcggg6f6pil@uno.localdomain>
- <20200605134124.GA28734@lxhi-065.adit-jv.com>
- <20200605135315.xlph44pl7kvmt23a@uno.localdomain>
- <20200607024158.GD7339@pendragon.ideasonboard.com>
- <20200608094432.GA27063@lxhi-065.adit-jv.com>
- <20200612151209.xdaqimvpq7ysvu2q@uno.localdomain>
- <20200615141723.GA22692@lxhi-065.adit-jv.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200615141723.GA22692@lxhi-065.adit-jv.com>
+        Fri, 17 Jul 2020 11:40:02 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D94742076A;
+        Fri, 17 Jul 2020 15:40:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595000401;
+        bh=oUWXy3XEEdACj4VXB3S0A8gloCT8UAGtaaANZlTOhcY=;
+        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+        b=egmxPzhCJaO5Pklo2wFUgCisrdBaL7j2ncVrgoys66Ov9LXhgVzxXGFqIlODz/BYm
+         SBeDYsmknwq4gkwP74D2/j5goaQrPlJbtdJY2ErVv8nPqEDRjP6D+aAJZpnM8njnoZ
+         FRAkq9i/JLIztXRgN6hLt6p5JYwLKxyZ+Mt0PWp4=
+Date:   Fri, 17 Jul 2020 16:39:50 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-pci@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-ide@vger.kernel.org
+In-Reply-To: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 00/20] Add support for SATA/PCIe/USB2[3]/VIN/CSI on R8A774E1
+Message-Id: <159500037996.27597.9512992990495217445.b4-ty@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Eugeniu,
+On Thu, 16 Jul 2020 18:18:15 +0100, Lad Prabhakar wrote:
+> This patch series adds support for the following peripherals on RZ/G2H SoC
+>  * PCIe
+>  * SATA
+>  * USB2
+>  * USB3
+>  * Audio
+>  * VIN
+>  * CSI
+> 
+> [...]
 
-On Mon, Jun 15, 2020 at 04:17:23PM +0200, Eugeniu Rosca wrote:
-> Hi Jacopo,
->
-> On Fri, Jun 12, 2020 at 05:12:09PM +0200, Jacopo Mondi wrote:
-> > On Mon, Jun 08, 2020 at 11:44:32AM +0200, Eugeniu Rosca wrote:
-> > > FWIW, I seem to hit pre-existing issues in vanilla rcar-du,
-> > > while unplugging HDMI cable during a cyclic suspend-resume:
-> > >
-> > > HW: H3 ES2.0 Salvator-X
-> > > SW: renesas-drivers-2020-06-02-v5.7
-> > > .config: renesas_defconfig +CONFIG_PM_DEBUG +CONFIG_PM_ADVANCED_DEBUG
-> > > Use-case:
-> > >
-> > >   --------8<---------
-> > > $ cat s2ram.sh
-> > > modprobe i2c-dev
-> > > echo 9 > /proc/sys/kernel/printk
-> > > i2cset -f -y 7 0x30 0x20 0x0F
-> >
-> > According to
-> > https://elinux.org/R-Car/Boards/Salvator-X#Suspend-to-RAM
-> > this is not needed anymore
->
-> Good to know. Thanks for the useful remark.
->
-> > > echo 0 > /sys/module/suspend/parameters/pm_test_delay
-> > > echo core  > /sys/power/pm_test
-> > > echo deep > /sys/power/mem_sleep
-> > > echo 1 > /sys/power/pm_debug_messages
-> > > echo 0 > /sys/power/pm_print_times
-> > > echo mem > /sys/power/state
-> > >
-> > > $ while true; do sh s2ram.sh ; done
-> > > $ # unplug HDMI cable several times
-> >
-> > I tried unplugging an plugging the cable while the system was
-> > suspended and after resume but I was not able to reproduce anything.
->
-> Your comment sounds like you suspended the system once and resumed it
-> afterwards, while my description mentions "cyclic" :), meaning:
->
-> $ while true; do sh s2ram.sh; done
-> $ # connect-disconnect the hdmi display a couple of times
-> $ # NOTE: to avoid this manual step, I am thinking of a USB-controlled
->     HDMI switcher long-term
->
-> >
-> > Could you provide more precise instructions on how to reproduce this ?
-> > I.e. when to disconnect the cable to trigger the below error.
->
-> See above :)
->
-> BTW, using renesas-drivers-2020-06-02-v5.7 as base and performing the
-> use-case just described, I got today (with minimal effort):
->
-> [  459.321733] Enabling non-boot CPUs ...
-> [  459.331132] Detected PIPT I-cache on CPU1
-> [  459.331189] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
-> [  459.332312] CPU1 is up
-> [  459.345635] Detected PIPT I-cache on CPU2
-> [  459.345671] CPU2: Booted secondary processor 0x0000000002 [0x411fd073]
-> [  459.346624] CPU2 is up
-> [  459.359912] Detected PIPT I-cache on CPU3
-> [  459.359942] CPU3: Booted secondary processor 0x0000000003 [0x411fd073]
-> [  459.360918] CPU3 is up
-> [  459.374183] Detected VIPT I-cache on CPU4
-> [  459.374252] CPU4: Booted secondary processor 0x0000000100 [0x410fd034]
-> [  459.375875] cpufreq: cpufreq_online: CPU4: Running at unlisted freq: 1199999 KHz
-> [  459.394204] cpufreq: cpufreq_online: CPU4: Unlisted initial frequency changed to: 1200000 KHz
-> [  459.403879] CPU4 is up
-> [  459.406469] Detected VIPT I-cache on CPU5
-> [  459.406519] CPU5: Booted secondary processor 0x0000000101 [0x410fd034]
-> [  459.408520] CPU5 is up
-> [  459.421762] Detected VIPT I-cache on CPU6
-> [  459.421810] CPU6: Booted secondary processor 0x0000000102 [0x410fd034]
-> [  459.423831] CPU6 is up
-> [  459.437114] Detected VIPT I-cache on CPU7
-> [  459.437164] CPU7: Booted secondary processor 0x0000000103 [0x410fd034]
-> [  459.439258] CPU7 is up
-> [  459.456217] PM: noirq resume of devices complete after 3.878 msecs
-> [  459.471529] PM: early resume of devices complete after 8.590 msecs
-> [  469.726906] [drm:drm_atomic_helper_wait_for_dependencies] *ERROR* [CRTC:76:crtc-3] flip_done timed out
+Applied to
 
-I've been able to reproduce this same issue, but I see that errors in
-drm_atomic_helper_wait_for_dependencies always follow a first failure
-in drm_atomic_helper_wait_for_flip_done
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Looking at the log what I see is that
-[  160.488762] PM: late suspend of devices complete after 10.509 msecs
-[  171.235584] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:75:crtc-1] flip_done timed out
+Thanks!
 
-The 10 second elapsed there matches the timout in
-drm_atomic_helper_wait_for_flip_done and it seems the issue is related
-to the first atomic commit after resume not being able to succesfully
-receive a flip_done event, possibly as the HDMI connector has been
-disconnected while the system was suspending or suspended and the DRM
-state was not updated.
+[1/1] dt-bindings: sound: renesas, rsnd: Document r8a774e1 bindings
+      commit: 92e37407811b98a7eb54eb6a6b3d65847a46e0e6
 
-Can you confirm you see the same failure sequence ?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Thanks
-  j
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
