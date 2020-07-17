@@ -2,91 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DD42239DE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 12:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FAC22239E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 12:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbgGQK6p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 06:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39746 "EHLO
+        id S1726198AbgGQK6q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 06:58:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbgGQK6p (ORCPT
+        with ESMTP id S1725950AbgGQK6p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 17 Jul 2020 06:58:45 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8DFAC08C5CE
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5ACC061755
         for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 03:58:44 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id 4Ayg2300G4C55Sk01AygMx; Fri, 17 Jul 2020 12:58:41 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id 4Ayg2300f4C55Sk06AygVh; Fri, 17 Jul 2020 12:58:40 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jwO4e-0001Kd-JZ; Fri, 17 Jul 2020 12:58:40 +0200
+        id 1jwO4e-0001Kd-Gk; Fri, 17 Jul 2020 12:58:40 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jwNFA-00041e-L9; Fri, 17 Jul 2020 12:05:28 +0200
+        id 1jwNJ8-00048y-St; Fri, 17 Jul 2020 12:09:34 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] Renesas fixes for v5.8
-Date:   Fri, 17 Jul 2020 12:05:23 +0200
-Message-Id: <20200717100523.15418-1-geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v5.9 (take two)
+Date:   Fri, 17 Jul 2020 12:09:31 +0200
+Message-Id: <20200717100931.15885-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi arm-soc folks,
+	Hi Mike, Stephen,
 
-The following changes since commit b3a9e3b9622ae10064826dccb4f7a52bd88c7407:
+The following changes since commit 52bc5ea6edde35bc65ed6ecd7639534e78002c74:
 
-  Linux 5.8-rc1 (2020-06-14 12:45:04 -0700)
+  clk: renesas: rzg2: Mark RWDT clocks as critical (2020-06-22 16:54:32 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v5.8-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.9-tag2
 
-for you to fetch changes up to fecc5cfcd55f7aacc483726c405a951bd6aaaf2e:
+for you to fetch changes up to c8a53fa1d211936ddcabf82ff991c18672b3d63a:
 
-  arm64: defconfig: Enable CONFIG_PCIE_RCAR_HOST (2020-07-13 10:45:50 +0200)
+  clk: renesas: cpg-mssr: Add r8a774e1 support (2020-07-13 10:36:33 +0200)
 
 ----------------------------------------------------------------
-Renesas fixes for v5.8
+clk: renesas: Updates for v5.9 (take two)
 
-  - Replace CONFIG_PCIE_RCAR by CONFIG_PCIE_RCAR_HOST in the defconfig,
-    to unblock a planned Kconfig change.
+  - Add support for the new RZ/G2H (R8A774E1) SoC.
+
+Note that the new Renesas RZ/G2H DT Binding Definitions are shared by
+driver and DT source files, and thus included in multiple pull requests:
+  - "[GIT PULL 1/3] Renesas ARM DT updates for v5.9 (take two)" (for arm-soc),
+  - "[GIT PULL 2/3] Renesas driver updates for v5.9" (for arm-soc),
+  - "[GIT PULL] clk: renesas: Updates for v5.9 (take two)" (for clk).
 
 Thanks for pulling!
 ----------------------------------------------------------------
-Lad Prabhakar (1):
-      arm64: defconfig: Enable CONFIG_PCIE_RCAR_HOST
+Geert Uytterhoeven (1):
+      Merge tag 'renesas-r8a774e1-dt-binding-defs-tag' into clk-renesas-for-v5.9
 
- arch/arm64/configs/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Marian-Cristian Rotariu (4):
+      dt-bindings: power: Add r8a774e1 SYSC power domain definitions
+      clk: renesas: Add r8a774e1 CPG Core Clock Definitions
+      dt-bindings: clock: renesas,cpg-mssr: Document r8a774e1
+      clk: renesas: cpg-mssr: Add r8a774e1 support
 
- arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi            |  2 --
- arch/arm/boot/dts/r8a7740.dtsi                      |  2 +-
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts |  2 --
- arch/arm/boot/dts/r8a7790-lager.dts                 |  2 --
- arch/arm/boot/dts/r8a7790-stout.dts                 |  2 --
- arch/arm/boot/dts/r8a7791-koelsch.dts               |  2 --
- arch/arm/boot/dts/r8a7791-porter.dts                |  2 --
- arch/arm/boot/dts/r8a7792-blanche.dts               |  2 --
- arch/arm/boot/dts/r8a7792-wheat.dts                 | 12 ++++--------
- arch/arm/boot/dts/r8a7793-gose.dts                  |  2 --
- arch/arm/boot/dts/r8a7794-silk.dts                  |  2 --
- arch/arm64/boot/dts/renesas/r8a77970-eagle.dts      |  2 --
- arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts      |  2 --
- arch/arm64/boot/dts/renesas/r8a77980-condor.dts     |  2 --
- arch/arm64/boot/dts/renesas/r8a77980-v3hsk.dts      |  2 --
- arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts      |  2 --
- arch/arm64/boot/dts/renesas/r8a77995-draak.dts      |  6 ++----
- 17 files changed, 7 insertions(+), 41 deletions(-)
+ .../bindings/clock/renesas,cpg-mssr.yaml           |   1 +
+ drivers/clk/renesas/Kconfig                        |   5 +
+ drivers/clk/renesas/Makefile                       |   1 +
+ drivers/clk/renesas/r8a774e1-cpg-mssr.c            | 349 +++++++++++++++++++++
+ drivers/clk/renesas/renesas-cpg-mssr.c             |   6 +
+ drivers/clk/renesas/renesas-cpg-mssr.h             |   1 +
+ include/dt-bindings/clock/r8a774e1-cpg-mssr.h      |  59 ++++
+ include/dt-bindings/power/r8a774e1-sysc.h          |  36 +++
+ 8 files changed, 458 insertions(+)
+ create mode 100644 drivers/clk/renesas/r8a774e1-cpg-mssr.c
+ create mode 100644 include/dt-bindings/clock/r8a774e1-cpg-mssr.h
+ create mode 100644 include/dt-bindings/power/r8a774e1-sysc.h
 
 Gr{oetje,eeting}s,
 
