@@ -2,89 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCEC122353D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 09:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B817D22354A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 09:18:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbgGQHNB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 03:13:01 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:42273 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726201AbgGQHNA (ORCPT
+        id S1726200AbgGQHSS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 03:18:18 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:37199 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725995AbgGQHSS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 03:13:00 -0400
-Received: by mail-oo1-f65.google.com with SMTP id y9so1679768oot.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 00:13:00 -0700 (PDT)
+        Fri, 17 Jul 2020 03:18:18 -0400
+Received: by mail-oi1-f195.google.com with SMTP id 12so7270519oir.4;
+        Fri, 17 Jul 2020 00:18:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aFoMkl6GTaIMZpODLQW2vB+naukLWDmCTw4VMdk5//I=;
-        b=sPoQO3lqLNjnXaLHDmE8urHBgKCWFhrwV94z+4xmh9IZO3AqhMpdr01wm5ZDIO+zJ8
-         4pmU8sxQ64ZccPCkds/36XQz04//Qx76NoQs1PMYASM+Z0WrZ2Esh0D2QTDx01f/3Nf2
-         CZv1TYarr19OMZHudjpB3+WJ9CTcOf03l9l+KZ6DdcXhr3xqE68tbOTr5jynXI7d+W9g
-         CNLiyIF5G8gDKr1L5YkiS3BaoKvQ/4pkM79pnAPqqAEPWwyvZehck8aHsD7/FeCgByGY
-         nqPIn92yHhLjDVR6LX7HJqxk8Mm5nsT4JBoyeCUNUxEvUyiNF1IPiFDT3e4Btgp225FD
-         2PGA==
-X-Gm-Message-State: AOAM530aKw778dW91kuI7TRV61Mnia6zM5UHlqnIFRdJDiz0i5qOxykv
-        PY79zUosMSLVw9XHF/vbrW3Su+OSKZGihRT3H4Y=
-X-Google-Smtp-Source: ABdhPJwvRwjGCRG8cYSKyR9WCGWfaqoJXPVYbM/PD/HXjK1JVEl3aylB3uJt/AftSNZdOihIo7CQRO9dtEfKBkpi+vA=
-X-Received: by 2002:a4a:5209:: with SMTP id d9mr7485920oob.40.1594969979564;
- Fri, 17 Jul 2020 00:12:59 -0700 (PDT)
+        bh=a5hTKsShr1r3N7ckghpJVGyfr7q/TFPmmyprZtIxXpA=;
+        b=UlNfzIWCZAOyLy0eE6A9t2GfjZVT3oCCOPAx2qCb+ld7moJ9NFw6Ryw/j8cqEKBUMB
+         oVItLNwIHjzTdQT77Rk5bXWLovd9Ms9uM9o27D6iraI/qxaDdT7uBahhPpIN8AJKVpII
+         lHDSEplnbdVpDJO0MRJmYli7hvrcxjUm8CKnpav2XVrGYMs/vShrvsMS7lBPdeL+aK22
+         34bekdSMHV+snBg6d6T/c4Khbv/tQYm0qHmVaM9GX973RUxlJ3ItY/DJbpyM33zFPhVS
+         515MPt0ZbtSINxub67tPi6k3LowcqWWyaFDqhEAH/nTb7a/9jGhbWzYsKjbRGCDBVSST
+         FxNw==
+X-Gm-Message-State: AOAM533lzcQq8iJssfQQm49vLbvBpZAsn64H1LFb2lK2M0HtxQx4zIYb
+        BqYBc2EIjrQ+QbfSH4aC4Qi7oFMVlunOsOOd2H8=
+X-Google-Smtp-Source: ABdhPJxlyTHAAuX2MIEk8itC1oT3cHf7n9+SAmrvOegCDH4dUIhUmVSg+H3YLLWpUP0fnB5/i4BOHOfR15M/I5rhJjw=
+X-Received: by 2002:aca:ac10:: with SMTP id v16mr6263830oie.153.1594970296950;
+ Fri, 17 Jul 2020 00:18:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594382612-13664-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdVqFU538syZq2B=An-MA3zo3RT115JmvaVxyt5mb-Wvsg@mail.gmail.com> <TY2PR01MB3692CD5627D9848ADDA88BF0D87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB3692CD5627D9848ADDA88BF0D87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <20200716211517.GA17174@embeddedor>
+In-Reply-To: <20200716211517.GA17174@embeddedor>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Jul 2020 09:12:48 +0200
-Message-ID: <CAMuHMdVzO=wwTyYhHj2Cg3g_rRQCHQ_97DVH8zXAkg_ki5ZHhw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: add full-pwr-cycle-in-suspend into
- eMMC nodes
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 17 Jul 2020 09:18:06 +0200
+Message-ID: <CAMuHMdU7p6wY3vzV2mRzWrvn_nDuJBFVtc5QK-mLQ7kJbm1HqA@mail.gmail.com>
+Subject: Re: [PATCH][next] PCI: rcar-gen2: Use fallthrough pseudo-keyword
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Gustavo,
 
-On Fri, Jul 17, 2020 at 7:44 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, July 15, 2020 6:05 PM
-> > On Fri, Jul 10, 2020 at 2:03 PM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > Add full-pwr-cycle-in-suspend property to do a graceful shutdown of
-> > > the eMMC device in system suspend.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v5.9.
+Thanks for your patch!
+
+On Thu, Jul 16, 2020 at 11:11 PM Gustavo A. R. Silva
+<gustavoars@kernel.org> wrote:
+> Replace the existing /* fall through */ comments and its variants with
+> the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
+> fall-through markings when it is the case.
+
+Which unnecessary marking is being removed?
+I don't see any.
+
 >
-> Thanks!
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
 >
-> > >  arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   | 1 +
-> > >  arch/arm64/boot/dts/renesas/salvator-common.dtsi | 1 +
-> >
-> > I assume we need this on other boards, too?
-> > At least ULCB uses the BD9571 PMIC, and has a similar PSCI s2ram
-> > implementation as Salvator-X(S) and Ebisu.
->
-> I think so. And, I also thin ULCB+KF should not have this because
-> it doesn't support Suspend-to-RAM. But, what do you think?
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-How come ULCB+KF doesn't support s2ram?
-Isn't KingFisher just an extension board for ULCB?
-Does it require a firmware upgrade?
-
-> JFYI, I could such environment if I added the property into ulcb.dtsi
-> and added "/delete-property/" into ulcb-kf.dtsi.
-
-Iff that's the case, that's a valid solution.
+For the actual patch contents:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
