@@ -2,95 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC735223FC2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 17:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE32223FE7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 17:49:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727953AbgGQPkD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 11:40:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58844 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726256AbgGQPkC (ORCPT
+        id S1726418AbgGQPsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 11:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726322AbgGQPsz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 11:40:02 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D94742076A;
-        Fri, 17 Jul 2020 15:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595000401;
-        bh=oUWXy3XEEdACj4VXB3S0A8gloCT8UAGtaaANZlTOhcY=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=egmxPzhCJaO5Pklo2wFUgCisrdBaL7j2ncVrgoys66Ov9LXhgVzxXGFqIlODz/BYm
-         SBeDYsmknwq4gkwP74D2/j5goaQrPlJbtdJY2ErVv8nPqEDRjP6D+aAJZpnM8njnoZ
-         FRAkq9i/JLIztXRgN6hLt6p5JYwLKxyZ+Mt0PWp4=
-Date:   Fri, 17 Jul 2020 16:39:50 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-pci@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-ide@vger.kernel.org
-In-Reply-To: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 00/20] Add support for SATA/PCIe/USB2[3]/VIN/CSI on R8A774E1
-Message-Id: <159500037996.27597.9512992990495217445.b4-ty@kernel.org>
+        Fri, 17 Jul 2020 11:48:55 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5745C0619D2;
+        Fri, 17 Jul 2020 08:48:54 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id q4so13299925lji.2;
+        Fri, 17 Jul 2020 08:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h11XOtehZDloRQK9LLWJgIGaRhspppMNqDAzBiX5ad0=;
+        b=Vl3NEvpnwvvHcMUF3NitR+46Z8sGTxKpnmW2tSGbSZI5WEMW3t/cfVkfrQKwFVLfmn
+         qeYWAms1UJZ0u2rgIpGXKPqzQRww21hWUFCIGkYU5iU2aI2DNB/ORCPOtTw84QooEoxU
+         RYowe2rX5Fdj+dRoNdNiG6L6UUa+Alrbcl8abG9racjlDwSa72vWTml3oZe1LVxEno23
+         8HqvAdO0M0ijRxSL52knF8JcEemEUtGDRuqD43LXb5rbnu/qG8BBreBmnwIir7x5vGFu
+         M9aVkD5RibFZ132rkt+/LOK5QNQiB843eekX8O2TxJo2RHEHnZOn30hEob39Xp0gVhf+
+         8DpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h11XOtehZDloRQK9LLWJgIGaRhspppMNqDAzBiX5ad0=;
+        b=OcxAdtBkUGH+WxOJ7X7+bilGNiZsr1N2MZhhfMh/59EFre5MAjLXVr/S5gkYQMuf8v
+         A720dS8BlqDBhkEUFlQpJionh83WzLYrGXOvAPUpH7DMGqcOsT9DEpTosHINWU70USed
+         WhxIAjgNHwH6zvbjwVKM7N11ufVG2lSKNBdNBSY5nZjtdb90RHjB5gVtnFeyX5OQ14Uj
+         1B+aoeBGNEQwFYOY8ZCA7qA9xmiQoKwr0nBMGb1W5xfOvSMLwJsutIpDoIb0O1p1/2lT
+         BLK1Yd2B4K+XOYHEY7LyjbUOqY9LADdgnzqfLVqkizuytRq5JKfDv4+QGS5daNuQ6NEl
+         8V5Q==
+X-Gm-Message-State: AOAM533XuFiFXvCPjKZH8r8dBNvwK61VDGrg47pDmXkRL2h5H2HYI5Ml
+        4UkKd4AcGCKO0FzNIjl59YFRYWtam1e5RrfAaxI=
+X-Google-Smtp-Source: ABdhPJwIzsbxel7UyqOZp+lBviG9zAjrG/Jz3iqThbVW0psJDeH5ulOp2LIDuUFpVJDNfOVaozw3oLVmHULgDPnkduQ=
+X-Received: by 2002:a2e:a375:: with SMTP id i21mr4928341ljn.403.1595000933299;
+ Fri, 17 Jul 2020 08:48:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org> <20200717132859.237120-6-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200717132859.237120-6-jacopo+renesas@jmondi.org>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Fri, 17 Jul 2020 12:48:42 -0300
+Message-ID: <CAOMZO5Ap2_3hECqB5K3tbD-0URq0hJrMoNDwq6WmUMVojahfJg@mail.gmail.com>
+Subject: Re: [PATCH 05/13] dt-bindings: media: ov5640: Make bus-type mandatory
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 16 Jul 2020 18:18:15 +0100, Lad Prabhakar wrote:
-> This patch series adds support for the following peripherals on RZ/G2H SoC
->  * PCIe
->  * SATA
->  * USB2
->  * USB3
->  * Audio
->  * VIN
->  * CSI
-> 
-> [...]
+Hi Jacopo,
 
-Applied to
+On Fri, Jul 17, 2020 at 10:25 AM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> index 503f8b78615c..16e6c2dc629a 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> @@ -73,6 +73,9 @@ properties:
+>            remote-endpoint:
+>              description: A phandle to the bus receiver's endpoint node.
+>
+> +          bus-type:
+> +            enum: [4, 5]
 
-Thanks!
+Can we have an explanation for what the values 4 and 5 mean in the yaml doc?
 
-[1/1] dt-bindings: sound: renesas, rsnd: Document r8a774e1 bindings
-      commit: 92e37407811b98a7eb54eb6a6b3d65847a46e0e6
+Looking at the series I see that 4 means MIPI-CSI2 and 5 means
+parallel interface, but this is not too obvious (at least for me).
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Or maybe we could use a string definition instead of hard coding 4 and 5?
