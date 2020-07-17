@@ -2,125 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E67223707
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 10:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB13322371E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 10:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgGQIa5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 04:30:57 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35954 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725864AbgGQIa4 (ORCPT
+        id S1725864AbgGQIfX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 04:35:23 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36933 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726930AbgGQIfX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 04:30:56 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 72so6326077otc.3;
-        Fri, 17 Jul 2020 01:30:55 -0700 (PDT)
+        Fri, 17 Jul 2020 04:35:23 -0400
+Received: by mail-ot1-f67.google.com with SMTP id w17so6336593otl.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 01:35:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SaPmcDUg77LU2p28w1+XxvJM/pkYFA+OmeunTanH6NM=;
-        b=Op9uWwA9+uHBLKuFz/y/xTKj3USv53KLaLcX15rGFX98ghtNG7DcDG264YbKRjBnwb
-         poGbj/mhMK+uhhd82hP+2XF12SULaufFoErAmB4+fck8tk3dpxN1MeyKjiREyhEZVwiO
-         9meINp//qifOnbvB5mgzAByMPIKRgr/D+SrTzbyso8OqjQ0YdevQV2JyG3MT/hrWCZlZ
-         8fQhnkmmLdPZXiQERZMTjqTDA6bnrSqwY2DcLVneiGh0S+ptu/UiAXLKzUt4Mu5L1snl
-         RcJKX840HCM+sGuMcI2n4si5prP5TeklOzGtOoIRLo9Y0Swr1Uqk2SrRnthiM/oCaCn2
-         OIDg==
-X-Gm-Message-State: AOAM533zV5Q7lU0SKA03vYU0rJVD5kIl7gnoeydLhjYe3uEabxjrN7er
-        D3ppYmt5oqpXRSlYHbp1c3vaH7NCdM+E8BlQdMQ=
-X-Google-Smtp-Source: ABdhPJwBR4fz/v72KgD7+7gM2P5Tmqx8wLWOng1tBACwKN4gtmWwLhUzgHZdq7TTGK9C+gXsTQ9SgDG6nK730RSLp4E=
-X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr7734447otl.145.1594974655311;
- Fri, 17 Jul 2020 01:30:55 -0700 (PDT)
+        bh=4ixZQJKDNo9s+VGKAOYB2bOVqaG4WU+w8TctZrkV/YM=;
+        b=fzgj9FmQo6Oqv/VC7a0RlFenrij1yAn+gu9RC8riM0Jmuh/wK5c2bEgBcb/aeh/C9Y
+         xqUy7GzDLkJpt8h+ZLLwENcGGHVC3WedfRdbM+IbQqOjXIffEJLToc4I28bDSkSU9fR7
+         MIVG9T7YvZnt6JkmIFtFX/FJ3riDu4QTUzRlH3QacKZUkxqFRWVnVV8njILoI6cgOprB
+         dRu1uJw14L/KsDpXfXRoznAeldy7mZSt0niQkIEjT6f6FtNjVJTKsAHhScXETxYgKwvX
+         Sw36AaVr7muXzLiBaPqFShabVCqYTDsifxNaI7e/2mTnPfJSUGAfWLDd7zI+q2Nnuf8S
+         I/uw==
+X-Gm-Message-State: AOAM533Tk3YVJIkeYB1mGjvRNjuFKmVnN0HVUSqpNTZbo5ua/5vCyFCY
+        UzrOECryiKXRRLdd28K91bXpqlryuSwQYVeda6T/lAt+
+X-Google-Smtp-Source: ABdhPJzZd8os8HiWg11fTKFLdrfbGb6RIVBiQJ2gvbnbdNPAeKH7Ml6MKYDg1L/54YalWR8H9L6Dmv0WXO3zgM/SYcU=
+X-Received: by 2002:a9d:2646:: with SMTP id a64mr7439671otb.107.1594974922193;
+ Fri, 17 Jul 2020 01:35:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594971274-48027-1-git-send-email-biju.das.jz@bp.renesas.com>
- <20200717075452.GD68629@google.com> <TYBPR01MB5309AED7152585BD238DD013867C0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB5309AED7152585BD238DD013867C0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <1594382612-13664-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdVqFU538syZq2B=An-MA3zo3RT115JmvaVxyt5mb-Wvsg@mail.gmail.com>
+ <TY2PR01MB3692CD5627D9848ADDA88BF0D87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <CAMuHMdVzO=wwTyYhHj2Cg3g_rRQCHQ_97DVH8zXAkg_ki5ZHhw@mail.gmail.com> <TY2PR01MB3692646F94A991EB373A8AA3D87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB3692646F94A991EB373A8AA3D87C0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Jul 2020 10:30:44 +0200
-Message-ID: <CAMuHMdVvOa6GhVi8CZ6QNdY02KU6sOL4s0BS=vDM+u3a+7CaQw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: update usb-c-connector required property
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prashant Malani <pmalani@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Thierry Reding <treding@nvidia.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 17 Jul 2020 10:35:11 +0200
+Message-ID: <CAMuHMdU2R7qxtgmP6CgmN9_3SZeL7DFUs5iCAu2QG+UBay=EBw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: add full-pwr-cycle-in-suspend into
+ eMMC nodes
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Shimoda-san,
 
-On Fri, Jul 17, 2020 at 10:09 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > On Fri, Jul 17, 2020 at 08:34:33AM +0100, Biju Das wrote:
-> > > Some boards have a single SS capable connector. Update usb-c-connector
-> > > bindings to list port@1 as at least one of the required property.
+On Fri, Jul 17, 2020 at 10:29 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Friday, July 17, 2020 4:13 PM
+> > On Fri, Jul 17, 2020 at 7:44 AM Yoshihiro Shimoda
+> > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > From: Geert Uytterhoeven, Sent: Wednesday, July 15, 2020 6:05 PM
+> > > > On Fri, Jul 10, 2020 at 2:03 PM Yoshihiro Shimoda
+> > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> <snip>
+> > > > >  arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   | 1 +
+> > > > >  arch/arm64/boot/dts/renesas/salvator-common.dtsi | 1 +
+> > > >
+> > > > I assume we need this on other boards, too?
+> > > > At least ULCB uses the BD9571 PMIC, and has a similar PSCI s2ram
+> > > > implementation as Salvator-X(S) and Ebisu.
 > > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com>
-> > > ---
-> > >  Ref: https://patchwork.kernel.org/patch/11129567/
-> > > ---
-> > >  Documentation/devicetree/bindings/connector/usb-connector.yaml | 7
-> > > +++++--
-> > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > > b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > > index 9bd52e6..41e0685 100644
-> > > --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-> > > +++ b/Documentation/devicetree/bindings/connector/usb-
-> > connector.yaml
-> > > @@ -139,8 +139,11 @@ properties:
-> > >          description: Sideband Use (SBU), present in USB-C. This describes the
-> > >            alternate mode connection of which SBU is a part.
-> > >
-> > > -    required:
-> > > -      - port@0
-> > > +    anyOf:
-> > > +      - required:
-> > > +        - port@0
-> > > +      - required:
-> > > +        - port@1
+> > > I think so. And, I also thin ULCB+KF should not have this because
+> > > it doesn't support Suspend-to-RAM. But, what do you think?
 > >
-> > So the connector[1] doesn't have any High Speed (D+/D-) lanes? Those are
-> > supposed to be present on all Type C connectors.
+> > How come ULCB+KF doesn't support s2ram?
+> > Isn't KingFisher just an extension board for ULCB?
+> > Does it require a firmware upgrade?
 >
-> Yes , USB-TypeC connector has  USB3HS0_DP and USB3HS0_DM signals apart from USB3S0_CLK_P, USB3S0_CLK_M,USB3S0_RX_P,USB3S0_RX_M,USB3S0_TX_P,USB3S0_TX_M,
-> USB3HS0_DP,USB3HS0_DM, USB30_PWEN and USB30_OVC.
+> It's related to board design. If ULCB+KF, we must not use 5V AC to ULCB side
+> and must use 12V AC to KF side. And KF has power switch as SW6 for both ULCB+KF.
+> https://elinux.org/R-Car/Boards/Kingfisher
+
+OK.
+
+> However, PMIC on ULCB cannot control the KF power unfortunately.
+> So, we have no chance to use s2ram on ULCB+KF...
+
+Makes sense.
+BTW, what happens if you try s2ram? I guess the system just wakes up again
+immediately? Or does it crash?
+
+> > > JFYI, I could such environment if I added the property into ulcb.dtsi
+> > > and added "/delete-property/" into ulcb-kf.dtsi.
+> >
+> > Iff that's the case, that's a valid solution.
 >
-> But the Connector is a SS Capable connector which supports UFP/DFP and DRP.
+> I think that's a valid solution. But, what do you think?
 
-The SS lanes of the connector are tied to the HD3SS3220.
-The D+/D- lanes of the connector are tied to the R-Car SoC directly.
-
-Perhaps modelling the C connector as a child of the HD3SS3220 is the
-issue?  If the C connector was a separate node, it could have port@1
-point to the HD3SS3220, and port@0 to the SoC?
-That means there needs to be a different way to link the HD3SS3220 and
-the on-SoC usb3_peri0.  The current link between usb3_peri0 and
-hd3ss3220_ep looks a bit strange to me, as the latter label points to
-the C connector, not to the HD3SS3220 itself[2].
-
-> > [1] : https://patchwork.kernel.org/patch/11129567/
-
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+Thanks, looks good to me.
 
 Gr{oetje,eeting}s,
 
