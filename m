@@ -2,142 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFCE22231C4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 05:43:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE4A223291
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 06:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbgGQDns (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jul 2020 23:43:48 -0400
-Received: from mga17.intel.com ([192.55.52.151]:64646 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726691AbgGQDns (ORCPT
+        id S1726381AbgGQEoi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 00:44:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726512AbgGQEoe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jul 2020 23:43:48 -0400
-IronPort-SDR: /LbAhKa/1R08lzzOuIAtHZBy9J/EaT51uXX4JUx524EK6ybaoZpLN1nAH6avZqhpi/kz3E59Q/
- rKGlYbxWZDOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9684"; a="129616657"
-X-IronPort-AV: E=Sophos;i="5.75,361,1589266800"; 
-   d="scan'208";a="129616657"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2020 20:43:47 -0700
-IronPort-SDR: sEsABGQwBmMt/OpAcoiIqiRjASeUlfiejJgFXyJa+s0kI94sVv1HTHxsIgnaLZj1E8EkuWnTiv
- b5PCjEmB7TOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,361,1589266800"; 
-   d="scan'208";a="317234077"
-Received: from lkp-server02.sh.intel.com (HELO 50058c6ee6fc) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 16 Jul 2020 20:43:45 -0700
-Received: from kbuild by 50058c6ee6fc with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jwHHk-000045-Pi; Fri, 17 Jul 2020 03:43:44 +0000
-Date:   Fri, 17 Jul 2020 11:43:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
- bb899a12d97cf468585388445de44f0beea8048f
-Message-ID: <5f111e45.Qu6ynFrnrrl02C/R%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Fri, 17 Jul 2020 00:44:34 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173B3C08C5DE
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jul 2020 21:44:34 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f18so15251349wml.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Jul 2020 21:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=S9S68y6b2mPbKuzgaCo1jN4A32wueiis4gs7MPkym/M=;
+        b=YBTRlAxQNCrp0VWtdAoz7HX1TcMxgP8c+pztXkm9DckROsrCs8s1wiHI5Ty0T6SgrK
+         x1LT/2APXM2vMzv8oPhbWLw0GHTyp4WhkivO6gKr6Fyodd1U8eGi9prToTvyCdvhjwuu
+         D/2FUpr4dbooLhpYGT4dm3UwB8hQ0iuvNDR5WtKOUPmAO1XOPM9iqBTmOIE3rIhpejZD
+         UuV0PnY40TbCaLn4R1LYeLSHKHkJ1uEJRN1YQ2eDSc8zlbJWvqUCqi2RbB/AK2Bmot/z
+         bai/MmFwyt17VnEi9eZU4lF9z9MMd+wSlLUM9q4lUfSN/7KO5Q5X5N7DH8omfftLoyew
+         HClw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=S9S68y6b2mPbKuzgaCo1jN4A32wueiis4gs7MPkym/M=;
+        b=b8M3flHmOQGLf42yzPsPZOwCGrhaphk9tV4zxQsqb1UAim3zN6iNXWduie4IOThmhc
+         Sg3G5V0c8QyJYKSzpo+bQaVJJuKUolJe85c9sMOmvE2D6rWsWsXBjK0jqM95ZWbXn0LE
+         WYOg4t0k3cuuXD560SwT7xDOu1IpgxqeOcRFQDbDLlh3WJFghvUuhh5NUcAdl2FEEEYR
+         nnATz1Pyo6FMb0yASQPpPyS1P0ogrd6EUZJ5SVgI++0fuR4PdMKmIbpr1N020rkwcocW
+         tqRkoWITWSO/xtBRVT4TBURcdLIrYqKHeXxrba560Yh3xhE5s+AaG2CLr16BaxsXr4D9
+         KQsA==
+X-Gm-Message-State: AOAM532LWOTli7AZ2fYG4LlzmXF3wEZVGe3uCkcinAN1LFzKmn3oVET6
+        uAsb9+NfTXsCiVCurZx9iiJ54A==
+X-Google-Smtp-Source: ABdhPJyEBG67fJXokeAElVWPCoMwiGiAI/9HSCWG+w7OI40KZczqAmqnOUUNQcrS+TOsyYDFflbNaQ==
+X-Received: by 2002:a7b:ce83:: with SMTP id q3mr7184668wmj.5.1594961072462;
+        Thu, 16 Jul 2020 21:44:32 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:9880:a643:3e69:6393? ([2a01:e34:ed2f:f020:9880:a643:3e69:6393])
+        by smtp.googlemail.com with ESMTPSA id o21sm11356388wmh.18.2020.07.16.21.44.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2020 21:44:31 -0700 (PDT)
+Subject: Re: [PATCH 03/20] thermal: rcar_gen3_thermal: Add r8a774e1 support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Amit Kucheria <amit.kucheria@verdurent.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594811350-14066-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <bcda3aae-a276-173f-71e2-381736481ab2@linaro.org>
+Date:   Fri, 17 Jul 2020 06:44:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1594811350-14066-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
-branch HEAD: bb899a12d97cf468585388445de44f0beea8048f  arm64: dts: renesas: r8a774e1: Add CAN[FD] support
+On 15/07/2020 13:08, Lad Prabhakar wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> 
+> Add r8a774e1 specific compatible string.
+> 
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com> ---
 
-elapsed time: 722m
+Applied, thanks
 
-configs tested: 79
-configs skipped: 90
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                              allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a012-20200716
-x86_64               randconfig-a011-20200716
-x86_64               randconfig-a016-20200716
-x86_64               randconfig-a014-20200716
-x86_64               randconfig-a013-20200716
-x86_64               randconfig-a015-20200716
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-x86_64                                   rhel
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
