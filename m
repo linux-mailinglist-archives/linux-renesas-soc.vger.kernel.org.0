@@ -2,76 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F33D8223A77
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 13:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA92223AA1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 13:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726233AbgGQLYs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 07:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43766 "EHLO
+        id S1726229AbgGQLic (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 07:38:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgGQLYs (ORCPT
+        with ESMTP id S1725950AbgGQLib (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 07:24:48 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137D1C061755
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 04:24:47 -0700 (PDT)
-Received: from ramsan ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id 4BQk2300C4C55Sk01BQkxg; Fri, 17 Jul 2020 13:24:46 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jwOTs-00026L-Fh; Fri, 17 Jul 2020 13:24:44 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jwOTs-0006nV-E9; Fri, 17 Jul 2020 13:24:44 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/3] Renesas DT binding updates for v5.9
-Date:   Fri, 17 Jul 2020 13:24:27 +0200
-Message-Id: <20200717112427.26032-4-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200717112427.26032-1-geert+renesas@glider.be>
-References: <20200717112427.26032-1-geert+renesas@glider.be>
+        Fri, 17 Jul 2020 07:38:31 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45988C061755
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 04:38:31 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id s9so12181228ljm.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 04:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SFJatZiPd3q4Ge25iIBb4A6tpk6jKl9wVvHTvMggx0A=;
+        b=VzvFF3daDT32SYArgEhQB8Gjc0wPG2zfX08NRmzcXVON+AAHHUZeORxrzsh2fVDOzY
+         fwG5bZnYMDrXNh/LKe5BCQ0qKZNSFhlaEQZCocn0g/Li1r2GMEsNoCejCuOeqwyQoXjy
+         Wuj9l2fNzTUuSQbryr+nzy5Wpq2ZQgFep6+ea+k9qb59XKGCeMJ48K+Nt70lgqiZCagR
+         aG6MgOvdUool0/M5qm2Jlbt4SiECa6wLjKesF9W+3uYbN94gYqk10UPyxuW/BtPraztg
+         cPXewAtvL44IUZunAMZaLT/BIT/IlJNXjpQIfXt5jtnjrcT00Wa0VMqVe+Ot0XQcXkm9
+         mcXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SFJatZiPd3q4Ge25iIBb4A6tpk6jKl9wVvHTvMggx0A=;
+        b=TUVmv286IQE/vAO/EW2wRVZ3W5MK0egUU0FnzrP2jWcQeoaZA52NuCrIcCAK6Bk0nv
+         iY/x2W7GdvBtr0Y2iFPdfUkJhF0cD0vjG3SVgWh5emhrZ0gK3wkte6CiMDigDMI4xxk2
+         0hgIDkG6HeWjxaqBMnRkYjPR7dBg3aacTOzq1ijck5A6d6n8lIHppAXutQ8elha9gBWs
+         sm0TqqGzKM6uC+9SJ+J7gDoxwys7o7e1eoxDiNVTkLIZyTfVPJgCXWmtXS3HP1lroHNH
+         s6umng/DtKquTO0/JYVv067iXJ1IGRmXyeO0a3ilIRJFwdZXov4e506HUsqn39yjnowz
+         6tCg==
+X-Gm-Message-State: AOAM531BvnD9w2FKJ/PPLUbSMdVCXEHOAYUv9/VtgscUVrACJ7y75kU/
+        B771vJ6/ZdRk85a7uCPCY7U1Lp04gtJDFTHF0DFNZQ==
+X-Google-Smtp-Source: ABdhPJxGGqTq2L3ZGRxA/ALVYKMO3cg85lXJmKN6Tj2s0ZQ6g83NJgrXBF5hKYSVUntqiyaBKDe+U0cXUxnm/PxBw6A=
+X-Received: by 2002:a2e:8046:: with SMTP id p6mr4596515ljg.100.1594985909292;
+ Fri, 17 Jul 2020 04:38:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200717100944.15966-1-geert+renesas@glider.be>
+In-Reply-To: <20200717100944.15966-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 17 Jul 2020 13:38:18 +0200
+Message-ID: <CACRpkdZeFA2DkE5WxOD_2Sq4p0Xnww7wPUhfqGR8rK21RS_R8A@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.9 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The following changes since commit b3a9e3b9622ae10064826dccb4f7a52bd88c7407:
+On Fri, Jul 17, 2020 at 12:58 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-  Linux 5.8-rc1 (2020-06-14 12:45:04 -0700)
+> The following changes since commit b2fc9b4eb1d79c03fd78e50b810c2ea27178e1e3:
+>
+>   pinctrl: sh-pfc: r8a77970: Add RPC pins, groups, and functions (2020-06-22 16:58:23 +0200)
+>
+> are available in the Git repository at:
 
-are available in the Git repository at:
+Thanks, pulled in to my devel branch.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v5.9-tag1
-
-for you to fetch changes up to 8210a6c057703b15d75f6bb841e7611726c4a551:
-
-  dt-bindings: arm: renesas: Document beacon-rzg2m (2020-07-16 10:25:24 +0200)
-
-----------------------------------------------------------------
-Renesas DT binding updates for v5.9
-
-  - Document core support for the RZ/G2H SoC,
-  - Document support for the HopeRun HiHope RZ/G2H, and Beacon
-    EmbeddedWorks RZ/G2M boards.
-
-----------------------------------------------------------------
-Adam Ford (1):
-      dt-bindings: arm: renesas: Document beacon-rzg2m
-
-Marian-Cristian Rotariu (4):
-      dt-bindings: arm: renesas: Document RZ/G2H SoC DT bindings
-      dt-bindings: arm: renesas: Add HopeRun RZ/G2H boards
-      dt-bindings: power: renesas,rcar-sysc: Document r8a774e1 SYSC binding
-      dt-bindings: reset: renesas,rst: Document r8a774e1 reset module
-
- Documentation/devicetree/bindings/arm/renesas.yaml          | 13 +++++++++++++
- .../devicetree/bindings/power/renesas,rcar-sysc.yaml        |  1 +
- Documentation/devicetree/bindings/reset/renesas,rst.yaml    |  1 +
- 3 files changed, 15 insertions(+)
+Yours,
+Linus Walleij
