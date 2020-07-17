@@ -2,101 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AE32223FE7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 17:49:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F097B22406F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 18:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgGQPsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 11:48:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726322AbgGQPsz (ORCPT
+        id S1726736AbgGQQR3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 12:17:29 -0400
+Received: from foss.arm.com ([217.140.110.172]:43376 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726104AbgGQQR2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 11:48:55 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5745C0619D2;
-        Fri, 17 Jul 2020 08:48:54 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id q4so13299925lji.2;
-        Fri, 17 Jul 2020 08:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h11XOtehZDloRQK9LLWJgIGaRhspppMNqDAzBiX5ad0=;
-        b=Vl3NEvpnwvvHcMUF3NitR+46Z8sGTxKpnmW2tSGbSZI5WEMW3t/cfVkfrQKwFVLfmn
-         qeYWAms1UJZ0u2rgIpGXKPqzQRww21hWUFCIGkYU5iU2aI2DNB/ORCPOtTw84QooEoxU
-         RYowe2rX5Fdj+dRoNdNiG6L6UUa+Alrbcl8abG9racjlDwSa72vWTml3oZe1LVxEno23
-         8HqvAdO0M0ijRxSL52knF8JcEemEUtGDRuqD43LXb5rbnu/qG8BBreBmnwIir7x5vGFu
-         M9aVkD5RibFZ132rkt+/LOK5QNQiB843eekX8O2TxJo2RHEHnZOn30hEob39Xp0gVhf+
-         8DpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h11XOtehZDloRQK9LLWJgIGaRhspppMNqDAzBiX5ad0=;
-        b=OcxAdtBkUGH+WxOJ7X7+bilGNiZsr1N2MZhhfMh/59EFre5MAjLXVr/S5gkYQMuf8v
-         A720dS8BlqDBhkEUFlQpJionh83WzLYrGXOvAPUpH7DMGqcOsT9DEpTosHINWU70USed
-         WhxIAjgNHwH6zvbjwVKM7N11ufVG2lSKNBdNBSY5nZjtdb90RHjB5gVtnFeyX5OQ14Uj
-         1B+aoeBGNEQwFYOY8ZCA7qA9xmiQoKwr0nBMGb1W5xfOvSMLwJsutIpDoIb0O1p1/2lT
-         BLK1Yd2B4K+XOYHEY7LyjbUOqY9LADdgnzqfLVqkizuytRq5JKfDv4+QGS5daNuQ6NEl
-         8V5Q==
-X-Gm-Message-State: AOAM533XuFiFXvCPjKZH8r8dBNvwK61VDGrg47pDmXkRL2h5H2HYI5Ml
-        4UkKd4AcGCKO0FzNIjl59YFRYWtam1e5RrfAaxI=
-X-Google-Smtp-Source: ABdhPJwIzsbxel7UyqOZp+lBviG9zAjrG/Jz3iqThbVW0psJDeH5ulOp2LIDuUFpVJDNfOVaozw3oLVmHULgDPnkduQ=
-X-Received: by 2002:a2e:a375:: with SMTP id i21mr4928341ljn.403.1595000933299;
- Fri, 17 Jul 2020 08:48:53 -0700 (PDT)
+        Fri, 17 Jul 2020 12:17:28 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A864B142F;
+        Fri, 17 Jul 2020 09:17:27 -0700 (PDT)
+Received: from e107158-lin.cambridge.arm.com (e107158-lin.cambridge.arm.com [10.1.195.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AB4FF3F68F;
+        Fri, 17 Jul 2020 09:17:25 -0700 (PDT)
+Date:   Fri, 17 Jul 2020 17:17:23 +0100
+From:   Qais Yousef <qais.yousef@arm.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Oliver Neukum <oneukum@suse.de>,
+        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH 4.14 105/136] usb/ehci-platform: Set PM runtime as active
+ on resume
+Message-ID: <20200717161639.37ptgbolborimcvs@e107158-lin.cambridge.arm.com>
+References: <20200623195303.601828702@linuxfoundation.org>
+ <20200623195308.955410923@linuxfoundation.org>
+ <20200709070023.GA18414@lxhi-065.adit-jv.com>
 MIME-Version: 1.0
-References: <20200717132859.237120-1-jacopo+renesas@jmondi.org> <20200717132859.237120-6-jacopo+renesas@jmondi.org>
-In-Reply-To: <20200717132859.237120-6-jacopo+renesas@jmondi.org>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 17 Jul 2020 12:48:42 -0300
-Message-ID: <CAOMZO5Ap2_3hECqB5K3tbD-0URq0hJrMoNDwq6WmUMVojahfJg@mail.gmail.com>
-Subject: Re: [PATCH 05/13] dt-bindings: media: ov5640: Make bus-type mandatory
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200709070023.GA18414@lxhi-065.adit-jv.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Eugeniu
 
-On Fri, Jul 17, 2020 at 10:25 AM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+On 07/09/20 09:00, Eugeniu Rosca wrote:
+> Hello everyone,
+> 
+> Cc: linux-renesas-soc
+> Cc: linux-pm
 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> index 503f8b78615c..16e6c2dc629a 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> @@ -73,6 +73,9 @@ properties:
->            remote-endpoint:
->              description: A phandle to the bus receiver's endpoint node.
->
-> +          bus-type:
-> +            enum: [4, 5]
+[...]
 
-Can we have an explanation for what the values 4 and 5 mean in the yaml doc?
+> After integrating v4.14.186 commit 5410d158ca2a50 ("usb/ehci-platform:
+> Set PM runtime as active on resume") into downstream v4.14.x, we started
+> to consistently experience below panic [1] on every second s2ram of
+> R-Car H3 Salvator-X Renesas reference board.
+> 
+> After some investigations, we concluded the following:
+>  - the issue does not exist in vanilla v5.8-rc4+
+>  - [bisecting shows that] the panic on v4.14.186 is caused by the lack
+>    of v5.6-rc1 commit 987351e1ea7772 ("phy: core: Add consumer device
+>    link support"). Getting evidence for that is easy. Reverting
+>    987351e1ea7772 in vanilla leads to a similar backtrace [2].
+> 
+> Questions:
+>  - Backporting 987351e1ea7772 ("phy: core: Add consumer device
+>    link support") to v4.14.187 looks challenging enough, so probably not
+>    worth it. Anybody to contradict this?
+>  - Assuming no plans to backport the missing mainline commit to v4.14.x,
+>    should the following three v4.14.186 commits be reverted on v4.14.x?
+>    * baef809ea497a4 ("usb/ohci-platform: Fix a warning when hibernating")
+>    * 9f33eff4958885 ("usb/xhci-plat: Set PM runtime as active on resume")
+>    * 5410d158ca2a50 ("usb/ehci-platform: Set PM runtime as active on resume")
 
-Looking at the series I see that 4 means MIPI-CSI2 and 5 means
-parallel interface, but this is not too obvious (at least for me).
+Thanks for investigating this.
 
-Or maybe we could use a string definition instead of hard coding 4 and 5?
+Alan, Greg, do you have any ideas?
+
+Let me know if there's anything I can help with.
+
+Thanks
+
+--
+Qais Yousef
