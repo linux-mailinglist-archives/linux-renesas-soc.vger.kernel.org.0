@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26560223C09
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 15:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D9E223C12
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 15:14:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbgGQNNM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 09:13:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60408 "EHLO
+        id S1726846AbgGQNOH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 09:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726629AbgGQNNI (ORCPT
+        with ESMTP id S1726818AbgGQNOA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 09:13:08 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EFF4C08C5DF
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 06:13:07 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id y13so6002855lfe.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 06:13:07 -0700 (PDT)
+        Fri, 17 Jul 2020 09:14:00 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EE4C08C5E0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 06:13:58 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id d17so12602262ljl.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 06:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=IYqIiSc4U+64C+dG7+7slm/+2g/0OvHpgIOhb6Omtgc=;
-        b=Yr2Iz1CP+EXc8VfkIDEksEY8LuFINVnWrfFXlpNEfmNponbzhEbML51zKfKEJKcimu
-         x1SnWuwfMbqbICdyW0Fkyf8z2jRI0dj2VVtiK0vt9+Li6/mx02iD09DEAMmmnGMZDFsp
-         v9qrVYb5fPT/ksWDS6HEEEhxB3mgGQSgpTl9jkHinDmTnMJRBY6ZwvroDmZNtB+/ycaN
-         R4CUaCV18VNjMH0K/SPqYMeAlS38rwJ6tO1YuLpWlEl1iGbu4ouGnMmwUp4Qy1S3HxPh
-         0hR2twN4iNh9G++ahDfjijCYizBZwgESgeK8xKSjPK2A2oh26Hivv91I99y1X0ci9dI5
-         5TjA==
+        bh=DO4ZbPSH0hXkKVVssfyLC5Q3aPidsdt5JRzYM7Uja0g=;
+        b=vuWSYW2icHEBGemf7McZrx7iWHM+guaeu1UPLUXXx73W6ZVH+iPhYbLn9Lq6fq4Zxw
+         qMFpQ4NjZtdZlD/IYmhEodqpPUXrpmJspDd9GqaYLWtx358LP7zpcSqDQUibrEZH8mYY
+         oayZ9ZK5Li/pN1dxmo7Db0uyPlKzeukaTmhJiBaGMXgUawLGoNWiBM1QfS2OIxmRXwDd
+         mlQJeun7BJ6uLEOmk42vWLm+YtSv7IeJn0GZnfDNFcFNPedk+oiNPipVMidOvX4uN5gS
+         z3TVTe6/7nHuq45oTV83wT+inIx0hVKdB5fBssyDMyqsr7EyGFXh8uumGJYY6HDd4M5v
+         zpZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=IYqIiSc4U+64C+dG7+7slm/+2g/0OvHpgIOhb6Omtgc=;
-        b=mn//Gx+alg0MJFjNSFcXq1M2yQ50gSYw4xrW9AOwIIyswavfhzgexA4UQn+bJqFh2N
-         UY8qojfYDpWiozcaaqwAkLef/XgnKB93ckGhh+t32x9TgiML0tK2IPAy9pjemN0/ppoa
-         kcCgKQlpgzydjcq4VMSMcL+51CYzY7ep52rFMB0cXJ2C04wGjQU76yQcyrQmyxoBA0h1
-         R1WdZk/C18o2BTyn3K9jganL8y9sZHxmQxBxvCD7sH4cZ6qCxBPjr5fJak5vF4K8Mu2v
-         MH2VPddf6NE21YhJRPHUZZdvBHo4mEXg7yTSS/6xf2oF0p/QNP4Bp4Sh0uVp8dkPrBCE
-         DEfA==
-X-Gm-Message-State: AOAM531qXjIPlvTCIwnl6dwHy7QrKg+z5LzJyLk2f4I5+vVEjhFGicT5
-        4aiOA8a45LDRdxDUMQMT7TfWVA==
-X-Google-Smtp-Source: ABdhPJyuAt5XLkeaHa2ADqc8yqRKoh6hwmeK7QXeggSiowkUr6/ybt/t04bLY7BvMRtrHmWBjAcMCQ==
-X-Received: by 2002:a19:710:: with SMTP id 16mr3866800lfh.171.1594991585253;
-        Fri, 17 Jul 2020 06:13:05 -0700 (PDT)
+        bh=DO4ZbPSH0hXkKVVssfyLC5Q3aPidsdt5JRzYM7Uja0g=;
+        b=XZA/Fi8mO5a6aKZLgSL++KvL25fm4ueWTGTbmfHCcwmkPWJlLrBozw9oqeKA0lod1m
+         wVJhUgVcDSO/aD5M6vTuxaOwmFCrPFhso4+/pV6Dfo9oOPvk/RFraTxS9c10yj+kZw77
+         Cjzt7r3M5lfwp4m/G4D9SNkHWkd7PGSlGEX5BRhDl+zjO2MeW4AN76dEznAPan5q/dZV
+         qFIfD5nUO9qWsj9+g1adnMsdhlaYciYS0Vcr1wIhBYx8MeV6bApYjMrxS6NteHcvt2tC
+         K5prS4q37KQGIbprym1IOUOYgSXefSUs3nYDEsSKtH+i6icNEr96jDVmKa3TRnTJAjjq
+         jRBg==
+X-Gm-Message-State: AOAM532kbE+rg4mwiG+ZiZ0p0b/4hUvj9qlaEcEefYup6ITa1Wt26yHB
+        vkTZr51pp58XlSd6IkELvbePLQ==
+X-Google-Smtp-Source: ABdhPJzbBwZ8JwXa+it+ymJXMzGpPd34h3pjIGXCdigNzRtx0+bluFlcT4iPLpMRHuhw2GWIxlaPHQ==
+X-Received: by 2002:a05:651c:1106:: with SMTP id d6mr4362497ljo.214.1594991637061;
+        Fri, 17 Jul 2020 06:13:57 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id j4sm1862395lfb.94.2020.07.17.06.13.04
+        by smtp.gmail.com with ESMTPSA id h23sm1754210lfk.37.2020.07.17.06.13.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2020 06:13:04 -0700 (PDT)
-Date:   Fri, 17 Jul 2020 15:13:03 +0200
+        Fri, 17 Jul 2020 06:13:56 -0700 (PDT)
+Date:   Fri, 17 Jul 2020 15:13:56 +0200
 From:   Niklas <niklas.soderlund@ragnatech.se>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -70,16 +70,15 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-pci@vger.kernel.org, alsa-devel@alsa-project.org,
         linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 16/20] dt-bindings: media: renesas,csi2: Add R8A774E1
- support
-Message-ID: <20200717131303.GA175137@oden.dyn.berto.se>
+Subject: Re: [PATCH 18/20] media: rcar-csi2: Enable support for R8A774E1
+Message-ID: <20200717131356.GB175137@oden.dyn.berto.se>
 References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-19-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1594919915-5225-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-19-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -87,11 +86,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Lad,
 
-Thanks for your patch.
+Thanks for your work.
 
-On 2020-07-16 18:18:31 +0100, Lad Prabhakar wrote:
-> Add the compatible string for RZ/G2H (R8A774E1) to the list of supported
-> SoCs.
+On 2020-07-16 18:18:33 +0100, Lad Prabhakar wrote:
+> Add the MIPI CSI-2 driver support for RZ/G2H (R8A774E1) SoC.
+> The CSI-2 module of RZ/G2H is similar to R-Car H3.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
@@ -99,21 +98,24 @@ On 2020-07-16 18:18:31 +0100, Lad Prabhakar wrote:
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  Documentation/devicetree/bindings/media/renesas,csi2.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,csi2.yaml b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> index c9e068231d4b..53b078622fd9 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> @@ -22,6 +22,7 @@ properties:
->          - renesas,r8a774a1-csi2 # RZ/G2M
->          - renesas,r8a774b1-csi2 # RZ/G2N
->          - renesas,r8a774c0-csi2 # RZ/G2E
-> +        - renesas,r8a774e1-csi2 # RZ/G2H
->          - renesas,r8a7795-csi2  # R-Car H3
->          - renesas,r8a7796-csi2  # R-Car M3-W
->          - renesas,r8a77965-csi2 # R-Car M3-N
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index c6cc4f473a07..2325e3b103e4 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -1090,6 +1090,10 @@ static const struct of_device_id rcar_csi2_of_table[] = {
+>  		.compatible = "renesas,r8a774c0-csi2",
+>  		.data = &rcar_csi2_info_r8a77990,
+>  	},
+> +	{
+> +		.compatible = "renesas,r8a774e1-csi2",
+> +		.data = &rcar_csi2_info_r8a7795,
+> +	},
+>  	{
+>  		.compatible = "renesas,r8a7795-csi2",
+>  		.data = &rcar_csi2_info_r8a7795,
 > -- 
 > 2.17.1
 > 
