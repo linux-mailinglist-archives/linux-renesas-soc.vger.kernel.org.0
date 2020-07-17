@@ -2,76 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B736223DCB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 16:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D66DC223E95
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jul 2020 16:50:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728164AbgGQOIM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 10:08:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:51727 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728157AbgGQOIL (ORCPT
+        id S1726205AbgGQOuH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 10:50:07 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:37421 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbgGQOuH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 10:08:11 -0400
-Received: from mail-qk1-f175.google.com ([209.85.222.175]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N0o3X-1kjZkK1trh-00wqKJ for <linux-renesas-soc@vger.kernel.org>; Fri, 17
- Jul 2020 16:08:09 +0200
-Received: by mail-qk1-f175.google.com with SMTP id b185so8842656qkg.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Jul 2020 07:08:09 -0700 (PDT)
-X-Gm-Message-State: AOAM530Ljrc+ntCEmKSFte3Ap4P7BKG0jqCZeqJk90j1BR+ltFIcKE25
-        +xzJpNqboOEhy9OJdjP0JVZlfhMEzzotCjFJyWU=
-X-Google-Smtp-Source: ABdhPJyqUAMfYLNF3G1Iv/bLnBjjErYJ5iEcQ613oZrD+RyUfUUaZAZdS7nW7aqCVYRt/A6saJcifx23F8M9LfdVs5U=
-X-Received: by 2002:a05:620a:2444:: with SMTP id h4mr890029qkn.352.1594994888352;
- Fri, 17 Jul 2020 07:08:08 -0700 (PDT)
+        Fri, 17 Jul 2020 10:50:07 -0400
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id C1DE824000E;
+        Fri, 17 Jul 2020 14:50:01 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, jmkrzyszt@gmail.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v8 00/10] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
+Date:   Fri, 17 Jul 2020 16:53:14 +0200
+Message-Id: <20200717145324.292820-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200717112427.26032-1-geert+renesas@glider.be>
-In-Reply-To: <20200717112427.26032-1-geert+renesas@glider.be>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Fri, 17 Jul 2020 16:07:52 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2yyef4+kaKgtiC4tfugDEqay6gDUzfTwORLAku1j+T8A@mail.gmail.com>
-Message-ID: <CAK8P3a2yyef4+kaKgtiC4tfugDEqay6gDUzfTwORLAku1j+T8A@mail.gmail.com>
-Subject: Re: [GIT PULL 0/3] Renesas ARM SoC updates for v5.9 (take two)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:h5YYUorSAvfeLGvRD5+RP+kq7xN5J9NbvcZOkT+mAAlStFn48P0
- LuV98oiCuqS1XOi5wX6DlfdFMYTwz8CXJMLkYD+M948t6L/F+8rNZ0h8FPkRlFr64czuX2j
- ata+Iqzvf1+s7RKgS/DnTJFsaA36uz2usiDThD2U4p8rAhXkqWghaVWHxc5x2S0hihJYlZ7
- tf/JlwK/6RYQwQ6rF42ZQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IvOodUIa/8w=:S/ijjz1ySDiAfrvspgz8MS
- yHCzXqdGUKCLD+3W//NY/q/voOLmA55slBjbIbKxZ6sR0+hK4RD19mUUcipZY6XB43ji2Wi7v
- mk90HsqYZV6LoqI7r2jOGy41lwAQoDGO1q0INtChAHK36yu1Z/unMkOAE8+DC0ceTfAl36AgC
- awgmC3M/hXtAvInXQ7pNU/zCVsOcd+poA+o5DwogFPIaHtbhFq1DtK/ujtJMZNZiuUvDhTmA4
- hE0vdjwC5BiV3habvrBgx/JOGU081ruipFR8GCub8Mc25QZIAQqcF8VB/nZpFK7Qy2jvjC8s2
- zAbmmo5s4OeZauukSYsGGnZL6DDIE/gOtMSgZspIv6/gj8FIBODG/wG8d+M5Y5OD23p5SDTdn
- VqBMnXKi6qj1BZNK+6Bg9ZYcE5VBOAmSwed3DOh05M5aT5jzZpgSp9YnVSUfYW0ORE8/LNb9Y
- oWHnjckRXJcO8njRyBKzAd9x2quB2JVacJy3DdVK03hFH+q2AtwAyzeCBJH5EnTn2sH5+Sqwn
- 3keAzIOwyUWs+UbQllJ06qZTXUHVwcPO0RyBkj6eDGDnh3MbKJO90eBlPDCQOsXXEqpTpNABV
- 4FPyYNvxR0jcAWowAnPXb/vXVxKfXrw8vp6GnOtj3N4QqABWt7FsBL3UKx5ROMsZUmeRW+nyp
- dxAreVkdyyBv+nq+Gw48h7XfJV5qpD47Euixyo44Nh3cXLcaW/UL0MDhXGSKp1xI7wmxu0d8h
- zsCJM8vMzK1Zfb+CJ77+zJCh1Rfj4Wq4fjJaWBBA7IiabZVuDongT66K10OHCeYw1By4vD917
- yJ3lyrlunjfbpPx++LGIaDvdtYpbnNqVnLDkB/rQHLankrB43khhjiER+KDGxrNlsAq9+tnoK
- WPpCoYbSrye1fxCSjY+ftwYKtPiD9Q9vYJ3MUJHeADRkIU+fVSEh/+hOgQt/WOdnkACMAPs1b
- 7ntheDc857coOBBs/Mp/IGVXSJdiEErcJNuow+YK1acEfefy9I86E
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 1:24 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->         Hi arm-soc folks,
->
-> This is my second pull request for the inclusion of Renesas SoC updates
-> for v5.9.
->
-> It consists of 3 parts:
+One more update to address Janusz comments on patch 1/10
 
-Pulled all three, thanks!
+1) I have expanded the operation documentation slightly with:
 
-      Arnd
+  * applied to the hardware. The operation shall fail if the
+- * pad index it has been called on is not valid.
++ * pad index it has been called on is not valid or in case of
++ * unrecoverable failures.
+
+2) Added call wrapper to check for pad validity. I have for now ignored
+   the check_which() and check_cfg() calls as the operations do not
+   support TRY format.
+
+Thanks
+  j
+
+v7->v8
+- Add call wrappers to 1/10
+- Expand documentation to report error on failures
+
+v6.1->v7
+- Add [6/10] as suggested by Hans
+- Add Niklas tag and fix his last comment in [10/10]
+
+v6->v6.1
+- Address Niklas' comments in the last patch for rcar-csi2
+
+v5->v6:
+- Report V4L2_MBUS_DATA_ACTIVE_HIGH in ov6650 get_mbus_config
+- Check for the return value of get_mbus_config() at the end of
+  set_mbus_config() in ov6650 driver
+
+v4->v5:
+- Address Sakari's comment on documentation (s/should/shall)
+- Use a local variable for the number of active lanes in 9/9
+- Add Kieran's tags to 7/9 and 8/9
+- Fix a warning on operator precedence on 3/9
+
+v3->v4:
+- Remove g/s_mbus_config video operation
+- Adjust pxa quick capture interface to properly handle bus mastering
+- Reword the two new operations documentation
+
+v2->v3:
+- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+- Port existing drivers
+- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+
+v1->v2:
+- Address Sakari's comment to use unsigned int in place of bools
+- Add two new patches to address documentation
+- Adjust rcar-csi2 patch as much as possible according to Niklas comments
+- Add Niklas's tags
+
+Jacopo Mondi (10):
+  media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+  media: i2c: Use the new get_mbus_config pad op
+  media: i2c: ov6650: Use new [get|set]_mbus_config ops
+  media: pxa_camera: Use the new set_mbus_config op
+  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+  media: v4l2- mediabus: Add usage note for V4L2_MBUS_*
+  staging: media: imx: Update TODO entry
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 +-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 +-
+ drivers/media/i2c/mt9m001.c                 |   7 +-
+ drivers/media/i2c/mt9m111.c                 |   7 +-
+ drivers/media/i2c/ov6650.c                  |  56 ++++--
+ drivers/media/i2c/ov9640.c                  |   7 +-
+ drivers/media/i2c/tc358743.c                |   7 +-
+ drivers/media/i2c/tvp5150.c                 |   7 +-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  75 +++++++-
+ drivers/media/v4l2-core/v4l2-subdev.c       |  16 ++
+ drivers/staging/media/imx/TODO              |   4 +
+ include/media/v4l2-mediabus.h               |  33 +++-
+ include/media/v4l2-subdev.h                 |  38 ++--
+ 17 files changed, 318 insertions(+), 205 deletions(-)
+
+--
+2.27.0
+
