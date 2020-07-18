@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97E0F224775
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Jul 2020 02:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE792247AB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 Jul 2020 03:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728069AbgGRA1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jul 2020 20:27:37 -0400
-Received: from mga11.intel.com ([192.55.52.93]:22841 "EHLO mga11.intel.com"
+        id S1726817AbgGRBHC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jul 2020 21:07:02 -0400
+Received: from mga04.intel.com ([192.55.52.120]:42858 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728068AbgGRA1h (ORCPT
+        id S1726788AbgGRBHB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jul 2020 20:27:37 -0400
-IronPort-SDR: MaO9porMQCzc1mc0gDike46Mp0Rw6HLbCZYpHFDdh2HX9+IaS6EBLm4IMyN7Q5WzMlimiQdLuP
- YmXm4vl6jQZQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="147668872"
-X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="147668872"
+        Fri, 17 Jul 2020 21:07:01 -0400
+IronPort-SDR: ppDCbVGZwAw2uZY+mit7E7FiD5SQtuJfZppOuju5ZoIDHnEl0+/Pij2y69RYH/6mXWNnZDsPEc
+ +e+1rFlZ8+Ww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="147204022"
+X-IronPort-AV: E=Sophos;i="5.75,365,1589266800"; 
+   d="scan'208";a="147204022"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 17:27:36 -0700
-IronPort-SDR: piixbGByyxgBTCavj/8U34WeskjAxlxRhH1t48ycB5JtvUMsQ8MnZHB/s0ZsR7Ttp4AWQGd1Cw
- NOs9PnrGHucg==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 18:07:01 -0700
+IronPort-SDR: YkDnZvtG8z0eiFSl3R+hDXx9PMN+gDsI/lHg6BO4h+J0moCdQfolrhZKLDVwoeurOUZa6hUlrO
+ siLkklU9Cv2g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,364,1589266800"; 
-   d="scan'208";a="270944059"
+X-IronPort-AV: E=Sophos;i="5.75,365,1589266800"; 
+   d="scan'208";a="391543596"
 Received: from lkp-server02.sh.intel.com (HELO 50058c6ee6fc) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 17 Jul 2020 17:27:35 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2020 18:07:00 -0700
 Received: from kbuild by 50058c6ee6fc with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1jwahS-0000YQ-L4; Sat, 18 Jul 2020 00:27:34 +0000
-Date:   Sat, 18 Jul 2020 08:26:26 +0800
+        id 1jwbJb-0000ZR-OH; Sat, 18 Jul 2020 01:06:59 +0000
+Date:   Sat, 18 Jul 2020 09:05:34 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.9] BUILD SUCCESS
- 8aa937cb4aebc31746ceed1c28b20557ef105f08
-Message-ID: <5f1241b2./FAnGM+nlKCw9EaX%lkp@intel.com>
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 2b913e80d50bfd17088670569460220937257212
+Message-ID: <5f124ade.BMunnXNP26YyCRDE%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,12 +47,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.9
-branch HEAD: 8aa937cb4aebc31746ceed1c28b20557ef105f08  ARM: dts: sh73a0: Add missing clocks to sound node
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: 2b913e80d50bfd17088670569460220937257212  Merge branch 'renesas-next' into renesas-devel
 
-elapsed time: 725m
+elapsed time: 765m
 
-configs tested: 86
+configs tested: 98
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -124,6 +124,18 @@ powerpc                          allyesconfig
 powerpc                          rhel-kconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
+i386                 randconfig-a016-20200717
+i386                 randconfig-a011-20200717
+i386                 randconfig-a015-20200717
+i386                 randconfig-a012-20200717
+i386                 randconfig-a013-20200717
+i386                 randconfig-a014-20200717
+x86_64               randconfig-a005-20200717
+x86_64               randconfig-a006-20200717
+x86_64               randconfig-a002-20200717
+x86_64               randconfig-a001-20200717
+x86_64               randconfig-a003-20200717
+x86_64               randconfig-a004-20200717
 riscv                            allyesconfig
 riscv                             allnoconfig
 riscv                               defconfig
