@@ -2,185 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3520225195
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jul 2020 13:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16126225217
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 19 Jul 2020 15:59:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726131AbgGSLSt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Jul 2020 07:18:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
+        id S1726530AbgGSN7l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Jul 2020 09:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726021AbgGSLSs (ORCPT
+        with ESMTP id S1725988AbgGSN7l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Jul 2020 07:18:48 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85309C0619D2;
-        Sun, 19 Jul 2020 04:18:48 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id j11so17251921ljo.7;
-        Sun, 19 Jul 2020 04:18:48 -0700 (PDT)
+        Sun, 19 Jul 2020 09:59:41 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2108C0619D2;
+        Sun, 19 Jul 2020 06:59:40 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id m22so9045784pgv.9;
+        Sun, 19 Jul 2020 06:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Gk20bw+zaWA2hPj+DlFMQDP5n0eDdkLMsmJaGFQu7t8=;
-        b=YlTGd0Nb4mxp/xyhISyq4pDfrpyhBaVj+B+r6jvcHTUCaG6zH7+6TEE9VYgEF6TBbx
-         Sr7FY9MgAPYxRXWK9NdLNe2mkZkYayE8CL1fDt0Jz+v1FXmKrg8sphBGECkP+yKNCFXd
-         2FAXL5GGKOu1cvPmGc7e+vmz9NEBoFLk9CKyAw8Xp3HU4uNceUt3LX7B0c7tcjbJMM8h
-         qhc/RcxuyAr47HPpse7dszgEd3DBr8HRjmDFpBtDnR0qoMW9Dw2DQWXrNvu+/8UAJUCn
-         jcDrjTGntDgX2Ozrl4LTCRfvsaZ5pFALd+jOeV8Vz6W1r+IPP26HMpLeGWJLVrXrWWc6
-         FERQ==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=eAMuwrdgZT+muWB0jbfvOv3S8Lq4I5ca8nN0yy/ukz0=;
+        b=gQUNuyKuer2aVg+6zju4B6jW7FIv2GqsAgJ+M8TgSIPMdHFHkBjH1FGBEOtK3hR6fR
+         OA8w7cGg9AMlxtp1fign1fIN7Ez5zjqP+qpCVvCgvKnx4Vj7IgZzMUciGtTkX1jgOC+o
+         +1ae8Dw7u7tKH7O3VuTB0hP5ZJt2zcppNmiBRQCr5C7BYTP7UskNINiPTL3EYF+a2S+d
+         K0HVaUuftzhK4lyu/QwKa78yeAQ+IIgZiitzKNxJpc3GIWUteYIJ5dW4nOKTPAu5bDOL
+         zMeGzYozRgLB851TiCD1HLvFFblkR4j1WQlZYrdVm0mgO8eNR3BQ2LEqrZ1jhyAl5P0Z
+         goNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Gk20bw+zaWA2hPj+DlFMQDP5n0eDdkLMsmJaGFQu7t8=;
-        b=MyCRkfwlps06fw9pk9zv07tDjjhsxMlw9IcD/S6Fkk1mO3rcG81Ri2jFBQV4m3nvku
-         EPAs7eH7sfYfYlDSovDd7OTFneZQHffU0TyLXjaiFp2sZgYrX/EsXQAr0ra1O5cTUKtu
-         4ma3ghWQJlak1m4fgKoAA9CbdemFucDuNG+kPYVpfOgj6O6WV/Mp1A+6SGbazYDzvZXC
-         mATpS0SvohvMcgW1kKaFQ+B0BTUBONt/z6BryOHcSOVsdKm9pggyyr5nDmfTuJR+JJJf
-         +L672hCtdGJCSbLCjnWeeFsLzf2UBCdfQTMAUC8e3EwYuK4V1wKbDw+YE9mV5UG2JoEp
-         dmbw==
-X-Gm-Message-State: AOAM532IldRJlqdeXLSM+STBVs7s2qo4Eg2zmznwFB9iL3IWWJvTOlXt
-        OV+HjTYU6kJ/yY9uilbhosM=
-X-Google-Smtp-Source: ABdhPJw39xZU0u5OwRnyP7KJYOPwjgtd4MtfEjGO2se1tpFxILH8aCftUf6I2FCDCvqLLyJeCDKXrw==
-X-Received: by 2002:a2e:880e:: with SMTP id x14mr7752631ljh.218.1595157526936;
-        Sun, 19 Jul 2020 04:18:46 -0700 (PDT)
-Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
-        by smtp.gmail.com with ESMTPSA id g18sm3101423ljk.27.2020.07.19.04.18.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2020 04:18:46 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-Date:   Sun, 19 Jul 2020 13:18:44 +0200
-Message-ID: <4043309.ejJDZkT8p0@z50>
-In-Reply-To: <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl>
-References: <20200714135812.55158-1-jacopo+renesas@jmondi.org> <20200714135812.55158-2-jacopo+renesas@jmondi.org> <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=eAMuwrdgZT+muWB0jbfvOv3S8Lq4I5ca8nN0yy/ukz0=;
+        b=c1zh4R40VYT9Sa50a8NxGPHGYZyeOzyWP/JLlc6u2/G1z2tlUeYYzTo8xhNVjKJ75Q
+         FXMAkQW8uTjYJjzjVK5P2ruKacNhG3fEQj2vE/gWKxUUbImHV5GGUTgKQL9/NQyxzDDk
+         2A+JuI8AKmrv3UOsNo1i41YuRkf/+HaeT65BGrxyJYPRdUllnymrgx7kqYBjxSLOE+r3
+         TZEZerVwD96TWJlS3JOYeNcyZm9Du8n5flrb32iK5J/qEEqIUsXsa3HJIQsZOM9FzS4r
+         Ne4IBDvFaW7Itz95/hVSmK+oYb8O4fANBAkSg0fThahY5ffKFiCrjXB1GBYTlZ8iY/2s
+         kORg==
+X-Gm-Message-State: AOAM533TpjDqUblOUpURbuaKKnAIbOeYXhNfV2NiglIO/g2YPRktK7y9
+        knXJaRbu2W6bwb2VYx2RBQU=
+X-Google-Smtp-Source: ABdhPJzAcSGTRrLFOmP79A7ggudrEJgXuKyu8xMVkv0QQMyCBYdTZ/AamCIx35vhcp1GbD6dWOo6aA==
+X-Received: by 2002:a62:ce83:: with SMTP id y125mr14969637pfg.181.1595167180458;
+        Sun, 19 Jul 2020 06:59:40 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y24sm14438897pfp.217.2020.07.19.06.59.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 19 Jul 2020 06:59:40 -0700 (PDT)
+Date:   Sun, 19 Jul 2020 06:59:39 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-watchdog@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 16/20] dt-bindings: watchdog: renesas,wdt: Document
+ r8a774e1 support
+Message-ID: <20200719135939.GA37256@roeck-us.net>
+References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594811350-14066-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1594811350-14066-17-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Hans,
+On Wed, Jul 15, 2020 at 12:09:06PM +0100, Lad Prabhakar wrote:
+> RZ/G2H (a.k.a. R8A774E1) watchdog implementation is compatible
+> with R-Car Gen3, therefore add the relevant documentation.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Wednesday, July 15, 2020 5:08:05 P.M. CEST Hans Verkuil wrote:
-> On 14/07/2020 15:58, Jacopo Mondi wrote:
-> > Introduce two new pad operations to allow retrieving and configuring the
-> > media bus parameters on a subdevice pad.
-> > 
-> > The newly introduced operations aims to replace the s/g_mbus_config video
-> > operations, which have been on their way for deprecation since a long
-> > time.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index f7fe78a6f65a..d8b9d5735307 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
-> >   *
-> >   * @set_frame_desc: set the low level media bus frame parameters, @fd array
-> >   *                  may be adjusted by the subdev driver to device capabilities.
-> > + *
-> > + * @get_mbus_config: get the media bus configuration of a remote sub-device.
-> > + *		     The media bus configuration is usually retrieved from the
-> > + *		     firmware interface at sub-device probe time, immediately
-> > + *		     applied to the hardware and eventually adjusted by the
-> > + *		     driver. Remote sub-devices (usually video receivers) shall
-> > + *		     use this operation to query the transmitting end bus
-> > + *		     configuration in order to adjust their own one accordingly.
-> > + *		     Callers should make sure they get the most up-to-date as
-> > + *		     possible configuration from the remote end, likely calling
-> > + *		     this operation as close as possible to stream on time. The
-> > + *		     operation shall fail if the pad index it has been called on
-> > + *		     is not valid.
-> > + *
-> > + * @set_mbus_config: set the media bus configuration of a remote sub-device.
-> > + *		     This operations is intended to allow, in combination with
-> > + *		     the get_mbus_config operation, the negotiation of media bus
-> > + *		     configuration parameters between media sub-devices. The
-> > + *		     operation shall not fail if the requested configuration is
-> > + *		     not supported, but the driver shall update the content of
-> > + *		     the %config argument to reflect what has been actually
-> > + *		     applied to the hardware. The operation shall fail if the
-> > + *		     pad index it has been called on is not valid.
-> >   */
-> 
-> Hm, I'd hoped I could merge this, but I think include/media/v4l2-mediabus.h
-> also needs to be updated.
-> 
-> So the old g_mbus_config returned all supported configurations, while the
-> new get_mbus_config returns the *current* configuration.
-> 
-> That's fine, but that means that the meaning of the struct v4l2_mbus_config
-> flags field changes as well and several comments in v4l2-mediabus.h need to
-> be updated to reflect this.
-> 
-> E.g. instead of '/* How many lanes the client can use */' it becomes
-> '/* How many lanes the client uses */'.
-> 
-> Frankly, these flags can be redesigned now since you only need a single
-> e.g. V4L2_MBUS_HSYNC_ACTIVE_HIGH flag since if it is not set, then that
-> means ACTIVE_LOW. And since it is now a single bit, it is also easy to
-> make each flag a bit field.
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Even if this makes sense for .get_mbus_config() which returns current 
-configuration, how about keeping the old semantics of the flags and let 
-.set_mbus_config() accept a potentially incomplete or redundant set of flags 
-specified by the caller to select a supported configuration from?  That approach 
-was actually proposed before by Jacopo when he argued against my suggestion to 
-add a wrapper with a check for mutually exclusive flags[1], and I found it a 
-very good alternative to my other rejected suggestion of adding TRY support.
-
-[1] https://www.spinics.net/lists/linux-media/msg171878.html
-
-Thanks,
-Janusz
-
+> ---
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> The CSI2 lanes/channels can just be a bit field for the number of lanes/channels,
-> which is much easier to read. I strongly recommend making this change at the minimum.
-> 
-> Now all this can be done in a follow-up series, but the v4l2-mediabus.h
-> definitely needs to be updated to reflect the new code.
-> 
-> This can be done as a v6 5.5/9 patch (since it should come right after the
-> g/s_mbus_config removal).
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> >  struct v4l2_subdev_pad_ops {
-> >  	int (*init_cfg)(struct v4l2_subdev *sd,
-> > @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
-> >  			      struct v4l2_mbus_frame_desc *fd);
-> >  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
-> >  			      struct v4l2_mbus_frame_desc *fd);
-> > +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> > +			       struct v4l2_mbus_config *config);
-> > +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
-> > +			       struct v4l2_mbus_config *config);
-> >  };
-> >  
-> >  /**
-> > 
-> 
-> 
-
-
-
-
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> index 572f4c912fef..6933005b52bd 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
+> @@ -41,6 +41,7 @@ properties:
+>                - renesas,r8a774a1-wdt     # RZ/G2M
+>                - renesas,r8a774b1-wdt     # RZ/G2N
+>                - renesas,r8a774c0-wdt     # RZ/G2E
+> +              - renesas,r8a774e1-wdt     # RZ/G2H
+>                - renesas,r8a7795-wdt      # R-Car H3
+>                - renesas,r8a7796-wdt      # R-Car M3-W
+>                - renesas,r8a77961-wdt     # R-Car M3-W+
