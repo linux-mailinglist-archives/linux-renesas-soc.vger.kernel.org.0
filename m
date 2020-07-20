@@ -2,165 +2,270 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBB5A226CFD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 19:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8899F226E7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 20:44:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728889AbgGTROg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jul 2020 13:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53622 "EHLO
+        id S1730286AbgGTSoj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jul 2020 14:44:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728831AbgGTROf (ORCPT
+        with ESMTP id S1730265AbgGTSoi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jul 2020 13:14:35 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C40C061794;
-        Mon, 20 Jul 2020 10:14:35 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id f5so21056918ljj.10;
-        Mon, 20 Jul 2020 10:14:35 -0700 (PDT)
+        Mon, 20 Jul 2020 14:44:38 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 547C8C061794;
+        Mon, 20 Jul 2020 11:44:38 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id r19so21280533ljn.12;
+        Mon, 20 Jul 2020 11:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zRASbYWI3QCU6glmbpAmqa3993LVW3W4JSyWjFpNXzE=;
-        b=TuYUvW7wDgoLGgvNvoyJZzYvosNMBdw0FJXNNotx5jWagckwqOCpQs/NII3wDvglLT
-         TGOtQcn2qbiEIzVQDg+Ved7KCEL5b8eS4rVOC29geKJ0Ww0ZTD42SSOY83bpCkpTqISD
-         /HbMgdEzQ8pHzyGrgRKrO6FuLQODxeSLZYEiHipz/zYu2vrk5iqX/1y4LtNtr40hUK6f
-         eTQJBzSlapYve9vj4QDameWgqzwBRCm1L2oyTc403d+UjzpH6N3wxKka76vEzuooMRcR
-         ofiLl8g+dpWIacvMhMybme1Yy2DkSGfJCwbkGbhKygfL9Eax9bdcfQJakh4yw5a5xmQ5
-         KKDA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+YoXpwk7+8kuOjoleHTDa96KM6kzZ75tpCzm0nZWWaU=;
+        b=ESMpNVJF/NxfVpKqVnHl7npKijZaUQm3z8AqQVPAdMb8u51bt56KlvHxXnpTid5oDh
+         9TnlUuh340J9MySBVYyFuisXpXgJsDjWr2F+K4CEhxfJzIWP44I7FoZiN2oWYOFSunFw
+         x6KeBBpdO07zO9NWl9e/Wg7JJPW9gmFTSfuOYGfp+7GCuaY1Pkz2IqZK0Orl6DlePfIN
+         wdyhR2UHpovRqfvjtDegaPKOoMkGdhmwxtnZ6sLjpAx39U1Kbe9xlXWLHrJ3vJlotCxm
+         wJOPutfYncHTD5Z2q+hZXpP80hBRu/f4Gqq9GNKV/wAP0grozEzhYZan/D5IRrrsesXX
+         Kxcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zRASbYWI3QCU6glmbpAmqa3993LVW3W4JSyWjFpNXzE=;
-        b=GJCYFhX4/5z5572NTxfhXyLvyGiVEHUGxpouV0Rj2HTn+CWEUJIUDKbmiTtI1NIHs6
-         2xRey9B1YJhUm0OV/c4muAp+uii7fuIE1ILqc1QeZn5IwFK5ZIfSfjKxv/PZIk78pMlH
-         QPwFsJNpRKRIZbsmtzZNzbP92XBeV43MJks7JB+afC/TBUZyrEGb1lSdUCEXLrgGovJA
-         hGURDTMYJDmGDl09BkhFU78RagOKkkFY0iNo1SvzjZw8IQCykan6D03Ed5jdgSas3JHA
-         aXkF+BMssks+tthl8rb7SRwc0BL4AvItf0DnHngQ6WH8giNc6sRCcp5s3kbnZCnVSl/o
-         09YA==
-X-Gm-Message-State: AOAM530kbU5Ct6W6J7jEl+dnjb31qg4Qn6czmmENoz+q6y+N9F/9VL1u
-        oBusU5rJdSkirBiYiCT/4L7Cd/94IqI=
-X-Google-Smtp-Source: ABdhPJwoWCYprZ2pwfnR6mqaEJhhscTDhrWMKtXGm30xJacgJmOtYSZPIUSfU6t2NifNaexznAlbPw==
-X-Received: by 2002:a2e:a373:: with SMTP id i19mr10515397ljn.206.1595265273538;
-        Mon, 20 Jul 2020 10:14:33 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:46f5:8d4:6fdd:f49:d446:d065])
-        by smtp.gmail.com with ESMTPSA id w4sm3338334ljw.16.2020.07.20.10.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jul 2020 10:14:32 -0700 (PDT)
-Subject: Re: [PATCH/RFC v2] net: ethernet: ravb: exit if hardware is
- in-progress in tx timeout
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        davem@davemloft.net, kuba@kernel.org
-Cc:     dirk.behme@de.bosch.com, Shashikant.Suguni@in.bosch.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <1595246298-29260-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <7d37c358-fab9-8ec1-6fff-688d33898b09@gmail.com>
-Date:   Mon, 20 Jul 2020 20:14:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+YoXpwk7+8kuOjoleHTDa96KM6kzZ75tpCzm0nZWWaU=;
+        b=NiFVVQHUjUem/NhFxhSfDL7BKXOBHYtguETF95ZAtuU+4/GohyZK5NrkOmHIxFqJuu
+         N64BYRjLtLzKj/ByZHtiuIpmHnrHG0HJ7bckeXoAFI4evQ7ggzEObNN8aKIoJTbNdlZ8
+         VIEwM/jxGyG0cLv8HA7fY8vp6QGyaJ4Cs5/tESFYKqvQRPuxRRW5UMe/C2wVcIhfAo0Y
+         MPzHE/9L7m/RzaWRvQycjQseXMpOm4Xkntg82wkwf3/h3r6cZKcRCFrOCnmTsZIHZFgv
+         TGTBEwLd4KGFut0cxfFlwcxpzoPZojPHK7eVMEIs2v3i/MAlX6m+ri/EOsagaz2G3QXO
+         5VlQ==
+X-Gm-Message-State: AOAM532qB9mHAtB8buWprnqpbZLOp/cn3YTMqPOUcUG4nDbqWA3aZkf2
+        IxCO/d/SIpfKkwYFCRFWVjo=
+X-Google-Smtp-Source: ABdhPJwDeY/fWPYjfqsDsul7O1Bq3/OL7AVLo9ZOy6N7J5PYqyIYj2LCn8igYUrH+xZ+vDsL312Lhw==
+X-Received: by 2002:a2e:9050:: with SMTP id n16mr10763202ljg.376.1595270676741;
+        Mon, 20 Jul 2020 11:44:36 -0700 (PDT)
+Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
+        by smtp.gmail.com with ESMTPSA id y2sm3349402lji.8.2020.07.20.11.44.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2020 11:44:35 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
+Date:   Mon, 20 Jul 2020 20:44:33 +0200
+Message-ID: <8674885.rMLUfLXkoz@z50>
+In-Reply-To: <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
+References: <20200714135812.55158-1-jacopo+renesas@jmondi.org> <4043309.ejJDZkT8p0@z50> <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <1595246298-29260-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 7/20/20 2:58 PM, Yoshihiro Shimoda wrote:
-
-> According to the report of [1], this driver is possible to cause
-> the following error in ravb_tx_timeout_work().
+On Monday, July 20, 2020 10:48:36 A.M. CEST Hans Verkuil wrote:
+> On 19/07/2020 13:18, Janusz Krzysztofik wrote:
+> > Hi Hans,
+> > 
+> > On Wednesday, July 15, 2020 5:08:05 P.M. CEST Hans Verkuil wrote:
+> >> On 14/07/2020 15:58, Jacopo Mondi wrote:
+> >>> Introduce two new pad operations to allow retrieving and configuring the
+> >>> media bus parameters on a subdevice pad.
+> >>>
+> >>> The newly introduced operations aims to replace the s/g_mbus_config video
+> >>> operations, which have been on their way for deprecation since a long
+> >>> time.
+> >>>
+> >>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >>> ---
+> >>>  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
+> >>>  1 file changed, 27 insertions(+)
+> >>>
+> >>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >>> index f7fe78a6f65a..d8b9d5735307 100644
+> >>> --- a/include/media/v4l2-subdev.h
+> >>> +++ b/include/media/v4l2-subdev.h
+> >>> @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
+> >>>   *
+> >>>   * @set_frame_desc: set the low level media bus frame parameters, @fd 
+array
+> >>>   *                  may be adjusted by the subdev driver to device 
+capabilities.
+> >>> + *
+> >>> + * @get_mbus_config: get the media bus configuration of a remote sub-
+device.
+> >>> + *		     The media bus configuration is usually retrieved 
+from the
+> >>> + *		     firmware interface at sub-device probe time, 
+immediately
+> >>> + *		     applied to the hardware and eventually adjusted 
+by the
+> >>> + *		     driver. Remote sub-devices (usually video 
+receivers) shall
+> >>> + *		     use this operation to query the transmitting end 
+bus
+> >>> + *		     configuration in order to adjust their own one 
+accordingly.
+> >>> + *		     Callers should make sure they get the most up-to-
+date as
+> >>> + *		     possible configuration from the remote end, likely 
+calling
+> >>> + *		     this operation as close as possible to stream on 
+time. The
+> >>> + *		     operation shall fail if the pad index it has been 
+called on
+> >>> + *		     is not valid.
+> >>> + *
+> >>> + * @set_mbus_config: set the media bus configuration of a remote sub-
+device.
+> >>> + *		     This operations is intended to allow, in 
+combination with
+> >>> + *		     the get_mbus_config operation, the negotiation of 
+media bus
+> >>> + *		     configuration parameters between media sub-
+devices. The
+> >>> + *		     operation shall not fail if the requested 
+configuration is
+> >>> + *		     not supported, but the driver shall update the 
+content of
+> >>> + *		     the %config argument to reflect what has been 
+actually
+> >>> + *		     applied to the hardware. The operation shall fail 
+if the
+> >>> + *		     pad index it has been called on is not valid.
+> >>>   */
+> >>
+> >> Hm, I'd hoped I could merge this, but I think include/media/v4l2-
+mediabus.h
+> >> also needs to be updated.
+> >>
+> >> So the old g_mbus_config returned all supported configurations, while the
+> >> new get_mbus_config returns the *current* configuration.
+> >>
+> >> That's fine, but that means that the meaning of the struct v4l2_mbus_config
+> >> flags field changes as well and several comments in v4l2-mediabus.h need to
+> >> be updated to reflect this.
+> >>
+> >> E.g. instead of '/* How many lanes the client can use */' it becomes
+> >> '/* How many lanes the client uses */'.
+> >>
+> >> Frankly, these flags can be redesigned now since you only need a single
+> >> e.g. V4L2_MBUS_HSYNC_ACTIVE_HIGH flag since if it is not set, then that
+> >> means ACTIVE_LOW. And since it is now a single bit, it is also easy to
+> >> make each flag a bit field.
+> > 
+> > Even if this makes sense for .get_mbus_config() which returns current 
+> > configuration, how about keeping the old semantics of the flags and let 
+> > .set_mbus_config() accept a potentially incomplete or redundant set of flags 
+> > specified by the caller to select a supported configuration from?  That 
+approach 
+> > was actually proposed before by Jacopo when he argued against my 
+suggestion to 
+> > add a wrapper with a check for mutually exclusive flags[1], and I found it 
+a 
+> > very good alternative to my other rejected suggestion of adding TRY 
+support.
 > 
-> ravb e6800000.ethernet ethernet: failed to switch device to config mode
-
-   Hmm, maybe we need a larger timeout there? The current one amounts to only
-~100 ms for all cases (maybe we should parametrize the timeout?)...
-  
-> This error means that the hardware could not change the state
-> from "Operation" to "Configuration" while some tx and/or rx queue
-> are operating. After that, ravb_config() in ravb_dmac_init() will fail,
-
-   Are we seeing double messages from ravb_config()? I think we aren't...
-
-> and then any descriptors will be not allocaled anymore so that NULL
-> pointer dereference happens after that on ravb_start_xmit().
+> The information on how a sensor (or similar device) is wired up is not 
+something
+> that should be negotiated. Even if a combination is theoretically possible, 
+it
+> may not have been tested by the board designer and in fact it might not 
+work.
+> (Yes, that happens)
 > 
-> To fix the issue, the ravb_tx_timeout_work() should check
-> the return value of ravb_stop_dma() whether this hardware can be
-> re-initialized or not. If ravb_stop_dma() fails, ravb_tx_timeout_work()
-> re-enables TX and RX and just exits.
+> It is just a bad design trying to negotiate this.
 > 
-> [1]
-> https://lore.kernel.org/linux-renesas-soc/20200518045452.2390-1-dirk.behme@de.bosch.com/
+> In fact, the only values that can be set as far as I am concerned are lanes 
+and
+> channels. I wouldn't mind if the other settings are purely read-only. The 
+only
+> driver that actively sets this is the pxa_camera driver and I wish it 
+didn't.
 > 
-> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-   Assuming the comment below is fixed:
-
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-
-> ---
->  Changes from RFC v1:
->  - Check the return value of ravb_stop_dma() and exit if the hardware
->    condition can not be initialized in the tx timeout.
->  - Update the commit subject and description.
->  - Fix some typo.
->  https://patchwork.kernel.org/patch/11570217/
+> But there are still two pxa boards that use this mechanism, so I guess we 
+still
+> have to allow this.
 > 
->  Unfortunately, I still didn't reproduce the issue yet. So, I still
->  marked RFC on this patch.
+> Anyway, do you have a specific use-case in mind?
 
-    I think the Bosch people should test this patch, as they reported the kernel oops...
+Non-DT platforms in general.  You repeat quite often that configuration 
+should come from DT.  While that's obvious, does that mean media is soon going 
+to drop non-DT support completely?  If not then I think that it may be better 
+to allow negotiation where possible than require each platform driver that 
+still wishes to support non-DT platforms to define its own platform data 
+structure.  At least parallel link settings seem to be a good candidate to me.
 
+Anyway, as long as .set_mbus_config() is going to be supported, it is still 
+possible for a platform driver to iterate through its supported configurations 
+if passing incomplete or redundant flags and let the sensor handle that is not 
+allowed.  More complicated, more time consuming, more error prone, I believe, 
+but still possible.
+
+Thanks,
+Janusz
+
+
+> Note that this is an internal
+> API, so it can always be changed later.
 > 
->  drivers/net/ethernet/renesas/ravb_main.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
+> Regards,
 > 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index a442bcf6..500f5c1 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1458,7 +1458,18 @@ static void ravb_tx_timeout_work(struct work_struct *work)
->  		ravb_ptp_stop(ndev);
->  
->  	/* Wait for DMA stopping */
-> -	ravb_stop_dma(ndev);
-> +	if (ravb_stop_dma(ndev)) {
-> +		/* If ravb_stop_dma() fails, the hardware is still in-progress
-> +		 * as "Operation" mode for TX and/or RX. So, this should not
-
-   s/in-progress as "Operation" mode/operating/.
-
-> +		 * call the following functions because ravb_dmac_init() is
-> +		 * possible to fail too. Also, this should not retry
-> +		 * ravb_stop_dma() again and again here because it's possible
-> +		 * to wait forever. So, this just re-enables the TX and RX and
-> +		 * skip the following re-initialization procedure.
-> +		 */
-> +		ravb_rcv_snd_enable(ndev);
-> +		goto out;
-> +	}
->  
->  	ravb_ring_free(ndev, RAVB_BE);
->  	ravb_ring_free(ndev, RAVB_NC);
-> @@ -1467,6 +1478,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
->  	ravb_dmac_init(ndev);
-
-   BTW, that one also may fail...
-
->  	ravb_emac_init(ndev);
->  
-> +out:
->  	/* Initialise PTP Clock driver */
->  	if (priv->chip_id == RCAR_GEN2)
->  		ravb_ptp_init(ndev, priv->pdev);
+> 	Hans
 > 
+> > 
+> > [1] https://www.spinics.net/lists/linux-media/msg171878.html
+> > 
+> > Thanks,
+> > Janusz
+> > 
+> >>
+> >> The CSI2 lanes/channels can just be a bit field for the number of lanes/
+channels,
+> >> which is much easier to read. I strongly recommend making this change at 
+the minimum.
+> >>
+> >> Now all this can be done in a follow-up series, but the v4l2-mediabus.h
+> >> definitely needs to be updated to reflect the new code.
+> >>
+> >> This can be done as a v6 5.5/9 patch (since it should come right after 
+the
+> >> g/s_mbus_config removal).
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >>>  struct v4l2_subdev_pad_ops {
+> >>>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> >>> @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
+> >>>  			      struct v4l2_mbus_frame_desc *fd);
+> >>>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+> >>>  			      struct v4l2_mbus_frame_desc *fd);
+> >>> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> >>> +			       struct v4l2_mbus_config *config);
+> >>> +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> >>> +			       struct v4l2_mbus_config *config);
+> >>>  };
+> >>>  
+> >>>  /**
+> >>>
+> >>
+> >>
+> > 
+> > 
+> > 
+> > 
+> 
+> 
+
+
+
 
