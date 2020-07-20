@@ -2,100 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E295B226F1A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 21:36:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECF6A226F31
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 21:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728320AbgGTTgK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jul 2020 15:36:10 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34180 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgGTTgK (ORCPT
+        id S1730929AbgGTTpn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jul 2020 15:45:43 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:45437 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbgGTTpm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jul 2020 15:36:10 -0400
-Received: by mail-io1-f68.google.com with SMTP id q74so18912106iod.1;
-        Mon, 20 Jul 2020 12:36:09 -0700 (PDT)
+        Mon, 20 Jul 2020 15:45:42 -0400
+Received: by mail-io1-f66.google.com with SMTP id e64so18882093iof.12;
+        Mon, 20 Jul 2020 12:45:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1YZl80952mHTSs8UNwk68pvRqpUlNAQdc1Q4B7k7SNM=;
-        b=QtpbFdhZhjJ3OT+s+fDEdMsb3JgKGpGeDg+L2aUySOkkyM68LDynT4d4N99YvBPHQa
-         1asdfdJkzgpxA+PPTFg99BiliDy/XNpXjy60z0RvGnxqFerBsk6IIKv7XOBeZ6cLK6yg
-         bIUyyP67qlKCLYDm6HefJvV2Ws4OCt/i0NhklvGDW422ZVwtFJ8PbQj6e/XNkIqCM5GW
-         JwndOwi4EjepESHcdE2hMZdw38mjdQjzoaQ5RdXCcTOSvLhBDjraaNdUqlYH+dq43K7h
-         Gqc7kJA5fZuaLOORVoxu0F6N0+0Nc6+iABiqDYlIfk9LDZ77ThoROLnproRe+/y6ohKv
-         PzjA==
-X-Gm-Message-State: AOAM5304GR+6+J0t97bxgEQH/By7696wblYkhcbzE1wslZXjErNjVUYE
-        0+3xlFoP8XuWlP1LDLmY0w==
-X-Google-Smtp-Source: ABdhPJzc8i0GZHL5ILLIAxZ8ilXyFLcBjyDnfVYAFmK/L3yC7ekaolASQz7arjDrz62StByEvkBNPg==
-X-Received: by 2002:a6b:ba8b:: with SMTP id k133mr24656306iof.204.1595273769393;
-        Mon, 20 Jul 2020 12:36:09 -0700 (PDT)
+        bh=xQsmS1nuNNMhwcv8QeFvMXKBGicLJoHnG01faUUSAw8=;
+        b=Ot8sfIbS2GZn/RI4is1DBa4VXZVopj0cpmrjW0LFOJ29WIPlncfDO6wuBKiuyx5g0d
+         FsGWkY/QjnoAKbiNi/nt4AIhhsFVpSAY/nbpvpwZLVCC63ODXvmUopoCkRx9YK6Q61/Y
+         ip80H4+vkIqqnNXgKrOfpryHOypusrwBTgqftpnUq0rl8pZIbdqbsJJ6uL3CDMle9Wsz
+         oQ4s/cNqnjvOEBLivZxvfIPedgTlxA8hG3BYK37e8eV11S8r1N2B3jXqi8J5hHFKtWXf
+         L/UJIoUvcJssQS926TENza8Cfvrxms8g4BTtIclhUSijeDvtEksOwALJn2dA2pFSIMHd
+         LcRw==
+X-Gm-Message-State: AOAM531YMfYKTpnmH8sCJ0eit11XkD1LsQwH40wV9RGqWEWvPCMYEN+H
+        fy38UYWoIHOxDvpYXuIfRW0uOdpvlA==
+X-Google-Smtp-Source: ABdhPJxWNBElu2kmELWUndpSOychi1LRff+1CaxEYTUH0DiLdWblGSE7U8N4YbRRh91aTfZ8c8X4Iw==
+X-Received: by 2002:a05:6602:2207:: with SMTP id n7mr23979335ion.162.1595274341749;
+        Mon, 20 Jul 2020 12:45:41 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id a10sm9267565iln.20.2020.07.20.12.36.06
+        by smtp.gmail.com with ESMTPSA id n1sm9277565ilo.68.2020.07.20.12.45.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 12:36:07 -0700 (PDT)
-Received: (nullmailer pid 2872234 invoked by uid 1000);
-        Mon, 20 Jul 2020 19:36:06 -0000
-Date:   Mon, 20 Jul 2020 13:36:06 -0600
+        Mon, 20 Jul 2020 12:45:41 -0700 (PDT)
+Received: (nullmailer pid 2884955 invoked by uid 1000);
+        Mon, 20 Jul 2020 19:45:38 -0000
+Date:   Mon, 20 Jul 2020 13:45:38 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        devicetree@vger.kernel.org, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 03/13] dt-bindings: media: ov5640: Do not limit rotation
-Message-ID: <20200720193606.GA2858543@bogus>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     devicetree@vger.kernel.org, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>
+Subject: Re: [PATCH 05/13] dt-bindings: media: ov5640: Make bus-type mandatory
+Message-ID: <20200720194538.GA2872607@bogus>
 References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
- <20200717132859.237120-4-jacopo+renesas@jmondi.org>
- <20200717193807.GE5961@pendragon.ideasonboard.com>
+ <20200717132859.237120-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717193807.GE5961@pendragon.ideasonboard.com>
+In-Reply-To: <20200717132859.237120-6-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 10:38:07PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Fri, Jul 17, 2020 at 03:28:51PM +0200, Jacopo Mondi wrote:
+> The ov5640 driver supports both a parallel data interface and a
+> CSI-2 serial data interface.
 > 
-> Thank you for the patch.
-> 
-> On Fri, Jul 17, 2020 at 03:28:49PM +0200, Jacopo Mondi wrote:
-> > The 'rotation' property should not be limited to only support 0 and
-> > 180 degrees, as that limitation comes from the driver implementation
-> > and not from any device specific constraint.
-> > 
-> > Remove the enumeration of supported values from 'rotation'.
-> > 
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > index ceeacc91c801..503f8b78615c 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
-> > @@ -55,7 +55,7 @@ properties:
-> >    rotation:
-> >      description: |
-> >        As defined in Documentation/devicetree/bindings/media/video-interfaces.txt
-> > -    enum: [0, 180]
-> > +    maxItems: 1
+> Depending on which interface is in use, the required endpoint
+> properties are different. In order to be able to validate if a
+> device node is compliant with the dt-schema bindings, start by
+> making the bus-type a mandatory property, and add it to all the
+> existing users of ov5640 in mainline DTS.
 
-Not an array, so 'maxItems' doesn't make sense here.
+You can't really make a property required on an existing binding. That 
+breaks compatibility. Are all the users of the below boards okay with 
+that?
+
+There should be a default defined if 'bus-type' is not present.
 
 > 
-> Maybe
+> On top of this, endpoint properties validation will be implemented,
+> conditionally to the reported bus type.
 > 
->     $ref: /schemas/types.yaml#/definitions/uint32
->     minimum: 0
->     maximum: 359
-> 
-> ?
-
-We should have a common definition and this binding just needs to define 
-the specific constraints. If none, then just 'rotation: true'.
-
-Rob
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ov5640.yaml    | 6 ++++++
+>  arch/arm/boot/dts/dra72-evm-common.dtsi                    | 1 +
+>  arch/arm/boot/dts/dra76-evm.dts                            | 1 +
+>  arch/arm/boot/dts/imx6-logicpd-baseboard.dtsi              | 1 +
+>  arch/arm/boot/dts/imx6qdl-icore.dtsi                       | 1 +
+>  arch/arm/boot/dts/imx6qdl-sabrelite.dtsi                   | 1 +
+>  arch/arm/boot/dts/imx6qdl-sabresd.dtsi                     | 1 +
+>  arch/arm/boot/dts/stm32mp157c-ev1.dts                      | 1 +
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dts | 1 +
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts       | 1 +
+>  arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi                  | 1 +
+>  arch/arm64/boot/dts/ti/k3-am654-base-board.dts             | 1 +
+>  12 files changed, 17 insertions(+)
