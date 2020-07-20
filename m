@@ -2,93 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25D4D226F38
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 21:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA139226F45
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 21:50:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728435AbgGTTr2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jul 2020 15:47:28 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:34557 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbgGTTr1 (ORCPT
+        id S1729427AbgGTTug (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jul 2020 15:50:36 -0400
+Received: from mail-il1-f195.google.com ([209.85.166.195]:39567 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728435AbgGTTuf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jul 2020 15:47:27 -0400
-Received: by mail-io1-f67.google.com with SMTP id q74so18945049iod.1;
-        Mon, 20 Jul 2020 12:47:27 -0700 (PDT)
+        Mon, 20 Jul 2020 15:50:35 -0400
+Received: by mail-il1-f195.google.com with SMTP id k6so14378089ili.6;
+        Mon, 20 Jul 2020 12:50:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wami5ld0z9FHvbWVsYveEHQ9/pc5tADPd3tpSIEvVUM=;
-        b=DtzuNnCvJf1kWNw5RVf7hcRW6jFHoqH0k/yIC7F32ZClDeJn315BVJPrGBlsHJFIPg
-         4ileIHe9G/4FdiNWcgmpg1/QI/+9dIT3y/exiRM+hElC3QdufY3vQ4Ml9zfBVCMXh/zw
-         xJ+unj1ChWld+SGa6DciCf6/cUq3wzpFK4XSNYzeZU/1CgJE1mp63QgRFSO4PmgFDFXI
-         T0TZd5xr8Tn6iM0ZpjX8rnxJCpnHo/DPyppN527pZG3nyCjDniyQrmCNCJIA0DouSUNA
-         6OmMz6oN3tZDCnLTV8/jLnJKjrjyb8527+scNvp/YM+LBp7ey9mjGfnMLLDvyv8EgrlB
-         m67A==
-X-Gm-Message-State: AOAM532axaqMjO/v3Cswu9Mm9AFMF2IKfUvMHwABejigWyMKVhXjFao4
-        cRJR6KYVf/DSVzSENOo9eg==
-X-Google-Smtp-Source: ABdhPJwYhcD+ech3tTx1xgCvhsZ+suOtxjFUk2x6J6Yy5dtevlrrdBMQER6Ts4r7Gt8P/VVQIziInA==
-X-Received: by 2002:a05:6602:2ac8:: with SMTP id m8mr25005533iov.36.1595274446734;
-        Mon, 20 Jul 2020 12:47:26 -0700 (PDT)
+        bh=Pw3nfNSVYbLlvuZtUqTHANYMqd3697kJaU7JLsBqfBU=;
+        b=En6ZY1wZGfLNBpBS0d+HMoJuz1UH7soCfhB4lvCu1wN64iMUzHG9aWba21CKvWLKFu
+         nLrB+Tdk8UudtqLkjDy6bPGqKZxy9etil3x0m8FPCHb7uzi/RrZ1hWJx3trZadeOrDcN
+         LTxhRLf56jxCfL+MfkiRFeCXdX/ZtYZshybVO41mAbQYczXLfVJK91jvNyfVrvtQZJAK
+         D4Fesq81Q7pZVPWdlgrMlzjjg4bAvAyv7CQMk9Gkug4InbxLOsumMxLPCPf25iLttYML
+         67i9y5z+HM7oCSYN/w53fDFG/7b0JZFCqBYChvLJGCDMmNQvxgEkPdX1BKs4Rc8Gw4rY
+         0oMA==
+X-Gm-Message-State: AOAM531VAfETX9esrM+CJ2mka8CBxqOxzYGGN9YIjBVZxqYseGMoQ5I1
+        bsHD1j7uGl57yi/VZfuFCw==
+X-Google-Smtp-Source: ABdhPJwD8GtpZXO5BtULoB9rez+5VgrtF/djxq7FleOMmqCR7mWk4LvslHBBv9N1LBybOxdma9a4hA==
+X-Received: by 2002:a92:46:: with SMTP id 67mr6968061ila.113.1595274634616;
+        Mon, 20 Jul 2020 12:50:34 -0700 (PDT)
 Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id b24sm9347565ioh.6.2020.07.20.12.47.24
+        by smtp.gmail.com with ESMTPSA id y2sm9574181iox.22.2020.07.20.12.50.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2020 12:47:25 -0700 (PDT)
-Received: (nullmailer pid 2887462 invoked by uid 1000);
-        Mon, 20 Jul 2020 19:47:24 -0000
-Date:   Mon, 20 Jul 2020 13:47:24 -0600
+        Mon, 20 Jul 2020 12:50:33 -0700 (PDT)
+Received: (nullmailer pid 2891674 invoked by uid 1000);
+        Mon, 20 Jul 2020 19:50:32 -0000
+Date:   Mon, 20 Jul 2020 13:50:32 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-omap@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Andy Gross <agross@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>, robh+dt@kernel.org,
-        Tony Lindgren <tony@atomide.com>, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Maxime Ripard <mripard@kernel.org>, Nishanth Menon <nm@ti.com>,
-        linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 07/13] dt-bindings: media: ov5640: Remove clock-lanes
-Message-ID: <20200720194724.GA2887432@bogus>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        devicetree@vger.kernel.org, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 09/13] dt-bindings: media: ov5640: Add default for synch
+ signals
+Message-ID: <20200720195032.GA2889388@bogus>
 References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
- <20200717132859.237120-8-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-10-jacopo+renesas@jmondi.org>
+ <20200717205931.GK5961@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200717132859.237120-8-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200717205931.GK5961@pendragon.ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 17 Jul 2020 15:28:53 +0200, Jacopo Mondi wrote:
-> The ov5640 does not support routing the clock signal to a different
-> lane, and the property has value fixed to 0.
+On Fri, Jul 17, 2020 at 11:59:31PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
 > 
-> Remove the property from the bindings and update its users
-> accordingly.
+> Thank you for the patch.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 6 ------
->  arch/arm/boot/dts/dra72-evm-common.dtsi                 | 1 -
->  arch/arm/boot/dts/dra76-evm.dts                         | 1 -
->  arch/arm/boot/dts/imx6-logicpd-baseboard.dtsi           | 1 -
->  arch/arm/boot/dts/imx6qdl-icore.dtsi                    | 1 -
->  arch/arm/boot/dts/imx6qdl-sabrelite.dtsi                | 1 -
->  arch/arm/boot/dts/imx6qdl-sabresd.dtsi                  | 1 -
->  arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi               | 1 -
->  arch/arm64/boot/dts/ti/k3-am654-base-board.dts          | 1 -
->  9 files changed, 14 deletions(-)
+> On Fri, Jul 17, 2020 at 03:28:55PM +0200, Jacopo Mondi wrote:
+> > Add defalt value for the DVP interface synchronism signals.
 > 
+> s/synchronism/synchronization/
+> 
+> > The default values have been derived from register 0x4740
+> > documentation (datasheet version 2.03)
+> > 
+> > 0x4740 POLARITY CTRL00 default = 0x20
+> > bit 5: pclk polarity = 1 active high
+> > bit 1: HREF polarity = 0 active low
+> > bit 0: VSYNC polarity = 0 active low
+> 
+> Do we need default values ? That's only for the case where the
+> properties are not specified, and I think they are mandatory when the
+> bus-type is set to parallel, aren't they ? I think stating this
+> explicitly will be less error-prone.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+In this case, I think default should be fixed or not configurable.
+
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > index ab700a1830aa..3c20cdd02f76 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > @@ -94,12 +94,15 @@ properties:
+> >  
+> >            hsync-active:
+> >              enum: [0, 1]
+> > +            default: 0
+> >  
+> >            vsync-active:
+> >              enum: [0, 1]
+> > +            default: 0
+> >  
+> >            pclk-sample:
+> >              enum: [0, 1]
+> > +            default: 1
+> >  
+> >          allOf:
+> >            - if:
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
