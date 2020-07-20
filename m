@@ -2,100 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6693225D2B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 13:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04922225E00
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jul 2020 13:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbgGTLMO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jul 2020 07:12:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52084 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727094AbgGTLMN (ORCPT
+        id S1728651AbgGTL7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jul 2020 07:59:39 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:23339 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728614AbgGTL7j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jul 2020 07:12:13 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 689E92073A;
-        Mon, 20 Jul 2020 11:12:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595243533;
-        bh=9Yy+1VjcfL5aQqBqsh+BDfHhT28teG125L+0sNy5ehc=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=hAnDisAU5CkKAmHpE/TlDXaSa61cF0JA6RYkNQwVsbS2KHEPnHbsA064m/XFR1u/T
-         z//PW9qlfb6Lwl2oAr78zQ6ONpyQ79rnqVCxfhGpQ0WbjKfNRt5Zp9J68zrYhDPdF8
-         wriqqXI+iRwPMIMpW2FBryFhRaNOpStEuiSEMfmY=
-Date:   Mon, 20 Jul 2020 12:12:00 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>
-Cc:     devicetree@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-i2c@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-spi@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
-        netdev@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Amit Kucheria <amit.kucheria@verdurent.com>
-In-Reply-To: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 00/20] Add support for [H]SCIF/TMU/CMT/THS/SDHI/MSIOF/CAN[FD]/I2C/IIC/RWDT on R8A774E1
-Message-Id: <159524352070.8289.9628744508547399473.b4-ty@kernel.org>
+        Mon, 20 Jul 2020 07:59:39 -0400
+X-IronPort-AV: E=Sophos;i="5.75,374,1589209200"; 
+   d="scan'208";a="52390977"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 20 Jul 2020 20:59:38 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F832427AAC8;
+        Mon, 20 Jul 2020 20:59:38 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     sergei.shtylyov@gmail.com, davem@davemloft.net, kuba@kernel.org
+Cc:     dirk.behme@de.bosch.com, Shashikant.Suguni@in.bosch.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH/RFC v2] net: ethernet: ravb: exit if hardware is in-progress in tx timeout
+Date:   Mon, 20 Jul 2020 20:58:18 +0900
+Message-Id: <1595246298-29260-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 15 Jul 2020 12:08:50 +0100, Lad Prabhakar wrote:
-> This patch series enables support for following on RZ/G2H SoC,
-> * CPU OPP
-> * THS
-> * CMT/TMU
-> * I2C/IIC
-> * MSIOF
-> * RWDT
-> * SDHI
-> * SCIF/HSCIF
-> * CAN/CANFD
-> 
-> [...]
+According to the report of [1], this driver is possible to cause
+the following error in ravb_tx_timeout_work().
 
-Applied to
+ravb e6800000.ethernet ethernet: failed to switch device to config mode
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+This error means that the hardware could not change the state
+from "Operation" to "Configuration" while some tx and/or rx queue
+are operating. After that, ravb_config() in ravb_dmac_init() will fail,
+and then any descriptors will be not allocaled anymore so that NULL
+pointer dereference happens after that on ravb_start_xmit().
 
-Thanks!
+To fix the issue, the ravb_tx_timeout_work() should check
+the return value of ravb_stop_dma() whether this hardware can be
+re-initialized or not. If ravb_stop_dma() fails, ravb_tx_timeout_work()
+re-enables TX and RX and just exits.
 
-[1/1] spi: renesas,sh-msiof: Add r8a774e1 support
-      commit: b4f7f5f5470588e45e5d004f1dc4887af20f18c0
+[1]
+https://lore.kernel.org/linux-renesas-soc/20200518045452.2390-1-dirk.behme@de.bosch.com/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from RFC v1:
+ - Check the return value of ravb_stop_dma() and exit if the hardware
+   condition can not be initialized in the tx timeout.
+ - Update the commit subject and description.
+ - Fix some typo.
+ https://patchwork.kernel.org/patch/11570217/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+ Unfortunately, I still didn't reproduce the issue yet. So, I still
+ marked RFC on this patch.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+ drivers/net/ethernet/renesas/ravb_main.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index a442bcf6..500f5c1 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1458,7 +1458,18 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 		ravb_ptp_stop(ndev);
+ 
+ 	/* Wait for DMA stopping */
+-	ravb_stop_dma(ndev);
++	if (ravb_stop_dma(ndev)) {
++		/* If ravb_stop_dma() fails, the hardware is still in-progress
++		 * as "Operation" mode for TX and/or RX. So, this should not
++		 * call the following functions because ravb_dmac_init() is
++		 * possible to fail too. Also, this should not retry
++		 * ravb_stop_dma() again and again here because it's possible
++		 * to wait forever. So, this just re-enables the TX and RX and
++		 * skip the following re-initialization procedure.
++		 */
++		ravb_rcv_snd_enable(ndev);
++		goto out;
++	}
+ 
+ 	ravb_ring_free(ndev, RAVB_BE);
+ 	ravb_ring_free(ndev, RAVB_NC);
+@@ -1467,6 +1478,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 	ravb_dmac_init(ndev);
+ 	ravb_emac_init(ndev);
+ 
++out:
+ 	/* Initialise PTP Clock driver */
+ 	if (priv->chip_id == RCAR_GEN2)
+ 		ravb_ptp_init(ndev, priv->pdev);
+-- 
+2.7.4
 
-Thanks,
-Mark
