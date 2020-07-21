@@ -2,97 +2,219 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23E5422807C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jul 2020 15:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C06D228430
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jul 2020 17:50:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgGUNCF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jul 2020 09:02:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
+        id S1726522AbgGUPuU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jul 2020 11:50:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726687AbgGUNCF (ORCPT
+        with ESMTP id S1726029AbgGUPuU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jul 2020 09:02:05 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBBBC0619D9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 06:02:02 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id f18so2784882wml.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 06:02:02 -0700 (PDT)
+        Tue, 21 Jul 2020 11:50:20 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDEC4C061794;
+        Tue, 21 Jul 2020 08:50:19 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id b25so24606560ljp.6;
+        Tue, 21 Jul 2020 08:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=c8CUr//Kxp2XCh4p6o730T9o4S7sMFdJMOUtCj1j6F4=;
-        b=bw8uGSatbx8JEykSQdqB4/pM6Y5W9YDJ+HrxrycGB/KKnlgQ1tGqqHaUo3ruAesCkO
-         KtJDfRbnxdgUxEAN4bdt7jLN87iY1/p+TNpMW8dXeLU4R9xLk5aGfbra3RJxOo0Vcaf2
-         JEsw8ACHXnyWjtbd1+TjBHTxd6GcBA6geynHphcAgndy7Mgg4hx6rRexdP2OJe5tUaU/
-         S5fYg8NTAqtDnoSia3nE64JcjLfVQZHsf5ljwqvq00kEYlNZ4jz84xde/BxXLrfCQsll
-         huoeg1XC90jTwBsIGsEVek/8qiMkAG97P0SahInpY655gh7e4RcFF7D8WARCYcbeKQoH
-         Lkjw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5Qu6W1iBoEfGZoFbl66nv2eZlx/w1YMiUENHCaC2VaM=;
+        b=Eik8RLjBhiIkiTlZe2NNCyzrHlm+dzDSlBZpddo6PHopquy1/O8uOx4sPCSKbzd/hX
+         GKu0s73YBjMBfmz0RUOXH6I9qYKUOt0ha03PZXZEpZK5qsYEdt/SdRlePW4URZWgxnCN
+         dTos5CfehMB1zLU7FWcFUqdLtOa3Wev6fRg5fUte/AJjBH8EUgkwm1um9TC4Ybp3bTKz
+         G37UKuzPBZzvzOu07bxwkh4adk+uA3DG2kpa9gSsE2F5ZDw8OEsV0jiIMcsuIpQ2GQbt
+         hIpxWywPugZTYaIzeD6ShP/DwWKeO0e/pyb2hmkM6pxZxjW+tsCSEe8x2p/OITjKDhby
+         Iv5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=c8CUr//Kxp2XCh4p6o730T9o4S7sMFdJMOUtCj1j6F4=;
-        b=Su8DgYrYGSOJwYk665aMW4e4OlK6kBkl8ZwWZT+dO77kGKzdgn3bNc4LGf1pA1Q+T8
-         LH4XDofXDooM656oLrFrjOy9jkAxjxeUvqG8tu/3QaowmJXyT0qAbL4uda/TIA3K0DkY
-         zvQkBHhnPq5mEae9KKgld7jHee9v7TXYaaRlVzFTTh9NOpPUcdtVaWSwe0OX5huNx9Ni
-         Z9LX8znuUZWWtmsf/aw4dOcJGVhPgNbsGYqxf/mVsSVdRAopx7G68PEDYgEnovWmh5r6
-         OsQagjpRI9/q0QDHXno+aY9HUAFbq256gPN500SutSm/vvTH3Gb9sgN6jCuf73R87Udu
-         RPGQ==
-X-Gm-Message-State: AOAM533cbrquiZw/aHAcA7WNAODh0fkJ+c2ekZf1Bp5aHCceeTfhDSZm
-        jIxswY32BruG09j1N1rSrTox/A==
-X-Google-Smtp-Source: ABdhPJzfVYzFbylj/GkvVDxz4XsySFZ6mPsa4CopGsWKPMcR6Tu3vl5J2h6j93Hj0owhSUKAB/vj1g==
-X-Received: by 2002:a1c:a557:: with SMTP id o84mr4005676wme.42.1595336521352;
-        Tue, 21 Jul 2020 06:02:01 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:c144:5385:c824:85ce? ([2a01:e34:ed2f:f020:c144:5385:c824:85ce])
-        by smtp.googlemail.com with ESMTPSA id z25sm3125273wmk.28.2020.07.21.06.02.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2020 06:02:00 -0700 (PDT)
-Subject: Re: [PATCH v2] thermal: rcar_gen3_thermal: Do not shadow thcode
- variable
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>, linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20200610003300.884258-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <72600ef0-54f6-cf88-1443-48e5c024fa50@linaro.org>
-Date:   Tue, 21 Jul 2020 15:02:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5Qu6W1iBoEfGZoFbl66nv2eZlx/w1YMiUENHCaC2VaM=;
+        b=A0ApgOR/40aRoyow5RB5GKs0bMtjvihOXo/b8Gd2VoMDY5zI1UfxaCzfhQT3b+8Jbf
+         +oKBc4/jvVT5xyy739A4LJFfGZdTsoMjPuo7sW1w37pc2SuzYo724R8hvdRq6HRVc6tO
+         ou2+LhvLJxJvGXc8W8ltq/2UCWqHKuBfkTCdCqYLIkgH5JCO3vmbhdv93syYiuZMoqZS
+         rx3es6vPCQMKx+SJrjUR7XgBUTq0FSmJ2vW4Bs9lT8WuhcHNOv8hHmiO04g4N0+tmfV9
+         70RB8Upu9YdORNdayH4UkflfbMxETRFK904vmFnxanZjnYXcfcRUF7o4xv5e9H3QWatV
+         ti3w==
+X-Gm-Message-State: AOAM5324VVaL8mbZ2WvE2hikelP9yABNS6/cVMo+UtLP7s0WDwNSZ/xi
+        aqrg+tMCanoqnqHi0mAQWT0=
+X-Google-Smtp-Source: ABdhPJyVwjie/8ENg82E/GJ+IbIga77qGM1wDV6Xb/a2S/g2uTy1sXXww7oh+rSsvEp6QnGqggkwQQ==
+X-Received: by 2002:a2e:b70d:: with SMTP id j13mr12407720ljo.287.1595346618301;
+        Tue, 21 Jul 2020 08:50:18 -0700 (PDT)
+Received: from z50.localnet (93-181-165-181.internetia.net.pl. [93.181.165.181])
+        by smtp.gmail.com with ESMTPSA id f9sm1103168lfc.43.2020.07.21.08.50.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 08:50:16 -0700 (PDT)
+From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, robert.jarzmik@free.fr,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Subject: Re: [PATCH v8.1 03/10] media: i2c: ov6650: Use new [get|set]_mbus_config ops
+Date:   Tue, 21 Jul 2020 17:50:15 +0200
+Message-ID: <6164575.G0QQBjFxQf@z50>
+In-Reply-To: <20200721075317.80874-1-jacopo+renesas@jmondi.org>
+References: <20200717145324.292820-4-jacopo+renesas@jmondi.org> <20200721075317.80874-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <20200610003300.884258-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/06/2020 02:33, Niklas Söderlund wrote:
-> The function rcar_gen3_thermal_calc_coefs() takes an argument called
-> 'thcode' which shadows the static global 'thcode' variable. This is not
-> harmful but bad for readability and is harmful for planned changes to
-> the driver. The THCODE values should be read from hardware fuses if they
-> are available and only fallback to the global 'thcode' variable if they
-> are not fused.
+On Tuesday, July 21, 2020 9:53:17 A.M. CEST Jacopo Mondi wrote:
+> Use the new get_mbus_config and set_mbus_config pad operations in place
+> of the video operations currently in use.
 > 
-> Rename the global 'thcode' variable to 'thcodes' to avoid shadowing the
-> symbol in functions that take it as an argument.
+> Compared to other drivers where the same conversion has been performed,
+> ov6650 proved to be a bit more tricky, as the existing g_mbus_config
+> implementation did not report the currently applied configuration but
+> the set of all possible configuration options.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Adapt the driver to support the semantic of the two newly introduced
+> operations:
+> - get_mbus_config reports the current media bus configuration
+> - set_mbus_config applies only changes explicitly requested and updates
+>   the provided cfg parameter to report what has actually been applied to
+>   the hardware.
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Acked-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+
+Thanks,
+Janusz
+
 > ---
+> v8 -> v8.1
+> 
+> - Return error on register write fails in set_mbus_config() as suggested
+>   by Janusz.
+> 
+> ---
+>  drivers/media/i2c/ov6650.c | 53 ++++++++++++++++++++++++++------------
+>  1 file changed, 37 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> index 91906b94f978..48493af81198 100644
+> --- a/drivers/media/i2c/ov6650.c
+> +++ b/drivers/media/i2c/ov6650.c
+> @@ -921,55 +921,74 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
+>  };
+> 
+>  /* Request bus settings on camera side */
+> -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
+> -				struct v4l2_mbus_config *cfg)
+> +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> +				  unsigned int pad,
+> +				  struct v4l2_mbus_config *cfg)
+>  {
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	u8 comj, comf;
+> +	int ret;
+> +
+> +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
+> +	if (ret)
+> +		return ret;
+> 
+> -	cfg->flags = V4L2_MBUS_MASTER |
+> -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
+> -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
+> -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
+> -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+> +	ret = ov6650_reg_read(client, REG_COMF, &comf);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_DATA_ACTIVE_HIGH
+> +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+> +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+> +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+> +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
+>  	cfg->type = V4L2_MBUS_PARALLEL;
+> 
+>  	return 0;
+>  }
+> 
+>  /* Alter bus settings on camera side */
+> -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
+> -				const struct v4l2_mbus_config *cfg)
+> +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> +				  unsigned int pad,
+> +				  struct v4l2_mbus_config *cfg)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> -	int ret;
+> +	int ret = 0;
+> 
+>  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+>  	if (ret)
+>  		return ret;
+> 
+>  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+>  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+>  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+>  	if (ret)
+>  		return ret;
+> 
+>  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+> -	else
+> +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+> +	if (ret)
+> +		return ret;
+> 
+> -	return ret;
+> +	/*
+> +	 * Update the configuration to report what is actually applied to
+> +	 * the hardware.
+> +	 */
+> +	return ov6650_get_mbus_config(sd, pad, cfg);
+>  }
+> 
+>  static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+>  	.s_stream	= ov6650_s_stream,
+>  	.g_frame_interval = ov6650_g_frame_interval,
+>  	.s_frame_interval = ov6650_s_frame_interval,
+> -	.g_mbus_config	= ov6650_g_mbus_config,
+> -	.s_mbus_config	= ov6650_s_mbus_config,
+>  };
+> 
+>  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> @@ -978,6 +997,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+>  	.set_selection	= ov6650_set_selection,
+>  	.get_fmt	= ov6650_get_fmt,
+>  	.set_fmt	= ov6650_set_fmt,
+> +	.get_mbus_config = ov6650_get_mbus_config,
+> +	.set_mbus_config = ov6650_set_mbus_config,
+>  };
+> 
+>  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
+> --
+> 2.27.0
+> 
+> 
 
-Applied.
 
 
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
