@@ -2,105 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B41C722806A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jul 2020 14:59:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E5422807C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jul 2020 15:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgGUM7N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jul 2020 08:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40286 "EHLO
+        id S1727782AbgGUNCF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jul 2020 09:02:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727772AbgGUM7M (ORCPT
+        with ESMTP id S1726687AbgGUNCF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jul 2020 08:59:12 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B460C061794
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 05:59:12 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id 140so1222897lfi.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 05:59:12 -0700 (PDT)
+        Tue, 21 Jul 2020 09:02:05 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFBBBC0619D9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 06:02:02 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f18so2784882wml.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Jul 2020 06:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=D/VfADr9Dc4CizmTbEXh+Zjq4M/bzfmDBA6N1o/I0nk=;
-        b=r3XFJj4ge6eNTcM4tl0x5EDh2caMgdqsSw4pTwnGuCoXmIVVlD5cO1LRoi5C+zhqsq
-         Zy07hhMv38Vi1/b2IOOAB80MxtaIS05A9BSE3TytYzVOLaDmucE49cxru0R49R2S9/hy
-         SXcuXgxb/h6Ms8jYRAkCiir1fTbAq787eE9Sk7qbVuJVqlK898qW7i5x/UMm+PwuXw6I
-         3TAHx+IrTI6N6L7Rv8YWRkHNRk1H6SQuu4R42vwj+/0afEh1RavRha0kYp2wk0VNM6rD
-         6y8d4D5qo27ojbvpZ8JHAkmn5ZZTKl7ONOfdoBE2JtyGMfFP8BYsdIJH6IrBVlfBkZ/r
-         UzYQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=c8CUr//Kxp2XCh4p6o730T9o4S7sMFdJMOUtCj1j6F4=;
+        b=bw8uGSatbx8JEykSQdqB4/pM6Y5W9YDJ+HrxrycGB/KKnlgQ1tGqqHaUo3ruAesCkO
+         KtJDfRbnxdgUxEAN4bdt7jLN87iY1/p+TNpMW8dXeLU4R9xLk5aGfbra3RJxOo0Vcaf2
+         JEsw8ACHXnyWjtbd1+TjBHTxd6GcBA6geynHphcAgndy7Mgg4hx6rRexdP2OJe5tUaU/
+         S5fYg8NTAqtDnoSia3nE64JcjLfVQZHsf5ljwqvq00kEYlNZ4jz84xde/BxXLrfCQsll
+         huoeg1XC90jTwBsIGsEVek/8qiMkAG97P0SahInpY655gh7e4RcFF7D8WARCYcbeKQoH
+         Lkjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D/VfADr9Dc4CizmTbEXh+Zjq4M/bzfmDBA6N1o/I0nk=;
-        b=qGMsiF5dyNp/jHPeGLuyI8h2eGrXtgbt8dnNWeVvYS4ceP6cF1oHwETmkk9cU6iEwq
-         XSkk5IAKT+em5GmNhs1Rh/PjE0i0gshjT4vXLmS29/yj4+2WHE4I3qy+uKMj1Ut5PK9W
-         b0wJ2zKG2CktrP6LSfFp04Vkeq8SjnFjtwkRgyNwdpctiOfprWml3gDwLaqTNwh2xBtN
-         LLIpJuMEedUKN1e6+fiYea8ejkBMUnpWnaOWRFoaYgPsj+IgPWqYWJ2sa+hpRdeWMrlQ
-         6Xlt0AHBShbkRo8MMAfN4hdbsWTiWxfF6dYO5NwLrcF9QH+81VpcbT1/qOy8jGsA9eeo
-         70aA==
-X-Gm-Message-State: AOAM530dMW3x8zp828H8n6fM6Q/yBxG1BmGw0mJ/KBoy5FEs9oqPZZ6e
-        qzyecXfVl+oU8JymsWv6CRLwQlbfq5NvucYJr/ELIA==
-X-Google-Smtp-Source: ABdhPJzYpK5bIKiQx3FRFLKeKNO46qYN5hT7wSZrzXa5f0g2KrdfvVSefa7HYlmLRQJGo1IZp7X07UEnux6KUCFquE4=
-X-Received: by 2002:ac2:5dc1:: with SMTP id x1mr3509636lfq.217.1595336350190;
- Tue, 21 Jul 2020 05:59:10 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=c8CUr//Kxp2XCh4p6o730T9o4S7sMFdJMOUtCj1j6F4=;
+        b=Su8DgYrYGSOJwYk665aMW4e4OlK6kBkl8ZwWZT+dO77kGKzdgn3bNc4LGf1pA1Q+T8
+         LH4XDofXDooM656oLrFrjOy9jkAxjxeUvqG8tu/3QaowmJXyT0qAbL4uda/TIA3K0DkY
+         zvQkBHhnPq5mEae9KKgld7jHee9v7TXYaaRlVzFTTh9NOpPUcdtVaWSwe0OX5huNx9Ni
+         Z9LX8znuUZWWtmsf/aw4dOcJGVhPgNbsGYqxf/mVsSVdRAopx7G68PEDYgEnovWmh5r6
+         OsQagjpRI9/q0QDHXno+aY9HUAFbq256gPN500SutSm/vvTH3Gb9sgN6jCuf73R87Udu
+         RPGQ==
+X-Gm-Message-State: AOAM533cbrquiZw/aHAcA7WNAODh0fkJ+c2ekZf1Bp5aHCceeTfhDSZm
+        jIxswY32BruG09j1N1rSrTox/A==
+X-Google-Smtp-Source: ABdhPJzfVYzFbylj/GkvVDxz4XsySFZ6mPsa4CopGsWKPMcR6Tu3vl5J2h6j93Hj0owhSUKAB/vj1g==
+X-Received: by 2002:a1c:a557:: with SMTP id o84mr4005676wme.42.1595336521352;
+        Tue, 21 Jul 2020 06:02:01 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:c144:5385:c824:85ce? ([2a01:e34:ed2f:f020:c144:5385:c824:85ce])
+        by smtp.googlemail.com with ESMTPSA id z25sm3125273wmk.28.2020.07.21.06.02.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Jul 2020 06:02:00 -0700 (PDT)
+Subject: Re: [PATCH v2] thermal: rcar_gen3_thermal: Do not shadow thcode
+ variable
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>, linux-pm@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20200610003300.884258-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <72600ef0-54f6-cf88-1443-48e5c024fa50@linaro.org>
+Date:   Tue, 21 Jul 2020 15:02:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200706150205.22053-1-geert+renesas@glider.be>
- <CACRpkdZD3gVLdcjaOL9ZCfZD+hrOUB0-q0NpoHu6m1Ujupw6Fw@mail.gmail.com> <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com>
-In-Reply-To: <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 21 Jul 2020 14:58:59 +0200
-Message-ID: <CACRpkdbxQrmNtByZ1cHSROyX7rwwaa2Mb=GQLpVcDi4FsZ06FQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
-To:     Arnd Bergmann <arnd@arndb.de>, Stephen Boyd <sboyd@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Laura Abbott <labbott@redhat.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kumar Gala <kumar.gala@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200610003300.884258-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 11:53 AM Arnd Bergmann <arnd@arndb.de> wrote:
+On 10/06/2020 02:33, Niklas Söderlund wrote:
+> The function rcar_gen3_thermal_calc_coefs() takes an argument called
+> 'thcode' which shadows the static global 'thcode' variable. This is not
+> harmful but bad for readability and is harmful for planned changes to
+> the driver. The THCODE values should be read from hardware fuses if they
+> are available and only fallback to the global 'thcode' variable if they
+> are not fused.
+> 
+> Rename the global 'thcode' variable to 'thcodes' to avoid shadowing the
+> symbol in functions that take it as an argument.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-> No idea what /exactly/ is going wrong, but I would point out that this is one
-> of the platforms that is handled as a special case in the Makefile when
-> setting TEXT_OFFSET:
-(...)
-> textofs-$(CONFIG_ARCH_IPQ40XX) := 0x00208000
-> textofs-$(CONFIG_ARCH_MSM8X60) := 0x00208000
-> textofs-$(CONFIG_ARCH_MSM8960) := 0x00208000
+Applied.
 
-But what on earth is this? I just deleted this and the platform
-boots just as well.
 
-It was originally added by Stephen in
-commit 9e775ad19f52d70a53797b4d0eb740c52b0a9567
-"ARM: 7012/1: Set proper TEXT_OFFSET for newer MSMs"
-to patch around memblocks in the board files in
-mach-msm/* These boardfile hacks that seem to relate to this
-textofs are now *GONE* but this is still here!
 
-Laura, Stephen, Bjorn: can't we just delete these QCOM
-textofs things so as to clean out some confusion?
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-Or is my APQ8060 odd once again and the rest of the world
-crashes if we remove this?
-
-Yours,
-Linus Walleij
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
