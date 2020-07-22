@@ -2,133 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2731229325
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 10:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED2D229344
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 10:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726963AbgGVIKB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jul 2020 04:10:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49304 "EHLO
+        id S1728564AbgGVISq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jul 2020 04:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726892AbgGVIKB (ORCPT
+        with ESMTP id S1726147AbgGVISp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jul 2020 04:10:01 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF60DC0619DC
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jul 2020 01:10:00 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id w9so1227956ejc.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Jul 2020 01:10:00 -0700 (PDT)
+        Wed, 22 Jul 2020 04:18:45 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68901C0619DC;
+        Wed, 22 Jul 2020 01:18:45 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id b25so1541617ljp.6;
+        Wed, 22 Jul 2020 01:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8/oqCUNmFc1OqEXIlUblc8Jp0aa/CFYxFmL2eg8Khmw=;
-        b=Ii92gK2l3xsjB7pc4zpJzWubUCqWxaXjaGz1827ZLCYraTZxLI4GEXebasVLB3raxd
-         wZJky5lLRe1rG9dscfydrF0dm1kNwnqgAYnY/3d+QFiJ5FLNDduQYcSlNbi8A6c+hx8y
-         CMQ7YTioQyWvZ58SIDmp13HKuqAcIahEawSKmLIUkXZFAGP7AlJ9epnj8TyhUz4jPBGc
-         fnaV9dGFbwM5PHac4f+dsTHjzhdh5Osyv1qU+uHGVZTHuAtIhf62pzyqyuIzc5EZNAjg
-         yLFKrzGWu3gTBfTq/CQpP+sJRVgukDv6YCw8FAWlsZGXAfOc7ZuQZAS7rrLaazG5V1Ks
-         YsIg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Agqk++F1xoIQwoewhOj/u4TlCp4VInNiEtBRjZLSP/g=;
+        b=Qa8hzfqM7xckbkB0ihS2bBaj8DkJlFJP+b7TsSZ93svL27uL8PxtqwXbZdrYv8i2OE
+         zKfA/SgkbIQvrqHu4Kpuxv4zHmMJgdSfcqVnO8lX8oPBI9Yp61VCoV/xZVkBIgj2U/Da
+         RrGNmhSCuZc5RmSSGs2fuvkWumPBH9LNXrJUo9CqI0OJYtO15uRSG3KldtOIsccAP6dF
+         4fS8mvKwNXeumomBjfQ0hl5Ix3jd4mFl/3hy+oVmA2CoJVH2ujUJyQeTrS+5h2yTLUxH
+         Xid8SBbM+FZeIbJWu4IIyOIWeQdVhyulBYOdV9M/lPvtEWe2zlcNhEimDtyzmdtLxUdm
+         UwPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8/oqCUNmFc1OqEXIlUblc8Jp0aa/CFYxFmL2eg8Khmw=;
-        b=hxill2n140wuFnrsTjmMYQVlmq5Phlx7e8q8kh8aMRtEZzeygZqu5ZrevLVGjtxLN+
-         8weMqKsQ07ey74dw2tt5/MRD8KyxkIXXcn9q4KCje4oWVtyH1jlM58HIsIRJL+JPq0lD
-         fzh9Gn1ifxFSwrlOQjHD8vwdtZ74HRklzCxCF4l5aCsj2ghmviSp8c8otgNv+gUd1oN0
-         GE6tTvF2J9Li2wal4BF6LcbWK8tm2FPRAN3CaLSgJDBCUoBQabchISwAMjjZfoV+rYEv
-         qaObxxNbTtb4n5u70yNA+qrkTE/4Y26ExMKZezI/DpKjx0PZ6SdSomQCG1WiY+XgqCPk
-         rfLA==
-X-Gm-Message-State: AOAM532p2CDBBqSYDc4Y25Ork+hj4yDk1OIYWCm5qE5cY9wRum9OO2td
-        aX5dDGSuymt5GwB9Dmndq1nLY0Z3hYNYpRbruFe2Xg==
-X-Google-Smtp-Source: ABdhPJy0jQhddfBD9VXXPKyqiTXDORIrWINJapjugf6TEhdbEYQZQa7Fm4tW9glCGrENg3DnQz945cD77jRoWWq1Rdw=
-X-Received: by 2002:a17:906:2296:: with SMTP id p22mr28296124eja.510.1595405399348;
- Wed, 22 Jul 2020 01:09:59 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Agqk++F1xoIQwoewhOj/u4TlCp4VInNiEtBRjZLSP/g=;
+        b=rZf71WNWoj/ZBLjkPB5igjDmKzuVU5P4sM0jAoY8xp5hX+k6BcypiCcBqeXT4qaND9
+         BQFgsBVPLlmf1inx09aztRWT7lCDT2hfcpNuwaNk2ZV+3lAXFRdwYilJwGRzTFTtD3w5
+         YrOyd80Cvs/RmUACRL1aat+h9Veef7pgRsR2PIYClQrMQXfFYLOrJMVIyLSynrWeVlyI
+         QGb30c5s8KyD3X7XCdo64OYB9MhM1EAbdo8sF4JYX8ruveeApMaSwXNlj+i9lA2h28rx
+         ToQBCA8O/jd0p5eO0piJn8pvvG+J6xYWz1OYzVPclMtxGK4F6i9kRqdLymGxaBMguCHv
+         KGOA==
+X-Gm-Message-State: AOAM533/tPEJEF7BUb3pLOpn74tL3WlqqbiailNDcKIvgrP3eAjAxb9u
+        +os0Jp57ipq087mygoRNBeNHwC6dZIk=
+X-Google-Smtp-Source: ABdhPJyY4Tbwtt85H3YVaFW5echnoMflZZxA0fmVCgYjB5+HyNUpbH2sXAi8QbiYTcJ+0tUZ38vzgw==
+X-Received: by 2002:a2e:99cf:: with SMTP id l15mr14904100ljj.294.1595405923527;
+        Wed, 22 Jul 2020 01:18:43 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:44d2:25a2:d4ec:7c9e:620b:fb8? ([2a00:1fa0:44d2:25a2:d4ec:7c9e:620b:fb8])
+        by smtp.gmail.com with ESMTPSA id u19sm6903258ljk.0.2020.07.22.01.18.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2020 01:18:42 -0700 (PDT)
+Subject: Re: [PATCH v3] net: ethernet: ravb: exit if re-initialization fails
+ in tx timeout
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        davem@davemloft.net, kuba@kernel.org
+Cc:     dirk.behme@de.bosch.com, Shashikant.Suguni@in.bosch.com,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <1595312592-28666-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <cc59c0d2-c7c1-9707-79c6-359d822f2b27@gmail.com>
+Date:   Wed, 22 Jul 2020 11:18:34 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
- <20200717132859.237120-3-jacopo+renesas@jmondi.org> <20200717193509.GD5961@pendragon.ideasonboard.com>
-In-Reply-To: <20200717193509.GD5961@pendragon.ideasonboard.com>
-From:   Loic Poulain <loic.poulain@linaro.org>
-Date:   Wed, 22 Jul 2020 10:14:52 +0200
-Message-ID: <CAMZdPi-wOmbMi-BxB31HoDhcBSxoSnFssceb=KR2Q=SeU9rN=w@mail.gmail.com>
-Subject: Re: [PATCH 02/13] arm64: dts: qcom: apq8016-sbc: Fix CSI-2 lanes routing
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1595312592-28666-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 17 Jul 2020 at 21:35, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jacopo,
->
-> On Fri, Jul 17, 2020 at 03:28:48PM +0200, Jacopo Mondi wrote:
-> > The ov5640 sensor does not support lanes reconfiguration according
-> > to version of the datasheet I have (version 2.03) and the driver
-> > does not parse the properties to try to reconfigure them.
-> >
-> > Fix the properties values in the camera and cci node.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> > Loic, I see you added the camera nodes in
-> > 39e0ce6cd1bf ("arm64: dts: qcom: apq8016-sbc: Add CCI/Sensor nodes")
-> >
-> > Do you have any idea how lanes could be swapped if, from my understanding,
-> > nor the sensor nor the driver supports that ?
->
-> It's not supported on the OV5640 side, so I think the second hunk of
-> this patch is correct, but I believe that the CAMSS supports lane
-> reordering, so the first hunk is likely incorrect and should be dropped.
+On 21.07.2020 9:23, Yoshihiro Shimoda wrote:
 
-Indeed, camss supports lane configuration (cf camss_of_parse_endpoint_node).
-The sensor doesn't, so that can be removed on its side.
+> According to the report of [1], this driver is possible to cause
+> the following error in ravb_tx_timeout_work().
+> 
+> ravb e6800000.ethernet ethernet: failed to switch device to config mode
+> 
+> This error means that the hardware could not change the state
+> from "Operation" to "Configuration" while some tx and/or rx queue
+> are operating. After that, ravb_config() in ravb_dmac_init() will fail,
+> and then any descriptors will be not allocaled anymore so that NULL
+> pointer dereference happens after that on ravb_start_xmit().
+> 
+> To fix the issue, the ravb_tx_timeout_work() should check
+> the return values of ravb_stop_dma() and ravb_dmac_init().
+> If ravb_stop_dma() fails, ravb_tx_timeout_work() re-enables TX and RX
+> and just exits. If ravb_dmac_init() fails, just exits.
+> 
+> [1]
+> https://lore.kernel.org/linux-renesas-soc/20200518045452.2390-1-dirk.behme@de.bosch.com/
+> 
+> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
 
-Regards,
-Loic
+    ACK, this tag is still good for v3.
 
->
-> > ---
-> >  arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
-> > index 8a4b790aa7ff..fe6613676e45 100644
-> > --- a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
-> > @@ -591,8 +591,8 @@ ports {
-> >               port@0 {
-> >                       reg = <0>;
-> >                       csiphy0_ep: endpoint {
-> > -                             clock-lanes = <1>;
-> > -                             data-lanes = <0 2>;
-> > +                             clock-lanes = <0>;
-> > +                             data-lanes = <1 2>;
-> >                               remote-endpoint = <&ov5640_ep>;
-> >                               status = "okay";
-> >                       };
-> > @@ -627,8 +627,8 @@ camera_rear@3b {
-> >
-> >               port {
-> >                       ov5640_ep: endpoint {
-> > -                             clock-lanes = <1>;
-> > -                             data-lanes = <0 2>;
-> > +                             clock-lanes = <0>;
-> > +                             data-lanes = <1 2>;
-> >                               remote-endpoint = <&csiphy0_ep>;
-> >                       };
-> >               };
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> ---
+>   Changes from RFC v2:
+>   - Check the return value of ravb_init_dmac() too.
+>   - Update the subject and description.
+>   - Fix the comment in the code.
+>   - Add Reviewed-by Sergei.
+>   https://patchwork.kernel.org/patch/11673621/
+> 
+>   Changes from RFC v1:
+>   - Check the return value of ravb_stop_dma() and exit if the hardware
+>     condition can not be initialized in the tx timeout.
+>   - Update the commit subject and description.
+>   - Fix some typo.
+>   https://patchwork.kernel.org/patch/11570217/
+> 
+>   Unfortunately, I still didn't reproduce the issue yet. But,
+>   I got review from Sergei in v2. So, I removed RFC on this patch.
+
+    Sorry for the sloppy code. :-|
+
+MBR, Sergei
