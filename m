@@ -2,82 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4AD22937A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 10:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB6E4229380
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 10:31:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726317AbgGVI2r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jul 2020 04:28:47 -0400
-Received: from www.zeus03.de ([194.117.254.33]:57620 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726147AbgGVI2r (ORCPT
+        id S1726632AbgGVIbO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jul 2020 04:31:14 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:58349 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbgGVIbO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jul 2020 04:28:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=266j9uSGuops7z9kBpXvluHoDZQ0
-        lpxa+TIc+bVOiu4=; b=Ai29aWaZRz7LOom1jLQTCBXiBMYO4Ygq+U3mK7pIcmUk
-        4z3eeqidKHGvc6Kxya+fDo4jVt9QrljB0FPJZgmUoZ1iJZFwXE6jDtiuYxsAa4dE
-        p2v4q45pImUdLZtgJgaaVLHq4FIItXmfjmbFddE2QO4j6vZL5ww/wGJHjzCpWLk=
-Received: (qmail 2973143 invoked from network); 22 Jul 2020 10:28:45 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jul 2020 10:28:45 +0200
-X-UD-Smtp-Session: l3s3148p1@4BM7hwOr2NQgAwDPXwY8AL9PxqFiRnVq
-Date:   Wed, 22 Jul 2020 10:28:45 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     kishon@ti.com, vkoul@kernel.org, geert+renesas@glider.be,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] phy: renesas: rcar-gen3-usb2: exit if
- request_irq() failed
-Message-ID: <20200722082845.GB1030@ninjato>
-References: <1594986297-12434-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1594986297-12434-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 22 Jul 2020 04:31:14 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 73EA8FF808;
+        Wed, 22 Jul 2020 08:31:09 +0000 (UTC)
+Date:   Wed, 22 Jul 2020 10:34:47 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Loic Poulain <loic.poulain@linaro.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH 02/13] arm64: dts: qcom: apq8016-sbc: Fix CSI-2 lanes
+ routing
+Message-ID: <20200722083447.ilffgfhpktcbdobz@uno.localdomain>
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-3-jacopo+renesas@jmondi.org>
+ <20200717193509.GD5961@pendragon.ideasonboard.com>
+ <CAMZdPi-wOmbMi-BxB31HoDhcBSxoSnFssceb=KR2Q=SeU9rN=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1594986297-12434-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAMZdPi-wOmbMi-BxB31HoDhcBSxoSnFssceb=KR2Q=SeU9rN=w@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Loic,
 
---rS8CxjVDS/+yyDmU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jul 22, 2020 at 10:14:52AM +0200, Loic Poulain wrote:
+> On Fri, 17 Jul 2020 at 21:35, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Jacopo,
+> >
+> > On Fri, Jul 17, 2020 at 03:28:48PM +0200, Jacopo Mondi wrote:
+> > > The ov5640 sensor does not support lanes reconfiguration according
+> > > to version of the datasheet I have (version 2.03) and the driver
+> > > does not parse the properties to try to reconfigure them.
+> > >
+> > > Fix the properties values in the camera and cci node.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > > Loic, I see you added the camera nodes in
+> > > 39e0ce6cd1bf ("arm64: dts: qcom: apq8016-sbc: Add CCI/Sensor nodes")
+> > >
+> > > Do you have any idea how lanes could be swapped if, from my understanding,
+> > > nor the sensor nor the driver supports that ?
+> >
+> > It's not supported on the OV5640 side, so I think the second hunk of
+> > this patch is correct, but I believe that the CAMSS supports lane
+> > reordering, so the first hunk is likely incorrect and should be dropped.
+>
+> Indeed, camss supports lane configuration (cf camss_of_parse_endpoint_node).
+> The sensor doesn't, so that can be removed on its side.
 
-On Fri, Jul 17, 2020 at 08:44:57PM +0900, Yoshihiro Shimoda wrote:
-> To avoid unexpected behaviors, it's better to exit if request_irq()
-> failed.
->=20
-> Suggested-by: Vinod Koul <vkoul@kernel.org>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+I removed both as I assumed otherwise lanes assignement doesn't match,
+unless there's some lanes re-routing happening in between the two.
 
-Makes sense to me.
+I'll drop the property from ov5640 node only.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thanks
+  j
 
-
---rS8CxjVDS/+yyDmU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8X+L0ACgkQFA3kzBSg
-KbbciA//fMAool2PdEJqf3rxrNzqqzPYYgMjFQmxW46mh71RAsjEvlIKNcwHPUiH
-LcSTZt33k2Ef5kfE/ByxiHCzxZEncMtPqjjfsx5wsxU930K5Cm+uTR1hjOYHkjfC
-oedk1vKAhQJB02UtrlNa8ahdkJGvXM8BQ+vBqjxuyFpowfHmRuCB2bUepqFKbY3h
-PqfYurpytpIv+8LJHpnAgbzOKanzYPS3TcHZ99TCxSBK8c8sp/s0+P09qI5PNMn+
-RTJjfHEbUef8O6q06P+ag4BfRGQ0SY0GrZR32G3vKnT1SL2A02ZB85dxHJAYSu6h
-8zeKYDm9kpoayIQdHw3b+zcq+KMoBBwezrUbxnntiWTQK/2r741kOJ++RlU8fXqW
-fmCatT+S2MO/KPP3YeT6gJoKY0l8VhxIRPr57Jhbl4vKqBYRSwHrrOtvz8Ue4P01
-mhcawkYSjKJuFu6skzlQ06WfZYgy/HJGIpMmaMmjj8UzoEKwEih92NiL9mbe0AG6
-RMPflXX/RaH1HoeVlqYKnzCCGNc7UXRvxDi+SPPa0F+OwGTkNByfVPgCny+JogQw
-nwA9jXj8mppzEboYBz4ro3nx8DYVHA629o/dVsgMrz8j26PW1SKaE8SXm7q4aJJA
-heW3POM/i6ruHJ1HmxH9QFNYu7mLM8myz+Mf407ajWXxgzh9fQE=
-=7PRm
------END PGP SIGNATURE-----
-
---rS8CxjVDS/+yyDmU--
+>
+> Regards,
+> Loic
+>
+> >
+> > > ---
+> > >  arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi | 8 ++++----
+> > >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > > index 8a4b790aa7ff..fe6613676e45 100644
+> > > --- a/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > > +++ b/arch/arm64/boot/dts/qcom/apq8016-sbc.dtsi
+> > > @@ -591,8 +591,8 @@ ports {
+> > >               port@0 {
+> > >                       reg = <0>;
+> > >                       csiphy0_ep: endpoint {
+> > > -                             clock-lanes = <1>;
+> > > -                             data-lanes = <0 2>;
+> > > +                             clock-lanes = <0>;
+> > > +                             data-lanes = <1 2>;
+> > >                               remote-endpoint = <&ov5640_ep>;
+> > >                               status = "okay";
+> > >                       };
+> > > @@ -627,8 +627,8 @@ camera_rear@3b {
+> > >
+> > >               port {
+> > >                       ov5640_ep: endpoint {
+> > > -                             clock-lanes = <1>;
+> > > -                             data-lanes = <0 2>;
+> > > +                             clock-lanes = <0>;
+> > > +                             data-lanes = <1 2>;
+> > >                               remote-endpoint = <&csiphy0_ep>;
+> > >                       };
+> > >               };
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
