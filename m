@@ -2,108 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DBA2229457
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 11:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0612422972D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jul 2020 13:10:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728360AbgGVJEE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jul 2020 05:04:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbgGVJED (ORCPT
+        id S1726161AbgGVLK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jul 2020 07:10:29 -0400
+Received: from www.zeus03.de ([194.117.254.33]:43854 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726941AbgGVLK2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jul 2020 05:04:03 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907F8C0619DC;
-        Wed, 22 Jul 2020 02:04:03 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id y9so270321oot.9;
-        Wed, 22 Jul 2020 02:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zxpuzEB9KMj0t9s7OpDkA/XsxcLlP2L79Bj3H31wGQg=;
-        b=qAxVGgydjt7gac3OWXNzknnBRu/Ayp4cFle9nv2nEPqB5M5+vdb0v3MDGbQ06e+7ay
-         b0TzDGT/L02h91uiZTDfpT+t8IGImRvqqRI6REKGm2NO2yM8pg5bu2/WMEPANPwESafj
-         NsfMyrZBjDtNsro5JfsYKKqZTaqDSpaj89xS8AHgBem4i5Ui7goYOUnYHn6X9Bxglawa
-         u3sQ0Cm74g2yY2Ik9zKg5Xz5etuPnsqFdCkdhqatBU+DL04f3Ui0HP96+t4hi5KGx9PQ
-         dGUTetX4hzJgJdDQBbmcRkvGE/hY25XhaSTujaxIV3M7KqqZDEP9L7DCYm2/ihxJjhq5
-         l1cQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zxpuzEB9KMj0t9s7OpDkA/XsxcLlP2L79Bj3H31wGQg=;
-        b=nqMUjMEwwG3dP4pAofXgB0PP/z1wLsoga6I9UHooDg1004GGZij/7/Ji7Q/zUE2FfC
-         VZMNEMw75F9S2q6Xcd4jvuqm7MAX4qDp9Ftq391zw54hTtv+T+pu16iy4wpY0rrU2liG
-         k3gFA6iawigs0bZweXf25eyXkSIWz1qSSACJWyMx+gwICNkXWipTDxKM/P6yEQQICLNG
-         y6lgj7Ix9hEPJlkUEHxZPtUx6e2vzqUZTqcF0xESwjLHtlYyU4ZJhG0n8VjdMOUk7J5v
-         gH7ys/56yRTL1NFG5OybAz2ixhf0a8oAjn0Hb+wDAz0Vde64V9i0HsBbP5zYdFIWDyEO
-         SHmA==
-X-Gm-Message-State: AOAM532w5mY3n9xgwia5WJ/8Kk8B+vkXCkoztY+VmKkqUEW2QxQNqX8D
-        mmOgXHIInoRWzb3/082ECAxGVhCzvjNstGQsWW4=
-X-Google-Smtp-Source: ABdhPJyvkWCP9ZAp2wHyowUwbZiqTpOrvwaJyTM71SEZs7Fadah0GjZv4QqaCe1IG4/I4xEhqsLD0r+pvHu/A3NxZFs=
-X-Received: by 2002:a4a:4cc1:: with SMTP id a184mr27367539oob.62.1595408642769;
- Wed, 22 Jul 2020 02:04:02 -0700 (PDT)
+        Wed, 22 Jul 2020 07:10:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=VV8jO+VNCBBi+L6IQSZtM6f1FOVa
+        N+zw7Qwl6ob4vaE=; b=Oiq4W2YKFgeq4iRdqdVGwOlBa6vLlak4gKvLhOFCZbxt
+        0kAYrQBaEMrxRhlS7WeL6/0Y/FVW/14nG8JwmIvQsbRlbVWqolhVrYbmI/+OKpiV
+        d7Leb/jays3ScSQ2WsdaP/rliwn3b3xXU+k3X10gSzrQbzuYOcCPuOPwyL8gLV0=
+Received: (qmail 3017535 invoked from network); 22 Jul 2020 13:10:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Jul 2020 13:10:26 +0200
+X-UD-Smtp-Session: l3s3148p1@WJd4yQWrXtggAwDPXwY8AL9PxqFiRnVq
+Date:   Wed, 22 Jul 2020 13:10:26 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] i2c: rcar: always clear ICSAR to avoid side effects
+Message-ID: <20200722111026.GR1030@ninjato>
+References: <20200704133829.7015-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200722085849.GF1030@ninjato> <20200722090017.GG1030@ninjato>
-In-Reply-To: <20200722090017.GG1030@ninjato>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 22 Jul 2020 10:03:36 +0100
-Message-ID: <CA+V-a8vtCBYsDE2Tw4f-FgvfuZ3RUUNwEvfrbq-sv2+4H6VxNw@mail.gmail.com>
-Subject: Re: [PATCH 02/20] arm64: dts: renesas: r8a774e1: Add PCIe device nodes
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="/Isdj7O9hWi8F9Bn"
+Content-Disposition: inline
+In-Reply-To: <20200704133829.7015-1-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-On Wed, Jul 22, 2020 at 10:00 AM Wolfram Sang <wsa@kernel.org> wrote:
->
-> On Wed, Jul 22, 2020 at 10:58:49AM +0200, Wolfram Sang wrote:
-> > On Thu, Jul 16, 2020 at 06:18:17PM +0100, Lad Prabhakar wrote:
-> > > Add PCIe{0,1} device nodes for R8A774E1 SoC.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> >
-> > Hmm, doesn't apply on top of 5.8-rc6 for me. Is there a branch to pull
-> > for easier review?
->
-> My fault, I missed the first series. Please note such dependencies in
-> the cover letter.
->
-I didn't mention as they were already applied to Geert's tree [1]
+--/Isdj7O9hWi8F9Bn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=renesas-arm-dt-for-v5.9
+On Sat, Jul 04, 2020 at 03:38:29PM +0200, Wolfram Sang wrote:
+> On R-Car Gen2, we get a timeout when reading from the address set in
+> ICSAR, even though the slave interface is disabled. Clearing it fixes
+> this situation. Note that Gen3 is not affected.
+>=20
+> To reproduce: bind and undbind an I2C slave on some bus, run
+> 'i2cdetect' on that bus.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Cheers,
---Prabhakar
+Applied to for-current, thanks!
+
+
+--/Isdj7O9hWi8F9Bn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8YHqIACgkQFA3kzBSg
+KbZXoQ//XxBed0oLBECNJmSuQ1pCqP0kL2g+Wqcn0OQzdiridBPAJacHxuy9wOSy
+fwMgWhw8MF5HQLfqzdxgRKeEel3Hsxm+tEDXCaSr7i23226n9M3sguujJH6mMsxg
+UfJp6x5mzOOTygFYe6c68cfUYfDFt+l3futa6KJw5vVPr6C5gpupQcj79/JhjhYZ
+ytQSFqqp+VbWp1DGd1IVFK4plXfzQ2qCSfdvffiILGiHkayiJASYzMHqq02+8N7n
+9jF4137jvhNS1Xm6ayJgxg8Oox+V7BmDWarMtuGH9K8O4vL8lI1tp1ci4A/kPEDL
+sc9SzKq8it0hkLEuOhu7diwTq08kBj7pwAh5l/yD9XJB8ZwcnfKQTvb85Zt8EjT+
+k16Fy/yoLgn+k49leU8fs7g1pGheQyxiq5ouqF00+aDmjFK2/r9DaeoPiq6qw2Ab
+Z/EKckM0KqYdvMCIktZxWGao+rljZVuE+kntmzLySRYCG5SdJLKAe2aDD7j+UUme
+pnj26dgDmGdQuKOpf7MLBn1YA6SLk/6NMSnfCf4p1bPAwrT40q2NnXZ50pyNOPba
+jYIYs+RJDh/gxwdGaJXulce5rYc/xwVU4FTwqW1vqv9ZMmb0wh72CnBAKgvM2Tzu
+6HfjmYMdqEFnPHzNWs8Q88GwvTu3lA1BX3h0IfHtc+AWFBfTr/I=
+=E0/E
+-----END PGP SIGNATURE-----
+
+--/Isdj7O9hWi8F9Bn--
