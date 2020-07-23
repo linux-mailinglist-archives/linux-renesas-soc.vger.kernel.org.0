@@ -2,25 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B5C622B35F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jul 2020 18:21:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25D1222B3F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jul 2020 18:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727052AbgGWQV6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jul 2020 12:21:58 -0400
-Received: from foss.arm.com ([217.140.110.172]:48280 "EHLO foss.arm.com"
+        id S1727044AbgGWQ4J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jul 2020 12:56:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726632AbgGWQV6 (ORCPT
+        id S1726621AbgGWQ4I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jul 2020 12:21:58 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B1BA1FB;
-        Thu, 23 Jul 2020 09:21:57 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8CC683F66F;
-        Thu, 23 Jul 2020 09:21:53 -0700 (PDT)
-Date:   Thu, 23 Jul 2020 17:21:48 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Rob Herring <robh@kernel.org>
+        Thu, 23 Jul 2020 12:56:08 -0400
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E179C22C9E;
+        Thu, 23 Jul 2020 16:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595523368;
+        bh=9qNrdyKreXu55OEnqmMFmaXouq8WzhxQTRQhDqKFzO0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=o6wMUa0PL7/6U5SHYS/PNagOvSs/yXS6zJA7IduXu9mNIItpgxVjzh/vehP9o1uS5
+         7GU3azUhN1T2k4Slzl92tsJ0l5ngaMocjpWth3sl4E1Xrg/tUitOIxqUF5gFcxkFCk
+         Xw5plQoEsDbZISRNB4LwPsRwJDiMjQVXpLVLYST0=
+Received: by mail-oi1-f182.google.com with SMTP id 12so5608396oir.4;
+        Thu, 23 Jul 2020 09:56:07 -0700 (PDT)
+X-Gm-Message-State: AOAM533Su8a7BDBwduEvNbbUZlQu5a+sy6ZhQB+ECVOqGsN1nHe0iMV6
+        /kltMSb3BnW+2h45FZcNncSzb2Oay7IZMc07zQ==
+X-Google-Smtp-Source: ABdhPJxlKZuS4ILTZ0+IoSoyVcDFqevHuf8OXw4KW6x7xfb5X7pMDe0Ld53HmKjmZM6D5msfxGLb+rIS+n0uKMrGU/A=
+X-Received: by 2002:aca:bb82:: with SMTP id l124mr4763076oif.106.1595523367119;
+ Thu, 23 Jul 2020 09:56:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200722022514.1283916-1-robh@kernel.org> <20200722022514.1283916-12-robh@kernel.org>
+ <CAL_Jsq+sPaubVERLHaRzjvThk3zDO6zAnRQjGuAMKaVA87Y4HQ@mail.gmail.com> <20200723162148.GA11749@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20200723162148.GA11749@e121166-lin.cambridge.arm.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 23 Jul 2020 10:55:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKFVuJGcCTgANF_R8EcvrTGw8WdOT1SDfAMSYrimGgKKQ@mail.gmail.com>
+Message-ID: <CAL_JsqKFVuJGcCTgANF_R8EcvrTGw8WdOT1SDfAMSYrimGgKKQ@mail.gmail.com>
+Subject: Re: [PATCH 11/19] PCI: Move setting pci_host_bridge.busnr out of host drivers
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         Fabio Estevam <festevam@gmail.com>,
         Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
@@ -55,102 +75,102 @@ Cc:     Bjorn Helgaas <bhelgaas@google.com>,
         <linux-renesas-soc@vger.kernel.org>,
         "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
         linux-tegra <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 11/19] PCI: Move setting pci_host_bridge.busnr out of
- host drivers
-Message-ID: <20200723162148.GA11749@e121166-lin.cambridge.arm.com>
-References: <20200722022514.1283916-1-robh@kernel.org>
- <20200722022514.1283916-12-robh@kernel.org>
- <CAL_Jsq+sPaubVERLHaRzjvThk3zDO6zAnRQjGuAMKaVA87Y4HQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+sPaubVERLHaRzjvThk3zDO6zAnRQjGuAMKaVA87Y4HQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 09:26:01AM -0600, Rob Herring wrote:
-> On Tue, Jul 21, 2020 at 8:25 PM Rob Herring <robh@kernel.org> wrote:
+On Thu, Jul 23, 2020 at 10:21 AM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> On Thu, Jul 23, 2020 at 09:26:01AM -0600, Rob Herring wrote:
+> > On Tue, Jul 21, 2020 at 8:25 PM Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > Most host drivers only parse the DT bus range to set the root bus number
+> > > in pci_host_bridge.busnr. The ones that don't set busnr are buggy in
+> > > that they ignore what's in DT. Let's set busnr in pci_scan_root_bus_bridge()
+> > > where we already check for the bus resource and remove setting it in
+> > > host drivers.
+> > >
+> > > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > > Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> > > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> > > Cc: Will Deacon <will@kernel.org>
+> > > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > > Cc: Jonathan Hunter <jonathanh@nvidia.com>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Cc: Ryder Lee <ryder.lee@mediatek.com>
+> > > Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
+> > > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > Cc: linux-tegra@vger.kernel.org
+> > > Cc: linux-mediatek@lists.infradead.org
+> > > Cc: linux-renesas-soc@vger.kernel.org
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > >  drivers/pci/controller/dwc/pcie-designware-host.c | 4 ----
+> > >  drivers/pci/controller/dwc/pcie-designware.h      | 1 -
+> > >  drivers/pci/controller/pci-aardvark.c             | 5 ++---
+> > >  drivers/pci/controller/pci-host-common.c          | 1 -
+> > >  drivers/pci/controller/pci-tegra.c                | 4 +---
+> > >  drivers/pci/controller/pci-v3-semi.c              | 2 --
+> > >  drivers/pci/controller/pcie-mediatek.c            | 8 +-------
+> > >  drivers/pci/controller/pcie-rcar-host.c           | 1 -
+> > >  drivers/pci/probe.c                               | 1 +
+> > >  9 files changed, 5 insertions(+), 22 deletions(-)
+> > >
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+> > > index 9e8a9cfc6d3a..fa922cb876a3 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+> > > @@ -374,9 +374,6 @@ int dw_pcie_host_init(struct pcie_port *pp)
+> > >                         pp->cfg0_base = pp->cfg->start;
+> > >                         pp->cfg1_base = pp->cfg->start + pp->cfg0_size;
+> > >                         break;
+> > > -               case IORESOURCE_BUS:
+> > > -                       pp->busn = win->res;
+> > > -                       break;
+> > >                 }
+> > >         }
+> > >
 > >
-> > Most host drivers only parse the DT bus range to set the root bus number
-> > in pci_host_bridge.busnr. The ones that don't set busnr are buggy in
-> > that they ignore what's in DT. Let's set busnr in pci_scan_root_bus_bridge()
-> > where we already check for the bus resource and remove setting it in
-> > host drivers.
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > > index fd2146298b58..9fb44290ed43 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > > @@ -188,7 +188,6 @@ struct pcie_port {
+> > >         struct resource         *cfg;
+> > >         struct resource         *io;
+> > >         struct resource         *mem;
+> > > -       struct resource         *busn;
+> > >         int                     irq;
+> > >         const struct dw_pcie_host_ops *ops;
+> > >         int                     msi_irq;
 > >
-> > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Ryder Lee <ryder.lee@mediatek.com>
-> > Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
-> > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Cc: linux-tegra@vger.kernel.org
-> > Cc: linux-mediatek@lists.infradead.org
-> > Cc: linux-renesas-soc@vger.kernel.org
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  drivers/pci/controller/dwc/pcie-designware-host.c | 4 ----
-> >  drivers/pci/controller/dwc/pcie-designware.h      | 1 -
-> >  drivers/pci/controller/pci-aardvark.c             | 5 ++---
-> >  drivers/pci/controller/pci-host-common.c          | 1 -
-> >  drivers/pci/controller/pci-tegra.c                | 4 +---
-> >  drivers/pci/controller/pci-v3-semi.c              | 2 --
-> >  drivers/pci/controller/pcie-mediatek.c            | 8 +-------
-> >  drivers/pci/controller/pcie-rcar-host.c           | 1 -
-> >  drivers/pci/probe.c                               | 1 +
-> >  9 files changed, 5 insertions(+), 22 deletions(-)
+> > These 2 hunks should be dropped as they are breaking the Amazon driver.
 > >
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-> > index 9e8a9cfc6d3a..fa922cb876a3 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware-host.c
-> > +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-> > @@ -374,9 +374,6 @@ int dw_pcie_host_init(struct pcie_port *pp)
-> >                         pp->cfg0_base = pp->cfg->start;
-> >                         pp->cfg1_base = pp->cfg->start + pp->cfg0_size;
-> >                         break;
-> > -               case IORESOURCE_BUS:
-> > -                       pp->busn = win->res;
-> > -                       break;
-> >                 }
-> >         }
-> >
-> 
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> > index fd2146298b58..9fb44290ed43 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware.h
-> > +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> > @@ -188,7 +188,6 @@ struct pcie_port {
-> >         struct resource         *cfg;
-> >         struct resource         *io;
-> >         struct resource         *mem;
-> > -       struct resource         *busn;
-> >         int                     irq;
-> >         const struct dw_pcie_host_ops *ops;
-> >         int                     msi_irq;
-> 
-> These 2 hunks should be dropped as they are breaking the Amazon driver.
-> 
-> Lorenzo, do you want to fixup or I can send a fix?
+> > Lorenzo, do you want to fixup or I can send a fix?
+>
+> Done (I have not removed the hunk below though):
 
-Done (I have not removed the hunk below though):
+Right, that's correct. I'll post a separate patch removing 'pp->busn'
+as that's available from the bridge struct. The bridge struct
+surprisingly is not accessible from the DWC structs. I guess that's
+why there's a bunch of duplication of data.
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-index 9e8a9cfc6d3a..9775558acdc8 100644
---- a/drivers/pci/controller/dwc/pcie-designware-host.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-@@ -474,7 +474,6 @@ int dw_pcie_host_init(struct pcie_port *pp)
- 	}
+Rob
 
- 	bridge->sysdata = pp;
--	bridge->busnr = pp->busn->start;
- 	bridge->ops = &dw_pcie_ops;
- 	bridge->map_irq = of_irq_parse_and_map_pci;
- 	bridge->swizzle_irq = pci_common_swizzle;
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+> index 9e8a9cfc6d3a..9775558acdc8 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+> @@ -474,7 +474,6 @@ int dw_pcie_host_init(struct pcie_port *pp)
+>         }
+>
+>         bridge->sysdata = pp;
+> -       bridge->busnr = pp->busn->start;
+>         bridge->ops = &dw_pcie_ops;
+>         bridge->map_irq = of_irq_parse_and_map_pci;
+>         bridge->swizzle_irq = pci_common_swizzle;
