@@ -2,225 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A73E22D62E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jul 2020 10:48:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3F2122D76B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 25 Jul 2020 14:07:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbgGYIsS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 25 Jul 2020 04:48:18 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:49560 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726593AbgGYIsS (ORCPT
+        id S1726618AbgGYMHS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 25 Jul 2020 08:07:18 -0400
+Received: from www.zeus03.de ([194.117.254.33]:52374 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726973AbgGYMHS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 25 Jul 2020 04:48:18 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 8BA2F634C87;
-        Sat, 25 Jul 2020 11:47:40 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jzFqG-0000kc-Bl; Sat, 25 Jul 2020 11:47:40 +0300
-Date:   Sat, 25 Jul 2020 11:47:40 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v10 2/4] media: i2c: Add MAX9286 driver
-Message-ID: <20200725084740.GD829@valkosipuli.retiisi.org.uk>
-References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
- <20200612144713.502006-3-kieran.bingham+renesas@ideasonboard.com>
- <1fb4a023-d177-744f-41f4-755aafbfa7f2@ideasonboard.com>
- <20200723222834.GC829@valkosipuli.retiisi.org.uk>
- <c4b0e30f-b0b7-1b19-f43e-36d417eb6d28@ideasonboard.com>
+        Sat, 25 Jul 2020 08:07:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Hq9VTuxvTgUiG/fMilb0aDzAVfOZ
+        B5oiRS54tXxoln8=; b=pQ/IfYaDksx93wicx6OOK+ilKI2AJRA/BID9iAKOUKmH
+        th9Oqf+iHJkPaQAOxlnW0k8x0DZz3PCOedpaGtHtcDLx2C/R/ul5C+r1j2r4jk6A
+        ffaY0gvAFfdsKyCrM7tQAL4muecCuiiJbpV8FPAFeRvhZC2qr3XJutUawYgSqPo=
+Received: (qmail 3979851 invoked from network); 25 Jul 2020 14:07:15 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Jul 2020 14:07:15 +0200
+X-UD-Smtp-Session: l3s3148p1@61Uf7kKryqMgAwDPXyGYANurB2J6Dh5y
+Date:   Sat, 25 Jul 2020 14:07:00 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
+Message-ID: <20200725120700.GA1734@kunai>
+References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+ <20200715203843.GA776042@bogus>
+ <20200724193635.GC1227@ninjato>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6TrnltStXW4iwmi0"
 Content-Disposition: inline
-In-Reply-To: <c4b0e30f-b0b7-1b19-f43e-36d417eb6d28@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200724193635.GC1227@ninjato>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Kieran,
 
-On Fri, Jul 24, 2020 at 10:32:11AM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> On 23/07/2020 23:28, Sakari Ailus wrote:
-> > Hi Kieran,
-> > 
-> > On Thu, Jul 16, 2020 at 10:02:24AM +0100, Kieran Bingham wrote:
-> >> Hi Sakari,
-> >>
-> >> This is the output of checkpatch --strict on this driver. Sorry for not
-> >> detailing this in the commit or cover letter.
-> > 
-> > No worries.
-> > 
-> >>
-> >>> ./patches/gmsl/v10/v10-0001-dt-bindings-media-i2c-Add-bindings-for-Maxim-Int.patch has style problems, please review.
-> >>> --------------------------------------------------------------
-> >>> ./patches/gmsl/v10/v10-0002-media-i2c-Add-MAX9286-driver.patch
-> >>> --------------------------------------------------------------
-> >>> CHECK: Prefer using the BIT macro
-> >>> #246: FILE: drivers/media/i2c/max9286.c:40:
-> >>> +#define MAX9286_FSYNCMODE_INT_OUT	(1 << 6)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #251: FILE: drivers/media/i2c/max9286.c:45:
-> >>> +#define MAX9286_FSYNCMETH_SEMI_AUTO	(1 << 0)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #262: FILE: drivers/media/i2c/max9286.c:56:
-> >>> +#define MAX9286_EDC_6BIT_CRC		(1 << 5)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #268: FILE: drivers/media/i2c/max9286.c:62:
-> >>> +#define MAX9286_HVSRC_D14		(1 << 0)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #286: FILE: drivers/media/i2c/max9286.c:80:
-> >>> +#define MAX9286_DATATYPE_RGB565		(1 << 0)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #304: FILE: drivers/media/i2c/max9286.c:98:
-> >>> +#define MAX9286_I2CSLVSH_469NS_234NS	(1 << 5)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #312: FILE: drivers/media/i2c/max9286.c:106:
-> >>> +#define MAX9286_I2CMSTBT_28KBPS		(1 << 2)
-> >>>
-> >>> CHECK: Prefer using the BIT macro
-> >>> #316: FILE: drivers/media/i2c/max9286.c:110:
-> >>> +#define MAX9286_I2CSLVTO_256US		(1 << 0)
-> >>
-> >> None of those are appropriate to use the BIT() macro, as they are all
-> >> entries of a specific field with a shift, such as:
-> >>
-> >> #define MAX9286_FSYNCMODE_ECU           (3 << 6)
-> >> #define MAX9286_FSYNCMODE_EXT           (2 << 6)
-> >> #define MAX9286_FSYNCMODE_INT_OUT       (1 << 6)
-> >> #define MAX9286_FSYNCMODE_INT_HIZ       (0 << 6)
-> >>
-> >> Checkpatch is only picking up on the "1 << x" variant of each entry.
-> > 
-> > Ideally you should use "1U << x" everywhere. If you happen to have a
-> > register with 31st bit signifying something, mayhem would follow. So the
-> > practice is to make all such definitions unsigned.
-> 
-> Just to clarify, because of the location you've put your x, which is not
-> the variable in the above case.
-> 
-> These definitions are possible field values with a shift (enum << y),
-> not bit values (1 << x)
-> 
-> They can of course be unsigned though.
-> 
-> Is your statement that you would like to see these as:
-> 
->  #define MAX9286_FSYNCMODE_ECU           (3U << 6)
->  #define MAX9286_FSYNCMODE_EXT           (2U << 6)
->  #define MAX9286_FSYNCMODE_INT_OUT       (1U << 6)
->  #define MAX9286_FSYNCMODE_INT_HIZ       (0U << 6)
+--6TrnltStXW4iwmi0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, please. This avoids shifting a non-zero bit to the 31st position of a
-32-bit register.
+On Fri, Jul 24, 2020 at 09:36:35PM +0200, Wolfram Sang wrote:
+> Hi Rob,
+>=20
+> > > SMBus is largely compatible with I2C but there are some specifics. In
+> > > case we need them on a bus, we can now use this new binding.
+> > >=20
+> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Document=
+ation/devicetree/bindings/i2c/i2c.txt
+> > > index 438ae123107e..d1f8cf3bd236 100644
+> > > --- a/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > @@ -77,6 +77,11 @@ wants to support one of the below features, it sho=
+uld adapt these bindings.
+> > >  	this information to detect a stalled bus more reliably, for example.
+> > >  	Can not be combined with 'multi-master'.
+> > > =20
+> > > +- smbus
+> >=20
+> > This is a boolean?
+>=20
+> Yes.
+>=20
+> >=20
+> > > +	states that additional SMBus restrictions and features apply to thi=
+s bus.
+> > > +	Examples of features are SMBusHostNotify and SMBusAlert. Examples of
+> >=20
+> > Do features need to be enumerated separately?
+>=20
+> They could be, do you think this is of advantage? For now, we would then
+> need "host-notify" and "smbus-alert". Maybe later things like "timeout"
+> could show up.
 
-> 
-> 
-> Or that you would prefer a macro'ised version:
-> 
-> #define FIELD_ENTRY(value, shift) (value U << shift)
-> 
-> 
-> Or rather, I could just convert them all to use FIELD_PREP:
-> 
-> #define MAX9286_FSYNCMODE GENMASK(7,6)
-> 
-> #define MAX9286_FSYNCMODE_ECU      FIELD_PREP(MAX9286_FSYNCMODE, 3)
-> #define MAX9286_FSYNCMODE_EXT      FIELD_PREP(MAX9286_FSYNCMODE, 2)
-> #define MAX9286_FSYNCMODE_INT_OUT  FIELD_PREP(MAX9286_FSYNCMODE, 1)
-> #define MAX9286_FSYNCMODE_INT_HIZ  FIELD_PREP(MAX9286_FSYNCMODE, 0)
-> 
-> If you want me to change these entries, I suspect moving wholly to use
-> FIELD_PREP/FIELD_GET throughout the driver would be the best course of
-> action.
-> 
-> A bit of churn, but I can do that if you wish.
-> 
-> --
-> Kieran
-> 
-> 
-> 
-> >>> CHECK: Macro argument reuse 'source' - possible side-effects?
-> >>> #399: FILE: drivers/media/i2c/max9286.c:193:
-> >>> +#define for_each_source(priv, source) \
-> >>> +	for ((source) = NULL; ((source) = next_source((priv), (source))); )
-> >>
-> >> This warns against possible side effects, but the 're-use' effects are
-> >> desired ;-)
-> >>
-> >> If you'd prefer this macro to be re-written please let me know.
-> > 
-> > Works for me. Some warnigns are just not useful. I bet quite a few macros
-> > elsewhere in the kernel would trigger this.
-> 
-> 
-> I think we'll just leave this one ;-)
-> 
-> 
-> >>> CHECK: Lines should not end with a '('
-> >>> #1372: FILE: drivers/media/i2c/max9286.c:1166:
-> >>> +			ret = v4l2_fwnode_endpoint_parse(
-> >>
-> >> Full code block:
-> >>
-> >>>                         ret = v4l2_fwnode_endpoint_parse(
-> >>>                                         of_fwnode_handle(node), &vep);
-> >>>                         if (ret) {
-> >>>                                 of_node_put(node);
-> >>>                                 return ret;
-> >>>                         }
-> >>
-> >> That one is awkward, and I chose to keep it as a lesser evil.
-> >> Of course now that we can officially go up to 120 chars, I could move
-> >> this line up.
-> >>
-> >> If you'd like this to be moved to a single line now we can go over 80
-> >> chars, please confirm.
-> > 
-> > I don't mind that. Mauro, any thoughts on this?
-> 
-> 
-> And I'll let Mauro decide that as it will impact my line-length choices
-> in the future ;-)
+I also recall now that I thought that "smbus" fits better the
+"describing hardware" aspect, i.e. "this bus is an SMBus and not I2C".
+Enumerating features felt more like configuration to me.
 
-I think it's actually much better to end a line with opening parenthesis
-than have a line longer than 80, but I recognise there are differing
-opinions.
+>=20
+> >=20
+> > > +	restrictions are more reserved addresses and timeout definitions.
+> > > +
+>=20
+> All the best,
+>=20
+>    Wolfram
+>=20
 
-My terminal window width is 80 and having more terminals is more useful
-than being able to see a rare line over 80 completely.
 
--- 
-Regards,
 
-Sakari Ailus
+--6TrnltStXW4iwmi0
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8cIF8ACgkQFA3kzBSg
+KbbmRg/9FBgAHudWFccM3bFISmt0oQlevbT894j/nHd8u8MU1JW9oj+G3VWzBRv3
+O5Bk2pgueRMwcJWcQGTmCYS/gCKgq0OzG8bX4YVa7+1+uoJJbph/t+Gn+QyETk8l
+PUHK0w4zk5IAVxgbaN50E+hq+/X3jkrhq9nEe9MIdrGi93CX9WoSrUGydl1zf25D
+eUkttUakrkCYicglglSw1hbkc/oYNXCQ5WdJtCODG4OaFxPwhVoxOkCcoG+jcH9Y
+k6af9IlFnNbv3loppRdJz5CRAJ7A5vGGLSsurmvXXN/Zjh4cv2jZIHucswW8/PyV
+5cCpxdUIMKinyhdaCxIirx1DsxexkKba5NP/S7lRwIWJI3k3/bmEbGTmJ2qEGxVA
+gkdGklWSiShETZ7iA+Y80kBmi52nI8qW0943U6gsmkkgvOCEHnSxIC1P7puw598b
+lmJ8EAsioxz1OU9qS+Weppw8f2g7V56mmcSzgB+l/xYAdim7E3oQTXWgh3HKYG5S
++ZXbw1RXC6cDZQjiJEqw+Rtr4icbz0SVgVwb3mgRYS2IbhrD5qvbn+PCSOoSL+vL
+DEwqVq3WUXYYRq1Jpjip4s87IuJy1NBXGfbDr0Zu1Wk73VpfhRVV5sjjzzUOgitf
+qzIAZjMzHIbnSPdR9ZGtZZSvuwcFbPoDRFpo54lvMxb7j0f42kk=
+=8DcT
+-----END PGP SIGNATURE-----
+
+--6TrnltStXW4iwmi0--
