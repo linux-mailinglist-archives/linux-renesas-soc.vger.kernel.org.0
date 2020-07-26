@@ -2,86 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AD6922E125
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jul 2020 18:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FDCD22E196
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jul 2020 19:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbgGZQQN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 Jul 2020 12:16:13 -0400
-Received: from www.zeus03.de ([194.117.254.33]:39450 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726044AbgGZQQN (ORCPT
+        id S1726174AbgGZRKY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 26 Jul 2020 13:10:24 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:52678 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726117AbgGZRKX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 Jul 2020 12:16:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=E12sEuHu7kCo5Bfmu2Y+lR34Cxr
-        1WGgEEwin0TwQ4i0=; b=M8Tabv6USPKqWg18/Ey7ZM+GaPp1sRGbG0F4CDNCqGc
-        5eJXoAUHIWmIY/zzPelV2IKdtwwVc+PI7ImrFhYnxxotN+8fCKsgQubjnokCLFum
-        wm4wQZt0mUkuarHm9e5SMV9mZpLvy4pxE//5eJBI/JUpqyTikTgAutCzXCR0ZTpM
-        =
-Received: (qmail 77977 invoked from network); 26 Jul 2020 18:16:10 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jul 2020 18:16:10 +0200
-X-UD-Smtp-Session: l3s3148p1@vBE3hlqrcsUgAwDPXy27AOM4pzPBFrIA
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, Ray Jui <ray.jui@broadcom.com>,
-        Scott Branden <scott.branden@broadcom.com>,
-        Dhananjay Phadke <dphadke@linux.microsoft.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Rayagonda Kokatanur <rayagonda.kokatanur@broadcom.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] i2c: rcar: avoid race when unregistering slave
-Date:   Sun, 26 Jul 2020 18:16:06 +0200
-Message-Id: <20200726161606.15315-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
+        Sun, 26 Jul 2020 13:10:23 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 679BA804D8;
+        Sun, 26 Jul 2020 19:10:20 +0200 (CEST)
+Date:   Sun, 26 Jul 2020 19:10:18 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        dri-devel@lists.freedesktop.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] drm: of: Fix double-free bug
+Message-ID: <20200726171018.GF3275923@ravnborg.org>
+References: <1595502654-40595-1-git-send-email-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1595502654-40595-1-git-send-email-biju.das.jz@bp.renesas.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=aP3eV41m c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8
+        a=NBDvnfKliWK8pw6bCscA:9 a=CjuIK1q_8ugA:10 a=QsnFDINu91a9xkgZirup:22
+        a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Due to the lockless design of the driver, it is theoretically possible
-to access a NULL pointer, if a slave interrupt was running while we were
-unregistering the slave. To make this rock solid, disable the interrupt
-for a short time while we are clearing the interrupt_enable register.
-This patch is purely based on code inspection. The OOPS is super-hard to
-trigger because clearing SAR (the address) makes interrupts even more
-unlikely to happen as well. While here, reinit SCR to SDBS because this
-bit should always be set according to documentation. There is no effect,
-though, because the interface is disabled.
+Hi Biju
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+On Thu, Jul 23, 2020 at 12:10:54PM +0100, Biju Das wrote:
+> Fix double-free bug in the error path.
+> 
+> Fixes: 6529007522de ("drm: of: Add drm_of_lvds_get_dual_link_pixel_order")
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Cc: stable@vger.kernel.org
 
-Some people on CC here which encountered the same issue with the
-bcm-iproc driver. Does something like this work for you, too?
+Thanks, applied to drm-misc-fixes.
 
- drivers/i2c/busses/i2c-rcar.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+	Sam
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index 8dd35522d95a..0f73f0681a6e 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -871,12 +871,14 @@ static int rcar_unreg_slave(struct i2c_client *slave)
- 
- 	WARN_ON(!priv->slave);
- 
--	/* disable irqs and ensure none is running before clearing ptr */
-+	/* ensure no irq is running before clearing ptr */
-+	disable_irq(priv->irq);
- 	rcar_i2c_write(priv, ICSIER, 0);
--	rcar_i2c_write(priv, ICSCR, 0);
-+	rcar_i2c_write(priv, ICSSR, 0);
-+	enable_irq(priv->irq);
-+	rcar_i2c_write(priv, ICSCR, SDBS);
- 	rcar_i2c_write(priv, ICSAR, 0); /* Gen2: must be 0 if not using slave */
- 
--	synchronize_irq(priv->irq);
- 	priv->slave = NULL;
- 
- 	pm_runtime_put(rcar_i2c_priv_to_dev(priv));
--- 
-2.20.1
-
+> ---
+> This patch is tested against drm-fixes and drm-next.
+> ---
+>  drivers/gpu/drm/drm_of.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index fdb05fb..ca04c34 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -331,10 +331,8 @@ static int drm_of_lvds_get_remote_pixels_type(
+>  		 * configurations by passing the endpoints explicitly to
+>  		 * drm_of_lvds_get_dual_link_pixel_order().
+>  		 */
+> -		if (!current_pt || pixels_type != current_pt) {
+> -			of_node_put(remote_port);
+> +		if (!current_pt || pixels_type != current_pt)
+>  			return -EINVAL;
+> -		}
+>  	}
+>  
+>  	return pixels_type;
+> -- 
+> 2.7.4
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
