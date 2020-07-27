@@ -2,79 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F53A22FA1E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jul 2020 22:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9282422FDBF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jul 2020 01:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729113AbgG0Ucz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jul 2020 16:32:55 -0400
-Received: from www.zeus03.de ([194.117.254.33]:60520 "EHLO mail.zeus03.de"
+        id S1728041AbgG0XYF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jul 2020 19:24:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726196AbgG0Ucz (ORCPT
+        id S1728037AbgG0XYE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jul 2020 16:32:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=8gsJ297pj7FFCmcgZnqYcYx3yG/l
-        Nvpq/AoRSzKWms0=; b=1ZhLCPpwkBW8fFp7CP1TVlIscEsgQDb/bUHD4QyAu5C7
-        6r1h9qC4rjTORP2+xQOB+igVDn58WyyYgQjW3F+6HcPQxfwPEqxJIP6ELA4gZoQC
-        r4icMpZzWy1tNWnNGJij4auO5WtwQj4BrkBEMcWx4MqtoEAzhN0B/e9/7u0h80k=
-Received: (qmail 433977 invoked from network); 27 Jul 2020 22:32:53 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Jul 2020 22:32:53 +0200
-X-UD-Smtp-Session: l3s3148p1@Q68jOnKrWq4gAwDPXwZZAEO3WtL+/yzQ
-Date:   Mon, 27 Jul 2020 22:32:53 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Alain Volmat <alain.volmat@st.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] i2c: core: do not use logical device when creating irq
- domain
-Message-ID: <20200727203253.GB18997@ninjato>
-References: <20200701082318.11174-1-wsa+renesas@sang-engineering.com>
+        Mon, 27 Jul 2020 19:24:04 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3976C20A8B;
+        Mon, 27 Jul 2020 23:24:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595892244;
+        bh=cRKjqNxHua9T76fRL5VIQta7CPlRoJFYlQ27sbGlFXw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=B/aEPEoCIu2xfbzSY55MnYSkUDH1mE2vnv8NXaIbU1bBaHIJSpI7WOHbWHP4ifXWU
+         w8YJ+PpeyHyzmEXmibnv0t1NzV6uZm5Eh5LnLjYZl+lAiieZPNfgVHmzqvwMmBF/HK
+         N1nYkQ6raYmrSDPN8JeYUca4I4InRVDi7NdhjFGI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 13/25] net: ethernet: ravb: exit if re-initialization fails in tx timeout
+Date:   Mon, 27 Jul 2020 19:23:33 -0400
+Message-Id: <20200727232345.717432-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200727232345.717432-1-sashal@kernel.org>
+References: <20200727232345.717432-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
-Content-Disposition: inline
-In-Reply-To: <20200701082318.11174-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
---MfFXiAuoTsnnDAfZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 015c5d5e6aa3523c758a70eb87b291cece2dbbb4 ]
 
-On Wed, Jul 01, 2020 at 10:23:18AM +0200, Wolfram Sang wrote:
-> Let's rather use its physical parent device to give proper namings and
-> connections in debugfs.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+According to the report of [1], this driver is possible to cause
+the following error in ravb_tx_timeout_work().
 
-Applied to for-next, thanks!
+ravb e6800000.ethernet ethernet: failed to switch device to config mode
 
+This error means that the hardware could not change the state
+from "Operation" to "Configuration" while some tx and/or rx queue
+are operating. After that, ravb_config() in ravb_dmac_init() will fail,
+and then any descriptors will be not allocaled anymore so that NULL
+pointer dereference happens after that on ravb_start_xmit().
 
---MfFXiAuoTsnnDAfZ
-Content-Type: application/pgp-signature; name="signature.asc"
+To fix the issue, the ravb_tx_timeout_work() should check
+the return values of ravb_stop_dma() and ravb_dmac_init().
+If ravb_stop_dma() fails, ravb_tx_timeout_work() re-enables TX and RX
+and just exits. If ravb_dmac_init() fails, just exits.
 
------BEGIN PGP SIGNATURE-----
+[1]
+https://lore.kernel.org/linux-renesas-soc/20200518045452.2390-1-dirk.behme@de.bosch.com/
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8fOfQACgkQFA3kzBSg
-KbbvgQ/+I6zWzyb+e/tiBoxB15LMxSDfyf1FxPxAgoyzdxHt4fmf/ZRoC6HRW6cO
-aCaiw9FtHz6UCuj8ESLm8/pD1ZHB1wYWoR11PlOdHAvo/vHUudagAt+uMM0lKCiY
-vz0Md5H36ktEDzfJ2slrMWbrIfzk0DIxMyDknlmyZ/PopAQaFzy+KZm6wkleTD40
-56oUX1tdH1+68HRIkEX4E9scRZfX95ewPJbwBhZEWXzHh7dBE4Dc0L5QvXHE3J8U
-UmJoWhbOcvgjZpmIHZx+owN2tUDd6dJWXnwGsJstALPWIW8ZUdpaV1heAGqWaObj
-HGfwNWDmvar3ucSsePMiRBZWjiN5HKyDR4PnJdaUXzZf6ylKbVwz+shq6ddIg6S6
-Uc3rYLxg0th5DoJhcLNN7otwAmqyNNt1W8NQh8mPbKvkR2ddvkmc+rv1pYsM69ba
-1/TTtAKI/GNl9Y7Xoqjo+zgQR/QVCWzdQUBmKz4J688xD1Oqutgsv/fMBvm+9gP+
-6cf9h+FC7sE7uO+erRB5qSA2RD9oZMmDY9GmACco3kb/LnMftO2WeT5lZirG/ZG0
-PDN46JBdmN3/0KPPlhJh9rIcpneaOzsqwdaJ57hliBv4cvaXgHR/ppIeDMff/7kH
-g3oWCfMJ9+nVs2iciQGLnVNNTYMO1FbvHrfFMy6qU5dd4Y/+Cjc=
-=fbce
------END PGP SIGNATURE-----
+Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 26 ++++++++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
 
---MfFXiAuoTsnnDAfZ--
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 067ad25553b92..ab335f7dab828 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1444,6 +1444,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 	struct ravb_private *priv = container_of(work, struct ravb_private,
+ 						 work);
+ 	struct net_device *ndev = priv->ndev;
++	int error;
+ 
+ 	netif_tx_stop_all_queues(ndev);
+ 
+@@ -1452,15 +1453,36 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 		ravb_ptp_stop(ndev);
+ 
+ 	/* Wait for DMA stopping */
+-	ravb_stop_dma(ndev);
++	if (ravb_stop_dma(ndev)) {
++		/* If ravb_stop_dma() fails, the hardware is still operating
++		 * for TX and/or RX. So, this should not call the following
++		 * functions because ravb_dmac_init() is possible to fail too.
++		 * Also, this should not retry ravb_stop_dma() again and again
++		 * here because it's possible to wait forever. So, this just
++		 * re-enables the TX and RX and skip the following
++		 * re-initialization procedure.
++		 */
++		ravb_rcv_snd_enable(ndev);
++		goto out;
++	}
+ 
+ 	ravb_ring_free(ndev, RAVB_BE);
+ 	ravb_ring_free(ndev, RAVB_NC);
+ 
+ 	/* Device init */
+-	ravb_dmac_init(ndev);
++	error = ravb_dmac_init(ndev);
++	if (error) {
++		/* If ravb_dmac_init() fails, descriptors are freed. So, this
++		 * should return here to avoid re-enabling the TX and RX in
++		 * ravb_emac_init().
++		 */
++		netdev_err(ndev, "%s: ravb_dmac_init() failed, error %d\n",
++			   __func__, error);
++		return;
++	}
+ 	ravb_emac_init(ndev);
+ 
++out:
+ 	/* Initialise PTP Clock driver */
+ 	if (priv->chip_id == RCAR_GEN2)
+ 		ravb_ptp_init(ndev, priv->pdev);
+-- 
+2.25.1
+
