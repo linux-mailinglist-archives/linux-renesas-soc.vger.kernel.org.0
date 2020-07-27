@@ -2,115 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 814F822E9BC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jul 2020 12:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674F822EA7F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jul 2020 12:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbgG0KFC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jul 2020 06:05:02 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49922 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727915AbgG0KFB (ORCPT
+        id S1728367AbgG0Kzm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jul 2020 06:55:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728365AbgG0Kzm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jul 2020 06:05:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1595844300;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Zd7gW2T0uFlHq9x6vMbNVLs/E/Qaml2tIBgYDjU4eu4=;
-        b=QtCErCfwJzRX9hmN66t4ALsS5BOVSnUtMDvEhWODL+/6e5EEtAJKE0bIqNwbwFe3bN21nB
-        8nVKiV9hgHG9C+UU1BpcJTmWjhCNRnxEQqZZjThXA3eAK8/zYx6lP5kQtjBSuHRR+g7Yef
-        1D1NG/0erdFLFUVuICmW1aip/T4cih8=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-aJ0GA4HVPWCHNctcOKoEVg-1; Mon, 27 Jul 2020 06:04:56 -0400
-X-MC-Unique: aJ0GA4HVPWCHNctcOKoEVg-1
-Received: by mail-qv1-f70.google.com with SMTP id ed5so10918572qvb.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jul 2020 03:04:56 -0700 (PDT)
+        Mon, 27 Jul 2020 06:55:42 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00CBC061794
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jul 2020 03:55:41 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id i19so8745542lfj.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Jul 2020 03:55:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7/SExKZecnjZqSi2qz4VmAE6GbnnRQ1sm5QQOY2gXc4=;
+        b=az11H7s0oXw1xGc2jeT/u0i2EcL1R6CHoIpEqux+FocKZQ5ZIouJS/dYLYW6THxsKg
+         u89Qw0ahnHzjrv5B322VaB5FkbIyFuMFeAHlZusuBOg4EBNAwtoGLo7bqqPHLIgMLNfv
+         yurAI4Yk5ZMgO6YQi0mMCmRbxT6XJn1S3Ql3vwQAQNsprtLjpFp16k4o/syDMoepsb+P
+         vcl/j7nH9KZ97cF9xZEq0S/B/O0vqL1hklAJZ1TgOGBlZ28eJXmFUlsaTACT8Nd+jVVp
+         GE+1BdzX5nsJe5k6tO6lWqabWe2z64EmPyj6TfXFlXxNAvoprqhoMAgcjAqfDE3cxnRX
+         ARUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Zd7gW2T0uFlHq9x6vMbNVLs/E/Qaml2tIBgYDjU4eu4=;
-        b=WliYrKIl4C25D3uJRfN+VmZUR0DFHTCSxIOD7xl3rChISJg2g1RQzR2nGzyjhlpZXy
-         0NFVNRXnFl3jGx59NUElIWYfojpyzq6eNvLHgsRNAUjbOAImvF8R9M+iC1jg75gQkGBq
-         DzJtQjO2bwnCYknTutwo/FCUKmowSljeQOW2lQGSwPPvnybPG/i5QAiO+OXCmY62SyrH
-         C+R668PEYOSrYqM5d/kFz8VucK21XUCkGLb8x1Rv4YJOujNftOPyQ5OCdLlH1b40/eFv
-         c1zB4c3hif7iwLUIOKJVARX6EV6Gg5SKZif7fk0SCiDVhiWhrVmVnRf6ByG4VSRYJsUp
-         gTYA==
-X-Gm-Message-State: AOAM531WWL0t64rIPC28EDftoJwq38BCpBA6/hsk2cSvjjtmErgFzRU+
-        8AKSOc7wKrrvs4NZJ5qzf1IIatLxwAOgXw2tBmCxLu1Mkzu7uHxnKYUZg9VbW8EEQudT8Vvev+u
-        jCxTBRlIetDHo7k7ZyhUYBFk7IK8irsOKA7/2KhfeK7DGkow=
-X-Received: by 2002:ad4:4503:: with SMTP id k3mr1021519qvu.43.1595844295835;
-        Mon, 27 Jul 2020 03:04:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy123BsYyCBf5EGcFgJoS6Nge8Gnn+C9moRUPZS4RLem12odgkBKyqq3J2QnVf0Hg2RglPsRLyt/KjnAi03PUM=
-X-Received: by 2002:ad4:4503:: with SMTP id k3mr1021498qvu.43.1595844295594;
- Mon, 27 Jul 2020 03:04:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200701082318.11174-1-wsa+renesas@sang-engineering.com> <20200724194719.GF1227@ninjato>
-In-Reply-To: <20200724194719.GF1227@ninjato>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 27 Jul 2020 12:04:44 +0200
-Message-ID: <CAO-hwJ+VwOZ5Wcn2-5452ZQP8buFyuAZFsUpcidZV0VtzSFSBQ@mail.gmail.com>
-Subject: Re: [PATCH] i2c: core: do not use logical device when creating irq domain
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7/SExKZecnjZqSi2qz4VmAE6GbnnRQ1sm5QQOY2gXc4=;
+        b=LzsS4N8i18Ho27yyBfvsMSPK+aeGmP9tTSx8klvOZ/NLxZ+4CNzBM6LcRZlYmVM7vc
+         3jVRFyO+wcvkH8yavM/J2/vU9NG7S4S3GPCL9aqLxhMXMAp/CAbdCEEyoFQOJgQbNPBX
+         DuL+td+BCwbFTcDfCnnolmBh+gFxOv+xLsDZrwQvT4G9dzfUg0vovXQ0J1Z3Gu/PvIF7
+         Nnjw2JAFxeJOjKGYsDYiTUW7SRl0Nvjh8563VSv/adetsP8WMNfXJr8Ic1oaLBKFzZ/7
+         wg7zT2vjZMjMQL+EfwdSts/4RMXGnF12isF2lk2mFGQS0QWSSVFiwjhrsiF22HKMoa7o
+         GYbA==
+X-Gm-Message-State: AOAM531mbI2Ta6sUPQ2sG2n6EIFT/cIFC5WuAiGZZPTP3k0kcRvcHeTE
+        5euPjkWM1PWXLRJN7D5KT/rP9Q==
+X-Google-Smtp-Source: ABdhPJxYujLFWt3n5OHiAcDThuGETPy6Jp0HzBjxS+aFJCeOhwT1PJUJtGTOaf1P3fHqe3HnzvEvWg==
+X-Received: by 2002:a19:ef0d:: with SMTP id n13mr11442871lfh.102.1595847340139;
+        Mon, 27 Jul 2020 03:55:40 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id m142sm563157lfa.47.2020.07.27.03.55.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2020 03:55:39 -0700 (PDT)
+Date:   Mon, 27 Jul 2020 12:55:38 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux I2C <linux-i2c@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Alain Volmat <alain.volmat@st.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ray Jui <ray.jui@broadcom.com>,
+        Scott Branden <scott.branden@broadcom.com>,
+        Dhananjay Phadke <dphadke@linux.microsoft.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Rayagonda Kokatanur <rayagonda.kokatanur@broadcom.com>
+Subject: Re: [PATCH] i2c: rcar: avoid race when unregistering slave
+Message-ID: <20200727105538.GI2729799@oden.dyn.berto.se>
+References: <20200726161606.15315-1-wsa+renesas@sang-engineering.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200726161606.15315-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 9:54 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> On Wed, Jul 01, 2020 at 10:23:18AM +0200, Wolfram Sang wrote:
-> > Let's rather use its physical parent device to give proper namings and
-> > connections in debugfs.
-> >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
-> >
-> > This turns the name from "unknown-1" to ":soc:i2c@e6540000" in debugfs
-> > for my use case.
-> >
-> > @Benjamin: I am not aware of any other side effects or regression
-> > possibilites. Do you see any?
->
-> Last call for opinions before I apply it ;)
+Hi Wolfram,
 
-Sorry for the late reply.
+Thanks for your patch.
 
-AFAICT, there should not be any side effects. This is internal API and
-I don't think the callers need to walk through the tree anywhere. So
-if that gives a vetter debugfs, why not.
+On 2020-07-26 18:16:06 +0200, Wolfram Sang wrote:
+> Due to the lockless design of the driver, it is theoretically possible
+> to access a NULL pointer, if a slave interrupt was running while we were
+> unregistering the slave. To make this rock solid, disable the interrupt
+> for a short time while we are clearing the interrupt_enable register.
+> This patch is purely based on code inspection. The OOPS is super-hard to
+> trigger because clearing SAR (the address) makes interrupts even more
+> unlikely to happen as well. While here, reinit SCR to SDBS because this
+> bit should always be set according to documentation. There is no effect,
+> though, because the interface is disabled.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Cheers,
-Benjamin
+> ---
+> 
+> Some people on CC here which encountered the same issue with the
+> bcm-iproc driver. Does something like this work for you, too?
+> 
+>  drivers/i2c/busses/i2c-rcar.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index 8dd35522d95a..0f73f0681a6e 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -871,12 +871,14 @@ static int rcar_unreg_slave(struct i2c_client *slave)
+>  
+>  	WARN_ON(!priv->slave);
+>  
+> -	/* disable irqs and ensure none is running before clearing ptr */
+> +	/* ensure no irq is running before clearing ptr */
+> +	disable_irq(priv->irq);
+>  	rcar_i2c_write(priv, ICSIER, 0);
+> -	rcar_i2c_write(priv, ICSCR, 0);
+> +	rcar_i2c_write(priv, ICSSR, 0);
+> +	enable_irq(priv->irq);
+> +	rcar_i2c_write(priv, ICSCR, SDBS);
+>  	rcar_i2c_write(priv, ICSAR, 0); /* Gen2: must be 0 if not using slave */
+>  
+> -	synchronize_irq(priv->irq);
+>  	priv->slave = NULL;
+>  
+>  	pm_runtime_put(rcar_i2c_priv_to_dev(priv));
+> -- 
+> 2.20.1
+> 
 
->
-> >
-> >  drivers/i2c/i2c-core-base.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> > index dc43242a85ba..69217d2193da 100644
-> > --- a/drivers/i2c/i2c-core-base.c
-> > +++ b/drivers/i2c/i2c-core-base.c
-> > @@ -1227,7 +1227,7 @@ static int i2c_setup_host_notify_irq_domain(struct i2c_adapter *adap)
-> >       if (!i2c_check_functionality(adap, I2C_FUNC_SMBUS_HOST_NOTIFY))
-> >               return 0;
-> >
-> > -     domain = irq_domain_create_linear(adap->dev.fwnode,
-> > +     domain = irq_domain_create_linear(adap->dev.parent->fwnode,
-> >                                         I2C_ADDR_7BITS_COUNT,
-> >                                         &i2c_host_notify_irq_ops, adap);
-> >       if (!domain)
-> > --
-> > 2.20.1
-> >
-
+-- 
+Regards,
+Niklas Söderlund
