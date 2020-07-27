@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9282422FDBF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jul 2020 01:29:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD2A22FD85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Jul 2020 01:28:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728041AbgG0XYF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jul 2020 19:24:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34954 "EHLO mail.kernel.org"
+        id S1728281AbgG0XYe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jul 2020 19:24:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728037AbgG0XYE (ORCPT
+        id S1728272AbgG0XYd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jul 2020 19:24:04 -0400
+        Mon, 27 Jul 2020 19:24:33 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3976C20A8B;
-        Mon, 27 Jul 2020 23:24:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D2DBB20A8B;
+        Mon, 27 Jul 2020 23:24:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595892244;
-        bh=cRKjqNxHua9T76fRL5VIQta7CPlRoJFYlQ27sbGlFXw=;
+        s=default; t=1595892272;
+        bh=ChVaTdwZsimVO9XXRPpvGgqVvr8Bhfap1whGtgk08Gc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B/aEPEoCIu2xfbzSY55MnYSkUDH1mE2vnv8NXaIbU1bBaHIJSpI7WOHbWHP4ifXWU
-         w8YJ+PpeyHyzmEXmibnv0t1NzV6uZm5Eh5LnLjYZl+lAiieZPNfgVHmzqvwMmBF/HK
-         N1nYkQ6raYmrSDPN8JeYUca4I4InRVDi7NdhjFGI=
+        b=1dsH665sibEizPRZIx3vouiiFWlHi9rA6/RpEh9zkeXTZFMKJS6dv8xE9wrhoQtFC
+         RexKLcToPmxBumPdM0hBer/4rOJixb9lEpDit/gpcUMQoIoPI+7MwP58Gln1KMhRlT
+         kDgYKm0lWzr0m1gwVPOKtjYfUlbaw2T4neJ2mTGY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -32,12 +32,12 @@ Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 13/25] net: ethernet: ravb: exit if re-initialization fails in tx timeout
-Date:   Mon, 27 Jul 2020 19:23:33 -0400
-Message-Id: <20200727232345.717432-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/17] net: ethernet: ravb: exit if re-initialization fails in tx timeout
+Date:   Mon, 27 Jul 2020 19:24:12 -0400
+Message-Id: <20200727232420.717684-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200727232345.717432-1-sashal@kernel.org>
-References: <20200727232345.717432-1-sashal@kernel.org>
+In-Reply-To: <20200727232420.717684-1-sashal@kernel.org>
+References: <20200727232420.717684-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,7 +80,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 067ad25553b92..ab335f7dab828 100644
+index 3f165c137236d..30cdabf64ccc1 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
 @@ -1444,6 +1444,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
