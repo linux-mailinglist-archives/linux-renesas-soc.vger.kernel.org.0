@@ -2,84 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F6CA231A65
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jul 2020 09:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFAAF231CFA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jul 2020 12:53:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgG2Hfk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jul 2020 03:35:40 -0400
-Received: from smtp08.smtpout.orange.fr ([80.12.242.130]:37755 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbgG2Hfk (ORCPT
+        id S1726644AbgG2Kxr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jul 2020 06:53:47 -0400
+Received: from www.zeus03.de ([194.117.254.33]:35808 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726449AbgG2Kxq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jul 2020 03:35:40 -0400
-Received: from belgarion ([86.210.166.159])
-        by mwinf5d67 with ME
-        id 8vbW2300K3SgWc603vbbFk; Wed, 29 Jul 2020 09:35:38 +0200
-X-ME-Helo: belgarion
-X-ME-Auth: amFyem1pay5yb2JlcnRAb3JhbmdlLmZy
-X-ME-Date: Wed, 29 Jul 2020 09:35:38 +0200
-X-ME-IP: 86.210.166.159
-From:   Robert Jarzmik <robert.jarzmik@free.fr>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Janusz Krzysztofik <jmkrzyszt@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v6 1/9] media: v4l2-subdev: Introduce [get|set]_mbus_config pad ops
-References: <20200714135812.55158-1-jacopo+renesas@jmondi.org>
-        <20200714135812.55158-2-jacopo+renesas@jmondi.org>
-        <750089f9-0e7f-3b2a-ec85-38452cb64fa1@xs4all.nl>
-        <4043309.ejJDZkT8p0@z50>
-        <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl>
-X-URL:  http://belgarath.falguerolles.org/
-Date:   Wed, 29 Jul 2020 09:35:30 +0200
-In-Reply-To: <f60dc28c-ac30-0ddc-efb5-62b22d4cbaa7@xs4all.nl> (Hans Verkuil's
-        message of "Mon, 20 Jul 2020 10:48:36 +0200")
-Message-ID: <87zh7isri5.fsf@belgarion.home>
-User-Agent: Gnus/5.130008 (Ma Gnus v0.8) Emacs/26 (gnu/linux)
+        Wed, 29 Jul 2020 06:53:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=2x2QfEfBC4l443FmjTL98MfufmM7
+        oJEQtQHZVT5tIeU=; b=clzv82HV9z8lTH9DetDYed3c/nycp3qCd4Wa2ZuySQgU
+        9dpO4ubWCo0meb3GzxE+DiBzWOLkUPWJl/OclXeVzKAmxKGM5fXRzW3HUZ0DUoIH
+        JCJP2+g1mej07kRe1ATqWRvpUEbZnl06XS0fhDU9wJV2hI7RQPIcO5xgRxkq/4c=
+Received: (qmail 944506 invoked from network); 29 Jul 2020 12:53:44 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jul 2020 12:53:44 +0200
+X-UD-Smtp-Session: l3s3148p1@ovGjXpKr9qogAwDPXwaWALqNWIsV+hH3
+Date:   Wed, 29 Jul 2020 12:53:44 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
+Message-ID: <20200729105344.GB1015@ninjato>
+References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+ <20200715203843.GA776042@bogus>
+ <20200724193635.GC1227@ninjato>
+ <20200725120700.GA1734@kunai>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
+Content-Disposition: inline
+In-Reply-To: <20200725120700.GA1734@kunai>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hans Verkuil <hverkuil-cisco@xs4all.nl> writes:
 
-> The information on how a sensor (or similar device) is wired up is not something
-> that should be negotiated. Even if a combination is theoretically possible, it
-> may not have been tested by the board designer and in fact it might not work.
-> (Yes, that happens)
->
-> It is just a bad design trying to negotiate this.
-I quite agree on that one (on the wiring defined by configuration).
+--rS8CxjVDS/+yyDmU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> In fact, the only values that can be set as far as I am concerned are lanes and
-> channels. I wouldn't mind if the other settings are purely read-only. The only
-> driver that actively sets this is the pxa_camera driver and I wish it didn't.
->
-> But there are still two pxa boards that use this mechanism, so I guess we still
-> have to allow this.
-There are 4 :
-rj@belgarion:~/mio_linux/kernel/arch/arm/mach-pxa$ grep -rs pxa_set_camera * | grep -v devices.c
-ezx.c:		pxa_set_camera_info(&a780_pxacamera_platform_data);
-ezx.c:		pxa_set_camera_info(&a910_pxacamera_platform_data);
-mioa701.c:	pxa_set_camera_info(&mioa701_pxacamera_platform_data);
-palmz72.c:	pxa_set_camera_info(&palmz72_pxacamera_platform_data);
-pcm990-baseboard.c:	pxa_set_camera_info(&pcm990_pxacamera_platform_data);
 
-I wouldn't mind that the bus parameters are made "static" by forcing them in the
-platform data field (struct pxacamera_platform_data), and not doing the bus
-compatibility matching.
+> > > > SMBus is largely compatible with I2C but there are some specifics. =
+In
+> > > > case we need them on a bus, we can now use this new binding.
+> > > >=20
+> > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > >=20
+> > > > diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Docume=
+ntation/devicetree/bindings/i2c/i2c.txt
+> > > > index 438ae123107e..d1f8cf3bd236 100644
+> > > > --- a/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > > +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > > @@ -77,6 +77,11 @@ wants to support one of the below features, it s=
+hould adapt these bindings.
+> > > >  	this information to detect a stalled bus more reliably, for examp=
+le.
+> > > >  	Can not be combined with 'multi-master'.
+> > > > =20
+> > > > +- smbus
+> > >=20
+> > > This is a boolean?
+> >=20
+> > Yes.
+> >=20
+> > >=20
+> > > > +	states that additional SMBus restrictions and features apply to t=
+his bus.
+> > > > +	Examples of features are SMBusHostNotify and SMBusAlert. Examples=
+ of
+> > >=20
+> > > Do features need to be enumerated separately?
+> >=20
+> > They could be, do you think this is of advantage? For now, we would then
+> > need "host-notify" and "smbus-alert". Maybe later things like "timeout"
+> > could show up.
+>=20
+> I also recall now that I thought that "smbus" fits better the
+> "describing hardware" aspect, i.e. "this bus is an SMBus and not I2C".
+> Enumerating features felt more like configuration to me.
 
-I thing Jacopo's work is going this way, as I read that his patch takes first
-the platform data flags, and only if none are defined goes to the matchup. That
-looks very sensible to me.
+Rob, if you have a minute to comment on it, I would much appreciate it.
+I'd love to get this into 5.9.
 
-Cheers.
+Thanks and all the best!
 
---
-Robert
+
+--rS8CxjVDS/+yyDmU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8hVTgACgkQFA3kzBSg
+KbZf4Q//YpI7C6M7BhCIOjq6cUGrnn3TfAConMoT/bZKmdiMa6fCVirZuym4fFJy
+j37oeQkypBDQDdH/UMthLeaNRS2nkP9znzFxDWJqxvESdbsZpzgt21RzkFGvd5yK
++LXpLhn3e3XjgEwj+LnYF31Oetq7MkSfQCViR9KpNBMOvT7NgnSxvWf5DaEQpLRc
+S+WlLxBRKuT7Ws0Eyp4a9LxQ6ov6eEW3XGzgwVhNam55yf0gbJrY52PO20Jztymj
+4qhNNMuxF1wbThx42FqpNRnahxtWwVTOV51nQANX2DAxrMFWTVKNf4T6wvTcX9Ua
+B4y7bg32ySq9aYfNPIKrIXkZqLPhQ/JIGvhCxs18F1AzlvJakVsJ3jOCL2sTLMLZ
+IoH7QK07YqaAGd0LjhTgzuvUuF3VRtsLEGXha07Esu7nhAQEj1tmmlTSG5m5Mcd1
+oZzIJk3QOD+ttdhfk9vjXREMwLYtDTsD9IgsXQ07NQkdRbbk01A5exjOry96Mr3K
+D0cZnWovP5i+HskesH3XXxfH84wtNs0nbVXdzX/onoldk34fZR5fzcO4hjGN8pwq
+RLK0/ZWLPgHsgR9o+L/WiFGNDzjtIfXYi+Ux1sRvUStCTRF/1obqI2CRJTP5C/6B
+CYzIo6ukuTS6czZmppiLhiStExX2ahWcubADVB2QfbiNXF12fWE=
+=d8/d
+-----END PGP SIGNATURE-----
+
+--rS8CxjVDS/+yyDmU--
