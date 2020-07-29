@@ -2,120 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFAAF231CFA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jul 2020 12:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4080C231E83
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jul 2020 14:26:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726644AbgG2Kxr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jul 2020 06:53:47 -0400
-Received: from www.zeus03.de ([194.117.254.33]:35808 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726449AbgG2Kxq (ORCPT
+        id S1726353AbgG2M0K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jul 2020 08:26:10 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:43345 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726054AbgG2M0K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jul 2020 06:53:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=2x2QfEfBC4l443FmjTL98MfufmM7
-        oJEQtQHZVT5tIeU=; b=clzv82HV9z8lTH9DetDYed3c/nycp3qCd4Wa2ZuySQgU
-        9dpO4ubWCo0meb3GzxE+DiBzWOLkUPWJl/OclXeVzKAmxKGM5fXRzW3HUZ0DUoIH
-        JCJP2+g1mej07kRe1ATqWRvpUEbZnl06XS0fhDU9wJV2hI7RQPIcO5xgRxkq/4c=
-Received: (qmail 944506 invoked from network); 29 Jul 2020 12:53:44 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jul 2020 12:53:44 +0200
-X-UD-Smtp-Session: l3s3148p1@ovGjXpKr9qogAwDPXwaWALqNWIsV+hH3
-Date:   Wed, 29 Jul 2020 12:53:44 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
-Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
-Message-ID: <20200729105344.GB1015@ninjato>
-References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
- <20200715203843.GA776042@bogus>
- <20200724193635.GC1227@ninjato>
- <20200725120700.GA1734@kunai>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
-Content-Disposition: inline
-In-Reply-To: <20200725120700.GA1734@kunai>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 29 Jul 2020 08:26:10 -0400
+X-IronPort-AV: E=Sophos;i="5.75,410,1589209200"; 
+   d="scan'208";a="53141138"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 29 Jul 2020 21:26:08 +0900
+Received: from localhost.localdomain (unknown [172.29.53.182])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 392F84004BDA;
+        Wed, 29 Jul 2020 21:26:06 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ARM: dts: iwg22d-sodimm: Fix dt nodes sorting
+Date:   Wed, 29 Jul 2020 13:26:02 +0100
+Message-Id: <20200729122602.9561-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Some device nodes in the r8a7745-iwg22d-sodimm.dts are not sorted
+alphabetically. This patch fixes the sorting of nodes and also fixes a
+typo in the stmpe node.
 
---rS8CxjVDS/+yyDmU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch is tested against renesas-devel
+---
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 104 ++++++++++----------
+ 1 file changed, 52 insertions(+), 52 deletions(-)
 
+diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+index b15b1b088a32..5f7f230de529 100644
+--- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
++++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+@@ -53,6 +53,25 @@
+ 		clock-frequency = <26000000>;
+ 	};
+ 
++	backlight_lcd: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&tpu 3 5000000 PWM_POLARITY_INVERTED>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++	};
++
++	lcd_panel: lcd {
++		compatible = "edt,etm043080dh6gp";
++		power-supply = <&vccq_panel>;
++		backlight = <&backlight_lcd>;
++
++		port {
++			lcd_in: endpoint {
++				remote-endpoint = <&du_out_rgb0>;
++			};
++		};
++	};
++
+ 	rsnd_sgtl5000: sound {
+ 		compatible = "simple-audio-card";
+ 		simple-audio-card,format = "i2s";
+@@ -68,18 +87,6 @@
+ 		};
+ 	};
+ 
+-	vccq_sdhi0: regulator-vccq-sdhi0 {
+-		compatible = "regulator-gpio";
+-
+-		regulator-name = "SDHI0 VccQ";
+-		regulator-min-microvolt = <1800000>;
+-		regulator-max-microvolt = <3300000>;
+-
+-		gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+-		gpios-states = <1>;
+-		states = <3300000 1>, <1800000 0>;
+-	};
+-
+ 	vccq_panel: regulator-vccq-panel {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "Panel VccQ";
+@@ -89,38 +96,16 @@
+ 		enable-active-high;
+ 	};
+ 
+-	backlight_lcd: backlight {
+-		compatible = "pwm-backlight";
+-		pwms = <&tpu 3 5000000 PWM_POLARITY_INVERTED>;
+-		brightness-levels = <0 4 8 16 32 64 128 255>;
+-		default-brightness-level = <7>;
+-	};
+-
+-	lcd_panel: lcd {
+-		compatible = "edt,etm043080dh6gp";
+-		power-supply = <&vccq_panel>;
+-		backlight = <&backlight_lcd>;
+-
+-		port {
+-			lcd_in: endpoint {
+-				remote-endpoint = <&du_out_rgb0>;
+-			};
+-		};
+-	};
+-};
+-
+-&du {
+-	pinctrl-0 = <&du0_pins>;
+-	pinctrl-names = "default";
++	vccq_sdhi0: regulator-vccq-sdhi0 {
++		compatible = "regulator-gpio";
+ 
+-	status = "okay";
++		regulator-name = "SDHI0 VccQ";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <3300000>;
+ 
+-	ports {
+-		port@0 {
+-			endpoint {
+-				remote-endpoint = <&lcd_in>;
+-			};
+-		};
++		gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
++		gpios-states = <1>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ };
+ 
+@@ -150,6 +135,21 @@
+ 	status = "okay";
+ };
+ 
++&du {
++	pinctrl-0 = <&du0_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++
++	ports {
++		port@0 {
++			endpoint {
++				remote-endpoint = <&lcd_in>;
++			};
++		};
++	};
++};
++
+ &hscif1 {
+ 	pinctrl-0 = <&hscif1_pins>;
+ 	pinctrl-names = "default";
+@@ -171,6 +171,15 @@
+ 	status = "okay";
+ 	clock-frequency = <400000>;
+ 
++	sgtl5000: codec@a {
++		compatible = "fsl,sgtl5000";
++		#sound-dai-cells = <0>;
++		reg = <0x0a>;
++		clocks = <&audio_clock>;
++		VDDA-supply = <&reg_3p3v>;
++		VDDIO-supply = <&reg_3p3v>;
++	};
++
+ 	stmpe811@44 {
+ 		compatible = "st,stmpe811";
+ 		reg = <0x44>;
+@@ -179,7 +188,7 @@
+ 
+ 		/* 3.25 MHz ADC clock speed */
+ 		st,adc-freq = <1>;
+-		/* ADC converstion time: 80 clocks */
++		/* ADC conversion time: 80 clocks */
+ 		st,sample-time = <4>;
+ 		/* 12-bit ADC */
+ 		st,mod-12b = <1>;
+@@ -203,15 +212,6 @@
+ 			st,touch-det-delay = <5>;
+ 		};
+ 	};
+-
+-	sgtl5000: codec@a {
+-		compatible = "fsl,sgtl5000";
+-		#sound-dai-cells = <0>;
+-		reg = <0x0a>;
+-		clocks = <&audio_clock>;
+-		VDDA-supply = <&reg_3p3v>;
+-		VDDIO-supply = <&reg_3p3v>;
+-	};
+ };
+ 
+ &pci1 {
+-- 
+2.17.1
 
-> > > > SMBus is largely compatible with I2C but there are some specifics. =
-In
-> > > > case we need them on a bus, we can now use this new binding.
-> > > >=20
-> > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >=20
-> > > > diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Docume=
-ntation/devicetree/bindings/i2c/i2c.txt
-> > > > index 438ae123107e..d1f8cf3bd236 100644
-> > > > --- a/Documentation/devicetree/bindings/i2c/i2c.txt
-> > > > +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
-> > > > @@ -77,6 +77,11 @@ wants to support one of the below features, it s=
-hould adapt these bindings.
-> > > >  	this information to detect a stalled bus more reliably, for examp=
-le.
-> > > >  	Can not be combined with 'multi-master'.
-> > > > =20
-> > > > +- smbus
-> > >=20
-> > > This is a boolean?
-> >=20
-> > Yes.
-> >=20
-> > >=20
-> > > > +	states that additional SMBus restrictions and features apply to t=
-his bus.
-> > > > +	Examples of features are SMBusHostNotify and SMBusAlert. Examples=
- of
-> > >=20
-> > > Do features need to be enumerated separately?
-> >=20
-> > They could be, do you think this is of advantage? For now, we would then
-> > need "host-notify" and "smbus-alert". Maybe later things like "timeout"
-> > could show up.
->=20
-> I also recall now that I thought that "smbus" fits better the
-> "describing hardware" aspect, i.e. "this bus is an SMBus and not I2C".
-> Enumerating features felt more like configuration to me.
-
-Rob, if you have a minute to comment on it, I would much appreciate it.
-I'd love to get this into 5.9.
-
-Thanks and all the best!
-
-
---rS8CxjVDS/+yyDmU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8hVTgACgkQFA3kzBSg
-KbZf4Q//YpI7C6M7BhCIOjq6cUGrnn3TfAConMoT/bZKmdiMa6fCVirZuym4fFJy
-j37oeQkypBDQDdH/UMthLeaNRS2nkP9znzFxDWJqxvESdbsZpzgt21RzkFGvd5yK
-+LXpLhn3e3XjgEwj+LnYF31Oetq7MkSfQCViR9KpNBMOvT7NgnSxvWf5DaEQpLRc
-S+WlLxBRKuT7Ws0Eyp4a9LxQ6ov6eEW3XGzgwVhNam55yf0gbJrY52PO20Jztymj
-4qhNNMuxF1wbThx42FqpNRnahxtWwVTOV51nQANX2DAxrMFWTVKNf4T6wvTcX9Ua
-B4y7bg32ySq9aYfNPIKrIXkZqLPhQ/JIGvhCxs18F1AzlvJakVsJ3jOCL2sTLMLZ
-IoH7QK07YqaAGd0LjhTgzuvUuF3VRtsLEGXha07Esu7nhAQEj1tmmlTSG5m5Mcd1
-oZzIJk3QOD+ttdhfk9vjXREMwLYtDTsD9IgsXQ07NQkdRbbk01A5exjOry96Mr3K
-D0cZnWovP5i+HskesH3XXxfH84wtNs0nbVXdzX/onoldk34fZR5fzcO4hjGN8pwq
-RLK0/ZWLPgHsgR9o+L/WiFGNDzjtIfXYi+Ux1sRvUStCTRF/1obqI2CRJTP5C/6B
-CYzIo6ukuTS6czZmppiLhiStExX2ahWcubADVB2QfbiNXF12fWE=
-=d8/d
------END PGP SIGNATURE-----
-
---rS8CxjVDS/+yyDmU--
