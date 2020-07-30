@@ -2,93 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E49A233642
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jul 2020 18:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 970522336A5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jul 2020 18:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729724AbgG3QEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jul 2020 12:04:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41592 "EHLO
+        id S1729945AbgG3QXU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jul 2020 12:23:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727072AbgG3QEF (ORCPT
+        with ESMTP id S1728534AbgG3QXU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jul 2020 12:04:05 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E7CC061574;
-        Thu, 30 Jul 2020 09:04:05 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id s9so15264310lfs.4;
-        Thu, 30 Jul 2020 09:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3FAlPclAAJUPeaquH0F3zuzVHhEiAYktWTdgxNqLyxg=;
-        b=l5yxfADWF+7UgfBleV9u3q2R33gIGym9UqKGzwpLmHNShotjVvgmuiW50nzpgbFJZ+
-         XT6svmnrorvNIfvTicqJHlBmx7/jvIrZPKMrWTxQ0zdoOsGPnw7n+xRLAe7yEit42rsC
-         RlGZmSW6kk5vvnAokbb+wCSi16N5IlkKO3vNy6CbPGZYllrD1M1aUIJ56Awv3Ua1asdJ
-         BJ0Hl5aVWZnKvesjJT3Qwtw38JqZhh3PUm1I3D6P8R3onO3Z7kCe1PI1k/mY5yUzsrjB
-         a9rPj73K5nMAC17Nixi4jVv+ZpYiNFCaAb6D+82yfB4fmX7qo/1Y1gKZSa8DbJkhSA9d
-         kYGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3FAlPclAAJUPeaquH0F3zuzVHhEiAYktWTdgxNqLyxg=;
-        b=bNObCg4KP3RuHZr+JAKBI3SlHbbiij4jFs4+hekbX0Cgx996xuiWAib6ojPyyu4ol9
-         Qb9Zo8WwzKOydShhTqG+y5omPJ+PVv2KTD34uJBoLpa70zOxd5p8qGRJ9CrrOeQWs3p9
-         TdRy2yTUf0Q443SDAdHTakWZ6UY8DkYqU7JLqvDyugl5jkE1cu7Ky+0J4Ola/19Yq+6h
-         8715Y82WdPb/xhzky3U1STjBx88t39+UjTFJG2eZfoI0Crb7mT5DhcBIxGfnKFgIXi6W
-         8BrUvZCF+M5W44v/qF7DtNJKZWAEzmnTdf5YZV/Vc1KPARxtN1A3eGCw6l7bxUpBeb/x
-         6k2w==
-X-Gm-Message-State: AOAM5304VgffV/03E5HcnxXcUUWYUkTy8XEcSskynLfh9F0dsLlvEa2c
-        +BXyipqETNbdf+XIbW4e/x6FSXCJeZo=
-X-Google-Smtp-Source: ABdhPJyA36NyGFwXgDeY3DZ9aaKOcZyAMrZLjP1m0fsxq68yN/kMGhOS2NTH+/FKpDKgAy2XnSJnTw==
-X-Received: by 2002:a19:1c6:: with SMTP id 189mr2064146lfb.158.1596125043611;
-        Thu, 30 Jul 2020 09:04:03 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:217:b665:71e9:90c2:18f2:5bd7])
-        by smtp.gmail.com with ESMTPSA id u12sm313074ljl.88.2020.07.30.09.04.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 09:04:02 -0700 (PDT)
-Subject: Re: [PATCH v2] ravb: Fixed the problem that rmmod can not be done
-To:     Yuusuke Ashizuka <ashiduka@fujitsu.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20200730035649.5940-1-ashiduka@fujitsu.com>
- <20200730100151.7490-1-ashiduka@fujitsu.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <ce81e95d-b3b0-7f1c-8f97-8bdcb23d5a8e@gmail.com>
-Date:   Thu, 30 Jul 2020 19:04:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 30 Jul 2020 12:23:20 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 110BDC061574;
+        Thu, 30 Jul 2020 09:23:20 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 94F0D634C87;
+        Thu, 30 Jul 2020 19:22:19 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1k1BJz-0001W0-FY; Thu, 30 Jul 2020 19:22:19 +0300
+Date:   Thu, 30 Jul 2020 19:22:19 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, slongerbeam@gmail.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "moderated list:ARM/STM32 ARCHITECTURE" 
+        <linux-stm32@st-md-mailman.stormreply.com>
+Subject: Re: [PATCH 08/13] dt-bindings: media: ov5640: Remove data-shift
+Message-ID: <20200730162219.GA5201@valkosipuli.retiisi.org.uk>
+References: <20200717132859.237120-1-jacopo+renesas@jmondi.org>
+ <20200717132859.237120-9-jacopo+renesas@jmondi.org>
+ <20200717205722.GJ5961@pendragon.ideasonboard.com>
+ <20200723222259.GB829@valkosipuli.retiisi.org.uk>
+ <20200723231549.GE21353@pendragon.ideasonboard.com>
+ <20200725211833.GE829@valkosipuli.retiisi.org.uk>
+ <20200725213125.GE6253@pendragon.ideasonboard.com>
+ <20200729142936.GF829@valkosipuli.retiisi.org.uk>
+ <20200729144608.GF6183@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200730100151.7490-1-ashiduka@fujitsu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200729144608.GF6183@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Laurent,
 
-On 7/30/20 1:01 PM, Yuusuke Ashizuka wrote:
+On Wed, Jul 29, 2020 at 05:46:08PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> On Wed, Jul 29, 2020 at 05:29:36PM +0300, Sakari Ailus wrote:
+> > On Sun, Jul 26, 2020 at 12:31:25AM +0300, Laurent Pinchart wrote:
+> > > On Sun, Jul 26, 2020 at 12:18:33AM +0300, Sakari Ailus wrote:
+> > > > On Fri, Jul 24, 2020 at 02:15:49AM +0300, Laurent Pinchart wrote:
+> > > > > On Fri, Jul 24, 2020 at 01:22:59AM +0300, Sakari Ailus wrote:
+> > > > > > On Fri, Jul 17, 2020 at 11:57:22PM +0300, Laurent Pinchart wrote:
+> > > > > > > Hi Jacopo,
+> > > > > > > 
+> > > > > > > (CC'ing Sakari)
+> > > > > > > 
+> > > > > > > Thank you for the patch.
+> > > > > > > 
+> > > > > > > On Fri, Jul 17, 2020 at 03:28:54PM +0200, Jacopo Mondi wrote:
+> > > > > > > > The value of the data-shift property solely depend on the selected
+> > > > > > > > bus width and it's not freely configurable.
+> > > > > > > > 
+> > > > > > > > Remove it from the bindings document and update its users accordingly.
+> > > > > > > 
+> > > > > > > Hmmmm that's an interesting one. Sakari, what do you think ?
+> > > > > > > 
+> > > > > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > > > > ---
+> > > > > > > >  Documentation/devicetree/bindings/media/i2c/ov5640.yaml | 9 ---------
+> > > > > > > >  arch/arm/boot/dts/stm32mp157c-ev1.dts                   | 1 -
+> > > > > > > >  2 files changed, 10 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > index 5e1662e848bd..ab700a1830aa 100644
+> > > > > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov5640.yaml
+> > > > > > > > @@ -92,12 +92,6 @@ properties:
+> > > > > > > >                parallel bus.
+> > > > > > > >              enum: [8, 10]
+> > > > > > > > 
+> > > > > > > > -          data-shift:
+> > > > > > > > -            description: |
+> > > > > > > > -              Shall be set to <2> for 8 bits parallel bus (lines 9:2 are used) or
+> > > > > > > > -              <0> for 10 bits parallel bus.
+> > > > > > > > -            enum: [0, 2]
+> > > > > > > 
+> > > > > > > Should you document in the description of bus-width that data-shift is
+> > > > > > > implied ?
+> > > > > > 
+> > > > > > The purpose of the datas-shift property is to convey how the parallel bus
+> > > > > > lines are connected for a given bus width for devices where it is
+> > > > > > configurable. As this device does not not support that, then indeed this
+> > > > > > property is not relevant for the device IMO.
+> > > > > 
+> > > > > Could you elaborate on this ? I believe the case that Jacopo is
+> > > > > describing connects D[9:2] from the sensor to D[7:0] of the receiver
+> > > > > (Jacopo, could you confirm ?). Isn't that what data-shift is for ?
+> > > > 
+> > > > Yes, it is. But in this case what data-shift configures is not configurable
+> > > > as such but defined by another configuration, making the data-shift
+> > > > property redundant. We generally haven't documented redundant things in DT
+> > > > bindings --- for instance data-lanes is documented in bindings only if it
+> > > > is configurable.
+> > > 
+> > > Then I think we share the same understanding. I believe the
+> > > documentation in video-interfaces.txt needs to be expanded, as it's
+> > > quite terse and not very clear.
+> > 
+> > The DT spec states that:
+> > 
+> > 	A DTSpec-compliant devicetree describes device information in a
+> > 	system that cannot necessarily be dynamically detected by a client
+> > 	program. For example, the architecture of PCI enables a client to
+> > 	probe and detect attached devices, and thus devicetree nodes
+> > 	describing PCI devices might not be required. However, a device
+> > 	node is required to describe a PCI host bridge device in the system
+> > 	if it cannot be detected by probing.
+> > 
+> > I'd read that as there's no need to specify properties that do not provide
+> > additional information to software.
+> 
+> That's a bit of a stretch interpretation :-)
+> 
+> > As some properties are dependent on
+> > others and and this depends on hardware features, I don't think we can in
+> > general case take this account in generic binding documentation, but device
+> > specific ones.
+> > 
+> > Of course we could add this to data-shift documentation, but then I wonder
+> > how many other similar cases there are where in hardware the configuration
+> > defined by one property determines the value of another?
+> 
+> I was mostly thinking about documenting *how* data-shift interacts with
+> bus-width. I think that specifying the default data-shift value based on
+> the bus-width value, for the case where data-shift is not specified,
+> would also make sense.
 
-> ravb is a module driver, but I cannot rmmod it after insmod it.
+Do you mean in device binding documentation or in generic documentation?
+Device bindings should have this information, yes.
 
-   Modular. And "insmod'ing it".
+-- 
+Regards,
 
-> ravb does mdio_init() at the time of probe, and module->refcnt is incremented
-> by alloc_mdio_bitbang() called after that.
-
-   That seems a common pattern, inlluding the Renesas sh_eth driver...
-
-> Therefore, even if ifup is not performed, the driver is in use and rmmod cannot
-> be performed.
-
-   No, the driver's remove() method calls ravb_mdio_release() and that one calls
-free_mdio_bitbang() that calls module_put(); the actual reason lies somewehre deeper
-than this... Unfortunately I don't have the affected hardware anymore... :-(
-
-[...]
-
-MBR, Sergei
+Sakari Ailus
