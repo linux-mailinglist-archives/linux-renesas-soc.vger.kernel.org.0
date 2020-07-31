@@ -2,214 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EDD9234B19
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jul 2020 20:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6E3234C18
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jul 2020 22:19:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387757AbgGaScg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Jul 2020 14:32:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730040AbgGaScg (ORCPT
+        id S1727891AbgGaUTD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 Jul 2020 16:19:03 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43354 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726872AbgGaUTD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Jul 2020 14:32:36 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F16C2C061574;
-        Fri, 31 Jul 2020 11:32:35 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id x9so33423986ljc.5;
-        Fri, 31 Jul 2020 11:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=z/X7ymWwjbiuttKuTYyJMhSDfwg3TIeBUOgJd6KkalM=;
-        b=AX4AUm3mdEABluzCIEY3WtfZ0tKfRF61z2mag875alovsfWKuMVGE1IuvLAXdiHHNS
-         hCbybzfoIipZwEtjFuypnm8Y+56wmZL/to7xeE9USfDoJ+J5N/E7aPWV+CjQTF+yEYq3
-         MLEC3ZqTUX2/GgiRmbScc28YV9utq41eUmSc92aVDaCA/FG5lNkHYkNrn0dhYZhfZo6t
-         1+HDDrf+DcROAuadG286dLspIWiuAjFe+FpzTr1HE7xA4qZdpn8CcahhffqCIZUmcWqa
-         3Le9aGLbkMjPM2V4BWGnEZ6W1qjninoKDdo78dm4eiQSilN/WSgWi39TWNa1mGcvempG
-         S/vg==
+        Fri, 31 Jul 2020 16:19:03 -0400
+Received: by mail-io1-f65.google.com with SMTP id k23so32826095iom.10;
+        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=z/X7ymWwjbiuttKuTYyJMhSDfwg3TIeBUOgJd6KkalM=;
-        b=M8lZwitybw2b/QMYf5kapXE4WcqzsSvRoI+ssG1Z3CP0Ci8XE09yXBXVqSP8StGdkW
-         4KzwIAmyhlnQtSImpalOaHAECR7xAWyg7UmUhpbzgUlryPThR7IOay2YNBARmqAcBQZu
-         NwCPy9w2EvTE7ZpHEh0A7gYvq1v1q7mvpyaF6fQh0v6ajQrgmQcQEVkMQ2Q8uOtrbKOp
-         8jod9kOGXuaWbm5hSYGUi6/xODid2TxzqQSPBxWmr29TC1UaYgsyQy+OXYZLsPufdtqz
-         k0SvFHz+IytPsAnka+3WztCRcBueHbAa8u892IvYs3J+lxMX310EeSrX5FFUK6bwEo1q
-         bhLQ==
-X-Gm-Message-State: AOAM530vxWQDIMcbIMwphslfdVB5qaUEg9X+VwD7UBGwJcddZiJkk6ZE
-        LRWwCODx3O7FCDfyuJWr/0g=
-X-Google-Smtp-Source: ABdhPJwzh+LluJn2U/eWVgL6CKU6fHX8VJvv3t8EIF+ICEXQ7MIYYp0q9CVuXdPocDJoXstngFLOkg==
-X-Received: by 2002:a2e:9c92:: with SMTP id x18mr2213457lji.70.1596220354441;
-        Fri, 31 Jul 2020 11:32:34 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:225:dc3:11c8:9b9e:ad39:92d0])
-        by smtp.gmail.com with ESMTPSA id s2sm1816717ljg.84.2020.07.31.11.32.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jul 2020 11:32:33 -0700 (PDT)
-Subject: Re: [PATCH v2] ravb: Fixed the problem that rmmod can not be done
-To:     Yuusuke Ashizuka <ashiduka@fujitsu.com>
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>
-References: <20200730035649.5940-1-ashiduka@fujitsu.com>
- <20200730100151.7490-1-ashiduka@fujitsu.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <0e7d72fe-ea70-612c-7a50-ad1ff905ddf4@gmail.com>
-Date:   Fri, 31 Jul 2020 21:32:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kRn98kmX+GxBTOj20IyuIt5F7vNs5kI3rOwmf5gJlXo=;
+        b=my4tHzba/cskiaKYtb865T94mHGBQ2/523OPxs2+vhF3jmlJB+k+94AO8K289BNqOT
+         gl4cRQvHLXFlHs5JUu6AFLHcZ2qrJrCIlcl9UNj+q22D9cdvOYBGoyvVaA2zBgi3dHGA
+         izQXcczynRA8wLbUBoQjsvmLQu4u5q2Rnw/zPScxAeCXktiVVP/Z/pJwl1Fw2KSDCTi+
+         EEiKHrISTnE/YIJSeqKaKkUCR/gtHAYCg3SfeCAaH8R4+Z2fP7kStq8/1q1wDbjZ37v9
+         vS4o/JWzcV2ufEunGyhjM5k/gqQ1MW19QmltH2LPtBo3VXEeyn6xu/I8RocimgLXxhd7
+         hw1w==
+X-Gm-Message-State: AOAM530eC1AMkuzAWJWtC9EWvgh2huXQxKn1C/2jmTIMN5AgL9N9LjZy
+        NPgEWjJpbrZK7Oz12EvgmBLY6dVvEQ==
+X-Google-Smtp-Source: ABdhPJzr8uZ3Qr6GyTYZhEhFqGlrmvl/TYAVEn9xE4hVBsU1/rNOHODs4KB2luEuWtnujV/FBhN5hw==
+X-Received: by 2002:a05:6602:2409:: with SMTP id s9mr4870384ioa.98.1596226742314;
+        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id g1sm5489132iov.38.2020.07.31.13.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2020 13:19:01 -0700 (PDT)
+Received: (nullmailer pid 711472 invoked by uid 1000);
+        Fri, 31 Jul 2020 20:19:00 -0000
+Date:   Fri, 31 Jul 2020 14:19:00 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Niklas <niklas.soderlund@ragnatech.se>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
+ renesas-vin-ycbcr-8b-g property
+Message-ID: <20200731201900.GA704336@bogus>
+References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200724193752.GE2729799@oden.dyn.berto.se>
+ <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
+ <20200725081146.GF2729799@oden.dyn.berto.se>
+ <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200730100151.7490-1-ashiduka@fujitsu.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 7/30/20 1:01 PM, Yuusuke Ashizuka wrote:
-
-   CCing DaveM (as you should have done from the start)...
-
-> ravb is a module driver, but I cannot rmmod it after insmod it.
-> ravb does mdio_init() at the time of probe, and module->refcnt is incremented
-> by alloc_mdio_bitbang() called after that.
-> Therefore, even if ifup is not performed, the driver is in use and rmmod cannot
-> be performed.
+On Sat, Jul 25, 2020 at 11:23:13PM +0100, Lad, Prabhakar wrote:
+> Hi Niklas,
 > 
-> $ lsmod
-> Module                  Size  Used by
-
-   Did you also build mdio-bitbang.c as a module? For the in-kernal driver, not
-being able to rmmod the 'ravb' one sounds logical. :-)
-
-> ravb                   40960  1
-> $ rmmod ravb
-> rmmod: ERROR: Module ravb is in use
+> On Sat, Jul 25, 2020 at 9:11 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> >
+> > Hi Lad,
+> >
+> > On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
+> > > Hi Niklas,
+> > >
+> > > Thank you for the review.
+> > >
+> > > On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> > > >
+> > > > Hi Lad,
+> > > >
+> > > > Thanks for your patch.
+> > > >
+> > > > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
+> > > > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
+> > > > > input pins.
+> > > > >
+> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > ---
+> > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
+> > > > >  1 file changed, 13 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > index 53c0a72..7dfb781 100644
+> > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > > > @@ -106,6 +106,12 @@ properties:
+> > > > >
+> > > > >            remote-endpoint: true
+> > > > >
+> > > > > +          renesas-vin-ycbcr-8b-g:
+> > > >
+> > > > I think the preferred format for vendor specific properties are
+> > > > "<vendor>,<property>".
+> > > >
+> > > Indeed and I had it as renesas,vin-ycbcr-8b-g but dt_bindings_check
+> > > complained about it.
+> >
+> > I see, what was the error?
+> >
+>   CHKDT   Documentation/devicetree/bindings/media/renesas,vin.yaml
+> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
+> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
+> {'type': 'boolean', 'description': 'If present this property specifies
+> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
+> 'default': False} is not valid under any of the given schemas
+> (Possible causes of the failure):
+>     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
+> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
+> 'not' is a required property
 > 
-> Fixed to execute mdio_init() at open and free_mdio() at close, thereby rmmod is
+> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
+> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
+> {'type': 'boolean', 'description': 'If present this property specifies
+> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
+> 'default': False} is not valid under any of the given schemas
+> (Possible causes of the failure):
+>     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
+> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
+> 'not' is a required property
 
-    Call ravb_mdio_init() at open and free_mdio_bitbang() at close.
+The errors here aren't that helpful. The problem is 'default: false' 
+doesn't make sense for a boolean type as false is always not present for 
+DT.
 
-> possible in the ifdown state.
-
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-
-> Signed-off-by: Yuusuke Ashizuka <ashiduka@fujitsu.com>
-
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 99f7aae102ce..df89d09b253e 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1342,6 +1342,51 @@ static inline int ravb_hook_irq(unsigned int irq, irq_handler_t handler,
->  	return error;
->  }
->  
-> +/* MDIO bus init function */
-> +static int ravb_mdio_init(struct ravb_private *priv)
-> +{
-> +	struct platform_device *pdev = priv->pdev;
-> +	struct device *dev = &pdev->dev;
-> +	int error;
-> +
-> +	/* Bitbang init */
-> +	priv->mdiobb.ops = &bb_ops;
-> +
-> +	/* MII controller setting */
-> +	priv->mii_bus = alloc_mdio_bitbang(&priv->mdiobb);
-> +	if (!priv->mii_bus)
-> +		return -ENOMEM;
-> +
-> +	/* Hook up MII support for ethtool */
-> +	priv->mii_bus->name = "ravb_mii";
-> +	priv->mii_bus->parent = dev;
-> +	snprintf(priv->mii_bus->id, MII_BUS_ID_SIZE, "%s-%x",
-> +		 pdev->name, pdev->id);
-> +
-> +	/* Register MDIO bus */
-> +	error = of_mdiobus_register(priv->mii_bus, dev->of_node);
-> +	if (error)
-> +		goto out_free_bus;
-> +
-> +	return 0;
-> +
-> +out_free_bus:
-> +	free_mdio_bitbang(priv->mii_bus);
-> +	return error;
-> +}
-> +
-> +/* MDIO bus release function */
-> +static int ravb_mdio_release(struct ravb_private *priv)
-> +{
-> +	/* Unregister mdio bus */
-> +	mdiobus_unregister(priv->mii_bus);
-> +
-> +	/* Free bitbang info */
-> +	free_mdio_bitbang(priv->mii_bus);
-> +
-> +	return 0;
-> +}
-> +
-[...]
-> @@ -1887,51 +1942,6 @@ static const struct net_device_ops ravb_netdev_ops = {
->  	.ndo_set_features	= ravb_set_features,
->  };
->  
-> -/* MDIO bus init function */
-> -static int ravb_mdio_init(struct ravb_private *priv)
-> -{
-> -	struct platform_device *pdev = priv->pdev;
-> -	struct device *dev = &pdev->dev;
-> -	int error;
-> -
-> -	/* Bitbang init */
-> -	priv->mdiobb.ops = &bb_ops;
-> -
-> -	/* MII controller setting */
-> -	priv->mii_bus = alloc_mdio_bitbang(&priv->mdiobb);
-> -	if (!priv->mii_bus)
-> -		return -ENOMEM;
-> -
-> -	/* Hook up MII support for ethtool */
-> -	priv->mii_bus->name = "ravb_mii";
-> -	priv->mii_bus->parent = dev;
-> -	snprintf(priv->mii_bus->id, MII_BUS_ID_SIZE, "%s-%x",
-> -		 pdev->name, pdev->id);
-> -
-> -	/* Register MDIO bus */
-> -	error = of_mdiobus_register(priv->mii_bus, dev->of_node);
-> -	if (error)
-> -		goto out_free_bus;
-> -
-> -	return 0;
-> -
-> -out_free_bus:
-> -	free_mdio_bitbang(priv->mii_bus);
-> -	return error;
-> -}
-> -
-> -/* MDIO bus release function */
-> -static int ravb_mdio_release(struct ravb_private *priv)
-> -{
-> -	/* Unregister mdio bus */
-> -	mdiobus_unregister(priv->mii_bus);
-> -
-> -	/* Free bitbang info */
-> -	free_mdio_bitbang(priv->mii_bus);
-> -
-> -	return 0;
-> -}
-> -
-
-   Dave, would you tolerate the forward declarations here instead (to avoid the function moves, to be later
-done in the net-next tree)?
-
-[...]
-
-MBR, Sergei
+Rob
