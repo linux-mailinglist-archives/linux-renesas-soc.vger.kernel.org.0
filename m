@@ -2,139 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C6E3234C18
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 Jul 2020 22:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3976235136
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Aug 2020 10:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727891AbgGaUTD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 Jul 2020 16:19:03 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:43354 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726872AbgGaUTD (ORCPT
+        id S1728249AbgHAIqt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 Aug 2020 04:46:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725931AbgHAIqt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 Jul 2020 16:19:03 -0400
-Received: by mail-io1-f65.google.com with SMTP id k23so32826095iom.10;
-        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
+        Sat, 1 Aug 2020 04:46:49 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9A7C06174A;
+        Sat,  1 Aug 2020 01:46:48 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id e6so8680170oii.4;
+        Sat, 01 Aug 2020 01:46:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LvnyGVeUjGWadk3ZVAQoTtKApflkP6KKdC8V+79XjCY=;
+        b=kzByH5RMmkN5dX4SEqlgMoU7EF/8BAHSOtEYgk9ifU1g0sLAr/jKU4t4gHZ3j7CzA0
+         bsECy82RqHDDp3MMESymvIwu5zB5xeT2Fiu/eLIz0zxZeT1dvO1kiRkm1l/tNOiEzTuZ
+         iBnj1H9GSAm88xfej1E+D6zwrfQCWADN7Yhd22BXbrEx0QqCBW3krgOqo0uPZDDsHBbs
+         tbpe/lKu6SUW9iczPSjO35JYQ9QVI4HR1hhAnBN8TitRbUwXfR3uWUMsQoiUPMLfagfQ
+         7od5J4wyrniEd6q6tuwudT+o2kZEgyMvVVx4yfYOEPoQcz3/eucW4wfCtlSrOShMJ7Ib
+         b3xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kRn98kmX+GxBTOj20IyuIt5F7vNs5kI3rOwmf5gJlXo=;
-        b=my4tHzba/cskiaKYtb865T94mHGBQ2/523OPxs2+vhF3jmlJB+k+94AO8K289BNqOT
-         gl4cRQvHLXFlHs5JUu6AFLHcZ2qrJrCIlcl9UNj+q22D9cdvOYBGoyvVaA2zBgi3dHGA
-         izQXcczynRA8wLbUBoQjsvmLQu4u5q2Rnw/zPScxAeCXktiVVP/Z/pJwl1Fw2KSDCTi+
-         EEiKHrISTnE/YIJSeqKaKkUCR/gtHAYCg3SfeCAaH8R4+Z2fP7kStq8/1q1wDbjZ37v9
-         vS4o/JWzcV2ufEunGyhjM5k/gqQ1MW19QmltH2LPtBo3VXEeyn6xu/I8RocimgLXxhd7
-         hw1w==
-X-Gm-Message-State: AOAM530eC1AMkuzAWJWtC9EWvgh2huXQxKn1C/2jmTIMN5AgL9N9LjZy
-        NPgEWjJpbrZK7Oz12EvgmBLY6dVvEQ==
-X-Google-Smtp-Source: ABdhPJzr8uZ3Qr6GyTYZhEhFqGlrmvl/TYAVEn9xE4hVBsU1/rNOHODs4KB2luEuWtnujV/FBhN5hw==
-X-Received: by 2002:a05:6602:2409:: with SMTP id s9mr4870384ioa.98.1596226742314;
-        Fri, 31 Jul 2020 13:19:02 -0700 (PDT)
-Received: from xps15 ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id g1sm5489132iov.38.2020.07.31.13.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2020 13:19:01 -0700 (PDT)
-Received: (nullmailer pid 711472 invoked by uid 1000);
-        Fri, 31 Jul 2020 20:19:00 -0000
-Date:   Fri, 31 Jul 2020 14:19:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Niklas <niklas.soderlund@ragnatech.se>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Document
- renesas-vin-ycbcr-8b-g property
-Message-ID: <20200731201900.GA704336@bogus>
-References: <1595602732-25582-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595602732-25582-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200724193752.GE2729799@oden.dyn.berto.se>
- <CA+V-a8s7UkhCGcP8eiiH_jd8hhnpLJA6QqfL7jXo_sAgRMfy8g@mail.gmail.com>
- <20200725081146.GF2729799@oden.dyn.berto.se>
- <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LvnyGVeUjGWadk3ZVAQoTtKApflkP6KKdC8V+79XjCY=;
+        b=VzDwP+65fTjvlYda4s6mdZJyKxtS3IN5U5I016hbkKHoi1j+mvSXCkOV3qmduAu/64
+         iuUvNwXUZGNzX0nkerem0G30CMojT9WPdAQQtCLxOmFJTwsP5vy9bQSmsaZk+OG7HuVi
+         fBaA7YlGpGfQJehPHW4p7dWDGUJ3d+d0a7N3bkposACyVo/90xo9IhF16F7MOAvInuTX
+         MQd/POz3Un5/gxmguF/f6WMowCjxMmSf8gDHLY26AECHIvaIMPEbLsCj5MMOtZLATn4o
+         JBJNRAkXyK+hd92h7AijiTkYZ4sd/ALrpPjjOEnEtevLb3Vix/TbCdJjxHuKFiIceP8S
+         2Ydg==
+X-Gm-Message-State: AOAM5313XUbL6xfdy/Ym6wB2Oogg0zuirgYxhN8HYgGJhg6DimC2UZ2t
+        uD/g6NvNf/cHep1dDJiOCWHypwU53QEVP8li7FboQ60z
+X-Google-Smtp-Source: ABdhPJzKpBZtVaWtDYhPgwHQGlWVLrMoha27btXi1GiLikwDXEV47A4q+KhahgHhqxG3hiBXzn3IUR7C0nwucJIq6b4=
+X-Received: by 2002:aca:b7d5:: with SMTP id h204mr5872694oif.62.1596271608362;
+ Sat, 01 Aug 2020 01:46:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sNxUaj88DDcWyc4zrmsAAGndjoQX=OmJ3u1GRJCT6TBQ@mail.gmail.com>
+References: <1596187487-31403-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1596187487-31403-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200731152744.GI6218@pendragon.ideasonboard.com>
+In-Reply-To: <20200731152744.GI6218@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 1 Aug 2020 09:46:22 +0100
+Message-ID: <CA+V-a8tOMWKAmJU3sGJn6ieLN3FAQQvpVXwd0h0AFHVFGzZ+xg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: ov5640: Enable data pins on startup for
+ DVP mode
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jul 25, 2020 at 11:23:13PM +0100, Lad, Prabhakar wrote:
-> Hi Niklas,
-> 
-> On Sat, Jul 25, 2020 at 9:11 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Lad,
-> >
-> > On 2020-07-24 22:11:31 +0100, Lad, Prabhakar wrote:
-> > > Hi Niklas,
-> > >
-> > > Thank you for the review.
-> > >
-> > > On Fri, Jul 24, 2020 at 8:37 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > >
-> > > > Hi Lad,
-> > > >
-> > > > Thanks for your patch.
-> > > >
-> > > > On 2020-07-24 15:58:51 +0100, Lad Prabhakar wrote:
-> > > > > Add a DT property "renesas-vin-ycbcr-8b-g" to select YCbCr422 8-bit data
-> > > > > input pins.
-> > > > >
-> > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > ---
-> > > > >  Documentation/devicetree/bindings/media/renesas,vin.yaml | 13 +++++++++++++
-> > > > >  1 file changed, 13 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > index 53c0a72..7dfb781 100644
-> > > > > --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> > > > > @@ -106,6 +106,12 @@ properties:
-> > > > >
-> > > > >            remote-endpoint: true
-> > > > >
-> > > > > +          renesas-vin-ycbcr-8b-g:
-> > > >
-> > > > I think the preferred format for vendor specific properties are
-> > > > "<vendor>,<property>".
-> > > >
-> > > Indeed and I had it as renesas,vin-ycbcr-8b-g but dt_bindings_check
-> > > complained about it.
-> >
-> > I see, what was the error?
-> >
->   CHKDT   Documentation/devicetree/bindings/media/renesas,vin.yaml
-> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> {'type': 'boolean', 'description': 'If present this property specifies
-> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-> 'default': False} is not valid under any of the given schemas
-> (Possible causes of the failure):
->     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:port:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> 'not' is a required property
-> 
-> /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> {'type': 'boolean', 'description': 'If present this property specifies
-> to selects VIN_G[7:0] as data pins for YCbCr422 8-bit data.',
-> 'default': False} is not valid under any of the given schemas
-> (Possible causes of the failure):
->     /home/prasmi/work/renasas/g2n/renesas-devel/Documentation/devicetree/bindings/media/renesas,vin.yaml:
-> properties:ports:properties:port@0:properties:endpoint:properties:renesas,vin-ycbcr-8b-g:
-> 'not' is a required property
+Hi Laurent,
 
-The errors here aren't that helpful. The problem is 'default: false' 
-doesn't make sense for a boolean type as false is always not present for 
-DT.
+Thank you for the review.
 
-Rob
+On Fri, Jul 31, 2020 at 4:27 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Fri, Jul 31, 2020 at 10:24:46AM +0100, Lad Prabhakar wrote:
+<snip>
+> > +                      * - 6:         VSYNC output enable
+> > +                      * - 5:         HREF output enable
+> > +                      * - 4:         PCLK output enable
+> > +                      * - [3:0]:     D[9:6] output enable
+> > +                      */
+> > +                     ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x7f);
+> > +                     if (ret)
+> > +                             goto power_off;
+> >
+> > -             /* Give lanes some time to coax into LP11 state. */
+> > -             usleep_range(500, 1000);
+> > +                     /*
+> > +                      * enable D[5:0] DVP data lines
+> > +                      *
+> > +                      * PAD OUTPUT ENABLE 02
+> > +                      * - [7:2]:     D[5:0] output enable
+> > +                      */
+> > +                     ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE02, 0xfc);
+> > +                     if (ret)
+> > +                             goto power_off;
+> > +             }
+>
+> I'd split this to two separate functions, one for CSI-2, one for
+> parallel, as this is getting difficult to read.
+>
+Sure I'll split this up in v2..
+
+Cheers,
+Prabhakar
+
+> >
+> >       } else {
+> >               if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY) {
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
