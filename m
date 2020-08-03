@@ -2,92 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E45CF239C38
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  2 Aug 2020 23:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA2723A04E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 09:32:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726976AbgHBVib (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 2 Aug 2020 17:38:31 -0400
-Received: from www.zeus03.de ([194.117.254.33]:58042 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726364AbgHBVia (ORCPT
+        id S1725861AbgHCHau (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 03:30:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbgHCHau (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 2 Aug 2020 17:38:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=H5jUuppRkl1tEjzWf/uhB04yDBLC
-        zti8FSVrOAoBxA8=; b=QTb+obTTrLJjWsPz7chInWSxrubroqT5oP7U31njEJPX
-        RqJEDBM26EEdBc1LjK0TMNzsqZYtOo93vtmJXHFuOgtWJpCadoiY3INicIakTWwz
-        RnTfuWhV8Yhxy1pOYoLv5Q+cbTa0TvtccqjUWL01YQCxAUxlveAwkFfYtBoBWDI=
-Received: (qmail 2191119 invoked from network); 2 Aug 2020 23:38:28 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Aug 2020 23:38:28 +0200
-X-UD-Smtp-Session: l3s3148p1@ZM+61+urVJVQT+F6
-Date:   Sun, 2 Aug 2020 23:38:28 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Daniel Stodden <daniel.stodden@gmail.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        Mon, 3 Aug 2020 03:30:50 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 686ECC06174A;
+        Mon,  3 Aug 2020 00:30:50 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id e4so7223416pjd.0;
+        Mon, 03 Aug 2020 00:30:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=PBrvFHoSs/Tws1YijGRQSOfvPzyuxM0wjmh1FRA7GaM=;
+        b=YXmW6x7YAEV/NWDv/of9Ha9DeVzz0Y5NMe2GOeIqMwfNVFHepl97MT0LJxhQYlRqsI
+         cfu5dcud9bAGK6far7frDKPIuYByLc8fmX+ItLoMF26hpOCPbGLC7oGsZYzAZiD1K88g
+         sN+Y/croJTz1ZNlUe2qhK5XPvbmXUm7Nobr8AsCSHyJCuP9MmUflBdGcm7gQTFjWCKQZ
+         bcwzJiEYZyHOaraIrB9brsFurwic8QMbbzzSzOpvAlO0eAooLVU4LGIEy1+DGk4lhOkF
+         Sr8WgwuvaznbMNrAAE44pS2GfXkuTJpO/AnRhwy88r7WoL3AYN5Jk3zhpooB6FJVz4zF
+         DnjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=PBrvFHoSs/Tws1YijGRQSOfvPzyuxM0wjmh1FRA7GaM=;
+        b=lM3DWPQ6ct6BAPwIIlgOc3j6YlXeybQn6aBrXqXt2tUIfGCqy08QpBG6hS++XCUUMF
+         pRZZB0C9F5ulpXCdOuPkG2NTfx3PIKevwsbIaA5dFiENekAi1k7MIyq8Djsito2ajcMx
+         55vQLKIAs2Jiklg6RbF8AKmVJvLORz2pmeAoDnGQOxv7XOnbke7NuKMiUz+jb/WO5szp
+         rxKslOsu1SyXwyeqHCGNGYPdWUaikXVX0KMW3URDIGFImI2ADF9r2iFQffWXEkZGID2O
+         PLEVJSZ6IraXQyd90muBWoLmcE4gn79tNlE3/xoe2xbhhM4KFqR6hpLolsnssVqqzn1/
+         1XVQ==
+X-Gm-Message-State: AOAM532rVfkQbAN1ruCM/sL7nTbL8yXMFBEyJqQcgfDmLJbLb0vbBAYJ
+        6cDd3E4u4yvf30L6YMGvfhQ63n4Y+Ms=
+X-Google-Smtp-Source: ABdhPJzjHyqk78VEQLlCqjdWdetBMKnZ0y3/HLzFhcNbJVdnfX5c4k7045NxjjC33iwXZmVNeoMJlw==
+X-Received: by 2002:a17:90b:148b:: with SMTP id js11mr16962176pjb.234.1596439849983;
+        Mon, 03 Aug 2020 00:30:49 -0700 (PDT)
+Received: from [192.168.173.154] (76-10-188-40.dsl.teksavvy.com. [76.10.188.40])
+        by smtp.gmail.com with ESMTPSA id i12sm2628729pgj.23.2020.08.03.00.30.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Aug 2020 00:30:49 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
 Subject: Re: [PATCH i2c-tools] i2ctransfer: add support for I2C_M_RECV_LEN
-Message-ID: <20200802213828.GB13339@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Daniel Stodden <daniel.stodden@gmail.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+From:   Daniel Stodden <daniel.stodden@gmail.com>
+In-Reply-To: <20200802213828.GB13339@kunai>
+Date:   Mon, 3 Aug 2020 00:30:46 -0700
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C82A0A94-A06B-4D42-B71B-F14D48D5E029@gmail.com>
 References: <20200802192842.13527-1-wsa+renesas@sang-engineering.com>
  <C5EC2F45-41AD-465E-83F9-BDE3640B02AA@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Yylu36WmvOXNoKYn"
-Content-Disposition: inline
-In-Reply-To: <C5EC2F45-41AD-465E-83F9-BDE3640B02AA@gmail.com>
+ <20200802213828.GB13339@kunai>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---Yylu36WmvOXNoKYn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Daniel,
-
-> > +		__u16 len =3D recv_len ? msgs[i].buf[0] + 1 : msgs[i].len;
+> On Aug 2, 2020, at 2:38 PM, Wolfram Sang =
+<wsa+renesas@sang-engineering.com> wrote:
 >=20
-> This is post-ioctl()? (Sorry, still not familiar enough with i2c-tools.)
+> Hi Daniel,
+>=20
+>>> +		__u16 len =3D recv_len ? msgs[i].buf[0] + 1 : =
+msgs[i].len;
+>>=20
+>> This is post-ioctl()? (Sorry, still not familiar enough with =
+i2c-tools.)
+>=20
+> Yes, read buffers are only printed after the ioctl. And 'print_msgs' =
+is
+> probably the most complex function within this tool :/
+>=20
+>> It isn=E2=80=99t wrong, but shouldn=E2=80=99t be necessary.
+>> Unless the adapter driver you=E2=80=99re using went astray. Not =
+ruling that out.
+>=20
+> I have just checked existing I2C_M_RECV_LEN handling. Quite some =
+drivers
+> do it wrong. And there is no consistency in what they return. Lots of
+> things to fix there...
 
-Yes, read buffers are only printed after the ioctl. And 'print_msgs' is
-probably the most complex function within this tool :/
+Would be curious about what variants are there.
 
-> It isn=E2=80=99t wrong, but shouldn=E2=80=99t be necessary.
-> Unless the adapter driver you=E2=80=99re using went astray. Not ruling th=
-at out.
+Note that msgs[i].len isn=E2=80=99t updated, you only get <extra_bytes> =
+of data back,
+so the difference would be severe: msgs[i].len is what guides =
+copy_to_user().
 
-I have just checked existing I2C_M_RECV_LEN handling. Quite some drivers
-do it wrong. And there is no consistency in what they return. Lots of
-things to fix there...
+https://github.com/torvalds/linux/blob/master/drivers/i2c/i2c-dev.c#L301
 
-Thanks for the quick comments,
+Daniel
 
-   Wolfram
-
-
---Yylu36WmvOXNoKYn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8nMlAACgkQFA3kzBSg
-KbaMKA//a45kGWTlX++MSJmaThwb1GsNHd0asZpJjTyv/opbA0g8rGB1JXp/ug6b
-NDBiYUQJUKYV6tOr2/WFs8Xk/fG//nlWWsmh8VeTemVULzfVTdTOwxjFKHQenv6D
-NVlSX0nJ2QZaKp9uSVsECKKUKW8ljekiqFbutQP7GaoApv5aPBnIfx69PyprScTv
-QWNGOBufp4gkU2o6H7MkCzwa5Xz7Ea5vkTDqBhXjV3ZNbcE0+Ml+vexYzZG3KOVr
-xJgYiyTtfyfyMgc6tjR72Q++hcKteNLevSSlZGFqrhoNmbCrmj7Qyg8L5HJ7Mvm4
-KixgwpiSNRmyZBVGvgkxxPmZuVTCHrRNut8q7ViusFZw6WNgNlhKbbrMjmZARQHA
-fQieORuj23KGNBm6VIgGG1PkbFnPrfRoX4fFHfxMG7VmGEmF7I/YK2jz8Z0YtPHe
-z3Mqk+5yXuhQn1zNVTrRXm81AVFgSb+KiCMbs7JpCCDU/EvK+apGgz8Z7JBGvmcv
-zzlFUYV4mB4lvPLfV/GhttDOHLK+hC96pyud2SDdP+m0qznS6T6TZsXyW6VYqQc+
-So6B5vsjf9ZI8Acoeozjf2+0q2qR5LFnOqkJae+bpT63h/ifQTFf+sDVl8iA7Ite
-1j038GGwJ4WKo/EfBrJCxyHpFFneBrDRacGD7BepDEsehupt2Aw=
-=OXwG
------END PGP SIGNATURE-----
-
---Yylu36WmvOXNoKYn--
