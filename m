@@ -2,272 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D29F723ACF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 21:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E51C23ADBD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 21:47:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728112AbgHCT2F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Aug 2020 15:28:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726889AbgHCT2E (ORCPT
+        id S1728133AbgHCTq4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 15:46:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728041AbgHCTqz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Aug 2020 15:28:04 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78EC7C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  3 Aug 2020 12:28:04 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id b30so21064784lfj.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Aug 2020 12:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=5Y2X7yaPaqpV5N7ZSBlIfeWsAsh614hvLfSmUd/sIQo=;
-        b=DcazyOdl1Cm0XVeXnwrui48N4ZaYguSdbKFvjsZ+0TYZDzyW/R3gtIpcuH/csONMfz
-         aYTj6/SOVEKvPttzCLlGJiyn3iQ0AKkLxYAQCPpu3JHEhoZ6rjT8PP6s4JIV9lZkLlHU
-         YN3/Ww5d+rDWIfMDNdMcUYL/FVe3Uo0W+cxFiOP1JXQ97KC+xQm51MiYa3YLS5APyGh3
-         c1Ms2CYLfZTIhpiMP8+ZYXdv790sAcVxvcCybG3w5Jf+iyCUBuENGyOfivXRvgW/NB/s
-         Mrh8iETSI0JmvRGwuLBOHqwLnQWZV+w+VlgdTpOU8CVGsZogn1DTifyy7URJDSEJoG7b
-         Vyjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=5Y2X7yaPaqpV5N7ZSBlIfeWsAsh614hvLfSmUd/sIQo=;
-        b=StBArlyjxMBWiwubRdrhikBMDbPRygYRlPDBOxfVcL2k4rmPOj9+Qv2Ek1erfNW6om
-         te1yx3vGewR4bYAaTK3XIPNI6ZichIoy/utdSAWL2/D8U4k/uThjb2dJjhh9NVqrZsl0
-         pq285WCOA3eI78EEYHGPF/JAY8paF3UwMKTu7Ia5S25VCkLQJkMFXfkKgmAWH73nDWDu
-         Axlcb564HZD9lgvzSI1bNE10UvpAGB/yeCcroey89uSsXLyuZ/wQn8759gFFJA2XLim4
-         VLCvQJ3EgipAmOi1GpYY8jTjkFoXJtqNqjp6dyebUirhbug3q5fdgh6GEgxI3VOh0F1Q
-         z5pw==
-X-Gm-Message-State: AOAM530MegmzlFWZi91DSyXiNBmEVKzVqe0D4gNZExgBrZsK3UVs6JVa
-        ZhzyK17TNlkXRfSoFWkD/mVs4g==
-X-Google-Smtp-Source: ABdhPJwIxOFPQlSCRF8+Lv+zlKyhBbbIM851bf2v4dBB9MWP5oNW/38GvNe/VM3bacLc1+ADy8quLA==
-X-Received: by 2002:ac2:4d4f:: with SMTP id 15mr9131918lfp.163.1596482882861;
-        Mon, 03 Aug 2020 12:28:02 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id g4sm5175913lfh.13.2020.08.03.12.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 12:28:02 -0700 (PDT)
-Date:   Mon, 3 Aug 2020 21:28:01 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
- YCbCr422-8bit input
-Message-ID: <20200803192801.GC2297236@oden.dyn.berto.se>
-References: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200803180618.GA2297236@oden.dyn.berto.se>
- <CA+V-a8sHOqM2tB-72Z-wVJjvihycCq1zLuk7Py7uKGMxzOJyaA@mail.gmail.com>
+        Mon, 3 Aug 2020 15:46:55 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E4DD20672;
+        Mon,  3 Aug 2020 19:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596484015;
+        bh=CVbzCkFD3/UKBlI4U2T5Fvan/BOF0ZxKo97Y/Uyn7Cw=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=Re1jiQ7Lpw7RO6oe1RWcu7UEyWPbeMjrDvzcVZ5V2eyqHkhR+Hhw5hjhcR4AwP28Q
+         Rp7xKMk/a2TaEd+BKJf+5BLG97o1Ca0GpaK06EbpOashDRn6zomjaNIWCR8XBmzes3
+         gE+8vv/i4UKiks1WyA7msBxZq0FGvdOw/hfvlIHM=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8sHOqM2tB-72Z-wVJjvihycCq1zLuk7Py7uKGMxzOJyaA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdWo2hfDfg5n1i0hHzVpEj3SG_0cMmUwuXggYETCYuOUCA@mail.gmail.com>
+References: <20200706150205.22053-1-geert+renesas@glider.be> <CACRpkdZD3gVLdcjaOL9ZCfZD+hrOUB0-q0NpoHu6m1Ujupw6Fw@mail.gmail.com> <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com> <CACRpkdbxQrmNtByZ1cHSROyX7rwwaa2Mb=GQLpVcDi4FsZ06FQ@mail.gmail.com> <159546718359.3847286.13460778905630969897@swboyd.mtv.corp.google.com> <CAMuHMdWo2hfDfg5n1i0hHzVpEj3SG_0cMmUwuXggYETCYuOUCA@mail.gmail.com>
+Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Kumar Gala <kumar.gala@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 03 Aug 2020 12:46:53 -0700
+Message-ID: <159648401388.1360974.8036993510375175974@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
-
-On 2020-08-03 20:17:54 +0100, Lad, Prabhakar wrote:
-> Hi Niklas,
-> 
-> Thank you for the review.
-> 
-> On Mon, Aug 3, 2020 at 7:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Lad,
-> >
-> > Thanks for your work.
-> >
-> > On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
-> > > Select the data pins for YCbCr422-8bit input format depending on
-> > > bus_width and data_shift passed as part of DT.
+Quoting Geert Uytterhoeven (2020-08-03 03:18:08)
+> Hi Stephen,
+>=20
+> On Thu, Jul 23, 2020 at 3:19 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> > Quoting Linus Walleij (2020-07-21 05:58:59)
+> > > On Mon, Jul 20, 2020 at 11:53 AM Arnd Bergmann <arnd@arndb.de> wrote:
+> > > > No idea what /exactly/ is going wrong, but I would point out that t=
+his is one
+> > > > of the platforms that is handled as a special case in the Makefile =
+when
+> > > > setting TEXT_OFFSET:
+> > > (...)
+> > > > textofs-$(CONFIG_ARCH_IPQ40XX) :=3D 0x00208000
+> > > > textofs-$(CONFIG_ARCH_MSM8X60) :=3D 0x00208000
+> > > > textofs-$(CONFIG_ARCH_MSM8960) :=3D 0x00208000
 > > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > Changes for v2:
-> > > * Dropped DT binding documentation patch
-> > > * Select the data pins depending on bus-width and data-shift
+> > > But what on earth is this? I just deleted this and the platform
+> > > boots just as well.
 > >
-> > I like this v2 much better then v1, nice work!
+> > We need to shift the kernel text to start 2MB beyond the start of memory
+> > because there is the shared memory region used to communicate with other
+> > processors in the SoC there. It took a while for us to convince other OS
+> > folks in the company to put shared memory somewhere else besides the
+> > start of RAM, but eventually we won that battle.
 > >
-> > >
-> > > v1 -
-> > > https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-core.c | 5 +++++
-> > >  drivers/media/platform/rcar-vin/rcar-dma.c  | 7 +++++++
-> > >  drivers/media/platform/rcar-vin/rcar-vin.h  | 5 +++++
-> > >  3 files changed, 17 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > index 7440c8965d27..55005d86928d 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
-> > >       vin->parallel = rvpe;
-> > >       vin->parallel->mbus_type = vep->bus_type;
-> > >
-> > > +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
-> > > +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
-> > > +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
-> > > +             vin->parallel->ycbcr_8b_g = true;
-> > > +
-> >
-> > I would store the bus_width and bus_shift values in the struct
-> > rvin_parallel_entity and evaluate them in place rater then create a flag
-> > for this specific use-case..
-> >
-> Ok will do that.
-> 
-> > Also according to the documentation is the check correct? Do we not wish
-> > to use the new mode when bus_width == 16 and bus_shift == 8. The check
-> > you have here seems to describe a 8 lane bus where 0 lanes are used.
-> >
-> bus-width is the actual data lines used, so bus_width == 16 and
-> bus_shift == 8 would mean use lines 23:8, so just check for bus_width
-> == 8 and bus_shift == 8 should be sufficient.
+> > Does your booted kernel have its text section at the start of RAM or is
+> > it offset by 2MB without this change? Check out /proc/iomem to see where
+> > the kernel text is in relation to the start of RAM. I think the problem
+> > is the decompressor would have to parse the reserved memory sections in
+> > DT to figure out that it shouldn't decompress over shared memory, and
+> > changing the decompressor to do that was deemed "hard". Does this patch
+> > series resolve that?
+>=20
+> As this patch adds C code to extract the start of memory from DT, it
+> should be quite easy to add code to filter out regions marked reserved
+> in DT.  In fact that would be a prerequisite for making this work with
+> crashkernel support (+ making the crashkernel code mark its memory as
+> reserved in DT).
+>=20
 
-As you and Geert points out I was wrong, they should indeed both be 8.
-
-> 
-> > I think you should also verify that bus_shift is either 0 or 8 as that
-> > is all the driver supports.
-> >
-> Not sure if thats correct.In that case this patch wont make sense, I
-> believed we agreed upon we determine the YDS depending on both
-> bus-width and bus-shift.
-
-I'm sorry I think I lost you :-) The driver is not capable of supporting 
-bus_width = 8 and bus_shift = 2 right? Maybe we are talking about 
-different things.
-
-What I tried to say (updated with the knowledge of that bus_width should 
-indeed be 8 and not 16) was that would it make sens to with bus_width=8 
-allow for a bus_shift value other then 0 or 8? What for example would 
-the driver do if the value was 2?
-
-> 
-> On iWave G21D-Q7 for VI2 interface VI2_G* pins are connected to SoC
-> and for VIN3 interface Vi3_DATA* pins are connected. So in this case
-> the capture only works for VIN2 only if YDS bit is set for 8-bit 422,
-> and for VIN3 capture only works if YDS is 0
-> 
-> &vin2 {
->     status = "okay";
->     pinctrl-0 = <&vin2_pins>;
->     pinctrl-names = "default";
-> 
->     port {
->         #address-cells = <1>;
->         #size-cells = <0>;
-> 
->         vin2ep: endpoint {
->             remote-endpoint = <&ov7725_2>;
->             bus-width = <8>;
->             data-shift = <8>;
->         };
->     };
-> };
-> 
-> &vin3 {
->     status = "okay";
->     pinctrl-0 = <&vin3_pins>;
->     pinctrl-names = "default";
-> 
->     port {
->         #address-cells = <1>;
->         #size-cells = <0>;
-> 
->         vin3ep: endpoint {
->             remote-endpoint = <&ov7725_3>;
->             bus-width = <8>;
->         };
->     };
-> };
-> 
-> 
-> > >       switch (vin->parallel->mbus_type) {
-> > >       case V4L2_MBUS_PARALLEL:
-> > >               vin_dbg(vin, "Found PARALLEL media bus\n");
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > index 1a30cd036371..5db483877d65 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > @@ -127,6 +127,8 @@
-> > >  #define VNDMR2_FTEV          (1 << 17)
-> > >  #define VNDMR2_VLV(n)                ((n & 0xf) << 12)
-> > >
-> > > +#define VNDMR2_YDS           BIT(22)
-> >
-> > This should be grouped with the other VNDMR2_* macros and not on its
-> > own. Also it should be sorted so it should be inserted between
-> > VNDMR2_CES and VNDMR2_FTEV.
-> >
-> > Also I know BIT() is a nice macro but the rest of the driver uses (1 <<
-> > 22), please do the same for this one.
-> >
-> Sure will take care of it.
-> 
-> > > +
-> > >  /* Video n CSI2 Interface Mode Register (Gen3) */
-> > >  #define VNCSI_IFMD_DES1              (1 << 26)
-> > >  #define VNCSI_IFMD_DES0              (1 << 25)
-> > > @@ -698,6 +700,11 @@ static int rvin_setup(struct rvin_dev *vin)
-> > >               /* Data Enable Polarity Select */
-> > >               if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
-> > >                       dmr2 |= VNDMR2_CES;
-> > > +
-> > > +             if (vin->parallel->ycbcr_8b_g && vin->mbus_code == MEDIA_BUS_FMT_UYVY8_2X8)
-> > > +                     dmr2 |= VNDMR2_YDS;
-> > > +             else
-> > > +                     dmr2 &= ~VNDMR2_YDS;
-> >
-> > dmr2 is already unitized and YDS is cleared, no need to clear it again
-> > if you don't wish to set it. Taking this and the comments above into
-> > account this would become something like (not tested),
-> >
-> Agreed.
-> 
-> >     switch (vin->mbus_code) {
-> >     case MEDIA_BUS_FMT_UYVY8_2X8:
-> >         if (vin->parallel->bus_width == 16 && vin->parallel->bus_shift == 8)
-> >             dmr2 |= VNDMR2_YDS;
-> >         break;
-> >     default:
-> >         break;
-> >     }
-> >
-> > >       }
-> > >
-> > >       /*
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > index c19d077ce1cb..3126fee9a89b 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > @@ -87,6 +87,9 @@ struct rvin_video_format {
-> > >       u8 bpp;
-> > >  };
-> > >
-> > > +#define BUS_WIDTH_8  8
-> > > +#define DATA_SHIFT_8 8
-> >
-> > As pointed out by Geert, not so useful, use 8 in the code :-)
-> >
-> Agreed will drop it.
-> 
-> Cheers,
-> Prabhakar
-
--- 
-Regards,
-Niklas Söderlund
+Cool. Sounds like that may need to be done then before it works on these
+particular qcom platforms.
