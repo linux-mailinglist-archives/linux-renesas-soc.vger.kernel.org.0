@@ -2,77 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2742223A45F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 14:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C449023A875
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 16:32:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728366AbgHCM00 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Aug 2020 08:26:26 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:38701 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728355AbgHCM0Y (ORCPT
+        id S1727887AbgHCOcF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 10:32:05 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:4092 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726358AbgHCOcF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Aug 2020 08:26:24 -0400
-Received: by mail-ot1-f67.google.com with SMTP id q9so12076736oth.5;
-        Mon, 03 Aug 2020 05:26:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3dohou5RSw8QoQG6bAPJAcX/Qp198r37ym/TNY4Yqz4=;
-        b=FE2btXu3ZkdNaPOSKwQoTknevvVnZ+h2eTLZaBwhH09wuADhKyf8gpdsLWMYDW8vmO
-         xDD0bXz0yk1QZ5YlHg89wC6Fab2c8UdtzBUU612Oi7Du3QQ7qyokffmSrIldvR1kZqdp
-         VJN8gYYhR96gmOFKIUczM9T5EJgN8pdprGeVHmGKRWUu/muOAfuluvk1RCjqzWqaXuey
-         e1bfi6/Ue8cgGj1mAVEu7RhAjetvPUaW7n2iFkIHZyDhFJ63X3Xml4cXpJnNoSaLAhzK
-         JgY9Qzav0x/InW1qx/vZb6Zr6gC4HoNKLHAT3pimGit+WHNkQVNIMH/9KGQAQxhqS33s
-         5jPg==
-X-Gm-Message-State: AOAM530DLSeZhI0giAL5bxedpPBAjzfqHo3JtnUPXB/YfQoRnoed1bo2
-        59psVG+Xy1Cg7sU5AOCEQG72zKnMIdaFQqLWamJT0vAD
-X-Google-Smtp-Source: ABdhPJzKQzVSBq1MRtlA56QD10eECEH20woK/Y5hY2exzJK2bn0gx9Yb/l3Q6If2znAS+f6eplUpkupVZciaC7VEgzw=
-X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr13030193otl.145.1596457584051;
- Mon, 03 Aug 2020 05:26:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200802173059.122595-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20200802173059.122595-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Aug 2020 14:26:13 +0200
-Message-ID: <CAMuHMdUrN0YBugFvuCLeNw1obdjCY+aZa7vDQEAUqCZUyjQTyg@mail.gmail.com>
-Subject: Re: [PATCH] rcar-vin: Remove redundant compatible values
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Mon, 3 Aug 2020 10:32:05 -0400
+X-IronPort-AV: E=Sophos;i="5.75,430,1589209200"; 
+   d="scan'208";a="53750340"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 03 Aug 2020 23:32:03 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D29D242ACBDC;
+        Mon,  3 Aug 2020 23:32:00 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/4] media: i2c: ov5640 feature enhancement and fixes
+Date:   Mon,  3 Aug 2020 15:31:43 +0100
+Message-Id: <1596465107-14251-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi All,
 
-On Sun, Aug 2, 2020 at 8:05 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The compatible value 'renesas,rcar-gen2-vin' have always been mandatory
-> for all Gen2 platforms. Remove device redundant values.
+This patch series fixes DVP support and enables BT656 mode in
+the driver.
 
-That's not true: the DTS files for R-Car H2, M2-W, and E2 lacked the
-family-specific compatible values during the first few years of their
-existence.  However, given we dropped support for the old CPG and MSTP
-DT bindings, it's reasonable to assume all working systems have them.
+@Jacopo Mondi - patch 1/4 will collide with your patch series [1],
+feel free to merge it as part of your v2.
 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+[1] https://www.spinics.net/lists/linux-renesas-soc/msg51236.html
 
-With a slight update of the description:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Cheers,
+Prabhakar
 
-Gr{oetje,eeting}s,
+Changes for v2:
+* Added support to fallback in parallel mode
+* Documented bus-type property
+* Added descriptive commit message for patch 2/4 as pointed
+  by Sakari
+* Fixed review comments pointed by Laurent to have separate functions
+  for mipi and dvp setup
+* Made sure the sensor is in power down mode during startup too for
+  DVP mode
 
-                        Geert
+Lad Prabhakar (4):
+  dt-bindings: media: i2c: ov5640: Document bus-type property
+  media: i2c: ov5640: Enable data pins on poweron for DVP mode
+  media: i2c: ov5640: Add support for BT656 mode
+  media: i2c: ov5640: Fallback to parallel mode
+
+ .../devicetree/bindings/media/i2c/ov5640.txt  |   9 +-
+ drivers/media/i2c/ov5640.c                    | 333 ++++++++++--------
+ 2 files changed, 198 insertions(+), 144 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
