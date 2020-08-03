@@ -2,100 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52FE023A120
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 10:38:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55E8A23A1B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 11:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725965AbgHCIic (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Aug 2020 04:38:32 -0400
-Received: from www.zeus03.de ([194.117.254.33]:36606 "EHLO mail.zeus03.de"
+        id S1726118AbgHCJUx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 05:20:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50350 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725806AbgHCIic (ORCPT
+        id S1725951AbgHCJUx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Aug 2020 04:38:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=9p0wjjtVJo1IZVX+LclcBZyqnL5w
-        iaumTf9nQOowo8E=; b=PFfhygVKPJaPt1J6AC8DAMto28qOkTG1ual3YkiKCPcS
-        o+6OaPwoRREpFN1so7g45PA5jIPumU+WD3ZzNIBh1ucAmPQnVMCLoZC8mUnWs5VQ
-        9b5DFAWUpIKLjhWV50a2bquk9nh/42xn9xYamwWu68tUuWqfB4JyDnaoNvlDx4U=
-Received: (qmail 2319798 invoked from network); 3 Aug 2020 10:38:29 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Aug 2020 10:38:29 +0200
-X-UD-Smtp-Session: l3s3148p1@O+MnEPWrvsJQT+F6
-Date:   Mon, 3 Aug 2020 10:38:23 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Daniel Stodden <daniel.stodden@gmail.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH i2c-tools] i2ctransfer: add support for I2C_M_RECV_LEN
-Message-ID: <20200803083823.GA958@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Daniel Stodden <daniel.stodden@gmail.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20200802192842.13527-1-wsa+renesas@sang-engineering.com>
- <C5EC2F45-41AD-465E-83F9-BDE3640B02AA@gmail.com>
- <20200802213828.GB13339@kunai>
- <C82A0A94-A06B-4D42-B71B-F14D48D5E029@gmail.com>
+        Mon, 3 Aug 2020 05:20:53 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596446452;
+        bh=dsa2gYDiEXOWoFxKZEhp64ysKsZwg+hw88VSbZ6cB+4=;
+        h=Subject:From:Date:To:From;
+        b=Y9NgC6eIseUA9aPDFCwPEtMYAHamOCjIcavWoOsQOKVJ+9j+LUE4eBmKbXXdwrYwF
+         1zbZULHnbL7XrJzt0V0VthW9QtGAQsQFXIucr2OF1+CSQDbFjZGl/NBfiSAQuwC3jn
+         BYNGVomZW1AmzIbBVjBz3c9SOZL48xe1ZfPs3vJU=
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
-Content-Disposition: inline
-In-Reply-To: <C82A0A94-A06B-4D42-B71B-F14D48D5E029@gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159644645257.11858.7008536458210483677.git-patchwork-summary@kernel.org>
+Date:   Mon, 03 Aug 2020 09:20:52 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
---y0ulUmNC+osPPQO6
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/master):
 
+Patch: i2c: rcar: always clear ICSAR to avoid side effects
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=312881
+  Link: <20200704133829.7015-1-wsa+renesas@sang-engineering.com>
 
-> > I have just checked existing I2C_M_RECV_LEN handling. Quite some drivers
-> > do it wrong. And there is no consistency in what they return. Lots of
-> > things to fix there...
->=20
-> Would be curious about what variants are there.
+Patch: serial: sh-sci: Initialize spinlock for uart console
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=311331
+  Link: <1593618100-2151-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-1) some do it correctly
-2) some hardcode the new length as recv_len + 1 (or recv_len + 2
-   if they think about PEC). But they don't do extra_bytes + recv_len
-3) some don't touch msg->len at all
-4) some also remove the flag I2C_M_RECV_LEN while processing
-5) one driver always sets length to I2C_SMBUS_MAX_BLOCK_LEN no matter
-   what the device responds
+Patch: [v3] net: ethernet: ravb: exit if re-initialization fails in tx timeout
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=321707
+  Link: <1595312592-28666-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 
-=2E..maybe more, but I gave up.
+Patch: drm: of: Fix double-free bug
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323119
+  Link: <1595502654-40595-1-git-send-email-biju.das.jz@bp.renesas.com>
 
-> Note that msgs[i].len isn=E2=80=99t updated, you only get <extra_bytes> o=
-f data back,
-> so the difference would be severe: msgs[i].len is what guides copy_to_use=
-r().
+Patch: [v2] dmaengine: sh: usb-dmac: set tx_result parameters
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=304951
+  Link: <1592482053-19433-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 
-I think you can clearly see what was actually tested and what was coded
-after the specs without proper testing (or maybe just kernel-space
-testing?). This is why I hope my slave-testunit helps a little by
-providing a device to test against.
+Total patches: 5
 
-
---y0ulUmNC+osPPQO6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8nzPsACgkQFA3kzBSg
-KbaCvBAAtGxjjEvdloISDiNZAiNIFaQOIYcZdP9Up4JlSOnFpw68+EEwmX7N732Y
-3335lcb4jLpilPciQQLakpajKGeC7yeofGmPI82UhjBiiWAg4tydKRVojJEUDl/P
-FSR7FBoGHhZnfxwMsL1zcGheMvTdc0XnM6it31s9Nf6+WyfBrYw1aQ6r5zYJie0A
-1PKBszxg/aEgXCPR1TJxlg8v4B238qukVUC2wMH99BS+fjXtTLqN9E+ZnITR46rB
-UKq3t1xm8KeqLuz+Llcl/QunZBk23qgyuHLFzER+Kbvd5pbmWKULQjgIqvYOdgDT
-aWXfMa3BL5iCYAHxogRKDKLcMBzhB2D4CbBawcA87cBeS5UF+q/oEf351d63YKRm
-RSsmwvX+BuYLo3y5Jxp1b4LnnMzICsynqIKnhkIP/SzBaMr3V4oYNcQMHE39nMCG
-fQUl7p44Gnst3cHyxynGpvEK1rwc0D8OZpg2wU0N+k9F5O+cfGuNJKV87NJGYQxM
-uIcvjSRzAZ9YL6yt04AXD19yIDkzxbo/M9Su3egEnCMDqGXzwaRaxDfKoEfJiAUr
-yUNfch5A9grmqtv7wttzULAuLG/vH77XiUU3fituEF1iizhxfas938TCh0iLukag
-qw/EmthDF4/iWcMrG0Vze9te2fnZGrRujrjIFAt58i6KYtDq0pk=
-=vkOU
------END PGP SIGNATURE-----
-
---y0ulUmNC+osPPQO6--
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
