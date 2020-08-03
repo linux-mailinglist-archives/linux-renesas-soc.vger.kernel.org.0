@@ -2,100 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E51C23ADBD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 21:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC96723AE10
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 22:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbgHCTq4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Aug 2020 15:46:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59278 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728041AbgHCTqz (ORCPT
+        id S1726770AbgHCUZV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 16:25:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59808 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgHCUZV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Aug 2020 15:46:55 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E4DD20672;
-        Mon,  3 Aug 2020 19:46:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596484015;
-        bh=CVbzCkFD3/UKBlI4U2T5Fvan/BOF0ZxKo97Y/Uyn7Cw=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=Re1jiQ7Lpw7RO6oe1RWcu7UEyWPbeMjrDvzcVZ5V2eyqHkhR+Hhw5hjhcR4AwP28Q
-         Rp7xKMk/a2TaEd+BKJf+5BLG97o1Ca0GpaK06EbpOashDRn6zomjaNIWCR8XBmzes3
-         gE+8vv/i4UKiks1WyA7msBxZq0FGvdOw/hfvlIHM=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+        Mon, 3 Aug 2020 16:25:21 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F273C06174A;
+        Mon,  3 Aug 2020 13:25:21 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id x6so5555247pgx.12;
+        Mon, 03 Aug 2020 13:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=j3tERtreqtW2VPVqPH/Pu4p3CITUiLyYbJzY4/aHR/s=;
+        b=NNkKwGzqWcSu5nH7vsSnTyUYGbUIkiP++LLfxIcPf+BC5Hw1CWS3tpi3n67nzpPYWN
+         Xm0TLzYzomG9h8Nst6jcrDWhTk33PNbdKyih+wLU1DibqHq8QKgV7wd+NTY/g7UM8a63
+         J0KZZoiL0XfY9sNv5eBi/HoYjMVwozvJnXfbbBNQ2vgKi+qFXtLC1KCbnTrx2Xttwszz
+         epnxv9hInqKAMXZhPuy10M6dB4RpiJjQs3vsQXYpZoycv1mQC505CF9m8wpS+15KHTT1
+         A2QVnn27h8re0lApCSrOdLySwrlqvYp1q3mP+f7VNYEf3LV7iAsrDz8plqku1HebeBlK
+         JzNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=j3tERtreqtW2VPVqPH/Pu4p3CITUiLyYbJzY4/aHR/s=;
+        b=fGmyYACIPR7yassV7xZnLZt8ST9Vmtxtv5lJs5mZDp0M45QBOxw2LGK115qmEx9wX1
+         HINbiRP7lIC/pG7QqN1a/AmCf/6JFnN6PJqanM+k82S/7//uIZzeHwQLoHpesRtxT+FL
+         g6qIBAX94i5qOLemxs6TVcA+BptVndbNMzoR6tj+Dd87aqy6OkgCgG7vKBh+C++Wpmik
+         qI2NUOqYL5Zr26Z5tjP/VhRXKH2RkJQTxYrsVmoOZW9AtvZ9PbijwOV3LdzYLbL4PMRO
+         m/H7orWuzIuTfiUWtBE91940YiFQLAvqZ9aMgrpBwuo6wHbW1N0OHLn7yAYTKqM/7wOu
+         M9+A==
+X-Gm-Message-State: AOAM5318BQY2YTp4DkwnjbVB+qHnSzzNvK3iTxDFvD9EN5DXyhMQwxJ4
+        NDc5uFho6n74XYuOT3kyYBY=
+X-Google-Smtp-Source: ABdhPJwZ6ap6w5Z+FPByEyWFAgO9jjRnSENlrgrLsA+UZhs3ySSMka+rRgmC4vWE9R7grW1+hEhmIA==
+X-Received: by 2002:a63:3541:: with SMTP id c62mr15977504pga.127.1596486320911;
+        Mon, 03 Aug 2020 13:25:20 -0700 (PDT)
+Received: from [192.168.173.154] (76-10-188-40.dsl.teksavvy.com. [76.10.188.40])
+        by smtp.gmail.com with ESMTPSA id b22sm3222818pfb.213.2020.08.03.13.25.19
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 03 Aug 2020 13:25:20 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.1\))
+Subject: Re: [PATCH i2c-tools] i2ctransfer: add support for I2C_M_RECV_LEN
+From:   Daniel Stodden <daniel.stodden@gmail.com>
+In-Reply-To: <20200803083823.GA958@kunai>
+Date:   Mon, 3 Aug 2020 13:25:19 -0700
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMuHMdWo2hfDfg5n1i0hHzVpEj3SG_0cMmUwuXggYETCYuOUCA@mail.gmail.com>
-References: <20200706150205.22053-1-geert+renesas@glider.be> <CACRpkdZD3gVLdcjaOL9ZCfZD+hrOUB0-q0NpoHu6m1Ujupw6Fw@mail.gmail.com> <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com> <CACRpkdbxQrmNtByZ1cHSROyX7rwwaa2Mb=GQLpVcDi4FsZ06FQ@mail.gmail.com> <159546718359.3847286.13460778905630969897@swboyd.mtv.corp.google.com> <CAMuHMdWo2hfDfg5n1i0hHzVpEj3SG_0cMmUwuXggYETCYuOUCA@mail.gmail.com>
-Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Kumar Gala <kumar.gala@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Uwe =?utf-8?q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 03 Aug 2020 12:46:53 -0700
-Message-ID: <159648401388.1360974.8036993510375175974@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Message-Id: <34A8CC90-0EED-4DD8-89EF-E1B81B7D6DB7@gmail.com>
+References: <20200802192842.13527-1-wsa+renesas@sang-engineering.com>
+ <C5EC2F45-41AD-465E-83F9-BDE3640B02AA@gmail.com>
+ <20200802213828.GB13339@kunai>
+ <C82A0A94-A06B-4D42-B71B-F14D48D5E029@gmail.com> <20200803083823.GA958@kunai>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.1)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2020-08-03 03:18:08)
-> Hi Stephen,
+
+
+> On Aug 3, 2020, at 1:38 AM, Wolfram Sang =
+<wsa+renesas@sang-engineering.com> wrote:
 >=20
-> On Thu, Jul 23, 2020 at 3:19 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > Quoting Linus Walleij (2020-07-21 05:58:59)
-> > > On Mon, Jul 20, 2020 at 11:53 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> > > > No idea what /exactly/ is going wrong, but I would point out that t=
-his is one
-> > > > of the platforms that is handled as a special case in the Makefile =
-when
-> > > > setting TEXT_OFFSET:
-> > > (...)
-> > > > textofs-$(CONFIG_ARCH_IPQ40XX) :=3D 0x00208000
-> > > > textofs-$(CONFIG_ARCH_MSM8X60) :=3D 0x00208000
-> > > > textofs-$(CONFIG_ARCH_MSM8960) :=3D 0x00208000
-> > >
-> > > But what on earth is this? I just deleted this and the platform
-> > > boots just as well.
-> >
-> > We need to shift the kernel text to start 2MB beyond the start of memory
-> > because there is the shared memory region used to communicate with other
-> > processors in the SoC there. It took a while for us to convince other OS
-> > folks in the company to put shared memory somewhere else besides the
-> > start of RAM, but eventually we won that battle.
-> >
-> > Does your booted kernel have its text section at the start of RAM or is
-> > it offset by 2MB without this change? Check out /proc/iomem to see where
-> > the kernel text is in relation to the start of RAM. I think the problem
-> > is the decompressor would have to parse the reserved memory sections in
-> > DT to figure out that it shouldn't decompress over shared memory, and
-> > changing the decompressor to do that was deemed "hard". Does this patch
-> > series resolve that?
 >=20
-> As this patch adds C code to extract the start of memory from DT, it
-> should be quite easy to add code to filter out regions marked reserved
-> in DT.  In fact that would be a prerequisite for making this work with
-> crashkernel support (+ making the crashkernel code mark its memory as
-> reserved in DT).
+>>> I have just checked existing I2C_M_RECV_LEN handling. Quite some =
+drivers
+>>> do it wrong. And there is no consistency in what they return. Lots =
+of
+>>> things to fix there...
+>>=20
+>> Would be curious about what variants are there.
+>=20
+> 1) some do it correctly
+> 2) some hardcode the new length as recv_len + 1 (or recv_len + 2
+>   if they think about PEC). But they don't do extra_bytes + recv_len
+> 3) some don't touch msg->len at all
+> 4) some also remove the flag I2C_M_RECV_LEN while processing
+> 5) one driver always sets length to I2C_SMBUS_MAX_BLOCK_LEN no matter
+>   what the device responds
+>=20
+> ...maybe more, but I gave up.
+
+Yaah. Right. I think I see how this comes together.
+
+If the driver author only looks at __i2_transfer =3D> master_xfer =
+invocations
+as employed by i2c_smbus_xfer_emulated, and PEC isn=E2=80=99t used =
+either, then that
+code path let=E2=80=99s you get away with pretty much any msgs[i].len =
+you come up with.
+
+The smbus block reads are only looking at msgs[i].block[0] in that case.
+
+Daniel
+
+>> Note that msgs[i].len isn=E2=80=99t updated, you only get =
+<extra_bytes> of data back,
+>> so the difference would be severe: msgs[i].len is what guides =
+copy_to_user().
+>=20
+> I think you can clearly see what was actually tested and what was =
+coded
+> after the specs without proper testing (or maybe just kernel-space
+> testing?). This is why I hope my slave-testunit helps a little by
+> providing a device to test against.
 >=20
 
-Cool. Sounds like that may need to be done then before it works on these
-particular qcom platforms.
