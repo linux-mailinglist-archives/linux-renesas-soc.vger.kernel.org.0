@@ -2,87 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19FE123ACCD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 21:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4A723ACD0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Aug 2020 21:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbgHCTPC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Aug 2020 15:15:02 -0400
-Received: from www.zeus03.de ([194.117.254.33]:43138 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726861AbgHCTPB (ORCPT
+        id S1726861AbgHCTPX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Aug 2020 15:15:23 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41794 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgHCTPX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Aug 2020 15:15:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=TAWkoT7xhJtORCdGyRVmVaJ/1euH
-        ilIPbIpV6QtmhJo=; b=NwVyeaA+fzKdEfyxrBCsrLOQ8Hgo+Wnml+O+/gywx1Tm
-        4kQKCuldliKgwyiTT7gdu5EGGSgq1gBwpiBQ/ZCmJ65Y7wEX+0WLCfNDrOD0hYNJ
-        4yuwA1xU7fO08CDMqHHFjlT4JSC4qLnTAPKWZe0A8oAgrOLO7u890ahj1h1DiqU=
-Received: (qmail 2480487 invoked from network); 3 Aug 2020 21:14:59 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Aug 2020 21:14:59 +0200
-X-UD-Smtp-Session: l3s3148p1@3xlx9P2rVsxQT+F6
-Date:   Mon, 3 Aug 2020 21:14:58 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Daniel Stodden <daniel.stodden@gmail.com>
-Subject: Re: [PATCH i2c-tools] i2ctransfer: add support for I2C_M_RECV_LEN
-Message-ID: <20200803191458.GA2488@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Daniel Stodden <daniel.stodden@gmail.com>
-References: <20200802192842.13527-1-wsa+renesas@sang-engineering.com>
+        Mon, 3 Aug 2020 15:15:23 -0400
+Received: by mail-ot1-f67.google.com with SMTP id a65so19576615otc.8;
+        Mon, 03 Aug 2020 12:15:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N0eQNd7J5S8glmezMI2D/EdrAOA2yfNLqft/C7vxnm4=;
+        b=pjlph09S2Ynkl4U2Pbnn5fDiNZ2H/lFAPoJEfDoy4WNnj02HkT6DnmXGvMONA3W9/t
+         lP6EYr0JTQL90I7b+L+EXIkIyd7HaSTl0KVVJV2KM2ATAbFLEm63JoYEAYMtgPM7Dhj+
+         wGqV/hwZ2jdYqrIQS6e2PvfwwGbc9zG/ZyN/34E5D2FYSZIQ3sBi/pFJ4doCJHWcaCMY
+         JFxEg5KbSvTa9tgg7MzBljW02Pkf8wgDSkG95otJrIuu6Mr5c/p2Gw+usaqMRKIUxq7l
+         26IyCvnn8wWoEq5246Qh0LaINf3JpwdNGEKORX/Xf2kg7rIj00AI7unLqhRHOrhUV5PN
+         bWSg==
+X-Gm-Message-State: AOAM533Ju96yxqmHFLgjO0K5anh8NSjm3xI/lgv7pzZotn1gqZh51khv
+        UAnow/m597+TvXzqPJs0m09lfhpa/W+pQ3jPqH0=
+X-Google-Smtp-Source: ABdhPJzTiQKgkA9oDHzv8uHxNqGnJwYb6cyIDEbnWP5rUKeo2rft9Wxkc+0jV9hoBBPbs2/sJiqNmJyFnqyU6vD1/dk=
+X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr14959491otn.250.1596482122569;
+ Mon, 03 Aug 2020 12:15:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
-Content-Disposition: inline
-In-Reply-To: <20200802192842.13527-1-wsa+renesas@sang-engineering.com>
+References: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200803180618.GA2297236@oden.dyn.berto.se>
+In-Reply-To: <20200803180618.GA2297236@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Aug 2020 21:15:11 +0200
+Message-ID: <CAMuHMdWGRcFdyo4m4=jGKNt=GXOXddiD3cR2jZstiJN7LgBfZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
+ YCbCr422-8bit input
+To:     Niklas <niklas.soderlund@ragnatech.se>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Niklas,
 
---IS0zKkzwUGydFO0o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Aug 3, 2020 at 8:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
+> On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
+> > Select the data pins for YCbCr422-8bit input format depending on
+> > bus_width and data_shift passed as part of DT.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+> >       vin->parallel = rvpe;
+> >       vin->parallel->mbus_type = vep->bus_type;
+> >
+> > +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
+> > +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
+> > +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
+> > +             vin->parallel->ycbcr_8b_g = true;
+> > +
+>
+> I would store the bus_width and bus_shift values in the struct
+> rvin_parallel_entity and evaluate them in place rater then create a flag
+> for this specific use-case..
+>
+> Also according to the documentation is the check correct? Do we not wish
+> to use the new mode when bus_width == 16 and bus_shift == 8. The check
+> you have here seems to describe a 8 lane bus where 0 lanes are used.
 
-> +		__u16 len =3D recv_len ? msgs[i].buf[0] + 1 : msgs[i].len;
-> +
-> +		if (flags & PRINT_HEADER) {
-> +			fprintf(output, "msg %u: addr 0x%02x, %s, len ",
-> +				i, msgs[i].addr, read ? "read" : "write");
-> +			if (!recv_len || flags & PRINT_READ_BUF)
-> +				fprintf(output, "%u", len);
-> +			else
-> +				fprintf(output, "TBD");
-> +		}
-> =20
->  		if (msgs[i].len && print_buf) {
+The bus width used is 8.
 
-This must be 'len', of course.
+Documentation/devicetree/bindings/media/video-interfaces.txt:
 
+  - bus-width: number of data lines actively used, valid for the
+parallel busses.
+  - data-shift: on the parallel data busses, if bus-width is used to specify the
+    number of data lines, data-shift can be used to specify which data lines are
+    used, e.g. "bus-width=<8>; data-shift=<2>;" means, that lines 9:2 are used.
 
---IS0zKkzwUGydFO0o
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8oYi0ACgkQFA3kzBSg
-KbZaeQ//Vstvx8V/Rc81Cxgq6WRhxpyd/fii/+d+9BckiHj63oPsO67vleO3s4bK
-oqfIXZ3/VdA0xoMSQFYQrytBbgBEwO/AdCDQoCD1wcwb72kZUybjlQDwwRb+HE2t
-Yg2hRFB5QZl8T0Le9x0tEecD7+kR80N8E3un8oC4NE74+Ya/utanYPTxGs6CK60W
-S6EGMe62xetVAKe2qdNI2Cs7zU+ifIKSSkExHYn4c0pmhfg/cmwJtRo5AAo3iXgS
-FmNeKnokOa8F4SWv7bGzux8n3hbieoI8D5eAv7pJbAg+vkloEh+/bBP+04wnbdio
-69nSoRrFE7qIMUjEbyWI9IJjBMJcMauzJOBXou/ZzFpLzBB/SUbVOTBQVVdX2I4T
-iIRmhpdVLJA/pEMl3BnTZVwWKm5ecc+0fkWhq6XNsFobevkcoRlAc0m2l/DAr+GU
-92YBB7JAyczaBd/Fxu6C4OcHvNI94I1bpk9ANhg2+BYjOkQ2AsiFqr2Rx+kY9qEk
-o/2Ybdt2b41IJLPZAK7GokkBX9T+Acryw7BZVBPpBwOeHPJk3OKMWHmanSi1bNij
-ygRpjfMpVCep5RWzFKpxCNDZGVfTqXoa9Li9eMEfOjOtaJPpLtT6mVrholkvDT4S
-0UrsuUIQQcI/13b134pU/XwRqyV5V+NejS+peI8z1x0wlmnCQlE=
-=B94I
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---IS0zKkzwUGydFO0o--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
