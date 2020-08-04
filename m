@@ -2,205 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B22B023BCFC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Aug 2020 17:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E18AB23BCFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Aug 2020 17:14:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729285AbgHDPMb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Aug 2020 11:12:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728467AbgHDPMb (ORCPT
+        id S1729134AbgHDPN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Aug 2020 11:13:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45024 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729305AbgHDPN3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Aug 2020 11:12:31 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58DA3C06174A;
-        Tue,  4 Aug 2020 08:12:30 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id q3so2645597ybp.7;
-        Tue, 04 Aug 2020 08:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ysfQUiDz1CU9A7v5701EkHnjvXh2x287rzNKtNvKkdg=;
-        b=gHOVZ1I7b4A/8qCvwPrTTEzpSywZ6TJ6bBzqqSHH32ds1kJDsDKQ4L+U8SsY+X8wii
-         rv2Thw/Dvo2pmxW+1x56xUzDcxZW+MS+r9Dt5OLDjUCfIlMFYox/SLjrcEf96q25gHwT
-         5ap+B4nIyZphmrEPTBqt2OtMrKE+fZ7cPlUdRazH1IOg8bP/yN4JAIzu/QR/Wfu2HwwF
-         UE8VgFOhP/W6ScElp0/izdgamk9CKcDyc1js8UhwCj5/TmT1WlsCdNexvgB2VuF8pQCF
-         DX5fyQS8EvtUJp6KYrdp/LGgi38gxAIepFyH15ccJ14kUQqguP6bHYjj4Ntfndc0O61X
-         xSmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ysfQUiDz1CU9A7v5701EkHnjvXh2x287rzNKtNvKkdg=;
-        b=CWiQRCP/1mrNaqoh831zMd+/izfUKK0U85M3kOZHTTJ+A2d/5aocewaIDN1nXweE65
-         241AcN/yVTYw2XcQYNleRus/YeCKAjxhel0QAgLw0yQgNrTjUwGMp8fDNujErybyf9ik
-         vSEMRq0dlZpt1RTqDM0C6J5BJz+ebTreXXGRX5UttslI42d17nTn1rctNEV523JulcQm
-         3QwEpGOpbWlDQEnsiCMgUHZ9vWOojnxpaIVD2rr3jIpcOCiKzdp9WAD3ut5gz66qM/5c
-         TVYJ6T9ef887yp3ZVX5B4bObkUs8aT0pr+pNQpHhCHQDD9P7UMy3er9UIVkGSRoFDU8H
-         wG3Q==
-X-Gm-Message-State: AOAM531U+7AIyQFJlsZZWecCl7nnuZnIppk8k4tHpZwDizUZQQA4uOqC
-        tbWxfkyBOswVOb5PgQ62Mijucv0XSVMVAXvt8czJ5noP
-X-Google-Smtp-Source: ABdhPJyC/UfIU6NxTJH45USmETsypgu/0+FxFXVBt7q/Ju55dg+/713me05NPIziLDcV3mzcDOR0H/GElDpsAizdOG8=
-X-Received: by 2002:a25:6ad6:: with SMTP id f205mr35099053ybc.76.1596553949059;
- Tue, 04 Aug 2020 08:12:29 -0700 (PDT)
+        Tue, 4 Aug 2020 11:13:29 -0400
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35B4F22CBE;
+        Tue,  4 Aug 2020 15:13:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1596554003;
+        bh=/VyvzXQa/AJF0fQ8y2ddiypbwJGanvNQVpDg2wnRSkc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JzgJXcblY2aiqIBY3aLoaCloWHWgaR70rKsKIYxIyOdz0DhDyOQk9jJjSNIfIzWWq
+         4Q7zxNn9fw/LoWSXL4WxUWSnQbZlm/cWSZok98Th63VWbQ/WaUIdjWh4CCg+L4Ntup
+         B1PCKPDjIx1Cos1t7RQtoiq6lDPRpUuVzWe3KIhs=
+Received: by mail-yb1-f176.google.com with SMTP id q16so19910150ybk.6;
+        Tue, 04 Aug 2020 08:13:23 -0700 (PDT)
+X-Gm-Message-State: AOAM531Qt6r4ky/NaID5YExCsYxhqP29cKhOjQ5meM3aQ3XAyAiw0/qf
+        mu3bA2dHlTq2zrmD2/I5VrACi396AuLjTjlVwA==
+X-Google-Smtp-Source: ABdhPJxh9dJbSLfU6Nwv/yJMmnpLPR54KOz7EmmOkgm7Ly+4ylRFpnDySUtwPNVJNs/aSiEi9+iiHmUJSMEt/gWTgiQ=
+X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr17121176ote.107.1596554001883;
+ Tue, 04 Aug 2020 08:13:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <1596470573-15065-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200803180618.GA2297236@oden.dyn.berto.se> <CA+V-a8sHOqM2tB-72Z-wVJjvihycCq1zLuk7Py7uKGMxzOJyaA@mail.gmail.com>
- <20200803192801.GC2297236@oden.dyn.berto.se> <CA+V-a8v0fr9jKMEdOHfDV+DSTqd57NRyQs1phC8nPTcNLR-PfQ@mail.gmail.com>
- <20200804100510.GA2566810@oden.dyn.berto.se> <CAMuHMdW6DtbBUdEPi1DiCUv1n6dxCjvD3b1vVY7tnJq-R+vyiw@mail.gmail.com>
-In-Reply-To: <CAMuHMdW6DtbBUdEPi1DiCUv1n6dxCjvD3b1vVY7tnJq-R+vyiw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 4 Aug 2020 16:12:02 +0100
-Message-ID: <CA+V-a8tEdrap_kaDk+K+KuA8_WWndwn4KbqD5i9n0YPVnbJ5Tg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
- YCbCr422-8bit input
+References: <20200722022514.1283916-1-robh@kernel.org> <20200722022514.1283916-18-robh@kernel.org>
+ <CAMuHMdWVWoQDc3MMv9LjA+hA1EoXQjVM-JfO_hVqnDf0tC8LJg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWVWoQDc3MMv9LjA+hA1EoXQjVM-JfO_hVqnDf0tC8LJg@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 4 Aug 2020 09:13:10 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+6Xcf5KT1Db5mGFWr9E04Jd8Rx4aVJpUmfUT8hPmtqBg@mail.gmail.com>
+Message-ID: <CAL_Jsq+6Xcf5KT1Db5mGFWr9E04Jd8Rx4aVJpUmfUT8hPmtqBg@mail.gmail.com>
+Subject: Re: [PATCH 17/19] PCI: rcar-gen2: Convert to use modern host bridge
+ probe functions
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Niklas <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Murali Karicheri <m-karicheri2@ti.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Zhu <hongxing.zhu@nxp.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-On Tue, Aug 4, 2020 at 11:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Tue, Aug 4, 2020 at 6:12 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hi Niklas, Prabhakar,
+> Hi Rob,
 >
-> On Tue, Aug 4, 2020 at 12:05 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > On 2020-08-04 09:04:25 +0100, Lad, Prabhakar wrote:
-> > > On Mon, Aug 3, 2020 at 8:28 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > > On 2020-08-03 20:17:54 +0100, Lad, Prabhakar wrote:
-> > > > > On Mon, Aug 3, 2020 at 7:06 PM Niklas <niklas.soderlund@ragnatech.se> wrote:
-> > > > > > On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
-> > > > > > > Select the data pins for YCbCr422-8bit input format depending on
-> > > > > > > bus_width and data_shift passed as part of DT.
-> > > > > > >
-> > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->
-> > > > > > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > > > > > @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
-> > > > > > >       vin->parallel = rvpe;
-> > > > > > >       vin->parallel->mbus_type = vep->bus_type;
-> > > > > > >
-> > > > > > > +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
-> > > > > > > +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
-> > > > > > > +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
-> > > > > > > +             vin->parallel->ycbcr_8b_g = true;
-> > > > > > > +
-> > > > > >
-> > > > > > I would store the bus_width and bus_shift values in the struct
-> > > > > > rvin_parallel_entity and evaluate them in place rater then create a flag
-> > > > > > for this specific use-case..
-> > > > > >
-> > > > > Ok will do that.
-> > > > >
-> > > > > > Also according to the documentation is the check correct? Do we not wish
-> > > > > > to use the new mode when bus_width == 16 and bus_shift == 8. The check
-> > > > > > you have here seems to describe a 8 lane bus where 0 lanes are used.
-> > > > > >
-> > > > > bus-width is the actual data lines used, so bus_width == 16 and
-> > > > > bus_shift == 8 would mean use lines 23:8, so just check for bus_width
-> > > > > == 8 and bus_shift == 8 should be sufficient.
-> > > >
-> > > > As you and Geert points out I was wrong, they should indeed both be 8.
-> > > >
-> > > > >
-> > > > > > I think you should also verify that bus_shift is either 0 or 8 as that
-> > > > > > is all the driver supports.
-> > > > > >
-> > > > > Not sure if thats correct.In that case this patch wont make sense, I
-> > > > > believed we agreed upon we determine the YDS depending on both
-> > > > > bus-width and bus-shift.
-> > > >
-> > > > I'm sorry I think I lost you :-) The driver is not capable of supporting
-> > > > bus_width = 8 and bus_shift = 2 right? Maybe we are talking about
-> > > > different things.
-> > > >
-> > > > What I tried to say (updated with the knowledge of that bus_width should
-> > > > indeed be 8 and not 16) was that would it make sens to with bus_width=8
-> > > > allow for a bus_shift value other then 0 or 8? What for example would
-> > > > the driver do if the value was 2?
-> > > >
-> > > I think this should be possible but I am not sure how this will work.
-> > > For example on iWave G21D-Q7 platform with 16-bit wired bus say we
-> > > connect a 8-bit camera as below:
-> > >
-> > > bus-width = 8 and bus-shift = 2
-> > > VI1_G0_B        -> Not connected
-> > > VI1_G1_B        -> Not connected
-> > > VI1_G2_B_16        -> Connected
-> > > VI1_G3_B        -> Connected
-> > > VI1_G4_B        -> Connected
-> > > VI1_G5_B        -> Connected
-> > > VI1_G6_B        -> Connected
-> > > VI1_G7_B        -> Connected
-> > > VI1_DATA7_B/VI1_B7_B_16    -> Connected
-> > > VI1_DATA6_B/VI1_B6_B_16    -> Connected
-> > > VI1_DATA5_B/VI1_B5_B_16    -> Not connected
-> > > VI1_DATA4_B/VI1_B4_B_16    -> Not connected
-> > > VI1_DATA3_B/VI1_B3_B_16    -> Not connected
-> > > VI1_DATA2_B/VI1_B2_B_16    -> Not connected
-> > > VI1_DATA1_B/VI1_B1_B_16    -> Not connected
-> > > VI1_DATA0_B/VI1_B0_B_16    -> Not connected
+> On Wed, Jul 22, 2020 at 4:26 AM Rob Herring <robh@kernel.org> wrote:
+> > The rcar-gen2 host driver still uses the old Arm PCI setup function
+> > pci_common_init_dev(). Let's update it to use the modern
+> > devm_pci_alloc_host_bridge(), pci_parse_request_of_pci_ranges() and
+> > pci_host_probe() functions.
 > >
-> > I agree this is how I would imagine bus-width = 8 and bus-shift = 2 to
-> > be wired.
-> >
-> > >
-> > > So in this case for 8-bit YCbCr422 format should YDS be set I am not
-> > > sure. Or is this not a valid case at all ?
-> >
-> > That is my question :-)
-> >
-> > I can't find anything int the documentation that would allow is to do
-> > anything other then bus-width = 8 together with bus-shift = 0 (do not
-> > set YDS) or bus-shift = 8 (set YDS). So that is why I suggested you
-> > check for this and print a warning if bus-shift is anything else :-)
-> >
-> > But if you can figured out how we can do a bus-shift = 2 as in your
-> > example then of course the check is wrong. I have not read the docs
-> > carefully enough about this to rule it out as impossible.
+> > Cc: Marek Vasut <marek.vasut+renesas@gmail.com>
+> > Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
 >
-> IIUIC, this is a completely different scenario than "low" or "high" wiring
-> of 8-bit YCbCr-422, hence YDS does not apply?
->
-I tend to agree. We only enable YDS if bus-width = 8 and bus-shift=8
-as done by this patch. (Although there isn't enough documentation to
-prove it)
+> This is now commit 92d69cc6275845a7 ("PCI: rcar-gen2: Convert to use
+> modern host bridge probe functions"), and causes a crash on r8a7791/koelsch:
 
-> The iWave G21D-Q7 wiring seems to be 10-bit YCbCr-422 with the 2 LSB
-> bits unconnected?
->
-B-8bit/ BG-16 bit for VI0 and  B-8bit/ BG-16 bit for VI0
+Can't say I'm surprised, this was a big change. Thanks for testing.
 
-> Interestingly, that mode is supported on all RZ/G1 SoCs, on most R-Car
-> Gen3 SoCs, but only on a single R-Car Gen2 SoC (V2H).
->
-YDS mode ?
 
-Chers,
-Prabhakar
+>     Unable to handle kernel NULL pointer dereference at virtual address 00000008
+>     pgd = (ptrval)
+>     [00000008] *pgd=00000000
+>     Internal error: Oops: 5 [#1] SMP ARM
+>     CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> 5.8.0-rc1-shmobile-00035-g92d69cc6275845a7 #645
+>     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+>     PC is at rcar_pci_probe+0x154/0x340
+>     LR is at _raw_spin_unlock_irqrestore+0x18/0x20
+>
+> > --- a/drivers/pci/controller/pci-rcar-gen2.c
+> > +++ b/drivers/pci/controller/pci-rcar-gen2.c
+> > @@ -189,19 +170,33 @@ static inline void rcar_pci_setup_errirq(struct rcar_pci_priv *priv) { }
+> >  #endif
+> >
+> >  /* PCI host controller setup */
+> > -static int rcar_pci_setup(int nr, struct pci_sys_data *sys)
+> > +static void rcar_pci_setup(struct rcar_pci_priv *priv)
+> >  {
+> > -       struct rcar_pci_priv *priv = sys->private_data;
+> > +       struct pci_host_bridge *bridge = pci_host_bridge_from_priv(priv);
+> >         struct device *dev = priv->dev;
+> >         void __iomem *reg = priv->reg;
+> > +       struct resource_entry *entry;
+> > +       unsigned long window_size;
+> > +       unsigned long window_addr;
+> > +       unsigned long window_pci;
+> >         u32 val;
+> > -       int ret;
+> > +
+> > +       entry = resource_list_first_type(&bridge->dma_ranges, IORESOURCE_MEM);
+>
+> bridge->dma_ranges is not initialized => BOOM.
+>
+> >  static int rcar_pci_probe(struct platform_device *pdev)
+> >  {
+> >         struct device *dev = &pdev->dev;
+> >         struct resource *cfg_res, *mem_res;
+> >         struct rcar_pci_priv *priv;
+> > +       struct pci_host_bridge *bridge;
+> >         void __iomem *reg;
+> > -       struct hw_pci hw;
+> > -       void *hw_private[1];
+> > +       int ret;
+> > +
+> > +       bridge = devm_pci_alloc_host_bridge(dev, sizeof(*priv));
+> > +       if (!bridge)
+> > +               return -ENOMEM;
+> > +
+> > +       priv = pci_host_bridge_priv(bridge);
+>
+> This is the "new" priv instance.
+>
+> > +       bridge->sysdata = priv;
+> >
+> >         cfg_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >         reg = devm_ioremap_resource(dev, cfg_res);
+>
+> However, the "old" instance is still allocated below, and should be removed.
+>
+> I've send a patch to fix that, which should appear soon at
+> https://lore.kernel.org/r/20200804120430.9253-1-geert+renesas@glider.be
+>
+> BTW, the conversion has the following impact on r8a7791/koelsch:
+>
+>     -pci-rcar-gen2 ee090000.pci: PCI: bus0 revision 11
+>     +pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
+>     +pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff
+> -> 0x00ee080000
+>     +pci-rcar-gen2 ee090000.pci: PCI: revision 11
+>      pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
+>     -pci_bus 0000:00: root bus resource [mem 0xee080000-0xee0810ff]
+>                                              ^^^^^^^^^^^^^^^^^^^^^
+>     -pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
+>     +pci_bus 0000:00: root bus resource [bus 00]
+>     +pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
+>                                              ^^^^^^^^^^^^^^^^^^^^^
+>
+>     pci0: pci@ee090000 {
+>             ...
+>             reg = <0 0xee090000 0 0xc00>,
+>                   <0 0xee080000 0 0x1100>;
+>             ...
+>             ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+>             ...
+>             usb@1,0 {
+>                     reg = <0x800 0 0 0 0>;
+>                     ...
+>             };
+>
+>             usb@2,0 {
+>                     reg = <0x1000 0 0 0 0>;
+>                     ...
+>             };
+>
+>     }
+>
+> The old root bus resource size was based on the "reg" property.
+> The new root bus resource size is based on the "ranges" property.
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+That was wrong to have PCI memory space in 'reg', but the driver could
+always adjust the size to 0x1100 if needed.
+
+BTW, the binding description seems to have the 'reg' description reversed.
+
+> Given the only children are hardcoded, I guess that is OK?
+
+In the sense that those are the only 2 devices and you know their
+memory fits, yes. However, the memory space itself isn't hardcoded. If
+you wanted to do that, then the children really need
+'assigned-addresses' properties. I guess it happens to work because
+memory space is allocated from the start and goes in order of device
+addresses. But if that changed to top down allocation?
+
+Rob
