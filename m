@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3965A23BF15
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Aug 2020 19:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F50E23BF13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Aug 2020 19:48:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728064AbgHDRsp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1729039AbgHDRsp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 4 Aug 2020 13:48:45 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:24954 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730138AbgHDRsl (ORCPT
+        by vger.kernel.org with ESMTP id S1728823AbgHDRsn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Aug 2020 13:48:41 -0400
+        Tue, 4 Aug 2020 13:48:43 -0400
 X-IronPort-AV: E=Sophos;i="5.75,434,1589209200"; 
-   d="scan'208";a="53649489"
+   d="scan'208";a="53649492"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Aug 2020 02:48:40 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Aug 2020 02:48:43 +0900
 Received: from localhost.localdomain (unknown [172.29.52.222])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A278640B92DF;
-        Wed,  5 Aug 2020 02:48:37 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id AC82D40B92DF;
+        Wed,  5 Aug 2020 02:48:40 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-usb@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 2/5] dt-bindings: usb: renesas,usb3-peri: Document HS and SS data bus
-Date:   Tue,  4 Aug 2020 18:48:25 +0100
-Message-Id: <20200804174828.8339-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH 3/5] usb: typec: hd3ss3220: Use OF graph API to get the connector fwnode
+Date:   Tue,  4 Aug 2020 18:48:26 +0100
+Message-Id: <20200804174828.8339-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200804174828.8339-1-biju.das.jz@bp.renesas.com>
 References: <20200804174828.8339-1-biju.das.jz@bp.renesas.com>
@@ -42,72 +41,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document HS and SS data bus for the "usb-role-switch" enabled case.
+Some platforms have only super speed data bus connected to this device
+and high speed data bus directly connected to the SoC. In such platforms
+modelling connector as a child of this device is making it non complaint
+with usb connector bindings. By modelling connector node as standalone
+device node along with this device and the SoC data bus will make it
+complaint with usb connector bindings.
+Update the driver to handle this model by using OF graph API to get the
+connector fwnode and usb role switch class API to get role switch handle.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
 Ref:https://patchwork.kernel.org/patch/11669423/
 ---
- .../bindings/usb/renesas,usb3-peri.yaml       | 36 +++++++++++++++----
- 1 file changed, 30 insertions(+), 6 deletions(-)
+ drivers/usb/typec/hd3ss3220.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-index e3cdeab1199f..3eb964af37b8 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-@@ -52,11 +52,24 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description: phandle of a companion.
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+index 323dfa8160ab..f633ec15b1a1 100644
+--- a/drivers/usb/typec/hd3ss3220.c
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -155,7 +155,7 @@ static int hd3ss3220_probe(struct i2c_client *client,
+ {
+ 	struct typec_capability typec_cap = { };
+ 	struct hd3ss3220 *hd3ss3220;
+-	struct fwnode_handle *connector;
++	struct fwnode_handle *connector, *ep;
+ 	int ret;
+ 	unsigned int data;
  
--  port:
-+  ports:
-     description: |
-       any connector to the data bus of this controller should be modelled
-       using the OF graph bindings specified, if the "usb-role-switch"
-       property is used.
-+    type: object
-+    properties:
-+      port@0:
-+        type: object
-+        description: High Speed (HS) data bus.
-+
-+      port@1:
-+        type: object
-+        description: Super Speed (SS) data bus.
-+
-+    required:
-+      - port@0
-+      - port@1
+@@ -173,11 +173,21 @@ static int hd3ss3220_probe(struct i2c_client *client,
  
- required:
-   - compatible
-@@ -79,9 +92,20 @@ examples:
-         companion = <&xhci0>;
-         usb-role-switch;
+ 	hd3ss3220_set_source_pref(hd3ss3220,
+ 				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
++	/* For backward compatibility check the connector child node first */
+ 	connector = device_get_named_child_node(hd3ss3220->dev, "connector");
+-	if (!connector)
+-		return -ENODEV;
++	if (connector) {
++		hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
++	} else {
++		ep = fwnode_graph_get_next_endpoint(dev_fwnode(hd3ss3220->dev), NULL);
++		if (!ep)
++			return -ENODEV;
++		connector = fwnode_graph_get_remote_port_parent(ep);
++		fwnode_handle_put(ep);
++		if (!connector)
++			return -ENODEV;
++		hd3ss3220->role_sw = usb_role_switch_get(hd3ss3220->dev);
++	}
  
--        port {
--            usb3_role_switch: endpoint {
--                remote-endpoint = <&hd3ss3220_ep>;
--            };
--        };
-+    	ports {
-+    		#address-cells = <1>;
-+    		#size-cells = <0>;
-+    		port@0 {
-+    			reg = <0>;
-+    			usb3_hs_ep: endpoint {
-+    				remote-endpoint = <&hs_ep>;
-+    			};
-+    		};
-+    		port@1 {
-+    			reg = <1>;
-+    			usb3_role_switch: endpoint {
-+    				remote-endpoint = <&hd3ss3220_out_ep>;
-+    			};
-+    		};
-+    	};
-     };
+-	hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
+ 	if (IS_ERR(hd3ss3220->role_sw)) {
+ 		ret = PTR_ERR(hd3ss3220->role_sw);
+ 		goto err_put_fwnode;
 -- 
 2.17.1
 
