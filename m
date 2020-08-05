@@ -2,81 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4430223D20B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 22:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3734A23D2BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 22:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728851AbgHEUIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 16:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43802 "EHLO
+        id S1728512AbgHEUPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 16:15:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727064AbgHEQce (ORCPT
+        with ESMTP id S1726429AbgHEQUG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 12:32:34 -0400
+        Wed, 5 Aug 2020 12:20:06 -0400
 Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC18C008691;
-        Wed,  5 Aug 2020 07:33:09 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id x1so6635989oox.6;
-        Wed, 05 Aug 2020 07:33:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F79C0086A4;
+        Wed,  5 Aug 2020 07:43:39 -0700 (PDT)
+Received: by mail-oo1-xc42.google.com with SMTP id a9so8816689oof.12;
+        Wed, 05 Aug 2020 07:43:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tpO2xc5Co4QKfwe/fUkQqUFFAe1WeeGtz1oyCqUMySo=;
-        b=LhYz9i6I5AM4ZFtxHd+I9u1ASrO4rAxTxI/t4siugm6WhxTGylbyg693lSH2SkAJZg
-         IIGDv8cuq2Atkg6a/memP/3ZxkHNwXGhTlhzGgql3a+l8cb4BSqpY41/FoS2Dey738US
-         HNY7oS82tp4qxK0zU5KSG+5wR25XkLh17nddtBS+6isamMTdOSpgHAG7z+Dv3ZLvYKSj
-         WGny2c2fiRFPZvJ/1bYdsySXuQgp4q5b00waN4/XfIO6UGXfbhT3GB3aIdI6DdpTqwQf
-         PttRBBuebLldZ7pofLVcvbU+u/4I905HPTm1+H9J+KjyGphDBVlO8Qd1DI2oAJ/StVAp
-         dTsA==
-X-Gm-Message-State: AOAM533LjPC09EQ93J7+rqUEO7o2QGimyEUznlys74pspdXXuJB5yAAR
-        UXzpdrWWpUaJ+hWv1tXbOuarwbxyZUyw1hXSS06MMhU6
-X-Google-Smtp-Source: ABdhPJxign8Uk2fIcUs7RpIodong0uS1bWU72pwITdrYewzbK7L9StNz09TcvScLc02ZC/yaUnpVr8Fq/+75ppivh0g=
-X-Received: by 2002:a4a:9d19:: with SMTP id w25mr2320144ooj.11.1596626166283;
- Wed, 05 Aug 2020 04:16:06 -0700 (PDT)
+        bh=GHOG3MMfsS8Q4iK2eQgCcwA2GFKcb5/CggWXLB2DZwI=;
+        b=cdEwdP7dZcXvRLz38WwI2mBl6cQMeZH/O+UvjcNDzp+zaB+BzerBdoEo5rGyh9Fsht
+         FYCfq2oBaMBbdhOVFkui+n03ocYTEE1tlNlT5pY1/W59I0y32FyqnorZlbJMLDvcYsya
+         iedZWWisMJF3LouBc6f5yVucWaMPev3oQc9upmWEGvIVDzevQP2e0I4lCnDGQuECRu1s
+         NfSa9hNHZ6Dkd3tKlytQwvE20tRa1Xq/JL1MwAhsCVVPH0WABe1Sy8BHhPjDqzV0IDbh
+         e5Q1OiZSMOpR2g3tcDFqLmpC83zdKTtgbxzPvj6dOd2KZ65lIbXqP0kD+G3X4UlTghEV
+         T4cQ==
+X-Gm-Message-State: AOAM5314XgY4PcOsBDQHJnm/v0v8tscUalkQt5+4Zx0z2oLfETNDe/7+
+        CZeAJ/1RDpP/+gtPZwloNgeBCeI/Cmaw99viN4E=
+X-Google-Smtp-Source: ABdhPJw9RW5CudcHTtQDFGv1V5QDzRVBcVFCwYbJOv2CTxkyE1KBLND9KzWPONo2u/qPu+8W70ut9anlzKiuUHbnLAU=
+X-Received: by 2002:a4a:9d19:: with SMTP id w25mr3187978ooj.11.1596638599474;
+ Wed, 05 Aug 2020 07:43:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594919915-5225-16-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200805142634.12252-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20200805142634.12252-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Aug 2020 13:15:54 +0200
-Message-ID: <CAMuHMdWzwQpjhOeVDkj1b1L7mJuxnLpVMO-3WMMLF3oJMzgAmg@mail.gmail.com>
-Subject: Re: [PATCH 15/20] arm64: dts: renesas: r8a774e1: Add audio support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Date:   Wed, 5 Aug 2020 16:43:08 +0200
+Message-ID: <CAMuHMdVBFQ79Bqd7qn_AEvHSeJ0P8GRVAKSK2VFwB8YM9sQ+qQ@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: iwg22d-sodimm: Fix dt nodes sorting
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 7:20 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add sound support for the RZ/G2H SoC (a.k.a. R8A774E1).
+On Wed, Aug 5, 2020 at 4:26 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Some r8a7745-iwg22d-sodimm.dts device nodes are not sorted alphabetically.
+> This patch fixes the sorting of nodes and also fixes a typo in the stmpe
+> node.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:- Fixed sorting of sound node
+> v1:- https://patchwork.kernel.org/patch/11690969/
+
+Thanks for the update!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.10.
