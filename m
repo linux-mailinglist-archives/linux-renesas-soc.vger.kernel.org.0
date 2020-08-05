@@ -2,51 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F53C23CAC3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 14:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3632A23CAF9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 15:28:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728467AbgHEMnG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 08:43:06 -0400
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:38087 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728411AbgHEMgA (ORCPT
+        id S1728591AbgHEN16 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 09:27:58 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42345 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728426AbgHEMfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 08:36:00 -0400
-Received: by mail-yb1-f193.google.com with SMTP id e187so11384689ybc.5;
-        Wed, 05 Aug 2020 05:35:56 -0700 (PDT)
+        Wed, 5 Aug 2020 08:35:39 -0400
+Received: by mail-oi1-f196.google.com with SMTP id j7so23030665oij.9;
+        Wed, 05 Aug 2020 05:31:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8hbSnFLozAnFw+mEl1ug9b36cQI1zAqdjX8AiRGf5eg=;
-        b=hb2pliSgGkPsyEzfmhgDjqehn0bPAW56+btYIyS3Np8i6buuK88MET9JSJ0TqygRBT
-         23LL8QrPlV9+46Lz87nOYn0sqCxZxW+eTmuw3pc69a7mZRAxC+PDtskzQ2Vjf90poscz
-         yuwCQ+uPR9dY0OkOrTorM1bTnfUnbsMuWD8k+c4PYLLoNln40qGT4lTvCJcOq+0REmKY
-         XVUiKkaQX3xNIKocFBFHvJgczF39n2el1aePaKWZf8+ySADLC7AAqJXLt2Q/dSx9Rl1F
-         u0FIXItziNBtm47+Z812Exka5pBv0CvXaIRQkaXYRyb85w+gRdHBRZo/WkKNKIAcq5L6
-         bOLw==
-X-Gm-Message-State: AOAM532FqcQHW4+l+EpxH7jOipve+LsrBI2O9m9vmgy1kqmQCzksQFuB
-        RknedRfMQu4z23qaR4phw0ZPyjC7LszLzjzOgymkEg==
-X-Google-Smtp-Source: ABdhPJz68cp3BRosp19kHXfNdEIyo86KFXA5kI74C0lDw4gKE3Oz8neNAi9dx02X0JasBYqG0QOhCPNYbri4NwptkNk=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr2165898ote.107.1596628926098;
- Wed, 05 Aug 2020 05:02:06 -0700 (PDT)
+        bh=5lnCZoNdrZNQbQaV/iF1DKtpBff6Ck+1xozm4eqaEmw=;
+        b=aOLS0YI9SWLSUoNLnu8p9qwzutJsdBBtkn2A5QoLlzTZUMf0jB7nD9mhVxQb6HN6z5
+         8kbL+Gmi8kOZZFORMBklZGWLFqvj/btZNAttkTRoMziwYmii4etM3Ed++hA9p1uFgkw6
+         wYluwBY2STm+TRUFk7uymZ3tyAjfsYUagmLNKPx4sLuuU0dLlZGqq/oPDiNMidNNz0Rp
+         LEd6pHxpoefFACtirha+4tcvNFyTM4uFhh6o4yFRzvq+qMgavBiDBo13rHCCFUkZDIMQ
+         bhYcOUHWGm7eULfhprpPdIwPK6AQx6c1MfU0lG70z+DnEoR6BAQ+0UidT2+8ynnGdEbl
+         xKFw==
+X-Gm-Message-State: AOAM5331Fa40cBaCCw6jmNEScmXnFn+iDmHomF9v/PK8YducSlygeP+8
+        YpnL62MYrUH516Fs6TUsaKvc3rFqqFuhV1i8EbULynsj
+X-Google-Smtp-Source: ABdhPJwhUm4QHaZz7xbR+lTUoUQuyCH4le0QF/k75iMvl2tButnuNI7+iEhEoJyqrnRXlecEQMMJHtDC6cCth7F51hU=
+X-Received: by 2002:aca:4b54:: with SMTP id y81mr2275594oia.54.1596626072299;
+ Wed, 05 Aug 2020 04:14:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <1595005225-11519-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1595005225-11519-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1595005225-11519-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-11-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Aug 2020 14:01:54 +0200
-Message-ID: <CAMuHMdX17U-wBTZ6Z2=yHn4x9N1CwEUJNBmYKaSV5v_sxUd+5w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] ARM: dts: r8a7742-iwg21d-q7: Enable HSUSB, USB2.0
- and xHCI
+Date:   Wed, 5 Aug 2020 13:14:20 +0200
+Message-ID: <CAMuHMdW5_yBdEidPiVNeQO0QwuJfTe0kSiHLg4hkQLzVuRM7VA@mail.gmail.com>
+Subject: Re: [PATCH 10/20] arm64: dts: renesas: r8a774e1: Add USB3.0 device nodes
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -54,13 +68,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 7:00 PM Lad Prabhakar
+On Thu, Jul 16, 2020 at 7:19 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Enable support for HSUSB, USB2.0 and xHCI on iWave RZ/G1H carrier board.
+> Add usb3.0 phy, host and function device nodes on RZ/G2H SoC dtsi.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.10.
