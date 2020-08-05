@@ -2,214 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAE6923CD41
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 19:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEB2123CDAF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 19:41:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbgHERXg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 13:23:36 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:56777 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728575AbgHERRD (ORCPT
+        id S1728945AbgHERll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 13:41:41 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:43119 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728707AbgHERdc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 13:17:03 -0400
-X-IronPort-AV: E=Sophos;i="5.75,436,1589209200"; 
-   d="scan'208";a="53743861"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Aug 2020 23:26:39 +0900
-Received: from localhost.localdomain (unknown [172.29.52.220])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E1BBB42921F2;
-        Wed,  5 Aug 2020 23:26:36 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Wed, 5 Aug 2020 13:33:32 -0400
+Received: by mail-ot1-f68.google.com with SMTP id r21so23438915ota.10;
+        Wed, 05 Aug 2020 10:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nGe/Je8IarDkuCxG/u56QffSTYctpnR0YPw4MQUjy6A=;
+        b=rST3AuFgwVSXUW3gEpFnjQUuP+b9s0ZTn6PGbKOKO0OK/j1Bz2VXk0llZOWxlZuVO0
+         9oIMGAghTHl7Je5+n5+2DXDu/GznsnJ4YNQOMq5PtIygh1yiaj8pArkwAmdJGmw8t7vV
+         y8yVoeNhoS3DYIqAsy4Gt6Y1yh5ITWzLCzU1shD/pXIGj70jEE7glN6xEDbz2IORtivs
+         WWjD+NIisqKh2drx89yWWNp/pgChSLiBCf9nJaimJgGRP2okuj6v03kDhH2XQucahukI
+         6ZDcExgwrTEUAt5FKxmlIh2ncsblVHaIKbyGltSkjVye87qelLo/EG/OHkS4skdvIjpS
+         +5RQ==
+X-Gm-Message-State: AOAM530uffkeniOlIrjfH8CawBS6dbRM7pQSfv6ViYuOMMS6DLOMtgfK
+        /66F6f4Ls6S2Wp3IhNdRu6md7VSYEPbJdtBJFCPm8E5j
+X-Google-Smtp-Source: ABdhPJy6BJnijQ4U9574JZCK6kDHqx7/zV93wpejrM8Eh19/YBjLybIlzjjbGdFEBSswTARB1GJ4M2QmhRRIOA+7jHM=
+X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr2076468otl.145.1596625795521;
+ Wed, 05 Aug 2020 04:09:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 5 Aug 2020 13:09:43 +0200
+Message-ID: <CAMuHMdWhmQS56j4vkZhK94qQVkVhCA1eceZRNW1XipX-Sr6+8A@mail.gmail.com>
+Subject: Re: [PATCH 06/20] arm64: dts: renesas: r8a774e1: Add USB2.0 phy and
+ host (EHCI/OHCI) device nodes
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] ARM: dts: iwg22d-sodimm: Fix dt nodes sorting
-Date:   Wed,  5 Aug 2020 15:26:34 +0100
-Message-Id: <20200805142634.12252-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Some r8a7745-iwg22d-sodimm.dts device nodes are not sorted alphabetically.
-This patch fixes the sorting of nodes and also fixes a typo in the stmpe
-node.
+On Thu, Jul 16, 2020 at 7:19 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add USB2.0 phy and host (EHCI/OHCI) device nodes on RZ/G2H SoC dtsi.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:- Fixed sorting of sound node
-v1:- https://patchwork.kernel.org/patch/11690969/
----
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 112 ++++++++++----------
- 1 file changed, 56 insertions(+), 56 deletions(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
-diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-index b15b1b088a32..1c7b37a01f0a 100644
---- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-+++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-@@ -53,42 +53,6 @@
- 		clock-frequency = <26000000>;
- 	};
- 
--	rsnd_sgtl5000: sound {
--		compatible = "simple-audio-card";
--		simple-audio-card,format = "i2s";
--		simple-audio-card,bitclock-master = <&sndcodec>;
--		simple-audio-card,frame-master = <&sndcodec>;
--
--		sndcpu: simple-audio-card,cpu {
--			sound-dai = <&rcar_sound>;
--		};
--
--		sndcodec: simple-audio-card,codec {
--			sound-dai = <&sgtl5000>;
--		};
--	};
--
--	vccq_sdhi0: regulator-vccq-sdhi0 {
--		compatible = "regulator-gpio";
--
--		regulator-name = "SDHI0 VccQ";
--		regulator-min-microvolt = <1800000>;
--		regulator-max-microvolt = <3300000>;
--
--		gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
--		gpios-states = <1>;
--		states = <3300000 1>, <1800000 0>;
--	};
--
--	vccq_panel: regulator-vccq-panel {
--		compatible = "regulator-fixed";
--		regulator-name = "Panel VccQ";
--		regulator-min-microvolt = <3300000>;
--		regulator-max-microvolt = <3300000>;
--		gpio = <&gpio1 13 GPIO_ACTIVE_LOW>;
--		enable-active-high;
--	};
--
- 	backlight_lcd: backlight {
- 		compatible = "pwm-backlight";
- 		pwms = <&tpu 3 5000000 PWM_POLARITY_INVERTED>;
-@@ -107,19 +71,40 @@
- 			};
- 		};
- 	};
--};
- 
--&du {
--	pinctrl-0 = <&du0_pins>;
--	pinctrl-names = "default";
-+	vccq_panel: regulator-vccq-panel {
-+		compatible = "regulator-fixed";
-+		regulator-name = "Panel VccQ";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio1 13 GPIO_ACTIVE_LOW>;
-+		enable-active-high;
-+	};
- 
--	status = "okay";
-+	vccq_sdhi0: regulator-vccq-sdhi0 {
-+		compatible = "regulator-gpio";
- 
--	ports {
--		port@0 {
--			endpoint {
--				remote-endpoint = <&lcd_in>;
--			};
-+		regulator-name = "SDHI0 VccQ";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
-+		gpios-states = <1>;
-+		states = <3300000 1>, <1800000 0>;
-+	};
-+
-+	rsnd_sgtl5000: sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,bitclock-master = <&sndcodec>;
-+		simple-audio-card,frame-master = <&sndcodec>;
-+
-+		sndcpu: simple-audio-card,cpu {
-+			sound-dai = <&rcar_sound>;
-+		};
-+
-+		sndcodec: simple-audio-card,codec {
-+			sound-dai = <&sgtl5000>;
- 		};
- 	};
- };
-@@ -150,6 +135,21 @@
- 	status = "okay";
- };
- 
-+&du {
-+	pinctrl-0 = <&du0_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			endpoint {
-+				remote-endpoint = <&lcd_in>;
-+			};
-+		};
-+	};
-+};
-+
- &hscif1 {
- 	pinctrl-0 = <&hscif1_pins>;
- 	pinctrl-names = "default";
-@@ -171,6 +171,15 @@
- 	status = "okay";
- 	clock-frequency = <400000>;
- 
-+	sgtl5000: codec@a {
-+		compatible = "fsl,sgtl5000";
-+		#sound-dai-cells = <0>;
-+		reg = <0x0a>;
-+		clocks = <&audio_clock>;
-+		VDDA-supply = <&reg_3p3v>;
-+		VDDIO-supply = <&reg_3p3v>;
-+	};
-+
- 	stmpe811@44 {
- 		compatible = "st,stmpe811";
- 		reg = <0x44>;
-@@ -179,7 +188,7 @@
- 
- 		/* 3.25 MHz ADC clock speed */
- 		st,adc-freq = <1>;
--		/* ADC converstion time: 80 clocks */
-+		/* ADC conversion time: 80 clocks */
- 		st,sample-time = <4>;
- 		/* 12-bit ADC */
- 		st,mod-12b = <1>;
-@@ -203,15 +212,6 @@
- 			st,touch-det-delay = <5>;
- 		};
- 	};
--
--	sgtl5000: codec@a {
--		compatible = "fsl,sgtl5000";
--		#sound-dai-cells = <0>;
--		reg = <0x0a>;
--		clocks = <&audio_clock>;
--		VDDA-supply = <&reg_3p3v>;
--		VDDIO-supply = <&reg_3p3v>;
--	};
- };
- 
- &pci1 {
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
