@@ -2,43 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED82A23D0E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 21:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 771CA23D0DD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 21:54:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728022AbgHETyT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 15:54:19 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:39746 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728094AbgHEQs5 (ORCPT
+        id S1728414AbgHETxv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 15:53:51 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36736 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728122AbgHEQtd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 12:48:57 -0400
-Received: by mail-ua1-f66.google.com with SMTP id y17so7890769uaq.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Aug 2020 09:48:55 -0700 (PDT)
+        Wed, 5 Aug 2020 12:49:33 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l204so11423619oib.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Aug 2020 09:49:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DzqbPUlf3vkITjRSPP4jqUNQq2HjOeVWi+/hpMFqakk=;
-        b=U3WcyvLChaXUXHUvPEII91SHAUQMVMzORADWxoXkZ+O/p6KuQ6MxEiCnxjzWrgKGNA
-         7iN7VGoON4B9Usr0AatUdYX+uyDFA/9L5Tzl1+xcjhhhm2nKuLC+O0tu7of2mh6OILQg
-         Ru9sOWPdFRcCeDspx4VArQhnhTjZN2Sosep3iK7+QvBGO4k6M88Prs+kRQrf0YH7FWuv
-         Z2KcFB9qh0mFpnNeLPuGuRKrWjrOr2lxJoXo1x9+4NYmuGoHZQgDIc3C2orgmi6NMNLV
-         nmsN+FlRsf01nuz9ghRkh7jgId3OivMgyZLNvpl1XkYLS0A1n6IF8dV78F3p4tEitxXs
-         vlYQ==
-X-Gm-Message-State: AOAM533EQe9/CIQDl5ANHF6SF+sDb5u58bBhdxw/r5rsvOpdUIKCMJuc
-        N3hHSHBxaA0Uen3lpJKiIsI/TzFhpZjjUbP3jg15fA==
-X-Google-Smtp-Source: ABdhPJxBIIGoCbvgNYwQ0gul5eerSD5PFRtEiE6mJv19QdQ+yovZhQEvBIYEby0TQaBleKPpHd1HBGQPRcxttNaFx5k=
-X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr2271497otn.250.1596627269280;
- Wed, 05 Aug 2020 04:34:29 -0700 (PDT)
+        bh=6uljOmFBDcXjht755lAopTNR9CCmJpe3vlR5toHcn9A=;
+        b=fJu4N4r6eRMtMz93eObZR6WQCw2qXevvKSSMqe4qjrkHUjtEELXj+fNG6iyMHi2UXR
+         +83DlfXYuORAJQivaJwl5syvNIj5GRE/dtwlkxjKZ9TYsGJ42pU3S66jmgHn6uKkxlKb
+         vDFMqmFEVWwFwpxdmuCR8WkdwOwz79IGqdFT0UuKPxgofcZ8yUZ3tOaIDrHn/Z1NDx9c
+         WcwUOxZEaUEktu6tNFemgR9TgU0EQWsfq3eCLs9YfTF3Nq4nFfRFcdiOYLzqeT203vG2
+         YMgpd3F2XXSDPoW2giru1BxtJva7gBP2+cbq+8fwasoJEswfCUsAxtBszurF1oq7a7dP
+         Qgiw==
+X-Gm-Message-State: AOAM5337+9AxYYXV4UVecpe4ajrJdkH9E/fDvISew5GsHwAx3hzXGlVX
+        7jkD5Xlcbji29eJNiNPrBDkMUiOOrDLeeRbLXPxEzbaB
+X-Google-Smtp-Source: ABdhPJzhNt/EXHThIadzIZ3hdM26FpACi7FQ+axpuz8IJU1ybZ81wLDKzytOtqpuVV1kXi3+E5aj94Ti1vOq21a7V8U=
+X-Received: by 2002:aca:adc4:: with SMTP id w187mr2400852oie.153.1596630853536;
+ Wed, 05 Aug 2020 05:34:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594989201-24228-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1594989201-24228-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <87sgd3gcv4.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87sgd3gcv4.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Aug 2020 13:34:18 +0200
-Message-ID: <CAMuHMdXqkJ34w3qUgQB8B9UFbuQFEac_gxJXtqkRwofTE--76w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: ulcb: add full-pwr-cycle-in-suspend
- into eMMC nodes
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Date:   Wed, 5 Aug 2020 14:34:02 +0200
+Message-ID: <CAMuHMdUB=--G6PGYrKtkDUZweDeJuOGJhUErPkNB4+dVixsAyQ@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: use menu for Renesas SoC
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -47,15 +46,74 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 2:33 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add full-pwr-cycle-in-suspend property to do a graceful shutdown of
-> the eMMC device in system suspend.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Hi Morimoto-san,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+On Tue, Aug 4, 2020 at 8:12 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>
+> Renesas related SoC settings are located on TOP level menu
+> when menuconfig, thus it is very verbose.
+> This patch groups Renesas related settings into
+> "Renesas SoC driver support" menu.
+>
+> And it aligns config menu names.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Thanks for your patch!
+Unfortunately it doesn't apply against renesas-devel, as new SoCs have
+been added.
+
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -config SOC_RENESAS
+> +menuconfig SOC_RENESAS
+
+Yes, that helps.
+
+>         bool "Renesas SoC driver support" if COMPILE_TEST && !ARCH_RENESAS
+>         default y if ARCH_RENESAS
+>         select SOC_BUS
+> @@ -174,35 +174,35 @@ endif # ARM
+>  if ARM64
+>
+>  config ARCH_R8A774A1
+> -       bool "Renesas RZ/G2M SoC Platform"
+> +       bool "SoC Platform support for RZ/G2M"
+>         select ARCH_RCAR_GEN3
+>         select SYSC_R8A774A1
+>         help
+>           This enables support for the Renesas RZ/G2M SoC.
+>
+>  config ARCH_R8A774B1
+> -       bool "Renesas RZ/G2N SoC Platform"
+> +       bool "SoC Platform support for RZ/G2N"
+
+[...]
+
+Why these changes?
+
+> @@ -262,79 +262,79 @@ endif # ARM64
+>
+>  # SoC
+>  config SYSC_R8A7743
+> -       bool "RZ/G1M System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for RZ/G1M" if COMPILE_TEST
+>         select SYSC_RCAR
+>
+>  config SYSC_R8A7745
+> -       bool "RZ/G1E System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for RZ/G1E" if COMPILE_TEST
+
+[...]
+
+Why these changes?
+
+BTW, if you want to increase consistency, please also update the
+descriptions for arm32 and family-specific options.
 
 Gr{oetje,eeting}s,
 
