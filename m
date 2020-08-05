@@ -2,43 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEB2123CDAF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 19:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B57123CFCF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 21:25:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728945AbgHERll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 13:41:41 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43119 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728707AbgHERdc (ORCPT
+        id S1728962AbgHETZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 15:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728577AbgHERZG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 13:33:32 -0400
-Received: by mail-ot1-f68.google.com with SMTP id r21so23438915ota.10;
-        Wed, 05 Aug 2020 10:33:32 -0700 (PDT)
+        Wed, 5 Aug 2020 13:25:06 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DA5BC0086A6;
+        Wed,  5 Aug 2020 07:46:41 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id v13so23174659oiv.13;
+        Wed, 05 Aug 2020 07:46:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nGe/Je8IarDkuCxG/u56QffSTYctpnR0YPw4MQUjy6A=;
-        b=rST3AuFgwVSXUW3gEpFnjQUuP+b9s0ZTn6PGbKOKO0OK/j1Bz2VXk0llZOWxlZuVO0
-         9oIMGAghTHl7Je5+n5+2DXDu/GznsnJ4YNQOMq5PtIygh1yiaj8pArkwAmdJGmw8t7vV
-         y8yVoeNhoS3DYIqAsy4Gt6Y1yh5ITWzLCzU1shD/pXIGj70jEE7glN6xEDbz2IORtivs
-         WWjD+NIisqKh2drx89yWWNp/pgChSLiBCf9nJaimJgGRP2okuj6v03kDhH2XQucahukI
-         6ZDcExgwrTEUAt5FKxmlIh2ncsblVHaIKbyGltSkjVye87qelLo/EG/OHkS4skdvIjpS
-         +5RQ==
-X-Gm-Message-State: AOAM530uffkeniOlIrjfH8CawBS6dbRM7pQSfv6ViYuOMMS6DLOMtgfK
-        /66F6f4Ls6S2Wp3IhNdRu6md7VSYEPbJdtBJFCPm8E5j
-X-Google-Smtp-Source: ABdhPJy6BJnijQ4U9574JZCK6kDHqx7/zV93wpejrM8Eh19/YBjLybIlzjjbGdFEBSswTARB1GJ4M2QmhRRIOA+7jHM=
-X-Received: by 2002:a9d:1b0d:: with SMTP id l13mr2076468otl.145.1596625795521;
- Wed, 05 Aug 2020 04:09:55 -0700 (PDT)
+        bh=a747GTvzdj8BhTC99m/ltqffKPbWLknrH4UGCy7e+04=;
+        b=rx4G6ali42qaP1XHM/3dxNM9N32RXYC90XDH13dCFvCuQE5nEC2SKndrWA1Ie0QM7S
+         ezkvzSM2i8lafkAgtm1zUyLUZf3GeD4Vd0ts1FW+G6aOiCuLMKVX9g3yrcVAaWb25Q1/
+         UuEbBKFc18FoVVCVauRntkumg7dcVHp+khSrm6YNG+h44L31cZ/P4g8/iFP0WY7iWNEP
+         tSORMkowazJHMGpHn7YGoId8llCJWyuVhcjSSGiKJMQJW6fqBUxIWdgWJGQfLtkwsGdU
+         cJDqr9WWtb64EhtmBX9uAw0gm8IsXtKmLeVhSZheEL8nKT7dqasoc7/lWyTq54nXtgNY
+         hOOw==
+X-Gm-Message-State: AOAM530bfeRays6JRYcl9Jh6UofxignYBe8JLo4m2ms3N+Db/oZU/M6V
+        Lb/RFB32tjmPRPwFHpoYvaPE/S9lp36FDTsWnBY0Qg==
+X-Google-Smtp-Source: ABdhPJxOLh0H5vKRdwT+SgNB4/VJFY79xxN/fk4jyCR22Pxw8fbAj3AqGa5onUuCO90I+Y+bzEmqLPTLGI8ksjYr6g8=
+X-Received: by 2002:aca:b742:: with SMTP id h63mr2149267oif.148.1596625738500;
+ Wed, 05 Aug 2020 04:08:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594919915-5225-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594919915-5225-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Aug 2020 13:09:43 +0200
-Message-ID: <CAMuHMdWhmQS56j4vkZhK94qQVkVhCA1eceZRNW1XipX-Sr6+8A@mail.gmail.com>
-Subject: Re: [PATCH 06/20] arm64: dts: renesas: r8a774e1: Add USB2.0 phy and
- host (EHCI/OHCI) device nodes
+Date:   Wed, 5 Aug 2020 13:08:47 +0200
+Message-ID: <CAMuHMdVNrbi2twUoJ1wB4DY++M+VgsLVQXxS_NTK9YtExF8BBg@mail.gmail.com>
+Subject: Re: [PATCH 02/20] arm64: dts: renesas: r8a774e1: Add PCIe device nodes
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
         Vinod Koul <vkoul@kernel.org>,
@@ -69,9 +71,9 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 16, 2020 at 7:19 PM Lad Prabhakar
+On Thu, Jul 16, 2020 at 7:18 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add USB2.0 phy and host (EHCI/OHCI) device nodes on RZ/G2H SoC dtsi.
+> Add PCIe{0,1} device nodes for R8A774E1 SoC.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
