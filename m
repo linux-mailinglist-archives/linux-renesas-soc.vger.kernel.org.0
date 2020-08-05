@@ -2,144 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C30023C3EF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 05:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91F3F23C5E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Aug 2020 08:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgHEDRk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Aug 2020 23:17:40 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61975 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725981AbgHEDRk (ORCPT
+        id S1728014AbgHEGdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 02:33:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35892 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726232AbgHEGc4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Aug 2020 23:17:40 -0400
-IronPort-SDR: vyFsyDOK8cF349DxJpU+20QyoCSIh8PQwe/IF4vxw/jQ7Q+2vNea6TT0ZxysvTM05U/nqua1Rh
- ULnEoVCFmAZQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9703"; a="132533678"
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; 
-   d="scan'208";a="132533678"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2020 20:17:39 -0700
-IronPort-SDR: HWO8lITh1HGbQUgR2YIl1z3aJf9eZgcoQnt7a+vsRiJcJM9IHqOj9kRuGGF83o5lHJiMJboZpO
- LXiMke+EOjRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,436,1589266800"; 
-   d="scan'208";a="322972834"
-Received: from lkp-server02.sh.intel.com (HELO 37a337f97289) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2020 20:17:37 -0700
-Received: from kbuild by 37a337f97289 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1k39vt-0000YT-3F; Wed, 05 Aug 2020 03:17:37 +0000
-Date:   Wed, 05 Aug 2020 11:16:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/ravb-internal-clock-delays-v3] BUILD
- SUCCESS 041c6874403e6deab5aa6bbb79ddd17b5fe8c8e2
-Message-ID: <5f2a2496.jYgXaZvaKSh+J2hV%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 5 Aug 2020 02:32:56 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF83C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  4 Aug 2020 23:32:56 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id j23so15882341vsq.7
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Aug 2020 23:32:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3i8XFESZihDO6mc3/4tfcR56mY/Nrg7Lzf+GDZhYM0g=;
+        b=u+hjsVhIDKbvRcozTis1DkPn0ESZP+Sd8wJOYW7WIDQKDcD7a4CcJkAWutLduFx1Ac
+         2jOZERHr/wrMd0HMCF3FNsxtJxv3fiLLKPX4kzcT9AOdYmXNV68G2Qzcjxj1YffFf50R
+         2xg3/w5dyp8w+Dbj3V1/VawrbYwILC569f3qDEjI0SFAak1NcLF9cMesEXGrZ+XP3Xry
+         WBn4lK7J2UIPYRV2SZtBvzCcdSQlRsWQo2/DuhaLoKYe/JQ7SM30i00eYs12UP0YBniE
+         yl0hpANKnYMyu9U8yCOpAbgs+p5G3lAxsa2PEMhfyT2+RVpnQL4tDH5uxTswkKlYq0ky
+         IcNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3i8XFESZihDO6mc3/4tfcR56mY/Nrg7Lzf+GDZhYM0g=;
+        b=sHzV1t3YJp6nNZB8GlzmAETcKOu0me5jQSgQeX4ljChgu2veeODqxkShNbN5WAUsQY
+         O130t47JXlHw+j25SmlBf/4p4tk8p3eCfdfziE1jzI1qpIxUZLjLPI4OlubzXWwvwguY
+         4tpGMRAxMrA0bd1gnEG3/B1QEsz8M18CGp5+CsRfzUOAjLplSpPwSDFTI8lK4Oad38He
+         PM7fcahwfbf/ZEm+4JUfmJ96PRw5jHyFGMklckZm13ouw1WmjxGb6JgTTPSjfLbF7/ve
+         yPGdCeD98/r6bVhLViAIKoRDqFjEgERnQLlhVcDnSfY/HCi2RZZOQZe9FMseNCbYrcZC
+         GqNw==
+X-Gm-Message-State: AOAM532EWePLii0Zeh+YBiMPlc0rowceVnh8az+mmOGoqF1F/qgnKdBX
+        L9kblw2jekmU5NjshMyWwH/tqoJAPSC0ise22fHR/w==
+X-Google-Smtp-Source: ABdhPJwRtcGnWnSrfLNC1GRoMPhliXQgGipO4zbcYB0cTmrrdPOh4Q7PwFb5o1O0BAF8kY6G3DlVTaO3sR41MJVFDyg=
+X-Received: by 2002:a05:6102:382:: with SMTP id m2mr883411vsq.34.1596609175004;
+ Tue, 04 Aug 2020 23:32:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <1594230511-24790-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594230511-24790-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594230511-24790-5-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 5 Aug 2020 08:32:18 +0200
+Message-ID: <CAPDyKFqeiEUeajprG=Bx3Nion8bGpVrDOuM7q6-kLDpOMY-QbQ@mail.gmail.com>
+Subject: Re: [PATCH 4/8] dt-bindings: mmc: renesas,sdhi: Add r8a774e1 support
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-serial@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/ravb-internal-clock-delays-v3
-branch HEAD: 041c6874403e6deab5aa6bbb79ddd17b5fe8c8e2  squash! arm64: dts: renesas: rcar-gen3: Convert EtherAVB to explicit delay handling
+On Wed, 8 Jul 2020 at 19:48, Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> Document SDHI controller for RZ/G2H (R8A774E1) SoC, which is compatible
+> with R-Car Gen3 SoC family.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-elapsed time: 720m
+Sorry, but this doesn't apply as the DT doc has been converted to
+YAML. Can you please rebase and respin.
 
-configs tested: 81
-configs skipped: 6
+Kind regards
+Uffe
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                           se7750_defconfig
-mips                            gpr_defconfig
-arm                       spear13xx_defconfig
-mips                      maltasmvp_defconfig
-arm                  colibri_pxa300_defconfig
-arm                       netwinder_defconfig
-arm                       versatile_defconfig
-powerpc                mpc7448_hpc2_defconfig
-mips                        bcm63xx_defconfig
-sh                          r7785rp_defconfig
-sh                            shmin_defconfig
-arm                        multi_v7_defconfig
-powerpc                      chrp32_defconfig
-powerpc                     powernv_defconfig
-sh                          sdk7786_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20200805
-i386                 randconfig-a004-20200805
-i386                 randconfig-a001-20200805
-i386                 randconfig-a003-20200805
-i386                 randconfig-a002-20200805
-i386                 randconfig-a006-20200805
-x86_64               randconfig-a013-20200805
-x86_64               randconfig-a011-20200805
-x86_64               randconfig-a012-20200805
-x86_64               randconfig-a016-20200805
-x86_64               randconfig-a015-20200805
-x86_64               randconfig-a014-20200805
-i386                 randconfig-a011-20200805
-i386                 randconfig-a012-20200805
-i386                 randconfig-a013-20200805
-i386                 randconfig-a014-20200805
-i386                 randconfig-a015-20200805
-i386                 randconfig-a016-20200805
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> ---
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.txt b/Documentation/devicetree/bindings/mmc/renesas,sdhi.txt
+> index 0ca9a622cce0..779e484fa3ef 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.txt
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.txt
+> @@ -14,6 +14,7 @@ Required properties:
+>                 "renesas,sdhi-r8a774a1" - SDHI IP on R8A774A1 SoC
+>                 "renesas,sdhi-r8a774b1" - SDHI IP on R8A774B1 SoC
+>                 "renesas,sdhi-r8a774c0" - SDHI IP on R8A774C0 SoC
+> +               "renesas,sdhi-r8a774e1" - SDHI IP on R8A774E1 SoC
+>                 "renesas,sdhi-r8a77470" - SDHI IP on R8A77470 SoC
+>                 "renesas,sdhi-mmc-r8a77470" - SDHI/MMC IP on R8A77470 SoC
+>                 "renesas,sdhi-r8a7778" - SDHI IP on R8A7778 SoC
+> --
+> 2.17.1
+>
