@@ -2,110 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5B123D8F7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 11:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0895E23DA1E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 13:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729274AbgHFJz1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Aug 2020 05:55:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35746 "EHLO
+        id S1727083AbgHFLnq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Aug 2020 07:43:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729288AbgHFJzT (ORCPT
+        with ESMTP id S1726596AbgHFLSd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Aug 2020 05:55:19 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02806C061757
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  6 Aug 2020 02:55:19 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id b30so25794170lfj.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 06 Aug 2020 02:55:18 -0700 (PDT)
+        Thu, 6 Aug 2020 07:18:33 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16F0C0617A4;
+        Thu,  6 Aug 2020 04:17:31 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id v89so11271403ybi.8;
+        Thu, 06 Aug 2020 04:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iLnO85sDWXnc5STHtwImT7+YI1lTMI4nQkXxGiWw4yQ=;
-        b=nvsmESMdl5RAq10DE60VGnhFNPgI8dMtwtCGnrqVlmsKrV1wLx1jyUtzCcLK39LHWx
-         jlSTxB3xnGq+7T41XmrqoI3ddOANsomxvEtKRMpe7gkxFajnmlNu/+TgoPJfMpmTsPEQ
-         qA0dANHTJ0XIhEVE2IoeP6UFW20IvHXfIBnGWon+JNIhIP5tnridb2IvIEIGkmb60QIm
-         Lk7/9dqDZEeXCLIQsj6CEhnUthx48qsVVpnSyaPWSdKegLkIfsE9tnZSr11CKDhvtgcd
-         a0mqYJGnMkjE41f7AT/xbttcyV+CcjOFdc7C7E9I82AQfqSEcZO5F8nRINaj6ECyDz0N
-         hU3Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IkZFSPvcY5I31SF4ovGBrfHT1rxg0M171V/0SMIVx2k=;
+        b=W1T7PMyTGM7VIbxN0FUlHyTKpaK0nw8VbeY8YI4ksk9CWWKzLOGNJsuFVpAeVzqEDQ
+         l5jy7ReADQ2WPptC19aMYCiHXKqdoGibvICjZi24Fx59vEVwEvfL4yZTHGzKYmCRL03U
+         RVTRjFq4TV8+2/gTNJkJ/Htgj1Fhq5P1qcxe/eQL/FoLz9bwZG6KJsHhvjn7+xr/6u/A
+         ZwyurJY9E7i7o/VwJb0vYHsxFh1fqfcI6q3MWsQ7MjEBH949S7NP+IoE180+3rUUw9UI
+         +/+wKAisrtczBHnl7YHt8MqtQz67j1T9EoVK3At6moXH+T7btd80HOMRDedl6B5O04Fc
+         C4rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=iLnO85sDWXnc5STHtwImT7+YI1lTMI4nQkXxGiWw4yQ=;
-        b=CdUIzCjfmLFsfAZcA8BFlii5hgz6IM/+gb3v1RVCaP+9pv10YslQhlFgMK+gmrK8K7
-         HAj/aFpMXPtADbzuVOsnxHp8yYUlyMXozti2kIPwQzU7T0Fw/p1Dq2rxhJVMqH6gkf+R
-         VRCUTwJjasUQn8DMObzM5QPMDQxfZuhpo8sHByQoha3SvC008GweFP0jTr5PT7l7sm83
-         YttLDsobZ9TIzN3LyHikZq1B3HNWhlLXYjA4OzLawVZV9SxAtyTFaGJmp4RpgmtvQPMA
-         J6rGretgKOYVMJvIeLVmIQ0w6M1EVNAw1lXCfQQUGuuQ1z1EaOXJh1phHDwkEKoGwD9Z
-         +Huw==
-X-Gm-Message-State: AOAM531EgT3tmbS6q6tSmJ+t27Dgavxz+9WDdPDfKHKFnBFyILI4LOF3
-        ox7sgXGdty+b+NygMItuLDAwaxU2
-X-Google-Smtp-Source: ABdhPJzDdypt2ZljenRGREuPMirGGHnsauTQZo/TqPzm2uCRxxQhf6tfTvI0RkyPjiLn57s/1Xaalw==
-X-Received: by 2002:ac2:4a9d:: with SMTP id l29mr3531692lfp.23.1596707717352;
-        Thu, 06 Aug 2020 02:55:17 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:42cb:55ed:b0ec:135a:626d:113? ([2a00:1fa0:42cb:55ed:b0ec:135a:626d:113])
-        by smtp.gmail.com with ESMTPSA id f14sm2476121lfd.2.2020.08.06.02.55.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Aug 2020 02:55:16 -0700 (PDT)
-Subject: Re: [PATCH 1/8] card: Add a method to retrieve the device minor
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
- <20200806021807.21863-2-laurent.pinchart@ideasonboard.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <c7aa64ac-d1b6-9c2c-3d28-c2974f096772@gmail.com>
-Date:   Thu, 6 Aug 2020 12:55:07 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IkZFSPvcY5I31SF4ovGBrfHT1rxg0M171V/0SMIVx2k=;
+        b=g67kPD/j95qTl+nSE82sBYDekoxbS1PiK2Tg09FZoroG9kInTPi/m/ggaM4nk9P9CC
+         iSnd0fPe+8394pPmMrq6GNs8+scxrtN8VyiLjMNFXulPSXoe5KORzJ3zGp3cpIuUiXEC
+         zepQ0ZkznvpuUvLmULR0+Bv5rSUSUejjz6SwMWuA2DKS7B96KlGvchGWcM6HPf+qZIvn
+         AlNWx1iUxAQp1s6JmbdIEFXXwUi2p3RDKrqzNbyW18TGybaFfbuVWz2pabsraTzrSrek
+         nMok3hQbEk44a9wlxHprIzAZvGHtNt3pWgqGwo95Ftofql4Wo6agwTLMeR256HhTh4Tm
+         0WRQ==
+X-Gm-Message-State: AOAM532SNiuhML1IP3RP2/AkmTWejLC4WI6F7qE3KRIy7Cs+sP9H+6rA
+        JYtYPHOnlsV3ojMSpRKIcVpsFUnL7aqd/hl33yA=
+X-Google-Smtp-Source: ABdhPJxC1QZwDQjfBbSfcHd9+nWr/d1KIV+hOzv93X+1QoDGFFoAz1yykeKI4ZMC4cs50cyA5iK5Orky9ZbUh/KQlXM=
+X-Received: by 2002:a25:c743:: with SMTP id w64mr11132228ybe.127.1596712641618;
+ Thu, 06 Aug 2020 04:17:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200806021807.21863-2-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594919915-5225-21-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVriWnPK8-=w=0mq8yj9+1jbsg9yH8aV=ygyHsQ0f-CQQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVriWnPK8-=w=0mq8yj9+1jbsg9yH8aV=ygyHsQ0f-CQQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 6 Aug 2020 12:16:55 +0100
+Message-ID: <CA+V-a8vXjhV-EeQb=bBhoRmuVA=0GSuFiV33N9nkhi39VNN6oA@mail.gmail.com>
+Subject: Re: [PATCH 20/20] arm64: dts: renesas: r8a774e1: Add VIN and CSI-2 nodes
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Geert,
 
-On 06.08.2020 5:17, Laurent Pinchart wrote:
+Thank you for the review.
 
-> The device minor number is needed to access the debugfs directory
-> corresponding to the device. Make it available to users through a
-> get_minor() method on the Card object.
+On Wed, Aug 5, 2020 at 12:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Jul 16, 2020 at 7:20 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add VIN and CSI-2 nodes to RZ/G2H (R8A774E1) SoC dtsi.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> However, before I queue this in renesas-devel for v5.10, I'd like to
+> have some clarification about the issue below.
+>
+> > --- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+>
+> > +               vin4: video@e6ef4000 {
+> > +                       compatible = "renesas,vin-r8a774e1";
+> > +                       reg = <0 0xe6ef4000 0 0x1000>;
+> > +                       interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> > +                       clocks = <&cpg CPG_MOD 807>;
+> > +                       power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
+> > +                       resets = <&cpg 807>;
+> > +                       renesas,id = <4>;
+> > +                       status = "disabled";
+> > +
+> > +                       ports {
+> > +                               #address-cells = <1>;
+> > +                               #size-cells = <0>;
+> > +
+> > +                               port@1 {
+> > +                                       #address-cells = <1>;
+> > +                                       #size-cells = <0>;
+>
+> "make dtbs W=1" says:
+>
+>     arch/arm64/boot/dts/renesas/r8a774e1.dtsi:1562.12-1572.7: Warning
+> (graph_child_address): /soc/video@e6ef4000/ports/port@1: graph node
+> has single child node 'endpoint@0', #address-cells/#size-cells are not
+> necessary
+>
+> (same for vin5-7 below)
+>
+Referring to commit 5e53dbf4edb4d ("arm64: dts: renesas: r8a77990: Fix
+VIN endpoint numbering") we definitely need endpoint numbering.
+Probably the driver needs to be fixed to handle such cases.
 
-    Didn't you call it dev_minor() below?
+Cheers,
+Prabhakar
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-[...]
-> diff --git a/kms++/inc/kms++/card.h b/kms++/inc/kms++/card.h
-> index 5c1cf7cfcedc..0a11747f7985 100644
-> --- a/kms++/inc/kms++/card.h
-> +++ b/kms++/inc/kms++/card.h
-> @@ -35,6 +35,7 @@ public:
->   	Card& operator=(const Card& other) = delete;
->   
->   	int fd() const { return m_fd; }
-> +	unsigned int dev_minor() const { return m_minor; }
->   
->   	void drop_master();
->   
-> @@ -84,7 +85,9 @@ private:
->   	std::vector<Framebuffer*> m_framebuffers;
->   
->   	int m_fd;
-> +	unsigned int m_minor;
->   	bool m_is_master;
-> +	std::string m_device;
->   
->   	bool m_has_atomic;
->   	bool m_has_universal_planes;
-[...]
-
-MBR, Sergei
+> > +
+> > +                                       reg = <1>;
+> > +
+> > +                                       vin4csi20: endpoint@0 {
+> > +                                               reg = <0>;
+> > +                                               remote-endpoint = <&csi20vin4>;
+> > +                                       };
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
