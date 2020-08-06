@@ -2,35 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD87E23D55B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 04:18:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5377D23D56C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 04:27:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726927AbgHFCSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 22:18:43 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38264 "EHLO
+        id S1726149AbgHFC1Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Aug 2020 22:27:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38316 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726998AbgHFCSj (ORCPT
+        with ESMTP id S1726005AbgHFC1P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 22:18:39 -0400
+        Wed, 5 Aug 2020 22:27:15 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86242FE0;
-        Thu,  6 Aug 2020 04:18:26 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B07E050E;
+        Thu,  6 Aug 2020 04:27:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596680306;
-        bh=Ut/D8l9qJnI3sUFBbHY+0dlSPb4lTH1hwdVPhsQxa5s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Qi87dCJtZi+wNwUFHpI45OYhLFppuU82ho5sAuSKXPr7icDu0P8BHOYmjgxTE7yn2
-         RaZO4/xJ6aCDFkliYeHY+3OQCR7DRCHdB/RGgd6Cw4MHrUC2YnwN87jIcxgNKBWKsE
-         4O0EpvLsmhNXbeTPRKOX7AC+L2HFANL7+ipXColo=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 8/8] kms++: Add support for missing 8 -and 16-bit RGB formats
-Date:   Thu,  6 Aug 2020 05:18:06 +0300
-Message-Id: <20200806021807.21863-9-laurent.pinchart@ideasonboard.com>
+        s=mail; t=1596680832;
+        bh=3KNpcr/VAYokA85eIPs3KnP5XeCnzeYeaRru+cPCVBw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p6BNDsKc6q3DL5Cgp8Ke/fcEWm1zGSj36bigAZeNHhsrKv1/1Q/owc96jDFH44yct
+         21tdAdxiZTwGZlwp5j0WAefXylbwESGgGFadJnql8aBcLNvQ4fEbzts69qkeEqk0X9
+         psvdQ1bFjaOwsWYCS3oJBEMMEmRYkkRch33he+/E=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] drm: rcar-du: Fix pitch handling for fully planar YUV formats
+Date:   Thu,  6 Aug 2020 05:26:49 +0300
+Message-Id: <20200806022649.22506-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
-References: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -38,171 +37,320 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for the RGB332, XRGB1555 and XRGB4444 formats to the
-PixelFormat class, the Python API, and the drawing utilities.
+When creating a frame buffer, the driver verifies that the pitches for
+the chroma planes match the luma plane. This is done incorrectly for
+fully planar YUV formats, without taking horizontal subsampling into
+account. Fix it.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- kms++/inc/kms++/pixelformats.h  |  5 +++++
- kms++/src/pixelformats.cpp      |  9 ++++++---
- kms++util/inc/kms++util/color.h |  1 +
- kms++util/src/color.cpp         |  5 +++++
- kms++util/src/drawing.cpp       | 14 ++++++++++++++
- py/pykms/pykmsbase.cpp          |  5 +++++
- 6 files changed, 36 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 52 ++++++++++++++++++++++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h |  1 +
+ 2 files changed, 52 insertions(+), 1 deletion(-)
 
-diff --git a/kms++/inc/kms++/pixelformats.h b/kms++/inc/kms++/pixelformats.h
-index 746f9e2b8c5a..4e453a2f594d 100644
---- a/kms++/inc/kms++/pixelformats.h
-+++ b/kms++/inc/kms++/pixelformats.h
-@@ -45,9 +45,14 @@ enum class PixelFormat : uint32_t
- 	RGB888 = MakeFourCC("RG24"),
- 	BGR888 = MakeFourCC("BG24"),
- 
-+	RGB332 = MakeFourCC("RGB8"),
-+
- 	RGB565 = MakeFourCC("RG16"),
- 	BGR565 = MakeFourCC("BG16"),
- 
-+	XRGB4444 = MakeFourCC("XR12"),
-+	XRGB1555 = MakeFourCC("XR15"),
-+
- 	ARGB4444 = MakeFourCC("AR12"),
- 	ARGB1555 = MakeFourCC("AR15"),
- 
-diff --git a/kms++/src/pixelformats.cpp b/kms++/src/pixelformats.cpp
-index fe86fca04cd8..2c60c1e673f3 100644
---- a/kms++/src/pixelformats.cpp
-+++ b/kms++/src/pixelformats.cpp
-@@ -24,9 +24,15 @@ static const map<PixelFormat, PixelFormatInfo> format_info_array = {
- 	{ PixelFormat::YVU422, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 1 }, { 8, 2, 1 } }, } },
- 	{ PixelFormat::YUV444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
- 	{ PixelFormat::YVU444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
-+	/* RGB8 */
-+	{ PixelFormat::RGB332, { PixelColorType::RGB, 1, { { 8, 1, 1 } }, } },
- 	/* RGB16 */
- 	{ PixelFormat::RGB565, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
- 	{ PixelFormat::BGR565, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
-+	{ PixelFormat::XRGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
-+	{ PixelFormat::XRGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
-+	{ PixelFormat::ARGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
-+	{ PixelFormat::ARGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
- 	/* RGB24 */
- 	{ PixelFormat::RGB888, { PixelColorType::RGB, 1, { { 24, 1, 1 } }, } },
- 	{ PixelFormat::BGR888, { PixelColorType::RGB, 1, { { 24, 1, 1 } }, } },
-@@ -50,9 +56,6 @@ static const map<PixelFormat, PixelFormatInfo> format_info_array = {
- 	{ PixelFormat::ABGR2101010, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
- 	{ PixelFormat::RGBA1010102, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
- 	{ PixelFormat::BGRA1010102, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
--
--	{ PixelFormat::ARGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
--	{ PixelFormat::ARGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index 482329102f19..2fda3734a57e 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -40,6 +40,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_RGB565,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 		.pnmr = PnMR_SPIM_TP | PnMR_DDDF_16BPP,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -47,6 +48,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_ARGB555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 		.pnmr = PnMR_SPIM_ALP | PnMR_DDDF_ARGB,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -61,6 +63,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_XBGR32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 		.pnmr = PnMR_SPIM_TP | PnMR_DDDF_16BPP,
+ 		.edf = PnDDCR4_EDF_RGB888,
+ 	}, {
+@@ -68,6 +71,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_ABGR32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 		.pnmr = PnMR_SPIM_ALP | PnMR_DDDF_16BPP,
+ 		.edf = PnDDCR4_EDF_ARGB8888,
+ 	}, {
+@@ -75,6 +79,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_UYVY,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 2,
+ 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -82,6 +87,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_YUYV,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 2,
+ 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -89,6 +95,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_NV12M,
+ 		.bpp = 12,
+ 		.planes = 2,
++		.hsub = 2,
+ 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -96,6 +103,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_NV21M,
+ 		.bpp = 12,
+ 		.planes = 2,
++		.hsub = 2,
+ 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	}, {
+@@ -103,6 +111,7 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_NV16M,
+ 		.bpp = 16,
+ 		.planes = 2,
++		.hsub = 2,
+ 		.pnmr = PnMR_SPIM_TP_OFF | PnMR_DDDF_YC,
+ 		.edf = PnDDCR4_EDF_NONE,
+ 	},
+@@ -115,156 +124,187 @@ static const struct rcar_du_format_info rcar_du_format_infos[] = {
+ 		.v4l2 = V4L2_PIX_FMT_RGB332,
+ 		.bpp = 8,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_ARGB4444,
+ 		.v4l2 = V4L2_PIX_FMT_ARGB444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_XRGB4444,
+ 		.v4l2 = V4L2_PIX_FMT_XRGB444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBA4444,
+ 		.v4l2 = V4L2_PIX_FMT_RGBA444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBX4444,
+ 		.v4l2 = V4L2_PIX_FMT_RGBX444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_ABGR4444,
+ 		.v4l2 = V4L2_PIX_FMT_ABGR444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_XBGR4444,
+ 		.v4l2 = V4L2_PIX_FMT_XBGR444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRA4444,
+ 		.v4l2 = V4L2_PIX_FMT_BGRA444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRX4444,
+ 		.v4l2 = V4L2_PIX_FMT_BGRX444,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBA5551,
+ 		.v4l2 = V4L2_PIX_FMT_RGBA555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBX5551,
+ 		.v4l2 = V4L2_PIX_FMT_RGBX555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_ABGR1555,
+ 		.v4l2 = V4L2_PIX_FMT_ABGR555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_XBGR1555,
+ 		.v4l2 = V4L2_PIX_FMT_XBGR555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRA5551,
+ 		.v4l2 = V4L2_PIX_FMT_BGRA555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRX5551,
+ 		.v4l2 = V4L2_PIX_FMT_BGRX555,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGR888,
+ 		.v4l2 = V4L2_PIX_FMT_RGB24,
+ 		.bpp = 24,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGB888,
+ 		.v4l2 = V4L2_PIX_FMT_BGR24,
+ 		.bpp = 24,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBA8888,
+ 		.v4l2 = V4L2_PIX_FMT_BGRA32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_RGBX8888,
+ 		.v4l2 = V4L2_PIX_FMT_BGRX32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_ABGR8888,
+ 		.v4l2 = V4L2_PIX_FMT_RGBA32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_XBGR8888,
+ 		.v4l2 = V4L2_PIX_FMT_RGBX32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRA8888,
+ 		.v4l2 = V4L2_PIX_FMT_ARGB32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_BGRX8888,
+ 		.v4l2 = V4L2_PIX_FMT_XRGB32,
+ 		.bpp = 32,
+ 		.planes = 1,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YVYU,
+ 		.v4l2 = V4L2_PIX_FMT_YVYU,
+ 		.bpp = 16,
+ 		.planes = 1,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_NV61,
+ 		.v4l2 = V4L2_PIX_FMT_NV61M,
+ 		.bpp = 16,
+ 		.planes = 2,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YUV420,
+ 		.v4l2 = V4L2_PIX_FMT_YUV420M,
+ 		.bpp = 12,
+ 		.planes = 3,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YVU420,
+ 		.v4l2 = V4L2_PIX_FMT_YVU420M,
+ 		.bpp = 12,
+ 		.planes = 3,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YUV422,
+ 		.v4l2 = V4L2_PIX_FMT_YUV422M,
+ 		.bpp = 16,
+ 		.planes = 3,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YVU422,
+ 		.v4l2 = V4L2_PIX_FMT_YVU422M,
+ 		.bpp = 16,
+ 		.planes = 3,
++		.hsub = 2,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YUV444,
+ 		.v4l2 = V4L2_PIX_FMT_YUV444M,
+ 		.bpp = 24,
+ 		.planes = 3,
++		.hsub = 1,
+ 	}, {
+ 		.fourcc = DRM_FORMAT_YVU444,
+ 		.v4l2 = V4L2_PIX_FMT_YVU444M,
+ 		.bpp = 24,
+ 		.planes = 3,
++		.hsub = 1,
+ 	},
  };
  
- const struct PixelFormatInfo& get_pixel_format_info(PixelFormat format)
-diff --git a/kms++util/inc/kms++util/color.h b/kms++util/inc/kms++util/color.h
-index 2bf6e66315a4..fa05fbcc1982 100644
---- a/kms++util/inc/kms++util/color.h
-+++ b/kms++util/inc/kms++util/color.h
-@@ -34,6 +34,7 @@ struct RGB
- 	uint32_t rgba1010102() const;
- 	uint32_t bgra1010102() const;
- 
-+	uint8_t rgb332() const;
- 	uint16_t rgb565() const;
- 	uint16_t bgr565() const;
- 	uint16_t argb4444() const;
-diff --git a/kms++util/src/color.cpp b/kms++util/src/color.cpp
-index 80e486668298..2d45eff5d70b 100644
---- a/kms++util/src/color.cpp
-+++ b/kms++util/src/color.cpp
-@@ -79,6 +79,11 @@ uint32_t RGB::bgra1010102() const
- 	return (b << 24) | (g << 14) | (r << 4) | (a >> 6);
- }
- 
-+uint8_t RGB::rgb332() const
-+{
-+	return ((r >> 5) << 5) | ((g >> 5) << 2) | ((b >> 6) << 0);
-+}
-+
- uint16_t RGB::rgb565() const
+@@ -311,6 +351,7 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
  {
- 	return ((r >> 3) << 11) | ((g >> 2) << 5) | ((b >> 3) << 0);
-diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
-index c1c639a8b3a5..3752f94695e0 100644
---- a/kms++util/src/drawing.cpp
-+++ b/kms++util/src/drawing.cpp
-@@ -86,6 +86,12 @@ void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color)
- 		p[2] = color.b;
- 		break;
+ 	struct rcar_du_device *rcdu = dev->dev_private;
+ 	const struct rcar_du_format_info *format;
++	unsigned int chroma_pitch;
+ 	unsigned int max_pitch;
+ 	unsigned int align;
+ 	unsigned int i;
+@@ -353,8 +394,17 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+ 		return ERR_PTR(-EINVAL);
  	}
-+	case PixelFormat::RGB332:
-+	{
-+		uint8_t *p = (uint8_t*)(buf.map(0) + buf.stride(0) * y + x);
-+		*p = color.rgb332();
-+		break;
-+	}
- 	case PixelFormat::RGB565:
- 	{
- 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
-@@ -98,12 +104,14 @@ void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color)
- 		*p = color.bgr565();
- 		break;
- 	}
-+	case PixelFormat::XRGB4444:
- 	case PixelFormat::ARGB4444:
- 	{
- 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
- 		*p = color.argb4444();
- 		break;
- 	}
-+	case PixelFormat::XRGB1555:
- 	case PixelFormat::ARGB1555:
- 	{
- 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
-@@ -397,8 +405,11 @@ void draw_rect(IFramebuffer &fb, uint32_t x, uint32_t y, uint32_t w, uint32_t h,
- 	case PixelFormat::BGR888:
- 	case PixelFormat::RGB565:
- 	case PixelFormat::BGR565:
-+	case PixelFormat::XRGB4444:
-+	case PixelFormat::XRGB1555:
- 	case PixelFormat::ARGB4444:
- 	case PixelFormat::ARGB1555:
-+	case PixelFormat::RGB332:
- 		for (j = 0; j < h; j++) {
- 			for (i = 0; i < w; i++) {
- 				draw_rgb_pixel(fb, x + i, y + j, color);
-@@ -486,8 +497,11 @@ static void draw_char(IFramebuffer& buf, uint32_t xpos, uint32_t ypos, char c, R
- 	case PixelFormat::BGR888:
- 	case PixelFormat::RGB565:
- 	case PixelFormat::BGR565:
-+	case PixelFormat::XRGB4444:
-+	case PixelFormat::XRGB1555:
- 	case PixelFormat::ARGB4444:
- 	case PixelFormat::ARGB1555:
-+	case PixelFormat::RGB332:
- 		for (y = 0; y < 8; y++) {
- 			for (x = 0; x < 8; x++) {
- 				bool b = get_char_pixel(c, x, y);
-diff --git a/py/pykms/pykmsbase.cpp b/py/pykms/pykmsbase.cpp
-index 3e6defc88def..0448e0264ded 100644
---- a/py/pykms/pykmsbase.cpp
-+++ b/py/pykms/pykmsbase.cpp
-@@ -206,9 +206,14 @@ void init_pykmsbase(py::module &m)
- 			.value("RGB888", PixelFormat::RGB888)
- 			.value("BGR888", PixelFormat::BGR888)
  
-+			.value("RGB332", PixelFormat::RGB332)
++	/*
++	 * Calculate the chroma plane(s) pitch using the horizontal subsampling
++	 * factor. For semi-planar formats, the U and V planes are combined, the
++	 * pitch must thus be doubled.
++	 */
++	chroma_pitch = mode_cmd->pitches[0] / format->hsub;
++	if (format->planes == 2)
++		chroma_pitch *= 2;
 +
- 			.value("RGB565", PixelFormat::RGB565)
- 			.value("BGR565", PixelFormat::BGR565)
- 
-+			.value("XRGB4444", PixelFormat::XRGB4444)
-+			.value("XRGB1555", PixelFormat::XRGB1555)
-+
- 			.value("ARGB4444", PixelFormat::ARGB4444)
- 			.value("ARGB1555", PixelFormat::ARGB1555)
- 
+ 	for (i = 1; i < format->planes; ++i) {
+-		if (mode_cmd->pitches[i] != mode_cmd->pitches[0]) {
++		if (mode_cmd->pitches[i] != chroma_pitch) {
+ 			dev_dbg(dev->dev,
+ 				"luma and chroma pitches do not match\n");
+ 			return ERR_PTR(-EINVAL);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index 0346504d8c59..8f5fff176754 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -22,6 +22,7 @@ struct rcar_du_format_info {
+ 	u32 v4l2;
+ 	unsigned int bpp;
+ 	unsigned int planes;
++	unsigned int hsub;
+ 	unsigned int pnmr;
+ 	unsigned int edf;
+ };
 -- 
 Regards,
 
