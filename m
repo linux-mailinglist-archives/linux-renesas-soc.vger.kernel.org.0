@@ -2,32 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB5B623D55A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 04:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD87E23D55B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 04:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbgHFCSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1726927AbgHFCSn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 5 Aug 2020 22:18:43 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38262 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38264 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726970AbgHFCSi (ORCPT
+        with ESMTP id S1726998AbgHFCSj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 22:18:38 -0400
+        Wed, 5 Aug 2020 22:18:39 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18A34FDE;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86242FE0;
         Thu,  6 Aug 2020 04:18:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1596680306;
-        bh=ylsNSRYZHipcHNjDDT0xUogibatWcC4UTtCLTtiBZb4=;
+        bh=Ut/D8l9qJnI3sUFBbHY+0dlSPb4lTH1hwdVPhsQxa5s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C0WTAN+7kFzMTo3Z2/OQKf9BMe2fnq0pWD6D67FSzlD0HhOZHc1Nv1yGPqmYos7H8
-         o757rJhR6YfuCeQKuc2XNtChssr5Gw5fpuYlOvIKjUsRsAPgPWfk5sQAq/WvP6kcUJ
-         YUcnDgay028+0W6xxDGImC6p6AGY8sN7HzWbDNAM=
+        b=Qi87dCJtZi+wNwUFHpI45OYhLFppuU82ho5sAuSKXPr7icDu0P8BHOYmjgxTE7yn2
+         RaZO4/xJ6aCDFkliYeHY+3OQCR7DRCHdB/RGgd6Cw4MHrUC2YnwN87jIcxgNKBWKsE
+         4O0EpvLsmhNXbeTPRKOX7AC+L2HFANL7+ipXColo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 7/8] kms++: Add support for the planar YUV formats
-Date:   Thu,  6 Aug 2020 05:18:05 +0300
-Message-Id: <20200806021807.21863-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 8/8] kms++: Add support for missing 8 -and 16-bit RGB formats
+Date:   Thu,  6 Aug 2020 05:18:06 +0300
+Message-Id: <20200806021807.21863-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
 References: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
@@ -38,384 +38,171 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for the 6 planar YUV formats (YUV and YVU, combined with
-420, 422 or 444 subsampling) to the PixelFormat class, the Python API,
-and the drawing utilities.
+Add support for the RGB332, XRGB1555 and XRGB4444 formats to the
+PixelFormat class, the Python API, and the drawing utilities.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- kms++/inc/kms++/pixelformats.h      |   7 +
- kms++/src/pixelformats.cpp          |   7 +
- kms++util/inc/kms++util/kms++util.h |   1 +
- kms++util/src/drawing.cpp           | 203 ++++++++++++++++++++++++----
- kms++util/src/testpat.cpp           |   9 ++
- py/pykms/pykmsbase.cpp              |   7 +
- 6 files changed, 208 insertions(+), 26 deletions(-)
+ kms++/inc/kms++/pixelformats.h  |  5 +++++
+ kms++/src/pixelformats.cpp      |  9 ++++++---
+ kms++util/inc/kms++util/color.h |  1 +
+ kms++util/src/color.cpp         |  5 +++++
+ kms++util/src/drawing.cpp       | 14 ++++++++++++++
+ py/pykms/pykmsbase.cpp          |  5 +++++
+ 6 files changed, 36 insertions(+), 3 deletions(-)
 
 diff --git a/kms++/inc/kms++/pixelformats.h b/kms++/inc/kms++/pixelformats.h
-index f550f2fff4e0..746f9e2b8c5a 100644
+index 746f9e2b8c5a..4e453a2f594d 100644
 --- a/kms++/inc/kms++/pixelformats.h
 +++ b/kms++/inc/kms++/pixelformats.h
-@@ -20,6 +20,13 @@ enum class PixelFormat : uint32_t
- 	NV16 = MakeFourCC("NV16"),
- 	NV61 = MakeFourCC("NV61"),
+@@ -45,9 +45,14 @@ enum class PixelFormat : uint32_t
+ 	RGB888 = MakeFourCC("RG24"),
+ 	BGR888 = MakeFourCC("BG24"),
  
-+	YUV420 = MakeFourCC("YU12"),
-+	YVU420 = MakeFourCC("YV12"),
-+	YUV422 = MakeFourCC("YU16"),
-+	YVU422 = MakeFourCC("YV16"),
-+	YUV444 = MakeFourCC("YU24"),
-+	YVU444 = MakeFourCC("YV24"),
++	RGB332 = MakeFourCC("RGB8"),
 +
- 	UYVY = MakeFourCC("UYVY"),
- 	YUYV = MakeFourCC("YUYV"),
- 	YVYU = MakeFourCC("YVYU"),
+ 	RGB565 = MakeFourCC("RG16"),
+ 	BGR565 = MakeFourCC("BG16"),
+ 
++	XRGB4444 = MakeFourCC("XR12"),
++	XRGB1555 = MakeFourCC("XR15"),
++
+ 	ARGB4444 = MakeFourCC("AR12"),
+ 	ARGB1555 = MakeFourCC("AR15"),
+ 
 diff --git a/kms++/src/pixelformats.cpp b/kms++/src/pixelformats.cpp
-index d34df6435436..fe86fca04cd8 100644
+index fe86fca04cd8..2c60c1e673f3 100644
 --- a/kms++/src/pixelformats.cpp
 +++ b/kms++/src/pixelformats.cpp
-@@ -17,6 +17,13 @@ static const map<PixelFormat, PixelFormatInfo> format_info_array = {
- 	{ PixelFormat::NV21, { PixelColorType::YUV, 2, { { 8, 1, 1, }, { 8, 2, 2 } }, } },
- 	{ PixelFormat::NV16, { PixelColorType::YUV, 2, { { 8, 1, 1, }, { 8, 2, 1 } }, } },
- 	{ PixelFormat::NV61, { PixelColorType::YUV, 2, { { 8, 1, 1, }, { 8, 2, 1 } }, } },
-+	/* YUV planar */
-+	{ PixelFormat::YUV420, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 2 }, { 8, 2, 2 } }, } },
-+	{ PixelFormat::YVU420, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 2 }, { 8, 2, 2 } }, } },
-+	{ PixelFormat::YUV422, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 1 }, { 8, 2, 1 } }, } },
-+	{ PixelFormat::YVU422, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 1 }, { 8, 2, 1 } }, } },
-+	{ PixelFormat::YUV444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
-+	{ PixelFormat::YVU444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
+@@ -24,9 +24,15 @@ static const map<PixelFormat, PixelFormatInfo> format_info_array = {
+ 	{ PixelFormat::YVU422, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 2, 1 }, { 8, 2, 1 } }, } },
+ 	{ PixelFormat::YUV444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
+ 	{ PixelFormat::YVU444, { PixelColorType::YUV, 3, { { 8, 1, 1, }, { 8, 1, 1 }, { 8, 1, 1 } }, } },
++	/* RGB8 */
++	{ PixelFormat::RGB332, { PixelColorType::RGB, 1, { { 8, 1, 1 } }, } },
  	/* RGB16 */
  	{ PixelFormat::RGB565, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
  	{ PixelFormat::BGR565, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
-diff --git a/kms++util/inc/kms++util/kms++util.h b/kms++util/inc/kms++util/kms++util.h
-index 62ec663725eb..8fc6c8b81e48 100644
---- a/kms++util/inc/kms++util/kms++util.h
-+++ b/kms++util/inc/kms++util/kms++util.h
-@@ -18,6 +18,7 @@ namespace kms
- class IFramebuffer;
++	{ PixelFormat::XRGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
++	{ PixelFormat::XRGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
++	{ PixelFormat::ARGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
++	{ PixelFormat::ARGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
+ 	/* RGB24 */
+ 	{ PixelFormat::RGB888, { PixelColorType::RGB, 1, { { 24, 1, 1 } }, } },
+ 	{ PixelFormat::BGR888, { PixelColorType::RGB, 1, { { 24, 1, 1 } }, } },
+@@ -50,9 +56,6 @@ static const map<PixelFormat, PixelFormatInfo> format_info_array = {
+ 	{ PixelFormat::ABGR2101010, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
+ 	{ PixelFormat::RGBA1010102, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
+ 	{ PixelFormat::BGRA1010102, { PixelColorType::RGB, 1, { { 32, 1, 1 } }, } },
+-
+-	{ PixelFormat::ARGB4444, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
+-	{ PixelFormat::ARGB1555, { PixelColorType::RGB, 1, { { 16, 1, 1 } }, } },
+ };
  
- void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color);
-+void draw_yuv444_pixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv);
- void draw_yuv422_macropixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv1, YUV yuv2);
- void draw_yuv420_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
- 				   YUV yuv1, YUV yuv2, YUV yuv3, YUV yuv4);
+ const struct PixelFormatInfo& get_pixel_format_info(PixelFormat format)
+diff --git a/kms++util/inc/kms++util/color.h b/kms++util/inc/kms++util/color.h
+index 2bf6e66315a4..fa05fbcc1982 100644
+--- a/kms++util/inc/kms++util/color.h
++++ b/kms++util/inc/kms++util/color.h
+@@ -34,6 +34,7 @@ struct RGB
+ 	uint32_t rgba1010102() const;
+ 	uint32_t bgra1010102() const;
+ 
++	uint8_t rgb332() const;
+ 	uint16_t rgb565() const;
+ 	uint16_t bgr565() const;
+ 	uint16_t argb4444() const;
+diff --git a/kms++util/src/color.cpp b/kms++util/src/color.cpp
+index 80e486668298..2d45eff5d70b 100644
+--- a/kms++util/src/color.cpp
++++ b/kms++util/src/color.cpp
+@@ -79,6 +79,11 @@ uint32_t RGB::bgra1010102() const
+ 	return (b << 24) | (g << 14) | (r << 4) | (a >> 6);
+ }
+ 
++uint8_t RGB::rgb332() const
++{
++	return ((r >> 5) << 5) | ((g >> 5) << 2) | ((b >> 6) << 0);
++}
++
+ uint16_t RGB::rgb565() const
+ {
+ 	return ((r >> 3) << 11) | ((g >> 2) << 5) | ((b >> 3) << 0);
 diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
-index a329b8362072..c1c639a8b3a5 100644
+index c1c639a8b3a5..3752f94695e0 100644
 --- a/kms++util/src/drawing.cpp
 +++ b/kms++util/src/drawing.cpp
-@@ -115,6 +115,33 @@ void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color)
- 	}
- }
- 
-+void draw_yuv444_pixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv)
-+{
-+	if (x >= buf.width() || y >= buf.height())
-+		throw runtime_error("attempt to draw outside the buffer");
-+
-+	uint8_t *py = (uint8_t*)(buf.map(0) + buf.stride(0) * y + x);
-+	uint8_t *pu = (uint8_t*)(buf.map(1) + buf.stride(1) * y + x);
-+	uint8_t *pv = (uint8_t*)(buf.map(2) + buf.stride(2) * y + x);
-+
-+	switch (buf.format()) {
-+	case PixelFormat::YUV444:
-+		py[0] = yuv.y;
-+		pu[0] = yuv.u;
-+		pv[0] = yuv.v;
-+		break;
-+
-+	case PixelFormat::YVU444:
-+		py[0] = yuv.y;
-+		pu[0] = yuv.v;
-+		pv[0] = yuv.u;
-+		break;
-+
-+	default:
-+		throw std::invalid_argument("invalid pixelformat");
-+	}
-+}
-+
- static void draw_yuv422_packed_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
- 					  YUV yuv1, YUV yuv2)
- {
-@@ -190,6 +217,38 @@ static void draw_yuv422_semiplanar_macropixel(IFramebuffer& buf, unsigned x, uns
- 	}
- }
- 
-+static void draw_yuv422_planar_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
-+					  YUV yuv1, YUV yuv2)
-+{
-+	uint8_t *py = (uint8_t*)(buf.map(0) + buf.stride(0) * y + x);
-+	uint8_t *pu = (uint8_t*)(buf.map(1) + buf.stride(1) * y + x / 2);
-+	uint8_t *pv = (uint8_t*)(buf.map(2) + buf.stride(2) * y + x / 2);
-+
-+	uint8_t y0 = yuv1.y;
-+	uint8_t y1 = yuv2.y;
-+	uint8_t u = (yuv1.u + yuv2.u) / 2;
-+	uint8_t v = (yuv1.v + yuv2.v) / 2;
-+
-+	switch (buf.format()) {
-+	case PixelFormat::YUV422:
-+		py[0] = y0;
-+		py[1] = y1;
-+		pu[0] = u;
-+		pv[0] = v;
-+		break;
-+
-+	case PixelFormat::YVU422:
-+		py[0] = y0;
-+		py[1] = y1;
-+		pu[0] = v;
-+		pv[0] = u;
-+		break;
-+
-+	default:
-+		throw std::invalid_argument("invalid pixelformat");
-+	}
-+}
-+
- void draw_yuv422_macropixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv1, YUV yuv2)
- {
- 	if ((x + 1) >= buf.width() || y >= buf.height())
-@@ -210,6 +269,90 @@ void draw_yuv422_macropixel(IFramebuffer& buf, unsigned x, unsigned y, YUV yuv1,
- 		draw_yuv422_semiplanar_macropixel(buf, x, y, yuv1, yuv2);
+@@ -86,6 +86,12 @@ void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color)
+ 		p[2] = color.b;
  		break;
- 
-+	case PixelFormat::YUV422:
-+	case PixelFormat::YVU422:
-+		draw_yuv422_planar_macropixel(buf, x, y, yuv1, yuv2);
-+		break;
-+
-+	default:
-+		throw std::invalid_argument("invalid pixelformat");
-+	}
-+}
-+
-+static void draw_yuv420_semiplanar_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
-+					      YUV yuv1, YUV yuv2, YUV yuv3, YUV yuv4)
-+{
-+	uint8_t *py1 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 0) + x);
-+	uint8_t *py2 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 1) + x);
-+
-+	uint8_t *puv = (uint8_t*)(buf.map(1) + buf.stride(1) * (y / 2) + x);
-+
-+	uint8_t y0 = yuv1.y;
-+	uint8_t y1 = yuv2.y;
-+	uint8_t y2 = yuv3.y;
-+	uint8_t y3 = yuv4.y;
-+	uint8_t u = (yuv1.u + yuv2.u + yuv3.u + yuv4.u) / 4;
-+	uint8_t v = (yuv1.v + yuv2.v + yuv3.v + yuv4.v) / 4;
-+
-+	switch (buf.format()) {
-+	case PixelFormat::NV12:
-+		py1[0] = y0;
-+		py1[1] = y1;
-+		py2[0] = y2;
-+		py2[1] = y3;
-+		puv[0] = u;
-+		puv[1] = v;
-+		break;
-+
-+	case PixelFormat::NV21:
-+		py1[0] = y0;
-+		py1[1] = y1;
-+		py2[0] = y2;
-+		py2[1] = y3;
-+		puv[0] = v;
-+		puv[1] = u;
-+		break;
-+
-+	default:
-+		throw std::invalid_argument("invalid pixelformat");
-+	}
-+}
-+
-+static void draw_yuv420_planar_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
-+					  YUV yuv1, YUV yuv2, YUV yuv3, YUV yuv4)
-+{
-+	uint8_t *py1 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 0) + x);
-+	uint8_t *py2 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 1) + x);
-+
-+	uint8_t *pu = (uint8_t*)(buf.map(1) + buf.stride(1) * (y / 2) + x / 2);
-+	uint8_t *pv = (uint8_t*)(buf.map(2) + buf.stride(2) * (y / 2) + x / 2);
-+
-+	uint8_t y0 = yuv1.y;
-+	uint8_t y1 = yuv2.y;
-+	uint8_t y2 = yuv3.y;
-+	uint8_t y3 = yuv4.y;
-+	uint8_t u = (yuv1.u + yuv2.u + yuv3.u + yuv4.u) / 4;
-+	uint8_t v = (yuv1.v + yuv2.v + yuv3.v + yuv4.v) / 4;
-+
-+	switch (buf.format()) {
-+	case PixelFormat::YUV420:
-+		py1[0] = y0;
-+		py1[1] = y1;
-+		py2[0] = y2;
-+		py2[1] = y3;
-+		pu[0] = u;
-+		pv[0] = v;
-+		break;
-+
-+	case PixelFormat::YVU420:
-+		py1[0] = y0;
-+		py1[1] = y1;
-+		py2[0] = y2;
-+		py2[1] = y3;
-+		pu[0] = v;
-+		pv[0] = u;
-+		break;
-+
- 	default:
- 		throw std::invalid_argument("invalid pixelformat");
  	}
-@@ -224,35 +367,15 @@ void draw_yuv420_macropixel(IFramebuffer& buf, unsigned x, unsigned y,
- 	ASSERT((x & 1) == 0);
- 	ASSERT((y & 1) == 0);
- 
--	uint8_t *py1 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 0) + x);
--	uint8_t *py2 = (uint8_t*)(buf.map(0) + buf.stride(0) * (y + 1) + x);
--
--	uint8_t *puv = (uint8_t*)(buf.map(1) + buf.stride(1) * (y / 2) + x);
--
--	uint8_t y0 = yuv1.y;
--	uint8_t y1 = yuv2.y;
--	uint8_t y2 = yuv3.y;
--	uint8_t y3 = yuv4.y;
--	uint8_t u = (yuv1.u + yuv2.u + yuv3.u + yuv4.u) / 4;
--	uint8_t v = (yuv1.v + yuv2.v + yuv3.v + yuv4.v) / 4;
--
- 	switch (buf.format()) {
- 	case PixelFormat::NV12:
--		py1[0] = y0;
--		py1[1] = y1;
--		py2[0] = y2;
--		py2[1] = y3;
--		puv[0] = u;
--		puv[1] = v;
--		break;
--
- 	case PixelFormat::NV21:
--		py1[0] = y0;
--		py1[1] = y1;
--		py2[0] = y2;
--		py2[1] = y3;
--		puv[0] = v;
--		puv[1] = u;
-+		draw_yuv420_semiplanar_macropixel(buf, x, y, yuv1, yuv2, yuv3, yuv4);
++	case PixelFormat::RGB332:
++	{
++		uint8_t *p = (uint8_t*)(buf.map(0) + buf.stride(0) * y + x);
++		*p = color.rgb332();
 +		break;
-+
-+	case PixelFormat::YUV420:
-+	case PixelFormat::YVU420:
-+		draw_yuv420_planar_macropixel(buf, x, y, yuv1, yuv2, yuv3, yuv4);
++	}
+ 	case PixelFormat::RGB565:
+ 	{
+ 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
+@@ -98,12 +104,14 @@ void draw_rgb_pixel(IFramebuffer& buf, unsigned x, unsigned y, RGB color)
+ 		*p = color.bgr565();
  		break;
- 
- 	default:
-@@ -283,12 +406,23 @@ void draw_rect(IFramebuffer &fb, uint32_t x, uint32_t y, uint32_t w, uint32_t h,
- 		}
+ 	}
++	case PixelFormat::XRGB4444:
+ 	case PixelFormat::ARGB4444:
+ 	{
+ 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
+ 		*p = color.argb4444();
  		break;
- 
-+	case PixelFormat::YUV444:
-+	case PixelFormat::YVU444:
-+		for (j = 0; j < h; j++) {
-+			for (i = 0; i < w; i++) {
-+				draw_yuv444_pixel(fb, x + i, y + j, yuvcolor);
-+			}
-+		}
-+		break;
-+
- 	case PixelFormat::UYVY:
- 	case PixelFormat::YUYV:
- 	case PixelFormat::YVYU:
- 	case PixelFormat::VYUY:
- 	case PixelFormat::NV16:
- 	case PixelFormat::NV61:
-+	case PixelFormat::YUV422:
-+	case PixelFormat::YVU422:
+ 	}
++	case PixelFormat::XRGB1555:
+ 	case PixelFormat::ARGB1555:
+ 	{
+ 		uint16_t *p = (uint16_t*)(buf.map(0) + buf.stride(0) * y + x * 2);
+@@ -397,8 +405,11 @@ void draw_rect(IFramebuffer &fb, uint32_t x, uint32_t y, uint32_t w, uint32_t h,
+ 	case PixelFormat::BGR888:
+ 	case PixelFormat::RGB565:
+ 	case PixelFormat::BGR565:
++	case PixelFormat::XRGB4444:
++	case PixelFormat::XRGB1555:
+ 	case PixelFormat::ARGB4444:
+ 	case PixelFormat::ARGB1555:
++	case PixelFormat::RGB332:
  		for (j = 0; j < h; j++) {
- 			for (i = 0; i < w; i += 2) {
- 				draw_yuv422_macropixel(fb, x + i, y + j, yuvcolor, yuvcolor);
-@@ -298,6 +432,8 @@ void draw_rect(IFramebuffer &fb, uint32_t x, uint32_t y, uint32_t w, uint32_t h,
- 
- 	case PixelFormat::NV12:
- 	case PixelFormat::NV21:
-+	case PixelFormat::YUV420:
-+	case PixelFormat::YVU420:
- 		for (j = 0; j < h; j += 2) {
- 			for (i = 0; i < w; i += 2) {
- 				draw_yuv420_macropixel(fb, x + i, y + j,
-@@ -361,12 +497,25 @@ static void draw_char(IFramebuffer& buf, uint32_t xpos, uint32_t ypos, char c, R
- 		}
- 		break;
- 
-+	case PixelFormat::YUV444:
-+	case PixelFormat::YVU444:
-+		for (y = 0; y < 8; y++) {
-+			for (x = 0; x < 8; x++) {
-+				bool b = get_char_pixel(c, x, y);
-+
-+				draw_yuv444_pixel(buf, xpos + x, ypos + y, b ? yuvcolor : YUV(RGB()));
-+			}
-+		}
-+		break;
-+
- 	case PixelFormat::UYVY:
- 	case PixelFormat::YUYV:
- 	case PixelFormat::YVYU:
- 	case PixelFormat::VYUY:
- 	case PixelFormat::NV16:
- 	case PixelFormat::NV61:
-+	case PixelFormat::YUV422:
-+	case PixelFormat::YVU422:
+ 			for (i = 0; i < w; i++) {
+ 				draw_rgb_pixel(fb, x + i, y + j, color);
+@@ -486,8 +497,11 @@ static void draw_char(IFramebuffer& buf, uint32_t xpos, uint32_t ypos, char c, R
+ 	case PixelFormat::BGR888:
+ 	case PixelFormat::RGB565:
+ 	case PixelFormat::BGR565:
++	case PixelFormat::XRGB4444:
++	case PixelFormat::XRGB1555:
+ 	case PixelFormat::ARGB4444:
+ 	case PixelFormat::ARGB1555:
++	case PixelFormat::RGB332:
  		for (y = 0; y < 8; y++) {
- 			for (x = 0; x < 8; x += 2) {
- 				bool b0 = get_char_pixel(c, x, y);
-@@ -380,6 +529,8 @@ static void draw_char(IFramebuffer& buf, uint32_t xpos, uint32_t ypos, char c, R
- 
- 	case PixelFormat::NV12:
- 	case PixelFormat::NV21:
-+	case PixelFormat::YUV420:
-+	case PixelFormat::YVU420:
- 		for (y = 0; y < 8; y += 2) {
- 			for (x = 0; x < 8; x += 2) {
- 				bool b00 = get_char_pixel(c, x, y);
-diff --git a/kms++util/src/testpat.cpp b/kms++util/src/testpat.cpp
-index c120de34a101..ac386737b7cd 100644
---- a/kms++util/src/testpat.cpp
-+++ b/kms++util/src/testpat.cpp
-@@ -120,6 +120,15 @@ static void draw_test_pattern_part(IFramebuffer& fb, unsigned start_y, unsigned
- 
- 	case PixelColorType::YUV:
- 		switch (plane_info.xsub + plane_info.ysub) {
-+		case 2:
-+			for (y = start_y; y < end_y; y++) {
-+				for (x = 0; x < w; x++) {
-+					RGB pixel = get_test_pattern_pixel(fb, x, y);
-+					draw_yuv444_pixel(fb, x, y, pixel.yuv(yuvt));
-+				}
-+			}
-+			break;
-+
- 		case 3:
- 			for (y = start_y; y < end_y; y++) {
- 				for (x = 0; x < w; x += 2) {
+ 			for (x = 0; x < 8; x++) {
+ 				bool b = get_char_pixel(c, x, y);
 diff --git a/py/pykms/pykmsbase.cpp b/py/pykms/pykmsbase.cpp
-index 003ad3c1a0b2..3e6defc88def 100644
+index 3e6defc88def..0448e0264ded 100644
 --- a/py/pykms/pykmsbase.cpp
 +++ b/py/pykms/pykmsbase.cpp
-@@ -181,6 +181,13 @@ void init_pykmsbase(py::module &m)
- 			.value("NV16", PixelFormat::NV16)
- 			.value("NV61", PixelFormat::NV61)
+@@ -206,9 +206,14 @@ void init_pykmsbase(py::module &m)
+ 			.value("RGB888", PixelFormat::RGB888)
+ 			.value("BGR888", PixelFormat::BGR888)
  
-+			.value("YUV420", PixelFormat::YUV420)
-+			.value("YVU420", PixelFormat::YVU420)
-+			.value("YUV422", PixelFormat::YUV422)
-+			.value("YVU422", PixelFormat::YVU422)
-+			.value("YUV444", PixelFormat::YUV444)
-+			.value("YVU444", PixelFormat::YVU444)
++			.value("RGB332", PixelFormat::RGB332)
 +
- 			.value("UYVY", PixelFormat::UYVY)
- 			.value("YUYV", PixelFormat::YUYV)
- 			.value("YVYU", PixelFormat::YVYU)
+ 			.value("RGB565", PixelFormat::RGB565)
+ 			.value("BGR565", PixelFormat::BGR565)
+ 
++			.value("XRGB4444", PixelFormat::XRGB4444)
++			.value("XRGB1555", PixelFormat::XRGB1555)
++
+ 			.value("ARGB4444", PixelFormat::ARGB4444)
+ 			.value("ARGB1555", PixelFormat::ARGB1555)
+ 
 -- 
 Regards,
 
