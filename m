@@ -2,124 +2,206 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 617C423D57E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 04:34:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AB6423D6F7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Aug 2020 08:43:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726013AbgHFCeB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Aug 2020 22:34:01 -0400
-Received: from esa8.fujitsucc.c3s2.iphmx.com ([68.232.159.88]:30466 "EHLO
-        esa8.fujitsucc.c3s2.iphmx.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725999AbgHFCd7 (ORCPT
+        id S1728204AbgHFGnI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Aug 2020 02:43:08 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:53159 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728050AbgHFGnH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Aug 2020 22:33:59 -0400
-X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Aug 2020 22:33:58 EDT
-IronPort-SDR: NC2A5MvsphO1tdQ+xt2YUSxaofJfqPllqFcGEIVj8Ksc08dA5Kw2Pv6+GWLSGa6hHxs9OZwt13
- 3u6wYEN3q8bn0q2+JRycAJA7ttVG2F51FOi0C9mOS27AP13jKEmm0LecN3oQYbNPYmZaersNMK
- R2zQvceOtcugv/4ERIpdAvy7gFOj/CdcalrXRBoBhzGiunjjiMM93JiXHqLKFkz6dURDKiggBZ
- dfHNVgwvbkZuMHghcbLhTVsFehiiV68s01cJ+tOsPTJXHcdCop194qS7+WYyHdufW23DLeyuHR
- xxA=
-X-IronPort-AV: E=McAfee;i="6000,8403,9704"; a="16495925"
-X-IronPort-AV: E=Sophos;i="5.75,440,1589209200"; 
-   d="scan'208";a="16495925"
-Received: from mail-ty1jpn01lp2052.outbound.protection.outlook.com (HELO JPN01-TY1-obe.outbound.protection.outlook.com) ([104.47.93.52])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2020 11:26:42 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fFeWMVAOAeIAVuZtoUnSsBa5rGWeFF/LJ1voVKRW9xbTHt+VdsRvOGIvX4lMKtWur0M1brcaVR0YvDWmse0ldKO1Uz+TY96NSgrFMCjp5dNpE4E0vZ2BA9Dp06SnE5QylQZ+NxFgZdZN9zxY0iVPk1osU0K4L973rkXdEQ6AFmZ87pk5Xl8uCyeASpyS9+HAAd4OoV9aVn2VVYXoTs6usmaceRrK9VWZko1eYhqoifXRru9VT0vFSpZVGubRckbGSSnEqVtEKZRr7qgcVDll3OP0VjxNrnTU9hBw/CAZyGT3qDLhriClHu3mhla6DXh68R5G9/Zq3kikCfR/yCKtAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CGc/Lm5UYWho7u7j5uS60DGaN3vOdSRDkaWnzmlKZLc=;
- b=muJwOGnnNJRquGiHJS161HfPIYNTF8b5wV8oFrEyDm+DPOTr4i8+wjNKVItPsk+14LZ9sjiOV4Trz6LS79ZA4BuRC9YzYGA1NvpViluGgc32xmIYxfdHA93pM698HmDXXXSx50SJIqo97nee9wLMlfrEhgO8vJvU2sfs4jlKeTxmuhGtY1tCsjNIBCcM65eSfSZkcGY4iGmglqquXHVgoSv3D6xk7ehaaLl1W/IlgfP3+67aorxcX/LHkA8YGxxJswmWkU4cerDq/oSy6CudWuXYj8qihvtMGq1XWLs7Hnv1/AHC0zf+0FYk2yPv+vlXXhVTBZtxpmfIwKSBu0ouFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CGc/Lm5UYWho7u7j5uS60DGaN3vOdSRDkaWnzmlKZLc=;
- b=n6RiQMBuftftK0fbE23jjBYqCB4EWD/h3qUr4G0XeK2AH8EpaIh0jj8M6CLorbCEgM4hG70VQpVYrvJ685pfL6rgOqvurcJxu0i9rUv09LdYT7oYCFEtgmhGXJe2ZeGy/o3Q+b1fzDJilofrBcoobfQnEuq9OsmgbAFBSNAywnY=
-Received: from OSAPR01MB3844.jpnprd01.prod.outlook.com (2603:1096:604:5d::13)
- by OSBPR01MB1574.jpnprd01.prod.outlook.com (2603:1096:603:1::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.21; Thu, 6 Aug
- 2020 02:26:36 +0000
-Received: from OSAPR01MB3844.jpnprd01.prod.outlook.com
- ([fe80::d4d3:eba6:7557:dab6]) by OSAPR01MB3844.jpnprd01.prod.outlook.com
- ([fe80::d4d3:eba6:7557:dab6%5]) with mapi id 15.20.3239.022; Thu, 6 Aug 2020
- 02:26:36 +0000
-From:   "ashiduka@fujitsu.com" <ashiduka@fujitsu.com>
-To:     'Sergei Shtylyov' <sergei.shtylyov@gmail.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
+        Thu, 6 Aug 2020 02:43:07 -0400
+Received: from fsav404.sakura.ne.jp (fsav404.sakura.ne.jp [133.242.250.103])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 0766h3Ud099616;
+        Thu, 6 Aug 2020 15:43:03 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav404.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav404.sakura.ne.jp);
+ Thu, 06 Aug 2020 15:43:03 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav404.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 0766h2O5099613
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+        Thu, 6 Aug 2020 15:43:03 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH 1/8] drm/atomic-helper: reset vblank on crtc reset
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Thierry Reding <treding@nvidia.com>,
+        "James (Qian) Wang" <james.qian.wang@arm.com>,
+        Mihail Atanassov <mihail.atanassov@arm.com>,
+        Brian Starkey <brian.starkey@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Sean Paul <seanpaul@chromium.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        zhengbin <zhengbin13@huawei.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DRM DRIVERS FOR RENESAS" 
         <linux-renesas-soc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: RE: [PATCH v2] ravb: Fixed the problem that rmmod can not be done
-Thread-Topic: [PATCH v2] ravb: Fixed the problem that rmmod can not be done
-Thread-Index: AQHWZliVF0gqbKeTM0q7YOFUctSlU6kgSWOAgAEpsHCAAG+FAIAEB8Ug
-Date:   Thu, 6 Aug 2020 02:26:36 +0000
-Message-ID: <OSAPR01MB384475DE7B02563005FCF67CDF480@OSAPR01MB3844.jpnprd01.prod.outlook.com>
-References: <20200730035649.5940-1-ashiduka@fujitsu.com>
- <20200730100151.7490-1-ashiduka@fujitsu.com>
- <ce81e95d-b3b0-7f1c-8f97-8bdcb23d5a8e@gmail.com>
- <OSAPR01MB3844C77766155CAB10BE296CDF4E0@OSAPR01MB3844.jpnprd01.prod.outlook.com>
- <32d3b998-322b-7c0a-b14a-41ca66dc601a@gmail.com>
-In-Reply-To: <32d3b998-322b-7c0a-b14a-41ca66dc601a@gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-securitypolicycheck: OK by SHieldMailChecker v2.6.2
-x-shieldmailcheckerpolicyversion: FJ-ISEC-20181130-VDI-enc
-x-shieldmailcheckermailid: 26cd4b64ae534207be5656c31801da05
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=fujitsu.com;
-x-originating-ip: [118.155.224.182]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: aba36aea-0edb-4781-5f7b-08d839b02489
-x-ms-traffictypediagnostic: OSBPR01MB1574:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB15748F2DC2BD95B261A74B10DF480@OSBPR01MB1574.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DplxOZ5BPKcKetAyHxTW/a3RSYaMGDDd6DLxScfHqhLnaatSgXNhJ/xJKiGE28FGGI0KmrCuW0opYGjTltm+tu5tBrYFWJTIEThXoys0WJFn3klxK8u17O3i3NFf4tTV2ynGj3UhCQf22EJqEoURB7xcI7CIb4JRma8ieBkItPGeklx/qp6k5ozd6Rv3zXRgF31v+9TThlxb0r27+EeFkwKIzuYhMzxy2OuxnY/R5mY08wp9UYtEeoI7RjuWLHedXbZnNaWzZZLQyk3hytM1eIYETUXhrmnOQfVrniVHbwDt5MMjMGYLQQCMCF1mn6Y0FKGXkCPe9PRf1AxqPT/ZVxvOZAtaFvM2ORALaSshgjfjPq4EB37PHu0B6Mo66wag
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB3844.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(376002)(136003)(39860400002)(366004)(346002)(86362001)(71200400001)(4744005)(5660300002)(2906002)(478600001)(8936002)(52536014)(54906003)(85182001)(316002)(66946007)(6916009)(66476007)(66446008)(64756008)(66556008)(6506007)(26005)(76116006)(4326008)(33656002)(83380400001)(7696005)(8676002)(55016002)(186003)(9686003)(777600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: GkGL6vAQkXMKP7Uca1zc7YAKi1eeX7cytaCZMv7WY/RDb5vqZVmWPIhju4N0BWiPPWfN8UFi48VjDIJXlAEE8KhW1YBpWQnbFG9QV2+qGMlDwRvfvddRVyTu5MbCazfcEEmJ+jJn3pflKQ5+hHjtqHncfQZLKl7g9URqgPkxYAL4j7DkZfx51F2cOBFuGTUFWfwrHd7ISjC0HrAEkycGqUUjJyKBsNkB2jhxlRVR0gtsuF8W7KRUDTF1/kvCW1Day74rXVMozmPAjpwrhJ0Mdm34OLzNJz+DVwZQk9NYCq4UDUPlzjIwMIGSj8KNysP8dBNhOrGrBz2IB5b/Mpa8esotvVgbUuyCc3MpLyhP0sOFaU2JsSyxrVTIPVyBlahhpoTuG+iu8z24duuBv8B0OJhfYFSxw8oXuM/DbiTZLvfw89cL7XoEOKlwjJ8/wgEC0sMPi/50Xl8ihLAGnmzcFKkaxArOClgqrXWDHAmnB/SZnwzyVpEGC+PXryUxeIidaR8AKcp9pAKvxzu23BB5E7RFXWWK/dl+1d1DX2LsB8Hq8RF/VkM7rl/LztOCk8XOvHM9ba6gAQMkOoF8xiLp6mWeULYJk3hbQ88hmVlOFGRz88q5npw1b+6uuHnMIOabR0MfPjQGVBtQG+iN13E81Q==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20200612160056.2082681-1-daniel.vetter@ffwll.ch>
+ <20200702112722.GA18036@pendragon.ideasonboard.com>
+ <CAKMK7uGny5Kssrusr5JQSV29WJE62iigD+hx8bgWYAYqhJAiYw@mail.gmail.com>
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <a0efe731-dd81-03c7-a539-769492222e42@i-love.sakura.ne.jp>
+Date:   Thu, 6 Aug 2020 15:43:02 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB3844.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aba36aea-0edb-4781-5f7b-08d839b02489
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Aug 2020 02:26:36.2375
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 98b94yEdEDlDcA6kO1iJiLuxvAaXxDs+G0nNHOVyCtRi0Hw8zH8cN4IeK8f4W7QIgVMbb6SK22TruyBVGM5d7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1574
+In-Reply-To: <CAKMK7uGny5Kssrusr5JQSV29WJE62iigD+hx8bgWYAYqhJAiYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgU2VyZ2VpLA0KDQo+ICAgIFRoZSBzdWJqZWN0IGFsc28gY291bGQgYmUgbW9yZSBjb25jaXNl
-Li4uDQoNCkknbGwgdGhpbmsgYWJvdXQgaXQuIFRoYW5rIHlvdSENCg0KPiAgICAgTm90IGF0IGFs
-bCBzbyBjb21tb24gYXMgSSB0aG91Z2h0ISBPbmx5IDQgZHJpdmVycyB1c2UgbWRpby1iaXRiYW5n
-LA0KPiAyIG9mIHRoZW0gYXJlIGZvciB0aGUgUmVuZXNhcyBTb0NzLi4uDQoNClllcy4NCg0KPiAg
-ICAgRG8geXVvIGhhdmUgUi1DYXIgVjNIIGF0IGhhbmQsIGJ5IGNoYW5jZT8gSXQgZG9lcyBoYXZl
-IGEgR0V0aGVyDQo+IGNvbnRyb2xlciB1c2VkIGZvciBib290aW5nIHVwLi4uDQoNCkknbSBzb3Jy
-eS4gSSBkb24ndCBoYXZlIGl0Lg0KVGhlcmUgaXMgYSBTSUxLIGJvYXJkIG9mIFItQ2FyIEdlbjIg
-aW4gdGhlIG9mZmljZSB3aGVyZSBJIHdvcmsuDQpCdXQgSSBjYW4ndCBnbyB0byB0aGUgb2ZmaWNl
-IG5vdyBiZWNhdXNlIG9mIHRoZSBDT1ZJRC0xOSBwcm9ibGVtLiANCklmIEkgY2FuIGdvIHRvIHRo
-ZSBvZmZpY2UsIEknbGwgYnJpbmcgaG9tZSB0aGUgU0lMSyBib2FyZC4NCg0KPiBXZWxsLCBkdWUg
-dG8gdXN1YWxseSB1c2luZyBORlMgdGhlIEV0aGVyQVZCIChhbmQgRXRoZXIgdG9vKSBkcml2ZXIg
-aXMNCj4gcHJvYmFibHkgYWx3YXlzYnVpbHQgaW4ta2VybmVsLi4uDQoNClllcy4gSSB0aGluayBz
-bywgdG9vLg0KU2luY2UgaXQgaXMgbmVjZXNzYXJ5IHRvIHJlZHVjZSB0aGUgSW1hZ2Ugc2l6ZSBm
-b3IgZW1iZWRkZWQgdXNlLCBJIGZvdW5kDQp0aGlzIHByb2JsZW0gd2hlbiBjaGFuZ2luZyB0byBh
-IG1vZHVsZSBhbmQgdGVzdGluZy4NCg0KPiAgICBUcmltIHlvdXIgbWVzc2FnZXMgYWZ0ZXIgeW91
-ciBnb29kYnllLiBUaGF0IG9yaWdpbmFsIG1lc3NhZ2Ugc3R1ZmYNCj4gdHlwaWNhbGx5IGlzbid0
-IHRvbGVyYXRlZCBpbiB0aGUgTGludXggbWFpbGluZyBsaXN0cywgbmVhcmx5IHRoZSBzYW1lIGFz
-DQo+IHRvcC1wb3N0aW5nLi4uDQoNCk9LLiBUaGFua3MuDQoNClRoYW5rcyAmIEJlc3QgUmVnYXJk
-cywNCll1dXN1a2UgQXNoaXp1a2EgPGFzaGlkdWthQGZ1aml0c3UuY29tPg0K
+As of commit 47ec5303d73ea344 ("Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") on linux.git ,
+my VMware environment cannot boot. Do I need to bisect?
+
+[    9.314496][    T1] vga16fb: mapped to 0x0000000071050562
+[    9.467770][    T1] Console: switching to colour frame buffer device 80x30
+[    9.632092][    T1] fb0: VGA16 VGA frame buffer device
+[    9.651768][    T1] ACPI: AC Adapter [ACAD] (on-line)
+[    9.672544][    T1] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+[    9.722373][    T1] ACPI: Power Button [PWRF]
+[    9.744231][    T1] ioatdma: Intel(R) QuickData Technology Driver 5.00
+[    9.820147][    T1] N_HDLC line discipline registered with maxframe=4096
+[    9.835649][    T1] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    9.852567][    T1] 00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[   10.033372][    T1] Cyclades driver 2.6
+[   10.049928][    T1] Initializing Nozomi driver 2.1d
+[   10.065493][    T1] RocketPort device driver module, version 2.09, 12-June-2003
+[   10.095368][    T1] No rocketport ports found; unloading driver
+[   10.112430][    T1] Non-volatile memory driver v1.3
+[   10.127090][    T1] Linux agpgart interface v0.103
+[   10.144037][    T1] agpgart-intel 0000:00:00.0: Intel 440BX Chipset
+[   10.162275][    T1] agpgart-intel 0000:00:00.0: AGP aperture is 256M @ 0x0
+[   10.181130][    T1] [drm] DMA map mode: Caching DMA mappings.
+[   10.195150][    T1] [drm] Capabilities:
+[   10.208728][    T1] [drm]   Rect copy.
+[   10.222772][    T1] [drm]   Cursor.
+[   10.235364][    T1] [drm]   Cursor bypass.
+[   10.249121][    T1] [drm]   Cursor bypass 2.
+[   10.260590][    T1] [drm]   8bit emulation.
+[   10.272220][    T1] [drm]   Alpha cursor.
+[   10.284670][    T1] [drm]   3D.
+[   10.295051][    T1] [drm]   Extended Fifo.
+[   10.305180][    T1] [drm]   Multimon.
+[   10.315506][    T1] [drm]   Pitchlock.
+[   10.325167][    T1] [drm]   Irq mask.
+[   10.334262][    T1] [drm]   Display Topology.
+[   10.343519][    T1] [drm]   GMR.
+[   10.352775][    T1] [drm]   Traces.
+[   10.362166][    T1] [drm]   GMR2.
+[   10.370716][    T1] [drm]   Screen Object 2.
+[   10.379220][    T1] [drm]   Command Buffers.
+[   10.388489][    T1] [drm]   Command Buffers 2.
+[   10.396055][    T1] [drm]   Guest Backed Resources.
+[   10.403290][    T1] [drm]   DX Features.
+[   10.409911][    T1] [drm]   HP Command Queue.
+[   10.417820][    T1] [drm] Capabilities2:
+[   10.424216][    T1] [drm]   Grow oTable.
+[   10.430423][    T1] [drm]   IntraSurface copy.
+[   10.436371][    T1] [drm] Max GMR ids is 64
+[   10.442651][    T1] [drm] Max number of GMR pages is 65536
+[   10.450317][    T1] [drm] Max dedicated hypervisor surface memory is 0 kiB
+[   10.458809][    T1] [drm] Maximum display memory size is 262144 kiB
+[   10.466330][    T1] [drm] VRAM at 0xe8000000 size is 4096 kiB
+[   10.474704][    T1] [drm] MMIO at 0xfe000000 size is 256 kiB
+[   10.484625][    T1] [TTM] Zone  kernel: Available graphics memory: 4030538 KiB
+[   10.500730][    T1] [TTM] Zone   dma32: Available graphics memory: 2097152 KiB
+[   10.516851][    T1] [TTM] Initializing pool allocator
+[   10.527542][    T1] [TTM] Initializing DMA pool allocator
+[   10.540197][    T1] BUG: kernel NULL pointer dereference, address: 0000000000000438
+[   10.550087][    T1] #PF: supervisor read access in kernel mode
+[   10.550087][    T1] #PF: error_code(0x0000) - not-present page
+[   10.550087][    T1] PGD 0 P4D 0 
+[   10.550087][    T1] Oops: 0000 [#1] PREEMPT SMP
+[   10.550087][    T1] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.8.0+ #271
+[   10.550087][    T1] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 02/27/2020
+[   10.550087][    T1] RIP: 0010:drm_dev_has_vblank+0x9/0x20
+[   10.550087][    T1] Code: 5d 41 5e 41 5f e9 e7 fa 01 ff e8 e2 fa 01 ff 45 31 e4 41 8b 5f 48 eb a7 cc cc cc cc cc cc cc cc cc 53 48 89 fb e8 c7 fa 01 ff <8b> 83 38 04 00 00 5b 85 c0 0f 95 c0 c3 66 2e 0f 1f 84 00 00 00 00
+[   10.550087][    T1] RSP: 0000:ffffc90000027b80 EFLAGS: 00010293
+[   10.550087][    T1] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[   10.550087][    T1] RDX: ffff88823544c040 RSI: ffffffff823265b9 RDI: 0000000000000000
+[   10.550087][    T1] RBP: ffff888227238800 R08: 0000000000000001 R09: 0000000000000000
+[   10.550087][    T1] R10: ffff888227238800 R11: 0000000000000001 R12: 0000000000000000
+[   10.550087][    T1] R13: ffff888235103000 R14: 0000000000000000 R15: ffff888226cc6af0
+[   10.850690][    T1] FS:  0000000000000000(0000) GS:ffff888236e00000(0000) knlGS:0000000000000000
+[   10.850690][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   10.850690][    T1] CR2: 0000000000000438 CR3: 0000000004a89001 CR4: 00000000003706f0
+[   10.850690][    T1] Call Trace:
+[   10.850690][    T1]  __drm_atomic_helper_crtc_reset+0x28/0x50
+[   10.850690][    T1]  vmw_du_crtc_reset+0x62/0x80
+[   10.850690][    T1]  vmw_kms_stdu_init_display+0x302/0x3f0
+[   10.850690][    T1]  vmw_kms_init+0x6f/0xe0
+[   10.850690][    T1]  vmw_probe+0xd52/0x1730
+[   10.850690][    T1]  local_pci_probe+0x3a/0x90
+[   10.850690][    T1]  pci_device_probe+0x163/0x230
+[   10.850690][    T1]  ? pci_device_remove+0x100/0x100
+[   10.850690][    T1]  really_probe+0x228/0x480
+[   10.850690][    T1]  ? rdinit_setup+0x3b/0x3b
+[   10.850690][    T1]  driver_probe_device+0x6c/0xe0
+[   10.850690][    T1]  device_driver_attach+0x5a/0x60
+[   10.850690][    T1]  __driver_attach+0xbd/0x100
+[   10.850690][    T1]  ? device_driver_attach+0x60/0x60
+[   10.850690][    T1]  bus_for_each_dev+0x9e/0x110
+[   10.850690][    T1]  bus_add_driver+0x1c8/0x260
+[   10.850690][    T1]  driver_register+0x96/0x160
+[   10.850690][    T1]  ? i915_global_vma_init+0x51/0x51
+[   11.202435][    T1]  vmwgfx_init+0x2e/0x4e
+[   11.202435][    T1]  do_one_initcall+0x84/0x4a0
+[   11.202435][    T1]  ? rdinit_setup+0x3b/0x3b
+[   11.202435][    T1]  ? rcu_read_lock_sched_held+0x4d/0x80
+[   11.202435][    T1]  ? cpumask_test_cpu.constprop.19+0x12/0x30
+[   11.202435][    T1]  ? rdinit_setup+0x3b/0x3b
+[   11.202435][    T1]  kernel_init_freeable+0x298/0x30c
+[   11.202435][    T1]  ? rest_init+0x2c0/0x2c0
+[   11.202435][    T1]  kernel_init+0xf/0x170
+[   11.282173][    T1]  ? _raw_spin_unlock_irq+0x3a/0x50
+[   11.282173][    T1]  ? rest_init+0x2c0/0x2c0
+[   11.282173][    T1]  ret_from_fork+0x1f/0x30
+[   11.282173][    T1] Modules linked in:
+[   11.282173][    T1] CR2: 0000000000000438
+[   11.282173][    T1] ---[ end trace fb560758d9d704d3 ]---
+[   11.282173][    T1] RIP: 0010:drm_dev_has_vblank+0x9/0x20
+[   11.282173][    T1] Code: 5d 41 5e 41 5f e9 e7 fa 01 ff e8 e2 fa 01 ff 45 31 e4 41 8b 5f 48 eb a7 cc cc cc cc cc cc cc cc cc 53 48 89 fb e8 c7 fa 01 ff <8b> 83 38 04 00 00 5b 85 c0 0f 95 c0 c3 66 2e 0f 1f 84 00 00 00 00
+[   11.282173][    T1] RSP: 0000:ffffc90000027b80 EFLAGS: 00010293
+[   11.282173][    T1] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[   11.282173][    T1] RDX: ffff88823544c040 RSI: ffffffff823265b9 RDI: 0000000000000000
+[   11.282173][    T1] RBP: ffff888227238800 R08: 0000000000000001 R09: 0000000000000000
+[   11.282173][    T1] R10: ffff888227238800 R11: 0000000000000001 R12: 0000000000000000
+[   11.282173][    T1] R13: ffff888235103000 R14: 0000000000000000 R15: ffff888226cc6af0
+[   11.282173][    T1] FS:  0000000000000000(0000) GS:ffff888236e00000(0000) knlGS:0000000000000000
+[   11.282173][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   11.282173][    T1] CR2: 0000000000000438 CR3: 0000000004a89001 CR4: 00000000003706f0
+[   11.282173][    T1] Kernel panic - not syncing: Fatal exception
+[   11.282173][    T1] Kernel Offset: disabled
+[   11.282173][    T1] Rebooting in 86400 seconds..
+
+
