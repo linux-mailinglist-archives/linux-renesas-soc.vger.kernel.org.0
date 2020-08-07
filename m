@@ -2,68 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D30B923F42F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Aug 2020 23:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1181023F4A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Aug 2020 23:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgHGVWn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Aug 2020 17:22:43 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48442 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgHGVWn (ORCPT
+        id S1726038AbgHGV4r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Aug 2020 17:56:47 -0400
+Received: from mga01.intel.com ([192.55.52.88]:34033 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726015AbgHGV4r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Aug 2020 17:22:43 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B9E954E;
-        Fri,  7 Aug 2020 23:22:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596835358;
-        bh=PjQnxLstR8J/Vin/vZzG15w+dOZJXyHi4qOTh0mZ0uI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=vZ9AMhkg3eKN4sy5DCc6tpjatHI7TBcoPKOACbSqEL6t+eVIzjjUNDLc1jZuR/XlW
-         TvaAWtZlK+YqW2WFEKoSQepgXSsoIERJwSS7N0T6VEhDyUhEtDafnYBXDj8L91OHxt
-         v2i9QDNbrfVDVGz0hRKT+ZnEepaWmVoQIG8WI9VM=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] drm: rcar-du: Fix crash when enabling a non-visible plane
-Date:   Sat,  8 Aug 2020 00:22:18 +0300
-Message-Id: <20200807212218.24773-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+        Fri, 7 Aug 2020 17:56:47 -0400
+IronPort-SDR: +frGw7lg7Vk+T4tF6olDSC5nqhO/JDkdvk3khQ9gZesMdog2pzqJ5leg5F0Hm0iwrJefUACguk
+ zFer3bciym+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9706"; a="171258336"
+X-IronPort-AV: E=Sophos;i="5.75,447,1589266800"; 
+   d="scan'208";a="171258336"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2020 14:56:47 -0700
+IronPort-SDR: D43L0hcC/hnv2hjUZNwQj0jIh5kbNTxKL6Vv3qnmLOX27ZA9eMgu39jZEDAOPG/RLzohU6uOqe
+ Ee56XJEDtiBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,447,1589266800"; 
+   d="scan'208";a="397706189"
+Received: from lkp-server02.sh.intel.com (HELO 090e49ab5480) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 07 Aug 2020 14:56:46 -0700
+Received: from kbuild by 090e49ab5480 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1k4AM1-0000Wa-Fg; Fri, 07 Aug 2020 21:56:45 +0000
+Date:   Sat, 08 Aug 2020 05:55:58 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
+ e3a40f3d1db86852c6b14d90fd418cbadc8e5707
+Message-ID: <5f2dcdee.GEUjyYZs57soLD7S%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The DU driver handles non-visible planes (fully clipped by the display's
-boundaries) by considering them as disabled. It thus disables the plane
-at the hardware level when the plane if moved off-screen. However, if
-the plane was previously disabled and is non-visible when it gets
-enabled, the attempt to disable it crashes, ad the plane wasn't
-previously enabled. Fix it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
+branch HEAD: e3a40f3d1db86852c6b14d90fd418cbadc8e5707  pinctrl: sh-pfc: r8a7790: Add USB1 PWEN pin and group
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+elapsed time: 725m
+
+configs tested: 85
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                         shannon_defconfig
+arm                       imx_v4_v5_defconfig
+powerpc                      pasemi_defconfig
+mips                     loongson1b_defconfig
+sh                           se7619_defconfig
+sh                           se7206_defconfig
+arm                         lpc32xx_defconfig
+arm                          ixp4xx_defconfig
+mips                           jazz_defconfig
+sh                        sh7763rdp_defconfig
+sh                           se7712_defconfig
+arm                             ezx_defconfig
+mips                       rbtx49xx_defconfig
+sh                          lboxre2_defconfig
+mips                        workpad_defconfig
+arm                         axm55xx_defconfig
+xtensa                generic_kc705_defconfig
+arm                          gemini_defconfig
+arm                           h3600_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a005-20200807
+i386                 randconfig-a004-20200807
+i386                 randconfig-a001-20200807
+i386                 randconfig-a002-20200807
+i386                 randconfig-a003-20200807
+i386                 randconfig-a006-20200807
+x86_64               randconfig-a013-20200807
+x86_64               randconfig-a011-20200807
+x86_64               randconfig-a012-20200807
+x86_64               randconfig-a016-20200807
+x86_64               randconfig-a015-20200807
+x86_64               randconfig-a014-20200807
+i386                 randconfig-a011-20200807
+i386                 randconfig-a012-20200807
+i386                 randconfig-a013-20200807
+i386                 randconfig-a015-20200807
+i386                 randconfig-a014-20200807
+i386                 randconfig-a016-20200807
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f1a81c9b184d..ff233a7b398d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -279,7 +279,7 @@ static void rcar_du_vsp_plane_atomic_update(struct drm_plane *plane,
- 
- 	if (plane->state->visible)
- 		rcar_du_vsp_plane_setup(rplane);
--	else
-+	else if (old_state->crtc)
- 		vsp1_du_atomic_update(rplane->vsp->vsp, crtc->vsp_pipe,
- 				      rplane->index, NULL);
- }
--- 
-Regards,
-
-Laurent Pinchart
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
