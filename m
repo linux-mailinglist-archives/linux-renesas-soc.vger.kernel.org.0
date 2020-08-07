@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F8D23F52B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Aug 2020 01:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD2D23F52D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Aug 2020 01:21:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726198AbgHGXVl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Aug 2020 19:21:41 -0400
+        id S1726149AbgHGXVo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Aug 2020 19:21:44 -0400
 Received: from perceval.ideasonboard.com ([213.167.242.64]:48954 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbgHGXVl (ORCPT
+        with ESMTP id S1726167AbgHGXVo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Aug 2020 19:21:41 -0400
+        Fri, 7 Aug 2020 19:21:44 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A88CCBB9;
-        Sat,  8 Aug 2020 01:21:37 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E6E2DBE;
+        Sat,  8 Aug 2020 01:21:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1596842497;
-        bh=ZE51QNZuqyl3m922NtrlAUqMPprNOKNqrBQBRpIZLXk=;
+        s=mail; t=1596842498;
+        bh=O6qPwnDu7+zuP82snoOX8PffvOsIGQbvut2zQ5+6ch8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VzACkLVx7BIzolY4agWbuwTm7FncrnonBvMa29GRAbq7TdaH2oQkaoNB3XEQLW0+y
-         zb6EE6Ib9DMtaSMA2ZycY+QBBecfU28/N1syK5hrrPC+ch+tR1Tfd0O6xx1UP0E7x+
-         dyI00fpiCZ64zRURy0yA+wNWFK2gCfeX2rJKlpoQ=
+        b=W1toD6jCLxbxr/3doSEr/Wv7TCuvAzi2P9hn1+wvv0N+7EH1IEavmVjaBqQFaKUCn
+         3eCCVYbSIYgJCqnSOkPel0d1QTjBivGagErwouElrCcw75V0eyPpF03SbQSG+DtOfP
+         pydYUUohLVwe+ghzboZRYqjAd5iOoEfMMIfS1rIo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [kms-tests] [PATCH 5/6] tests: crc: Compute reference CRC values and compare them
-Date:   Sat,  8 Aug 2020 02:21:18 +0300
-Message-Id: <20200807232119.28854-6-laurent.pinchart@ideasonboard.com>
+Subject: [kms-tests] [PATCH 6/6] crc: Add a utility to compute the CRC of a frame
+Date:   Sat,  8 Aug 2020 02:21:19 +0300
+Message-Id: <20200807232119.28854-7-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200807232119.28854-1-laurent.pinchart@ideasonboard.com>
 References: <20200807232119.28854-1-laurent.pinchart@ideasonboard.com>
@@ -39,186 +39,374 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Instead of only checking that the CRC value is constant, compute the
-expected CRC value, and compare it to the hardware-generated CRC.
+The discom-crc utility computes the CRC of a frame using the same
+algorithm as the DISCOM hardware block. This is useful to precompute CRC
+values and then compare them with the hardware-generated values.
+
+The utility computes the CRC on data stored in a file passed as a
+command line argument. It supports two optional arguments, --crop and
+--size, to specify the crop rectangle and the image size. The size only
+needs to be specified if a crop rectangle is set, it is deduced from the
+file size otherwise.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- README                |   1 +
- tests/kms-test-crc.py | 103 +++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 93 insertions(+), 11 deletions(-)
+ Makefile       |   2 +-
+ crc/Makefile   |  32 ++++++
+ crc/gen-crc.py |  14 +++
+ crc/main.c     | 271 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 318 insertions(+), 1 deletion(-)
+ create mode 100644 crc/Makefile
+ create mode 100755 crc/gen-crc.py
+ create mode 100644 crc/main.c
 
-diff --git a/README b/README
-index 7f770d4170a3..dcd34611d820 100644
---- a/README
-+++ b/README
-@@ -33,6 +33,7 @@ The tests scripts require the following dependencies to be installed on the
- target.
+diff --git a/Makefile b/Makefile
+index 1f0da15546b8..e9c0edb785e7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: CC0-1.0
  
- * Python 3
-+* The Python module 'crcmod'
- * kmsxx Python bindings (https://github.com/tomba/kmsxx.git)
+-SUBDIRS=tests
++SUBDIRS=crc tests
  
- kmsxx hasn't released any stable version yet, it is recommended to use the
-diff --git a/tests/kms-test-crc.py b/tests/kms-test-crc.py
-index 8876c88506c1..60187eff1c48 100755
---- a/tests/kms-test-crc.py
-+++ b/tests/kms-test-crc.py
-@@ -3,8 +3,10 @@
- # SPDX-FileCopyrightText: 2017-2019 Renesas Electronics Corporation
+ recursive=all clean install
  
- import copy
+diff --git a/crc/Makefile b/crc/Makefile
+new file mode 100644
+index 000000000000..0922163da31b
+--- /dev/null
++++ b/crc/Makefile
+@@ -0,0 +1,32 @@
++# SPDX-License-Identifier: CC0-1.0
++
++CROSS_COMPILE ?=
++
++CC	:= $(CROSS_COMPILE)gcc
++CFLAGS	?= -O2 -W -Wall -Wno-unused-parameter -Iinclude
++LDFLAGS	?=
++LIBS	:=
++
++OUTPUT	:= discom-crc
++OBJECTS	:= main.o
++
++%.o : %.c
++	$(CC) $(CFLAGS) -c -o $@ $<
++
++all: $(OUTPUT)
++
++$(OUTPUT): $(OBJECTS)
++	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
++
++crc.c : gen-crc.py
++	./$< $@
++
++main.o : crc.c
++
++clean:
++	-rm -f *.o
++	-rm -f crc.c
++	-rm -f $(OUTPUT)
++
++install:
++	cp $(OUTPUT) $(INSTALL_DIR)/
+diff --git a/crc/gen-crc.py b/crc/gen-crc.py
+new file mode 100755
+index 000000000000..10c5776d071d
+--- /dev/null
++++ b/crc/gen-crc.py
+@@ -0,0 +1,14 @@
++#!/usr/bin/python3
++# SPDX-License-Identifier: GPL-2.0-or-later
++# SPDX-FileCopyrightText: 2020 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++
 +import crcmod
- import kmstest
- import pykms
-+import tempfile
- 
- 
- class Composer(object):
-@@ -17,15 +19,31 @@ class Composer(object):
-     START_POINT = kmstest.Point(0, 0)
-     INCREMENT = kmstest.Dist(50, 50)
- 
--    def __init__(self, crtc, planes, fb):
-+    # The CRC initial value is XORed with the final XOR value, so we need to
-+    # pass 0 to get the desired  0xffffffff initial value.
-+    CRC = crcmod.Crc(0x104c11db7, 0x00000000, True, 0xffffffff)
++import sys
 +
-+    def __init__(self, mode, crtc, planes, fb):
-+        self.__screen_size = kmstest.Size(mode.hdisplay, mode.vdisplay)
-         self.__fb_size = kmstest.Size(fb.width, fb.height)
-         self.__planes_positions = {}
-+        self.__crcs = {}
++# The initial value is ignored, it must instead be passed to the generated C
++# function.
++crc = crcmod.Crc(0x104c11db7, 0xffffffff, True, 0xffffffff)
 +
-+        # Dump the contents of the frame buffer to compute the CRCs.
-+        file = tempfile.TemporaryFile()
-+        pykms.dump_framebuffer(fb, file.fileno())
-+        file.seek(0)
-+        image = file.read()
-+        file.close()
- 
-         position = copy.copy(Composer.START_POINT)
-         for plane in planes:
-             self.__planes_positions[plane] = copy.copy(position)
-+            self.__crcs[plane] = self.__plane_crc(plane, image)
-             position.move(Composer.INCREMENT)
- 
-+        self.__crcs[crtc] = self.__crtc_crc(planes, image)
++f = open(sys.argv[1], 'w')
++crc.generateCode('calculate_crc', f, 'uint8_t', 'uint32_t')
++f.close()
+diff --git a/crc/main.c b/crc/main.c
+new file mode 100644
+index 000000000000..b63421902f18
+--- /dev/null
++++ b/crc/main.c
+@@ -0,0 +1,271 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* SPDX-FileCopyrightText: 2020 Laurent Pinchart <laurent.pinchart@ideasonboard.com> */
 +
-     def source(self, plane):
-         pos = self.__planes_positions[plane]
-         return kmstest.Rect(0, 0,
-@@ -39,6 +57,50 @@ class Composer(object):
-                             max(0, self.__fb_size.height - pos.y))
- 
- 
-+    def crc(self, obj):
-+        return self.__crcs[obj]
++#include <errno.h>
++#include <fcntl.h>
++#include <getopt.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/stat.h>
++#include <sys/types.h>
++#include <unistd.h>
 +
-+    def __plane_crc(self, plane, image):
-+        # Compute the reference CRC for a plane. Only the visible part of the
-+        # plane is used by the hardware.
++#include "crc.c"
 +
-+        crcg = Composer.CRC.new()
++struct image_rect {
++	int left;
++	int top;
++	unsigned int width;
++	unsigned int height;
++};
 +
-+        src = self.source(plane)
-+        if src.isEmpty():
-+            return 0
++struct image_size {
++	unsigned int width;
++	unsigned int height;
++};
 +
-+        for y in range(src.height):
-+            src_offset = ((src.top + y) * self.__fb_size.width + src.left) * 4
-+            crcg.update(image[src_offset:src_offset+src.width*4])
++struct options {
++	const char *filename;
++	struct image_rect crop;
++	struct image_size size;
++};
 +
-+        return crcg.crcValue
++/* -----------------------------------------------------------------------------
++ * Miscellaneous helpers
++ */
 +
-+    def __crtc_crc(self, planes, image):
-+        # Compute the reference CRC for the composed display output. Start with
-+        # a black background and compose the planes.
++static bool rect_is_empty(const struct image_rect *rect)
++{
++	return !rect->width || !rect->height;
++}
 +
-+        crcg = Composer.CRC.new()
++static bool rect_is_null(const struct image_rect *rect)
++{
++	return !rect->left && !rect->top && !rect->width && !rect->height;
++}
 +
-+        # The background is set to black, with and alpha value of 255 (opaque)
-+        # to match the BRx configuration.
-+        output = [0, 0, 0, 255] * (self.__screen_size.width * self.__screen_size.height)
++static bool size_is_null(const struct image_size *size)
++{
++	return !size->width && !size->height;
++}
 +
-+        # Compose planes on top.
-+        for plane in planes:
-+            src = self.source(plane)
-+            dst = self.destination(plane)
++static int readall(int fd, void *buf, size_t count)
++{
++	int ret;
 +
-+            for y in range(src.height):
-+                src_offset = ((src.top + y) * self.__fb_size.width + src.left) * 4
-+                dst_offset = ((dst.top + y) * self.__screen_size.width + dst.left) * 4
-+                output[dst_offset:dst_offset+src.width*4] = image[src_offset:src_offset+src.width*4]
++	do {
++		ret = read(fd, buf, count);
++		if (ret == -1)
++			return -errno;
++		if (ret == 0)
++			return -ENODATA;
 +
-+        crcg.update(bytes(output))
++		count -= ret;
++		buf += ret;
++	} while (count);
 +
-+        return crcg.crcValue
++	return 0;
++}
 +
++/* -----------------------------------------------------------------------------
++ * Usage and argument parsing
++ */
 +
- class CRCTest(kmstest.KMSTest):
-     """Test CRC calculation on pipeline output."""
- 
-@@ -86,8 +148,8 @@ class CRCTest(kmstest.KMSTest):
-             fb = pykms.DumbFramebuffer(self.card, mode.hdisplay, mode.vdisplay, "XR24")
-             pykms.draw_test_pattern(fb)
- 
--            # Create a composer.
--            composer = Composer(crtc, planes, fb)
-+            # Create a composer. This will compute the reference CRCs.
-+            composer = Composer(mode, crtc, planes, fb)
- 
-             # Set the mode and add all planes
-             ret = self.atomic_crtc_mode_set(crtc, connector, mode, sync=True)
-@@ -124,21 +186,40 @@ class CRCTest(kmstest.KMSTest):
-                 self.fail("No page flip registered")
-                 continue
- 
--            sources = ["auto"] + ["plane%u" % plane.id for plane in planes]
--            for src in sources:
--                self.logger.log("Computing CRC in source %s" % src)
-+            sources = [crtc] + planes
-+            for source in sources:
-+                if source == crtc:
-+                    crc_source = "auto"
-+                else:
-+                    crc_source = "plane%u" % source.id
- 
-+                self.logger.log("Computing CRC from source %s" % crc_source)
++static void usage(const char *argv0)
++{
++	printf("Usage: %s [options] <infile>\n\n", argv0);
++	printf("Calculate the R-Car DISCOM CRC for the image stored in <infile>\n\n");
++	printf("Supported options:\n");
++	printf("-c, --crop (X,Y)/WxH		Crop the input image (needs --size)\n");
++	printf("-s, --size WxH			Input image size\n");
++}
 +
-+                # Set the CRC source and acquire 10 CRC values. Discard the
-+                # first value, as the device is running and the new source
-+                # needs one frame to take effect.
-                 crc_reader = kmstest.CRCReader(crtc)
--                crc_reader.start(src)
-+                crc_reader.start(crc_source)
-                 crcs = crc_reader.read(10)
-                 crc_reader.stop()
- 
--                crcs = [c.crcs[0] for c in crcs]
--                if len(set(crcs)) != 1:
--                    self.fail("CRC values not constant on source %s" % src)
-+                crcs = [c.crcs[0] for c in crcs[1:]]
-+                self.logger.log("CRC value[0] 0x%08x" % crcs[0])
++static struct option opts[] = {
++	{"crop", 1, 0, 'c'},
++	{"size", 1, 0, 's'},
++	{0, 0, 0, 0}
++};
 +
-+                failures = 0
-+                ref_crc = composer.crc(source)
++static int parse_args(struct options *options, int argc, char *argv[])
++{
++	int ret;
++	int c;
 +
-+                for i in range(len(crcs)):
-+                    crc = crcs[i]
-+                    if crc != ref_crc:
-+                        self.logger.log("CRC value[%u] 0x%08x does not match reference 0x%08x"
-+                                        % (i, crc, ref_crc))
-+                        failures += 1
++	if (argc < 2) {
++		usage(argv[0]);
++		return 1;
++	}
 +
-+                if failures:
-+                    self.fail("Incorrect CRC values on source %s" % crc_source)
-                     break
- 
--                self.logger.log("CRC value 0x%08x" % crcs[0])
-             else:
-                 self.success()
- 
++	memset(options, 0, sizeof(*options));
++
++	opterr = 0;
++	while ((c = getopt_long(argc, argv, "c:s:", opts, NULL)) != -1) {
++		int count;
++
++		switch (c) {
++		case 'c':
++			ret = sscanf(optarg, "(%d,%d)/%ux%u%n",
++				     &options->crop.left, &options->crop.top,
++				     &options->crop.width, &options->crop.height,
++				     &count);
++			if (ret != 4 || count != (int)strlen(optarg)) {
++				printf("Invalid crop value '%s'\n", optarg);
++				return 1;
++			}
++			break;
++
++		case 's':
++			ret = sscanf(optarg, "%ux%u%n",
++				     &options->size.width, &options->size.height,
++				     &count);
++			if (ret != 2 || count != (int)strlen(optarg)) {
++				printf("Invalid size value '%s'\n", optarg);
++				return 1;
++			}
++			break;
++
++		default:
++			printf("Invalid option -%c\n", c);
++			printf("Run %s -h for help.\n", argv[0]);
++			return 1;
++		}
++	}
++
++	if (optind != argc - 1) {
++		usage(argv[0]);
++		return 1;
++	}
++
++	options->filename = argv[optind];
++
++	return 0;
++}
++
++/* -----------------------------------------------------------------------------
++ * Main
++ */
++
++int main(int argc, char *argv[])
++{
++	struct options options;
++	void *image = NULL;
++	uint32_t crc;
++	off_t offset;
++	off_t size;
++	int fd = -1;
++	int ret;
++
++	/* Parse and validate options. */
++	ret = parse_args(&options, argc, argv);
++	if (ret)
++		return ret;
++
++	if (!rect_is_null(&options.crop)) {
++		if (size_is_null(&options.size)) {
++			printf("--crop requires --size\n");
++			goto error;
++		}
++
++		if (rect_is_empty(&options.crop)) {
++			printf("Crop rectangle is empty\n");
++			goto error;
++		}
++
++		if (options.crop.left < 0 || options.crop.top < 0 ||
++		    options.crop.left + options.crop.width > options.size.width ||
++		    options.crop.top + options.crop.height > options.size.height) {
++			printf("Crop rectangle out of image bounds\n");
++			goto error;
++		}
++	}
++
++	/* Open the file and determine its size. */
++	fd = open(options.filename, O_RDONLY);
++	if (fd == -1) {
++		printf("Failed to open '%s': %s\n", options.filename,
++		       strerror(errno));
++		goto error;
++	}
++
++	size = lseek(fd, 0, SEEK_END);
++	if (size == -1) {
++		printf("Failed to determine file size: %s\n", strerror(errno));
++		goto error;
++	}
++
++	if (!size_is_null(&options.size) &&
++	    options.size.width * options.size.height * 4 != size) {
++		printf("Image size %ux%u doesn't match file size %jd\n",
++		       options.size.width, options.size.height, (intmax_t)size);
++		goto error;
++	}
++
++	/* Read the image data. */
++	if (!rect_is_null(&options.crop))
++		size = options.crop.width * options.crop.height * 4;
++
++	image = malloc(size);
++	if (!image) {
++		printf("Unable to allocate memory for image data\n");
++		goto error;
++	}
++
++	offset = (options.crop.top * options.size.width + options.crop.left) * 4;
++	lseek(fd, offset, SEEK_SET);
++
++	if (!options.crop.width || options.crop.width == options.size.width) {
++		/*
++		 * When the crop rectangle width spans the whole image, read it
++		 * in one go.
++		 */
++		ret = readall(fd, image, size);
++		if (ret < 0) {
++			printf("Unable to read image: %s\n", strerror(errno));
++			goto error;
++		}
++	} else {
++		/* Otherwise, read line by line. */
++		void *line = image;
++		unsigned int y;
++
++		offset = (options.size.width - options.crop.width) * 4;
++
++		for (y = 0; y < options.crop.height; ++y) {
++			ret = readall(fd, line, options.crop.width * 4);
++			if (ret < 0) {
++				printf("Unable to read line %u: %s\n", y,
++				       strerror(errno));
++				goto error;
++			}
++
++			lseek(fd, offset, SEEK_CUR);
++			line += options.crop.width * 4;
++		}
++	}
++
++	close(fd);
++	fd = -1;
++
++	/*
++	 * Compute the CRC. The generate CRC code XORs the initial value with
++	 * the final XOR value, so we need to pass 0 to get the desired
++	 * 0xffffffff initial value.
++	 */
++	crc = calculate_crc(image, size, 0);
++
++	free(image);
++	image = NULL;
++
++	printf("0x%08x\n", crc);
++
++	return 0;
++
++error:
++	free(image);
++	if (fd != -1)
++		close(fd);
++	return 1;
++}
 -- 
 Regards,
 
