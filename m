@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E68023FAA8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Aug 2020 01:44:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AB4923FA68
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Aug 2020 01:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728521AbgHHXjU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 8 Aug 2020 19:39:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53970 "EHLO mail.kernel.org"
+        id S1728740AbgHHXkJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 8 Aug 2020 19:40:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55446 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728515AbgHHXjT (ORCPT
+        id S1728733AbgHHXkI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 8 Aug 2020 19:39:19 -0400
+        Sat, 8 Aug 2020 19:40:08 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 330BF2075D;
-        Sat,  8 Aug 2020 23:39:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 20D6620716;
+        Sat,  8 Aug 2020 23:40:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1596929959;
-        bh=uDNuu8ieTtvwevvvZ3UxB8Nzo72p4ml8UDOezEUj0u4=;
+        s=default; t=1596930007;
+        bh=ieYQdzrY3+Von0WGrYWU5T18p5B4q0CSlpJT2dOY+EM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=keM1Ps3614cRwlP/Bnf+3ExoQqm7KFQXn7uFRjyOEmrp/ux+GAB6e07wXtKSpZb6u
-         PYULN5uu1dcuQGoNUOAEPHr/TqCYUN2QmeeTJHgGSFb0XlSR3WEeYsUercMgDRiz3W
-         RXDzKzzx2ZJkyoD8pQZKHeWsAci5m3wFE74bvve4=
+        b=YhiVjE/itkdfhtH9pQMgOaV7pGGDgae0EnBBmyDombtwkl7l/kad9yvZCjanJ+nDj
+         /85EqbsDEsqc4pSO4PlJwaFN7nZxlNPKFT1nPE0EduRIN2geWTCPsRoY99n3QKiGkK
+         /en1rWY1IL2QPi+TR79l/BjOKEawYYAqYQ8k8rzU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
@@ -31,12 +31,12 @@ Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?=
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 22/40] ARM: dts: gose: Fix ports node name for adv7612
-Date:   Sat,  8 Aug 2020 19:38:26 -0400
-Message-Id: <20200808233844.3618823-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 17/21] ARM: dts: gose: Fix ports node name for adv7180
+Date:   Sat,  8 Aug 2020 19:39:37 -0400
+Message-Id: <20200808233941.3619277-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200808233844.3618823-1-sashal@kernel.org>
-References: <20200808233844.3618823-1-sashal@kernel.org>
+In-Reply-To: <20200808233941.3619277-1-sashal@kernel.org>
+References: <20200808233941.3619277-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -49,14 +49,14 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit 59692ac5a7bb8c97ff440fc8917828083fbc38d6 ]
+[ Upstream commit d344234abde938ae1062edb6c05852b0bafb4a03 ]
 
-When adding the adv7612 device node the ports node was misspelled as
+When adding the adv7180 device node the ports node was misspelled as
 port, fix this.
 
-Fixes: bc63cd87f3ce924f ("ARM: dts: gose: add HDMI input")
+Fixes: 8cae359049a88b75 ("ARM: dts: gose: add composite video input")
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Link: https://lore.kernel.org/r/20200713111016.523189-1-niklas.soderlund+renesas@ragnatech.se
+Link: https://lore.kernel.org/r/20200704155856.3037010-2-niklas.soderlund+renesas@ragnatech.se
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -64,12 +64,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/r8a7793-gose.dts b/arch/arm/boot/dts/r8a7793-gose.dts
-index dc435ac95d23a..9f507393c3752 100644
+index 6b2f3a4fd13d6..9235be8f0f007 100644
 --- a/arch/arm/boot/dts/r8a7793-gose.dts
 +++ b/arch/arm/boot/dts/r8a7793-gose.dts
-@@ -399,7 +399,7 @@ hdmi-in@4c {
- 			interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 			default-input = <0>;
+@@ -339,7 +339,7 @@ composite-in@20 {
+ 			reg = <0x20>;
+ 			remote = <&vin1>;
  
 -			port {
 +			ports {
