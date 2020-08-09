@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0571A23FFFC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Aug 2020 22:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87773240018
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Aug 2020 23:10:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgHIUid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Aug 2020 16:38:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33340 "EHLO
+        id S1726457AbgHIVKd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Aug 2020 17:10:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgHIUid (ORCPT
+        with ESMTP id S1726323AbgHIVKd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Aug 2020 16:38:33 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12BC6C061756;
-        Sun,  9 Aug 2020 13:38:32 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id s195so2661326ybc.8;
-        Sun, 09 Aug 2020 13:38:32 -0700 (PDT)
+        Sun, 9 Aug 2020 17:10:33 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43CEAC061756;
+        Sun,  9 Aug 2020 14:10:33 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id q16so4125262ybk.6;
+        Sun, 09 Aug 2020 14:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2kAXaCbVRwpQJ/QcWFbP9jMZCECl1RbYXm9sxJ41L1E=;
-        b=saVBVhYh18DoSp1a1uNYqKqMnvq5nycV1cbYPmydXPtibPN2hPwlpJuu0qO+epIXxj
-         ZICiYPxBKlUmrg8MTG+aAEv5NvlQhlLRkVS0K5FB0IsAyBZUINOPYtMbwuD78yx5fS8b
-         Xr7Q/njziaFDfh+Cr1xTeIQUOVMlRu4W27IzVpRZ43N0nQ2Sv6G7/IFtDGOGJ/H5h9nz
-         5kSFRazOBiYJx4IdWZlzcBk0dHIAjP1FncvqouY6GfsRi9HZ8IbS1GsJX4wLAWHr13Fj
-         paIVtSgAG7YvI7Y7CH6AkN/dQolHugFFwycnGBocjCd0+kcimoKs8fG7vX3pXuJQuaFU
-         hjEg==
+        bh=FS8VaTKhvmE9nkcm+P7/rVO4xd8egtxbMts7IrjMZwI=;
+        b=ZQRUBrsPLmUUs7t88nCb6LotejwEP/cgcI98kyJDCKbSVi2Kololr0uWmXdZ01Bg66
+         wFLgXUSdinK/mEHiVQaUOwXdNcfU/8T7bzJvmhasepu3KGqp6GvvGGzjHj7a7jRZ4s3E
+         RpkAkbyttWxwchd2mE7vxkKqF4KynL+rlghuwUqTDg0KsrXR6ZedXD54/l9dNhdapTBo
+         fl+qvqSQT5wYii5j9Z/RpMZ4GbMG4uha9zP6a6FnfzjNH4+AEsM3tYj1zWEoRu1b+s9r
+         vJrq9+l2M4NA/P8uXUpqolBNY3Ey2QbpIfjI/TFKvhI/1suRYlRAdP1LiiVf580gGp18
+         YZUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2kAXaCbVRwpQJ/QcWFbP9jMZCECl1RbYXm9sxJ41L1E=;
-        b=QWMPO5MnADRiYyymQ9KZSAoMUvqVtqlLJc7n0B4ukLd8A0hZF8xBfS3LoBdSmrd5Hl
-         WrcbsVyUX1b/54KEEy1yfSyTs7DTDXi6hmx/2DJlSS/HhCzg9uyXEc+S+AmHHJajscIq
-         FtNyCWiAsHH245WU0zajO0OMgKLO6tvfaugkzYIYWxNrmlUCy0FZ4PnvvPmHs3vPTZqD
-         RXkZKzS+nokHezd3RSbQIiRXE0dELkYDB1HkS9KQ+lcBozGCAsd5aGPJB4l2htzdGf4E
-         gX8NldMs5Hmml184ZSc2Wa1qPnowY+T3MeZ87z4VjMcW2LH7Wz81S+uzM8b4VjkGGcWE
-         7cwA==
-X-Gm-Message-State: AOAM533pgWNNbXxpADhYKjfKqVArq4gs80rM9recak/gVzneNmcUflC2
-        QEOVKiUotBF+vJ4ujBf7wQ48bo0zjNGMVSYQXNVwUF6Ec50=
-X-Google-Smtp-Source: ABdhPJy+P+qfq0PsJ1YSndL5GAELxPD7MwA2VPXNB/5Lf46Iz9hpDv+wjwGD/4M6hg3bs7NAoXi83sS/eBvFkjrvidY=
-X-Received: by 2002:a25:6ad6:: with SMTP id f205mr35554300ybc.76.1597005511330;
- Sun, 09 Aug 2020 13:38:31 -0700 (PDT)
+        bh=FS8VaTKhvmE9nkcm+P7/rVO4xd8egtxbMts7IrjMZwI=;
+        b=NkhdaHH0KxhhK4NtJbyDS2tPFzBQ0Ffz4/nR4C+ClWbxZSNsxs4rW0hl2o1PsIT4ny
+         cFTAWbgxLsrMb1PWQlFkz3AYRsvXXoE4r/G4/UH3gasAxDzGQLrBTED96QV+iagBkYiL
+         a7M+Rirn6yvAr2E4hCNcxNAKCpZNZ409i88p0DoUEM2k5PPcWsS+ptpupxchws/J3dWM
+         pyk98+r3ClAE+0C/vEWvaUJFO8I67g4i6AJ74g/vFWkVXW8T7Z5L84FAINYyMcwIwzgr
+         ZQ9nvJMUf+1Pz/bDCIrU1dVwaWkg7Y3uQHqGSjUquAf8yKfI4iVsHPg8mfXUOPmZJGup
+         6FAA==
+X-Gm-Message-State: AOAM53256xoQHNQU+HKyOefMEliSvsNNqwg2h3PvS1W2J/NQQl71Z8ys
+        2heSByIHRkkBmr26ca3OZVSKcQKS+1NZeRzdtLk=
+X-Google-Smtp-Source: ABdhPJzkl+3oTLnEZzeGv+iWA/CW3+k2mTV9RRXQRR9+q7yU8D9yy1zyS867h86taMVevrq1/x0F54w50zETzAA9MFQ=
+X-Received: by 2002:a5b:40f:: with SMTP id m15mr32122222ybp.25.1597007432213;
+ Sun, 09 Aug 2020 14:10:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200808210219.GN6186@pendragon.ideasonboard.com>
-In-Reply-To: <20200808210219.GN6186@pendragon.ideasonboard.com>
+ <20200807174954.14448-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200808210321.GO6186@pendragon.ideasonboard.com> <20200808210507.GP6186@pendragon.ideasonboard.com>
+In-Reply-To: <20200808210507.GP6186@pendragon.ideasonboard.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sun, 9 Aug 2020 21:38:05 +0100
-Message-ID: <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] drm: rcar-du: Add r8a7742 support
+Date:   Sun, 9 Aug 2020 22:10:06 +0100
+Message-ID: <CA+V-a8vGYtVUjXXGAMeZjMYq4BCt2ZVkkWeuqn8EffcRx46P0g@mail.gmail.com>
+Subject: Re: [PATCH 3/7] dt-bindings: display: renesas,lvds: Document r8a7742 bindings
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -75,63 +76,47 @@ Hi Laurent,
 
 Thank you for the review.
 
-On Sat, Aug 8, 2020 at 10:02 PM Laurent Pinchart
+On Sat, Aug 8, 2020 at 10:05 PM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Prabhakar,
->
-> Thank you for the patch.
->
-> On Fri, Aug 07, 2020 at 06:49:49PM +0100, Lad Prabhakar wrote:
-> > Add direct support for the r8a7742 (RZ/G1H).
+> On Sun, Aug 09, 2020 at 12:03:27AM +0300, Laurent Pinchart wrote:
+> > Hi Prabhakar,
 > >
-> > The RZ/G1H shares a common, compatible configuration with the r8a7790
-> > (R-Car H2) so that device info structure is reused, the only difference
-> > being TCON is unsupported on RZ/G1H (Currently unsupported by the driver).
+> > Thank you for the patch.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> > On Fri, Aug 07, 2020 at 06:49:50PM +0100, Lad Prabhakar wrote:
+> > > Document the RZ/G1H (R8A7742) LVDS bindings.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index 3e67cf70f040..7e286c7a7a6c 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -216,8 +216,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
-> >       .channels_mask = BIT(2) | BIT(1) | BIT(0),
-> >       .routes = {
-> >               /*
-> > -              * R8A7790 has one RGB output, two LVDS outputs and one
-> > -              * (currently unsupported) TCON output.
-> > +              * R8A7742 and R8A7790 each have one RGB output and two LVDS outputs. Additionally
-> > +              * R8A7790 supports one TCON output (currently unsupported by the driver).
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
-> Once we support TCON we'll have to split this, but for now I suppose
-> it's fine. Would you however mind wrapping this to 80 columns ? I can do
-> so when applying if it's fine with you.
+> I actually spoke too soon, this binding has been concerted to YAML in
+> drm-next. I can fix this when applying, no need to resubmit just for
+> this.
 >
-Agreed once TCON is added this has to be split. But isn't  the column
-size has been increased (checkpatch too doesn't complain about), but
-feel free to wrapp it for 80 columns.
+Thank you for taking care of it.
 
 Cheers,
 Prabhakar
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> >                */
-> >               [RCAR_DU_OUTPUT_DPAD0] = {
-> >                       .possible_crtcs = BIT(2) | BIT(1) | BIT(0),
-> > @@ -443,6 +443,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
-> >  };
-> >
-> >  static const struct of_device_id rcar_du_of_table[] = {
-> > +     { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> >       { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> >       { .compatible = "renesas,du-r8a7744", .data = &rzg1_du_r8a7743_info },
-> >       { .compatible = "renesas,du-r8a7745", .data = &rzg1_du_r8a7745_info },
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/renesas,lvds.txt          | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> > > index c62ce2494ed9..40aa809f41cd 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> > > @@ -7,6 +7,7 @@ Gen2, R-Car Gen3 and RZ/G SoCs.
+> > >  Required properties:
+> > >
+> > >  - compatible : Shall contain one of
+> > > +  - "renesas,r8a7742-lvds" for R8A7742 (RZ/G1H) compatible LVDS encoders
+> > >    - "renesas,r8a7743-lvds" for R8A7743 (RZ/G1M) compatible LVDS encoders
+> > >    - "renesas,r8a7744-lvds" for R8A7744 (RZ/G1N) compatible LVDS encoders
+> > >    - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
 >
 > --
 > Regards,
