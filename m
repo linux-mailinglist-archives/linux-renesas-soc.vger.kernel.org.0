@@ -2,131 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA0F2403EB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 11:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC759240412
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 11:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbgHJJWS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 05:22:18 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:21575 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726304AbgHJJWQ (ORCPT
+        id S1726705AbgHJJdM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 05:33:12 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:48855 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726304AbgHJJdM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 05:22:16 -0400
-X-IronPort-AV: E=Sophos;i="5.75,457,1589209200"; 
-   d="scan'208";a="54286667"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Aug 2020 18:22:15 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0F8FD41EF40F;
-        Mon, 10 Aug 2020 18:22:13 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r8a774e1: Add VSP instances
-Date:   Mon, 10 Aug 2020 10:22:08 +0100
-Message-Id: <20200810092208.27320-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200810092208.27320-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200810092208.27320-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 10 Aug 2020 05:33:12 -0400
+X-Originating-IP: 82.52.18.94
+Received: from uno.localdomain (host-82-52-18-94.retail.telecomitalia.it [82.52.18.94])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0AA55E0004;
+        Mon, 10 Aug 2020 09:33:07 +0000 (UTC)
+Date:   Mon, 10 Aug 2020 11:36:49 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] rcar-csi2: Use V4L2 async helpers to create the
+ notifier
+Message-ID: <20200810093649.kzynbnxe5zf5lig3@uno.localdomain>
+References: <20200807111619.3664763-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Hi Niklas,
 
-The RZ/G2H (R8A774E1) has 6 VSP instances.
+On Fri, Aug 07, 2020 at 01:16:19PM +0200, Niklas Söderlund wrote:
+> The V4L2 async framework helpers now populates the async notifier with
 
-Based on the work done for r8a7795 SoC.
+helpers -> populate
 
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 66 +++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+> endpoint matching information and there is no need to do this manually
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index 1954a07f3e85..8f762bd2c9aa 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -2374,6 +2374,72 @@
- 			status = "disabled";
- 		};
- 
-+		vspbc: vsp@fe920000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfe920000 0 0x8000>;
-+			interrupts = <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 624>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 624>;
-+
-+			renesas,fcp = <&fcpvb1>;
-+		};
-+
-+		vspbd: vsp@fe960000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfe960000 0 0x8000>;
-+			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 626>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 626>;
-+
-+			renesas,fcp = <&fcpvb1>;
-+		};
-+
-+		vspd0: vsp@fea20000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfea20000 0 0x5000>;
-+			interrupts = <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 623>;
-+			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-+			resets = <&cpg 623>;
-+
-+			renesas,fcp = <&fcpvd0>;
-+		};
-+
-+		vspd1: vsp@fea28000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfea28000 0 0x5000>;
-+			interrupts = <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 622>;
-+			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-+			resets = <&cpg 622>;
-+
-+			renesas,fcp = <&fcpvd1>;
-+		};
-+
-+		vspi0: vsp@fe9a0000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfe9a0000 0 0x8000>;
-+			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 631>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 631>;
-+
-+			renesas,fcp = <&fcpvi0>;
-+		};
-+
-+		vspi1: vsp@fe9b0000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfe9b0000 0 0x8000>;
-+			interrupts = <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 630>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 630>;
-+
-+			renesas,fcp = <&fcpvi1>;
-+		};
-+
- 		fcpf0: fcp@fe950000 {
- 			compatible = "renesas,fcpf";
- 			reg = <0 0xfe950000 0 0x200>;
--- 
-2.17.1
+"with endpoint matching information" sounds weird.
 
+What about
+
+The V4L2 async framework helpers have now moved to match async
+subdevices matching on endpoints. There is not need anymore to do this
+manually...
+
+> in the R-Car CSI-2 driver, switch to using the provided helper.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 48 +++++----------------
+>  1 file changed, 11 insertions(+), 37 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index c6cc4f473a077899..f0067ff21d5d9d33 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -362,7 +362,6 @@ struct rcar_csi2 {
+>  	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
+>
+>  	struct v4l2_async_notifier notifier;
+> -	struct v4l2_async_subdev asd;
+>  	struct v4l2_subdev *remote;
+>
+>  	struct v4l2_mbus_framefmt mf;
+> @@ -774,9 +773,11 @@ static const struct v4l2_async_notifier_operations rcar_csi2_notify_ops = {
+>  	.unbind = rcsi2_notify_unbind,
+>  };
+>
+> -static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+> -			    struct v4l2_fwnode_endpoint *vep)
+> +static int rcar_csi2_parse_v4l2(struct device *dev,
+> +				struct v4l2_fwnode_endpoint *vep,
+> +				struct v4l2_async_subdev *asd)
+>  {
+> +	struct rcar_csi2 *priv = dev_get_drvdata(dev);
+>  	unsigned int i;
+>
+>  	/* Only port 0 endpoint 0 is valid. */
+> @@ -806,53 +807,26 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+>  		}
+>  	}
+>
+> +	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(asd->match.fwnode));
+> +
+>  	return 0;
+>  }
+>
+>  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>  {
+> -	struct device_node *ep;
+> -	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+>  	int ret;
+>
+> -	ep = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
+> -	if (!ep) {
+> -		dev_err(priv->dev, "Not connected to subdevice\n");
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
+> -	if (ret) {
+> -		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
+> -		of_node_put(ep);
+> -		return -EINVAL;
+> -	}
+> -
+> -	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
+> -	if (ret) {
+> -		of_node_put(ep);
+> -		return ret;
+> -	}
+> -
+> -	priv->asd.match.fwnode =
+> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -
+> -	of_node_put(ep);
+> -
+>  	v4l2_async_notifier_init(&priv->notifier);
+>
+> -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
+> -	if (ret) {
+> -		fwnode_handle_put(priv->asd.match.fwnode);
+> +	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(
+> +			priv->dev, &priv->notifier,
+> +			sizeof(struct v4l2_async_subdev), 0,
+> +			rcar_csi2_parse_v4l2);
+> +	if (ret)
+
+I have not really followed the whole call chain, but I presume
+v4l2_async_notifier_parse_fwnode_endpoints_by_port() could fail after
+having added the async subdev ? Is it worth calling notifier_cleanup()
+if we fail here ?
+
+This apart, the patch looks really nice, finally we're not the black
+sheeps anymore!
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+>  		return ret;
+> -	}
+>
+>  	priv->notifier.ops = &rcar_csi2_notify_ops;
+>
+> -	dev_dbg(priv->dev, "Found '%pOF'\n",
+> -		to_of_node(priv->asd.match.fwnode));
+> -
+>  	ret = v4l2_async_subdev_notifier_register(&priv->subdev,
+>  						  &priv->notifier);
+>  	if (ret)
+> --
+> 2.28.0
+>
