@@ -2,113 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7365C24005B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 01:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F152401CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 07:54:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726361AbgHIXDr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Aug 2020 19:03:47 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48038 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgHIXDr (ORCPT
+        id S1725774AbgHJFy0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 01:54:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725763AbgHJFy0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Aug 2020 19:03:47 -0400
+        Mon, 10 Aug 2020 01:54:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B5CC061756
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  9 Aug 2020 22:54:25 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04897F9;
-        Mon, 10 Aug 2020 01:03:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE5FCF9;
+        Mon, 10 Aug 2020 07:54:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597014224;
-        bh=Kk+tp0hb9UsCcHFvuEh/LTmlcLsTugnaUod79jKG4WQ=;
+        s=mail; t=1597038861;
+        bh=JipLQtwX0kIktpzxS6UNc4ODKs3k7ZTl88JgCfDFe0M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VtVnT3xcPU0HcewhkSz1Wn++3m01M5NnNU4t08w/nWeK+64gvqP4zx20lfCoW+zN8
-         pDnNZS1BJp8kAg7W8V4A1sCQaftbW6Ski6g+mBr4cDIzVP3uflcMDSH1g2yjyh77fo
-         7IEa7S52D4HtgH3h48Gsuzl/83sUGAD7xo8HDDSM=
-Date:   Mon, 10 Aug 2020 02:03:30 +0300
+        b=OteWi0opmHmzNG4YbibXqZo3eqld4BzJdfsjP62WOJZYaL/m9ci5/iMczfU4qwF5g
+         Js+KC+0/MnoSzaRF23v/VTSTWyPvCGIp+XRLwEKQOIWqxlbIOdjaVW5rSeauXvGT4a
+         Zt20tr8bWi9BawZhpN97e0G27Pvz4hiAeHn4F9Wo=
+Date:   Mon, 10 Aug 2020 08:54:08 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 2/7] drm: rcar-du: Add r8a7742 support
-Message-ID: <20200809230330.GA12018@pendragon.ideasonboard.com>
-References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808210219.GN6186@pendragon.ideasonboard.com>
- <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/8] card: Add a method to retrieve the device minor
+Message-ID: <20200810055408.GE12018@pendragon.ideasonboard.com>
+References: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
+ <20200806021807.21863-2-laurent.pinchart@ideasonboard.com>
+ <0cf559a3-881b-9190-a108-35a298954b24@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8ts72UAUbtcN6TTDwcHqFEF3HipLx=dkQxFCXTLLzgfXA@mail.gmail.com>
+In-Reply-To: <0cf559a3-881b-9190-a108-35a298954b24@ti.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Tomi,
 
-On Sun, Aug 09, 2020 at 09:38:05PM +0100, Lad, Prabhakar wrote:
-> On Sat, Aug 8, 2020 at 10:02 PM Laurent Pinchart wrote:
-> > On Fri, Aug 07, 2020 at 06:49:49PM +0100, Lad Prabhakar wrote:
-> > > Add direct support for the r8a7742 (RZ/G1H).
-> > >
-> > > The RZ/G1H shares a common, compatible configuration with the r8a7790
-> > > (R-Car H2) so that device info structure is reused, the only difference
-> > > being TCON is unsupported on RZ/G1H (Currently unsupported by the driver).
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > ---
-> > >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > index 3e67cf70f040..7e286c7a7a6c 100644
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > > @@ -216,8 +216,8 @@ static const struct rcar_du_device_info rcar_du_r8a7790_info = {
-> > >       .channels_mask = BIT(2) | BIT(1) | BIT(0),
-> > >       .routes = {
-> > >               /*
-> > > -              * R8A7790 has one RGB output, two LVDS outputs and one
-> > > -              * (currently unsupported) TCON output.
-> > > +              * R8A7742 and R8A7790 each have one RGB output and two LVDS outputs. Additionally
-> > > +              * R8A7790 supports one TCON output (currently unsupported by the driver).
-> >
-> > Once we support TCON we'll have to split this, but for now I suppose
-> > it's fine. Would you however mind wrapping this to 80 columns ? I can do
-> > so when applying if it's fine with you.
->
-> Agreed once TCON is added this has to be split. But isn't  the column
-> size has been increased (checkpatch too doesn't complain about), but
+On Thu, Aug 06, 2020 at 10:46:43AM +0300, Tomi Valkeinen wrote:
+> On 06/08/2020 05:17, Laurent Pinchart wrote:
+> > The device minor number is needed to access the debugfs directory
+> > corresponding to the device. Make it available to users through a
+> > get_minor() method on the Card object.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  kms++/inc/kms++/card.h |  3 +++
+> >  kms++/src/card.cpp     | 11 +++++++++++
+> >  py/pykms/pykmsbase.cpp |  1 +
+> >  3 files changed, 15 insertions(+)
+> > 
+> > diff --git a/kms++/inc/kms++/card.h b/kms++/inc/kms++/card.h
+> > index 5c1cf7cfcedc..0a11747f7985 100644
+> > --- a/kms++/inc/kms++/card.h
+> > +++ b/kms++/inc/kms++/card.h
+> > @@ -35,6 +35,7 @@ public:
+> >  	Card& operator=(const Card& other) = delete;
+> >  
+> >  	int fd() const { return m_fd; }
+> > +	unsigned int dev_minor() const { return m_minor; }
+> >  
+> >  	void drop_master();
+> >  
+> > @@ -84,7 +85,9 @@ private:
+> >  	std::vector<Framebuffer*> m_framebuffers;
+> >  
+> >  	int m_fd;
+> > +	unsigned int m_minor;
+> >  	bool m_is_master;
+> > +	std::string m_device;
+> 
+> This looks like an extra change.
 
-It has, but it doesn't mean it's mandatory to increase line length :-)
-I think aligning with the style of the existing code should be favoured.
+Oops, indeed.
 
-> feel free to wrapp it for 80 columns.
-
-OK, I'll do that.
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > >                */
-> > >               [RCAR_DU_OUTPUT_DPAD0] = {
-> > >                       .possible_crtcs = BIT(2) | BIT(1) | BIT(0),
-> > > @@ -443,6 +443,7 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
-> > >  };
-> > >
-> > >  static const struct of_device_id rcar_du_of_table[] = {
-> > > +     { .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
-> > >       { .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> > >       { .compatible = "renesas,du-r8a7744", .data = &rzg1_du_r8a7743_info },
-> > >       { .compatible = "renesas,du-r8a7745", .data = &rzg1_du_r8a7745_info },
+Should I submit a v2 of the whole series to address your other concerns,
+or do you plan to already merge some of the patches ? In the latter
+case, feel free to give this small issue when applying :-) (along with
+s/get_minor/dev_minor/ in the commit message as pointed our by Sergei).
 
 -- 
 Regards,
