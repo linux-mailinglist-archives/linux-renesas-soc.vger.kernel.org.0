@@ -2,95 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4412D240313
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 10:00:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E82240363
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 10:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbgHJIAg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 04:00:36 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35794 "EHLO
+        id S1725857AbgHJI1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 04:27:37 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35489 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725846AbgHJIAg (ORCPT
+        with ESMTP id S1725846AbgHJI1g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 04:00:36 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 93so6624155otx.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Aug 2020 01:00:36 -0700 (PDT)
+        Mon, 10 Aug 2020 04:27:36 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 93so6670533otx.2;
+        Mon, 10 Aug 2020 01:27:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ljkkdnksZFgeUVgkWmFMI9ITCf619i+be3VInNo+LCs=;
-        b=W3zkINEDBLQ0JXRnddRW+ywFGKX/HfC3/R4p2ZlSZSg12kiqq+ZS4cpaVw9uU2tjON
-         JefCBAIzhHhQ+a2MbxB4JcRBKSXJ5Hc/BDf+RPHaomFa0sBUV+auKpUgBIDjX9sS6Ykh
-         CsPonkqCGUnPJr+vJ0oNyKTyN1UDC6Vz2QFBpDvNJvgvMQl1EVugXrPcuDHwcwdkzqlK
-         immuLPQVFVFr8z0UuSnvcp2HAfXsLlWeJDtz/kNkURLJzw2h1aRQ5dAnBgSHjSksyUjI
-         rkAcDn0auwH6VeSUdkE8M0nFFAOfEgblZ4cXuNWWxQsJ2Lgbbb0nEItdI8AAstwZy/07
-         V/HA==
-X-Gm-Message-State: AOAM531qpz3f0ZKWgdMWRhbJ9yXCLxShG5n2ony+sY7LM4xF6IRWBvby
-        DJv7BZEfrdZvZGYe16gXJjbkcERusKcyhs4+sTEZug==
-X-Google-Smtp-Source: ABdhPJxpnY/JR/8KQapp5BRLOTMPntcadnqjn6foXdHLlUqi1ZvQ3X2qriqn3GKTW73mD808gdeuCyKBmNuv5XDNKU8=
-X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr21054718ote.107.1597046435744;
- Mon, 10 Aug 2020 01:00:35 -0700 (PDT)
+        bh=//ZK6+SFvrkRSTwRR61xNq9XPyj33yV4vd1Xm7D7328=;
+        b=KdYzGd8//xrDW54nDglMiU2RSU1/1oS/X8Mu9wxTdKCvzy5lWlw1HFWzposhWK3C/u
+         XaA3wCkVaZIINUJLsx1LukGzDQQEajWaTHgb8ChmI6s3GL+JBSI3gLLEdVb7RIRASWF8
+         WmVLq+VNkiTfpZa8aoX4L57LGNrHEHd0v7NBSP9lnoD3vgCSoUCgWOwkuPMajwxWc/R4
+         /p7CFxhRIfIVwxnqRKmRrLfqSv0yYl/84t+b5Pae7zMkDjAip3YDyyZ/rjrh+oibdlG6
+         GcuJ99k/10LY4c/mF/lMDBQ7ORFpUovjcx+Fg/GxtlwlLZmPgT16zPQUOWShGgg+NXru
+         eSAw==
+X-Gm-Message-State: AOAM5308vUMB/JFcZ2ymKWZQs0Bt0iWdEqSLA+ifS+jIlYUaexketyAs
+        iE5LxWMih4B1wesri9EbEjZ+0GdrTsnzALRfGT5mdA==
+X-Google-Smtp-Source: ABdhPJxwJlWiihOYnopaBk+U2KL7gmjD5NzWrgNpwHGalMg3unmme5HI285YIPGLyiOjEUmWDvwr253KoLAdDpnJgHA=
+X-Received: by 2002:a9d:1b62:: with SMTP id l89mr11199918otl.145.1597048055761;
+ Mon, 10 Aug 2020 01:27:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+V-a8vFU24w0XYxsksZMJF5iLbT8UU_q3UieCRyWDH9BwVpzQ@mail.gmail.com>
- <CAMuHMdW9CrG6__-L89ZPvN0H_SJyNmf3RcojHJaAx8M5FJOm_A@mail.gmail.com> <CA+V-a8t0e7Ys7Mspmh4pU04U7kOJumvJ4+pNzxGqXd1ZcMTQsg@mail.gmail.com>
-In-Reply-To: <CA+V-a8t0e7Ys7Mspmh4pU04U7kOJumvJ4+pNzxGqXd1ZcMTQsg@mail.gmail.com>
+References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200808211323.GR6186@pendragon.ideasonboard.com> <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Aug 2020 10:00:24 +0200
-Message-ID: <CAMuHMdW6NNFT6u9z25=JmetS=vLFA+91-cGbUgNKShN3nwhmjA@mail.gmail.com>
-Subject: Re: EXT4 issues on block devices
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+Date:   Mon, 10 Aug 2020 10:27:24 +0200
+Message-ID: <CAMuHMdXH_ttYNrKpMxxkSTvhYcxkCD6v_ueXMGN6mXhkbpoyPA@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ARM: dts: r8a7742: Add LVDS support
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Prabhakar, Laurent,
 
-On Fri, Aug 7, 2020 at 9:35 PM Lad, Prabhakar
+On Sun, Aug 9, 2020 at 11:30 PM Lad, Prabhakar
 <prabhakar.csengg@gmail.com> wrote:
-> On Fri, Aug 7, 2020 at 9:05 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Aug 6, 2020 at 7:01 PM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > During adding support for SATA on RZ/G2H, I was trying some stress
+> On Sat, Aug 8, 2020 at 10:13 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Fri, Aug 07, 2020 at 06:49:53PM +0100, Lad Prabhakar wrote:
+> > > Add LVDS encoder node to r8a7742 SoC DT.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > > ---
+> > >  arch/arm/boot/dts/r8a7742.dtsi | 54 ++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 54 insertions(+)
+> > >
+> > > diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
+> > > index a979a4b3de61..a7e66220d63a 100644
+> > > --- a/arch/arm/boot/dts/r8a7742.dtsi
+> > > +++ b/arch/arm/boot/dts/r8a7742.dtsi
+> > > @@ -1534,11 +1534,65 @@
+> > >                               port@1 {
+> > >                                       reg = <1>;
+> > >                                       du_out_lvds0: endpoint {
+> > > +                                             remote-endpoint = <&lvds0_in>;
+> > >                                       };
+> > >                               };
+> > >                               port@2 {
+> > >                                       reg = <2>;
+> > >                                       du_out_lvds1: endpoint {
+> > > +                                             remote-endpoint = <&lvds1_in>;
+> > > +                                     };
+> > > +                             };
+> > > +                     };
+> > > +             };
+> > > +
+> > > +             lvds0: lvds@feb90000 {
+> > > +                     compatible = "renesas,r8a7742-lvds";
+> > > +                     reg = <0 0xfeb90000 0 0x1c>;
 > >
-> > RZ/G2N, according to the logs?
-> >
-> > > testing on the stock 5.8.0 kernel.
-> > >
-> > > $ dd if=/dev/urandom of="${TMP_DIR}/random-data" bs=1M count=1000 # Works OK
-> > > $ time bonnie++ -d "${MNT_DIR}" -u root # Worked OK, as Biju pointed
-> > > out earlier he had seen an issue with this and disabling
-> > > CONFIG_PROVE_LOCKING fixes it.
-> > > $ for i in {1..50}; do echo $i;cp random-data random-data-$i;sync;
-> > > done # This is where I saw random kernel panics/EXT4 errors
-> > >
-> > > To prove it out it's not the SATA I switched to USB3 and kept on
-> > > seeing similar issues. To make sure if the device is OK I tested the
-> > > devices on VLP1.0.4 release and saw no such behaviour.
-> > >
-> > >  I have been using renesas_defconfig + enabled modules + added USB3
-> > > firmware file
-> > > * Tried disabling cma (cma=0 in bootargs)
-> > > * Before mounting the device made sure I run e2fsck
-> > > * Also ran badblocks tool on the device and saw no issues
-> > > * Disabled CONFIG_HUGETLBFS/CONFIG_ZONE_DMA32
-> > >
-> > > I also tested on R-car M3N with renesas_defconfig and saw no issues
-> > > with USB ext4.
+> > Isn't 0x14 enough for the size ? 0x1c won't hurt though. Same comment
+> > below.
 
-> > Good luck finding the cause!
-> >
-> Using the latest e2fsprogs tools [1] I am no more seeing any kernel
-> panics now. Sorry for the noise.
->
-> [1] https://mirrors.edge.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.45.6/
+I can fix that while applying.
 
-So your test crashed because you ran (buggy) e2fsck first, scary...
+> Agreed, 0x1c comes from Gen-3 manuals.
+
+All R-Car Gen3 and RZ/G2 .dtsi use 0x14 or 0x20.
+All R-Car Gen2 and RZ/G1 .dtsi use 0x1c, but their manual suggests 0x14, too?
+
+Doesn't matter much, as the hardware address decoder probably uses a
+multiple of 2, and page mapping granularity is at least 4 KiB anyway.
+
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10, with the above fixed.
 
 Gr{oetje,eeting}s,
 
