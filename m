@@ -2,92 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5F152401CE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 07:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1059F2401ED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 08:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725774AbgHJFy0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 01:54:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33136 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbgHJFy0 (ORCPT
+        id S1725808AbgHJGRE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 02:17:04 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:54130 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725763AbgHJGRE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 01:54:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0B5CC061756
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  9 Aug 2020 22:54:25 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE5FCF9;
-        Mon, 10 Aug 2020 07:54:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597038861;
-        bh=JipLQtwX0kIktpzxS6UNc4ODKs3k7ZTl88JgCfDFe0M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OteWi0opmHmzNG4YbibXqZo3eqld4BzJdfsjP62WOJZYaL/m9ci5/iMczfU4qwF5g
-         Js+KC+0/MnoSzaRF23v/VTSTWyPvCGIp+XRLwEKQOIWqxlbIOdjaVW5rSeauXvGT4a
-         Zt20tr8bWi9BawZhpN97e0G27Pvz4hiAeHn4F9Wo=
-Date:   Mon, 10 Aug 2020 08:54:08 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/8] card: Add a method to retrieve the device minor
-Message-ID: <20200810055408.GE12018@pendragon.ideasonboard.com>
+        Mon, 10 Aug 2020 02:17:04 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07A6H0AC064299;
+        Mon, 10 Aug 2020 01:17:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1597040220;
+        bh=6TUyINATxzGCiIUfMktiSACeG4uRRgoJBPsSXgfQJu4=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=YoYIMNWc/pohOj90lO+/eFt4I0kBgKiaVv+xA+WjrOGKz4CFLzNdi5HedGNsB8wX6
+         D5JNiaDldBxbNgTemYbNQINIgUiTJTx+JdqFJx2+OetVjYX17zo14BsuoM5QcnyY8i
+         br8oKZFio2ixrWCx9F4kUit2JwxxYjrRKtnFYr/c=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07A6H0YC115928
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 10 Aug 2020 01:17:00 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 10
+ Aug 2020 01:17:00 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 10 Aug 2020 01:17:00 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07A6Gxl9078952;
+        Mon, 10 Aug 2020 01:17:00 -0500
+Subject: Re: [PATCH 4/8] dumbfb: Fix pitch for tri-planar formats
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-renesas-soc@vger.kernel.org>
 References: <20200806021807.21863-1-laurent.pinchart@ideasonboard.com>
- <20200806021807.21863-2-laurent.pinchart@ideasonboard.com>
- <0cf559a3-881b-9190-a108-35a298954b24@ti.com>
+ <20200806021807.21863-5-laurent.pinchart@ideasonboard.com>
+ <8181b48a-ce19-4083-c96e-493d75a1691f@ti.com>
+ <20200808221439.GA6186@pendragon.ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <2f9bd1a5-b1bb-5fb7-1255-2e55598e9e59@ti.com>
+Date:   Mon, 10 Aug 2020 09:16:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0cf559a3-881b-9190-a108-35a298954b24@ti.com>
+In-Reply-To: <20200808221439.GA6186@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomi,
-
-On Thu, Aug 06, 2020 at 10:46:43AM +0300, Tomi Valkeinen wrote:
-> On 06/08/2020 05:17, Laurent Pinchart wrote:
-> > The device minor number is needed to access the debugfs directory
-> > corresponding to the device. Make it available to users through a
-> > get_minor() method on the Card object.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  kms++/inc/kms++/card.h |  3 +++
-> >  kms++/src/card.cpp     | 11 +++++++++++
-> >  py/pykms/pykmsbase.cpp |  1 +
-> >  3 files changed, 15 insertions(+)
-> > 
-> > diff --git a/kms++/inc/kms++/card.h b/kms++/inc/kms++/card.h
-> > index 5c1cf7cfcedc..0a11747f7985 100644
-> > --- a/kms++/inc/kms++/card.h
-> > +++ b/kms++/inc/kms++/card.h
-> > @@ -35,6 +35,7 @@ public:
-> >  	Card& operator=(const Card& other) = delete;
-> >  
-> >  	int fd() const { return m_fd; }
-> > +	unsigned int dev_minor() const { return m_minor; }
-> >  
-> >  	void drop_master();
-> >  
-> > @@ -84,7 +85,9 @@ private:
-> >  	std::vector<Framebuffer*> m_framebuffers;
-> >  
-> >  	int m_fd;
-> > +	unsigned int m_minor;
-> >  	bool m_is_master;
-> > +	std::string m_device;
+On 09/08/2020 01:14, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> This looks like an extra change.
+> On Thu, Aug 06, 2020 at 12:21:39PM +0300, Tomi Valkeinen wrote:
+>> On 06/08/2020 05:18, Laurent Pinchart wrote:
+>>> The BO pitches are unconditionally set to the frame buffer pitch, for
+>>> all planes. This is correct for semiplanar YUV formats, as they
+>>> subsample chroma horizontally by two but combined U and V in a single
+>>> plane, cancelling each other. For fully planar YUV formats, however, the
+>>> horizontal subsampling need to be taken into account to compute the
+>>> pitch. Fix it.
+>>>
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> ---
+>>>  kms++/src/dumbframebuffer.cpp | 8 ++++++++
+>>>  1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/kms++/src/dumbframebuffer.cpp b/kms++/src/dumbframebuffer.cpp
+>>> index 18f3f152943d..4c3c03164a90 100644
+>>> --- a/kms++/src/dumbframebuffer.cpp
+>>> +++ b/kms++/src/dumbframebuffer.cpp
+>>> @@ -42,6 +42,14 @@ DumbFramebuffer::DumbFramebuffer(Card& card, uint32_t width, uint32_t height, Pi
+>>>  		struct drm_mode_create_dumb creq = drm_mode_create_dumb();
+>>>  		creq.width = width;
+>>>  		creq.height = height / pi.ysub;
+>>> +		/*
+>>> +		 * For fully planar YUV buffers, the chroma planes don't combine
+>>> +		 * U and V components, their width must thus be divided by the
+>>> +		 * horizontal subsampling factor.
+>>> +		 */
+>>> +		if (format_info.type == PixelColorType::YUV &&
+>>> +		    format_info.num_planes == 3)
+>>> +			creq.width /= pi.xsub;
+>>
+>> This feels a bit of a hack... I think we should somehow have the
+>> relevant information in the PixelFormatInfo. Having the same plane
+>> info, { 8, 2, 2 }, for both NV12 UV plane and YUV420 U and V planes
+>> doesn't sound correct.
+>>
+>> Should NV12's UV plane be { 16, 2, 2 }? Subsampled formats are
+>> confusing... =)
+> 
+> I'll give it a try. I however wonder if all drivers will expect 16bpp.
+> The ones based on drm_gem_cma_dumb_create() will be fine, but other
+> drivers may not expect this.
 
-Oops, indeed.
+Oh, right, that number is passed to DRM_IOCTL_MODE_CREATE_DUMB. I was only thinking about how kms++
+handles these internally.
 
-Should I submit a v2 of the whole series to address your other concerns,
-or do you plan to already merge some of the patches ? In the latter
-case, feel free to give this small issue when applying :-) (along with
-s/get_minor/dev_minor/ in the commit message as pointed our by Sergei).
+To be honest, I don't even quite know how subsampled formats are supposed to be handled in DRM.
+Above we pass width as it is, but divide height by ysub. And then we tune the bpp adjust to the fact
+that we didn't divide the width.
+
+For e.g. YUYV, the bpp tells the container size. But for NV12's second plane, bpp is not the
+container size.
+
+Well, I think at least omapdrm doesn't care, it just allocates the number of bytes according to
+w*h*bpp. But maybe it would be good to have a clear rule how to represent these in kms++, and then
+if DRM wants the values in some other way, adjust the values according to the format.
+
+Or maybe we already have all the numbers according to a clear rule, I'm just not sure what the rule
+is =).
+
+ Tomi
 
 -- 
-Regards,
-
-Laurent Pinchart
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
