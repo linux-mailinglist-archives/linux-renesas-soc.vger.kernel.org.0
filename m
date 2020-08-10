@@ -2,46 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00E82240363
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 10:27:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCDF824036A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 10:28:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725857AbgHJI1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 04:27:37 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35489 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725846AbgHJI1g (ORCPT
+        id S1725857AbgHJI2J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 04:28:09 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33896 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725846AbgHJI2J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 04:27:36 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 93so6670533otx.2;
-        Mon, 10 Aug 2020 01:27:36 -0700 (PDT)
+        Mon, 10 Aug 2020 04:28:09 -0400
+Received: by mail-ot1-f66.google.com with SMTP id k12so6672119otr.1;
+        Mon, 10 Aug 2020 01:28:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=//ZK6+SFvrkRSTwRR61xNq9XPyj33yV4vd1Xm7D7328=;
-        b=KdYzGd8//xrDW54nDglMiU2RSU1/1oS/X8Mu9wxTdKCvzy5lWlw1HFWzposhWK3C/u
-         XaA3wCkVaZIINUJLsx1LukGzDQQEajWaTHgb8ChmI6s3GL+JBSI3gLLEdVb7RIRASWF8
-         WmVLq+VNkiTfpZa8aoX4L57LGNrHEHd0v7NBSP9lnoD3vgCSoUCgWOwkuPMajwxWc/R4
-         /p7CFxhRIfIVwxnqRKmRrLfqSv0yYl/84t+b5Pae7zMkDjAip3YDyyZ/rjrh+oibdlG6
-         GcuJ99k/10LY4c/mF/lMDBQ7ORFpUovjcx+Fg/GxtlwlLZmPgT16zPQUOWShGgg+NXru
-         eSAw==
-X-Gm-Message-State: AOAM5308vUMB/JFcZ2ymKWZQs0Bt0iWdEqSLA+ifS+jIlYUaexketyAs
-        iE5LxWMih4B1wesri9EbEjZ+0GdrTsnzALRfGT5mdA==
-X-Google-Smtp-Source: ABdhPJxwJlWiihOYnopaBk+U2KL7gmjD5NzWrgNpwHGalMg3unmme5HI285YIPGLyiOjEUmWDvwr253KoLAdDpnJgHA=
-X-Received: by 2002:a9d:1b62:: with SMTP id l89mr11199918otl.145.1597048055761;
- Mon, 10 Aug 2020 01:27:35 -0700 (PDT)
+        bh=eh3W9EtO5pIjBRNzAhGPiTVpKKJqj3aKGwA7TcnbRiM=;
+        b=mWIkmi0bV9K/MRN9MXl/Ry//uj+N0M4SGoS7YQCflh+c2HxTpcPjscvKtiiEVPAieR
+         TQdVv/ZKyjmLgpKM1jz9pLj3VM03MXpccQ61lKuhcmvWsjQOD7+8Or5OBsD1s6wMtJoc
+         /6mONJ/GnjdrUXFQOpoFKOl+m7s4t0F4FnwQRLJ3BzSRXU4bnY5XqJAk0UZvjczqmOmV
+         7X3kwPsHjsT37COCEwjgq8NsoxJTqv9lvXW5iUEnJqEkNgKCs3mRdmVPOohkTdlrZ2d0
+         ZFzLV3TSHKPPdK5MZJNFybZHMazBbYYNDEHsX4Iy5/OeYtKggJD7leYlrLZZ2QRlDOaQ
+         caqw==
+X-Gm-Message-State: AOAM531EkZ+5++bowEaTMRayMJmHqpZCII0YTwZzDFma2LsUfOXRtqUa
+        TtBbwOGqV7loDIo3bpxOWjmN8nPXcQTUNI6vJqs=
+X-Google-Smtp-Source: ABdhPJxQulcE7/JusbTYnqwHYnQVJLDRBysRxEAhgyWpRidsDiU/4VQm001qLWGLopsYWkEwjeMlWoNhcMBoGoX0YDc=
+X-Received: by 2002:a05:6830:1b79:: with SMTP id d25mr21101979ote.107.1597048088183;
+ Mon, 10 Aug 2020 01:28:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200808211323.GR6186@pendragon.ideasonboard.com> <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8v0nXwe0iN2ymqE5YgcgOymWYv-Xf6N+rw_nJnUgx4yMQ@mail.gmail.com>
+ <20200808205543.GL6186@pendragon.ideasonboard.com> <CA+V-a8tisbiAuk6sVDokAjxwrLv1Xjkd6ydU_2haqtOKJucB2w@mail.gmail.com>
+In-Reply-To: <CA+V-a8tisbiAuk6sVDokAjxwrLv1Xjkd6ydU_2haqtOKJucB2w@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Aug 2020 10:27:24 +0200
-Message-ID: <CAMuHMdXH_ttYNrKpMxxkSTvhYcxkCD6v_ueXMGN6mXhkbpoyPA@mail.gmail.com>
-Subject: Re: [PATCH 6/7] ARM: dts: r8a7742: Add LVDS support
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Date:   Mon, 10 Aug 2020 10:27:57 +0200
+Message-ID: <CAMuHMdXBR1t8gCfEiE88QvAaJ6diohmZnhOZxLYES6n5cSxYpg@mail.gmail.com>
+Subject: Re: [PATCH 0/7] r8a7742: Enable DU and LVDS
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Rob Herring <robh+dt@kernel.org>,
@@ -58,68 +57,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar, Laurent,
+Hi Prabhakar,
 
-On Sun, Aug 9, 2020 at 11:30 PM Lad, Prabhakar
+On Sun, Aug 9, 2020 at 11:44 PM Lad, Prabhakar
 <prabhakar.csengg@gmail.com> wrote:
-> On Sat, Aug 8, 2020 at 10:13 PM Laurent Pinchart
+> On Sat, Aug 8, 2020 at 9:55 PM Laurent Pinchart
 > <laurent.pinchart@ideasonboard.com> wrote:
-> > On Fri, Aug 07, 2020 at 06:49:53PM +0100, Lad Prabhakar wrote:
-> > > Add LVDS encoder node to r8a7742 SoC DT.
+> > On Fri, Aug 07, 2020 at 06:49:47PM +0100, Lad Prabhakar wrote:
+> > > This patch series adds support for DU and LVDS to r8a7742
+> > > SoC and enables LCD support on r8a7742-iwg21d-q7 board.
 > > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > ---
-> > >  arch/arm/boot/dts/r8a7742.dtsi | 54 ++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 54 insertions(+)
+> > > This patch series applies on top of [1].
 > > >
-> > > diff --git a/arch/arm/boot/dts/r8a7742.dtsi b/arch/arm/boot/dts/r8a7742.dtsi
-> > > index a979a4b3de61..a7e66220d63a 100644
-> > > --- a/arch/arm/boot/dts/r8a7742.dtsi
-> > > +++ b/arch/arm/boot/dts/r8a7742.dtsi
-> > > @@ -1534,11 +1534,65 @@
-> > >                               port@1 {
-> > >                                       reg = <1>;
-> > >                                       du_out_lvds0: endpoint {
-> > > +                                             remote-endpoint = <&lvds0_in>;
-> > >                                       };
-> > >                               };
-> > >                               port@2 {
-> > >                                       reg = <2>;
-> > >                                       du_out_lvds1: endpoint {
-> > > +                                             remote-endpoint = <&lvds1_in>;
-> > > +                                     };
-> > > +                             };
-> > > +                     };
-> > > +             };
-> > > +
-> > > +             lvds0: lvds@feb90000 {
-> > > +                     compatible = "renesas,r8a7742-lvds";
-> > > +                     reg = <0 0xfeb90000 0 0x1c>;
+> > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+> > >     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
 > >
-> > Isn't 0x14 enough for the size ? 0x1c won't hurt though. Same comment
-> > below.
+> > The driver changes will need to go through the DRM/KMS tree, and I'd
+> > recommend the DT binding changes to go the same route as well. I can
+> > handle the rebase when applying, and once the bindings get accept, you
+> > can ask Geert to upstream the last 3 patchs. Would that work for you ?
+> >
+> I'm OK with it as long as Geert is happy. (Fyi I still have bunch of
+> patches for G1H)
 
-I can fix that while applying.
+I'm fine with that.  BTW, I use an R-b from Laurent on the DT bindings
+as the acceptance criterium, so you're good.
 
-> Agreed, 0x1c comes from Gen-3 manuals.
-
-All R-Car Gen3 and RZ/G2 .dtsi use 0x14 or 0x20.
-All R-Car Gen2 and RZ/G1 .dtsi use 0x1c, but their manual suggests 0x14, too?
-
-Doesn't matter much, as the hardware address decoder probably uses a
-multiple of 2, and page mapping granularity is at least 4 KiB anyway.
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10, with the above fixed.
+> > > Lad Prabhakar (7):
+> > >   dt-bindings: display: renesas,du: Document the r8a7742 bindings
+> > >   drm: rcar-du: Add r8a7742 support
+> > >   dt-bindings: display: renesas,lvds: Document r8a7742 bindings
+> > >   drm: rcar-du: lvds: Add r8a7742 support
+> > >   ARM: dts: r8a7742: Add DU support
+> > >   ARM: dts: r8a7742: Add LVDS support
+> > >   ARM: dts: r8a7742-iwg21d-q7: Add LCD support
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
