@@ -2,41 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17131240C8E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 20:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674C4241289
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 23:52:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbgHJSAt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 14:00:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44634 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728036AbgHJSAl (ORCPT
+        id S1726537AbgHJVwQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Aug 2020 17:52:16 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:37785 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbgHJVwQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 14:00:41 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597082440;
-        bh=S64qu7JHItffbJ33/p9rhSbsN97RDZymzHNNSx8FwjM=;
-        h=Subject:From:Date:To:From;
-        b=tKY22HuBedJ43UcQWi+msRz9PY6KQ7xPhNkYytgIeOHq1CpvonK4ifBvEh5AdpcWd
-         /BzLctU8qES2i5TSVWM+JwWw2kRClF2a11UOWGEHcLhXO8bHaBA+ngXIvFm1xBecVY
-         oEIASo6trgR0nCzQX1CXZwkRqD4kTp8b4CRpoHhE=
+        Mon, 10 Aug 2020 17:52:16 -0400
+X-Originating-IP: 82.52.18.94
+Received: from uno.homenet.telecomitalia.it (host-82-52-18-94.retail.telecomitalia.it [82.52.18.94])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E736740008;
+        Mon, 10 Aug 2020 21:52:10 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        dave.stevenson@raspberrypi.com, linux-renesas-soc@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com
+Subject: [PATCH v4 0/4] dt-bindings: media: ov5647: Convert to dt-schema
+Date:   Mon, 10 Aug 2020 23:55:39 +0200
+Message-Id: <20200810215543.113206-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159708244088.10946.16591768395579474638.git-patchwork-housekeeping@kernel.org>
-Date:   Mon, 10 Aug 2020 18:00:40 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v3] ARM: dts: iwg20d-q7-common: Fix touch controller probe failure (2020-08-10T17:49:44)
-  Superseding: [v1] ARM: dts: iwg20d-q7-common: Fix touch controller probe failure (2020-08-07T15:20:38):
-    ARM: dts: iwg20d-q7-common: Fix touch controller probe failure
+Hello,
+   re-based on latest media master with small typographical updates to the
+bindings document.
 
+The series collects patches which have been sent to the list as part of
+of two separate series.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+I've not been able to get in touch with the sensor driver last maintainer
+of the driver (Luis Oliveira)
+
+Thanks
+  j
+
+v2->v3:
+- Expand the series with two additional patches
+- Make 'remote-endpoint' not required: we allow empty endpoints, to be filled
+  in with overlays
+- End all senteces with a full stop for consistency
+
+Jacopo Mondi (4):
+  dt-bindings: media: ov5647: Convert to json-schema
+  dt-bindings: media: ov5647: Document pwdn-gpios
+  dt-bindings: media: ov5647: Document clock-noncontinuous
+  media: MAINTAINERS: ov5647: Replace maintainer
+
+ .../devicetree/bindings/media/i2c/ov5647.txt  | 35 --------
+ .../devicetree/bindings/media/i2c/ov5647.yaml | 88 +++++++++++++++++++
+ MAINTAINERS                                   |  4 +-
+ 3 files changed, 91 insertions(+), 36 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov5647.yaml
+
+--
+2.27.0
+
