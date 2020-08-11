@@ -2,147 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEAF92417E9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Aug 2020 10:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68D3C24181A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Aug 2020 10:17:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728064AbgHKICt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Aug 2020 04:02:49 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:51706 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728204AbgHKICt (ORCPT
+        id S1728271AbgHKIR0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Aug 2020 04:17:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728249AbgHKIR0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Aug 2020 04:02:49 -0400
-X-IronPort-AV: E=Sophos;i="5.75,460,1589209200"; 
-   d="scan'208";a="54355781"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 11 Aug 2020 17:02:48 +0900
-Received: from localhost.localdomain (unknown [172.29.52.148])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2ACAD4007529;
-        Tue, 11 Aug 2020 17:02:45 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Tue, 11 Aug 2020 04:17:26 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE029C061788
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Aug 2020 01:17:25 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by baptiste.telenet-ops.be with bizsmtp
+        id E8HH230014C55Sk018HHG0; Tue, 11 Aug 2020 10:17:20 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k5PTA-0000UC-Tn; Tue, 11 Aug 2020 10:17:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k5PTA-0001g9-RW; Tue, 11 Aug 2020 10:17:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-ide@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 5/5] arm64: dts: renesas: beacon-renesom-baseboard: Move connector node out of hd3ss3220 device
-Date:   Tue, 11 Aug 2020 09:02:27 +0100
-Message-Id: <20200811080227.3170-6-biju.das.jz@bp.renesas.com>
+        stable <stable@vger.kernel.org>
+Subject: [PATCH v2] ata: sata_rcar: Fix DMA boundary mask
+Date:   Tue, 11 Aug 2020 10:17:12 +0200
+Message-Id: <20200811081712.4981-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200811080227.3170-1-biju.das.jz@bp.renesas.com>
-References: <20200811080227.3170-1-biju.das.jz@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Move connector node out of hd3ss3220 device in order to comply with usb
-connector bindings.
+Before commit 9495b7e92f716ab2 ("driver core: platform: Initialize
+dma_parms for platform devices"), the R-Car SATA device didn't have DMA
+parameters.  Hence the DMA boundary mask supplied by its driver was
+silently ignored, as __scsi_init_queue() doesn't check the return value
+of dma_set_seg_boundary(), and the default value of 0xffffffff was used.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2: No change
----
- .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 ++++++++++++++-----
- 1 file changed, 50 insertions(+), 17 deletions(-)
+Now the device has gained DMA parameters, the driver-supplied value is
+used, and the following warning is printed on Salvator-XS:
 
-diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 66c9153b3101..e66b5b36e489 100644
---- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-+++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -223,6 +223,29 @@
- 		#clock-cells = <0>;
- 		clock-frequency = <25000000>;
- 	};
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+		label = "USB-C";
-+		data-role = "dual";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				hs_ep: endpoint {
-+					remote-endpoint = <&usb3_hs_ep>;
-+				};
-+			};
-+			port@1 {
-+				reg = <1>;
-+				ss_ep: endpoint {
-+					remote-endpoint = <&hd3ss3220_in_ep>;
-+				};
-+			};
-+		};
-+	};
- };
+    DMA-API: sata_rcar ee300000.sata: mapping sg segment across boundary [start=0x00000000ffffe000] [end=0x00000000ffffefff] [boundary=0x000000001ffffffe]
+    WARNING: CPU: 5 PID: 38 at kernel/dma/debug.c:1233 debug_dma_map_sg+0x298/0x300
+
+(the range of start/end values depend on whether IOMMU support is
+ enabled or not)
+
+The issue here is that SATA_RCAR_DMA_BOUNDARY doesn't have bit 0 set, so
+any typical end value, which is odd, will trigger the check.
+
+Fix this by increasing the DMA boundary value by 1.
+
+Fixes: 8bfbeed58665dbbf ("sata_rcar: correct 'sata_rcar_sht'")
+Fixes: 9495b7e92f716ab2 ("driver core: platform: Initialize dma_parms for platform devices")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: stable <stable@vger.kernel.org>
+---
+v2:
+  - Add Reviewed-by, Tested-by, Cc.
+
+This is a fix for a regression in v5.7-rc5 that fell through the cracks.
+https://lore.kernel.org/linux-ide/20200513110426.22472-1-geert+renesas@glider.be/
+
+As by default the DMA debug code prints the first error only, this issue
+may be hidden on plain v5.7-rc5, where the FCP driver triggers a similar
+warning.  Merging commit dd844fb8e50b12e6 ("media: platform: fcp: Set
+appropriate DMA parameters", in v5.8-rc1) from the media tree fixes the
+FCP issue, and exposes the SATA issue.
+
+I added the second fixes tag because that commit is already being
+backported to stable kernels, and this patch thus needs backporting,
+too.
+---
+ drivers/ata/sata_rcar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
+index 141ac600b64c87ef..44b0ed8f6bb8a120 100644
+--- a/drivers/ata/sata_rcar.c
++++ b/drivers/ata/sata_rcar.c
+@@ -120,7 +120,7 @@
+ /* Descriptor table word 0 bit (when DTA32M = 1) */
+ #define SATA_RCAR_DTEND			BIT(0)
  
- &audio_clk_a {
-@@ -427,20 +450,19 @@
- 		interrupt-parent = <&gpio6>;
- 		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
+-#define SATA_RCAR_DMA_BOUNDARY		0x1FFFFFFEUL
++#define SATA_RCAR_DMA_BOUNDARY		0x1FFFFFFFUL
  
--		connector {
--			compatible = "usb-c-connector";
--			label = "USB-C";
--			data-role = "dual";
--
--			ports {
--				#address-cells = <1>;
--				#size-cells = <0>;
--
--				port@1 {
--					reg = <1>;
--					hd3ss3220_ep: endpoint {
--						remote-endpoint = <&usb3_role_switch>;
--					};
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			port@0 {
-+				reg = <0>;
-+				hd3ss3220_in_ep: endpoint {
-+					remote-endpoint = <&ss_ep>;
-+				};
-+			};
-+			port@1 {
-+				reg = <1>;
-+				hd3ss3220_out_ep: endpoint {
-+					remote-endpoint = <&usb3_role_switch>;
- 				};
- 			};
- 		};
-@@ -714,9 +736,20 @@
- 	status = "okay";
- 	usb-role-switch;
- 
--	port {
--		usb3_role_switch: endpoint {
--			remote-endpoint = <&hd3ss3220_ep>;
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		port@0 {
-+			reg = <0>;
-+			usb3_hs_ep: endpoint {
-+				remote-endpoint = <&hs_ep>;
-+			};
-+		};
-+		port@1 {
-+			reg = <1>;
-+			usb3_role_switch: endpoint {
-+				remote-endpoint = <&hd3ss3220_out_ep>;
-+			};
- 		};
- 	};
- };
+ /* Gen2 Physical Layer Control Registers */
+ #define RCAR_GEN2_PHY_CTL1_REG		0x1704
 -- 
 2.17.1
 
