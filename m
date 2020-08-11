@@ -2,65 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E3C241295
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Aug 2020 23:52:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 879042417D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Aug 2020 10:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbgHJVwb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Aug 2020 17:52:31 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:37213 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbgHJVwa (ORCPT
+        id S1728134AbgHKICf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Aug 2020 04:02:35 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:51706 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728064AbgHKICf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Aug 2020 17:52:30 -0400
-X-Originating-IP: 82.52.18.94
-Received: from uno.homenet.telecomitalia.it (host-82-52-18-94.retail.telecomitalia.it [82.52.18.94])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E8FA640008;
-        Mon, 10 Aug 2020 21:52:25 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        dave.stevenson@raspberrypi.com, linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com
-Subject: [PATCH v4 4/4] media: MAINTAINERS: ov5647: Replace maintainer
-Date:   Mon, 10 Aug 2020 23:55:43 +0200
-Message-Id: <20200810215543.113206-5-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200810215543.113206-1-jacopo+renesas@jmondi.org>
-References: <20200810215543.113206-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tue, 11 Aug 2020 04:02:35 -0400
+X-IronPort-AV: E=Sophos;i="5.75,460,1589209200"; 
+   d="scan'208";a="54355748"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 11 Aug 2020 17:02:33 +0900
+Received: from localhost.localdomain (unknown [172.29.52.148])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5D7184007529;
+        Tue, 11 Aug 2020 17:02:31 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/5] Remodel HD3SS3220 device nodes
+Date:   Tue, 11 Aug 2020 09:02:22 +0100
+Message-Id: <20200811080227.3170-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the current maintainer email address bounces back, replace
-the entry and make myself and Dave Stevenson maintainers of the driver.
+Some platforms have only super speed data bus connected to HD3SS3220 device
+and high speed data bus directly connected to the SoC. In such platforms
+modelling connector as a child of this device is making it non compliant
+with usb connector bindings. By modelling connector node as standalone
+device node along with HD3SS3220 device and the SoC data bus will make it
+compliant with usb connector bindings.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- MAINTAINERS | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It is based on the below discussion threads
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 21e6c3120152..6a9d87282578 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12625,7 +12625,8 @@ T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/ov5640.c
- 
- OMNIVISION OV5647 SENSOR DRIVER
--M:	Luis Oliveira <lolivei@synopsys.com>
-+M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
-+M:	Jacopo Mondi <jacopo@jmondi.org>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
+1) https://patchwork.kernel.org/patch/11669423/
+2) https://patchwork.kernel.org/patch/11129567/
+
+
+Biju Das (4):
+  dt-bindings: usb: renesas,usb3-peri: Document HS and SS data bus
+  usb: typec: hd3ss3220: Use OF graph API to get the connector fwnode
+  arm64: dts: renesas: cat874: Move connector node out of hd3ss3220
+    device
+  arm64: dts: renesas: beacon-renesom-baseboard: Move connector node out
+    of hd3ss3220 device
+
+Lad Prabhakar (1):
+  dt-bindings: usb: convert ti,hd3ss3220 bindings to json-schema
+
+ .../bindings/usb/renesas,usb3-peri.yaml       | 36 +++++++--
+ .../devicetree/bindings/usb/ti,hd3ss3220.txt  | 38 ---------
+ .../devicetree/bindings/usb/ti,hd3ss3220.yaml | 81 +++++++++++++++++++
+ .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 +++++++++++----
+ .../boot/dts/renesas/r8a774c0-cat874.dts      | 67 +++++++++++----
+ drivers/usb/typec/hd3ss3220.c                 | 18 ++++-
+ 6 files changed, 225 insertions(+), 82 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
+
 -- 
-2.27.0
+2.17.1
 
