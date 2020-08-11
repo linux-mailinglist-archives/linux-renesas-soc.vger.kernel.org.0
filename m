@@ -2,46 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63ED7241A54
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Aug 2020 13:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3914D241A86
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Aug 2020 13:41:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbgHKL04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Aug 2020 07:26:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57056 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728597AbgHKL0z (ORCPT
+        id S1728719AbgHKLl0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Aug 2020 07:41:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728712AbgHKLl0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Aug 2020 07:26:55 -0400
+        Tue, 11 Aug 2020 07:41:26 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DB3FC06174A;
+        Tue, 11 Aug 2020 04:41:25 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D0489A8;
-        Tue, 11 Aug 2020 13:26:51 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2208C9A8;
+        Tue, 11 Aug 2020 13:41:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597145211;
-        bh=FPgMx4hsU5udWYYn893FI57b2GW6J+FF/0EKBckiJ8E=;
+        s=mail; t=1597146084;
+        bh=+EdNSXSeOIi57RKWqxly1iMdVRQL4mJ28mvIW/84luU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZsygxymD4JImSM9UlmIkEMdQngn/+ycmQGnvnLQajYziw87LU73HJJXSAF7qUjwy0
-         woyavfk+CoHL/0ch1tZFbwx7GUqKM6c3zdVAUV2pUQPZaECoHkfm4ivx2T+S7AHWAe
-         jFPt3O4l2NWpm//IMKIPRSc0qj9aE+Wahz0CGF4s=
-Date:   Tue, 11 Aug 2020 14:26:38 +0300
+        b=BfzoW2jb5VLFqHvUKpTiFSoj/o1Utl7GawIMRzf1OTweJ5N7sbJ+M9GuKeDG/UxZ9
+         ipy6acH142wORxhDG1UyG+owZgr8lnsXJ53kWmhMs+3yuqLRlGJlr39a1LjQUpJeWJ
+         XpPVt2x5hCZezmHnlYBdnrv4qVrYwRzv6BLxtmmo=
+Date:   Tue, 11 Aug 2020 14:41:11 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 7/7] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
-Message-ID: <20200811112638.GF6054@pendragon.ideasonboard.com>
-References: <20200807174954.14448-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200807174954.14448-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
+Subject: Re: [PATCH v2] media: rcar-vin: Add support to select data pins for
+ YCbCr422-8bit input
+Message-ID: <20200811114111.GH6054@pendragon.ideasonboard.com>
+References: <20200803192801.GC2297236@oden.dyn.berto.se>
+ <CA+V-a8v0fr9jKMEdOHfDV+DSTqd57NRyQs1phC8nPTcNLR-PfQ@mail.gmail.com>
+ <20200804100510.GA2566810@oden.dyn.berto.se>
+ <CAMuHMdW6DtbBUdEPi1DiCUv1n6dxCjvD3b1vVY7tnJq-R+vyiw@mail.gmail.com>
+ <CA+V-a8tEdrap_kaDk+K+KuA8_WWndwn4KbqD5i9n0YPVnbJ5Tg@mail.gmail.com>
+ <CAMuHMdU2N30vn-SO-AAEf34uW81pqEjfBiCN6pBLZChNucd34g@mail.gmail.com>
+ <CA+V-a8v+FH08mcmnR=0RnqvYTeydw4AifbsyT6_KcHxxEokp5w@mail.gmail.com>
+ <CAMuHMdXt95CSTOkWotrXad6_9+bhWrA8Q-WKA3_NdApbTTLVrA@mail.gmail.com>
+ <20200805123451.GA5925@pendragon.ideasonboard.com>
+ <CA+V-a8tWO2XRsTqu+dSkexrx0dEqw9t8Be0QouR6U+BhQY5Yow@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200807174954.14448-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <CA+V-a8tWO2XRsTqu+dSkexrx0dEqw9t8Be0QouR6U+BhQY5Yow@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -49,172 +62,218 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-Thank you for the patch.
+On Fri, Aug 07, 2020 at 09:20:36PM +0100, Lad, Prabhakar wrote:
+> On Wed, Aug 5, 2020 at 1:35 PM Laurent Pinchart wrote:
+> > On Wed, Aug 05, 2020 at 10:43:25AM +0200, Geert Uytterhoeven wrote:
+> >> On Wed, Aug 5, 2020 at 10:01 AM Lad, Prabhakar wrote:
+> >>> On Tue, Aug 4, 2020 at 4:32 PM Geert Uytterhoeven wrote:
+> >>>> On Tue, Aug 4, 2020 at 5:12 PM Lad, Prabhakar wrote:
+> >>>>> On Tue, Aug 4, 2020 at 11:17 AM Geert Uytterhoeven wrote:
+> >>>>>> On Tue, Aug 4, 2020 at 12:05 PM Niklas wrote:
+> >>>>>>> On 2020-08-04 09:04:25 +0100, Lad, Prabhakar wrote:
+> >>>>>>>> On Mon, Aug 3, 2020 at 8:28 PM Niklas wrote:
+> >>>>>>>>> On 2020-08-03 20:17:54 +0100, Lad, Prabhakar wrote:
+> >>>>>>>>>> On Mon, Aug 3, 2020 at 7:06 PM Niklas wrote:
+> >>>>>>>>>>> On 2020-08-03 17:02:53 +0100, Lad Prabhakar wrote:
+> >>>>>>>>>>>> Select the data pins for YCbCr422-8bit input format depending on
+> >>>>>>>>>>>> bus_width and data_shift passed as part of DT.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>>>>>>>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> >>>>>>>>>>>> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> >>>>>>>>>>>> @@ -624,6 +624,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+> >>>>>>>>>>>>       vin->parallel = rvpe;
+> >>>>>>>>>>>>       vin->parallel->mbus_type = vep->bus_type;
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> +     /* select VInDATA[15:8] pins for YCbCr422-8bit format */
+> >>>>>>>>>>>> +     if (vep->bus.parallel.bus_width == BUS_WIDTH_8 &&
+> >>>>>>>>>>>> +         vep->bus.parallel.data_shift == DATA_SHIFT_8)
+> >>>>>>>>>>>> +             vin->parallel->ycbcr_8b_g = true;
+> >>>>>>>>>>>> +
+> >>>>>>>>>>>
+> >>>>>>>>>>> I would store the bus_width and bus_shift values in the struct
+> >>>>>>>>>>> rvin_parallel_entity and evaluate them in place rater then create a flag
+> >>>>>>>>>>> for this specific use-case..
+> >>>>>>>>>>>
+> >>>>>>>>>> Ok will do that.
+> >>>>>>>>>>
+> >>>>>>>>>>> Also according to the documentation is the check correct? Do we not wish
+> >>>>>>>>>>> to use the new mode when bus_width == 16 and bus_shift == 8. The check
+> >>>>>>>>>>> you have here seems to describe a 8 lane bus where 0 lanes are used.
+> >>>>>>>>>>>
+> >>>>>>>>>> bus-width is the actual data lines used, so bus_width == 16 and
+> >>>>>>>>>> bus_shift == 8 would mean use lines 23:8, so just check for bus_width
+> >>>>>>>>>> == 8 and bus_shift == 8 should be sufficient.
+> >>>>>>>>>
+> >>>>>>>>> As you and Geert points out I was wrong, they should indeed both be 8.
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>>> I think you should also verify that bus_shift is either 0 or 8 as that
+> >>>>>>>>>>> is all the driver supports.
+> >>>>>>>>>>>
+> >>>>>>>>>> Not sure if thats correct.In that case this patch wont make sense, I
+> >>>>>>>>>> believed we agreed upon we determine the YDS depending on both
+> >>>>>>>>>> bus-width and bus-shift.
+> >>>>>>>>>
+> >>>>>>>>> I'm sorry I think I lost you :-) The driver is not capable of supporting
+> >>>>>>>>> bus_width = 8 and bus_shift = 2 right? Maybe we are talking about
+> >>>>>>>>> different things.
+> >>>>>>>>>
+> >>>>>>>>> What I tried to say (updated with the knowledge of that bus_width should
+> >>>>>>>>> indeed be 8 and not 16) was that would it make sens to with bus_width=8
+> >>>>>>>>> allow for a bus_shift value other then 0 or 8? What for example would
+> >>>>>>>>> the driver do if the value was 2?
+> >>>>>>>>>
+> >>>>>>>> I think this should be possible but I am not sure how this will work.
+> >>>>>>>> For example on iWave G21D-Q7 platform with 16-bit wired bus say we
+> >>>>>>>> connect a 8-bit camera as below:
+> >>>>>>>>
+> >>>>>>>> bus-width = 8 and bus-shift = 2
+> >>>>>>>> VI1_G0_B        -> Not connected
+> >>>>>>>> VI1_G1_B        -> Not connected
+> >>>>>>>> VI1_G2_B_16        -> Connected
+> >>>>>>>> VI1_G3_B        -> Connected
+> >>>>>>>> VI1_G4_B        -> Connected
+> >>>>>>>> VI1_G5_B        -> Connected
+> >>>>>>>> VI1_G6_B        -> Connected
+> >>>>>>>> VI1_G7_B        -> Connected
+> >>>>>>>> VI1_DATA7_B/VI1_B7_B_16    -> Connected
+> >>>>>>>> VI1_DATA6_B/VI1_B6_B_16    -> Connected
+> >>>>>>>> VI1_DATA5_B/VI1_B5_B_16    -> Not connected
+> >>>>>>>> VI1_DATA4_B/VI1_B4_B_16    -> Not connected
+> >>>>>>>> VI1_DATA3_B/VI1_B3_B_16    -> Not connected
+> >>>>>>>> VI1_DATA2_B/VI1_B2_B_16    -> Not connected
+> >>>>>>>> VI1_DATA1_B/VI1_B1_B_16    -> Not connected
+> >>>>>>>> VI1_DATA0_B/VI1_B0_B_16    -> Not connected
+> >>>>>>>
+> >>>>>>> I agree this is how I would imagine bus-width = 8 and bus-shift = 2 to
+> >>>>>>> be wired.
+> >>>>>>>
+> >>>>>>>> So in this case for 8-bit YCbCr422 format should YDS be set I am not
+> >>>>>>>> sure. Or is this not a valid case at all ?
+> >>>>>>>
+> >>>>>>> That is my question :-)
+> >>>>>>>
+> >>>>>>> I can't find anything int the documentation that would allow is to do
+> >>>>>>> anything other then bus-width = 8 together with bus-shift = 0 (do not
+> >>>>>>> set YDS) or bus-shift = 8 (set YDS). So that is why I suggested you
+> >>>>>>> check for this and print a warning if bus-shift is anything else :-)
+> >>>>>>>
+> >>>>>>> But if you can figured out how we can do a bus-shift = 2 as in your
+> >>>>>>> example then of course the check is wrong. I have not read the docs
+> >>>>>>> carefully enough about this to rule it out as impossible.
+> >>>>>>
+> >>>>>> IIUIC, this is a completely different scenario than "low" or "high" wiring
+> >>>>>> of 8-bit YCbCr-422, hence YDS does not apply?
+> >>>>>>
+> >>>>> I tend to agree. We only enable YDS if bus-width = 8 and bus-shift=8
+> >>>>> as done by this patch. (Although there isn't enough documentation to
+> >>>>> prove it)
+> >>>>>
+> >>>>>> The iWave G21D-Q7 wiring seems to be 10-bit YCbCr-422 with the 2 LSB
+> >>>>>> bits unconnected?
+> >>>>>>
+> >>>>> B-8bit/ BG-16 bit for VI0 and  B-8bit/ BG-16 bit for VI0
+> >>>>>
+> >>>>>> Interestingly, that mode is supported on all RZ/G1 SoCs, on most R-Car
+> >>>>>> Gen3 SoCs, but only on a single R-Car Gen2 SoC (V2H).
+> >>>>>>
+> >>>>> YDS mode ?
+> >>>>
+> >>>> No, 10-bit YCbCr-422. But please forget my comment, I was looking at
+> >>>> the wrong table.
+> >>>>
+> >>>> VI1_G[7:2] plus VI1_DATA[7:6] is not even a contiguous subset (I had
+> >>>> misread the used subset to be G[1:0] and B[7:2]), so it cannot be represented
+> >>>> using just bus-width and bus-shift properties?
+> >>>>
+> >>> Yes and here is my explanation.
+> >>>
+> >>> In Gen1 manual for YDS bit it says the below:
+> >>> 0: Vin_B[7:0] pins
+> >>> 1: Vin_G[7:0] pins
+> >>>
+> >>> And in Gen2 manual it says,
+> >>> 0: Vin_DATA[7:0] pins
+> >>> 1: Vin_DATA[7:0] pins
+> >>
+> >> Vin_DATA[15:8]
+> >>
+> >> The difference is due to some SoCs naming the signals R[7:0], G[7:0], B[7:0],
+> >> while other SoCs use DATA[23:0], the latter presumably to avoid
+> >> confusion when using non-RGB input formats.
+> >> R-Car V2H uses a mix: D[23:16]_R[7:0], D[15:8]_G[7:0], D[7:0]_B[7:0] ;-)
+> >>
+> >> However, the underlying behavior is the same, which is clear from the
+> >> RGB-666 mode, which is not using contiguous DATA[17:0], but sparse
+> >> DATA[23:18], DATA[15:10], DATA[7:2], i.e. the 6 MSB of each color
+> >> component.
+> >>
+> >>> On iwave platform for the VIN2 interface the following G pins are connected:
+> >>>
+> >>>  VI2_G0_MARK, VI2_G1_MARK,
+> >>>  VI2_G2_MARK, VI2_G3_MARK,
+> >>>  VI2_G4_MARK, VI2_G5_MARK,
+> >>>  VI2_G6_MARK, VI2_G7_MARK,
+> >>>
+> >>> And for capture to work on this interface the YDS bit has to be set.
+> >>>
+> >>> Now suppose some day we have a platform with 16 bit interface where G
+> >>> and R pins are connected:
+> >>>
+> >>>         VI2_G0_MARK, VI2_G1_MARK,
+> >>>         VI2_G2_MARK, VI2_G3_MARK,
+> >>>         VI2_G4_MARK, VI2_G5_MARK,
+> >>>         VI2_G6_MARK, VI2_G7_MARK,
+> >>>         /* R */
+> >>>         VI2_R0_MARK, VI2_R1_MARK,
+> >>>         VI2_R2_MARK, VI2_R3_MARK,
+> >>>         VI2_R4_MARK, VI2_R5_MARK,
+> >>>         VI2_R6_MARK, VI2_R7_MARK,
+> >>>
+> >>> Scenarios
+> >>> 1: Say we connect a 8-bit camera just  with the G pins - YDS has to be
+> >>> 1 for 8-bit YCbCr
+> >>> 2: Say we connect a 8-bit camera just with the R pins - YDS has to be
+> >>> 0 for 8-bit YCbCr
+> >>> 3: Now say we use G2-G7 along with R0 and R1 pins to connect a 8 bit
+> >>> camera - YDS has to be 1 for 8-bit camera
+> >>>
+> >>> And looking at the Gen1 description of YDS bit, having a combination
+> >>> of B and G is not a valid case.
+> >>
+> >> Scenario 3 is indeed not supported. But G[1:0] and B[7:2] (= DATA[9:2])
+> >> could work when using 10-bit YCbCr.
+> >>
+> >>> So my vote is to have a property in the endpoint to say if YDS has to
+> >>> be enabled as done in my first version of the patch.
+> >>
+> >> "YDS" is not a generic property, "data-shift" is.
+> >
+> > Agreed, we want something standard.
+>
+> How do we proceed on this ?
 
-On Fri, Aug 07, 2020 at 06:49:54PM +0100, Lad Prabhakar wrote:
-> The iwg21d comes with a 7" capacitive touch screen, therefore
-> add support for it.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> ---
->  arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 84 +++++++++++++++++++++++++
->  1 file changed, 84 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> index b3461a61a4bf..cf59fd61e422 100644
-> --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> @@ -30,6 +30,7 @@
->  
->  /dts-v1/;
->  #include "r8a7742-iwg21m.dtsi"
-> +#include <dt-bindings/pwm/pwm.h>
->  
->  / {
->  	model = "iWave Systems RainboW-G21D-Qseven board based on RZ/G1H";
-> @@ -52,6 +53,50 @@
->  		clock-frequency = <26000000>;
->  	};
->  
-> +	lcd_backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&tpu 2 5000000 0>;
-> +		brightness-levels = <0 4 8 16 32 64 128 255>;
-> +		pinctrl-0 = <&backlight_pins>;
-> +		pinctrl-names = "default";
-> +		default-brightness-level = <7>;
-> +		enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
+I may have lost track of the discussion here. Would a bus-width of 18 or
+24, like mentioned below, be enough to solve the problem, or do we need
+something else ?
 
-It's actually a power supply, not an enable GPIO, but it doesn't matter
-much, I don't think there's a need to declare a regulator just for the
-sake of it.
-
-> +	};
-> +
-> +	lvds-receiver {
-> +		compatible = "ti,ds90cf384a", "lvds-decoder";
-> +		powerdown-gpios = <&gpio5 28 GPIO_ACTIVE_LOW>;
-
-This should be handled as a shared power supply, as it's also needed for
-the touch screen. Biju has sent patches for the iwg20d that fixes a
-probe issue due to that problem, I think you can just copy the fix.
-
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				lvds_receiver_in: endpoint {
-> +					remote-endpoint = <&lvds0_out>;
-> +				};
-> +			};
-> +			port@1 {
-> +				reg = <1>;
-> +				lvds_receiver_out: endpoint {
-> +					remote-endpoint = <&panel_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	panel {
-> +		compatible = "edt,etm0700g0dh6";
-> +		backlight = <&lcd_backlight>;
-> +
-> +		port {
-> +			panel_in: endpoint {
-> +				remote-endpoint = <&lvds_receiver_out>;
-> +			};
-> +		};
-> +	};
-> +
->  	reg_1p5v: 1p5v {
->  		compatible = "regulator-fixed";
->  		regulator-name = "1P5V";
-> @@ -129,12 +174,31 @@
->  		VDDIO-supply = <&reg_3p3v>;
->  		VDDD-supply = <&reg_1p5v>;
->  	};
-> +
-> +	touch: touchpanel@38 {
-> +		compatible = "edt,edt-ft5406";
-> +		reg = <0x38>;
-> +		interrupt-parent = <&gpio0>;
-> +		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
-
-Should the reset GPIO also be wired ? It seems to be shared with the
-audio codec though, which is annoying.
-
-> +	};
->  };
->  
->  &cmt0 {
->  	status = "okay";
->  };
->  
-> +&du {
-> +	status = "okay";
-> +};
-> +
-> +&gpio0 {
-> +	touch-interrupt {
-> +		gpio-hog;
-> +		gpios = <24 GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-
-Is this needed, or does requesting the interrupt in the touch screen
-driver configured the GPIO to an input automatically ?
-
-> +};
-> +
->  &hsusb {
->  	pinctrl-0 = <&usb0_pins>;
->  	pinctrl-names = "default";
-> @@ -165,6 +229,11 @@
->  		function = "avb";
->  	};
->  
-> +	backlight_pins: backlight {
-> +		groups = "tpu0_to2";
-> +		function = "tpu0";
-> +	};
-> +
->  	i2c2_pins: i2c2 {
->  		groups = "i2c2_b";
->  		function = "i2c2";
-> @@ -208,6 +277,17 @@
->  	};
->  };
->  
-> +&lvds0 {
-> +	status = "okay";
-> +	ports {
-> +		port@1 {
-> +			lvds0_out: endpoint {
-> +				remote-endpoint = <&lvds_receiver_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
->  &rcar_sound {
->  	pinctrl-0 = <&sound_pins>;
->  	pinctrl-names = "default";
-> @@ -261,6 +341,10 @@
->  	shared-pin;
->  };
->  
-> +&tpu {
-> +	status = "okay";
-> +};
-> +
->  &usbphy {
->  	status = "okay";
->  };
+> >> Now, how do you specify in DT that RGB-666 mode is to be used?
+> >> "bus-width = <18>"?
+> >> That won't work with the (so far theoretical) case where both contiguous
+> >> and sparse variants are supported by the hardware.  And "data-shift"
+> >> won't help here.
+> >>
+> >> Am I overdesigning? ;-)
+> >
+> > If bus-width = <18>, VIN would know know that the 6 MSBs of each 8-bit
+> > subset are used, as it doesn't support any other option. There's no need
+> > for data-shift or any other property, as there's nothing to configure
+> > :-) We could even set bus-width = <24>, it wouldn't make a difference.
+>
+> Thank you for jumping Laurent :)
 
 -- 
 Regards,
