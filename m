@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E76F242D05
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 18:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E69A5242D0D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 18:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbgHLQTD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Aug 2020 12:19:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54200 "EHLO
+        id S1726648AbgHLQUl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Aug 2020 12:20:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54230 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726447AbgHLQTD (ORCPT
+        with ESMTP id S1726477AbgHLQUk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Aug 2020 12:19:03 -0400
+        Wed, 12 Aug 2020 12:20:40 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 658AF9E7;
-        Wed, 12 Aug 2020 18:19:00 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C9819E7;
+        Wed, 12 Aug 2020 18:20:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597249140;
-        bh=QJ4CD1EkP28rc5rk+9Lb1tJIBgSCm6T6GSEvKyieOdI=;
+        s=mail; t=1597249237;
+        bh=298o8/z4rjGUGU39IFnJIL0Kpj5BZy0pGw8hnRHgyA0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rr2pwNXQf9uLGdQ5TLOld3ziVzcZjqADVXKo5OrK3RXVyNPqhGiOW/HB8fttasmJ1
-         0LayrwLaQ6ct457H0QbJYvsHzBVNfvPH4E1pmb1lVjwjkWQp+LB0H6TAD1kn5sshTN
-         Q3hVEZI6weugZYpbk1kR7qvoYC70zMRIfVhAqCNo=
-Date:   Wed, 12 Aug 2020 19:18:46 +0300
+        b=Grw3EH9syc6n4bpvT3dbu8F6vCoGQYFvWLzJHv9j2lmU+BxNYEJRMiPlxFwfR3Pxa
+         Zzgmrys4QiHqspHCUak9RXkTV6vM6Lp3TPVaRzfZgvd8R+aH0cdk9pNYG6I+W9lV1i
+         qPOyT1IZB8XieFcFy/oirNYWlD5TmTrWrkiysFy0=
+Date:   Wed, 12 Aug 2020 19:20:23 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -36,72 +36,50 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Marian-Cristian Rotariu 
         <marian-cristian.rotariu.rb@bp.renesas.com>
-Subject: Re: [PATCH 4/9] dt-bindings: display: renesas,lvds: Document
- r8a774e1 bindings
-Message-ID: <20200812161846.GO6057@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/9] dt-bindings: display: renesas,dw-hdmi: Add r8a774e1
+ support
+Message-ID: <20200812162023.GP6057@pendragon.ideasonboard.com>
 References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812140217.24251-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200812161757.GN6057@pendragon.ideasonboard.com>
+ <20200812140217.24251-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200812161757.GN6057@pendragon.ideasonboard.com>
+In-Reply-To: <20200812140217.24251-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 12, 2020 at 07:17:59PM +0300, Laurent Pinchart wrote:
-> Hi Prabhakar,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Aug 12, 2020 at 03:02:12PM +0100, Lad Prabhakar wrote:
-> > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > 
-> > Document the RZ/G2H (R8A774E1) LVDS bindings.
-> > 
-> > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/display/bridge/renesas,lvds.txt          | 1 +
-> 
-> This binding has been converted to YAML. I'll apply the patch manually
-> as it's a one-liner.
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> index 4ca5a904b0ea..0fe0c49403f8 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
-> @@ -22,6 +22,7 @@ properties:
->        - renesas,r8a774a1-lvds # for RZ/G2M compatible LVDS encoders
->        - renesas,r8a774b1-lvds # for RZ/G2N compatible LVDS encoders
->        - renesas,r8a774c0-lvds # for RZ/G2E compatible LVDS encoders
-> +      - renesas,r8a774e1-lvds # for RZ/G2H compatible LVDS encoders
->        - renesas,r8a7790-lvds # for R-Car H2 compatible LVDS encoders
->        - renesas,r8a7791-lvds # for R-Car M2-W compatible LVDS encoders
->        - renesas,r8a7793-lvds # for R-Car M2-N compatible LVDS encoders
-> 
-> If you see any issue there, please let me know.
+Hi Prabhakar,
 
-And I forgot to mention,
+Thank you for the patch.
+
+On Wed, Aug 12, 2020 at 03:02:13PM +0100, Lad Prabhakar wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> 
+> Document RZ/G2H (R8A774E1) SoC bindings.
+> 
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > index c62ce2494ed9..42743d0d24b3 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> > @@ -12,6 +12,7 @@ Required properties:
-> >    - "renesas,r8a774a1-lvds" for R8A774A1 (RZ/G2M) compatible LVDS encoders
-> >    - "renesas,r8a774b1-lvds" for R8A774B1 (RZ/G2N) compatible LVDS encoders
-> >    - "renesas,r8a774c0-lvds" for R8A774C0 (RZ/G2E) compatible LVDS encoders
-> > +  - "renesas,r8a774e1-lvds" for R8A774E1 (RZ/G2H) compatible LVDS encoders
-> >    - "renesas,r8a7790-lvds" for R8A7790 (R-Car H2) compatible LVDS encoders
-> >    - "renesas,r8a7791-lvds" for R8A7791 (R-Car M2-W) compatible LVDS encoders
-> >    - "renesas,r8a7793-lvds" for R8A7793 (R-Car M2-N) compatible LVDS encoders
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> index 819f3e31013c..f275997ab947 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> @@ -14,6 +14,7 @@ Required properties:
+>  - compatible : Shall contain one or more of
+>    - "renesas,r8a774a1-hdmi" for R8A774A1 (RZ/G2M) compatible HDMI TX
+>    - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
+> +  - "renesas,r8a774e1-hdmi" for R8A774E1 (RZ/G2H) compatible HDMI TX
+>    - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
+>    - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
+>    - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
 
 -- 
 Regards,
