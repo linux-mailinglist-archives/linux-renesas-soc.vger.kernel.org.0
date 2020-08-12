@@ -2,78 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37B0124273B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 11:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB6B24287C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 13:00:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbgHLJMb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Aug 2020 05:12:31 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:33048 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbgHLJMb (ORCPT
+        id S1727081AbgHLLAc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Aug 2020 07:00:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37894 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727025AbgHLLA0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Aug 2020 05:12:31 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 25so1226462oir.0;
-        Wed, 12 Aug 2020 02:12:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RHgYnKByHg5dhHsGT1IBu2QcKNIoIouHLZ5r2cTdlOs=;
-        b=cD5BRDOUvIJzh6bel3qQvhFw7FaXG1/dDhNPPocM3c5p791kgL7qyYogV/+zyc27am
-         WFPt7iKzb8kYrHhrSwrAn6ggqSWdCwh+XHQIxk5LZ1TOGCCde+B4rmbD+rGIuAjA2BTd
-         TwETpq+MpZe0OCK+Vs9LLoIIaZOSOiF1GTb87WPsWpclbBGP+2prh5yrlofmiRuunqOj
-         fDEO4S6HYvmO22ROhOwQXH5SSzAKuB7THyWDUa8vl2qhcoKsgpcPyue7LobscfF8a5Zb
-         HAluA57dG2VB1cdX+tmq4ekZ3j5dh9GSrHaLQPdorLFEQ5lUOstYZVzCrMPq21bxvnMZ
-         KmgQ==
-X-Gm-Message-State: AOAM530/Zum/YQAoGwfVcKXdjm+Ot4UL2CMtTHhUIhpAiVqFzzbAxA8/
-        cSo3DNNKYQblAtU3V/9TSI8t4+M5C7XE/XAb5vw=
-X-Google-Smtp-Source: ABdhPJyh3HdXy3ssU6NgUanxf31X/8KIztM8TZkSzCN0cHypQjdelZ3JgOtlJMfvNbHXn5OSNb8P2d46fzcQH4Z+Q0M=
-X-Received: by 2002:aca:4b54:: with SMTP id y81mr6709650oia.54.1597223550326;
- Wed, 12 Aug 2020 02:12:30 -0700 (PDT)
+        Wed, 12 Aug 2020 07:00:26 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597230026;
+        bh=80Hv7ym8e+2PP+kJiCAnXCOu+RENNQuKYfJC0aO0L9w=;
+        h=Subject:From:Date:To:From;
+        b=yvOyeFfAG1av03givBJfBfLp4PsD9e/Re/1a5qyDHiXpKQA5X856NdwiJ1VcsGJLh
+         Twwpd2DhuWWVpyx085jDIkutP1H/pFvw/+14yvTJfTOE2fZVRHkAjMLRVBdGwxed6k
+         q4kQL2ZeFaHN/ytEyTvqIO53wPUmAcCQasmibKYg=
 MIME-Version: 1.0
-References: <20200810174156.30880-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200810174156.30880-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200810174156.30880-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Aug 2020 11:12:19 +0200
-Message-ID: <CAMuHMdWJrrC8X1zfauGbpraEm0aO8szeZskNdPRCbwzp7cfZTQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: dts: r8a7742: Add PCIe Controller device node
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159723002615.7845.4366970536229031322.git-patchwork-summary@kernel.org>
+Date:   Wed, 12 Aug 2020 11:00:26 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 10, 2020 at 7:42 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add a device node for the PCIe controller on the Renesas
-> RZ/G1H (r8a7742) SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/master):
 
-Gr{oetje,eeting}s,
+Patch: [v2] arm64: defconfig: Enable R-Car PCIe endpoint driver
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=331413
+  Link: <20200811140357.564-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-                        Geert
+Patch: arm64: dts: renesas: r8a774b1-hihope-rzg2n-ex: Enable sata
+  Submitter: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=330999
+  Link: <20200810171239.30401-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Total patches: 2
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
