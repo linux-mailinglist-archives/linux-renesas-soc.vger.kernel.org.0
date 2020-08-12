@@ -2,73 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F8CA242F04
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 21:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4F7242F17
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Aug 2020 21:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726542AbgHLTP6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Aug 2020 15:15:58 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:38165 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgHLTP6 (ORCPT
+        id S1726642AbgHLTVj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Aug 2020 15:21:39 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:41155 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726681AbgHLTVj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Aug 2020 15:15:58 -0400
-Received: by mail-io1-f66.google.com with SMTP id h4so4242701ioe.5;
-        Wed, 12 Aug 2020 12:15:57 -0700 (PDT)
+        Wed, 12 Aug 2020 15:21:39 -0400
+Received: by mail-il1-f196.google.com with SMTP id q14so3016038ilj.8;
+        Wed, 12 Aug 2020 12:21:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6bmFd3LE8loSA5iYwsZ25NXI7nulgcJ7a63PMeV4Enk=;
-        b=T1mpUpked1p9tNfUO7Ho0udc5QEOlpQH39dNJVomj2LSaELfFqglSBG+lYxzl4+L1u
-         UI3R9LX0SggSpy3AUb4WRjKFwVci/rckwpw4sVfh+YrocxMfIBmM8UB/ROV0TzAWZeh+
-         JLqg3Nkw51D+cXxhjMUB4J/mfPwlQi7p5gaM4mG61oaGXKw4zKLRsG+KucnTQU9QKs3A
-         iLhbjyoZ58K+knZFy5pbpZBHHbBAXr8FLI1ObMAhdtE4GNFdqqKgQOjI+4V8WXSOdp1s
-         DuIcyicMs+kq3NCDwNa9Mwnu/wIDcA3cXIcUKlKAWcei6SkCg+ywuh+12TL9FIQ//Wr0
-         ljzQ==
-X-Gm-Message-State: AOAM5326EVIqNpxTDy9fJxzqZi52XvIKSX+LRq3FOZ0s3qHF/4IHyAJN
-        yLTvkyGH3lB3USiG5CthxysolM0=
-X-Google-Smtp-Source: ABdhPJzkhDTUp4fGr5JcbsYvPTSvZvi/175AnF5oJtPz3FsfaL7w+r2SZ9PQIgIgkpvwJ+rK87Tchw==
-X-Received: by 2002:a02:3e13:: with SMTP id s19mr993711jas.95.1597259757344;
-        Wed, 12 Aug 2020 12:15:57 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=lrFi5UUsx7Z7b7tkGVje9KNF6Ch0mT52ynZKiKuVK+U=;
+        b=AgJvdfNQuN2M45a5oKFMgtzcDnZAxDz9AeWQtRWWRfkuGclLPYpexSDbLkbxloa9KB
+         MqS6NoAqI6b87qjLJGBms2rKYS1vz7Nbe7ijU8kDLvEdouYFfmaUfS9lhKcOML0imTlP
+         BX/5wfx7IgGZzM85OzADQAcb+hHfMaWi5fbinX0+TP4S64lA2nXiSvp7HixPD+iLQ5kb
+         Lps1dhwZeU77ufRMQOtNdsyr48nOJfoWMCfr8ujeBbdY9p7rGYPM5xB8WFI31m3Y0XeV
+         +32z9PDz8ispaQffrDiPwvfAYEECAPzIT+JVc20DVL5+rRga806RmUECyJ5XrG8YnYWF
+         Vsiw==
+X-Gm-Message-State: AOAM5334teG/gGvDl3XiVyK+lgD/sATxqJ67bnsyy5MWsI60ncT1C9Jq
+        Ofn65AWMWAKs7qJsYKI/2A==
+X-Google-Smtp-Source: ABdhPJykPZj78iUAp6YsuQlqpTP0k0Ddxs1kxAkGLFZni5Q/fLkJt2crn0iPw2GXVYUWPlfS2fwbAA==
+X-Received: by 2002:a05:6e02:de4:: with SMTP id m4mr1071933ilj.156.1597260097540;
+        Wed, 12 Aug 2020 12:21:37 -0700 (PDT)
 Received: from xps15 ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id x12sm1468420ile.14.2020.08.12.12.15.55
+        by smtp.gmail.com with ESMTPSA id b23sm1411574iof.29.2020.08.12.12.21.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 12:15:56 -0700 (PDT)
-Received: (nullmailer pid 2549586 invoked by uid 1000);
-        Wed, 12 Aug 2020 19:15:54 -0000
-Date:   Wed, 12 Aug 2020 13:15:54 -0600
+        Wed, 12 Aug 2020 12:21:36 -0700 (PDT)
+Received: (nullmailer pid 2557433 invoked by uid 1000);
+        Wed, 12 Aug 2020 19:21:35 -0000
+Date:   Wed, 12 Aug 2020 13:21:35 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, robh+dt@kernel.org
-Subject: Re: [PATCH v4 3/4] dt-bindings: media: ov5647: Document
- clock-noncontinuous
-Message-ID: <20200812191554.GA2549533@bogus>
-References: <20200810215543.113206-1-jacopo+renesas@jmondi.org>
- <20200810215543.113206-4-jacopo+renesas@jmondi.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: adv7604: Convert bindings to
+ json-schema
+Message-ID: <20200812192135.GA2557381@bogus>
+References: <20200801161825.96837-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200801161825.96837-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200810215543.113206-4-jacopo+renesas@jmondi.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200801161825.96837-3-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 10 Aug 2020 23:55:42 +0200, Jacopo Mondi wrote:
-> From: Jacopo Mondi <jacopo@jmondi.org>
+On Sat, 01 Aug 2020 18:18:24 +0200, Niklas Söderlund wrote:
+> Convert ADV7604 video decoder documentation to json-schema.
 > 
-> Document the optional clock-noncontinuous endpoint property that
-> allows enabling MIPI CSI-2 non-continuous clock operations.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  Documentation/devicetree/bindings/media/i2c/ov5647.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+> * Changes since v2
+> - Ensure main comes first in reg-names.
+> - Add additionalProperties false.
+> 
+> * Changes since v1
+> - Simplify enum for reg-names.
+> ---
+>  .../devicetree/bindings/media/i2c/adv7604.txt |  87 ---------
+>  .../bindings/media/i2c/adv7604.yaml           | 178 ++++++++++++++++++
+>  2 files changed, 178 insertions(+), 87 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.yaml
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
