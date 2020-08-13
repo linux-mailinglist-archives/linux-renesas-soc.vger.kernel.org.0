@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A485D243749
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 11:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8B4243754
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 11:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbgHMJJC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Aug 2020 05:09:02 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37096 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbgHMJJC (ORCPT
+        id S1726597AbgHMJKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Aug 2020 05:10:02 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45502 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726053AbgHMJKC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Aug 2020 05:09:02 -0400
-Received: by mail-oi1-f193.google.com with SMTP id e6so4436440oii.4;
-        Thu, 13 Aug 2020 02:09:01 -0700 (PDT)
+        Thu, 13 Aug 2020 05:10:02 -0400
+Received: by mail-oi1-f196.google.com with SMTP id o21so4399759oie.12;
+        Thu, 13 Aug 2020 02:10:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=0K15ceWt7+lSEkvA7d3theI6XPwiCybuf39fCiNOnRI=;
-        b=MC78CMuFrDvyzZ+oKmNpfHSxUwX7ivxLI9J7WxuSi/jc8GWLaIFqpwJuep4r0Gkmqs
-         U9FnbmmZ3lfP0AU5TTYhd0ZFf4f0U5CC75a/zXJYsgEZYgRpjhkdQgjwshG+vjB8SHF2
-         njFreV6eLiqHcUwkrykqsurVA4u6mabJwWUXwVxgwxwdW6moM4wXA1JAHwEBuy2BLBg8
-         eZiMb1FVZYa/dGdQnXefD3gB/y/Py+QwOwvT33azn51KdyIBnBHOPDp1VAWsqnSq9oO9
-         AJwGKuS1O9oYxggUwp14wnYZ6mIXUt2GLhVPAa3ZG77j3GkHBmnUTneGebFhSPpWl7ll
-         lruQ==
-X-Gm-Message-State: AOAM530saWnm35cow3FDfDaxcn8dF3J/uSs081EK4jzin+Et3T237ULC
-        S9bcjff14+tqK9gIRwXtjkJ73t1LYUICA3/ae8w=
-X-Google-Smtp-Source: ABdhPJzB4wNONrk31bsEMlFj7xQbcN5C5YD4hPJ1l4PHkQ8t4JH4EYjL3qUZVIwmP93aJw0pGYQeN5yq+3aKSoGMjuI=
-X-Received: by 2002:aca:4b54:: with SMTP id y81mr2563000oia.54.1597309740957;
- Thu, 13 Aug 2020 02:09:00 -0700 (PDT)
+        bh=MFMezuvSe3SKrMQIzsU7calM1hohwotMeVW3G3XCg7k=;
+        b=ayUFDfCq39r0TjWZX2NssVnBkdQdB55EGRdAnmxJv7Ru34E5GypFIMqzC8/M6m0LX7
+         zpUf0571fescCptcZcE8TVCOTkkdX1U05odY1gNUvZb2vk5g2hcuDni6C/x5Ig44lw+8
+         pkiCi8yoBsPXJwq3Ad46Vno/Gw7sjacxWrvIEaPPf8eby+6vhpcRiNBe/U15fjwrQGFf
+         JNqhVXQ+nDX5xmPxDPZdA07yYsHtkOM/TP0NpTJ7PRJOopWjLqLKle0S6l2R3hXEFssj
+         33hQ5CnIE8Fdk/lyQIr4N0BnLKVvmiVaTz1rqek1xajwEi/vyOn5GcFNDuYtMB5Nm+TL
+         /FtQ==
+X-Gm-Message-State: AOAM530j31yiji4ZO8+utoh3EwnS6EmlnryHJfeUkbjomSs/pOSCm+4A
+        NggEwgDZBiAZXSons8Fp9m7Ch23NXX6rWTpjaAM=
+X-Google-Smtp-Source: ABdhPJzPc4BxFza9KeAbG78MDR54iNiEFsW2Ry0hmfIVXU1snC6Y09cLyREs/EwBnuaR3sFXtTWjL+41a4m/TmCRNl4=
+X-Received: by 2002:aca:adc4:: with SMTP id w187mr2437706oie.153.1597309801507;
+ Thu, 13 Aug 2020 02:10:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200812140217.24251-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200812140217.24251-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200812140217.24251-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200812140217.24251-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 13 Aug 2020 11:08:49 +0200
-Message-ID: <CAMuHMdVVL=ZWGmsZSBhxTNsnkJDzDrCQMXVpVPB74udOqAbvUg@mail.gmail.com>
-Subject: Re: [PATCH 3/9] arm64: dts: renesas: r8a774e1: Populate DU device node
+Date:   Thu, 13 Aug 2020 11:09:50 +0200
+Message-ID: <CAMuHMdW04aC5Tusba=S4Sf4Gbu9VwgZ5Kar4HOjZaQXpF9F27Q@mail.gmail.com>
+Subject: Re: [PATCH 4/9] dt-bindings: display: renesas,lvds: Document r8a774e1 bindings
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -62,66 +62,14 @@ On Wed, Aug 12, 2020 at 4:03 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
-> Populate the DU device node properties in R8A774E1 SoC dtsi.
+> Document the RZ/G2H (R8A774E1) LVDS bindings.
 >
 > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+For the logical change (ported to .yaml):
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-> @@ -2623,22 +2623,39 @@
->                 };
->
->                 du: display@feb00000 {
-> +                       compatible = "renesas,du-r8a774e1";
->                         reg = <0 0xfeb00000 0 0x80000>;
-> +                       interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 724>,
-> +                                <&cpg CPG_MOD 723>,
-> +                                <&cpg CPG_MOD 721>;
-> +                       clock-names = "du.0", "du.1", "du.3";
-> +                       resets = <&cpg 724>, <&cpg 722>;
-> +                       reset-names = "du.0", "du.3";
->                         status = "disabled";
->
-> -                       /* placeholder */
-> +                       renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
-> +
->                         ports {
->                                 #address-cells = <1>;
->                                 #size-cells = <0>;
->
->                                 port@0 {
->                                         reg = <0>;
-> +                                       du_out_rgb: endpoint {
-> +                                       };
->                                 };
->                                 port@1 {
->                                         reg = <1>;
-> +                                       du_out_hdmi0: endpoint {
-> +                                       };
->                                 };
->                                 port@2 {
->                                         reg = <2>;
-> +                                       du_out_lvds0: endpoint {
-> +                                       };
-
-Waiting for the port number discussion to settle before queuein in
-renesas-devel for v5.10.
-
->                                 };
->                         };
->                 };
-> --
-> 2.17.1
->
-
-
--- 
 Gr{oetje,eeting}s,
 
                         Geert
