@@ -2,70 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10A5E243E20
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 19:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917DF243E2D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 19:20:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbgHMROK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Aug 2020 13:14:10 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:28876 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726384AbgHMROK (ORCPT
+        id S1726591AbgHMRUm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Aug 2020 13:20:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726248AbgHMRUl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Aug 2020 13:14:10 -0400
-X-IronPort-AV: E=Sophos;i="5.76,309,1592838000"; 
-   d="scan'208";a="54312916"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Aug 2020 02:14:07 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B8D714005E0F;
-        Fri, 14 Aug 2020 02:14:05 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul <paul.kocialkowski@bootlin.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v3 3/3] media: i2c: ov5640: Fail probe on unsupported bus_type
-Date:   Thu, 13 Aug 2020 18:13:37 +0100
-Message-Id: <20200813171337.5540-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200813171337.5540-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200813171337.5540-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 13 Aug 2020 13:20:41 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597339240;
+        bh=eq5KDfc+i4pAs40DKaMzNIv6Pv/gU4f5gbeOTE+PTg0=;
+        h=Subject:From:Date:To:From;
+        b=tJXDUEix/RBWQMyCCvDEQmk2PdU4XlAu+tMpIi+Poah88pTs3xV70M8RkUhqGXarp
+         wUA+1LpC88VQui5GzwP5rIJ6Ph+H8Ub2cmvYqjfWDAg0+jceAe3nXAtQAuRZP6u14P
+         EBn95eSeNw2F8kAIvCEBGUOasEWWbIV59/HCFJr4=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159733924083.12762.13931564059867248068.git-patchwork-housekeeping@kernel.org>
+Date:   Thu, 13 Aug 2020 17:20:40 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fail probe if unsupported bus_type is detected.
+Latest series: [v3] media: i2c: ov5640 feature enhancement and fixes (2020-08-13T17:13:34)
+  Superseding: [v2] media: i2c: ov5640 feature enhancement and fixes (2020-08-03T14:31:43):
+    [v2,1/4] dt-bindings: media: i2c: ov5640: Document bus-type property
+    [v2,2/4] media: i2c: ov5640: Enable data pins on poweron for DVP mode
+    [v2,3/4] media: i2c: ov5640: Add support for BT656 mode
+    [v2,4/4] media: i2c: ov5640: Fallback to parallel mode
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/media/i2c/ov5640.c | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 160d2857352a..3191e2b223c3 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3078,6 +3078,13 @@ static int ov5640_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
-+	if (sensor->ep.bus_type != V4L2_MBUS_PARALLEL &&
-+	    sensor->ep.bus_type != V4L2_MBUS_CSI2_DPHY &&
-+	    sensor->ep.bus_type != V4L2_MBUS_BT656) {
-+		dev_err(dev, "Unsupported bus type %d\n", sensor->ep.bus_type);
-+		return -EINVAL;
-+	}
-+
- 	/* get system clock (xclk) */
- 	sensor->xclk = devm_clk_get(dev, "xclk");
- 	if (IS_ERR(sensor->xclk)) {
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
