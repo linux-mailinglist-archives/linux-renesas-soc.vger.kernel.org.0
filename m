@@ -2,199 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6552431E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 02:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F38C9243725
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 11:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726131AbgHMA6J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Aug 2020 20:58:09 -0400
-Received: from mga12.intel.com ([192.55.52.136]:26700 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726557AbgHMA6J (ORCPT
+        id S1726533AbgHMJF3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Aug 2020 05:05:29 -0400
+Received: from mail-oo1-f65.google.com ([209.85.161.65]:44821 "EHLO
+        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726102AbgHMJF2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Aug 2020 20:58:09 -0400
-IronPort-SDR: cNcxXknsWHY05dbSalmyIKdmWh8VnvvtnJN3aE3q9iyZiKb9Vg4ytCL6NY4sb+M0zYkqZ2sTVm
- nlQ7OxqA7K3w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9711"; a="133661206"
-X-IronPort-AV: E=Sophos;i="5.76,306,1592895600"; 
-   d="scan'208";a="133661206"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2020 17:58:05 -0700
-IronPort-SDR: ZlzxyBEzY+vSJ8IeVWAvIUzdSXqYaWennRXPzc/qfPRrzUL0NTGuZPL9NA/l31JVHIKJs0NH28
- +bnStuCGxUCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,306,1592895600"; 
-   d="scan'208";a="335103941"
-Received: from lkp-server01.sh.intel.com (HELO 7f1ebb311643) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 Aug 2020 17:58:04 -0700
-Received: from kbuild by 7f1ebb311643 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1k61ZD-0000Lw-Pe; Thu, 13 Aug 2020 00:58:03 +0000
-Date:   Thu, 13 Aug 2020 08:57:33 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.10] BUILD SUCCESS
- a23238fb0d79a41b59effd701004b089051c7589
-Message-ID: <5f348ffd.jc2WFI+q9AljP+nm%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 13 Aug 2020 05:05:28 -0400
+Received: by mail-oo1-f65.google.com with SMTP id g1so1065809oop.11;
+        Thu, 13 Aug 2020 02:05:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2AvIhR4VMBCPleNB4MD/t7+rUWOqAWwlH0ujr1BxGlw=;
+        b=ARde/XfI66VeOmJdsynQQ/WH4TLxMDPByoINkPLaJVOhIuy/fLUcv2GYe/Vso3zGZT
+         KY3BtooINHlOXZ6JF+5wPIKq/hgMuZiWvAgxDsCjQjJVnZ5bmxe40TRTwE20e5bmaiUK
+         lalU0G+mI9nv+VgdThATprdSF1VkhYjB41IdHJqFrlEDc0OuBWBWRjShad9cDhTDke0w
+         /E9as2FbDbv7/qbIqOwUPj8S2RMMxhTktdSc5JhIGJOefnEtNspb2G1XkwvUo1Ayi6yt
+         YHZwS44PgnDypE+6akbvdgru5qGGZjSPXiKRDcOPgRi5/17ni9LGiya04NxFLfsYejnl
+         yI9g==
+X-Gm-Message-State: AOAM532gyL3ElfAzS0bdPiIMafdx24lByKofjNvH8eauj5vk3zcCJWOg
+        C+d2bPHaKgnZmzr1FubIxHB4GTBsSzbiMlEHiJk=
+X-Google-Smtp-Source: ABdhPJyUVskr8e/cEyjDxvkGzZdvsxqJxwiGe6jUX0tZXjbkklpncAUVA0TsyDuRFcZ55z9cv4D0LKrgJqG/ccdMfWs=
+X-Received: by 2002:a4a:6c13:: with SMTP id q19mr3744544ooc.11.1597309527049;
+ Thu, 13 Aug 2020 02:05:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200812140217.24251-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200812140217.24251-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 13 Aug 2020 11:05:14 +0200
+Message-ID: <CAMuHMdV4Tp=kz57pAJk0u5hVpbiEdVzTWDvK+F1AZ5TjGmLbMQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] dt-bindings: display: renesas,du: Document r8a774e1 bindings
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.10
-branch HEAD: a23238fb0d79a41b59effd701004b089051c7589  ARM: dts: r8a7742: Add PCIe Controller device node
+Hi Prabhakar, Laurent, Kieran,
 
-elapsed time: 724m
+On Wed, Aug 12, 2020 at 4:02 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Document the RZ/G2H (a.k.a. r8a774e1) SoC in the R-Car DU bindings.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index 51cd4d162770..67cded5ad827 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -10,6 +10,7 @@ Required Properties:
+>      - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
+>      - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
+>      - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
+> +    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
+>      - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
+>      - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
+>      - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
+> @@ -75,6 +76,7 @@ corresponding to each DU output.
+>   R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
+>   R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
+>   R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
+> + R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
 
-configs tested: 136
-configs skipped: 7
+As LVDS 0 is the fourth channel (DU3), should it be listed under port 3
+instead of port 2?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I know we did it the same for R-Car M3-N and RZ/G2N.
+But my main worry is adding support for R-Car H3-N later.
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                            xcep_defconfig
-mips                          ath25_defconfig
-sh                           se7619_defconfig
-powerpc                        cell_defconfig
-m68k                          multi_defconfig
-arm                           corgi_defconfig
-arm                   milbeaut_m10v_defconfig
-arm                            dove_defconfig
-openrisc                    or1ksim_defconfig
-powerpc                           allnoconfig
-sh                           se7750_defconfig
-m68k                         apollo_defconfig
-mips                        maltaup_defconfig
-powerpc                     pseries_defconfig
-arc                          axs103_defconfig
-h8300                     edosk2674_defconfig
-sh                         ap325rxa_defconfig
-arm                            pleb_defconfig
-sh                           se7780_defconfig
-arm                         axm55xx_defconfig
-powerpc                     ep8248e_defconfig
-arc                        nsim_700_defconfig
-arm                            hisi_defconfig
-arm                  colibri_pxa270_defconfig
-h8300                       h8s-sim_defconfig
-arm                         cm_x300_defconfig
-nios2                         3c120_defconfig
-sh                            migor_defconfig
-mips                           ip22_defconfig
-arm                        clps711x_defconfig
-s390                             allyesconfig
-arm                         lubbock_defconfig
-arm                          badge4_defconfig
-mips                      maltaaprp_defconfig
-mips                malta_kvm_guest_defconfig
-sh                           se7722_defconfig
-mips                      malta_kvm_defconfig
-mips                         mpc30x_defconfig
-arm                          ixp4xx_defconfig
-nios2                               defconfig
-nds32                            alldefconfig
-sh                                  defconfig
-mips                      fuloong2e_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                            e55_defconfig
-sh                          landisk_defconfig
-sh                          urquell_defconfig
-mips                      pic32mzda_defconfig
-arm                           viper_defconfig
-arc                           tb10x_defconfig
-arm                     davinci_all_defconfig
-arm                          simpad_defconfig
-powerpc                       maple_defconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                         wii_defconfig
-sh                         ecovec24_defconfig
-sh                           se7705_defconfig
-parisc                           alldefconfig
-powerpc                mpc7448_hpc2_defconfig
-openrisc                 simple_smp_defconfig
-arm                        multi_v7_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                             defconfig
-x86_64               randconfig-a006-20200811
-x86_64               randconfig-a001-20200811
-x86_64               randconfig-a003-20200811
-x86_64               randconfig-a005-20200811
-x86_64               randconfig-a004-20200811
-x86_64               randconfig-a002-20200811
-i386                 randconfig-a005-20200811
-i386                 randconfig-a001-20200811
-i386                 randconfig-a002-20200811
-i386                 randconfig-a003-20200811
-i386                 randconfig-a006-20200811
-i386                 randconfig-a004-20200811
-i386                 randconfig-a005-20200812
-i386                 randconfig-a001-20200812
-i386                 randconfig-a002-20200812
-i386                 randconfig-a003-20200812
-i386                 randconfig-a006-20200812
-i386                 randconfig-a004-20200812
-i386                 randconfig-a016-20200812
-i386                 randconfig-a011-20200812
-i386                 randconfig-a013-20200812
-i386                 randconfig-a015-20200812
-i386                 randconfig-a012-20200812
-i386                 randconfig-a014-20200812
-i386                 randconfig-a016-20200811
-i386                 randconfig-a011-20200811
-i386                 randconfig-a015-20200811
-i386                 randconfig-a013-20200811
-i386                 randconfig-a012-20200811
-i386                 randconfig-a014-20200811
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+>   R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
+>   R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
+>   R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Apart from that:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
