@@ -2,222 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCD8B243B2C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 16:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E862243B7F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Aug 2020 16:25:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbgHMOAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Aug 2020 10:00:47 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:16111 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726053AbgHMOAr (ORCPT
+        id S1726529AbgHMOZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Aug 2020 10:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41740 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726082AbgHMOZI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Aug 2020 10:00:47 -0400
-X-IronPort-AV: E=Sophos;i="5.76,308,1592838000"; 
-   d="scan'208";a="54305209"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Aug 2020 23:00:45 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0634B4004CF4;
-        Thu, 13 Aug 2020 23:00:42 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v2] ARM: dts: r8a7742-iwg21d-q7: Add LCD support
-Date:   Thu, 13 Aug 2020 15:00:41 +0100
-Message-Id: <20200813140041.5082-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 13 Aug 2020 10:25:08 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D7EC061757;
+        Thu, 13 Aug 2020 07:25:07 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id p191so3424741ybg.0;
+        Thu, 13 Aug 2020 07:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LxOS0yxf9O0+Zm/ztDeMxh4hKGod7IlFrT/bAFmH7TM=;
+        b=rFrWBs6tw/+UYBqTd1/CBkR7cdjKTuce7LNDUuhR7RUj961k9XTsbmkT5ugdDEFlyT
+         gVjVF06W3bIe2wlMpEAwRi3H9NUAqmMSVkwRuI1FDXvMnLSu8B7HCYvplcB94TNKU8lt
+         G8O7jjnk/1i5esft+Y9LgyCj6iCaxfCn+cYnI9e1MaOts7r1HotEpKETBXx8lzJoI8X0
+         /5/dPNMzCagxfJMnAhRGB7/C7qz+udqLp0dob5TCwJMo26WSb87SWGLvbWHKZZ/hwK15
+         aPm3LOnWEKybfhhQPWY+sPUr4OC95dOFHJd8UCReheiLTmyQqvWys7CpSeQ8zhp6YXWI
+         4bXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LxOS0yxf9O0+Zm/ztDeMxh4hKGod7IlFrT/bAFmH7TM=;
+        b=If5JcVHhYfsLmUGAjmUrLOBlf4u++48GNv31raqyXUrEWiu5XTK9oWvB25Ww9Lc2ma
+         gMVWhBPH2rweM0DvMxaA2ubyks5KxHNuQRN24WVXJ0RfA0CHrQIOfSh6NWjk3iX3MCVJ
+         waep0dk+psR0mS5N3emKVZDAvsCLloF/d2kj4wWeiPwSIzHVGUpVngEg10KOv95DvOlw
+         Xk5Hc4yVj1QCJVhER3MVJVqq19mEANjKsIFrNIvUKzKKeSNmrWbTDxDMpgDwBqt63TQH
+         EqsaPr7dbqiIeB93Ze3mBUFqMMppkNP+V4c69JU+R6BZaTnSfyRz0p7PHjXtlMb7nZ/o
+         A45A==
+X-Gm-Message-State: AOAM531ubftU4aDMXgv80AQ4S8KTQ2AyR9Wkp7iGUbplyNkwY7phOmxT
+        fvZdSgm/7g7rH/YL1fCiF1J/qxh3cw5Slh+ke5FmdVZK
+X-Google-Smtp-Source: ABdhPJwV6EyBG1sjrI53VK3nCnCvlShpks5x4dhz7OlOg/dHOZTrt+GfTsW54Gqq+ZNhR9dwj9H51mTTh2JvzRJFHz4=
+X-Received: by 2002:a25:b74b:: with SMTP id e11mr6889924ybm.395.1597328706845;
+ Thu, 13 Aug 2020 07:25:06 -0700 (PDT)
+MIME-Version: 1.0
+References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200801090456.GB1379367@oden.dyn.berto.se> <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
+ <20200803192108.GB2297236@oden.dyn.berto.se>
+In-Reply-To: <20200803192108.GB2297236@oden.dyn.berto.se>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 13 Aug 2020 15:24:40 +0100
+Message-ID: <CA+V-a8uqf33LXqnc-cV=UU_b1m0xKgrSUS9S8oYnYVz_nwSyUw@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
+ every s_fmt call
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The iwg21d comes with a 7" capacitive touch screen, therefore
-add support for it.
+Hi Hans and Laurent,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
-v1->v2
-* This patch is part of series [1] (rest of the patches have be accepted
-  by Geert [2]).
-* Added regulator for lvds
-* Added reset pin for touchpanel
-* This patch is based on series [3]
+On Mon, Aug 3, 2020 at 8:21 PM Niklas <niklas.soderlund@ragnatech.se> wrote=
+:
+>
+> Hi Lad, Hans,
+>
+> On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
+> > Hi Hans,
+> >
+> > On Sat, Aug 1, 2020 at 10:04 AM Niklas <niklas.soderlund@ragnatech.se> =
+wrote:
+> > >
+> > > Hi Lad,
+> > >
+> > > Thanks for your work.
+> > >
+> > > On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
+> > > > The crop and compose settings for VIN in non mc mode werent updated
+> > > > in s_fmt call this resulted in captured images being clipped.
+> > > >
+> > > > With the below sequence on the third capture where size is set to
+> > > > 640x480 resulted in clipped image of size 320x240.
+> > > >
+> > > > high(640x480) -> low (320x240) -> high (640x480)
+> > > >
+> > > > This patch makes sure the VIN crop and compose settings are updated=
+.
+> > >
+> > > This is clearly an inconsistency in the VIN driver that should be fix=
+ed.
+> > > But I think the none-mc mode implements the correct behavior. That is
+> > > that S_FMT should not modify the crop/compose rectangles other then m=
+ake
+> > > sure they don't go out of bounds. This is an area we tried to clarify=
+ in
+> > > the past but I'm still not sure what the correct answer to.
+> > >
+> > What should be the exact behaviour of the bridge driver  for s_fmt
+> > call. Should the crop/compose settings be updated for every s_fmt
+> > callback or should they be only updated on s_selection callback.
+> > Currently the non-mc rcar-vin doesnt update the crop/compose setting
+> > in s_fmt callback due to which I see the above issue as mentioned.
+>
+> This is not entirely correct. It does update the crop and compose
+> rectangles on s_fmt, it makes sure they are not out-of-bounds for the
+> new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls
+> in the snippet bellow.
+>
+> That being said there is a difference how this is handled in the VIN
+> driver between it's MC and non-MC modes and I would love to learn the
+> correct mode of operation and seeing VIN being updated to doing it
+> correct in both cases. Thanks Lad for dealing with this!
+>
+Can I have your feedback on this please.
 
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/list/
-    ?series=330277
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
-    renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
-[3] https://patchwork.kernel.org/project/linux-renesas-soc/list/
-    ?series=330957
----
- arch/arm/boot/dts/r8a7742-iwg21d-q7.dts | 99 +++++++++++++++++++++++++
- 1 file changed, 99 insertions(+)
-
-diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-index b3461a61a4bf..9bf4fbd9c736 100644
---- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-+++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-@@ -30,6 +30,7 @@
- 
- /dts-v1/;
- #include "r8a7742-iwg21m.dtsi"
-+#include <dt-bindings/pwm/pwm.h>
- 
- / {
- 	model = "iWave Systems RainboW-G21D-Qseven board based on RZ/G1H";
-@@ -52,6 +53,51 @@
- 		clock-frequency = <26000000>;
- 	};
- 
-+	lcd_backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&tpu 2 5000000 0>;
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		pinctrl-0 = <&backlight_pins>;
-+		pinctrl-names = "default";
-+		default-brightness-level = <7>;
-+		enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	lvds-receiver {
-+		compatible = "ti,ds90cf384a", "lvds-decoder";
-+		vcc-supply = <&vcc_3v3_tft1>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				lvds_receiver_in: endpoint {
-+					remote-endpoint = <&lvds0_out>;
-+				};
-+			};
-+			port@1 {
-+				reg = <1>;
-+				lvds_receiver_out: endpoint {
-+					remote-endpoint = <&panel_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	panel {
-+		compatible = "edt,etm0700g0dh6";
-+		backlight = <&lcd_backlight>;
-+		power-supply = <&vcc_3v3_tft1>;
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lvds_receiver_out>;
-+			};
-+		};
-+	};
-+
- 	reg_1p5v: 1p5v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "1P5V";
-@@ -75,6 +121,17 @@
- 		};
- 	};
- 
-+	vcc_3v3_tft1: regulator-panel {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "vcc-3v3-tft1";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		enable-active-high;
-+		startup-delay-us = <500>;
-+		gpio = <&gpio5 28 GPIO_ACTIVE_HIGH>;
-+	};
-+
- 	vcc_sdhi2: regulator-vcc-sdhi2 {
- 		compatible = "regulator-fixed";
- 
-@@ -129,12 +186,34 @@
- 		VDDIO-supply = <&reg_3p3v>;
- 		VDDD-supply = <&reg_1p5v>;
- 	};
-+
-+	touch: touchpanel@38 {
-+		compatible = "edt,edt-ft5406";
-+		reg = <0x38>;
-+		interrupt-parent = <&gpio0>;
-+		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
-+		/* GP1_29 is also shared with audio codec reset pin */
-+		reset-gpios = <&gpio1 29 GPIO_ACTIVE_LOW>;
-+		vcc-supply = <&vcc_3v3_tft1>;
-+	};
- };
- 
- &cmt0 {
- 	status = "okay";
- };
- 
-+&du {
-+	status = "okay";
-+};
-+
-+&gpio0 {
-+	touch-interrupt {
-+		gpio-hog;
-+		gpios = <24 GPIO_ACTIVE_LOW>;
-+		input;
-+	};
-+};
-+
- &hsusb {
- 	pinctrl-0 = <&usb0_pins>;
- 	pinctrl-names = "default";
-@@ -165,6 +244,11 @@
- 		function = "avb";
- 	};
- 
-+	backlight_pins: backlight {
-+		groups = "tpu0_to2";
-+		function = "tpu0";
-+	};
-+
- 	i2c2_pins: i2c2 {
- 		groups = "i2c2_b";
- 		function = "i2c2";
-@@ -208,6 +292,17 @@
- 	};
- };
- 
-+&lvds0 {
-+	status = "okay";
-+	ports {
-+		port@1 {
-+			lvds0_out: endpoint {
-+				remote-endpoint = <&lvds_receiver_in>;
-+			};
-+		};
-+	};
-+};
-+
- &rcar_sound {
- 	pinctrl-0 = <&sound_pins>;
- 	pinctrl-names = "default";
-@@ -261,6 +356,10 @@
- 	shared-pin;
- };
- 
-+&tpu {
-+	status = "okay";
-+};
-+
- &usbphy {
- 	status = "okay";
- };
--- 
-2.17.1
-
+Cheers,
+Prabhakar
+> >
+> > Cheers,
+> > Prabhakar
+> >
+> > > >
+> > > > Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and com=
+pose rectangles in s_fmt")
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
+> > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > ---
+> > > >  drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++++++
+> > > >  1 file changed, 6 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/=
+media/platform/rcar-vin/rcar-v4l2.c
+> > > > index f421e25..a9b13d9 100644
+> > > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > > @@ -319,6 +319,12 @@ static int rvin_s_fmt_vid_cap(struct file *fil=
+e, void *priv,
+> > > >       fmt_rect.width =3D vin->format.width;
+> > > >       fmt_rect.height =3D vin->format.height;
+> > > >
+> > > > +     vin->crop.top =3D 0;
+> > > > +     vin->crop.left =3D 0;
+> > > > +     vin->crop.width =3D vin->format.width;
+> > > > +     vin->crop.height =3D vin->format.height;
+> > > > +     vin->compose =3D vin->crop;
+> > > > +
+> > > >       v4l2_rect_map_inside(&vin->crop, &src_rect);
+> > > >       v4l2_rect_map_inside(&vin->compose, &fmt_rect);
+> > > >       vin->src_rect =3D src_rect;
+> > > > --
+> > > > 2.7.4
+> > > >
+> > >
+> > > --
+> > > Regards,
+> > > Niklas S=C3=B6derlund
+>
+> --
+> Regards,
+> Niklas S=C3=B6derlund
