@@ -2,115 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2416C2445B4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Aug 2020 09:17:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E8F4244B06
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Aug 2020 16:03:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbgHNHPQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Aug 2020 03:15:16 -0400
-Received: from www.zeus03.de ([194.117.254.33]:38676 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726139AbgHNHPF (ORCPT
+        id S1726662AbgHNOD5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Aug 2020 10:03:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726268AbgHNODz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Aug 2020 03:15:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=ZU9imafoyARZmgeI5Co4yxGTIOME
-        Q58g8rPkUCvXOJM=; b=3JdRCJ0CIvT1IxfewxkarbtZMzRmDGd5VBj315vRh1cZ
-        Kuep6UoeHklQgwNBimPhgdVrPVK8i1CslyOhAQcLGqeK1QyZO/Cf67pRSAk4DhVj
-        gSmvvRmTu1GO2+8zOYkkWp4oEC482UkGt8497e3ss0Jt1NZI8Wsb39cFrr4b0zQ=
-Received: (qmail 1671220 invoked from network); 14 Aug 2020 09:15:03 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Aug 2020 09:15:03 +0200
-X-UD-Smtp-Session: l3s3148p1@6HX9LdGskI0gAwDPXwkTAFunKC2j/yWQ
-Date:   Fri, 14 Aug 2020 09:15:00 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: keep SCC clock active when tuning
-Message-ID: <20200814071500.GA9410@ninjato>
-References: <20200604112040.22144-1-wsa+renesas@sang-engineering.com>
- <20200604112040.22144-3-wsa+renesas@sang-engineering.com>
- <TY2PR01MB36923A1D7091431CE3F73195D8850@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <20200608212702.GD917@ninjato>
- <TY2PR01MB3692310754A6B4D6A05DADF0D8820@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Fri, 14 Aug 2020 10:03:55 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B1AFC061384
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Aug 2020 07:03:55 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id v12so10034790ljc.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 14 Aug 2020 07:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=93GgJeOPsEHlXCzZpU0GIvSvnE8x2U0hwUe2Csg/4vY=;
+        b=JWFV+4ihWt7sA2GNrK9mFG7fZDVjvYHL2LuwlNtVIRsJcIlP5jSH0CaesGCTdrRjSq
+         UkDJbs9pSspUJbqFebkJP8OTX0HvaG8F1qOq+MysdtOP/Gty4dPew7Kb3rKhw4Wtew24
+         NnHhvmglhJ89xPKTEw1aw3F3pVZueyqlJduRS8n94zn2JhfHcqqsiCb7jiUR9AQjdbBT
+         JfCthxvMtLmxJP0hl4D7KA9u8VEaTcWZwE3A2csLrFgsQpJTTEC91A9Tc0ZcIB2bhU1N
+         vVsZgXyPp1oIwFN2iOiVeU9lNqHutfWUOpGxYELYVXe68YlTJnI+FH8HIaqUiB97PyuK
+         lBiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=93GgJeOPsEHlXCzZpU0GIvSvnE8x2U0hwUe2Csg/4vY=;
+        b=AHsK2eyav2dXxPDCHiqv/8hZxoZWRRjgRhP7wYddavPGRukrrQUvdYkpDyJhFkdRuv
+         i2lWgE/Tbhd5zu4fAkxpuUQuuHBmgPQdW3Cq9aAOoKuIchcJ/oMnL5of3D+it1pH/JRW
+         RL1MSKchJqeJwTr9VNX7Oqq1lI3iMcs547fHC3ebp2bSL7Ll94yr1QrRA/zEmfEGRRQp
+         c/OfCUP5dScyGpOeLwsqpv7MzBklKfrLLsGUPAgqyujDk7hJ4O4IGYcFOCByUZXEmBsM
+         dXvOS4idbgm8R5glwT5jOl5MGRFDzmoz1hFoxjpn8zHRxLXVg9LV6AuwUD8rWHoWP9d6
+         vAxg==
+X-Gm-Message-State: AOAM531rIdRa+nScGoRMEVVt9W9Z6KdExHjrKQiJKGM0LdybXQXp4HUk
+        LBZM2qyerx82bKZ32pI8lh3KldKxB8QBaxL+a6q1JA==
+X-Google-Smtp-Source: ABdhPJy7CbwaLYwOUyPaLN7vIIiorxP2p4IsG1qwplDbAE9cX6Xaar7oBqEaxMEoHvTk0VkVJArd9jf+RSLh9We6OAc=
+X-Received: by 2002:a2e:90e:: with SMTP id 14mr1436078ljj.293.1597413833107;
+ Fri, 14 Aug 2020 07:03:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB3692310754A6B4D6A05DADF0D8820@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200706150205.22053-1-geert+renesas@glider.be>
+ <CACRpkdZD3gVLdcjaOL9ZCfZD+hrOUB0-q0NpoHu6m1Ujupw6Fw@mail.gmail.com>
+ <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com>
+ <CACRpkdbxQrmNtByZ1cHSROyX7rwwaa2Mb=GQLpVcDi4FsZ06FQ@mail.gmail.com> <159546718359.3847286.13460778905630969897@swboyd.mtv.corp.google.com>
+In-Reply-To: <159546718359.3847286.13460778905630969897@swboyd.mtv.corp.google.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 14 Aug 2020 16:03:41 +0200
+Message-ID: <CACRpkdaN22OjWsG+d-hp_NEw==3VVAsWHkFsiG642KmbjD_6Mg@mail.gmail.com>
+Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from DTB
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Kumar Gala <kumar.gala@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Thu, Jul 23, 2020 at 3:19 AM Stephen Boyd <sboyd@kernel.org> wrote:
 
---J2SCkAp4GZ/dPZZf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > textofs-$(CONFIG_ARCH_IPQ40XX) := 0x00208000
+> > > textofs-$(CONFIG_ARCH_MSM8X60) := 0x00208000
+> > > textofs-$(CONFIG_ARCH_MSM8960) := 0x00208000
+> >
+> > But what on earth is this? I just deleted this and the platform
+> > boots just as well.
+>
+> We need to shift the kernel text to start 2MB beyond the start of memory
+> because there is the shared memory region used to communicate with other
+> processors in the SoC there. It took a while for us to convince other OS
+> folks in the company to put shared memory somewhere else besides the
+> start of RAM, but eventually we won that battle.
+>
+> Does your booted kernel have its text section at the start of RAM or is
+> it offset by 2MB without this change? Check out /proc/iomem to see where
+> the kernel text is in relation to the start of RAM.
 
-Hi Shimoda-san,tftp 0x58000000 r8a77965-salvator-xs.dtb; tftp 0x50000000 Im=
-age-m3n-wsa; booti 0x50000000 - 0x58000000
+The memory on this machine starts at 0x40200000 since the effect
+of the current code is to take pc &= 0xf8000000 and that results in
+0x40000000 and then this adds textofs 0x00208000 to that
+resulting in 0x40208000 for the kernel physical RAM. Which
+is what we want to achieve since the RAM starts at
+0x40200000.
 
-> > > > +	/* Tuning done, no special handling for SCC clock needed anymore =
-*/
-> > > > +	priv->keep_scc_freq =3D false;
-> > > > +
-> > >
-> > > Setting keep_scc_freq to false is only here. But, I'm thinking
-> > > we should set it in some error paths like below somehow too:
-> > >  - error paths before hs400_complete() in mmc_select_hs400().
-> > >  - error path of mmc_execute_tuning() in mmc_retune().
-> >=20
-> > Hmm, I guess you are right. That would kind of spoil my approach taken
-> > here. Maybe we need another flag in the core like 'doing_tune' to
-> > supplement 'doing_retune', so or driver knows when any kind of tuning is
-> > going on?
->=20
-> Adding such a new flag is better, I think.
+But TEXT_OFFSET is also used inside the kernel to offset the
+virtual memory. This means that when we set up the virtual
+memory split, the kernel virtual memory is also bumped by
+these 2 MB so the virtual memory starts at 0xC0208000
+instead of 0xC0008000 as is normal.
 
-So, I added a flag to the MMC core and I think it should work. However,
-I can't test it currently because, sadly, the issue disappeared again :(
+It looks weird to me but maybe someone can explain how
+logical that is?
 
-I even can't reproduce the issue with the same codebase and config which
-I used when I was working last time on it. And back then, the issue was
-happening. I am at a loss currently what really triggers this hang.
-
-I added some code to enforce reading something from the SCC with the
-hclk disabled. However, that reading works fine today here, no hang.
-
-So, it seems that keeping hclk enabled will fix the hang. However, it
-doesn't look like it will hang just when we allow to disable it. Seems
-something else is part of the equation, too...
-
-I kept trying to figure this out for the last two days, but no success
-so far. Will keep you updated.
-
-Thanks,
-
-   Wolfram
-
-
---J2SCkAp4GZ/dPZZf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl82OfAACgkQFA3kzBSg
-KbZMMg/+L33xWIdwYP0gtUMpfnMOY54bVtzTaJ4pswSVDxBR9CHlfNA4kd/L+7xe
-F02p3fXegQA15o42aescBFnp/xp8fgupq9WbI7cwFHxsKTRIAbL5zvd/D5hwTz9c
-Hcf/6XCYE0S0DlnuwT/+osVy60erd5jYUHcA5NS9L/Q7o8mhjmy/sH/PKmztPWOq
-PfApraWyi90CZwKe1eG7nDvuI65GZEi89gZxViyvzDdbFQRXENqQZZ2zLXHza72R
-dU3eGGYd8v3aybnuLGoJgNNLP41GVobIdC6NHAkLqoTjoCaLR8BQ5aoJtOmOMB24
-PWdGyO75uDPGHV4inMF+4f80UrxO6KbxxhSBWQ3AcVo/zt9rwgRjSgQ9ReA1Gm3/
-YWVHFN6zW4CdLL8dUkGW1KW9ahqGWtZhUhHusp+B+ZA0/DLTAFlid4bv1RK+NNDT
-pfDd1Wuxtex/HCsN09RoSjAly1eCY7KnWqMMrTCp2zQ9+oth0WhzVKATTvntnBsT
-/xlek8laql6urGt1M4+h4IUL/SBE/FzR/zm5jmhlmC1/uUCCSz2vHHJ5XRIdfpQj
-HDvVXf1B/GAQP3S2erasOKvtbpdhmAGsd7Zjrk1xR1QMfXKPIidWUEBGzs2eL7VU
-3mS9ESTrsvovvYvEbPzZD5IipJvUOjY/6rMzkGZgXyOh+uW2RFc=
-=LzUq
------END PGP SIGNATURE-----
-
---J2SCkAp4GZ/dPZZf--
+Yours,
+Linus Walleij
