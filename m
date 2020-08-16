@@ -2,88 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 841D924537E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Aug 2020 00:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B05624582D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Aug 2020 16:32:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728760AbgHOVvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Aug 2020 17:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45624 "EHLO
+        id S1726229AbgHPOci (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 Aug 2020 10:32:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726598AbgHOVvK (ORCPT
+        with ESMTP id S1729640AbgHPObg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Aug 2020 17:51:10 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29A3DC03B3D8
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Aug 2020 02:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Y1H4KExg+Xxb97SUH1b1DBcijfRUO6lVoBXvieHFdbo=; b=fDTuEkmopPzKN+Nf+a5xb5WIe
-        iB/WKM08ObT8zzPqMRIFh7z1pZcSOrM9N0SB0OrEK6KndpD6FIzAlV8VrUl3b0JOJJ/OJGFygRQ6q
-        CxYtRKLMBTJAOtBC35WJGLUmtZZtsdYPeBbpld7zs/Mw4vGcHHTqLucoYhYQO5FryFqSdf6vzuqYL
-        dhYmYUTD9oXOGqJeF6Yx5FBjNcPTYiRVJ4+1VtXCNMyKiEcKvOASxPj9DEe2wBrvXrYUtQaCaWZrt
-        0QheXGiOStQ0vUn2dbqJcDgZH+837vZ285c7g0LP9nm11sSfrDRAPIZqOH3OTNhhllA80bcN4iqfw
-        fbctn1Lcw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52758)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1k6sIc-0005Dj-ND; Sat, 15 Aug 2020 10:16:26 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1k6sIX-0006hf-1w; Sat, 15 Aug 2020 10:16:21 +0100
-Date:   Sat, 15 Aug 2020 10:16:21 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Kumar Gala <kumar.gala@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Eric Miao <eric.miao@nvidia.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [PATCH/RFC v7] ARM: boot: Obtain start of physical memory from
- DTB
-Message-ID: <20200815091620.GV1551@shell.armlinux.org.uk>
-References: <20200706150205.22053-1-geert+renesas@glider.be>
- <CACRpkdZD3gVLdcjaOL9ZCfZD+hrOUB0-q0NpoHu6m1Ujupw6Fw@mail.gmail.com>
- <CAK8P3a33AWe-fa8jJnRrme56Hgc-hLdNH4FK6FEPyZ0=O=vwtg@mail.gmail.com>
- <CACRpkdbxQrmNtByZ1cHSROyX7rwwaa2Mb=GQLpVcDi4FsZ06FQ@mail.gmail.com>
- <159546718359.3847286.13460778905630969897@swboyd.mtv.corp.google.com>
- <CACRpkdaN22OjWsG+d-hp_NEw==3VVAsWHkFsiG642KmbjD_6Mg@mail.gmail.com>
+        Sun, 16 Aug 2020 10:31:36 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20FA2C0612F1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Aug 2020 07:28:39 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id d190so11261777wmd.4
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 16 Aug 2020 07:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
+         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
+         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
+         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
+         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
+         yMKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
+        b=ctGST5Pipe0MH3YMWoYwemgRmvCf1EJMQdcTkObm9GLnTnPe4In6wmv5jzUzmkAIQa
+         8g8Hzg4macGqtmXHKYU51W24jnKa5Uvocw4x87uPm4eKBhGT4T1sCdNbRMo5Kr73D1d0
+         THRvUx6vOm6rDqINuE0MEbEMWP3yc76VdTZ68D/fRv9T6kHJtDA41PXvhaxrLC3ug5ib
+         t+a2bFtihM1Lg/wTdeuRg3JdbGoh9s5GS/3iL11VaNk36o+MkWRoS566cKQHetOsps+l
+         od1ZcojHmxYquql5Fqei9CIsffroaLoV07fZOfoiYv/1coJRM8/Ofni4XJWmpQIL3aHs
+         lPMA==
+X-Gm-Message-State: AOAM530MHU3v/ATi0qA6oIJL8++VYXiV/SP5eryMeyvKtJyUjN5GgSV1
+        DqglPA0hxiLv71qag5p0T/6y7wqVGonQkkYeIH0uGynsVpM=
+X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
+X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
+ Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdaN22OjWsG+d-hp_NEw==3VVAsWHkFsiG642KmbjD_6Mg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
+ -0700 (PDT)
+Reply-To: sctnld11170@tlen.pl
+From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
+Date:   Sun, 16 Aug 2020 07:28:30 -0700
+Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
+Subject: Hello, Please
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 04:03:41PM +0200, Linus Walleij wrote:
-> But TEXT_OFFSET is also used inside the kernel to offset the
-> virtual memory. This means that when we set up the virtual
-> memory split, the kernel virtual memory is also bumped by
-> these 2 MB so the virtual memory starts at 0xC0208000
-> instead of 0xC0008000 as is normal.
+--=20
+Dear Friend,
 
-No.  Virtual memory starts without the 32KiB offset.  The L1 swapper
-page table starts 16KiB below (or slightly more if LPAE) for example.
+I'm Mr. Scott Donald a Successful businessMan dealing with
+Exportation, I got your mail contact through search to let you know my
+intension and my Ugly Situation Am a dying Man here in Los Angeles
+California Hospital Bed in (USA), I Lost my Wife and my only Daughter
+for Covid-19 and I also have a problem in my Health and I can die
+anytime I Know,
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+I have a project that I am about to hand over to you. and I already
+instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
+of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
+able you
+to give 50% of this fund to Charitable Home in your State and take 50%
+don't think otherwise and why would anybody send someone you barely
+know to help you deliver a message, help me do this for the happiness
+of my soul and for God to mercy me and my Family and give Us a good
+place.
+
+please, do as I said there was someone from your State that I deeply
+love so very very much and I miss her so badly I have no means to
+reach any Charitable Home there. that is why I go for a personal
+search of the Country and State and I got your mail contact through
+search to let you know my Bitterness and please, help me is getting
+Dark I ask my Doctor to help me keep you notice failure for me to
+reach you in person Your urgent Response, here is my Doctor Whats-app
+Number for urgent notice +13019692737
+
+Hope To Hear From You. I'm sending this email to you for the second
+time yet no response from you.
+
+My Regards.
+
+Mr. Scott Donald
+CEO
