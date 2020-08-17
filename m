@@ -2,186 +2,499 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6746247A58
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 00:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54244247B13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 01:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728638AbgHQWUa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Aug 2020 18:20:30 -0400
-Received: from mail-dm6nam10on2074.outbound.protection.outlook.com ([40.107.93.74]:5441
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728512AbgHQWU3 (ORCPT
+        id S1726273AbgHQXc7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Aug 2020 19:32:59 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:33043 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbgHQXc6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Aug 2020 18:20:29 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YY4HUTzxK7qtfVHkFvR8w5CeZvIteWNq+0ueU0fosb6irCurq3KVRWkzMXWXDvBAGIcLBBgV+dcTfmuCB/YjhK66HqryB7Z/0vP2pEgKzID8Z4MOTld+ods8TuTqZAYYnUtEKKLuLSPKS/ikEj6iEt/lbPSJsET5eSlpthmiPfQfZ2Q8L9YzFi1CxWqaPwsj131EiKjpne4Iogeeds8YJzVFpibu+lvmzgtlBWdqNKbvUC8BUdVLzNEagii+M3H16o4mwT8KwGIAge9RaBAaddr7VzIqfQez6mqN4tS96VIWcG4yR6f94D5Ca9DBp8AZq1XDedT+UQizkXRVqeMmdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hioMwHOE4j9zeZjYslsqsV6u5rLTPuq6KncbYIgQZuQ=;
- b=cX6HhVUvcEvhxtAuTOoS8/fvhwRivu1kEET6BW2TIbtbuDYxsEwZhN7sETJqrJTWUcmorKodKtkfyP0oFjd7cinyBIPE+awrZHH5bxO9uKmYJ6QvPT7Gd1ikEwvm+dkWxKK3U2mEA7XTFW+wL5mB84N0f92k4uy8DzXGOy6ZwK0ccrCsR1WSQjwmFwsjrXXPYePJvJaqYX+3jGI1VdmeW4MODkmnTk3P3bjZuy9YUtA6fzFbVfYgswIpMpLJT9zcVBEiCenUa5nFiyv0dqdqf9aVLmHYSZQiX7z0zVNFMfN/zaUKgeiWS9++UyVJ9UAxrChi4nDBYMgiCy8TyZ19Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hioMwHOE4j9zeZjYslsqsV6u5rLTPuq6KncbYIgQZuQ=;
- b=jU6cu30mbO72S4YEJVKU5AhwRK7HuT5JOU8Olq0qIj0afk2qGc6nkFg53W5ry7bwICchxFhQ8Uor9Tk4R9Iqr5CFQUws/XKpMCkjqQUz1r88id5egsr7xTaARyqGltzuSoEHGfIG0QlVe2tJgpapjAYHPb965OZQ0iEW23EgZA8=
-Received: from SN6PR16CA0043.namprd16.prod.outlook.com (2603:10b6:805:ca::20)
- by BN7PR02MB5155.namprd02.prod.outlook.com (2603:10b6:408:22::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16; Mon, 17 Aug
- 2020 22:20:25 +0000
-Received: from SN1NAM02FT0023.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:ca:cafe::d2) by SN6PR16CA0043.outlook.office365.com
- (2603:10b6:805:ca::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15 via Frontend
- Transport; Mon, 17 Aug 2020 22:20:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT0023.mail.protection.outlook.com (10.97.4.236) with Microsoft SMTP
- Server id 15.20.3283.16 via Frontend Transport; Mon, 17 Aug 2020 22:20:25
- +0000
-Received: from [149.199.38.66] (port=40145 helo=smtp.xilinx.com)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1k7nU8-0007E5-29; Mon, 17 Aug 2020 15:20:08 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by smtp.xilinx.com with smtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1k7nUO-0001Pj-PA; Mon, 17 Aug 2020 15:20:24 -0700
-Received: from [172.19.2.244] (helo=xsjhyunkubuntu)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <hyun.kwon@xilinx.com>)
-        id 1k7nUI-0001FI-Ak; Mon, 17 Aug 2020 15:20:18 -0700
-Received: by xsjhyunkubuntu (Postfix, from userid 13638)
-        id F172B2C69AC; Mon, 17 Aug 2020 15:15:05 -0700 (PDT)
-Date:   Mon, 17 Aug 2020 15:15:05 -0700
-From:   Hyun Kwon <hyun.kwon@xilinx.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH 4/4] media: i2c: max9286: Remove cached formats
-Message-ID: <20200817221505.GA21736@xilinx.com>
-References: <20200817143540.247340-1-jacopo+renesas@jmondi.org>
- <20200817143540.247340-5-jacopo+renesas@jmondi.org>
+        Mon, 17 Aug 2020 19:32:58 -0400
+Received: by mail-io1-f68.google.com with SMTP id g14so19473045iom.0;
+        Mon, 17 Aug 2020 16:32:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TliBBs49PxxJeVx6PSVJhsEpUCCZ6CIhQ5FYvHGYvI4=;
+        b=G1OjU0c3rmw0OkjMJYqc+1PfvvYvfw/ItvPOzX+KX+SiA9GOVeaDcmKo7NQOljnqIM
+         tXQA5buvxxzF+AroMqSfJn36J67lguT4ama0jE9Pm4tpg45Cr/XkYI/Y4eO5FI+VPZm2
+         ChviYrZokMb8EMhUWAjvDeLpa6jzUJ4wLbwELEgm3Xu6KA73M+mQJRcHo0X688jcxtBi
+         GkyIA4fnjFXew5rRgBjKU80laoKlgJ2L6Grtw2A2dus79ZoExxQwnNZamdRG1d66T9kn
+         yvlthOpVQBOdfbtvgXuBbw/SqQIRLJCErMYXaufcTvdtPlSWrVSRbMMfoDfSws6gpAau
+         /+pg==
+X-Gm-Message-State: AOAM531Vka8RKjWnfxQOKROf6nDjNscM0ACaF/Ti/C1c4ZEcIxQUsDNO
+        2GOAUYN2IT5JEDSQdT5pg2pCFwiwyA==
+X-Google-Smtp-Source: ABdhPJxpyD4zPGfs4+2sglGjtjqXzNuQ0NspmIuWa3Dz/CMyuwneV9wbvChsbf15wHOwOCdZFCbzzQ==
+X-Received: by 2002:a02:7786:: with SMTP id g128mr16134784jac.45.1597707176355;
+        Mon, 17 Aug 2020 16:32:56 -0700 (PDT)
+Received: from xps15 ([64.188.179.249])
+        by smtp.gmail.com with ESMTPSA id y8sm9924502iom.26.2020.08.17.16.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 16:32:55 -0700 (PDT)
+Received: (nullmailer pid 1876798 invoked by uid 1000);
+        Mon, 17 Aug 2020 23:32:53 -0000
+Date:   Mon, 17 Aug 2020 17:32:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH/RFC v2] dt-bindings: pinctrl: sh-pfc: Convert to
+ json-schema
+Message-ID: <20200817233253.GA1819982@bogus>
+References: <20200807141345.6714-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200817143540.247340-5-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 774806e7-6474-40a3-f53a-08d842fbbd28
-X-MS-TrafficTypeDiagnostic: BN7PR02MB5155:
-X-Microsoft-Antispam-PRVS: <BN7PR02MB51558AB704B85E21D740CD32D65F0@BN7PR02MB5155.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PY9hvcwxxhkjW1RrvCRxZWtsGHi4NBdg2Gdso2N8kBqWx9O7cRQWs3JqxD4bJeVgrmh1V7mmXRG5+R0l+f64+HHRfZdw2YA626qpFfiSS14aRM3qw5m44ei/Qk/qarZ9PCcc4RSTd78C7YnWS/7FzVIo7rnfS7L6368Elnlp7666ttfnWy2ejSGwQktvJYx8ERvdpG4Wj8ajfJ6FOWgUltlRhEYldlCffKM/br8Bn2LDManPbyOJyDBidHDVH/rx9H7hmYzv5LuDPP+hQTtkuz6NLS4jXcQylGRvCqEkljjIak+w/OPlAm6+3C7jh65H6wdPkTMBm4GE1nLoJL9De+HlDCFSo7v7cXZ5chF64ijJl/V8cjcpPELHrpe1YFTwJ2G5srp0zetaRmsOu+NanA==
-X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFS:(136003)(346002)(396003)(376002)(39860400002)(46966005)(4326008)(8936002)(2906002)(26005)(70206006)(1076003)(36756003)(426003)(54906003)(478600001)(2616005)(44832011)(186003)(82740400003)(81166007)(8676002)(316002)(42186006)(6266002)(336012)(7416002)(70586007)(33656002)(5660300002)(82310400002)(356005)(83380400001)(47076004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2020 22:20:25.0657
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 774806e7-6474-40a3-f53a-08d842fbbd28
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0023.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB5155
+In-Reply-To: <20200807141345.6714-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-Thanks for sharing!
-
-On Mon, Aug 17, 2020 at 07:35:40AM -0700, Jacopo Mondi wrote:
-> Now that the image stream formats are retrieved from the remote
-> sources there's no need to cache them in the driver structure.
+On Fri, Aug 07, 2020 at 04:13:45PM +0200, Geert Uytterhoeven wrote:
+> Convert the Renesas Pin Function Controller (PFC) Device Tree binding
+> documentation to json-schema.
 > 
-> Remove the cached mbus frame formats and their initialization.
+> Document missing properties.
+> Drop deprecated and obsolete #gpio-range-cells property.
+> Update the example to match reality.
+> Drop consumer examples, as they do not belong here.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/media/i2c/max9286.c | 17 -----------------
->  1 file changed, 17 deletions(-)
+> Still RFC, due to the FIXMEs near the enum descriptions.
+> If I enable the enums checks, I get e.g.:
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index a4e23396c4b6..97dfee767bbf 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -160,8 +160,6 @@ struct max9286_priv {
->  	struct v4l2_ctrl_handler ctrls;
->  	struct v4l2_ctrl *pixelrate;
->  
-> -	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
-> -
->  	/* Protects controls and fmt structures */
->  	struct mutex mutex;
->  
-> @@ -758,18 +756,6 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
->  	.pad		= &max9286_pad_ops,
->  };
->  
-> -static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
-> -{
-> -	fmt->width		= 1280;
-> -	fmt->height		= 800;
-> -	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
-
-There's one more hardcoded place left. This had some implication on output
-format, MAX9286_DATATYPE_YUV422_8BIT, which is programmed at 0x12.
-Now, this patch set can potentially result in a mismatch between bus format
-and acutal programmed format.
-
-Thanks,
--hyun
-
-> -	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
-> -	fmt->field		= V4L2_FIELD_NONE;
-> -	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
-> -	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
-> -	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
-> -}
-> -
->  static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
->  {
->  	struct max9286_priv *priv = sd_to_max9286(subdev);
-> @@ -834,9 +820,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
->  
->  	/* Configure V4L2 for the MAX9286 itself */
->  
-> -	for (i = 0; i < MAX9286_N_SINKS; i++)
-> -		max9286_init_format(&priv->fmt[i]);
-> -
->  	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
->  	priv->sd.internal_ops = &max9286_subdev_internal_ops;
->  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> -- 
-> 2.27.0
+>     [[1800]] is not one of [1800, 3300]
 > 
+> Note the double square brackets around 1800.
+> The usual error message doesn't have them, e.g.:
+> 
+>     2000 is not one of [1800, 3300]
+> 
+> So this looks like a bug in the tooling?
+
+Yes, we only recently started supporting schemas under 
+'additionalProperties', but failed to apply fixups.
+
+I have a fix I'm testing out. I'm bumping the version requirement in 
+5.10, so I'll make sure it is there.
+> 
+> v2:
+>   - Add missing "input" property for subnodes,
+>   - Rebase on top of:
+>       - "dt-bindings: pinctrl: sh-pfc: Document r8a7742 PFC support",
+>       - "dt-bindings: pinctrl: sh-pfc: Document r8a774e1 PFC support",
+>   - Describe pin configuration subnodes.
+> ---
+>  .../bindings/pinctrl/renesas,pfc-pinctrl.txt  | 188 ------------------
+>  .../bindings/pinctrl/renesas,pfc.yaml         | 178 +++++++++++++++++
+>  2 files changed, 178 insertions(+), 188 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
+>  create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
+> deleted file mode 100644
+> index d75476e245140c4a..0000000000000000
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
+> +++ /dev/null
+> @@ -1,188 +0,0 @@
+> -* Renesas Pin Function Controller (GPIO and Pin Mux/Config)
+> -
+> -The Pin Function Controller (PFC) is a Pin Mux/Config controller. On SH73A0,
+> -R8A73A4 and R8A7740 it also acts as a GPIO controller.
+> -
+> -
+> -Pin Control
+> ------------
+> -
+> -Required Properties:
+> -
+> -  - compatible: should be one of the following.
+> -    - "renesas,pfc-emev2": for EMEV2 (EMMA Mobile EV2) compatible pin-controller.
+> -    - "renesas,pfc-r8a73a4": for R8A73A4 (R-Mobile APE6) compatible pin-controller.
+> -    - "renesas,pfc-r8a7740": for R8A7740 (R-Mobile A1) compatible pin-controller.
+> -    - "renesas,pfc-r8a7742": for R8A7742 (RZ/G1H) compatible pin-controller.
+> -    - "renesas,pfc-r8a7743": for R8A7743 (RZ/G1M) compatible pin-controller.
+> -    - "renesas,pfc-r8a7744": for R8A7744 (RZ/G1N) compatible pin-controller.
+> -    - "renesas,pfc-r8a7745": for R8A7745 (RZ/G1E) compatible pin-controller.
+> -    - "renesas,pfc-r8a77470": for R8A77470 (RZ/G1C) compatible pin-controller.
+> -    - "renesas,pfc-r8a774a1": for R8A774A1 (RZ/G2M) compatible pin-controller.
+> -    - "renesas,pfc-r8a774b1": for R8A774B1 (RZ/G2N) compatible pin-controller.
+> -    - "renesas,pfc-r8a774c0": for R8A774C0 (RZ/G2E) compatible pin-controller.
+> -    - "renesas,pfc-r8a774e1": for R8A774E1 (RZ/G2H) compatible pin-controller.
+> -    - "renesas,pfc-r8a7778": for R8A7778 (R-Car M1) compatible pin-controller.
+> -    - "renesas,pfc-r8a7779": for R8A7779 (R-Car H1) compatible pin-controller.
+> -    - "renesas,pfc-r8a7790": for R8A7790 (R-Car H2) compatible pin-controller.
+> -    - "renesas,pfc-r8a7791": for R8A7791 (R-Car M2-W) compatible pin-controller.
+> -    - "renesas,pfc-r8a7792": for R8A7792 (R-Car V2H) compatible pin-controller.
+> -    - "renesas,pfc-r8a7793": for R8A7793 (R-Car M2-N) compatible pin-controller.
+> -    - "renesas,pfc-r8a7794": for R8A7794 (R-Car E2) compatible pin-controller.
+> -    - "renesas,pfc-r8a7795": for R8A7795 (R-Car H3) compatible pin-controller.
+> -    - "renesas,pfc-r8a7796": for R8A77960 (R-Car M3-W) compatible pin-controller.
+> -    - "renesas,pfc-r8a77961": for R8A77961 (R-Car M3-W+) compatible pin-controller.
+> -    - "renesas,pfc-r8a77965": for R8A77965 (R-Car M3-N) compatible pin-controller.
+> -    - "renesas,pfc-r8a77970": for R8A77970 (R-Car V3M) compatible pin-controller.
+> -    - "renesas,pfc-r8a77980": for R8A77980 (R-Car V3H) compatible pin-controller.
+> -    - "renesas,pfc-r8a77990": for R8A77990 (R-Car E3) compatible pin-controller.
+> -    - "renesas,pfc-r8a77995": for R8A77995 (R-Car D3) compatible pin-controller.
+> -    - "renesas,pfc-sh73a0": for SH73A0 (SH-Mobile AG5) compatible pin-controller.
+> -
+> -  - reg: Base address and length of each memory resource used by the pin
+> -    controller hardware module.
+> -
+> -Optional properties:
+> -
+> -  - #gpio-range-cells: Mandatory when the PFC doesn't handle GPIO, forbidden
+> -    otherwise. Should be 3.
+> -
+> -  - interrupts-extended: Specify the interrupts associated with external
+> -    IRQ pins. This property is mandatory when the PFC handles GPIOs and
+> -    forbidden otherwise. When specified, it must contain one interrupt per
+> -    external IRQ, sorted by external IRQ number.
+> -
+> -The PFC node also acts as a container for pin configuration nodes. Please refer
+> -to pinctrl-bindings.txt in this directory for the definition of the term "pin
+> -configuration node" and for the common pinctrl bindings used by client devices.
+> -
+> -Each pin configuration node represents a desired configuration for a pin, a
+> -pin group, or a list of pins or pin groups. The configuration can include the
+> -function to select on those pin(s) and pin configuration parameters (such as
+> -pull-up and pull-down).
+> -
+> -Pin configuration nodes contain pin configuration properties, either directly
+> -or grouped in child subnodes. Both pin muxing and configuration parameters can
+> -be grouped in that way and referenced as a single pin configuration node by
+> -client devices.
+> -
+> -A configuration node or subnode must reference at least one pin (through the
+> -pins or pin groups properties) and contain at least a function or one
+> -configuration parameter. When the function is present only pin groups can be
+> -used to reference pins.
+> -
+> -All pin configuration nodes and subnodes names are ignored. All of those nodes
+> -are parsed through phandles and processed purely based on their content.
+> -
+> -Pin Configuration Node Properties:
+> -
+> -- pins : An array of strings, each string containing the name of a pin.
+> -- groups : An array of strings, each string containing the name of a pin
+> -  group.
+> -
+> -- function: A string containing the name of the function to mux to the pin
+> -  group(s) specified by the groups property.
+> -
+> -  Valid values for pin, group and function names can be found in the group and
+> -  function arrays of the PFC data file corresponding to the SoC
+> -  (drivers/pinctrl/sh-pfc/pfc-*.c)
+> -
+> -The pin configuration parameters use the generic pinconf bindings defined in
+> -pinctrl-bindings.txt in this directory. The supported parameters are
+> -bias-disable, bias-pull-up, bias-pull-down, drive-strength and power-source. For
+> -pins that have a configurable I/O voltage, the power-source value should be the
+> -nominal I/O voltage in millivolts.
+> -
+> -
+> -GPIO
+> -----
+> -
+> -On SH73A0, R8A73A4 and R8A7740 the PFC node is also a GPIO controller node.
+> -
+> -Required Properties:
+> -
+> -  - gpio-controller: Marks the device node as a gpio controller.
+> -
+> -  - #gpio-cells: Should be 2. The first cell is the GPIO number and the second
+> -    cell specifies GPIO flags, as defined in <dt-bindings/gpio/gpio.h>. Only the
+> -    GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags are supported.
+> -
+> -The syntax of the gpio specifier used by client nodes should be the following
+> -with values derived from the SoC user manual.
+> -
+> -  <[phandle of the gpio controller node]
+> -   [pin number within the gpio controller]
+> -   [flags]>
+> -
+> -On other mach-shmobile platforms GPIO is handled by the gpio-rcar driver.
+> -Please refer to Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> -for documentation of the GPIO device tree bindings on those platforms.
+> -
+> -
+> -Examples
+> ---------
+> -
+> -Example 1: SH73A0 (SH-Mobile AG5) pin controller node
+> -
+> -	pfc: pin-controller@e6050000 {
+> -		compatible = "renesas,pfc-sh73a0";
+> -		reg = <0xe6050000 0x8000>,
+> -		      <0xe605801c 0x1c>;
+> -		gpio-controller;
+> -		#gpio-cells = <2>;
+> -		interrupts-extended =
+> -			<&irqpin0 0 0>, <&irqpin0 1 0>, <&irqpin0 2 0>, <&irqpin0 3 0>,
+> -			<&irqpin0 4 0>, <&irqpin0 5 0>, <&irqpin0 6 0>, <&irqpin0 7 0>,
+> -			<&irqpin1 0 0>, <&irqpin1 1 0>, <&irqpin1 2 0>, <&irqpin1 3 0>,
+> -			<&irqpin1 4 0>, <&irqpin1 5 0>, <&irqpin1 6 0>, <&irqpin1 7 0>,
+> -			<&irqpin2 0 0>, <&irqpin2 1 0>, <&irqpin2 2 0>, <&irqpin2 3 0>,
+> -			<&irqpin2 4 0>, <&irqpin2 5 0>, <&irqpin2 6 0>, <&irqpin2 7 0>,
+> -			<&irqpin3 0 0>, <&irqpin3 1 0>, <&irqpin3 2 0>, <&irqpin3 3 0>,
+> -			<&irqpin3 4 0>, <&irqpin3 5 0>, <&irqpin3 6 0>, <&irqpin3 7 0>;
+> -	};
+> -
+> -Example 2: A GPIO LED node that references a GPIO
+> -
+> -	#include <dt-bindings/gpio/gpio.h>
+> -
+> -	leds {
+> -		compatible = "gpio-leds";
+> -		led1 {
+> -			gpios = <&pfc 20 GPIO_ACTIVE_LOW>;
+> -		};
+> -	};
+> -
+> -Example 3: KZM-A9-GT (SH-Mobile AG5) default pin state hog and pin control maps
+> -           for the MMCIF and SCIFA4 devices
+> -
+> -	&pfc {
+> -		pinctrl-0 = <&scifa4_pins>;
+> -		pinctrl-names = "default";
+> -
+> -		mmcif_pins: mmcif {
+> -			mux {
+> -				groups = "mmc0_data8_0", "mmc0_ctrl_0";
+> -				function = "mmc0";
+> -			};
+> -			cfg {
+> -				groups = "mmc0_data8_0";
+> -				pins = "PORT279";
+> -				bias-pull-up;
+> -			};
+> -		};
+> -
+> -		scifa4_pins: scifa4 {
+> -			groups = "scifa4_data", "scifa4_ctrl";
+> -			function = "scifa4";
+> -		};
+> -	};
+> -
+> -Example 4: KZM-A9-GT (SH-Mobile AG5) default pin state for the MMCIF device
+> -
+> -	&mmcif {
+> -		pinctrl-0 = <&mmcif_pins>;
+> -		pinctrl-names = "default";
+> -
+> -		bus-width = <8>;
+> -		vmmc-supply = <&reg_1p8v>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> new file mode 100644
+> index 0000000000000000..d942e6576efbdcfb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> @@ -0,0 +1,178 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/pinctrl/renesas,pfc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas Pin Function Controller (GPIO and Pin Mux/Config)
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +description:
+> +  The Pin Function Controller (PFC) is a Pin Mux/Config controller.
+> +  On SH/R-Mobile SoCs it also acts as a GPIO controller.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,pfc-emev2       # EMMA Mobile EV2
+> +      - renesas,pfc-r8a73a4     # R-Mobile APE6
+> +      - renesas,pfc-r8a7740     # R-Mobile A1
+> +      - renesas,pfc-r8a7742     # RZ/G1H
+> +      - renesas,pfc-r8a7743     # RZ/G1M
+> +      - renesas,pfc-r8a7744     # RZ/G1N
+> +      - renesas,pfc-r8a7745     # RZ/G1E
+> +      - renesas,pfc-r8a77470    # RZ/G1C
+> +      - renesas,pfc-r8a774a1    # RZ/G2M
+> +      - renesas,pfc-r8a774b1    # RZ/G2N
+> +      - renesas,pfc-r8a774c0    # RZ/G2E
+> +      - renesas,pfc-r8a774e1    # RZ/G2H
+> +      - renesas,pfc-r8a7778     # R-Car M1
+> +      - renesas,pfc-r8a7779     # R-Car H1
+> +      - renesas,pfc-r8a7790     # R-Car H2
+> +      - renesas,pfc-r8a7791     # R-Car M2-W
+> +      - renesas,pfc-r8a7792     # R-Car V2H
+> +      - renesas,pfc-r8a7793     # R-Car M2-N
+> +      - renesas,pfc-r8a7794     # R-Car E2
+> +      - renesas,pfc-r8a7795     # R-Car H3
+> +      - renesas,pfc-r8a7796     # R-Car M3-W
+> +      - renesas,pfc-r8a77961    # R-Car M3-W+
+> +      - renesas,pfc-r8a77965    # R-Car M3-N
+> +      - renesas,pfc-r8a77970    # R-Car V3M
+> +      - renesas,pfc-r8a77980    # R-Car V3H
+> +      - renesas,pfc-r8a77990    # R-Car E3
+> +      - renesas,pfc-r8a77995    # R-Car D3
+> +      - renesas,pfc-sh73a0      # SH-Mobile AG5
+> +
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  gpio-controller: true
+> +
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +  gpio-ranges:
+> +    minItems: 1
+> +    maxItems: 16
+> +
+> +  interrupts-extended:
+
+Just use 'interrupts' here. 'interrupt-extended' is always magically 
+supported.
+
+> +    minItems: 32
+> +    maxItems: 64
+> +    description:
+> +      Specify the interrupts associated with external IRQ pins on SoCs where
+> +      the PFC acts as a GPIO controller.  It must contain one interrupt per
+> +      external IRQ, sorted by external IRQ number.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      items:
+> +        enum:
+> +          - renesas,pfc-r8a73a4
+> +          - renesas,pfc-r8a7740
+> +          - renesas,pfc-sh73a0
+> +then:
+> +  required:
+> +    - interrupts-extended
+> +    - gpio-controller
+> +    - '#gpio-cells'
+> +    - gpio-ranges
+> +    - power-domains
+> +
+> +additionalProperties:
+> +  anyOf:
+> +    - type: object
+> +      allOf:
+> +        - $ref: pincfg-node.yaml#
+> +        - $ref: pinmux-node.yaml#
+> +
+> +      description:
+> +        Pin controller client devices use pin configuration subnodes (children
+> +        and grandchildren) for desired pin configuration.
+> +        Client device subnodes use below standard properties.
+> +
+> +      properties:
+> +        phandle: true
+
+Once fixed, this won't be necessary.
+
+> +        function: true
+> +        groups: true
+> +        pins: true
+> +        bias-disable: true
+> +        bias-pull-down: true
+> +        bias-pull-up: true
+> +        drive-strength:
+> +          true # FIXME enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
+> +          # avb:pins_mdio:drive-strength: [[24]] is not one of [3, 6, 9, 12, 15, 18, 21, 24]
+> +        power-source:
+> +          true # FIXME enum: [ 1800, 3300 ]
+> +          # sd0_uhs:power-source: [[1800]] is not one of [1800, 3300]
+> +        gpio-hog: true
+> +        gpios: true
+> +        input: true
+> +        output-high: true
+> +        output-low: true
+> +
+> +      additionalProperties: false
+> +
+> +    - type: object
+> +      properties:
+> +        phandle: true
+
+For this one, you can just link it back to the first entry:
+
+- type: object
+  additionalProperties:
+    $ref: "#/additionalProperties/anyOf/0"
+
+> +
+> +      additionalProperties:
+> +        type: object
+> +        allOf:
+> +          - $ref: pincfg-node.yaml#
+> +          - $ref: pinmux-node.yaml#
+> +
+> +        properties:
+> +          phandle: true
+> +          function: true
+> +          groups: true
+> +          pins: true
+> +          bias-disable: true
+> +          bias-pull-down: true
+> +          bias-pull-up: true
+> +          drive-strength:
+> +            true # FIXME enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
+> +            # avb:pins_mdio:drive-strength: [[24]] is not one of [3, 6, 9, 12, 15, 18, 21, 24]
+> +          power-source:
+> +            enum: [ 1800, 3300 ]
+> +          gpio-hog: true
+> +          gpios: true
+> +          input: true
+> +          output-high: true
+> +          output-low: true
+> +
+> +        additionalProperties: false
+> +
+> +
+> +examples:
+> +  - |
+> +    pfc: pin-controller@e6050000 {
+
+Because we're been really consistent ( :( ): 
+
+pinctrl@...
+
+> +            compatible = "renesas,pfc-sh73a0";
+> +            reg = <0xe6050000 0x8000>, <0xe605801c 0x1c>;
+> +            gpio-controller;
+> +            #gpio-cells = <2>;
+> +            gpio-ranges =
+> +                <&pfc 0 0 119>, <&pfc 128 128 37>, <&pfc 192 192 91>,
+> +                <&pfc 288 288 22>;
+> +            interrupts-extended =
+> +                <&irqpin0 0 0>, <&irqpin0 1 0>, <&irqpin0 2 0>, <&irqpin0 3 0>,
+> +                <&irqpin0 4 0>, <&irqpin0 5 0>, <&irqpin0 6 0>, <&irqpin0 7 0>,
+> +                <&irqpin1 0 0>, <&irqpin1 1 0>, <&irqpin1 2 0>, <&irqpin1 3 0>,
+> +                <&irqpin1 4 0>, <&irqpin1 5 0>, <&irqpin1 6 0>, <&irqpin1 7 0>,
+> +                <&irqpin2 0 0>, <&irqpin2 1 0>, <&irqpin2 2 0>, <&irqpin2 3 0>,
+> +                <&irqpin2 4 0>, <&irqpin2 5 0>, <&irqpin2 6 0>, <&irqpin2 7 0>,
+> +                <&irqpin3 0 0>, <&irqpin3 1 0>, <&irqpin3 2 0>, <&irqpin3 3 0>,
+> +                <&irqpin3 4 0>, <&irqpin3 5 0>, <&irqpin3 6 0>, <&irqpin3 7 0>;
+> +            power-domains = <&pd_c5>;
+
+child and grandchild nodes exercising the above schema and issues would 
+be good here.
+
+Rob
