@@ -2,95 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB89D246871
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Aug 2020 16:32:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A76246916
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Aug 2020 17:09:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728666AbgHQOcR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Aug 2020 10:32:17 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:43685 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729053AbgHQOcQ (ORCPT
+        id S1729002AbgHQPJQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Aug 2020 11:09:16 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:51969 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728651AbgHQPJO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Aug 2020 10:32:16 -0400
+        Mon, 17 Aug 2020 11:09:14 -0400
 X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 92BC8C0009;
-        Mon, 17 Aug 2020 14:32:12 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        sakari.ailus@iki.fi, hverkuil@xs4all.nl, hyunk@xilinx.com,
-        manivannan.sadhasivam@linaro.org
-Subject: [PATCH 4/4] media: i2c: max9286: Remove cached formats
-Date:   Mon, 17 Aug 2020 16:35:40 +0200
-Message-Id: <20200817143540.247340-5-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200817143540.247340-1-jacopo+renesas@jmondi.org>
-References: <20200817143540.247340-1-jacopo+renesas@jmondi.org>
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8DDEC4000A;
+        Mon, 17 Aug 2020 15:09:10 +0000 (UTC)
+Date:   Mon, 17 Aug 2020 17:12:53 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/8] dt-bindings: media: i2c: Convert to json-schema
+Message-ID: <20200817151253.drfgqojchbbfud5b@uno.localdomain>
+References: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200715140951.90753-1-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Now that the image stream formats are retrieved from the remote
-sources there's no need to cache them in the driver structure.
+Hello
+   Mauro, Hans or Sakari (whoever maintains the media patchwork
+instance), could you mark patches in this series as super-seded,
+as I will re-send them out for each individual sensor ?
 
-Remove the cached mbus frame formats and their initialization.
+Thanks
+   j
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/i2c/max9286.c | 17 -----------------
- 1 file changed, 17 deletions(-)
-
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index a4e23396c4b6..97dfee767bbf 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -160,8 +160,6 @@ struct max9286_priv {
- 	struct v4l2_ctrl_handler ctrls;
- 	struct v4l2_ctrl *pixelrate;
- 
--	struct v4l2_mbus_framefmt fmt[MAX9286_N_SINKS];
--
- 	/* Protects controls and fmt structures */
- 	struct mutex mutex;
- 
-@@ -758,18 +756,6 @@ static const struct v4l2_subdev_ops max9286_subdev_ops = {
- 	.pad		= &max9286_pad_ops,
- };
- 
--static void max9286_init_format(struct v4l2_mbus_framefmt *fmt)
--{
--	fmt->width		= 1280;
--	fmt->height		= 800;
--	fmt->code		= MEDIA_BUS_FMT_UYVY8_1X16;
--	fmt->colorspace		= V4L2_COLORSPACE_SRGB;
--	fmt->field		= V4L2_FIELD_NONE;
--	fmt->ycbcr_enc		= V4L2_YCBCR_ENC_DEFAULT;
--	fmt->quantization	= V4L2_QUANTIZATION_DEFAULT;
--	fmt->xfer_func		= V4L2_XFER_FUNC_DEFAULT;
--}
--
- static int max9286_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
- {
- 	struct max9286_priv *priv = sd_to_max9286(subdev);
-@@ -834,9 +820,6 @@ static int max9286_v4l2_register(struct max9286_priv *priv)
- 
- 	/* Configure V4L2 for the MAX9286 itself */
- 
--	for (i = 0; i < MAX9286_N_SINKS; i++)
--		max9286_init_format(&priv->fmt[i]);
--
- 	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max9286_subdev_ops);
- 	priv->sd.internal_ops = &max9286_subdev_internal_ops;
- 	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
--- 
-2.27.0
-
+On Wed, Jul 15, 2020 at 04:09:43PM +0200, Jacopo Mondi wrote:
+> Convert to json schema the bindings file for the following sensor
+> drivers:
+>
+> - ov5640
+> - ov5645
+> - ov772x
+> - mt9v111
+> - imx214
+> - imx274
+> - imx290
+>
+> On top of the conversion to yaml, rename the files to include the
+> vendor prefix (I kept this separate as I'm not sure it's actually desired).
+>
+> The series requires:
+> [PATCH v3 0/3] dt-bidings: media: ov5647 bindings + small fix
+> which converts the ov5647 bindings to yaml which I sent separately
+> as it was already in review.
+>
+> Individual maintainers Cc-ed for each single patch where available.
+>
+> Thanks
+>   j
+>
+> Jacopo Mondi (8):
+>   dt-bindings: media: ov5640: Convert to json-schema
+>   dt-bindings: media: ov5645: Convert to json-schema
+>   dt-bindings: media: mt9v111: Convert to json-schema
+>   dt-bindings: media: imx290: Convert to json-schema
+>   dt-bindings: media: imx274: Convert to json-schema
+>   dt-bindings: media: imx214: Convert to json-schema
+>   dt-bindings: media: ov772x: Convert to json-schema
+>   dt-bindings: media: i2c: Add prefix to yaml bindings
+>
+>  .../bindings/media/i2c/aptina,mt9v111.txt     |  46 -----
+>  .../bindings/media/i2c/aptina,mt9v111.yaml    |  87 +++++++++
+>  .../devicetree/bindings/media/i2c/imx274.txt  |  33 ----
+>  .../devicetree/bindings/media/i2c/imx290.txt  |  57 ------
+>  .../devicetree/bindings/media/i2c/ov5640.txt  |  92 ---------
+>  .../devicetree/bindings/media/i2c/ov5645.txt  |  54 ------
+>  .../devicetree/bindings/media/i2c/ov772x.txt  |  40 ----
+>  .../bindings/media/i2c/ovti,ov5640.yaml       | 181 ++++++++++++++++++
+>  .../bindings/media/i2c/ovti,ov5645.yaml       | 123 ++++++++++++
+>  .../i2c/{ov5647.yaml => ovti,ov5647.yaml}     |   0
+>  .../bindings/media/i2c/ovti,ov772x.yaml       |  89 +++++++++
+>  .../i2c/{ov8856.yaml => ovti,ov8856.yaml}     |   0
+>  .../bindings/media/i2c/sony,imx214.txt        |  53 -----
+>  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++
+>  .../i2c/{imx219.yaml => sony,imx219.yaml}     |   0
+>  .../bindings/media/i2c/sony,imx274.yaml       |  74 +++++++
+>  .../bindings/media/i2c/sony,imx290.yaml       | 124 ++++++++++++
+>  MAINTAINERS                                   |  25 ++-
+>  18 files changed, 819 insertions(+), 383 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx290.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5640.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov5645.txt
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5640.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5645.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{ov5647.yaml => ovti,ov5647.yaml} (100%)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{ov8856.yaml => ovti,ov8856.yaml} (100%)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+>  rename Documentation/devicetree/bindings/media/i2c/{imx219.yaml => sony,imx219.yaml} (100%)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx290.yaml
+>
+> --
+> 2.27.0
+>
