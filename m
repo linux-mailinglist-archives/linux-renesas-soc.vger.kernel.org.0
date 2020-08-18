@@ -2,177 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85745247FF0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 09:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 686C02480C9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 10:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726588AbgHRHvn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 03:51:43 -0400
-Received: from mga07.intel.com ([134.134.136.100]:36067 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726391AbgHRHvn (ORCPT
+        id S1726408AbgHRIiu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Aug 2020 04:38:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbgHRIit (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 03:51:43 -0400
-IronPort-SDR: miBir/xaCGkIRbMId22e/PjVetFulUeF34tZVriGa9eiCHdALiXoDat/eCfUNKWFsB4Uhg5jPj
- U+/AMjANWjrg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9716"; a="219174024"
-X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
-   d="scan'208";a="219174024"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 00:51:42 -0700
-IronPort-SDR: O7IbCjQr4XUbwiQF5whfNvBdUcO2/Z69nS32nzJifLg4ENj9Q+JQzu7duTgzBxxOFAjuIv+CP/
- xDqHIdilxU+g==
-X-IronPort-AV: E=Sophos;i="5.76,326,1592895600"; 
-   d="scan'208";a="328896449"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 00:51:39 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0708A2064F; Tue, 18 Aug 2020 10:51:37 +0300 (EEST)
-Date:   Tue, 18 Aug 2020 10:51:36 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] rcar-csi2: Use V4L2 async helpers to create the
- notifier
-Message-ID: <20200818075136.GO24582@paasikivi.fi.intel.com>
-References: <20200807111619.3664763-1-niklas.soderlund+renesas@ragnatech.se>
- <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 18 Aug 2020 04:38:49 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9B1C061389;
+        Tue, 18 Aug 2020 01:38:48 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id v15so9774073lfg.6;
+        Tue, 18 Aug 2020 01:38:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=J7oqilRaCWkcUcCiNiMj9W8gLZogWy/s5ah2zxk7zwk=;
+        b=W1ohRVuEeAaXk2NQ9OdbNtoJsED/Qu+h3j6eGKAnN7TBz43RNxZYjqshcyviWZx3A2
+         ZCe7HcP6iPYo6IoXGgQs190DWFvQfuNjqUc0KwB8jH4SAQ25ZJFwCB3l5fKqtDNd3cXY
+         PnbZICRMvcHOcfFDa5ptxClE9ZAQC7gPBGZ/SnJVtuwOFo2ryOX8aC1T5vQ3WKHYBAb7
+         Ubhb5GLsVKTGNqTArUpAtsVPm8SVtH5PC0RUIRJKOXRDouLRn/by0TqetayE22iKkv2x
+         vwAwaiYCdhpQJIPbSXYvs+lSDGRKBNPD4voE5TYB9jko9Fh2YfrjzbQMzKCbxDXSIT2y
+         unOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=J7oqilRaCWkcUcCiNiMj9W8gLZogWy/s5ah2zxk7zwk=;
+        b=dHZnlFYGkQsDJEwnprRq1dKPA6GjErjKX9hRzsBjrVu6mqSSIhwRPgzgTE5igU+WZZ
+         LJwX5b6WQwSlNCI4oUmTpg2eQIhx3qM7Jt9NF+6wZ8pJn1oK1hMS+2/bBC2/1n6i1oOz
+         mRQduXlQZO194kqyEvkRIMP5hYg1FCUwrmQLD9cDCnC0GcxH37hqPj88+eFJQd76yGyS
+         pZscmbaISVv10/EH9N0FBemhwTTm4MDDAo/w4yPApU5XY6hmrMp57kfSVOcmFUFFVos0
+         VVJdctEa1N5GsGrRW2SyfCK7kLhQaRYCx5wJ3s3FZvO2PgGhufG5Vi/kZhiFLF1xtx3i
+         FRrQ==
+X-Gm-Message-State: AOAM5336eHqAEJIJ/6rsZJl2Pkxww7saXxBtitsLkJ+4X05p29YrjERc
+        GvdLHV2LfTPTa+dRSh1DWZE=
+X-Google-Smtp-Source: ABdhPJzwh9cvnyXMlQ9aVChtvQE/S56hEzNVjlvJkgr4HNPTEPiCbRVt5p7/P+6YwGw3tJQx+RutcA==
+X-Received: by 2002:a19:4f5d:: with SMTP id a29mr9250904lfk.107.1597739927222;
+        Tue, 18 Aug 2020 01:38:47 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:817:636:4100:222f:a00:15ca? ([2a00:1fa0:817:636:4100:222f:a00:15ca])
+        by smtp.gmail.com with ESMTPSA id u14sm1455083ljg.55.2020.08.18.01.38.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2020 01:38:46 -0700 (PDT)
+Subject: Re: [PATCH 3/5] arm64: dts: renesas: r8a774a1: Add PCIe EP nodes
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20200814173037.17822-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200814173037.17822-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <fcabccab-54fb-8b8a-7034-9b0da9d32339@gmail.com>
+ <CA+V-a8v74fkzE8SYaaA5Wg=NT_mdgjNLTd0nha=UbHEC0pw0UA@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <de262150-96f1-dcf6-405c-db91c1daf0ec@gmail.com>
+Date:   Tue, 18 Aug 2020 11:38:40 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200807111619.3664763-3-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CA+V-a8v74fkzE8SYaaA5Wg=NT_mdgjNLTd0nha=UbHEC0pw0UA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On 18.08.2020 10:23, Lad, Prabhakar wrote:
 
-On Fri, Aug 07, 2020 at 01:16:19PM +0200, Niklas Söderlund wrote:
-> The V4L2 async framework helpers now populates the async notifier with
-> endpoint matching information and there is no need to do this manually
-> in the R-Car CSI-2 driver, switch to using the provided helper.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 48 +++++----------------
->  1 file changed, 11 insertions(+), 37 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index c6cc4f473a077899..f0067ff21d5d9d33 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -362,7 +362,6 @@ struct rcar_csi2 {
->  	struct media_pad pads[NR_OF_RCAR_CSI2_PAD];
->  
->  	struct v4l2_async_notifier notifier;
-> -	struct v4l2_async_subdev asd;
->  	struct v4l2_subdev *remote;
->  
->  	struct v4l2_mbus_framefmt mf;
-> @@ -774,9 +773,11 @@ static const struct v4l2_async_notifier_operations rcar_csi2_notify_ops = {
->  	.unbind = rcsi2_notify_unbind,
->  };
->  
-> -static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
-> -			    struct v4l2_fwnode_endpoint *vep)
-> +static int rcar_csi2_parse_v4l2(struct device *dev,
-> +				struct v4l2_fwnode_endpoint *vep,
-> +				struct v4l2_async_subdev *asd)
->  {
-> +	struct rcar_csi2 *priv = dev_get_drvdata(dev);
->  	unsigned int i;
->  
->  	/* Only port 0 endpoint 0 is valid. */
-> @@ -806,53 +807,26 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
->  		}
->  	}
->  
-> +	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(asd->match.fwnode));
-> +
->  	return 0;
->  }
->  
->  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
-> -	struct device_node *ep;
-> -	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
->  	int ret;
->  
-> -	ep = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
-> -	if (!ep) {
-> -		dev_err(priv->dev, "Not connected to subdevice\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
-> -	if (ret) {
-> -		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -		of_node_put(ep);
-> -		return -EINVAL;
-> -	}
-> -
-> -	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
-> -	if (ret) {
-> -		of_node_put(ep);
-> -		return ret;
-> -	}
-> -
-> -	priv->asd.match.fwnode =
-> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> -
-> -	of_node_put(ep);
-> -
->  	v4l2_async_notifier_init(&priv->notifier);
->  
-> -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
-> -	if (ret) {
-> -		fwnode_handle_put(priv->asd.match.fwnode);
-> +	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(
-> +			priv->dev, &priv->notifier,
-> +			sizeof(struct v4l2_async_subdev), 0,
-> +			rcar_csi2_parse_v4l2);
+[...]
+>>> Add PCIe EP nodes to R8A774A1 (RZ/G2M) SoC dtsi.
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>> ---
+>>>    arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 38 +++++++++++++++++++++++
+>>>    1 file changed, 38 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+>>> index a603d947970e..50e9ed16a36d 100644
+>>> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+>>> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+>>> @@ -2369,6 +2369,44 @@
+>>>                        status = "disabled";
+>>>                };
+>>>
+>>> +             pciec0_ep: pcie_ep@fe000000 {
+>>
+>>      Hyphens are preferred over underscores in the node/prop names.
+>>
+>> [...]
+>> +                pciec1_ep: pcie_ep@ee800000 {
+>>
+>>      Ditto, should be "pci-ep@ee800000".
+>>
+> My bad will fix that in v2.
 
-Please don't. We'd rather like to remove that helper that necessitates the
-use of deprecated behaviour. This driver is the last user left actually.
+    Sorry, I meant to type "pcie-ep@ee800000".
 
-Could you see an example in drivers/media/pci/intel/ipu3/ipu3-cio2.c on how
-to make this more condensed?
+> Cheers,
+> Prabhakar
 
-There's more code left than with that helper as there are multiple things
-done here, and a few of these things interact at least in the general case:
-
-- setting binding defaults (missing here),
-
-- parsing the DT as well as storing the configuration you need (should you
-  not use the V4L2 EP as such),
-
-- getting the remote and
-
-- registration of the subdev in the notifier.
-
-You should also set the bus_type field if you know that in advance --- I
-believe you do.
-
-> +	if (ret)
->  		return ret;
-> -	}
->  
->  	priv->notifier.ops = &rcar_csi2_notify_ops;
->  
-> -	dev_dbg(priv->dev, "Found '%pOF'\n",
-> -		to_of_node(priv->asd.match.fwnode));
-> -
->  	ret = v4l2_async_subdev_notifier_register(&priv->subdev,
->  						  &priv->notifier);
->  	if (ret)
-
--- 
-Kind regards,
-
-Sakari Ailus
+MBR, Sergei
