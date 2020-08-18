@@ -2,200 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99EDB247F0B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 09:10:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC274247F4E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Aug 2020 09:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgHRHKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 03:10:25 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44036 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726588AbgHRHKV (ORCPT
+        id S1726482AbgHRHYT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Aug 2020 03:24:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726341AbgHRHYS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 03:10:21 -0400
-Received: by mail-oi1-f196.google.com with SMTP id h3so17067002oie.11;
-        Tue, 18 Aug 2020 00:10:20 -0700 (PDT)
+        Tue, 18 Aug 2020 03:24:18 -0400
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B959C061389;
+        Tue, 18 Aug 2020 00:24:18 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id x10so10824032ybj.13;
+        Tue, 18 Aug 2020 00:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HmoQCZpGaKbIsYS8+rvFpQeHNY5B2Hi6SrMeFT5bb98=;
+        b=GLEHCiCChrPivNJbmyGftlp3kKltoTTqQa0tA2ZPntqqIrTYG5p5BC7XOo+bkkvFXc
+         h07xzo32mFj+5EyR+HxvTynASwrNLzu29gqeCvFDgcfM6+fGXn7it8nyXfS1NOsSU2IE
+         R7cpDqr2jKz3WLdS3niS1oE0D8lpn+G5scmCp2T0Q6cqbPEtOcXaqpVnPsU6xopZCNQ1
+         /6LrtwfCBslzAlNMqz39FjY8c8anTv0oWKAWWyr4KofvMkZQOykKBDZqxu387ogYyZrC
+         s5NcAdArrPTA0lu0Cd8apu/RdsvKz2QATaeZWXh9NxGeoddjFvjSvUfqzes7r6MzRCzH
+         dV1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9pWu2reKsehPk8O8QMwZqkq9HDhUpVFSdtfnM5vROwk=;
-        b=AOAqb6NH5LV67MEzG9T8C37bvwcfBSiwRSMZ1V+UPfTmx9O+qduxNIz61FvOnZ44ZB
-         Aq7q7eds/PWj61uqrkEPlZrs4FPmL9+zV8fe6phiuzuAHRkVAHKGhnhrvM0Y7WWQQMYI
-         mX75pHl1NzSuvVXQOR07bU/mFU+pE33sJaLM6SNT7VhaPGeRu3l/VkBOEwiSHUr1Topu
-         D99Pvpr2JVaAq5LszmhnjNF31OyvGvMyM0iRedLQFbJd58q87xq8rH1gJb/xjbsqoHb9
-         sptDa5FzkOQ3L7+asp5O0AHREOKn39sWnG+wg29IyCEbmVk1KMeHjUSGQQQ1iEncTSOM
-         RiYA==
-X-Gm-Message-State: AOAM5319lfDXOk0b/JHaYMQCoLz/miafD+qaeCzdLAB20Pc6277qF2ie
-        BQXGtSt69RO5uxJI0y7VrrTbht89Kh9caACAHus=
-X-Google-Smtp-Source: ABdhPJxlHpP9CutWWQ1WzZHFEX/kpODzKDecPSPVsGDlyQEZuovKBMm9EgyXUP0kzZUH0FPOVGAX2J+x5TrpOAvPnrs=
-X-Received: by 2002:aca:adc4:: with SMTP id w187mr11504104oie.153.1597734619692;
- Tue, 18 Aug 2020 00:10:19 -0700 (PDT)
+        bh=HmoQCZpGaKbIsYS8+rvFpQeHNY5B2Hi6SrMeFT5bb98=;
+        b=bXgkQFSbvNWNEdjOeK96IyvdRHA4LkaCY2TS9PKktkOOQf0lWqLTSp9tcN9vKr9Snk
+         ITDeH3IUsrLLMuNROiH9z6YN5tn3mUBQtJtqMsFa9OMhMPzi9bPqI3P6+lNQbuFkbaBd
+         zjCpb3eKU7+FTRTutUX1+2KV2om25IrFlNV+3aH8n7jicIB7Sd9P6NwS2+ybyJ2UUl8h
+         mIFLPBIdHsc+GTjk2Sjg14hJmwVl1/TQDJvrjxYKc+uGVDJtq/cIVaxa4+KTr71N4wz6
+         LClWYQwDblEH62sTJZU8fauL6gbzNeQynb+alaJQzp2VQHqz4gFXiqRwAZUdM1prk5RZ
+         MqRA==
+X-Gm-Message-State: AOAM531ToJMUXJD2TgBYZgjcVtw6BMAkw2hQk6sP261fWoa200Zpl/ye
+        g/pATTY7BbO18Qcjf2SotWWo9xS/AxlpbT3QdK0=
+X-Google-Smtp-Source: ABdhPJzCDvUjiPWK649tyEh566910nzut2TlASPlTv0REFfFarykk7m1GFizATC9HgE6RSovRKmc3BBmUiq3wT1GcQU=
+X-Received: by 2002:a25:5384:: with SMTP id h126mr6977055ybb.445.1597735456307;
+ Tue, 18 Aug 2020 00:24:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200807141345.6714-1-geert+renesas@glider.be> <20200817233253.GA1819982@bogus>
-In-Reply-To: <20200817233253.GA1819982@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Aug 2020 09:10:08 +0200
-Message-ID: <CAMuHMdV-NVycDcPggYw4-pvSkkwo079bUevA2yB3XM5YfHi9mg@mail.gmail.com>
-Subject: Re: [PATCH/RFC v2] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+References: <20200814173037.17822-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200814173037.17822-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <fcabccab-54fb-8b8a-7034-9b0da9d32339@gmail.com>
+In-Reply-To: <fcabccab-54fb-8b8a-7034-9b0da9d32339@gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 18 Aug 2020 08:23:49 +0100
+Message-ID: <CA+V-a8v74fkzE8SYaaA5Wg=NT_mdgjNLTd0nha=UbHEC0pw0UA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] arm64: dts: renesas: r8a774a1: Add PCIe EP nodes
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Sergei,
 
-On Tue, Aug 18, 2020 at 1:32 AM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Aug 07, 2020 at 04:13:45PM +0200, Geert Uytterhoeven wrote:
-> > Convert the Renesas Pin Function Controller (PFC) Device Tree binding
-> > documentation to json-schema.
+Thank you for the review.
+
+On Sat, Aug 15, 2020 at 9:45 AM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
+>
+> Hello!
+>
+> On 14.08.2020 20:30, Lad Prabhakar wrote:
+>
+> > Add PCIe EP nodes to R8A774A1 (RZ/G2M) SoC dtsi.
 > >
-> > Document missing properties.
-> > Drop deprecated and obsolete #gpio-range-cells property.
-> > Update the example to match reality.
-> > Drop consumer examples, as they do not belong here.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > ---
-> > Still RFC, due to the FIXMEs near the enum descriptions.
-> > If I enable the enums checks, I get e.g.:
+> >   arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 38 +++++++++++++++++++++++
+> >   1 file changed, 38 insertions(+)
 > >
-> >     [[1800]] is not one of [1800, 3300]
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> > index a603d947970e..50e9ed16a36d 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> > @@ -2369,6 +2369,44 @@
+> >                       status = "disabled";
+> >               };
 > >
-> > Note the double square brackets around 1800.
-> > The usual error message doesn't have them, e.g.:
-> >
-> >     2000 is not one of [1800, 3300]
-> >
-> > So this looks like a bug in the tooling?
+> > +             pciec0_ep: pcie_ep@fe000000 {
 >
-> Yes, we only recently started supporting schemas under
-> 'additionalProperties', but failed to apply fixups.
+>     Hyphens are preferred over underscores in the node/prop names.
 >
-> I have a fix I'm testing out. I'm bumping the version requirement in
-> 5.10, so I'll make sure it is there.
-
-Thanks, looking forward to it.
-
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-
-> > +  interrupts-extended:
+> [...]> +                pciec1_ep: pcie_ep@ee800000 {
 >
-> Just use 'interrupts' here. 'interrupt-extended' is always magically
-> supported.
-
-Apparently not everywhere...
-
-    Documentation/devicetree/bindings/pinctrl/renesas,pfc.example.dt.yaml:
-pin-controller@e6050000: 'interrupts' is a required property
-
-Hence I kept it in both places, for consistency.
-
-Cfr. https://lore.kernel.org/linux-gpio/CAMuHMdWSPDQBABXZVaPecETbSRsP2yyZXLHiL_+_R2n_-09jRg@mail.gmail.com/
-
-> > +additionalProperties:
-> > +  anyOf:
-> > +    - type: object
-> > +      allOf:
-> > +        - $ref: pincfg-node.yaml#
-> > +        - $ref: pinmux-node.yaml#
-> > +
-> > +      description:
-> > +        Pin controller client devices use pin configuration subnodes (children
-> > +        and grandchildren) for desired pin configuration.
-> > +        Client device subnodes use below standard properties.
-> > +
-> > +      properties:
-> > +        phandle: true
+>     Ditto, should be "pci-ep@ee800000".
 >
-> Once fixed, this won't be necessary.
+My bad will fix that in v2.
 
-OK.
+Cheers,
+Prabhakar
 
-> > +        function: true
-> > +        groups: true
-> > +        pins: true
-> > +        bias-disable: true
-> > +        bias-pull-down: true
-> > +        bias-pull-up: true
-> > +        drive-strength:
-> > +          true # FIXME enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
-> > +          # avb:pins_mdio:drive-strength: [[24]] is not one of [3, 6, 9, 12, 15, 18, 21, 24]
-> > +        power-source:
-> > +          true # FIXME enum: [ 1800, 3300 ]
-> > +          # sd0_uhs:power-source: [[1800]] is not one of [1800, 3300]
-> > +        gpio-hog: true
-> > +        gpios: true
-> > +        input: true
-> > +        output-high: true
-> > +        output-low: true
-> > +
-> > +      additionalProperties: false
-> > +
-> > +    - type: object
-> > +      properties:
-> > +        phandle: true
+> [...]
 >
-> For this one, you can just link it back to the first entry:
->
-> - type: object
->   additionalProperties:
->     $ref: "#/additionalProperties/anyOf/0"
-
-Thanks, cool!
-
-> > +examples:
-> > +  - |
-> > +    pfc: pin-controller@e6050000 {
->
-> Because we're been really consistent ( :( ):
->
-> pinctrl@...
-
-Oh, I had never noticed that was added in devicetree-specification-v0.2.pdf.
-Yes, consistency... everything else is *-controller ;-)
-
-Will fix.
-
->
-> > +            compatible = "renesas,pfc-sh73a0";
-> > +            reg = <0xe6050000 0x8000>, <0xe605801c 0x1c>;
-> > +            gpio-controller;
-> > +            #gpio-cells = <2>;
-> > +            gpio-ranges =
-> > +                <&pfc 0 0 119>, <&pfc 128 128 37>, <&pfc 192 192 91>,
-> > +                <&pfc 288 288 22>;
-> > +            interrupts-extended =
-> > +                <&irqpin0 0 0>, <&irqpin0 1 0>, <&irqpin0 2 0>, <&irqpin0 3 0>,
-> > +                <&irqpin0 4 0>, <&irqpin0 5 0>, <&irqpin0 6 0>, <&irqpin0 7 0>,
-> > +                <&irqpin1 0 0>, <&irqpin1 1 0>, <&irqpin1 2 0>, <&irqpin1 3 0>,
-> > +                <&irqpin1 4 0>, <&irqpin1 5 0>, <&irqpin1 6 0>, <&irqpin1 7 0>,
-> > +                <&irqpin2 0 0>, <&irqpin2 1 0>, <&irqpin2 2 0>, <&irqpin2 3 0>,
-> > +                <&irqpin2 4 0>, <&irqpin2 5 0>, <&irqpin2 6 0>, <&irqpin2 7 0>,
-> > +                <&irqpin3 0 0>, <&irqpin3 1 0>, <&irqpin3 2 0>, <&irqpin3 3 0>,
-> > +                <&irqpin3 4 0>, <&irqpin3 5 0>, <&irqpin3 6 0>, <&irqpin3 7 0>;
-> > +            power-domains = <&pd_c5>;
->
-> child and grandchild nodes exercising the above schema and issues would
-> be good here.
-
-Good idea, will add.  I'll probably have to replace the example completely,
-as SH73A0 doesn't support drive-strength and power-source.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> MBR, Sergei
