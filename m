@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB2742491F5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 02:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50BA1249204
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 02:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbgHSAtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 20:49:12 -0400
-Received: from mga18.intel.com ([134.134.136.126]:28382 "EHLO mga18.intel.com"
+        id S1726862AbgHSAue (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Aug 2020 20:50:34 -0400
+Received: from mga05.intel.com ([192.55.52.43]:49893 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725554AbgHSAtL (ORCPT
+        id S1727125AbgHSAu3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 20:49:11 -0400
-IronPort-SDR: JJVI2gmboI9J362A2SgFuEfkyplIybv9kEqdTE2axszsWvdS2hJN4VLDvpC5OO1q4F3ergxbxQ
- 8rSBNwA229YQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="142656823"
+        Tue, 18 Aug 2020 20:50:29 -0400
+IronPort-SDR: /RDjD/lVWuUGRbX1vdk7qBZzXG8D377Tp4dj13kt4aYkQ9Kp7Yp0kjIgh0szMYbBpVzLWeby/D
+ OXtAv5bl43Kg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239858362"
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="142656823"
+   d="scan'208";a="239858362"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 17:49:09 -0700
-IronPort-SDR: AOX8LkXAEiAwPTXp/xTv0j7w0rXmjXR9yoilBRBXZzffI9qdxP5RxrHgmHn7agq78ZooEuPxDn
- ymLqhWPbzmUQ==
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 17:50:25 -0700
+IronPort-SDR: KiaUBgbBMGBb4bGvDKpSEl6y7kU2kumU0y+PkPTnrXOiT14c36r5PGPKD5EuJzKYisrtkWl8VB
+ ajhel86bFnIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="336796810"
+   d="scan'208";a="310612105"
 Received: from lkp-server02.sh.intel.com (HELO 2f0d8b563e65) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 18 Aug 2020 17:49:08 -0700
+  by orsmga002.jf.intel.com with ESMTP; 18 Aug 2020 17:50:24 -0700
 Received: from kbuild by 2f0d8b563e65 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1k8CHr-0001Vh-OU; Wed, 19 Aug 2020 00:49:07 +0000
-Date:   Wed, 19 Aug 2020 08:48:46 +0800
+        id 1k8CJ5-0001XI-JG; Wed, 19 Aug 2020 00:50:23 +0000
+Date:   Wed, 19 Aug 2020 08:49:17 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-defconfig-for-v5.10] BUILD SUCCESS
- cd8bc7d4eb6608afe78ac51422ef94b7824f1646
-Message-ID: <5f3c76ee./DEaqBAIPgARuwur%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-dt-for-v5.10] BUILD SUCCESS
+ afdac0bfbd49e46f7046c7f4bad6daa4a3ebf6fc
+Message-ID: <5f3c770d.PGZMVTNPIHL05R5Y%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,8 +47,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-defconfig-for-v5.10
-branch HEAD: cd8bc7d4eb6608afe78ac51422ef94b7824f1646  arm64: defconfig: Enable R-Car PCIe endpoint driver
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.10
+branch HEAD: afdac0bfbd49e46f7046c7f4bad6daa4a3ebf6fc  ARM: dts: r8a7742: Add QSPI support
 
 elapsed time: 2392m
 
