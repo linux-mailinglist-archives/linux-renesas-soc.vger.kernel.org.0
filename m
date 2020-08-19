@@ -2,132 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EBD0249E71
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 14:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC956249E8B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 14:47:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727926AbgHSMpL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 08:45:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33900 "EHLO
+        id S1728420AbgHSMri (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 08:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728515AbgHSMoy (ORCPT
+        with ESMTP id S1728538AbgHSMpl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 08:44:54 -0400
+        Wed, 19 Aug 2020 08:45:41 -0400
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9385C061757
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 05:44:53 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5A3C061757
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 05:45:40 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
         by michel.telenet-ops.be with bizsmtp
-        id HQks230014C55Sk06QksPS; Wed, 19 Aug 2020 14:44:52 +0200
+        id HQlg230044C55Sk06Qlgcw; Wed, 19 Aug 2020 14:45:40 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k8NSV-0002NE-US; Wed, 19 Aug 2020 14:44:51 +0200
+        id 1k8NTI-0002Nb-5r; Wed, 19 Aug 2020 14:45:40 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k8NSV-0005FI-SE; Wed, 19 Aug 2020 14:44:51 +0200
+        id 1k8NTI-0005HL-4R; Wed, 19 Aug 2020 14:45:40 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] dt-bindings: thermal: rcar-thermal: Improve schema validation
-Date:   Wed, 19 Aug 2020 14:44:50 +0200
-Message-Id: <20200819124450.20123-1-geert+renesas@glider.be>
+Subject: [PATCH v2] dt-bindings: net: renesas,ether: Improve schema validation
+Date:   Wed, 19 Aug 2020 14:45:39 +0200
+Message-Id: <20200819124539.20239-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  - Document missing "#thermal-sensor-cells",
-  - Factor out common required properties,
-  - "interrupts", "clocks", and "power-domains" are required on R-Mobile
-    APE6, too,
-  - Invert logic to simplify descriptions,
+  - Remove pinctrl consumer properties, as they are handled by core
+    dt-schema,
+  - Document missing properties,
+  - Document missing PHY child node,
   - Add "additionalProperties: false".
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 v2:
   - Add Reviewed-by.
 ---
- .../bindings/thermal/rcar-thermal.yaml        | 53 ++++++++++++-------
- 1 file changed, 34 insertions(+), 19 deletions(-)
+ .../bindings/net/renesas,ether.yaml           | 22 +++++++++++++------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-index 0994693d240f9ff4..88787b98992fe7c9 100644
---- a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
-@@ -59,25 +59,40 @@ properties:
-   resets:
+diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+index 08678af5ed9364cd..8ce5ed8a58dd76e6 100644
+--- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+@@ -59,9 +59,15 @@ properties:
+   clocks:
      maxItems: 1
  
--if:
--  properties:
--    compatible:
--      contains:
--        enum:
--          - renesas,thermal-r8a73a4 # R-Mobile APE6
--          - renesas,thermal-r8a7779 # R-Car H1
--then:
--  required:
--    - compatible
--    - reg
--else:
--  required:
--    - compatible
--    - reg
--    - interrupts
--    - clocks
--    - power-domains
--    - resets
-+  '#thermal-sensor-cells':
-+    const: 0
+-  pinctrl-0: true
++  power-domains:
++    maxItems: 1
 +
-+required:
-+  - compatible
-+  - reg
++  resets:
++    maxItems: 1
+ 
+-  pinctrl-names: true
++  phy-mode: true
 +
-+allOf:
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              enum:
-+                - renesas,thermal-r8a73a4 # R-Mobile APE6
-+                - renesas,thermal-r8a7779 # R-Car H1
-+    then:
-+      required:
-+        - resets
-+        - '#thermal-sensor-cells'
++  phy-handle: true
+ 
+   renesas,no-ether-link:
+     type: boolean
+@@ -74,6 +80,11 @@ properties:
+       specify when the Ether LINK signal is active-low instead of normal
+       active-high
+ 
++patternProperties:
++  "^ethernet-phy@[0-9a-f]$":
++    type: object
++    $ref: ethernet-phy.yaml#
 +
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            contains:
-+              const: renesas,thermal-r8a7779 # R-Car H1
-+    then:
-+      required:
-+        - interrupts
-+        - clocks
-+        - power-domains
+ required:
+   - compatible
+   - reg
+@@ -83,7 +94,8 @@ required:
+   - '#address-cells'
+   - '#size-cells'
+   - clocks
+-  - pinctrl-0
 +
 +additionalProperties: false
  
  examples:
-   # Example (non interrupt support)
+   # Lager board
+@@ -99,8 +111,6 @@ examples:
+         clocks = <&mstp8_clks R8A7790_CLK_ETHER>;
+         phy-mode = "rmii";
+         phy-handle = <&phy1>;
+-        pinctrl-0 = <&ether_pins>;
+-        pinctrl-names = "default";
+         renesas,ether-link-active-low;
+         #address-cells = <1>;
+         #size-cells = <0>;
+@@ -109,7 +119,5 @@ examples:
+             reg = <1>;
+             interrupt-parent = <&irqc0>;
+             interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+-            pinctrl-0 = <&phy1_pins>;
+-            pinctrl-names = "default";
+         };
+     };
 -- 
 2.17.1
 
