@@ -2,306 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FAB249FDB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8757D24A064
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:46:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgHSN2u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 09:28:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58162 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726641AbgHSN2t (ORCPT
+        id S1728411AbgHSNq2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 09:46:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728551AbgHSNoV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:28:49 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAF4C29E;
-        Wed, 19 Aug 2020 15:28:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597843720;
-        bh=PWDzJsyk0PwukcLPwDqokKhe2VKPSIPQ9fwFSamq5gI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WrjyiqVYAKfgJuesCDNLI9YaAo3D+vkqrUs9srWfDabP/1eewBgnr6thLFRhQEfFP
-         UvPPTOIKgqu+ORhtRXtZO9GANJt8nNSpXQXRAxNzi2kOr8uUVnW/bwoFCxERhyfz0L
-         CLwhiIitRZsF3Owp8Z25roPVm6Nfcd15Q5Ooq9/Y=
-Date:   Wed, 19 Aug 2020 16:28:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@kernel.org>,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx214: Convert to json-schema
-Message-ID: <20200819132823.GH6049@pendragon.ideasonboard.com>
-References: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200818121755.37706-1-jacopo+renesas@jmondi.org>
+        Wed, 19 Aug 2020 09:44:21 -0400
+Received: from leibniz.telenet-ops.be (leibniz.telenet-ops.be [IPv6:2a02:1800:110:4::f00:d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD83C06135B
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 06:44:01 -0700 (PDT)
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4BWpsQ4wp7zMqcgn
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 15:43:54 +0200 (CEST)
+Received: from ramsan ([84.195.186.194])
+        by baptiste.telenet-ops.be with bizsmtp
+        id HRjl2300T4C55Sk01RjlZi; Wed, 19 Aug 2020 15:43:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k8ONV-0003Dm-Bo; Wed, 19 Aug 2020 15:43:45 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k8ONV-0007FR-8G; Wed, 19 Aug 2020 15:43:45 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 0/7] net/ravb: Add support for explicit internal clock delay configuration
+Date:   Wed, 19 Aug 2020 15:43:37 +0200
+Message-Id: <20200819134344.27813-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+	Hi all,
 
-Thank you for the patch.
+Some Renesas EtherAVB variants support internal clock delay
+configuration, which can add larger delays than the delays that are
+typically supported by the PHY (using an "rgmii-*id" PHY mode, and/or
+"[rt]xc-skew-ps" properties).
 
-On Tue, Aug 18, 2020 at 02:17:55PM +0200, Jacopo Mondi wrote:
-> Convert the imx214 bindings document to json-schema and update
-> the MAINTAINERS file accordingly.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../bindings/media/i2c/sony,imx214.txt        |  53 --------
->  .../bindings/media/i2c/sony,imx214.yaml       | 124 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 125 insertions(+), 54 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt b/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> deleted file mode 100644
-> index f11f28a5fda4..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -* Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
-> -
-> -The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
-> -an active array size of 4224H x 3200V. It is programmable through an I2C
-> -interface.
-> -Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a maximum
-> -throughput of 1.2Gbps/lane.
-> -
-> -
-> -Required Properties:
-> -- compatible: Shall be "sony,imx214".
-> -- reg: I2C bus address of the device. Depending on how the sensor is wired,
-> -       it shall be <0x10> or <0x1a>;
-> -- enable-gpios: GPIO descriptor for the enable pin.
-> -- vdddo-supply: Chip digital IO regulator (1.8V).
-> -- vdda-supply: Chip analog regulator (2.7V).
-> -- vddd-supply: Chip digital core regulator (1.12V).
-> -- clocks: Reference to the xclk clock.
-> -- clock-frequency: Frequency of the xclk clock.
-> -
-> -Optional Properties:
-> -- flash-leds: See ../video-interfaces.txt
-> -- lens-focus: See ../video-interfaces.txt
-> -
-> -The imx214 device node shall contain one 'port' child node with
-> -an 'endpoint' subnode. For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Required Properties on endpoint:
-> -- data-lanes: check ../video-interfaces.txt
-> -- link-frequencies: check ../video-interfaces.txt
-> -- remote-endpoint: check ../video-interfaces.txt
-> -
-> -Example:
-> -
-> -	camera-sensor@1a {
-> -		compatible = "sony,imx214";
-> -		reg = <0x1a>;
-> -		vdddo-supply = <&pm8994_lvs1>;
-> -		vddd-supply = <&camera_vddd_1v12>;
-> -		vdda-supply = <&pm8994_l17>;
-> -		lens-focus = <&ad5820>;
-> -		enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> -		clocks = <&mmcc CAMSS_MCLK0_CLK>;
-> -		clock-frequency = <24000000>;
-> -		port {
-> -			imx214_ep: endpoint {
-> -				data-lanes = <1 2 3 4>;
-> -				link-frequencies = /bits/ 64 <480000000>;
-> -				remote-endpoint = <&csiphy0_ep>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> new file mode 100644
-> index 000000000000..ddd4627214b1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -0,0 +1,124 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx214.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony 1/3.06-Inch 13.13Mp CMOS Digital Image Sensor
+Historically, the EtherAVB driver configured these delays based on the
+"rgmii-*id" PHY mode.  This caused issues with PHY drivers that
+implement PHY internal delays properly[1].  Hence a backwards-compatible
+workaround was added by masking the PHY mode[2].
 
-s/Mp/MP/
+This patch series implements the next step of the plan outlined in [3],
+and adds proper support for explicit configuration of the MAC internal
+clock delays using new "[rt]x-internal-delay-ps" properties.  If none of
+these properties is present, the driver falls back to the old handling.
 
-> +
-> +maintainers:
-> +  - Ricardo Ribalda <ribalda@kernel.org>
-> +
-> +description: -|
-> +  The Sony imx214 is a 1/3.06-inch CMOS active pixel digital image sensor with
+This can be considered the MAC counterpart of commit 9150069bf5fc0e86
+("dt-bindings: net: Add tx and rx internal delays"), which applies to
+the PHY.  Note that unlike commit 92252eec913b2dd5 ("net: phy: Add a
+helper to return the index for of the internal delay"), no helpers are
+provided to parse the DT properties, as so far there is a single user
+only, which supports only zero or a single fixed value.  Of course such
+helpers can be added later, when the need arises, or when deemed useful
+otherwise.
 
-s/imx214/IMX214/
+This series consists of 4 parts:
+  1. DT binding updates documenting the new properties, for both the
+     generic ethernet-controller and the EtherAVB-specific bindings,
+     => intended to be merged through net-next.
 
-> +  an active array size of 4224H x 3200V. It is programmable through an I2C
-> +  interface.  Image data is sent through MIPI CSI-2, through 2 or 4 lanes at a
+  2. Conversion to json-schema of the Renesas EtherAVB DT bindings.
+     Technically, the conversion is independent of all of the above.
+     I included it in this series, as it shows how all sanity checks on
+     "[rt]x-internal-delay-ps" values are implemented as DT binding
+     checks.
+     => intended to be merged through net-next, or devicetree (ignoring
+        any conflict due to 1.).
 
-s/  Image/ Image/
+  3. EtherAVB driver update implementing support for the new properties.
+     => intended to be merged through net-next.
 
-> +  maximum throughput of 1.2Gbps/lane.
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx214
-> +
-> +  reg:
-> +    description: -|
-> +      I2C device address. Depends on how the sensor is wired.
+  4. DT updates, one for R-Car Gen3 and RZ/G2 SoC families each.
+     => intended to be merged through renesas-devel and arm-soc, but
+	only _after_ 3. has hit upstream.
 
-I'd drop the description, it's fairly evident as it's an I2C device,
-isn't it ?
+Changes compared to v2[4]:
+  - Update recently added board DTS files,
+  - Add Reviewed-by.
 
-> +    enum:
-> +      - 0x10
-> +      - 0x1a
-> +
-> +  clocks:
-> +    description: Reference to the xclk clock.
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Frequency of the xclk clock in Hz.
-> +
-> +  enable-gpios:
-> +    description: GPIO descriptor for the enable pin.
-> +    maxItems: 1
-> +
-> +  vdddo-supply:
-> +    description: Chip digital IO regulator (1.8V).
-> +    maxItems: 1
-> +
-> +  vdda-supply:
-> +    description: Chip analog regulator (2.7V).
-> +    maxItems: 1
-> +
-> +  vddd-supply:
-> +    description: Chip digital core regulator (1.12V).
-> +    maxItems: 1
-> +
-> +  flash-leds:
-> +    description: See ../video-interfaces.txt
-> +
-> +  lens-focus:
-> +    description: See ../video-interfaces.txt
-> +
-> +  port:
-> +    type: object
-> +    description: |
-> +      The device node must contain one 'port' child node for its digital output
-> +      video port, in accordance with the video interface bindings defined in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+Changes compared to v1[5]:
+  - Added "[PATCH 1/7] dt-bindings: net: ethernet-controller: Add
+    internal delay properties",
+  - Replace "renesas,[rt]xc-delay-ps" by "[rt]x-internal-delay-ps",
+  - Incorporated EtherAVB DT binding conversion to json-schema,
+  - Add Reviewed-by.
 
-I'd drop this, the port node is already described as required below.
+Impacted, tested:
+  - Salvator-X(S) with R-Car H3 ES1.0 and ES2.0, M3-W, and M3-N.
 
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        properties:
-> +          remote-endpoint:
-> +            description: See ../video-interfaces.txt
-> +
-> +          data-lanes:
-> +            description: See ../video-interfaces.txt
+Not impacted, tested:
+  - Ebisu with R-Car E3.
 
-Shouldn't this also express that only 2 or 4 data lanes are allowed ?
+Impacted, not tested:
+  - Salvator-X(S) with other SoC variants,
+  - ULCB with R-Car H3/M3-W/M3-N variants,
+  - V3MSK and Eagle with R-Car V3M,
+  - Draak with R-Car V3H,
+  - HiHope RZ/G2[MN] with RZ/G2M or RZ/G2N,
+  - Beacon EmbeddedWorks RZ/G2M Development Kit.
 
-            $ref: /schemas/types.yaml#/definitions/uint32-array
-            description: See ../video-interfaces.txt
-            anyOf:
-              - items:
-                  - const: 1
-                  - const: 2
-              - items:
-                  - const: 1
-                  - const: 2
-                  - const: 3
-                  - const: 4
+To ease testing, I have pushed this series to the
+topic/ravb-internal-clock-delays-v3 branch of my renesas-drivers
+repository at
+git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
 
-Maybe someone more experienced with YAML schemas could propose a better
-way to express this ? I initially tried to express it with enum instead
-of anyOf but couldn't get it to work.
+Thanks for your comments!
 
-> +
-> +          link-frequencies:
+References:
+  [1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support
+      for the KSZ9031 PHY")
+  [2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
+      delays twice").
+      https://lore.kernel.org/r/20200529122540.31368-1-geert+renesas@glider.be/
+  [3] https://lore.kernel.org/r/CAMuHMdU+MR-2tr3-pH55G0GqPG9HwH3XUd=8HZxprFDMGQeWUw@mail.gmail.com/
+  [4] https://lore.kernel.org/linux-devicetree/20200706143529.18306-1-geert+renesas@glider.be/
+  [5] https://lore.kernel.org/linux-devicetree/20200619191554.24942-1-geert+renesas@glider.be/
 
-            $ref: /schemas/types.yaml#/definitions/uint64-array
+Geert Uytterhoeven (7):
+  dt-bindings: net: ethernet-controller: Add internal delay properties
+  dt-bindings: net: renesas,ravb: Document internal clock delay
+    properties
+  dt-bindings: net: renesas,etheravb: Convert to json-schema
+  ravb: Split delay handling in parsing and applying
+  ravb: Add support for explicit internal clock delay configuration
+  arm64: dts: renesas: rcar-gen3: Convert EtherAVB to explicit delay
+    handling
+  arm64: dts: renesas: rzg2: Convert EtherAVB to explicit delay handling
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +            description: See ../video-interfaces.txt
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-frequency
-> +  - enable-gpios
-> +  - vdddo-supply
-> +  - vdda-supply
-> +  - vddd-supply
-> +  - port
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c0 {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera-sensor@1a {
-> +            compatible = "sony,imx214";
-> +            reg = <0x1a>;
-> +            vdddo-supply = <&pm8994_lvs1>;
-> +            vddd-supply = <&camera_vddd_1v12>;
-> +            vdda-supply = <&pm8994_l17>;
-> +            lens-focus = <&ad5820>;
-> +            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
-> +            clocks = <&camera_clk>;
-> +            clock-frequency = <24000000>;
-> +
-> +            port {
-> +                imx214_ep: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    link-frequencies = /bits/ 64 <480000000>;
-> +                    remote-endpoint = <&csiphy0_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6c8e98238a7b..d1a6173d3b64 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15918,7 +15918,7 @@ M:	Ricardo Ribalda <ribalda@kernel.org>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
-> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
->  F:	drivers/media/i2c/imx214.c
-> 
->  SONY IMX219 SENSOR DRIVER
+ .../bindings/net/ethernet-controller.yaml     |  14 +
+ .../bindings/net/renesas,etheravb.yaml        | 261 ++++++++++++++++++
+ .../devicetree/bindings/net/renesas,ravb.txt  | 134 ---------
+ .../boot/dts/renesas/beacon-renesom-som.dtsi  |   3 +-
+ .../boot/dts/renesas/hihope-rzg2-ex.dtsi      |   2 +-
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi     |   1 +
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |   2 +
+ .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   3 +-
+ .../arm64/boot/dts/renesas/r8a77970-v3msk.dts |   3 +-
+ arch/arm64/boot/dts/renesas/r8a77970.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi     |   2 +
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |   1 +
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |   1 +
+ .../boot/dts/renesas/salvator-common.dtsi     |   2 +-
+ arch/arm64/boot/dts/renesas/ulcb.dtsi         |   2 +-
+ drivers/net/ethernet/renesas/ravb.h           |   5 +-
+ drivers/net/ethernet/renesas/ravb_main.c      |  53 +++-
+ 23 files changed, 350 insertions(+), 153 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+ delete mode 100644 Documentation/devicetree/bindings/net/renesas,ravb.txt
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
