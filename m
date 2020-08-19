@@ -2,62 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBDD2497F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 10:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2F3C24994C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 11:27:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbgHSIIu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 04:08:50 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:59599 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726211AbgHSIIr (ORCPT
+        id S1726851AbgHSJ1Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 05:27:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726835AbgHSJ1Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 04:08:47 -0400
-X-IronPort-AV: E=Sophos;i="5.76,330,1592838000"; 
-   d="scan'208";a="54954361"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Aug 2020 17:08:45 +0900
-Received: from localhost.localdomain (unknown [172.29.53.200])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A860841E772C;
-        Wed, 19 Aug 2020 17:08:43 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: r8a774e1-hihope-rzg2h: Enable HS400 mode
-Date:   Wed, 19 Aug 2020 09:08:41 +0100
-Message-Id: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
+        Wed, 19 Aug 2020 05:27:24 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB135C061342
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 02:27:23 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by baptiste.telenet-ops.be with bizsmtp
+        id HMTK230054C55Sk01MTKZ4; Wed, 19 Aug 2020 11:27:19 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k8KNL-0007ty-54; Wed, 19 Aug 2020 11:27:19 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k8KNL-0000qQ-2m; Wed, 19 Aug 2020 11:27:19 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] thermal: rcar_thermal: Add missing braces to conditional statement
+Date:   Wed, 19 Aug 2020 11:27:16 +0200
+Message-Id: <20200819092716.3191-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das@bp.renesas.com>
+According to Documentation/process/coding-style.rst, if one branch of a
+conditional statement needs braces, both branches should use braces.
 
-This patch enables HS400 mode on HiHope RZ/G2H board.
-
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Fixes: bbcf90c0646ac797 ("thermal: Explicitly enable non-changing thermal zone devices")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/thermal/rcar_thermal.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
-index 12f9242e263b..9525d5ed6fce 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
-@@ -35,3 +35,7 @@
- 	clock-names = "du.0", "du.1", "du.3",
- 		      "dclkin.0", "dclkin.1", "dclkin.3";
- };
-+
-+&sdhi3 {
-+	mmc-hs400-1_8v;
-+};
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index 787710bb88fee890..5c2a13bf249ccb87 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -546,11 +546,11 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 		if (ret < 0)
+ 			goto error_unregister;
+ 
+-		if (chip->use_of_thermal)
++		if (chip->use_of_thermal) {
+ 			priv->zone = devm_thermal_zone_of_sensor_register(
+ 						dev, i, priv,
+ 						&rcar_thermal_zone_of_ops);
+-		else {
++		} else {
+ 			priv->zone = thermal_zone_device_register(
+ 						"rcar_thermal",
+ 						1, 0, priv,
 -- 
 2.17.1
 
