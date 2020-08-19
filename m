@@ -2,37 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0950E249F26
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7D2E249F24
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:07:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728565AbgHSNHX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 09:07:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36274 "EHLO
+        id S1727924AbgHSNHV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 09:07:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728510AbgHSM7r (ORCPT
+        with ESMTP id S1728582AbgHSM7t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 08:59:47 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F96C061349
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 05:59:12 -0700 (PDT)
+        Wed, 19 Aug 2020 08:59:49 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F92CC06134D
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 05:59:15 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by baptiste.telenet-ops.be with bizsmtp
-        id HQz62300F4C55Sk01Qz6y9; Wed, 19 Aug 2020 14:59:06 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id HQz62300D4C55Sk01Qz62a; Wed, 19 Aug 2020 14:59:06 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k8NgI-0002bq-31; Wed, 19 Aug 2020 14:59:06 +0200
+        id 1k8NgI-0002bt-3x; Wed, 19 Aug 2020 14:59:06 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k8NgI-0005Sm-2B; Wed, 19 Aug 2020 14:59:06 +0200
+        id 1k8NgI-0005Sp-2z; Wed, 19 Aug 2020 14:59:06 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Mark Brown <broonie@kernel.org>
 Cc:     Chris Brandt <chris.brandt@renesas.com>, linux-spi@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 5/7] spi: rspi: Increase bit rate range for QSPI
-Date:   Wed, 19 Aug 2020 14:59:02 +0200
-Message-Id: <20200819125904.20938-6-geert+renesas@glider.be>
+Subject: [PATCH v2 6/7] spi: rspi: Fill in spi_transfer.effective_speed_hz
+Date:   Wed, 19 Aug 2020 14:59:03 +0200
+Message-Id: <20200819125904.20938-7-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200819125904.20938-1-geert+renesas@glider.be>
 References: <20200819125904.20938-1-geert+renesas@glider.be>
@@ -41,56 +41,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Increase bit rate range for QSPI by extending the range of supported
-dividers:
-  1. QSPI supports a divider of 1, by setting SPBR to zero, increasing
-     the upper limit from 48.75 to 97.5 MHz on R-Car Gen2,
-  2. Make use of the Bit Rate Frequency Division Setting field in
-     Command Registers, to decrease the lower limit from 191 to 24 kbps
-     on R-Car Gen2.
+Fill in the effective bit rate used for transfers, so the SPI core can
+calculate instead of estimate delays.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - No changes.
 
- drivers/spi/spi-rspi.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ drivers/spi/spi-rspi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index ea3f2680d3c13e02..38c0cd7febabf114 100644
+index 38c0cd7febabf114..2b5334e22ae421b5 100644
 --- a/drivers/spi/spi-rspi.c
 +++ b/drivers/spi/spi-rspi.c
-@@ -334,14 +334,26 @@ static int rspi_rz_set_config_register(struct rspi_data *rspi, int access_size)
-  */
- static int qspi_set_config_register(struct rspi_data *rspi, int access_size)
+@@ -262,6 +262,7 @@ static void rspi_set_rate(struct rspi_data *rspi)
+ 
+ 	rspi_write8(rspi, clamp(spbr, 0, 255), RSPI_SPBR);
+ 	rspi->spcmd |= SPCMD_BRDV(brdv);
++	rspi->speed_hz = DIV_ROUND_UP(clksrc, (2U << brdv) * (spbr + 1));
+ }
+ 
+ /*
+@@ -344,6 +345,7 @@ static int qspi_set_config_register(struct rspi_data *rspi, int access_size)
+ 	clksrc = clk_get_rate(rspi->clk);
+ 	if (rspi->speed_hz >= clksrc) {
+ 		spbr = 0;
++		rspi->speed_hz = clksrc;
+ 	} else {
+ 		spbr = DIV_ROUND_UP(clksrc, 2 * rspi->speed_hz);
+ 		while (spbr > 255 && brdv < 3) {
+@@ -351,6 +353,7 @@ static int qspi_set_config_register(struct rspi_data *rspi, int access_size)
+ 			spbr = DIV_ROUND_UP(spbr, 2);
+ 		}
+ 		spbr = clamp(spbr, 0, 255);
++		rspi->speed_hz = DIV_ROUND_UP(clksrc, (2U << brdv) * spbr);
+ 	}
+ 	rspi_write8(rspi, spbr, RSPI_SPBR);
+ 	rspi->spcmd |= SPCMD_BRDV(brdv);
+@@ -698,6 +701,8 @@ static int rspi_common_transfer(struct rspi_data *rspi,
  {
--	int spbr;
-+	unsigned long clksrc;
-+	int brdv = 0, spbr;
+ 	int ret;
  
- 	/* Sets output mode, MOSI signal, and (optionally) loopback */
- 	rspi_write8(rspi, rspi->sppcr, RSPI_SPPCR);
++	xfer->effective_speed_hz = rspi->speed_hz;
++
+ 	ret = rspi_dma_check_then_transfer(rspi, xfer);
+ 	if (ret != -EAGAIN)
+ 		return ret;
+@@ -853,6 +858,7 @@ static int qspi_transfer_one(struct spi_controller *ctlr,
+ {
+ 	struct rspi_data *rspi = spi_controller_get_devdata(ctlr);
  
- 	/* Sets transfer bit rate */
--	spbr = DIV_ROUND_UP(clk_get_rate(rspi->clk), 2 * rspi->speed_hz);
--	rspi_write8(rspi, clamp(spbr, 0, 255), RSPI_SPBR);
-+	clksrc = clk_get_rate(rspi->clk);
-+	if (rspi->speed_hz >= clksrc) {
-+		spbr = 0;
-+	} else {
-+		spbr = DIV_ROUND_UP(clksrc, 2 * rspi->speed_hz);
-+		while (spbr > 255 && brdv < 3) {
-+			brdv++;
-+			spbr = DIV_ROUND_UP(spbr, 2);
-+		}
-+		spbr = clamp(spbr, 0, 255);
-+	}
-+	rspi_write8(rspi, spbr, RSPI_SPBR);
-+	rspi->spcmd |= SPCMD_BRDV(brdv);
- 
- 	/* Disable dummy transmission, set byte access */
- 	rspi_write8(rspi, 0, RSPI_SPDCR);
++	xfer->effective_speed_hz = rspi->speed_hz;
+ 	if (spi->mode & SPI_LOOP) {
+ 		return qspi_transfer_out_in(rspi, xfer);
+ 	} else if (xfer->tx_nbits > SPI_NBITS_SINGLE) {
 -- 
 2.17.1
 
