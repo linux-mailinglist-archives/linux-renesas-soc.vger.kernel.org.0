@@ -2,40 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8422824A06E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3A4424A0A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbgHSNsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 09:48:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58328 "EHLO
+        id S1728477AbgHSNw1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 09:52:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58396 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbgHSNrk (ORCPT
+        with ESMTP id S1728393AbgHSNwY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:47:40 -0400
+        Wed, 19 Aug 2020 09:52:24 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD22529E;
-        Wed, 19 Aug 2020 15:47:28 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6AC6829E;
+        Wed, 19 Aug 2020 15:52:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597844848;
-        bh=qPDwphTXyFXbPbkN7vE8BKFucRpOytrUX371l7umWAk=;
+        s=mail; t=1597845141;
+        bh=w7VsKEZu0FsIH8x+aY7tucUSOSoA+yfIwMb6+M7XFP4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vna714sS+6Dd60PsDIL7WCzaNki7Jhj/tklM9k3oMXXNXReJF5Gb7lR/Ucql9rLZ1
-         3q8SMXcjSCuG6msP5/C09iJONbhhxKbLfvRvzXWBMpVO/nrBTVywcL9f3uxQnTUN23
-         ZQlinPHF6qfRRgg6MCKqRCc6Vezm94OrCGhGdSSA=
-Date:   Wed, 19 Aug 2020 16:47:11 +0300
+        b=WnncSTuUlrD92QfpZIWMrRn4ngkwQj5Rtn257Usln05G1XVZuDyAD8eYpbBmxULNU
+         YqQuZvas/qEm5aCsNxZW0uGW0wSyp67VXk4pDK/gtxJs7MePy+BKJHmFVQJ+7Bxk0s
+         C41sQwivq4mKa0ts3XUgumC0JhTRWaAAFxpCjJso=
+Date:   Wed, 19 Aug 2020 16:52:04 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, Leon Luo <leonl@leopardimaging.com>,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: imx274: Convert to json-schema
-Message-ID: <20200819134711.GI6049@pendragon.ideasonboard.com>
-References: <20200818121821.37776-1-jacopo+renesas@jmondi.org>
+        linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Message-ID: <20200819135204.GJ6049@pendragon.ideasonboard.com>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200818121821.37776-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200818122012.37956-2-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -45,103 +47,110 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Tue, Aug 18, 2020 at 02:18:21PM +0200, Jacopo Mondi wrote:
-> Convert the imx274 bindings document to json-schema and update
+On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
+> Convert the ov772x binding document to json-schema and update
 > the MAINTAINERS file accordingly.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  .../devicetree/bindings/media/i2c/imx274.txt  | 33 ---------
->  .../devicetree/bindings/media/i2c/imx274.yaml | 69 +++++++++++++++++++
+>  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
+>  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
 
-Could you rename the file to sony,imx274.yaml ? Don't forget to change
-the $id.
+Could yuo rename this to ovti,ov772x.yaml ?
 
 >  MAINTAINERS                                   |  2 +-
->  3 files changed, 70 insertions(+), 34 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.yaml
+>  3 files changed, 85 insertions(+), 41 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
 > deleted file mode 100644
-> index 80f2e89568e1..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
+> index 0b3ede5b8e6a..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
 > +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+> @@ -1,40 +0,0 @@
+> -* Omnivision OV7720/OV7725 CMOS sensor
 > -
-> -The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
-> -an active array size of 3864H x 2202V. It is programmable through I2C
-> -interface. The I2C address is fixed to 0x1a as per sensor data sheet.
-> -Image data is sent through MIPI CSI-2, which is configured as 4 lanes
-> -at 1440 Mbps.
-> -
+> -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
 > -
 > -Required Properties:
-> -- compatible: value should be "sony,imx274" for imx274 sensor
-> -- reg: I2C bus address of the device
+> -- compatible: shall be one of
+> -	"ovti,ov7720"
+> -	"ovti,ov7725"
+> -- clocks: reference to the xclk input clock.
 > -
 > -Optional Properties:
-> -- reset-gpios: Sensor reset GPIO
+> -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
+> -  active low, if any.
+> -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
+> -  active high, if any.
 > -
-> -The imx274 device node should contain one 'port' child node with
-> -an 'endpoint' subnode. For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -The device node shall contain one 'port' child node with one child 'endpoint'
+> -subnode for its digital output video port, in accordance with the video
+> -interface bindings defined in Documentation/devicetree/bindings/media/
+> -video-interfaces.txt.
 > -
 > -Example:
-> -	sensor@1a {
-> -		compatible = "sony,imx274";
-> -		reg = <0x1a>;
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -		reset-gpios = <&gpio_sensor 0 0>;
+> -
+> -&i2c0 {
+> -	ov772x: camera@21 {
+> -		compatible = "ovti,ov7725";
+> -		reg = <0x21>;
+> -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> -		clocks = <&xclk>;
+> -
 > -		port {
-> -			sensor_out: endpoint {
-> -				remote-endpoint = <&csiss_in>;
+> -			ov772x_0: endpoint {
+> -				remote-endpoint = <&vcap1_in0>;
 > -			};
 > -		};
 > -	};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.yaml b/Documentation/devicetree/bindings/media/i2c/imx274.yaml
+> -};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
 > new file mode 100644
-> index 000000000000..71d67466cbd8
+> index 000000000000..2b84fefeb4aa
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx274.yaml
-> @@ -0,0 +1,69 @@
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> @@ -0,0 +1,84 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx274.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
-
-s/Mp/MP/
-
+> +title:  Omnivision OV7720/OV7725 CMOS sensor
 > +
 > +maintainers:
-> +  - Leon Luo <leonl@leopardimaging.com>
+> +  - Jacopo Mondi <jacopo@jmondi.org>
 > +
 > +description: -|
-> +  The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
-
-s/imx274/IMX274/
-
-> +  an active array size of 3864H x 2202V. It is programmable through I2C
-> +  interface. The I2C address is fixed to 0x1a as per sensor data sheet.
-
-I'd drop the last sentence, and add a const: 0x1a to the reg property.
-
-> +  Image data is sent through MIPI CSI-2, which is configured as 4 lanes
-> +  at 1440 Mbps.
+> +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
 > +
 > +properties:
 > +  compatible:
-> +    const: sony,imx274
+> +    enum:
+> +      - ovti,ov7720
+> +      - ovti,ov7725
 > +
 > +  reg:
 > +    maxItems: 1
 > +
+> +  clocks:
+> +    maxItems: 1
+> +
 > +  reset-gpios:
+> +    description: -|
+> +      Reference to the GPIO connected to the RSTB pin which is active low.
+> +    maxItems: 1
+> +
+> +  powerdown-gpios:
+> +    description: -|
+> +      Reference to the GPIO connected to the PWDN pin which is active high.
 > +    maxItems: 1
 > +
 > +  port:
@@ -150,6 +159,11 @@ I'd drop the last sentence, and add a const: 0x1a to the reg property.
 > +      The device node must contain one 'port' child node for its digital output
 > +      video port, in accordance with the video interface bindings defined in
 > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+You can simply write
+
+      Digital input video port. See ../video-interfaces.txt.
+
 > +
 > +    properties:
 > +      endpoint:
@@ -157,34 +171,41 @@ I'd drop the last sentence, and add a const: 0x1a to the reg property.
 > +        properties:
 > +          remote-endpoint:
 > +            description: A phandle to the bus receiver's endpoint node.
-> +
 
-We probably want to add clocks and regulators, as well as data-lanes,
-but that's out of scope for the conversion.
+           required:
+	     - remote-endpoint
+
+           additionalProperties: false
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +
 > +    additionalProperties: false
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - port
+> +  - clocks
+> +  - reset-gpios
+> +  - powerdown-gpios
 > +
 > +examples:
 > +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
 > +    i2c0 {
 > +        #address-cells = <1>;
 > +        #size-cells = <0>;
-> +
-> +        imx274: camera-sensor@1a {
-> +            compatible = "sony,imx274";
-> +            reg = <0x1a>;
-> +            reset-gpios = <&gpio_sensor 0 0>;
+> +        ov772x: camera@21 {
+> +            compatible = "ovti,ov7725";
+> +            reg = <0x21>;
+> +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> +            clocks = <&xclk>;
 > +
 > +            port {
-> +                sensor_out: endpoint {
-> +                    remote-endpoint = <&csiss_in>;
+> +                ov772x_0: endpoint {
+> +                    remote-endpoint = <&vcap1_in0>;
 > +                };
 > +            };
 > +        };
@@ -192,18 +213,18 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > +
 > +...
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 18bc4427e6b0..6c8e98238a7b 100644
+> index d1a6173d3b64..d0a20214eaaf 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -15941,7 +15941,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
+> @@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
 >  L:	linux-media@vger.kernel.org
->  S:	Maintained
+>  S:	Odd fixes
 >  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
-> +F:	Documentation/devicetree/bindings/media/i2c/imx274.yaml
->  F:	drivers/media/i2c/imx274.c
-> 
->  SONY IMX290 SENSOR DRIVER
+> -F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+>  F:	drivers/media/i2c/ov772x.c
+>  F:	include/media/i2c/ov772x.h
+>  
 
 -- 
 Regards,
