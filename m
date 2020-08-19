@@ -2,138 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D2AA24A0B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 15:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12EC224A140
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 16:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728529AbgHSNys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Aug 2020 09:54:48 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58444 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726961AbgHSNys (ORCPT
+        id S1726962AbgHSOIG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 10:08:06 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59279 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726858AbgHSOIF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Aug 2020 09:54:48 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6440C29E;
-        Wed, 19 Aug 2020 15:54:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1597845281;
-        bh=ZqBfMDMSKa5X/szF7RfnDQDJrt4q2W1U8MQZSEOCOO8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dC8PMbBDd77raytOmFSRlll3+T+zxR5N6Pq4zGBDzetA/3IiC25Sp+59vDmLf9Zcw
-         opdRB8HXOWD6NuxNlmvdCCs8aL7yGClWsJa2Erj7MkCLRkiXyrw60YbC4gVBT2dwP0
-         HdUiJqDMwuSuq16Q6OwPk5AwcLOgs0HQ+QiicfWI=
-Date:   Wed, 19 Aug 2020 16:54:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
-Message-ID: <20200819135423.GL6049@pendragon.ideasonboard.com>
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-4-jacopo+renesas@jmondi.org>
+        Wed, 19 Aug 2020 10:08:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8OkzkdEsDuuXO8Ol0khT7h; Wed, 19 Aug 2020 16:08:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1597846082; bh=hy+V1NOblWLH8aYZMPbFZNBcgkQSkIN5hhnQlljKF24=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Twg4BMrxADBXFtJZpbwDlD1J8A7G2iPxKI9JBL5mMd36JD5lztdyR//Cv8EAV0ROC
+         VoPmYKnWOnorAdA20G6bEc4bTcPwEQ79lRuuOt5NrGXLfplAJM6SnQDbaGIsSYk7Qn
+         MtNt86yYVWEvIQpWj+MxO3+808sb/v1WEXRulaOCh3A22HuIIICgX1mIqVBFYcVR4W
+         ++TN8Drb6HuumaFKgL9viNBchlF7Pt1Bj/qPFPUvLkEaumHKL98wi3rzurkVLap1ne
+         CDeOTOv6+x+w4bDeVlYTZ78DnRsA/VzGFNvWAI0R/vDBZqo6shIbrUzQnwavtxSpA7
+         +VvFcfE1AcsHA==
+Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
+ every s_fmt call
+To:     Niklas <niklas.soderlund@ragnatech.se>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200801090456.GB1379367@oden.dyn.berto.se>
+ <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
+ <20200803192108.GB2297236@oden.dyn.berto.se>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
+Date:   Wed, 19 Aug 2020 16:08:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200803192108.GB2297236@oden.dyn.berto.se>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200818122012.37956-4-jacopo+renesas@jmondi.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfD66bE590ro+1a2VaasmDx/4aw7E5J1jWU11L5dOfQH30XSzIS3D9iCxmkaatuqhUNKm5YWPBQ0NPpwqNg2qx1SI7so47rsszk6QFcb3dvFgEaCxtShy
+ SE/P9VEBaKT/+AJD4b/vNQ8aaGq1QGnNn9iQ5faaME4WH6csqsFg05afHkkyOHELawwTXKCiWijZnPoN1XhfrEQJgnNIYsYiTUhyeQKMa4njRfrtqvy8Uixh
+ RvVC0MUqStiyrr8KuQRadAH6Denkl8HVXrjJkt51RbSNDdmQOIKrRkQUdidEMopyyNgq+/0fxNAAYXXpgoW3WEAMUT2xzFyJLCHCrs40vWus3tsDQKEdaG1+
+ XHosV4IcAoLOA59vnLWx26sP8Lr5YrsVafJA8QN9HCtvFRtuVSfq1pr/0Bsh0r5I2wg0so8D3q96F71iGwJaz+bFRnmDWNw9c8X85S6tgqDfzzA2ZGqs1Daz
+ l9AqdLPt56JjpU2V1bJu4ZnIVjtt3wMdNSd/RN/TxjyFO062S7ICsgSg+HhIFPp8K0p8Z7Z3+MgGT6e/eUkWo8S9pIbh3lQAGWsdHN40K8lU+dC1n/k/Un4P
+ g/eWmH+YNgM/JyUT/pt8sCMaDYOIg6Upj5OhhccwnxQ9lGqnVFizGi/6ib5s8Tc6cwAgpuQiyuamgpuDgxjzVkyOjv1posvd6zOxr7GVsn/euQ==
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-Thank you for the patch.
-
-On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
-> Document endpoint properties for the parallel bus type and
-> add them to the example.
+On 03/08/2020 21:21, Niklas wrote:
+> Hi Lad, Hans,
 > 
-> Specify a few constraints:
-> - If the bus type is BT.656 no hsync or vsycn polarities can be
->   specified.
-> - If the bus width is 10 bits, not data-shift can be applied.
+> On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
+>> Hi Hans,
+>>
+>> On Sat, Aug 1, 2020 at 10:04 AM Niklas <niklas.soderlund@ragnatech.se> wrote:
+>>>
+>>> Hi Lad,
+>>>
+>>> Thanks for your work.
+>>>
+>>> On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
+>>>> The crop and compose settings for VIN in non mc mode werent updated
+>>>> in s_fmt call this resulted in captured images being clipped.
+>>>>
+>>>> With the below sequence on the third capture where size is set to
+>>>> 640x480 resulted in clipped image of size 320x240.
+>>>>
+>>>> high(640x480) -> low (320x240) -> high (640x480)
+>>>>
+>>>> This patch makes sure the VIN crop and compose settings are updated.
+>>>
+>>> This is clearly an inconsistency in the VIN driver that should be fixed.
+>>> But I think the none-mc mode implements the correct behavior. That is
+>>> that S_FMT should not modify the crop/compose rectangles other then make
+>>> sure they don't go out of bounds. This is an area we tried to clarify in
+>>> the past but I'm still not sure what the correct answer to.
+>>>
+>> What should be the exact behaviour of the bridge driver  for s_fmt
+>> call. Should the crop/compose settings be updated for every s_fmt
+>> callback or should they be only updated on s_selection callback.
+>> Currently the non-mc rcar-vin doesnt update the crop/compose setting
+>> in s_fmt callback due to which I see the above issue as mentioned.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
->  1 file changed, 43 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> index 75dad40f70cc..3fad5dffd19a 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> @@ -50,9 +50,47 @@ properties:
->            bus-type:
->              enum: [5, 6]
-> 
-> +          bus-width:
-> +            enum: [8, 10]
-> +            default: 10
-> +
-> +          data-shift:
-> +            enum: [0, 2]
-> +            default: 0
-> +
-> +          hsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          vsync-active:
-> +            enum: [0, 1]
-> +            default: 1
-> +
-> +          pclk-sample:
-> +            enum: [0, 1]
-> +            default: 1
-> +
->            remote-endpoint:
->              description: A phandle to the bus receiver's endpoint node.
-> 
-> +        allOf:
-> +          - if:
-> +              properties:
-> +                bus-type:
-> +                  const: 6
-> +            then:
-> +                properties:
-> +                  hsync-active: false
-> +                  vsync-active: false
-> +
-> +          - if:
-> +              properties:
-> +                bus-width:
-> +                  const: 10
-> +            then:
-> +                properties:
-> +                  data-shift:
-> +                    const: 0
+> This is not entirely correct. It does update the crop and compose 
+> rectangles on s_fmt, it makes sure they are not out-of-bounds for the 
+> new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls 
+> in the snippet bellow.
 
-I'd add a blank line here.
+For non-mc mode s_fmt must update any crop/compose rectangles to ensure that
+they are not out-of-bounds. But for mc mode the validation is done when you
+start streaming, so I think s_fmt won't make any changes in that mode.
 
->          required:
->            - bus-type
+Double-check that with Laurent, though...
 
-Should some of the properties be required ? Possibly conditioned on
-bus-type ?
-
-> 
-> @@ -82,6 +120,11 @@ examples:
->              port {
->                  ov772x_0: endpoint {
->                      bus-type = <5>;
-> +                    vsync-active = <0>;
-> +                    hsync-active = <0>;
-> +                    pclk-sample = <0>;
-> +                    bus-width = <8>;
-> +                    data-shift = <0>;
->                      remote-endpoint = <&vcap1_in0>;
->                  };
->              };
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> That being said there is a difference how this is handled in the VIN 
+> driver between it's MC and non-MC modes and I would love to learn the 
+> correct mode of operation and seeing VIN being updated to doing it 
+> correct in both cases. Thanks Lad for dealing with this!
+> 
+>>
+>> Cheers,
+>> Prabhakar
+>>
+>>>>
+>>>> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
+>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>> ---
+>>>>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 6 ++++++
+>>>>  1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>>>> index f421e25..a9b13d9 100644
+>>>> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>>>> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+>>>> @@ -319,6 +319,12 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
+>>>>       fmt_rect.width = vin->format.width;
+>>>>       fmt_rect.height = vin->format.height;
+>>>>
+>>>> +     vin->crop.top = 0;
+>>>> +     vin->crop.left = 0;
+>>>> +     vin->crop.width = vin->format.width;
+>>>> +     vin->crop.height = vin->format.height;
+>>>> +     vin->compose = vin->crop;
+>>>> +
+>>>>       v4l2_rect_map_inside(&vin->crop, &src_rect);
+>>>>       v4l2_rect_map_inside(&vin->compose, &fmt_rect);
+>>>>       vin->src_rect = src_rect;
+>>>> --
+>>>> 2.7.4
+>>>>
+>>>
+>>> --
+>>> Regards,
+>>> Niklas Söderlund
+> 
+
