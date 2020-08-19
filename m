@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 741E92491F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 02:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2742491F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 02:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbgHSAtN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 20:49:13 -0400
-Received: from mga01.intel.com ([192.55.52.88]:60269 "EHLO mga01.intel.com"
+        id S1726835AbgHSAtM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Aug 2020 20:49:12 -0400
+Received: from mga18.intel.com ([134.134.136.126]:28382 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726717AbgHSAtN (ORCPT
+        id S1725554AbgHSAtL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 20:49:13 -0400
-IronPort-SDR: JXNxFb5KSfqUhvbEEGxPN3s0WpmgzuyYi1utmv2u0wkoPsMdqUSB69xANmPV1N5Lt1/XtCEVId
- mkl3vGipM46A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="173075776"
+        Tue, 18 Aug 2020 20:49:11 -0400
+IronPort-SDR: JJVI2gmboI9J362A2SgFuEfkyplIybv9kEqdTE2axszsWvdS2hJN4VLDvpC5OO1q4F3ergxbxQ
+ 8rSBNwA229YQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="142656823"
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="173075776"
+   d="scan'208";a="142656823"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 17:49:11 -0700
-IronPort-SDR: oNFa3pKn6ayGeb+b6Ez7pHyoAgnOqA0PmlG48YA/Bz3AKq1yxK6gmZNS/+6K2ZwwjxcIkKiyrH
- YxR+4FP9f5pw==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 17:49:09 -0700
+IronPort-SDR: AOX8LkXAEiAwPTXp/xTv0j7w0rXmjXR9yoilBRBXZzffI9qdxP5RxrHgmHn7agq78ZooEuPxDn
+ ymLqhWPbzmUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="400662689"
+   d="scan'208";a="336796810"
 Received: from lkp-server02.sh.intel.com (HELO 2f0d8b563e65) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Aug 2020 17:49:10 -0700
+  by orsmga007.jf.intel.com with ESMTP; 18 Aug 2020 17:49:08 -0700
 Received: from kbuild by 2f0d8b563e65 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1k8CHt-0001W5-D3; Wed, 19 Aug 2020 00:49:09 +0000
-Date:   Wed, 19 Aug 2020 08:48:21 +0800
+        id 1k8CHr-0001Vh-OU; Wed, 19 Aug 2020 00:49:07 +0000
+Date:   Wed, 19 Aug 2020 08:48:46 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 923afaacb49deba2efb93f30a5f855099b6f6948
-Message-ID: <5f3c76d5.mNQ21xKD2ONmexf9%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm-defconfig-for-v5.10] BUILD SUCCESS
+ cd8bc7d4eb6608afe78ac51422ef94b7824f1646
+Message-ID: <5f3c76ee./DEaqBAIPgARuwur%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,10 +47,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: 923afaacb49deba2efb93f30a5f855099b6f6948  Merge branches 'renesas-arm-defconfig-for-v5.10' and 'renesas-arm-dt-for-v5.10' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-defconfig-for-v5.10
+branch HEAD: cd8bc7d4eb6608afe78ac51422ef94b7824f1646  arm64: defconfig: Enable R-Car PCIe endpoint driver
 
-elapsed time: 2391m
+elapsed time: 2392m
 
 configs tested: 149
 configs skipped: 89
