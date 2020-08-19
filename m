@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B339D24932B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 05:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA15249329
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 05:03:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727077AbgHSDDf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 23:03:35 -0400
-Received: from mga07.intel.com ([134.134.136.100]:13155 "EHLO mga07.intel.com"
+        id S1727073AbgHSDDd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Aug 2020 23:03:33 -0400
+Received: from mga12.intel.com ([192.55.52.136]:46859 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727068AbgHSDDf (ORCPT
+        id S1726803AbgHSDDc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 23:03:35 -0400
-IronPort-SDR: 5yezFvEoiRBhxGjjwCS4YOjvVVdNUnG3dvU9s7AbqeivxUbv79BIXA1dZ2HZ9l8JwJQVrbCOcv
- y1hFQBMFKtIA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="219342282"
+        Tue, 18 Aug 2020 23:03:32 -0400
+IronPort-SDR: OSav3sFSQCX9RUicpq3ETmHzYnjg2L6lCsJgFkH8EfxulgJg8pCvyiacXeN23jKeX2eV4e9SIC
+ VL1MwlNPaWXQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="134557206"
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="219342282"
+   d="scan'208";a="134557206"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 20:03:34 -0700
-IronPort-SDR: rlhLi7aBMTqnJqAnREazuSM76W8fLp3QJzZr6NxzzedtbjthwzgO4hZiB4K5JYouJC3v1XOpTX
- tPP8+id/25Ow==
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 20:03:32 -0700
+IronPort-SDR: LbPM/N47Mpe1/gqsa5z0MGkzEJpFfHUwPdfJ0afyCAB3et4HBeYwRAEoT2sImwsnKq/U9CpUQd
+ pasH73GCxSbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="334544477"
+   d="scan'208";a="497590320"
 Received: from lkp-server01.sh.intel.com (HELO 4cedd236b688) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 18 Aug 2020 20:03:32 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 18 Aug 2020 20:03:31 -0700
 Received: from kbuild by 4cedd236b688 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1k8ENv-000059-Pv; Wed, 19 Aug 2020 03:03:31 +0000
-Date:   Wed, 19 Aug 2020 11:02:59 +0800
+        id 1k8ENu-000050-JF; Wed, 19 Aug 2020 03:03:30 +0000
+Date:   Wed, 19 Aug 2020 11:03:02 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/overlays-v5.9-rc1] BUILD SUCCESS
- 412f1fa2911cd52004a92a4570dd43e59e9b97ba
-Message-ID: <5f3c9663.bSF9JdfkI7ukga16%lkp@intel.com>
+Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
+ a923fbaf26518b6ba476316b660022346a321dc3
+Message-ID: <5f3c9666.x6AQLC3rbIiIo245%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,8 +47,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/overlays-v5.9-rc1
-branch HEAD: 412f1fa2911cd52004a92a4570dd43e59e9b97ba  kbuild: Create a rule for validating device tree overlay files
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/renesas-overlays
+branch HEAD: a923fbaf26518b6ba476316b660022346a321dc3  arm64: dts: renesas: salvator-x: exio-d: Add overlay for SCIF3
 
 elapsed time: 720m
 
