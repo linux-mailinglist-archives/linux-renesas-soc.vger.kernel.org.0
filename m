@@ -2,129 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8CF624932A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 05:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CBDD2497F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Aug 2020 10:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbgHSDDe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Aug 2020 23:03:34 -0400
-Received: from mga05.intel.com ([192.55.52.43]:61963 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727068AbgHSDDd (ORCPT
+        id S1726627AbgHSIIu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Aug 2020 04:08:50 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:59599 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726211AbgHSIIr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Aug 2020 23:03:33 -0400
-IronPort-SDR: bkRe3iZO8PXDpCLtDy0QN49YBDV59MNzmMD01Ir9gwwPSgw+6tEasVZT/vHiGcdyLoENpSbSBI
- njpd6zud7BHA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9717"; a="239870589"
-X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="239870589"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2020 20:03:32 -0700
-IronPort-SDR: lFiJ0jZ5wLTE+gG8b/M8f3+lyT0TgHJj0lVas1TtyvWr7gfuIc5ki8rW6Wki264sKJ2bQCMMax
- S88rgeeM9nRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,329,1592895600"; 
-   d="scan'208";a="441448408"
-Received: from lkp-server01.sh.intel.com (HELO 4cedd236b688) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Aug 2020 20:03:31 -0700
-Received: from kbuild by 4cedd236b688 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1k8ENu-000053-Lf; Wed, 19 Aug 2020 03:03:30 +0000
-Date:   Wed, 19 Aug 2020 11:03:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- 1616a0adca093d3f62ca971bd74686bef96a16bf
-Message-ID: <5f3c966c.Y8HVv4MeNHjX8gfT%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        Wed, 19 Aug 2020 04:08:47 -0400
+X-IronPort-AV: E=Sophos;i="5.76,330,1592838000"; 
+   d="scan'208";a="54954361"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 19 Aug 2020 17:08:45 +0900
+Received: from localhost.localdomain (unknown [172.29.53.200])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A860841E772C;
+        Wed, 19 Aug 2020 17:08:43 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r8a774e1-hihope-rzg2h: Enable HS400 mode
+Date:   Wed, 19 Aug 2020 09:08:41 +0100
+Message-Id: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  master
-branch HEAD: 1616a0adca093d3f62ca971bd74686bef96a16bf  [LOCAL] arm64: defconfig: Update renesas_defconfig
+From: Biju Das <biju.das@bp.renesas.com>
 
-elapsed time: 720m
+This patch enables HS400 mode on HiHope RZ/G2H board.
 
-configs tested: 66
-configs skipped: 1
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20200818
-i386                 randconfig-a002-20200818
-i386                 randconfig-a001-20200818
-i386                 randconfig-a006-20200818
-i386                 randconfig-a003-20200818
-i386                 randconfig-a004-20200818
-x86_64               randconfig-a013-20200818
-x86_64               randconfig-a016-20200818
-x86_64               randconfig-a012-20200818
-x86_64               randconfig-a011-20200818
-x86_64               randconfig-a014-20200818
-x86_64               randconfig-a015-20200818
-i386                 randconfig-a016-20200818
-i386                 randconfig-a011-20200818
-i386                 randconfig-a015-20200818
-i386                 randconfig-a013-20200818
-i386                 randconfig-a012-20200818
-i386                 randconfig-a014-20200818
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
+index 12f9242e263b..9525d5ed6fce 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
++++ b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h.dts
+@@ -35,3 +35,7 @@
+ 	clock-names = "du.0", "du.1", "du.3",
+ 		      "dclkin.0", "dclkin.1", "dclkin.3";
+ };
++
++&sdhi3 {
++	mmc-hs400-1_8v;
++};
+-- 
+2.17.1
+
