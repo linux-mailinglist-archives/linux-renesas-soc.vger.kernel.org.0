@@ -2,88 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B37424AF54
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 08:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 940C524AF67
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 08:45:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725819AbgHTGjO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Aug 2020 02:39:14 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42349 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbgHTGjO (ORCPT
+        id S1725820AbgHTGpV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Aug 2020 02:45:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59836 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725819AbgHTGpV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Aug 2020 02:39:14 -0400
-Received: by mail-oi1-f194.google.com with SMTP id j7so1067084oij.9;
-        Wed, 19 Aug 2020 23:39:13 -0700 (PDT)
+        Thu, 20 Aug 2020 02:45:21 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC9BC061383
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 23:45:19 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id k13so397697lfo.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 23:45:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ZCw+J3eNKvckpSGIv9R1A41dRAL10YAzemWWZZj2TxM=;
+        b=gn4feuvIJRGcm17jNvIi+Cs0oQkhPwFrCcF1fwZXkZsTBCf1COMIIzY9I3aoT1OO+D
+         j8Ro8j93yknlukw/XCHHy/tpUxs5i6s2i6XuFepcDMxFfEtIRmr39aXwsi0MOaCxZQAH
+         aJ5Z46auWf3uLNrTsxfSDedLWaRyb8P55xL8CRuBDRZlS09EawojZC3YNm3FkHCt0CPJ
+         b8BqVrItpwW6qNYBqd84jEDIYSh20ou4l8zb47H5Mg2UUYH/yAHAeLSfkPVk5SJxbdWR
+         nMNxEPunJJ0bWJ74vQqG66BdOjWdefZxFb9kV1Gb3ph+dGDg1xQcWjQLIpJjUzGNmTb1
+         8AJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e8/T7jMrXbc4A5I5iQeln6XFEc6ytosFSjeoaKLVkDE=;
-        b=QaCO1vhlwOXCatWqQPaWs+3lbT72lbuaLXh69fcbvJky42OR43yawaVAjFdvIbribH
-         FnMtxhJzSl0NpZ5qZVsPaNT0lXI1xCD/+L7UQiTFCOrmqecgg1M48tygHARGIrV0O5Ou
-         Qjx1vFVNlsdSmnRS/nMIJZXDuyefuBYe1YqFmzXD25hoY8qyh4BqTsFzeaMvz8o8XEkU
-         /PvPPIYFC04Y7JH07a2W/kR2jVlkhV94CgE867RCzfSYksYxzK6MCKqxVncVJELWB8YV
-         U8uCZDWWGSBUbOZ8gjedN/7NtZARJbykx6fkxBtbQOn9ntSBIKYT2TQ69pglTH9MSeU4
-         Kh2g==
-X-Gm-Message-State: AOAM530t2ZWRxbx77SbbgkI7uElHBoCtOp0lLl9TObLz0Y2aFeJlm5Ds
-        Z7uNvN29VHLrb5ieDxKQ8EKYZkr3mvzxYHfhuCE=
-X-Google-Smtp-Source: ABdhPJwCabawXvHO5zO2Gqt+jMN8cu0o45gfsmoQbx+UbhVOjYFGLv9Oj83JCeRoei4AoD/4uzXJLtFBzWuiLi9v7wY=
-X-Received: by 2002:aca:b742:: with SMTP id h63mr938378oif.148.1597905553079;
- Wed, 19 Aug 2020 23:39:13 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ZCw+J3eNKvckpSGIv9R1A41dRAL10YAzemWWZZj2TxM=;
+        b=U4fW5zdhVHpW0HUQI/ffSe/S+phLyzmxP7qd60uTrsBN0R3RDm8OTWYDurabOTJ/TE
+         IQthzC9xJPohZ5yZPHDOWKPMyRs6e+IKx0Wj/qxI/K8dnqqxplo4rUcKRl9pnXP1l0bL
+         ovwOV4QcEiuPKqMzw9CH3dEz0WBp+RjXXuauo9cTCvP1lajtfoZ0WAFZ/FZE6y+z2Kpo
+         7SBAXH2ECW1S8aa3xSWYGQKkXeRCEQGdTRf4K9KuBLyo5GcJj0j36W6uOzLtDuJApsEn
+         D5MQWTBwrhFJIRDkHPww0RubkwIImJl2K8WcbFhngdWiODbaYslkzf/s0pSUxROTH1OQ
+         p0cQ==
+X-Gm-Message-State: AOAM533gbFkE55Whnr8UlWQjMEZO1GDBXDi+AGq5u0tfl3R3reWvKQ8Z
+        5Tapyp+ICn1Ycj2fQ9bLN8oi6g==
+X-Google-Smtp-Source: ABdhPJynGUW99aFPoSyRjPgckV+XoFAgcLbRS9hMSatRFjRqiz5jjL87Dz4FdSu2A+dvMdSEDdFfCQ==
+X-Received: by 2002:ac2:5f48:: with SMTP id 8mr872579lfz.157.1597905918034;
+        Wed, 19 Aug 2020 23:45:18 -0700 (PDT)
+Received: from localhost (host-78-79-224-122.mobileonline.telia.com. [78.79.224.122])
+        by smtp.gmail.com with ESMTPSA id h26sm283755lfj.20.2020.08.19.23.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2020 23:45:16 -0700 (PDT)
+Date:   Thu, 20 Aug 2020 08:45:14 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] thermal: rcar_thermal: Add missing braces to conditional
+ statement
+Message-ID: <20200820064514.GA33898@wyvern>
+References: <20200819092716.3191-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20200819124539.20239-1-geert+renesas@glider.be> <20200819.130529.1551760851592543597.davem@davemloft.net>
-In-Reply-To: <20200819.130529.1551760851592543597.davem@davemloft.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Aug 2020 08:39:01 +0200
-Message-ID: <CAMuHMdWV76Eg_RRzcuhCVtyWsLOx-FEVKg1bU-0b8zH69TVjYA@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: net: renesas,ether: Improve schema validation
-To:     David Miller <davem@davemloft.net>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200819092716.3191-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi David,
+Hi Geert,
 
-On Wed, Aug 19, 2020 at 10:05 PM David Miller <davem@davemloft.net> wrote:
-> From: Geert Uytterhoeven <geert+renesas@glider.be>
-> Date: Wed, 19 Aug 2020 14:45:39 +0200
->
-> >   - Remove pinctrl consumer properties, as they are handled by core
-> >     dt-schema,
-> >   - Document missing properties,
-> >   - Document missing PHY child node,
-> >   - Add "additionalProperties: false".
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> > v2:
-> >   - Add Reviewed-by.
->
-> Who will take this patch or should it go via my networking tree?
+Thanks for your work.
 
-Given Rob provided his tag, I think it should go through your networking
-tree.
+On 2020-08-19 11:27:16 +0200, Geert Uytterhoeven wrote:
+> According to Documentation/process/coding-style.rst, if one branch of a
+> conditional statement needs braces, both branches should use braces.
+> 
+> Fixes: bbcf90c0646ac797 ("thermal: Explicitly enable non-changing thermal zone devices")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thank you!
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+>  drivers/thermal/rcar_thermal.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+> index 787710bb88fee890..5c2a13bf249ccb87 100644
+> --- a/drivers/thermal/rcar_thermal.c
+> +++ b/drivers/thermal/rcar_thermal.c
+> @@ -546,11 +546,11 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+>  		if (ret < 0)
+>  			goto error_unregister;
+>  
+> -		if (chip->use_of_thermal)
+> +		if (chip->use_of_thermal) {
+>  			priv->zone = devm_thermal_zone_of_sensor_register(
+>  						dev, i, priv,
+>  						&rcar_thermal_zone_of_ops);
+> -		else {
+> +		} else {
+>  			priv->zone = thermal_zone_device_register(
+>  						"rcar_thermal",
+>  						1, 0, priv,
+> -- 
+> 2.17.1
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
