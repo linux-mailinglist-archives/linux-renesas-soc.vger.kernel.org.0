@@ -2,143 +2,229 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E14524BE6D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 15:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 580B324C2E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 18:04:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729825AbgHTN0e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Aug 2020 09:26:34 -0400
-Received: from www.zeus03.de ([194.117.254.33]:47932 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730856AbgHTNZy (ORCPT
+        id S1729432AbgHTQEl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Aug 2020 12:04:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52934 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729289AbgHTQEi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Aug 2020 09:25:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=vDZhpS+9ugVXTw
-        1jJxosywbr7ET2TfXwAgG0o3lq5+4=; b=ODwVLSybEj1jrympX8zg9CqRkIeJbB
-        C4HV6hhbbSvuflYuNO29IV+Pp4RvQ1ki4h0muxAdadethsyvYnu8OWIz0ZA8tg/R
-        eUnc4lqNoSvih0c3MBG9gzBH3/FETTdIBxj5omCchsu0hzEgVCtqlok57oL5j7+G
-        vEsJ6Rd1myGB4=
-Received: (qmail 560195 invoked from network); 20 Aug 2020 15:25:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Aug 2020 15:25:48 +0200
-X-UD-Smtp-Session: l3s3148p1@JWv7Dk+tNJggAwDPXwuPAFbD76CDVWXO
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFT 6/6] mmc: tmio: remove indirection of 'execute_tuning' callback
-Date:   Thu, 20 Aug 2020 15:25:38 +0200
-Message-Id: <20200820132538.24758-7-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200820132538.24758-1-wsa+renesas@sang-engineering.com>
-References: <20200820132538.24758-1-wsa+renesas@sang-engineering.com>
+        Thu, 20 Aug 2020 12:04:38 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96C1A23D;
+        Thu, 20 Aug 2020 18:04:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1597939474;
+        bh=F1VgKHw+BMI5X9Ve96ajPLFVLW5J8X9PUB53EKuKqxA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n4kbYVtXeaUIUnJ4ZuVoUMubMqYwPBWTZS2o0RjbzX6Pw5el5VtQgE0MuhIqr8FR4
+         khFv4Lg1vNyN9qKRvxQFY+84adNrDwClsyCqsFBCLRFwFMs9xnt7Er4q31UqZH7qz9
+         rjj0eD/pciCIswASHbUoaAZkP0OGx7Esxhx0Ca6Y=
+Date:   Thu, 20 Aug 2020 19:04:16 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: mt9v111: Convert to json-schema
+Message-ID: <20200820160416.GW6593@pendragon.ideasonboard.com>
+References: <20200817160129.256085-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200817160129.256085-1-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-After all the previous refactorization, we can now populate mmc_ops
-directly and don't need a layer inbetween. The NULL-pointer check and
-the error printout are already done by the MMC core.
+Hi Jacopo,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/host/renesas_sdhi_core.c |  7 ++++---
- drivers/mmc/host/tmio_mmc.h          |  6 ------
- drivers/mmc/host/tmio_mmc_core.c     | 17 -----------------
- 3 files changed, 4 insertions(+), 26 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 872f36a43753..29148fa25d82 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -519,8 +519,9 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
- 	return 0;
- }
- 
--static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
-+static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
- {
-+	struct tmio_mmc_host *host = mmc_priv(mmc);
- 	struct renesas_sdhi *priv = host_to_priv(host);
- 	int i, ret;
- 
-@@ -543,7 +544,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
- 		/* Set sampling clock position */
- 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
- 
--		if (mmc_send_tuning(host->mmc, opcode, NULL) == 0)
-+		if (mmc_send_tuning(mmc, opcode, NULL) == 0)
- 			set_bit(i, priv->taps);
- 
- 		if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
-@@ -942,8 +943,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 		if (!hit)
- 			dev_warn(&host->pdev->dev, "Unknown clock rate for tuning\n");
- 
--		host->execute_tuning = renesas_sdhi_execute_tuning;
- 		host->check_retune = renesas_sdhi_check_scc_error;
-+		host->ops.execute_tuning = renesas_sdhi_execute_tuning;
- 		host->ops.prepare_hs400_tuning = renesas_sdhi_prepare_hs400_tuning;
- 		host->ops.hs400_downgrade = renesas_sdhi_disable_scc;
- 		host->ops.hs400_complete = renesas_sdhi_hs400_complete;
-diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-index dac717041c2d..51b5f388f6d8 100644
---- a/drivers/mmc/host/tmio_mmc.h
-+++ b/drivers/mmc/host/tmio_mmc.h
-@@ -180,12 +180,6 @@ struct tmio_mmc_host {
- 	void (*reset)(struct tmio_mmc_host *host);
- 	bool (*check_retune)(struct tmio_mmc_host *host);
- 
--	/*
--	 * Mandatory callback for tuning to occur which is optional for SDR50
--	 * and mandatory for SDR104.
--	 */
--	int (*execute_tuning)(struct tmio_mmc_host *host, u32 opcode);
--
- 	void (*prepare_hs400_tuning)(struct tmio_mmc_host *host);
- 	void (*hs400_downgrade)(struct tmio_mmc_host *host);
- 	void (*hs400_complete)(struct tmio_mmc_host *host);
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index e7bad761c714..0f266cbf82b8 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -712,22 +712,6 @@ static int tmio_mmc_start_data(struct tmio_mmc_host *host,
- 	return 0;
- }
- 
--static int tmio_mmc_execute_tuning(struct mmc_host *mmc, u32 opcode)
--{
--	struct tmio_mmc_host *host = mmc_priv(mmc);
--	int ret;
--
--	if (!host->execute_tuning)
--		return 0;
--
--	ret = host->execute_tuning(host, opcode);
--
--	if (ret < 0)
--		dev_warn(&host->pdev->dev, "Tuning procedure failed\n");
--
--	return ret;
--}
--
- static void tmio_process_mrq(struct tmio_mmc_host *host,
- 			     struct mmc_request *mrq)
- {
-@@ -1001,7 +985,6 @@ static struct mmc_host_ops tmio_mmc_ops = {
- 	.get_cd		= tmio_mmc_get_cd,
- 	.enable_sdio_irq = tmio_mmc_enable_sdio_irq,
- 	.multi_io_quirk	= tmio_multi_io_quirk,
--	.execute_tuning = tmio_mmc_execute_tuning,
- };
- 
- static int tmio_mmc_init_ocr(struct tmio_mmc_host *host)
+On Mon, Aug 17, 2020 at 06:01:29PM +0200, Jacopo Mondi wrote:
+> Convert the mt9v111 bindings document to json-schema and update
+> the MAINTAINERS file accordingly.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../bindings/media/i2c/aptina,mt9v111.txt     | 46 ----------
+>  .../bindings/media/i2c/aptina,mt9v111.yaml    | 83 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 84 insertions(+), 47 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> deleted file mode 100644
+> index bd896e9f67d1..000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> +++ /dev/null
+> @@ -1,46 +0,0 @@
+> -* Aptina MT9V111 CMOS sensor
+> -----------------------------
+> -
+> -The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
+> -based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
+> -
+> -The sensor has an active pixel array of 640x480 pixels and can output a number
+> -of image resolution and formats controllable through a simple two-wires
+> -interface.
+> -
+> -Required properties:
+> ---------------------
+> -
+> -- compatible: shall be "aptina,mt9v111".
+> -- clocks: reference to the system clock input provider.
+> -
+> -Optional properties:
+> ---------------------
+> -
+> -- enable-gpios: output enable signal, pin name "OE#". Active low.
+> -- standby-gpios: low power state control signal, pin name "STANDBY".
+> -  Active high.
+> -- reset-gpios: chip reset signal, pin name "RESET#". Active low.
+> -
+> -The device node must contain one 'port' child node with one 'endpoint' child
+> -sub-node for its digital output video port, in accordance with the video
+> -interface bindings defined in:
+> -Documentation/devicetree/bindings/media/video-interfaces.txt
+> -
+> -Example:
+> ---------
+> -
+> -        &i2c1 {
+> -                camera@48 {
+> -                        compatible = "aptina,mt9v111";
+> -                        reg = <0x48>;
+> -
+> -                        clocks = <&camera_clk>;
+> -
+> -                        port {
+> -                                mt9v111_out: endpoint {
+> -                                        remote-endpoint = <&ceu_in>;
+> -                                };
+> -                        };
+> -                };
+> -        };
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> new file mode 100644
+> index 000000000000..54cc136aa239
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/aptina,mt9v111.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aptina MT9V111 CMOS sensor
+> +
+> +maintainers:
+> +  - Jacopo Mondi <jacopo@jmondi.org>
+> +
+> +description: -|
+> +  The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
+> +  based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
+> +
+> +  The sensor has an active pixel array of 640x480 pixels and can output a number
+> +  of image resolution and formats controllable through a simple two-wires
+
+s/resolution/resolutions/
+
+> +  interface.
+> +
+> +properties:
+> +  compatible:
+> +    const: aptina,mt9v111
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  enable-gpios:
+> +    description: Enable signal, pin name "OE#". Active low.
+> +    maxItems: 1
+> +
+> +  standby-gpios:
+> +    description: Low power state control signal, pin name "STANBY". Active high.
+
+s/STANBY/STANDBY/
+
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Chip reset signal, pin name "RESET#". Active low.
+> +    maxItems: 1
+> +
+> +  port:
+> +    type: object
+> +    description: |
+> +      The device node must contain one 'port' child node for its digital output
+> +      video port, in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+
+Just "Output video port. See ../video-interfaces.txt." should be enough.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        properties:
+> +          remote-endpoint:
+> +            description: A phandle to the bus receiver's endpoint node.
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - port
+> +
+> +examples:
+> +  - |
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@48 {
+> +            compatible = "aptina,mt9v111";
+> +            reg = <0x48>;
+> +            clocks = <&camera_clk>;
+> +
+> +            port {
+> +                mt9v111_out: endpoint {
+> +                    remote-endpoint = <&ceu_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5392f00cec46..18bc4427e6b0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11688,7 +11688,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+> -F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+> +F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+>  F:	drivers/media/i2c/mt9v111.c
+> 
+>  MULTIFUNCTION DEVICES (MFD)
+
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
