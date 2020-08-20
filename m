@@ -2,133 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACB5424AF74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 08:56:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0445024B8A9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 13:25:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725798AbgHTG40 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Aug 2020 02:56:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbgHTG4Z (ORCPT
+        id S1730291AbgHTLZe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Aug 2020 07:25:34 -0400
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:42045 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728514AbgHTKGm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Aug 2020 02:56:25 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D8FC061757
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 23:56:24 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id v4so954373ljd.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Aug 2020 23:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=sW5c87vJpt7NYkvzxgQbaQlu5yA0lKJzBLThzmHot1g=;
-        b=rRR85o34aUvwwsOGpa0sIUSTB/03pYnS8DL9MBGX9DGEup9lJSCwgSzcYsU2M/gLkQ
-         H3UZmqA7LZ/6dBELfMF8Vr0iizNlEwe5frLPx6woZM50ebc87FVQ8aeDc5T/loTqLlcC
-         y0XFbxiVsEeSbccB/Disw7amvu7S5jXk/0aeDlrNikE7pmisn8QwGDxfTiXneI+0bZc1
-         tGrjtjKZ/PqiHnniQUnESimQVx10Du8BM1fxNTy9axn9At8ecIAJnw/wQX3mAR48IvzQ
-         vuiLLEcBK1YjeBit5S90We/v2yVjfh30RhMEXTTbLHUzZbRjVneg2HHQqSAkkCWPTQLh
-         FhSQ==
+        Thu, 20 Aug 2020 06:06:42 -0400
+Received: by mail-oo1-f67.google.com with SMTP id a6so283925oog.9;
+        Thu, 20 Aug 2020 03:06:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=sW5c87vJpt7NYkvzxgQbaQlu5yA0lKJzBLThzmHot1g=;
-        b=haQqqI8ZHFOv6iVzPjnHAZ35jXISgJ/6hZOqcF50ilOcvD8qbzjyQfaEoqUB55/A8+
-         FY+fhM4Lz9ks7NEZk/5EMbaxR5GTRb3P5KQ5fPUkxt1dCnpItvPBZyD8VxZ9luzBjRn3
-         SQtHPuDbPGe/zVkeuEdD8F+DdJHk/EekB3apYtxf7s34b5Zlqysnyorc4umwt9PFfTu3
-         iaqqPC8HJYN/NN1JmJ/A6LAVpU8S7Hu9/g7UMayKDELDmoCKoV9eVwuIVfxlb/UIqBr/
-         L81j0NpXkntzrAovsDkid52QlVBOwlPzBs4CHOo8PzuPwAyaFK2wjsfbc8rIZAnDpTAU
-         960Q==
-X-Gm-Message-State: AOAM530px7qkmLgZiaB1lSfteRgUCb/dTA+tezNRPdoEwQPMJzCIeIdd
-        n2xlgtbOwhantZB7ZSi0n01euA==
-X-Google-Smtp-Source: ABdhPJyuJz2UQzfs+luVy8+cq7KvJ+WJvlablTkxOWtZo6Q0UxxVG+0hgBnjLvOFcdmigkiZr0akeQ==
-X-Received: by 2002:a2e:9bc6:: with SMTP id w6mr901696ljj.404.1597906583021;
-        Wed, 19 Aug 2020 23:56:23 -0700 (PDT)
-Received: from localhost (host-78-79-224-122.mobileonline.telia.com. [78.79.224.122])
-        by smtp.gmail.com with ESMTPSA id e14sm256430ljj.120.2020.08.19.23.56.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 23:56:22 -0700 (PDT)
-Date:   Thu, 20 Aug 2020 08:56:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa@kernel.org>
-Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] mmc: test: remove ambiguity in test description
-Message-ID: <20200820065620.GA39265@wyvern>
-References: <20200817115838.2981-1-wsa@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7+CSk1ksXzy7e0WIknvr7+ji8pZUrOi3fj0VsGs4weY=;
+        b=EXA02wWQsI5YuePA3VIgOVGGfySn9Nyv6KRdADkev9beQf15igej8ZcJYwdAqafunl
+         0nsIU5GeAzT41tL22DqSVj4gQIu5wBPfuXQ7IETeOb8grj+SsQi+wQhqdPFXqGiAfH6N
+         Ttvqnk082JjN2O+MoPp92mbjJX8IxjFpAsJctnAwLaYKwtJYQjIBXMjtWu3NCsqp30Tr
+         rNWJb41EQnLC/jWn/D5C3yJtaik8lb2S8nKgiSbHxydfmsntX7uJ9fkW8+j03ouQdR3m
+         TecMTKvVw8NY7VAV9NrjaFfjOMPHX5cZ2mwlVZ6JAOtTMerYKbsSMBY2cxiU38z2M8gC
+         UEZQ==
+X-Gm-Message-State: AOAM533/sBcqedcM2+5wXRGK25XzmS3U+kk0LaYQ0ZYIPWH9w5dOwWvS
+        vC4KIEnasnMf+U30xZNwp9OwUBkqpL1iqX7W0RQ=
+X-Google-Smtp-Source: ABdhPJzLpZOD1rs1p3nBtT5EFxS48HiVxoTkLH06KtZW1eQSDDDuEahrzdmBlpsHmdngJPIb1mx3MtQK7PAdAm1yD5w=
+X-Received: by 2002:a4a:4201:: with SMTP id h1mr1818497ooj.1.1597918001038;
+ Thu, 20 Aug 2020 03:06:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200817115838.2981-1-wsa@kernel.org>
+References: <20200807141345.6714-1-geert+renesas@glider.be>
+ <20200817233253.GA1819982@bogus> <CAMuHMdV-NVycDcPggYw4-pvSkkwo079bUevA2yB3XM5YfHi9mg@mail.gmail.com>
+In-Reply-To: <CAMuHMdV-NVycDcPggYw4-pvSkkwo079bUevA2yB3XM5YfHi9mg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 20 Aug 2020 12:06:29 +0200
+Message-ID: <CAMuHMdWGu5+PYiYR9rdt97Hd1ribi0Yc0q68NBU6AFRBDCCg_g@mail.gmail.com>
+Subject: Re: [PATCH/RFC v2] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Rob,
 
-Thanks for your work.
+On Tue, Aug 18, 2020 at 9:10 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Aug 18, 2020 at 1:32 AM Rob Herring <robh@kernel.org> wrote:
+> > On Fri, Aug 07, 2020 at 04:13:45PM +0200, Geert Uytterhoeven wrote:
+> > > Convert the Renesas Pin Function Controller (PFC) Device Tree binding
+> > > documentation to json-schema.
+> > >
+> > > Document missing properties.
+> > > Drop deprecated and obsolete #gpio-range-cells property.
+> > > Update the example to match reality.
+> > > Drop consumer examples, as they do not belong here.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > Still RFC, due to the FIXMEs near the enum descriptions.
+> > > If I enable the enums checks, I get e.g.:
+> > >
+> > >     [[1800]] is not one of [1800, 3300]
+> > >
+> > > Note the double square brackets around 1800.
+> > > The usual error message doesn't have them, e.g.:
+> > >
+> > >     2000 is not one of [1800, 3300]
+> > >
+> > > So this looks like a bug in the tooling?
+> >
+> > Yes, we only recently started supporting schemas under
+> > 'additionalProperties', but failed to apply fixups.
+> >
+> > I have a fix I'm testing out. I'm bumping the version requirement in
+> > 5.10, so I'll make sure it is there.
+>
+> Thanks, looking forward to it.
 
-On 2020-08-17 13:58:38 +0200, Wolfram Sang wrote:
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
-> When reading the test description, I thought a correction of the
-> xfer_size was tested, which is not the case. It is tested that the
-> xfer_size is correct. Use 'proper xfer_size' to remove this ambiguity.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I can confirm this is fixed in v2020.08.1.
 
-For what it's worth,
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+>
+> > > +  interrupts-extended:
+> >
+> > Just use 'interrupts' here. 'interrupt-extended' is always magically
+> > supported.
+>
+> Apparently not everywhere...
+>
+>     Documentation/devicetree/bindings/pinctrl/renesas,pfc.example.dt.yaml:
+> pin-controller@e6050000: 'interrupts' is a required property
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+The existing fixup doesn't handle "required: interrupts"  if that is inside an
+if/then/else block.
 
-> ---
-> 
-> This may be bike-shedding and I am not offended if you think it is
-> minor. However, I ended up looking at the source wondering where is what
-> automatically corrected.
-> 
->  drivers/mmc/core/mmc_test.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
-> index c21b3cb71775..152e7525ed33 100644
-> --- a/drivers/mmc/core/mmc_test.c
-> +++ b/drivers/mmc/core/mmc_test.c
-> @@ -2669,22 +2669,22 @@ static const struct mmc_test_case mmc_test_cases[] = {
->  	},
->  
->  	{
-> -		.name = "Correct xfer_size at write (start failure)",
-> +		.name = "Proper xfer_size at write (start failure)",
->  		.run = mmc_test_xfersize_write,
->  	},
->  
->  	{
-> -		.name = "Correct xfer_size at read (start failure)",
-> +		.name = "Proper xfer_size at read (start failure)",
->  		.run = mmc_test_xfersize_read,
->  	},
->  
->  	{
-> -		.name = "Correct xfer_size at write (midway failure)",
-> +		.name = "Proper xfer_size at write (midway failure)",
->  		.run = mmc_test_multi_xfersize_write,
->  	},
->  
->  	{
-> -		.name = "Correct xfer_size at read (midway failure)",
-> +		.name = "Proper xfer_size at read (midway failure)",
->  		.run = mmc_test_multi_xfersize_read,
->  	},
->  
-> -- 
-> 2.20.1
-> 
+> > > +additionalProperties:
+> > > +  anyOf:
+> > > +    - type: object
+> > > +      allOf:
+> > > +        - $ref: pincfg-node.yaml#
+> > > +        - $ref: pinmux-node.yaml#
+> > > +
+> > > +      description:
+> > > +        Pin controller client devices use pin configuration subnodes (children
+> > > +        and grandchildren) for desired pin configuration.
+> > > +        Client device subnodes use below standard properties.
+> > > +
+> > > +      properties:
+> > > +        phandle: true
+> >
+> > Once fixed, this won't be necessary.
+>
+> OK.
+
+Seems to be still an issue in v2020.08.1?
+
+> > > +        function: true
+> > > +        groups: true
+> > > +        pins: true
+> > > +        bias-disable: true
+> > > +        bias-pull-down: true
+> > > +        bias-pull-up: true
+> > > +        drive-strength:
+> > > +          true # FIXME enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
+> > > +          # avb:pins_mdio:drive-strength: [[24]] is not one of [3, 6, 9, 12, 15, 18, 21, 24]
+> > > +        power-source:
+> > > +          true # FIXME enum: [ 1800, 3300 ]
+> > > +          # sd0_uhs:power-source: [[1800]] is not one of [1800, 3300]
+> > > +        gpio-hog: true
+> > > +        gpios: true
+> > > +        input: true
+> > > +        output-high: true
+> > > +        output-low: true
+> > > +
+> > > +      additionalProperties: false
+> > > +
+> > > +    - type: object
+> > > +      properties:
+> > > +        phandle: true
+> >
+> > For this one, you can just link it back to the first entry:
+> >
+> > - type: object
+> >   additionalProperties:
+> >     $ref: "#/additionalProperties/anyOf/0"
+>
+> Thanks, cool!
+
+Works great!
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
