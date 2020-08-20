@@ -2,169 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0445024B8A9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 13:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8D624B981
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Aug 2020 13:48:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730291AbgHTLZe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Aug 2020 07:25:34 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:42045 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728514AbgHTKGm (ORCPT
+        id S1729145AbgHTLsU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Aug 2020 07:48:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730433AbgHTKD2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Aug 2020 06:06:42 -0400
-Received: by mail-oo1-f67.google.com with SMTP id a6so283925oog.9;
-        Thu, 20 Aug 2020 03:06:41 -0700 (PDT)
+        Thu, 20 Aug 2020 06:03:28 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 514F6C061383;
+        Thu, 20 Aug 2020 03:03:19 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id t6so1404834ljk.9;
+        Thu, 20 Aug 2020 03:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=y8UqIuhfzyLzFYWb3BCxHsLpMfuYu0DrhXjB/bVTesk=;
+        b=i1ry6sXZ1liUrPQCcLBFG6+Y3xSM7sDGiX/tqWVg0OgC2aWd7lvDZ03cDz7QCIehGX
+         wcu8FCxGp4n1FmsGkFH04TOE3WXypnzgDk9i0FLueQkrjgEg3uMDJ2xRxyXw7JSPlfLu
+         O2ZeoFVlwLrS1h+79CkH/eoUAP0rhyt7qpTqYynIQsCtaMs9b7iVoz8dIOcA+xahwVk5
+         bXUl6hnbcZf0GXjw5MBai1fV+6m3tQDnkHJz4qYIOOvgBsP4a2Z2o1TFaojJhjKJta31
+         64EdYSeNig8VbhA7xtoCoP6ZTgnssymjG0D5CAWHwc5dYmTtgd5g0zc7RNdM71YfZ4Yz
+         tbPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7+CSk1ksXzy7e0WIknvr7+ji8pZUrOi3fj0VsGs4weY=;
-        b=EXA02wWQsI5YuePA3VIgOVGGfySn9Nyv6KRdADkev9beQf15igej8ZcJYwdAqafunl
-         0nsIU5GeAzT41tL22DqSVj4gQIu5wBPfuXQ7IETeOb8grj+SsQi+wQhqdPFXqGiAfH6N
-         Ttvqnk082JjN2O+MoPp92mbjJX8IxjFpAsJctnAwLaYKwtJYQjIBXMjtWu3NCsqp30Tr
-         rNWJb41EQnLC/jWn/D5C3yJtaik8lb2S8nKgiSbHxydfmsntX7uJ9fkW8+j03ouQdR3m
-         TecMTKvVw8NY7VAV9NrjaFfjOMPHX5cZ2mwlVZ6JAOtTMerYKbsSMBY2cxiU38z2M8gC
-         UEZQ==
-X-Gm-Message-State: AOAM533/sBcqedcM2+5wXRGK25XzmS3U+kk0LaYQ0ZYIPWH9w5dOwWvS
-        vC4KIEnasnMf+U30xZNwp9OwUBkqpL1iqX7W0RQ=
-X-Google-Smtp-Source: ABdhPJzLpZOD1rs1p3nBtT5EFxS48HiVxoTkLH06KtZW1eQSDDDuEahrzdmBlpsHmdngJPIb1mx3MtQK7PAdAm1yD5w=
-X-Received: by 2002:a4a:4201:: with SMTP id h1mr1818497ooj.1.1597918001038;
- Thu, 20 Aug 2020 03:06:41 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=y8UqIuhfzyLzFYWb3BCxHsLpMfuYu0DrhXjB/bVTesk=;
+        b=aVSOZ9c66KRjZCf0pg/nnzh9uS8nDgl2CFzQ96eYTQ8lhas1BqBpjmlfquWaja3q2V
+         oSGtHDLeTqr+DdI+xvDbUFh8zF1Kr41VjrqMv9fZPCWLIUY0hF74t/PzXHYCtkGhzD6M
+         TCFPwMBK5voInvRdYm1JEVmCX1ejvkWdxcF3mPdoVbHXFz+fy9y6imm+/9Ue074eFMtw
+         MMecL4fY/fErZkdFLkAIZVUs3d/vp3BsG6WfcxDAbXepuWK+5S78q2sqrp6ZkuFaHnPe
+         AitpLKx8a4M6ZmX/RsXoLq5R7UcX/8wDSoguUxL89PmhZIZFbj0EozKpWaxUHrJijU6O
+         QWeg==
+X-Gm-Message-State: AOAM532K0EsTU068PyxPqpXIHF7SSoUCMLKpCez51KWNi3b8/SkLwyw5
+        H7AW2Y30C7E33kvoesZuaZYQ0igEFM3O5Nmb
+X-Google-Smtp-Source: ABdhPJwNaTCEt/MjEP6qgrQw7SnK+G6UZ7jE/2rQEW2qcgNt2puQBOYVbW0xvgZ4GWcBWdhHHihDhQ==
+X-Received: by 2002:a2e:9b08:: with SMTP id u8mr1182940lji.208.1597917797971;
+        Thu, 20 Aug 2020 03:03:17 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b? ([2a00:1fa0:42ab:a165:4cb2:5f04:a1e8:63b])
+        by smtp.gmail.com with ESMTPSA id d6sm351128lji.110.2020.08.20.03.03.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Aug 2020 03:03:17 -0700 (PDT)
+Subject: Re: [PATCH v3] ravb: Fixed to be able to unload modules
+To:     Yuusuke Ashizuka <ashiduka@fujitsu.com>, davem@davemloft.net,
+        kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200820094307.3977-1-ashiduka@fujitsu.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <47080d76-8fdd-9222-34c1-3d174ea6bef8@gmail.com>
+Date:   Thu, 20 Aug 2020 13:03:07 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200807141345.6714-1-geert+renesas@glider.be>
- <20200817233253.GA1819982@bogus> <CAMuHMdV-NVycDcPggYw4-pvSkkwo079bUevA2yB3XM5YfHi9mg@mail.gmail.com>
-In-Reply-To: <CAMuHMdV-NVycDcPggYw4-pvSkkwo079bUevA2yB3XM5YfHi9mg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 20 Aug 2020 12:06:29 +0200
-Message-ID: <CAMuHMdWGu5+PYiYR9rdt97Hd1ribi0Yc0q68NBU6AFRBDCCg_g@mail.gmail.com>
-Subject: Re: [PATCH/RFC v2] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200820094307.3977-1-ashiduka@fujitsu.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On 20.08.2020 12:43, Yuusuke Ashizuka wrote:
 
-On Tue, Aug 18, 2020 at 9:10 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Tue, Aug 18, 2020 at 1:32 AM Rob Herring <robh@kernel.org> wrote:
-> > On Fri, Aug 07, 2020 at 04:13:45PM +0200, Geert Uytterhoeven wrote:
-> > > Convert the Renesas Pin Function Controller (PFC) Device Tree binding
-> > > documentation to json-schema.
-> > >
-> > > Document missing properties.
-> > > Drop deprecated and obsolete #gpio-range-cells property.
-> > > Update the example to match reality.
-> > > Drop consumer examples, as they do not belong here.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > Still RFC, due to the FIXMEs near the enum descriptions.
-> > > If I enable the enums checks, I get e.g.:
-> > >
-> > >     [[1800]] is not one of [1800, 3300]
-> > >
-> > > Note the double square brackets around 1800.
-> > > The usual error message doesn't have them, e.g.:
-> > >
-> > >     2000 is not one of [1800, 3300]
-> > >
-> > > So this looks like a bug in the tooling?
-> >
-> > Yes, we only recently started supporting schemas under
-> > 'additionalProperties', but failed to apply fixups.
-> >
-> > I have a fix I'm testing out. I'm bumping the version requirement in
-> > 5.10, so I'll make sure it is there.
->
-> Thanks, looking forward to it.
+> When this driver is built as a module, I cannot rmmod it after insmoding
+> it.
+> This is because that this driver calls ravb_mdio_init() at the time of
 
-I can confirm this is fixed in v2020.08.1.
+    "That" not needed here at all; perhaps can be fixed while applying...
 
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
->
-> > > +  interrupts-extended:
-> >
-> > Just use 'interrupts' here. 'interrupt-extended' is always magically
-> > supported.
->
-> Apparently not everywhere...
->
->     Documentation/devicetree/bindings/pinctrl/renesas,pfc.example.dt.yaml:
-> pin-controller@e6050000: 'interrupts' is a required property
+> probe, and module->refcnt is incremented by alloc_mdio_bitbang() called
+> after that.
+> Therefore, even if ifup is not performed, the driver is in use and rmmod
+> cannot be performed.
+> 
+> $ lsmod
+> Module                  Size  Used by
+> ravb                   40960  1
+> $ rmmod ravb
+> rmmod: ERROR: Module ravb is in use
+> 
+> Call ravb_mdio_init() at open and free_mdio_bitbang() at close, thereby
+> rmmod is possible in the ifdown state.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yuusuke Ashizuka <ashiduka@fujitsu.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+[...]
 
-The existing fixup doesn't handle "required: interrupts"  if that is inside an
-if/then/else block.
-
-> > > +additionalProperties:
-> > > +  anyOf:
-> > > +    - type: object
-> > > +      allOf:
-> > > +        - $ref: pincfg-node.yaml#
-> > > +        - $ref: pinmux-node.yaml#
-> > > +
-> > > +      description:
-> > > +        Pin controller client devices use pin configuration subnodes (children
-> > > +        and grandchildren) for desired pin configuration.
-> > > +        Client device subnodes use below standard properties.
-> > > +
-> > > +      properties:
-> > > +        phandle: true
-> >
-> > Once fixed, this won't be necessary.
->
-> OK.
-
-Seems to be still an issue in v2020.08.1?
-
-> > > +        function: true
-> > > +        groups: true
-> > > +        pins: true
-> > > +        bias-disable: true
-> > > +        bias-pull-down: true
-> > > +        bias-pull-up: true
-> > > +        drive-strength:
-> > > +          true # FIXME enum: [ 3, 6, 9, 12, 15, 18, 21, 24 ] # Superset of supported values
-> > > +          # avb:pins_mdio:drive-strength: [[24]] is not one of [3, 6, 9, 12, 15, 18, 21, 24]
-> > > +        power-source:
-> > > +          true # FIXME enum: [ 1800, 3300 ]
-> > > +          # sd0_uhs:power-source: [[1800]] is not one of [1800, 3300]
-> > > +        gpio-hog: true
-> > > +        gpios: true
-> > > +        input: true
-> > > +        output-high: true
-> > > +        output-low: true
-> > > +
-> > > +      additionalProperties: false
-> > > +
-> > > +    - type: object
-> > > +      properties:
-> > > +        phandle: true
-> >
-> > For this one, you can just link it back to the first entry:
-> >
-> > - type: object
-> >   additionalProperties:
-> >     $ref: "#/additionalProperties/anyOf/0"
->
-> Thanks, cool!
-
-Works great!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
