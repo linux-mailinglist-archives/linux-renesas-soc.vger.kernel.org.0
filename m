@@ -2,65 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5133B24D70B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 16:11:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF4DF24D730
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 16:19:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgHUOLb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 10:11:31 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33842 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726118AbgHUOLa (ORCPT
+        id S1726440AbgHUOTs convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 10:19:48 -0400
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:45095 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbgHUOTq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 10:11:30 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k12so1676975otr.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 07:11:30 -0700 (PDT)
+        Fri, 21 Aug 2020 10:19:46 -0400
+Received: by mail-oo1-f67.google.com with SMTP id u28so371047ooe.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 07:19:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ynBu6pgBJkmWTqx7Lh+qBy4dAuOR5/U0gYGyBlWp5yI=;
-        b=bdiEZawRng+SmMfZtv0HRbEuc48fRNf0jGUwmN+8hn3X+slYwD/birpaRkhTDepPaV
-         KLFFF+BHIpe9w/sLcqVATd0Ry5idbZfBn1c7Uqg/6AWi4R5tTygDSlMZM7jtDVRxl3En
-         q5KQcd162I3oeo0lxdYIffp+zwllVBL9YmFrf1L68SFRyk6Qxp73qiJdC0/woxrABu8K
-         h6ono8u9934WXe4EgYYV7xqqLIyubk7GyUMeoAUPdqzkg2XC4f34wM6P8kPjlC2DJoEp
-         IXq90fSwnjHMuXjBs+Vj+NWKpZ4DGS+5fuhjgZvPkMRMkOuiXRWkThEb4NT1TMhXEQF7
-         XTLQ==
-X-Gm-Message-State: AOAM532Mnl45bIxoOCbNEV91wbB7Y4P9qmVucj5Dr2gIylW78jUAnHn2
-        ns19d8giopHR62bhrGjYspFU4MiJRVbks703ZOg=
-X-Google-Smtp-Source: ABdhPJwMb2lwvphk9R0XEkAysw+LVpK2OAsxI7VYAFrQSqhuxAi6W+4AAhzKeVBCHHF6Y2o15f8ZyLBXxPgMWV/KO+M=
-X-Received: by 2002:a9d:1b62:: with SMTP id l89mr2001374otl.145.1598019090070;
- Fri, 21 Aug 2020 07:11:30 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=yveK7Sh2p0vvKh9DvKRz3gP6OP29WrawZxynBUepTIU=;
+        b=sYB1YL/BqGNoKmAmA0sUHfJPLKFKNafEstdtSUeS4U+xBr9zRVE1mtAEe+GOI3FEmS
+         1Y0RsiBtp0D1lc/qAq1i/Li4lVQTUPirUIOOavd11QKeYGOCZTlidnghAjFBIYOHjx1m
+         JW03LEUfZzWBksqvCGtHOs64vwCzl/ppTmib8O/KgABeMqbOIIpCzb9M9IGrnH+5Cddu
+         F4Z+bCOslQnbIFGtgjGcJpv9jxJ0JQGlJ+LOxpBvveMerLYFwFoFVm2b2HUG+dfKBEsJ
+         xwtRfOrnW90+Lai6dZtNsZj/l9VV9G6NvI5ewbLKq3KhzcTaTER4rGSo2kHwxWuVfsh+
+         52bw==
+X-Gm-Message-State: AOAM532MDLPyIRsltmOgbRYQqyJ9b4OLZRVhP8/P6YNVSKC6KDXuhstB
+        QWeufqcC4quwDEiWsHn2XPFzEGcE8/U/s2NoK5k=
+X-Google-Smtp-Source: ABdhPJxHqYly4MWj5BZNLBVg3tSy5ObVyZuVwBzICOKwoexmiNq4aTdvPNRd6IFQkna5YnX1jtDmRDNoNvcYodaWCr0=
+X-Received: by 2002:a4a:6c13:: with SMTP id q19mr2288149ooc.11.1598019585356;
+ Fri, 21 Aug 2020 07:19:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <87lfidho8o.wl-kuninori.morimoto.gx@renesas.com> <87k0xxho7t.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87k0xxho7t.wl-kuninori.morimoto.gx@renesas.com>
+References: <87lfidho8o.wl-kuninori.morimoto.gx@renesas.com> <87imdhho6o.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87imdhho6o.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Aug 2020 16:11:18 +0200
-Message-ID: <CAMuHMdVQwtWFs2uPW=2XxHYRk76G2R9U3T-1+R42zKQ9S2HC9g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] soc: renesas: use menu for Renesas SoC
+Date:   Fri, 21 Aug 2020 16:19:34 +0200
+Message-ID: <CAMuHMdWMSNyPuh2F-DToMU4vagzckvp7PZ03UU1=Fo2dCq65VQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] soc: renesas: align driver description title
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 6:50 AM Kuninori Morimoto
+Hi Morimoto-san,
+
+On Mon, Aug 17, 2020 at 6:51 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Now, Renesas SoC drivers are under menu,
+> but current description are not aligned.
+> This patch align these.
 >
-> Renesas related SoC settings are located on TOP level menu,
-> thus it is very verbose.
-> This patch groups Renesas related settings into
-> "Renesas SoC driver support" menu.
+>         - R-Car H2 System Controller support                                                                    │ │
+>         - R-Car M2-W/N System Controller support                                                                │ │
+>         - R-Car V2H System Controller support                                                                   │ │
+>         - R-Car E2 System Controller support                                                                    │ │
+>         - R-Car H3 System Controller support                                                                    │ │
+>         - R-Car M3-W System Controller support                                                                  │ │
+>         - R-Car M3-W+ System Controller support                                                                 │ │
+>         - R-Car M3-N System Controller support                                                                  │ │
 >
-> And it aligns config menu names.
+>         + System Controller support for R-Car H2                                                                │ │
+>         + System Controller support for R-Car M2-W/N                                                            │ │
+>         + System Controller support for R-Car V2H                                                               │ │
+>         + System Controller support for R-Car E2                                                                │ │
+>         + System Controller support for R-Car H3                                                                │ │
+>         + System Controller support for R-Car M3-W                                                              │ │
+>         + System Controller support for R-Car M3-W+                                                             │ │
+>         + System Controller support for R-Car M3-N                                                              │ │
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
+Thanks for your patch!
+
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -276,97 +276,97 @@ endif # ARM64
+>
+>  # SoC
+>  config SYSC_R8A7742
+> -       bool "RZ/G1H System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for RZ/G1H" if COMPILE_TEST
+>         select SYSC_RCAR
+
+[...]
+
+>  config SYSC_R8A77995
+> -       bool "R-Car D3 System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for R-Car D3" if COMPILE_TEST
+>         select SYSC_RCAR
+>
+>  # Family
+>  config RST_RCAR
+> -       bool "R-Car Reset Controller support" if COMPILE_TEST
+> +       bool "Reset  Controller support for R-Car" if COMPILE_TEST
+
+This one looks a bit strange, in between SoC-specific and family-specific
+System Controller support.
+
+It could be moved up (breaking the separation between SoC-specific
+and family-specific options), or down (breaking alphabetical sort order).
+Any other options?
+
+>
+>  config SYSC_RCAR
+> -       bool "R-Car System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for R-Car" if COMPILE_TEST
+>
+>  config SYSC_RMOBILE
+> -       bool "R-Mobile System Controller support" if COMPILE_TEST
+> +       bool "System Controller support for R-Mobile" if COMPILE_TEST
+>
+>  endif # SOC_RENESAS
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
