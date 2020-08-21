@@ -2,73 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B71824D51B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 14:34:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CC3624D563
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 14:49:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728594AbgHUMeS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 08:34:18 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43570 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727892AbgHUMeR (ORCPT
+        id S1728649AbgHUMtf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 08:49:35 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:47022 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727839AbgHUMte (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 08:34:17 -0400
-Received: by mail-oi1-f196.google.com with SMTP id l84so1349595oig.10;
-        Fri, 21 Aug 2020 05:34:16 -0700 (PDT)
+        Fri, 21 Aug 2020 08:49:34 -0400
+Received: by mail-oi1-f195.google.com with SMTP id v13so1371708oiv.13;
+        Fri, 21 Aug 2020 05:49:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pxTjsiZqAIPxCuWcFqzoDaPXHfxlScdVoNcCnJKLQBY=;
-        b=GZasQvSvn6ALXxAWDx3Ppt4h0GjLaYouHY6h9gEQdKUHMq31FNRdv4FUcvaXi0OBii
-         UT77beOIn0abAAeCqWDdKYuZosKwprk9Eptw8iXMhbyrKE+18/ph2EnkWoWDF9pzyDyV
-         B2WHX4R7b+fMvg1dpm/Kk+JQb5dFuyuT6bbwMTdjqF0+Gm6bUH2IIzREgYSauf1iKjOi
-         kZdJ0j7Eq0Z5vi1wnKhjJ186NDZoU/m6aGfkpb7a62sSpWze4vX9UGepRsTCyam2C+rJ
-         9HUa6smUqMZ2Z2h/rLeB61ZM/yyYtXvLjmCkfBNn1LscosemworXIzcKg8TdYpnZvBOv
-         zFFA==
-X-Gm-Message-State: AOAM532W2SB0LPHJ17Nfb8oix5fBiI9emW3EKs11g/6rsMCf7fH0oZTa
-        LW1o+FOQXoGyFtKQT3mvgwt+9/QFll1XQDtVTvE=
-X-Google-Smtp-Source: ABdhPJw683FYSCiAUJJzNmFkddmHqHL+eESbIv91V5T0JnjnuMFo5KjhXD+qMXXY52Zo+VvJdhNUu4wltHj/AIe3XD4=
-X-Received: by 2002:aca:4b54:: with SMTP id y81mr1580964oia.54.1598013256594;
- Fri, 21 Aug 2020 05:34:16 -0700 (PDT)
+        bh=rjOR1LmEKfBAICv/oUVmVt9ScklJwbBO66lk/funKdI=;
+        b=nflgJ8t5aXajiMTbTVKHE4YYFNmaLZWWjroY2Jh3KH1xQQuPo8XbHiFr3QFVYz0OHk
+         OWM7CephvaT2v8SfN2Pt8+DeiSkkSeS8HdGG0VYdcurmUNb9tBdtU87btIvPFFvaWrj1
+         Vp3liG9TZhXkrYUElEhI3zexA9En/6k5J0GIj+VBi2f6ucSh4IPoWLDa4GrTzOGmlDm3
+         6G8Z4wci6X3UQBZrCYdJNpske7e8f0jDMQ4mTQyH/E9goQMn5RjMmqEYNEKkd58T67Vu
+         N3/RCex/+JhuiNDlD2rPmvsDh5siQc6U+1wS/FNZXkosmsZP+Fa0jgf2X601qd3Mf+3s
+         GGuw==
+X-Gm-Message-State: AOAM533fYaP1Ma5ogdSJqZye8fEXY76Ar8FrzA7Ew+w61IoTZwmbadrZ
+        KjDBFwgKH8JMpakklqCLQxWVB1qB4+WpihPoZNg=
+X-Google-Smtp-Source: ABdhPJzz75flJqlcgm/5pJRSwS4KxLsRUf7C3UrU8LFP2uay8UIHgSPAopyMegH8gsFlk8YxFUBtt+e2BRo7+5+sibs=
+X-Received: by 2002:aca:adc4:: with SMTP id w187mr1440803oie.153.1598014173372;
+ Fri, 21 Aug 2020 05:49:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200814173037.17822-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200814173037.17822-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200814173037.17822-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200816190732.6905-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200816190732.6905-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200816190732.6905-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Aug 2020 14:34:05 +0200
-Message-ID: <CAMuHMdXHmfxjx8unRojiNGug+AgSgMGCJr2zsa9qtD2nYJwt4Q@mail.gmail.com>
-Subject: Re: [PATCH 5/5] arm64: dts: renesas: r8a774c0: Add PCIe EP node
+Date:   Fri, 21 Aug 2020 14:49:22 +0200
+Message-ID: <CAMuHMdUmj0W9ELiJXgp6KLjeVAs7hD8C6rahLxFchh+=ny4LhA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: can: rcar_can: Add r8a7742 support
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 7:34 PM Lad Prabhakar
+On Sun, Aug 16, 2020 at 9:07 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add PCIe EP node to R8A774C0 (RZ/G2E) SoC dtsi.
+> Document RZ/G1H (r8a7742) SoC specific bindings. The R8A7742 CAN module
+> is identical to R-Car Gen2 family.
+>
+> No driver change is needed due to the fallback compatible value
+> "renesas,rcar-gen2-can".
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10, with s/pcie_ep@/pcie-ep@/.
 
 Gr{oetje,eeting}s,
 
