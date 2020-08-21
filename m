@@ -2,131 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF4DF24D730
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 16:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A86C524D748
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 16:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726440AbgHUOTs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 10:19:48 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:45095 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbgHUOTq (ORCPT
+        id S1727864AbgHUOXh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 10:23:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726440AbgHUOXg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 10:19:46 -0400
-Received: by mail-oo1-f67.google.com with SMTP id u28so371047ooe.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 07:19:45 -0700 (PDT)
+        Fri, 21 Aug 2020 10:23:36 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08874C061573;
+        Fri, 21 Aug 2020 07:23:36 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id i10so1115104ybt.11;
+        Fri, 21 Aug 2020 07:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cdaxvWi4S/8iVwLCKzXxlcoFNvM0MXvR3LgfOth28YM=;
+        b=H8fThCaiORW/A6/dBnOiF1aHybeA7nMJKaCWASyx7Qpxbq3FPXn/Z5um1ohc1TVj8J
+         AishFjqxIOJvvIAK7voJPc/EhLxf3j4BDIzuqUvnCyyat5xEpoRWhnnkH5WwrTroq4xQ
+         r8Upzp5AyZNkA620ZlgKimH/Q+mUE6Em11l8+NojkrgA4FUeH2VIKms6iGpA3nVyBOx/
+         B2QpdobNAG5BQecsBBoelQyBJZRPIgbXG6XfYHaOIQcC8AQHhtMSLKoUAtGmsG96kaA8
+         tOQUQlFX+jDd0IXYpi77m8wZ+wLDbjxpgi8gK2ett/pcAI9wZtGS0PPsMUoEffGlPPOy
+         i9Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yveK7Sh2p0vvKh9DvKRz3gP6OP29WrawZxynBUepTIU=;
-        b=sYB1YL/BqGNoKmAmA0sUHfJPLKFKNafEstdtSUeS4U+xBr9zRVE1mtAEe+GOI3FEmS
-         1Y0RsiBtp0D1lc/qAq1i/Li4lVQTUPirUIOOavd11QKeYGOCZTlidnghAjFBIYOHjx1m
-         JW03LEUfZzWBksqvCGtHOs64vwCzl/ppTmib8O/KgABeMqbOIIpCzb9M9IGrnH+5Cddu
-         F4Z+bCOslQnbIFGtgjGcJpv9jxJ0JQGlJ+LOxpBvveMerLYFwFoFVm2b2HUG+dfKBEsJ
-         xwtRfOrnW90+Lai6dZtNsZj/l9VV9G6NvI5ewbLKq3KhzcTaTER4rGSo2kHwxWuVfsh+
-         52bw==
-X-Gm-Message-State: AOAM532MDLPyIRsltmOgbRYQqyJ9b4OLZRVhP8/P6YNVSKC6KDXuhstB
-        QWeufqcC4quwDEiWsHn2XPFzEGcE8/U/s2NoK5k=
-X-Google-Smtp-Source: ABdhPJxHqYly4MWj5BZNLBVg3tSy5ObVyZuVwBzICOKwoexmiNq4aTdvPNRd6IFQkna5YnX1jtDmRDNoNvcYodaWCr0=
-X-Received: by 2002:a4a:6c13:: with SMTP id q19mr2288149ooc.11.1598019585356;
- Fri, 21 Aug 2020 07:19:45 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=cdaxvWi4S/8iVwLCKzXxlcoFNvM0MXvR3LgfOth28YM=;
+        b=N/vRlsmK20LWtuwwqXNB99yedR0WcueZKX4rePTRO2FsODHrldcQZ8qrkI/rEZKfsk
+         iumio0E7lKK8Brnujm4FQb+/Dq/GMIUSWOE4GL6Jq7srzGSYVEnt863rM8LVhrL+DItj
+         dBc9Kej1ZgWKd54dvadbAsTeLV9DXuZJSzARCvryvcYTweQTJAyjokAJ7haiw0DiWx7N
+         8qUxFNNfrzdDU0T1bZkQo8yFOY9lx7xM+YGbkt2W9tdixW2DVDkyusHmBhlGCRn2MUct
+         WDaNsMjTYOuWj6SsC/JkvLze5GiP6kzjskMc+LO0NH0/a21Rcc+GViu10jl/vtql/PYy
+         SbNw==
+X-Gm-Message-State: AOAM531Rln+dw4n5GQNT+hSTXBhjmzT1JRUnJb6M/oJBWYnV11+mE0JB
+        t6nNilRn8sDPMJdK1GIvK8IzpeV1BMP6nJW5fi4=
+X-Google-Smtp-Source: ABdhPJwFPfytP1/12rYImnxNWcaTXjulE7JutGzwE1bfpqb8FCG2JODT/EUADB/j4bZB4OEPY2qXKAuU5RvsXOQxWrw=
+X-Received: by 2002:a25:c743:: with SMTP id w64mr3856261ybe.127.1598019815346;
+ Fri, 21 Aug 2020 07:23:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <87lfidho8o.wl-kuninori.morimoto.gx@renesas.com> <87imdhho6o.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87imdhho6o.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Aug 2020 16:19:34 +0200
-Message-ID: <CAMuHMdWMSNyPuh2F-DToMU4vagzckvp7PZ03UU1=Fo2dCq65VQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] soc: renesas: align driver description title
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20200816190732.6905-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200816190732.6905-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdW2RTCi7rAa_tSsY7ukVM2xk6PYD526SRQU1Wd4SSz2Mw@mail.gmail.com>
+In-Reply-To: <CAMuHMdW2RTCi7rAa_tSsY7ukVM2xk6PYD526SRQU1Wd4SSz2Mw@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 21 Aug 2020 15:23:08 +0100
+Message-ID: <CA+V-a8u-DrpNPskCwFEfaxtfSHKDGfOhcVf+y4tZ+aw9jFj=eQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] pinctrl: sh-pfc: r8a7790: Add CAN pins, groups and functions
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Geert,
 
-On Mon, Aug 17, 2020 at 6:51 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> Now, Renesas SoC drivers are under menu,
-> but current description are not aligned.
-> This patch align these.
+Thank you for the review.
+
+On Fri, Aug 21, 2020 at 1:52 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
->         - R-Car H2 System Controller support                                                                    │ │
->         - R-Car M2-W/N System Controller support                                                                │ │
->         - R-Car V2H System Controller support                                                                   │ │
->         - R-Car E2 System Controller support                                                                    │ │
->         - R-Car H3 System Controller support                                                                    │ │
->         - R-Car M3-W System Controller support                                                                  │ │
->         - R-Car M3-W+ System Controller support                                                                 │ │
->         - R-Car M3-N System Controller support                                                                  │ │
+> Hi Prabhakar,
 >
->         + System Controller support for R-Car H2                                                                │ │
->         + System Controller support for R-Car M2-W/N                                                            │ │
->         + System Controller support for R-Car V2H                                                               │ │
->         + System Controller support for R-Car E2                                                                │ │
->         + System Controller support for R-Car H3                                                                │ │
->         + System Controller support for R-Car M3-W                                                              │ │
->         + System Controller support for R-Car M3-W+                                                             │ │
->         + System Controller support for R-Car M3-N                                                              │ │
+> On Sun, Aug 16, 2020 at 9:07 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add pins, groups and functions for the CAN0 and CAN1 interface.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -276,97 +276,97 @@ endif # ARM64
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
->  # SoC
->  config SYSC_R8A7742
-> -       bool "RZ/G1H System Controller support" if COMPILE_TEST
-> +       bool "System Controller support for RZ/G1H" if COMPILE_TEST
->         select SYSC_RCAR
-
-[...]
-
->  config SYSC_R8A77995
-> -       bool "R-Car D3 System Controller support" if COMPILE_TEST
-> +       bool "System Controller support for R-Car D3" if COMPILE_TEST
->         select SYSC_RCAR
+> Don't you want to add the CAN_CLK pins, too?
 >
->  # Family
->  config RST_RCAR
-> -       bool "R-Car Reset Controller support" if COMPILE_TEST
-> +       bool "Reset  Controller support for R-Car" if COMPILE_TEST
+Will do. Would you prefer an incremental patch or a v2 ?
 
-This one looks a bit strange, in between SoC-specific and family-specific
-System Controller support.
+Cheers,
+Prabhakar
 
-It could be moved up (breaking the separation between SoC-specific
-and family-specific options), or down (breaking alphabetical sort order).
-Any other options?
-
+> Gr{oetje,eeting}s,
 >
->  config SYSC_RCAR
-> -       bool "R-Car System Controller support" if COMPILE_TEST
-> +       bool "System Controller support for R-Car" if COMPILE_TEST
+>                         Geert
 >
->  config SYSC_RMOBILE
-> -       bool "R-Mobile System Controller support" if COMPILE_TEST
-> +       bool "System Controller support for R-Mobile" if COMPILE_TEST
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 >
->  endif # SOC_RENESAS
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
