@@ -2,110 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6653A24D623
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 15:33:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7121E24D638
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 15:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727897AbgHUNdE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 09:33:04 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:36107 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726345AbgHUNdD (ORCPT
+        id S1727926AbgHUNib (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 09:38:31 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34573 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727894AbgHUNi3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 09:33:03 -0400
-Received: by mail-oo1-f65.google.com with SMTP id y30so343660ooj.3;
-        Fri, 21 Aug 2020 06:33:02 -0700 (PDT)
+        Fri, 21 Aug 2020 09:38:29 -0400
+Received: by mail-ot1-f68.google.com with SMTP id k12so1592876otr.1;
+        Fri, 21 Aug 2020 06:38:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WE/9d808AHOdfGXnnBLFXkEx9td59TWxZ9l7paPbsT4=;
-        b=k72shL9ePq1yrUu29v4Qmwdt8Zcmi6YE7Jw96hhur2CwtRUer+urRbQQbXz3+kOGGw
-         y5vyboMxTdZPp1I0Yj/nE/hTmquny4GuAwPEWp1w0S5Vfkz/d06FHY2de8Ul5pHYM2rM
-         UznN6NZ2Rnuv7H5qu6jZaVDzy1l3hV5yCdh4oyBDl3tKX2XHucKpWWXU1qr4YT+zuIaM
-         KOA/46ZdzLzVizdbQHRbiTMKVXz+hD+3QSjWmuvuJF5ggh/fHFa4mRgDdHHsNjvvE/ce
-         xFSkavtR3Yo7mNCrjb07ThNfUS//EL3peMjFZp17t7DdpH5eXpVLRuIMzJJK+eE+V/I7
-         8pTQ==
-X-Gm-Message-State: AOAM532oMwknupth+5oXca7OCiGA0hIyM81TpMh6y+msH5yRxXhLDRRO
-        3FHkapUDEPHNgTKTGPRcqS34SexcI4IRZkBbU1yZlpA5
-X-Google-Smtp-Source: ABdhPJxtKIuavgaEgjb3cdb9IXDngLMsaZHqmlIrF5H15c623DVRE2x4PTTIxCyoNY/l+m6Fxc7gW0O8P4U7CUQw8Ds=
-X-Received: by 2002:a4a:275e:: with SMTP id w30mr2078545oow.40.1598016782424;
- Fri, 21 Aug 2020 06:33:02 -0700 (PDT)
+        bh=/v3bbRPg15ZDGPXsn2Z2ybRxn/GbKQ9wH99VF4Cr9qc=;
+        b=hFpE2ouqAZNVXtLWIat/jDgFEghkqu1oRMWp09hQPW6KQPSdzm7A0MzGz3Was9IVKl
+         NJi7N8oSaGnVAF/dzOFimn0EvARfLwbP9fzDLflBrY8DYqokgd6A6eTSdUli3BruVSXK
+         lrZ37uA97xNtSTG89UZW3pl1fwPUTLGqrTuT6iSdbn8y4OjPg/JuKJjLvocBbxYOk/yw
+         0R/tuolKH/vzjZ3f6A62SKwoqaZWD+jT5KxbthuBIF8E5+8pIt+miB+ViuwAXbVyJ2VB
+         CTC549lctaFMGbWkzzKzjQWno86xQBkyZW7nUK9FxpP1HugI1fAg+L2g2xbfaodaBQLR
+         m4YQ==
+X-Gm-Message-State: AOAM532T4o2ujRwbK8MUGe2NF4yrRZqPjIMR2sQplhFK0usEcHuw2/TG
+        C11mrtCivgaYOvZHr7m/BhLOeZ4iyMT0cH26lO8=
+X-Google-Smtp-Source: ABdhPJx0grGATdrvskmhsVyqHDs+d9cLtJv9D4J9Xk6/PuP1PkCjOlw9eUoY9GuSCOZUR7UNddY+uFqgza1rIA7xGSk=
+X-Received: by 2002:a9d:1b62:: with SMTP id l89mr1893074otl.145.1598017108648;
+ Fri, 21 Aug 2020 06:38:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200816193316.7641-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200816193316.7641-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200816193316.7641-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Aug 2020 15:32:51 +0200
-Message-ID: <CAMuHMdWVOv3LC_wWi1r9EHtnmT=w8d1HgDTP3aPD7uEZcb5ZYg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] ARM: dts: r8a7742-iwg21m: Add SPI NOR support
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Fri, 21 Aug 2020 15:38:17 +0200
+Message-ID: <CAMuHMdWDB4wQw8exQLEe5VNqHCZPCeC0TRmTvoNqsz-yMDEshQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774e1-hihope-rzg2h: Enable HS400 mode
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Biju Das <biju.das@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Sun, Aug 16, 2020 at 9:33 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add support for the SPI NOR device used to boot up the system
-> to the System on Module DT.
+On Wed, Aug 19, 2020 at 10:08 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> From: Biju Das <biju.das@bp.renesas.com>
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> This patch enables HS400 mode on HiHope RZ/G2H board.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm/boot/dts/r8a7742-iwg21m.dtsi
-> +++ b/arch/arm/boot/dts/r8a7742-iwg21m.dtsi
-
-> @@ -70,4 +80,28 @@
->                 groups = "mmc1_data4", "mmc1_ctrl";
->                 function = "mmc1";
->         };
-> +
-> +       qspi_pins: qspi {
-> +               groups = "qspi_ctrl", "qspi_data2";
-> +               function = "qspi";
-> +       };
-> +};
-> +
-> +&qspi {
-> +       pinctrl-0 = <&qspi_pins>;
-> +       pinctrl-names = "default";
-> +
-> +       status = "okay";
-> +
-> +       /* WARNING - This device contains the bootloader. Handle with care. */
-> +       flash: flash@0 {
-> +               #address-cells = <1>;
-> +               #size-cells = <1>;
-
-#{address,size}-cells are not needed, unless you list legacy partitions
-(i.e. partitions not contained in a "partitions" container).
-
-> +               compatible = "sst,sst25vf016b", "jedec,spi-nor";
-> +               reg = <0>;
-> +               spi-max-frequency = <50000000>;
-> +               m25p,fast-read;
-> +               spi-cpol;
-> +               spi-cpha;
-
-Perhaps you want to add the partition layout, too?
-
-> +       };
->  };
-
-With the above fixed/clarified:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
