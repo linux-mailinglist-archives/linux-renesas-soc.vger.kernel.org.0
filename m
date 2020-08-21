@@ -2,74 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E825724D070
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 10:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E7DD24D0F2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 10:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728020AbgHUIRA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 04:17:00 -0400
-Received: from www.zeus03.de ([194.117.254.33]:37036 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726239AbgHUIQ7 (ORCPT
+        id S1728220AbgHUI4g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 04:56:36 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:58277 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726062AbgHUI4e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 04:16:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=goFjW29c4qAtiC9urPtHEqFBkLU
-        1WnIEHmuGrVQA9MY=; b=Fj+KsulrkriHtAV5q8wwYnvLMvlsArBpLZ3LNJMEdHt
-        TNVSAM+P3NVka9O2ZvJBz5nLWLs26M7emOQSKxw9UX8xDgQB2Q9c48KKoBIvH2NF
-        ptqyhZ5j3xEUn1HodPYkUmnDPIxwR5X38SVDtL7AMDzyELM1Vdk3KWkyO8IlcQkw
-        =
-Received: (qmail 798577 invoked from network); 21 Aug 2020 10:16:56 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Aug 2020 10:16:56 +0200
-X-UD-Smtp-Session: l3s3148p1@7h803F6tlqogAwDPXweWAG48P/WlTOIM
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFT] mmc: tmio: reset device on timeout, too
-Date:   Fri, 21 Aug 2020 10:16:54 +0200
-Message-Id: <20200821081654.28280-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 21 Aug 2020 04:56:34 -0400
+X-IronPort-AV: E=Sophos;i="5.76,335,1592838000"; 
+   d="scan'208";a="54949013"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Aug 2020 17:56:33 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 32FE44221738;
+        Fri, 21 Aug 2020 17:56:33 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] usb: gadget: u_serial: clear suspended flag when discnnecting
+Date:   Fri, 21 Aug 2020 17:56:19 +0900
+Message-Id: <1598000179-28417-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When a command response times out, the TMIO driver has been resetting
-the controller ever since. However, this means some initialization like
-bus width or tuning settings will be forgotten. To ensure proper working
-in all code paths, we will enforce a reset of the remote device, too.
-Many thanks to the Renesas BSP team for the detailed description of the
-problem.
+The commit aba3a8d01d62 ("usb: gadget: u_serial: add suspend resume
+callbacks") set/cleared the suspended flag in USB bus suspend/resume
+only. But, when a USB cable is disconnected in the suspend, since some
+controllers will not detect USB bus resume, the suspended flag is not
+cleared. After that, user cannot send any data. To fix the issue,
+clears the suspended flag in the gserial_disconnect().
 
-Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: aba3a8d01d62 ("usb: gadget: u_serial: add suspend resume callbacks")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Linh Phung <linh.phung.jy@renesas.com>
+Tested-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
 ---
-
-This patch depends on the TMIO reset refactorization:
-
-[RFT 0/6] mmc: refactor reset callbacks
-
-Looking also for tests here. Thanks!
-
- drivers/mmc/host/tmio_mmc_core.c | 1 +
+ drivers/usb/gadget/function/u_serial.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index ab910043808f..0d64308c619f 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -220,6 +220,7 @@ static void tmio_mmc_reset_work(struct work_struct *work)
- 	spin_unlock_irqrestore(&host->lock, flags);
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 127ecc2..2caccbb 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -1391,6 +1391,7 @@ void gserial_disconnect(struct gserial *gser)
+ 		if (port->port.tty)
+ 			tty_hangup(port->port.tty);
+ 	}
++	port->suspended = false;
+ 	spin_unlock_irqrestore(&port->port_lock, flags);
  
- 	tmio_mmc_reset(host);
-+	mmc_hw_reset(host->mmc);
- 
- 	/* Ready for new calls */
- 	host->mrq = NULL;
+ 	/* disable endpoints, aborting down any active I/O */
 -- 
-2.20.1
+2.7.4
 
