@@ -2,66 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7121E24D638
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 15:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6483824D6B4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 15:56:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727926AbgHUNib (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 09:38:31 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34573 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727894AbgHUNi3 (ORCPT
+        id S1727929AbgHUN4l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 09:56:41 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40546 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727925AbgHUN4k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 09:38:29 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k12so1592876otr.1;
-        Fri, 21 Aug 2020 06:38:29 -0700 (PDT)
+        Fri, 21 Aug 2020 09:56:40 -0400
+Received: by mail-ot1-f65.google.com with SMTP id h16so1617260oti.7;
+        Fri, 21 Aug 2020 06:56:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/v3bbRPg15ZDGPXsn2Z2ybRxn/GbKQ9wH99VF4Cr9qc=;
-        b=hFpE2ouqAZNVXtLWIat/jDgFEghkqu1oRMWp09hQPW6KQPSdzm7A0MzGz3Was9IVKl
-         NJi7N8oSaGnVAF/dzOFimn0EvARfLwbP9fzDLflBrY8DYqokgd6A6eTSdUli3BruVSXK
-         lrZ37uA97xNtSTG89UZW3pl1fwPUTLGqrTuT6iSdbn8y4OjPg/JuKJjLvocBbxYOk/yw
-         0R/tuolKH/vzjZ3f6A62SKwoqaZWD+jT5KxbthuBIF8E5+8pIt+miB+ViuwAXbVyJ2VB
-         CTC549lctaFMGbWkzzKzjQWno86xQBkyZW7nUK9FxpP1HugI1fAg+L2g2xbfaodaBQLR
-         m4YQ==
-X-Gm-Message-State: AOAM532T4o2ujRwbK8MUGe2NF4yrRZqPjIMR2sQplhFK0usEcHuw2/TG
-        C11mrtCivgaYOvZHr7m/BhLOeZ4iyMT0cH26lO8=
-X-Google-Smtp-Source: ABdhPJx0grGATdrvskmhsVyqHDs+d9cLtJv9D4J9Xk6/PuP1PkCjOlw9eUoY9GuSCOZUR7UNddY+uFqgza1rIA7xGSk=
-X-Received: by 2002:a9d:1b62:: with SMTP id l89mr1893074otl.145.1598017108648;
- Fri, 21 Aug 2020 06:38:28 -0700 (PDT)
+        bh=QI4R6h1N15nPKIzAgnIObknClkSWsY0kPwv9SgYP8oc=;
+        b=eJTOtF7ov7yiuzze/YF08k4aDbOf/GMHNZFFDuCME3DlAb/qO8d+de2oZBVJK4VESP
+         NRaBMRVEnwXg90CYAwMULyUioxtX14haPeUWVSbzMU2KbXh9iJtMeNKu1xi9Bguu4f5n
+         vShyU6moUwIFcl8vs/dhcMYDGwhtgSjtY19YsSq2bnDT1OioQDOTzE3Q8RJTTFT/Muh8
+         N7ZYoaIdGM7u2/WXr72CXXxHSNTqyyO0lUpk3F6TZw3aGe/CT481nFZjNDPkCioRfhsG
+         B51QtQWm1N8RJ3SokC4JR74pnXJSzGIJ/xiL9lRFzEBS9tpQqSeqRxq+m8n6yqvyC1Cc
+         ++Gw==
+X-Gm-Message-State: AOAM530h8MaWKICSZKYDU+wzShdjHxH1TXXWeAX/Wv4JCJlYfWucTRzU
+        i0eCYrOaKv1Xsk7ElurmDlTELibP/butY8Zjf+g=
+X-Google-Smtp-Source: ABdhPJzduzSApJkaqqM6zWyVvkjDDmu3rMnbpcfV90OsKWH5uZOgnjb/N7j10v6akB7g/ZyVsLMwRMVUzoDBTNkdVg4=
+X-Received: by 2002:a9d:1b62:: with SMTP id l89mr1950619otl.145.1598018199739;
+ Fri, 21 Aug 2020 06:56:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
+References: <87r1s5hoht.wl-kuninori.morimoto.gx@renesas.com> <87pn7phofb.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87pn7phofb.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 21 Aug 2020 15:38:17 +0200
-Message-ID: <CAMuHMdWDB4wQw8exQLEe5VNqHCZPCeC0TRmTvoNqsz-yMDEshQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a774e1-hihope-rzg2h: Enable HS400 mode
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date:   Fri, 21 Aug 2020 15:56:28 +0200
+Message-ID: <CAMuHMdWqc1Peo06g_1JrEvEExyaY+k33WJNmbhugE7YrppiRmw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] pinctrl: sh-pfc: collect Renesas related CONFIGs
+ in one place
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 10:08 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> From: Biju Das <biju.das@bp.renesas.com>
+On Mon, Aug 17, 2020 at 6:46 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> This patch enables HS400 mode on HiHope RZ/G2H board.
+> Renesas related pinctrl CONFIGs are located many places,
+> and it is confusable.
+> This patch collects these into same place,
+> and group into "Renesas pinctrl drivers" menu.
 >
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+
+Still wondering about moving drivers/pinctrl/pinctrl-rz{a1,a2,n1}.c
+into drivers/pinctrl/sh-pfc/, too.
+
+> --- a/drivers/pinctrl/Kconfig
+> +++ b/drivers/pinctrl/Kconfig
+> @@ -213,38 +213,6 @@ config PINCTRL_ROCKCHIP
+>         select GENERIC_IRQ_CHIP
+>         select MFD_SYSCON
+>
+> -config PINCTRL_RZA1
+> -       bool "Renesas RZ/A1 gpio and pinctrl driver"
+> -       depends on OF
+> -       depends on ARCH_R7S72100 || COMPILE_TEST
+> -       select GPIOLIB
+> -       select GENERIC_PINCTRL_GROUPS
+> -       select GENERIC_PINMUX_FUNCTIONS
+> -       select GENERIC_PINCONF
+> -       help
+> -         This selects pinctrl driver for Renesas RZ/A1 platforms.
+> -
+> -config PINCTRL_RZA2
+> -       bool "Renesas RZ/A2 gpio and pinctrl driver"
+> -       depends on OF
+> -       depends on ARCH_R7S9210 || COMPILE_TEST
+> -       select GPIOLIB
+> -       select GENERIC_PINCTRL_GROUPS
+> -       select GENERIC_PINMUX_FUNCTIONS
+> -       select GENERIC_PINCONF
+> -       help
+> -         This selects GPIO and pinctrl driver for Renesas RZ/A2 platforms.
+> -
+> -config PINCTRL_RZN1
+> -       bool "Renesas RZ/N1 pinctrl driver"
+> -       depends on OF
+> -       depends on ARCH_RZN1 || COMPILE_TEST
+> -       select GENERIC_PINCTRL_GROUPS
+> -       select GENERIC_PINMUX_FUNCTIONS
+> -       select GENERIC_PINCONF
+> -       help
+> -         This selects pinctrl driver for Renesas RZ/N1 devices.
+> -
+>  config PINCTRL_SINGLE
+>         tristate "One-register-per-pin type device tree based pinctrl driver"
+>         depends on OF
+> diff --git a/drivers/pinctrl/sh-pfc/Kconfig b/drivers/pinctrl/sh-pfc/Kconfig
+> index c461a2f1927a..a16393e6b9c2 100644
+> --- a/drivers/pinctrl/sh-pfc/Kconfig
+> +++ b/drivers/pinctrl/sh-pfc/Kconfig
+> @@ -3,6 +3,8 @@
+>  # Renesas SH and SH Mobile PINCTRL drivers
+>  #
+>
+> +menu "Renesas pinctrl drivers"
+> +
+>  config PINCTRL_SH_PFC
+>         bool "Renesas SoC pin control support" if COMPILE_TEST && !(ARCH_RENESAS || SUPERH)
+>         default y if ARCH_RENESAS || SUPERH
+> @@ -52,6 +54,38 @@ config PINCTRL_SH_PFC
+>         help
+>           This enables pin control drivers for Renesas SuperH and ARM platforms
+>
+> +config PINCTRL_RZA1
+> +       bool "RZ/A1 gpio and pinctrl driver"
+> +       depends on OF
+> +       depends on ARCH_R7S72100 || COMPILE_TEST
+> +       select GPIOLIB
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This selects pinctrl driver for Renesas RZ/A1 platforms.
+> +
+> +config PINCTRL_RZA2
+> +       bool "RZ/A2 gpio and pinctrl driver"
+> +       depends on OF
+> +       depends on ARCH_R7S9210 || COMPILE_TEST
+> +       select GPIOLIB
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This selects GPIO and pinctrl driver for Renesas RZ/A2 platforms.
+> +
+> +config PINCTRL_RZN1
+> +       bool "RZ/N1 pinctrl driver"
+> +       depends on OF
+> +       depends on ARCH_RZN1 || COMPILE_TEST
+> +       select GENERIC_PINCTRL_GROUPS
+> +       select GENERIC_PINMUX_FUNCTIONS
+> +       select GENERIC_PINCONF
+> +       help
+> +         This selects pinctrl driver for Renesas RZ/N1 devices.
+> +
+>  config PINCTRL_SH_PFC_GPIO
+>         select GPIOLIB
+>         bool
+> @@ -199,3 +233,5 @@ config PINCTRL_PFC_SH7786
+>  config PINCTRL_PFC_SHX3
+>         bool "SH-X3 pin control support" if COMPILE_TEST
+>         select PINCTRL_SH_FUNC_GPIO
+> +
+> +endmenu
 
 Gr{oetje,eeting}s,
 
