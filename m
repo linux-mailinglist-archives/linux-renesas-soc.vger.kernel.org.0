@@ -2,358 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2574824D3E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 13:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 528F624D3DC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 13:25:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbgHULZY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 07:25:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43218 "EHLO
+        id S1726118AbgHULZS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 07:25:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727899AbgHULVB (ORCPT
+        with ESMTP id S1728130AbgHULZL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 07:21:01 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87565C061387
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 04:21:00 -0700 (PDT)
+        Fri, 21 Aug 2020 07:25:11 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1E71C061388
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 04:24:39 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id JBM0230044C55Sk06BM0lC; Fri, 21 Aug 2020 13:21:00 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id JBQa2300E4C55Sk06BQaxw; Fri, 21 Aug 2020 13:24:34 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k956S-0002rx-0a; Fri, 21 Aug 2020 13:21:00 +0200
+        id 1k959u-0002w1-EH; Fri, 21 Aug 2020 13:24:34 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1k956R-0001LW-VM; Fri, 21 Aug 2020 13:20:59 +0200
+        id 1k959u-0001Tt-Cf; Fri, 21 Aug 2020 13:24:34 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: pinctrl: rzn1: Convert to json-schema
-Date:   Fri, 21 Aug 2020 13:20:59 +0200
-Message-Id: <20200821112059.5133-1-geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: Fix pin controller node names
+Date:   Fri, 21 Aug 2020 13:24:33 +0200
+Message-Id: <20200821112433.5652-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas RZ/N1 Pin controller Device Tree binding
-documentation to json-schema.
-
-Use "pinctrl" generic node name.
-Drop generic and consumer examples, as they do not belong here.
+According to Devicetree Specification v0.2 and later, Section "Generic
+Names Recommendation", the node name for a pin controller device node
+should be "pinctrl".
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Note: "phandle: true" is needed because dt-schema does not add it
-      automatically to subnodes.
+To be queued in renesas-devel for v5.10.
 
-To be queued in sh-pfc for v5.10.
----
- .../bindings/pinctrl/renesas,rzn1-pinctrl.txt | 153 ------------------
- .../pinctrl/renesas,rzn1-pinctrl.yaml         | 129 +++++++++++++++
- 2 files changed, 129 insertions(+), 153 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
- create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77951.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77960.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77970.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
-deleted file mode 100644
-index 25e53acd523e2bea..0000000000000000
---- a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
-+++ /dev/null
-@@ -1,153 +0,0 @@
--Renesas RZ/N1 SoC Pinctrl node description.
--
--Pin controller node
---------------------
--Required properties:
--- compatible: SoC-specific compatible string "renesas,<soc-specific>-pinctrl"
--  followed by "renesas,rzn1-pinctrl" as fallback. The SoC-specific compatible
--  strings must be one of:
--	"renesas,r9a06g032-pinctrl" for RZ/N1D
--	"renesas,r9a06g033-pinctrl" for RZ/N1S
--- reg: Address base and length of the memory area where the pin controller
--  hardware is mapped to.
--- clocks: phandle for the clock, see the description of clock-names below.
--- clock-names: Contains the name of the clock:
--    "bus", the bus clock, sometimes described as pclk, for register accesses.
--
--Example:
--	pinctrl: pin-controller@40067000 {
--	    compatible = "renesas,r9a06g032-pinctrl", "renesas,rzn1-pinctrl";
--	    reg = <0x40067000 0x1000>, <0x51000000 0x480>;
--	    clocks = <&sysctrl R9A06G032_HCLK_PINCONFIG>;
--	    clock-names = "bus";
--	};
--
--Sub-nodes
-----------
--
--The child nodes of the pin controller node describe a pin multiplexing
--function.
--
--- Pin multiplexing sub-nodes:
--  A pin multiplexing sub-node describes how to configure a set of
--  (or a single) pin in some desired alternate function mode.
--  A single sub-node may define several pin configurations.
--  Please refer to pinctrl-bindings.txt to get to know more on generic
--  pin properties usage.
--
--  The allowed generic formats for a pin multiplexing sub-node are the
--  following ones:
--
--  node-1 {
--      pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--      GENERIC_PINCONFIG;
--  };
--
--  node-2 {
--      sub-node-1 {
--          pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--          GENERIC_PINCONFIG;
--      };
--
--      sub-node-2 {
--          pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--          GENERIC_PINCONFIG;
--      };
--
--      ...
--
--      sub-node-n {
--          pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--          GENERIC_PINCONFIG;
--      };
--  };
--
--  node-3 {
--      pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--      GENERIC_PINCONFIG;
--
--      sub-node-1 {
--          pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--          GENERIC_PINCONFIG;
--      };
--
--      ...
--
--      sub-node-n {
--          pinmux = <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
--          GENERIC_PINCONFIG;
--      };
--  };
--
--  Use the latter two formats when pins part of the same logical group need to
--  have different generic pin configuration flags applied. Note that the generic
--  pinconfig in node-3 does not apply to the sub-nodes.
--
--  Client sub-nodes shall refer to pin multiplexing sub-nodes using the phandle
--  of the most external one.
--
--  Eg.
--
--  client-1 {
--      ...
--      pinctrl-0 = <&node-1>;
--      ...
--  };
--
--  client-2 {
--      ...
--      pinctrl-0 = <&node-2>;
--      ...
--  };
--
--  Required properties:
--    - pinmux:
--      integer array representing pin number and pin multiplexing configuration.
--      When a pin has to be configured in alternate function mode, use this
--      property to identify the pin by its global index, and provide its
--      alternate function configuration number along with it.
--      When multiple pins are required to be configured as part of the same
--      alternate function they shall be specified as members of the same
--      argument list of a single "pinmux" property.
--      Integers values in the "pinmux" argument list are assembled as:
--      (PIN | MUX_FUNC << 8)
--      where PIN directly corresponds to the pl_gpio pin number and MUX_FUNC is
--      one of the alternate function identifiers defined in:
--      <include/dt-bindings/pinctrl/rzn1-pinctrl.h>
--      These identifiers collapse the IO Multiplex Configuration Level 1 and
--      Level 2 numbers that are detailed in the hardware reference manual into a
--      single number. The identifiers for Level 2 are simply offset by 10.
--      Additional identifiers are provided to specify the MDIO source peripheral.
--
--  Optional generic pinconf properties:
--    - bias-disable		- disable any pin bias
--    - bias-pull-up		- pull up the pin with 50 KOhm
--    - bias-pull-down		- pull down the pin with 50 KOhm
--    - bias-high-impedance	- high impedance mode
--    - drive-strength		- sink or source at most 4, 6, 8 or 12 mA
--
--  Example:
--  A serial communication interface with a TX output pin and an RX input pin.
--
--  &pinctrl {
--	pins_uart0: pins_uart0 {
--		pinmux = <
--			RZN1_PINMUX(103, RZN1_FUNC_UART0_I)	/* UART0_TXD */
--			RZN1_PINMUX(104, RZN1_FUNC_UART0_I)	/* UART0_RXD */
--		>;
--	};
--  };
--
--  Example 2:
--  Here we set the pull up on the RXD pin of the UART.
--
--  &pinctrl {
--	pins_uart0: pins_uart0 {
--		pinmux = <RZN1_PINMUX(103, RZN1_FUNC_UART0_I)>;	/* TXD */
--
--		pins_uart6_rx {
--			pinmux = <RZN1_PINMUX(104, RZN1_FUNC_UART0_I)>; /* RXD */
--			bias-pull-up;
--		};
--	};
--  };
-diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
-new file mode 100644
-index 0000000000000000..4a43af0d6e02a68b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
-@@ -0,0 +1,129 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pinctrl/renesas,rzn1-pinctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas RZ/N1 Pin Controller
-+
-+maintainers:
-+  - Gareth Williams <gareth.williams.jx@renesas.com>
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,r9a06g032-pinctrl # RZ/N1D
-+          - renesas,r9a06g033-pinctrl # RZ/N1S
-+      - const: renesas,rzn1-pinctrl   # Generic RZ/N1
-+
-+  reg:
-+    items:
-+      - description: GPIO Multiplexing Level1 Register Block
-+      - description: GPIO Multiplexing Level2 Register Block
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: bus
-+    description:
-+      The bus clock, sometimes described as pclk, for register accesses.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+additionalProperties:
-+  anyOf:
-+    - type: object
-+      allOf:
-+        - $ref: pincfg-node.yaml#
-+        - $ref: pinmux-node.yaml#
-+
-+      description:
-+        A pin multiplexing sub-node describes how to configure a set of (or a
-+        single) pin in some desired alternate function mode.
-+        A single sub-node may define several pin configurations.
-+
-+      properties:
-+        pinmux:
-+          description: |
-+            Integer array representing pin number and pin multiplexing
-+            configuration.
-+            When a pin has to be configured in alternate function mode, use
-+            this property to identify the pin by its global index, and provide
-+            its alternate function configuration number along with it.
-+            When multiple pins are required to be configured as part of the
-+            same alternate function they shall be specified as members of the
-+            same argument list of a single "pinmux" property.
-+            Integers values in the "pinmux" argument list are assembled as:
-+            (PIN | MUX_FUNC << 8)
-+            where PIN directly corresponds to the pl_gpio pin number and
-+            MUX_FUNC is one of the alternate function identifiers defined in:
-+            <include/dt-bindings/pinctrl/rzn1-pinctrl.h>
-+            These identifiers collapse the IO Multiplex Configuration Level 1
-+            and Level 2 numbers that are detailed in the hardware reference
-+            manual into a single number. The identifiers for Level 2 are simply
-+            offset by 10.  Additional identifiers are provided to specify the
-+            MDIO source peripheral.
-+
-+        phandle: true
-+        bias-disable: true
-+        bias-pull-up:
-+          description: Pull up the pin with 50 kOhm
-+        bias-pull-down:
-+          description: Pull down the pin with 50 kOhm
-+        bias-high-impedance: true
-+        drive-strength:
-+          enum: [ 4, 6, 8, 12 ]
-+
-+      required:
-+        - pinmux
-+
-+      additionalProperties:
-+        $ref: "#/additionalProperties/anyOf/0"
-+
-+    - type: object
-+      properties:
-+        phandle: true
-+
-+      additionalProperties:
-+        $ref: "#/additionalProperties/anyOf/0"
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-+    #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
-+    pinctrl: pinctrl@40067000 {
-+            compatible = "renesas,r9a06g032-pinctrl", "renesas,rzn1-pinctrl";
-+            reg = <0x40067000 0x1000>, <0x51000000 0x480>;
-+            clocks = <&sysctrl R9A06G032_HCLK_PINCONFIG>;
-+            clock-names = "bus";
-+
-+            /*
-+             * A serial communication interface with a TX output pin and an RX
-+             * input pin.
-+             */
-+            pins_uart0: pins_uart0 {
-+                    pinmux = <
-+                            RZN1_PINMUX(103, RZN1_FUNC_UART0_I) /* UART0_TXD */
-+                            RZN1_PINMUX(104, RZN1_FUNC_UART0_I) /* UART0_RXD */
-+                    >;
-+            };
-+
-+            /*
-+             * Set the pull-up on the RXD pin of the UART.
-+             */
-+            pins_uart0_alt: pins_uart0_alt {
-+                    pinmux = <RZN1_PINMUX(103, RZN1_FUNC_UART0_I)>;
-+
-+                    pins_uart6_rx {
-+                            pinmux = <RZN1_PINMUX(104, RZN1_FUNC_UART0_I)>;
-+                            bias-pull-up;
-+                    };
-+            };
-+    };
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+index ed99863f1dd09fd0..0806446228ec8f14 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+@@ -408,7 +408,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a774a1";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+index 1c76de24d3ea4844..40d87baa2431edfe 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+@@ -282,7 +282,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a774b1";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+index 9fdca4c55ba95608..f2a93f83781dba04 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+@@ -256,7 +256,7 @@
+ 			resets = <&cpg 906>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a774c0";
+ 			reg = <0 0xe6060000 0 0x508>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+index 415727c9f23200dd..c4cd05470ed7e19d 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
+@@ -427,7 +427,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a774e1";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+index 1b1a014c829a2e2a..644308dd886c4baa 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+@@ -490,7 +490,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a7795";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+index e6c88a748692b212..53b9aa26c9b13fa7 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+@@ -459,7 +459,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a7796";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 6fdc28a6d2cf0354..3ff2729528aeaeab 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -448,7 +448,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77961";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 6206e28f37efae73..bfffc5b6104e2dfc 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -329,7 +329,7 @@
+ 			resets = <&cpg 905>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77965";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
+index 7be8ad1ca4646d79..5a5d5649332a8b1d 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
+@@ -204,7 +204,7 @@
+ 			resets = <&cpg 907>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77970";
+ 			reg = <0 0xe6060000 0 0x504>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+index f573dc0552272195..ec7ca72399ec4d54 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+@@ -234,7 +234,7 @@
+ 			resets = <&cpg 907>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77980";
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index 07c35e9b049ae151..d1615474be67bac3 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -282,7 +282,7 @@
+ 			resets = <&cpg 906>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77990";
+ 			reg = <0 0xe6060000 0 0x508>;
+ 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 624aaa6d7f20d6d4..e1af7c4782f4d768 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -188,7 +188,7 @@
+ 			resets = <&cpg 906>;
+ 		};
+ 
+-		pfc: pin-controller@e6060000 {
++		pfc: pinctrl@e6060000 {
+ 			compatible = "renesas,pfc-r8a77995";
+ 			reg = <0 0xe6060000 0 0x508>;
+ 		};
 -- 
 2.17.1
 
