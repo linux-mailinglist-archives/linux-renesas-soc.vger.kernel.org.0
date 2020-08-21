@@ -2,64 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E7DD24D0F2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 10:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDA7224D390
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 13:11:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728220AbgHUI4g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 04:56:36 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:58277 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726062AbgHUI4e (ORCPT
+        id S1727839AbgHULLj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 07:11:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727830AbgHULLh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 04:56:34 -0400
-X-IronPort-AV: E=Sophos;i="5.76,335,1592838000"; 
-   d="scan'208";a="54949013"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Aug 2020 17:56:33 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 32FE44221738;
-        Fri, 21 Aug 2020 17:56:33 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] usb: gadget: u_serial: clear suspended flag when discnnecting
-Date:   Fri, 21 Aug 2020 17:56:19 +0900
-Message-Id: <1598000179-28417-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 21 Aug 2020 07:11:37 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96E23C061387
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 04:11:36 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id JBBV230014C55Sk01BBVNV; Fri, 21 Aug 2020 13:11:29 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k94xE-0002eY-Tz; Fri, 21 Aug 2020 13:11:28 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1k94xE-0000za-Ra; Fri, 21 Aug 2020 13:11:28 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Fix pin controller node name
+Date:   Fri, 21 Aug 2020 13:11:27 +0200
+Message-Id: <20200821111127.3771-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The commit aba3a8d01d62 ("usb: gadget: u_serial: add suspend resume
-callbacks") set/cleared the suspended flag in USB bus suspend/resume
-only. But, when a USB cable is disconnected in the suspend, since some
-controllers will not detect USB bus resume, the suspended flag is not
-cleared. After that, user cannot send any data. To fix the issue,
-clears the suspended flag in the gserial_disconnect().
+According to Devicetree Specification v0.2 and later, Section "Generic
+Names Recommendation", the node name for a pin controller device node
+should be "pinctrl".
 
-Fixes: aba3a8d01d62 ("usb: gadget: u_serial: add suspend resume callbacks")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Tested-by: Linh Phung <linh.phung.jy@renesas.com>
-Tested-by: Tam Nguyen <tam.nguyen.xa@renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/usb/gadget/function/u_serial.c | 1 +
- 1 file changed, 1 insertion(+)
+To be queued in sh-pfc for v5.10.
 
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index 127ecc2..2caccbb 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -1391,6 +1391,7 @@ void gserial_disconnect(struct gserial *gser)
- 		if (port->port.tty)
- 			tty_hangup(port->port.tty);
- 	}
-+	port->suspended = false;
- 	spin_unlock_irqrestore(&port->port_lock, flags);
+ .../devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+index b7911a994f3a9f12..ce1f7343788faeff 100644
+--- a/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml
+@@ -84,7 +84,7 @@ additionalProperties: false
+ examples:
+   - |
+     #include <dt-bindings/pinctrl/r7s9210-pinctrl.h>
+-    pinctrl: pin-controller@fcffe000 {
++    pinctrl: pinctrl@fcffe000 {
+             compatible = "renesas,r7s9210-pinctrl";
+             reg = <0xfcffe000 0x1000>;
  
- 	/* disable endpoints, aborting down any active I/O */
 -- 
-2.7.4
+2.17.1
 
