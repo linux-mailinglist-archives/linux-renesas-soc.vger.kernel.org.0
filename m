@@ -2,174 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C590C24D424
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 13:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0558B24D45B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Aug 2020 13:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbgHULiR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 07:38:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728284AbgHULiD (ORCPT
+        id S1728298AbgHULo7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 07:44:59 -0400
+Received: from www.zeus03.de ([194.117.254.33]:42278 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728407AbgHULoC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 07:38:03 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FA2CC061385;
-        Fri, 21 Aug 2020 04:38:03 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id p191so887278ybg.0;
-        Fri, 21 Aug 2020 04:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OkIK/dZ2Mgt//fkmDHOJQ3SHXplluJWee1ZVxzLQD9E=;
-        b=cT/984PPUunLzXowyppHLeT4YU0JjTauMQNZzsugiYeMiLoHw6rZKaH3TbbmKAdJi1
-         ej91Eaq+KcwmvIFhjjFj4SMKoQNE1s0d5eZVF+EoXpUkm+AU+Tjk2zm8d2mmDk3jjAbm
-         fI0wgP8Q4lZBtFhs3lQz0d6WMyvbPoNnQ/n2R1NSxETDX2z2/cxZCmfIgzRxk9PCeAmI
-         i1HeRmJTKG6H9eYCW9y4/9rEuEgOFFjH7CvVofgGcshy6szHurdQ9hn046p/J+ROD9y2
-         A5LBZfLFYhFNxGcYg7N/FTNTW7y8D29myCFN+LU3tD28MPiKKqE9zp8DI26V4kqeO1w+
-         MCDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OkIK/dZ2Mgt//fkmDHOJQ3SHXplluJWee1ZVxzLQD9E=;
-        b=HuBJEzO4rqQaXfLD2WcTX4fibp8j3/W4XvZGQPgPs9U5gj5PfLGZnSG4Z7rlcSANOW
-         RlUIL6B+Ez+J193LSmsGiBcHLulDUSee7iUbf00lD6eL0dYHxKhMh4SIVGG2ZoX0/3PD
-         43LCyl+fjK+g6xE2UTpILvtQzEAgPqXI47HhuEdvoRL7yWjqdXzd4vBidsjB/PiT+6C4
-         YC61T9SM85lO+sXobjV+4jRXS5mU/y1HOKpg4Mj5pYsFSkhD5RApulbrNFjwVJJWZLkY
-         vleFHvYcoUlPEMAH/ZYvVcb6nS8OdekKWMe2Ard977B6ONX9wbwEs6T68lxcw3XSUJoH
-         eE9g==
-X-Gm-Message-State: AOAM532YDb0DmrLRDUKTFjASCm2g+fxl+qDAUm865GwvSFRFxl4wWbOG
-        xBwGXDbUCDWQmKC8MWw+j10GBMSdP5M0WLlTYaY=
-X-Google-Smtp-Source: ABdhPJzOUQ7z+wYHExuvCZTZfc4BvrCPM5gPv8JOYJe952Ot0fbk9SzYIqjPi/4vrcYDl96EqC1S8XBMBg26dzJtdNw=
-X-Received: by 2002:a25:2f4d:: with SMTP id v74mr2868323ybv.401.1598009881871;
- Fri, 21 Aug 2020 04:38:01 -0700 (PDT)
+        Fri, 21 Aug 2020 07:44:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=YtcCCrjutEn/fojfaD2DDf8l3Ezf
+        v6ANNQPCcLUJZv0=; b=XNOghQuVguxNvxcleajQiwkCcHIZLlx3ZL4F9zOEHRvL
+        KnGVZbiB7W2V6bP9wlNL169qwh91gsokcIOZFVCPuPU2C57SCVaimt2HLS2NhgGK
+        76Cd851vTJ8shizvwjWfRW+K9/8gqY4VClb9pFUUGBr6oQ756ktsPNllRMbL6tk=
+Received: (qmail 880608 invoked from network); 21 Aug 2020 13:43:58 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Aug 2020 13:43:58 +0200
+X-UD-Smtp-Session: l3s3148p1@J5uewGGt8q0gAwDPXweWAG48P/WlTOIM
+Date:   Fri, 21 Aug 2020 13:43:58 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
+Message-ID: <20200821114357.GA29628@ninjato>
+References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+ <20200715203843.GA776042@bogus>
+ <20200724193635.GC1227@ninjato>
+ <20200725120700.GA1734@kunai>
 MIME-Version: 1.0
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-4-jacopo+renesas@jmondi.org> <20200819135423.GL6049@pendragon.ideasonboard.com>
-In-Reply-To: <20200819135423.GL6049@pendragon.ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 21 Aug 2020 12:37:35 +0100
-Message-ID: <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
+Content-Disposition: inline
+In-Reply-To: <20200725120700.GA1734@kunai>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent and Jacopo
 
-On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
-> > Document endpoint properties for the parallel bus type and
-> > add them to the example.
-> >
-> > Specify a few constraints:
-> > - If the bus type is BT.656 no hsync or vsycn polarities can be
-> >   specified.
-> > - If the bus width is 10 bits, not data-shift can be applied.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > index 75dad40f70cc..3fad5dffd19a 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > @@ -50,9 +50,47 @@ properties:
-> >            bus-type:
-> >              enum: [5, 6]
-> >
-> > +          bus-width:
-> > +            enum: [8, 10]
-> > +            default: 10
-> > +
-> > +          data-shift:
-> > +            enum: [0, 2]
-> > +            default: 0
-> > +
-> > +          hsync-active:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> > +          vsync-active:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> > +          pclk-sample:
-> > +            enum: [0, 1]
-> > +            default: 1
-> > +
-> >            remote-endpoint:
-> >              description: A phandle to the bus receiver's endpoint node.
-> >
-> > +        allOf:
-> > +          - if:
-> > +              properties:
-> > +                bus-type:
-> > +                  const: 6
-> > +            then:
-> > +                properties:
-> > +                  hsync-active: false
-> > +                  vsync-active: false
-> > +
-> > +          - if:
-> > +              properties:
-> > +                bus-width:
-> > +                  const: 10
-> > +            then:
-> > +                properties:
-> > +                  data-shift:
-> > +                    const: 0
->
-> I'd add a blank line here.
->
-> >          required:
-> >            - bus-type
->
-> Should some of the properties be required ? Possibly conditioned on
-> bus-type ?
->
-Agreed, would be interesting to know how this can be handled (split
-out bus-type and add required properties for each) ?
+--/9DWx/yDrRhgMJTb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Prabhakar
+On Sat, Jul 25, 2020 at 02:07:00PM +0200, Wolfram Sang wrote:
+> On Fri, Jul 24, 2020 at 09:36:35PM +0200, Wolfram Sang wrote:
+> > Hi Rob,
+> >=20
+> > > > SMBus is largely compatible with I2C but there are some specifics. =
+In
+> > > > case we need them on a bus, we can now use this new binding.
+> > > >=20
+> > > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/i2c/i2c.txt | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > >=20
+> > > > diff --git a/Documentation/devicetree/bindings/i2c/i2c.txt b/Docume=
+ntation/devicetree/bindings/i2c/i2c.txt
+> > > > index 438ae123107e..d1f8cf3bd236 100644
+> > > > --- a/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > > +++ b/Documentation/devicetree/bindings/i2c/i2c.txt
+> > > > @@ -77,6 +77,11 @@ wants to support one of the below features, it s=
+hould adapt these bindings.
+> > > >  	this information to detect a stalled bus more reliably, for examp=
+le.
+> > > >  	Can not be combined with 'multi-master'.
+> > > > =20
+> > > > +- smbus
+> > >=20
+> > > This is a boolean?
+> >=20
+> > Yes.
+> >=20
+> > >=20
+> > > > +	states that additional SMBus restrictions and features apply to t=
+his bus.
+> > > > +	Examples of features are SMBusHostNotify and SMBusAlert. Examples=
+ of
+> > >=20
+> > > Do features need to be enumerated separately?
+> >=20
+> > They could be, do you think this is of advantage? For now, we would then
+> > need "host-notify" and "smbus-alert". Maybe later things like "timeout"
+> > could show up.
+>=20
+> I also recall now that I thought that "smbus" fits better the
+> "describing hardware" aspect, i.e. "this bus is an SMBus and not I2C".
+> Enumerating features felt more like configuration to me.
 
-> >
-> > @@ -82,6 +120,11 @@ examples:
-> >              port {
-> >                  ov772x_0: endpoint {
-> >                      bus-type = <5>;
-> > +                    vsync-active = <0>;
-> > +                    hsync-active = <0>;
-> > +                    pclk-sample = <0>;
-> > +                    bus-width = <8>;
-> > +                    data-shift = <0>;
-> >                      remote-endpoint = <&vcap1_in0>;
-> >                  };
-> >              };
->
-> --
-> Regards,
->
-> Laurent Pinchart
+Rob, if you have some time, I'd really appreciate an ack here. I think
+it is a proper binding but I'd like to have it stress-tested with your
+experience :)
+
+>=20
+> >=20
+> > >=20
+> > > > +	restrictions are more reserved addresses and timeout definitions.
+> > > > +
+> >=20
+> > All the best,
+> >=20
+> >    Wolfram
+> >=20
+>=20
+>=20
+
+
+
+--/9DWx/yDrRhgMJTb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8/s3oACgkQFA3kzBSg
+Kba9vhAAiwO/kHpYgRW5zz/G6w85eq1WPezyG1bTYXgMPTOUbfvOp21cF02ZKIs9
+DbcYX/J2wVMwb23Qy5bpQhUzER9qeT/L9fJDySvbblQdp+Rf0ffCaYS4CaIifAbN
+sfp9LimlM7osvktvehOhjvNhwVTyBJbcBWOZztQPDa//ukMz6kJHflvOeuQS+J8m
+6j1jM06El7wpQF8aMavViWh0BcPhlPhrzXFKn/9K9cfFdVVYfLfGN0YBRsoDZfkf
+etxyAHir/twItbPf0R8WFRvZmgpDuuaJ8UtaokkUXgi1ixJRbjvKc4mnxWmfexIZ
+a5sCbB7aA62kGr2OqxizrEOOUJ7hiEcaIcxkLBJYJxAnNgGM0ZJRTVDWq0NLKAuz
+cpfWSXnqUz7gn9wjiesC/K3uDaRp1osJf0t99tnxEllKcKJYaktlolmHnAJFH9e4
+JIwqfnCdNH2zFYsZyJ1dAtDvB4xv7Q3bBprIHV/eWX1naMertqEIXIJZm+hDnBuP
+337IwnUAV5WfZNBm/zs4hWxupq2VlISw+4+t7lilFdyCJGh5UG9EEgKZAxGv+69g
+dir4VfEei9Te3CtI3srfg8qMhTlTPNrrzP9u5If+XmvxuqgqlEWYtNo5iX+41HcH
+/ZP0zZUMXcUqzBMvqbOC2ZY1bSleTOO5dQVf3w2TcUVD49On/xI=
+=FS44
+-----END PGP SIGNATURE-----
+
+--/9DWx/yDrRhgMJTb--
