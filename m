@@ -2,126 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2417124E471
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Aug 2020 03:20:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4826124E47F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Aug 2020 03:36:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbgHVBUs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 21:20:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60332 "EHLO
+        id S1726414AbgHVBgY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Aug 2020 21:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726817AbgHVBUp (ORCPT
+        with ESMTP id S1725801AbgHVBgX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 21:20:45 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E77FC061574
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 18:20:45 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id t23so2569949qto.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Aug 2020 18:20:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lca.pw; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=alqsuLjRIbrXdAlbW9c5s4ZuhliUbHIiXWeuZS/UsUs=;
-        b=r+YcyHmi3Ads0IkAGbm6Tg7P9IhT1PkYzo3vq5csouLShpbtuxhXK9HpZilSnPjShT
-         HBCzedlhq9HehZ+1ohCVUxuoySSAN7sG7EX+3276XxYxNoq1sQ6K2mILIazpXJ6rD54I
-         d0WdsaaWUCHtoeYeOzMLONgoeMnuBgau7T2AFLc0QaSihvWaL6df0UKMAp5avYCmUdzj
-         znphFfwkX2pKhKn9kt4JI3mRvb/fK0vYZLooarVtDoqd4v9Uw1hqzKokv8ZWCZTyGqCj
-         8FfHNinLZ5lkgB1V/7cOejmLMtzUgmOggUlIL3kZFLkrg4p2PwdYuB6DAjUg4X67zMts
-         G3uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=alqsuLjRIbrXdAlbW9c5s4ZuhliUbHIiXWeuZS/UsUs=;
-        b=Y5wvlYEsOvOXyKPYTJjaad8NQCVUwy7lPBt6UNo5hYVSIxMb88qkFPRCKwdZ2VvKEZ
-         /opPXQRrt7Ygfnlvkn5XkvwEneuNEs/srz8vVCnV2T77GqoJwsH18Vw/hNNEVq61kbOn
-         Q2C2gh4WSz14iBclDhQk/oH8S+LnudbrWnNOmz6y5730zcwZaJ6aQ11//1PeaOypY/2Y
-         IQJENzQbhnn9m3YCoaK7ixhM7SXVf1nfpVe3TweZChpN8DMF6ff94TG8V5KLxkylYw2j
-         8Xrg4ucCpmEQLJCl8PhFAPfPxdDzLt0hcrIp/2THrpCSUdNj2+a3e05fBTNR3tnbcIVs
-         ZcKQ==
-X-Gm-Message-State: AOAM530hsHRkiw0Al/5tfxH8oJfrXjb8QXogU1ggnboLrJ3ByWiJO/zf
-        TAR2vhZogXEkwZPmPaIIf9WtQg==
-X-Google-Smtp-Source: ABdhPJxeDssrajw6JuftjZhYmAJqOu1G4f1+FhQrVW3m1ZYoHj7OW72Xb2a+KA1xkh/G9V0FMhugVA==
-X-Received: by 2002:ac8:78d:: with SMTP id l13mr5351576qth.188.1598059244689;
-        Fri, 21 Aug 2020 18:20:44 -0700 (PDT)
-Received: from lca.pw (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id w2sm3150752qkf.6.2020.08.21.18.20.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2020 18:20:44 -0700 (PDT)
-Date:   Fri, 21 Aug 2020 21:20:37 -0400
-From:   Qian Cai <cai@lca.pw>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
-Message-ID: <20200822012036.GA26224@lca.pw>
-References: <20200608025340.3050-1-cai@lca.pw>
- <20200608031442.GP22208@pendragon.ideasonboard.com>
- <20200608031622.GQ22208@pendragon.ideasonboard.com>
+        Fri, 21 Aug 2020 21:36:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433D1C061573;
+        Fri, 21 Aug 2020 18:36:22 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55ED629E;
+        Sat, 22 Aug 2020 03:36:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598060176;
+        bh=QDNGF3NmwLXJQKvrzC4omNcWs6Mrszdv+yYWd/Dv/Dw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=p1PQJNuUaGl76WmEz4RoRcK5xhuL8c0rjIQ/kO9DBiEOfN69buNLPhtuDOrKtFbf3
+         JcPaaZs0yVGO6pB5BEbxmcSgyGdY9PjsoQBgVZ/AdXOj6Vd2Q+TCMnDe8iDYRwVZAg
+         ZWmq0sjFObr4sZ6wYQnrEMKBUjjTuWLDo0vj4LfI=
+Date:   Sat, 22 Aug 2020 04:35:58 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
+Message-ID: <20200822013558.GN5967@pendragon.ideasonboard.com>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-4-jacopo+renesas@jmondi.org>
+ <20200819135423.GL6049@pendragon.ideasonboard.com>
+ <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200608031622.GQ22208@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 06:16:22AM +0300, Laurent Pinchart wrote:
-> Hi Qian,
-> 
-> I forgot to mention, I think the subject line should be
-> 
-> drm/rcar-du: Make DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU
-> 
-> Could you please let me know if you're OK with these two small changes ?
+Hi Prabhakar,
 
-Laurent, this patch is still not in the latest linux-next. Can you take a look?
-
-> 
-> On Mon, Jun 08, 2020 at 06:14:43AM +0300, Laurent Pinchart wrote:
-> > On Sun, Jun 07, 2020 at 10:53:40PM -0400, Qian Cai wrote:
-> > > There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
-> > 
-> > s/DRM=n/DRM_RCAR_DU=n/ here.
-> > 
-> > > the generated .config a bit ugly.
-> > > 
-> > >  # ARM devices
-> > >  #
-> > >  # end of ARM devices
-> > > 
-> > >  CONFIG_DRM_RCAR_WRITEBACK=y
-> > > 
-> > >  #
-> > >  # Frame buffer Devices
-> > > 
-> > > Let DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU instead.
-> > > 
-> > > Signed-off-by: Qian Cai <cai@lca.pw>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > No need to submit a v3 if you agree with the above change, I'll fix it
-> > in my tree.
-> > 
+On Fri, Aug 21, 2020 at 12:37:35PM +0100, Lad, Prabhakar wrote:
+> On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart wrote:
+> > On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
+> > > Document endpoint properties for the parallel bus type and
+> > > add them to the example.
+> > >
+> > > Specify a few constraints:
+> > > - If the bus type is BT.656 no hsync or vsycn polarities can be
+> > >   specified.
+> > > - If the bus width is 10 bits, not data-shift can be applied.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > > ---
-> > >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> > > index 0919f1f159a4..3304b41f5611 100644
-> > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
-> > >  config DRM_RCAR_WRITEBACK
-> > >  	bool
-> > >  	default y if ARM64
-> > > +	depends on DRM_RCAR_DU
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
+> > >  1 file changed, 43 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > index 75dad40f70cc..3fad5dffd19a 100644
+> > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > @@ -50,9 +50,47 @@ properties:
+> > >            bus-type:
+> > >              enum: [5, 6]
+> > >
+> > > +          bus-width:
+> > > +            enum: [8, 10]
+> > > +            default: 10
+> > > +
+> > > +          data-shift:
+> > > +            enum: [0, 2]
+> > > +            default: 0
+> > > +
+> > > +          hsync-active:
+> > > +            enum: [0, 1]
+> > > +            default: 1
+> > > +
+> > > +          vsync-active:
+> > > +            enum: [0, 1]
+> > > +            default: 1
+> > > +
+> > > +          pclk-sample:
+> > > +            enum: [0, 1]
+> > > +            default: 1
+> > > +
+> > >            remote-endpoint:
+> > >              description: A phandle to the bus receiver's endpoint node.
+> > >
+> > > +        allOf:
+> > > +          - if:
+> > > +              properties:
+> > > +                bus-type:
+> > > +                  const: 6
+> > > +            then:
+> > > +                properties:
+> > > +                  hsync-active: false
+> > > +                  vsync-active: false
+> > > +
+> > > +          - if:
+> > > +              properties:
+> > > +                bus-width:
+> > > +                  const: 10
+> > > +            then:
+> > > +                properties:
+> > > +                  data-shift:
+> > > +                    const: 0
+> >
+> > I'd add a blank line here.
+> >
+> > >          required:
+> > >            - bus-type
+> >
+> > Should some of the properties be required ? Possibly conditioned on
+> > bus-type ?
+>
+> Agreed, would be interesting to know how this can be handled (split
+> out bus-type and add required properties for each) ?
+
+We can add required: statements to the above if/then/else.
+
+> > > @@ -82,6 +120,11 @@ examples:
+> > >              port {
+> > >                  ov772x_0: endpoint {
+> > >                      bus-type = <5>;
+> > > +                    vsync-active = <0>;
+> > > +                    hsync-active = <0>;
+> > > +                    pclk-sample = <0>;
+> > > +                    bus-width = <8>;
+> > > +                    data-shift = <0>;
+> > >                      remote-endpoint = <&vcap1_in0>;
+> > >                  };
+> > >              };
+
+-- 
+Regards,
+
+Laurent Pinchart
