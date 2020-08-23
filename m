@@ -2,108 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9153224F00A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 00:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F6224F03A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 00:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgHWWMo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Aug 2020 18:12:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51316 "EHLO
+        id S1726744AbgHWWTZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Aug 2020 18:19:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726752AbgHWWMn (ORCPT
+        with ESMTP id S1726480AbgHWWTZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Aug 2020 18:12:43 -0400
+        Sun, 23 Aug 2020 18:19:25 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A24C061573
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 23 Aug 2020 15:12:43 -0700 (PDT)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E52C6574;
-        Mon, 24 Aug 2020 00:12:35 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F36C061573;
+        Sun, 23 Aug 2020 15:19:25 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B41A279;
+        Mon, 24 Aug 2020 00:19:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598220756;
-        bh=UipJGceDZ8yd8Tv3M4UXdcBI8MhD5lZ0bMpYfCO635Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RDOZe0YUeHad+4s/s/fWM+PL9lKl4VsynjdzCBfhTaiXXP7qjZdxcZLzBWeoycJfk
-         kMVEi1L7GgNQCOdAh04OLUofU8r5axY1zyVn/BAzHzu065PSTkwVCys2dsVmB6/FsP
-         pLVTRqnotE6FUug6iKfzsKQW6hWnRhR/NKxEO3hQ=
+        s=mail; t=1598221153;
+        bh=jR2719Bh8edQKpKcDCblp3fFLCmrLJ9k0mDA6xq9Vw8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gKBnNPjhYTM3EYnpFqaj4S7t7Iozy47maNCuMrXuefLLjxSVpvg+MK3FaBHwgg70z
+         xBfv2iysL/2WhIQMppAipazp6O1frreJAOh7eKWIeJvl/4MaxHnLps8WqmJMuye1UU
+         kOXvMQa/0uhJa6c9meNOFCite6cJOvlPCwkxRDUA=
+Date:   Mon, 24 Aug 2020 01:18:54 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [kmsxx] [PATCH 2/2] utils: Add a dump_framebuffer() method
-Date:   Mon, 24 Aug 2020 01:11:52 +0300
-Message-Id: <20200823221152.31978-3-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200823221152.31978-1-laurent.pinchart@ideasonboard.com>
-References: <20200823221152.31978-1-laurent.pinchart@ideasonboard.com>
+To:     Qian Cai <cai@lca.pw>
+Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/rcar-du: DRM_RCAR_WRITEBACK depends on DRM
+Message-ID: <20200823221854.GG6002@pendragon.ideasonboard.com>
+References: <20200608025340.3050-1-cai@lca.pw>
+ <20200608031442.GP22208@pendragon.ideasonboard.com>
+ <20200608031622.GQ22208@pendragon.ideasonboard.com>
+ <20200822012036.GA26224@lca.pw>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200822012036.GA26224@lca.pw>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a new method to write the contents of a framebuffer to a file
-descriptor. This can be used to capture frames from writeback
-connectors.
+Hi Qian,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- kms++util/inc/kms++util/kms++util.h | 2 ++
- kms++util/src/drawing.cpp           | 7 +++++++
- py/pykms/pykmsutil.cpp              | 6 +++++-
- 3 files changed, 14 insertions(+), 1 deletion(-)
+On Fri, Aug 21, 2020 at 09:20:37PM -0400, Qian Cai wrote:
+> On Mon, Jun 08, 2020 at 06:16:22AM +0300, Laurent Pinchart wrote:
+> > Hi Qian,
+> > 
+> > I forgot to mention, I think the subject line should be
+> > 
+> > drm/rcar-du: Make DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU
+> > 
+> > Could you please let me know if you're OK with these two small changes ?
+> 
+> Laurent, this patch is still not in the latest linux-next. Can you take a look?
 
-diff --git a/kms++util/inc/kms++util/kms++util.h b/kms++util/inc/kms++util/kms++util.h
-index 8fc6c8b81e48..58ad7e6ef39f 100644
---- a/kms++util/inc/kms++util/kms++util.h
-+++ b/kms++util/inc/kms++util/kms++util.h
-@@ -29,6 +29,8 @@ void draw_text(IFramebuffer& buf, uint32_t x, uint32_t y, const std::string& str
- void draw_color_bar(IFramebuffer& buf, int old_xpos, int xpos, int width);
- 
- void draw_test_pattern(IFramebuffer &fb, YUVType yuvt = YUVType::BT601_Lim);
-+
-+void dump_framebuffer(IFramebuffer &fb, int fd);
- }
- 
- #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
-index 3752f94695e0..24a995489a9e 100644
---- a/kms++util/src/drawing.cpp
-+++ b/kms++util/src/drawing.cpp
-@@ -1,5 +1,6 @@
- 
- #include <cmath>
-+#include <unistd.h>
- 
- #include <kms++/kms++.h>
- #include <kms++util/kms++util.h>
-@@ -569,4 +570,10 @@ void draw_text(IFramebuffer& buf, uint32_t x, uint32_t y, const string& str, RGB
- 		draw_char(buf, (x + 8 * i), y, str[i], color);
- }
- 
-+void dump_framebuffer(IFramebuffer &fb, int fd)
-+{
-+	for (unsigned int i = 0; i < fb.num_planes(); ++i)
-+		::write(fd, fb.map(i), fb.size(i));
-+}
-+
- }
-diff --git a/py/pykms/pykmsutil.cpp b/py/pykms/pykmsutil.cpp
-index d5d7fde4a4e1..92d8ebc684b9 100644
---- a/py/pykms/pykmsutil.cpp
-+++ b/py/pykms/pykmsutil.cpp
-@@ -61,5 +61,9 @@ void init_pykmstest(py::module &m)
- 		draw_circle(fb, xCenter, yCenter, radius, color);
- 	} );
- 	m.def("draw_text", [](Framebuffer& fb, uint32_t x, uint32_t y, const string& str, RGB color) {
--		draw_text(fb, x, y, str, color); } );
-+		draw_text(fb, x, y, str, color);
-+	} );
-+	m.def("dump_framebuffer", [](Framebuffer& fb, int fd) {
-+		dump_framebuffer(fb, fd);
-+	} );
- }
+Sorry for the delay. It will be included in the pull request I send this
+week.
+
+> > On Mon, Jun 08, 2020 at 06:14:43AM +0300, Laurent Pinchart wrote:
+> > > On Sun, Jun 07, 2020 at 10:53:40PM -0400, Qian Cai wrote:
+> > > > There is no need to select DRM_RCAR_WRITEBACK if DRM=n which just make
+> > > 
+> > > s/DRM=n/DRM_RCAR_DU=n/ here.
+> > > 
+> > > > the generated .config a bit ugly.
+> > > > 
+> > > >  # ARM devices
+> > > >  #
+> > > >  # end of ARM devices
+> > > > 
+> > > >  CONFIG_DRM_RCAR_WRITEBACK=y
+> > > > 
+> > > >  #
+> > > >  # Frame buffer Devices
+> > > > 
+> > > > Let DRM_RCAR_WRITEBACK depend on DRM_RCAR_DU instead.
+> > > > 
+> > > > Signed-off-by: Qian Cai <cai@lca.pw>
+> > > 
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > 
+> > > No need to submit a v3 if you agree with the above change, I'll fix it
+> > > in my tree.
+> > > 
+> > > > ---
+> > > >  drivers/gpu/drm/rcar-du/Kconfig | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> > > > index 0919f1f159a4..3304b41f5611 100644
+> > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
+> > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> > > > @@ -48,3 +48,4 @@ config DRM_RCAR_VSP
+> > > >  config DRM_RCAR_WRITEBACK
+> > > >  	bool
+> > > >  	default y if ARM64
+> > > > +	depends on DRM_RCAR_DU
+
 -- 
 Regards,
 
 Laurent Pinchart
-
