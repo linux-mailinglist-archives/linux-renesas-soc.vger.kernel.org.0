@@ -2,151 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4826124E47F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Aug 2020 03:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 885EF24EC4E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Aug 2020 11:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgHVBgY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Aug 2020 21:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34504 "EHLO
+        id S1728675AbgHWJAH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Aug 2020 05:00:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgHVBgX (ORCPT
+        with ESMTP id S1726964AbgHWJAF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Aug 2020 21:36:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 433D1C061573;
-        Fri, 21 Aug 2020 18:36:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55ED629E;
-        Sat, 22 Aug 2020 03:36:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1598060176;
-        bh=QDNGF3NmwLXJQKvrzC4omNcWs6Mrszdv+yYWd/Dv/Dw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p1PQJNuUaGl76WmEz4RoRcK5xhuL8c0rjIQ/kO9DBiEOfN69buNLPhtuDOrKtFbf3
-         JcPaaZs0yVGO6pB5BEbxmcSgyGdY9PjsoQBgVZ/AdXOj6Vd2Q+TCMnDe8iDYRwVZAg
-         ZWmq0sjFObr4sZ6wYQnrEMKBUjjTuWLDo0vj4LfI=
-Date:   Sat, 22 Aug 2020 04:35:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sun, 23 Aug 2020 05:00:05 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E94C061573;
+        Sun, 23 Aug 2020 02:00:04 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id i14so848260lfl.12;
+        Sun, 23 Aug 2020 02:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3mHHF/cCj93mk9O+OuFBr+f2r8uD6QtsJ9FKZ/VeVys=;
+        b=U7GWEbuIeOO0w0xHHWNMw3+dnz700u7oHf0ht6OuIzKu2f6N1+FNJx1mKR6CjN7QEh
+         K6ec2Gqjf/7eFIoVAdCcVpvzBkxhViv4eHmYoGGv6RwiruWoXl7ixk8cLIZ14Z0D2fTP
+         8ybOgvh+oM3pTdfNzyVA8qmQQUwTlfqqNr4bPb80vX89xRpZPABcMon6RoLW4+qC4suA
+         dpoc4FEW8DhNxzU5AaiMJLu5zde6psMDxeu9mn2/dT5FU9IRMl8L7klE2eocKGAYqgLU
+         C39jNV1Zj63jBl/n1LyKxysBseR8xNgQntbTCsbVpdKR6SI+pC/gqb7XNV+zXY3V/1Ra
+         hIZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=3mHHF/cCj93mk9O+OuFBr+f2r8uD6QtsJ9FKZ/VeVys=;
+        b=XDnPd6G8Mx0v3E+kTuHlLaXzoFcixENQKdbT1sHMtOFgWSh01X18TDC2Ye4AVW1ywC
+         XFuIpdQ9MLqiRjy7wOGeJqUG0Uboy5O4zsvs975tST7BxE07+6gkswGpiC6+X2qy2VFH
+         p6hx/LabX9wfOEpLyG0RT5qKcz5lY3iV2TUKr4/mOOseNxEssXeGoONUf5sXWlfnAMbd
+         PL4I8an7Qx27y1FbDCxS/G3+J+SX6jmP7lgLRSji1Bh067yQ5UjBF/UHiQ1LlDjsggQK
+         vEcmNxYC3UiWpHF1LJhDgspswWol/Xn4r4Ld3OExJ4YjxW+GWTeDUwuez4VziJlw/JvJ
+         MmfQ==
+X-Gm-Message-State: AOAM530d0q1l/hMt4er+WjjofRvC0pWZpBFFRkJtl34E4Q9huuE5RW6k
+        DU9CO9ZgmmFnae8nlerjchzDcgVFVgkeg10w
+X-Google-Smtp-Source: ABdhPJzMdOPdz1GhTaMiiqCx7dIoBnM1kFz9bqv0bvdaqscSYZt40TyrCvd1FoT2ZsXF9zNrGbX7MA==
+X-Received: by 2002:a19:843:: with SMTP id 64mr305637lfi.156.1598173203065;
+        Sun, 23 Aug 2020 02:00:03 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:84d:ebc0:4575:2d62:792b:cde7? ([2a00:1fa0:84d:ebc0:4575:2d62:792b:cde7])
+        by smtp.gmail.com with ESMTPSA id o24sm1459226ljg.69.2020.08.23.02.00.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Aug 2020 02:00:02 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Fix pin
+ controller node name
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
-Message-ID: <20200822013558.GN5967@pendragon.ideasonboard.com>
-References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
- <20200818122012.37956-4-jacopo+renesas@jmondi.org>
- <20200819135423.GL6049@pendragon.ideasonboard.com>
- <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
+        <devicetree@vger.kernel.org>
+References: <20200821111127.3771-1-geert+renesas@glider.be>
+ <56474631-119b-d64b-3545-a14f800aaa61@gmail.com>
+ <CAMuHMdVr1FBD+Gto8zf-tAp4_YTP1zs_qKu=yBeS3n2yjVqX0g@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <b270e095-441c-bef3-f841-4bb24d31c646@gmail.com>
+Date:   Sun, 23 Aug 2020 12:00:01 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVr1FBD+Gto8zf-tAp4_YTP1zs_qKu=yBeS3n2yjVqX0g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On 21.08.2020 20:41, Geert Uytterhoeven wrote:
 
-On Fri, Aug 21, 2020 at 12:37:35PM +0100, Lad, Prabhakar wrote:
-> On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart wrote:
-> > On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
-> > > Document endpoint properties for the parallel bus type and
-> > > add them to the example.
-> > >
-> > > Specify a few constraints:
-> > > - If the bus type is BT.656 no hsync or vsycn polarities can be
-> > >   specified.
-> > > - If the bus width is 10 bits, not data-shift can be applied.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
-> > >  1 file changed, 43 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > index 75dad40f70cc..3fad5dffd19a 100644
-> > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
-> > > @@ -50,9 +50,47 @@ properties:
-> > >            bus-type:
-> > >              enum: [5, 6]
-> > >
-> > > +          bus-width:
-> > > +            enum: [8, 10]
-> > > +            default: 10
-> > > +
-> > > +          data-shift:
-> > > +            enum: [0, 2]
-> > > +            default: 0
-> > > +
-> > > +          hsync-active:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > > +          vsync-active:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > > +          pclk-sample:
-> > > +            enum: [0, 1]
-> > > +            default: 1
-> > > +
-> > >            remote-endpoint:
-> > >              description: A phandle to the bus receiver's endpoint node.
-> > >
-> > > +        allOf:
-> > > +          - if:
-> > > +              properties:
-> > > +                bus-type:
-> > > +                  const: 6
-> > > +            then:
-> > > +                properties:
-> > > +                  hsync-active: false
-> > > +                  vsync-active: false
-> > > +
-> > > +          - if:
-> > > +              properties:
-> > > +                bus-width:
-> > > +                  const: 10
-> > > +            then:
-> > > +                properties:
-> > > +                  data-shift:
-> > > +                    const: 0
-> >
-> > I'd add a blank line here.
-> >
-> > >          required:
-> > >            - bus-type
-> >
-> > Should some of the properties be required ? Possibly conditioned on
-> > bus-type ?
->
-> Agreed, would be interesting to know how this can be handled (split
-> out bus-type and add required properties for each) ?
+>> On 8/21/20 2:11 PM, Geert Uytterhoeven wrote:
+>>> According to Devicetree Specification v0.2 and later, Section "Generic
+>>> Names Recommendation", the node name for a pin controller device node
+>>> should be "pinctrl".
+>>
+>>     Ugh, what a lame name! :-(
+>>     And they say DT should be OS agnostic...
+>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>
+>>     I think more DTs have "pin-controler".
+> 
+> I was surprised to discover the opposite, too:
+> 
+> $ git grep "\<pinctrl@" v5.9-rc1 | wc -l
+> 335
+> $ git grep "\<pin-controller@" v5.9-rc1 | wc -l
+> 102
 
-We can add required: statements to the above if/then/else.
+    Sorry, I was probably thinking that I was replying to a DT patch, not the 
+bindings patch, hence this comment (it only meant Renesas DTs). It doesn't 
+really surprise me that more DTs overall have "pinctrl", sigh...
 
-> > > @@ -82,6 +120,11 @@ examples:
-> > >              port {
-> > >                  ov772x_0: endpoint {
-> > >                      bus-type = <5>;
-> > > +                    vsync-active = <0>;
-> > > +                    hsync-active = <0>;
-> > > +                    pclk-sample = <0>;
-> > > +                    bus-width = <8>;
-> > > +                    data-shift = <0>;
-> > >                      remote-endpoint = <&vcap1_in0>;
-> > >                  };
-> > >              };
+> Gr{oetje,eeting}s,
+> 
+>                          Geert
 
--- 
-Regards,
-
-Laurent Pinchart
+MBR, Sergei
