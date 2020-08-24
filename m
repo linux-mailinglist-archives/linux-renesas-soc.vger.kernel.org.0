@@ -2,159 +2,246 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09CB724FC8C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 13:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A3F24FCAD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 13:36:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgHXLaF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 07:30:05 -0400
-Received: from mail-eopbgr1410107.outbound.protection.outlook.com ([40.107.141.107]:6073
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726624AbgHXL3v (ORCPT
+        id S1726826AbgHXLf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 07:35:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53870 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727120AbgHXLfC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 07:29:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gQB0Wm/FATW6j/QJn1yxqTiApHJ/lUCEX0qxi3a74NhyiHg4aG+G6E/CCH14zS5t4tkCssWKF6/Rmw4q588kWNH51ptzV2xnMvgst0dq3sPMXuKC+K+YB8p1pfvQei7c1xDdv+lPC5VEuMayXVt2iz5GVG1+Tr9b0crB1tljfBgiUrYvsjZ/v8qFvFT5JCaMxy8yovNwozi/H06/6kvSiUOrPMrzO+0uEY7aSjltrUBBwdOmwpiFF9RnqAiMzTjSLqV/6IyEDe+Z+ocjxmE763iAWPOlCHgHN3wkidSiys3gxWiDfvuG/lDPUQeHpaYzG89KzmclRwAa0rwWR3J9Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sqUpWGuelzAn3KKgYhSMrdTnI6+0Gdqs2UfkuSHm9f8=;
- b=XusLZR/13Is7tmt/8kGjoMNeURyBn+niT/vaTUUk1EY6rRpX3UsBawsdn/9fDVrISjFfCMVgo6xTcapm56zJL2xK6EPQQYiNLqi57hXck07L019UbGfNyr60QMK3M91wsmsvw8k7Pkawfk/OQCeOgn5BQt5crInQr93G9YPV6ADKraSeSjeZ9Lu6JYJiFZtK4P3fFvEaCKPCfrToE/tBL905QgAl+wcvVBNXvcQf/L59J98FicjgRcvlQss92lE7LN97LdAfZH8CObzcFd9zi8bzjG23eXaSQitp7YKDOI/gBTZgXXWXrm4rU/jQyoKpGjYwxHW4SOGIN3QkSjcQPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sqUpWGuelzAn3KKgYhSMrdTnI6+0Gdqs2UfkuSHm9f8=;
- b=BRSLEHInzAo1Ycb3RYfrkstvteyA2QdnNmEolELOIlSAbZVZSVogx8nlUkdq5LQ7W6hLiXGaYK3krbWyyf2mE/+cxaqOzAIVuetIfe+f8b8h6qHNX7muzBySsfHGeX9GdWmMEEDiecspAfkVONdWxHSVGYiA2H3b3FZJ7f9yVBU=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB4205.jpnprd01.prod.outlook.com (2603:1096:404:cb::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 11:29:46 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 11:29:46 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 2/5] dt-bindings: usb: renesas,usb3-peri: Document HS
- and SS data bus
-Thread-Topic: [PATCH v2 2/5] dt-bindings: usb: renesas,usb3-peri: Document HS
- and SS data bus
-Thread-Index: AQHWb7XJjorZCTsTKkiFFP/oeG3wFqlHMPDQ
-Date:   Mon, 24 Aug 2020 11:29:46 +0000
-Message-ID: <TY2PR01MB36928D9A5BF4A43429662BCED8560@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20200811080227.3170-1-biju.das.jz@bp.renesas.com>
- <20200811080227.3170-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20200811080227.3170-3-biju.das.jz@bp.renesas.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: bp.renesas.com; dkim=none (message not signed)
- header.d=none;bp.renesas.com; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e4c897a8-d5ae-4247-006c-08d848210175
-x-ms-traffictypediagnostic: TYAPR01MB4205:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB4205A17ED73822E69CB0E4B5D8560@TYAPR01MB4205.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fTqGTQ9QHBWSYdiZAmEIrYa4yCje/o+5f6bKXamQZz0TLmPv+2eKS2dBvcYnkJT2eFw41hmtDEgnT4X+OWumQBZBsv404lHd6xHcpa7RU9Xrop17Y95w9tbv8fw0v3WAitFy9oN5B9so3swis53CDLnBFvcIih9tehr6dJuWZj4iB5TX6r0PmDtTgbv5PZiIn0OmVptYO6aPi5svlXSSeELwMI3W/UUS1Ezco24wprkn9WE2JOo0DgmokCeVh3VLbr1xvd0VE7RsKL4YOBLXzHEvE7rPfT0MhHwA5VjfScz4+zasv8YMUvdUg82pOs08ikHseUTmJTJpixzX/YlQgMDIkvMdOxedRAvsTOgzvpA1Cr8/RLUvanLJutFfmBQ9nAKU00/J3V+1AOjQYJfe631WMLAR2O0cg7fx6cleD6DzynVW73Nqr82rZiKeOO1GvASysVgH3KoFF7imZ8yUQw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(396003)(39860400002)(366004)(6506007)(26005)(110136005)(54906003)(478600001)(8936002)(83380400001)(186003)(7696005)(55236004)(5660300002)(52536014)(9686003)(2906002)(66446008)(316002)(55016002)(64756008)(66476007)(76116006)(33656002)(8676002)(71200400001)(66946007)(66556008)(4326008)(86362001)(142933001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: pLLLS8jP1UhpUXMHIZgpKbjEHKH2xpFtesi/QRgf7J6e/u5BA7R4j9IhSMZcaFSn1DvecaT1hEn3i0YM0rrAJBNTm5bJ1rdZUVF/aM+3jF55Bck1Cz/u5u7l1h2aBtkVpPkIHUIAIu3kNra/DFJmT/fq/Grfy+6Q4tco2y3ie2DE2eacwGjrgdoF77QcIm91FRADnZk9MrynQc9tGzfvdPiTv6AafHRafzYp8RTqjSVqrr7Q7/LySsJl5h+AuHOsSUKotkbM3E1tyuFdld012LTaGF8m+MdGUZkUTQpXg3eScrY6BPls6vWRcgzfAkQHH0/RZFNS+Y49rcGYrRyKjZbIlru32xF58Xk4erGEXWUFb2FnAC1JRhEcs1jv80n6TaWaLGy7ytYCIzKhcaTa9oQ9Big44rMO1K4nqnVoSZi9qnV98kSQzrZXwM6/l62unVpdsaSbcR1RXURYdGshQWWkjcYkeKlQcYtRDm83TQOKQjgq60SNSMH/mCQ0qB11El+qbV/hHm4XhnR7C7mkeJyxk/tALZ4tlt5ZoG6xRLoeyiu2ps5diCSkd7Avpw679UQRHISq9YuXC+02lC4qXyyXF/5ta+Qn5TElUHx1/Jfm3pbiEfcy2rkWN66jxc1r61s3RJs+agHY7P7Swt/oeQ==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 24 Aug 2020 07:35:02 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A353A279;
+        Mon, 24 Aug 2020 13:34:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598268899;
+        bh=j9IFQ5KtfzbWaW/qZw+V+hy9bUEWs1YnU0kyW0/IR5U=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P7tvpRnq093E979OM/aXX0qHGU8jj/FCvJ/ZKV6MeGq8IOyw4ry3Oi9iF167zjoI/
+         qK5WA8DLlpvDwXSFVJydeOi7owgg94cOb6yrYPHSxoNZpq59xZTnjvlOgmCDWtLOtj
+         Cgnp/5rqaAwPP9DtQsy1exFaloyzKmNn4Kwhp42M=
+Date:   Mon, 24 Aug 2020 14:34:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Message-ID: <20200824113440.GC6002@pendragon.ideasonboard.com>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-2-jacopo+renesas@jmondi.org>
+ <20200819135204.GJ6049@pendragon.ideasonboard.com>
+ <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4c897a8-d5ae-4247-006c-08d848210175
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 11:29:46.7031
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5o2DBOnvVzmDZ+k4VlVuwIhMws/nmVGLbCmHKn1qWkHGkgC9E6TYxnj/sjB3+gQcwHCyk1po6rarqbBgd9Jcjl7bx8MV9lgd+Ys/hz7RXWbKT0o55yc59ELso/ip+sxY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4205
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju-san,
+Hi Jacopo,
 
-Thank you for the patch!
+On Mon, Aug 24, 2020 at 10:32:11AM +0200, Jacopo Mondi wrote:
+> On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
+> > On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
+> > > Convert the ov772x binding document to json-schema and update
+> > > the MAINTAINERS file accordingly.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
+> > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
+> >
+> > Could yuo rename this to ovti,ov772x.yaml ?
+> >
+> > >  MAINTAINERS                                   |  2 +-
+> > >  3 files changed, 85 insertions(+), 41 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > deleted file mode 100644
+> > > index 0b3ede5b8e6a..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > +++ /dev/null
+> > > @@ -1,40 +0,0 @@
+> > > -* Omnivision OV7720/OV7725 CMOS sensor
+> > > -
+> > > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > -
+> > > -Required Properties:
+> > > -- compatible: shall be one of
+> > > -	"ovti,ov7720"
+> > > -	"ovti,ov7725"
+> > > -- clocks: reference to the xclk input clock.
+> > > -
+> > > -Optional Properties:
+> > > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
+> > > -  active low, if any.
+> > > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
+> > > -  active high, if any.
+> > > -
+> > > -The device node shall contain one 'port' child node with one child 'endpoint'
+> > > -subnode for its digital output video port, in accordance with the video
+> > > -interface bindings defined in Documentation/devicetree/bindings/media/
+> > > -video-interfaces.txt.
+> > > -
+> > > -Example:
+> > > -
+> > > -&i2c0 {
+> > > -	ov772x: camera@21 {
+> > > -		compatible = "ovti,ov7725";
+> > > -		reg = <0x21>;
+> > > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > > -		clocks = <&xclk>;
+> > > -
+> > > -		port {
+> > > -			ov772x_0: endpoint {
+> > > -				remote-endpoint = <&vcap1_in0>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > -};
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > new file mode 100644
+> > > index 000000000000..2b84fefeb4aa
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > @@ -0,0 +1,84 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title:  Omnivision OV7720/OV7725 CMOS sensor
+> > > +
+> > > +maintainers:
+> > > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > > +
+> > > +description: -|
+> > > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - ovti,ov7720
+> > > +      - ovti,ov7725
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios:
+> > > +    description: -|
+> > > +      Reference to the GPIO connected to the RSTB pin which is active low.
+> > > +    maxItems: 1
+> > > +
+> > > +  powerdown-gpios:
+> > > +    description: -|
+> > > +      Reference to the GPIO connected to the PWDN pin which is active high.
+> > > +    maxItems: 1
+> > > +
+> > > +  port:
+> > > +    type: object
+> > > +    description: |
+> > > +      The device node must contain one 'port' child node for its digital output
+> > > +      video port, in accordance with the video interface bindings defined in
+> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> >
+> > You can simply write
+> >
+> >       Digital input video port. See ../video-interfaces.txt.
+> >
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        properties:
+> > > +          remote-endpoint:
+> > > +            description: A phandle to the bus receiver's endpoint node.
+> >
+> >            required:
+> > 	     - remote-endpoint
+> >
+> >            additionalProperties: false
+> 
+> I receveied a reply to you on previous json-schema conversion attempt
+> where you suggested to not set remote-endpoint as required, as we
+> allow empty ones to be later filled in in, maybe with an overlay.
+> 
+> Which Laurent should I listen to ? I tend to agree with the one that
+> said to drop remote-endpoint from the required properties list.
 
-> From: Biju Das, Sent: Tuesday, August 11, 2020 5:02 PM
->=20
-> Document HS and SS data bus for the "usb-role-switch" enabled case.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2: No change
-> Ref:https://patchwork.kernel.org/patch/11669423/
-> ---
->  .../bindings/usb/renesas,usb3-peri.yaml       | 36 +++++++++++++++----
->  1 file changed, 30 insertions(+), 6 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-> b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-> index e3cdeab1199f..3eb964af37b8 100644
-> --- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-> +++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-<snip>
-> @@ -79,9 +92,20 @@ examples:
->          companion =3D <&xhci0>;
->          usb-role-switch;
->=20
-> -        port {
-> -            usb3_role_switch: endpoint {
-> -                remote-endpoint =3D <&hd3ss3220_ep>;
-> -            };
-> -        };
-> +    	ports {
+Maybe I recall incorrectly, didn't I say that endpoint shouldn't be
+mandatory ? Ports should be mandatory as they describe the hardware,
+endpoints describe a connection, and within a connection, I'm not sure
+to see a use-case for not setting remote-endpoint. Maybe I need to look
+better ? :-)
 
-I think we should use spaces instead of tab here and below.
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > > +
+> > > +    additionalProperties: false
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - reset-gpios
+> > > +  - powerdown-gpios
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    i2c0 {
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +        ov772x: camera@21 {
+> > > +            compatible = "ovti,ov7725";
+> > > +            reg = <0x21>;
+> > > +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > > +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > > +            clocks = <&xclk>;
+> > > +
+> > > +            port {
+> > > +                ov772x_0: endpoint {
+> > > +                    remote-endpoint = <&vcap1_in0>;
+> > > +                };
+> > > +            };
+> > > +        };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index d1a6173d3b64..d0a20214eaaf 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+> > >  L:	linux-media@vger.kernel.org
+> > >  S:	Odd fixes
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > > -F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > +F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > >  F:	drivers/media/i2c/ov772x.c
+> > >  F:	include/media/i2c/ov772x.h
+> > >
 
-> +    		#address-cells =3D <1>;
-> +    		#size-cells =3D <0>;
-> +    		port@0 {
-> +    			reg =3D <0>;
-> +    			usb3_hs_ep: endpoint {
-> +    				remote-endpoint =3D <&hs_ep>;
-> +    			};
-> +    		};
-> +    		port@1 {
-> +    			reg =3D <1>;
-> +    			usb3_role_switch: endpoint {
-> +    				remote-endpoint =3D <&hd3ss3220_out_ep>;
-> +    			};
-> +    		};
-> +    	};
+-- 
+Regards,
 
-Best regards,
-Yoshihiro Shimoda
-
->      };
-> --
-> 2.17.1
-
+Laurent Pinchart
