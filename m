@@ -2,92 +2,183 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6130224FBB4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 12:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0763124FC0C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 12:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726818AbgHXKly (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 06:41:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54448 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726580AbgHXKlx (ORCPT
+        id S1726971AbgHXKzr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 06:55:47 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:60653 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726939AbgHXKzY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 06:41:53 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3899C061573
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Aug 2020 03:41:52 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id w13so7832518wrk.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 24 Aug 2020 03:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=t88Db9KnngUKJEjmA8Oo2eYSJH8tNiI0z6sghYExUJg=;
-        b=F7QMYB/cYqJJZJzyXNpk+zdlNmd2UXLMyIlZqvzSJWgfYxLxfO5ZEz4HGNKsRLhy1y
-         TXaGSY4X8pyMVkK9NUH2O6i2lGiO8mFT4C7oNqlAor+0i2BkLqAi3NtAp/JVLapxKfFH
-         aMGxMKfRgTNI7fHCnQ7zxfzM1WKcTclBiNgzYF05DeKgXO2Ra4fPvOjvbxJ9YGhurXIt
-         brG4xeyNsJfKrEP3NKytD4uzmFtOC+GctGDj7KYPFio0n9wm89s0BmCsqHZlPx9B7WMj
-         6PGuk87bCep+bFGBV5yZ+8PPZN5FpOpAcw6KiAcHrTzrAYHIJzRacWXoxQ5iGuoRochn
-         FWLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=t88Db9KnngUKJEjmA8Oo2eYSJH8tNiI0z6sghYExUJg=;
-        b=Ddgs/qXISJtFMKBhQBWTinNTAKoA1kTzcTjgHTTDDYEbqegCuOWlynazyGTm6itd6I
-         xrlbma8ZSTzrXTxACz9YpB+FbdIQqTSJjeovfJV1W4mfOBTx481RouUVaVbjqIGTLU20
-         dlVh30GyKSL4thHogbooT1PvEvnoAxxIm4zXQWeO3RQuSFEcYz0qyvMsi8PUpScho3Bv
-         Fvslt6tLKpehXlFUqhy2mAbKLnyWaO90ZGzKZ9AK/F1aDQciwlCGsEl1J1/Pw3VbEvao
-         Ma7et8BcAFD7u8vMRF+EtUS29tZD3jnsWiI6ToZM9yhp7Ntk/0VSPuNyv/3ZsVDB8U5X
-         Q/sg==
-X-Gm-Message-State: AOAM531zg9hQKKLAeHmBXh4LQknPe29vVXCWBqvHDMgsyd9dOgGPLfC4
-        Ey9c+DVXKNWwCTA8cruc06mb8g==
-X-Google-Smtp-Source: ABdhPJw1u3S5KYjm4QpGvR+EJJv1xekZLgNOfO7uLdBbtKw1efODis2mhyplqbBM+TQ38VwQ7S5DEg==
-X-Received: by 2002:adf:f40d:: with SMTP id g13mr3770326wro.44.1598265711435;
-        Mon, 24 Aug 2020 03:41:51 -0700 (PDT)
-Received: from ?IPv6:2a01:e34:ed2f:f020:cd42:2fa4:120f:76b0? ([2a01:e34:ed2f:f020:cd42:2fa4:120f:76b0])
-        by smtp.googlemail.com with ESMTPSA id f17sm25070960wru.13.2020.08.24.03.41.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 24 Aug 2020 03:41:50 -0700 (PDT)
-Subject: Re: [PATCH] thermal: rcar_thermal: Add missing braces to conditional
- statement
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Amit Kucheria <amitk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org
-References: <20200819092716.3191-1-geert+renesas@glider.be>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <dfd8b4d6-4df0-892d-12a1-63edd6757136@linaro.org>
-Date:   Mon, 24 Aug 2020 12:41:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 24 Aug 2020 06:55:24 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id ED3AF40013;
+        Mon, 24 Aug 2020 10:55:11 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, Leon Luo <leonl@leopardimaging.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] dt-bindings: media: imx274: Convert to json-schema
+Date:   Mon, 24 Aug 2020 12:58:50 +0200
+Message-Id: <20200824105850.28002-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200819092716.3191-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 19/08/2020 11:27, Geert Uytterhoeven wrote:
-> According to Documentation/process/coding-style.rst, if one branch of a
-> conditional statement needs braces, both branches should use braces.
-> 
-> Fixes: bbcf90c0646ac797 ("thermal: Explicitly enable non-changing thermal zone devices")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
+Convert the imx274 bindings document to json-schema and update
+the MAINTAINERS file accordingly.
 
-Applied, thanks
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ .../devicetree/bindings/media/i2c/imx274.txt  | 38 -----------
+ .../bindings/media/i2c/sony,imx274.yaml       | 68 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 69 insertions(+), 39 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+deleted file mode 100644
+index 0727079d2410..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
++++ /dev/null
+@@ -1,38 +0,0 @@
+-* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+-
+-The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+-an active array size of 3864H x 2202V. It is programmable through I2C
+-interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+-Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+-at 1440 Mbps.
+-
+-
+-Required Properties:
+-- compatible: value should be "sony,imx274" for imx274 sensor
+-- reg: I2C bus address of the device
+-
+-Optional Properties:
+-- reset-gpios: Sensor reset GPIO
+-- clocks: Reference to the input clock.
+-- clock-names: Should be "inck".
+-- VANA-supply: Sensor 2.8v analog supply.
+-- VDIG-supply: Sensor 1.8v digital core supply.
+-- VDDL-supply: Sensor digital IO 1.2v supply.
+-
+-The imx274 device node should contain one 'port' child node with
+-an 'endpoint' subnode. For further reading on port node refer to
+-Documentation/devicetree/bindings/media/video-interfaces.txt.
+-
+-Example:
+-	sensor@1a {
+-		compatible = "sony,imx274";
+-		reg = <0x1a>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reset-gpios = <&gpio_sensor 0 0>;
+-		port {
+-			sensor_out: endpoint {
+-				remote-endpoint = <&csiss_in>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+new file mode 100644
+index 000000000000..7ae47a614d2e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
++
++maintainers:
++  - Leon Luo <leonl@leopardimaging.com>
++
++description: -|
++  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
++  active array size of 3864H x 2202V. It is programmable through I2C interface.
++  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
++  Mbps.
++
++properties:
++  compatible:
++    const: sony,imx274
++
++  reg:
++    const: 0x1a
++
++  reset-gpios:
++    maxItems: 1
++
++  port:
++    type: object
++    description: |
++      The device node must contain one 'port' child node for its digital output
++      video port, in accordance with the video interface bindings defined in
++      Documentation/devicetree/bindings/media/video-interfaces.txt.
++
++    properties:
++      endpoint:
++        type: object
++        properties:
++          remote-endpoint:
++            description: A phandle to the bus receiver's endpoint node.
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - port
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        imx274: camera-sensor@1a {
++            compatible = "sony,imx274";
++            reg = <0x1a>;
++            reset-gpios = <&gpio_sensor 0 0>;
++
++            port {
++                sensor_out: endpoint {
++                    remote-endpoint = <&csiss_in>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9503ea17aa28..dc7b1ea8e7b3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16125,7 +16125,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+ F:	drivers/media/i2c/imx274.c
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+ SONY IMX290 SENSOR DRIVER
+--
+2.27.0
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
