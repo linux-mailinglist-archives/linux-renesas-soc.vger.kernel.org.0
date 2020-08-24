@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A01F24F110
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 04:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EB0824F111
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 04:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728018AbgHXCWg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 23 Aug 2020 22:22:36 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:24980 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727863AbgHXCWf (ORCPT
+        id S1728021AbgHXCWx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Aug 2020 22:22:53 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:25237 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727863AbgHXCWw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 23 Aug 2020 22:22:35 -0400
-Date:   24 Aug 2020 11:22:34 +0900
+        Sun, 23 Aug 2020 22:22:52 -0400
+Date:   24 Aug 2020 11:22:51 +0900
 X-IronPort-AV: E=Sophos;i="5.76,347,1592838000"; 
-   d="scan'208";a="55323369"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Aug 2020 11:22:34 +0900
+   d="scan'208";a="55106724"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 24 Aug 2020 11:22:51 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C303D4157801;
-        Mon, 24 Aug 2020 11:22:34 +0900 (JST)
-Message-ID: <87y2m4yeck.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8A6194001978;
+        Mon, 24 Aug 2020 11:22:51 +0900 (JST)
+Message-ID: <87wo1oyec3.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3 3/4] soc: renesas: Merge if xxx into menu description
+Subject: [PATCH v3 4/4] soc: renesas: sort driver description title
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org
@@ -38,286 +38,414 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Current Kconfig is using if - endif.
-This patch merges it into each menu description.
-This is prepare for menu sorting.
+This patch sorts each driver by description title alphabetical order.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/soc/renesas/Kconfig | 72 +++++++++++++++++--------------------
- 1 file changed, 32 insertions(+), 40 deletions(-)
+ drivers/soc/renesas/Kconfig | 295 ++++++++++++++++++------------------
+ 1 file changed, 148 insertions(+), 147 deletions(-)
 
 diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 7d63a13e5b78..a6ab506377fb 100644
+index a6ab506377fb..a2334e58fef6 100644
 --- a/drivers/soc/renesas/Kconfig
 +++ b/drivers/soc/renesas/Kconfig
-@@ -44,17 +44,15 @@ config ARCH_RZN1
- 	bool
- 	select ARM_AMBA
- 
--if ARM && ARCH_RENESAS
--
- #comment "Renesas ARM SoCs System Type"
- 
- config ARCH_EMEV2
--	bool "SoC Platform support for Emma Mobile EV2"
-+	bool "SoC Platform support for Emma Mobile EV2" if ARM && ARCH_RENESAS
- 	select HAVE_ARM_SCU if SMP
- 	select SYS_SUPPORTS_EM_STI
- 
- config ARCH_R7S72100
--	bool "SoC Platform support for RZ/A1H"
-+	bool "SoC Platform support for RZ/A1H" if ARM && ARCH_RENESAS
- 	select ARM_ERRATA_754322
- 	select PM
- 	select PM_GENERIC_DOMAINS
-@@ -63,14 +61,14 @@ config ARCH_R7S72100
- 	select SYS_SUPPORTS_SH_MTU2
- 
- config ARCH_R7S9210
--	bool "SoC Platform support for RZ/A2"
-+	bool "SoC Platform support for RZ/A2" if ARM && ARCH_RENESAS
- 	select PM
- 	select PM_GENERIC_DOMAINS
+@@ -67,19 +67,17 @@ config ARCH_R7S9210
  	select RENESAS_OSTM
  	select RENESAS_RZA1_IRQC
  
- config ARCH_R8A73A4
--	bool "SoC Platform support for R-Mobile APE6"
-+	bool "SoC Platform support for R-Mobile APE6" if ARM && ARCH_RENESAS
- 	select ARCH_RMOBILE
- 	select ARM_ERRATA_798181 if SMP
+-config ARCH_R8A73A4
+-	bool "SoC Platform support for R-Mobile APE6" if ARM && ARCH_RENESAS
+-	select ARCH_RMOBILE
+-	select ARM_ERRATA_798181 if SMP
++config ARCH_R8A77470
++	bool "SoC Platform support for RZ/G1C" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN2
  	select ARM_ERRATA_814220
-@@ -78,49 +76,49 @@ config ARCH_R8A73A4
- 	select RENESAS_IRQC
+-	select HAVE_ARM_ARCH_TIMER
+-	select RENESAS_IRQC
++	select SYSC_R8A77470
  
- config ARCH_R8A7740
--	bool "SoC Platform support for R-Mobile A1"
-+	bool "SoC Platform support for R-Mobile A1" if ARM && ARCH_RENESAS
- 	select ARCH_RMOBILE
- 	select ARM_ERRATA_754322
- 	select RENESAS_INTC_IRQPIN
+-config ARCH_R8A7740
+-	bool "SoC Platform support for R-Mobile A1" if ARM && ARCH_RENESAS
+-	select ARCH_RMOBILE
+-	select ARM_ERRATA_754322
+-	select RENESAS_INTC_IRQPIN
++config ARCH_R8A7745
++	bool "SoC Platform support for RZ/G1E" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN2
++	select ARM_ERRATA_814220
++	select SYSC_R8A7745
  
  config ARCH_R8A7742
--	bool "SoC Platform support for RZ/G1H"
-+	bool "SoC Platform support for RZ/G1H" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select ARM_ERRATA_814220
- 	select SYSC_R8A7742
- 
- config ARCH_R8A7743
--	bool "SoC Platform support for RZ/G1M"
-+	bool "SoC Platform support for RZ/G1M" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
+ 	bool "SoC Platform support for RZ/G1H" if ARM && ARCH_RENESAS
+@@ -100,22 +98,58 @@ config ARCH_R8A7744
  	select ARM_ERRATA_798181 if SMP
  	select SYSC_R8A7743
  
- config ARCH_R8A7744
--	bool "SoC Platform support for RZ/G1N"
-+	bool "SoC Platform support for RZ/G1N" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select SYSC_R8A7743
- 
- config ARCH_R8A7745
--	bool "SoC Platform support for RZ/G1E"
-+	bool "SoC Platform support for RZ/G1E" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
+-config ARCH_R8A7745
+-	bool "SoC Platform support for RZ/G1E" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN2
++config ARCH_R8A774C0
++	bool "SoC Platform support for RZ/G2E" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A774C0
++	help
++	  This enables support for the Renesas RZ/G2E SoC.
++
++config ARCH_R8A774E1
++	bool "SoC Platform support for RZ/G2H" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A774E1
++	help
++	  This enables support for the Renesas RZ/G2H SoC.
++
++config ARCH_R8A774A1
++	bool "SoC Platform support for RZ/G2M" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A774A1
++	help
++	  This enables support for the Renesas RZ/G2M SoC.
++
++config ARCH_R8A774B1
++	bool "SoC Platform support for RZ/G2N" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A774B1
++	help
++	  This enables support for the Renesas RZ/G2N SoC.
++
++config ARCH_R9A06G032
++	bool "SoC Platform support for RZ/N1D" if ARM && ARCH_RENESAS
++	select ARCH_RZN1
  	select ARM_ERRATA_814220
- 	select SYSC_R8A7745
+-	select SYSC_R8A7745
  
- config ARCH_R8A77470
--	bool "SoC Platform support for RZ/G1C"
-+	bool "SoC Platform support for RZ/G1C" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_814220
- 	select SYSC_R8A77470
- 
- config ARCH_R8A7778
--	bool "SoC Platform support for R-Car M1A"
-+	bool "SoC Platform support for R-Car M1A" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN1
- 	select ARM_ERRATA_754322
- 
- config ARCH_R8A7779
--	bool "SoC Platform support for R-Car H1"
-+	bool "SoC Platform support for R-Car H1" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN1
- 	select ARM_ERRATA_754322
- 	select ARM_GLOBAL_TIMER
-@@ -129,7 +127,7 @@ config ARCH_R8A7779
- 	select SYSC_R8A7779
- 
- config ARCH_R8A7790
--	bool "SoC Platform support for R-Car H2"
-+	bool "SoC Platform support for R-Car H2" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select ARM_ERRATA_814220
-@@ -137,38 +135,38 @@ config ARCH_R8A7790
- 	select SYSC_R8A7790
- 
- config ARCH_R8A7791
--	bool "SoC Platform support for R-Car M2-W"
-+	bool "SoC Platform support for R-Car M2-W" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select I2C
- 	select SYSC_R8A7791
- 
- config ARCH_R8A7792
--	bool "SoC Platform support for R-Car V2H"
-+	bool "SoC Platform support for R-Car V2H" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select SYSC_R8A7792
- 
- config ARCH_R8A7793
--	bool "SoC Platform support for R-Car M2-N"
-+	bool "SoC Platform support for R-Car M2-N" if ARM && ARCH_RENESAS
- 	select ARCH_RCAR_GEN2
- 	select ARM_ERRATA_798181 if SMP
- 	select I2C
- 	select SYSC_R8A7791
- 
- config ARCH_R8A7794
--	bool "SoC Platform support for R-Car E2"
+-config ARCH_R8A77470
+-	bool "SoC Platform support for RZ/G1C" if ARM && ARCH_RENESAS
++config ARCH_R8A77995
++	bool "SoC Platform support for R-Car D3" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A77995
++	help
++	  This enables support for the Renesas R-Car D3 SoC.
++
++config ARCH_R8A7794
 +	bool "SoC Platform support for R-Car E2" if ARM && ARCH_RENESAS
  	select ARCH_RCAR_GEN2
  	select ARM_ERRATA_814220
- 	select SYSC_R8A7794
+-	select SYSC_R8A77470
++	select SYSC_R8A7794
  
- config ARCH_R9A06G032
--	bool "SoC Platform support for RZ/N1D"
-+	bool "SoC Platform support for RZ/N1D" if ARM && ARCH_RENESAS
- 	select ARCH_RZN1
- 	select ARM_ERRATA_814220
+-config ARCH_R8A7778
+-	bool "SoC Platform support for R-Car M1A" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN1
+-	select ARM_ERRATA_754322
++config ARCH_R8A77990
++	bool "SoC Platform support for R-Car E3" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A77990
++	help
++	  This enables support for the Renesas R-Car E3 SoC.
  
- config ARCH_SH73A0
--	bool "SoC Platform support for SH-Mobile AG5"
-+	bool "SoC Platform support for SH-Mobile AG5" if ARM && ARCH_RENESAS
- 	select ARCH_RMOBILE
- 	select ARM_ERRATA_754322
- 	select ARM_GLOBAL_TIMER
-@@ -176,47 +174,43 @@ config ARCH_SH73A0
- 	select HAVE_ARM_TWD if SMP
- 	select RENESAS_INTC_IRQPIN
+ config ARCH_R8A7779
+ 	bool "SoC Platform support for R-Car H1" if ARM && ARCH_RENESAS
+@@ -134,74 +168,6 @@ config ARCH_R8A7790
+ 	select I2C
+ 	select SYSC_R8A7790
  
--endif # ARM
+-config ARCH_R8A7791
+-	bool "SoC Platform support for R-Car M2-W" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN2
+-	select ARM_ERRATA_798181 if SMP
+-	select I2C
+-	select SYSC_R8A7791
 -
--if ARM64
+-config ARCH_R8A7792
+-	bool "SoC Platform support for R-Car V2H" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN2
+-	select ARM_ERRATA_798181 if SMP
+-	select SYSC_R8A7792
 -
- config ARCH_R8A774A1
--	bool "SoC Platform support for RZ/G2M"
-+	bool "SoC Platform support for RZ/G2M" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A774A1
- 	help
- 	  This enables support for the Renesas RZ/G2M SoC.
- 
- config ARCH_R8A774B1
--	bool "SoC Platform support for RZ/G2N"
-+	bool "SoC Platform support for RZ/G2N" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A774B1
- 	help
- 	  This enables support for the Renesas RZ/G2N SoC.
- 
- config ARCH_R8A774C0
--	bool "SoC Platform support for RZ/G2E"
-+	bool "SoC Platform support for RZ/G2E" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A774C0
- 	help
- 	  This enables support for the Renesas RZ/G2E SoC.
- 
- config ARCH_R8A774E1
--	bool "SoC Platform support for RZ/G2H"
-+	bool "SoC Platform support for RZ/G2H" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A774E1
- 	help
- 	  This enables support for the Renesas RZ/G2H SoC.
- 
+-config ARCH_R8A7793
+-	bool "SoC Platform support for R-Car M2-N" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN2
+-	select ARM_ERRATA_798181 if SMP
+-	select I2C
+-	select SYSC_R8A7791
+-
+-config ARCH_R8A7794
+-	bool "SoC Platform support for R-Car E2" if ARM && ARCH_RENESAS
+-	select ARCH_RCAR_GEN2
+-	select ARM_ERRATA_814220
+-	select SYSC_R8A7794
+-
+-config ARCH_R9A06G032
+-	bool "SoC Platform support for RZ/N1D" if ARM && ARCH_RENESAS
+-	select ARCH_RZN1
+-	select ARM_ERRATA_814220
+-
+-config ARCH_SH73A0
+-	bool "SoC Platform support for SH-Mobile AG5" if ARM && ARCH_RENESAS
+-	select ARCH_RMOBILE
+-	select ARM_ERRATA_754322
+-	select ARM_GLOBAL_TIMER
+-	select HAVE_ARM_SCU if SMP
+-	select HAVE_ARM_TWD if SMP
+-	select RENESAS_INTC_IRQPIN
+-
+-config ARCH_R8A774A1
+-	bool "SoC Platform support for RZ/G2M" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A774A1
+-	help
+-	  This enables support for the Renesas RZ/G2M SoC.
+-
+-config ARCH_R8A774B1
+-	bool "SoC Platform support for RZ/G2N" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A774B1
+-	help
+-	  This enables support for the Renesas RZ/G2N SoC.
+-
+-config ARCH_R8A774C0
+-	bool "SoC Platform support for RZ/G2E" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A774C0
+-	help
+-	  This enables support for the Renesas RZ/G2E SoC.
+-
+-config ARCH_R8A774E1
+-	bool "SoC Platform support for RZ/G2H" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A774E1
+-	help
+-	  This enables support for the Renesas RZ/G2H SoC.
+-
  config ARCH_R8A77950
--	bool "SoC Platform support for R-Car H3 ES1.x"
-+	bool "SoC Platform support for R-Car H3 ES1.x" if ARM64
+ 	bool "SoC Platform support for R-Car H3 ES1.x" if ARM64
  	select ARCH_RCAR_GEN3
- 	select SYSC_R8A7795
- 	help
- 	  This enables support for the Renesas R-Car H3 SoC (revision 1.x).
- 
- config ARCH_R8A77951
--	bool "SoC Platform support for R-Car H3 ES2.0+"
-+	bool "SoC Platform support for R-Car H3 ES2.0+" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A7795
- 	help
-@@ -224,56 +218,54 @@ config ARCH_R8A77951
+@@ -217,6 +183,32 @@ config ARCH_R8A77951
+ 	  This enables support for the Renesas R-Car H3 SoC (revisions 2.0 and
  	  later).
  
++config ARCH_R8A7778
++	bool "SoC Platform support for R-Car M1A" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN1
++	select ARM_ERRATA_754322
++
++config ARCH_R8A7793
++	bool "SoC Platform support for R-Car M2-N" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN2
++	select ARM_ERRATA_798181 if SMP
++	select I2C
++	select SYSC_R8A7791
++
++config ARCH_R8A7791
++	bool "SoC Platform support for R-Car M2-W" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN2
++	select ARM_ERRATA_798181 if SMP
++	select I2C
++	select SYSC_R8A7791
++
++config ARCH_R8A77965
++	bool "SoC Platform support for R-Car M3-N" if ARM64
++	select ARCH_RCAR_GEN3
++	select SYSC_R8A77965
++	help
++	  This enables support for the Renesas R-Car M3-N SoC.
++
  config ARCH_R8A77960
--	bool "SoC Platform support for R-Car M3-W"
-+	bool "SoC Platform support for R-Car M3-W" if ARM64
+ 	bool "SoC Platform support for R-Car M3-W" if ARM64
  	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77960
- 	help
- 	  This enables support for the Renesas R-Car M3-W SoC.
- 
- config ARCH_R8A77961
--	bool "SoC Platform support for R-Car M3-W+"
-+	bool "SoC Platform support for R-Car M3-W+" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77961
+@@ -231,12 +223,18 @@ config ARCH_R8A77961
  	help
  	  This enables support for the Renesas R-Car M3-W+ SoC.
  
- config ARCH_R8A77965
--	bool "SoC Platform support for R-Car M3-N"
-+	bool "SoC Platform support for R-Car M3-N" if ARM64
+-config ARCH_R8A77965
+-	bool "SoC Platform support for R-Car M3-N" if ARM64
++config ARCH_R8A7792
++	bool "SoC Platform support for R-Car V2H" if ARM && ARCH_RENESAS
++	select ARCH_RCAR_GEN2
++	select ARM_ERRATA_798181 if SMP
++	select SYSC_R8A7792
++
++config ARCH_R8A77980
++	bool "SoC Platform support for R-Car V3H" if ARM64
  	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77965
+-	select SYSC_R8A77965
++	select SYSC_R8A77980
  	help
- 	  This enables support for the Renesas R-Car M3-N SoC.
+-	  This enables support for the Renesas R-Car M3-N SoC.
++	  This enables support for the Renesas R-Car V3H SoC.
  
  config ARCH_R8A77970
--	bool "SoC Platform support for R-Car V3M"
-+	bool "SoC Platform support for R-Car V3M" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77970
+ 	bool "SoC Platform support for R-Car V3M" if ARM64
+@@ -245,28 +243,39 @@ config ARCH_R8A77970
  	help
  	  This enables support for the Renesas R-Car V3M SoC.
  
- config ARCH_R8A77980
--	bool "SoC Platform support for R-Car V3H"
-+	bool "SoC Platform support for R-Car V3H" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77980
- 	help
- 	  This enables support for the Renesas R-Car V3H SoC.
+-config ARCH_R8A77980
+-	bool "SoC Platform support for R-Car V3H" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A77980
+-	help
+-	  This enables support for the Renesas R-Car V3H SoC.
++config ARCH_R8A7740
++	bool "SoC Platform support for R-Mobile A1" if ARM && ARCH_RENESAS
++	select ARCH_RMOBILE
++	select ARM_ERRATA_754322
++	select RENESAS_INTC_IRQPIN
  
- config ARCH_R8A77990
--	bool "SoC Platform support for R-Car E3"
-+	bool "SoC Platform support for R-Car E3" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77990
- 	help
- 	  This enables support for the Renesas R-Car E3 SoC.
+-config ARCH_R8A77990
+-	bool "SoC Platform support for R-Car E3" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A77990
+-	help
+-	  This enables support for the Renesas R-Car E3 SoC.
++config ARCH_R8A73A4
++	bool "SoC Platform support for R-Mobile APE6" if ARM && ARCH_RENESAS
++	select ARCH_RMOBILE
++	select ARM_ERRATA_798181 if SMP
++	select ARM_ERRATA_814220
++	select HAVE_ARM_ARCH_TIMER
++	select RENESAS_IRQC
++
++config ARCH_SH73A0
++	bool "SoC Platform support for SH-Mobile AG5" if ARM && ARCH_RENESAS
++	select ARCH_RMOBILE
++	select ARM_ERRATA_754322
++	select ARM_GLOBAL_TIMER
++	select HAVE_ARM_SCU if SMP
++	select HAVE_ARM_TWD if SMP
++	select RENESAS_INTC_IRQPIN
  
- config ARCH_R8A77995
--	bool "SoC Platform support for R-Car D3"
-+	bool "SoC Platform support for R-Car D3" if ARM64
- 	select ARCH_RCAR_GEN3
- 	select SYSC_R8A77995
- 	help
- 	  This enables support for the Renesas R-Car D3 SoC.
+-config ARCH_R8A77995
+-	bool "SoC Platform support for R-Car D3" if ARM64
+-	select ARCH_RCAR_GEN3
+-	select SYSC_R8A77995
+-	help
+-	  This enables support for the Renesas R-Car D3 SoC.
  
--endif # ARM64
--
  # SoC
++config SYSC_R8A77470
++	bool "System Controller support for RZ/G1C" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A7745
++	bool "System Controller support for RZ/G1E" if COMPILE_TEST
++	select SYSC_RCAR
++
  config SYSC_R8A7742
  	bool "System Controller support for RZ/G1H" if COMPILE_TEST
+ 	select SYSC_RCAR
+@@ -275,12 +284,12 @@ config SYSC_R8A7743
+ 	bool "System Controller support for RZ/G1M" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A7745
+-	bool "System Controller support for RZ/G1E" if COMPILE_TEST
++config SYSC_R8A774C0
++	bool "System Controller support for RZ/G2E" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A77470
+-	bool "System Controller support for RZ/G1C" if COMPILE_TEST
++config SYSC_R8A774E1
++	bool "System Controller support for RZ/G2H" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+ config SYSC_R8A774A1
+@@ -291,12 +300,19 @@ config SYSC_R8A774B1
+ 	bool "System Controller support for RZ/G2N" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A774C0
+-	bool "System Controller support for RZ/G2E" if COMPILE_TEST
++config SYSC_RCAR
++	bool "System Controller support for R-Car" if COMPILE_TEST
++
++config SYSC_R8A77995
++	bool "System Controller support for R-Car D3" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A774E1
+-	bool "System Controller support for RZ/G2H" if COMPILE_TEST
++config SYSC_R8A7794
++	bool "System Controller support for R-Car E2" if COMPILE_TEST
++	select SYSC_RCAR
++
++config SYSC_R8A77990
++	bool "System Controller support for R-Car E3" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+ config SYSC_R8A7779
+@@ -307,20 +323,16 @@ config SYSC_R8A7790
+ 	bool "System Controller support for R-Car H2" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A7791
+-	bool "System Controller support for R-Car M2-W/N" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A7792
+-	bool "System Controller support for R-Car V2H" if COMPILE_TEST
++config SYSC_R8A7795
++	bool "System Controller support for R-Car H3" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A7794
+-	bool "System Controller support for R-Car E2" if COMPILE_TEST
++config SYSC_R8A7791
++	bool "System Controller support for R-Car M2-W/N" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A7795
+-	bool "System Controller support for R-Car H3" if COMPILE_TEST
++config SYSC_R8A77965
++	bool "System Controller support for R-Car M3-N" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+ config SYSC_R8A77960
+@@ -331,34 +343,23 @@ config SYSC_R8A77961
+ 	bool "System Controller support for R-Car M3-W+" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A77965
+-	bool "System Controller support for R-Car M3-N" if COMPILE_TEST
+-	select SYSC_RCAR
+-
+-config SYSC_R8A77970
+-	bool "System Controller support for R-Car V3M" if COMPILE_TEST
++config SYSC_R8A7792
++	bool "System Controller support for R-Car V2H" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+ config SYSC_R8A77980
+ 	bool "System Controller support for R-Car V3H" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A77990
+-	bool "System Controller support for R-Car E3" if COMPILE_TEST
++config SYSC_R8A77970
++	bool "System Controller support for R-Car V3M" if COMPILE_TEST
+ 	select SYSC_RCAR
+ 
+-config SYSC_R8A77995
+-	bool "System Controller support for R-Car D3" if COMPILE_TEST
+-	select SYSC_RCAR
++config SYSC_RMOBILE
++	bool "System Controller support for R-Mobile" if COMPILE_TEST
+ 
+-# Family
+ config RST_RCAR
+ 	bool "Reset Controller support for R-Car" if COMPILE_TEST
+ 
+-config SYSC_RCAR
+-	bool "System Controller support for R-Car" if COMPILE_TEST
+-
+-config SYSC_RMOBILE
+-	bool "System Controller support for R-Mobile" if COMPILE_TEST
+ 
+ endif # SOC_RENESAS
 -- 
 2.25.1
 
