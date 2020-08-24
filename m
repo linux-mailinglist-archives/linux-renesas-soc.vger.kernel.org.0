@@ -2,44 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF8924F248
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 08:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4496924F286
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 08:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgHXGAk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 02:00:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35480 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725947AbgHXGAk (ORCPT
+        id S1726037AbgHXGal (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 02:30:41 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:44174 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgHXGal (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 02:00:40 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598248840;
-        bh=hnQObuTCmEQuEGNd7VBcV8jM2fouSMWokqZHdePwEDw=;
-        h=Subject:From:Date:To:From;
-        b=KuWl7jeO3JFzCWibytjsJb8tk+8xxQ32jfpLP6ssikkgFO9rh5rTcgzq64RBkNY1o
-         h5f7oUUjHKbAu+Okntl2oAhcZN3h7jlotLABbsuWE1N93M747AISLsKBHo5AD5HMvh
-         Ao7UpwCuByrUY5vPGtSEdeZl122RvcnCeTbCf2Dw=
+        Mon, 24 Aug 2020 02:30:41 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07O6UbqR086548;
+        Mon, 24 Aug 2020 01:30:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1598250637;
+        bh=D/Bdrh0yCSxlM/IVa03bRuBFzDItQbCbjOvCUwspIiw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=kCzCRFyQic7i0I4x1C3VHH3w/px3LWPKYWXGevy6qEw5vMFNmTZ9Cg/JkA5EnmbqA
+         uxo/9mA3U8JCpG3MXIhjUUC+vVKsxNp6FHCKcNiNy2Ii23unxKbvvTIxhK/ArW8jqZ
+         zqeKVrPlcoUO/u2EnJbqq+SSy4cuZs4Rz6SxsMps=
+Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07O6UaBv123255
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 24 Aug 2020 01:30:37 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 24
+ Aug 2020 01:30:36 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 24 Aug 2020 01:30:36 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07O6UZHW126776;
+        Mon, 24 Aug 2020 01:30:36 -0500
+Subject: Re: [kmsxx] [PATCH 1/2] card: Add support for writeback connectors
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-renesas-soc@vger.kernel.org>
+References: <20200823221152.31978-1-laurent.pinchart@ideasonboard.com>
+ <20200823221152.31978-2-laurent.pinchart@ideasonboard.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <e8479aa0-1506-682b-5124-30be2e865ad4@ti.com>
+Date:   Mon, 24 Aug 2020 09:30:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159824883998.8703.15968790175404839636.git-patchwork-housekeeping@kernel.org>
-Date:   Mon, 24 Aug 2020 06:00:39 +0000
-To:     linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20200823221152.31978-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v4] pinctrl: sh-pfc: collect Renesas related CONFIGs in one place (2020-08-24T05:49:20)
-  Superseding: [v3] pinctrl: sh-pfc: collect Renesas related CONFIGs in one place (2020-08-24T02:29:28):
-    [v3,1/4] pinctrl: sh-pfc: tidyup Emma Mobile EV2
-    [v3,2/4] pinctrl: sh-pfc: collect Renesas related CONFIGs in one place
-    [v3,3/4] pinctrl: sh-pfc: align driver description title
-    [v3,4/4] pinctrl: sh-pfc: tidy up driver description title
+Hi Laurent,
 
+On 24/08/2020 01:11, Laurent Pinchart wrote:
+> Enable enumeration of writeback connectors if both libdrm and the device
+> support it. The new Card::has_writeback() method report if the card
+> support writeback connectors.
+> 
+> Existing code that expect all connectors to model an output may be
+> confused by the sudden availability of new connectors. To handle this
+> issue,
+> 
+> - add a KMSXX_DISABLE_WRITEBACK_CONNECTORS environment variable to
+>   disable enumeration of writeback connectors, similarly to universal
+>   planes ; and
+> 
+> - ignore writeback connectors where no specific connector is requested
+>   (Card::get_first_connected_connector(),
+>   ResourceManager::reserve_connector() if no connector name is
+>   specified, and applications that use all connected outputs).
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  kms++/inc/kms++/card.h            |  2 ++
+>  kms++/src/card.cpp                | 13 +++++++++++++
+>  kms++/src/connector.cpp           |  1 +
+>  kms++util/CMakeLists.txt          |  2 ++
+>  kms++util/src/resourcemanager.cpp |  5 +++++
+>  py/pykms/pykmsbase.cpp            |  1 +
+>  utils/kmsblank.cpp                |  5 +++++
+>  utils/kmstest.cpp                 |  4 ++++
+>  8 files changed, 33 insertions(+)
+> 
+> diff --git a/kms++/inc/kms++/card.h b/kms++/inc/kms++/card.h
+> index 0a7eaaf81a8d..26468edbb503 100644
+> --- a/kms++/inc/kms++/card.h
+> +++ b/kms++/inc/kms++/card.h
+> @@ -53,6 +53,7 @@ public:
+>  	bool has_universal_planes() const { return m_has_universal_planes; }
+>  	bool has_dumb_buffers() const { return m_has_dumb; }
+>  	bool has_kms() const;
+> +	bool has_writeback() const { return m_has_writeback; }
+>  
+>  	std::vector<Connector*> get_connectors() const { return m_connectors; }
+>  	std::vector<Encoder*> get_encoders() const { return m_encoders; }
+> @@ -91,6 +92,7 @@ private:
+>  	bool m_has_atomic;
+>  	bool m_has_universal_planes;
+>  	bool m_has_dumb;
+> +	bool m_has_writeback;
+>  
+>  	CardVersion m_version;
+>  };
+> diff --git a/kms++/src/card.cpp b/kms++/src/card.cpp
+> index 3a7ab700ed49..cbb5d50b505f 100644
+> --- a/kms++/src/card.cpp
+> +++ b/kms++/src/card.cpp
+> @@ -217,6 +217,17 @@ void Card::setup()
+>  	m_has_atomic = false;
+>  #endif
+>  
+> +#ifdef DRM_CLIENT_CAP_WRITEBACK_CONNECTORS
+> +	if (getenv("KMSXX_DISABLE_WRITEBACK_CONNECTORS") == 0) {
+> +		r = drmSetClientCap(m_fd, DRM_CLIENT_CAP_WRITEBACK_CONNECTORS, 1);
+> +		m_has_writeback = r == 0;
+> +	} else {
+> +		m_has_writeback = false;
+> +	}
+> +#else
+> +	m_has_writeback = false;
+> +#endif
+> +
+>  	uint64_t has_dumb;
+>  	r = drmGetCap(m_fd, DRM_CAP_DUMB_BUFFER, &has_dumb);
+>  	m_has_dumb = r == 0 && has_dumb;
+> @@ -316,6 +327,8 @@ void Card::restore_modes()
+>  Connector* Card::get_first_connected_connector() const
+>  {
+>  	for(auto c : m_connectors) {
+> +		if (c->connector_type() == DRM_MODE_CONNECTOR_WRITEBACK)
+> +			continue;
+>  		if (c->connected())
+>  			return c;
+>  	}
+> diff --git a/kms++/src/connector.cpp b/kms++/src/connector.cpp
+> index a40861957c67..6f5f79f0e523 100644
+> --- a/kms++/src/connector.cpp
+> +++ b/kms++/src/connector.cpp
+> @@ -36,6 +36,7 @@ static const map<int, string> connector_names = {
+>  	{ DRM_MODE_CONNECTOR_VIRTUAL, "Virtual" },
+>  	{ DRM_MODE_CONNECTOR_DSI, "DSI" },
+>  	{ DRM_MODE_CONNECTOR_DPI, "DPI" },
+> +	{ DRM_MODE_CONNECTOR_WRITEBACK, "writeback" },
+>  };
+>  
+>  static const map<int, string> connection_str = {
+> diff --git a/kms++util/CMakeLists.txt b/kms++util/CMakeLists.txt
+> index 0bfb56b0d58f..362824ad13d5 100644
+> --- a/kms++util/CMakeLists.txt
+> +++ b/kms++util/CMakeLists.txt
+> @@ -1,3 +1,5 @@
+> +include_directories(${LIBDRM_INCLUDE_DIRS})
+> +
+>  file(GLOB SRCS "src/*.cpp" "src/*.h")
+>  file(GLOB PUB_HDRS "inc/kms++util/*.h")
+>  add_library(kms++util ${SRCS} ${PUB_HDRS})
+> diff --git a/kms++util/src/resourcemanager.cpp b/kms++util/src/resourcemanager.cpp
+> index 5a9f016c06ab..01edaf39202b 100644
+> --- a/kms++util/src/resourcemanager.cpp
+> +++ b/kms++util/src/resourcemanager.cpp
+> @@ -2,6 +2,8 @@
+>  #include <algorithm>
+>  #include <kms++util/strhelpers.h>
+>  
+> +#include <xf86drmMode.h>
+
+This and adding the LIBDRM_INCLUDE_DIRS is not ok. I don't want kms++ to leak libdrm C headers.
+
+We need to add an enum class for connector types, and map the libdrm types to that.
+
+As a simple quick alternative, I think just conn->is_writeback() would do the trick, as we have no
+users for the connector type as such.
+
+ Tomi
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
