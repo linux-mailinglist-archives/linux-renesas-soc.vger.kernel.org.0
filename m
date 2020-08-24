@@ -2,151 +2,273 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0FA224FD7C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 14:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC9C24FD8B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 14:15:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726831AbgHXMIg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 08:08:36 -0400
-Received: from mail-eopbgr1320137.outbound.protection.outlook.com ([40.107.132.137]:10313
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726187AbgHXMIe (ORCPT
+        id S1726627AbgHXMPT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 08:15:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbgHXMPS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 08:08:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A2JOrYnaKFU41qAhiDN6N/1RegluaFeMC9IGGNOCKGG7xzETIjOzdyzlK2OMrjVx8yVkcaVHlFeHDHRlB46nVZ+Ohw0KWkxYHCkVtCg5LTFgbyjF+hP1/wOrIHQCIi8OhoL5Zq6G4wrUviEybGixdkzI9EpLSxUbm4+puAYXRA5F3m1y/oljLB5yfL/kEj7Rer/hVxEDi/NxkPmjxOEJOxy60Acj8v+DxnT3a2EOUWwhZq1Xo95t8vzc7zgIC+HkqCH4DqlAoowdKFT+amkug7yKqsng43/gsYAPX3L8vElOFNfazJaFxBuZdFWqDeM3aqgpd6m3xrX//kQeT7ugmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Lkt5/LNv42g4SsO8akOe/5RoARgrCOz4B2rE4NmuJo=;
- b=OQKv93KUbtyBXclQDec23FBalw74HnbMrGVVN+56vP3XKK66Ugoxr6HpDFkBaVwRQO1fPYD+M64mAFQYybqDHX5GQfLpLRFp5yQ/2QMIxyTw3kHR4j9K8FE2QR2Fq2jZxhXgfYWlDfwJz/+mtYbVksXONbrvzFfl3Gxso7grDL9gK3UEAmm1MLItWjZY3JQrqE10QasNpU+EoZko5jGyzG4OELdeZYHFnu6pLktgISkzJffiprkoi+gZSIxGjQO11oDD0BhkvAA1J6k6VOyBG91vWIMghY8A65AuStRIwMyQyrODvtvhN58fAjjNqATNv+c9R2tRA2qyDlZaY1xRrg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Lkt5/LNv42g4SsO8akOe/5RoARgrCOz4B2rE4NmuJo=;
- b=N3zvfQ0Gdi9+kFT/sbfmLYitkVRTvi4ngqPsfFyJw7TSzfK9atVcvmsBthnzJdonLf8VfkOSfohZNmbdHqNhWH7Oczzo/surIf5l1fMKmckHm3IthGnXQqeme0aMrnF0QIZtUN9zHURh/3BMP0HOVaQx7D9T5tyl9QEDe/Ah+Ws=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB1979.jpnprd01.prod.outlook.com (2603:1096:404:e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 12:08:29 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 12:08:29 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 2/5] dt-bindings: usb: renesas,usb3-peri: Document HS
- and SS data bus
-Thread-Topic: [PATCH v2 2/5] dt-bindings: usb: renesas,usb3-peri: Document HS
- and SS data bus
-Thread-Index: AQHWb7XJjorZCTsTKkiFFP/oeG3wFqlHMPDQgAAKZYCAAAKOsA==
-Date:   Mon, 24 Aug 2020 12:08:29 +0000
-Message-ID: <TY2PR01MB3692F94908BF9CD36A629110D8560@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20200811080227.3170-1-biju.das.jz@bp.renesas.com>
- <20200811080227.3170-3-biju.das.jz@bp.renesas.com>
- <TY2PR01MB36928D9A5BF4A43429662BCED8560@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <TYBPR01MB53094D6F8B941E2D94198A3486560@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB53094D6F8B941E2D94198A3486560@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: bp.renesas.com; dkim=none (message not signed)
- header.d=none;bp.renesas.com; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9769ad29-ef15-4e8d-5d4c-08d8482669d9
-x-ms-traffictypediagnostic: TY2PR01MB1979:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB1979695E42113778F5B39854D8560@TY2PR01MB1979.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SwB1Jr36f6Kzw7lS3YOE3H3kRVu9Pd/7LfQV3fqL/opjbKiO4FcvjHDGvU/rAwfsTKRLiMfl6DvrsjJ7q3nYgrcFvoe9sbcpH3GOqc1KYHkjSi6YLKL+bTq2+ytVsWQxlMnbTahoNKo5RCqEZA8tjE7fSa4cSo9tFULNmC0igHnSYta/5Qs6QHfkcmt5gB12TR8NFFJ17gx1350yBi4oXt/g04OcAplPITQVdj7l0SoqIzzisM32BN+5dF9UFQ/8r14mbdeU2s/UHVv5vhtL5/T3BMK1hA1VOzJltubvv7pBI0GFyhcs0uU6FjzGRPHw/7dB6DE+xrFRU4fAst8gro8O2iBqXa9Fo8d58c/TypqN7zNBr99aP0WhQ/vB9hUWVlBcgfxsL7ACkValxYoqqIG321TDNu6a5RHbPySJ9JoXmdg1YwAB3dQ/BjJzsK3AtV+ylFVXCICBb7qIVP5YaQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(71200400001)(966005)(6506007)(4326008)(9686003)(55236004)(186003)(26005)(7696005)(478600001)(33656002)(2906002)(8936002)(76116006)(66946007)(66556008)(55016002)(86362001)(316002)(8676002)(52536014)(54906003)(64756008)(66476007)(5660300002)(66446008)(110136005)(142933001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: /XSywTqCoHq+9k/l7g7WOPhle8tkGQ7RBAhn3oJE3mQgIZ1qhDTYhrQilq1pccAgARLLFa+qBUrDWwrboxKHWbdUKrkgfA9I3bUJDYUfutnO/1CUpdXTYkpX4FxMdlDjzMYGwhsSUP6vk2LoLzKD57pUaZWvmQgX6kzl9Z4fEBoKv4Zt+L3fkZafVnWy/ZNk9FUHBPYzPPXhn92W5+hNYKW/UCZG2zkrZf7YlrovY5fj0NZv9HlFk/ibCBqgRlcKB0RbVAcoNuTGOLYbd0iELHoYIxBINFxh6cv63VjU6k5sSubeP38A4L8SjAIYw8AJMVWijoOswpBz7jItAxoRWRiMXCNX2TsvBrAM7skvkuOGRHkOydQPFn1L7sgKSv90DioUPQEpwQB4KMzRy7h2vX8vfkMK3qswH17yFn4FaOyNu/g7VvEDsKYESOigNmNi/OCG/e2hFT7HIUoPbfX01xY4t17sNWS+6kpzWU+BWi3OjLuDdqlE9MxfcXdmYctYV/Ch0Xtkk73vV3xn9epdqazKT0CPuD/EFHHVvDYGLyI0KXeC2GGRDkUEqtm0fiEDoMk4lhsdm/fyt/li/K7KdqSs0SCcWm5pxL8VAs2MWCk2eY16jXUBsp92Q50ZzettW44j919dysynszwg0LFvNA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 24 Aug 2020 08:15:18 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79710C061573;
+        Mon, 24 Aug 2020 05:15:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 88964279;
+        Mon, 24 Aug 2020 14:15:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1598271316;
+        bh=IKnxW/jDAvQVYbGiplzDEAniW6FM9WbIaWpnH9PrroU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RvmiG6HaeDqxPphLtltSeICQlBxcMs4BL66dvrCB6pwn/1Sv+NoHjstfV70t6CAYz
+         tvrY3ga1MdTovYf7k+HGwLJtUvuAauQGiNsJ2YRGEfJgbr4CqcxdG8vsLz3+lSTQ+Y
+         UG6hw01OUB5qYtTZlSB0ZAijlbDbnobjgPkasJ+0=
+Date:   Mon, 24 Aug 2020 15:14:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: ov772x: Convert to json-schema
+Message-ID: <20200824121457.GD6002@pendragon.ideasonboard.com>
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-2-jacopo+renesas@jmondi.org>
+ <20200819135204.GJ6049@pendragon.ideasonboard.com>
+ <20200824083211.u2zm4o6f4wrxlu6k@uno.localdomain>
+ <20200824113440.GC6002@pendragon.ideasonboard.com>
+ <20200824121513.gvsr5sdodgpyv4w5@uno.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9769ad29-ef15-4e8d-5d4c-08d8482669d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 12:08:29.3006
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kAeGWeLtrfUzuU4SZiF3y34FpcPb8KgzYN9b5UMToDWoIecouaNB77XFtBOQKCuonPOFqpfcUzYlC8wHF0/rtCptOLtwhUx1Kg9GhbXviFlVj9qr/K/CmMKxNbaadjbX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB1979
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200824121513.gvsr5sdodgpyv4w5@uno.localdomain>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju-san,
+Hi Jacopo,
 
-> From: Biju Das, Sent: Monday, August 24, 2020 8:55 PM
->=20
-> Hi Shimoda-San,
->=20
-> Thanks for the feedback.
->=20
-<snip>
-> > > --- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-> > > +++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml
-> > <snip>
-> > > @@ -79,9 +92,20 @@ examples:
-> > >          companion =3D <&xhci0>;
-> > >          usb-role-switch;
+On Mon, Aug 24, 2020 at 02:15:13PM +0200, Jacopo Mondi wrote:
+> On Mon, Aug 24, 2020 at 02:34:40PM +0300, Laurent Pinchart wrote:
+> > On Mon, Aug 24, 2020 at 10:32:11AM +0200, Jacopo Mondi wrote:
+> > > On Wed, Aug 19, 2020 at 04:52:04PM +0300, Laurent Pinchart wrote:
+> > > > On Tue, Aug 18, 2020 at 02:20:10PM +0200, Jacopo Mondi wrote:
+> > > > > Convert the ov772x binding document to json-schema and update
+> > > > > the MAINTAINERS file accordingly.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > ---
+> > > > >  .../devicetree/bindings/media/i2c/ov772x.txt  | 40 ---------
+> > > > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 84 +++++++++++++++++++
+> > > >
+> > > > Could yuo rename this to ovti,ov772x.yaml ?
+> > > >
+> > > > >  MAINTAINERS                                   |  2 +-
+> > > > >  3 files changed, 85 insertions(+), 41 deletions(-)
+> > > > >  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.txt b/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > deleted file mode 100644
+> > > > > index 0b3ede5b8e6a..000000000000
+> > > > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > +++ /dev/null
+> > > > > @@ -1,40 +0,0 @@
+> > > > > -* Omnivision OV7720/OV7725 CMOS sensor
+> > > > > -
+> > > > > -The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > > > -such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > > > -support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > > > -
+> > > > > -Required Properties:
+> > > > > -- compatible: shall be one of
+> > > > > -	"ovti,ov7720"
+> > > > > -	"ovti,ov7725"
+> > > > > -- clocks: reference to the xclk input clock.
+> > > > > -
+> > > > > -Optional Properties:
+> > > > > -- reset-gpios: reference to the GPIO connected to the RSTB pin which is
+> > > > > -  active low, if any.
+> > > > > -- powerdown-gpios: reference to the GPIO connected to the PWDN pin which is
+> > > > > -  active high, if any.
+> > > > > -
+> > > > > -The device node shall contain one 'port' child node with one child 'endpoint'
+> > > > > -subnode for its digital output video port, in accordance with the video
+> > > > > -interface bindings defined in Documentation/devicetree/bindings/media/
+> > > > > -video-interfaces.txt.
+> > > > > -
+> > > > > -Example:
+> > > > > -
+> > > > > -&i2c0 {
+> > > > > -	ov772x: camera@21 {
+> > > > > -		compatible = "ovti,ov7725";
+> > > > > -		reg = <0x21>;
+> > > > > -		reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > > > > -		powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > > > > -		clocks = <&xclk>;
+> > > > > -
+> > > > > -		port {
+> > > > > -			ov772x_0: endpoint {
+> > > > > -				remote-endpoint = <&vcap1_in0>;
+> > > > > -			};
+> > > > > -		};
+> > > > > -	};
+> > > > > -};
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..2b84fefeb4aa
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > > @@ -0,0 +1,84 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/media/i2c/ov772x.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title:  Omnivision OV7720/OV7725 CMOS sensor
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Jacopo Mondi <jacopo@jmondi.org>
+> > > > > +
+> > > > > +description: -|
+> > > > > +  The Omnivision OV7720/OV7725 sensor supports multiple resolutions output,
+> > > > > +  such as VGA, QVGA, and any size scaling down from CIF to 40x30. It also can
+> > > > > +  support the YUV422, RGB565/555/444, GRB422 or raw RGB output formats.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      - ovti,ov7720
+> > > > > +      - ovti,ov7725
+> > > > > +
+> > > > > +  reg:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  clocks:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  reset-gpios:
+> > > > > +    description: -|
+> > > > > +      Reference to the GPIO connected to the RSTB pin which is active low.
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  powerdown-gpios:
+> > > > > +    description: -|
+> > > > > +      Reference to the GPIO connected to the PWDN pin which is active high.
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  port:
+> > > > > +    type: object
+> > > > > +    description: |
+> > > > > +      The device node must contain one 'port' child node for its digital output
+> > > > > +      video port, in accordance with the video interface bindings defined in
+> > > > > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > >
+> > > > You can simply write
+> > > >
+> > > >       Digital input video port. See ../video-interfaces.txt.
+> > > >
+> > > > > +
+> > > > > +    properties:
+> > > > > +      endpoint:
+> > > > > +        type: object
+> > > > > +        properties:
+> > > > > +          remote-endpoint:
+> > > > > +            description: A phandle to the bus receiver's endpoint node.
+> > > >
+> > > >            required:
+> > > > 	     - remote-endpoint
+> > > >
+> > > >            additionalProperties: false
 > > >
-> > > -        port {
-> > > -            usb3_role_switch: endpoint {
-> > > -                remote-endpoint =3D <&hd3ss3220_ep>;
-> > > -            };
-> > > -        };
-> > > +    	ports {
+> > > I receveied a reply to you on previous json-schema conversion attempt
+> > > where you suggested to not set remote-endpoint as required, as we
+> > > allow empty ones to be later filled in in, maybe with an overlay.
+> > >
+> > > Which Laurent should I listen to ? I tend to agree with the one that
+> > > said to drop remote-endpoint from the required properties list.
 > >
-> > I think we should use spaces instead of tab here and below.
->=20
-> I have ran dt_binding_check on this file and it did n't complain.
->=20
-> First 5 character must be space, after that if you use tab, it won't comp=
-lain.
-> I am not sure is it the correct way or not?
->=20
-> Geert/Shimoda-San can you please comment.
-> Based on your input, if needed I will send v3 with only spaces.
+> > Maybe I recall incorrectly, didn't I say that endpoint shouldn't be
+> > mandatory ? Ports should be mandatory as they describe the hardware,
+> > endpoints describe a connection, and within a connection, I'm not sure
+> > to see a use-case for not setting remote-endpoint. Maybe I need to look
+> > better ? :-)
+> >
+> 
+> I might be confused as well, but to me port and endpoint should be
+> there as they represent the available endpoints of the devices connections.
+> Connections to external devices that can be established (or overwritten)
+> by applying an overlay, and such are not mandatory.
+> 
+> As I see it:
+> - port/endpoints: establish the available device connection endpoitns
+>   and shall be mandatory (also to give a known place where to 'plug'
+>   the connections)
+> 
+> - remote-endpoints: data connections to external devices, which might
+>   depend on the board assembly or installed 'capes' and expansions. As
+>   such, they can be modeled as an overlay fragment to be applied on the
+>   (known layout of the) device.
 
-I don't know why dt_binding_check didn't complain though,
-according to writing_schema.rst:
----
-examples
-  Optional. A list of one or more DTS hunks implementing the
-  binding. Note: YAML doesn't allow leading tabs, so spaces must be used in=
-stead.
----
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Doc=
-umentation/devicetree/writing-schema.rst?h=3Dv5.9-rc2#n71
+Only the port represents a connection point. The endpoint node is part
+of the representation of the link, it doesn't map to a particular
+hardware resource on the port side.
 
-Best regards,
-Yoshihiro Shimoda
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > >
+> > > > > +
+> > > > > +    additionalProperties: false
+> > > > > +
+> > > > > +required:
+> > > > > +  - compatible
+> > > > > +  - reg
+> > > > > +  - clocks
+> > > > > +  - reset-gpios
+> > > > > +  - powerdown-gpios
+> > > > > +
+> > > > > +examples:
+> > > > > +  - |
+> > > > > +    #include <dt-bindings/gpio/gpio.h>
+> > > > > +
+> > > > > +    i2c0 {
+> > > > > +        #address-cells = <1>;
+> > > > > +        #size-cells = <0>;
+> > > > > +        ov772x: camera@21 {
+> > > > > +            compatible = "ovti,ov7725";
+> > > > > +            reg = <0x21>;
+> > > > > +            reset-gpios = <&axi_gpio_0 0 GPIO_ACTIVE_LOW>;
+> > > > > +            powerdown-gpios = <&axi_gpio_0 1 GPIO_ACTIVE_LOW>;
+> > > > > +            clocks = <&xclk>;
+> > > > > +
+> > > > > +            port {
+> > > > > +                ov772x_0: endpoint {
+> > > > > +                    remote-endpoint = <&vcap1_in0>;
+> > > > > +                };
+> > > > > +            };
+> > > > > +        };
+> > > > > +    };
+> > > > > +
+> > > > > +...
+> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > index d1a6173d3b64..d0a20214eaaf 100644
+> > > > > --- a/MAINTAINERS
+> > > > > +++ b/MAINTAINERS
+> > > > > @@ -12666,7 +12666,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+> > > > >  L:	linux-media@vger.kernel.org
+> > > > >  S:	Odd fixes
+> > > > >  T:	git git://linuxtv.org/media_tree.git
+> > > > > -F:	Documentation/devicetree/bindings/media/i2c/ov772x.txt
+> > > > > +F:	Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > >  F:	drivers/media/i2c/ov772x.c
+> > > > >  F:	include/media/i2c/ov772x.h
+> > > > >
 
+-- 
+Regards,
+
+Laurent Pinchart
