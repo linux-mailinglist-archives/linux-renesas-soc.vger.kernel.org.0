@@ -2,70 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E801250B98
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 00:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B19B3250BC1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 00:38:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728017AbgHXWXi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 18:23:38 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:33207 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgHXWXh (ORCPT
+        id S1726532AbgHXWis (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 18:38:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726519AbgHXWis (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 18:23:37 -0400
-Received: by mail-il1-f196.google.com with SMTP id r13so8745131iln.0;
-        Mon, 24 Aug 2020 15:23:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sxWoSiXfyNxC7RpNkWsYKNGkllX1hPdgCddbI6UFMS8=;
-        b=CeHJeEtTcxpGTTy2e54I4FLE5vSCWulpbEDVU8HPhuwhTKLGMyLk3tdpoTRcXkYTsB
-         Zo8kF4s6xZmdSO1wXubrRn3QMqc+5PIl1K1rbbsUsqkeSSLw4IYAEq1+/dIZxULeaDlR
-         5P6ML+ckDp1FAFNfUorqQlRfhzUrYK8xBeXiSir2MiKpDlXqFWgGy7fdvLBAFTqcYOIM
-         Ja8oLUGrNQF/3VSHWxTVFxY+IImASiFo0dtCRKtGZ8TmM3xLQ5dTkPyE3cAAj7mzYjDi
-         6jSH9IzTP6X54NMd7CbQCg7G+698zVXitGj48315ZClsctAgk+eY+L9CeDPNtVlAcg4Q
-         ucYg==
-X-Gm-Message-State: AOAM5319UYGTgeDvvvvOFGhn99nsYBj0UsN8JKS+kV/qOysBIZ53Qc8p
-        e6NLDJYorQDuh/KXSKC5ogIdHkCPkw==
-X-Google-Smtp-Source: ABdhPJznOKZdKvAaryVXsQIpvkIsmCU7LK5fBX41NJ1Qm07XPJOu1Tb2fW0OF5VP6XC4w7/K9fuXIw==
-X-Received: by 2002:a92:89c8:: with SMTP id w69mr6996316ilk.139.1598307816294;
-        Mon, 24 Aug 2020 15:23:36 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id f186sm3428221ioa.42.2020.08.24.15.23.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 15:23:35 -0700 (PDT)
-Received: (nullmailer pid 3425801 invoked by uid 1000);
-        Mon, 24 Aug 2020 22:23:30 -0000
-Date:   Mon, 24 Aug 2020 16:23:30 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Joerg Roedel <joro@8bytes.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: iommu: renesas,ipmmu-vmsa: Sort compatible
- string in increasing number of the SoC
-Message-ID: <20200824222330.GA3425741@bogus>
-References: <20200809193527.19659-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200809193527.19659-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 24 Aug 2020 18:38:48 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23789C061574;
+        Mon, 24 Aug 2020 15:38:48 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 9320312909FBC;
+        Mon, 24 Aug 2020 15:22:01 -0700 (PDT)
+Date:   Mon, 24 Aug 2020 15:38:47 -0700 (PDT)
+Message-Id: <20200824.153847.768272520909717006.davem@davemloft.net>
+To:     ashiduka@fujitsu.com
+Cc:     sergei.shtylyov@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] ravb: Fixed to be able to unload modules
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200820094307.3977-1-ashiduka@fujitsu.com>
+References: <20200820094307.3977-1-ashiduka@fujitsu.com>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 24 Aug 2020 15:22:01 -0700 (PDT)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, 09 Aug 2020 20:35:27 +0100, Lad Prabhakar wrote:
-> Sort the items in the compatible string list in increasing number of SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+From: Yuusuke Ashizuka <ashiduka@fujitsu.com>
+Date: Thu, 20 Aug 2020 18:43:07 +0900
 
-Acked-by: Rob Herring <robh@kernel.org>
+> When this driver is built as a module, I cannot rmmod it after insmoding
+> it.
+> This is because that this driver calls ravb_mdio_init() at the time of
+> probe, and module->refcnt is incremented by alloc_mdio_bitbang() called
+> after that.
+> Therefore, even if ifup is not performed, the driver is in use and rmmod
+> cannot be performed.
+> 
+> $ lsmod
+> Module                  Size  Used by
+> ravb                   40960  1
+> $ rmmod ravb
+> rmmod: ERROR: Module ravb is in use
+> 
+> Call ravb_mdio_init() at open and free_mdio_bitbang() at close, thereby
+> rmmod is possible in the ifdown state.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yuusuke Ashizuka <ashiduka@fujitsu.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+Applied and queued up for -stable, thanks.
