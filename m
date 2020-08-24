@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 126E224FF9E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 16:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1494324FF98
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 16:11:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726673AbgHXOLa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 10:11:30 -0400
+        id S1726767AbgHXOLT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 10:11:19 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:21502 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726473AbgHXOLM (ORCPT
+        by vger.kernel.org with ESMTP id S1726661AbgHXOLO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 10:11:12 -0400
+        Mon, 24 Aug 2020 10:11:14 -0400
 X-IronPort-AV: E=Sophos;i="5.76,348,1592838000"; 
-   d="scan'208";a="55166780"
+   d="scan'208";a="55166784"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Aug 2020 23:11:11 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 24 Aug 2020 23:11:13 +0900
 Received: from localhost.localdomain (unknown [172.29.53.152])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3C35240031C8;
-        Mon, 24 Aug 2020 23:11:08 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 82EBA40031C8;
+        Mon, 24 Aug 2020 23:11:11 +0900 (JST)
 From:   Biju Das <biju.das.jz@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
@@ -29,9 +29,9 @@ Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3 4/5] arm64: dts: renesas: cat874: Move connector node out of hd3ss3220 device
-Date:   Mon, 24 Aug 2020 15:10:52 +0100
-Message-Id: <20200824141053.5062-5-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 5/5] arm64: dts: renesas: beacon-renesom-baseboard: Move connector node out of hd3ss3220 device
+Date:   Mon, 24 Aug 2020 15:10:53 +0100
+Message-Id: <20200824141053.5062-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
 References: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
@@ -46,19 +46,19 @@ connector bindings.
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
-v2->v3: No change
+v3->v3: No change
 v1->v2: No change
 ---
- .../boot/dts/renesas/r8a774c0-cat874.dts      | 67 ++++++++++++++-----
+ .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 ++++++++++++++-----
  1 file changed, 50 insertions(+), 17 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-index 26aee004a44e..ea87cb5a459c 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-@@ -129,6 +129,29 @@
+diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+index 66c9153b3101..e66b5b36e489 100644
+--- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
++++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+@@ -223,6 +223,29 @@
  		#clock-cells = <0>;
- 		clock-frequency = <74250000>;
+ 		clock-frequency = <25000000>;
  	};
 +
 +	connector {
@@ -86,9 +86,9 @@ index 26aee004a44e..ea87cb5a459c 100644
  };
  
  &audio_clk_a {
-@@ -186,20 +209,19 @@
+@@ -427,20 +450,19 @@
  		interrupt-parent = <&gpio6>;
- 		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+ 		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
  
 -		connector {
 -			compatible = "usb-c-connector";
@@ -120,7 +120,7 @@ index 26aee004a44e..ea87cb5a459c 100644
  				};
  			};
  		};
-@@ -405,9 +427,20 @@
+@@ -714,9 +736,20 @@
  	status = "okay";
  	usb-role-switch;
  
