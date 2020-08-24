@@ -2,122 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1368724FEB2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 15:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49D4D24FF92
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 16:11:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726599AbgHXNT1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 09:19:27 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:44526 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726041AbgHXNTY (ORCPT
+        id S1726158AbgHXOLK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 10:11:10 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:2505 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725904AbgHXOLC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 09:19:24 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 07ODJLLb072771;
-        Mon, 24 Aug 2020 08:19:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1598275161;
-        bh=4a32qJVSznNHGHK/3b7uCrrecMuR1bDTWP90fm5vozQ=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=IOdle0M2ImkpaGfFdikmVZGjGCY8g9FDNO4ep3U3TT3whmLdvCzxFZwjX88fIC3Ex
-         /8X9r+nIqdijVjAACuvZjDVNqh6oNNz+/SSm6mDw1Fhk9hQ7KhX1IuGqdKxiNSTo1l
-         tJpW6Mvkyf3rUy6brRS9pg3orOuX/SMt3Qo6oLZE=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 07ODJL7E091966
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 24 Aug 2020 08:19:21 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 24
- Aug 2020 08:19:21 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 24 Aug 2020 08:19:21 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 07ODJKPB090851;
-        Mon, 24 Aug 2020 08:19:20 -0500
-Subject: Re: [kmsxx] [PATCH 2/2] utils: Add a dump_framebuffer() method
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-renesas-soc@vger.kernel.org>
-References: <20200823221152.31978-1-laurent.pinchart@ideasonboard.com>
- <20200823221152.31978-3-laurent.pinchart@ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <c08adc41-4d3f-4679-3ea8-f742ec47bb44@ti.com>
-Date:   Mon, 24 Aug 2020 16:19:19 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200823221152.31978-3-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        Mon, 24 Aug 2020 10:11:02 -0400
+X-IronPort-AV: E=Sophos;i="5.76,348,1592838000"; 
+   d="scan'208";a="55383431"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 24 Aug 2020 23:10:58 +0900
+Received: from localhost.localdomain (unknown [172.29.53.152])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1A0FE40031C8;
+        Mon, 24 Aug 2020 23:10:55 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/5] Remodel HD3SS3220 device nodes
+Date:   Mon, 24 Aug 2020 15:10:48 +0100
+Message-Id: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Some platforms have only super speed data bus connected to HD3SS3220 device
+and high speed data bus directly connected to the SoC. In such platforms
+modelling connector as a child of this device is making it non compliant
+with usb connector bindings. By modelling connector node as standalone
+device node along with HD3SS3220 device and the SoC data bus will make it
+compliant with usb connector bindings.
 
-On 24/08/2020 01:11, Laurent Pinchart wrote:
-> Add a new method to write the contents of a framebuffer to a file
-> descriptor. This can be used to capture frames from writeback
-> connectors.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  kms++util/inc/kms++util/kms++util.h | 2 ++
->  kms++util/src/drawing.cpp           | 7 +++++++
->  py/pykms/pykmsutil.cpp              | 6 +++++-
->  3 files changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kms++util/inc/kms++util/kms++util.h b/kms++util/inc/kms++util/kms++util.h
-> index 8fc6c8b81e48..58ad7e6ef39f 100644
-> --- a/kms++util/inc/kms++util/kms++util.h
-> +++ b/kms++util/inc/kms++util/kms++util.h
-> @@ -29,6 +29,8 @@ void draw_text(IFramebuffer& buf, uint32_t x, uint32_t y, const std::string& str
->  void draw_color_bar(IFramebuffer& buf, int old_xpos, int xpos, int width);
->  
->  void draw_test_pattern(IFramebuffer &fb, YUVType yuvt = YUVType::BT601_Lim);
-> +
-> +void dump_framebuffer(IFramebuffer &fb, int fd);
->  }
->  
->  #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-> diff --git a/kms++util/src/drawing.cpp b/kms++util/src/drawing.cpp
-> index 3752f94695e0..24a995489a9e 100644
-> --- a/kms++util/src/drawing.cpp
-> +++ b/kms++util/src/drawing.cpp
-> @@ -1,5 +1,6 @@
->  
->  #include <cmath>
-> +#include <unistd.h>
->  
->  #include <kms++/kms++.h>
->  #include <kms++util/kms++util.h>
-> @@ -569,4 +570,10 @@ void draw_text(IFramebuffer& buf, uint32_t x, uint32_t y, const string& str, RGB
->  		draw_char(buf, (x + 8 * i), y, str[i], color);
->  }
->  
-> +void dump_framebuffer(IFramebuffer &fb, int fd)
-> +{
-> +	for (unsigned int i = 0; i < fb.num_planes(); ++i)
-> +		::write(fd, fb.map(i), fb.size(i));
-> +}
-> +
+It is based on the below discussion threads
 
-Well, my first thought was that it's c++, we should use ostream or such. I don't know how that plays
-with pybind11, though.
+1) https://patchwork.kernel.org/patch/11669423/
+2) https://patchwork.kernel.org/patch/11129567/
 
-I guess on the py side you need to use os.open & co here, not the normal file operations? Or I guess
-you can get the fd with fileno(), but it's still "odd" to do it in python. So using fd here is kind
-of not really c++, and not really python.
+v2->v3
+  * Added Heikkei's reviewed by tag
+  * Incorporated Shimoda-san's review comments for binding patch.
+    (https://patchwork.kernel.org/patch/11708831/)
 
-That said, it's simple and works, so maybe it's fine until someone wants to put more effort to it.
 
- Tomi
+Biju Das (4):
+  dt-bindings: usb: renesas,usb3-peri: Document HS and SS data bus
+  usb: typec: hd3ss3220: Use OF graph API to get the connector fwnode
+  arm64: dts: renesas: cat874: Move connector node out of hd3ss3220
+    device
+  arm64: dts: renesas: beacon-renesom-baseboard: Move connector node out
+    of hd3ss3220 device
+
+Lad Prabhakar (1):
+  dt-bindings: usb: convert ti,hd3ss3220 bindings to json-schema
+
+ .../bindings/usb/renesas,usb3-peri.yaml       | 34 ++++++--
+ .../devicetree/bindings/usb/ti,hd3ss3220.txt  | 38 ---------
+ .../devicetree/bindings/usb/ti,hd3ss3220.yaml | 81 +++++++++++++++++++
+ .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 +++++++++++----
+ .../boot/dts/renesas/r8a774c0-cat874.dts      | 67 +++++++++++----
+ drivers/usb/typec/hd3ss3220.c                 | 18 ++++-
+ 6 files changed, 224 insertions(+), 81 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.yaml
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.17.1
+
