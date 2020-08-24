@@ -2,470 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A770250076
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 17:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20493250705
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Aug 2020 19:55:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbgHXPKB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Aug 2020 11:10:01 -0400
-Received: from mail-eopbgr1410133.outbound.protection.outlook.com ([40.107.141.133]:58342
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727123AbgHXPJ5 (ORCPT
+        id S1726905AbgHXRzl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Aug 2020 13:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgHXRzl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Aug 2020 11:09:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dDq5oENWFqu1PNDPILNW9ksUsQchTeq4KVelZlA4VorK/Y7Bec8QMvqF/McAiJtbzYg5Ow+TBSzK3XS97tG50URth0IjJhuhwlG0lMf7qUPKopjVIsgLFLMEinvdCRvGedI39cwon/tYHqg+FL8kfmF4HoB3muUdz5WHhl5XMquDSaCgO0vy7mmnXIBNLK7LHE6WVokIHsQ6Errk77OBSLGJ4ScxR+tvJHvWGWcE8i8chq0zKLpm0K7Ib77BGEMxiiQVKe+MnKAJjbIlDCglgkPqDh1+GhMnzvXw5OPp03fHF6FFEt6oqAZs4r37Vp/GI2WvbhjPdukv8q82xPBZNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wto57/icWehXuCEwPMHlJTGZ71ilmGYtmVBIss4sN8M=;
- b=hKufXsDoxYJtMGs805WOyNQBkyb9INuAsJetMsGQhGcLwMZPLEkbenTOD8H3t+hWrWpK6eTzs1QvicYUw4s8n7j+DpNjj4joHoIuDMqNgj+y8m0Gu4Wgl9YoJ/3OQV2VPhLATs+eNYx19qYlI5rnmoBdtyhjK7eSYMdozxsusNw5+25vtuyb/JwLWAgJONxX91KR0U69zMSAuk/SrXUf9paFqbTe0FKY5Mc3N/bBlDbwNczqc0z+/cAC39Y4p6oa3el1g7HiN9dSUz9QlXV6c/dXL8ELgZBqnkWAakBf4AHGHVKh6McjSgJWLTvnVI2y6grAyzGXEPyMSYgwZJjiMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Mon, 24 Aug 2020 13:55:41 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F13B5C061573;
+        Mon, 24 Aug 2020 10:55:40 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id d188so5222802pfd.2;
+        Mon, 24 Aug 2020 10:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wto57/icWehXuCEwPMHlJTGZ71ilmGYtmVBIss4sN8M=;
- b=jJ4EF+jnmBXhkxP60l+rQwMd8RUek1GZUXmObzFFabBxNzvS8pLVUgMJtBE4j/umynVwFr+K0/s3Vwu1W+NF9BmlHjbTk2W/ub2qB7dj8ES4FDtJQnsT+16Wrx9PQffSdRWbIaKadyMlNBU/Zbk1+Wh5DwZxTjYuLz59dmDoKcI=
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com (2603:1096:404:73::17)
- by TYAPR01MB4384.jpnprd01.prod.outlook.com (2603:1096:404:120::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Mon, 24 Aug
- 2020 15:09:47 +0000
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::e1a0:8e97:f2b7:c9d9]) by TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::e1a0:8e97:f2b7:c9d9%2]) with mapi id 15.20.3305.026; Mon, 24 Aug 2020
- 15:09:47 +0000
-From:   Gareth Williams <gareth.williams.jx@renesas.com>
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=INVy8TBVNiOdGol546iaylDOMpjzSD/dXUu2kSiUMYs=;
+        b=eDXGgsGdJBtMS/vpPQq4epf6i2YpJP2B1RUstA7XxLF4vTc6yHEur5k27oE04hq6r9
+         SEZD+FW4l+FGieV7SVgvGP+2j3i/nydD+DlYSjweRIRHQFT0or4jORO8p5GH66iTHhgg
+         9zY7Y2XhCjY8wt9u1V+zHv3Grhynb9FxCfE/Rpq2prsk4LT1zCJ69tdggB2xx37awOO0
+         J5+mdvcIlwt7yE/z+sU+dKzd3BxOszz/wvf8kJDBW9S4aZZsYX0Rj31lWZQo42+z2LUz
+         wawRL3UzKfU+vTNtNBzHIW8vRfRFBzfBt3b7c7DIhKm7zEJodoI6IQ5zbS0+tNc1oDXv
+         laRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=INVy8TBVNiOdGol546iaylDOMpjzSD/dXUu2kSiUMYs=;
+        b=CjPWZPKEVLBOnDaKwqWQPUrmM0rZ4dKdH9Pf6r4kA8RRsX6W2PvgEpno3hFtlhRHhQ
+         FVT+WceMB3S+8LRzOtoIf1gj+kLlw0tq6ZdGWZ77cV7NhWc5qKq1eE+kJMuvfIbOq2tr
+         1nYZaWi7KTb2KVpmWPieGF8y8yrwxXOeZ6h3p1565YW7pGqGOUE+qDDuggKwqsJNzOPl
+         vgKh36rugngpO3JTOwjjn/TF1JC4MIz0P674jZRNfuF5xGTrp3pTz7NJcSXKh5ZKzNw1
+         mKtHPRDu3Faqr6jwYlEDBo4UrrabMMupvLHR3FqaEHkEVCGDyqoUW+/GuP12CL4jIIFr
+         CdKg==
+X-Gm-Message-State: AOAM530TV/ETmZPCUpmZkj89s39IxXGexAZSRNXTYg3jtK9WQTpPpLC5
+        i9UH8HFp5wxJgbAi7B70kiWFmuxxhJE=
+X-Google-Smtp-Source: ABdhPJw5oR9lHZMfifIp+VShfzsDfkb6B8h9ta6km/xIED5/B5Sc+8G4Gf+/nFITo5ZH8aMONIrTnQ==
+X-Received: by 2002:a63:5515:: with SMTP id j21mr3967274pgb.31.1598291735989;
+        Mon, 24 Aug 2020 10:55:35 -0700 (PDT)
+Received: from [10.67.50.75] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id a1sm4712961pfd.65.2020.08.24.10.55.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Aug 2020 10:55:35 -0700 (PDT)
+Subject: Re: [PATCH v3 1/7] dt-bindings: net: ethernet-controller: Add
+ internal delay properties
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: pinctrl: rzn1: Convert to json-schema
-Thread-Topic: [PATCH] dt-bindings: pinctrl: rzn1: Convert to json-schema
-Thread-Index: AQHWd60potnxulZi0USUP8M4OLJxHalCfc1w
-Date:   Mon, 24 Aug 2020 15:09:47 +0000
-Message-ID: <TY2PR01MB2924258A9762FD083630B628DF560@TY2PR01MB2924.jpnprd01.prod.outlook.com>
-References: <20200821112059.5133-1-geert+renesas@glider.be>
-In-Reply-To: <20200821112059.5133-1-geert+renesas@glider.be>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: glider.be; dkim=none (message not signed)
- header.d=none;glider.be; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 639cbc1b-c9b5-4781-3662-08d8483fbdad
-x-ms-traffictypediagnostic: TYAPR01MB4384:
-x-microsoft-antispam-prvs: <TYAPR01MB4384B413F0039E75FCAB7450DF560@TYAPR01MB4384.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: eUlHHkSRjULCBW+2ut3WxV2NLUoIVrwQZ9FvpL7izDU0qZ3vs6D8Qt1apj2oMWK+bSY94IipUpCOokKoUn0Vt0FBjn85Kl/yHeXI+TmK/qBvwJzJqPSCQUN34YcC576C/pKPVnaKGplVsECRlddVxxB7uYmayRUefIHgljOcXED6VbjGvUFYCzc+1CdbGlvAK5gN5uC1dnNdOAUWA+wwHlU/ras97k4hxKfwiO3SueTUIKOpURJlKr5sU6jYnqLkOwsgdasYAe6whIGnJfnUFD+KiX3rAonvyFjnCoS6XD+wanErdqZ8IqcJk9FvvmtnWY7DDAXJh9a8K2tbyBE8WH2wY+89HVDEADVvcKUZsmgebMXgvKaMmqdrLIEsOnfJNNMDbdlVITl/GXnhyJGi9w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB2924.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(346002)(136003)(39860400002)(76116006)(2906002)(9686003)(66946007)(71200400001)(52536014)(316002)(86362001)(478600001)(83380400001)(33656002)(966005)(54906003)(110136005)(66446008)(64756008)(66556008)(66476007)(55016002)(5660300002)(8676002)(26005)(7696005)(53546011)(186003)(8936002)(6506007)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 8POr9wPz+1rBJf39k+UhCVoifqCJvCER8Wc5xkeDscrwgkgWOumEbnoFdfGpk62aMfqMlOP5fkyCFf+UKz01q0HRGEP1xuvoz15mZGTfgIf4vnYgSUxhWX+P2B9BLXNkJaxYil5t+YofCkGqwroO1BmpGJ6tP+JkAtHyIYxACDqEqblLm6sSh/tTfui1jUkKt8QF6raI33oUf5iS6fEl3pq6ocZUppcqz4y7bO5y8phpSVWAZjlXwejmDnPd1fzafrnKieXPj+w4bYiE2+3NdlF6Elz7PLfp7WaYNSu+YFGwqp1ZArI8B+wmgFzbZcwsl+hg7nBP2K0s/F9MprCtF8m7KeKXeCUVgLEkJAsOZ46V1IjbYk1h24vLMd27U7dW/HqPwS+yLhBhMQIRrrsW1SwzOZ9oa2HMuHmfpwasA4Pcuzhhv1hpwlQU/kxjUUZeFEMeMhrcZUxc/2wVYh79pglrPi8o/KVe7JWWF9o0zswkgeox9NhnE6px29eyRejTFz0zCNANwC96Zr1D54uEl19ssIWDwQOckbgut72kx1HCOLSrRpLffFvGdubuxYOIWRHhtdoY42wQtsE2NwmNMKHigd7gpWC/7Rac40GCuYEzM8oX9N1Ni1Uu7qC/MmOk6qmBH+2/qa0qvjGS4YYYbw==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200819134344.27813-1-geert+renesas@glider.be>
+ <20200819134344.27813-2-geert+renesas@glider.be>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
+ mQGiBEjPuBIRBACW9MxSJU9fvEOCTnRNqG/13rAGsj+vJqontvoDSNxRgmafP8d3nesnqPyR
+ xGlkaOSDuu09rxuW+69Y2f1TzjFuGpBk4ysWOR85O2Nx8AJ6fYGCoeTbovrNlGT1M9obSFGQ
+ X3IzRnWoqlfudjTO5TKoqkbOgpYqIo5n1QbEjCCwCwCg3DOH/4ug2AUUlcIT9/l3pGvoRJ0E
+ AICDzi3l7pmC5IWn2n1mvP5247urtHFs/uusE827DDj3K8Upn2vYiOFMBhGsxAk6YKV6IP0d
+ ZdWX6fqkJJlu9cSDvWtO1hXeHIfQIE/xcqvlRH783KrihLcsmnBqOiS6rJDO2x1eAgC8meAX
+ SAgsrBhcgGl2Rl5gh/jkeA5ykwbxA/9u1eEuL70Qzt5APJmqVXR+kWvrqdBVPoUNy/tQ8mYc
+ nzJJ63ng3tHhnwHXZOu8hL4nqwlYHRa9eeglXYhBqja4ZvIvCEqSmEukfivk+DlIgVoOAJbh
+ qIWgvr3SIEuR6ayY3f5j0f2ejUMYlYYnKdiHXFlF9uXm1ELrb0YX4GMHz7QnRmxvcmlhbiBG
+ YWluZWxsaSA8Zi5mYWluZWxsaUBnbWFpbC5jb20+iGYEExECACYCGyMGCwkIBwMCBBUCCAME
+ FgIDAQIeAQIXgAUCVF/S8QUJHlwd3wAKCRBhV5kVtWN2DvCVAJ4u4/bPF4P3jxb4qEY8I2gS
+ 6hG0gACffNWlqJ2T4wSSn+3o7CCZNd7SLSC5BA0ESM+4EhAQAL/o09boR9D3Vk1Tt7+gpYr3
+ WQ6hgYVON905q2ndEoA2J0dQxJNRw3snabHDDzQBAcqOvdi7YidfBVdKi0wxHhSuRBfuOppu
+ pdXkb7zxuPQuSveCLqqZWRQ+Cc2QgF7SBqgznbe6Ngout5qXY5Dcagk9LqFNGhJQzUGHAsIs
+ hap1f0B1PoUyUNeEInV98D8Xd/edM3mhO9nRpUXRK9Bvt4iEZUXGuVtZLT52nK6Wv2EZ1TiT
+ OiqZlf1P+vxYLBx9eKmabPdm3yjalhY8yr1S1vL0gSA/C6W1o/TowdieF1rWN/MYHlkpyj9c
+ Rpc281gAO0AP3V1G00YzBEdYyi0gaJbCEQnq8Vz1vDXFxHzyhgGz7umBsVKmYwZgA8DrrB0M
+ oaP35wuGR3RJcaG30AnJpEDkBYHznI2apxdcuTPOHZyEilIRrBGzDwGtAhldzlBoBwE3Z3MY
+ 31TOpACu1ZpNOMysZ6xiE35pWkwc0KYm4hJA5GFfmWSN6DniimW3pmdDIiw4Ifcx8b3mFrRO
+ BbDIW13E51j9RjbO/nAaK9ndZ5LRO1B/8Fwat7bLzmsCiEXOJY7NNpIEpkoNoEUfCcZwmLrU
+ +eOTPzaF6drw6ayewEi5yzPg3TAT6FV3oBsNg3xlwU0gPK3v6gYPX5w9+ovPZ1/qqNfOrbsE
+ FRuiSVsZQ5s3AAMFD/9XjlnnVDh9GX/r/6hjmr4U9tEsM+VQXaVXqZuHKaSmojOLUCP/YVQo
+ 7IiYaNssCS4FCPe4yrL4FJJfJAsbeyDykMN7wAnBcOkbZ9BPJPNCbqU6dowLOiy8AuTYQ48m
+ vIyQ4Ijnb6GTrtxIUDQeOBNuQC/gyyx3nbL/lVlHbxr4tb6YkhkO6shjXhQh7nQb33FjGO4P
+ WU11Nr9i/qoV8QCo12MQEo244RRA6VMud06y/E449rWZFSTwGqb0FS0seTcYNvxt8PB2izX+
+ HZA8SL54j479ubxhfuoTu5nXdtFYFj5Lj5x34LKPx7MpgAmj0H7SDhpFWF2FzcC1bjiW9mjW
+ HaKaX23Awt97AqQZXegbfkJwX2Y53ufq8Np3e1542lh3/mpiGSilCsaTahEGrHK+lIusl6mz
+ Joil+u3k01ofvJMK0ZdzGUZ/aPMZ16LofjFA+MNxWrZFrkYmiGdv+LG45zSlZyIvzSiG2lKy
+ kuVag+IijCIom78P9jRtB1q1Q5lwZp2TLAJlz92DmFwBg1hyFzwDADjZ2nrDxKUiybXIgZp9
+ aU2d++ptEGCVJOfEW4qpWCCLPbOT7XBr+g/4H3qWbs3j/cDDq7LuVYIe+wchy/iXEJaQVeTC
+ y5arMQorqTFWlEOgRA8OP47L9knl9i4xuR0euV6DChDrguup2aJVU4hPBBgRAgAPAhsMBQJU
+ X9LxBQkeXB3fAAoJEGFXmRW1Y3YOj4UAn3nrFLPZekMeqX5aD/aq/dsbXSfyAKC45Go0YyxV
+ HGuUuzv+GKZ6nsysJ7kCDQRXG8fwARAA6q/pqBi5PjHcOAUgk2/2LR5LjjesK50bCaD4JuNc
+ YDhFR7Vs108diBtsho3w8WRd9viOqDrhLJTroVckkk74OY8r+3t1E0Dd4wHWHQZsAeUvOwDM
+ PQMqTUBFuMi6ydzTZpFA2wBR9x6ofl8Ax+zaGBcFrRlQnhsuXLnM1uuvS39+pmzIjasZBP2H
+ UPk5ifigXcpelKmj6iskP3c8QN6x6GjUSmYx+xUfs/GNVSU1XOZn61wgPDbgINJd/THGdqiO
+ iJxCLuTMqlSsmh1+E1dSdfYkCb93R/0ZHvMKWlAx7MnaFgBfsG8FqNtZu3PCLfizyVYYjXbV
+ WO1A23riZKqwrSJAATo5iTS65BuYxrFsFNPrf7TitM8E76BEBZk0OZBvZxMuOs6Z1qI8YKVK
+ UrHVGFq3NbuPWCdRul9SX3VfOunr9Gv0GABnJ0ET+K7nspax0xqq7zgnM71QEaiaH17IFYGS
+ sG34V7Wo3vyQzsk7qLf9Ajno0DhJ+VX43g8+AjxOMNVrGCt9RNXSBVpyv2AMTlWCdJ5KI6V4
+ KEzWM4HJm7QlNKE6RPoBxJVbSQLPd9St3h7mxLcne4l7NK9eNgNnneT7QZL8fL//s9K8Ns1W
+ t60uQNYvbhKDG7+/yLcmJgjF74XkGvxCmTA1rW2bsUriM533nG9gAOUFQjURkwI8jvMAEQEA
+ AYkCaAQYEQIACQUCVxvH8AIbAgIpCRBhV5kVtWN2DsFdIAQZAQIABgUCVxvH8AAKCRCH0Jac
+ RAcHBIkHD/9nmfog7X2ZXMzL9ktT++7x+W/QBrSTCTmq8PK+69+INN1ZDOrY8uz6htfTLV9+
+ e2W6G8/7zIvODuHk7r+yQ585XbplgP0V5Xc8iBHdBgXbqnY5zBrcH+Q/oQ2STalEvaGHqNoD
+ UGyLQ/fiKoLZTPMur57Fy1c9rTuKiSdMgnT0FPfWVDfpR2Ds0gpqWePlRuRGOoCln5GnREA/
+ 2MW2rWf+CO9kbIR+66j8b4RUJqIK3dWn9xbENh/aqxfonGTCZQ2zC4sLd25DQA4w1itPo+f5
+ V/SQxuhnlQkTOCdJ7b/mby/pNRz1lsLkjnXueLILj7gNjwTabZXYtL16z24qkDTI1x3g98R/
+ xunb3/fQwR8FY5/zRvXJq5us/nLvIvOmVwZFkwXc+AF+LSIajqQz9XbXeIP/BDjlBNXRZNdo
+ dVuSU51ENcMcilPr2EUnqEAqeczsCGpnvRCLfVQeSZr2L9N4svNhhfPOEscYhhpHTh0VPyxI
+ pPBNKq+byuYPMyk3nj814NKhImK0O4gTyCK9b+gZAVvQcYAXvSouCnTZeJRrNHJFTgTgu6E0
+ caxTGgc5zzQHeX67eMzrGomG3ZnIxmd1sAbgvJUDaD2GrYlulfwGWwWyTNbWRvMighVdPkSF
+ 6XFgQaosWxkV0OELLy2N485YrTr2Uq64VKyxpncLh50e2RnyAJ9Za0Dx0yyp44iD1OvHtkEI
+ M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
+Message-ID: <7b7d8579-9391-4966-491d-56cc9a46f3b1@gmail.com>
+Date:   Mon, 24 Aug 2020 10:55:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB2924.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 639cbc1b-c9b5-4781-3662-08d8483fbdad
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2020 15:09:47.3791
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /B8ocpXTZn1qSZbrX/JyziY46KMa81sfkUjqGFRH+nMDwWUV3XubaFlOOTZkpEYv9YMWX0E69u6ep6ozJ46WJIc+99+Vb5/K6F1FRGH6FwE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4384
+In-Reply-To: <20200819134344.27813-2-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for the patch.=20
-
-
-On Fri, Aug 21, 2020 at 12:12 PM Geert Uytterhoeven <geert+renesas@glider.b=
-e> wrote:
->=20
-> Convert the Renesas RZ/N1 Pin controller Device Tree binding
-> documentation to json-schema.
->=20
-> Use "pinctrl" generic node name.
-> Drop generic and consumer examples, as they do not belong here.
->=20
+On 8/19/20 6:43 AM, Geert Uytterhoeven wrote:
+> Internal Receive and Transmit Clock Delays are a common setting for
+> RGMII capable devices.
+> 
+> While these delays are typically applied by the PHY, some MACs support
+> configuring internal clock delay settings, too.  Hence add standardized
+> properties to configure this.
+> 
+> This is the MAC counterpart of commit 9150069bf5fc0e86 ("dt-bindings:
+> net: Add tx and rx internal delays"), which applies to the PHY.
+> 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-This is a clean and suitable conversion to me.=20
-For completion I ran this against my dts files for the rzn1 for testing
-purposes on next-20200824 without issues.
-
-Reviewed-by: Gareth Williams <gareth.williams.jx@renesas.com>
-Tested-by: Gareth Williams <gareth.williams.jx@renesas.com>
-
-> ---
-> Note: "phandle: true" is needed because dt-schema does not add it
->       automatically to subnodes.
->=20
-> To be queued in sh-pfc for v5.10.
-> ---
->  .../bindings/pinctrl/renesas,rzn1-pinctrl.txt | 153 ------------------
->  .../pinctrl/renesas,rzn1-pinctrl.yaml         | 129 +++++++++++++++
->  2 files changed, 129 insertions(+), 153 deletions(-)  delete mode 100644
-> Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
->  create mode 100644
-> Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-
-> pinctrl.txt b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-
-> pinctrl.txt
-> deleted file mode 100644
-> index 25e53acd523e2bea..0000000000000000
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
-> +++ /dev/null
-> @@ -1,153 +0,0 @@
-> -Renesas RZ/N1 SoC Pinctrl node description.
-> -
-> -Pin controller node
-> --------------------
-> -Required properties:
-> -- compatible: SoC-specific compatible string "renesas,<soc-specific>-pin=
-ctrl"
-> -  followed by "renesas,rzn1-pinctrl" as fallback. The SoC-specific compa=
-tible
-> -  strings must be one of:
-> -	"renesas,r9a06g032-pinctrl" for RZ/N1D
-> -	"renesas,r9a06g033-pinctrl" for RZ/N1S
-> -- reg: Address base and length of the memory area where the pin controll=
-er
-> -  hardware is mapped to.
-> -- clocks: phandle for the clock, see the description of clock-names belo=
-w.
-> -- clock-names: Contains the name of the clock:
-> -    "bus", the bus clock, sometimes described as pclk, for register acce=
-sses.
-> -
-> -Example:
-> -	pinctrl: pin-controller@40067000 {
-> -	    compatible =3D "renesas,r9a06g032-pinctrl", "renesas,rzn1-pinctrl";
-> -	    reg =3D <0x40067000 0x1000>, <0x51000000 0x480>;
-> -	    clocks =3D <&sysctrl R9A06G032_HCLK_PINCONFIG>;
-> -	    clock-names =3D "bus";
-> -	};
-> -
-> -Sub-nodes
-> ----------
-> -
-> -The child nodes of the pin controller node describe a pin multiplexing -
-> function.
-> -
-> -- Pin multiplexing sub-nodes:
-> -  A pin multiplexing sub-node describes how to configure a set of
-> -  (or a single) pin in some desired alternate function mode.
-> -  A single sub-node may define several pin configurations.
-> -  Please refer to pinctrl-bindings.txt to get to know more on generic
-> -  pin properties usage.
-> -
-> -  The allowed generic formats for a pin multiplexing sub-node are the
-> -  following ones:
-> -
-> -  node-1 {
-> -      pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -      GENERIC_PINCONFIG;
-> -  };
-> -
-> -  node-2 {
-> -      sub-node-1 {
-> -          pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -          GENERIC_PINCONFIG;
-> -      };
-> -
-> -      sub-node-2 {
-> -          pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -          GENERIC_PINCONFIG;
-> -      };
-> -
-> -      ...
-> -
-> -      sub-node-n {
-> -          pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -          GENERIC_PINCONFIG;
-> -      };
-> -  };
-> -
-> -  node-3 {
-> -      pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -      GENERIC_PINCONFIG;
-> -
-> -      sub-node-1 {
-> -          pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -          GENERIC_PINCONFIG;
-> -      };
-> -
-> -      ...
-> -
-> -      sub-node-n {
-> -          pinmux =3D <PIN_ID_AND_MUX>, <PIN_ID_AND_MUX>, ... ;
-> -          GENERIC_PINCONFIG;
-> -      };
-> -  };
-> -
-> -  Use the latter two formats when pins part of the same logical group ne=
-ed
-> to
-> -  have different generic pin configuration flags applied. Note that the =
-generic
-> -  pinconfig in node-3 does not apply to the sub-nodes.
-> -
-> -  Client sub-nodes shall refer to pin multiplexing sub-nodes using the
-> phandle
-> -  of the most external one.
-> -
-> -  Eg.
-> -
-> -  client-1 {
-> -      ...
-> -      pinctrl-0 =3D <&node-1>;
-> -      ...
-> -  };
-> -
-> -  client-2 {
-> -      ...
-> -      pinctrl-0 =3D <&node-2>;
-> -      ...
-> -  };
-> -
-> -  Required properties:
-> -    - pinmux:
-> -      integer array representing pin number and pin multiplexing
-> configuration.
-> -      When a pin has to be configured in alternate function mode, use th=
-is
-> -      property to identify the pin by its global index, and provide its
-> -      alternate function configuration number along with it.
-> -      When multiple pins are required to be configured as part of the sa=
-me
-> -      alternate function they shall be specified as members of the same
-> -      argument list of a single "pinmux" property.
-> -      Integers values in the "pinmux" argument list are assembled as:
-> -      (PIN | MUX_FUNC << 8)
-> -      where PIN directly corresponds to the pl_gpio pin number and
-> MUX_FUNC is
-> -      one of the alternate function identifiers defined in:
-> -      <include/dt-bindings/pinctrl/rzn1-pinctrl.h>
-> -      These identifiers collapse the IO Multiplex Configuration Level 1 =
-and
-> -      Level 2 numbers that are detailed in the hardware reference manual=
- into
-> a
-> -      single number. The identifiers for Level 2 are simply offset by 10=
-.
-> -      Additional identifiers are provided to specify the MDIO source per=
-ipheral.
-> -
-> -  Optional generic pinconf properties:
-> -    - bias-disable		- disable any pin bias
-> -    - bias-pull-up		- pull up the pin with 50 KOhm
-> -    - bias-pull-down		- pull down the pin with 50 KOhm
-> -    - bias-high-impedance	- high impedance mode
-> -    - drive-strength		- sink or source at most 4, 6, 8 or 12 mA
-> -
-> -  Example:
-> -  A serial communication interface with a TX output pin and an RX input =
-pin.
-> -
-> -  &pinctrl {
-> -	pins_uart0: pins_uart0 {
-> -		pinmux =3D <
-> -			RZN1_PINMUX(103, RZN1_FUNC_UART0_I)	/*
-> UART0_TXD */
-> -			RZN1_PINMUX(104, RZN1_FUNC_UART0_I)	/*
-> UART0_RXD */
-> -		>;
-> -	};
-> -  };
-> -
-> -  Example 2:
-> -  Here we set the pull up on the RXD pin of the UART.
-> -
-> -  &pinctrl {
-> -	pins_uart0: pins_uart0 {
-> -		pinmux =3D <RZN1_PINMUX(103, RZN1_FUNC_UART0_I)>;
-> 	/* TXD */
-> -
-> -		pins_uart6_rx {
-> -			pinmux =3D <RZN1_PINMUX(104,
-> RZN1_FUNC_UART0_I)>; /* RXD */
-> -			bias-pull-up;
-> -		};
-> -	};
-> -  };
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-
-> pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-
-> pinctrl.yaml
-> new file mode 100644
-> index 0000000000000000..4a43af0d6e02a68b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yam
-> +++ l
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/renesas,rzn1-pinctrl.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/N1 Pin Controller
-> +
-> +maintainers:
-> +  - Gareth Williams <gareth.williams.jx@renesas.com>
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r9a06g032-pinctrl # RZ/N1D
-> +          - renesas,r9a06g033-pinctrl # RZ/N1S
-> +      - const: renesas,rzn1-pinctrl   # Generic RZ/N1
-> +
-> +  reg:
-> +    items:
-> +      - description: GPIO Multiplexing Level1 Register Block
-> +      - description: GPIO Multiplexing Level2 Register Block
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: bus
-> +    description:
-> +      The bus clock, sometimes described as pclk, for register accesses.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +
-> +additionalProperties:
-> +  anyOf:
-> +    - type: object
-> +      allOf:
-> +        - $ref: pincfg-node.yaml#
-> +        - $ref: pinmux-node.yaml#
-> +
-> +      description:
-> +        A pin multiplexing sub-node describes how to configure a set of =
-(or a
-> +        single) pin in some desired alternate function mode.
-> +        A single sub-node may define several pin configurations.
-> +
-> +      properties:
-> +        pinmux:
-> +          description: |
-> +            Integer array representing pin number and pin multiplexing
-> +            configuration.
-> +            When a pin has to be configured in alternate function mode, =
-use
-> +            this property to identify the pin by its global index, and p=
-rovide
-> +            its alternate function configuration number along with it.
-> +            When multiple pins are required to be configured as part of =
-the
-> +            same alternate function they shall be specified as members o=
-f the
-> +            same argument list of a single "pinmux" property.
-> +            Integers values in the "pinmux" argument list are assembled =
-as:
-> +            (PIN | MUX_FUNC << 8)
-> +            where PIN directly corresponds to the pl_gpio pin number and
-> +            MUX_FUNC is one of the alternate function identifiers define=
-d in:
-> +            <include/dt-bindings/pinctrl/rzn1-pinctrl.h>
-> +            These identifiers collapse the IO Multiplex Configuration Le=
-vel 1
-> +            and Level 2 numbers that are detailed in the hardware refere=
-nce
-> +            manual into a single number. The identifiers for Level 2 are=
- simply
-> +            offset by 10.  Additional identifiers are provided to specif=
-y the
-> +            MDIO source peripheral.
-> +
-> +        phandle: true
-> +        bias-disable: true
-> +        bias-pull-up:
-> +          description: Pull up the pin with 50 kOhm
-> +        bias-pull-down:
-> +          description: Pull down the pin with 50 kOhm
-> +        bias-high-impedance: true
-> +        drive-strength:
-> +          enum: [ 4, 6, 8, 12 ]
-> +
-> +      required:
-> +        - pinmux
-> +
-> +      additionalProperties:
-> +        $ref: "#/additionalProperties/anyOf/0"
-> +
-> +    - type: object
-> +      properties:
-> +        phandle: true
-> +
-> +      additionalProperties:
-> +        $ref: "#/additionalProperties/anyOf/0"
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-> +    #include <dt-bindings/pinctrl/rzn1-pinctrl.h>
-> +    pinctrl: pinctrl@40067000 {
-> +            compatible =3D "renesas,r9a06g032-pinctrl", "renesas,rzn1-pi=
-nctrl";
-> +            reg =3D <0x40067000 0x1000>, <0x51000000 0x480>;
-> +            clocks =3D <&sysctrl R9A06G032_HCLK_PINCONFIG>;
-> +            clock-names =3D "bus";
-> +
-> +            /*
-> +             * A serial communication interface with a TX output pin and=
- an RX
-> +             * input pin.
-> +             */
-> +            pins_uart0: pins_uart0 {
-> +                    pinmux =3D <
-> +                            RZN1_PINMUX(103, RZN1_FUNC_UART0_I) /* UART0=
-_TXD */
-> +                            RZN1_PINMUX(104, RZN1_FUNC_UART0_I) /* UART0=
-_RXD */
-> +                    >;
-> +            };
-> +
-> +            /*
-> +             * Set the pull-up on the RXD pin of the UART.
-> +             */
-> +            pins_uart0_alt: pins_uart0_alt {
-> +                    pinmux =3D <RZN1_PINMUX(103, RZN1_FUNC_UART0_I)>;
-> +
-> +                    pins_uart6_rx {
-> +                            pinmux =3D <RZN1_PINMUX(104, RZN1_FUNC_UART0=
-_I)>;
-> +                            bias-pull-up;
-> +                    };
-> +            };
-> +    };
-> --
-> 2.17.1
-
-Thanks for the work,
-
-Gareth
+Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+-- 
+Florian
