@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44BDB2515E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 12:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D892515E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 12:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729723AbgHYKAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Aug 2020 06:00:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53830 "EHLO mail.kernel.org"
+        id S1729755AbgHYKAx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Aug 2020 06:00:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54034 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729754AbgHYKAp (ORCPT
+        id S1729741AbgHYKAv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Aug 2020 06:00:45 -0400
+        Tue, 25 Aug 2020 06:00:51 -0400
 Content-Type: text/plain; charset="utf-8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598349644;
-        bh=flzso0Btvj6fUEjRXQCcTRCwY94qb8gBlDHjQecX8HA=;
+        s=default; t=1598349651;
+        bh=oXsNaRSwLTtNJI5cjDjpryeQDD+fJMQGkTGifQ3UxFI=;
         h=Subject:From:Date:To:From;
-        b=LZ1q93tXEsNoqUdD6/dYCiBoJUACbFpXHM9m6rskqpL/vaJLt29rXNWefPxAtTY7e
-         UH/nPsoogeYT5vp9uwEoNaJ7F+uM2fT0S6isKS+JxYky+lE68SnRO7W3fYjYvsCGkq
-         gL/7WMnuooE2QLTC8lOFgzhlHEbhPhp6qq0gQ0vo=
+        b=aTQvmANi/O81yY8Qk9Kz4S1bwiEPV5ITpgzNy3Fk2IDy+9EJpB2/t538TGZNyYeq/
+         6p/nnKl0Sm8bdn2UYdNdQBhK//WfOKUAkZbV/ivengQL5SoSgWitIb8FN3rS66HOrf
+         JXewr3E4+ZI3KubsD1lizM+dVnuaJ6oASzCC7m6o=
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Subject: Patchwork summary for: linux-renesas-soc
 From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <159834964465.20747.14638447877534486284.git-patchwork-summary@kernel.org>
-Date:   Tue, 25 Aug 2020 10:00:44 +0000
+Message-Id: <159834965170.20747.16083550937539143991.git-patchwork-summary@kernel.org>
+Date:   Tue, 25 Aug 2020 10:00:51 +0000
 To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -35,17 +35,14 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hello:
 
 The following patches were marked "accepted", because they were applied to
-geert/renesas-devel (refs/heads/next):
+geert/renesas-devel (refs/heads/master):
 
-Patch: ARM: shmobile: defconfig: Refresh for v5.9-rc1
+Series: arm64: renesas: defconfig: Updates
   Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=335097
-  Link: <20200819101125.12113-1-geert+renesas@glider.be>
-
-Patch: arm64: dts: renesas: r8a774e1-hihope-rzg2h: Enable HS400 mode
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=335013
-  Link: <20200819080841.3475-1-biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=335091
+  Link: <20200819100952.11913-1-geert+renesas@glider.be>
+    Patches: [PATCH/LOCAL,1/2] arm64: renesas: defconfig: Enable RPC-IF support
+             [PATCH/LOCAL,2/2] arm64: renesas: defconfig: Refresh for v5.9-rc1
 
 Total patches: 2
 
