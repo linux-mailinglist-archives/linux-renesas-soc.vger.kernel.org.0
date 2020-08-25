@@ -2,87 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE4D2512A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 09:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE9162512CA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 09:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729352AbgHYHKQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Aug 2020 03:10:16 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35150 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729287AbgHYHKP (ORCPT
+        id S1729279AbgHYHMZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Aug 2020 03:12:25 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38426 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729257AbgHYHMZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Aug 2020 03:10:15 -0400
-Received: by mail-ot1-f65.google.com with SMTP id w10so3235231oti.2;
-        Tue, 25 Aug 2020 00:10:14 -0700 (PDT)
+        Tue, 25 Aug 2020 03:12:25 -0400
+Received: by mail-ot1-f66.google.com with SMTP id i11so2568288otr.5;
+        Tue, 25 Aug 2020 00:12:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9nDSEan/YQK8xpD3cMjTRl5PnART66gSZqfe7bk+3Dk=;
-        b=o7HSZLMLH9LmTRwPHwrV9QJK3dBPuh+lY6IP3vbvY99skGz+exym6EGHHA1yCgtvuG
-         zSjfpQU6Hr7JC+H9q+VR2hvStmRDe28dN9Q/5iAetMdOfm/Q0+hGLEL/8pmpUkplc6YQ
-         zOpzIB+zIsiFmU5gAuTrf97ed6x9pPHJCTt0tErD03gDE6Hrz+zW/o7Qe80n6TW2o2hr
-         sYzz0niRl+PL6Y8Qn8eXuOASK+J67RJP2YoanEsh4ro9twuuAZkjoFyJXBVUrFQ1F8RD
-         BFi8o/bNNBVszIk9so9KeUvGEvCfDGrlh9gS8PF1thKh8f/M68gnwaDcYE2SExqJyWGI
-         vRDQ==
-X-Gm-Message-State: AOAM531/K46z9r5tK/BFmz65Sz3NVhI+DvGwcf2cIZ4bCARd16X+qJO/
-        AnRtm9NugKbqpdylF4Z/6np2mIEpFEtCbuOqzq+i4JGU
-X-Google-Smtp-Source: ABdhPJzktU2jr2lEJIVOdCGe2RQWv3GyPKEPdccH+4NA5/fJfRoBro6fywfIEEM8c3bRhFK0bkb/aHmDD5Fw9XKE6gQ=
-X-Received: by 2002:a9d:32e5:: with SMTP id u92mr5545078otb.107.1598339414496;
- Tue, 25 Aug 2020 00:10:14 -0700 (PDT)
+        bh=6xLMSskjc/0tfKUR5gcLUrxGo2b6wdLqpwl4vtNWoY4=;
+        b=NNgmXlgNVV4s5sEzgZTLfMkDCpnY6eFm/vKykel4aCLKwMT5RKwanGqfdzOPxwh9Cs
+         pk4qFZoGLKjhk3elDBWZ4i/bagMRm1PJQ5ZZLjj7sJG1Hp3WTFTeFrFKCYY+1msLIRV8
+         Xkq/qapVyjpR1RJFeEiv9BWXlmCQFys/zaHW5zq0HJ3ZBdW4+alLXfyZZRCLuRGTbqTP
+         o06PqbUUDoUjBOcVk4xjTL6iLk56LVd8CM0ES7ci/rorh6doHDy554d5AFeEG16kOsgt
+         cnw4O7nnVwGI6fdggzZ+IBWIQN2e52tzzVLNfq5qGSpdGkTMpRbQsjIv5ixhAi5zyOCF
+         zeFw==
+X-Gm-Message-State: AOAM532wRhRIWeXMdU7q2Ak5+FYAYP07uiVpoWwu71YySYMrs9zg2mLb
+        hx58c7ZCWmmjCC/vb/KHK6n2wfsDTckhFMsFGIwCL+us
+X-Google-Smtp-Source: ABdhPJyr6yeB7gVQM4gDWCrn0iIo3b3uuVybNM80+sq8ZmQ8Hx6s+1h+KOBAJrFbHQUuAF/hLFogUyd3vL6ZDviez0A=
+X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr6150245otn.250.1598339544379;
+ Tue, 25 Aug 2020 00:12:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821111401.4021-1-geert+renesas@glider.be> <20200824083007.x3l6ujn3mi5xhrsy@uno.localdomain>
-In-Reply-To: <20200824083007.x3l6ujn3mi5xhrsy@uno.localdomain>
+References: <20200821112059.5133-1-geert+renesas@glider.be> <TY2PR01MB2924258A9762FD083630B628DF560@TY2PR01MB2924.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB2924258A9762FD083630B628DF560@TY2PR01MB2924.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Aug 2020 09:10:02 +0200
-Message-ID: <CAMuHMdVaaNx2MbUiNKmvy=SnaDFEqpDVUNE7f+ftw4kw7Z=5gw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rza1: Switch to using "output-enable"
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+Date:   Tue, 25 Aug 2020 09:12:12 +0200
+Message-ID: <CAMuHMdU2+=aesP5v3iAWp8+-LZ8dpMi+EOm7n5x74q7j8kFNPg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: rzn1: Convert to json-schema
+To:     Gareth Williams <gareth.williams.jx@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Gareth,
 
-On Mon, Aug 24, 2020 at 10:26 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> On Fri, Aug 21, 2020 at 01:14:01PM +0200, Geert Uytterhoeven wrote:
-> > For pins requiring software driven IO output operations, the RZ/A1 Pin
-> > Controller uses either the "output-high" or "output-low" DT property to
-> > enable the corresponding output buffer.  The actual line value doesn't
-> > matter, as it is ignored.
+On Mon, Aug 24, 2020 at 5:10 PM Gareth Williams
+<gareth.williams.jx@renesas.com> wrote:
+> On Fri, Aug 21, 2020 at 12:12 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> > Convert the Renesas RZ/N1 Pin controller Device Tree binding
+> > documentation to json-schema.
 > >
-> > Commit 425562429d4f3b13 ("pinctrl: generic: Add output-enable property")
-> > introduced a new DT property for this specific use case.
+> > Use "pinctrl" generic node name.
+> > Drop generic and consumer examples, as they do not belong here.
 > >
-> > Update the RZ/A1 Pin Controller DT bindings and driver to use this new
-> > property instead.  Preserve backwards compatibility with old DTBs in the
-> > driver, as this comes at a very small cost.
-> >
-> > Notes:
-> >   - The DT binding examples already used the new property,
-> >   - There are no upstream users of the old properties.
-> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Did we introduce output-enable after the rza1 pinctrl and forgot to
-> update ? Good catch anyway
+> This is a clean and suitable conversion to me.
+> For completion I ran this against my dts files for the rzn1 for testing
+> purposes on next-20200824 without issues.
+>
+> Reviewed-by: Gareth Williams <gareth.williams.jx@renesas.com>
+> Tested-by: Gareth Williams <gareth.williams.jx@renesas.com>
 
-"output-enable" was introduced in response to early review comments
-on the rza1 pinctrl driver, and both changes went upstream through
-the same sh-pfc pull request.  Seems like part of the update was just
-forgotten.
+Thank you!
 
-> Great! For both parts:
-> Acked-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks!
+BTW, do you plan to upstream any of those DTS files? Currently, no
+upstream DTS file for RZ/N1 contains pinctrl properties.
 
 Gr{oetje,eeting}s,
 
