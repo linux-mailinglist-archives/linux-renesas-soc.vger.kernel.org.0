@@ -2,73 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9794E25198E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 15:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BC1F2519A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 15:29:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726374AbgHYN0m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Aug 2020 09:26:42 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33347 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbgHYN0m (ORCPT
+        id S1726570AbgHYN3p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Aug 2020 09:29:45 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:44970 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbgHYN3l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Aug 2020 09:26:42 -0400
-Received: by mail-ot1-f67.google.com with SMTP id t7so10353277otp.0;
-        Tue, 25 Aug 2020 06:26:41 -0700 (PDT)
+        Tue, 25 Aug 2020 09:29:41 -0400
+Received: by mail-oi1-f196.google.com with SMTP id h3so11579482oie.11;
+        Tue, 25 Aug 2020 06:29:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z4lruBPSPBoCjk79gyfZpdmH0WXdNgeiqOeNZcAn4Ck=;
-        b=MKKHHpVBingi6NfIAxBsRtIgk9F8am+deZn3CIPms5Tkl8eOxgKr8EqG005dkX0SRx
-         gatk2qqVkra8nRtymeogF3YTCVx+Qc+wA2ALEgz0ntKKHoyKPY5mNy/Trx1x5Ox8XULq
-         5IrmttxvyTCaVx6mTo6b2X5J4Dks3mSJH9EWDYbj3o4ohPiime7NW2Iw6i/MVmL/ho8K
-         Mi7q/jdEHoC4Stglmg+t2MwDfCHY/T1H1aEZz1CMNZIV22D4J2Xo0VT7AIVgJyMxQ85U
-         eB4CL0VkPzJuNH2T7Eumzj3e/5aMSQzOtvEwx+nrGiMfj7Mni8eOzUao7v2w6iI93sZ/
-         kGWw==
-X-Gm-Message-State: AOAM5326oeQSA7YqDzaDk98Ec71lwuFvGzYW8gMEqaMvL9e1plxuyGOu
-        p3k3YS87qQHlzQsd1dzuRZw9jN9uhGlODbolmWGYCg6v
-X-Google-Smtp-Source: ABdhPJxezF532QFJrLI6cfNX5O+6qltMV9la/ajBFid1dzl1wERNYCWJFaFu0svnQ0KOr2ghKW/xA+/iIvnjKUXrJV0=
-X-Received: by 2002:a9d:32e5:: with SMTP id u92mr6266712otb.107.1598362001245;
- Tue, 25 Aug 2020 06:26:41 -0700 (PDT)
+        bh=NlGcF353UvEOTKYyfpjwDftImPGsiStlKykiIRESN1M=;
+        b=QnRjfq1/BAzMIRRk7RS/m/pXubd4LBDzD1fRC0ty8fPqWKVBY4/ZZzz0vLmGHt98om
+         wADXP0HgDR84qvdDhFD+FscBsQCc2EEooAi9JCGXGTDojZcwgxJBqNzYkxAAVI+p/F9W
+         P9Y+376OpFiFRhj6u4f0c9kWsscpG/UBqIDCzbFrWr+llYmune0vWwLDPIItMXH82h3w
+         +yJ+hCigf6Z98VVxJy2Z4Uu/1zTaD8l3IaqJ72vlk1RmJlMRUAb6N/nj+g7H/JQf7s24
+         RIpzp1KsaUPg6cPHQLI7WqDhSStN+KeA5LkWwYoW774ritH1x/vLdtxL3FS3/ULzjyVF
+         lCqg==
+X-Gm-Message-State: AOAM530Q6uSxsR+CegVF1gLOv+E1ZOP+SzMT/8gyvKbdSqBgfIHLlRjG
+        4+SplyuL1vjDtSg4Oqe7NeBQc7o1cQgJ+gDHjXs8OikT
+X-Google-Smtp-Source: ABdhPJzZthb05n+gWg5spYhotIoaAgfZ5aJhCY+qYAIDFUR7B37VKtj16eZjem2uFKYXHyumQ8UnO/DtfPWwlqm8Vjc=
+X-Received: by 2002:aca:adc4:: with SMTP id w187mr931178oie.153.1598362180689;
+ Tue, 25 Aug 2020 06:29:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825095448.13093-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200825095448.13093-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200825104455.18000-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Aug 2020 15:26:29 +0200
-Message-ID: <CAMuHMdUOvm+63TKU=2Yb4E12OZjdxAt+LRFfeT9sTayoyU8zVQ@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: sh-pfc: r8a7790: Add CAN pins, groups and functions
+Date:   Tue, 25 Aug 2020 15:29:29 +0200
+Message-ID: <CAMuHMdUVi+y+D54s7-AUO4nE0nU8GqMcvpJRb=dPEfQMujedaQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a774e1 support
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 11:55 AM Lad Prabhakar
+On Tue, Aug 25, 2020 at 12:45 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add pins, groups and functions for the CAN{0,1} interface.
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 >
+> Document RZ/G2H (R8A774E1) SoC bindings.
+>
+> No driver change is needed due to the fallback compatible value
+> "renesas,pwm-rcar".
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> ---
-> Hi All,
-> This patch is part of series [1], since rest of the patches have been
-> acked, I am resending patch 1/3 from the series.
->
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=333191
->
-> v1->v2
-> * Added CAN clk pins
-
-Thanks for the update!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
