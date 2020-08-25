@@ -2,80 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D5742519B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 15:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC290251A20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 15:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726051AbgHYNcV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Aug 2020 09:32:21 -0400
-Received: from mail-oo1-f68.google.com ([209.85.161.68]:38839 "EHLO
-        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgHYNcU (ORCPT
+        id S1726096AbgHYNsi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Aug 2020 09:48:38 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:7784 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725998AbgHYNsh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Aug 2020 09:32:20 -0400
-Received: by mail-oo1-f68.google.com with SMTP id z11so2701465oon.5;
-        Tue, 25 Aug 2020 06:32:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AoPa6tIoCK3whU9pBPzOcV5Uo3NIFh12F5Ac6ptY9h0=;
-        b=esWBPYuF9HYbSZYb8jEJOvte00O/TlqL1NLTlwOPPS2phgFLg4vg/MboaHH6bJ2sDL
-         yDcz646gKiAuHlZ1kDiBeN46mUK1pdkEq2AegPk3tIACBkFftyEbvB0j07d3LOeZeElS
-         sZNBMq/D25swdqtf3yuECW1b1YjDbFO+c06JCLsZVehjhry4HPhmhXChO1EzA954iteR
-         rpbJXwtFWsLemvfKtVRUm7bNZMKgfqI9WfH0JHW4E2rOMgrJ3onikuCC5zb8iryuw3vV
-         iefDq3C/oi3t4bELUTF4ov0zIIzufwyr6u/Cwuri723wFNWqqPNOOA39Znhys7t688va
-         +kzQ==
-X-Gm-Message-State: AOAM531QmEgY66wkH+OMM1hr/RrFmTOhk65t7YwpZnK1GJDAVQ2rPkoq
-        NYSs423cB7ZJP7pyf2x9x0sS0eAIHxD8gVxz8ng=
-X-Google-Smtp-Source: ABdhPJxLl4LjPnUw0osPkN7eyYfOkhZhX2vApW9KSn7zpZVt5FQDuryRNu96u+tAJACetGF/gPNsVbXqowakQy6v1oQ=
-X-Received: by 2002:a4a:275e:: with SMTP id w30mr7058474oow.40.1598362339606;
- Tue, 25 Aug 2020 06:32:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825104455.18000-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200825104455.18000-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200825104455.18000-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Aug 2020 15:32:08 +0200
-Message-ID: <CAMuHMdWmvcA8x-t=FgNOuMnAtw6j3OAgo8irmD5e2wrB+LfhHg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a774e1: Add PWM device nodes
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Tue, 25 Aug 2020 09:48:37 -0400
+X-IronPort-AV: E=Sophos;i="5.76,352,1592838000"; 
+   d="scan'208";a="55270482"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 25 Aug 2020 22:48:35 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BD02D4008C5D;
+        Tue, 25 Aug 2020 22:48:33 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH] clk: renesas: cpg-mssr: Add clk entry for VSPR
+Date:   Tue, 25 Aug 2020 14:48:06 +0100
+Message-Id: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 12:45 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
->
-> This patch adds PWM[0123456] device nodes to the RZ/G2H (a.k.a R8A774E1)
-> device tree.
->
-> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Add clock entry 130 for VSPR module, so that this module can be used
+on R8A7742 (RZ/G1H) SoC.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+Note: The entry for VSPR clock was accidentally dropped from RZ/G manual
+when all the information related to RT were removed.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+Similar details can be seen in commit 79ea9934b8df ("ARM: shmobile:
+r8a7790: Rename VSP1_(SY|RT) clocks to VSP1_(S|R)") for R-Car H2
+---
+ drivers/clk/renesas/r8a7742-cpg-mssr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-                        Geert
-
+diff --git a/drivers/clk/renesas/r8a7742-cpg-mssr.c b/drivers/clk/renesas/r8a7742-cpg-mssr.c
+index e919828668a4..28b24c4e9d7d 100644
+--- a/drivers/clk/renesas/r8a7742-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
+@@ -97,6 +97,7 @@ static const struct mssr_mod_clk r8a7742_mod_clks[] __initconst = {
+ 	DEF_MOD("tmu0",			 125,	R8A7742_CLK_CP),
+ 	DEF_MOD("vsp1du1",		 127,	R8A7742_CLK_ZS),
+ 	DEF_MOD("vsp1du0",		 128,	R8A7742_CLK_ZS),
++	DEF_MOD("vspr",			 130,	R8A7742_CLK_ZS),
+ 	DEF_MOD("vsp1-sy",		 131,	R8A7742_CLK_ZS),
+ 	DEF_MOD("scifa2",		 202,	R8A7742_CLK_MP),
+ 	DEF_MOD("scifa1",		 203,	R8A7742_CLK_MP),
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
