@@ -2,45 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E885A251274
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 08:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EE4D2512A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Aug 2020 09:10:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729180AbgHYG5C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Aug 2020 02:57:02 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37275 "EHLO
+        id S1729352AbgHYHKQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Aug 2020 03:10:16 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35150 "EHLO
         mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728440AbgHYG5B (ORCPT
+        with ESMTP id S1729287AbgHYHKP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Aug 2020 02:57:01 -0400
-Received: by mail-ot1-f65.google.com with SMTP id k2so2982494ots.4;
-        Mon, 24 Aug 2020 23:57:00 -0700 (PDT)
+        Tue, 25 Aug 2020 03:10:15 -0400
+Received: by mail-ot1-f65.google.com with SMTP id w10so3235231oti.2;
+        Tue, 25 Aug 2020 00:10:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QgmWakfGzlYbO0ljlUwKI6Yfn9O1Rwl8ggXKdPZE8fU=;
-        b=VPbFfGrtUDdMvtQHjSoZBm8rM67HXuetUVDp7jaNakl/ZOXXtRw5u21wPIuCHVF8ox
-         /e2LMwMgwpQE3+/FxEb5re1PcvxnC5j8Ywnn5kNds+032FHYxbJogGBDAaJ9FItGHFkw
-         QTOOlVaQZKvzP/huaMbC0aHBcCDnarh4g4wEmHg52u2urPfq50VmwoPf8sum0dTpJpJg
-         M7aXUelVIsDUEUM+xzNHDM6+IsH6+APVUpupeD64sGBEwCSLXRSaqxss2gUba2kS7OQu
-         LqsnR6BVI1KZSlPkY0/zJ7OnrmHW2rcAWaMJDxbu6upFPJn1SpVuuhYbxgkhQDb7dQTT
-         B2jA==
-X-Gm-Message-State: AOAM532kOHipqChR04iiNfvv8DsuYu5xkC/BAm/FW6cy4As7wfJBA0DZ
-        pubiCysqhHDdrtHP1FapvOYp+ZxEt+hdOfvEYZo=
-X-Google-Smtp-Source: ABdhPJzHQO0yAe1Cq0Vf1R8l/rKlVOnpJ3cb7ChgIvVfnCs4jMYfskKbRHQqJUGLZRmaTFbx+mBrA7mlVlM7MseFM50=
-X-Received: by 2002:a9d:7d8c:: with SMTP id j12mr6120302otn.250.1598338620365;
- Mon, 24 Aug 2020 23:57:00 -0700 (PDT)
+        bh=9nDSEan/YQK8xpD3cMjTRl5PnART66gSZqfe7bk+3Dk=;
+        b=o7HSZLMLH9LmTRwPHwrV9QJK3dBPuh+lY6IP3vbvY99skGz+exym6EGHHA1yCgtvuG
+         zSjfpQU6Hr7JC+H9q+VR2hvStmRDe28dN9Q/5iAetMdOfm/Q0+hGLEL/8pmpUkplc6YQ
+         zOpzIB+zIsiFmU5gAuTrf97ed6x9pPHJCTt0tErD03gDE6Hrz+zW/o7Qe80n6TW2o2hr
+         sYzz0niRl+PL6Y8Qn8eXuOASK+J67RJP2YoanEsh4ro9twuuAZkjoFyJXBVUrFQ1F8RD
+         BFi8o/bNNBVszIk9so9KeUvGEvCfDGrlh9gS8PF1thKh8f/M68gnwaDcYE2SExqJyWGI
+         vRDQ==
+X-Gm-Message-State: AOAM531/K46z9r5tK/BFmz65Sz3NVhI+DvGwcf2cIZ4bCARd16X+qJO/
+        AnRtm9NugKbqpdylF4Z/6np2mIEpFEtCbuOqzq+i4JGU
+X-Google-Smtp-Source: ABdhPJzktU2jr2lEJIVOdCGe2RQWv3GyPKEPdccH+4NA5/fJfRoBro6fywfIEEM8c3bRhFK0bkb/aHmDD5Fw9XKE6gQ=
+X-Received: by 2002:a9d:32e5:: with SMTP id u92mr5545078otb.107.1598339414496;
+ Tue, 25 Aug 2020 00:10:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821111956.4989-1-geert+renesas@glider.be> <20200824091340.htydmmo2fazq2gku@uno.localdomain>
-In-Reply-To: <20200824091340.htydmmo2fazq2gku@uno.localdomain>
+References: <20200821111401.4021-1-geert+renesas@glider.be> <20200824083007.x3l6ujn3mi5xhrsy@uno.localdomain>
+In-Reply-To: <20200824083007.x3l6ujn3mi5xhrsy@uno.localdomain>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Aug 2020 08:56:49 +0200
-Message-ID: <CAMuHMdWy=jsFf2CyyiG6H5i0jNX8pg65y-1AEzA0XK7LB9--Xw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: rza1: Convert to json-schema
+Date:   Tue, 25 Aug 2020 09:10:02 +0200
+Message-ID: <CAMuHMdVaaNx2MbUiNKmvy=SnaDFEqpDVUNE7f+ftw4kw7Z=5gw@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: rza1: Switch to using "output-enable"
 To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Chris Brandt <chris.brandt@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
@@ -54,106 +52,37 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On Mon, Aug 24, 2020 at 11:09 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> On Fri, Aug 21, 2020 at 01:19:56PM +0200, Geert Uytterhoeven wrote:
-> > Convert the Renesas RZ/A1 combined Pin and GPIO controller Device Tree
-> > binding documentation to json-schema.
+On Mon, Aug 24, 2020 at 10:26 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+> On Fri, Aug 21, 2020 at 01:14:01PM +0200, Geert Uytterhoeven wrote:
+> > For pins requiring software driven IO output operations, the RZ/A1 Pin
+> > Controller uses either the "output-high" or "output-low" DT property to
+> > enable the corresponding output buffer.  The actual line value doesn't
+> > matter, as it is ignored.
 > >
-> > Rename "rza1-pinctrl" to "rza1-ports", to match the compatible value
-> > scheme.
-> > Use "pinctrl" generic node name.
-> > Drop generic and consumer examples, as they do not belong here.
+> > Commit 425562429d4f3b13 ("pinctrl: generic: Add output-enable property")
+> > introduced a new DT property for this specific use case.
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rza1-ports.yaml
-
-> > +    properties:
-> > +      gpio-controller: true
-> > +
-> > +      '#gpio-cells':
-> > +        const: 2
-> > +
-> > +      gpio-ranges:
-> > +        maxItems: 1
-> > +
-> > +    required:
-> > +      - gpio-controller
+> > Update the RZ/A1 Pin Controller DT bindings and driver to use this new
+> > property instead.  Preserve backwards compatibility with old DTBs in the
+> > driver, as this comes at a very small cost.
+> >
+> > Notes:
+> >   - The DT binding examples already used the new property,
+> >   - There are no upstream users of the old properties.
+> >
 >
-> Doesn't 'true' imply required ?
+> Did we introduce output-enable after the rza1 pinctrl and forgot to
+> update ? Good catch anyway
 
-No, true means that a property for which the schema is declared
-elsewhere is applicable here.
+"output-enable" was introduced in response to early review comments
+on the rza1 pinctrl driver, and both changes went upstream through
+the same sh-pfc pull request.  Seems like part of the update was just
+forgotten.
 
-> > +      - '#gpio-cells'
-> > +      - gpio-ranges
-> > +
-> > +
-> > +additionalProperties:
-> > +  anyOf:
->
-> Confused by this part. This describes a GPIO consumer, doesn't it ?
-> Does this part belong here ?
+> Great! For both parts:
+> Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 
-It describes the ping multiplexing sub-node, as a child (first item of
-anOf), or grandchild (second item of anyOf).
-
-> > +    - type: object
-> > +      allOf:
-> > +        - $ref: pincfg-node.yaml#
-> > +        - $ref: pinmux-node.yaml#
-> > +
-> > +      description:
-> > +        A pin multiplexing sub-node describes how to configure a set of (or a
-> > +        single) pin in some desired alternate function mode.
-> > +        A single sub-node may define several pin configurations.
-> > +        A few alternate function require special pin configuration flags to be
-> > +        supplied along with the alternate function configuration number.
-> > +        The hardware reference manual specifies when a pin function requires
-> > +        "software IO driven" mode to be specified. To do so use the generic
-> > +        properties from the <include/linux/pinctrl/pinconf_generic.h> header
-> > +        file to instruct the pin controller to perform the desired pin
-> > +        configuration operation.
-> > +        The hardware reference manual specifies when a pin has to be configured
-> > +        to work in bi-directional mode and when the IO direction has to be
-> > +        specified by software. Bi-directional pins must be managed by the pin
-> > +        controller driver internally, while software driven IO direction has to
-> > +        be explicitly selected when multiple options are available.
-> > +
-> > +      properties:
-> > +        pinmux:
-> > +          description: |
-> > +            Integer array representing pin number and pin multiplexing
-> > +            configuration.
-> > +            When a pin has to be configured in alternate function mode, use
-> > +            this property to identify the pin by its global index, and provide
-> > +            its alternate function configuration number along with it.
-> > +            When multiple pins are required to be configured as part of the
-> > +            same alternate function they shall be specified as members of the
-> > +            same argument list of a single "pinmux" property.
-> > +            Helper macros to ease assembling the pin index from its position
-> > +            (port where it sits on and pin number) and alternate function
-> > +            identifier are provided by the pin controller header file at:
-> > +            <include/dt-bindings/pinctrl/r7s72100-pinctrl.h>
-> > +            Integers values in "pinmux" argument list are assembled as:
-> > +            ((PORT * 16 + PIN) | MUX_FUNC << 16)
-> > +
-> > +        phandle: true
-> > +        input-enable: true
-> > +        output-enable: true
-> > +
-> > +      required:
-> > +        - pinmux
-> > +
-> > +      additionalProperties: false
-> > +
-> > +    - type: object
-> > +      properties:
-> > +        phandle: true
-> > +
-> > +      additionalProperties:
-> > +        $ref: "#/additionalProperties/anyOf/0"
+Thanks!
 
 Gr{oetje,eeting}s,
 
