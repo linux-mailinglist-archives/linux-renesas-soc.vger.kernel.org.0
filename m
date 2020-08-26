@@ -2,163 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A35DC2527F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Aug 2020 08:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F0CC252964
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Aug 2020 10:42:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgHZG67 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Aug 2020 02:58:59 -0400
-Received: from mail-eopbgr1410120.outbound.protection.outlook.com ([40.107.141.120]:7776
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726233AbgHZG65 (ORCPT
+        id S1727124AbgHZIml (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Aug 2020 04:42:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726817AbgHZImk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Aug 2020 02:58:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Z5gyUhC3pC3pnKmMQsonjLbwxw6x8Eob5j8+wjk7z/nqeKD/Qv1Dwznmbq/v1T2zQ/PH0ZUem8BOR4e+jUST5Szx+7PmAxEIEM0RxUv9OyqJbp1sb6w8O+d2aDgzO24578RTE7LkhVQt/wCyGJzmdI3jeGVdbNe3Tjd4zWDjgvDRIgEpkgsPVKqrM4umIfbyG5HmtJDEOx4vuxsp6DWPuodTHIOijopQVtKNDr/Dqzqbakqx8UNEpJIkBh/rkKWrW5QMqsi+/hONmUTjKVTD1AbX7MitSXQBAX9mPwxFLqz2otQo7rNggEZGtUjkHa4nCE6IRG8K0RB8M0M9kiQ6Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
- b=UJeINnWt7E7IhKnEkagayT90evNyICgdaY5aeSygXW6gDF7RxWzf78v+eBsseyDxzJZrjf3d3UvFpoT9xzR5AH3KdXt7wGyIuvmygvEm+l2LfrTOeAYLhItmDTnbVfdetPt//Qk2hCCYK8WCFG1QgCzqi9NzM2AeESGoITSE8PTKAZ95q2tfyG83WPsO/CqKiuruziqyprvVLRoc4J/jGTXnjTbfbgx98M0Hou9sHDCVKKrRaMTXuH8K/t8fnvrSwpQlGJnx/9Y0+H2IRM1oUgwEKRLFJ/jYXvhQbtznfEeonTmlNLyFpeFo6VP34UqQ7METEX+Dwu1xNr/+0Ydi7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Wed, 26 Aug 2020 04:42:40 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7D25C061574;
+        Wed, 26 Aug 2020 01:42:39 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id e187so527678ybc.5;
+        Wed, 26 Aug 2020 01:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
- b=qyh/NyGgz9fDBkhwmZvLsmJuvG5fyBKM+P1FaDh7x9AnxhS4jpONgQ6EAaJjbOVYHcqSb+vl2M8ED+GKE8pVihvSsKx53zHXIgj3q/NdCvydQxUQltSNMIfXdJ3ZrxdMDqjhHiNeQeCdrL0YzagGQEkxp8fC6AdlcGuJb741oIE=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TYXPR01MB1774.jpnprd01.prod.outlook.com
- (2603:1096:403:e::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Wed, 26 Aug
- 2020 06:58:51 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::c141:37ba:af8c:b2ee%7]) with mapi id 15.20.3305.026; Wed, 26 Aug 2020
- 06:58:51 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Rob Herring <robh@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec: Document
- vcc-supply property
-Thread-Topic: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
- Document vcc-supply property
-Thread-Index: AQHWbyoRJ5YsTeOuoUOFPAjubrX+m6lH96UAgACHhvA=
-Date:   Wed, 26 Aug 2020 06:58:50 +0000
-Message-ID: <TYBPR01MB5309756E7E19EF34562FAB5E86540@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20200810152219.6254-1-biju.das.jz@bp.renesas.com>
- <20200810152219.6254-2-biju.das.jz@bp.renesas.com>
- <20200824230458.GA3489164@bogus>
-In-Reply-To: <20200824230458.GA3489164@bogus>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
-x-originating-ip: [109.154.85.152]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
-x-ms-traffictypediagnostic: TYXPR01MB1774:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB1774D8040FFE05705D98D4CD86540@TYXPR01MB1774.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ZZJvEMqMpOZn1MwbsUgVb7vXmo+5J7NxozBypCR7eTgCzBTgSiDFw0+F5f/A9Af2QU2rWJth3lmOozbQ0xn6UblZgSZHSectKWjO8ZiBW8GrbU8sKnpg0VUXZlfB3HbY1ra64vKEl94T/+wkOBEvZN4v4iWJE0kZNKdgtTjH0AlKzik6pk5MhIkOzxv0Ou2+YkPqpFG5hc7tO7KLVPRocL2T/JUgy7aTYqnq4TNlTn6CxaHG3KCyO8sYliwdsTHO+jRcMvtSFMueoDvLWgQeO3bQRLEzlnaMpigjlNpyQkY3cIr0Cf6YcLWOAdccLYlmcJJXrsAIp78gesmOm0m0pdynUbIusD3XbiU/BSvm3ORD/7R7DJDEjmoeaq4DrKBuT3+QSMA6HPNRAAPR1TxkQQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(6506007)(86362001)(4326008)(66556008)(26005)(66946007)(66446008)(64756008)(5660300002)(2906002)(66476007)(76116006)(71200400001)(8936002)(55016002)(316002)(7696005)(33656002)(7416002)(9686003)(54906003)(8676002)(110136005)(186003)(52536014)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: aIBq/B9gm3ErzsmQL5zCWVKUDfCIqT4S/1BGeHCtT2o/dVsZTyxMt49eJw27bWizkSxZi8XpCZJkN/bDXPPIpQnQEWp35j0tOfKZ5ZxXiXE7ypnI5qMBlyDd0XOkWXZIQ1zMuAzK1q7otXWF1/iJJDnX+BhNowyxDT+7QnDuZ+PfrllQcE+yRfWYDO95GldrhmBWMY6oM2euNUxLDSuGRS/U4KFOuFH8rg4oyISJvno/Dm8mFFDiC9KXQ3k6MewtrINnZF8pImnQkLitZjb+ssUolzRmpOzsaupfzPIFe6s4g93snFgsn44i9uawwFfZ6oF4+e8azVfycppO+qCCSqtJj1HdnuGKy6dtj2pAhkQnGuQJ4Hk6IPnnQ+WwcApQ7VwQm6Ro0PpNoKtEZXKtHw+fOq74NwkSxh4RMb22kPHdDceP96le8D2pem5AAeT1VAPR9Bdh3HJijHh83qqU32ZIMD3xPjCvb+cZhEOSc9NFn8A61RucBKhwdhFx1P1YuuWwSMn3rh6WAp5kSRg0BdLFFKhv9gija0353ZSzEqiCpzWNunsQ2I2CJTZ7Cab6Q8nNp6yunkL+Pgqbeaeolw1wwXB5TxvsS2PrJVVQhIjXw7X8NoTdEP08TOOXaNcq2Ks9yc5AjfowDnNDpIqq2A==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5ViRH3laE2QbcXmDZtwWF8vjYiOD2tb9bGM2bDxMEN8=;
+        b=X0VVbmuUJHi6o5GDPu5Rii7Jn/Fo8SgPsvLw/ez1EoYyPNAEMbIhIqEtb8L3eUXbEB
+         v3OyK5N9Z4r9C6Coen1ap1iN1J8pP81oVIAiZ1zCS/VIRPVXdZigVv3sl0r8s1XpxRJF
+         lgtV1tDHzgDwUw62d/V2vMUwvHw4qEVL7cDZmxsH5bgiwnocbPCE6kw2fQaodfOlPuiD
+         ATF3K/hFS27Pnh1Hcq80exFSgA0s44mjOnAGufxdwYvodR+ptOg6qe7BO+rH0CLpHlh0
+         0ivEWiu+cMDdRCV59zzJsam8m831izTlLsPTAPgXlafjuMx/w2l5ZQWfhtv2Ib2jJHHs
+         cUcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5ViRH3laE2QbcXmDZtwWF8vjYiOD2tb9bGM2bDxMEN8=;
+        b=uToHZRSiulkRnREmbc0zKOOx4zq6mwbsf56LIzvrTPM8yMhe58KGe5r9l1CpZNdasi
+         1ZtlZpAz3bGATLtLzEzaGhQj8IaRmGkKMhnhgjLg0G3w6LfseC7sVSjQFL2rakfVgxch
+         7FffL0/3UtnXPgVm4aSGMHXaXga1sCpYP+6cskrhBe4CoKZMOBZDIpeu86HsrLiRJmPc
+         xJZvg+Ct7jywygTNgpvJBzlJtfFoP8x2LKja8ki8kTpX2T0ULezj2j0x3TnbmBP/iaoy
+         /zeTo2XKpw25I5uFOArrs+OMsdvo9ZVzWy7GYqdWbo7tIXbZNSuVLWCzjI3KMjh6ew+H
+         W69g==
+X-Gm-Message-State: AOAM530sqRsRKh9gR+MlvF0eUxT9UwB5SIOTsvpCHYuJmEFrKEGX9HHd
+        ACmrOnvM9RtWcZnmBXGvJB+2BdN+OGgN/HNpcC9eRVez4ww=
+X-Google-Smtp-Source: ABdhPJydZXzgmPSm5JZRguhED1DhJVJC8Twsauvyt4K0uczjLU0+k0YjqfEeXomhfbtwgHveaq2Z2SnvbsMz60CworU=
+X-Received: by 2002:a25:8149:: with SMTP id j9mr20646722ybm.214.1598431358936;
+ Wed, 26 Aug 2020 01:42:38 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 06:58:50.9349
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QEoeP67DWHxSc9b5d2ncIrgloUseQV/14VwhDcyv/B8esZoszVmuq8gp+2QgC1caF4SAqTleagwRb5tEqwJtMw1mhRSLI1I31rOtus5+G+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1774
+References: <20200818122012.37956-1-jacopo+renesas@jmondi.org>
+ <20200818122012.37956-4-jacopo+renesas@jmondi.org> <20200819135423.GL6049@pendragon.ideasonboard.com>
+ <CA+V-a8sxDJXrGM-MYEwNS=D-eyA6oTRvDU3YT7Uu5Ph5kFh15w@mail.gmail.com> <20200822013558.GN5967@pendragon.ideasonboard.com>
+In-Reply-To: <20200822013558.GN5967@pendragon.ideasonboard.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 26 Aug 2020 09:42:12 +0100
+Message-ID: <CA+V-a8uUp1XLEo_w=5vaVgXfCeepCg6SdXz_27RX6=gYR4bM8w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dt-bindings: media: ov772x: Document endpoint props
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Laurent,
 
-Thanks for the feedback.
-
-> Subject: Re: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
-> Document vcc-supply property
+On Sat, Aug 22, 2020 at 2:36 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> On Mon, Aug 10, 2020 at 04:22:17PM +0100, Biju Das wrote:
-> > Document optional vcc-supply property that may be used as VCC source.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > New patch Ref: Ref:https://patchwork.kernel.org/patch/11705819/
-> > ---
-> >  .../devicetree/bindings/display/bridge/lvds-codec.yaml         | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > index 68951d56ebba..3248be31eceb 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-
-> codec.yaml
-> > @@ -79,6 +79,9 @@ properties:
-> >        The GPIO used to control the power down line of this device.
-> >      maxItems: 1
-> >
-> > +  vcc-supply:
-> > +    maxItems: 1
+> Hi Prabhakar,
 >
-> Probably should be 'power-supply' to align with the 'simple' panels.
-> That's also to signify there's only 1 supply. Using 'vcc' would encourage
-> adding 'vdd-supply', 'vddio-supply', etc. A second supply I'll NAK becaus=
-e at
-> that point it's not a simple bridge with no configuration (it's arguably =
-already
-> there).
-
-Yes, I am ok with 'power-supply', since LVDS CODEC driver is  generic and a=
-lso to align with terminology used in generic 'simple' panels.
-
-In our case this Receiver converts LVDS signals to RGB signals and fed this=
- signal to simple panel.
-On the receiver part, We need to supply  power to TTL output,  PLL and LVDS=
- input. It all derived from the single power source.
-
-Laurent, Please share you opinion on this.
+> On Fri, Aug 21, 2020 at 12:37:35PM +0100, Lad, Prabhakar wrote:
+> > On Wed, Aug 19, 2020 at 2:54 PM Laurent Pinchart wrote:
+> > > On Tue, Aug 18, 2020 at 02:20:12PM +0200, Jacopo Mondi wrote:
+> > > > Document endpoint properties for the parallel bus type and
+> > > > add them to the example.
+> > > >
+> > > > Specify a few constraints:
+> > > > - If the bus type is BT.656 no hsync or vsycn polarities can be
+> > > >   specified.
+> > > > - If the bus width is 10 bits, not data-shift can be applied.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > ---
+> > > >  .../devicetree/bindings/media/i2c/ov772x.yaml | 43 +++++++++++++++++++
+> > > >  1 file changed, 43 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > index 75dad40f70cc..3fad5dffd19a 100644
+> > > > --- a/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov772x.yaml
+> > > > @@ -50,9 +50,47 @@ properties:
+> > > >            bus-type:
+> > > >              enum: [5, 6]
+> > > >
+> > > > +          bus-width:
+> > > > +            enum: [8, 10]
+> > > > +            default: 10
+> > > > +
+> > > > +          data-shift:
+> > > > +            enum: [0, 2]
+> > > > +            default: 0
+> > > > +
+> > > > +          hsync-active:
+> > > > +            enum: [0, 1]
+> > > > +            default: 1
+> > > > +
+> > > > +          vsync-active:
+> > > > +            enum: [0, 1]
+> > > > +            default: 1
+> > > > +
+> > > > +          pclk-sample:
+> > > > +            enum: [0, 1]
+> > > > +            default: 1
+> > > > +
+> > > >            remote-endpoint:
+> > > >              description: A phandle to the bus receiver's endpoint node.
+> > > >
+> > > > +        allOf:
+> > > > +          - if:
+> > > > +              properties:
+> > > > +                bus-type:
+> > > > +                  const: 6
+> > > > +            then:
+> > > > +                properties:
+> > > > +                  hsync-active: false
+> > > > +                  vsync-active: false
+> > > > +
+> > > > +          - if:
+> > > > +              properties:
+> > > > +                bus-width:
+> > > > +                  const: 10
+> > > > +            then:
+> > > > +                properties:
+> > > > +                  data-shift:
+> > > > +                    const: 0
+> > >
+> > > I'd add a blank line here.
+> > >
+> > > >          required:
+> > > >            - bus-type
+> > >
+> > > Should some of the properties be required ? Possibly conditioned on
+> > > bus-type ?
+> >
+> > Agreed, would be interesting to know how this can be handled (split
+> > out bus-type and add required properties for each) ?
+>
+> We can add required: statements to the above if/then/else.
+>
+Aha thanks for pointing out. (I hadn't come across such cases)
 
 Cheers,
-Biju
-
-
-
-
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
-, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
-40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
-f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
-EE reg. no.: DE 14978647
+Prabhakar
