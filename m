@@ -2,186 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8193252757
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Aug 2020 08:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35DC2527F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Aug 2020 08:58:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727042AbgHZGhG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Aug 2020 02:37:06 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:39429 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726700AbgHZGfq (ORCPT
+        id S1726698AbgHZG67 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Aug 2020 02:58:59 -0400
+Received: from mail-eopbgr1410120.outbound.protection.outlook.com ([40.107.141.120]:7776
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726233AbgHZG65 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Aug 2020 02:35:46 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200826063543euoutp02dcd4a3f117f6d183b4bc8d7e9cfb17fa~uve0IuEcM1511215112euoutp02j
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Aug 2020 06:35:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200826063543euoutp02dcd4a3f117f6d183b4bc8d7e9cfb17fa~uve0IuEcM1511215112euoutp02j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1598423743;
-        bh=65zQC7AbXs+h4Aa/SkiEZNz20G0ZAx6H0WtGo6ycvZM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dWT52Awlm4gqVLEp3kqywxwyfq+KCqGD1SBaKoi62kPVnoJLqMmOoaiZ0vnKwqhPu
-         Ef/UA+iAIig00CbIV2BuTE52Rng4/bc9ozquGfx9rpXDlXXHjCo/1HImpj+C7A5W4i
-         XoTGfxgWLlgbBm8LKzMNsBtKE/wDI93IKlIsjOC4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200826063543eucas1p2e8bc6be839b341278d16e475eefc6b3c~uvezyXUaX0399203992eucas1p2f;
-        Wed, 26 Aug 2020 06:35:43 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 06.5D.06318.FB2064F5; Wed, 26
-        Aug 2020 07:35:43 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200826063542eucas1p18d9d201e3e26c08d26c3ea2a2b2a079d~uvezeH2E71480714807eucas1p1Z;
-        Wed, 26 Aug 2020 06:35:42 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200826063542eusmtrp1e1d9331ff012d41c9f223c8a3c4086a6~uvezdcq9M1091110911eusmtrp1j;
-        Wed, 26 Aug 2020 06:35:42 +0000 (GMT)
-X-AuditID: cbfec7f5-38bff700000018ae-f6-5f4602bf1578
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id AD.D0.06314.EB2064F5; Wed, 26
-        Aug 2020 07:35:42 +0100 (BST)
-Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200826063542eusmtip2f037eb45b2c2c16bde5d8b2a0311e40f~uvey005km0474104741eusmtip2X;
-        Wed, 26 Aug 2020 06:35:42 +0000 (GMT)
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v9 25/32] drm: rcar-du: fix common struct sg_table related
- issues
-Date:   Wed, 26 Aug 2020 08:33:09 +0200
-Message-Id: <20200826063316.23486-26-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200826063316.23486-1-m.szyprowski@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNKsWRmVeSWpSXmKPExsWy7djP87r7mdziDVYtY7HoPXeSyWLjjPWs
-        Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HStm9Gic+ISdosvVx4yWWx6fI3V4vKuOWwWPRu2slps
-        ffmOyWLtkbvsFss2/WGyOPjhCauDgMeaeWsYPfZ+W8DiMbtjJqvHplWdbB7bvz1g9bjffZzJ
-        Y/OSeo/b/x4ze0y+sZzRY/fNBjaPvi2rGD0+b5IL4InisklJzcksSy3St0vgythy9TpbwX+J
-        illf/jA2MP4S6WLk5JAQMJH4++0YSxcjF4eQwApGiXk/57FCOF8YJR7s+MYM4XxmlDj/7gA7
-        TMuhJ21QVcsZJc4d/8cI17LodicTSBWbgKFE19suNhBbRKCVUeJELw+IzSzwh1li+hx7EFtY
-        IFhi5penzCA2i4CqROPyfrBeXgE7ifNTJkNtk5dYveEAWA0nUPx4dz8byDIJgUfsErubHzNB
-        FLlIfJs3F8oWlnh1fAtUs4zE6ck9LBANzYwSD8+tZYdwehglLjfNYISospa4c+4X0FgOoPM0
-        Jdbv0ocIO0o0NvaDhSUE+CRuvBWEeIBPYtK26cwQYV6JjjYhiGo1iVnH18GtPXjhEjOE7SHx
-        6fUeaGhNZJTYuegW+wRG+VkIyxYwMq5iFE8tLc5NTy02zkst1ytOzC0uzUvXS87P3cQITGKn
-        /x3/uoNx35+kQ4wCHIxKPLwL2FzjhVgTy4orcw8xSnAwK4nwOp09HSfEm5JYWZValB9fVJqT
-        WnyIUZqDRUmc13jRy1ghgfTEktTs1NSC1CKYLBMHp1QDY+DD53pOjau0I3R3KehO3Gi/cmvN
-        Jfvrn/sPO3p3HNHufmO+NOBNzl3j6T739vnn6xkxbwy9cOJMd9ThCr2rbds9AjL/lP9bKTLz
-        YCX3vPPcW249n/1PeJbt1ms6vheP+i6zLgi6d+fgn85pk2sjhL2iNcNabLbqTLs2KTXR0cB0
-        +U5GHjufPUosxRmJhlrMRcWJAIGwLuZeAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xe7r7mNziDXbM17PoPXeSyWLjjPWs
-        Fv+3TWS2uPL1PZvFytVHmSwW7Le2+HStm9Gic+ISdosvVx4yWWx6fI3V4vKuOWwWPRu2slps
-        ffmOyWLtkbvsFss2/WGyOPjhCauDgMeaeWsYPfZ+W8DiMbtjJqvHplWdbB7bvz1g9bjffZzJ
-        Y/OSeo/b/x4ze0y+sZzRY/fNBjaPvi2rGD0+b5IL4InSsynKLy1JVcjILy6xVYo2tDDSM7S0
-        0DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy9hy9TpbwX+Jillf/jA2MP4S6WLk5JAQMJE4
-        9KSNtYuRi0NIYCmjxJTXl1ghEjISJ6c1QNnCEn+udbFBFH1ilOi4cZENJMEmYCjR9RYiISLQ
-        ySgxrfsjO4jDLNDCIvHh00MWkCphgUCJzZvvgNksAqoSjcv7mUBsXgE7ifNTJrNDrJCXWL3h
-        ADOIzQkUP97dD7ZBSMBW4vTaGcwTGPkWMDKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECIyq
-        bcd+bt7BeGlj8CFGAQ5GJR7eBWyu8UKsiWXFlbmHGCU4mJVEeJ3Ono4T4k1JrKxKLcqPLyrN
-        SS0+xGgKdNREZinR5HxgxOeVxBuaGppbWBqaG5sbm1koifN2CByMERJITyxJzU5NLUgtgulj
-        4uCUamAsq9GY/iv5FEOEuETKrfkR3FsOxredcPsVE5/eWOxzZbdLdp5POL/WlOba/q9XUl/d
-        PX2xY4bPt0cbdaYeMXcqXrjklUQi35mg3Xellj29V1Z3RMEiPXa188cetoO8i5jMstTu/Lwy
-        qfnt21/2m/dMCVhyWcI/aYXdu5gylctpZ14lVvyezG+nxFKckWioxVxUnAgAjcMSzsACAAA=
-X-CMS-MailID: 20200826063542eucas1p18d9d201e3e26c08d26c3ea2a2b2a079d
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200826063542eucas1p18d9d201e3e26c08d26c3ea2a2b2a079d
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200826063542eucas1p18d9d201e3e26c08d26c3ea2a2b2a079d
-References: <20200826063316.23486-1-m.szyprowski@samsung.com>
-        <CGME20200826063542eucas1p18d9d201e3e26c08d26c3ea2a2b2a079d@eucas1p1.samsung.com>
+        Wed, 26 Aug 2020 02:58:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z5gyUhC3pC3pnKmMQsonjLbwxw6x8Eob5j8+wjk7z/nqeKD/Qv1Dwznmbq/v1T2zQ/PH0ZUem8BOR4e+jUST5Szx+7PmAxEIEM0RxUv9OyqJbp1sb6w8O+d2aDgzO24578RTE7LkhVQt/wCyGJzmdI3jeGVdbNe3Tjd4zWDjgvDRIgEpkgsPVKqrM4umIfbyG5HmtJDEOx4vuxsp6DWPuodTHIOijopQVtKNDr/Dqzqbakqx8UNEpJIkBh/rkKWrW5QMqsi+/hONmUTjKVTD1AbX7MitSXQBAX9mPwxFLqz2otQo7rNggEZGtUjkHa4nCE6IRG8K0RB8M0M9kiQ6Sg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
+ b=UJeINnWt7E7IhKnEkagayT90evNyICgdaY5aeSygXW6gDF7RxWzf78v+eBsseyDxzJZrjf3d3UvFpoT9xzR5AH3KdXt7wGyIuvmygvEm+l2LfrTOeAYLhItmDTnbVfdetPt//Qk2hCCYK8WCFG1QgCzqi9NzM2AeESGoITSE8PTKAZ95q2tfyG83WPsO/CqKiuruziqyprvVLRoc4J/jGTXnjTbfbgx98M0Hou9sHDCVKKrRaMTXuH8K/t8fnvrSwpQlGJnx/9Y0+H2IRM1oUgwEKRLFJ/jYXvhQbtznfEeonTmlNLyFpeFo6VP34UqQ7METEX+Dwu1xNr/+0Ydi7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LvkAmPcijhIlxIlmaTUVh/j2xltJNDNyDiMLhSSt6zM=;
+ b=qyh/NyGgz9fDBkhwmZvLsmJuvG5fyBKM+P1FaDh7x9AnxhS4jpONgQ6EAaJjbOVYHcqSb+vl2M8ED+GKE8pVihvSsKx53zHXIgj3q/NdCvydQxUQltSNMIfXdJ3ZrxdMDqjhHiNeQeCdrL0YzagGQEkxp8fC6AdlcGuJb741oIE=
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ (2603:1096:404:8025::15) by TYXPR01MB1774.jpnprd01.prod.outlook.com
+ (2603:1096:403:e::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.24; Wed, 26 Aug
+ 2020 06:58:51 +0000
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::c141:37ba:af8c:b2ee]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::c141:37ba:af8c:b2ee%7]) with mapi id 15.20.3305.026; Wed, 26 Aug 2020
+ 06:58:51 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec: Document
+ vcc-supply property
+Thread-Topic: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
+ Document vcc-supply property
+Thread-Index: AQHWbyoRJ5YsTeOuoUOFPAjubrX+m6lH96UAgACHhvA=
+Date:   Wed, 26 Aug 2020 06:58:50 +0000
+Message-ID: <TYBPR01MB5309756E7E19EF34562FAB5E86540@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <20200810152219.6254-1-biju.das.jz@bp.renesas.com>
+ <20200810152219.6254-2-biju.das.jz@bp.renesas.com>
+ <20200824230458.GA3489164@bogus>
+In-Reply-To: <20200824230458.GA3489164@bogus>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
+x-originating-ip: [109.154.85.152]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
+x-ms-traffictypediagnostic: TYXPR01MB1774:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYXPR01MB1774D8040FFE05705D98D4CD86540@TYXPR01MB1774.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZZJvEMqMpOZn1MwbsUgVb7vXmo+5J7NxozBypCR7eTgCzBTgSiDFw0+F5f/A9Af2QU2rWJth3lmOozbQ0xn6UblZgSZHSectKWjO8ZiBW8GrbU8sKnpg0VUXZlfB3HbY1ra64vKEl94T/+wkOBEvZN4v4iWJE0kZNKdgtTjH0AlKzik6pk5MhIkOzxv0Ou2+YkPqpFG5hc7tO7KLVPRocL2T/JUgy7aTYqnq4TNlTn6CxaHG3KCyO8sYliwdsTHO+jRcMvtSFMueoDvLWgQeO3bQRLEzlnaMpigjlNpyQkY3cIr0Cf6YcLWOAdccLYlmcJJXrsAIp78gesmOm0m0pdynUbIusD3XbiU/BSvm3ORD/7R7DJDEjmoeaq4DrKBuT3+QSMA6HPNRAAPR1TxkQQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(6506007)(86362001)(4326008)(66556008)(26005)(66946007)(66446008)(64756008)(5660300002)(2906002)(66476007)(76116006)(71200400001)(8936002)(55016002)(316002)(7696005)(33656002)(7416002)(9686003)(54906003)(8676002)(110136005)(186003)(52536014)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: aIBq/B9gm3ErzsmQL5zCWVKUDfCIqT4S/1BGeHCtT2o/dVsZTyxMt49eJw27bWizkSxZi8XpCZJkN/bDXPPIpQnQEWp35j0tOfKZ5ZxXiXE7ypnI5qMBlyDd0XOkWXZIQ1zMuAzK1q7otXWF1/iJJDnX+BhNowyxDT+7QnDuZ+PfrllQcE+yRfWYDO95GldrhmBWMY6oM2euNUxLDSuGRS/U4KFOuFH8rg4oyISJvno/Dm8mFFDiC9KXQ3k6MewtrINnZF8pImnQkLitZjb+ssUolzRmpOzsaupfzPIFe6s4g93snFgsn44i9uawwFfZ6oF4+e8azVfycppO+qCCSqtJj1HdnuGKy6dtj2pAhkQnGuQJ4Hk6IPnnQ+WwcApQ7VwQm6Ro0PpNoKtEZXKtHw+fOq74NwkSxh4RMb22kPHdDceP96le8D2pem5AAeT1VAPR9Bdh3HJijHh83qqU32ZIMD3xPjCvb+cZhEOSc9NFn8A61RucBKhwdhFx1P1YuuWwSMn3rh6WAp5kSRg0BdLFFKhv9gija0353ZSzEqiCpzWNunsQ2I2CJTZ7Cab6Q8nNp6yunkL+Pgqbeaeolw1wwXB5TxvsS2PrJVVQhIjXw7X8NoTdEP08TOOXaNcq2Ks9yc5AjfowDnNDpIqq2A==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43cd9966-65ff-42c8-b2c3-08d8498d7d13
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2020 06:58:50.9349
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QEoeP67DWHxSc9b5d2ncIrgloUseQV/14VwhDcyv/B8esZoszVmuq8gp+2QgC1caF4SAqTleagwRb5tEqwJtMw1mhRSLI1I31rOtus5+G+w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1774
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-returns the number of the created entries in the DMA address space.
-However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-dma_unmap_sg must be called with the original number of the entries
-passed to the dma_map_sg().
+Hi Rob,
 
-struct sg_table is a common structure used for describing a non-contiguous
-memory buffer, used commonly in the DRM and graphics subsystems. It
-consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-and DMA mapped pages (nents entry).
+Thanks for the feedback.
 
-It turned out that it was a common mistake to misuse nents and orig_nents
-entries, calling DMA-mapping functions with a wrong number of entries or
-ignoring the number of mapped entries returned by the dma_map_sg()
-function.
+> Subject: Re: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec:
+> Document vcc-supply property
+>
+> On Mon, Aug 10, 2020 at 04:22:17PM +0100, Biju Das wrote:
+> > Document optional vcc-supply property that may be used as VCC source.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > New patch Ref: Ref:https://patchwork.kernel.org/patch/11705819/
+> > ---
+> >  .../devicetree/bindings/display/bridge/lvds-codec.yaml         | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > index 68951d56ebba..3248be31eceb 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-
+> codec.yaml
+> > @@ -79,6 +79,9 @@ properties:
+> >        The GPIO used to control the power down line of this device.
+> >      maxItems: 1
+> >
+> > +  vcc-supply:
+> > +    maxItems: 1
+>
+> Probably should be 'power-supply' to align with the 'simple' panels.
+> That's also to signify there's only 1 supply. Using 'vcc' would encourage
+> adding 'vdd-supply', 'vddio-supply', etc. A second supply I'll NAK becaus=
+e at
+> that point it's not a simple bridge with no configuration (it's arguably =
+already
+> there).
 
-To avoid such issues, lets use a common dma-mapping wrappers operating
-directly on the struct sg_table objects and use scatterlist page
-iterators where possible. This, almost always, hides references to the
-nents and orig_nents entries, making the code robust, easier to follow
-and copy/paste safe.
+Yes, I am ok with 'power-supply', since LVDS CODEC driver is  generic and a=
+lso to align with terminology used in generic 'simple' panels.
 
-dma_map_sgtable() function returns zero or an error code, so adjust the
-return value check for the vsp1_du_map_sg() function.
+In our case this Receiver converts LVDS signals to RGB signals and fed this=
+ signal to simple panel.
+On the receiver part, We need to supply  power to TTL output,  PLL and LVDS=
+ input. It all derived from the single power source.
 
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 3 +--
- drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+Laurent, Please share you opinion on this.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f1a81c9b184d..a27bff999649 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -197,9 +197,8 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
- 			goto fail;
- 
- 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
--		if (!ret) {
-+		if (ret) {
- 			sg_free_table(sgt);
--			ret = -ENOMEM;
- 			goto fail;
- 		}
- 	}
-diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
-index a4a45d68a6ef..86d5e3f4b1ff 100644
---- a/drivers/media/platform/vsp1/vsp1_drm.c
-+++ b/drivers/media/platform/vsp1/vsp1_drm.c
-@@ -912,8 +912,8 @@ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt)
- 	 * skip cache sync. This will need to be revisited when support for
- 	 * non-coherent buffers will be added to the DU driver.
- 	 */
--	return dma_map_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
--				DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
-+	return dma_map_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
-+			       DMA_ATTR_SKIP_CPU_SYNC);
- }
- EXPORT_SYMBOL_GPL(vsp1_du_map_sg);
- 
-@@ -921,8 +921,8 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
- {
- 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
- 
--	dma_unmap_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
--			   DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
-+	dma_unmap_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
-+			  DMA_ATTR_SKIP_CPU_SYNC);
- }
- EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
- 
--- 
-2.17.1
+Cheers,
+Biju
 
+
+
+
+Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
+, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
+40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
+f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
+EE reg. no.: DE 14978647
