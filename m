@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 611C62547B6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 16:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054862547BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 16:53:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728082AbgH0Oxh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Aug 2020 10:53:37 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:38209 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727107AbgH0OxV (ORCPT
+        id S1727980AbgH0Oxf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Aug 2020 10:53:35 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:3877 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728013AbgH0OxX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Aug 2020 10:53:21 -0400
+        Thu, 27 Aug 2020 10:53:23 -0400
 X-IronPort-AV: E=Sophos;i="5.76,359,1592838000"; 
-   d="scan'208";a="55698886"
+   d="scan'208";a="55482017"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Aug 2020 23:53:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 Aug 2020 23:53:22 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8CC0440061B9;
-        Thu, 27 Aug 2020 23:53:18 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9829A40065C9;
+        Thu, 27 Aug 2020 23:53:20 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -27,9 +27,9 @@ Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH 1/2] arm64: dts: renesas: r8a774e1: Add FDP1 device nodes
-Date:   Thu, 27 Aug 2020 15:53:14 +0100
-Message-Id: <20200827145315.26261-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 2/2] arm64: dts: renesas: r8a774e1: Add cpuidle support for CA5x cores
+Date:   Thu, 27 Aug 2020 15:53:15 +0100
+Message-Id: <20200827145315.26261-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200827145315.26261-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20200827145315.26261-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -38,47 +38,110 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Enable cpuidle (core shutdown) support for RZ/G2H CA5x cores.
 
-Add FDP1 device nodes to R8A774E1 (RZ/G2H) SoC dtsi.
-
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 30 +++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index f5909ced7679..34fdb9a0c325 100644
+index 34fdb9a0c325..e5445ba99e84 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -2504,6 +2504,26 @@
- 			renesas,fcp = <&fcpvi1>;
+@@ -127,6 +127,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA57_CPU0>;
+ 			next-level-cache = <&L2_CA57>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_0>;
+ 			dynamic-power-coefficient = <854>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z>;
+ 			operating-points-v2 = <&cluster0_opp>;
+@@ -141,6 +142,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA57_CPU1>;
+ 			next-level-cache = <&L2_CA57>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_0>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 			capacity-dmips-mhz = <1024>;
+@@ -154,6 +156,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA57_CPU2>;
+ 			next-level-cache = <&L2_CA57>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_0>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 			capacity-dmips-mhz = <1024>;
+@@ -167,6 +170,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA57_CPU3>;
+ 			next-level-cache = <&L2_CA57>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_1>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z>;
+ 			operating-points-v2 = <&cluster0_opp>;
+ 			capacity-dmips-mhz = <1024>;
+@@ -180,6 +184,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA53_CPU0>;
+ 			next-level-cache = <&L2_CA53>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_1>;
+ 			#cooling-cells = <2>;
+ 			dynamic-power-coefficient = <277>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z2>;
+@@ -194,6 +199,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA53_CPU1>;
+ 			next-level-cache = <&L2_CA53>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_1>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z2>;
+ 			operating-points-v2 = <&cluster1_opp>;
+ 			capacity-dmips-mhz = <535>;
+@@ -206,6 +212,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA53_CPU2>;
+ 			next-level-cache = <&L2_CA53>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_1>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z2>;
+ 			operating-points-v2 = <&cluster1_opp>;
+ 			capacity-dmips-mhz = <535>;
+@@ -218,6 +225,7 @@
+ 			power-domains = <&sysc R8A774E1_PD_CA53_CPU3>;
+ 			next-level-cache = <&L2_CA53>;
+ 			enable-method = "psci";
++			cpu-idle-states = <&CPU_SLEEP_1>;
+ 			clocks = <&cpg CPG_CORE R8A774E1_CLK_Z2>;
+ 			operating-points-v2 = <&cluster1_opp>;
+ 			capacity-dmips-mhz = <535>;
+@@ -236,6 +244,28 @@
+ 			cache-unified;
+ 			cache-level = <2>;
  		};
++
++		idle-states {
++			entry-method = "psci";
++
++			CPU_SLEEP_0: cpu-sleep-0 {
++				compatible = "arm,idle-state";
++				arm,psci-suspend-param = <0x0010000>;
++				local-timer-stop;
++				entry-latency-us = <400>;
++				exit-latency-us = <500>;
++				min-residency-us = <4000>;
++			};
++
++			CPU_SLEEP_1: cpu-sleep-1 {
++				compatible = "arm,idle-state";
++				arm,psci-suspend-param = <0x0010000>;
++				local-timer-stop;
++				entry-latency-us = <700>;
++				exit-latency-us = <700>;
++				min-residency-us = <5000>;
++			};
++		};
+ 	};
  
-+		fdp1@fe940000 {
-+			compatible = "renesas,fdp1";
-+			reg = <0 0xfe940000 0 0x2400>;
-+			interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 119>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 119>;
-+			renesas,fcp = <&fcpf0>;
-+		};
-+
-+		fdp1@fe944000 {
-+			compatible = "renesas,fdp1";
-+			reg = <0 0xfe944000 0 0x2400>;
-+			interrupts = <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 118>;
-+			power-domains = <&sysc R8A774E1_PD_A3VP>;
-+			resets = <&cpg 118>;
-+			renesas,fcp = <&fcpf1>;
-+		};
-+
- 		fcpf0: fcp@fe950000 {
- 			compatible = "renesas,fcpf";
- 			reg = <0 0xfe950000 0 0x200>;
+ 	extal_clk: extal {
 -- 
 2.17.1
 
