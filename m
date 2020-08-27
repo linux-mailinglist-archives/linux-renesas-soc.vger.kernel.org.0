@@ -2,88 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16034254203
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 11:23:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6B02543B7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 12:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728509AbgH0JX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Aug 2020 05:23:57 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:43529 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728487AbgH0JX5 (ORCPT
+        id S1728525AbgH0K3F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Aug 2020 06:29:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727911AbgH0K3F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:23:57 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id F04863C057C;
-        Thu, 27 Aug 2020 11:23:53 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id HaCos8lTjjoA; Thu, 27 Aug 2020 11:23:48 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D048D3C0016;
-        Thu, 27 Aug 2020 11:23:48 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.25) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 27 Aug
- 2020 11:23:48 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <stable@vger.kernel.org>, Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Andy Lowe <andy_lowe@mentor.com>
-Subject: [PATCH v2] i2c: i2c-rcar: Auto select RESET_CONTROLLER
-Date:   Thu, 27 Aug 2020 11:23:30 +0200
-Message-ID: <20200827092330.16435-1-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.28.0
+        Thu, 27 Aug 2020 06:29:05 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A8BC061264;
+        Thu, 27 Aug 2020 03:29:04 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id h20so2264757ybj.8;
+        Thu, 27 Aug 2020 03:29:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9p4OFhVWpfoFModMO68JgN4kLUfWn4ZrdXLtONTzats=;
+        b=cfWl0T/uduUii6AXuAat69qCUSaqTEdxBOxERMz8xs9hUTeNu4BCzoJcLPwR00qgaV
+         e3eVum1dak1LKAu6424cfl806r5wrJQjNM2K8QVrKluzB3jgu6C3boB0V2FEr9rrfxL7
+         lIXQPqg7SeiBTIppjggaUv9YEH/mBrPYIKUDHoeO8TO3qeIdPjYyO2uLYq/c0tLtyZgK
+         yTMSksf7A3iJiUAafJDVQbjzP3gldibdgWZtol3EGo79vI2HpSRKC9BWaG4o7nGdFQOD
+         HB/hCPrmJJLgxvzee4ibdYUvgpLcL+vEmQ0FoV3MwVvx1Psro+P6iikMcwUAL/H1Qp5J
+         Xz8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9p4OFhVWpfoFModMO68JgN4kLUfWn4ZrdXLtONTzats=;
+        b=qQmoppeR/Hb/vgPdSB9ZJAmNDP/BPZ/frZVFavedzCRF6UVTM3E+xw9r3zY9/WW/mS
+         3dTb17GXYSNl3HsyQcj01RJoASsQsnNdFGPctCNs6CQz3JknG3FesM2S4hpj92TLMXKU
+         6BuzGoEE34dZB/QLls8ICd2zuj9BJP2X6wp/CEhGJQuB6IOO+lRLijYrdrDEZWvI4EPp
+         MLGkK2srGLTy+5dC3QCVmK38Cffd6zhaCEQb+t8pXKZAw7d5uhij0wJXu+brxhNaZm9z
+         u20LCMy55n16mGaoaMGYLdAtm3xgVM4Ue/ja2GheLuaF276DmOj0k+6mgxpnmGEKLuB0
+         uz0A==
+X-Gm-Message-State: AOAM533iQo7THlZdajGH/PrFmrkBVEOACl5BtTPP7g5nwtQTk4aJnrSw
+        FX6vPL7FiSFNgvEIVAMHTXV1i/jHuPrMRCnw3+4=
+X-Google-Smtp-Source: ABdhPJx324llbhik3pGqUwsEqNwv5W5jnr6M095ctSXSrBgZc/2KENC6v9kVZnh8wCEtOOI2vH7CQaoNO4SKSVMh3Go=
+X-Received: by 2002:a25:8149:: with SMTP id j9mr28778381ybm.214.1598524144200;
+ Thu, 27 Aug 2020 03:29:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.72.94.25]
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594676120-5862-9-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 27 Aug 2020 11:28:37 +0100
+Message-ID: <CA+V-a8voHnHdmSBmewE3BStksxE4dEM1CtE7KwPZ5dn6PmV_0A@mail.gmail.com>
+Subject: Re: [PATCH 8/9] dt-bindings: net: renesas,ravb: Add support for
+ r8a774e1 SoC
+To:     "David S. Miller" <davem@davemloft.net>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Dirk Behme <dirk.behme@de.bosch.com>
+Hi David,
 
-The i2c-rcar driver utilizes the Generic Reset Controller kernel
-feature, so select the RESET_CONTROLLER option when the I2C_RCAR
-option is selected.
+On Mon, Jul 13, 2020 at 10:36 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+>
+> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+>
+> Document RZ/G2H (R8A774E1) SoC bindings.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/net/renesas,ravb.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>
+Gentle ping, this patch is not queued up yet at [1].
 
-Fixes: 2b16fd63059ab9 ("i2c: rcar: handle RXDMA HW behaviour on Gen3")
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
-Signed-off-by: Andy Lowe <andy_lowe@mentor.com>
-[erosca: Add "if ARCH_RCAR_GEN3" on Wolfram's request]
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
-v2:
- - Append "if ARCH_RCAR_GEN3" to "select", as requested by Wolfram
-   in https://lore.kernel.org/linux-i2c/20200824120734.GA2500@ninjato/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/log/
 
-v1:
- - https://lore.kernel.org/linux-i2c/20200824062623.9346-1-erosca@de.adit-jv.com/
----
- drivers/i2c/busses/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 293e7a0760e7..7ccbfbcb02e9 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -1181,6 +1181,7 @@ config I2C_RCAR
- 	tristate "Renesas R-Car I2C Controller"
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	select I2C_SLAVE
-+	select RESET_CONTROLLER if ARCH_RCAR_GEN3
- 	help
- 	  If you say yes to this option, support will be included for the
- 	  R-Car I2C controller.
--- 
-2.28.0
-
+Cheers,
+Prabhakar
