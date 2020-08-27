@@ -2,93 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DAB6254AF4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 18:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D38F5254B2E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 18:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728083AbgH0QkR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Aug 2020 12:40:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50416 "EHLO
+        id S1726946AbgH0Qwn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Aug 2020 12:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728027AbgH0QkN (ORCPT
+        with ESMTP id S1726009AbgH0Qwm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Aug 2020 12:40:13 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4432BC061264;
-        Thu, 27 Aug 2020 09:40:13 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id x2so3289974ybf.12;
-        Thu, 27 Aug 2020 09:40:13 -0700 (PDT)
+        Thu, 27 Aug 2020 12:52:42 -0400
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D9BC061264;
+        Thu, 27 Aug 2020 09:52:41 -0700 (PDT)
+Received: by mail-yb1-xb41.google.com with SMTP id u6so3339511ybf.1;
+        Thu, 27 Aug 2020 09:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=WYSs0Dku1zdRA2KBaI0ZluOi6UmY5Y9GrXFeF+fDRFw=;
-        b=un7kjnEQ+aqsO+z8jtw8rj5enqEblNxAaBGnKPz5YF1M/H5UYX4IB2itVqzx4F9M+A
-         4Iw61Lgg+T2/csniC5jvZ46vzCXwe+6ucpfL//IIr2N4fzxId6yxup8IcTBmIH9J1wxH
-         xmgaggsssg9MRIaVUt4/uLPzY6xuiGzR9l3f6wTubw05+rhnAtN3ucwXRVkyO/E+iL2c
-         Jv+81bmqvmke2b2srFFNR6de7skjpZkTrzLADYU47UvUFd5kFw73lM1gHC3O60ILOWxW
-         I4ZCr2cSWmKOElAxgXNe3UVqleDnJSO5F8AP+wHoBbyarZgklem/skA1eZo7nJRMkMI8
-         wO1w==
+        bh=v+eVxBfBAprEoX5lLsx5hIWnMBJGynUOeo5uh014b8M=;
+        b=ExhD/2mNuu7QZdIY5cch/qOJMBWfnT4mnJMCA4ivXYVpIesCxQrVTOct6XrITaUdqW
+         zI0D1zbSlVZENk+1rZwlfnZHnygNc+D8lg+Ea4hNY2GbpmmnCSmlD/28uI1V1SdBlXau
+         Omd8VC0AVp+dRJ96EWawlmPCep3Yah+/Wt8J1OQlw8JS1cSalpCf6RSRx4NvjJ4UyFYJ
+         9CFaro1gpjQLQZ7ozt2kz/rnFrRUHkczgBtK/LvMC5EDcm9f0vyg4qvlVTyv5vLEr+K8
+         PDQkA8WXJP5C3Fqx63+KDiV2NZOrrzkYU13nBUs+9OkxCfov/ysC4COJW9vo8SYii+Jx
+         RMKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WYSs0Dku1zdRA2KBaI0ZluOi6UmY5Y9GrXFeF+fDRFw=;
-        b=LknddWT94iGwy0TUuCFh4aLqFIfCjoDmqKnHuHRzAe3mBhxYE3N6pyN+K+hCo1ayhi
-         GISOETSch4gSBSmQfx2ezhAqfv72V4vOx4lhUehDRAbgmmhvFg/y39Uwb6xu/HQf/b1W
-         Xmmg3a7dXIydDk3QosNJBQrWfhv6K2Ohx4clTluOWNXf72cQcDUwVWjTC0aDV5Xn5Bf/
-         g3gA4O29cVgNrnEwz7+5Hm23SFCbqnp9gjo1wlEADOrIQwkLSti03udpArwC96EhBLsP
-         Oer5G2WVSiwYQWWUkGaP+Oe+ZAPtoQdQvITRhweqsgwL4NQyP8cpNPtawYeTwiwEHHPh
-         TIdA==
-X-Gm-Message-State: AOAM530j74d+cEuCNcQqM+Xpqex1b3UPzFhssKPkriQiZ4qFaFR8W1Pm
-        FkRB+bTBL1O6UYjXUI11MSyKhNqjiUnx7te1ntZ3ebl1odM=
-X-Google-Smtp-Source: ABdhPJxrvVPIJbZVxMNdYQbfcSKbpYNpnY4WH7M5vvvn2G4XY4Uv7BI34VoTls0DSRQbKIiloMf4ZMzXPy4YgYSJnGI=
-X-Received: by 2002:a25:2f4d:: with SMTP id v74mr28209467ybv.401.1598546412501;
- Thu, 27 Aug 2020 09:40:12 -0700 (PDT)
+        bh=v+eVxBfBAprEoX5lLsx5hIWnMBJGynUOeo5uh014b8M=;
+        b=eeNYfbITkoNabZAgVXrpF6HkTfrdS+38eL9Zyp5WkjoX4ED2tESIi8Gc4WY6YJ5gRw
+         bNURWxuoOYCCzvVs94WFYL687/kJzo885X1HbYwmby8COA06wRp7WfTkX/pOwVqK9GlM
+         lE0OjXFTHsVpTGcZWnXt24pZLxx4XNdTSqFvVbrpfqCI0gQxT+YKGcJUkzotMVn9GyB2
+         tdRXViAjd4oJC6GZXfQxp1mf2OFpD7NcTP7aKlKG38LSMq04QDxJJP9WJKUqVsLTiD0D
+         X5gOfuLZ4vVq0oxB0PZcpXglBbpjE9tbE+KsoW2GDWXa0nOf/TK3+PM2XxTv3Y+g+Dar
+         pAWg==
+X-Gm-Message-State: AOAM533Wdo3KsQJleUqJrgxQ4S2JOq/TxP/4qpgeThqkx4EH28gpKdyE
+        1aKz8VctPvPVTj9gM9S9WfvpfzNPORwOmUHulyw=
+X-Google-Smtp-Source: ABdhPJzWnbAjrzxUkZhdpNb2pCrtHNzhLuZPuwpgMSMn67x3fMFvwz8SPKnNKf4Cg4KNXX+P3L0zcQWqDZA/oMNp76c=
+X-Received: by 2002:a25:8149:: with SMTP id j9mr31166464ybm.214.1598547161204;
+ Thu, 27 Aug 2020 09:52:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594676120-5862-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1594676120-5862-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <1594811350-14066-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594811350-14066-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1594811350-14066-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 27 Aug 2020 17:39:46 +0100
-Message-ID: <CA+V-a8tZAp_oTpG2MsdC47TtGP7=oM6CubCnjBoR6UhV4=opNg@mail.gmail.com>
-Subject: Re: [PATCH 6/9] dt-bindings: gpio: renesas,rcar-gpio: Add r8a774e1 support
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 27 Aug 2020 17:52:15 +0100
+Message-ID: <CA+V-a8vwhtTWjaoXkfMBjKx90WkcoejD5ryPkXnQNEbtgnJGXQ@mail.gmail.com>
+Subject: Re: [PATCH 02/20] dt-bindings: thermal: rcar-gen3-thermal: Add
+ r8a774e1 support
+To:     Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amit.kucheria@verdurent.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vinod Koul <vkoul@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
         "David S. Miller" <davem@davemloft.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Jakub Kicinski <kuba@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Niklas <niklas.soderlund@ragnatech.se>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-can@vger.kernel.org,
+        netdev <netdev@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus and Bartosz,
+Hi Zhang,Daniel,Amit,
 
-On Mon, Jul 13, 2020 at 10:35 PM Lad Prabhakar
+On Wed, Jul 15, 2020 at 12:09 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
 >
-> Document Renesas RZ/G2H (R8A774E1) GPIO blocks compatibility within the
-> relevant dt-bindings.
+> Document RZ/G2H (R8A774E1) SoC bindings.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
+>  Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml | 1 +
 >  1 file changed, 1 insertion(+)
 >
 Gentle ping.
