@@ -2,84 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09168254CE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 20:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EE47254E92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Aug 2020 21:30:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbgH0SUE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Aug 2020 14:20:04 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:38182 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726120AbgH0SUE (ORCPT
+        id S1726871AbgH0TaZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Aug 2020 15:30:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726289AbgH0TaX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Aug 2020 14:20:04 -0400
-X-IronPort-AV: E=Sophos;i="5.76,360,1592838000"; 
-   d="scan'208";a="55707965"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2020 03:20:01 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 99E274009650;
-        Fri, 28 Aug 2020 03:19:59 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thu, 27 Aug 2020 15:30:23 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9AD5C061232
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Aug 2020 12:30:22 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id f24so5927667edw.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Aug 2020 12:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V0nv7wQoHFBDfCKea743Tg8u0187UBuuLmeycLCt9IE=;
+        b=FrpUZP/youjPCtKM9LqQKI6rWq/hmeX+PYpwaZCE58MOs9aULbEOUD4Iz6rJOV9v86
+         kzMmDQCn52Ev45YGSetnAY0Zm7bYPpoVb1ZDDxrGQ7IVOnwAt/v/76ct3LJCAOm0LjYs
+         t+lHPbwV5vlIeg3D3P29PjAeS807e1JZrOYtTkXUIScqDeAk1oZKWXnMuL9lQYTsQRg7
+         Qs17+Og1AY2RfXqoDXhpDyjUr+UD5+p4KKOtLn3B9ZubRDpXluQW5i2GTfFHaCUFIV6T
+         Plx3KsGr4Ctbdrr2snVE0YWdOkp0m/vKoxw1hDKbo4gpWES/+w0F4NRMcoYvSSomc6ny
+         X83w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V0nv7wQoHFBDfCKea743Tg8u0187UBuuLmeycLCt9IE=;
+        b=O+mZJWoigUQ+qrTj/toPCmK/Tc7+YogKJc/VcqRc5+tEGC8LKtCtO2sIiZunzDDyIS
+         r7wzB8peiupoQnVDHZ7ssEvQFLQ88SfSstYCiZIqIQbuu5VV2JCi2Pa5EGhrhGDrlTmG
+         bmKQmtGyYDLwt3gsKQueF1mFm+X5WA6imjG4lJLz+sSHq56lvC/v0C9+j38WuiQpOt2q
+         Z8Mrg2EaejSWw0u3dR/wW9GhWWjq3F5J6hMY+dltep1TvFfGgULvjN53ngFOUNUAf271
+         vMSzSrr/iYl6tbNBapDghmbee0I85W+ca+s9ZJJLuD9Lj9a6wm4spbVZhsMIhTj2czyB
+         3xHQ==
+X-Gm-Message-State: AOAM532jHdorpIIRGo+LtlF+/8KW0TSlGPgWqaTYj69ti1tsGnrlJGmP
+        0296tTCBwMDBiM5QbQAd+OYBbSnlTL5Thm55yQNYvw==
+X-Google-Smtp-Source: ABdhPJxrUFTaTtdB3uET/8l/a6XdYU2SNVMC86F8LwhWn6NZzuQLhDwt1HrAbXd+AGqTmGHN1IUW2aCKfRrjVA8PDWU=
+X-Received: by 2002:a50:d809:: with SMTP id o9mr20639212edj.12.1598556621415;
+ Thu, 27 Aug 2020 12:30:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <1594676120-5862-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1594676120-5862-7-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com> <CA+V-a8tZAp_oTpG2MsdC47TtGP7=oM6CubCnjBoR6UhV4=opNg@mail.gmail.com>
+In-Reply-To: <CA+V-a8tZAp_oTpG2MsdC47TtGP7=oM6CubCnjBoR6UhV4=opNg@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 27 Aug 2020 21:30:10 +0200
+Message-ID: <CAMpxmJWv=hTgbMLSVFm=C_5qSpo=BvOByW=B+BEEzTPswXfZzQ@mail.gmail.com>
+Subject: Re: [PATCH 6/9] dt-bindings: gpio: renesas,rcar-gpio: Add r8a774e1 support
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH] arm64: dts: renesas: Add HiHope RZ/G2H board with idk-1110wr display
-Date:   Thu, 27 Aug 2020 19:19:18 +0100
-Message-Id: <20200827181918.30130-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The HiHope RZ/G2H is advertised as compatible with panel idk-1110wr from
-Advantech, however the panel isn't sold alongside the board. New dts,
-enabling the lvds node to get the panel to work with HiHope RZ/G2H.
+On Thu, Aug 27, 2020 at 6:40 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Linus and Bartosz,
+>
+> On Mon, Jul 13, 2020 at 10:35 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Document Renesas RZ/G2H (R8A774E1) GPIO blocks compatibility within the
+> > relevant dt-bindings.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> Gentle ping.
+>
+> Cheers,
+> Prabhakar
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/Makefile              |  1 +
- .../r8a774e1-hihope-rzg2h-ex-idk-1110wr.dts       | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dts
+This doesn't apply on top of v5.9-rc1.
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index d7902294faf3..46445474cf3e 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -21,6 +21,7 @@ dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-ek874-mipi-2.1.dtb
- 
- dtb-$(CONFIG_ARCH_R8A774E1) += r8a774e1-hihope-rzg2h.dtb
- dtb-$(CONFIG_ARCH_R8A774E1) += r8a774e1-hihope-rzg2h-ex.dtb
-+dtb-$(CONFIG_ARCH_R8A774E1) += r8a774e1-hihope-rzg2h-ex-idk-1110wr.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77950) += r8a77950-salvator-x.dtb
- dtb-$(CONFIG_ARCH_R8A77950) += r8a77950-ulcb.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dts b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dts
-new file mode 100644
-index 000000000000..3b7339127bc0
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1-hihope-rzg2h-ex-idk-1110wr.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the HiHope RZ/G2H sub board connected
-+ * to an Advantech IDK-1110WR 10.1" LVDS panel
-+ *
-+ * Copyright (C) 2020 Renesas Electronics Corp.
-+ */
-+
-+#include "r8a774e1-hihope-rzg2h-ex.dts"
-+#include "hihope-rzg2-ex-lvds.dtsi"
-+#include "rzg2-advantech-idk-1110wr-panel.dtsi"
-+
-+&lvds0 {
-+	status = "okay";
-+};
--- 
-2.17.1
-
+Bart
