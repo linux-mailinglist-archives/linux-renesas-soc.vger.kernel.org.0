@@ -2,91 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5B882557CD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 11:37:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 511232557E0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 11:40:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728016AbgH1Jhw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Aug 2020 05:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38788 "EHLO
+        id S1728680AbgH1Jkm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Aug 2020 05:40:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728870AbgH1Jht (ORCPT
+        with ESMTP id S1728269AbgH1Jkl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Aug 2020 05:37:49 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC12C06121B
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Aug 2020 02:37:48 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id w25so551204ljo.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Aug 2020 02:37:48 -0700 (PDT)
+        Fri, 28 Aug 2020 05:40:41 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E6F4C061264
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Aug 2020 02:40:41 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id t6so570374ljk.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 28 Aug 2020 02:40:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=H61KW0cO/8vC8auZZfnwBx0eRjehicYI06KTiTAxhPE=;
-        b=sGZldq27qtqQkS06o4Etfh2b3RBgWQ83/hREu2x5IPz+gxqzrUoI4b/0HYic8Ozd9o
-         O+Vrh60X2q1O2YD6tsYIU57c3aXZPkIDfoB5x5JLpUwb4QLlXsbc7cMjuNEQoWY0MzGx
-         swDdh83XnpzvM5vfFFlD3Xv7x4K3WwgzjiKb+yNQHjgxEQTEVCJ3vlDUlcsvFdaqpisu
-         fvtCa0rKsQ9h2gaJebRBy65s7TKGqlXH2e5jw0DVSxEPHiGFi9i8qSQh87Do5K7jdkL8
-         gF5nSuh8qIO5Mo9zCty+v4qqWH2d6GcvqoxvCi2vBvKuOAVpP1tOXnpVt0wcNmMvG27Q
-         6ddQ==
+        bh=ZUip6H2+jjLmhsYJSfGTRg7Ifd0FUyC3bIqJ6snuBqc=;
+        b=ZK+v2bmQLBjTkyTKleZ4cfX+TpXVVDGN80D4Cqhya1JdXh0uk4uzMDHh2YlIQSpubL
+         Z10w4VCoiKA/QgWuuZ5KY2SSF/NdAfsZ8Z7nPX9LBb/JyULoZ5s1U1uF9CiBp4+Wkz87
+         UVyBls0s8KH5oRJgVt7FdhME4Vx55DOD4UbsTASNmspQx/J3yK4b0UHT8fabcBfERM7O
+         66e2Tt7LkEfbLu/tG5Z8CwjGrynpQGPYK1M6cFDHBJI9/2UsJ6JIxk2cLkqBUoKGZpo3
+         HRM3wL3Z+XZD/kWUuGbHjv9zynSMwTgAPsurI1JevBX9DJAIZHRJewlsm5WQYkde7sIN
+         Jojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H61KW0cO/8vC8auZZfnwBx0eRjehicYI06KTiTAxhPE=;
-        b=Y/kBYOZZghPIlJ+ZkqT51oGTIra9X9rtQcLVWCiy0Uimt9j5txojz5y/03eNVGjtlF
-         15dcCxxd87C5HAS7HHLOy+V0/iRovJ7tSnDZ5r92x/hJ4x4mP5MTqYjIzDP3eL5qJfPQ
-         c6gkH2ona96as4tF2zR1bQeuR0yPGEvCGa7pVRin/l0taE+8iPrahwWENP0ntC/BXrsw
-         ws7o9TeSTMKPcAdCeYe9L2xxpY1veHHpJ4s3REiYOhvlf1847jeY7dOkUSzQV4uD84b7
-         RmXoPH8Y0tweIK5qiZPIKBK6u3HnzXpKpsBm3Oex9QqpkHgk0duUHXnxSKn5wMCYCc86
-         QNNQ==
-X-Gm-Message-State: AOAM532F2yEA8QCJf2BOf5XkLxHGE5oJR2dFd/tDwHTyAJISJB69nd6o
-        2ntx2jEGG3Id0cVSXK6QR0QuiF2WRWx/iTBT4cODpA==
-X-Google-Smtp-Source: ABdhPJwNru2VlFUiB5J5tlfq4WYCIDhWoJlbw/HjYQx7ozhe4gph5iyDtDKkBmQY1aerEngIdqRZ4yFpIAXJzTu4SbY=
-X-Received: by 2002:a2e:b80b:: with SMTP id u11mr511080ljo.286.1598607467095;
- Fri, 28 Aug 2020 02:37:47 -0700 (PDT)
+        bh=ZUip6H2+jjLmhsYJSfGTRg7Ifd0FUyC3bIqJ6snuBqc=;
+        b=HVz04zz0mEI0H+tQUYJX96wiRsb1HmgZjOePskm03MoZwMy2a2vunps/JRc3YUI1wB
+         f3XOi8VfxyhXCKkAgcnZUBzSC79zkGQcJvrK75QaryXBomYm8zrN5tHbEC5hizqgOcud
+         8VeU3dTNF6xYZssrsSdFz/NeTHCDDYHxHfvmQQn6eF+j7QLA087AyE936YaZi3sEH1iX
+         N7XCumQiOLzfL6alVlyO/jmwFQT7g2fNibSp/KtCEXZz6YV5EkKyflbZhBiyxcHvo0NT
+         Q3jzSEnzJbyYBbQ9O8urXpUlz7XE7zAX6zVFeaL9x4/JWjZYX6VdqKSR+El9q5JFM4al
+         +yWg==
+X-Gm-Message-State: AOAM532dmGsOMCNu2GJg8NOlmqdNNTpsQ7xJvLiHCbD1qW+Bd3t91ccR
+        OGRr39BeGO1FnxLV+iFAH2+qJGnGmDcZUXAN7+Wn6w==
+X-Google-Smtp-Source: ABdhPJyobFr8wlwoGMVpjT4BBlaiB53c0xbtwloUtEybXVxTnB6o94g4sI9w40AbLQ+tg744duwQYVnD0klCkIcxAA4=
+X-Received: by 2002:a2e:9dd0:: with SMTP id x16mr472930ljj.144.1598607638931;
+ Fri, 28 Aug 2020 02:40:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821111127.3771-1-geert+renesas@glider.be> <56474631-119b-d64b-3545-a14f800aaa61@gmail.com>
-In-Reply-To: <56474631-119b-d64b-3545-a14f800aaa61@gmail.com>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+In-Reply-To: <20200823104532.1024798-1-sam@ravnborg.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 28 Aug 2020 11:37:36 +0200
-Message-ID: <CACRpkdb3ODnScRUkJYV8VswPfn6RhrSJK2YtoYLanS3MYjbJ2g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rza2-pinctrl: Fix pin
- controller node name
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
+Date:   Fri, 28 Aug 2020 11:40:28 +0200
+Message-ID: <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/24] backlight: add init macros and accessors
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Jyri Sarha <jsarha@ti.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        =?UTF-8?Q?Pawe=C5=82_Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Vinay Simha BN <simhavcs@gmail.com>,
+        Wambui Karuga <wambui.karugax@gmail.com>,
+        Zheng Bin <zhengbin13@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 5:27 PM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
-> On 8/21/20 2:11 PM, Geert Uytterhoeven wrote:
+On Sun, Aug 23, 2020 at 12:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+
+> The first patch trims backlight_update_status() so it can be called with a NULL
+> backlight_device. Then the caller do not need to add this check just to avoid
+> a NULL reference.
 >
-> > According to Devicetree Specification v0.2 and later, Section "Generic
-> > Names Recommendation", the node name for a pin controller device node
-> > should be "pinctrl".
+> The backlight drivers uses several different patterns when registering
+> a backlight:
 >
->    Ugh, what a lame name! :-(
->    And they say DT should be OS agnostic...
+> - Register backlight and assign properties later
+> - Define a local backlight_properties variable and use memset
+> - Define a const backlight_properties and assign relevant properties
+>
+> On top of this there was differences in what members was assigned.
+>
+> To align how backlight drivers are initialized introduce following helper macros:
+> - DECLARE_BACKLIGHT_INIT_FIRMWARE()
+> - DECLARE_BACKLIGHT_INIT_PLATFORM()
+> - DECLARE_BACKLIGHT_INIT_RAW()
+>
+> The macros are introduced in patch 2.
+>
+> The backlight drivers used direct access to backlight_properties.
+> Encapsulate these in get/set access operations resulting in following benefits:
+> - The access methods can be called with a NULL pointer so logic around the
+>   access can be made simpler.
+> - The update_brightness and enable_brightness simplifies the users
+> - The code is in most cases more readable with the access operations.
+> - When everyone uses the access methods refactoring in the backlight core is simpler.
+>
+> The get/set operations are introduced in patch 3.
+>
+> The gpio backlight driver received a small overhaul in a set of three patches.
+> The result is a smaller and more readable driver.
+>
+> The remaining patches updates all backlight users in drivers/gpu/drm/*
+> With this patch set all of drivers/gpu/drm/:
+> - All backlight references to FB_BLANK* are gone from drm/*
+> - All direct references to backlight properties are gone
+> - All panel drivers uses the devm_ variant for registering backlight
+>   Daniel Vetter had some concerns with this for future updates,
+>   but we are aligned now and can update if refoctoring demands it
+> - All panel drivers uses the backlight support in drm_panel
+>
+> Individual patches are only sent to the people listed in the patch + a few more.
+> Please check https://lore.kernel.org/dri-devel/ for the full series.
+>
+> v2:
+>   - Documented BACKLIGHT_PROPS as it may be used by drivers
+>   - Dropped backlight_set_power_{on,off}, they were a mistake (Daniel)
+>   - Added backlight_update_brightness() and use it (Daniel)
+>   - Added backlight_enable_brightness() and use it
+>   - Moved remaining drm_panel driver to use backlight support in drm_panel
+>   - gpio backlight driver overhaul
+>
+> The patches are made on top of the for-backlight-next branch at
+> https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git
+> The branch needs v5.8-rc1 backported to build as dev_err_probe()
+> is used.
+>
+> The first 6 patches are candidates for the backlight tree.
+> If they are applied then this should preferably be to an immutable
+> branch we can merge to drm-misc-next where the drm patches shall go.
+>
+> The drm patches has known conflics and shall *not* be applied to the
+> backlight tree, they are included in this patchset to show how the
+> new functions are used.
+>
+> Diffstat for the drm bits alone looks nice:
+>  25 files changed, 243 insertions(+), 460 deletions(-)
+>
+> Feedback welcome!
 
-Ha ha. :D
+Thank you for trying to make backlight easier for developers.
+I am a big supporter of this type of simplifications and
+generalizations, it is what makes DRM great.
 
-The device tree standardization is driven with the bureaucratic ambition to
-be generic, predictable and non-personal. Mimicing the characteristic of
-the impersonal objects in life, such as the planets, or the plants.
-
-This is just an ambition, in reality the people doing it are Linux-heads.
-
-We (the DT community) try to be better people, we just fail regularly.
-That is OK, the important thing is to know one can and should do better.
+The series:
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
