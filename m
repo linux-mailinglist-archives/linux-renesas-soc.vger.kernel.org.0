@@ -2,116 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27DB12553CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 06:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA5CD2554D1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 09:07:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgH1EcB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Aug 2020 00:32:01 -0400
-Received: from mail-eopbgr1410107.outbound.protection.outlook.com ([40.107.141.107]:60288
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725969AbgH1EcB (ORCPT
+        id S1728169AbgH1HH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Aug 2020 03:07:29 -0400
+Received: from www.zeus03.de ([194.117.254.33]:56420 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726219AbgH1HH2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Aug 2020 00:32:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fwUr1m1ZQaEo56A6Mbj9gexaJD9aNeIWaNTedX5FP5qzWh+R4GWDW3H6T7ND4TH9jhBbkmdcUXHGXins6U+igJwcLKDAE6EGu5jqGxesqc6rDoWS+vvzc46T5CoPo9W+jmoqGW17fd+3497ZRjn3gw191nQieSXCrT3xnOuFaR8HIN/to+o1r8+e+h/zxN+3vfafVOzSJYu87RT71nsV8BBg4IXtHjVpLNlxvUqgH5R0DWsb1YuWG+0tjQznpKRo0ppzefzUuFYoU5sPymgcN3AiWk3QoENSaQAFQahRoKH8vE15KsxDwnSFmp7Rm74JbTjNhCp1acdIU23caFRbhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jrk4KViV8R6xkKu369fsQ/28INZxzD7yGZXxfH/Ot98=;
- b=VTBxXbHdJGnAe2aW+rT05SeQGXxEnlVE7D1m1fepcL7WOK8PMRb9EOfZrhtnPuvlFi3QiHId7XUPeY8sWg2EYsIr0ImkdEQF0XNfitGsh30q53D1boF7EqsBQsj/6aJkxE9M+S7jhTTP0RVdfH+SV0DYA13zCvJrZondT9Mf97Yo4G8EfjpcNsELu956WxE/KtV3OaLxD/nLDIkvGqRRTkCF8mB4hmGkDeLMFgf4y+yRqRzjtsBgdVNpAE/ro8+u1qoHb4v/Rn4M3VZbxwc+B6vUJ4t9ELJOqwP+M+syh7IiryNNRavMpWel+C3SEBK/N5yVkU4MdAHzzepiAJ8nTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jrk4KViV8R6xkKu369fsQ/28INZxzD7yGZXxfH/Ot98=;
- b=l/GC6kRnEHyi7G4mbd+mkBIpG852EqdONnbVKxDWnsmjd6a0YEc5Ngl1OMFLFpwCCW8j0oVU3qkYXnmZ8zrRkm65O6aXFFgG1jOoYTmj8C3R2OlADukhebcIMyXMeSnPt0iSChDFbgxboG/vs1IoLCfn6lQv93kDilqRKWRcp38=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB4541.jpnprd01.prod.outlook.com (2603:1096:404:123::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 28 Aug
- 2020 04:31:58 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3305.032; Fri, 28 Aug 2020
- 04:31:58 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        =?iso-8859-1?Q?Niklas_S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: RE: [RFT 6/6] mmc: tmio: remove indirection of 'execute_tuning'
- callback
-Thread-Topic: [RFT 6/6] mmc: tmio: remove indirection of 'execute_tuning'
- callback
-Thread-Index: AQHWdvVxLVzU2PEmwECfRg2jqzfCvqlM+YWA
-Date:   Fri, 28 Aug 2020 04:31:58 +0000
-Message-ID: <TY2PR01MB3692CF611A520A4FF409E4A5D8520@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20200820132538.24758-1-wsa+renesas@sang-engineering.com>
- <20200820132538.24758-7-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200820132538.24758-7-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:b16e:b7b1:d350:3c9a]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9de9ee1d-dfe5-4842-5a2f-08d84b0b4d2d
-x-ms-traffictypediagnostic: TYAPR01MB4541:
-x-microsoft-antispam-prvs: <TYAPR01MB454188AF5808B28E0F146304D8520@TYAPR01MB4541.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MjrYxBk+VU6XPOpKWMZSGb/gd03ymJhixs1duprGnLLF6drJz8HuADOCrdn+vbxscJ9GK397d2abWyk9/Po8t6U1NjaAJeUpLBsjQnA6MvbYz01PkgiPUSHZa+nTzs61AjWxV3ndBw2HkHI1yyKaRHzaj08ssndrphi/+XBRvZ0Yh6OuK02lfw0Prv9ZdmKhC56hlrvNrpWdZwvHFXPJhq6k29a9YG/EfwzIxIwKtik2hKZrUU9eeeFfpFdXPDhOXkcXi4W8ntaks/QandDmMwR7ROMNzphsMQQLSeEOK09pQJDjG8woAIzf3gzltCROEH4KuctcmDX32oiKX0XbbA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(7696005)(54906003)(110136005)(55016002)(4326008)(71200400001)(186003)(52536014)(2906002)(33656002)(5660300002)(86362001)(4744005)(9686003)(478600001)(6506007)(64756008)(66446008)(8676002)(66476007)(66946007)(316002)(66556008)(76116006)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: qrBOesGqD8ftEVzkO2CSizOWfSCErMyXlKUuW8ZQkiOVCrkCPAd6w2OUzUQtuPY+qxbBEHQEhqiZ+kKelmq2eDwzvrkdygBuF4L8KpEa95lhBgpZmfZLm6INFGqiT+6Q00zlJEEV3jb/F9tUhx7o/7aY5EnOu/z0p+VbrUbX9nYzCHkDVsC4nhwVVRH7zRxV4AJUG5iVeNDd/uPlt+1Zu4Qfqm4DkFv7yRowQizHnfGZUBNuLaRFRM4teXzoSGvCyuFE6zhur/lDsR6UEdVdk6xPVfxTNQ8D9JaPYjpISgcpcytro7uH8hDsU453Uf85NNYy8uMz2+J6pTZID89iNLKiffwbaOYwJqwsn5f/ld0h9Nt7tVO7HqPZOuLG8snVufHFGhyVJf5vXha9jxhYcrFhCO0eRBIez3tyd4gyLmsXigk0BL7QcQCQrFeNclISY1r+piqDLI9YCRDcPiA1nhLN8+Hx1tbCAS31o1O2so3+Ek7IYWQAuMf5fMKjKU1hLWXWkC7KUOJZaNjN4sPegQbu7GsnJqJKXCcr4/yoU2uhI0pC110aKfIFms4uT02SFCazwHY5Gmlhp0RGeAGpkrlY+idB1NbHN3g3mbru5KK8xhIBQbhK38yg+5vAMSZ1VVdUqO70pGhg6uBmnQW7kYjqhOqSJFkt+NCezbROqOPJxULbrjAy5XbsUYS5XIiVp3yHVGBbd8NVffOGOV2AyQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 28 Aug 2020 03:07:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Az1Sk4hkwbQABBKARFwOvsdniom9
+        41JaYW/JGUCYwxs=; b=mlsMiFL5Cc9N/xPC5xAFNmDg3WJp3Gd6GkqozaSv3Jmc
+        jS1XuZ7g1Zpzgi0qtxXZ+cWUCnLphjKJ/xOi0vfI/MDOkMvyaFWVj3gHo8gh1Kay
+        ut7MA0JcdoUsI56xkwXZqJI1KYBeSI2Jh8FcledpF7P3AQtzCqXJMOY41b/oXJo=
+Received: (qmail 1185780 invoked from network); 28 Aug 2020 09:07:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Aug 2020 09:07:25 +0200
+X-UD-Smtp-Session: l3s3148p1@NcB8tOqtFI8gAwDPXwV9AGQXyOmO3Ynm
+Date:   Fri, 28 Aug 2020 09:07:25 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Andy Lowe <andy_lowe@mentor.com>
+Subject: Re: [PATCH v2] i2c: i2c-rcar: Auto select RESET_CONTROLLER
+Message-ID: <20200828070725.GD1343@ninjato>
+References: <20200827092330.16435-1-erosca@de.adit-jv.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9de9ee1d-dfe5-4842-5a2f-08d84b0b4d2d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 04:31:58.3147
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ql0Pha2isWWKAEXHY7bwMKGISY+331MYKZC1tAxjuiqi0MVlAjU+ANiPC6iLTTAn91DpTqEeBN9VCcq4SF66/fG548tODfwretHJku/qv/kOdngsvHC9sU6+NUKg9dEV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4541
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q9KOos5vDmpwPx9o"
+Content-Disposition: inline
+In-Reply-To: <20200827092330.16435-1-erosca@de.adit-jv.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
 
-> From: Wolfram Sang, Sent: Thursday, August 20, 2020 10:26 PM
+--q9KOos5vDmpwPx9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Aug 27, 2020 at 11:23:30AM +0200, Eugeniu Rosca wrote:
+> From: Dirk Behme <dirk.behme@de.bosch.com>
 >=20
-> After all the previous refactorization, we can now populate mmc_ops
-> directly and don't need a layer inbetween. The NULL-pointer check and
-> the error printout are already done by the MMC core.
+> The i2c-rcar driver utilizes the Generic Reset Controller kernel
+> feature, so select the RESET_CONTROLLER option when the I2C_RCAR
+> option is selected.
 >=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Fixes: 2b16fd63059ab9 ("i2c: rcar: handle RXDMA HW behaviour on Gen3")
+> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Signed-off-by: Andy Lowe <andy_lowe@mentor.com>
+> [erosca: Add "if ARCH_RCAR_GEN3" on Wolfram's request]
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-Thank you for the patch!
+Applied to for-next, thanks!
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-And, I tested on R-Car H3 ES3.0 Salvator-XS and it doesn't seem
-any regression. So,
+--q9KOos5vDmpwPx9o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Yoshihiro Shimoda
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9IrSwACgkQFA3kzBSg
+KbZXZg//VIRSaaFqXdc/btBi/FKFe3CQTJF5rr83q7zDXmNCPwmlW5W75nTtYpNa
+bEMF+mKziIgs1yELPIzUoitOYPHPjtgGUiwsfjAQ6XotcRk6RWsDi2PRNAnYOVsA
+tg+qNv96YZ++t+u7tVEtPVrbj5YwZaKz7W4EvVrPAaIxjF4xtvpXb9sHE9BVbwqC
+u2kDFtywya+IHHgT5mP+uqRf73jSpZncuA1KhcTR3o1FFyMV1U9wO5WadJLzsbSy
+bjDTrHNDpOBNchFb+0d7BPmHzu6CHq8twpQOqXEdazsqHVAplnElfj5/E0sP3BTy
+DKV+KqNzvqOO5Z37Q/+xMx2XGHbd2jCio2jeYXDKQGhgf8zrB7eI30plB6n2F29r
++bK74WgakaT2BBhcLe74iZaxTqIhjTml1zLFVbxxXFm5/FnbXT6U1Ze5bTB05k1G
+S6EUa6gaXqZOIwN0g0pSflBop/MWD30sNt4M2bDZN5RxjcWLEAE3KhuRDHQPONmC
+kH0fYFbjSjb/U2EnYVrpH9viDl5Xo4EidyzMDZANAHg8u58yJme7Z6ycLscRuuuI
+i/cNhDCRGeqzg1Kvg8qBIm6LfzB03yxa3jcYeiVElMriIjo7/xMxHCYEyA7gmNEH
+vJYhuv5RXEI/BmZEYmQJIkRR+r+a8oLrxOaO6/dhBXn5EgW/bkU=
+=Lp0u
+-----END PGP SIGNATURE-----
 
+--q9KOos5vDmpwPx9o--
