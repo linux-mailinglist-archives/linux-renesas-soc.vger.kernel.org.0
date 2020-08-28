@@ -2,118 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC507255385
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 06:23:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EFD12553C5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Aug 2020 06:31:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725849AbgH1EXj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Aug 2020 00:23:39 -0400
-Received: from mail-eopbgr1300109.outbound.protection.outlook.com ([40.107.130.109]:23498
-        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        id S1725849AbgH1Eba (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Aug 2020 00:31:30 -0400
+Received: from mail-eopbgr1400139.outbound.protection.outlook.com ([40.107.140.139]:56497
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725774AbgH1EXi (ORCPT
+        id S1725846AbgH1Eb3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Aug 2020 00:23:38 -0400
+        Fri, 28 Aug 2020 00:31:29 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AXk1jBcyal0kryuHDU2ELg6OZRWBwepDI6SycnavA6OMvK4du9NXAZzRzEUwR2za/9wSEE2Py1gokqWzZDgQbAZyh0+qai0LxAqnHhzfKegrziot8IP2Jgg4eOoVNAfwufR8Die3Hb8DA47GaWPFLUn3XU5oPQLtSKu7XKu5QjNgB5pE4nvPehy9x0wsly3UMZKN/OlEJQGdZwKcFnIuEYFEa5OKzr7M605yUizjGxufCiWD9a9UDLQDOADEukapZf4ClouXbgBlZN1KA3aHpcokxgC9WGX3Wy9WYfLN8qzn/SRi/gbubnG6yqpNNcQBa7HNkrnOGRlrzm6RTtI3uw==
+ b=oMahK9f8U5WSst8eefAmU8m8GkkMDucBbwlfRB++FGy8uPbNjW503mHrEG0vuz6ZaBfJyyJD1jaTridpyjzkA3bbsvxPB/rZJgHxkNgtolqzZFvK4P3eipgo0WGDHuW6fcyvKt8pUHeVpwT+42coRGU1rX/LpdAjVvinojAEGjOtN1xr0F4iccf5HDzEiuv30u74zBROVyB9oE8RmuEtzhPveZYmGS97OOzcbyCVr+76D2+d2Nw1FrqVMB4eTLpesZ/cTj0O7lJ25O2pXQwajJ5h61bHb3s2VYk8Ge5NhzSVM5a1H4mQBtunY6LHFciKMk2YEKkDnSogomTYfH7FQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hXuRTUxireoWx5kYnC7gjiklKcOOAY1qps5jYNqO7z8=;
- b=nr1F7+EcztnKvcP2EUdVpwigDf21AD6IxcOmSVLeg7ufzOlqFiFZMEFMyDQVyCjK2OsAqwAJH4kgO6M2zpwGQS5lQCgyI8DY6V45c47kzBgC9NgKC0MpzCh9ABpP9ETXKmyqTg4wFp5a+LOpUvIgOQXb1jJOyk9nShEg8bIzBPUuQBiLzfDs07/sB6jECzIt9xOcZUuyWX8DV68vThE6Ag8uHwDGdd8U+6w4RnsVnkUyhQh0wa9YA4zySpvaPB9YIaLlBItxZ7opRENQ/MR5NiEiCh4I9ZkCjKrs7kIH1O7yNz0Ek1ehy8f6P2OiV2CKFcw1tmNSixAYTWVm0SKjVQ==
+ bh=viXwzRGAAMHEpNkJpjQX9LrSNhEP6fQUInYIiUCM2ME=;
+ b=J3gJ/gDOQJrleGwxvh7CK2QHyBWxKVs4tNBqjn6kz2ysmQs+a9Xy6YMpUsxOrbltnm2mEGfrG1hrk78TnKGl7m4Vu/7YH14BI2ZltKqUXJ7VpndnAA/GxzkTNn5wUOvtnhvzAnuXKrLhPPc0QXxjKvkECm7EKnQ8Dpy0I5m23ON9GUCmeYYq0qGq9lbRWiBJzLrfIY/nsu0ZEiyahHLvBVoJQxmJ4OMqQ7IPQQiJ02lSBuVpX4QPEv81ruNdiL1FtTksLCKApfO3AIJjETiFxLBmkPyfJ5zYStrivjsH8J7yvf0gWvTyYjvd5pr73fNhZ9Ti4e43K+NLxwVjESM0Cw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hXuRTUxireoWx5kYnC7gjiklKcOOAY1qps5jYNqO7z8=;
- b=n5tCaxUDwXTzKSSroNXaKV2B1i4Pfzn9Qar21V8nuSuEtUwDwnnQXqUndEEF9VABvXj/+9sDoJKvsw4Mkn5N0EhGubawJX3QGBgM2hqx7g8au1M7LSPwwODhE0N28LxOPzOc+x6VfqXfpeh3h/8L0qP0YvuMXR9jN+vLSZHFLAQ=
+ bh=viXwzRGAAMHEpNkJpjQX9LrSNhEP6fQUInYIiUCM2ME=;
+ b=CrsQrutrGuFBNo+HqZChqf4OsN8AnOfuEHlH8jTUOQ7HJ7254P8TQhX/KQj0kyYEyj9Wv7BG5nfcQgvGXQEj4/gkB5Lp6LxNY64+Oc7TEYn4VHs8Odyi7bCyRj8615AW013OXu5CIeWiqDBBmHvmr56lnwG2RjSYGLmpoPIGEq8=
 Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB2171.jpnprd01.prod.outlook.com (2603:1096:404:d::10) with
+ by TYAPR01MB4541.jpnprd01.prod.outlook.com (2603:1096:404:123::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3326.23; Fri, 28 Aug
- 2020 04:23:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3305.26; Fri, 28 Aug
+ 2020 04:31:26 +0000
 Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
  ([fe80::9083:6001:8090:9f3]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
  ([fe80::9083:6001:8090:9f3%6]) with mapi id 15.20.3305.032; Fri, 28 Aug 2020
- 04:23:31 +0000
+ 04:31:26 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: RE: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a774e1
- support
-Thread-Topic: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a774e1
- support
-Thread-Index: AQHWeszKwElZ4pDswkCEZ1j6DXZc7qlM8BsQ
-Date:   Fri, 28 Aug 2020 04:23:31 +0000
-Message-ID: <TY2PR01MB3692C481DF7758471C51873FD8520@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20200825104455.18000-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        =?iso-8859-1?Q?Niklas_S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: RE: [RFT 1/6] mmc: renesas_sdhi: move wrong 'hw_reset' to 'reset'
+Thread-Topic: [RFT 1/6] mmc: renesas_sdhi: move wrong 'hw_reset' to 'reset'
+Thread-Index: AQHWdvVt09dyPjOX/EKSPLUzzlKUOqlM+KoQ
+Date:   Fri, 28 Aug 2020 04:31:26 +0000
+Message-ID: <TY2PR01MB3692905B1ADEC92B4464AF4AD8520@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <20200820132538.24758-1-wsa+renesas@sang-engineering.com>
+ <20200820132538.24758-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200820132538.24758-2-wsa+renesas@sang-engineering.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: bp.renesas.com; dkim=none (message not signed)
- header.d=none;bp.renesas.com; dmarc=none action=none header.from=renesas.com;
+authentication-results: sang-engineering.com; dkim=none (message not signed)
+ header.d=none;sang-engineering.com; dmarc=none action=none
+ header.from=renesas.com;
 x-originating-ip: [240f:60:5f3e:1:b16e:b7b1:d350:3c9a]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 77a3e04c-f674-4981-3939-08d84b0a1f0b
-x-ms-traffictypediagnostic: TY2PR01MB2171:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB21710719DA3384F1BF64F8ADD8520@TY2PR01MB2171.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-office365-filtering-correlation-id: 60b819d4-6471-4d05-97ae-08d84b0b3a33
+x-ms-traffictypediagnostic: TYAPR01MB4541:
+x-microsoft-antispam-prvs: <TYAPR01MB4541ED84C1E7C022F4236A09D8520@TYAPR01MB4541.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: m1s6tnT2iegZX034j0zc89q4PgsqiiKAhrVvBY586F1n7Pix2/u+I/GEaP+R3lQsTeIA5HGpWe7cqxh4cVymmGFU3Qma6uwWu50j4r5EJ9uXcr3xT+dOcmi1+NP9xABGSpzEQ3a3WgO2ZIxIKaGWeVl5t0pzoCD3AaEJ5YeMl474Ms5LPcBKCba0UxO0aVPyMppQ/V3PtwIM6skr/8gREAo6yw/qTpo5uK7furDRn/JR2ianN3jtrfnrk0H7gvUYv4aHjhDZwB6kLaWdps21Ag6785J6VD553sqUbnBlpMJ06RNed5ZBEQeR/QQdxY9wh1aDy6PwZ0aEaiuUSUNkQUNt/jaoqyperqxe7yEf92eab9uZ8P6q5nEXykr9ep9D
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(7696005)(55016002)(52536014)(4326008)(186003)(9686003)(86362001)(2906002)(33656002)(71200400001)(64756008)(66556008)(66476007)(66446008)(110136005)(8936002)(76116006)(6506007)(66946007)(478600001)(316002)(5660300002)(8676002)(7416002)(54906003)(142933001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: j76olSofpy7MUFo7xrQaZGtX1PKp1KbBdoKnYlfZ0fZydLBRPzsTd6EF4S00JlGzP9VDeV0K3mWHCBsFWGCdiXJvten4z3U82z4w4M4xpiIeJwrMSUPBejD6fQwKBFxJ1rXPxRD6PkB+PV751WXOufxEPWKxH8vO+clpyRlJpg6sxz/7Njcr0zp148MrBUdUz0V+x/a+k/3LQbyR67WA69AWWsGvYmuz000ayVEBJfMMY4/nKOMCMgQ8CsyRiER2mfB16XhaKZ7e4vkvmP1tIa/ijG7nvJk0Cmu51ddxbKOMp6nymh9p4InP0oJjhasyEYLTwGCT535HAjD6RB+Pf5ibnRo8IzzXaqwijykirB/V5154OZFZa0jEZmtRnUJdtC5oL9DIPNY4xbF8gYx0ngsEq+VGSGIkPhSYHb3wE9Fdvh+2q9GYNjK9CD8IWbzXEaKDAta7teoP/9SO5FIv7pBsLB+gdPuNyZLb4O8tGWlM08cgJNQT2gJ9ui4r21I7sBaHWRKNY2DeKpaEPKq8t4w3haEkpSW8QeZrTaE8j6/DyPkmTvfeBVGfuII82SjlKZ/PlbYjQhlbt+m+UAgybONXNqmtcoUnx9RvkzGixL+1dLnEuHsGY0KO6OJBs9M4d6tYG0lY+l75fPrbcCqxHckZLPvrD7O62s57W2miaagZhCBfdFBdrV8qvPZ/srqCtrtgHXIg+jOwDWaMr/oCFQ==
+x-microsoft-antispam-message-info: opa8VL45sRhK0wtkjbuY4ME4XW1VTTiUzG2ybH2bKj7psV++7FpORuk4fvShnzIFEmc2Kt8xmK/xOqr1pgl0itqJSVvqcmnrkFKS7qOArw8wWeEc/jYHeUd2YmMQ8gssqLOWLzQFsvX2jVQilrR0m8TDxjb5FIPnzKmk4s0ITmY4lDOXSyAuKyfIIBJUKuJl/DMzIPRPrEtgTZVJ9iUSRY4tH4aFnASYRQX9AT61sPib6l/L1kwS0tJG26Up4CmPQxFRdbePxI4Pm4Xz8TuWhKzGbG5jtbfad0EbG1VOJ+0fcL3Ama+63e2wa6te6JsKQP5V+0uSFhdmXaPvDklw3w==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(366004)(376002)(346002)(396003)(7696005)(54906003)(110136005)(55016002)(4326008)(71200400001)(186003)(52536014)(2906002)(33656002)(5660300002)(86362001)(4744005)(9686003)(478600001)(6506007)(64756008)(66446008)(8676002)(66476007)(66946007)(316002)(66556008)(76116006)(8936002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: DaTnSPaRkK9m93pcZJ9gq/03ChYDe4nBQQ1vgQk/uOHcatcoCunxT/DMQtlVt5euT9ZtomaVYwx4y6l53GHNvpK53CQiMBzq/RVv0MbynBOUyVMSVjXhm2cnG31AYPaQGX1ZilAHXFqawmAiLL5YfsfnXQyO3mwZM7BJ9NwjubRIlNa37yIgd++TLfFHaIvIPb+TLhsM2evPxDdEw7lJYWfOay6sGpa8HWoGM3xXLC06P2B7feqrpBUIOz0hLQYVZD+suJ/zyYLLdM90PzBeUrGO7K6Ngz8nYadh1h0RF9YU5OZ4uKLcX8PVMFGa9AMz4rpNZYeALfyRoVxdHdreeGXEO4pB6gswVgNrLAsYFpwCb+A+8KrccgDzti0QIp8Vx0OsSH+WdJLeLHyLtEoAHqnxZxP0OZ1xQp2BWlAAyCpZpxwLqlm3f2eGRRmSQYdZshq/O263M6rTl4rqwnrUfj+9V9cqdaMBNSXUhe3JufXJmU5m+qYfeCoOOemmbM7HvlyD3u/Upsul7KsG2ScZLpflXMsVEiAlPjv1gxggkxBbzVQJHwu3akWg/pZTGTSKviK25ObpMSrMWWtjjuiqsQIo0DoZ4UHggxL+d3sRy/Fsc+0u+X5Wb5drCh6PPL7cIOZlDwRkNmtxQ0aS2YYMblATHYXFuN6fPMoe+EQxw2pU6mRqizil9ah4TmjhINps9+RnqVjtb2CS24Ny3+tvSQ==
+x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77a3e04c-f674-4981-3939-08d84b0a1f0b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 04:23:31.4361
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60b819d4-6471-4d05-97ae-08d84b0b3a33
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Aug 2020 04:31:26.2690
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /nacFlbikso9qW/XGNaPRpj59WGZzVMTjOcqm2WCqeQ5ey9m+NMo2rFV/3P/RTK9rBjl63C/1Sq4bH727CFw5852ZGXZOripkfUl5vBGswxVp8HXFv12tyscc77qIsqh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2171
+X-MS-Exchange-CrossTenant-userprincipalname: 7QCCNcSEOTjRYONe3bcsSUkCnRgmk2FlO5KlnIDzHTp4nykXNtH7jeL9nQP8enuKF+NHRYt5HmIMODHY/xq2LzVuujxs9ZTzh2ybKyAahYAsVRgVJtkq1Tcscz4HGZLH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4541
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad-san,
+Hi Wolfram-san,
 
-> From: Lad Prabhakar, Sent: Tuesday, August 25, 2020 7:45 PM
+> From: Wolfram Sang, Sent: Thursday, August 20, 2020 10:26 PM
 >=20
-> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> This driver got the usage of 'hw_reset' wrong and missed that it is used
+> to reset the remote HW (card) only, not the local one (controller). Move
+> everything to the proper 'reset' callback. Also, add the generic reset
+> code from TMIO, so we will ensure the same behaviour (it will get
+> refactored away in a later patch). This also means we need to drop
+> MMC_CAP_HW_RESET because this is currently not supported by our
+> hardware.
 >=20
-> Document RZ/G2H (R8A774E1) SoC bindings.
->=20
-> No driver change is needed due to the fallback compatible value
-> "renesas,pwm-rcar".
->=20
-> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.ren=
-esas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thank you for the patch!
 
@@ -121,23 +111,4 @@ Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Best regards,
 Yoshihiro Shimoda
-
->  Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-> b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-> index daadde9ff9c4..5407c11e92a4 100644
-> --- a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-> +++ b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-> @@ -20,6 +20,7 @@ properties:
->            - renesas,pwm-r8a774a1  # RZ/G2M
->            - renesas,pwm-r8a774b1  # RZ/G2N
->            - renesas,pwm-r8a774c0  # RZ/G2E
-> +          - renesas,pwm-r8a774e1  # RZ/G2H
->            - renesas,pwm-r8a7778   # R-Car M1A
->            - renesas,pwm-r8a7779   # R-Car H1
->            - renesas,pwm-r8a7790   # R-Car H2
-> --
-> 2.17.1
 
