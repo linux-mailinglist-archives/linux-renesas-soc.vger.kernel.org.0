@@ -2,92 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA662256A2B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 29 Aug 2020 22:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3030D256CCD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 30 Aug 2020 10:30:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728416AbgH2UiX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 29 Aug 2020 16:38:23 -0400
-Received: from www.zeus03.de ([194.117.254.33]:58352 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728480AbgH2UiW (ORCPT
+        id S1726130AbgH3IaV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 30 Aug 2020 04:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49580 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726013AbgH3IaO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 29 Aug 2020 16:38:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=f5gjPSE4jbm4N/
-        jLLF41Zghd+zThCN6fEw+rdAJVkOs=; b=gD9BnwzAU+jcynIvj9Xsmo2SGDMMg+
-        SfOF7lJPfdTmiZUz3gJ/JuMJisFiO6Gzeb2jQOyi01Dd82JQWQn503Ar/DxvQku4
-        ElMk2PwnUKGWo3dWr5ziSU5ZuK1Xa1AmaN1nWclJrXlCkPSYLc0dpBbA6jk2ctcM
-        Bctmx1xIfrl1Q=
-Received: (qmail 1629979 invoked from network); 29 Aug 2020 22:38:20 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Aug 2020 22:38:20 +0200
-X-UD-Smtp-Session: l3s3148p1@6bRgJgqu/tAgAwDPXyCvAAFyN1rCWI+G
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 2/2] i2c: rcar: refactor and shorten timeout when resetting
-Date:   Sat, 29 Aug 2020 22:38:10 +0200
-Message-Id: <20200829203810.1467-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200829203810.1467-1-wsa+renesas@sang-engineering.com>
+        Sun, 30 Aug 2020 04:30:14 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867A5C061573
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Aug 2020 01:30:14 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id k25so335384ljg.9
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 30 Aug 2020 01:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=uANdC3Qq5+g0Va1n9SZTJ4/1HBJUaq7gjMVuKlIL7g4=;
+        b=0UufQn99RcD2FBH1RMu/b5p3N3sPIBT59BKn3ojvDa3mgbuwB3Om+qi2WgeiLVpMRj
+         eUne2CajbcEqR5L6LtqtdCXAhLqfAZQ4Jvrtw2nrh4gf2n6Usu3HEQSOomW3xqzyvs8c
+         nF7qKzbr0uR79NhPM2PksNDiJe3RWg+qWnpNAniM1gIApoK5C0TBvDSZ/bMCT7qCITHO
+         bGcdzcwRxU3E765xLlQbUeTVTNe08VWPt1ZHRUDSC8UyHENjD9RhOQ2MdR/l78HnwudK
+         FkEidNwWUYn5WSOgsOFR/nxDHDVDZGm+pKQJ0gJHNJZcdTs50zJg5KBI2ShCdDkwNoxy
+         5xEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=uANdC3Qq5+g0Va1n9SZTJ4/1HBJUaq7gjMVuKlIL7g4=;
+        b=czh4xi7lZ+UlwN3/bGeyDGEnUIk4hkAguien3B4IS90CMjNHsXvZvT+fCIoFwZp+m/
+         Q7hThj9TbymswwEUIPpeW8h1RUyrMMBysA3KWM5Dkhk8J5LDCPG5UhPravhbm86K/wy4
+         UE2Z5CA1SOP5x+ly3ACDncInsYYTBqThz4oSaIwqlJhrhd2Hy69FBQo9yIWU2w4uRPz1
+         Zc3obtc8nFp2P4nBtbXTPcRfoEfVGa1dobezMJ9FlaA1/vlyNgvNgkuJSrsFsywhpjco
+         3YbR42L87oFdIt9mC6rM9/sGsVsxh3qfjXFDO2eQX6KyWxcADOskXGkf5ZW3twK3F+5x
+         8gzA==
+X-Gm-Message-State: AOAM533d99zD7SaOTp7NAVTY8AN1ZUTSBwmPkEaaK8zBdHCalsPuBlRa
+        DmZB9qwBXc6789MQDkFb3ZqJNg==
+X-Google-Smtp-Source: ABdhPJysnyKxv/abzxyGJ2Z56RtKV0bo33IcE+yeUc1qD0kjwBJ5h+z29c5pTBnRQK8PgvhzEIy7zg==
+X-Received: by 2002:a2e:3207:: with SMTP id y7mr2984731ljy.302.1598776212842;
+        Sun, 30 Aug 2020 01:30:12 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id a26sm878773ljm.63.2020.08.30.01.30.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2020 01:30:12 -0700 (PDT)
+Date:   Sun, 30 Aug 2020 10:30:11 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/2] i2c: rcar: use iopoll helpers for better timeout
+ handling
+Message-ID: <20200830083011.GS594558@oden.dyn.berto.se>
 References: <20200829203810.1467-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200829203810.1467-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-LOOP_TIMEOUT was only used back then because we didn't want to introduce
-another constant. The timeout value can easily be a magnitude shorter
-because the typical range is 3us - 8us. Refactor the code to use the
-poll_timeout helper, use a specific timeout value and get rid of the
-ugly LOOP_TIMEOUT constant.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/busses/i2c-rcar.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
+Neat work, I learnt something new.
 
-diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
-index ef10514f6215..217def2d7cb4 100644
---- a/drivers/i2c/busses/i2c-rcar.c
-+++ b/drivers/i2c/busses/i2c-rcar.c
-@@ -150,9 +150,6 @@ struct rcar_i2c_priv {
- #define rcar_i2c_priv_to_dev(p)		((p)->adap.dev.parent)
- #define rcar_i2c_is_recv(p)		((p)->msg->flags & I2C_M_RD)
- 
--#define LOOP_TIMEOUT	1024
--
--
- static void rcar_i2c_write(struct rcar_i2c_priv *priv, int reg, u32 val)
- {
- 	writel(val, priv->io + reg);
-@@ -765,20 +762,14 @@ static void rcar_i2c_release_dma(struct rcar_i2c_priv *priv)
- /* I2C is a special case, we need to poll the status of a reset */
- static int rcar_i2c_do_reset(struct rcar_i2c_priv *priv)
- {
--	int i, ret;
-+	int ret;
- 
- 	ret = reset_control_reset(priv->rstc);
- 	if (ret)
- 		return ret;
- 
--	for (i = 0; i < LOOP_TIMEOUT; i++) {
--		ret = reset_control_status(priv->rstc);
--		if (ret == 0)
--			return 0;
--		udelay(1);
--	}
--
--	return -ETIMEDOUT;
-+	return read_poll_timeout_atomic(reset_control_status, ret, ret == 0, 1,
-+					100, false, priv->rstc);
- }
- 
- static int rcar_i2c_master_xfer(struct i2c_adapter *adap,
+On 2020-08-29 22:38:08 +0200, Wolfram Sang wrote:
+> Originally, I noticed that the timeout value for initiating bus recovery
+> was not optimal. While fixing it, I took the chance to convert its
+> handling to the iopoll helpers. And then, I converted the timeout
+> handling for resetting the device, too, while I was at it.
+> 
+> Tested on a Renesas Lager board (H2) and Salvator-XS (M3-N).
+> 
+> Wolfram Sang (2):
+>   i2c: rcar: improve bus busy detection
+>   i2c: rcar: refactor and shorten timeout when resetting
+
+For the whole series,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> 
+>  drivers/i2c/busses/i2c-rcar.c | 34 +++++++++++++---------------------
+>  1 file changed, 13 insertions(+), 21 deletions(-)
+> 
+> -- 
+> 2.20.1
+> 
+
 -- 
-2.20.1
-
+Regards,
+Niklas Söderlund
