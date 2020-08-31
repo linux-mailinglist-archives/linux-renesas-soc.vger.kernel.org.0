@@ -2,79 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A30F6257B16
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 16:10:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E51257B2E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 16:18:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbgHaOKs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Aug 2020 10:10:48 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:40331 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbgHaOKr (ORCPT
+        id S1727815AbgHaOS6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Aug 2020 10:18:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726503AbgHaOS4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Aug 2020 10:10:47 -0400
-Received: by mail-oo1-f65.google.com with SMTP id r4so266055ooq.7;
-        Mon, 31 Aug 2020 07:10:46 -0700 (PDT)
+        Mon, 31 Aug 2020 10:18:56 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554E6C061573;
+        Mon, 31 Aug 2020 07:18:56 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id h20so4107581ybj.8;
+        Mon, 31 Aug 2020 07:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vPzA/szbiOJ4LZqmMIhJgb16iEL9gpjeImZDHNLa1K4=;
+        b=AiV0tOH4tua4r/vbE/jeaLQJk25JCMzI1fGfk9/wqIdAdkDhez205t7pYCcXymDlHn
+         J9Zl/z8dl6MbUsaUzLBMjmvzIceGaR9Gct+RmVQ/SbQRsE7sHaJpOssmZm8h1enNTy4y
+         zTwf3J0eE8fyK3Q2b0Jaj9bylrHsNjphmHGQmudeSO/AZIjCvga0xIMbk9qvpsl3nfyM
+         tQKDPPnPId6/NU+j6AOTXCX8Fn9vfPu3vkRrBOXjLUxO6W381rNEXxi9JfONSVGaYPpn
+         F6JLhb4MUzwDiZrZjH+gopud/F6HNMqhUAu031OnhzgVYo5m4o+ChgEJhXnNHmKv80Bk
+         eyLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mg2kWSET2DD7xUcBGIDLTHE0LxU2ZfxpS0GYdkqd7Ls=;
-        b=hiqN3u+bvb6x61I2OP1eDqOf32V8Z7nZCqjLfrVztFDylDTvgGnMUN08ng00WfpvBQ
-         axjEasi3SA6TTIyhgCArkXI2mVRqSxakF/2gsQ+KXvSXDZfn9p4ovlRY36EJtBLIIEVF
-         Le2cOGcxcoa/ioZXOTN+7Ap+BVDKKSrKqJKvTE6v/ktVPMX9mhPp0H+ymQ4LJ1lShylr
-         7SOy0lE1DAlLvEZ7AqAmHBv547ZnEZl1j2x0TphknvQqPFvzbuZRNWLLBAd0CTeV6xtN
-         vNs5Z5Dfp6D5A2LRa/KuzMU9z912c7fWHxDp+CwFOYs43wPj2h3DyQOpyyWzWluuPfp7
-         vdtg==
-X-Gm-Message-State: AOAM531f62ppf0T0yh5mlY5R2ueRPn5qDry/3i984lCgHrJdqFDRl+mo
-        1bblKdCKQ0KE8RE6V0m3z+IiXObi+oeKdx8UJeE=
-X-Google-Smtp-Source: ABdhPJx1op7RpM2TgbcSfLK0lG7nhjYMw09NZP05H7xYmYzxkozfhjpjxIWZcuU/tePeA91T6RHcBhr9HAsgjx1fleU=
-X-Received: by 2002:a4a:5403:: with SMTP id t3mr918697ooa.11.1598883046251;
- Mon, 31 Aug 2020 07:10:46 -0700 (PDT)
+        bh=vPzA/szbiOJ4LZqmMIhJgb16iEL9gpjeImZDHNLa1K4=;
+        b=fVgHGt/SPDWGXNRgL+a1CBwuF1FmVeJttyOiujN8xMwiGmB7ga7dX+8WEvNha5QZpy
+         5MI3A/LUAEMgGpVHyjhT1POnoa4kbXed91zwpvvxpdKU2HtWypCORTnVmED7wcO7gILC
+         fBUPetvfdsrwzA4BxywKO3g94rrtLVZwqeoZbPv4cpsxktOUXyGZIp0KU0w7bF+gHVlJ
+         R9IHko8rX6yQr6JoDoKdq9bwQ7frxv7HnNhFQnASwRifNzRFwEl5ylSpah31LfyFW6KO
+         JUaU6mKLrYieivXaxciI/6wrz1b+J0vF9MVlhSRpA9kqIqGX+JOE4142SfQlZGpfU3VA
+         1ZCQ==
+X-Gm-Message-State: AOAM530rCRi8aQcgcKOgRdXbwovYbD37GiX1yMuYC0QUXPUzYl4J9wHp
+        HkYa3b6WIh76xH5ufhC5/cdCjza3Y+kghK/wH6A=
+X-Google-Smtp-Source: ABdhPJxSTs3UD78TilStje9+W40Pevt8nfLuWLrVXscOYtAfK/JkBiBHmW9zKsARiP0rESdwi90FVSuyOoIUF6PlWII=
+X-Received: by 2002:a25:2a58:: with SMTP id q85mr2710830ybq.518.1598883535216;
+ Mon, 31 Aug 2020 07:18:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <87mu2ky4rz.wl-kuninori.morimoto.gx@renesas.com> <87k0xoy4r7.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87k0xoy4r7.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 31 Aug 2020 16:10:35 +0200
-Message-ID: <CAMuHMdVpDJiBpzDjm2deS=GM4-it9sJVCnQYwt3ZfvwMHQ5MjA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] pinctrl: sh-pfc: collect Renesas related CONFIGs
- in one place
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVcGz_C+e49pgNM=ui8bTu6Vg0A7pZY6nq7n3RdAJObgg@mail.gmail.com>
+In-Reply-To: <CAMuHMdVcGz_C+e49pgNM=ui8bTu6Vg0A7pZY6nq7n3RdAJObgg@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 31 Aug 2020 15:18:29 +0100
+Message-ID: <CA+V-a8v-KP95VXN84JzS5tJd6=ONy0+Pvse57PqgpWp20nNRxA@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add clk entry for VSPR
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Geert,
 
-On Mon, Aug 24, 2020 at 7:49 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Thank you for your review.
+
+On Mon, Aug 31, 2020 at 1:38 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Renesas related pinctrl CONFIGs are located many places,
-> and it is confusable.
-> This patch collects these into same place,
-> and group into "Renesas pinctrl drivers" menu.
-> This patch also moves pinctrl-rz{a1,a2,n1}.c into sh-pfc folder.
+> Hi Prabhakar,
 >
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Thanks for your patch!
+>
+> On Tue, Aug 25, 2020 at 3:48 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > Add clock entry 130 for VSPR module, so that this module can be used
+>
+> VSPR ("VSP for Resizing")
+>
+> > on R8A7742 (RZ/G1H) SoC.
+> >
+> > Note: The entry for VSPR clock was accidentally dropped from RZ/G manual
+> > when all the information related to RT were removed.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > Similar details can be seen in commit 79ea9934b8df ("ARM: shmobile:
+> > r8a7790: Rename VSP1_(SY|RT) clocks to VSP1_(S|R)") for R-Car H2
+>
+> Indeed.  And R-Car H2 and other related soCs are still affected, as that
+> fix never made it to the new clock drivers ;-(
+>
+> > --- a/drivers/clk/renesas/r8a7742-cpg-mssr.c
+> > +++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
+> > @@ -97,6 +97,7 @@ static const struct mssr_mod_clk r8a7742_mod_clks[] __initconst = {
+> >         DEF_MOD("tmu0",                  125,   R8A7742_CLK_CP),
+> >         DEF_MOD("vsp1du1",               127,   R8A7742_CLK_ZS),
+> >         DEF_MOD("vsp1du0",               128,   R8A7742_CLK_ZS),
+> > +       DEF_MOD("vspr",                  130,   R8A7742_CLK_ZS),
+> >         DEF_MOD("vsp1-sy",               131,   R8A7742_CLK_ZS),
+>
+> While at it, can you please replace "vsp1-sy" by "vsps" (VSPS = "VSP
+> Standard"), and fix the other drivers, too?
+>
+Sure i'll get that done in v2.
 
-Thank, will queue in sh-pfc-for-v5.10, with the following MAINTAINERS
-update folded in:
+Cheers,
+Prabhakar
 
--F:     drivers/pinctrl/pinctrl-rz*
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
