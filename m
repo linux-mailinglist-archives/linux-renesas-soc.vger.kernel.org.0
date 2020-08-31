@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AAE9C257995
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 14:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 113C92579B9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 14:51:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbgHaMpD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Aug 2020 08:45:03 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36135 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726144AbgHaMpD (ORCPT
+        id S1726692AbgHaMv1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Aug 2020 08:51:27 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39562 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgHaMvZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Aug 2020 08:45:03 -0400
-Received: by mail-oi1-f194.google.com with SMTP id x19so846825oix.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Aug 2020 05:45:02 -0700 (PDT)
+        Mon, 31 Aug 2020 08:51:25 -0400
+Received: by mail-oi1-f195.google.com with SMTP id z195so852979oia.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 31 Aug 2020 05:51:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/wrQEXQu/I1notIgo8m1WHfEI1oHGXF4VKnxQggXCm4=;
-        b=oBK7o20dQH7bHNS6p4CFAbVsEhEz9E9C6HJbJ4PMCPW46kF0QTLRFlR600X3iRt0uh
-         4jVFZJBG+gaWm3k8iy+HQg3bwOGcqti0JZZI7/8mlSa1arHlhMzkJN1Et0RpHgnBxyRD
-         p1xsAoV5Fc2brCom/8V+XEJaXYca2BNfxKOmnXcE9nNa34ItvccmMifzlA+0yaUXaKF1
-         05ThF47fQ12xifpWCVC101Qrs6RSDw0tUnTyOTdBJ/jTDM5U8QvFx5sW8mYnmplKCsS3
-         8/HL/oYL9Ebx+FFS985f0imSHfL0CH/7oQQflQ8jpzxDKuWIZJxX0/sBGnAGJEcAUoFw
-         a5bA==
-X-Gm-Message-State: AOAM532i9IVEYAX6T7+GlH7VdLgt2ZxAlQjhssQ4V4H/OZPpNp/EbkAW
-        74MgrHZzdMSsKYqAJFSQqV0Ws+XvhcrMQrjDWUGzmkGIvCM=
-X-Google-Smtp-Source: ABdhPJwVZPl0yYgz8ZOEvZuKoUsn52moyMkeM6/MGMnBZd4RppR7fWUvTo2IYYkQHoF2rmr1intP/+GHC3eiEjh5zhI=
-X-Received: by 2002:aca:3402:: with SMTP id b2mr596268oia.153.1598877902579;
- Mon, 31 Aug 2020 05:45:02 -0700 (PDT)
+        bh=AD8J7kXXhSUpASwScT9d7do417XfWlrQTqvKYTQleD0=;
+        b=m157avGIN2S3m6Cmrpvlfcm3ncsnsmbQHbQroO33ndUTsvL2/qkrpw/sEIWQIvCb6r
+         BUVIWq01muJ2rey4giDC6ei+lIY5U1AtJohF14W6udm1OZFAzObPzbJEo3G0nqhDrIk9
+         QZpDC+qPP+3UrGFfQDwHfhETq+Em2Kz4tBzNmkEwpn3UE/6XYJpIGQez+BU7lhuMexgA
+         NycDLjLQXGYr/Cce91PoF03EddvmJvlaeCZu03w+XlVgXVPNlRd0gM46EynZn0t9Pg2N
+         bk+vq9yop3eqylpoulfmB3Yql7J0KafwNc8plXsd58YCEDikwLXIWDQVdbnKzQap931c
+         VkzA==
+X-Gm-Message-State: AOAM533Qw49a1Z5nsGitz3TA/KCjXy88fB5K/ekWtZ7ABskz/LGQsEv0
+        2Xr0qWrI6SfXT+e4H/Wjwqra7SnNwtEeKHK2Sd+lJ4xXV0M=
+X-Google-Smtp-Source: ABdhPJy8Kr9Di6qcI3hRscVzpF6+7dKwV97jJKegovjc9E2RVVmzxQ6P/Nx9eldqC9VW6KpQZcWKq7fUDmhz+ZnftPY=
+X-Received: by 2002:aca:b742:: with SMTP id h63mr614686oif.148.1598878285299;
+ Mon, 31 Aug 2020 05:51:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826100358.5936-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200826100358.5936-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200826100358.5936-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200826100358.5936-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200826100358.5936-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200826100358.5936-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 31 Aug 2020 14:44:51 +0200
-Message-ID: <CAMuHMdVZ_bGyeopSbOKZo_SRVj=DxhkZqFke_8F75VoLogC=EA@mail.gmail.com>
-Subject: Re: [PATCH LOCAL 1/2] arm64: renesas: defconfig: Enable CONFIG_PCIE_RCAR_HOST
+Date:   Mon, 31 Aug 2020 14:51:14 +0200
+Message-ID: <CAMuHMdVGjV_DXkgEEDcoKwwTwKyxiMuLFMPdHU9HOurs9DnL7A@mail.gmail.com>
+Subject: Re: [PATCH LOCAL 2/2] arm64: renesas: defconfig: Enable R-Car PCIe
+ endpoint driver
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -49,10 +50,10 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Aug 26, 2020 at 12:04 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> config option PCIE_RCAR internally selects PCIE_RCAR_HOST which builds
-> the same driver. So this patch renames CONFIG_PCIE_RCAR to
-> CONFIG_PCIE_RCAR_HOST so that PCIE_RCAR can be safely dropped from
-> Kconfig file.
+> Enable R-Car PCIe endpoint driver on RZ/G2E board, including enabling
+> endpoint configurations CONFIG_PCI_ENDPOINT, CONFIG_PCI_ENDPOINT_CONFIGFS,
+> CONFIG_PCI_EPF_TEST and CONFIG_PCI_ENDPOINT_TEST required to use and test
+> the driver.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
