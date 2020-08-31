@@ -2,140 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9AD8257895
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 13:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC75D257979
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 14:39:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbgHaLly (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Aug 2020 07:41:54 -0400
-Received: from www.zeus03.de ([194.117.254.33]:44158 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726775AbgHaLly (ORCPT
+        id S1727935AbgHaMjB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Aug 2020 08:39:01 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41600 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbgHaMit (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Aug 2020 07:41:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=Rlo+b87xmJ7xqCoMXBaqTI+im096
-        OJ7Uj5B+OJVPxWw=; b=g9eF1cbW5ONJh1qNNlEIdhNXwmkncIhnUfLApfGrm2rm
-        f/6QwM1CekgZ8P3M+RMYV6UBVBOjFCRAS6gpvkeaVjSeGgPcwIAXhve+AqqihFJi
-        dDdxmrJ3rUIcIdRTmEbOBCvsh+j0K4XHW5cSbKMDdhAS5Um+dWm22pD0CuyuP6k=
-Received: (qmail 2106240 invoked from network); 31 Aug 2020 13:41:48 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Aug 2020 13:41:48 +0200
-X-UD-Smtp-Session: l3s3148p1@cYdD4yquztAgAwDPXwczAOmbI0TU8LCu
-Date:   Mon, 31 Aug 2020 13:41:47 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>
-Subject: Re: [PATCH 2/2] mmc: renesas_sdhi: support manual calibration
-Message-ID: <20200831114147.GC1070@ninjato>
-References: <20200605101222.10783-1-wsa+renesas@sang-engineering.com>
- <20200605101222.10783-3-wsa+renesas@sang-engineering.com>
- <TY2PR01MB369224E06BAE72C1711B681AD8510@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Mon, 31 Aug 2020 08:38:49 -0400
+Received: by mail-oi1-f196.google.com with SMTP id 2so815240ois.8;
+        Mon, 31 Aug 2020 05:38:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pCsWJiU+SeSX/BQT94U7ntSq2DXQU2wdBG6dv3ohm/A=;
+        b=snrgaOzUERKjWMwbP2Mq32S44hzGQgMsBpYMip7G6ah2ayCAjcd02Z5vMqdegoCvEo
+         hE39wJAjl6x2E3Ep0AOOfAkenpev18KYk5VBE2bhW8sR4U1TlYC56JjhRBFxxgbalQqQ
+         l68ldYB0UAbGZAOh9cpYPobqks9pX57gkg0xpLGmQ1rTqbIRKHXZrMTcxoxxbyLg9RhO
+         9zgGKmHAUXItskNRKhkUmEiF08xs+Lq/umsPnhw7DegkHoaqvMEG65mU//Rkn5aoJFGs
+         h7/kzp7oXLOibRy/WNGGCOFqUqSEd+mH6KXbY7cD1O721QTNiz60g+2Xlucq5ox07o25
+         42Pg==
+X-Gm-Message-State: AOAM532O1HPCr3t7opI9GPFIM45W2lZb/o6rPgbW4YhsTIMedmLT2N3W
+        V8ayodtJZQdS4vsXPysDDTY/bQ0Q6ezjFOLJ2oYZyTyJHQA=
+X-Google-Smtp-Source: ABdhPJzZB+2rt1wEa6gxS0s5ZyQyHRzufXJ1mYnhpK/hQPbXX6bNUonm86n9yv9d6v1JRXAsU5O4A+NuvGI1eRzAOJU=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr639635oib.54.1598877527029;
+ Mon, 31 Aug 2020 05:38:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB369224E06BAE72C1711B681AD8510@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 31 Aug 2020 14:38:35 +0200
+Message-ID: <CAMuHMdVcGz_C+e49pgNM=ui8bTu6Vg0A7pZY6nq7n3RdAJObgg@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add clk entry for VSPR
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Prabhakar,
 
---zCKi3GIZzVBPywwA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your patch!
 
-Hi Shimoda-san,
+On Tue, Aug 25, 2020 at 3:48 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add clock entry 130 for VSPR module, so that this module can be used
 
-> We should set the needs_adjust_hs400 when HS400EN=3D1 is set.
-> In other words, we should set it in renesas_sdhi_hs400_complete(),
-> not renesas_sdhi_prepare_hs400_tuning().
+VSPR ("VSP for Resizing")
 
-Oh, thanks for pointing this out! I simply put it into the same function
-as the BSP, but due to massive refactoring in the upstream driver we
-really need to put it where tuning is completed. I used the following
-patch on top of this patch:
+> on R8A7742 (RZ/G1H) SoC.
+>
+> Note: The entry for VSPR clock was accidentally dropped from RZ/G manual
+> when all the information related to RT were removed.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Similar details can be seen in commit 79ea9934b8df ("ARM: shmobile:
+> r8a7790: Rename VSP1_(SY|RT) clocks to VSP1_(S|R)") for R-Car H2
 
-diff --git b/drivers/mmc/host/renesas_sdhi_core.c a/drivers/mmc/host/renesa=
-s_sdhi_core.c
-index 2834b30c3ba6..b54dd8a7ecaa 100644
---- b/drivers/mmc/host/renesas_sdhi_core.c
-+++ a/drivers/mmc/host/renesas_sdhi_core.c
-@@ -419,6 +419,9 @@ static void renesas_sdhi_hs400_complete(struct mmc_host=
- *mmc)
-=20
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, CLK_CTL_SCLKEN |
- 			sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
-+
-+	if (priv->adjust_hs400_calib_table)
-+		priv->needs_adjust_hs400 =3D true;
- }
-=20
- static void renesas_sdhi_reset_scc(struct tmio_mmc_host *host,
-@@ -544,12 +547,8 @@ static void renesas_sdhi_reset_hs400_mode(struct tmio_=
-mmc_host *host,
- static int renesas_sdhi_prepare_hs400_tuning(struct mmc_host *mmc, struct =
-mmc_ios *ios)
- {
- 	struct tmio_mmc_host *host =3D mmc_priv(mmc);
--	struct renesas_sdhi *priv =3D host_to_priv(host);
-=20
--	if (priv->adjust_hs400_calib_table)
--		priv->needs_adjust_hs400 =3D true;
--
--	renesas_sdhi_reset_hs400_mode(host, priv);
-+	renesas_sdhi_reset_hs400_mode(host, host_to_priv(host));
- 	return 0;
- }
+Indeed.  And R-Car H2 and other related soCs are still affected, as that
+fix never made it to the new clock drivers ;-(
 
-and got these debug reports from my M3-N:
+> --- a/drivers/clk/renesas/r8a7742-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
+> @@ -97,6 +97,7 @@ static const struct mssr_mod_clk r8a7742_mod_clks[] __initconst = {
+>         DEF_MOD("tmu0",                  125,   R8A7742_CLK_CP),
+>         DEF_MOD("vsp1du1",               127,   R8A7742_CLK_ZS),
+>         DEF_MOD("vsp1du0",               128,   R8A7742_CLK_ZS),
+> +       DEF_MOD("vspr",                  130,   R8A7742_CLK_ZS),
+>         DEF_MOD("vsp1-sy",               131,   R8A7742_CLK_ZS),
 
-     kworker/0:1-21    [000] ....     4.171435: renesas_sdhi_fixup_request:=
- code 17 replacement 18
+While at it, can you please replace "vsp1-sy" by "vsps" (VSPS = "VSP
+Standard"), and fix the other drivers, too?
 
-which was different without the fix:
+Thanks!
 
-     kworker/0:1-21    [000] ....     4.171435: renesas_sdhi_fixup_request:=
- code 31 replacement 31
+Gr{oetje,eeting}s,
 
-> When we read the calib_code at room temperature, the value will be around=
- 0x10.
-> However, we will get 0x00 here. So, we need to fix it.
+                        Geert
 
-So, my new debug output looks good.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I will fold the fixup patch into the next version of this series. I
-still need to get the stalled-SCC issue tackled first. But I am now
-working on it.
-
-Thanks again,
-
-   Wolfram
-
-
---zCKi3GIZzVBPywwA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9M4fcACgkQFA3kzBSg
-KbZqORAAjtXdyjdaveVv7rrFD0pPRakeAlR3dsfbVVIKH1DheeieIDUll5VmlAtV
-Jr9q1OeC49GRijWh3dveZH7cyPjpXwJ8YZuW8HXpAj7ET0ZrB1o/fmOxPsDMLlVW
-rb5Ma1RBIQ206r394cQsb3AscTpDw9mn5evKdoLw1MeiKnzHOfgBNprT+VXWnp+t
-7WORFc04MnJ+WulztmUczcnAY1qbtiYkrH47sJRqvXIf4jS3Wayb1jJyJVM2IAlk
-aw5KDUd070EcTHL2tGqL9NRubAjPlYb0vbHPbJ99X+DyvypluoO2g+mMkEKeyn7C
-WQzHoC97E0DXGnCddFmrsjgyUpGsrhgt62doEjD8St8yf+WcUJbOGSovZHwSOcIq
-VnfVM4K8Q55n0XfbsTcWgedtBlAewV8PuxRMSx2uUrOpj6r7mdZ0zmEzDbs1l+lN
-K15R6R53mur4eAZ2DHpWd4Y3UnFktHDK/9p5BDtfquu9jXQayZheizzM4hVOTR7S
-hOmgCCusVuCQFSv8f/2udqHtQI0hTdEmp2JdX4G2cetSiYep+bTq/bPos1kv+LkB
-6/1Xh0u9ff/e54bPxVqF4JrBmQaL2T/U5m9tITJV0drKASeNyeWZP8W0qZSbJQUY
-g9j/K0ZEqYmAmkEfiJn1CTbVqklexakWxWtadb4fj7SAJNJR4Aw=
-=+7nk
------END PGP SIGNATURE-----
-
---zCKi3GIZzVBPywwA--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
