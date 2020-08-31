@@ -2,48 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC75D257979
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 14:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC159257983
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 14:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbgHaMjB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Aug 2020 08:39:01 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41600 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726326AbgHaMit (ORCPT
+        id S1726797AbgHaMkI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Aug 2020 08:40:08 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45998 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727852AbgHaMj6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Aug 2020 08:38:49 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 2so815240ois.8;
-        Mon, 31 Aug 2020 05:38:47 -0700 (PDT)
+        Mon, 31 Aug 2020 08:39:58 -0400
+Received: by mail-oi1-f195.google.com with SMTP id d189so806849oig.12;
+        Mon, 31 Aug 2020 05:39:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pCsWJiU+SeSX/BQT94U7ntSq2DXQU2wdBG6dv3ohm/A=;
-        b=snrgaOzUERKjWMwbP2Mq32S44hzGQgMsBpYMip7G6ah2ayCAjcd02Z5vMqdegoCvEo
-         hE39wJAjl6x2E3Ep0AOOfAkenpev18KYk5VBE2bhW8sR4U1TlYC56JjhRBFxxgbalQqQ
-         l68ldYB0UAbGZAOh9cpYPobqks9pX57gkg0xpLGmQ1rTqbIRKHXZrMTcxoxxbyLg9RhO
-         9zgGKmHAUXItskNRKhkUmEiF08xs+Lq/umsPnhw7DegkHoaqvMEG65mU//Rkn5aoJFGs
-         h7/kzp7oXLOibRy/WNGGCOFqUqSEd+mH6KXbY7cD1O721QTNiz60g+2Xlucq5ox07o25
-         42Pg==
-X-Gm-Message-State: AOAM532O1HPCr3t7opI9GPFIM45W2lZb/o6rPgbW4YhsTIMedmLT2N3W
-        V8ayodtJZQdS4vsXPysDDTY/bQ0Q6ezjFOLJ2oYZyTyJHQA=
-X-Google-Smtp-Source: ABdhPJzZB+2rt1wEa6gxS0s5ZyQyHRzufXJ1mYnhpK/hQPbXX6bNUonm86n9yv9d6v1JRXAsU5O4A+NuvGI1eRzAOJU=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr639635oib.54.1598877527029;
- Mon, 31 Aug 2020 05:38:47 -0700 (PDT)
+        bh=XHCYA5oJZVhGHAJRdQttbshGXKPap8SmMFNE084zhYE=;
+        b=VYT6XBeNp9zRLQ50HIL0vTEmeNYppQdjye2UkR3aeF9g3yRTpTUtbqzJQevqcUu6vQ
+         Mkzj0ZRvw11IHhjei9JRdt/dxMrBOZRiTLT/ClLnkdmYpHbBGZMJt/cSKzA1+T9Cz1vr
+         bZPEypx+6/f+sH8GgdaXCrgGoHsedzf8eoEx6wfctKPmwZxn93Xe+AbSL4bwgCMfPs8B
+         H6jkXOE+X+nQj6fUov9AOUbXrL8i5GosIpf+n9xxPYLUo9S7oZZqh5nlIGOQ9f7sYlVl
+         2J0DEoeAee/8p0K/0tFWx1WKwFc9dGbUYGFMhkJi69EXrqsLhTKTcVUZCIsd8COkm606
+         V5tw==
+X-Gm-Message-State: AOAM532TaTZYs61YC4fq3vXoIz283xOYGDCO/Ow7fo7u7Yf+YoMoALc8
+        Rz/FSpPvVMJBaDKp8zati3ti2jyo9oGwdWAiNtc=
+X-Google-Smtp-Source: ABdhPJy6RwAQBpER2TYEns7lNicV9t7u6BkLfC4+fy0uiInktknQ2cXV1Q/3QV+Y6DhOR53T1Bl37kyVL1xOOF1r/Ug=
+X-Received: by 2002:aca:b742:: with SMTP id h63mr596268oif.148.1598877597565;
+ Mon, 31 Aug 2020 05:39:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200825134806.25295-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200826093220.10266-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200826093220.10266-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200826093220.10266-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 31 Aug 2020 14:38:35 +0200
-Message-ID: <CAMuHMdVcGz_C+e49pgNM=ui8bTu6Vg0A7pZY6nq7n3RdAJObgg@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: cpg-mssr: Add clk entry for VSPR
+Date:   Mon, 31 Aug 2020 14:39:46 +0200
+Message-ID: <CAMuHMdUgjvqL8Vb8MCVaZaoOP8ELk0QB0gfsc-7XAA+=9N0jJg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ARM: multi_v7_defconfig: enable CONFIG_PCIE_RCAR_HOST
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -51,43 +50,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-Thanks for your patch!
-
-On Tue, Aug 25, 2020 at 3:48 PM Lad Prabhakar
+On Wed, Aug 26, 2020 at 11:32 AM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add clock entry 130 for VSPR module, so that this module can be used
-
-VSPR ("VSP for Resizing")
-
-> on R8A7742 (RZ/G1H) SoC.
->
-> Note: The entry for VSPR clock was accidentally dropped from RZ/G manual
-> when all the information related to RT were removed.
+> config option PCIE_RCAR internally selects PCIE_RCAR_HOST which builds the
+> same driver. So this patch renames CONFIG_PCIE_RCAR to
+> CONFIG_PCIE_RCAR_HOST so that PCIE_RCAR can be safely dropped from Kconfig
+> file.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Similar details can be seen in commit 79ea9934b8df ("ARM: shmobile:
-> r8a7790: Rename VSP1_(SY|RT) clocks to VSP1_(S|R)") for R-Car H2
 
-Indeed.  And R-Car H2 and other related soCs are still affected, as that
-fix never made it to the new clock drivers ;-(
-
-> --- a/drivers/clk/renesas/r8a7742-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a7742-cpg-mssr.c
-> @@ -97,6 +97,7 @@ static const struct mssr_mod_clk r8a7742_mod_clks[] __initconst = {
->         DEF_MOD("tmu0",                  125,   R8A7742_CLK_CP),
->         DEF_MOD("vsp1du1",               127,   R8A7742_CLK_ZS),
->         DEF_MOD("vsp1du0",               128,   R8A7742_CLK_ZS),
-> +       DEF_MOD("vspr",                  130,   R8A7742_CLK_ZS),
->         DEF_MOD("vsp1-sy",               131,   R8A7742_CLK_ZS),
-
-While at it, can you please replace "vsp1-sy" by "vsps" (VSPS = "VSP
-Standard"), and fix the other drivers, too?
-
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
