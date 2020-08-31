@@ -2,121 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A96B258203
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 21:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B3F2582A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 31 Aug 2020 22:32:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727051AbgHaTp0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 31 Aug 2020 15:45:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38874 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726755AbgHaTpZ (ORCPT
+        id S1728274AbgHaUcI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 31 Aug 2020 16:32:08 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50965 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726167AbgHaUcI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 31 Aug 2020 15:45:25 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC54C061573;
-        Mon, 31 Aug 2020 12:45:24 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id t4so2245931iln.1;
-        Mon, 31 Aug 2020 12:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SiCC3vSFECOoLKk8HXUNpN0y793n48CBmn3FARWOzDs=;
-        b=kaL37+GufZQ9Q0nsJX223it4+gMw1R61naTIXKnLp6LGLDSlS93I6a6MywCs+S/FkV
-         yLa/vG75sSE8P7VOgLEpQLvqPI4mQXlSEbjfdCPW2pJl95t6L7Zmd4DNcFDTYWvn7X9R
-         MLaTgloCOmo5y4Z3v2XNI/puz4VOo9l9rxT8oNcP/C6kIgqgBQRzndna6ZHDjEhmhRfB
-         ABhp09vQSibb8FKRnHZbotu8HXRHgwOX2FbX31ygs/RO8DCBV6KItmw/80cx8g5ZzCli
-         Kk/CpPxiIwbWax927LBXQa/VEuAlrFKtv+akkfliRT302q5YF48yhVpOG0JvPuW8nd8M
-         2huA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SiCC3vSFECOoLKk8HXUNpN0y793n48CBmn3FARWOzDs=;
-        b=EJ7L7rPQc6WaDuU7B8w8onavYcRfjKDplMYvLYJUWJTlwo6OP6HXnrh61gyIF0/Xgh
-         4KzCJGFKGgDVS1IsHaGBK6swyF5eWcxq9dTYhsDBt4+gRrva2UJQq/PC+G7OViZmUN9p
-         ncoAuGhy6xMrFWzveqvAfqLM+va4dGxjYYntRS5a+6Y8fkT3ubuQtcM1qBNEQ1EaMAnj
-         HK6xDs75F/SjNRNRTcdx4/yFK2e0kfR9eL5v+WUKsKwhlm1BbfGEzeqdX1fAxiPdDLSv
-         oSGvJB2sCTp4qFI2xFr7jlATNg3E4xYB+CjsKd2bz7DtHIhvNBA8YVD0++ga8+fUrHOj
-         761A==
-X-Gm-Message-State: AOAM532dKbqMPjKWl7huMZD+6wISErooYiQ3jkrIbalt+0iHVcvdc9gM
-        NbfCa196qt3moWN+5NHPzRfc9iHo657RALP8m/Q=
-X-Google-Smtp-Source: ABdhPJwnyKamuh7ZIhI1Mp9YLjgG8lCjgT6loKTKlRY+cdh/zWCnwbnkqooKjEKgYBDsqtVmYCyJszTg+JQry7Ecb6s=
-X-Received: by 2002:a92:5ad8:: with SMTP id b85mr2643547ilg.304.1598903123362;
- Mon, 31 Aug 2020 12:45:23 -0700 (PDT)
+        Mon, 31 Aug 2020 16:32:08 -0400
+IronPort-SDR: WVJkCdw5lyp/D6Cy8GC1bo6P6jMsWLPNT9RFcpcewHSiGX8lEvXk2IaMvDJnWyoxso0T20FSzd
+ u9eh3eCjuuZQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9730"; a="175100942"
+X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
+   d="scan'208";a="175100942"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2020 13:32:07 -0700
+IronPort-SDR: 4ZjE0CWzXhglawzbMw7PwDdro4Ks+ZnEMQqFb7qCKyWYbEAj/R0z/KDzlW2Gh+eZVy9z4gaFFy
+ NZYfs6K69u2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,376,1592895600"; 
+   d="scan'208";a="445858690"
+Received: from lkp-server02.sh.intel.com (HELO 713faec3b0e5) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 31 Aug 2020 13:32:05 -0700
+Received: from kbuild by 713faec3b0e5 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kCqTE-0000Bj-Kd; Mon, 31 Aug 2020 20:32:04 +0000
+Date:   Tue, 01 Sep 2020 04:31:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
+ bbf369d4e59a248ed715041267951f5cd051b317
+Message-ID: <5f4d5e14.2rExP2mgOwKecudi%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Ramesh Shanmugasundaram <rashanmu@gmail.com>
-Date:   Mon, 31 Aug 2020 20:44:46 +0100
-Message-ID: <CAJWpUEe4VwOL_TQ1WwjG1WT17_GPFpNO+-h92dRfj0jW8pb5wg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] media: Fix asd dynamic allocation
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Chris Paterson <chris.paterson2@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
+branch HEAD: bbf369d4e59a248ed715041267951f5cd051b317  pinctrl: sh-pfc: r8a7790: Add CAN pins, groups and functions
 
-Thank you for the fix. Sorry about the late reply.
+elapsed time: 720m
 
-> This small patch series addresses a bug related to the usage of
-> v4l2_async_notifier_add_subdev() that is widespread among drivers.
->
-> The issue is explained in 1/4, which improves the documentation of the
-> v4l2_async_notifier_add_subdev() function by stating explicitly that the
-> asd argument needs to be allocated dynamically. Among the 13 drivers
-> that use that function, only one gets it right.
->
-> The rest of the patches fix the problem in several Renesas-related
-> drivers, with an unrelated fwnode reference leak fix for the rcar-drif
-> driver in 2/5 that made the v4l2_async_notifier_add_subdev() fix easier
-> to implement in that driver.
->
-> I'm lacking hardware to test 2/5 and 3/5. Ramesh, would you be able to
-> test that ? What development board do you use to test the DRIF driver ?
-> I don't see any DT integration upstream.
+configs tested: 121
+configs skipped: 10
 
-I'm afraid I may not be able to test it as I do not have the hardware.
-I have copied Chris P if he can help out.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I have tested DRIF driver on a H3/M3 Salvator-X/S with a add-on board
-from Maxim having two MAX2175 tuners (MAX2175 evaluation kit). This
-add-on board was a prototype at that time. Hence, the DT updates were
-maintained internally.
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                     cu1830-neo_defconfig
+xtensa                generic_kc705_defconfig
+powerpc                      pasemi_defconfig
+arm                            pleb_defconfig
+powerpc                     mpc512x_defconfig
+mips                 decstation_r4k_defconfig
+m68k                            q40_defconfig
+arm                       cns3420vb_defconfig
+alpha                            allyesconfig
+sh                           se7751_defconfig
+arm                           u8500_defconfig
+parisc                generic-32bit_defconfig
+m68k                        mvme147_defconfig
+powerpc                          allmodconfig
+powerpc                 linkstation_defconfig
+h8300                    h8300h-sim_defconfig
+mips                       capcella_defconfig
+powerpc                      ppc6xx_defconfig
+m68k                       m5208evb_defconfig
+mips                          rm200_defconfig
+mips                     cu1000-neo_defconfig
+riscv                               defconfig
+mips                      pic32mzda_defconfig
+sh                          sdk7780_defconfig
+mips                  decstation_64_defconfig
+arm                        trizeps4_defconfig
+sh                           se7206_defconfig
+powerpc                    mvme5100_defconfig
+mips                     loongson1c_defconfig
+mips                        maltaup_defconfig
+sh                           sh2007_defconfig
+mips                         tb0287_defconfig
+arm                         socfpga_defconfig
+um                             i386_defconfig
+m68k                        stmark2_defconfig
+m68k                             allyesconfig
+mips                        jmr3927_defconfig
+arm                          ixp4xx_defconfig
+ia64                             alldefconfig
+arm                         nhk8815_defconfig
+nios2                         3c120_defconfig
+powerpc                    adder875_defconfig
+sh                            titan_defconfig
+m68k                            mac_defconfig
+mips                           gcw0_defconfig
+arm                         bcm2835_defconfig
+arc                            hsdk_defconfig
+arm                         s5pv210_defconfig
+powerpc                         wii_defconfig
+sh                        sh7757lcr_defconfig
+sh                           se7722_defconfig
+arm                          exynos_defconfig
+sh                              ul2_defconfig
+arm                        clps711x_defconfig
+nds32                             allnoconfig
+parisc                generic-64bit_defconfig
+xtensa                              defconfig
+arm                              alldefconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                          simpad_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a001-20200831
+i386                 randconfig-a002-20200831
+i386                 randconfig-a004-20200831
+i386                 randconfig-a006-20200831
+i386                 randconfig-a005-20200831
+i386                 randconfig-a003-20200831
+x86_64               randconfig-a012-20200831
+x86_64               randconfig-a015-20200831
+x86_64               randconfig-a014-20200831
+x86_64               randconfig-a011-20200831
+x86_64               randconfig-a016-20200831
+x86_64               randconfig-a013-20200831
+i386                 randconfig-a013-20200831
+i386                 randconfig-a011-20200831
+i386                 randconfig-a012-20200831
+i386                 randconfig-a015-20200831
+i386                 randconfig-a016-20200831
+i386                 randconfig-a014-20200831
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Thanks,
-Ramesh
-
-> I also haven't dug up my MAX9286 development kit to test 5/5. I would
-> thus appreciate if someone could test it, but worst case I can do so
-> myself.
->
-> Laurent Pinchart (5):
->   media: v4l2-async: Document asd allocation requirements
->   media: rcar_drif: Fix fwnode reference leak when parsing DT
->   media: rcar_drif: Allocate v4l2_async_subdev dynamically
->   media: rcar-csi2: Allocate v4l2_async_subdev dynamically
->   media: i2c: max9286: Allocate v4l2_async_subdev dynamically
->
->  drivers/media/i2c/max9286.c                 | 38 +++++++++++----------
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 24 ++++++-------
->  drivers/media/platform/rcar_drif.c          | 30 +++++-----------
->  include/media/v4l2-async.h                  |  5 +--
->  4 files changed, 42 insertions(+), 55 deletions(-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
