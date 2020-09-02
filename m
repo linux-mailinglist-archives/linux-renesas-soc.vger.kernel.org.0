@@ -2,295 +2,292 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8525925AF52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 17:36:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F4B225AF96
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 17:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbgIBPgf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Sep 2020 11:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51014 "EHLO
+        id S1728255AbgIBPlp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Sep 2020 11:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728303AbgIBPgf (ORCPT
+        with ESMTP id S1727861AbgIBPln (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Sep 2020 11:36:35 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 739D6C061244
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Sep 2020 08:36:33 -0700 (PDT)
+        Wed, 2 Sep 2020 11:41:43 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D462EC061244
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Sep 2020 08:41:42 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id P3cM230084C55Sk013cMJq; Wed, 02 Sep 2020 17:36:27 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id P3hf230044C55Sk013hf3R; Wed, 02 Sep 2020 17:41:40 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kDUo9-0006Vw-Ai; Wed, 02 Sep 2020 17:36:21 +0200
+        id 1kDUtH-0006b0-9w; Wed, 02 Sep 2020 17:41:39 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kDUo9-0003Yv-8Q; Wed, 02 Sep 2020 17:36:21 +0200
+        id 1kDUtH-0001fL-7A; Wed, 02 Sep 2020 17:41:39 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Akashi Takahiro <takahiro.akashi@linaro.org>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        kexec@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v9] ARM: boot: Validate start of physical memory against DTB
-Date:   Wed,  2 Sep 2020 17:36:06 +0200
-Message-Id: <20200902153606.13652-1-geert+renesas@glider.be>
+Subject: [PATCH] arm: kdump: Add DT properties to crash dump kernel's DTB
+Date:   Wed,  2 Sep 2020 17:41:29 +0200
+Message-Id: <20200902154129.6358-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently, the start address of physical memory is obtained by masking
-the program counter with a fixed mask of 0xf8000000.  This mask value
-was chosen as a balance between the requirements of different platforms.
-However, this does require that the start address of physical memory is
-a multiple of 128 MiB, precluding booting Linux on platforms where this
-requirement is not fulfilled.
+Pass the following properties to the crash dump kernel, to provide a
+modern DT interface between kexec and the crash dump kernel:
 
-Fix this limitation by validating the masked address against the first
-memory node in the DTB, if available  (either explicitly passed, or
-appended to the kernel).  Only use the start address from DTB when
-masking would yield an out-of-range address.  Prefer the traditional
-method in all other cases.
+  - linux,elfcorehdr: ELF core header segment, similar to the
+    "elfcorehdr=" kernel parameter.
+  - linux,usable-memory-range: Usable memory reserved for the crash dump
+    kernel.
+    This makes the memory reservation explicit, so Linux no longer needs
+    to mask the program counter, and rely on the "mem=" kernel parameter
+    to obtain the start and size of usable memory.
 
-This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-i.e. not at a multiple of 128 MiB.
+For backwards compatibility, the "elfcorehdr=" and "mem=" kernel
+parameters are still appended to the kernel command line.
 
-Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+Loosely based on the ARM64 version by Akashi Takahiro.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
-Cc: Lukasz Stelmach <l.stelmach@samsung.com>
 ---
-This is v9 of "ARM: boot: Obtain start of physical memory from DTB".
+ kexec/arch/arm/crashdump-arm.c    |  10 ++-
+ kexec/arch/arm/crashdump-arm.h    |   2 +
+ kexec/arch/arm/kexec-zImage-arm.c | 137 ++++++++++++++++++++++++++++++
+ 3 files changed, 147 insertions(+), 2 deletions(-)
 
-v9:
-  - Add minlen parameter to getprop(), for better validation of
-    memory properties,
-  - Only use start of memory from the DTB if masking would yield an
-    out-of-range address, to fix crashkernel, as suggested by Ard,
-
-v8:
-  - Rebase on top of commit 893ab00439a45513 ("kbuild: remove cc-option
-    test of -fno-stack-protector"),
-
-v7:
-  - Rebase on top of commit 161e04a5bae58a65 ("ARM: decompressor: split
-    off _edata and stack base into separate object"),
-
-v6:
-  - Rebase on top of commit 7ae4a78daacf240a ("ARM: 8969/1:
-    decompressor: simplify libfdt builds"),
-  - Include <linux/libfdt.h> instead of <libfdt.h>,
-
-v5:
-  - Add Tested-by, Reviewed-by,
-  - Round up start of memory to satisfy 16 MiB alignment rule,
-
-v4:
-  - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-    decompressor: factor out routine to obtain the inflated image
-    size"),
-
-v3:
-  - Add Reviewed-by,
-  - Fix ATAGs with appended DTB,
-  - Add Tested-by,
-
-v2:
-  - Use "cmp r0, #-1", instead of "cmn r0, #1",
-  - Add missing stack setup,
-  - Support appended DTB.
----
- arch/arm/boot/compressed/Makefile            |  5 +-
- arch/arm/boot/compressed/fdt_get_mem_start.c | 72 ++++++++++++++++++++
- arch/arm/boot/compressed/head.S              | 52 +++++++++++++-
- 3 files changed, 127 insertions(+), 2 deletions(-)
- create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
-
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index b1147b7f2c8d372e..b1c09faf276e9193 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -81,10 +81,13 @@ libfdt_objs := fdt_rw.o fdt_ro.o fdt_wip.o fdt.o
- ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
- OBJS	+= $(libfdt_objs) atags_to_fdt.o
- endif
-+ifeq ($(CONFIG_USE_OF),y)
-+OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
-+endif
+diff --git a/kexec/arch/arm/crashdump-arm.c b/kexec/arch/arm/crashdump-arm.c
+index daa478868b4976d7..1ec1826c24b52ed9 100644
+--- a/kexec/arch/arm/crashdump-arm.c
++++ b/kexec/arch/arm/crashdump-arm.c
+@@ -54,7 +54,7 @@ struct memory_ranges usablemem_rgns = {
+ };
  
- # -fstack-protector-strong triggers protection checks in this code,
- # but it is being used too early to link to meaningful stack_chk logic.
--$(foreach o, $(libfdt_objs) atags_to_fdt.o, \
-+$(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o, \
- 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt -fno-stack-protector))
+ /* The boot-time physical memory range reserved for crashkernel region */
+-static struct memory_range crash_kernel_mem;
++struct memory_range crash_kernel_mem;
  
- # These were previously generated C files. When you are building the kernel
-diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
-new file mode 100644
-index 0000000000000000..fd501ec3c14b4ae4
---- /dev/null
-+++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+ /* reserved regions */
+ #define CRASH_MAX_RESERVED_RANGES 2
+@@ -64,6 +64,8 @@ static struct memory_ranges crash_reserved_rgns = {
+ 	.ranges = crash_reserved_ranges,
+ };
+ 
++struct memory_range elfcorehdr_mem;
 +
-+#include <linux/kernel.h>
-+#include <linux/libfdt.h>
-+#include <linux/sizes.h>
+ static struct crash_elf_info elf_info = {
+ 	.class		= ELFCLASS32,
+ 	.data		= ELFDATANATIVE,
+@@ -307,7 +309,11 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
+ 					  crash_kernel_mem.start,
+ 					  crash_kernel_mem.end, -1, 0);
+ 
+-	dbgprintf("elfcorehdr: %#lx\n", elfcorehdr);
++	elfcorehdr_mem.start = elfcorehdr;
++	elfcorehdr_mem.end = elfcorehdr + bufsz - 1;
 +
-+static const void *get_prop(const void *fdt, const char *node_path,
-+			    const char *property, int minlen)
++	dbgprintf("elfcorehdr 0x%llx-0x%llx\n", elfcorehdr_mem.start,
++		  elfcorehdr_mem.end);
+ 	cmdline_add_elfcorehdr(mod_cmdline, elfcorehdr);
+ 
+ 	/*
+diff --git a/kexec/arch/arm/crashdump-arm.h b/kexec/arch/arm/crashdump-arm.h
+index 6e87b13c4b8c86fe..bbdf8bf9de58eb5d 100644
+--- a/kexec/arch/arm/crashdump-arm.h
++++ b/kexec/arch/arm/crashdump-arm.h
+@@ -13,6 +13,8 @@ extern "C" {
+ 
+ 
+ extern struct memory_ranges usablemem_rgns;
++extern struct memory_range crash_kernel_mem;
++extern struct memory_range elfcorehdr_mem;
+ 
+ struct kexec_info;
+ 
+diff --git a/kexec/arch/arm/kexec-zImage-arm.c b/kexec/arch/arm/kexec-zImage-arm.c
+index 925a9be120aa401a..e056f79124240e40 100644
+--- a/kexec/arch/arm/kexec-zImage-arm.c
++++ b/kexec/arch/arm/kexec-zImage-arm.c
+@@ -4,6 +4,7 @@
+  */
+ #define _GNU_SOURCE
+ #define _XOPEN_SOURCE
++#include <stdbool.h>
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
+@@ -374,6 +375,103 @@ static const struct zimage_tag *find_extension_tag(const char *buf, off_t len,
+ 	return NULL;
+ }
+ 
++static int get_cells_size(void *fdt, uint32_t *address_cells,
++			  uint32_t *size_cells)
 +{
-+	const void *prop;
-+	int offset, len;
++	int nodeoffset;
++	const uint32_t *prop = NULL;
++	int prop_len;
 +
-+	offset = fdt_path_offset(fdt, node_path);
-+	if (offset == -FDT_ERR_NOTFOUND)
-+		return NULL;
++	/* default values */
++	*address_cells = 1;
++	*size_cells = 1;
 +
-+	prop = fdt_getprop(fdt, offset, property, &len);
-+	if (!prop || len < minlen)
-+		return NULL;
++	/* under root node */
++	nodeoffset = fdt_path_offset(fdt, "/");
++	if (nodeoffset < 0)
++		return -1;
 +
-+	return prop;
-+}
++	prop = fdt_getprop(fdt, nodeoffset, "#address-cells", &prop_len);
++	if (prop) {
++		if (prop_len != sizeof(*prop))
++			return -1;
 +
-+static uint32_t get_size(const void *fdt, const char *name)
-+{
-+	const __be32 *prop = get_prop(fdt, "/", name, 4);
-+
-+	if (!prop) {
-+		/* default */
-+		return 1;
++		*address_cells = fdt32_to_cpu(*prop);
 +	}
 +
-+	return fdt32_to_cpu(*prop);
++	prop = fdt_getprop(fdt, nodeoffset, "#size-cells", &prop_len);
++	if (prop) {
++		if (prop_len != sizeof(*prop))
++			return -1;
++
++		*size_cells = fdt32_to_cpu(*prop);
++	}
++
++	dbgprintf("%s: #address-cells:%d #size-cells:%d\n", __func__,
++		  *address_cells, *size_cells);
++	return 0;
 +}
 +
-+/*
-+ * Get the start of physical memory
-+ */
-+
-+unsigned long fdt_get_mem_start(const void *fdt)
++static bool cells_size_fitted(uint32_t address_cells, uint32_t size_cells,
++			      struct memory_range *range)
 +{
-+	uint32_t addr_size, size_size, mem_start, masked_pc;
-+	const __be32 *memory;
++	dbgprintf("%s: %llx-%llx\n", __func__, range->start, range->end);
 +
-+	if (!fdt)
-+		return -1;
++	/* if *_cells >= 2, cells can hold 64-bit values anyway */
++	if ((address_cells == 1) && (range->start >= (1ULL << 32)))
++		return false;
 +
-+	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
-+		return -1;
++	if ((size_cells == 1) &&
++	    ((range->end - range->start + 1) >= (1ULL << 32)))
++		return false;
 +
-+	/* There may be multiple cells on LPAE platforms */
-+	addr_size = get_size(fdt, "#address-cells");
-+	size_size = get_size(fdt, "#size-cells");
-+
-+	/* Find the first memory node */
-+	memory = get_prop(fdt, "/memory", "reg", addr_size + size_size);
-+	if (!memory)
-+		return -1;
-+
-+	mem_start = fdt32_to_cpu(memory[addr_size - 1]);
-+
-+	/* Must be a multiple of 16 MiB for phys/virt patching */
-+	mem_start = round_up(mem_start, SZ_16M);
-+
-+	/*
-+	 * Traditionally, the start of memory is obtained by masking the
-+	 * program counter.  Prefer that method, unless it would yield an
-+	 * out-of-range address.
-+	 */
-+	masked_pc = _RET_IP_ & 0xf8000000;
-+	return masked_pc < mem_start ? mem_start : masked_pc;
++	return true;
 +}
-diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-index 434a16982e344fe4..802621756ac0480b 100644
---- a/arch/arm/boot/compressed/head.S
-+++ b/arch/arm/boot/compressed/head.S
-@@ -254,8 +254,56 @@ not_angel:
- 		.text
++
++static void fill_property(void *buf, uint64_t val, uint32_t cells)
++{
++	uint32_t val32;
++	int i;
++
++	if (cells == 1) {
++		val32 = cpu_to_fdt32((uint32_t)val);
++		memcpy(buf, &val32, sizeof(uint32_t));
++	} else {
++		for (i = 0;
++		     i < (cells * sizeof(uint32_t) - sizeof(uint64_t)); i++)
++			*(char *)buf++ = 0;
++
++		val = cpu_to_fdt64(val);
++		memcpy(buf, &val, sizeof(uint64_t));
++	}
++}
++
++static int setup_dtb_prop_range(char **bufp, off_t *sizep, int parentoffset,
++				const char *node_name, const char *prop_name,
++				struct memory_range *range,
++				uint32_t address_cells, uint32_t size_cells)
++{
++	void *buf, *prop;
++	size_t buf_size;
++	int result;
++
++	buf_size = (address_cells + size_cells) * sizeof(uint32_t);
++	prop = buf = xmalloc(buf_size);
++
++	fill_property(prop, range->start, address_cells);
++	prop += address_cells * sizeof(uint32_t);
++
++	fill_property(prop, range->end - range->start + 1, size_cells);
++	prop += size_cells * sizeof(uint32_t);
++
++	result = setup_dtb_prop(bufp, sizep, parentoffset, node_name,
++				prop_name, buf, buf_size);
++
++	free(buf);
++
++	return result;
++}
++
+ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
+ 	struct kexec_info *info)
+ {
+@@ -381,6 +479,7 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
+ 	unsigned long base, kernel_base;
+ 	unsigned int atag_offset = 0x1000; /* 4k offset from memory start */
+ 	unsigned int extra_size = 0x8000; /* TEXT_OFFSET */
++	uint32_t address_cells, size_cells;
+ 	const struct zimage_tag *tag;
+ 	size_t kernel_mem_size;
+ 	const char *command_line;
+@@ -390,6 +489,7 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
+ 	const char *ramdisk_buf;
+ 	int opt;
+ 	int use_atags;
++	int result;
+ 	char *dtb_buf;
+ 	off_t dtb_length;
+ 	char *dtb_file;
+@@ -733,6 +833,43 @@ int zImage_arm_load(int argc, char **argv, const char *buf, off_t len,
+ 				return -1;
+ 		}
  
- #ifdef CONFIG_AUTO_ZRELADDR
-+#ifdef CONFIG_USE_OF
++		if (info->kexec_flags & KEXEC_ON_CRASH) {
++			/* Determine #address-cells and #size-cells */
++			result = get_cells_size(dtb_buf, &address_cells,
++						&size_cells);
++			if (result) {
++				fprintf(stderr, "Cannot determine cells-size.\n");
++				return -1;
++			}
++
++			if (!cells_size_fitted(address_cells, size_cells,
++					       &elfcorehdr_mem)) {
++				fprintf(stderr, "elfcorehdr doesn't fit cells-size.\n");
++				return -1;
++			}
++
++			if (!cells_size_fitted(address_cells, size_cells,
++					       &crash_kernel_mem)) {
++				fprintf(stderr, "kexec: usable memory range doesn't fit cells-size.\n");
++				return -1;
++			}
++
++			/* Add linux,elfcorehdr */
++			if (setup_dtb_prop_range(&dtb_buf, &dtb_length, 0,
++						 "chosen", "linux,elfcorehdr",
++						 &elfcorehdr_mem,
++						 address_cells, size_cells))
++				return -1;
++
++			/* Add linux,usable-memory-range */
++			if (setup_dtb_prop_range(&dtb_buf, &dtb_length, 0,
++						 "chosen",
++						 "linux,usable-memory-range",
++						 &crash_kernel_mem,
++						 address_cells, size_cells))
++				return -1;
++		}
++
  		/*
--		 * Find the start of physical memory.  As we are executing
-+		 * Find the start of physical memory.
-+		 * Try the DTB first, if available.
-+		 */
-+		adr	r0, LC1
-+		ldr	sp, [r0]	@ get stack location
-+		add	sp, sp, r0	@ apply relocation
-+
-+#ifdef CONFIG_ARM_APPENDED_DTB
-+		/*
-+		 * Look for an appended DTB. If found, use it and
-+		 * move stack away from it.
-+		 */
-+		ldr	r6, [r0, #4]	@ get &_edata
-+		add	r6, r6, r0	@ relocate it
-+		ldmia	r6, {r0, r5}	@ get DTB signature and size
-+#ifndef __ARMEB__
-+		ldr	r1, =0xedfe0dd0	@ sig is 0xd00dfeed big endian
-+		/* convert DTB size to little endian */
-+		eor	r2, r5, r5, ror #16
-+		bic	r2, r2, #0x00ff0000
-+		mov	r5, r5, ror #8
-+		eor	r5, r5, r2, lsr #8
-+#else
-+		ldr	r1, =0xd00dfeed
-+#endif
-+		cmp	r0, r1		@ do we have a DTB there?
-+		bne	1f
-+
-+		/* preserve 64-bit alignment */
-+		add	r5, r5, #7
-+		bic	r5, r5, #7
-+		add	sp, sp, r5	@ if so, move stack above DTB
-+		mov	r0, r6		@ and extract memory start from DTB
-+		b	2f
-+
-+1:
-+#endif /* CONFIG_ARM_APPENDED_DTB */
-+
-+		mov	r0, r8
-+2:
-+		bl	fdt_get_mem_start
-+		mov	r4, r0
-+		cmp	r0, #-1
-+		bne	1f
-+#endif /* CONFIG_USE_OF */
-+
-+		/*
-+		 * Fall back to the traditional method.  As we are executing
- 		 * without the MMU on, we are in the physical address space.
- 		 * We just need to get rid of any offset by aligning the
- 		 * address.
-@@ -273,6 +321,8 @@ not_angel:
- 		 */
- 		mov	r4, pc
- 		and	r4, r4, #0xf8000000
-+
-+1:
- 		/* Determine final kernel image address. */
- 		add	r4, r4, #TEXT_OFFSET
- #else
+ 		 * The dtb must also be placed above the memory used by
+ 		 * the zImage.  We don't care about its position wrt the
 -- 
 2.17.1
 
