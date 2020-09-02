@@ -2,125 +2,193 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B1DE25A8F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 11:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9CC725AA4C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 13:30:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgIBJvJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Sep 2020 05:51:09 -0400
-Received: from mail-eopbgr1310138.outbound.protection.outlook.com ([40.107.131.138]:3920
-        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726173AbgIBJvI (ORCPT
+        id S1726968AbgIBLaN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Sep 2020 07:30:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726913AbgIBL3o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Sep 2020 05:51:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q0mucdgKebYunMZYXXI/0l9sQm0RW+6HnNtYS2kbRg+oxZSC6k2gnr7gAbRgIACqAZC/dBtkHKIJij8WnUrPUDVjEffoOm+s7fxXWnzp++hFZCYSmlCXm2Q57hBRbKbG1b3ag65/YlhG21FBUZGAn2Gy0rRAsqQAnxaJzM+7V0OjA3pTZeGxbAfgnNHMq6MFvaJIBBPE3STXRUnqhp571ussd317gxQIBeOpBaC8W+Cf/bfxR8m06JCOvm/tgill1gwj5GF95LnB5h91hR2Bw9e8wNsz7QDLML/uS4d11zBvBgxBUfjhOLLqKtjI/1O43ld0ueq0FGNHHrrPMa+NMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mfcn7t90Ro2vjuY6h6HGmoixwn1muKV8IxbvqyztVV8=;
- b=A9/A2S5djSOyudYRNZJs7QFYZFM//5nQDkE/+AqaGJB1Ytzc7xVFaQ11Ztt47+qhxyU04Ohqy6buqb9SCayfl0ueFSEYO8fqqMmF/IrtPHwjlB+aSepWHQC1odIOKdPI84YCzLy47T/fqqIFSguTnFzzUyOfeLWmXROekzs3wTGvpA6f+GORqM1yhTjGaeru8xjI2UXl4oTs1CbOW3r79/PM50e2kK/oJDHnAEPuiBU34VOAcxNav3NSSL84RhmLWGAC9zkeH7om+gzJIGcfd0DA8IK748gjUKbnHzG/eAZqxjmiacczaMJCJzmQSVCm4gSc0G+EyC6HNgyueQV0Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Wed, 2 Sep 2020 07:29:44 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FE1AC061244
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  2 Sep 2020 04:29:42 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id x14so4830406wrl.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Sep 2020 04:29:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mfcn7t90Ro2vjuY6h6HGmoixwn1muKV8IxbvqyztVV8=;
- b=Bgj9h6b62wE0ay+cOELy0f9FvOBjXO+dTwvS0voRs3CfF3NSCitTV4ZuosmcnuB2QLbdmQP4YXtpd/z67y5J/MW79rfQgEQRNYdgItyNVjdH/YAIt8ztXNi+mNig3xRKcDiOXTaEln8za00NcnOzCzSVNbD6NtlzyJcBgCAPQ2k=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB2636.jpnprd01.prod.outlook.com (2603:1096:404:77::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Wed, 2 Sep
- 2020 09:51:02 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9055:525d:2d64:b625]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::9055:525d:2d64:b625%5]) with mapi id 15.20.3348.015; Wed, 2 Sep 2020
- 09:51:02 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 0/4] renesas_sdhi: fix hang when SCC loses its clock
-Thread-Topic: [PATCH v2 0/4] renesas_sdhi: fix hang when SCC loses its clock
-Thread-Index: AQHWgHD8IvG1abDPREWPL/ci570GkqlVGxww
-Date:   Wed, 2 Sep 2020 09:51:01 +0000
-Message-ID: <TY2PR01MB3692563894AD0A65B4AF37ACD82F0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20200901150250.26236-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200901150250.26236-1-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 7cda2d40-1a76-4dfc-bd01-08d84f25b3d7
-x-ms-traffictypediagnostic: TY2PR01MB2636:
-x-microsoft-antispam-prvs: <TY2PR01MB26360724FFC6A973EEE90249D82F0@TY2PR01MB2636.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: guzPH7j/uEqrJrdmQMYUEPwj0L02EGGw9YFZbVwWWsbGwmhRedIoUN0xBh3d52tVJL0ypcA1EqAwbzySuTt3HPU33mqJv3GfHLpxM4CuxICmILHfTdsL/7pL4Usf54GyZLF+4S8OmgjsaZEh3Jgs2Ryrj/swuffskyxl3Qt9n4x3/VxREjjhEgTznzIgWRIu52JP10l9eP2JbSaPaMqZplXz5o09xZ4nZwdw2zUojx7lpuodrh+k4CoUOoCl+XivCdZ3DlmUPWd3MhPJOn+2lXOpbplWol1/ovR85i8JW4CVlNe2K0+6NIoINE7J2HY7EyMrlcVQEzho+00phEatCQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(66446008)(66556008)(66476007)(66946007)(71200400001)(8676002)(4326008)(64756008)(86362001)(498600001)(5660300002)(76116006)(7696005)(55236004)(186003)(83380400001)(52536014)(110136005)(55016002)(9686003)(33656002)(26005)(6506007)(2906002)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: Pktlpi55z2lnLXH8vPc0Jrm5VqiwPfkfFalu5wpV0B8TxPR21jubqPKBE1xX+ZM76VGjIl/gtP5PMnFn8vUagV5vmdj6QEFTIHf1pIPR/ItIlUkmFOsBnEtWN/DzZMBXDfaV6TtvTqXIpTRqQW33NKTISxiC7Gi6trjj1aGIyd7u5ZPBt/u3EZNUMRr0XzDF8t4XBxm9eBd2S2ezs5lA5cR8jhJQ6bUfwqSGUK3y4eVQn/ALJ5jl8UWf2Dl7OmGbCdjqYgCF+CnDBkTPls/g1/+sOBR0hryf0H2IyZrBxWKxIPcKssqRzfvsat2257vntFw5mbk1ng5d/tyQH9rTAfr2WaXDFlahZn5VYuQUNBp4xt+4RBz+AzRvWKUO+PDInQZd4T8LPrJ0yLycplou6sg9hGhZIBJwk8jwDS7ULsZvBnNegR3PGY9KuII3b7kerhXEU6GHYLURjuzgK8J0JaFDE8WOldYXs+leTOEIjM/tXVPayuJ3o0duN185RBuW6fIXK5coS6GypMIOQxRoj3qcQYiMHgzwYccaXNAn5w/cJG/NoQCDcW+m13UqkgJJB1LJLY53aiZrqRPLE9iQsfU3wMfaphHOB5GdMywju5lcVWX/ChqtnZnIP+w93Doz76AE3aUOYGtLq3fmhZjBvA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
+        b=Vtbq+LTVNo68gOj/uCEqTpS7m6mQ9vEi+Oonu3JkUaFWQ9sFxuUY0oNita+QhdKEL5
+         NvqxqZIinPMbg28rNDfln5qP8DEyHOMTcITWgIfdwsGCfQl12VXtVGIHHEcizLslisaQ
+         kAmuha4b0PUsQLgh31JP+Jnqa0nF0Iw4lmkTOedjHsVg4C+nkSm8W6+Z3ylNnJLu9usG
+         6TjuI1igFN2Zh6fOnYMB5wzeMsSjgQPi5aU7QkdKniNN6FSZPHZinrU/L8UYGhSHetxb
+         D/umW6TzVj87kCeCWqe8v5K4pxpm103n/fGF+VL+7Cr4r2PTH0VePzXEv77KJvSFMZd9
+         NBzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DRdg4lDZzKfGv+sVCvvFW5qNZj4PdeMoeoXDHIqu9+Q=;
+        b=MZ6hYEIbMtOILfOjdUa8ZMYl+kugUIM/5To2FfCxjYlV//UsiG+uuQcDMuqnjXh1VU
+         +sZlt6gokre/5Tf+LlPUopWSL9+WjYvTc6v+5GfF5Bb/lfILcRl960B6MFbt0gKGD9da
+         hjJ9kVOeAjwUrmIwladxODGj0QYTsjwIE4JJobq54GJyJRHlgAuGyMqVBzY+TEHQUXB0
+         iVHoIVZah6uRzDOtrYujqKjkE0cVMD6q59VNDGBEDdXRohlcF87JkJakVZYmK+6bqPnT
+         pQqtu+Nhc4P/HKhUEVRQIlcMQnNY+LDyhYddD3aNQMeHXX88PkNaC2ge+nRa4dSPygLn
+         luaQ==
+X-Gm-Message-State: AOAM5322olSI6HTM8ZasayoYQylGVxDCz25PBqKmnILI1AZ11IBjo5UN
+        r3lFaLaDTQwU1VzV2s6qkzQShA==
+X-Google-Smtp-Source: ABdhPJxpR43l7DicQVi3TBCBkSijmT/uTZDoOFSaDV0lH6CI8svVBIKpdjWvqT0V1L0zUsnU9WARIw==
+X-Received: by 2002:a5d:6404:: with SMTP id z4mr4585153wru.423.1599046180907;
+        Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net. [86.9.19.6])
+        by smtp.gmail.com with ESMTPSA id g143sm5858835wme.0.2020.09.02.04.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 04:29:40 -0700 (PDT)
+Date:   Wed, 2 Sep 2020 12:29:37 +0100
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hoegeun Kwon <hoegeun.kwon@samsung.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Jyri Sarha <jsarha@ti.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Konrad Dybcio <konradybcio@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Vinay Simha BN <simhavcs@gmail.com>,
+        Wambui Karuga <wambui.karugax@gmail.com>,
+        Zheng Bin <zhengbin13@huawei.com>
+Subject: Re: [PATCH v2 0/24] backlight: add init macros and accessors
+Message-ID: <20200902112937.u6spv5rgjqcaiaex@holly.lan>
+References: <20200823104532.1024798-1-sam@ravnborg.org>
+ <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cda2d40-1a76-4dfc-bd01-08d84f25b3d7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2020 09:51:02.0740
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: filyx6FOsWHB8iEBLh6HL1juDYxG0vRS1WWN/LeXlX2ybBjja60yi7hpnUJLVHR86xSJ2d2FTHg6heDSSIkwWcFH/soscZs7rFbSRHOSto8M1XYpe/NqXWFLC6h6jK7c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2636
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdaQ9bYrvVdBtz_7=juG175G+WRXbebfkt61tGqtGGoH5Q@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Wolfram-san,
+On Fri, Aug 28, 2020 at 11:40:28AM +0200, Linus Walleij wrote:
+> On Sun, Aug 23, 2020 at 12:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> 
+> > The first patch trims backlight_update_status() so it can be called with a NULL
+> > backlight_device. Then the caller do not need to add this check just to avoid
+> > a NULL reference.
+> >
+> > The backlight drivers uses several different patterns when registering
+> > a backlight:
+> >
+> > - Register backlight and assign properties later
+> > - Define a local backlight_properties variable and use memset
+> > - Define a const backlight_properties and assign relevant properties
+> >
+> > On top of this there was differences in what members was assigned.
+> >
+> > To align how backlight drivers are initialized introduce following helper macros:
+> > - DECLARE_BACKLIGHT_INIT_FIRMWARE()
+> > - DECLARE_BACKLIGHT_INIT_PLATFORM()
+> > - DECLARE_BACKLIGHT_INIT_RAW()
+> >
+> > The macros are introduced in patch 2.
+> >
+> > The backlight drivers used direct access to backlight_properties.
+> > Encapsulate these in get/set access operations resulting in following benefits:
+> > - The access methods can be called with a NULL pointer so logic around the
+> >   access can be made simpler.
+> > - The update_brightness and enable_brightness simplifies the users
+> > - The code is in most cases more readable with the access operations.
+> > - When everyone uses the access methods refactoring in the backlight core is simpler.
+> >
+> > The get/set operations are introduced in patch 3.
+> >
+> > The gpio backlight driver received a small overhaul in a set of three patches.
+> > The result is a smaller and more readable driver.
+> >
+> > The remaining patches updates all backlight users in drivers/gpu/drm/*
+> > With this patch set all of drivers/gpu/drm/:
+> > - All backlight references to FB_BLANK* are gone from drm/*
+> > - All direct references to backlight properties are gone
+> > - All panel drivers uses the devm_ variant for registering backlight
+> >   Daniel Vetter had some concerns with this for future updates,
+> >   but we are aligned now and can update if refoctoring demands it
+> > - All panel drivers uses the backlight support in drm_panel
+> >
+> > Individual patches are only sent to the people listed in the patch + a few more.
+> > Please check https://lore.kernel.org/dri-devel/ for the full series.
+> >
+> > v2:
+> >   - Documented BACKLIGHT_PROPS as it may be used by drivers
+> >   - Dropped backlight_set_power_{on,off}, they were a mistake (Daniel)
+> >   - Added backlight_update_brightness() and use it (Daniel)
+> >   - Added backlight_enable_brightness() and use it
+> >   - Moved remaining drm_panel driver to use backlight support in drm_panel
+> >   - gpio backlight driver overhaul
+> >
+> > The patches are made on top of the for-backlight-next branch at
+> > https://git.kernel.org/pub/scm/linux/kernel/git/lee/backlight.git
+> > The branch needs v5.8-rc1 backported to build as dev_err_probe()
+> > is used.
+> >
+> > The first 6 patches are candidates for the backlight tree.
+> > If they are applied then this should preferably be to an immutable
+> > branch we can merge to drm-misc-next where the drm patches shall go.
+> >
+> > The drm patches has known conflics and shall *not* be applied to the
+> > backlight tree, they are included in this patchset to show how the
+> > new functions are used.
+> >
+> > Diffstat for the drm bits alone looks nice:
+> >  25 files changed, 243 insertions(+), 460 deletions(-)
+> >
+> > Feedback welcome!
+> 
+> Thank you for trying to make backlight easier for developers.
+> I am a big supporter of this type of simplifications and
+> generalizations, it is what makes DRM great.
 
-> From: Wolfram Sang, Sent: Wednesday, September 2, 2020 12:03 AM
->=20
-> This again took a while since v1 because the issue was so hard to
-> trigger. But I finally found a way to inject the flaw, so this series
-> could be tested and it fixes the issue.
->=20
-> Changes since v1:
-> 	* introduce a new flag to MMC core indicating any kind of tuning
-> 	  not only retune
-> 	* use the new flag to keep SCC flag active
-> 	* new patch 4, minor cleanup to MMC core
->=20
-> A branch including the DEBUG patch can be found here:
->=20
-> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/=
-new_manual_calib-for-5.10
->=20
-> If you revert patch 3, you should have the SCC hang during boot again.
-<snip>
->=20
-> Tested on R-Car H3 ES2.0 and M3-N and patches based on mmc/next.
++1!
 
-Thank you for the patch!
+I've reviewed and sent out patch by patch replies for the backlight
+patches.
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+I've eyeballed the drm patches but not reviewed at same depth
+and FWIW for all the patches whose subject *doesn't* start with
+backlight then:
+Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
 
-And, I tested this series on R-Car H3 ES3.0 and M3-W+. And,
-I confirmed this series could fix the SCC hang issue. So,
 
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Best regards,
-Yoshihiro Shimoda
-
+Daniel.
