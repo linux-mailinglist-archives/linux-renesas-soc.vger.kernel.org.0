@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CEAB25A449
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 06:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BB025A44A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 06:11:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbgIBELA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Sep 2020 00:11:00 -0400
-Received: from mga05.intel.com ([192.55.52.43]:42807 "EHLO mga05.intel.com"
+        id S1725791AbgIBELC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Sep 2020 00:11:02 -0400
+Received: from mga14.intel.com ([192.55.52.115]:64291 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725791AbgIBEK7 (ORCPT
+        id S1726140AbgIBELA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Sep 2020 00:10:59 -0400
-IronPort-SDR: fT7tXuMse0UR642t+AiNzsRRYm1j7Ha7i8CEe/6XGU8aFJFGZi9IovoOMBFf9b0/+z5ZldpC+W
- D4CqR9Du45zg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="242138997"
+        Wed, 2 Sep 2020 00:11:00 -0400
+IronPort-SDR: WDdxcvtV2DtgEbaY2RgRf0Lvu+kb/aQXt6zf5Q7pDLoJTMkhwa5MYIaQ3I+u+KmgZTL6TncyzB
+ AKiDGpemns3Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9731"; a="156578117"
 X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; 
-   d="scan'208";a="242138997"
+   d="scan'208";a="156578117"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 21:10:56 -0700
-IronPort-SDR: xOOjjaR9kopH0PEVIDvbWRJlUhr1Uy7bJP6bS1bU/QSMzpPTAhlH1WOKmJ1hIGfzrqZYl6Q8+H
- rZKo1qtRATiA==
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2020 21:10:57 -0700
+IronPort-SDR: PNQ0xtsaplpMPN2bT9+WhGNaVs61Bw7DvPOUxKOnvbq0DKxiXgnR5iE0/mN/3UAMBb8XbK5w12
+ GsG6CtUQbdsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,381,1592895600"; 
-   d="scan'208";a="502514161"
+   d="scan'208";a="501990890"
 Received: from lkp-server02.sh.intel.com (HELO 500e1ab2883a) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Sep 2020 21:10:55 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 01 Sep 2020 21:10:55 -0700
 Received: from kbuild by 500e1ab2883a with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kDK6p-00001w-0L; Wed, 02 Sep 2020 04:10:55 +0000
-Date:   Wed, 02 Sep 2020 12:10:44 +0800
+        id 1kDK6o-00001l-Ts; Wed, 02 Sep 2020 04:10:54 +0000
+Date:   Wed, 02 Sep 2020 12:10:46 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 14f3d42e29e05df932735fe8e4d2b21f7e17b5a1
-Message-ID: <5f4f1b44.q+wsyV0kk2XisZ64%lkp@intel.com>
+Subject: [renesas-devel:next] BUILD SUCCESS
+ 67dc47513adabb69565dbfd47e8220b235e1f22d
+Message-ID: <5f4f1b46.48IFmyzkxb0fJ4Bn%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -47,13 +47,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: 14f3d42e29e05df932735fe8e4d2b21f7e17b5a1  Merge branches 'renesas-next' and 'topic/renesas-defconfig' into renesas-devel
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
+branch HEAD: 67dc47513adabb69565dbfd47e8220b235e1f22d  Merge branches 'renesas-arm-defconfig-for-v5.10' and 'renesas-drivers-for-v5.10' into renesas-next
 
 elapsed time: 720m
 
-configs tested: 121
-configs skipped: 7
+configs tested: 138
+configs skipped: 11
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -79,14 +79,20 @@ arm                     eseries_pxa_defconfig
 arm                      footbridge_defconfig
 riscv                             allnoconfig
 sh                            migor_defconfig
+sh                          rsk7264_defconfig
+powerpc                             defconfig
+powerpc                      mgcoge_defconfig
+sh                          r7780mp_defconfig
+sh                           se7712_defconfig
+sparc                       sparc64_defconfig
 s390                       zfcpdump_defconfig
 arm                             pxa_defconfig
 arm                          gemini_defconfig
 microblaze                    nommu_defconfig
 h8300                       h8s-sim_defconfig
-powerpc                  storcenter_defconfig
 arm                   milbeaut_m10v_defconfig
 mips                            e55_defconfig
+powerpc                  storcenter_defconfig
 arm                        clps711x_defconfig
 powerpc                    mvme5100_defconfig
 sh                   sh7770_generic_defconfig
@@ -114,6 +120,12 @@ m68k                       m5249evb_defconfig
 x86_64                              defconfig
 nds32                            alldefconfig
 mips                    maltaup_xpa_defconfig
+arm                            dove_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                       maple_defconfig
+arm                          simpad_defconfig
+sh                          rsk7201_defconfig
+arm                         nhk8815_defconfig
 mips                         bigsur_defconfig
 arm                        realview_defconfig
 arm                        magician_defconfig
@@ -145,7 +157,6 @@ sparc                               defconfig
 i386                                defconfig
 mips                             allyesconfig
 mips                             allmodconfig
-powerpc                             defconfig
 powerpc                          allyesconfig
 powerpc                          allmodconfig
 x86_64               randconfig-a004-20200901
@@ -166,6 +177,12 @@ i386                 randconfig-a011-20200901
 i386                 randconfig-a013-20200901
 i386                 randconfig-a014-20200901
 i386                 randconfig-a012-20200901
+i386                 randconfig-a016-20200902
+i386                 randconfig-a015-20200902
+i386                 randconfig-a011-20200902
+i386                 randconfig-a013-20200902
+i386                 randconfig-a014-20200902
+i386                 randconfig-a012-20200902
 riscv                            allyesconfig
 riscv                               defconfig
 riscv                            allmodconfig
