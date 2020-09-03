@@ -2,173 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CEE25C62B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 18:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6688E25CB80
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 22:49:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728344AbgICQHc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 12:07:32 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:57375 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727786AbgICQH3 (ORCPT
+        id S1729449AbgICUtk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 16:49:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729445AbgICUth (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Sep 2020 12:07:29 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 191AE240016;
-        Thu,  3 Sep 2020 16:07:22 +0000 (UTC)
-Date:   Thu, 3 Sep 2020 18:11:08 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 2/2] media: i2c: ov772x: Add test pattern control
-Message-ID: <20200903161108.aqlgicfhwgyccwou@uno.localdomain>
-References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 3 Sep 2020 16:49:37 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CF01C061244
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Sep 2020 13:49:37 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id e11so5400393ljn.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Sep 2020 13:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3aZHlqxn/Fnph8PVm4RSvr0q++hV2RuznG8DX9vFEqs=;
+        b=yPRZLPXMXKKOzlOJcVwh88bMkYG3qMzfe3OvwL0DEcZiyMrreygS1OhHzrc0EdinUx
+         n9TK9SBzzxtRqJZ5ZQ/zdNFjHo1AmNQCgLOhjsqz1w7/mm5vxtUUw3X5jcdHgtxRCjYu
+         IYTcMIhebodhkcmMEcNI+pSdP3qnPtqUvuX139t9hh+w0tCEmsMV39D87BjqmuMIocE1
+         NbKXlpdXC7tB7DuVVlWuE5r3vvqzN9+qhcYn7YumgRnh+tD4dz/uo+clYAFL0bi+tl6q
+         TPMwMuK3DePvOYaYoAxPUeplFVxPypg5BF6oj+iyY7gsSeRib5hbL9MuppxlRsSxK7fd
+         pyeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3aZHlqxn/Fnph8PVm4RSvr0q++hV2RuznG8DX9vFEqs=;
+        b=baGsFSPOeCOcvW2H5892jgRpPsxUHasdmafMWUoE5q4q0En428+KDZgT+cD4DyvbQf
+         1HCHmNLO+DEOdjJRm9Gv4JmVW7rbLzVwqUc0vhxevMAGnKUJAWUNnYMgTPn01YwLiJ5F
+         fiBYPK1/c49h1WpfNVhaPJJTAgWjFpQi3jEDkrsc2W+0itjdgGTa4tNMIjV7rSYGRVWC
+         vlFw/bRWfi+BZnlgjlbbUSJZzyFf+TO57RHgJeLYvXjDnPQ/S5nwmv0o8CkO1Caaw8us
+         srj23VEeBvLox0hiNbil4oYGoukx+mCiSFABt5Rj9L127ZZSXPJJbq1PbEQDNqwwl0rJ
+         Qh9w==
+X-Gm-Message-State: AOAM533fcjRrxabNVuwWlyxiup+utEy7su1bQdaJbyvsS8CwZvkbL+LE
+        rK2v/7/TVGrp/9AoGED8yZS/+EKd08FuWs+dYxMfaw==
+X-Google-Smtp-Source: ABdhPJzwDmiGGLFYOuHNedurvo+SNBE5jxrjprwbs5FFGLhT+z2cU+Jw5Eyz844sZM+HO8nNdC290PucsxSdCFsw1Cs=
+X-Received: by 2002:a2e:4e01:: with SMTP id c1mr2153576ljb.144.1599166175530;
+ Thu, 03 Sep 2020 13:49:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200902153606.13652-1-geert+renesas@glider.be>
+In-Reply-To: <20200902153606.13652-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 3 Sep 2020 22:49:24 +0200
+Message-ID: <CACRpkdZ44wuYp1aWZ-mYkJJAZUXfAZ9XVYf0rDKT8GH_JE8ezQ@mail.gmail.com>
+Subject: Re: [PATCH v9] ARM: boot: Validate start of physical memory against DTB
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert,
 
-On Mon, Aug 24, 2020 at 08:04:06PM +0100, Lad Prabhakar wrote:
-> Add support for test pattern control supported by the sensor.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  drivers/media/i2c/ov772x.c | 25 ++++++++++++++++++++++++-
->  include/media/i2c/ov772x.h |  1 +
->  2 files changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> index 67764d647526..f267d8abd742 100644
-> --- a/drivers/media/i2c/ov772x.c
-> +++ b/drivers/media/i2c/ov772x.c
-> @@ -227,7 +227,7 @@
->
->  /* COM3 */
->  #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
-> -#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
-> +#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
->
->  #define VFLIP_IMG       0x80	/* Vertical flip image ON/OFF selection */
->  #define HFLIP_IMG       0x40	/* Horizontal mirror image ON/OFF selection */
-> @@ -425,6 +425,7 @@ struct ov772x_priv {
->  	const struct ov772x_win_size     *win;
->  	struct v4l2_ctrl		 *vflip_ctrl;
->  	struct v4l2_ctrl		 *hflip_ctrl;
-> +	unsigned int			  test_pattern;
->  	/* band_filter = COM8[5] ? 256 - BDBASE : 0 */
->  	struct v4l2_ctrl		 *band_filter_ctrl;
->  	unsigned int			  fps;
-> @@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
->  	},
->  };
->
-> +static const char * const ov772x_test_pattern_menu[] = {
-> +	"Disabled",
-> +	"Vertical Color Bar Type 1",
-> +};
+I am trying to understand this thing, it looks useful!
+
+On Wed, Sep 2, 2020 at 5:36 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> @@ -254,8 +254,56 @@ not_angel:
+
+This looks like it happens before CONFIG_ARM_ATAG_DTB_COMPAT
+meaning it will not use the DTB that is augmented with ATAGs,
+especially not ATAG_MEM (0x54410002) correct?
+
+That seems sad, because that would actually be useful to me.
+
+Can you see if it is possible to put this in after the ATAGs have
+been merged into the DTB?
+
+>  #ifdef CONFIG_AUTO_ZRELADDR
+> +#ifdef CONFIG_USE_OF
+>                 /*
+> -                * Find the start of physical memory.  As we are executing
+> +                * Find the start of physical memory.
+> +                * Try the DTB first, if available.
+> +                */
+> +               adr     r0, LC1
+> +               ldr     sp, [r0]        @ get stack location
+> +               add     sp, sp, r0      @ apply relocation
 > +
->  /*
->   * frame rate settings lists
->   */
-> @@ -762,6 +768,13 @@ static int ov772x_s_frame_interval(struct v4l2_subdev *sd,
->  	return ret;
->  }
->
-> +static int ov772x_enable_test_pattern(struct ov772x_priv *priv, u32 pattern)
-> +{
-> +	priv->test_pattern = pattern;
-> +	return regmap_update_bits(priv->regmap, COM3, SCOLOR_TEST,
-> +				  pattern ? SCOLOR_TEST : 0x00);
-> +}
-> +
->  static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct ov772x_priv *priv = container_of(ctrl->handler,
-> @@ -809,6 +822,8 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
->  		}
->
->  		return ret;
-> +	case V4L2_CID_TEST_PATTERN:
-> +		return ov772x_enable_test_pattern(priv, ctrl->val);
+> +#ifdef CONFIG_ARM_APPENDED_DTB
+> +               /*
+> +                * Look for an appended DTB. If found, use it and
+> +                * move stack away from it.
+> +                */
+> +               ldr     r6, [r0, #4]    @ get &_edata
+> +               add     r6, r6, r0      @ relocate it
+> +               ldmia   r6, {r0, r5}    @ get DTB signature and size
+> +#ifndef __ARMEB__
+> +               ldr     r1, =0xedfe0dd0 @ sig is 0xd00dfeed big endian
+> +               /* convert DTB size to little endian */
+> +               eor     r2, r5, r5, ror #16
+> +               bic     r2, r2, #0x00ff0000
+> +               mov     r5, r5, ror #8
+> +               eor     r5, r5, r2, lsr #8
+> +#else
+> +               ldr     r1, =0xd00dfeed
+> +#endif
 
-I think you should rather save ctrl->val in priv->test_patter here,
-and then apply it at set_params() time (which is called at power on).
-But I see the driver refusing to s_ctrl() and not calling
-__v4l2_ctrl_handler_setup() at power up time, so I think the idea is
-just to ignore controls set when the sensor is powered down..
+We now have two and even three copies of this code,
+sort of. Right above  CONFIG_ARM_ATAG_DTB_COMPAT
+there is this:
 
->  	}
->
->  	return -EINVAL;
-> @@ -1103,10 +1118,14 @@ static int ov772x_set_params(struct ov772x_priv *priv,
->  		val |= VFLIP_IMG;
->  	if (priv->info && (priv->info->flags & OV772X_FLAG_HFLIP))
->  		val |= HFLIP_IMG;
-> +	if (priv->info && (priv->info->flags & OV772X_FLAG_TEST_PATTERN))
-> +		val |= SCOLOR_TEST;
->  	if (priv->vflip_ctrl->val)
->  		val ^= VFLIP_IMG;
->  	if (priv->hflip_ctrl->val)
->  		val ^= HFLIP_IMG;
-> +	if (priv->test_pattern)
-> +		val ^= SCOLOR_TEST;
+#ifdef CONFIG_ARM_APPENDED_DTB
+(...)
+        ldr    lr, [r6, #0]
+#ifndef __ARMEB__
+        ldr    r1, =0xedfe0dd0        @ sig is 0xd00dfeed big endian
+#else
+        ldr    r1, =0xd00dfeed
+#endif
+        cmp    lr, r1
+        bne    dtb_check_done        @ not found
 
-I'm not sure this is required to be honest.
+Then inside CONFIG_ARM_ATAG_DTB_COMPAT:
 
-For hflip/vflip the =^ serves to invert the v4l2-control meaning, as
-the image is said to be already H/V flipped by the platform data (if I
-got this part right).
+        /* Get the initial DTB size */
+        ldr    r5, [r6, #4]
+#ifndef __ARMEB__
+        /* convert to little endian */
+        eor    r1, r5, r5, ror #16
+        bic    r1, r1, #0x00ff0000
+        mov    r5, r5, ror #8
+        eor    r5, r5, r1, lsr #8
+#endif
 
-For test pattern, do we want the same behaviour ? If enabled by
-platform data then selecting "Vertical Color Bar Type 1" then disables
-it ? I don't think so...
+Then at the end after deciding to use the appended
+device tree we get the DTB size *again* and moves
+the sp beyond the DTB permanently as we do not
+want to damage the DTB of course.
 
-Anyway, minor issue. With this addressed
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+To me it looks like the DTB size gets added to sp
+a second time? First it is bumped by your code,
+then when the appended DTB is detected and
+augmented further down, it gets bumped again
+for no reason here:
 
-Thanks
-  j
+/* relocate some pointers past the appended dtb */
+add    r6, r6, r5
+add    r10, r10, r5
+add    sp, sp, r5
+dtb_check_done:
 
->
->  	ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
->  	if (ret < 0)
-> @@ -1404,6 +1423,10 @@ static int ov772x_probe(struct i2c_client *client)
->  	priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
->  						   V4L2_CID_BAND_STOP_FILTER,
->  						   0, 256, 1, 0);
-> +	v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
-> +				     0, 0, ov772x_test_pattern_menu);
->  	priv->subdev.ctrl_handler = &priv->hdl;
->  	if (priv->hdl.error) {
->  		ret = priv->hdl.error;
-> diff --git a/include/media/i2c/ov772x.h b/include/media/i2c/ov772x.h
-> index a1702d420087..65e6f8d2f4bb 100644
-> --- a/include/media/i2c/ov772x.h
-> +++ b/include/media/i2c/ov772x.h
-> @@ -12,6 +12,7 @@
->  /* for flags */
->  #define OV772X_FLAG_VFLIP	(1 << 0) /* Vertical flip image */
->  #define OV772X_FLAG_HFLIP	(1 << 1) /* Horizontal flip image */
-> +#define OV772X_FLAG_TEST_PATTERN	(1 << 2) /* Test pattern */
->
->  /*
->   * for Edge ctrl
-> --
-> 2.17.1
->
+I don't know if I'm right, I may be confused...
+
+It would be better if we could avoid copy/paste and
+merge the code in here so we first check if there is a
+DTB, else there is not much to do, and if there is, we
+get the size, move the sp and do both operations:
+
+1. Check for ATAGs and augment the DTB
+2. Check for memory size in the DTB
+
+This way the ATAG-augmented DTB can be used
+for checking for the memory start.
+
+I understand that you need the physical address
+before turning on the caches, so what I am thinking
+is if it is possible to move the check for appended
+DTB and ATAG augmentation business up before
+the cache enablement in a separate patch and then
+modify it from there. Then you could potentially
+merge these two things.
+
+Maybe there is something conceptually wrong with
+this that I have overlooked... :/
+
+Yours,
+Linus Walleij
