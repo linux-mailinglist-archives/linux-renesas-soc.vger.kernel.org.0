@@ -2,48 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7D1925C111
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 14:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C87C825C141
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 14:46:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728603AbgICMdx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 08:33:53 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43657 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728685AbgICMco (ORCPT
+        id S1728975AbgICMqq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 08:46:46 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39757 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728964AbgICMqG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Sep 2020 08:32:44 -0400
-Received: by mail-ot1-f66.google.com with SMTP id v16so2499503otp.10;
-        Thu, 03 Sep 2020 05:32:08 -0700 (PDT)
+        Thu, 3 Sep 2020 08:46:06 -0400
+Received: by mail-oi1-f193.google.com with SMTP id r64so2974650oib.6;
+        Thu, 03 Sep 2020 05:45:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=can7pBcZYDul0Yv961+RYr27uzFiovUj2L4qqu06vo4=;
-        b=m0at/2ZddyPOrGauz8Gik9j7DIC1dBfoT9idULCGENTPwCcWJcRmA8up5jC3ZEtz+G
-         hp/s36QaYWVnK6h78VXGRtowL0MvGKs+LJujLgp9a5hndSKjQ7ct6wHs8GB4NtIEfpdB
-         IbihvUZzu4JVsY8fTin9i/YYnkYYzQ+p9wuHTvq7ckMi3UYDaKrxnk4LqCkLEZdvEC6e
-         mkw0msAD9irWXrQHUB/KTaveirn9L7B3lv8RT0CSWf+LCm6Xt1x+fgkhoGpxAut8heKD
-         o2tp5MCr16PEY7rbMwTer1Ru67k1KcY7AwuTFUFFs8xsTrog/lVf3b2A3ifjjQRuYijy
-         pfng==
-X-Gm-Message-State: AOAM532xBakKRoNlzv4q1UFNZ/iCX1cQ1TseWex00otlESEZSqaSAiD4
-        /kL7NsPhclU8mB15oCBassTfwK4t1mA9gZZ3T3a6eLcg
-X-Google-Smtp-Source: ABdhPJx6ZN6dIKCLmZa8/h6JuRl/a8sbPFsQdsiD7b3k8qmpNJCRyue7gicu/8dRp3YgYp1zte94/1mVNN5TwHZSEPk=
-X-Received: by 2002:a9d:1b62:: with SMTP id l89mr1387866otl.145.1599136328504;
- Thu, 03 Sep 2020 05:32:08 -0700 (PDT)
+        bh=ml+p0f4/lZUonascXc6jcxVxCdORbfnV0c6JRtVN0WI=;
+        b=LzRU28HIrkxAkGLDjs76uVr4b+0TLwmDgfebuoIwmRATq6cQ/HKfpcSEsNjnyw2i1S
+         b9iIWk8/Qf6+3gNWDFaRCR8vHymet/vn1IorV5AA+QFxT3QH0IkGp/v7ThVa/tHG3S3w
+         QdN8wqBAp/0YRNcqmx73JKlnnA1mU8BrLzj/Kbtm8BCuaKf7P7N2wsRbpvfKliBChkHC
+         iNd4eX+r/It7H1G6wZY+qMS3s45+GSQLclW0aRoqlQNHaKXYeXbq4LMrjmUilgZI7hAl
+         xLakXTCqWHPd4RZCU1G9l871Z3bhNGWVbwPC3DutXI/9n/yjFu8s3ZDYVJOdVNZ2076r
+         pu4w==
+X-Gm-Message-State: AOAM533lkYUAia/gXXZWtqCny7LydH5gxP9+DuUjgDE7Gdbcgs5hxzAw
+        J+G+HcZ7gSRyYLqA73TzholfhfrQjZhJGf0iFQE6/6Bp
+X-Google-Smtp-Source: ABdhPJwZcz/ujowdJByh5kbHpCBfa3Mpr/OPyUnuyyZK6ceNjumcCEmczP0uPpBwRxXaF/qOFQ+eA/665+uKpJ+OxTA=
+X-Received: by 2002:aca:3402:: with SMTP id b2mr1797687oia.153.1599136958847;
+ Thu, 03 Sep 2020 05:42:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827145315.26261-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200827145315.26261-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200827145315.26261-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200831180312.7453-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200831180312.7453-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 3 Sep 2020 14:31:57 +0200
-Message-ID: <CAMuHMdWs-K=i7Z7fcsWTPj0N_eqs03KUGL6msiCyQXd6v2tq0g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a774e1: Add FDP1 device nodes
+Date:   Thu, 3 Sep 2020 14:42:27 +0200
+Message-ID: <CAMuHMdXWxYgAZx7bCET-U2S9KUo2tAT2gqKn3W5LTTtH-oRS0Q@mail.gmail.com>
+Subject: Re: [PATCH v2] clk: renesas: r8a7742-cpg-mssr: Add clk entry for VSPR
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -51,17 +51,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 4:53 PM Lad Prabhakar
+On Mon, Aug 31, 2020 at 8:03 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Add clock entry 130 for VSPR (VSP for Resizing) module, so that this module
+> can be used on R8A7742 (RZ/G1H) SoC.
 >
-> Add FDP1 device nodes to R8A774E1 (RZ/G2H) SoC dtsi.
+> Alongside rename clock entry "vsp1-sy" to "vsps" (VSP Standard), so that
+> VSP1 clock names are in sync.
 >
-> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Note: The entry for VSPR clock was accidentally dropped from RZ/G manual
+> when all the information related to RT were removed.
+>
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2
+> * Alongside renamed "vsp1-sy" to "vsps"
+> * Updated commit message
+
+Thanks for the update!
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+i.e. will queue in clk-renesas-for-v5.10.
 
 Gr{oetje,eeting}s,
 
