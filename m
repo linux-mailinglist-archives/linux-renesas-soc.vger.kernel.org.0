@@ -2,40 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B7A25CBF2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 23:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2204D25CC50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 23:34:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgICVOw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 17:14:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39854 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgICVOv (ORCPT
+        id S1728127AbgICVeA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 17:34:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45118 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726323AbgICVd5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Sep 2020 17:14:51 -0400
+        Thu, 3 Sep 2020 17:33:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C83DC061244;
+        Thu,  3 Sep 2020 14:33:56 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8F51856E;
-        Thu,  3 Sep 2020 23:14:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 899A456E;
+        Thu,  3 Sep 2020 23:33:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599167683;
-        bh=t98G4ZdkzO0W2nZOvWuSu+ePov34s/2bYPiJJJFMqkA=;
+        s=mail; t=1599168832;
+        bh=c5PHZQTxFN2DfGIKhuJIfs1J02Rl5lH57MCUm+zIwdI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o3BEyiYVFc4CqKRnxzVPb2DwlmG1M6pcGMYXiQiQty7NBthh6ZnsXWoRdVkXL47Ac
-         ErprJ7uPRyYWrxp/trVCRzqv9dIND61BDnIJbmZVwI+CcGGJKe9RJzoyjgyeI2oFgW
-         eQNnyOsDNNYmobjwFayXUX11XBORnFfQoUKxvgjg=
-Date:   Fri, 4 Sep 2020 00:14:20 +0300
+        b=YrH64JwSixNNpJ9C/lFysuvisHp1Reh8U2ad1rIxRc+yYl1zrzKTNafSzAi/wkbXt
+         d8rQGMpvceeKFMNBUO+PnMm2sTj2Zc0rkLhecVb/mqvf8ioU2EnnD5y+0jcTRLR9vl
+         rT19WDxxYUnb30iQPpOebXuOmxzn8Vyge7XUxGYQ=
+Date:   Fri, 4 Sep 2020 00:33:29 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] dt-bindings: media: i2c: Convert 3 sensor bindings
-Message-ID: <20200903211420.GF6492@pendragon.ideasonboard.com>
-References: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v4 3/3] dt-bindings: media: ov772x: Document endpoint
+ props
+Message-ID: <20200903213329.GG6492@pendragon.ideasonboard.com>
+References: <20200903131029.18334-1-jacopo+renesas@jmondi.org>
+ <20200903131029.18334-4-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200903131029.18334-4-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -43,45 +50,96 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On Thu, Sep 03, 2020 at 01:51:40PM +0200, Jacopo Mondi wrote:
-> I know I've sent the previous version first as part of a longer list of patches,
-> later individually, and now grouped together again. Sorry for the fuss, hope
-> it's not too confusing.
-> 
-> These three sensor bindings conversions go together as they all happen in a
-> single patch, so I deemed it was easier to just group them.
-> 
-> In v4 after finalizing the discussion with Laurent and Rob on how to handle
-> of-graph endpoint, I have dropped them from mt9v111 and imx274. For imx214 as I
-> have endpoint properties to document I have also documented 'endpoint' (not
-> mandatory) and 'remote-endpoint' (mandatory). Hope I got the outcome of the
-> discussion right. For imx214 I also took in Laurent's suggestion on how to
-> document the 'data-lanes' supported values.
+Thank you for the patch.
 
-I think you can drop remote-endpoint, it will be defined in
-of-graph.yaml. Apart from that, it sounds good to me.
+On Thu, Sep 03, 2020 at 03:10:29PM +0200, Jacopo Mondi wrote:
+> Document endpoint properties for the parallel bus type and
+> add them to the example.
+> 
+> Specify a few constraints:
+> - If the bus type is BT.656 no hsync or vsycn polarities can be
 
-> Individual maintainers cc-ed per-patch.
+s/vsycn/vsync/
+
+>   specified.
+> - If the bus width is 10 bits, not data-shift can be applied.
 > 
-> Jacopo Mondi (3):
->   dt-bindings: media: mt9v111: Convert to json-schema
->   dt-bindings: media: imx274: Convert to json-schema
->   dt-bindings: media: imx214: Convert to json-schema
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../bindings/media/i2c/ovti,ov772x.yaml       | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
 > 
->  .../bindings/media/i2c/aptina,mt9v111.txt     |  46 ------
->  .../bindings/media/i2c/aptina,mt9v111.yaml    |  75 ++++++++++
->  .../devicetree/bindings/media/i2c/imx274.txt  |  38 -----
->  .../bindings/media/i2c/sony,imx214.txt        |  53 -------
->  .../bindings/media/i2c/sony,imx214.yaml       | 137 ++++++++++++++++++
->  .../bindings/media/i2c/sony,imx274.yaml       |  59 ++++++++
->  MAINTAINERS                                   |   6 +-
->  7 files changed, 274 insertions(+), 140 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+> index 406e9cd463a2..c596cbd1e92d 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+> @@ -52,6 +52,45 @@ properties:
+>            bus-type:
+>              enum: [5, 6]
+>  
+> +          bus-width:
+> +            enum: [8, 10]
+> +            default: 10
+> +
+> +          data-shift:
+> +            enum: [0, 2]
+> +            default: 0
+> +
+> +          hsync-active:
+> +            enum: [0, 1]
+> +            default: 1
+> +
+> +          vsync-active:
+> +            enum: [0, 1]
+> +            default: 1
+> +
+> +          pclk-sample:
+> +            enum: [0, 1]
+> +            default: 1
+> +
+> +        allOf:
+> +          - if:
+> +              properties:
+> +                bus-type:
+> +                  const: 6
+> +            then:
+> +                properties:
+> +                  hsync-active: false
+> +                  vsync-active: false
+> +
+
+This should eventually end up in video-interfaces.yaml. I don't mind
+keeping it here in the meantime. Same for the hsync-active, vsync-active
+and pclk-sample enum, they should end up in video-interfaces.yaml.
+
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +          - if:
+> +              properties:
+> +                bus-width:
+> +                  const: 10
+> +            then:
+> +                properties:
+> +                  data-shift:
+> +                    const: 0
+> +
+>          required:
+>            - remote-endpoint
+>            - bus-type
+> @@ -85,6 +124,11 @@ examples:
+>              port {
+>                  ov772x_0: endpoint {
+>                      bus-type = <5>;
+> +                    vsync-active = <0>;
+> +                    hsync-active = <0>;
+> +                    pclk-sample = <0>;
+> +                    bus-width = <8>;
+> +                    data-shift = <0>;
+>                      remote-endpoint = <&vcap1_in0>;
+>                  };
+>              };
 
 -- 
 Regards,
