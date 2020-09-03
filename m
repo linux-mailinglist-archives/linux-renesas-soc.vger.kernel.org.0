@@ -2,70 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F69C25B1BC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Sep 2020 18:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E715825BB6E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 09:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727048AbgIBQcV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Sep 2020 12:32:21 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:60512 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbgIBQcV (ORCPT
+        id S1728027AbgICHM0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 03:12:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47716 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725919AbgICHMY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:32:21 -0400
-Received: from madeliefje.horms.nl (unknown [83.161.246.101])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id BEE7525B817;
-        Thu,  3 Sep 2020 02:32:19 +1000 (AEST)
-Received: by madeliefje.horms.nl (Postfix, from userid 7100)
-        id E28A113DA; Wed,  2 Sep 2020 18:32:17 +0200 (CEST)
-Date:   Wed, 2 Sep 2020 18:32:17 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Akashi Takahiro <takahiro.akashi@linaro.org>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        kexec@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] arm: kdump: Add DT properties to crash dump kernel's DTB
-Message-ID: <20200902163217.GH21427@vergenet.net>
-References: <20200902154129.6358-1-geert+renesas@glider.be>
- <CAMuHMdX722bUNmZLjGi7qEVQdA4ODY5gZ-61SnMU+oiOqnjZXQ@mail.gmail.com>
+        Thu, 3 Sep 2020 03:12:24 -0400
+Received: from localhost (unknown [122.171.179.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8CD0F2071B;
+        Thu,  3 Sep 2020 07:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599117144;
+        bh=rPR2h65NIq58EsscVdBt569FU+eXj+sgSo+2rsPr7Xo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xFCu1WKxCw5FoYN5y1JnlmwiLnwQc+1eNLpBVmxWTe+nJAWAVvjqlGJiLuCDfvy0r
+         vM4t4hrvNyJqR//KT5KQlVH54S1lRrLCdtV1n5QRl1Y+M4u9cDRF7q+AyArIzuCP3Y
+         uMkofjLWZiFPmRB3lL/Z7CPk7Q69SrsotAiJeBho=
+Date:   Thu, 3 Sep 2020 12:42:20 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>
+Subject: Re: [PATCH v2 05/10] dt-bindings: renesas,rcar-dmac: Document
+ r8a7742 support
+Message-ID: <20200903071220.GK2639@vkoul-mobl>
+References: <1588542414-14826-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1588542414-14826-6-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8v5CtxJQxjSWcvJrPtf9JyYKZeACdc3as_hjM710pk1AQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdX722bUNmZLjGi7qEVQdA4ODY5gZ-61SnMU+oiOqnjZXQ@mail.gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CA+V-a8v5CtxJQxjSWcvJrPtf9JyYKZeACdc3as_hjM710pk1AQ@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 02, 2020 at 05:48:00PM +0200, Geert Uytterhoeven wrote:
-> On Wed, Sep 2, 2020 at 5:41 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Pass the following properties to the crash dump kernel, to provide a
-> > modern DT interface between kexec and the crash dump kernel:
-> >
-> >   - linux,elfcorehdr: ELF core header segment, similar to the
-> >     "elfcorehdr=" kernel parameter.
-> >   - linux,usable-memory-range: Usable memory reserved for the crash dump
-> >     kernel.
-> >     This makes the memory reservation explicit, so Linux no longer needs
-> >     to mask the program counter, and rely on the "mem=" kernel parameter
-> >     to obtain the start and size of usable memory.
-> >
-> > For backwards compatibility, the "elfcorehdr=" and "mem=" kernel
-> > parameters are still appended to the kernel command line.
-> >
-> > Loosely based on the ARM64 version by Akashi Takahiro.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 27-08-20, 12:08, Lad, Prabhakar wrote:
+> Hi Vinod,
 > 
-> The counterpart patch for linux is "[PATCH] ARM: Parse kdump DT
-> properties"
-> (https://lore.kernel.org/r/20200902154538.6807-1-geert+renesas@glider.be)
+> On Sun, May 3, 2020 at 10:47 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> >
+> > Renesas RZ/G SoC also have the R-Car gen2/3 compatible DMA controllers.
+> > Document RZ/G1H (also known as R8A7742) SoC bindings.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> This patch is not present in linux-next yet, could you please take care of it.
 
-Thanks Geert,
+Can you please resend
 
-I think it would be best to hold-off on the user-space patch
-until the kernel patch is accepted.
+
+-- 
+~Vinod
