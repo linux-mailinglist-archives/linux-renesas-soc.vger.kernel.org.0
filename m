@@ -2,22 +2,21 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E046225C5CC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 17:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84CEE25C62B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 18:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728514AbgICPzW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 11:55:22 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:64095 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728483AbgICPzW (ORCPT
+        id S1728344AbgICQHc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 12:07:32 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57375 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727786AbgICQH3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Sep 2020 11:55:22 -0400
-X-Originating-IP: 2.224.242.101
+        Thu, 3 Sep 2020 12:07:29 -0400
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 95975240011;
-        Thu,  3 Sep 2020 15:55:16 +0000 (UTC)
-Date:   Thu, 3 Sep 2020 17:59:02 +0200
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 191AE240016;
+        Thu,  3 Sep 2020 16:07:22 +0000 (UTC)
+Date:   Thu, 3 Sep 2020 18:11:08 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -28,110 +27,148 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
-Message-ID: <20200903155902.3opuzv52jdpiszuw@uno.localdomain>
+Subject: Re: [PATCH v3 2/2] media: i2c: ov772x: Add test pattern control
+Message-ID: <20200903161108.aqlgicfhwgyccwou@uno.localdomain>
 References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200824190406.27478-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
 
-On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
-> Add support to read the bus-type and enable BT656 mode if needed.
->
-> Also fail probe if unsupported bus_type is detected.
+On Mon, Aug 24, 2020 at 08:04:06PM +0100, Lad Prabhakar wrote:
+> Add support for test pattern control supported by the sensor.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/i2c/ov772x.c | 25 ++++++++++++++++++++++++-
+>  include/media/i2c/ov772x.h |  1 +
+>  2 files changed, 25 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 67764d647526..f267d8abd742 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -227,7 +227,7 @@
+>
+>  /* COM3 */
+>  #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
+> -#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
+> +#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
+>
+>  #define VFLIP_IMG       0x80	/* Vertical flip image ON/OFF selection */
+>  #define HFLIP_IMG       0x40	/* Horizontal mirror image ON/OFF selection */
+> @@ -425,6 +425,7 @@ struct ov772x_priv {
+>  	const struct ov772x_win_size     *win;
+>  	struct v4l2_ctrl		 *vflip_ctrl;
+>  	struct v4l2_ctrl		 *hflip_ctrl;
+> +	unsigned int			  test_pattern;
+>  	/* band_filter = COM8[5] ? 256 - BDBASE : 0 */
+>  	struct v4l2_ctrl		 *band_filter_ctrl;
+>  	unsigned int			  fps;
+> @@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
+>  	},
+>  };
+>
+> +static const char * const ov772x_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Vertical Color Bar Type 1",
+> +};
+> +
+>  /*
+>   * frame rate settings lists
+>   */
+> @@ -762,6 +768,13 @@ static int ov772x_s_frame_interval(struct v4l2_subdev *sd,
+>  	return ret;
+>  }
+>
+> +static int ov772x_enable_test_pattern(struct ov772x_priv *priv, u32 pattern)
+> +{
+> +	priv->test_pattern = pattern;
+> +	return regmap_update_bits(priv->regmap, COM3, SCOLOR_TEST,
+> +				  pattern ? SCOLOR_TEST : 0x00);
+> +}
+> +
+>  static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov772x_priv *priv = container_of(ctrl->handler,
+> @@ -809,6 +822,8 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		}
+>
+>  		return ret;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		return ov772x_enable_test_pattern(priv, ctrl->val);
 
-Looks good to me
+I think you should rather save ctrl->val in priv->test_patter here,
+and then apply it at set_params() time (which is called at power on).
+But I see the driver refusing to s_ctrl() and not calling
+__v4l2_ctrl_handler_setup() at power up time, so I think the idea is
+just to ignore controls set when the sensor is powered down..
+
+>  	}
+>
+>  	return -EINVAL;
+> @@ -1103,10 +1118,14 @@ static int ov772x_set_params(struct ov772x_priv *priv,
+>  		val |= VFLIP_IMG;
+>  	if (priv->info && (priv->info->flags & OV772X_FLAG_HFLIP))
+>  		val |= HFLIP_IMG;
+> +	if (priv->info && (priv->info->flags & OV772X_FLAG_TEST_PATTERN))
+> +		val |= SCOLOR_TEST;
+>  	if (priv->vflip_ctrl->val)
+>  		val ^= VFLIP_IMG;
+>  	if (priv->hflip_ctrl->val)
+>  		val ^= HFLIP_IMG;
+> +	if (priv->test_pattern)
+> +		val ^= SCOLOR_TEST;
+
+I'm not sure this is required to be honest.
+
+For hflip/vflip the =^ serves to invert the v4l2-control meaning, as
+the image is said to be already H/V flipped by the platform data (if I
+got this part right).
+
+For test pattern, do we want the same behaviour ? If enabled by
+platform data then selecting "Vertical Color Bar Type 1" then disables
+it ? I don't think so...
+
+Anyway, minor issue. With this addressed
 Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
 Thanks
   j
 
-> ---
->  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
 >
-> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> index 2cc6a678069a..67764d647526 100644
-> --- a/drivers/media/i2c/ov772x.c
-> +++ b/drivers/media/i2c/ov772x.c
-> @@ -31,6 +31,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <media/v4l2-image-sizes.h>
->  #include <media/v4l2-subdev.h>
->
-> @@ -434,6 +435,7 @@ struct ov772x_priv {
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	struct media_pad pad;
->  #endif
-> +	struct v4l2_fwnode_endpoint ep;
->  };
+>  	ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
+>  	if (ret < 0)
+> @@ -1404,6 +1423,10 @@ static int ov772x_probe(struct i2c_client *client)
+>  	priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
+>  						   V4L2_CID_BAND_STOP_FILTER,
+>  						   0, 256, 1, 0);
+> +	v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
+> +				     0, 0, ov772x_test_pattern_menu);
+>  	priv->subdev.ctrl_handler = &priv->hdl;
+>  	if (priv->hdl.error) {
+>  		ret = priv->hdl.error;
+> diff --git a/include/media/i2c/ov772x.h b/include/media/i2c/ov772x.h
+> index a1702d420087..65e6f8d2f4bb 100644
+> --- a/include/media/i2c/ov772x.h
+> +++ b/include/media/i2c/ov772x.h
+> @@ -12,6 +12,7 @@
+>  /* for flags */
+>  #define OV772X_FLAG_VFLIP	(1 << 0) /* Vertical flip image */
+>  #define OV772X_FLAG_HFLIP	(1 << 1) /* Horizontal flip image */
+> +#define OV772X_FLAG_TEST_PATTERN	(1 << 2) /* Test pattern */
 >
 >  /*
-> @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
->  	if (priv->streaming == enable)
->  		goto done;
->
-> +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
-> +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
-> +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
-> +		if (ret)
-> +			goto done;
-> +	}
-> +
->  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
->  				 enable ? 0 : SOFT_SLEEP_MODE);
->  	if (ret)
-> @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
->
->  static int ov772x_probe(struct i2c_client *client)
->  {
-> +	struct fwnode_handle *endpoint;
->  	struct ov772x_priv	*priv;
->  	int			ret;
->  	static const struct regmap_config ov772x_regmap_config = {
-> @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
->  		goto error_clk_put;
->  	}
->
-> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> +						  NULL);
-> +	if (!endpoint) {
-> +		dev_err(&client->dev, "endpoint node not found\n");
-> +		ret = -EINVAL;
-> +		goto error_clk_put;
-> +	}
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Could not parse endpoint\n");
-> +		goto error_clk_put;
-> +	}
-> +
-> +	if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
-> +	    priv->ep.bus_type != V4L2_MBUS_BT656) {
-> +		dev_err(&client->dev, "Unsupported bus type %d\n",
-> +			priv->ep.bus_type);
-> +		goto error_clk_put;
-> +	}
-> +
->  	ret = ov772x_video_probe(priv);
->  	if (ret < 0)
->  		goto error_gpio_put;
+>   * for Edge ctrl
 > --
 > 2.17.1
 >
