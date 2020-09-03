@@ -2,31 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AD3225C49F
+	by mail.lfdr.de (Postfix) with ESMTP id E3C7525C4A0
 	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Sep 2020 17:13:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728724AbgICLtY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 07:49:24 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:58409 "EHLO
+        id S1729140AbgICPNN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Sep 2020 11:13:13 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:56703 "EHLO
         relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728676AbgICLsq (ORCPT
+        with ESMTP id S1728677AbgICLsq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 3 Sep 2020 07:48:46 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 42FD01BF212;
-        Thu,  3 Sep 2020 11:48:06 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id B0BA81BF216;
+        Thu,  3 Sep 2020 11:48:08 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org
+        linux-media@vger.kernel.org, Leon Luo <leonl@leopardimaging.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 1/3] dt-bindings: media: mt9v111: Convert to json-schema
-Date:   Thu,  3 Sep 2020 13:51:41 +0200
-Message-Id: <20200903115143.13717-2-jacopo+renesas@jmondi.org>
+Subject: [PATCH v4 2/3] dt-bindings: media: imx274: Convert to json-schema
+Date:   Thu,  3 Sep 2020 13:51:42 +0200
+Message-Id: <20200903115143.13717-3-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
 References: <20200903115143.13717-1-jacopo+renesas@jmondi.org>
@@ -37,117 +38,94 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the mt9v111 bindings document to json-schema and update
+Convert the imx274 bindings document to json-schema and update
 the MAINTAINERS file accordingly.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- .../bindings/media/i2c/aptina,mt9v111.txt     | 46 ------------
- .../bindings/media/i2c/aptina,mt9v111.yaml    | 75 +++++++++++++++++++
+ .../devicetree/bindings/media/i2c/imx274.txt  | 38 ------------
+ .../bindings/media/i2c/sony,imx274.yaml       | 59 +++++++++++++++++++
  MAINTAINERS                                   |  2 +-
- 3 files changed, 76 insertions(+), 47 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+ 3 files changed, 60 insertions(+), 39 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
 deleted file mode 100644
-index bd896e9f67d1..000000000000
---- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
+index 0727079d2410..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
 +++ /dev/null
-@@ -1,46 +0,0 @@
--* Aptina MT9V111 CMOS sensor
------------------------------
+@@ -1,38 +0,0 @@
+-* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
 -
--The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
--based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
+-The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+-an active array size of 3864H x 2202V. It is programmable through I2C
+-interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+-Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+-at 1440 Mbps.
 -
--The sensor has an active pixel array of 640x480 pixels and can output a number
--of image resolution and formats controllable through a simple two-wires
--interface.
 -
--Required properties:
----------------------
+-Required Properties:
+-- compatible: value should be "sony,imx274" for imx274 sensor
+-- reg: I2C bus address of the device
 -
--- compatible: shall be "aptina,mt9v111".
--- clocks: reference to the system clock input provider.
+-Optional Properties:
+-- reset-gpios: Sensor reset GPIO
+-- clocks: Reference to the input clock.
+-- clock-names: Should be "inck".
+-- VANA-supply: Sensor 2.8v analog supply.
+-- VDIG-supply: Sensor 1.8v digital core supply.
+-- VDDL-supply: Sensor digital IO 1.2v supply.
 -
--Optional properties:
----------------------
--
--- enable-gpios: output enable signal, pin name "OE#". Active low.
--- standby-gpios: low power state control signal, pin name "STANDBY".
--  Active high.
--- reset-gpios: chip reset signal, pin name "RESET#". Active low.
--
--The device node must contain one 'port' child node with one 'endpoint' child
--sub-node for its digital output video port, in accordance with the video
--interface bindings defined in:
--Documentation/devicetree/bindings/media/video-interfaces.txt
+-The imx274 device node should contain one 'port' child node with
+-an 'endpoint' subnode. For further reading on port node refer to
+-Documentation/devicetree/bindings/media/video-interfaces.txt.
 -
 -Example:
----------
--
--        &i2c1 {
--                camera@48 {
--                        compatible = "aptina,mt9v111";
--                        reg = <0x48>;
--
--                        clocks = <&camera_clk>;
--
--                        port {
--                                mt9v111_out: endpoint {
--                                        remote-endpoint = <&ceu_in>;
--                                };
--                        };
--                };
--        };
-diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
+-	sensor@1a {
+-		compatible = "sony,imx274";
+-		reg = <0x1a>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reset-gpios = <&gpio_sensor 0 0>;
+-		port {
+-			sensor_out: endpoint {
+-				remote-endpoint = <&csiss_in>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 new file mode 100644
-index 000000000000..ff9546e95d05
+index 000000000000..f757ce380cb2
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
-@@ -0,0 +1,75 @@
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+@@ -0,0 +1,59 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/i2c/aptina,mt9v111.yaml#
++$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Aptina MT9V111 CMOS sensor
++title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
 +
 +maintainers:
-+  - Jacopo Mondi <jacopo@jmondi.org>
++  - Leon Luo <leonl@leopardimaging.com>
 +
 +description: |
-+  The Aptina MT9V111 is a 1/4-Inch VGA-format digital image sensor with a core
-+  based on Aptina MT9V011 sensor and an integrated Image Flow Processor (IFP).
-+
-+  The sensor has an active pixel array of 640x480 pixels and can output a number
-+  of image resolutions and formats controllable through a simple two-wires
-+  interface.
++  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
++  active array size of 3864H x 2202V. It is programmable through I2C interface.
++  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
++  Mbps.
 +
 +properties:
 +  compatible:
-+    const: aptina,mt9v111
++    const: sony,imx274
 +
 +  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  enable-gpios:
-+    description: Enable signal, pin name "OE#". Active low.
-+    maxItems: 1
-+
-+  standby-gpios:
-+    description: |
-+      Low power state control signal, pin name "STANDBY". Active high.
-+    maxItems: 1
++    const: 0x1a
 +
 +  reset-gpios:
-+    description: Chip reset signal, pin name "RESET#". Active low.
 +    maxItems: 1
 +
 +  port:
@@ -158,7 +136,6 @@ index 000000000000..ff9546e95d05
 +required:
 +  - compatible
 +  - reg
-+  - clocks
 +  - port
 +
 +additionalProperties: false
@@ -169,14 +146,14 @@ index 000000000000..ff9546e95d05
 +        #address-cells = <1>;
 +        #size-cells = <0>;
 +
-+        camera@48 {
-+            compatible = "aptina,mt9v111";
-+            reg = <0x48>;
-+            clocks = <&camera_clk>;
++        imx274: camera-sensor@1a {
++            compatible = "sony,imx274";
++            reg = <0x1a>;
++            reset-gpios = <&gpio_sensor 0 0>;
 +
 +            port {
-+                mt9v111_out: endpoint {
-+                    remote-endpoint = <&ceu_in>;
++                sensor_out: endpoint {
++                    remote-endpoint = <&csiss_in>;
 +                };
 +            };
 +        };
@@ -184,18 +161,18 @@ index 000000000000..ff9546e95d05
 +
 +...
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4f786d18e16e..3f8f093268b7 100644
+index 3f8f093268b7..093a54ae1527 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -11806,7 +11806,7 @@ M:	Jacopo Mondi <jacopo@jmondi.org>
+@@ -16127,7 +16127,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
  L:	linux-media@vger.kernel.org
  S:	Maintained
  T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.txt
-+F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v111.yaml
- F:	drivers/media/i2c/mt9v111.c
- 
- MULTIFUNCTION DEVICES (MFD)
--- 
+-F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+ F:	drivers/media/i2c/imx274.c
+
+ SONY IMX290 SENSOR DRIVER
+--
 2.28.0
 
