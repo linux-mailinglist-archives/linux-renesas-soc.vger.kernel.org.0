@@ -2,56 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3D5925E09D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 19:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1AEB25E0A1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 19:18:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbgIDRPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 13:15:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
+        id S1726114AbgIDRSS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 13:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgIDRPv (ORCPT
+        with ESMTP id S1726277AbgIDRSQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 13:15:51 -0400
+        Fri, 4 Sep 2020 13:18:16 -0400
 Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B49EC061244;
-        Fri,  4 Sep 2020 10:15:51 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id x10so4886253ybj.13;
-        Fri, 04 Sep 2020 10:15:51 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 253BEC061244;
+        Fri,  4 Sep 2020 10:18:16 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id p6so4918667ybk.10;
+        Fri, 04 Sep 2020 10:18:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=a/SS7L6jjq/PkiHi0BpEL2RJG6KnZ3YeAsUX9aGxPLU=;
-        b=ZmznAuNwO3nYNA0dLCjo1WUEdDHaj1pw+oBHIZUTdVnrg+aig8CreNfiqbzygj59fi
-         YebSJafUdoCrE1zHKoU3ciYQD8YFRJwQjuo5xRbRA4O4vkxuy42dzIBJZRP5y086h08h
-         UaJcOQQLwg1Ei3oYrsqw7TnATYKVxu1IPz61mcenKpGvv73pvXSdpAjJ9bJ9LyLRrWBu
-         z9Iqnvh9xb1FNFYTGcYj4qINQ9Kv71MU3EOQdi6DsVJHGMAvALCqebA5/JvkyHNQMPWo
-         txr2oz0OlzudipPSVssC8HBXCAwyXa9ZlvPQuamv26paxh5o8EE+lxM68PZtYuruFSlV
-         xZHA==
+        bh=Zfc6VGSzm8zmMkjKMO2rWCvc30ekK+qXgo2rUCsAxuM=;
+        b=a8tlbEttDX50qzj8qHjpXbYGBhjRJ9uvUqpEV2R8yLMtp1Gzg+iWlz06G8VZsSTszo
+         MPD3j6hD8uyMYD+V5I6OM+ZcoXTGNDkBUn18h54CrVdRU7rrf0HiWFg+WMMwiaTD9uYT
+         t4Ypr3EwyEux9hSP1xOowV4DiiPcVKuVX+eUC4ZSSe7E5lIbVGXpKL5zclIXutKJ5hF7
+         2GAk3/L667DNbOlPt/Uper0E1rL/9MoxK5ptomEb31jkAbgwm9GFZDgQCqmrmV6VcmYz
+         wA61GZTNyBu9fH2sAq2DjlsmQR15fzrJhzI/cYhZg60VktFXiwjYaOJE+2M0W2IPlH6l
+         Rmeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=a/SS7L6jjq/PkiHi0BpEL2RJG6KnZ3YeAsUX9aGxPLU=;
-        b=jNrytltLxjOSjIDYmF67piqb9aM7NbduEgb97PX7BmH5Jhc/rILjcg8I67ml31oMBw
-         FgZOJurtMtnYDlz8JDI1MDpE0f0zDvJn0TO3PbOzIA5gAiShEGt+1Xd67095AlBNz0id
-         rNWi02WfePEX8MKBC7a9Ijw1ZLNVTk3rkkmoo+QE8HcogdcKC4LT7UMrV0nThroH7eSW
-         q3+mDt/sw5yoxR6vI/34RqRX3Pgw9I9gjhh9mZl/SwP5lOxTlqLa0BotYllau/tJDjuR
-         k2BpWg0CKlnNg/xHwjyNT+uP5xhaIVnMxLdtOPuKI5tsD5kVGzApmlBmN/kGgXXs76v4
-         Mgsw==
-X-Gm-Message-State: AOAM532XeoGrw+YrRkhN/Ynp6fkOsPqOcCvOUSfZ+2Zdmh96MVJk9QG7
-        82gXbaxbB2O4asriJXI2Vj0pD1KM9dCN46RDB/k=
-X-Google-Smtp-Source: ABdhPJxuOg5fYSy1dGzvnvkYBk+JtuSW6m3awyVSDhO6e062I+QPueGNMaScXLeiHJIteKTmLxrJvWSSX0O3oAMAEF8=
-X-Received: by 2002:a25:ada0:: with SMTP id z32mr10674783ybi.401.1599239750386;
- Fri, 04 Sep 2020 10:15:50 -0700 (PDT)
+        bh=Zfc6VGSzm8zmMkjKMO2rWCvc30ekK+qXgo2rUCsAxuM=;
+        b=G56hpS+Q4tjgj4Tlb7iher8os7GSfl+r/hqmJNNRh7rH+0WtDbXnCLcBrzAzZFPCQW
+         it6U/BMgBj+cNYnCBKCW2FxeX/WAjgL1DsUStAVeSTg36dQRAeYHL2jf8Q2s0JTTvtfu
+         N7x6n5V5XT8XzNWpzjTWhfHSXzJCTXO1ayfZsfHX+0V7osoVOKvSzIMBvZDgkNfZOEa/
+         UQAIGeIe7k4dhBXI4fWN1ifGyAyU19DjbYAztamNBS3rPCXCXjDH3B9EqDyu0bnmVmFJ
+         MZqC1Z9BngHautegIulNgs72DxlQ1YBwBimDDJhje1BENS3sJcMnLv4zVT2RBnN2cmej
+         CkXw==
+X-Gm-Message-State: AOAM533hnISkeMEQwftVZI66+J95Ih/+PP3/zthVBW4Kbx6hrHIA9mNG
+        cViTRlJxXA6g7DdygNeKd8Lfuf77LnQMOPgJaRY=
+X-Google-Smtp-Source: ABdhPJzhf2gcGQW8Bfk3nZHbFBeNDENxJ0X5gjaUzunqO3RJTsGgO+ufYZWXr5gUYyTjAC2onvKsLAp3P54FO1+I9hk=
+X-Received: by 2002:a25:bbcf:: with SMTP id c15mr11170341ybk.127.1599239895457;
+ Fri, 04 Sep 2020 10:18:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200825162718.5838-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825162718.5838-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXkGBfwNOwd5-=U3wg6U0O+3BErbXuybbuytgzsCmZqRQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXkGBfwNOwd5-=U3wg6U0O+3BErbXuybbuytgzsCmZqRQ@mail.gmail.com>
+ <20200825162718.5838-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUbxtb+Yg=3dgRXWXn2k2tGYcmVzbS-n6rLM0QAJrfo-A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUbxtb+Yg=3dgRXWXn2k2tGYcmVzbS-n6rLM0QAJrfo-A@mail.gmail.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 4 Sep 2020 18:15:23 +0100
-Message-ID: <CA+V-a8uT8d8P8REuXcW9qtCxM84DH+Q4LXZnVTYhT--kswKF=g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] ARM: dts: r8a7742-iwg21d-q7: Enable SD2 LED indication
+Date:   Fri, 4 Sep 2020 18:17:49 +0100
+Message-ID: <CA+V-a8vyrQjK-c6NYwn_zJcC2iRCL7sDm_-q2rcM7uicfEV7yQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] ARM: dts: r8a7742-iwg21d-q7: Add can0 support to
+ carrier board
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
@@ -70,85 +71,67 @@ Hi Geert,
 
 Thank you for the review.
 
-On Thu, Sep 3, 2020 at 1:20 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Thu, Sep 3, 2020 at 1:14 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
 > On Tue, Aug 25, 2020 at 6:28 PM Lad Prabhakar
 > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add support for LED trigger on SD2 interface.
+> > This patch enables CAN0 interface exposed through connector J20 on the
+> > carrier board.
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 >
-> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> > @@ -63,6 +63,16 @@
-> >                 enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
-> >         };
-> >
-> > +       leds {
-> > +               compatible = "gpio-leds";
-> > +
-> > +               sdhi2_led {
-> > +                       label = "sdio-led";
-> > +                       gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+> According to my schematics, the CAN port on J20 has its signals named
+> CAN0_[RT]XD on the carrier board, but connected to CAN1[RT]X (GP4_[67])
+> on the SoM.
 >
-> GPIO_ACTIVE_HIGH?
+> Or am I looking at the wrong file?
 >
-I did try with GPIO_ACTIVE_HIGH and it didn't work as expected. To
-make sure I can control the LED through sysfs I deleted the node from
-DTS and exported the pin GP5_22 (858) and writing the value "out"
-direction and setting the values 0/1 to value did not toggle the SDIO
-LED as expected and it stayed OFF all the time.
-
-Looks like there is some information missing in the schematics.
-
-I did some experiments. I completely removed the SDHI, LED and
-regulator  nodes and  booted the system and exported GP1_27 (989) and
-wrote values 0/1  and this toggled the SDIO_LED.
-
-U-boot sets the below, so in u-boot the SDIO_LED is ON:
-    gpio_direction_output(GPIO_GP_1_27, 0); /* power on */
-    gpio_set_value(GPIO_GP_1_27, 0);
-    gpio_direction_output(GPIO_GP_5_22, 0); /* LED  */
-    gpio_set_value(GPIO_GP_5_22, 1);
-    gpio_direction_output(GPIO_GP_1_8, 0); /* 1: 3.3V, 0: 1.8V*/
-    gpio_set_value(GPIO_GP_1_8, 1);
-
-So in comparison we would need a hog node as below (and with this the
-LED triggers correctly as expected),
-
-&gpio5 {
-    sdio-led-gpio {
-        gpio-hog;
-        gpios = <22 GPIO_ACTIVE_HIGH>;
-        output-high;
-        line-name = "sdio-led-gpio";
-    };
-};
-
-Let me know if you are OK with the above.
-
-Looks like the SDIO_PWR is tied up with an SDIO_LED pin and the
-information is missing from schematics.
+You are correct, I misplaced the node from the carrier board, will post a v2.
 
 Cheers,
 Prabhakar
 
-> The LED is driven by an NPN transistor, with the LED between 3.3V and
-> the transistor's collector.
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
+> > @@ -198,6 +198,13 @@
+> >         };
+> >  };
+> >
+> > +&can0 {
 >
-> > +                       linux,default-trigger = "mmc1";
-> > +               };
+> can1
+>
+> > +       pinctrl-0 = <&can0_pins>;
+>
+> can1_pins
+>
+> > +       pinctrl-names = "default";
+> > +
+> > +       status = "okay";
+> > +};
+> > +
+> >  &cmt0 {
+> >         status = "okay";
+> >  };
+>
+> > @@ -287,6 +303,11 @@
+> >                 function = "tpu0";
+> >         };
+> >
+> > +       can0_pins: can0 {
+> > +               groups = "can0_data_d";
+>
+> can1_data_b
+>
+> > +               function = "can0";
 > > +       };
 > > +
-> >         lvds-receiver {
-> >                 compatible = "ti,ds90cf384a", "lvds-decoder";
-> >                 vcc-supply = <&vcc_3v3_tft1>;
->
-> With the above fixed:
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >         i2c2_pins: i2c2 {
+> >                 groups = "i2c2_b";
+> >                 function = "i2c2";
 >
 > Gr{oetje,eeting}s,
 >
