@@ -2,102 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED7CD25D76B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7916725D7C4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730135AbgIDLdw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 07:33:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48022 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730160AbgIDLdK (ORCPT
+        id S1730006AbgIDLsi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 07:48:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729969AbgIDLsd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 07:33:10 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62B95540;
-        Fri,  4 Sep 2020 13:33:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599219180;
-        bh=1mVUmbo+wMVfQsDGKrk1mCuoDvfwVvSVa+ozt6d+TbI=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=HPecYUKxFzKE4rdvc7JI/aqc5j67h8+J1PfLJqlyQHxF+dyuBHtXjImpSyhIMxRMb
-         jpZdB7L6LZCWM60BYR9gbHQaX21D7fR5+Hu9EL7BLIDNjhxQb22moz8THDpcIbvF73
-         CJ3o54io0M3ct6Srxp0YmUQ4zF7LQkAf6q8yHVkU=
-Subject: Re: [PATCH] media: rcar-fcp: Drop local dma_parms
-To:     Robin Murphy <robin.murphy@arm.com>,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20426a75cba769372c2f3f12f44a477e6fc8e979.1599167414.git.robin.murphy@arm.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <067714d0-0463-7e92-d53e-2e3ea8939b13@ideasonboard.com>
-Date:   Fri, 4 Sep 2020 12:32:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20426a75cba769372c2f3f12f44a477e6fc8e979.1599167414.git.robin.murphy@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        Fri, 4 Sep 2020 07:48:33 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279AEC061247
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:31 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by michel.telenet-ops.be with bizsmtp
+        id PnoM2300E4C55Sk06noMQy; Fri, 04 Sep 2020 13:48:21 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kEACb-0004eK-71; Fri, 04 Sep 2020 13:48:21 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kEACb-0007sk-4i; Fri, 04 Sep 2020 13:48:21 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/3] Renesas ARM SoC updates for v5.10
+Date:   Fri,  4 Sep 2020 13:48:16 +0200
+Message-Id: <20200904114819.30254-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Robin,
+	Hi arm-soc folks,
 
-On 03/09/2020 22:12, Robin Murphy wrote:
-> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
-> for platform devices"), struct platform_device already provides a
-> dma_parms structure, so we can save allocating another one.
-> 
-> Also the DMA segment size is simply a size, not a bitmask.
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.10.
 
-I recall following some precedence here.
+It consists of 3 parts:
 
-But I'm happy with this update, I assume you'll update the other usages
-of this?
+  [GIT PULL 1/3] Renesas ARM defconfig updates for v5.10
 
-git grep dma_set_max_seg_size | grep DMA_BIT_MASK
-shows:
+    - Enable touchscreen support on the iWave RZ/G1E platform,
+    - Update for PCIE_RCAR => CONFIG_PCIE_RCAR_{HOST,EP} split, including
+      enabling the latter,
+    - Enable FLASH support on various R-Car Gen3 boards,
+    - Refresh shmobile_defconfig for v5.9-rc1.
 
-> drivers/gpu/drm/arm/display/komeda/komeda_dev.c:	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> drivers/gpu/drm/exynos/exynos_drm_dma.c:	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> drivers/gpu/drm/mediatek/mtk_drm_drv.c:	ret = dma_set_max_seg_size(dma_dev, (unsigned int)DMA_BIT_MASK(32));
-> drivers/gpu/drm/msm/msm_drv.c:	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> drivers/media/platform/qcom/venus/core.c:	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> drivers/media/platform/rcar-fcp.c:	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
+  [GIT PULL 2/3] Renesas ARM DT updates for v5.10
 
+    - Increase support for the RZ/G2H SoC on the HopeRun HiHope RZ/G2H
+      board, and its display panel expansion board,
+    - Increase support for the RZ/G1H SoC on the iWave RainboW SoM (G21M)
+      and Qseven board (G21D),
+    - SATA support for the HopeRun HiHope RZ/G2N board,
+    - PCIe endpoint support for the RZ/G2M, RZ/G2E, and RZ/G2H SoCs,
+    - Audio support for the R-Car M3-W+ SoC.
+    - Minor fixes and improvements.
 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+  [GIT PULL 3/3] Renesas driver updates for v5.10
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+    - Improve visual Kconfig structure.
 
-> ---
->  drivers/media/platform/rcar-fcp.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-> index 5c6b00737fe7..13a84c7e3586 100644
-> --- a/drivers/media/platform/rcar-fcp.c
-> +++ b/drivers/media/platform/rcar-fcp.c
-> @@ -22,7 +22,6 @@
->  struct rcar_fcp_device {
->  	struct list_head list;
->  	struct device *dev;
-> -	struct device_dma_parameters dma_parms;
->  };
->  
->  static LIST_HEAD(fcp_devices);
-> @@ -138,8 +137,7 @@ static int rcar_fcp_probe(struct platform_device *pdev)
->  
->  	fcp->dev = &pdev->dev;
->  
-> -	fcp->dev->dma_parms = &fcp->dma_parms;
-> -	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
-> +	dma_set_max_seg_size(fcp->dev, UINT_MAX);
->  
->  	pm_runtime_enable(&pdev->dev);
->  
-> 
+Thanks for pulling!
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
