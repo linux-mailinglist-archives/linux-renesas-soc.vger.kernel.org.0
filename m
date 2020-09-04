@@ -2,85 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F22C525D235
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 09:14:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80F1825D2EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 09:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728658AbgIDHOt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 03:14:49 -0400
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:33971 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728195AbgIDHOt (ORCPT
+        id S1726171AbgIDHxA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 03:53:00 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:45107 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729909AbgIDHwV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 03:14:49 -0400
-Received: by mail-oo1-f66.google.com with SMTP id k63so1408014oob.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Sep 2020 00:14:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6dBulNM6t1NZHEoqhcQvmqZ0dXA0TVw2TTY2m9+6vkk=;
-        b=bahjIsPJMtAxLI2F33LmWmUpNpJtDlEZQm7vbghp80gTC1ss0PFh+TIjd8DIHoRuBD
-         UKfg9tnlvF55tKwua5ZffSCVvD3DVzkSDJOZ1+JRhTV7do62C9Wpht0hgAQk7zYAHQjC
-         3YLwX0UK5eOXBLO+x3sPAvZcOo04unAwNw++R6MoeXdW30AkNM5z3PO2gQt9C9jr5TOy
-         MVW88Z3yQgSdIo7kn3ZcX5T903dtAPrVsX0l2MUEAyngFbLEBY5j80eCEJbAGiUJ/dNM
-         HiAObw05Jllx/h6VkFxwgpe1GrGL20D6QvIvw3CJe6xYYcC9kvi/ElGuTbymelRg+Wyf
-         NQFQ==
-X-Gm-Message-State: AOAM533GKR/CHRq6mLAWUjBTF+PUOdE5c3EmwX9L8tPA8u13pWCSAagr
-        4a31Fdp2coSOVbUA99bGdSERFcpYz/jlShMXPNE=
-X-Google-Smtp-Source: ABdhPJyT/vkpAfED6pfB6PAe5PwvX2VVnrWHbkLJz9/t5wjUCKLHdqSQg85Z8ZYSjB2xfjJPhyh0rPOMyCm327NKItc=
-X-Received: by 2002:a4a:4201:: with SMTP id h1mr4790981ooj.1.1599203686817;
- Fri, 04 Sep 2020 00:14:46 -0700 (PDT)
+        Fri, 4 Sep 2020 03:52:21 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 8D1DDE0003;
+        Fri,  4 Sep 2020 07:52:06 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 09:55:53 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
+Message-ID: <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
+References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200904012000.GA9369@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <87364czszt.wl-kuninori.morimoto.gx@renesas.com>
- <87y2m4yeck.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVXiwkmEZg-GL64Eg6jTFnonXzPL+MKeXztS0ac9F-hKA@mail.gmail.com>
- <878sdqmmv7.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <878sdqmmv7.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Sep 2020 09:14:35 +0200
-Message-ID: <CAMuHMdX+1GcC+NPQ=fqC2aM941GVapvOhGDbW=Wcz4pT3BwN4Q@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] soc: renesas: Merge if xxx into menu description
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Magnus <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200904012000.GA9369@pendragon.ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Laurent,
 
-On Fri, Sep 4, 2020 at 2:03 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > >  config ARCH_EMEV2
-> > > -       bool "SoC Platform support for Emma Mobile EV2"
-> > > +       bool "SoC Platform support for Emma Mobile EV2" if ARM && ARCH_RENESAS
-> > >         select HAVE_ARM_SCU if SMP
-> > >         select SYS_SUPPORTS_EM_STI
-> >
-> > I'm not convinced duplicating these dependencies is better than a
-> > big #if block.  It does allow you to sort all SoCs alphabetically, but that
-> > mixes ARM32 and ARM64 parts, while choosing between ARM32 and ARM64
-> > is an early and important decision (different ARCH= and CROSS_COMPILE=,
-> > too).
-> > In addition, only one set of Kconfig options is shown to the user
-> > anyway.
+On Fri, Sep 04, 2020 at 04:20:00AM +0300, Laurent Pinchart wrote:
+> Hi Prabhakar,
 >
-> OK, so let's keep big #if block.
-> So how about to having
->         "ARM32 platform support ..." and
->         "ARM64 platform support" ?
-> We can keep both #if block and alphabetical order
+> Thank you for the patch.
+>
+> On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
+> > Add support to read the bus-type and enable BT656 mode if needed.
+> >
+> > Also fail probe if unsupported bus_type is detected.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
+> >  1 file changed, 32 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> > index 2cc6a678069a..67764d647526 100644
+> > --- a/drivers/media/i2c/ov772x.c
+> > +++ b/drivers/media/i2c/ov772x.c
+> > @@ -31,6 +31,7 @@
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > +#include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-image-sizes.h>
+> >  #include <media/v4l2-subdev.h>
+> >
+> > @@ -434,6 +435,7 @@ struct ov772x_priv {
+> >  #ifdef CONFIG_MEDIA_CONTROLLER
+> >  	struct media_pad pad;
+> >  #endif
+> > +	struct v4l2_fwnode_endpoint ep;
+> >  };
+> >
+> >  /*
+> > @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	if (priv->streaming == enable)
+> >  		goto done;
+> >
+> > +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
+> > +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
+> > +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
+> > +		if (ret)
+> > +			goto done;
+> > +	}
+> > +
+> >  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
+> >  				 enable ? 0 : SOFT_SLEEP_MODE);
+> >  	if (ret)
+> > @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+> >
+> >  static int ov772x_probe(struct i2c_client *client)
+> >  {
+> > +	struct fwnode_handle *endpoint;
+> >  	struct ov772x_priv	*priv;
+> >  	int			ret;
+> >  	static const struct regmap_config ov772x_regmap_config = {
+> > @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
+> >  		goto error_clk_put;
+> >  	}
+> >
+> > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> > +						  NULL);
+> > +	if (!endpoint) {
+> > +		dev_err(&client->dev, "endpoint node not found\n");
+> > +		ret = -EINVAL;
+> > +		goto error_clk_put;
+> > +	}
+> > +
+> > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
+>
+> v4l2_fwnode_endpoint_parse() is deprecated for new drivers,
+> v4l2_fwnode_endpoint_alloc_parse() is recommended instead. Please note
+> that v4l2_fwnode_endpoint_free() then needs to be called in the error
+> path and in remove().
 
-Yes, that looks fine to me. Thanks!
+Doesn't alloc_parse() differ from just _parse() as it reserve space
+for the 'link-frequencies' array ? As this device does not support
+CSI-2 and the 'link-frequencies' property is not allows in bindings,
+isn't using endpoint_parse() better as it saves a call to _free() ?
 
-Gr{oetje,eeting}s,
+Or are we deprecating that function unconditionally ? The
+documentation suggests "please use v4l2_fwnode_endpoint_alloc_parse()
+in new drivers" but here it doesn't seem required..
 
-                        Geert
+>
+> On the other hand, not setting .bus_type and letting the parse()
+> function determine the but type automatically is also deprecated, and I
+> don't think forcing drivers to call v4l2_fwnode_endpoint_alloc_parse()
+> once for each bus type until one succeeds is a good API. As change will
+> be needed in that API, you can ignore v4l2_fwnode_endpoint_alloc_parse()
+> for the time being if you want.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+But indeed relying on auto-guessing of the bus type is deprecated since
+some time now (and the API could be improved, yes). Sorry I missed
+that yesterday.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+As we support parallel and bt.656 only I must be honest I don't mind
+it here as otherwise the code would be more complex for no real gain,
+but I defer this to Sakari which has been fighting the battle against
+auto-guessing since a long time now  :)
+
+
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> > +	fwnode_handle_put(endpoint);
+> > +	if (ret) {
+> > +		dev_err(&client->dev, "Could not parse endpoint\n");
+> > +		goto error_clk_put;
+> > +	}
+> > +
+> > +	if (priv->ep.bus_type != V4L2_MBUS_PARALLEL &&
+> > +	    priv->ep.bus_type != V4L2_MBUS_BT656) {
+> > +		dev_err(&client->dev, "Unsupported bus type %d\n",
+> > +			priv->ep.bus_type);
+> > +		goto error_clk_put;
+> > +	}
+> > +
+> >  	ret = ov772x_video_probe(priv);
+> >  	if (ret < 0)
+> >  		goto error_gpio_put;
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
