@@ -2,119 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6222625CF61
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 04:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DD525D132
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 08:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729318AbgIDCZu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Sep 2020 22:25:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42658 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729036AbgIDCZt (ORCPT
+        id S1725812AbgIDGVx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 02:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgIDGVv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Sep 2020 22:25:49 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AD5E540;
-        Fri,  4 Sep 2020 04:25:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599186346;
-        bh=w9NLWnAFcQLVq1EwBFRPmlSl/bYxVQBc5Mr5/U5dENA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K47bAsqXW3u1MToGpXr893HuQAL7R2WqE8Ma2eGYuleWp/lO1cNbT8KOGUmPrpgpP
-         pKfwMkeOvyL8NKtUgrGrI3/MjzdLQ5/lvPCI0T4IyIfNvm4vox2BpKdmATeQjeopFg
-         oP8vFxFH6COAZVbVHXUN6AiAuAXdL4BWq/wUteg0=
-Date:   Fri, 4 Sep 2020 05:25:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Niklas <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-Message-ID: <20200904022522.GD9369@pendragon.ideasonboard.com>
-References: <1596187745-31596-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200801090456.GB1379367@oden.dyn.berto.se>
- <CA+V-a8sOHct_JetCsug8Z2BQpMLH2p39hj2XNw_1N5gkBQp1Gg@mail.gmail.com>
- <20200803192108.GB2297236@oden.dyn.berto.se>
- <6d659e56-1e1f-c9c7-2e66-4ddc4e7fad15@xs4all.nl>
- <CA+V-a8uzznUvzGgZ5A4B8ASEDbmMCrQPSAcEjO7v45zmAkdGDQ@mail.gmail.com>
+        Fri, 4 Sep 2020 02:21:51 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E00C061245
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Sep 2020 23:21:50 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id w3so6574142ljo.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Sep 2020 23:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CYxJW0pF1s7HMB5ayGaO6wQ5F8XNxtCQnzPUxbzOs7o=;
+        b=dqGZcytE4tSAACRbfMYlx5MEJZ0VMf/o6rVBFR+iGIuhR9fVjhMBCNG6MbfyKqAW19
+         EVu8tyJSYjmKzpJQEdykpq300FjJke1WMHfrljHUsswJiYxFpMq3elGpr+j8ELluuEIy
+         8WAVR/gpPWQ2H99u6R+VubSQ6w4KfcPqIS+EZbY6m3CKjgBRclU4U2wx5teNklQJJe0a
+         PGj0oXc5QgwCCVoUHTCMHXsVJFWu4qnDcoZBQkcfQHQkcdkK3lJ9j8oU5Eo8I1+pR0Xl
+         2bbj1etsUF20nPY+zgvCMJvf4sFbSokNq59b2gsew7RP3ZchMeEQvHPr3M5TByb6415U
+         0uvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=CYxJW0pF1s7HMB5ayGaO6wQ5F8XNxtCQnzPUxbzOs7o=;
+        b=WC0bNqecQvm8ZwXp8NH7vHDQCS0YaKirDs+Z8tHtSe9dyrv+u/3AqR/IMSYSVCKMMc
+         remiDtiL7KF+ZbNmW0FGi0+O9X6jSu2e/IjkDa6fGMYlYDEjzFa1NTT+6NhOYBPv8H2e
+         d7rsNOFqUCQbcgWfGnmw8vuq8xny5L9kx57or3pBx33wPxF9UKoi311QZeJl1z0fkWnn
+         8QgSZr/xP4WUHcTCqM3ZsPJeA/Dx+g8GRQ0Rz7TDpnQVoZF9+2VjSsSeuT0mfMT+b20G
+         CIr5LJ0lSk9OTpoCG/wmR8y49WKC7OKTxjpExn4RsDLZ9KnU22A2dg+R9ipLqnvW2mUb
+         D1nw==
+X-Gm-Message-State: AOAM531UwnD8FcSwmghRx+y8L1zGSgfWvpr75uMoIURRRbOxqKLiFSxj
+        C/G74BeVzzyKWoyS03f8fWrlW+DBVMPF6Q==
+X-Google-Smtp-Source: ABdhPJx46NQTga8EfudNzzsfS5KRYyflh7DXL9qXZUsGJZUFW1v9dluV9C7NWsEuGBXSjlwlG6Zwag==
+X-Received: by 2002:a2e:98cf:: with SMTP id s15mr3308391ljj.446.1599200508584;
+        Thu, 03 Sep 2020 23:21:48 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id j12sm1099242lfj.5.2020.09.03.23.21.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2020 23:21:47 -0700 (PDT)
+Date:   Fri, 4 Sep 2020 08:21:47 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] i2c: rcar: in slave mode, clear NACK earlier
+Message-ID: <20200904062147.GG1498632@oden.dyn.berto.se>
+References: <20200817121930.4474-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8uzznUvzGgZ5A4B8ASEDbmMCrQPSAcEjO7v45zmAkdGDQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200817121930.4474-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Wolfram,
 
-On Thu, Sep 03, 2020 at 03:53:18PM +0100, Lad, Prabhakar wrote:
-> On Wed, Aug 19, 2020 at 3:08 PM Hans Verkuil wrote:
-> > On 03/08/2020 21:21, Niklas wrote:
-> > > On 2020-08-03 19:11:32 +0100, Lad, Prabhakar wrote:
-> > >> On Sat, Aug 1, 2020 at 10:04 AM Niklas wrote:
-> > >>> On 2020-07-31 10:29:05 +0100, Lad Prabhakar wrote:
-> > >>>> The crop and compose settings for VIN in non mc mode werent updated
-> > >>>> in s_fmt call this resulted in captured images being clipped.
-> > >>>>
-> > >>>> With the below sequence on the third capture where size is set to
-> > >>>> 640x480 resulted in clipped image of size 320x240.
-> > >>>>
-> > >>>> high(640x480) -> low (320x240) -> high (640x480)
-> > >>>>
-> > >>>> This patch makes sure the VIN crop and compose settings are updated.
-> > >>>
-> > >>> This is clearly an inconsistency in the VIN driver that should be fixed.
-> > >>> But I think the none-mc mode implements the correct behavior. That is
-> > >>> that S_FMT should not modify the crop/compose rectangles other then make
-> > >>> sure they don't go out of bounds. This is an area we tried to clarify in
-> > >>> the past but I'm still not sure what the correct answer to.
-> > >>>
-> > >> What should be the exact behaviour of the bridge driver  for s_fmt
-> > >> call. Should the crop/compose settings be updated for every s_fmt
-> > >> callback or should they be only updated on s_selection callback.
-> > >> Currently the non-mc rcar-vin doesnt update the crop/compose setting
-> > >> in s_fmt callback due to which I see the above issue as mentioned.
-> > >
-> > > This is not entirely correct. It does update the crop and compose
-> > > rectangles on s_fmt, it makes sure they are not out-of-bounds for the
-> > > new format if it's accepted by s_fmt. See v4l2_rect_map_inside() calls
-> > > in the snippet bellow.
-> >
-> > For non-mc mode s_fmt must update any crop/compose rectangles to ensure that
-> > they are not out-of-bounds. But for mc mode the validation is done when you
-> > start streaming, so I think s_fmt won't make any changes in that mode.
->
-> Thank you Hans.
+Thanks for your work.
+
+On 2020-08-17 14:19:30 +0200, Wolfram Sang wrote:
+> Currently, a NACK in slave mode is set/cleared when SCL is held low by
+> the IP core right before the bit is about to be pushed out. This is too
+> late for clearing and then a NACK from the previous byte is still used
+> for the current one. Now, let's clear the NACK right after we detected
+> the STOP condition following the NACK.
 > 
-> > Double-check that with Laurent, though...
->
-> Niklas/Laurent - How do we proceed on this ?
+> Fixes: de20d1857dd6 ("i2c: rcar: add slave support")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-MC devices rely on userspace to propagate formats between entities, and
-on kernelspace to propagate formats within entities. This is documented
-in https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/dev-subdev.html.
-The configuration of an entity (formats and selection rectangles) must
-be valid at all times. Subdev drivers should thus either adjust or reset
-the crop and selection rectangles. The specification isn't clear on
-which behaviour should be implemented, the only related text is
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-"Sub-devices that scale frames using variable scaling factors should
-reset the scale factors to default values when sink pads formats are
-modified. If the 1:1 scaling ratio is supported, this means that source
-pads formats should be reset to the sink pads formats."
-
-I would recommend resetting as the default behaviour. In any case,
-adjustements are needed to ensure that the configuration remains valid.
+> ---
+>  drivers/i2c/busses/i2c-rcar.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index 284dc3edb9a1..0f73f0681a6e 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -594,6 +594,7 @@ static bool rcar_i2c_slave_irq(struct rcar_i2c_priv *priv)
+>  	/* master sent stop */
+>  	if (ssr_filtered & SSR) {
+>  		i2c_slave_event(priv->slave, I2C_SLAVE_STOP, &value);
+> +		rcar_i2c_write(priv, ICSCR, SIE | SDBS); /* clear our NACK */
+>  		rcar_i2c_write(priv, ICSIER, SAR);
+>  		rcar_i2c_write(priv, ICSSR, ~SSR & 0xff);
+>  	}
+> -- 
+> 2.20.1
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
