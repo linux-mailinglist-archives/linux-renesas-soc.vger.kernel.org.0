@@ -2,45 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F36825D7C6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 287A525D7CB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729897AbgIDLsj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 07:48:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35426 "EHLO
+        id S1728118AbgIDLss (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 07:48:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729297AbgIDLsc (ORCPT
+        with ESMTP id S1729659AbgIDLsn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 07:48:32 -0400
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D8AC061244
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:31 -0700 (PDT)
+        Fri, 4 Sep 2020 07:48:43 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F8C061244
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:41 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by albert.telenet-ops.be with bizsmtp
-        id PnoM2300T4C55Sk06noMoL; Fri, 04 Sep 2020 13:48:21 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id Pnoh230084C55Sk06nohUf; Fri, 04 Sep 2020 13:48:41 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACb-0004eP-8C; Fri, 04 Sep 2020 13:48:21 +0200
+        id 1kEACv-0004ep-6E; Fri, 04 Sep 2020 13:48:41 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACb-0007ss-7F; Fri, 04 Sep 2020 13:48:21 +0200
+        id 1kEACv-0007u5-4p; Fri, 04 Sep 2020 13:48:41 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 3/3] Renesas driver updates for v5.10
-Date:   Fri,  4 Sep 2020 13:48:19 +0200
-Message-Id: <20200904114819.30254-4-geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v5.10
+Date:   Fri,  4 Sep 2020 13:48:38 +0200
+Message-Id: <20200904114838.30339-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200904114819.30254-1-geert+renesas@glider.be>
-References: <20200904114819.30254-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
+
+	Hi Mike, Stephen,
 
 The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
@@ -48,21 +47,41 @@ The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v5.10-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.10-tag1
 
-for you to fetch changes up to 464d9b349be634bd12978f2554b2b0198e56399d:
+for you to fetch changes up to e41cb217932969a20cea9c44299c449236058e43:
 
-  soc: renesas: Align driver description titles (2020-09-01 10:22:16 +0200)
-
-----------------------------------------------------------------
-Renesas driver updates for v5.10
-
-  - Improve visual Kconfig structure.
+  clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r) (2020-09-04 09:42:01 +0200)
 
 ----------------------------------------------------------------
-Kuninori Morimoto (2):
-      soc: renesas: Use menu for Renesas SoC
-      soc: renesas: Align driver description titles
+clk: renesas: Updates for v5.10
 
- drivers/soc/renesas/Kconfig | 114 ++++++++++++++++++++++----------------------
- 1 file changed, 57 insertions(+), 57 deletions(-)
+  - Add support for the VSP for Resizing clock on RZ/G1H,
+  - Fix VSP clock names to match corrected hardware documentation.
+
+Thanks for pulling!
+----------------------------------------------------------------
+Lad Prabhakar (2):
+      clk: renesas: r8a7742: Add clk entry for VSPR
+      clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r)
+
+ drivers/clk/renesas/r8a7742-cpg-mssr.c  | 3 ++-
+ drivers/clk/renesas/r8a7743-cpg-mssr.c  | 2 +-
+ drivers/clk/renesas/r8a7745-cpg-mssr.c  | 2 +-
+ drivers/clk/renesas/r8a77470-cpg-mssr.c | 2 +-
+ drivers/clk/renesas/r8a7790-cpg-mssr.c  | 4 ++--
+ drivers/clk/renesas/r8a7791-cpg-mssr.c  | 2 +-
+ drivers/clk/renesas/r8a7792-cpg-mssr.c  | 2 +-
+ drivers/clk/renesas/r8a7794-cpg-mssr.c  | 2 +-
+ 8 files changed, 10 insertions(+), 9 deletions(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
