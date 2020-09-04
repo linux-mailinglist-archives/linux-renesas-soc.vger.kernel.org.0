@@ -2,246 +2,186 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3541525DA6C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 15:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A933F25DB3E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 16:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730560AbgIDNuU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 09:50:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52164 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730687AbgIDNtd (ORCPT
+        id S1730527AbgIDOT1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 10:19:27 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:42602 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730521AbgIDNn2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 09:49:33 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17F64540;
-        Fri,  4 Sep 2020 15:48:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599227336;
-        bh=JchvXbon4mHBQSTlVX6Y5V7cre9VlOak2CkfONDlO1U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ht7FM1vAaYxdABUm6AxtFWO19YDiuPzh6EDiWK5xIBay19/gB+RkWOjcRGsGSdgc3
-         7o6Bc7PxgZFyFDtCbzRSSqvDGRuAUGkb7OyCZo45S+qk+8B6AAU7l6SBg5Ayu9VGbx
-         7ZkFqNXTTDeayVSCm8wZfE8xTcA23MQd34JkhPuY=
-Date:   Fri, 4 Sep 2020 16:48:32 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fri, 4 Sep 2020 09:43:28 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200904133509euoutp025d2365b9ca4b822ce8dc67eb217e3d1f~xmAmA8XUp2949829498euoutp02N
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 13:35:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200904133509euoutp025d2365b9ca4b822ce8dc67eb217e3d1f~xmAmA8XUp2949829498euoutp02N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1599226509;
+        bh=65zQC7AbXs+h4Aa/SkiEZNz20G0ZAx6H0WtGo6ycvZM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Bf2fKFShGlm+pfJSXUQUVICSDo6soEQGaqsqijd6BS3x595gzQh6G3n1AxUNaSZdE
+         gPBTN2wR0xDgGTEqemJTwhpp4nVEXQs26Muj9ip/D0jT/hfO3sEdgeaBFOv9YNn3TI
+         tOjE+yhY8fuIKZpjL613A+pZI/Vr96D5TyllYAOY=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200904133508eucas1p21f933737a416c70575a6bc8994670007~xmAljtcol0781307813eucas1p2-;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 39.11.06456.C82425F5; Fri,  4
+        Sep 2020 14:35:08 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6~xmAlI3sXS2307023070eucas1p1W;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200904133508eusmtrp18a48b753c6c81394e3d104bf3cf3a8ea~xmAlIKVZ40766507665eusmtrp1K;
+        Fri,  4 Sep 2020 13:35:08 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-5d-5f52428c4fa2
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id CA.BE.06314.C82425F5; Fri,  4
+        Sep 2020 14:35:08 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200904133507eusmtip16507aff28a627187d88af93e208665b5~xmAke9p3K1624216242eusmtip1t;
+        Fri,  4 Sep 2020 13:35:07 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v3 1/2] media: i2c: ov772x: Add support for BT656 mode
-Message-ID: <20200904134832.GC7518@pendragon.ideasonboard.com>
-References: <20200824190406.27478-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200824190406.27478-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904012000.GA9369@pendragon.ideasonboard.com>
- <20200904075553.qjdyskcpext7fxcy@uno.localdomain>
- <20200904082104.GE4392@valkosipuli.retiisi.org.uk>
- <20200904092049.6lokfmln4vulswrn@uno.localdomain>
- <20200904093626.GF4392@valkosipuli.retiisi.org.uk>
- <20200904103550.3cdxick4lje34kxv@uno.localdomain>
- <20200904110013.GG4392@valkosipuli.retiisi.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200904110013.GG4392@valkosipuli.retiisi.org.uk>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v10 24/30] drm: rcar-du: fix common struct sg_table related
+ issues
+Date:   Fri,  4 Sep 2020 15:17:05 +0200
+Message-Id: <20200904131711.12950-25-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200904131711.12950-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSWUwTURiFuZ3OdCiUDIXIDRhIGjUgYVNjroGA4pJRHzTEF00UiwyLQiEt
+        IPCgaFGhgGGJoRRiAAlo2cuiQghLhKIoIlQEBWUTAoLImrDLOKhv3//fc3Lyn1wSE7fj1mSw
+        LIKRy6QhEkLIr21b6XRK9vbxdZ1bsEcpna95qFJdjqOt2jQMGZZmCfSsuJWHchvd0XxvEkCJ
+        aQUCtGgY5iHdaC+OeupyCJRcUYOjmsmfPFT6alCACnXrPNT8aww/StElj0sA3bCcy6ezE7Jw
+        WqdNJOjny0M4/S1Jz6OrCm7TXzZHMTqjrwjQ9f1xBP2wWgvoBZ3tedNLQg9/JiQ4ipG7eF4V
+        BlV//ESEb8FozeI6iAOrlipAkpA6BOPnCRUQkmLqKYDTldl8blgEsD5+UKACxtvDAoCT7ddZ
+        Zg2afC3GiYoANKwpd0Tbjo6JWJYJyg2qZlQEy5bUPQDbU0xZxqh1DGbmeLFsQV2AmSs5f7x8
+        ai8caRv/wyLKE75Xl/K5MDtYXNGEsWy8va9Rj+FsMKS+CqC2cBNwohOweEa/wxZwSl8t4Hg3
+        7MhI5nMGJYDDnaUCbkgGsOeuesfhDgc6Vwm2DIxygOV1Ltz6GPxcXs7jOjKDfTPm3AFmML02
+        E+PWIphwX8yp90GNvuxfbHNXN8YxDRtaR3caTQOwq0wpSAV2mv9huQBogRUTqQgNZBRuMuam
+        s0IaqoiUBTpfCwvVge3/1bGpn38Blrr9WgBFAompyMjLx1eMS6MUMaEtAJKYxFLk/a7jiljk
+        L42JZeRhvvLIEEbRAmxIvsRKdDB/8rKYCpRGMDcYJpyR/33lkcbWcSDQ6bufW8CbW5qRYZMs
+        bb6ywuRt3sjcmothV8Ap/cUHR5KmbGY38ozKhoq9jOfP3uk/be+1x3zgQyPwdrWLafKQbVDT
+        h50nDLZj69Lu/HGmoSth2PCyRHhgdSo65VyqWum7WbrkaIOU6Rs/+oeqhA4h0SczHm0VPXGU
+        NRK1RmeOS/iKIKnbfkyukP4Gp6V1LFsDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xu7o9TkHxBhMeCVr0njvJZLFxxnpW
+        i//bJjJbXPn6ns1i5eqjTBYL9ltbfLrWzWjROXEJu8WXKw+ZLDY9vsZqcXnXHDaLng1bWS22
+        vnzHZLH2yF12i2Wb/jBZHPzwhNVBwGPNvDWMHnu/LWDxmN0xk9Vj06pONo/t3x6wetzvPs7k
+        sXlJvcftf4+ZPSbfWM7osftmA5tH35ZVjB6fN8kF8ETp2RTll5akKmTkF5fYKkUbWhjpGVpa
+        6BmZWOoZGpvHWhmZKunb2aSk5mSWpRbp2yXoZWy5ep2t4L9ExawvfxgbGH+JdDFyckgImEjM
+        WrSKuYuRi0NIYCmjxP3981ggEjISJ6c1sELYwhJ/rnWxQRR9YpQ4MP8yO0iCTcBQoustREJE
+        oJNRYlr3R3YQh1mghUXiw6eHYKOEBYIk5uxaA9bBIqAq8ejYMzCbV8BO4vyMtVDr5CVWbzjA
+        DGJzAsW3zngCtlpIwFbiw5zFLBMY+RYwMqxiFEktLc5Nzy021CtOzC0uzUvXS87P3cQIjKpt
+        x35u3sF4aWPwIUYBDkYlHl4G+6B4IdbEsuLK3EOMEhzMSiK8TmdPxwnxpiRWVqUW5ccXleak
+        Fh9iNAU6aiKzlGhyPjDi80riDU0NzS0sDc2NzY3NLJTEeTsEDsYICaQnlqRmp6YWpBbB9DFx
+        cEo1MNZ2fNoken3nzGv7OBJblzuXN728X7mVo1n3qbRX2noma/v2UyfPH4ifz3nNW1zax+BT
+        KxNP2vzURPMjdpyXJ3YpfIgJO133+0Zg6xKmE4n+ivL5T5hsQuoKe92zb26OPVq3LXNh65nc
+        b6FJ279YLDJmCb0Zrb5PJGu5Sva9tzqXMn7ptT3iVWIpzkg01GIuKk4EAHzI3KjAAgAA
+X-CMS-MailID: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6
+References: <20200904131711.12950-1-m.szyprowski@samsung.com>
+        <CGME20200904133508eucas1p144e8c20b098912e8bf275642f2c709e6@eucas1p1.samsung.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 02:00:13PM +0300, Sakari Ailus wrote:
-> On Fri, Sep 04, 2020 at 12:35:50PM +0200, Jacopo Mondi wrote:
-> > On Fri, Sep 04, 2020 at 12:36:26PM +0300, Sakari Ailus wrote:
-> > > On Fri, Sep 04, 2020 at 11:20:49AM +0200, Jacopo Mondi wrote:
-> > > > On Fri, Sep 04, 2020 at 11:21:04AM +0300, Sakari Ailus wrote:
-> > > > > On Fri, Sep 04, 2020 at 09:55:53AM +0200, Jacopo Mondi wrote:
-> > > > > > On Fri, Sep 04, 2020 at 04:20:00AM +0300, Laurent Pinchart wrote:
-> > > > > > > Hi Prabhakar,
-> > > > > > >
-> > > > > > > Thank you for the patch.
-> > > > > > >
-> > > > > > > On Mon, Aug 24, 2020 at 08:04:05PM +0100, Lad Prabhakar wrote:
-> > > > > > > > Add support to read the bus-type and enable BT656 mode if needed.
-> > > > > > > >
-> > > > > > > > Also fail probe if unsupported bus_type is detected.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/media/i2c/ov772x.c | 32 ++++++++++++++++++++++++++++++++
-> > > > > > > >  1 file changed, 32 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > > > > > > > index 2cc6a678069a..67764d647526 100644
-> > > > > > > > --- a/drivers/media/i2c/ov772x.c
-> > > > > > > > +++ b/drivers/media/i2c/ov772x.c
-> > > > > > > > @@ -31,6 +31,7 @@
-> > > > > > > >  #include <media/v4l2-ctrls.h>
-> > > > > > > >  #include <media/v4l2-device.h>
-> > > > > > > >  #include <media/v4l2-event.h>
-> > > > > > > > +#include <media/v4l2-fwnode.h>
-> > > > > > > >  #include <media/v4l2-image-sizes.h>
-> > > > > > > >  #include <media/v4l2-subdev.h>
-> > > > > > > >
-> > > > > > > > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> > > > > > > >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > > > > > > >  	struct media_pad pad;
-> > > > > > > >  #endif
-> > > > > > > > +	struct v4l2_fwnode_endpoint ep;
-> > > > > > > >  };
-> > > > > > > >
-> > > > > > > >  /*
-> > > > > > > > @@ -581,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
-> > > > > > > >  	if (priv->streaming == enable)
-> > > > > > > >  		goto done;
-> > > > > > > >
-> > > > > > > > +	if (priv->ep.bus_type == V4L2_MBUS_BT656) {
-> > > > > > > > +		ret = regmaup_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
-> > > > > > > > +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
-> > > > > > > > +		if (ret)
-> > > > > > > > +			goto done;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > >  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
-> > > > > > > >  				 enable ? 0 : SOFT_SLEEP_MODE);
-> > > > > > > >  	if (ret)
-> > > > > > > > @@ -1354,6 +1363,7 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> > > > > > > >
-> > > > > > > >  static int ov772x_probe(struct i2c_client *client)
-> > > > > > > >  {
-> > > > > > > > +	struct fwnode_handle *endpoint;
-> > > > > > > >  	struct ov772x_priv	*priv;
-> > > > > > > >  	int			ret;
-> > > > > > > >  	static const struct regmap_config ov772x_regmap_config = {
-> > > > > > > > @@ -1415,6 +1425,28 @@ static int ov772x_probe(struct i2c_client *client)
-> > > > > > > >  		goto error_clk_put;
-> > > > > > > >  	}
-> > > > > > > >
-> > > > > > > > +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > > > > > > > +						  NULL);
-> > > > > > > > +	if (!endpoint) {
-> > > > > > > > +		dev_err(&client->dev, "endpoint node not found\n");
-> > > > > > > > +		ret = -EINVAL;
-> > > > > > > > +		goto error_clk_put;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	ret = v4l2_fwnode_endpoint_parse(endpoint, &priv->ep);
-> > > > > > >
-> > > > > > > v4l2_fwnode_endpoint_parse() is deprecated for new drivers,
-> > > > > > > v4l2_fwnode_endpoint_alloc_parse() is recommended instead. Please note
-> > > > > > > that v4l2_fwnode_endpoint_free() then needs to be called in the error
-> > > > > > > path and in remove().
-> > > > > >
-> > > > > > Doesn't alloc_parse() differ from just _parse() as it reserve space
-> > > > > > for the 'link-frequencies' array ? As this device does not support
-> > > > > > CSI-2 and the 'link-frequencies' property is not allows in bindings,
-> > > > > > isn't using endpoint_parse() better as it saves a call to _free() ?
-> > > > >
-> > > > > Yeah. I think the documentation needs to be updated.
-> > > > >
-> > > > > The thinking was there would be other variable size properties that drivers
-> > > > > would need but that didn't happen. So feel free to continue use
-> > > > > v4l2_fwnode_endpoint_parse() where it does the job.
-> > > > >
-> > > > > >
-> > > > > > Or are we deprecating that function unconditionally ? The
-> > > > > > documentation suggests "please use v4l2_fwnode_endpoint_alloc_parse()
-> > > > > > in new drivers" but here it doesn't seem required..
-> > > > > >
-> > > > > > >
-> > > > > > > On the other hand, not setting .bus_type and letting the parse()
-> > > > > > > function determine the but type automatically is also deprecated, and I
-> > > > > > > don't think forcing drivers to call v4l2_fwnode_endpoint_alloc_parse()
-> > > > > > > once for each bus type until one succeeds is a good API. As change will
-> > > > > > > be needed in that API, you can ignore v4l2_fwnode_endpoint_alloc_parse()
-> > > > > > > for the time being if you want.
-> > > > > >
-> > > > > > But indeed relying on auto-guessing of the bus type is deprecated since
-> > > > > > some time now (and the API could be improved, yes). Sorry I missed
-> > > > > > that yesterday.
-> > > > >
-> > > > > There's one case where the bus type does not need to be set: when bindings
-> > > > > require it *and* at the same time you have no default configuration that
-> > > > > requires something to be set in the bus specific struct. Bindings where
-> > > > > bus-type is required were added later so I think the documentation should
-> > > > > be changed there, too.
-> > > > >
-> > > > > I can send the patches.
-> > > > >
-> > > > > >
-> > > > > > As we support parallel and bt.656 only I must be honest I don't mind
-> > > > > > it here as otherwise the code would be more complex for no real gain,
-> > > > > > but I defer this to Sakari which has been fighting the battle against
-> > > > > > auto-guessing since a long time now  :)
-> > > > >
-> > > > > I think you should require bus-type property in bindings in that case.
-> > > > >
-> > > > > But as it's an existing driver, bus-type will be optional. You'll need to
-> > > > > default to what was supported earlier. This is actually an interesting case
-> > > > > as bindings do not document it.
-> > > >
-> > > > For reference:
-> > > > https://patchwork.linuxtv.org/project/linux-media/patch/20200903131029.18334-3-jacopo+renesas@jmondi.org/
-> > > >
-> > > > But yes, we might have DTBs in the wild without bus-type specified :(
-> > >
-> > > Shouldn't that be then that the bus-type is optional and defaults to
-> > > parallel?
-> > 
-> > I think going forward we want to make it mandatory, don't we ? The
-> > older dts will fail at dt validation time against the new yaml bindings, but
-> > my understanding is that this is not a problem.
-> 
-> For new devices, yes. I still wouldn't make DT binding changes that render
-> the old DT source invalid, at least unless it's absolutely mandatory. And
-> that is not the case here.
-> 
-> I guess it may be a bit grey area. At least leave a comment in the driver
-> on how the old bindings were so the code isn't accidentally "fixed".
-> 
-> > Binary compatibility, with the introduction of BT.656 support becomes
-> > more complex instead :/
-> > 
-> > Before this series parallel was the only supported bus type and no
-> > endpoint properties were required. The driver picked the default
-> > settings for signal polarities and that was it.
-> > 
-> > With the introduction of BT.656 no signal polarity properties means
-> > BT.656 when autoguess is in use. So going forward the bus-type shall
-> > be explicitly set, but we might receive old DTBs with no bus-type and
-> > no endpoint properties which assumes 'parallel' is in use.
-> > 
-> > One possible way forward could be:
-> > - verify if bus-type is present in the fwnode
-> > - if it is, we have a new DTB and we can rely on autoguess
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
-It's not guessing if the bus type is specified :-)
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-> > - if it's not assume we have an old DTB that assumed 'parallel'. Parse
-> >   the fwnode and if any relevant V4L2_MBUS_ flag is set use it,
-> >   otherwise use the defaults.
-> > 
-> > If we make bus-type optional in new bindings, the old DTB with no
-> > parallel endpoint properties would be identified as BT.656 breaking
-> > capture operation, am I wrong ?
-> 
-> There's no technical reason why it has to be so.
-> 
-> You simply try endpoint parsing with parallel bus first, with the old
-> defaults, and if that succeeds, then you don't attempt to parse it as
-> Bt.656 anymore.
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
 
-If bus-type is optional with new bindings,
-v4l2_fwnode_endpoint_parse(V4L2_MBUS_PARALLEL) will always succeed if
-the bus-type DT property isn't set.
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
 
-> > This might require a bit more work from Prabhakar I'm sorry. The old
-> > bindings were clearly falling short once BT.656 becomes supported.
+dma_map_sgtable() function returns zero or an error code, so adjust the
+return value check for the vsp1_du_map_sg() function.
 
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 3 +--
+ drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index f1a81c9b184d..a27bff999649 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -197,9 +197,8 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 			goto fail;
+ 
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+-		if (!ret) {
++		if (ret) {
+ 			sg_free_table(sgt);
+-			ret = -ENOMEM;
+ 			goto fail;
+ 		}
+ 	}
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+index a4a45d68a6ef..86d5e3f4b1ff 100644
+--- a/drivers/media/platform/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/vsp1/vsp1_drm.c
+@@ -912,8 +912,8 @@ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt)
+ 	 * skip cache sync. This will need to be revisited when support for
+ 	 * non-coherent buffers will be added to the DU driver.
+ 	 */
+-	return dma_map_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-				DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	return dma_map_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			       DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_map_sg);
+ 
+@@ -921,8 +921,8 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
+ {
+ 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+ 
+-	dma_unmap_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-			   DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	dma_unmap_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			  DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+ 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
