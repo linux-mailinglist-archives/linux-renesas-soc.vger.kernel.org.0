@@ -2,79 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B816C25D683
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 12:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CD2025D685
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 12:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729297AbgIDKkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 06:40:22 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:58099 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728658AbgIDKkK (ORCPT
+        id S1730013AbgIDKkd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 06:40:33 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:38157 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729957AbgIDKkb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 06:40:10 -0400
-X-IronPort-AV: E=Sophos;i="5.76,389,1592838000"; 
-   d="scan'208";a="56385879"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Sep 2020 19:40:09 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DAB77400C751;
-        Fri,  4 Sep 2020 19:40:05 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Fri, 4 Sep 2020 06:40:31 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 7269C1C000D;
+        Fri,  4 Sep 2020 10:40:27 +0000 (UTC)
+Date:   Fri, 4 Sep 2020 12:44:14 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Paul <paul.kocialkowski@bootlin.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH 3/3] misc: pci_endpoint_test: Add Device ID for RZ/G2H PCIe controller
-Date:   Fri,  4 Sep 2020 11:38:51 +0100
-Message-Id: <20200904103851.3946-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 1/3] media: i2c: ov5640: Enable data pins on poweron
+ for DVP mode
+Message-ID: <20200904104414.ilqc2qhustefiwdx@uno.localdomain>
+References: <20200813171337.5540-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200813171337.5540-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200901221052.GC32646@paasikivi.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200901221052.GC32646@paasikivi.fi.intel.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add Renesas R8A774E1 in pci_device_id table so that pci-epf-test
-can be used for testing PCIe EP on RZ/G2H.
+Hi Prabhakar, Sakari,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/misc/pci_endpoint_test.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Wed, Sep 02, 2020 at 01:10:53AM +0300, Sakari Ailus wrote:
+> Hi Prabhakar,
+>
+> My apologies for the late reply.
+>
+> On Thu, Aug 13, 2020 at 06:13:35PM +0100, Lad Prabhakar wrote:
+> > During testing this sensor on iW-RainboW-G21D-Qseven platform in 8-bit DVP
+> > mode with rcar-vin bridge noticed the capture worked fine for the first run
+> > (with yavta), but for subsequent runs the bridge driver waited for the
+> > frame to be captured. Debugging further noticed the data lines were
+> > enabled/disabled in stream on/off callback and dumping the register
+> > contents 0x3017/0x3018 in ov5640_set_stream_dvp() reported the correct
+> > values, but yet frame capturing failed.
+> >
+> > To get around this issue the following actions are performed for
+> > parallel mode (DVP):
+> > 1: Keeps the sensor in software power down mode and is woken up only in
+> >    ov5640_set_stream_dvp() callback.
+>
+> I'd suppose with s_power, the main driver would power the device off
+> when it's not streaming.
+>
+> > 2: Enables data lines in s_power callback
+> > 3: Configures HVP lines in s_power callback instead of configuring
+> >    everytime in ov5640_set_stream_dvp().
+> > 4: Disables MIPI interface.
+>
+> Could you split this into two (or even more) patches so that the first
+> refactors the receiver setup and another one changes how it actually works?
+> That way this would be quite a bit easier to review.
+>
+> While some of the above seem entirely reasonable, the changes are vast and
+> testing should be done on different boards to make sure things won't break.
+> That said, this depends on others who have the hardware.
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index ba654f42dc10..ed7425bb073d 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -77,6 +77,7 @@
- #define PCI_DEVICE_ID_RENESAS_R8A774A1		0x0028
- #define PCI_DEVICE_ID_RENESAS_R8A774B1		0x002b
- #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
-+#define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
- 
- static DEFINE_IDA(pci_endpoint_test_ida);
- 
-@@ -955,6 +956,7 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774A1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774B1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774C0),},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A774E1),},
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
- 	  .driver_data = (kernel_ulong_t)&j721e_data,
- 	},
--- 
-2.17.1
+I left it as a comment during review of v2, but now more formally:
 
+For CSI-2 capture operations:
+Tested-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
