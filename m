@@ -2,44 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 287A525D7CB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37DEE25D7CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728118AbgIDLss (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 07:48:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35458 "EHLO
+        id S1729977AbgIDLtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 07:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729659AbgIDLsn (ORCPT
+        with ESMTP id S1729992AbgIDLs7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 07:48:43 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A35F8C061244
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:41 -0700 (PDT)
+        Fri, 4 Sep 2020 07:48:59 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1497C061244
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:58 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id Pnoh230084C55Sk06nohUf; Fri, 04 Sep 2020 13:48:41 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id Pnot2300y4C55Sk01notpp; Fri, 04 Sep 2020 13:48:53 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACv-0004ep-6E; Fri, 04 Sep 2020 13:48:41 +0200
+        id 1kEAD7-0004ex-Me; Fri, 04 Sep 2020 13:48:53 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACv-0007u5-4p; Fri, 04 Sep 2020 13:48:41 +0200
+        id 1kEAD7-0007vK-Lb; Fri, 04 Sep 2020 13:48:53 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v5.10
-Date:   Fri,  4 Sep 2020 13:48:38 +0200
-Message-Id: <20200904114838.30339-1-geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.10
+Date:   Fri,  4 Sep 2020 13:48:49 +0200
+Message-Id: <20200904114849.30413-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
 The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
@@ -47,33 +46,55 @@ The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.10-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.10-tag1
 
-for you to fetch changes up to e41cb217932969a20cea9c44299c449236058e43:
+for you to fetch changes up to b9d7f1448846a98d49a5567536febbef297b20b2:
 
-  clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r) (2020-09-04 09:42:01 +0200)
+  pinctrl: rza1: Switch to using "output-enable" (2020-09-04 09:45:32 +0200)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v5.10
+pinctrl: sh-pfc: Updates for v5.10
 
-  - Add support for the VSP for Resizing clock on RZ/G1H,
-  - Fix VSP clock names to match corrected hardware documentation.
+  - Add CAN and USB1 PWEN pin groups on R-Car H2 and RZ/G1,
+  - One more conversion of DT bindings to json-schema,
+  - Group all Renesas pinctrl drivers and mprove visual Kconfig
+    structure,
+  - Minor fixes and improvements.
 
 Thanks for pulling!
 ----------------------------------------------------------------
-Lad Prabhakar (2):
-      clk: renesas: r8a7742: Add clk entry for VSPR
-      clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r)
+Geert Uytterhoeven (2):
+      dt-bindings: pinctrl: sh-pfc: Convert to json-schema
+      pinctrl: rza1: Switch to using "output-enable"
 
- drivers/clk/renesas/r8a7742-cpg-mssr.c  | 3 ++-
- drivers/clk/renesas/r8a7743-cpg-mssr.c  | 2 +-
- drivers/clk/renesas/r8a7745-cpg-mssr.c  | 2 +-
- drivers/clk/renesas/r8a77470-cpg-mssr.c | 2 +-
- drivers/clk/renesas/r8a7790-cpg-mssr.c  | 4 ++--
- drivers/clk/renesas/r8a7791-cpg-mssr.c  | 2 +-
- drivers/clk/renesas/r8a7792-cpg-mssr.c  | 2 +-
- drivers/clk/renesas/r8a7794-cpg-mssr.c  | 2 +-
- 8 files changed, 10 insertions(+), 9 deletions(-)
+Kuninori Morimoto (4):
+      pinctrl: sh-pfc: Tidy up Emma Mobile EV2
+      pinctrl: sh-pfc: Collect Renesas related CONFIGs in one place
+      pinctrl: sh-pfc: Align driver description title
+      pinctrl: sh-pfc: Tidy up driver description title
+
+Lad Prabhakar (2):
+      pinctrl: sh-pfc: r8a7790: Add USB1 PWEN pin and group
+      pinctrl: sh-pfc: r8a7790: Add CAN pins, groups and functions
+
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt       | 188 --------------------
+ .../devicetree/bindings/pinctrl/renesas,pfc.yaml   | 193 +++++++++++++++++++++
+ .../bindings/pinctrl/renesas,rza1-pinctrl.txt      |   5 +-
+ MAINTAINERS                                        |   1 -
+ drivers/pinctrl/Kconfig                            |  32 ----
+ drivers/pinctrl/Makefile                           |   3 -
+ drivers/pinctrl/sh-pfc/Kconfig                     | 178 +++++++++++--------
+ drivers/pinctrl/sh-pfc/Makefile                    |   4 +
+ drivers/pinctrl/sh-pfc/pfc-r8a7790.c               | 121 ++++++++++++-
+ drivers/pinctrl/{ => sh-pfc}/pinctrl-rza1.c        |  11 +-
+ drivers/pinctrl/{ => sh-pfc}/pinctrl-rza2.c        |   4 +-
+ drivers/pinctrl/{ => sh-pfc}/pinctrl-rzn1.c        |   6 +-
+ 12 files changed, 436 insertions(+), 310 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+ rename drivers/pinctrl/{ => sh-pfc}/pinctrl-rza1.c (99%)
+ rename drivers/pinctrl/{ => sh-pfc}/pinctrl-rza2.c (99%)
+ rename drivers/pinctrl/{ => sh-pfc}/pinctrl-rzn1.c (99%)
 
 Gr{oetje,eeting}s,
 
