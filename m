@@ -2,83 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7916725D7C4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E17EC25D7C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Sep 2020 13:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730006AbgIDLsi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Sep 2020 07:48:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35432 "EHLO
+        id S1729297AbgIDLsl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Sep 2020 07:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729969AbgIDLsd (ORCPT
+        with ESMTP id S1728118AbgIDLsc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Sep 2020 07:48:33 -0400
+        Fri, 4 Sep 2020 07:48:32 -0400
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279AEC061247
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B93EC061246
         for <linux-renesas-soc@vger.kernel.org>; Fri,  4 Sep 2020 04:48:31 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
         by michel.telenet-ops.be with bizsmtp
-        id PnoM2300E4C55Sk06noMQy; Fri, 04 Sep 2020 13:48:21 +0200
+        id PnoM2300D4C55Sk06noMQx; Fri, 04 Sep 2020 13:48:21 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACb-0004eK-71; Fri, 04 Sep 2020 13:48:21 +0200
+        id 1kEACb-0004eL-71; Fri, 04 Sep 2020 13:48:21 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kEACb-0007sk-4i; Fri, 04 Sep 2020 13:48:21 +0200
+        id 1kEACb-0007sm-5t; Fri, 04 Sep 2020 13:48:21 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 0/3] Renesas ARM SoC updates for v5.10
-Date:   Fri,  4 Sep 2020 13:48:16 +0200
-Message-Id: <20200904114819.30254-1-geert+renesas@glider.be>
+Subject: [GIT PULL 1/3] Renesas ARM defconfig updates for v5.10
+Date:   Fri,  4 Sep 2020 13:48:17 +0200
+Message-Id: <20200904114819.30254-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200904114819.30254-1-geert+renesas@glider.be>
+References: <20200904114819.30254-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi arm-soc folks,
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-This is my first pull request for the inclusion of Renesas SoC updates
-for v5.10.
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
-It consists of 3 parts:
+are available in the Git repository at:
 
-  [GIT PULL 1/3] Renesas ARM defconfig updates for v5.10
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v5.10-tag1
 
-    - Enable touchscreen support on the iWave RZ/G1E platform,
-    - Update for PCIE_RCAR => CONFIG_PCIE_RCAR_{HOST,EP} split, including
-      enabling the latter,
-    - Enable FLASH support on various R-Car Gen3 boards,
-    - Refresh shmobile_defconfig for v5.9-rc1.
+for you to fetch changes up to 5a87251dac0db8704d4d18b6dc7c23e30804585b:
 
-  [GIT PULL 2/3] Renesas ARM DT updates for v5.10
+  ARM: shmobile: defconfig: Enable CONFIG_PCIE_RCAR_HOST (2020-09-01 13:54:41 +0200)
 
-    - Increase support for the RZ/G2H SoC on the HopeRun HiHope RZ/G2H
-      board, and its display panel expansion board,
-    - Increase support for the RZ/G1H SoC on the iWave RainboW SoM (G21M)
-      and Qseven board (G21D),
-    - SATA support for the HopeRun HiHope RZ/G2N board,
-    - PCIe endpoint support for the RZ/G2M, RZ/G2E, and RZ/G2H SoCs,
-    - Audio support for the R-Car M3-W+ SoC.
-    - Minor fixes and improvements.
+----------------------------------------------------------------
+Renesas ARM defconfig updates for v5.10
 
-  [GIT PULL 3/3] Renesas driver updates for v5.10
+  - Enable touchscreen support on the iWave RZ/G1E platform,
+  - Update for PCIE_RCAR => CONFIG_PCIE_RCAR_{HOST,EP} split, including
+    enabling the latter,
+  - Enable FLASH support on various R-Car Gen3 boards,
+  - Refresh shmobile_defconfig for v5.9-rc1.
 
-    - Improve visual Kconfig structure.
+----------------------------------------------------------------
+Biju Das (1):
+      ARM: shmobile: defconfig: Enable TOUCHSCREEN_STMPE
 
-Thanks for pulling!
+Geert Uytterhoeven (2):
+      ARM: shmobile: defconfig: Refresh for v5.9-rc1
+      arm64: defconfig: Enable RPC-IF support
 
-Gr{oetje,eeting}s,
+Lad Prabhakar (3):
+      arm64: defconfig: Enable R-Car PCIe endpoint driver
+      ARM: multi_v7_defconfig: Enable CONFIG_PCIE_RCAR_HOST
+      ARM: shmobile: defconfig: Enable CONFIG_PCIE_RCAR_HOST
 
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+ arch/arm/configs/multi_v7_defconfig | 2 +-
+ arch/arm/configs/shmobile_defconfig | 5 +++--
+ arch/arm64/configs/defconfig        | 7 +++++++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
