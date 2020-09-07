@@ -2,85 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57EC725FA26
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 14:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 333C825FC1E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:31:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbgIGMHd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 08:07:33 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:33387 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729217AbgIGMFn (ORCPT
+        id S1729889AbgIGOab (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 10:30:31 -0400
+Received: from foss.arm.com ([217.140.110.172]:37222 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729826AbgIGOaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 08:05:43 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 3so13426327oih.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Sep 2020 05:05:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ogpylFzTn2kfN36oWQVhI7nhTMEW5QN+jj9Cn5tSGbs=;
-        b=d5lMp4cZ20s7WhmMf+WVlhtdm9eF2ASb8rZ6Q1E8IfpYDAapWGjRnwhHf4TxiWKRZi
-         adXgBwZzX9GYF7skmzAby/4wfgkh9Ph9TjztFMJrmk1ZA1tSAFeaboo//gUZYIrtE24c
-         LXp6Ln1rDENOqy0bYtGJmEzQXBKk/k/4Od3NIxn8EDdf4iN+t9PYjE37qA5x7Aj9FXb8
-         9gO3ActNjl+TWIGbXVMEA1mWyIDfLIgQ+rxrrRMWadTXgU+qM7sJBtcCSCnoI8Rkho4Y
-         Gim5e9ZtzYtYlTwjfqvh7n2g8nlwM6eMyqQ8ZaWT2ybPCO+26u7uZIk8uoufAQcnc0Xs
-         ehmQ==
-X-Gm-Message-State: AOAM530RbBtn2KKXaAgjQfxP56dpmOqIztYVKvO/U5O8mJOgr0Sj9O2S
-        f44lTtc/QBhVWMakquz6eOuY32BKxubVI/Nh/wE1SzI0PZw=
-X-Google-Smtp-Source: ABdhPJwIO2xICSBjXiyD05PZHFgXop550bEezlO1OAnh9gvtCpzFAMJk4W2P4xHUA6MfbZ3Bta/OSdeCN03JvRL5gro=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr1181405oia.153.1599480342238;
- Mon, 07 Sep 2020 05:05:42 -0700 (PDT)
+        Mon, 7 Sep 2020 10:30:16 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6125C31B;
+        Mon,  7 Sep 2020 07:18:30 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11A973F73C;
+        Mon,  7 Sep 2020 07:18:28 -0700 (PDT)
+Date:   Mon, 7 Sep 2020 15:18:21 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH v2][next] PCI: rcar-gen2: Use fallthrough pseudo-keyword
+Message-ID: <20200907141821.GA9474@e121166-lin.cambridge.arm.com>
+References: <20200722032851.GA4251@embeddedor>
 MIME-Version: 1.0
-References: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
-In-Reply-To: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Sep 2020 14:05:31 +0200
-Message-ID: <CAMuHMdUvBaNmtwHN=N055RcfOWt_uO=U6S7wy26s=U=i+DXS_g@mail.gmail.com>
-Subject: Re: bonnie++ causing kernel panic
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200722032851.GA4251@embeddedor>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+On Tue, Jul 21, 2020 at 10:28:51PM -0500, Gustavo A. R. Silva wrote:
+> Replace the existing /* fall through */ comments and its variants with
+> the new pseudo-keyword macro fallthrough[1].
+> 
+> [1] https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+> Changes in v2:
+>  - Update URL. Use proper URL to Linux v5.7 documentation.
+>  - Add Geert's Reviewed-by tag.
+>  - Update changelog text.
+> 
+>  drivers/pci/controller/pci-rcar-gen2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Sep 4, 2020 at 11:04 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> I am seeing "Unable to handle kernel paging request at virtual address
-> xxxxxxxxxx" panic while running bonnie++ (version 1.04). I have
-> managed to replicate this issue on R-Car M3N, G2[HMN]. I have been
-> using renesas_defconfig for all the platforms and I have tested on
-> Linux 5.9.0-rc3 for all the 4 platforms.
->
-> Initially I was testing bonnie++ on eMMC device and later discovered
-> even running bonnie++ on NFS mount is causing this issue. I have
-> attached the logs for M3N while running bonnie++ on NFS and logs for
-> G2N while running on eMMC.
->
-> I even traced back to 5.2 kernel where initial G2M support was added
-> and still able to see this issue.
+Applied to pci/rcar, thanks.
 
-Thanks for your report!
+Lorenzo
 
-While the crash symptoms seem to be the same in all crash logs, the
-backtraces aren't.
-
-Does disabling SMP (maxcpus=1) help?
-Does switching from SLUB to SLAB, and enabling CONFIG_DEBUG_SLAB
-reveal memory corruption?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/controller/pci-rcar-gen2.c
+> index 326171cb1a97..2ec7093a7588 100644
+> --- a/drivers/pci/controller/pci-rcar-gen2.c
+> +++ b/drivers/pci/controller/pci-rcar-gen2.c
+> @@ -228,7 +228,7 @@ static int rcar_pci_setup(int nr, struct pci_sys_data *sys)
+>  		pr_warn("unknown window size %ld - defaulting to 256M\n",
+>  			priv->window_size);
+>  		priv->window_size = SZ_256M;
+> -		/* fall-through */
+> +		fallthrough;
+>  	case SZ_256M:
+>  		val |= RCAR_USBCTR_PCIAHB_WIN1_256M;
+>  		break;
+> -- 
+> 2.27.0
+> 
