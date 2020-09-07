@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2D0925F1DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 04:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0AA425F1DD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 04:59:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgIGC7Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 6 Sep 2020 22:59:16 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:48094 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726278AbgIGC7P (ORCPT
+        id S1726446AbgIGC7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 6 Sep 2020 22:59:39 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:6709 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726357AbgIGC7i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 6 Sep 2020 22:59:15 -0400
-Date:   07 Sep 2020 11:59:14 +0900
+        Sun, 6 Sep 2020 22:59:38 -0400
+Date:   07 Sep 2020 11:59:37 +0900
 X-IronPort-AV: E=Sophos;i="5.76,400,1592838000"; 
-   d="scan'208";a="56531124"
+   d="scan'208";a="56314868"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:14 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 11:59:37 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 111824179B94;
-        Mon,  7 Sep 2020 11:59:14 +0900 (JST)
-Message-ID: <87imcq70ru.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 219A54179B94;
+        Mon,  7 Sep 2020 11:59:37 +0900 (JST)
+Message-ID: <87h7sa70r7.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 7/9] arm64: dts: renesas: r8a77961: Add HDMI device nodes
+Subject: [PATCH 8/9] arm64: dts: renesas: r8a77961-salvator-xs: add HDMI Display support
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Rob Herring <robh+dt@kernel.org>,
         Laurent <laurent.pinchart@ideasonboard.com>,
@@ -44,54 +44,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds HDMI device nodes for R-Car M3-W+ (r8a77961) SoC.
+This patch enables HDMI Display on R-Car M3-W+ Salvator-XS board.
 This patch is test on R-Car M3-W+ Salvator-XS board.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ .../boot/dts/renesas/r8a77961-salvator-xs.dts | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index dcd92f5abad6..5050cf8e7625 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2145,14 +2145,23 @@ port@1 {
- 		};
- 
- 		hdmi0: hdmi@fead0000 {
-+			compatible = "renesas,r8a77961-hdmi", "renesas,rcar-gen3-hdmi";
- 			reg = <0 0xfead0000 0 0x10000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 729>, <&cpg CPG_CORE R8A77961_CLK_HDMI>;
-+			clock-names = "iahb", "isfr";
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 729>;
-+			status = "disabled";
- 
- 			ports {
- 				#address-cells = <1>;
- 				#size-cells = <0>;
- 				port@0 {
- 					reg = <0>;
-+					dw_hdmi0_in: endpoint {
-+						remote-endpoint = <&du_out_hdmi0>;
-+					};
- 				};
- 				port@1 {
- 					reg = <1>;
-@@ -2191,6 +2200,7 @@ du_out_rgb: endpoint {
- 				port@1 {
- 					reg = <1>;
- 					du_out_hdmi0: endpoint {
-+						remote-endpoint = <&dw_hdmi0_in>;
- 					};
- 				};
- 				port@2 {
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts b/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
+index 2ffc7e31dd58..ca21a702db54 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
+@@ -29,3 +29,31 @@ memory@600000000 {
+ 		reg = <0x6 0x00000000 0x1 0x00000000>;
+ 	};
+ };
++
++&du {
++	clocks = <&cpg CPG_MOD 724>,
++		 <&cpg CPG_MOD 723>,
++		 <&cpg CPG_MOD 722>,
++		 <&versaclock6 1>,
++		 <&x21_clk>,
++		 <&versaclock6 2>;
++	clock-names = "du.0", "du.1", "du.2",
++		      "dclkin.0", "dclkin.1", "dclkin.2";
++};
++
++&hdmi0 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			reg = <1>;
++			rcar_dw_hdmi0_out: endpoint {
++				remote-endpoint = <&hdmi0_con>;
++			};
++		};
++	};
++};
++
++&hdmi0_con {
++	remote-endpoint = <&rcar_dw_hdmi0_out>;
++};
 -- 
 2.25.1
 
