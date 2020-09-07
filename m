@@ -2,79 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 333C825FC1E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:31:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DCE925FC3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:47:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729889AbgIGOab (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 10:30:31 -0400
-Received: from foss.arm.com ([217.140.110.172]:37222 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729826AbgIGOaQ (ORCPT
+        id S1729819AbgIGOqX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 10:46:23 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:15078 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729994AbgIGOpv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 10:30:16 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6125C31B;
-        Mon,  7 Sep 2020 07:18:30 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 11A973F73C;
-        Mon,  7 Sep 2020 07:18:28 -0700 (PDT)
-Date:   Mon, 7 Sep 2020 15:18:21 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH v2][next] PCI: rcar-gen2: Use fallthrough pseudo-keyword
-Message-ID: <20200907141821.GA9474@e121166-lin.cambridge.arm.com>
-References: <20200722032851.GA4251@embeddedor>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200722032851.GA4251@embeddedor>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Mon, 7 Sep 2020 10:45:51 -0400
+X-IronPort-AV: E=Sophos;i="5.76,402,1592838000"; 
+   d="scan'208";a="56367451"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 23:45:27 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5583142FBA09;
+        Mon,  7 Sep 2020 23:45:25 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH 0/2] Add VIN instances to r8a7742 SoC
+Date:   Mon,  7 Sep 2020 15:45:07 +0100
+Message-Id: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 10:28:51PM -0500, Gustavo A. R. Silva wrote:
-> Replace the existing /* fall through */ comments and its variants with
-> the new pseudo-keyword macro fallthrough[1].
-> 
-> [1] https://www.kernel.org/doc/html/v5.7/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> ---
-> Changes in v2:
->  - Update URL. Use proper URL to Linux v5.7 documentation.
->  - Add Geert's Reviewed-by tag.
->  - Update changelog text.
-> 
->  drivers/pci/controller/pci-rcar-gen2.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Hi All,
 
-Applied to pci/rcar, thanks.
+This patch series adds support for VIN to r8a7742 (RZ/G1H) SoC.
 
-Lorenzo
+Patches apply on top of [1].
 
-> diff --git a/drivers/pci/controller/pci-rcar-gen2.c b/drivers/pci/controller/pci-rcar-gen2.c
-> index 326171cb1a97..2ec7093a7588 100644
-> --- a/drivers/pci/controller/pci-rcar-gen2.c
-> +++ b/drivers/pci/controller/pci-rcar-gen2.c
-> @@ -228,7 +228,7 @@ static int rcar_pci_setup(int nr, struct pci_sys_data *sys)
->  		pr_warn("unknown window size %ld - defaulting to 256M\n",
->  			priv->window_size);
->  		priv->window_size = SZ_256M;
-> -		/* fall-through */
-> +		fallthrough;
->  	case SZ_256M:
->  		val |= RCAR_USBCTR_PCIAHB_WIN1_256M;
->  		break;
-> -- 
-> 2.27.0
-> 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+    renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (2):
+  dt-bindings: media: renesas,vin: Add device tree support for r8a7742
+  ARM: dts: r8a7742: Add VIN DT nodes
+
+ .../bindings/media/renesas,vin.yaml           |  1 +
+ arch/arm/boot/dts/r8a7742.dtsi                | 44 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+
+-- 
+2.17.1
+
