@@ -2,67 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C334025FCB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 17:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A7625FD03
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 17:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729999AbgIGOwy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 10:52:54 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40349 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730051AbgIGOwd (ORCPT
+        id S1730079AbgIGPVG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 11:21:06 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45390 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730110AbgIGPSM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 10:52:33 -0400
-Received: by mail-ot1-f68.google.com with SMTP id e23so12461608otk.7;
-        Mon, 07 Sep 2020 07:52:31 -0700 (PDT)
+        Mon, 7 Sep 2020 11:18:12 -0400
+Received: by mail-ot1-f65.google.com with SMTP id g96so12474915otb.12;
+        Mon, 07 Sep 2020 08:18:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YR5nCLsMFYFwM3pRnFFBBgFgP7DthYxhn+lLufrwFRM=;
-        b=FTIKcg1v+hSWb2+Lq6wXsBCI61IzXNwRvSOdYuzcOpSmZoaWoYRKF5b0vGPVrjdXwi
-         ZLs8AOfQ6OXizpxxqvYJKaummgz8bTlZ64xuOtl7R8xeIyMbTfPltbzDQ4jejJoLrWJy
-         w8qNEgXKjX5ECw5OsLi1NQudP95tlEwdJqp8WcG9bkHftS4lZuGJpcv4/0wI+EYOJVSg
-         KZ4+d5HmT40wxEXJBi7MzOu/udAZYz+XfgdwBdslxyGMoAF6H7aLUbG+/cW69CNLbL2G
-         7R9/P57BG8rVZLSODXzaNfJ2leCHHvLQk9g7g63zQIdFCNyjfmiywL2Pe5HHNcTyZOKy
-         bgwA==
-X-Gm-Message-State: AOAM533bAUA3YRTkKJ5z4ZV8jYsjLQTrmKZqFTYZRAjs8xT1nChNpJAL
-        JTirYdY+Y17395U8FsoQP5VhQoortE4A+UPkYKZhVvGO
-X-Google-Smtp-Source: ABdhPJwMUIApW9HWKDkC3PKb6cFgsiRPnCVRrqTYBPT/r/sTcW9BIcPzvjDMKs+ttWmcC5MmxT2A7Giu82Aj7PG5r3o=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr13857111otp.107.1599490349290;
- Mon, 07 Sep 2020 07:52:29 -0700 (PDT)
+        bh=gMIeplfOIYBeXg87OauSkaEFjHQu8iny75rFp+6XgYU=;
+        b=KRyo3pvKPAiH5phfGpnu1n/NTdPVdoKLDVqZfEKiurv4sVTkTQsxh7zUe3fuS9kTe+
+         O7OHQE9iz7FtIotIN2ow07HSWtgSrUNUrXnAgY3GQWoTSdpUJulx0of0Lc+pf8dwVFzW
+         nOexLMbIg2R/tpfRHm3rse9F+VSGaQ/iHCZ8HYne4nVV8ONEMpD3u9V5zlz09I9Bl5QB
+         iHA5UrtWxcPaVbDcqj+fBsdSWGZVca/R+UthBxMu/0CAQwh7bcIVV4edK09GRzmGofby
+         wb0ixWWf9i4RGGOvJyZwPNt68sKUgE7jpyr6k4hNVr5I5njU3ImoLBnNn3U6RojBM3Co
+         DluQ==
+X-Gm-Message-State: AOAM53190KmjV9zOKd77vQC78uMfV2P4aqK0U6p7FCR9CME0yO48obhX
+        0U3Su/D5QiKYshxWgpcpyLcA7wfcgZLox4cNrEU/nc/G
+X-Google-Smtp-Source: ABdhPJwL+05hdkopa0MIF9W1CBL6HFgybeu9Ue4c2x0Be04LwhWuvb2GnT7UOxEe3ZGsazpwPHOPmCH2ltEbTRvSyOE=
+X-Received: by 2002:a9d:162:: with SMTP id 89mr15214661otu.250.1599491891261;
+ Mon, 07 Sep 2020 08:18:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com> <87pn6y70sp.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87pn6y70sp.wl-kuninori.morimoto.gx@renesas.com>
+References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599470390-29719-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599470390-29719-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Sep 2020 16:52:18 +0200
-Message-ID: <CAMuHMdWC9uQ5ekntNsMQQFBZ1tEnf01+b_-ShgpVJsxqeOjEVA@mail.gmail.com>
-Subject: Re: [PATCH 2/9] dt-bindings: display: renesas: dw-hdmi: Add R8A77961 support
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Laurent <laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Magnus <magnus.damm@gmail.com>,
+Date:   Mon, 7 Sep 2020 17:17:59 +0200
+Message-ID: <CAMuHMdX9qr9Q0zAgNCS+iGtZf1J0DTg8DunX59j9YbC_g9VmWw@mail.gmail.com>
+Subject: Re: [PATCH 01/14] dt-bindings: arm: renesas: Document R-Car V3U SoC
+ DT bindings
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-DT <devicetree@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 4:58 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add device tree bindings documentation for Renesas R-Car V3U
+> (r8a779a0).
 >
-> This patch adds R-Car M3-W+ (R8A77961) SoC bindings.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
