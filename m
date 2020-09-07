@@ -2,64 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DCE925FC3B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E0025FC40
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:49:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729819AbgIGOqX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 10:46:23 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:15078 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729994AbgIGOpv (ORCPT
+        id S1729979AbgIGOr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 10:47:59 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45997 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729661AbgIGOrs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 10:45:51 -0400
-X-IronPort-AV: E=Sophos;i="5.76,402,1592838000"; 
-   d="scan'208";a="56367451"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Sep 2020 23:45:27 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5583142FBA09;
-        Mon,  7 Sep 2020 23:45:25 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mon, 7 Sep 2020 10:47:48 -0400
+Received: by mail-oi1-f195.google.com with SMTP id d189so13744969oig.12;
+        Mon, 07 Sep 2020 07:47:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QcjiiAfx+9k9N5nfOR2G/TrS6pvq+Cvo4vzFD0ysl/k=;
+        b=MwaqAuEEw7q/sR6nExBQUc3HwYHaFcnMhsS25KrKyII/cMr7jCU5liMJKQ6/Xg8wFI
+         3/DS7SnwX92vHlNzsft69T27eYmivyjNtiUksW0C/7N3XCjfCOuRpa1g806FMzi+wgvT
+         HQCaV22/q1vKBdNQfZe23a0tGiiTw2YGQ9xrJpydwWgdKc/tlQYsYZxyQBCqPZLQrkss
+         mhc3PA1G4AblJqXuYNQJ0viP7MQtqUsfb5P1DxE7/AuLrfJ59wP+PVpQU9pB2GNm0HmL
+         fijpd6bkB3yHSSfvc7QfhkKzKD/6TGLBRMrCJ8LHgTynmhSbUH3dyFKnmqIta5/x0s2M
+         fr1A==
+X-Gm-Message-State: AOAM531aqJnKRRkNeaHsnZvvW1fIirVRwbb+vwlZyoucNit0QqBJUB2E
+        3tCk1iGewaSPodUmYwDJ667HloQCJDipNSJA2bQ=
+X-Google-Smtp-Source: ABdhPJyY+mdyDZV49zKGIPNu9C6xRs+fpbm9lxoTKNZqCdCFCV/vcvj1uvGnRbxs8d7YoKMermrp1Bu/17LgaaygxOw=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr12624421oib.54.1599490065211;
+ Mon, 07 Sep 2020 07:47:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Sep 2020 16:47:34 +0200
+Message-ID: <CAMuHMdWGG+7dnrKxeA3S_g01jk3fSO_n2uP1-r0R279VF5TVcQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Add device tree
+ support for r8a7742
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH 0/2] Add VIN instances to r8a7742 SoC
-Date:   Mon,  7 Sep 2020 15:45:07 +0100
-Message-Id: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+On Mon, Sep 7, 2020 at 4:46 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add compatible string for r8a7742. No driver change is needed as
+> "renesas,rcar-gen2-vin" will activate the right code.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-This patch series adds support for VIN to r8a7742 (RZ/G1H) SoC.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Patches apply on top of [1].
+Gr{oetje,eeting}s,
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
-    renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
-
-Cheers,
-Prabhakar
-
-Lad Prabhakar (2):
-  dt-bindings: media: renesas,vin: Add device tree support for r8a7742
-  ARM: dts: r8a7742: Add VIN DT nodes
-
- .../bindings/media/renesas,vin.yaml           |  1 +
- arch/arm/boot/dts/r8a7742.dtsi                | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
+                        Geert
 
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
