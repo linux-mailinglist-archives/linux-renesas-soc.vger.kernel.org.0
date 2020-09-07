@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E38E725F777
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 12:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBE4725F959
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 13:25:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728406AbgIGKO4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 06:14:56 -0400
-Received: from foss.arm.com ([217.140.110.172]:59700 "EHLO foss.arm.com"
+        id S1729004AbgIGLZj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 07:25:39 -0400
+Received: from foss.arm.com ([217.140.110.172]:33210 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728243AbgIGKOz (ORCPT
+        id S1728999AbgIGLZ1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 06:14:55 -0400
+        Mon, 7 Sep 2020 07:25:27 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 40919D6E;
-        Mon,  7 Sep 2020 03:14:55 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81E7B11D4;
+        Mon,  7 Sep 2020 04:25:23 -0700 (PDT)
 Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 448E63F66E;
-        Mon,  7 Sep 2020 03:14:53 -0700 (PDT)
-Date:   Mon, 7 Sep 2020 11:14:50 +0100
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86AD33F66E;
+        Mon,  7 Sep 2020 04:25:21 -0700 (PDT)
+Date:   Mon, 7 Sep 2020 12:25:19 +0100
 From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -31,51 +31,49 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH 0/5] Add PCIe EP nodes on RZ/G2[EMN]
-Message-ID: <20200907101450.GG6428@e121166-lin.cambridge.arm.com>
-References: <20200814173037.17822-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH 0/3] Add PCIe EP to RZ/G2H
+Message-ID: <20200907112519.GB7573@e121166-lin.cambridge.arm.com>
+References: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200814173037.17822-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 14, 2020 at 06:30:32PM +0100, Lad Prabhakar wrote:
+On Fri, Sep 04, 2020 at 11:38:48AM +0100, Lad Prabhakar wrote:
 > Hi All,
 > 
-> This patch series adds support for PCIe EP nodes to Renesas r8a774a1,
-> r8a774b1 and r8a774c0 SoC's.
+> This patch series adds PCIe EP support to R8A774E1 SoC.
 > 
-> Patches are based on top of [1].
+> patch 2/3 applies on top of [1] and patch 3/3 is dependent
+> on series [2].
 > 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/
->     pci.git/log/?h=next
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+>     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
+> [2] https://patchwork.kernel.org/project/linux-pci/list/
+>     ?series=332849&submitter=&state=&q=&archive=&delegate=
 > 
 > Cheers,
 > Prabhakar
 > 
-> Lad Prabhakar (5):
->   dt-bindings: pci: rcar-pci-ep: Document r8a774a1 and r8a774b1
->   misc: pci_endpoint_test: Add Device ID for RZ/G2M and RZ/G2N PCIe
->     controllers
->   arm64: dts: renesas: r8a774a1: Add PCIe EP nodes
->   arm64: dts: renesas: r8a774b1: Add PCIe EP nodes
->   arm64: dts: renesas: r8a774c0: Add PCIe EP node
 > 
->  .../devicetree/bindings/pci/rcar-pci-ep.yaml  |  7 +++-
->  arch/arm64/boot/dts/renesas/r8a774a1.dtsi     | 38 +++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a774b1.dtsi     | 38 +++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a774c0.dtsi     | 19 ++++++++++
->  drivers/misc/pci_endpoint_test.c              |  7 +++-
->  5 files changed, 105 insertions(+), 4 deletions(-)
+> Lad Prabhakar (3):
+>   dt-bindings: pci: rcar-pci-ep: Document r8a774e1
+>   arm64: dts: renesas: r8a774e1: Add PCIe EP nodes
+>   misc: pci_endpoint_test: Add Device ID for RZ/G2H PCIe controller
+> 
+>  .../devicetree/bindings/pci/rcar-pci-ep.yaml  |  1 +
+>  arch/arm64/boot/dts/renesas/r8a774e1.dtsi     | 38 +++++++++++++++++++
+>  drivers/misc/pci_endpoint_test.c              |  2 +
+>  3 files changed, 41 insertions(+)
 
-I took the first two patches in pci/rcar, thanks.
+Took patches (1) and (3) in pci/rcar, thanks.
 
 Lorenzo
