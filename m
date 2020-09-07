@@ -2,77 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E0025FC40
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA9C25FC5C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 16:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729979AbgIGOr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 10:47:59 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:45997 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729661AbgIGOrs (ORCPT
+        id S1730041AbgIGOz6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 10:55:58 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:19735 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730058AbgIGOzW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 10:47:48 -0400
-Received: by mail-oi1-f195.google.com with SMTP id d189so13744969oig.12;
-        Mon, 07 Sep 2020 07:47:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QcjiiAfx+9k9N5nfOR2G/TrS6pvq+Cvo4vzFD0ysl/k=;
-        b=MwaqAuEEw7q/sR6nExBQUc3HwYHaFcnMhsS25KrKyII/cMr7jCU5liMJKQ6/Xg8wFI
-         3/DS7SnwX92vHlNzsft69T27eYmivyjNtiUksW0C/7N3XCjfCOuRpa1g806FMzi+wgvT
-         HQCaV22/q1vKBdNQfZe23a0tGiiTw2YGQ9xrJpydwWgdKc/tlQYsYZxyQBCqPZLQrkss
-         mhc3PA1G4AblJqXuYNQJ0viP7MQtqUsfb5P1DxE7/AuLrfJ59wP+PVpQU9pB2GNm0HmL
-         fijpd6bkB3yHSSfvc7QfhkKzKD/6TGLBRMrCJ8LHgTynmhSbUH3dyFKnmqIta5/x0s2M
-         fr1A==
-X-Gm-Message-State: AOAM531aqJnKRRkNeaHsnZvvW1fIirVRwbb+vwlZyoucNit0QqBJUB2E
-        3tCk1iGewaSPodUmYwDJ667HloQCJDipNSJA2bQ=
-X-Google-Smtp-Source: ABdhPJyY+mdyDZV49zKGIPNu9C6xRs+fpbm9lxoTKNZqCdCFCV/vcvj1uvGnRbxs8d7YoKMermrp1Bu/17LgaaygxOw=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr12624421oib.54.1599490065211;
- Mon, 07 Sep 2020 07:47:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200907144509.8861-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Sep 2020 16:47:34 +0200
-Message-ID: <CAMuHMdWGG+7dnrKxeA3S_g01jk3fSO_n2uP1-r0R279VF5TVcQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: media: renesas,vin: Add device tree
- support for r8a7742
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 7 Sep 2020 10:55:22 -0400
+X-IronPort-AV: E=Sophos;i="5.76,402,1592838000"; 
+   d="scan'208";a="56584263"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 07 Sep 2020 23:55:21 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DA558400068C;
+        Mon,  7 Sep 2020 23:55:19 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH] pinctrl: sh-pfc: r8a7790: Add VIN pins used by iwg21d-q7-dbcm-ca board
+Date:   Mon,  7 Sep 2020 15:55:16 +0100
+Message-Id: <20200907145516.12803-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 4:46 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add compatible string for r8a7742. No driver change is needed as
-> "renesas,rcar-gen2-vin" will activate the right code.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Add vin[1,2] data8 and vin1_clk_b pins used by iwg21d-q7-dbcm-ca board
+which is based on R8A7742 SoC.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/pinctrl/sh-pfc/pfc-r8a7790.c | 38 +++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7790.c b/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+index 60f973c5dffe..66697ea15a57 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+@@ -3866,6 +3866,18 @@ static const unsigned int vin1_data18_mux[] = {
+ 	VI1_R4_MARK, VI1_R5_MARK,
+ 	VI1_R6_MARK, VI1_R7_MARK,
+ };
++static const unsigned int vin1_data8_b_pins[] = {
++	RCAR_GP_PIN(3, 0), RCAR_GP_PIN(3, 1),
++	RCAR_GP_PIN(3, 2), RCAR_GP_PIN(3, 3),
++	RCAR_GP_PIN(3, 4), RCAR_GP_PIN(3, 5),
++	RCAR_GP_PIN(3, 6), RCAR_GP_PIN(3, 7),
++};
++static const unsigned int vin1_data8_b_mux[] = {
++	VI1_DATA0_VI1_B0_B_MARK, VI1_DATA1_VI1_B1_B_MARK,
++	VI1_DATA2_VI1_B2_B_MARK, VI1_DATA3_VI1_B3_B_MARK,
++	VI1_DATA4_VI1_B4_B_MARK, VI1_DATA5_VI1_B5_B_MARK,
++	VI1_DATA6_VI1_B6_B_MARK, VI1_DATA7_VI1_B7_B_MARK,
++};
+ static const unsigned int vin1_sync_pins[] = {
+ 	RCAR_GP_PIN(1, 24), /* HSYNC */
+ 	RCAR_GP_PIN(1, 25), /* VSYNC */
+@@ -3886,6 +3898,12 @@ static const unsigned int vin1_clkenb_pins[] = {
+ static const unsigned int vin1_clkenb_mux[] = {
+ 	VI1_CLKENB_MARK,
+ };
++static const unsigned int vin1_clk_b_pins[] = {
++	RCAR_GP_PIN(3, 15),
++};
++static const unsigned int vin1_clk_b_mux[] = {
++	VI1_CLK_B_MARK,
++};
+ static const unsigned int vin1_clk_pins[] = {
+ 	RCAR_GP_PIN(2, 9),
+ };
+@@ -3959,6 +3977,18 @@ static const unsigned int vin2_data18_mux[] = {
+ 	VI2_R4_MARK, VI2_R5_MARK,
+ 	VI2_R6_MARK, VI2_R7_MARK,
+ };
++static const unsigned int vin2_data8_g_pins[] = {
++	RCAR_GP_PIN(0, 27), RCAR_GP_PIN(0, 28),
++	RCAR_GP_PIN(0, 29), RCAR_GP_PIN(1, 10),
++	RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 5),
++	RCAR_GP_PIN(1, 6), RCAR_GP_PIN(1, 7),
++};
++static const unsigned int vin2_data8_g_mux[] = {
++	VI2_G0_MARK, VI2_G1_MARK,
++	VI2_G2_MARK, VI2_G3_MARK,
++	VI2_G4_MARK, VI2_G5_MARK,
++	VI2_G6_MARK, VI2_G7_MARK,
++};
+ static const unsigned int vin2_sync_pins[] = {
+ 	RCAR_GP_PIN(1, 16), /* HSYNC */
+ 	RCAR_GP_PIN(1, 21), /* VSYNC */
+@@ -4026,7 +4056,7 @@ static const unsigned int vin3_clk_mux[] = {
+ };
+ 
+ static const struct {
+-	struct sh_pfc_pin_group common[298];
++	struct sh_pfc_pin_group common[301];
+ 	struct sh_pfc_pin_group automotive[1];
+ } pinmux_groups = {
+ 	.common = {
+@@ -4310,15 +4340,18 @@ static const struct {
+ 		VIN_DATA_PIN_GROUP(vin1_data, 10),
+ 		VIN_DATA_PIN_GROUP(vin1_data, 8),
+ 		VIN_DATA_PIN_GROUP(vin1_data, 4),
++		SH_PFC_PIN_GROUP(vin1_data8_b),
+ 		SH_PFC_PIN_GROUP(vin1_sync),
+ 		SH_PFC_PIN_GROUP(vin1_field),
+ 		SH_PFC_PIN_GROUP(vin1_clkenb),
++		SH_PFC_PIN_GROUP(vin1_clk_b),
+ 		SH_PFC_PIN_GROUP(vin1_clk),
+ 		VIN_DATA_PIN_GROUP(vin2_data, 24),
+ 		SH_PFC_PIN_GROUP(vin2_data18),
+ 		VIN_DATA_PIN_GROUP(vin2_data, 16),
+ 		VIN_DATA_PIN_GROUP(vin2_data, 8),
+ 		VIN_DATA_PIN_GROUP(vin2_data, 4),
++		SH_PFC_PIN_GROUP(vin2_data8_g),
+ 		SH_PFC_PIN_GROUP(vin2_sync),
+ 		SH_PFC_PIN_GROUP(vin2_field),
+ 		SH_PFC_PIN_GROUP(vin2_clkenb),
+@@ -4784,9 +4817,11 @@ static const char * const vin1_groups[] = {
+ 	"vin1_data10",
+ 	"vin1_data8",
+ 	"vin1_data4",
++	"vin1_data8_b",
+ 	"vin1_sync",
+ 	"vin1_field",
+ 	"vin1_clkenb",
++	"vin1_clk_b",
+ 	"vin1_clk",
+ };
+ 
+@@ -4796,6 +4831,7 @@ static const char * const vin2_groups[] = {
+ 	"vin2_data16",
+ 	"vin2_data8",
+ 	"vin2_data4",
++	"vin2_data8_g",
+ 	"vin2_sync",
+ 	"vin2_field",
+ 	"vin2_clkenb",
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
