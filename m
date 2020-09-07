@@ -2,147 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75DDE25F464
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 09:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD3725F48C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 10:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727874AbgIGH4E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 03:56:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:45072 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727847AbgIGHz7 (ORCPT
+        id S1727773AbgIGIHJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 04:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727935AbgIGIGZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 03:55:59 -0400
-Received: by mail-oi1-f195.google.com with SMTP id d189so12821566oig.12;
-        Mon, 07 Sep 2020 00:55:58 -0700 (PDT)
+        Mon, 7 Sep 2020 04:06:25 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8EDC061573;
+        Mon,  7 Sep 2020 01:06:24 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id u8so1495290lff.1;
+        Mon, 07 Sep 2020 01:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=d2UKtxSDsLOJMZMvP4V6fDHQ9DOK38Nub6TkWq2gStU=;
+        b=vFg4C207s1HYEz3DxFduhR35WgnfoYhDmDerHgHdYFuDCemywqeA2dEAKzMmt93QxI
+         RI9/AYrJGw39gr3JEB8H5Z6BNrq/of0J4kSiWqMuuqhnUaYVe1CxuQ1SwWhm7tsnvhzu
+         rk3+M8zBe3OOOu7dTuYYzZmSJ9ty57aY+46fLPTbBmcubNdRwIwGW2mxZKbrVzN2nfkT
+         1PsIFUOudcginzFbN9TwBL+QrV8lRO/Fkt8mI0M6t9/s/VwnlNWwOeUexzdRtcbcbyWa
+         9in9OfoYHHu/S2RFfb2Jjei/bqpqUzdDlKgixUsZCdmrxp2Luu1jAiM9imvMqLsC4EbY
+         2OzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uuBwypJmHWQd5+fhA+Qi5ygJwZd3WxmHZlgvS26xGCM=;
-        b=GtOSW2MJgduv5NPEDLskPJLOojRpBiRg3hHAx5UNhBY8LlJ6aKraRwa1+s/vMj7xZF
-         etwr8rUWgVySyHcNTzD6seOgivEmMWPRaobsPpAnrJK/fU7eQAefoTZU1KP6IyuIMJxh
-         FRCSEF85pvpMvMfrLKt/ohLojmPph3+T6obI40Qod5NYHBwqdPA8vNVv6xUXWdUYpByw
-         zJr+m8IXEqAeptEMmLgXx33H/ERFocolgAG8uAuz+MeUW25kDQc299VI8AG41S1OykwV
-         TtDMq4RAcWqQtrVC0qc+1/E50u+sZIXhZPbMYbN2Bm6XhOBSqFtBdjtrSfaseFSgfUxK
-         1qmw==
-X-Gm-Message-State: AOAM5334dcRNXxsfmCCWQhh+9zZiGg4u0z3FBRlBWq9TRXYxpUDYzlDP
-        e+4Hgc6WCKSq5amCKXgS8EdaLAc0QK2J3Tov0rs=
-X-Google-Smtp-Source: ABdhPJw7BBFktIEQUB+STV6VUKMgajK/DnzWMIBlXP6kmOSIVV2532SU9YvqzAL5tzHBtDMz4jSG1EpLv2CV/1B5P6o=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr11714334oib.54.1599465358239;
- Mon, 07 Sep 2020 00:55:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825162718.5838-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825162718.5838-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdXkGBfwNOwd5-=U3wg6U0O+3BErbXuybbuytgzsCmZqRQ@mail.gmail.com> <CA+V-a8uT8d8P8REuXcW9qtCxM84DH+Q4LXZnVTYhT--kswKF=g@mail.gmail.com>
-In-Reply-To: <CA+V-a8uT8d8P8REuXcW9qtCxM84DH+Q4LXZnVTYhT--kswKF=g@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Sep 2020 09:55:46 +0200
-Message-ID: <CAMuHMdW+JBd2iu4BsQHdEV=4dt7mh_14TyHLMQcywAJVPFZZCg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] ARM: dts: r8a7742-iwg21d-q7: Enable SD2 LED indication
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=d2UKtxSDsLOJMZMvP4V6fDHQ9DOK38Nub6TkWq2gStU=;
+        b=N4s4lI+GSR9FUnqjJx9wyb62F/IDiaK5522trgcTYGUp5LuIrBDVEro/GCwZEsQjeB
+         qB7uPY1qvLeKuQ/5uxblJn7u6o5ArNJc27pYKYW+gG+Oqj/ON8R4xGbhgeOVs1amwu3f
+         U22WOUaBpiWMq7ftky87dXp1ChCYXTXKzTIVQeEXZddTuO2eX8rmKDhx2OHTndsd33I9
+         c4mWQBuZSUIjqizB3O0CNLXxD5kBnlWlZ8NRU/am1Gvn1KSrL/zPjgzWJQWC+RJOdhVE
+         +VkXXBRDsjZNHuKrQWJlVwFjWXoTKtix62wtiLBQYccF1piiUWNnTfq8Eqo5IJ0p+uAs
+         OwDg==
+X-Gm-Message-State: AOAM5321WKktTiDyAXdFSIa2G4pvK6daUBV7SJNtmwCj5nCRbB5YvR50
+        2TRSuNtt9VkPFBK48AnngAk=
+X-Google-Smtp-Source: ABdhPJz9n9KbuzMzDlSQa4iknXvJcYJO+CSM3n5dQxn6kAweLvkB4JJPqXoF448FuJjg3rn3KOOgAw==
+X-Received: by 2002:a19:7e02:: with SMTP id z2mr9554798lfc.130.1599465982981;
+        Mon, 07 Sep 2020 01:06:22 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:6a2:89f3:b416:2a89:c3ba:d276? ([2a00:1fa0:6a2:89f3:b416:2a89:c3ba:d276])
+        by smtp.gmail.com with ESMTPSA id q22sm6725588lfp.40.2020.09.07.01.06.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Sep 2020 01:06:22 -0700 (PDT)
+Subject: Re: [PATCH 8/9] arm64: dts: renesas: r8a77961-salvator-xs: add HDMI
+ Display support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Laurent <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Magnus <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-DT <devicetree@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "(Renesas) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+        dri-devel@lists.freedesktop.org
+References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
+ <87h7sa70r7.wl-kuninori.morimoto.gx@renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <17f337ce-99db-18c3-491b-d29f1046d0e9@gmail.com>
+Date:   Mon, 7 Sep 2020 11:06:19 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <87h7sa70r7.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello!
 
-On Fri, Sep 4, 2020 at 7:15 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Sep 3, 2020 at 1:20 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Aug 25, 2020 at 6:28 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Add support for LED trigger on SD2 interface.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> >
-> > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7.dts
-> > > @@ -63,6 +63,16 @@
-> > >                 enable-gpios = <&gpio3 11 GPIO_ACTIVE_HIGH>;
-> > >         };
-> > >
-> > > +       leds {
-> > > +               compatible = "gpio-leds";
-> > > +
-> > > +               sdhi2_led {
-> > > +                       label = "sdio-led";
-> > > +                       gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
-> >
-> > GPIO_ACTIVE_HIGH?
-> >
-> > The LED is driven by an NPN transistor, with the LED between 3.3V and
-> > the transistor's collector.
+On 07.09.2020 5:59, Kuninori Morimoto wrote:
 
-Oops, 3.3V is not VCC_3V3, but SD_3V3, so it is not always-on, but
-controlled by SDIO_PWR.
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> 
+> This patch enables HDMI Display on R-Car M3-W+ Salvator-XS board.
+> This patch is test on R-Car M3-W+ Salvator-XS board.
 
-> I did try with GPIO_ACTIVE_HIGH and it didn't work as expected. To
-> make sure I can control the LED through sysfs I deleted the node from
-> DTS and exported the pin GP5_22 (858) and writing the value "out"
-> direction and setting the values 0/1 to value did not toggle the SDIO
-> LED as expected and it stayed OFF all the time.
+    Was tested, perhaps?
 
-Hence when SDIO_PWR is turned off, you cannot control the LED just by
-toggling GP5_22.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+[...]
 
-> Looks like there is some information missing in the schematics.
->
-> I did some experiments. I completely removed the SDHI, LED and
-> regulator  nodes and  booted the system and exported GP1_27 (989) and
-> wrote values 0/1  and this toggled the SDIO_LED.
->
-> U-boot sets the below, so in u-boot the SDIO_LED is ON:
->     gpio_direction_output(GPIO_GP_1_27, 0); /* power on */
->     gpio_set_value(GPIO_GP_1_27, 0);
->     gpio_direction_output(GPIO_GP_5_22, 0); /* LED  */
->     gpio_set_value(GPIO_GP_5_22, 1);
->     gpio_direction_output(GPIO_GP_1_8, 0); /* 1: 3.3V, 0: 1.8V*/
->     gpio_set_value(GPIO_GP_1_8, 1);
->
-> So in comparison we would need a hog node as below (and with this the
-> LED triggers correctly as expected),
->
-> &gpio5 {
->     sdio-led-gpio {
->         gpio-hog;
->         gpios = <22 GPIO_ACTIVE_HIGH>;
->         output-high;
->         line-name = "sdio-led-gpio";
->     };
-> };
->
-> Let me know if you are OK with the above.
+MBR, Sergei
 
-The above means the LED is always lit when SDIO_PWR is enabled.
-While I agree that's some kind of SD activity indicator, probably it's less
-fine-grained than using the mmc1 trigger?
-I assume the mmc1 trigger is only activated when SDIO_PWR is enabled.
-Are you sure this doesn't work?
-Perhaps your kernel was missing SD trigger support, or "mmc1" is the
-wrong SD instance?
-
-> Looks like the SDIO_PWR is tied up with an SDIO_LED pin and the
-> information is missing from schematics.
-
-No, I think we just misread the schematics.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
