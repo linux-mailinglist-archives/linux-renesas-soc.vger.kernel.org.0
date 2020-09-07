@@ -2,91 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8988726063C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 23:26:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB8426071F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 01:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727819AbgIGV0H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 17:26:07 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.21]:23387 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726929AbgIGV0F (ORCPT
+        id S1727945AbgIGXPd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 19:15:33 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:4544 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727938AbgIGXPc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 17:26:05 -0400
-X-Greylist: delayed 362 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Sep 2020 17:26:04 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1599513963;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=MEfJczHxjUwwNdro3JsOxqEL/t/8Utf3ZeUeoMIgX/E=;
-        b=ZTeGjhiUKDxQupH9J7fC3nGdZ07bdHTfkA7B6lfiFVggja9EYyoDauOeLh9OcqOX1i
-        pgmHEVSwFE6/72zgV183w7T1sN9H3H/f1XOwq5tJrDWwdjGZ7uoEEmJfKbnncbftXR4o
-        VAPE+oKxEvFNqNrZXUb/bRMXn7c4sIMnaMCXUB2i87aW2/0jvitCaEGUjerk+jdpgYzL
-        Pb7PBHNDb4f51S0IixArSi1rgKDb1D/w/HlJDmXKyG4JfzgyOi+jtND93eSRQXSHsQ30
-        mt0YLlEo5okWkU6oHn/U0husO6k1YWeVP6w1PBifGxko2NvdUllte8L9ZfDxiNSbtE77
-        WGPg==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x28jVM="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp06-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 46.10.7 AUTH)
-        with ESMTPSA id e0624aw87LJxMv7
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Mon, 7 Sep 2020 23:19:59 +0200 (CEST)
-Date:   Mon, 7 Sep 2020 23:19:59 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     wsa@the-dreams.de, geert@linux-m68k.org, linux-i2c@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Message-ID: <919936154.542022.1599513599331@webmail.strato.com>
-In-Reply-To: <a89b6ee3-4b69-422c-4a48-d105ff8807ed@roeck-us.net>
-References: <20200901161756.28100-1-uli+renesas@fpond.eu>
- <a89b6ee3-4b69-422c-4a48-d105ff8807ed@roeck-us.net>
-Subject: Re: [PATCH] watchdog: da9063: wake up parent ahead of reboot
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.3-Rev21
-X-Originating-Client: open-xchange-appsuite
+        Mon, 7 Sep 2020 19:15:32 -0400
+Date:   08 Sep 2020 08:15:30 +0900
+X-IronPort-AV: E=Sophos;i="5.76,403,1592838000"; 
+   d="scan'208";a="56606285"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Sep 2020 08:15:30 +0900
+Received: from mercury.renesas.com (unknown [10.166.252.133])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D45A44124350;
+        Tue,  8 Sep 2020 08:15:30 +0900 (JST)
+Message-ID: <87sgbtrxjt.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Laurent <laurent.pinchart@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Magnus <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux-DT <devicetree@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 1/9] dt-bindings: display: renesas: du: Document the r8a77961 bindings
+In-Reply-To: <CAMuHMdVvnDLogOgQaASYLhFxNCq=eVpdZKV2J2eX=h5UzvNtfw@mail.gmail.com>
+References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
+        <87r1re70sv.wl-kuninori.morimoto.gx@renesas.com>
+        <CAMuHMdVvnDLogOgQaASYLhFxNCq=eVpdZKV2J2eX=h5UzvNtfw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
-> On 09/01/2020 6:48 PM Guenter Roeck <linux@roeck-us.net> wrote:
+Hi Geert
+
+> > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> > @@ -18,6 +18,7 @@ Required Properties:
+> >      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
+> >      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
+> >      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
+> > +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
+> >      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
+> >      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
+> >      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
 > 
->  
-> On 9/1/20 9:17 AM, Ulrich Hecht wrote:
-> > This patch ensures our parent is awake before a reboot takes place. This
-> > prevents situations in which the I2C host has been suspended and cannot
-> > be safely woken up anymore when it needs to talk to us.
-> > 
-> 
-> Why not call pm_runtime_get_sync() in da9063_wdt_restart() ?
+> Looks good to me, but please also add an entry to the table below
+> describing the port mappings.
 
-It's no longer safe to do so at that point because the restart handler runs in atomic context. The unpleasant details can be found at https://www.spinics.net/lists/linux-i2c/msg46367.html
+Oops indeed.
+Thank you for pointing it, I didn't noticed about it.
+Will do in v2
 
-> What
-> guarantees that the local notifier is called before the watchdog core's
-> restart notifier ?
 
-It would seem to me that a reboot notifier that triggers after the restart notifier (which, if successfully handled, does not return) would be rather pointless.
+Thank you for your help !!
 
-> And what is the point of using the watchdog core's
-> reboot handler if it is bypassed anyway ?
-
-I don't think it's bypassed, it should be possible to register several reboot notifiers per device.
-
-It would also be possible to do this stuff in the core's reboot handler, but I have chosen not to do so because the core seems to avoid dealing with PM, which I assume is a design decision. Also, it would affect all other drivers with a restart handler, with (to me) unforeseeable effects. What do you think?
-
-> Also, why is it not necessary to call pm functions when the watchdog is
-> started, when it is stopped, and during suspend/resume ?
-
-These cases are handled automatically, AFAIK.
-
-CU
-Uli
+Best regards
+---
+Kuninori Morimoto
