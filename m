@@ -2,78 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBE4725F959
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 13:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57EC725FA26
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Sep 2020 14:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729004AbgIGLZj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 07:25:39 -0400
-Received: from foss.arm.com ([217.140.110.172]:33210 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728999AbgIGLZ1 (ORCPT
+        id S1726510AbgIGMHd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 08:07:33 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:33387 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729217AbgIGMFn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 07:25:27 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81E7B11D4;
-        Mon,  7 Sep 2020 04:25:23 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86AD33F66E;
-        Mon,  7 Sep 2020 04:25:21 -0700 (PDT)
-Date:   Mon, 7 Sep 2020 12:25:19 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 0/3] Add PCIe EP to RZ/G2H
-Message-ID: <20200907112519.GB7573@e121166-lin.cambridge.arm.com>
-References: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 7 Sep 2020 08:05:43 -0400
+Received: by mail-oi1-f196.google.com with SMTP id 3so13426327oih.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Sep 2020 05:05:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ogpylFzTn2kfN36oWQVhI7nhTMEW5QN+jj9Cn5tSGbs=;
+        b=d5lMp4cZ20s7WhmMf+WVlhtdm9eF2ASb8rZ6Q1E8IfpYDAapWGjRnwhHf4TxiWKRZi
+         adXgBwZzX9GYF7skmzAby/4wfgkh9Ph9TjztFMJrmk1ZA1tSAFeaboo//gUZYIrtE24c
+         LXp6Ln1rDENOqy0bYtGJmEzQXBKk/k/4Od3NIxn8EDdf4iN+t9PYjE37qA5x7Aj9FXb8
+         9gO3ActNjl+TWIGbXVMEA1mWyIDfLIgQ+rxrrRMWadTXgU+qM7sJBtcCSCnoI8Rkho4Y
+         Gim5e9ZtzYtYlTwjfqvh7n2g8nlwM6eMyqQ8ZaWT2ybPCO+26u7uZIk8uoufAQcnc0Xs
+         ehmQ==
+X-Gm-Message-State: AOAM530RbBtn2KKXaAgjQfxP56dpmOqIztYVKvO/U5O8mJOgr0Sj9O2S
+        f44lTtc/QBhVWMakquz6eOuY32BKxubVI/Nh/wE1SzI0PZw=
+X-Google-Smtp-Source: ABdhPJwIO2xICSBjXiyD05PZHFgXop550bEezlO1OAnh9gvtCpzFAMJk4W2P4xHUA6MfbZ3Bta/OSdeCN03JvRL5gro=
+X-Received: by 2002:aca:4441:: with SMTP id r62mr1181405oia.153.1599480342238;
+ Mon, 07 Sep 2020 05:05:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200904103851.3946-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
+In-Reply-To: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Sep 2020 14:05:31 +0200
+Message-ID: <CAMuHMdUvBaNmtwHN=N055RcfOWt_uO=U6S7wy26s=U=i+DXS_g@mail.gmail.com>
+Subject: Re: bonnie++ causing kernel panic
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 11:38:48AM +0100, Lad Prabhakar wrote:
-> Hi All,
-> 
-> This patch series adds PCIe EP support to R8A774E1 SoC.
-> 
-> patch 2/3 applies on top of [1] and patch 3/3 is dependent
-> on series [2].
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
->     renesas-devel.git/log/?h=renesas-arm-dt-for-v5.10
-> [2] https://patchwork.kernel.org/project/linux-pci/list/
->     ?series=332849&submitter=&state=&q=&archive=&delegate=
-> 
-> Cheers,
-> Prabhakar
-> 
-> 
-> Lad Prabhakar (3):
->   dt-bindings: pci: rcar-pci-ep: Document r8a774e1
->   arm64: dts: renesas: r8a774e1: Add PCIe EP nodes
->   misc: pci_endpoint_test: Add Device ID for RZ/G2H PCIe controller
-> 
->  .../devicetree/bindings/pci/rcar-pci-ep.yaml  |  1 +
->  arch/arm64/boot/dts/renesas/r8a774e1.dtsi     | 38 +++++++++++++++++++
->  drivers/misc/pci_endpoint_test.c              |  2 +
->  3 files changed, 41 insertions(+)
+Hi Prabhakar,
 
-Took patches (1) and (3) in pci/rcar, thanks.
+On Fri, Sep 4, 2020 at 11:04 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> I am seeing "Unable to handle kernel paging request at virtual address
+> xxxxxxxxxx" panic while running bonnie++ (version 1.04). I have
+> managed to replicate this issue on R-Car M3N, G2[HMN]. I have been
+> using renesas_defconfig for all the platforms and I have tested on
+> Linux 5.9.0-rc3 for all the 4 platforms.
+>
+> Initially I was testing bonnie++ on eMMC device and later discovered
+> even running bonnie++ on NFS mount is causing this issue. I have
+> attached the logs for M3N while running bonnie++ on NFS and logs for
+> G2N while running on eMMC.
+>
+> I even traced back to 5.2 kernel where initial G2M support was added
+> and still able to see this issue.
 
-Lorenzo
+Thanks for your report!
+
+While the crash symptoms seem to be the same in all crash logs, the
+backtraces aren't.
+
+Does disabling SMP (maxcpus=1) help?
+Does switching from SLUB to SLAB, and enabling CONFIG_DEBUG_SLAB
+reveal memory corruption?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
