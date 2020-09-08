@@ -2,74 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A588126109D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 13:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF0D32610D1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 13:37:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbgIHLYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 07:24:11 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40567 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729991AbgIHLWR (ORCPT
+        id S1730040AbgIHL2O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 07:28:14 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:26191 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729911AbgIHL1a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 07:22:17 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t76so16064284oif.7;
-        Tue, 08 Sep 2020 04:22:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iU+porO3OzIDM39i0qpuDlqKoX1If0peyqlGwOFV2Lw=;
-        b=kpDYvuUEGqjdO7D1hj8onhlr1k82Fs3TYJa0vBr2trIwIt2f7ufO7bnReWQVJeibW1
-         AEZCc1QdwzVuMjUPqfcsrzNcLP0eeYQ2T3TkRKrWXb6/8Ns951D13FqLqECj/qBSejyH
-         VnVRVqUKCYkLGfZKx/hSEmAguiWWJ0oJ8OgmQpHNlFgLDh2dSnuvtWyS2FXQEQXsjM3C
-         RImKl0bbgC55MrEzcxZpDarYVdU7Za9y8PlW4zoBtIofqp9Ci6Hmg8uPk1K1iKpk92ok
-         rXmoH612Fv2KzFxQrrUcwXno+bRNTa471rFCswS3yy/55NxSWsJ87d2qEq1tNKfavsu2
-         xwqA==
-X-Gm-Message-State: AOAM5313UZh4wVTgs36a59g8L2aLvtLRF6B/IYbXUSSaOe0L7Gclkgyv
-        /bYPMpltXeo2XdkmU25E6VLhonkkMPqUXQGYyiyREyi4
-X-Google-Smtp-Source: ABdhPJzZZY3uxx6kly6khprrbhuaY+7eyHBu4Rltm/o5KeWvkoCBkCalHfuYR627xJRHUxvwfL6/+vqNOdMkD266n98=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr2331146oib.54.1599564136491;
- Tue, 08 Sep 2020 04:22:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200908110640.5003-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200908110640.5003-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 13:22:05 +0200
-Message-ID: <CAMuHMdXD88LKVUcXTa=yWreqWZ0O0G+dF7WK=ioVwJo2OTd_PQ@mail.gmail.com>
-Subject: Re: [PATCH] dmaengine: Kconfig: Update description for RCAR_DMAC config
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 8 Sep 2020 07:27:30 -0400
+X-IronPort-AV: E=Sophos;i="5.76,405,1592838000"; 
+   d="scan'208";a="56676624"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Sep 2020 20:27:28 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5345240037D2;
+        Tue,  8 Sep 2020 20:27:28 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        davem@davemloft.net, kuba@kernel.org, Jisheng.Zhang@synaptics.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead
+Date:   Tue,  8 Sep 2020 20:27:20 +0900
+Message-Id: <1599564440-8158-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Since the micrel phy driver calls phy_init_hw() as a workaround,
+the commit 9886a4dbd2aa ("net: phy: call phy_disable_interrupts()
+in phy_init_hw()") disables the interrupt unexpectedly. So,
+call phy_disable_interrupts() in phy_attach_direct() instead.
+Otherwise, the phy cannot link up after the ethernet cable was
+disconnected.
 
-On Tue, Sep 8, 2020 at 1:06 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> rcar-dmac driver is used on Renesas R-Car Gen2 and Gen3 devices
-> update the same to reflect the description for RCAR_DMAC config.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Note that other drivers (like at803x.c) also calls phy_init_hw().
+So, perhaps, the driver caused a similar issue too.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 9886a4dbd2aa ("net: phy: call phy_disable_interrupts() in phy_init_hw()")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ I observed this issue on my environment (r8a77951-salvator-xs).
 
-Do you want to mention RZ/G1 and RZ/G2?
+ drivers/net/phy/phy_device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 8adfbad..d96dafb 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -1143,10 +1143,6 @@ int phy_init_hw(struct phy_device *phydev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = phy_disable_interrupts(phydev);
+-	if (ret)
+-		return ret;
+-
+ 	if (phydev->drv->config_init)
+ 		ret = phydev->drv->config_init(phydev);
+ 
+@@ -1423,6 +1419,10 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	if (err)
+ 		goto error;
+ 
++	ret = phy_disable_interrupts(phydev);
++	if (ret)
++		return ret;
++
+ 	phy_resume(phydev);
+ 	phy_led_triggers_register(phydev);
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
