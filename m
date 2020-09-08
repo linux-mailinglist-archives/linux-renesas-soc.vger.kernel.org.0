@@ -2,81 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43224260EEB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 11:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEEAE260F12
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 11:56:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728739AbgIHJnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 05:43:52 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44182 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728676AbgIHJnw (ORCPT
+        id S1728975AbgIHJ4e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 05:56:34 -0400
+Received: from www.zeus03.de ([194.117.254.33]:54254 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728798AbgIHJ4d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 05:43:52 -0400
-Received: by mail-ot1-f66.google.com with SMTP id a2so14278442otr.11;
-        Tue, 08 Sep 2020 02:43:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DVylAYpz8XDFuaEu7yZH1aasxebApZrD+5SWbgpcZUk=;
-        b=mEuM8t0FgUuG83xpStujov/diiB9ZkWYiY6rWIxleKrfalWnCG+Vq/dJkPMJAnjTjZ
-         qgETtD77ETclauqVj42RMRWnLvd6USXNJiaQg7ShiaXgwy6TQ4+SV4rnMPX2SwyQ+6xp
-         74CCCkpC+1e4Y2Iy58pXIu3S1epHp12z+5PXgzGKeOIxyQeBYU+Bv0WKknzMA52OXB9Q
-         pwJ94Z3ff52XewwPEXTVcXqTjzjQcAzFLDjk5paVaZCRtoXJ2XJr3UVGi1Fbj2jCv2zc
-         lLFg7JzgRCHgpTurDIfG7YzvgZ7kMdCtpkq5dslO1lsDyMV1DosnS6Z5lv3xnvwW+IWF
-         6vBA==
-X-Gm-Message-State: AOAM530HnXZH0RfUWKRb7s41c+77hnHfS/8YQxyTpxNF4fsMbZ+HTmND
-        RUzd8rX0nH7G0LtzqMSUP+lW6cgLNiiBE6KaztSpt06y
-X-Google-Smtp-Source: ABdhPJx2lND5DpgXrAjdqtxUk1CpbbWW/B/bbBMzzvcb1OAWPcj1T8Juti0rO4167CUXPYjZ5TqJ026w1Ebs/BvMAZQ=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr16160142otp.107.1599558231731;
- Tue, 08 Sep 2020 02:43:51 -0700 (PDT)
+        Tue, 8 Sep 2020 05:56:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=kdys38ltkUcOsNtVbzQt140YnYm
+        SZcearclRh6YNAkY=; b=yt71cDQR0KgQcFo2EFRXxdpuxazhetPjgEJ8fhD/bAe
+        YxuDhvhxXIz4IB4LYU9lUMJcaDPUbVd9QLYKzCRHZugPKcBZ140opdsFEc9gWxNi
+        3I5ydL5STSK7+k/ETjRcgEDVM8Cl/RML/ishY9pSZuySsHmCPG3E1yqVonPMzKks
+        =
+Received: (qmail 698135 invoked from network); 8 Sep 2020 11:56:30 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Sep 2020 11:56:30 +0200
+X-UD-Smtp-Session: l3s3148p1@bW9oWcquzqsgAwDPXxByAJWTgSFCfQZP
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-watchdog@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH RESEND v2] watchdog: renesas_wdt: support handover from bootloader
+Date:   Tue,  8 Sep 2020 11:56:15 +0200
+Message-Id: <20200908095615.31376-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-10-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599470390-29719-10-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 11:43:40 +0200
-Message-ID: <CAMuHMdXfpgM7zjwwc73NwJHw2cNgfh7uhnQZrDgU91R=Bg0GDQ@mail.gmail.com>
-Subject: Re: [PATCH 09/14] soc: renesas: identify R-Car V3U
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for identifying the R-Car V3U (R8A779A0) SoC.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Support an already running watchdog by checking its enable bit and set
+up the status accordingly before registering the device.
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -272,6 +272,12 @@ config ARCH_R8A77995
->         help
->           This enables support for the Renesas R-Car D3 SoC.
->
-> +config ARCH_R8A779A0
-> +       bool "Renesas R-Car V3U SoC Platform"
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Will update while applying to match Morimoto-san's Kconfig rework.
+This is the same patch as V2 sent out nearly one year ago. There was one
+issue when probe() failed and the clocks were disabled, so the WDT
+wouldn't fire despite the FW set it up before. We fixed this at clk
+driver level and all the commits are upstream now. I tested this on a
+Renesas Salvator-XS board (R-Car M3N) with all combinations of
+HANDLE_BOOT_ENABLED, open_timeout values and injected failures I could
+think of. This patch is now good to go IMO.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+ drivers/watchdog/renesas_wdt.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
+index 00662a8e039c..47fce4de0110 100644
+--- a/drivers/watchdog/renesas_wdt.c
++++ b/drivers/watchdog/renesas_wdt.c
+@@ -194,6 +194,7 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	struct clk *clk;
+ 	unsigned long clks_per_sec;
+ 	int ret, i;
++	u8 csra;
+ 
+ 	if (rwdt_blacklisted(dev))
+ 		return -ENODEV;
+@@ -213,8 +214,8 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_get_sync(dev);
+ 	priv->clk_rate = clk_get_rate(clk);
+-	priv->wdev.bootstatus = (readb_relaxed(priv->base + RWTCSRA) &
+-				RWTCSRA_WOVF) ? WDIOF_CARDRESET : 0;
++	csra = readb_relaxed(priv->base + RWTCSRA);
++	priv->wdev.bootstatus = csra & RWTCSRA_WOVF ? WDIOF_CARDRESET : 0;
+ 	pm_runtime_put(dev);
+ 
+ 	if (!priv->clk_rate) {
+@@ -252,6 +253,13 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	/* This overrides the default timeout only if DT configuration was found */
+ 	watchdog_init_timeout(&priv->wdev, 0, dev);
+ 
++	/* Check if FW enabled the watchdog */
++	if (csra & RWTCSRA_TME) {
++		/* Ensure properly initialized dividers */
++		rwdt_start(&priv->wdev);
++		set_bit(WDOG_HW_RUNNING, &priv->wdev.status);
++	}
++
+ 	ret = watchdog_register_device(&priv->wdev);
+ 	if (ret < 0)
+ 		goto out_pm_disable;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
