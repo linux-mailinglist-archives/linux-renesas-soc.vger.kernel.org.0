@@ -2,178 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C391260B54
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 08:56:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B907260B81
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 09:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729077AbgIHGz7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 02:55:59 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:32840 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728881AbgIHGz6 (ORCPT
+        id S1728654AbgIHHF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 03:05:26 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37035 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728479AbgIHHFY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 02:55:58 -0400
-Received: by mail-oi1-f193.google.com with SMTP id 3so15570387oih.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Sep 2020 23:55:58 -0700 (PDT)
+        Tue, 8 Sep 2020 03:05:24 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 37so14027152oto.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Sep 2020 00:05:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mJTsgbvkrR55QPK4iMxy3L+SUKV5ZOurBGQJbCqx1Pw=;
-        b=A4lg5q+/cwwXabugETmCr8DbW8rvtEhnjW/Rg1KYPlYtrxyIa8xHmewBBLFy4Slb6y
-         eJRGbfABoFUknyB1OCEXesXzPb1rWzQIX1JWiyhmVEAMtkCrhoe4/seZB7ZXFB6Y+B4w
-         Cd396mk0/KxPKJgQ7CRpYdsp98HR84Q28HkSyOVcve5GPXL5zRBvUlQqZnSIBxVTx6jq
-         obqg1iK8MNkuXkOlQN7fsUl8y3E8l0uD9XNM330dV09fNnMAf+oL7PpOzcxGrYoXB7Im
-         Xp0O2pPYNg7p2gj2B8BfqXug+Mtixf38x0WlJz2YKRvaQx4kd6nsLuItStlTsTQsN3Uw
-         1j3w==
-X-Gm-Message-State: AOAM532tDdU4xOya4hyfvgv72FgxTm2o98x3gTkAK31/F3w05vPSO4E/
-        LRuDptrCQwWVHydL8h27CCY+h5u4LFaOubNbmPA=
-X-Google-Smtp-Source: ABdhPJwGW/vpQWBtdw4OMrAQudRV7xtV+t1XkVvrnCmEqvnWBrsVrW+cVXr1U3tz2MOKTGwZJdkPHa2D918iAUdtO9g=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr1688357oia.153.1599548156491;
- Mon, 07 Sep 2020 23:55:56 -0700 (PDT)
+        bh=boE8KVpDgHNfEcOPepL7kwnC6uwjkLhBVOMZB/u2LdM=;
+        b=ss/CvydZM9MHYw/6BoQNaQhDjtKX9QqluffxoE0WKfkMnWz933d8Ajif/88EDMUasi
+         8ysiSC7hMRKWVUy/Gwyv0/by2JTxiGr9MX/2G709yoTKDcPxyCnbDt+y/6HXgcLEE2aR
+         GmIH1wCuE0NXoRn/k0IaIZp7yzQvWX76uNaIY2Wn+B1ucvF/n8DY1Y7HObkQ9WJtEGRW
+         jQOQp/IvqELL7uXSwIeTMif1wJuE7GLrnqOSvDzwP41xsWjT5/luQq05Fo9kN50SK7sA
+         bFEh7gMhCR8KHoGoehUjoBGiWXBLDA2Irs+a0P7pjyTT5LuyB+DVYXWH7oPJdXBNOi+R
+         /p/Q==
+X-Gm-Message-State: AOAM532xHUJW9/EvBib+epWjeN/+h3GA8tMsnjwDuD7dISVP4ZtWZ/O2
+        hduTmlzJkZaZ/px0ydzySgmK7pktCDisjtPHM44=
+X-Google-Smtp-Source: ABdhPJyjhKoZhRmeUIGaNzMpDs69rPt/c+NF2mGWcl9vCpWqo8fQaYiuTgL06r5TOpeROREFx9BwS3VQqHffFcZEoZY=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr15859792otp.107.1599548723630;
+ Tue, 08 Sep 2020 00:05:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200902153606.13652-1-geert+renesas@glider.be> <CACRpkdZ44wuYp1aWZ-mYkJJAZUXfAZ9XVYf0rDKT8GH_JE8ezQ@mail.gmail.com>
-In-Reply-To: <CACRpkdZ44wuYp1aWZ-mYkJJAZUXfAZ9XVYf0rDKT8GH_JE8ezQ@mail.gmail.com>
+References: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
+ <CAMuHMdUvBaNmtwHN=N055RcfOWt_uO=U6S7wy26s=U=i+DXS_g@mail.gmail.com> <CA+V-a8sw0kg6ChrcrkdzL51K+1A=ce_RpzO02-KB9XAEm+29aQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8sw0kg6ChrcrkdzL51K+1A=ce_RpzO02-KB9XAEm+29aQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 08:55:45 +0200
-Message-ID: <CAMuHMdXBpLSdRiVkfpO-F7HpJLDqFW1LKfZnCS8nzH_ncq8ZQA@mail.gmail.com>
-Subject: Re: [PATCH v9] ARM: boot: Validate start of physical memory against DTB
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 8 Sep 2020 09:05:12 +0200
+Message-ID: <CAMuHMdWh3=OytzygTt5Kt90Shpm1O-QScbtOSwo_XGaRiSYufA@mail.gmail.com>
+Subject: Re: bonnie++ causing kernel panic
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hi Prabhakar,
 
-On Thu, Sep 3, 2020 at 10:49 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> I am trying to understand this thing, it looks useful!
+On Mon, Sep 7, 2020 at 11:27 PM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Mon, Sep 7, 2020 at 1:05 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Sep 4, 2020 at 11:04 AM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> > > I am seeing "Unable to handle kernel paging request at virtual address
+> > > xxxxxxxxxx" panic while running bonnie++ (version 1.04). I have
+> > > managed to replicate this issue on R-Car M3N, G2[HMN]. I have been
+> > > using renesas_defconfig for all the platforms and I have tested on
+> > > Linux 5.9.0-rc3 for all the 4 platforms.
+> > >
+> > > Initially I was testing bonnie++ on eMMC device and later discovered
+> > > even running bonnie++ on NFS mount is causing this issue. I have
+> > > attached the logs for M3N while running bonnie++ on NFS and logs for
+> > > G2N while running on eMMC.
+> > >
+> > > I even traced back to 5.2 kernel where initial G2M support was added
+> > > and still able to see this issue.
+> >
+> > Thanks for your report!
+> >
+> > While the crash symptoms seem to be the same in all crash logs, the
+> > backtraces aren't.
+> >
+> > Does disabling SMP (maxcpus=1) help?
+> unfortunately no.
 
-Thanks for your (initial ;-) comments!
+OK, so it's not an SMP issue.
 
-> On Wed, Sep 2, 2020 at 5:36 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > @@ -254,8 +254,56 @@ not_angel:
+> > Does switching from SLUB to SLAB, and enabling CONFIG_DEBUG_SLAB
+> > reveal memory corruption?
+> >
+> attached are the logs for SLUB and SLAB with debug enabled on G2M
+> rev.4.0 board (bonnie++-1.04) all the 4 combinations cause the kernel
+> panic!
 >
-> This looks like it happens before CONFIG_ARM_ATAG_DTB_COMPAT
-> meaning it will not use the DTB that is augmented with ATAGs,
-> especially not ATAG_MEM (0x54410002) correct?
+> SLUB -> 1 CPU -> BUG radix_tree_node (Not tainted): Padding overwritten.
+> SLUB -> all 6 CPU's -> BUG kmalloc-2k (Not tainted): Padding overwritten.
 >
-> That seems sad, because that would actually be useful to me.
->
-> Can you see if it is possible to put this in after the ATAGs have
-> been merged into the DTB?
+> SLAB -> 1 CPU -> Slab corruption (Not tainted): nfs_write_data
+> start=ffff000016c08840, len=912
+> SLAB -> all 6 CPU's -> Unable to handle kernel paging request at
+> virtual address 7d81858c9c9d9dd0 ([7d81858c9c9d9dd0] address between
+> user and kernel address ranges)
 
-Right, this is done before the DTB is augmented with ATAGs.
-Hence if the memory node in DT is bogus, my validation code may
-do the wrong thing, and return a bogus address, too :-(
-
-> >  #ifdef CONFIG_AUTO_ZRELADDR
-> > +#ifdef CONFIG_USE_OF
-> >                 /*
-> > -                * Find the start of physical memory.  As we are executing
-> > +                * Find the start of physical memory.
-> > +                * Try the DTB first, if available.
-> > +                */
-> > +               adr     r0, LC1
-> > +               ldr     sp, [r0]        @ get stack location
-> > +               add     sp, sp, r0      @ apply relocation
-> > +
-> > +#ifdef CONFIG_ARM_APPENDED_DTB
-> > +               /*
-> > +                * Look for an appended DTB. If found, use it and
-> > +                * move stack away from it.
-> > +                */
-> > +               ldr     r6, [r0, #4]    @ get &_edata
-> > +               add     r6, r6, r0      @ relocate it
-> > +               ldmia   r6, {r0, r5}    @ get DTB signature and size
-> > +#ifndef __ARMEB__
-> > +               ldr     r1, =0xedfe0dd0 @ sig is 0xd00dfeed big endian
-> > +               /* convert DTB size to little endian */
-> > +               eor     r2, r5, r5, ror #16
-> > +               bic     r2, r2, #0x00ff0000
-> > +               mov     r5, r5, ror #8
-> > +               eor     r5, r5, r2, lsr #8
-> > +#else
-> > +               ldr     r1, =0xd00dfeed
-> > +#endif
->
-> We now have two and even three copies of this code,
-> sort of.
-
-Indeed.
-
-> Then at the end after deciding to use the appended
-> device tree we get the DTB size *again* and moves
-> the sp beyond the DTB permanently as we do not
-> want to damage the DTB of course.
->
-> To me it looks like the DTB size gets added to sp
-> a second time? First it is bumped by your code,
-> then when the appended DTB is detected and
-> augmented further down, it gets bumped again
-> for no reason here:
->
-> /* relocate some pointers past the appended dtb */
-> add    r6, r6, r5
-> add    r10, r10, r5
-> add    sp, sp, r5
-> dtb_check_done:
->
-> I don't know if I'm right, I may be confused...
-
-Before that, it has started with a "fresh" stack pointer:
-
-    restart:        adr     r0, LC1
-                    ldr     sp, [r0]
-                    ldr     r6, [r0, #4]
-                    add     sp, sp, r0
-
-So the addition is done only once (ignoring the "temporarily
-relocate..." cakewalk, doing "add sp, sp, r5", and "sub sp, sp, r5"
-later).
-
-> It would be better if we could avoid copy/paste and
-> merge the code in here so we first check if there is a
-> DTB, else there is not much to do, and if there is, we
-> get the size, move the sp and do both operations:
->
-> 1. Check for ATAGs and augment the DTB
-> 2. Check for memory size in the DTB
->
-> This way the ATAG-augmented DTB can be used
-> for checking for the memory start.
->
-> I understand that you need the physical address
-> before turning on the caches, so what I am thinking
-> is if it is possible to move the check for appended
-> DTB and ATAG augmentation business up before
-> the cache enablement in a separate patch and then
-> modify it from there. Then you could potentially
-> merge these two things.
->
-> Maybe there is something conceptually wrong with
-> this that I have overlooked... :/
-
-I agree there are plenty of opportunities to improve of head.S.
-Unfortunately there are also plenty of opportunities to break someone's
-boot process ;-(
-
-Nicolas' patch to reshuffle the registers looks like a good first step...
+OK. So now we know something's overwriting its memory block.  Either
+it's writing too far, or a use-after-free case.
+Now comes the hard part of finding who's responsible...
 
 Gr{oetje,eeting}s,
 
