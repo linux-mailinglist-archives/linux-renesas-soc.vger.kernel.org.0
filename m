@@ -2,95 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B568A261717
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 19:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B5CC2617D3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 19:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731762AbgIHRYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 13:24:37 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33394 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727088AbgIHRUt (ORCPT
+        id S1731352AbgIHRmE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 13:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731657AbgIHQOE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 13:20:49 -0400
-Received: by mail-ot1-f68.google.com with SMTP id m12so12557162otr.0;
-        Tue, 08 Sep 2020 10:20:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LdIU9vQqmEF6Wb9rgoYOmoAokt3YY8uLZ42vJELJPcw=;
-        b=DMubPtXSYBnklx8RsXBVhETybhtzSmPIOHQO5hh580TaRMWkvBZTXjmn6aucLI/D+D
-         fPGhtc/xW9ypHzBeTmp46o+DUD2h1pcgNnSIZblZrckhjae0CwUQVMzNzXmaOOWd0Ruk
-         HUWMtyItZFuVd8I344pdON/KT/RRIWvxhYW63EWn5zKA0fSw3BR2/bjGsHx/M1GleDyJ
-         C8CI1FNclKf9idd2jm7aY70x6MhvGak8xSG5VtKv3+f2U2ZffNJaUGTWrZiX93v3pA+o
-         2/6IU/fIlWqwWTJFtz25QXz0PFHjQ3CI8pybaxNoKQR5ntuRFz+PJ9VHDZ6nv32Ao1oa
-         XJ0g==
-X-Gm-Message-State: AOAM533iBFhCkpRo2603eVrJzvobEb98uKklaxfb8FpaXU4D9Z3fNcy5
-        rgYdRqSJDcVAUpdTLNuCCst4BmAwpgwd8TuWHtKIm5aLAN0=
-X-Google-Smtp-Source: ABdhPJyO0agHfnn+rc/8SvPGLV/RqefiUMhcCO/qMdmPNp8wfnxitD0ijBuDMlHxqhgSaEJAVSI8q0o3SM0n8A6n9Z4=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr53866otp.107.1599585648726;
- Tue, 08 Sep 2020 10:20:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-15-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599470390-29719-15-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 19:20:37 +0200
-Message-ID: <CAMuHMdUXUvU5dPkBFdW_ZVhnBKpFEPVLD3mdOkhrmakZjCHErg@mail.gmail.com>
-Subject: Re: [PATCH 14/14] arm64: dts: renesas: Add Renesas Falcon boards support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 8 Sep 2020 12:14:04 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68135C06137C;
+        Tue,  8 Sep 2020 05:52:32 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74FB639;
+        Tue,  8 Sep 2020 14:52:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1599569532;
+        bh=82Ig7qKF5ln6orTKjywtdCUifvSel0QPp4ksH4LLSQQ=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=eG9xY8+ZjcQTDTCt6MNaxU1rJ4v1NkZC7T+D6Exlm/PguyuFPNTF6omQauBB5Ckfm
+         ZLsKSJQXnGoz//rSPMHuQ76piQH3Z6O6k3zvbAJjKsOeCJwQiy5623nix/bmPZWXfd
+         bcBd7Uyfn1yihzEVG78h2FzBpdM0W+BT+KIm9ru0=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v2 01/10] dt-bindings: display: renesas: du: Document the
+ r8a77961 bindings
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Laurent <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Magnus <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-DT <devicetree@vger.kernel.org>,
+        "(Renesas) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+        dri-devel@lists.freedesktop.org
+References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
+ <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <0e94a8c9-7f87-ebdf-4514-7f4984a6860f@ideasonboard.com>
+Date:   Tue, 8 Sep 2020 13:52:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <87mu21rtww.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Morimoto-san,
 
-On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Initial support for the Renesas Falcon CPU and BreakOut boards
-> support.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+On 08/09/2020 01:34, Kuninori Morimoto wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> 
+> Document the R-Car M3-W+ (R8A77961) SoC in the R-Car DU bindings.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Thanks for your patch!
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/falcon-cpu.dtsi
-> @@ -0,0 +1,44 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Falcon CPU board
-> + *
-> + * Copyright (C) 2020 Renesas Electronics Corp.
-> + */
+> ---
+>  Documentation/devicetree/bindings/display/renesas,du.txt | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index 51cd4d162770..317c9dd2d57c 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -18,6 +18,7 @@ Required Properties:
+>      - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
+>      - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
+>      - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
+> +    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
+>      - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
+>      - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
+>      - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
+> @@ -83,6 +84,7 @@ corresponding to each DU output.
+>   R8A7794 (R-Car E2)     DPAD 0         DPAD 1         -              -
+>   R8A7795 (R-Car H3)     DPAD 0         HDMI 0         HDMI 1         LVDS 0
+>   R8A7796 (R-Car M3-W)   DPAD 0         HDMI 0         LVDS 0         -
+> + R8A77961 (R-Car M3-W+) DPAD 0         HDMI 0         LVDS 0         -
+>   R8A77965 (R-Car M3-N)  DPAD 0         HDMI 0         LVDS 0         -
+>   R8A77970 (R-Car V3M)   DPAD 0         LVDS 0         -              -
+>   R8A77980 (R-Car V3H)   DPAD 0         LVDS 0         -              -
+> 
 
-As this board contains the CPU, I had expected
-
-    #include "r8a779a0.dtsi"
-
-here.
-
-> +
-> +/ {
-> +       model = "Renesas Falcon CPU board";
-> +       compatible = "renesas,falcon-cpu";
-
-+ renesas,r8a779a0.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
