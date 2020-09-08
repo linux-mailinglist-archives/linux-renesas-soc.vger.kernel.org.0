@@ -2,129 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43D70260D91
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 10:30:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AEDF260DBC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 10:39:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729234AbgIHIan (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 04:30:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41448 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729299AbgIHIam (ORCPT
+        id S1730020AbgIHIjX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 04:39:23 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:46709 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729564AbgIHIjX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 04:30:42 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C48B9C061573
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Sep 2020 01:30:41 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id x10so10732730ybj.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Sep 2020 01:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nTN3ARsr9hpQI6BCuk/GsEtjfCkbwQSE9qWBM1r1Vi4=;
-        b=DWTQ+t3mBGmuQH5ns0RFYEgUgO3RBJQhQCTxou3iGyjHWzuvspeR2zMoAzxokz+lTm
-         F+nNi4xDjXpwUjtKLD52UfnVAHTORbB5MAQNZfBTF4Nvl8EWkVfsXpWfN0b+c9pCwG4K
-         j3eFauUsRhnOz11Dg34x5GHhPJ0tUtCQjzv/a1y4IjuuIIha+QactO++jTlBimolsUsK
-         52YgCLBS0tnmdLnereZ/uDaVmJxsbGzIngJLn9hLMTspe7MOXsYnpnf8zMn8OjPgmDEl
-         YzWhomtAC1Y4ckLXQnmuamG9UCygaPiuSKW+9kzp0dk9cgeQrqbjS4p41VE+uzqfEQBg
-         ZrVw==
+        Tue, 8 Sep 2020 04:39:23 -0400
+Received: by mail-oi1-f196.google.com with SMTP id u126so15719631oif.13;
+        Tue, 08 Sep 2020 01:39:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nTN3ARsr9hpQI6BCuk/GsEtjfCkbwQSE9qWBM1r1Vi4=;
-        b=RrYUE2COdony54plaLcGtGsB0/aEYCN3iDYnDUWzoNR51aI6yCZvwtHdCPH5+0bdRC
-         F6AijFzSArYXwlLUnIRuCjkXMjJkZlMWyt89ibhCgtUJXumNzUWquEvPXLv8btq3CzRg
-         tLw8uAgRFMRRN3kfpjdZoIeRw4sFqWWhWV5i6gqLgDfUILjXmMg5AfJ29nct2FDr9qu4
-         WgweMqnBSxPpIRWt+nhIlcFNDgw/hIb5Ovk5KmkOAOki6v7r+x7HYkEahn5TYVOCzDPv
-         LCtoMQF+m3LNdzCrIflTBfNg3meZ4Sx6JB6fbh0Lxs+ZLU2zbvuFXW82rB4QgJQ8DXhd
-         Xm+g==
-X-Gm-Message-State: AOAM532FuTmTZeZY/59yPdv/5PQcZ756cyg3pRsr6Ah/V0jvKwawYaYd
-        QzaWaMeCGyX7bSHWJfF2dVb+FiM6bY2uz785vNOYMYvSaz4=
-X-Google-Smtp-Source: ABdhPJz8lSBwGkbPccwvuANIGInTX7shxXKmHwL4T6XQCozw8acV3PmKl9+LHmgfRl9qdGHiRiPURUZ+M1c0FPcezfI=
-X-Received: by 2002:a25:bbcf:: with SMTP id c15mr32109754ybk.127.1599553840855;
- Tue, 08 Sep 2020 01:30:40 -0700 (PDT)
+        bh=POiqaYaoAUFlSP8Jlp+klBMHqA1bPeB4kquw+mOG5lg=;
+        b=GvylSf1jW8PtKzdVyEaz1VYLIvSIGLDziWUgDb8AqbmR/Fhqgj65J/OvxZei2hdorg
+         D4QJ2gdMIg0HfJrZbZsm2hAnFG9+ep/bEahALPYRenk0xMW23omWNrOjdkCImAsXFQBu
+         mKczQi735a4Jtqc1kN7aH2X/2zKc6sf0Qz66qoqlMp9ThledHncLF4MHWj70I1UikVns
+         NWso9anOiQZhBiE6fJpXb+37jHRCZU8/xh/XwgpzkwEiJK9tIR3n5oauQil45quiSWDW
+         ACmd0SeXWPnO5L54PkZO3WPSTXeXDccbitbMt+n1aSzpS26Pa6E+5w2DISoRjLBhF2MM
+         aSrQ==
+X-Gm-Message-State: AOAM5310x4P/H7RbPSgwHaAD5oyTI2Rk1ru1l2TMRrGn65wiQFpdwSQe
+        QoPLUfOg3osdShx2ow3S+7qAHBakX6fdwGp4wbw=
+X-Google-Smtp-Source: ABdhPJwmIl+Skq4+GefAkl/Mk2+C6KwxolqGFtMCVsCCTBW6EIsC9P3UC2VVRLJjrcLc+EtXCGlS7JFdST15Xw5bn7A=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr1983953oib.54.1599554362262;
+ Tue, 08 Sep 2020 01:39:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+V-a8skJu_kqqWqvv=ar20tFv48EfQePV8XQ=7eBYJuJui9eg@mail.gmail.com>
- <CAMuHMdUvBaNmtwHN=N055RcfOWt_uO=U6S7wy26s=U=i+DXS_g@mail.gmail.com>
- <CA+V-a8sw0kg6ChrcrkdzL51K+1A=ce_RpzO02-KB9XAEm+29aQ@mail.gmail.com> <CAMuHMdWh3=OytzygTt5Kt90Shpm1O-QScbtOSwo_XGaRiSYufA@mail.gmail.com>
-In-Reply-To: <CAMuHMdWh3=OytzygTt5Kt90Shpm1O-QScbtOSwo_XGaRiSYufA@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 8 Sep 2020 09:30:14 +0100
-Message-ID: <CA+V-a8uKmHctxFYHECgB9m_3i=rbpTsnbWCEpP_32q95x7EMQg@mail.gmail.com>
-Subject: Re: bonnie++ causing kernel panic
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599470390-29719-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599470390-29719-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 8 Sep 2020 10:39:11 +0200
+Message-ID: <CAMuHMdW39X_N577GnuiJgnmc32y4bW-jCO0hhQtTWZeoTDvgeA@mail.gmail.com>
+Subject: Re: [PATCH 04/14] dt-bindings: power: Add r8a779a0 SYSC power domain definitions
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Shimoda-san,
 
-On Tue, Sep 8, 2020 at 8:05 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Sep 7, 2020 at 11:27 PM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, Sep 7, 2020 at 1:05 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Fri, Sep 4, 2020 at 11:04 AM Lad, Prabhakar
-> > > <prabhakar.csengg@gmail.com> wrote:
-> > > > I am seeing "Unable to handle kernel paging request at virtual address
-> > > > xxxxxxxxxx" panic while running bonnie++ (version 1.04). I have
-> > > > managed to replicate this issue on R-Car M3N, G2[HMN]. I have been
-> > > > using renesas_defconfig for all the platforms and I have tested on
-> > > > Linux 5.9.0-rc3 for all the 4 platforms.
-> > > >
-> > > > Initially I was testing bonnie++ on eMMC device and later discovered
-> > > > even running bonnie++ on NFS mount is causing this issue. I have
-> > > > attached the logs for M3N while running bonnie++ on NFS and logs for
-> > > > G2N while running on eMMC.
-> > > >
-> > > > I even traced back to 5.2 kernel where initial G2M support was added
-> > > > and still able to see this issue.
-> > >
-> > > Thanks for your report!
-> > >
-> > > While the crash symptoms seem to be the same in all crash logs, the
-> > > backtraces aren't.
-> > >
-> > > Does disabling SMP (maxcpus=1) help?
-> > unfortunately no.
->
-> OK, so it's not an SMP issue.
->
-> > > Does switching from SLUB to SLAB, and enabling CONFIG_DEBUG_SLAB
-> > > reveal memory corruption?
-> > >
-> > attached are the logs for SLUB and SLAB with debug enabled on G2M
-> > rev.4.0 board (bonnie++-1.04) all the 4 combinations cause the kernel
-> > panic!
-> >
-> > SLUB -> 1 CPU -> BUG radix_tree_node (Not tainted): Padding overwritten.
-> > SLUB -> all 6 CPU's -> BUG kmalloc-2k (Not tainted): Padding overwritten.
-> >
-> > SLAB -> 1 CPU -> Slab corruption (Not tainted): nfs_write_data
-> > start=ffff000016c08840, len=912
-> > SLAB -> all 6 CPU's -> Unable to handle kernel paging request at
-> > virtual address 7d81858c9c9d9dd0 ([7d81858c9c9d9dd0] address between
-> > user and kernel address ranges)
->
-> OK. So now we know something's overwriting its memory block.  Either
-> it's writing too far, or a use-after-free case.
-> Now comes the hard part of finding who's responsible...
->
-:)
+Thanks for your patch!
 
-I checked out the very first commit where support for G2M was added
-and tested even this had an issue, so now I'll switch to R-Car M3N and
-perform the tests. Unfortunately I don't have any  non Renesas arm64
-platform to perform similar tests.
+On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Adds power domain indices fpr R-Car V3U (r8a779a0).
 
-Cheers,
-Prabhakar
+Add ... for
+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+> --- /dev/null
+> +++ b/include/dt-bindings/power/r8a779a0-sysc.h
+> @@ -0,0 +1,61 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +#ifndef __DT_BINDINGS_POWER_R8A779A0_SYSC_H__
+> +#define __DT_BINDINGS_POWER_R8A779A0_SYSC_H__
+> +
+> +/*
+> + * These power domain indices match the numbers of the interrupt bits
+> + * representing the power areas in the various Interrupt Registers
+> + * (e.g. SYSCISCR0, Interrupt Status/Clear Register 0)
+
+... match the Power Domain Register Numbers (PDR)?
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in for v5.10, in a branch shared by driver and DT.
+
+If you agree, I can fix the above while applying.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
