@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D5012607A3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 02:34:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F96A2607A6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 02:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728252AbgIHAef (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Sep 2020 20:34:35 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:37273 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728163AbgIHAed (ORCPT
+        id S1728210AbgIHAey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Sep 2020 20:34:54 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:37451 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728163AbgIHAev (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Sep 2020 20:34:33 -0400
-Date:   08 Sep 2020 09:34:32 +0900
+        Mon, 7 Sep 2020 20:34:51 -0400
+Date:   08 Sep 2020 09:34:50 +0900
 X-IronPort-AV: E=Sophos;i="5.76,403,1592838000"; 
-   d="scan'208";a="56613311"
+   d="scan'208";a="56396915"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Sep 2020 09:34:32 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 08 Sep 2020 09:34:50 +0900
 Received: from mercury.renesas.com (unknown [10.166.252.133])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A48BF413D31A;
-        Tue,  8 Sep 2020 09:34:32 +0900 (JST)
-Message-ID: <87imcprtw3.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id DD9D2413D31A;
+        Tue,  8 Sep 2020 09:34:50 +0900 (JST)
+Message-ID: <87h7s9rtvl.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 04/10] drm: rcar-du: Add r8a77961 support
+Subject: [PATCH v2 05/10] arm64: dts: renesas: r8a77961: Add FCP device nodes
 User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
 To:     Rob Herring <robh+dt@kernel.org>,
         Laurent <laurent.pinchart@ideasonboard.com>,
@@ -47,26 +47,77 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This patch adds R-Car M3-W+ (R8A77961) support which has
-compatible to R-Car M3-W (R8A77960).
+This patch adds FCP device nodes for R-Car M3-W+ (r8a77961) SoC.
+This patch was tested on R-Car M3-W+ Salvator-XS board.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 52 +++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index f53b0ec71085..64533cbdbef0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -458,6 +458,7 @@ static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a7794", .data = &rcar_du_r8a7794_info },
- 	{ .compatible = "renesas,du-r8a7795", .data = &rcar_du_r8a7795_info },
- 	{ .compatible = "renesas,du-r8a7796", .data = &rcar_du_r8a7796_info },
-+	{ .compatible = "renesas,du-r8a77961", .data = &rcar_du_r8a7796_info },
- 	{ .compatible = "renesas,du-r8a77965", .data = &rcar_du_r8a77965_info },
- 	{ .compatible = "renesas,du-r8a77970", .data = &rcar_du_r8a77970_info },
- 	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+index 0abfea0b27be..fe0db11b9cb9 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -2004,6 +2004,58 @@ pciec1: pcie@ee800000 {
+ 			status = "disabled";
+ 		};
+ 
++		fcpf0: fcp@fe950000 {
++			compatible = "renesas,fcpf";
++			reg = <0 0xfe950000 0 0x200>;
++			clocks = <&cpg CPG_MOD 615>;
++			power-domains = <&sysc R8A77961_PD_A3VC>;
++			resets = <&cpg 615>;
++		};
++
++		fcpvb0: fcp@fe96f000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfe96f000 0 0x200>;
++			clocks = <&cpg CPG_MOD 607>;
++			power-domains = <&sysc R8A77961_PD_A3VC>;
++			resets = <&cpg 607>;
++		};
++
++		fcpvi0: fcp@fe9af000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfe9af000 0 0x200>;
++			clocks = <&cpg CPG_MOD 611>;
++			power-domains = <&sysc R8A77961_PD_A3VC>;
++			resets = <&cpg 611>;
++			iommus = <&ipmmu_vc0 19>;
++		};
++
++		fcpvd0: fcp@fea27000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfea27000 0 0x200>;
++			clocks = <&cpg CPG_MOD 603>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 603>;
++			iommus = <&ipmmu_vi0 8>;
++		};
++
++		fcpvd1: fcp@fea2f000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfea2f000 0 0x200>;
++			clocks = <&cpg CPG_MOD 602>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 602>;
++			iommus = <&ipmmu_vi0 9>;
++		};
++
++		fcpvd2: fcp@fea37000 {
++			compatible = "renesas,fcpv";
++			reg = <0 0xfea37000 0 0x200>;
++			clocks = <&cpg CPG_MOD 601>;
++			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
++			resets = <&cpg 601>;
++			iommus = <&ipmmu_vi0 10>;
++		};
++
+ 		csi20: csi2@fea80000 {
+ 			reg = <0 0xfea80000 0 0x10000>;
+ 			/* placeholder */
 -- 
 2.25.1
 
