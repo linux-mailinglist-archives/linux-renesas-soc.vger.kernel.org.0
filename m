@@ -2,113 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3765C261B06
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 20:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E65C261BB6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:08:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731354AbgIHSvn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 14:51:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50268 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731340AbgIHSvQ (ORCPT
+        id S1731482AbgIHTHf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 15:07:35 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:45974 "EHLO
+        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731208AbgIHQHM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 14:51:16 -0400
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 34B672145D;
-        Tue,  8 Sep 2020 18:51:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599591076;
-        bh=rvDSCZvFRJ66ihgClWK76JHomlIvsS1g+T/SMib0umM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=yWhrHS3OaHQKIXLtXl/3PqXpcHs1osUNt7jXkd8Xn2GhWTEoDbR1haU7D8WFUom9x
-         Ohgi+U2+srPsDvjwhloOatHxq/YfBtA7jcTnL1T16ztSmpFsE/YpwjVRwnSeA9QgBS
-         sVLvXC7AWIWKSDnvmIZixB75xvPYx7qL9Pq0Peu4=
-Received: by mail-ot1-f52.google.com with SMTP id 60so118643otw.3;
-        Tue, 08 Sep 2020 11:51:16 -0700 (PDT)
-X-Gm-Message-State: AOAM5320l/bjzJCYxBzRhZNmJ3Uake7u79QarAnlrFQ+2Qzs7vR9Q6yL
-        L//8okSUm75sVbtIbXDTivKdwgBu8qvJjFV66w==
-X-Google-Smtp-Source: ABdhPJzzsAvOaaljadNcHpgbxTqCs+adpWfZ02pFKHSsMEMcvlU/v9W9Zbxnn3nCzVOy+k0EXol3VOtmmA9i/wf9ekc=
-X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr331886otp.129.1599591075501;
- Tue, 08 Sep 2020 11:51:15 -0700 (PDT)
+        Tue, 8 Sep 2020 12:07:12 -0400
+Received: by mail-yb1-f193.google.com with SMTP id p81so5671934ybc.12;
+        Tue, 08 Sep 2020 09:07:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pfyuOTwmLyGVn1lQ9pxhPi2WVNvtBj8fYfp54D5EvVo=;
+        b=CccC9AWrpFi93hkwniCD/8BKqp1g2ZXT7QH3ezOROyPmJ0FszaD2rJO/dd50yuSHDG
+         xL3/dglRS82dbgPR4NL3N3L/ZQisjIvUjAWQcwvnL/t8ldTmpvHkBqPFZ0sLTMbgXNn1
+         6jFjVeSio5Ykd0OtDt25BQC+cpPSsc3kKO53vyC+vEPlfA1TP/d5IOfpr1mK9n4gW5Gh
+         c8oXjh9/4tb8KorCzlL3qhCARIma9Fvp6081CrWLzH3qfhmjyUP+wI0ET70IDirKdTpq
+         yuo5RS4KnqpEc5RVwtRnOcuqTSGFAQZGFMFCuit6yJb71G43g8VL1p+P6G2wXZqd77ts
+         Oi1A==
+X-Gm-Message-State: AOAM5328a6lFnrqeKF9oyULNpXiZnG9i6+rp9IKhT7mOj30P3o/UicvL
+        vZKG/af8+ruvSLzoiSb2NslGgc/n4sU+pyFu5Wbz2xA5jQE=
+X-Google-Smtp-Source: ABdhPJyU14r/u8wDXcWH6gmYyxmxmm3S5lcUHjfasrqBDWU4cxzF8Te2Q3vx/n/0p2SaLGY6X7ddJJaL/6mzvI3RSOc=
+X-Received: by 2002:a4a:4201:: with SMTP id h1mr17959802ooj.1.1599564977044;
+ Tue, 08 Sep 2020 04:36:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200810152219.6254-1-biju.das.jz@bp.renesas.com>
- <20200810152219.6254-2-biju.das.jz@bp.renesas.com> <20200824230458.GA3489164@bogus>
- <20200901102714.GC5821@pendragon.ideasonboard.com>
-In-Reply-To: <20200901102714.GC5821@pendragon.ideasonboard.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 8 Sep 2020 12:51:04 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJtPMah6WskUc08JAhGskSM+cFJa4pRJKAyuqqBOKPhxQ@mail.gmail.com>
-Message-ID: <CAL_JsqJtPMah6WskUc08JAhGskSM+cFJa4pRJKAyuqqBOKPhxQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: display: bridge: lvds-codec: Document
- vcc-supply property
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
+References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599470390-29719-12-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599470390-29719-12-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 8 Sep 2020 13:36:05 +0200
+Message-ID: <CAMuHMdXsOki08u_Kf_xsm0OqddKL6RwmWLX+r+sekWYrgXf83w@mail.gmail.com>
+Subject: Re: [PATCH 11/14] soc: renesas: rcar-rst: Add support for R-Car V3U
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 1, 2020 at 4:27 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> On Mon, Aug 24, 2020 at 05:04:58PM -0600, Rob Herring wrote:
-> > On Mon, Aug 10, 2020 at 04:22:17PM +0100, Biju Das wrote:
-> > > Document optional vcc-supply property that may be used as VCC source.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > > New patch Ref: Ref:https://patchwork.kernel.org/patch/11705819/
-> > > ---
-> > >  .../devicetree/bindings/display/bridge/lvds-codec.yaml         | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > > index 68951d56ebba..3248be31eceb 100644
-> > > --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > > @@ -79,6 +79,9 @@ properties:
-> > >        The GPIO used to control the power down line of this device.
-> > >      maxItems: 1
-> > >
-> > > +  vcc-supply:
-> > > +    maxItems: 1
-> >
-> > Probably should be 'power-supply' to align with the 'simple' panels.
-> > That's also to signify there's only 1 supply. Using 'vcc' would
-> > encourage adding 'vdd-supply', 'vddio-supply', etc. A second supply I'll
-> > NAK because at that point it's not a simple bridge with no configuration
-> > (it's arguably already there).
->
-> Fully agreed.
->
-> Do I get your Ab or Rb line with s/vcc/power/ and the commit message
-> updated to
->
->     dt-bindings: display: bridge: lvds-codec: Document power-supply property
->
->     Document optional power-supply property that may be used to specify the
->     regulator powering up the device.
->
-> ?
+Hi Shimoda-san,
 
-Yes, if not too late.
+On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Add support for R-Car V3U (R8A779A0) to the R-Car RST driver.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/soc/renesas/rcar-rst.c
+> +++ b/drivers/soc/renesas/rcar-rst.c
+> @@ -37,6 +37,10 @@ static const struct rst_config rcar_rst_gen3 __initconst = {
+>         .modemr = 0x60,
+>  };
+>
+> +static const struct rst_config rcar_rst_r8a779a0 __initconst = {
+> +       .modemr = 0x00,         /* MODEMR0 and it has CPG related bits */
+
+Do you need the bits from MODEMR1, too?
+Perhaps the time is ripe to add rcar_rst_read_mode_pins64(),
+so users can access more than 32 bits on SoCs that provide it (R-Car
+V3H and V3U)?
+
+At least the numbering is sane on R-Car V3U. On R-Car V3H, MD29 and
+higher are stored starting at bit 1 of the second MODEMR register...
+
+> +};
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
