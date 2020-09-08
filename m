@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C682616BB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 19:17:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B568A261717
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 19:25:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726560AbgIHRRl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 13:17:41 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:44153 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731796AbgIHRRg (ORCPT
+        id S1731762AbgIHRYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 13:24:37 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33394 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727088AbgIHRUt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 13:17:36 -0400
-Received: by mail-oi1-f195.google.com with SMTP id 185so17143917oie.11;
-        Tue, 08 Sep 2020 10:17:36 -0700 (PDT)
+        Tue, 8 Sep 2020 13:20:49 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m12so12557162otr.0;
+        Tue, 08 Sep 2020 10:20:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eMaXdkZMBIIa97R28ums/cRnzgAhqNzURS/+cjPBc4w=;
-        b=qZ2lSBbZIkeC6Wdjc89ZC/LTqtloM5jQRBY+1whRQPekay8nteN/sTzgIsHXJ4fbUv
-         /hCLFIo8cemAhDYp+Mcw2l2pGbspSzC0QujdSDC6gFZj6pOYNsrJYUv0QII6+CXeo/Uz
-         U1mcmn7VJ/eMZpgy+Dkx6GfeqQL++W6wqJOjataS1Eog5mZ0pRApyuFCcU4UGufT8cnM
-         aOldw8i0Q8KJpiXcKSj8gXDilEzhXK56Oa/qe+jyn49oOctCzjgFP3kJLqmipN05E8Wp
-         lwGBjwfxF02vwzSy8wYKk9sMewlyN3kZNh9E7zqfwyEri68OMB5O7pb+dRIvrOtrnGl5
-         EjaA==
-X-Gm-Message-State: AOAM533OugRtyD+KlcaTmswDEn45OLDCmSNHS8gIOlzDVQOJW8PpihlX
-        eEOQINalbawbu1iv5/JzsBjWk+tTLLCiIglIF3E=
-X-Google-Smtp-Source: ABdhPJwZRZiy2KvddjqTpOk8cZpBJ1snpxQFyOxOWUjTpOW/68C6SGRxIH6w/ZRMRsHo4QCGuTuigPE2kNBdlj9uDIk=
-X-Received: by 2002:aca:b742:: with SMTP id h63mr117820oif.148.1599585455970;
- Tue, 08 Sep 2020 10:17:35 -0700 (PDT)
+        bh=LdIU9vQqmEF6Wb9rgoYOmoAokt3YY8uLZ42vJELJPcw=;
+        b=DMubPtXSYBnklx8RsXBVhETybhtzSmPIOHQO5hh580TaRMWkvBZTXjmn6aucLI/D+D
+         fPGhtc/xW9ypHzBeTmp46o+DUD2h1pcgNnSIZblZrckhjae0CwUQVMzNzXmaOOWd0Ruk
+         HUWMtyItZFuVd8I344pdON/KT/RRIWvxhYW63EWn5zKA0fSw3BR2/bjGsHx/M1GleDyJ
+         C8CI1FNclKf9idd2jm7aY70x6MhvGak8xSG5VtKv3+f2U2ZffNJaUGTWrZiX93v3pA+o
+         2/6IU/fIlWqwWTJFtz25QXz0PFHjQ3CI8pybaxNoKQR5ntuRFz+PJ9VHDZ6nv32Ao1oa
+         XJ0g==
+X-Gm-Message-State: AOAM533iBFhCkpRo2603eVrJzvobEb98uKklaxfb8FpaXU4D9Z3fNcy5
+        rgYdRqSJDcVAUpdTLNuCCst4BmAwpgwd8TuWHtKIm5aLAN0=
+X-Google-Smtp-Source: ABdhPJyO0agHfnn+rc/8SvPGLV/RqefiUMhcCO/qMdmPNp8wfnxitD0ijBuDMlHxqhgSaEJAVSI8q0o3SM0n8A6n9Z4=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr53866otp.107.1599585648726;
+ Tue, 08 Sep 2020 10:20:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-7-git-send-email-yoshihiro.shimoda.uh@renesas.com> <CAMuHMdVRco32Dm+UyN5OUpbhVcJCuCm-jNF6+R5=m74vqjEEoA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVRco32Dm+UyN5OUpbhVcJCuCm-jNF6+R5=m74vqjEEoA@mail.gmail.com>
+ <1599470390-29719-15-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599470390-29719-15-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 19:17:25 +0200
-Message-ID: <CAMuHMdW8FQAVspRb_0ZuONgKLgPerPHs8uKZdnWGXe-sRov_fQ@mail.gmail.com>
-Subject: Re: [PATCH 06/14] dt-bindings: clock: renesas,cpg-mssr: Document r8a779a0
+Date:   Tue, 8 Sep 2020 19:20:37 +0200
+Message-ID: <CAMuHMdUXUvU5dPkBFdW_ZVhnBKpFEPVLD3mdOkhrmakZjCHErg@mail.gmail.com>
+Subject: Re: [PATCH 14/14] arm64: dts: renesas: Add Renesas Falcon boards support
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -50,33 +50,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 8, 2020 at 11:23 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > Add binding documentation for the R-Car V3U (R8A779A0) Clock Pulse
-> > Generator.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> > --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-> > +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-> > @@ -47,6 +47,7 @@ properties:
-> >        - renesas,r8a77980-cpg-mssr # R-Car V3H
-> >        - renesas,r8a77990-cpg-mssr # R-Car E3
-> >        - renesas,r8a77995-cpg-mssr # R-Car D3
-> > +      - renesas,r8a779a0-cpg-mssr # R-Car V3U
-> >
-> >    reg:
-> >      maxItems: 1
-> > --
-> > 2.7.4
-> >
->
-> FIXME check clock-names
+Hi Shimoda-san,
 
-Please ignore the FIXME (checked).
+On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Initial support for the Renesas Falcon CPU and BreakOut boards
+> support.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/falcon-cpu.dtsi
+> @@ -0,0 +1,44 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the Falcon CPU board
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+
+As this board contains the CPU, I had expected
+
+    #include "r8a779a0.dtsi"
+
+here.
+
+> +
+> +/ {
+> +       model = "Renesas Falcon CPU board";
+> +       compatible = "renesas,falcon-cpu";
+
++ renesas,r8a779a0.
 
 Gr{oetje,eeting}s,
 
