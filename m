@@ -2,87 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60375261CE1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDD5F261D4C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:35:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732200AbgIHT1w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 15:27:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37684 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731064AbgIHT1o (ORCPT
+        id S1732309AbgIHTe6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 15:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730832AbgIHP5a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 15:27:44 -0400
-Received: from localhost (35.sub-72-107-115.myvzw.com [72.107.115.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 536B52078B;
-        Tue,  8 Sep 2020 19:27:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599593263;
-        bh=P32hrheM3XHI3hTzptMJ7G2yosA8KkleDbFzT5mxRX0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=ESpLf9qQ48q6G0oYZK0DDSxnAToFh8X+OLSi3TXK319kaqsGFStN2BElD1KojPhuh
-         POzL3Ry4hoAitBnLT11VgU8pHxTX/BzCj+72EVjRXki4Tfci2NuCXMjEE1Tyj4vDkV
-         ZQTXd1Ouvmsamzfw0DAWvM0OfoUOX0K4yATha7XA=
-Date:   Tue, 8 Sep 2020 14:27:42 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: pci: rcar-pci-ep: Document r8a774e1
-Message-ID: <20200908192742.GA615450@bjorn-Precision-5520>
+        Tue, 8 Sep 2020 11:57:30 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501AAC061573;
+        Tue,  8 Sep 2020 04:54:45 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id v78so11085769ybv.5;
+        Tue, 08 Sep 2020 04:54:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cL3PNWhyNAiygS2fKeCGKkHLdzzbSTf5CFsAzvXhVIc=;
+        b=o/ZioOvSrmbKkCWAvGMuu44+jTXgqVyP19XMAhvHqqrO2ACsyDq9NeQJrwb913wD5u
+         wCZWUnfdjSWDAQ2F+lnDvVDClA7Qwj3CNp+QX+L+3M+U+OOr8g1DgrVGSYbRzd1Uh2Lk
+         xDGI4ilg/9zY3YuUCzwlQCPp5Ss7kvN94EG8qdOaHPHAb6M4An3lO023vHASM3Li9Ii4
+         afTg5uiMbfTzzImvOoFCi/GV+ehze96hBhRpG4Ib5EP5DfiQ1qSXtpgHf6XlHUr2K0MW
+         sXQJXLW2Fvmq6HObfuC5PPRUvHBudPCwg0ks2tJiq+YOTd7VHWg0BQLNK7QpQ0sI5EZW
+         +XCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cL3PNWhyNAiygS2fKeCGKkHLdzzbSTf5CFsAzvXhVIc=;
+        b=NNseXYhJTfAKO09m0Y2l+MDtFi0FhDhFTUJT9VEziFRsMCO7k7yrgutWoi6ISDzMKl
+         ZSOyVwaoV2VO1WM1pL1TtVFCSYESRbBHX82grnFbBTN+nm1kUrNwDrv7NOFlZtpU92q0
+         nauIV4s5Xf2wSX1k66rXPDVVe6ZlpcFU4lRMJSeu8dtuO88ySCcKot7ISJvRoux51Uor
+         X2sQ8ixz1xlhg5ViPMAoiQSBWrAA/JHn0FMzQOho6K6ERgFkxSt9I023JJ4qBW+MblgG
+         ZMirALh6HAH3YwjGq8SZGwBwkDEEmbBocLw2+U0dw9ICsylMuCd1lc9/Jc6q+zh4GrND
+         90uw==
+X-Gm-Message-State: AOAM532O+vjgeNR5XZKmSpJopUs69zRzoDoMTYv49G3WolCkLJmDYeqd
+        RIwSX01KgwN293pq7ad8497yCTZVaa1IhzSB8+o=
+X-Google-Smtp-Source: ABdhPJyQInhue+DlddoZBgO8uBL4O09RA4EKtxxJsOSZSUJFu1uCkxOZEpGO9sz6Qzi0PK33pZ4iV34kj76CqAkmK38=
+X-Received: by 2002:a25:bbcf:: with SMTP id c15mr33057595ybk.127.1599566084641;
+ Tue, 08 Sep 2020 04:54:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200908192600.GA615209@bjorn-Precision-5520>
+References: <20200908110640.5003-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXD88LKVUcXTa=yWreqWZ0O0G+dF7WK=ioVwJo2OTd_PQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXD88LKVUcXTa=yWreqWZ0O0G+dF7WK=ioVwJo2OTd_PQ@mail.gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 8 Sep 2020 12:54:18 +0100
+Message-ID: <CA+V-a8tg2UpcKKnqnXTbhOOikbYaPziwgkP+yWKOJ8Lt-f4UVw@mail.gmail.com>
+Subject: Re: [PATCH] dmaengine: Kconfig: Update description for RCAR_DMAC config
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 08, 2020 at 02:26:01PM -0500, Bjorn Helgaas wrote:
-> On Fri, Sep 04, 2020 at 11:38:49AM +0100, Lad Prabhakar wrote:
-> > Document the support for R-Car PCIe EP on R8A774E1 SoC device.
-> > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-> > index 70c45f72ab20..a059c96c294b 100644
-> > --- a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-> > +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-> > @@ -18,6 +18,7 @@ properties:
-> >            - renesas,r8a774a1-pcie-ep     # RZ/G2M
-> >            - renesas,r8a774b1-pcie-ep     # RZ/G2N
-> >            - renesas,r8a774c0-pcie-ep     # RZ/G2E
-> > +          - renesas,r8a774e1-pcie-ep     # RZ/G2H
-> 
-> This is on Lorenzo's pci/rcar branch and headed to -next.
-> 
-> There's a similar older commit on that branch, 2de82ec86674
-> ("dt-bindings: pci: rcar-pci-ep: Document r8a774a1 and r8a774b1") that
-> came with a companion that added device IDs to pci_endpoint_test.c:
-> cfb824ddd1c0 ("misc: pci_endpoint_test: Add Device ID for RZ/G2M and
-> RZ/G2N PCIe controllers").
-> 
-> Is there, or should there be a similar device ID patch for
-> renesas,r8a774e1-pcie-ep?
+Hi Geert,
 
-Sheesh, sorry, could have saved all of us a little time if I'd
-scrolled up to see the next patch, a63c5f3db07d ("misc:
-pci_endpoint_test: Add Device ID for RZ/G2H PCIe controller") 
+Thank you for the review.
+
+On Tue, Sep 8, 2020 at 12:22 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Tue, Sep 8, 2020 at 1:06 PM Lad Prabhakar
+> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> > rcar-dmac driver is used on Renesas R-Car Gen2 and Gen3 devices
+> > update the same to reflect the description for RCAR_DMAC config.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Do you want to mention RZ/G1 and RZ/G2?
+>
+Agreed. will include RZ/G as well and post a v2.
+
+Cheers,
+Prabhakar
+
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
