@@ -2,43 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51A0A260ECD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 11:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43224260EEB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 11:43:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728886AbgIHJjM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 05:39:12 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:45919 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727995AbgIHJjL (ORCPT
+        id S1728739AbgIHJnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 05:43:52 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44182 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728676AbgIHJnw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 05:39:11 -0400
-Received: by mail-ot1-f67.google.com with SMTP id g96so14274334otb.12;
-        Tue, 08 Sep 2020 02:39:11 -0700 (PDT)
+        Tue, 8 Sep 2020 05:43:52 -0400
+Received: by mail-ot1-f66.google.com with SMTP id a2so14278442otr.11;
+        Tue, 08 Sep 2020 02:43:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=M93+1fX+KeKKW9ageQq4fHrBTowEiDfykj/07rsl8l0=;
-        b=CGP0REQgjXDg2ZtL6xlh5GT7ulUPi7iwgdNMwziW/KUtXYP4SQtZWpxft8ETuc6mGB
-         3Ur3MhT3x2zd9ghFsRjXKqUjKjzTkRJjNIRoo3Do+3v5DtsgBwQm8cGaVrzhmjzf0eSe
-         yFxmB92nXveZ5RgyMxVVUB+yFiJ/Q6SUvLm2+QK6T+1VQ1q9q0lmm98sg5VpOxVsf5Pm
-         HxfpxPhhKD/m+C0X+lAOcpIRFt2MJ+BfcPkkUlxBtK93cenyTMsd4dElRVFs/EktTAgb
-         pVJmqvAENSWgJ+qpxzhnswnxWksrAT0mentUKOlJj2YZS6lq28Y16QKxYPC8v1FIa7oh
-         qMQg==
-X-Gm-Message-State: AOAM531sURDPUumUSKQ8G0K6/EsdOGYJbCUtzC3Z7qOeK/kNhpxwNI1A
-        xVuu4tc1BH0a9KutmKVO/lKs/AWs8iJ5A8I6gu4=
-X-Google-Smtp-Source: ABdhPJzPP0irCTq9mSUUbcCXLB8Sz83zvFb5qqcJbvuhCXDIhS8pTrOl8vZmkPa3z4BqjvihqxHIF9XxcLH/At/n0eY=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr16151015otp.107.1599557951215;
- Tue, 08 Sep 2020 02:39:11 -0700 (PDT)
+        bh=DVylAYpz8XDFuaEu7yZH1aasxebApZrD+5SWbgpcZUk=;
+        b=mEuM8t0FgUuG83xpStujov/diiB9ZkWYiY6rWIxleKrfalWnCG+Vq/dJkPMJAnjTjZ
+         qgETtD77ETclauqVj42RMRWnLvd6USXNJiaQg7ShiaXgwy6TQ4+SV4rnMPX2SwyQ+6xp
+         74CCCkpC+1e4Y2Iy58pXIu3S1epHp12z+5PXgzGKeOIxyQeBYU+Bv0WKknzMA52OXB9Q
+         pwJ94Z3ff52XewwPEXTVcXqTjzjQcAzFLDjk5paVaZCRtoXJ2XJr3UVGi1Fbj2jCv2zc
+         lLFg7JzgRCHgpTurDIfG7YzvgZ7kMdCtpkq5dslO1lsDyMV1DosnS6Z5lv3xnvwW+IWF
+         6vBA==
+X-Gm-Message-State: AOAM530HnXZH0RfUWKRb7s41c+77hnHfS/8YQxyTpxNF4fsMbZ+HTmND
+        RUzd8rX0nH7G0LtzqMSUP+lW6cgLNiiBE6KaztSpt06y
+X-Google-Smtp-Source: ABdhPJx2lND5DpgXrAjdqtxUk1CpbbWW/B/bbBMzzvcb1OAWPcj1T8Juti0rO4167CUXPYjZ5TqJ026w1Ebs/BvMAZQ=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr16160142otp.107.1599558231731;
+ Tue, 08 Sep 2020 02:43:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599470390-29719-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599470390-29719-10-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599470390-29719-10-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 11:39:00 +0200
-Message-ID: <CAMuHMdWNxHdG8kFWG0fZuCFPFKkbfiVcP-xoCwZCy+w8vMaLag@mail.gmail.com>
-Subject: Re: [PATCH 08/14] dt-bindings: serial: renesas,scif: Document
- r8a779a0 bindings
+Date:   Tue, 8 Sep 2020 11:43:40 +0200
+Message-ID: <CAMuHMdXfpgM7zjwwc73NwJHw2cNgfh7uhnQZrDgU91R=Bg0GDQ@mail.gmail.com>
+Subject: Re: [PATCH 09/14] soc: renesas: identify R-Car V3U
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
@@ -53,12 +52,23 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> R-Car V3U (R8A779A0) SoC also has the R-Car Gen3 compatible
-> SCIF ports, so document the SoC specific bindings.
+> Add support for identifying the R-Car V3U (R8A779A0) SoC.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -272,6 +272,12 @@ config ARCH_R8A77995
+>         help
+>           This enables support for the Renesas R-Car D3 SoC.
+>
+> +config ARCH_R8A779A0
+> +       bool "Renesas R-Car V3U SoC Platform"
+
+Will update while applying to match Morimoto-san's Kconfig rework.
+
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
