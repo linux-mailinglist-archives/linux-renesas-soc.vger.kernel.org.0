@@ -2,99 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDD5F261D4C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 777C9261F28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 22:00:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732309AbgIHTe6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 15:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54220 "EHLO
+        id S1730157AbgIHT7S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 15:59:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730832AbgIHP5a (ORCPT
+        with ESMTP id S1730410AbgIHPfj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 11:57:30 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501AAC061573;
-        Tue,  8 Sep 2020 04:54:45 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id v78so11085769ybv.5;
-        Tue, 08 Sep 2020 04:54:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cL3PNWhyNAiygS2fKeCGKkHLdzzbSTf5CFsAzvXhVIc=;
-        b=o/ZioOvSrmbKkCWAvGMuu44+jTXgqVyP19XMAhvHqqrO2ACsyDq9NeQJrwb913wD5u
-         wCZWUnfdjSWDAQ2F+lnDvVDClA7Qwj3CNp+QX+L+3M+U+OOr8g1DgrVGSYbRzd1Uh2Lk
-         xDGI4ilg/9zY3YuUCzwlQCPp5Ss7kvN94EG8qdOaHPHAb6M4An3lO023vHASM3Li9Ii4
-         afTg5uiMbfTzzImvOoFCi/GV+ehze96hBhRpG4Ib5EP5DfiQ1qSXtpgHf6XlHUr2K0MW
-         sXQJXLW2Fvmq6HObfuC5PPRUvHBudPCwg0ks2tJiq+YOTd7VHWg0BQLNK7QpQ0sI5EZW
-         +XCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cL3PNWhyNAiygS2fKeCGKkHLdzzbSTf5CFsAzvXhVIc=;
-        b=NNseXYhJTfAKO09m0Y2l+MDtFi0FhDhFTUJT9VEziFRsMCO7k7yrgutWoi6ISDzMKl
-         ZSOyVwaoV2VO1WM1pL1TtVFCSYESRbBHX82grnFbBTN+nm1kUrNwDrv7NOFlZtpU92q0
-         nauIV4s5Xf2wSX1k66rXPDVVe6ZlpcFU4lRMJSeu8dtuO88ySCcKot7ISJvRoux51Uor
-         X2sQ8ixz1xlhg5ViPMAoiQSBWrAA/JHn0FMzQOho6K6ERgFkxSt9I023JJ4qBW+MblgG
-         ZMirALh6HAH3YwjGq8SZGwBwkDEEmbBocLw2+U0dw9ICsylMuCd1lc9/Jc6q+zh4GrND
-         90uw==
-X-Gm-Message-State: AOAM532O+vjgeNR5XZKmSpJopUs69zRzoDoMTYv49G3WolCkLJmDYeqd
-        RIwSX01KgwN293pq7ad8497yCTZVaa1IhzSB8+o=
-X-Google-Smtp-Source: ABdhPJyQInhue+DlddoZBgO8uBL4O09RA4EKtxxJsOSZSUJFu1uCkxOZEpGO9sz6Qzi0PK33pZ4iV34kj76CqAkmK38=
-X-Received: by 2002:a25:bbcf:: with SMTP id c15mr33057595ybk.127.1599566084641;
- Tue, 08 Sep 2020 04:54:44 -0700 (PDT)
+        Tue, 8 Sep 2020 11:35:39 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3E9C08E871;
+        Tue,  8 Sep 2020 07:35:59 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2900D3B;
+        Tue,  8 Sep 2020 16:35:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1599575751;
+        bh=PxKNg87pbqlGsiqqN7yqG8jWEtELrqZ/9wZYhmKnasQ=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=DorOY8Y6kwJ0Su/Lqj9yFCUvEAYUzs1qoCg2jsnY987ugQFtQrEAgm8JMj2W8nlC/
+         Zxcn2VjA6/iZJlRJbq/ECn+MKDBuIlzoRoW2RESHj74y2Tp8rbBbCmZhpZeRKKnv5Z
+         hUDU3yUWCabLMl2XpjEczLjE051F3lF6iFBtJgc4=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v2 03/10] dt-bindings: display: renesas: dw-hdmi: Add
+ R8A77961 support
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Magnus <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux-DT <devicetree@vger.kernel.org>,
+        "(Renesas) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
+        dri-devel@lists.freedesktop.org
+References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
+ <87k0x5rtwi.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <b351ab59-131d-c65e-250f-bb5ebf64a4f8@ideasonboard.com>
+Date:   Tue, 8 Sep 2020 15:35:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200908110640.5003-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXD88LKVUcXTa=yWreqWZ0O0G+dF7WK=ioVwJo2OTd_PQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXD88LKVUcXTa=yWreqWZ0O0G+dF7WK=ioVwJo2OTd_PQ@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 8 Sep 2020 12:54:18 +0100
-Message-ID: <CA+V-a8tg2UpcKKnqnXTbhOOikbYaPziwgkP+yWKOJ8Lt-f4UVw@mail.gmail.com>
-Subject: Re: [PATCH] dmaengine: Kconfig: Update description for RCAR_DMAC config
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <87k0x5rtwi.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Morimoto-san,
 
-Thank you for the review.
-
-On Tue, Sep 8, 2020 at 12:22 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Sep 8, 2020 at 1:06 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > rcar-dmac driver is used on Renesas R-Car Gen2 and Gen3 devices
-> > update the same to reflect the description for RCAR_DMAC config.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
+On 08/09/2020 01:34, Kuninori Morimoto wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> 
+> This patch adds R-Car M3-W+ (R8A77961) SoC bindings.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Do you want to mention RZ/G1 and RZ/G2?
->
-Agreed. will include RZ/G as well and post a v2.
 
-Cheers,
-Prabhakar
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt       | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> index e6526ab485d0..2086f4514911 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> @@ -16,6 +16,7 @@ Required properties:
+>    - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
+>    - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
+>    - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
+> +  - "renesas,r8a77961-hdmi" for R8A77961 (R-Car M3-W+) compatible HDMI TX
+>    - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
+>    - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
+>  			     HDMI TX
+> 
+
