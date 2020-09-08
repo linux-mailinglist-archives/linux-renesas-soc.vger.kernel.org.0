@@ -2,71 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D07260D13
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 10:08:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC905260E35
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 10:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729700AbgIHIIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 04:08:35 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33843 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729591AbgIHIIb (ORCPT
+        id S1727995AbgIHI5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 04:57:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45530 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727867AbgIHI5C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 04:08:31 -0400
-Received: by mail-oi1-f194.google.com with SMTP id n2so4337876oij.1;
-        Tue, 08 Sep 2020 01:08:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6ZZ8juEB5ESWt7COft3OIz6Zh7GIcQEgWmY/PNedOlU=;
-        b=cZDF+5JblUYQ+kTzoIOnBU/unadxkyicBuOjHm/kdpWNV26X6uVdOl1N3w6H1I/xMJ
-         YXEVRfo2KdDFiAhYzHgorH6K6LAGz/5ftxf08mKB804aDazdk0lDCzM/TgTcZJcYK77H
-         U4ZOtBmw/4niCgkKdtyMZSZHcXu/i9zUyJWL45U3cNYrBYxMlGk3oXK6cn+9+ttQZcf/
-         erEFwItobeqT7rfZgFWATUIuZTJnloxm66/C9pzcEkGls//jkWbNLVi0hdddZiEmfb2H
-         n83kt/EP+T/IFCNcEo9jwiVx0jzMBTVHJ26Yn8J2WFoLgU+jtfx+3oSBA7/FQaZg5ddA
-         XMPg==
-X-Gm-Message-State: AOAM5310yABAEiz8XmMVZZ65azNLMdb261RwS/thg407NSYCeLJI9ATS
-        PsqricsNNYg4y01iZXhCBtB6dwy0bTaFbaBhRfE=
-X-Google-Smtp-Source: ABdhPJzy+7JmKXzdfJg+7LCk72Fc+JazGVeVFSgK5eqy8lP90dfBkzxF4fY1BSAtwjb8jmzQ33sj1lSP4Bu5N7l41A4=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr1929838oib.54.1599552510880;
- Tue, 08 Sep 2020 01:08:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599470390-29719-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Sep 2020 10:08:19 +0200
-Message-ID: <CAMuHMdXQ1v+rFeOX4GSDcWgKKeJAG2WhjEb-4-QLrGROjUg-UQ@mail.gmail.com>
-Subject: Re: [PATCH 03/14] dt-bindings: power: renesas,rcar-sysc: Document
- r8a779a0 SYSC binding
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 8 Sep 2020 04:57:02 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8CEC061573
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Sep 2020 01:57:01 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id RLwr230074C55Sk01Lwrau; Tue, 08 Sep 2020 10:56:51 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kFZQp-0000Bo-07; Tue, 08 Sep 2020 10:56:51 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kFYIO-00019X-GC; Tue, 08 Sep 2020 09:44:04 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: rcar-gen2: Make rcar_gen2_{timer_init,reserve}() static
+Date:   Tue,  8 Sep 2020 09:44:03 +0200
+Message-Id: <20200908074403.4379-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Document bindings for the R-Car V3U (aka R8A779A0) SYSC block.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+As of commit 1e90fea35b80cfe1 ("ARM: shmobile: r8a7791: Use common R-Car
+Gen2 machine definition"), there are no more users of
+rcar_gen2_timer_init() and rcar_gen2_reserve() outside
+arch/arm/mach-shmobile/setup-rcar-gen2.c.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.10.
 
-Gr{oetje,eeting}s,
+ arch/arm/mach-shmobile/rcar-gen2.h       | 2 --
+ arch/arm/mach-shmobile/setup-rcar-gen2.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-                        Geert
-
+diff --git a/arch/arm/mach-shmobile/rcar-gen2.h b/arch/arm/mach-shmobile/rcar-gen2.h
+index 4777fff2de413b7e..af9dbd6aa49e4d30 100644
+--- a/arch/arm/mach-shmobile/rcar-gen2.h
++++ b/arch/arm/mach-shmobile/rcar-gen2.h
+@@ -2,8 +2,6 @@
+ #ifndef __ASM_RCAR_GEN2_H__
+ #define __ASM_RCAR_GEN2_H__
+ 
+-void rcar_gen2_timer_init(void);
+-void rcar_gen2_reserve(void);
+ void rcar_gen2_pm_init(void);
+ 
+ #endif /* __ASM_RCAR_GEN2_H__ */
+diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+index fa1b00547d164b42..287dcbdb20de493a 100644
+--- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
++++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+@@ -61,7 +61,7 @@ static unsigned int __init get_extal_freq(void)
+ #define CNTCR 0
+ #define CNTFID0 0x20
+ 
+-void __init rcar_gen2_timer_init(void)
++static void __init rcar_gen2_timer_init(void)
+ {
+ 	bool need_update = true;
+ 	void __iomem *base;
+@@ -193,7 +193,7 @@ static int __init rcar_gen2_scan_mem(unsigned long node, const char *uname,
+ 	return 0;
+ }
+ 
+-void __init rcar_gen2_reserve(void)
++static void __init rcar_gen2_reserve(void)
+ {
+ 	struct memory_reserve_config mrc;
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
