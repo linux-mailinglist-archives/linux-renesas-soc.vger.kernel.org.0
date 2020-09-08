@@ -2,106 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35B7C261C70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1664D261CBF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Sep 2020 21:26:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731473AbgIHTU2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 15:20:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54344 "EHLO
+        id S1731093AbgIHTZo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 15:25:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731119AbgIHQCR (ORCPT
+        with ESMTP id S1731076AbgIHQAj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 12:02:17 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C2ABC08C5EA;
-        Tue,  8 Sep 2020 07:18:27 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9AE7639;
-        Tue,  8 Sep 2020 16:18:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599574703;
-        bh=YdLhhX1YXIgXvVADm+8UlIZ3RcNUC3MnuoMlrS6ie2E=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=XtAMJBhr0zA7V+OyWB5mD+NFXiOMRmJalFA49DcnKi9OsKg4l7ag7DdpY4vrejEl+
-         D0xAd45duxD1W2dmaIKBR+6v72+a46M4ckM8ZZhkOhl+wUChxjkD/PbyN9GsRubmbf
-         X8P/aq8+hcY7rTQsPz9pB7A/bFJyIweOpfmfg6uk=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2 02/10] dt-bindings: display: renesas: dw-hdmi: tidyup
- example compatible.
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Laurent <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     Magnus <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-DT <devicetree@vger.kernel.org>,
-        "(Renesas) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        dri-devel@lists.freedesktop.org
-References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com>
- <87lfhlrtwp.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <6e1eedf0-d05f-81cd-e437-33fc4c7337f3@ideasonboard.com>
-Date:   Tue, 8 Sep 2020 15:18:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 8 Sep 2020 12:00:39 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD2AC0612F6
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Sep 2020 08:24:20 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id r24so1661616ljm.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Sep 2020 08:24:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=0slGM3+BtCMgZjKNZb6MUZdPEoVjx0bEKge0FUahQT8=;
+        b=Vi3MWJGf/a6vH7y1d5TtuyTnAHQbusiEhwf7I0wIl2k42GFwDJx5VTdrWvhsll5hfd
+         s6LDJGZIUwwZgWOb3vs6Z1G4Fp3VZEY5NiMEvtOpgxDAn/4QtCKzsC7Rei8wu4DwvZ5A
+         MzYKYBuFDF9mRkG1r4GbrMwI4JxU+N2AkMPYyK+Ep0RQJ5cUB0ydVe1meHAsb0F0eBpn
+         MT+r7Ld5SC2VyEYvgUy00asetcsZedJ55Jf0btn0GFRrZ1mrGATxd+jgVjKERb0hCtrF
+         EDPhoBbgzwYS2MvyEgXpyXAw6uiyOCYIuWCFd+ojpdtiLvdLgusGL4gT5H8uRp4qazp2
+         OJ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0slGM3+BtCMgZjKNZb6MUZdPEoVjx0bEKge0FUahQT8=;
+        b=KDRBODq9R21wnslQ2Xj7qUokdM2xf3f/64WBtjfGNqpo816xVrMjwmtRWy6gIWWgVr
+         pcBqcyluYeyQ4o1n25a/WkRkmdCnS43j0JlDGVv9yYVYXWMPPUukBOsDwMIwDaJ8eSkD
+         y1yp2mrmfSWvL+Zng/09RPr6Of338qzutM0aHY9twK7x2LTHfv1oVhzr8fyhGRg+7oP+
+         AhezQqckBMlFgbim7NxOrWagvyMC7+NJwrlGbaWF8bDB84CjWn71OH1JOjimLEle+Rwb
+         fvl6XJdocKp0Ed1KPhQOj1qeBDpyFV46NTUjm1Skfer6H1v9QnqP4u7rYbjPgOfGS+oB
+         nOgQ==
+X-Gm-Message-State: AOAM532auMN4TiHFoRA4rMiWXrMI6D570HXYCNpeB7w6RctbPNOdGMSA
+        fnuDgGgnIgis1Z6Ym85xnmY3TQ==
+X-Google-Smtp-Source: ABdhPJy2o7S+OqLyzWdKvjsBTPrqHMSajqGGhg9IKe0/sfT3U0z/qCTkw+G2zqDyw6DoW1CWMW3XFw==
+X-Received: by 2002:a2e:8541:: with SMTP id u1mr14118617ljj.101.1599578659137;
+        Tue, 08 Sep 2020 08:24:19 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id e17sm10462605ljg.85.2020.09.08.08.24.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 08:24:18 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 17:24:18 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: shmobile: rcar-gen2: Make
+ rcar_gen2_{timer_init,reserve}() static
+Message-ID: <20200908152418.GB2984648@oden.dyn.berto.se>
+References: <20200908074403.4379-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <87lfhlrtwp.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200908074403.4379-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Geert,
 
-On 08/09/2020 01:34, Kuninori Morimoto wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Thanks for your patch.
+
+On 2020-09-08 09:44:03 +0200, Geert Uytterhoeven wrote:
+> As of commit 1e90fea35b80cfe1 ("ARM: shmobile: r8a7791: Use common R-Car
+> Gen2 machine definition"), there are no more users of
+> rcar_gen2_timer_init() and rcar_gen2_reserve() outside
+> arch/arm/mach-shmobile/setup-rcar-gen2.c.
 > 
-> required is "renesas,r8a7795-hdmi", instead of "renesas,r8a7795-dw-hdmi"
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hrm, technically the driver will currently only match on :
-  "renesas,rcar-gen3-hdmi"
-
-But I see how the '-dw-' has probably snuck in from other devices, and
-is inappropriate.
-
-Perhaps this should be more clear that it matches on the generic compatible:
-	renesas,rcar-gen3-hdmi
-
-(or a combination of both?)
-
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-But if the generic isn't required, then this patch alone does fix what I
-would call an error, so ...
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-We could always make this more clear when converting to YAML.
-
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  .../devicetree/bindings/display/bridge/renesas,dw-hdmi.txt      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> To be queued in renesas-devel for v5.10.
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> index 819f3e31013c..e6526ab485d0 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> @@ -42,7 +42,7 @@ Optional properties:
->  Example:
+>  arch/arm/mach-shmobile/rcar-gen2.h       | 2 --
+>  arch/arm/mach-shmobile/setup-rcar-gen2.c | 4 ++--
+>  2 files changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm/mach-shmobile/rcar-gen2.h b/arch/arm/mach-shmobile/rcar-gen2.h
+> index 4777fff2de413b7e..af9dbd6aa49e4d30 100644
+> --- a/arch/arm/mach-shmobile/rcar-gen2.h
+> +++ b/arch/arm/mach-shmobile/rcar-gen2.h
+> @@ -2,8 +2,6 @@
+>  #ifndef __ASM_RCAR_GEN2_H__
+>  #define __ASM_RCAR_GEN2_H__
 >  
->  	hdmi0: hdmi@fead0000 {
-> -		compatible = "renesas,r8a7795-dw-hdmi";
-> +		compatible = "renesas,r8a7795-hdmi";
->  		reg = <0 0xfead0000 0 0x10000>;
->  		interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
->  		clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
+> -void rcar_gen2_timer_init(void);
+> -void rcar_gen2_reserve(void);
+>  void rcar_gen2_pm_init(void);
+>  
+>  #endif /* __ASM_RCAR_GEN2_H__ */
+> diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+> index fa1b00547d164b42..287dcbdb20de493a 100644
+> --- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
+> +++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+> @@ -61,7 +61,7 @@ static unsigned int __init get_extal_freq(void)
+>  #define CNTCR 0
+>  #define CNTFID0 0x20
+>  
+> -void __init rcar_gen2_timer_init(void)
+> +static void __init rcar_gen2_timer_init(void)
+>  {
+>  	bool need_update = true;
+>  	void __iomem *base;
+> @@ -193,7 +193,7 @@ static int __init rcar_gen2_scan_mem(unsigned long node, const char *uname,
+>  	return 0;
+>  }
+>  
+> -void __init rcar_gen2_reserve(void)
+> +static void __init rcar_gen2_reserve(void)
+>  {
+>  	struct memory_reserve_config mrc;
+>  
+> -- 
+> 2.17.1
 > 
 
+-- 
+Regards,
+Niklas Söderlund
