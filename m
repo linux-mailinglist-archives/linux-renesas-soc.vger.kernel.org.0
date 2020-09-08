@@ -2,81 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 860342622B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 00:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A3B42623C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 01:55:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728899AbgIHWiz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Sep 2020 18:38:55 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:46708 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726434AbgIHWiy (ORCPT
+        id S1726801AbgIHXzn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Sep 2020 19:55:43 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:32529 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726694AbgIHXzm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Sep 2020 18:38:54 -0400
-Received: by mail-io1-f68.google.com with SMTP id d18so1078397iop.13;
-        Tue, 08 Sep 2020 15:38:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=p/1hHUSbtL14Ax0at2DUeNcr9Ny+Csoyhco21r35crE=;
-        b=cX9WwNRZsr5luGMsQG022wzXhNe0wv90a/nTbkgq2zxifC4HdfOxCbuy8lALVy1B8G
-         IM8irwkLf8EysjKOrpPGqsREoR6U3/LEN3SmgV06kYM0eohvaHM1HXI4ocRuye3/NVdP
-         OOboCnQbsy92B4jqu94PzbuFmbmzX/rvleEYVWTwn3+6qgnakBvq5bvlcLhosprm0nMU
-         q/ZGm+vSfBvxtKDqh0GCJb25MtCqmZlhqqLN51A6IOVr7x6n29x9tN2JWZd5cYUtPtbL
-         Ee6rhFnprkXwr6vCZIhiQg6NBq6Z3u8UVxCJQs+ypdvVXSdcDIrQBwOOm8cExODcLFkc
-         C4nw==
-X-Gm-Message-State: AOAM530swKCR+ZBLRNX5jvSACVROQbJnLxnIQGRvIUbPfVcK1xCXdMD+
-        FDhKMatJfcqpcvkdJN5P5A==
-X-Google-Smtp-Source: ABdhPJwocbAoceUdBVjvP517IFwXFz5vHn3glVCmHqzqVj0ZPDFrK4R2n3DaoP4Yy/j/0jNShnsB/g==
-X-Received: by 2002:a6b:3e06:: with SMTP id l6mr1023062ioa.160.1599604733487;
-        Tue, 08 Sep 2020 15:38:53 -0700 (PDT)
-Received: from xps15 ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id a21sm337527ioh.12.2020.09.08.15.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 15:38:52 -0700 (PDT)
-Received: (nullmailer pid 1066114 invoked by uid 1000);
-        Tue, 08 Sep 2020 22:38:46 -0000
-Date:   Tue, 8 Sep 2020 16:38:46 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pwm@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: pwm: renesas,pwm-rcar: Add r8a774e1
- support
-Message-ID: <20200908223846.GA1066007@bogus>
-References: <20200825104455.18000-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200825104455.18000-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 8 Sep 2020 19:55:42 -0400
+X-IronPort-AV: E=Sophos;i="5.76,407,1592838000"; 
+   d="scan'208";a="56499160"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 09 Sep 2020 08:55:41 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id EB8A341293B9;
+        Wed,  9 Sep 2020 08:55:40 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+        davem@davemloft.net, kuba@kernel.org, Jisheng.Zhang@synaptics.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead
+Date:   Wed,  9 Sep 2020 08:55:38 +0900
+Message-Id: <1599609338-17732-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 25 Aug 2020 11:44:54 +0100, Lad Prabhakar wrote:
-> From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> 
-> Document RZ/G2H (R8A774E1) SoC bindings.
-> 
-> No driver change is needed due to the fallback compatible value
-> "renesas,pwm-rcar".
-> 
-> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Since the micrel phy driver calls phy_init_hw() as a workaround,
+the commit 9886a4dbd2aa ("net: phy: call phy_disable_interrupts()
+in phy_init_hw()") disables the interrupt unexpectedly. So,
+call phy_disable_interrupts() in phy_attach_direct() instead.
+Otherwise, the phy cannot link up after the ethernet cable was
+disconnected.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Note that other drivers (like at803x.c) also calls phy_init_hw().
+So, perhaps, the driver caused a similar issue too.
+
+Fixes: 9886a4dbd2aa ("net: phy: call phy_disable_interrupts() in phy_init_hw()")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from v1:
+ - Fix build error.
+
+ drivers/net/phy/phy_device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 8adfbad..b93b40c 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -1143,10 +1143,6 @@ int phy_init_hw(struct phy_device *phydev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = phy_disable_interrupts(phydev);
+-	if (ret)
+-		return ret;
+-
+ 	if (phydev->drv->config_init)
+ 		ret = phydev->drv->config_init(phydev);
+ 
+@@ -1423,6 +1419,10 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+ 	if (err)
+ 		goto error;
+ 
++	err = phy_disable_interrupts(phydev);
++	if (err)
++		return err;
++
+ 	phy_resume(phydev);
+ 	phy_led_triggers_register(phydev);
+ 
+-- 
+2.7.4
+
