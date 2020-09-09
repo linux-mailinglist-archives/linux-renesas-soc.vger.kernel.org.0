@@ -2,87 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B702626D3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 07:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68B52626FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 08:00:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725863AbgIIFnV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 01:43:21 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:47059 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725772AbgIIFnU (ORCPT
+        id S1725975AbgIIGAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 02:00:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37800 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725772AbgIIGAr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 01:43:20 -0400
-X-IronPort-AV: E=Sophos;i="5.76,408,1592838000"; 
-   d="scan'208";a="56534769"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Sep 2020 14:43:19 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6E15C41D1D2F;
-        Wed,  9 Sep 2020 14:43:19 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
-        davem@davemloft.net, kuba@kernel.org, Jisheng.Zhang@synaptics.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 RESEND] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead
-Date:   Wed,  9 Sep 2020 14:43:14 +0900
-Message-Id: <1599630194-3052-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 9 Sep 2020 02:00:47 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1599631247;
+        bh=Dta82sFVyPQ0sal8DVkbjwTN0sHph0s7uY+XDI+8/NU=;
+        h=Subject:From:Date:To:From;
+        b=IVRCp64gI0DQL6xj/sfa58TMBZdZ0MdM5LkQ1qgkv3MOTpbkYl2AlXvztdlhwClvg
+         MDs3U/ZwkeBcmjAxb9tPyexRX9zZ5oDnb/u/5LcPC6RRcJzW/M1OOcIn/3I3vjRBMb
+         xUxgnm/c8fLplv4h3UTm8Fai/AakzLKBH/m3Z9n0=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <159963124703.29008.15132689370986755035.git-patchwork-housekeeping@kernel.org>
+Date:   Wed, 09 Sep 2020 06:00:47 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the micrel phy driver calls phy_init_hw() as a workaround,
-the commit 9886a4dbd2aa ("net: phy: call phy_disable_interrupts()
-in phy_init_hw()") disables the interrupt unexpectedly. So,
-call phy_disable_interrupts() in phy_attach_direct() instead.
-Otherwise, the phy cannot link up after the ethernet cable was
-disconnected.
+Latest series: [v2] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead (2020-09-09T05:43:14)
+  Superseding: [v2] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead (2020-09-08T23:55:38):
+    [v2] net: phy: call phy_disable_interrupts() in phy_attach_direct() instead
 
-Note that other drivers (like at803x.c) also calls phy_init_hw().
-So, perhaps, the driver caused a similar issue too.
 
-Fixes: 9886a4dbd2aa ("net: phy: call phy_disable_interrupts() in phy_init_hw()")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Changes from v1:
- - Fix build failure. I used two PCs: PC 1) for testing, PC 2) for
-   submitting patches. I tested on the PC 1. But, after that, I wrote
-   a patch on the PC2 again, and it seemed I didn't do a compile...
-   Today, I got some emails from kernel test bot. So, I realized
-   I had submitted an awful patch. To avoid such failure, I'll use
-   one PC only from now on.
-
- drivers/net/phy/phy_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 8adfbad..b93b40c 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1143,10 +1143,6 @@ int phy_init_hw(struct phy_device *phydev)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = phy_disable_interrupts(phydev);
--	if (ret)
--		return ret;
--
- 	if (phydev->drv->config_init)
- 		ret = phydev->drv->config_init(phydev);
- 
-@@ -1423,6 +1419,10 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 	if (err)
- 		goto error;
- 
-+	err = phy_disable_interrupts(phydev);
-+	if (err)
-+		return err;
-+
- 	phy_resume(phydev);
- 	phy_led_triggers_register(phydev);
- 
 -- 
-2.7.4
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
