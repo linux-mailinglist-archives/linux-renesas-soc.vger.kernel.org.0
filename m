@@ -2,70 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE43263381
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 19:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 843F826337F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 19:05:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730514AbgIIRFO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 13:05:14 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:41461 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730426AbgIIPnR (ORCPT
+        id S1730380AbgIIPnS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 11:43:18 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:52596 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730423AbgIIPnO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 11:43:17 -0400
-Received: by mail-oo1-f65.google.com with SMTP id t3so676661ook.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Sep 2020 08:43:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yGBHR3leqr9CBZhF9ZqOJVbNAq6Exddnv2N2//ISxwE=;
-        b=iA84uHjC/hJe8ORTosMyZ/qa+AIxPBuvJibGI/RCTcChHgtIN3b1VxpnXfTolRlCrK
-         3/ioyUK36Y7glRzBwYy0Qyzto0/ImYbNqE48NqfUplhm3E9x3Eg0x1ONuRZI9WzAi+Js
-         9W45RjlB4tgFeiwPZMzK5D8Zbn/aUt2+o9UmLOf7j7ZhOF8EiGSWmY66Rwpxiu95E/K3
-         vMbk7JtLzZmPP9/Sj5bubCh9/a9AJReAutGbeBKhQgv8TCzLGEconS3hFeHxGwjlEBuD
-         /JtpEdES6eNZ1JXvqJAC9xbvf/nLLQrlqBiFRAwRMFsT18T8AS/K95R957XpSPzZsNKo
-         spqw==
-X-Gm-Message-State: AOAM533Fyz90tNl1sXMsdXnEmYmBOLGCMysGdNVPp9Wpop0KWJHaotsP
-        zKM0o+bbakF64/4f45hOEfdBMcKsTaOdXkVIpJiCSqdW
-X-Google-Smtp-Source: ABdhPJyk3rBz8EQua8Iyg/GLDc4KajqbkCdylr8NWvz49dKJwMWhh2ZrIxRPcWLbA3WSRCZqWZKF2xLXVNcOHiwh3LU=
-X-Received: by 2002:a4a:4201:: with SMTP id h1mr840490ooj.1.1599658952216;
- Wed, 09 Sep 2020 06:42:32 -0700 (PDT)
+        Wed, 9 Sep 2020 11:43:14 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1kG0Qo-00DvEn-Ru; Wed, 09 Sep 2020 15:46:38 +0200
+Date:   Wed, 9 Sep 2020 15:46:38 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     David Miller <davem@davemloft.net>,
+        "hkallweit1@gmail.com" <hkallweit1@gmail.com>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "Jisheng.Zhang@synaptics.com" <Jisheng.Zhang@synaptics.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2] net: phy: call phy_disable_interrupts() in
+ phy_attach_direct() instead
+Message-ID: <20200909134638.GF3290129@lunn.ch>
+References: <1599609338-17732-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20200908.202524.1861811044367438406.davem@davemloft.net>
+ <TY2PR01MB36921A4404E47B78C42CF2DED8260@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-References: <87d02yv55g.wl-kuninori.morimoto.gx@renesas.com> <87bliiv54u.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87bliiv54u.wl-kuninori.morimoto.gx@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Sep 2020 15:42:21 +0200
-Message-ID: <CAMuHMdXSVQggbf2v79x9Ykv3Q_fLP294fyOHUF=TXX5hQEjmBw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] soc: renesas: use ARM32/ARM64 for menu description
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Magnus <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB36921A4404E47B78C42CF2DED8260@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 1:51 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> For easy understanding architecture and alphabetical merging,
-> this patch uses ARM32/ARM64 for description.
-> This is prepare for menu sorting.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Wed, Sep 09, 2020 at 04:18:56AM +0000, Yoshihiro Shimoda wrote:
+> Hi David,
+> 
+> > From: David Miller, Sent: Wednesday, September 9, 2020 12:25 PM
+> > 
+> > From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > Date: Wed,  9 Sep 2020 08:55:38 +0900
+> > 
+> > >  Changes from v1:
+> > >  - Fix build error.
+> > 
+> > When such a fundamental build failure is fixed (it could never have
+> > built for anyone, even you), I want it explained why this happened
+> > and how this was functionally tested if it did not even compile.
+> 
+> I'm sorry about this. I used two PCs now:
+>  PC 1 = for testing at local
+>  PC 2 = for submitting patches at remote (because corporate network situation)
+> 
+> I tested on the PC 1.
+> But, after that, I modified the code on the PC 2 again. And, it seemed
+> I didn't do a compile.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+This sort of split setup is always a bad idea. Always do the git
+format-patch on PC 1 and somehow get the patch files off it, and use
+PC 2 only for git send-email, never any development work. That way you
+will avoid issues like this.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+     Andrew
