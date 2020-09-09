@@ -2,137 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A447C263264
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 18:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25220263453
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 19:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730802AbgIIQmC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 12:42:02 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:30590 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730807AbgIIQQ6 (ORCPT
+        id S1730424AbgIIRS7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 13:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbgIIP12 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 12:16:58 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 089GEmH0019711;
-        Wed, 9 Sep 2020 18:16:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=pX2B7fReKwvkHQysboPcLDLrH1m3FCE4w8zrrewK33E=;
- b=QYiLxdPjc5qlg86Hyi/HVbm9yiRi38vLWdASByT+wFeaEkRY6ZDSaskLeEP2/61pvKmN
- zrdJ10wLVeMug/QMxvTy/tcJ/9YAwXBa6UXax8zPrFwGWm//nD+0ioTBr1kGNJJfVSbP
- aLUYDFtkV3KqTB9mYVX9JQSohNW+NWkWMIfBOPDJg1i5+T3jmEIbb/51LxY8Q7P+qAVS
- NE7wLfvyYsuMc/cJeb1XlTlzbHK1AEuyjiDAhrprSAMA9CIGAvShzLI7m7ZbnQTHiOV+
- Nl2d+8m7ZSX+YoKvDegOeUMuPUYNEonduG50ud2nyEKMeD7Ylungq/fyDa1fuyp8iQlU UQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 33c0eux4ny-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Sep 2020 18:16:03 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1E01310002A;
-        Wed,  9 Sep 2020 18:16:02 +0200 (CEST)
-Received: from Webmail-eu.st.com (gpxdag5node6.st.com [10.75.127.79])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 067C12BF9D0;
-        Wed,  9 Sep 2020 18:16:02 +0200 (CEST)
-Received: from GPXDAG5NODE4.st.com (10.75.127.77) by GPXDAG5NODE6.st.com
- (10.75.127.79) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
- 2020 18:16:01 +0200
-Received: from GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a]) by
- GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a%19]) with mapi id
- 15.00.1473.003; Wed, 9 Sep 2020 18:16:01 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Paul <paul.kocialkowski@bootlin.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "Biju Das" <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
- mode unless streaming
-Thread-Topic: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
- mode unless streaming
-Thread-Index: AQHWhPjOKshFnubx50WwoCdor2jh8KlgXYuA
-Date:   Wed, 9 Sep 2020 16:16:01 +0000
-Message-ID: <8b5d4928-2921-b876-7d1e-04bb42eff4fa@st.com>
-References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.45]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1C1BB566B1FBDB46B15502D69C582AA4@st.com>
-Content-Transfer-Encoding: base64
+        Wed, 9 Sep 2020 11:27:28 -0400
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C1CC061757
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Sep 2020 04:11:02 -0700 (PDT)
+Received: by mail-vs1-xe42.google.com with SMTP id b123so1079111vsd.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Sep 2020 04:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=khWyhAe+lN07SqtNkMSWgvbuoeZTuOj4AYam/mxcJqA=;
+        b=VDxiHWdoA6M16HlkWBnXofA9gCh5u4mUs3a4g7d3yx3bXnwWeVnhEbXVxfNOJ2jsWI
+         uZA6+5fKK7Wyj/Va++px8gtMcgyBMzUXpSQNPXFXZoueO33i291qK/z2eKBpKr1mchb6
+         e6n8SewJ4hFBL6xSc7xSUF4yHAb2r9JosEIGXan6ZOo61vc8lvHt6bA1IEC/WfNjFdcs
+         Kr7VLRW4ih/5x974ps3zfEJuQiSfzL6vMkLq617OQhkXn3yvy3PN6PhgF6W+6+s8Ni0+
+         p1+FZHQqiwk1Dac+xzQf5H/1Gn2022/S8eQFdX7jRVHQyldLJc0Qszr8GfxwgOLcUllm
+         5llw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=khWyhAe+lN07SqtNkMSWgvbuoeZTuOj4AYam/mxcJqA=;
+        b=TCohVWof71WQd/YTsTNuDVPih7Nw3k94jOIMzV67YVvSv1tJ3x05H8uwWgUh0ouRy3
+         T8feuzDNZZHo75GlJG45ctCJgzh4ZVp2HWt5knf37hioOxh6f+KBrVpqv1sv/YRfx/yx
+         BlOO1Xuj0XcS1Fq/GWEA9qr++A+exMOhKJly2rG+5VXljz/MOfLaaDk6zXDcAneCq1/E
+         McIuz+DKBoPKP1kCPlUyrEzH7lefV7QjwZkmKq77y8mlSV6M+DWQ6dvV4v0OAkZSogjC
+         IwCmxfZ7p98DqQQa6+NSW/a+PT0aUofcWOpgZsNEuRHLeasvS4jhlWnkHmB9XUp3p0HD
+         1BZA==
+X-Gm-Message-State: AOAM532phQTV6+eCKLynJDASpeE0v23Ok2Mwekd0szlKB0sSdcdffac0
+        ayrrc5GZwU+qhoCUMpMG0EiI3kyVB6oC2RRUApyKrg==
+X-Google-Smtp-Source: ABdhPJyrhzUCjcXsxzlSgTTgLnzBPVGFjXoK2d+f6coDVgjEfNWL7TMizPQxlX5earJnYx3MmYEBFJXkH/Ia4T3/tI0=
+X-Received: by 2002:a67:e355:: with SMTP id s21mr123357vsm.50.1599649861771;
+ Wed, 09 Sep 2020 04:11:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-09-09_09:2020-09-09,2020-09-09 signatures=0
+References: <20200902081812.1591-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200902081812.1591-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 9 Sep 2020 13:10:25 +0200
+Message-ID: <CAPDyKFq6NiK1dopS=mBd2r8Eq3TwbT8ZfRG7ujWbYEKeAbDokg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] mmc: renesas_sdhi: support manual calibration
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUHJhYmhha2FyLA0KDQpBcyBkaXNjdXNzZWQgc2VwYXJhdGVseSBJIHdvdWxkIHByZWZlciB0
-byBiZXR0ZXIgdW5kZXJzdGFuZCBpc3N1ZSBiZWZvcmUgDQpnb2luZyB0byB0aGlzIHBhdGNoLg0K
-TmV2ZXJ0aGVsZXNzIEkgaGF2ZSBzb21lIHJlbWFya3MgaW4gY29kZSBpbiBjYXNlIHdlJ2xsIG5l
-ZWQgaXQgYXQgdGhlIGVuZC4NCg0KT24gOS80LzIwIDEwOjE4IFBNLCBMYWQgUHJhYmhha2FyIHdy
-b3RlOg0KPiBLZWVwIHRoZSBzZW5zb3IgaW4gc29mdHdhcmUgcG93ZXIgZG93biBtb2RlIGFuZCB3
-YWtlIHVwIG9ubHkgaW4NCj4gb3Y1NjQwX3NldF9zdHJlYW1fZHZwKCkgY2FsbGJhY2suDQo+IA0K
-PiBTaWduZWQtb2ZmLWJ5OiBMYWQgUHJhYmhha2FyIDxwcmFiaGFrYXIubWFoYWRldi1sYWQucmpA
-YnAucmVuZXNhcy5jb20+DQo+IFJldmlld2VkLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAu
-cmVuZXNhcy5jb20+DQo+IFRlc3RlZC1ieTogSmFjb3BvIE1vbmRpIDxqYWNvcG9Aam1vbmRpLm9y
-Zz4NCj4gLS0tDQo+ICAgZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgfCAxOSArKysrKysrKysr
-KysrKysrLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDMgZGVsZXRp
-b25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgYi9k
-cml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYw0KPiBpbmRleCAyZmU0YTdhYzA1OTIuLjg4MGZkZTcz
-YTAzMCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4gKysrIGIv
-ZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4gQEAgLTM0LDYgKzM0LDggQEANCj4gICAjZGVm
-aW5lIE9WNTY0MF9SRUdfU1lTX1JFU0VUMDIJCTB4MzAwMg0KPiAgICNkZWZpbmUgT1Y1NjQwX1JF
-R19TWVNfQ0xPQ0tfRU5BQkxFMDIJMHgzMDA2DQo+ICAgI2RlZmluZSBPVjU2NDBfUkVHX1NZU19D
-VFJMMAkJMHgzMDA4DQo+ICsjZGVmaW5lIE9WNTY0MF9SRUdfU1lTX0NUUkwwX1NXX1BXRE4JMHg0
-Mg0KPiArI2RlZmluZSBPVjU2NDBfUkVHX1NZU19DVFJMMF9TV19QV1VQCTB4MDINCg0KRm9yIHRo
-ZSB0aW1lIGJlaW5nIHRoaXMgc2VjdGlvbiB3YXMgb25seSByZWZlcnJpbmcgdG8gcmVnaXN0ZXJz
-IA0KYWRkcmVzc2VzIGFuZCBiaXQgZGV0YWlscyB3YXMgZXhwbGFpbmVkIGludG8gYSBjb21tZW50
-IHJpZ2h0IGJlZm9yZSANCmFmZmVjdGF0aW9uLCBzZWUgT1Y1NjQwX1JFR19JT19NSVBJX0NUUkww
-MCBmb3IgZXhhbXBsZS4NCg0KPiAgICNkZWZpbmUgT1Y1NjQwX1JFR19DSElQX0lECQkweDMwMGEN
-Cj4gICAjZGVmaW5lIE9WNTY0MF9SRUdfSU9fTUlQSV9DVFJMMDAJMHgzMDBlDQo+ICAgI2RlZmlu
-ZSBPVjU2NDBfUkVHX1BBRF9PVVRQVVRfRU5BQkxFMDEJMHgzMDE3DQo+IEBAIC0xMTIwLDYgKzEx
-MjIsMTIgQEAgc3RhdGljIGludCBvdjU2NDBfbG9hZF9yZWdzKHN0cnVjdCBvdjU2NDBfZGV2ICpz
-ZW5zb3IsDQo+ICAgCQl2YWwgPSByZWdzLT52YWw7DQo+ICAgCQltYXNrID0gcmVncy0+bWFzazsN
-Cj4gICANCj4gKwkJLyogcmVtYWluIGluIHBvd2VyIGRvd24gbW9kZSBmb3IgRFZQICovDQo+ICsJ
-CWlmIChyZWdzLT5yZWdfYWRkciA9PSBPVjU2NDBfUkVHX1NZU19DVFJMMCAmJg0KPiArCQkgICAg
-dmFsID09IE9WNTY0MF9SRUdfU1lTX0NUUkwwX1NXX1BXVVAgJiYNCj4gKwkJICAgIHNlbnNvci0+
-ZXAuYnVzX3R5cGUgIT0gVjRMMl9NQlVTX0NTSTJfRFBIWSkNCj4gKwkJCWNvbnRpbnVlOw0KPiAr
-DQoNCkkgdW5kZXJzdGFuZCB0aGF0IG1vcmUgb3IgbGVzcyByZWdpc3RlciBPVjU2NDBfUkVHX1NZ
-U19DVFJMMCAoMHgzMDA4KSANCmhhcyBiZWVuIHBhcnRpYWxseSByZW1vdmVkIGZyb20gYmlnIGlu
-aXQgc2VxdWVuY2U6IGZvciBwb3dlci11cCBwYXJ0LCANCmJ1dCBwb3dlci1kd24gcmVtYWlucyBh
-dCB2ZXJ5IGJlZ2lubmluZyBvZiBzZXF1ZW5jZS4NCldlIHNob3VsZCBjb21wbGV0ZWx5IHJlbW92
-ZSAweDMwMDggZnJvbSBpbml0IHNlcXVlbmNlLCBpbmNsdWRpbmcgDQpwb3dlci1kd24sIGFuZCBp
-bnRyb2R1Y2UgYSBuZXcgZnVuY3Rpb24gb3Y1NjQwX3N3X3Bvd2VyZG93bihvbi9vZmYpIHRoYXQg
-DQpzaG91bGQgYmUgY2FsbGVkIGF0IHRoZSByaWdodCBwbGFjZSBpbnN0ZWFkLg0KDQoNCj4gICAJ
-CWlmIChtYXNrKQ0KPiAgIAkJCXJldCA9IG92NTY0MF9tb2RfcmVnKHNlbnNvciwgcmVnX2FkZHIs
-IG1hc2ssIHZhbCk7DQo+ICAgCQllbHNlDQo+IEBAIC0xMjk3LDkgKzEzMDUsMTQgQEAgc3RhdGlj
-IGludCBvdjU2NDBfc2V0X3N0cmVhbV9kdnAoc3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9v
-bCBvbikNCj4gICAJICogUEFEIE9VVFBVVCBFTkFCTEUgMDINCj4gICAJICogLSBbNzoyXToJRFs1
-OjBdIG91dHB1dCBlbmFibGUNCj4gICAJICovDQo+IC0JcmV0dXJuIG92NTY0MF93cml0ZV9yZWco
-c2Vuc29yLA0KPiAtCQkJCU9WNTY0MF9SRUdfUEFEX09VVFBVVF9FTkFCTEUwMiwNCj4gLQkJCQlv
-biA/IDB4ZmMgOiAwKTsNCj4gKwlyZXQgPSBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQw
-X1JFR19QQURfT1VUUFVUX0VOQUJMRTAyLA0KPiArCQkJICAgICAgIG9uID8gMHhmYyA6IDApOw0K
-PiArCWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsNCj4gKwlyZXR1cm4gb3Y1NjQwX3dy
-aXRlX3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdfU1lTX0NUUkwwLCBvbiA/DQo+ICsJCQkJT1Y1NjQw
-X1JFR19TWVNfQ1RSTDBfU1dfUFdVUCA6DQo+ICsJCQkJT1Y1NjQwX1JFR19TWVNfQ1RSTDBfU1df
-UFdETik7DQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgb3Y1NjQwX3NldF9zdHJlYW1fbWlw
-aShzdHJ1Y3Qgb3Y1NjQwX2RldiAqc2Vuc29yLCBib29sIG9uKQ0KPiANCg0KDQpCUiwNCkh1Z3Vl
-cy4=
+On Wed, 2 Sep 2020 at 10:18, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Some R-Car Gen3 SoCs need corrections after they tuned to HS400. This
+> series implements that. Please have a look at the patch descriptions for
+> details. The origins were patches in the BSP from Takeshi Saito.
+>
+> Changes since v1:
+>         * correction is now enabled after tuning is complete not when it
+>           is initiated
+>         * rebased to new version of "fix stalled SCC series" which is a
+>           dependency for this
+>
+> There is a branch for testing here (with the debug patch on top):
+>
+> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/new_manual_calib-for-5.10
+>
+> Current test results (little different to v1):
+> ----------------------------------------------
+>
+> An SDHI instance with a HS400 capable eMMC connected (R-Car M3-N):
+>
+> When preparing HS400 tuning, a calib table is found. So, (potential) old
+> HS400 tuning gets reset and the manual adjustment gets disabled. Unlike
+> previous series, the runtime flag is not enabled yet.
+>
+>      kworker/1:2-139   [001] ....     4.160517: renesas_sdhi_reset_hs400_mode: ee140000.mmc: calib table ffff800010bc15f8
+>      kworker/1:2-139   [001] ....     4.160522: renesas_sdhi_reset_hs400_mode: ee140000.mmc: adjustment disabled
+>
+> Lots of tuning CMDs, runtime flag still disabled:
+>
+>      kworker/0:1-21    [000] ....     4.160630: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.160725: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.160831: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.160936: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161024: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161122: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161214: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161305: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161407: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161496: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161579: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161669: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161762: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161845: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.161927: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.162011: renesas_sdhi_fixup_request: ee140000.mmc: opcode 21, flag 0
+>      kworker/0:1-21    [000] ....     4.162074: renesas_sdhi_fixup_request: ee140000.mmc: opcode 6, flag 0
+>      kworker/0:1-21    [000] ....     4.162612: renesas_sdhi_fixup_request: ee140000.mmc: opcode 13, flag 0
+>      kworker/0:1-21    [000] ....     4.162671: renesas_sdhi_fixup_request: ee140000.mmc: opcode 6, flag 0
+>      kworker/0:1-21    [000] ....     4.162722: renesas_sdhi_fixup_request: ee140000.mmc: opcode 13, flag 0
+>      kworker/0:1-21    [000] ....     4.162778: renesas_sdhi_fixup_request: ee140000.mmc: opcode 6, flag 0
+>
+> Tuning was successful, now the runtime flag gets enabled:
+>
+>      kworker/1:2-139   [001] ....     4.163274: renesas_sdhi_hs400_complete: ee140000.mmc: flag enabled
+>
+> First CMD13 after successful tuning, enable adjustment, clear runtime
+> flag, show replacement value. The replacement value is now also around
+> 16 which is what Shimoda-san said to be an expected value at room
+> temerature. It used to be 31 in v1 of the series.
+>
+>      kworker/0:1-21    [000] ....     4.163416: renesas_sdhi_fixup_request: ee140000.mmc: opcode 13, flag 1
+>      kworker/0:1-21    [000] ....     4.163421: renesas_sdhi_fixup_request: ee140000.mmc: adjustment enabled, flag disabled
+>      kworker/0:1-21    [000] ....     4.163422: renesas_sdhi_fixup_request: code 17 replacement 18
+>
+> Normal operation continues. Some switching and block reads:
+>
+>      kworker/0:1-21    [000] ....     4.163592: renesas_sdhi_fixup_request: ee140000.mmc: opcode 6, flag 0
+>      kworker/0:1-21    [000] ....     4.163645: renesas_sdhi_fixup_request: ee140000.mmc: opcode 13, flag 0
+>      kworker/0:1-21    [000] ....     4.163700: renesas_sdhi_fixup_request: ee140000.mmc: opcode 6, flag 0
+>      kworker/0:1-21    [000] ....     4.163747: renesas_sdhi_fixup_request: ee140000.mmc: opcode 13, flag 0
+>      kworker/0:1-21    [000] ....     4.217134: renesas_sdhi_fixup_request: ee140000.mmc: opcode 17, flag 0
+>      kworker/0:1-21    [000] ....     4.217357: renesas_sdhi_fixup_request: ee140000.mmc: opcode 17, flag 0
+>         ...
+>
+> And then checksumming a large file works without performance
+> regressions. Unlike the previous version, retunes do not happen
+> occasionally, so the new replacement value is indeed better.
+>
+> So, again a lot of text but I want interested parties to verify results.
+>
+> Looking forward to comments, although I won't complain if this is the
+> final version ;)
+>
+> Thanks and kind regards,
+>
+>    Wolfram
+>
+>
+> Wolfram Sang (2):
+>   mmc: tmio: add generic hook to fixup after a completed request
+>   mmc: renesas_sdhi: support manual calibration
+>
+>  drivers/mmc/host/renesas_sdhi.h      |   5 +
+>  drivers/mmc/host/renesas_sdhi_core.c | 152 ++++++++++++++++++++++++++-
+>  drivers/mmc/host/tmio_mmc.h          |   1 +
+>  drivers/mmc/host/tmio_mmc_core.c     |   3 +
+>  4 files changed, 159 insertions(+), 2 deletions(-)
+>
+> --
+> 2.20.1
+>
+
+Applied for next, thanks!
+
+Kind regards
+Uffe
