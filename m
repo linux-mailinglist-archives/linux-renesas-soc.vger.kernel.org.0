@@ -2,106 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF89262754
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 08:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EE5C2629EC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 10:15:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725917AbgIIGrq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 02:47:46 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40325 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbgIIGrp (ORCPT
+        id S1726642AbgIIIPQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 04:15:16 -0400
+Received: from www.zeus03.de ([194.117.254.33]:49484 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725863AbgIIIPQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 02:47:45 -0400
-Received: by mail-ot1-f67.google.com with SMTP id e23so1400275otk.7;
-        Tue, 08 Sep 2020 23:47:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cf0vX7GvijMmMESRM5VUB6x75pchWY6zKNqJHJGGkks=;
-        b=RmsSnUGgft4hivTHElhypKPBXnZ2tJx1elbyfIg40hAqjRRO+YeZI3qzsx0fQyo8qa
-         IeNTJKGyc/eDnweCCA9NS3osfTOtgl2634Oz1dGswLiWcwdDnlcjJNKmQng+X5Pi01ZW
-         7E8nm2bOdA+0T/nexxErZzZWS4NSZL09oB7LJzfyAp18HroRLxmCHyHTdK8+UVnaQfoR
-         Nm5/8/1r+w4I4sAv54Beh190ccNMKjB8AENX2R3GIFFBTj4LHhkdbDVpqNB+d4aXE/dI
-         X7aC7iMR6nw1t9v3tIdu9CGGjvD42Xx0iHpcKZ/+hTJ0JX9qzNqycKuNpTSMk3KOHi58
-         Wy8Q==
-X-Gm-Message-State: AOAM532/RmuswlxFBva91OAeDfiOMAe6vwZ3RrC/7CB783TQSe+QKTVK
-        LSAOg4o3p659Opkzd6fvevbAoCcTwToSQMSCEbM=
-X-Google-Smtp-Source: ABdhPJymwPzT0Y1bq1L93rE2cyEHTa0TX67bo9ysk7iAS4dhG6PZAtSyly6t8XORivDaIHykU6xwflZbpzuAlhL7HZY=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr1840135otp.107.1599634064085;
- Tue, 08 Sep 2020 23:47:44 -0700 (PDT)
+        Wed, 9 Sep 2020 04:15:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=xceAgulUCJFdhnQtzS+YsMb4KCK8
+        Pw7VeatTHMborXA=; b=V0iytMUzFPShRmuI9k4NWjwz5uGWv7VGCmwHho6S4hJz
+        fxjFewZtk1+VA9RxVQx8PxwODqtMvlNAT81eVHZiABuN1fRp9Cbkx8CWuT8+TFa6
+        uxu96mhirulhlbMKvfv21HxkhKmzSYT2EL5gcagh+AT136MkfiHGYKIJcq415jk=
+Received: (qmail 226205 invoked from network); 9 Sep 2020 10:15:13 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Sep 2020 10:15:13 +0200
+X-UD-Smtp-Session: l3s3148p1@lOkLDd2utIMgAwDPXwesAAPl1NpCEY8B
+Date:   Wed, 9 Sep 2020 10:15:10 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH] i2c: add binding to mark a bus as SMBus
+Message-ID: <20200909081510.GA2272@ninjato>
+References: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdVAgN69p9FFnQdO4iHk2CHkeNaVui2Q-FOY6_BFVjQ-Nw@mail.gmail.com> <TY2PR01MB36926058A1379C68CDC6BFD6D8260@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB36926058A1379C68CDC6BFD6D8260@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Sep 2020 08:47:32 +0200
-Message-ID: <CAMuHMdUanmLr=1dA=3=S5nMnSYoKoQs+W7aaL=CZXfkXZ45gBw@mail.gmail.com>
-Subject: Re: [PATCH 12/14] clk: renesas: cpg-mssr: Add support for R-Car V3U
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="X1bOJ3K7DJ5YkBrT"
+Content-Disposition: inline
+In-Reply-To: <20200701214830.3174-1-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
 
-On Wed, Sep 9, 2020 at 4:53 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, September 9, 2020 12:22 AM
-> > On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > Initial support for R-Car V3U (r8a779a0), including core, module
-> > > clocks and register access, because register specification differs
-> > > than R-Car Gen2/3.
+--X1bOJ3K7DJ5YkBrT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > > +struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
-> > > +       const struct cpg_core_clk *core, const struct cpg_mssr_info *info,
-> > > +       struct clk **clks, void __iomem *base,
-> > > +       struct raw_notifier_head *notifiers)
-> > > +{
-> >
-> > > +       case CLK_TYPE_R8A779A0_PLL20:
-> > > +               value = readl(base + CPG_PLL20CR);
-> > > +               mult = (((value >> 24) & 0x7f) + 1) * 2;
-> > > +               break;
-> > > +
-> > > +       case CLK_TYPE_R8A779A0_PLL21:
-> > > +               value = readl(base + CPG_PLL21CR);
-> > > +               mult = (((value >> 24) & 0x7f) + 1) * 2;
-> > > +               break;
-> > > +
-> > > +       case CLK_TYPE_R8A779A0_PLL30:
-> > > +               value = readl(base + CPG_PLL30CR);
-> > > +               mult = (((value >> 24) & 0x7f) + 1) * 2;
-> > > +               break;
-> > > +
-> > > +       case CLK_TYPE_R8A779A0_PLL31:
-> > > +               value = readl(base + CPG_PLL31CR);
-> > > +               mult = (((value >> 24) & 0x7f) + 1) * 2;
-> > > +               break;
-> >
-> > Perhaps CLK_TYPE_R8A779A0_PLL[23][01] can share a common type, encoding
-> > the register offset in cpg_core_clk.offset?
->
-> I think so. If so, should I add a new macro in the r8a779a0-cpg-mssr.c to set .offset?
+On Wed, Jul 01, 2020 at 11:48:30PM +0200, Wolfram Sang wrote:
+> SMBus is largely compatible with I2C but there are some specifics. In
+> case we need them on a bus, we can now use this new binding.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Indeed, a new macro similar to the existing DEF_GEN3_SD().
+So, I am going to apply this now. We have this cycle and the next one to
+fix up things if we find something to improve.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+--X1bOJ3K7DJ5YkBrT
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+-----BEGIN PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9YjwoACgkQFA3kzBSg
+KbZKYxAAk9ihU/GTqkcE9/h7I2CnGa3gpQWDCT5d2HUThmUxLuGVZjNpJpUDpOdm
++KrJZgRmzwyU/B2FKOwOW3I7FEgF51Tvjfwjbh7du9JElTBa7NsS6pWPeBocWCNh
+ytDVwcDBc3ri8IOys/Xshf3TteyjDJyazipxEelc93JQ7z+61ZstUu9ng1WAHXZE
+fnovARzS4JoIJT/c/1e1aHjscwXrotkbxGZ67SwS8OmjJ71hu0vFRV5UvrnXllQC
+GHKQGAeJVhAvdQP3eHJg3yT+LBIRt1to3igbOyxfg30eAc1lcqr1bGbpUkcWqEcN
+o2HfovvlNCIfKuFfitRGa6MSp35qm1LoY3gV9DI3xTFn6RFBLTbdG/otlln6bqW/
+wADX2uTctm2JmWi9m3maMNCxSn3MXdqvzSs3tRUuX7FOVgNClWtWgPdqXyUYyIDI
+VtlHQqFGRzG+95xoHnVwjlF/6RoRh0cVOA2Mk0wxKUTSSz9zwKpV+8tDZL6LIbL3
+MBs4AsPq9UDT53aXeUA1viAvtIsv2O1++VpyhmGRL77oZ1Fxkm3KthLsRt1hcVxI
+mcR1YWK0L8FnedOe5datZr7hucTlxzHQneOG2khVLpuBtloICUfQ5Wj3q052vwts
+lEj+Oi/8S/DB46jUWic27vZRxg8XfZVuHvYddqX9yIYJeuTv7NQ=
+=YXOG
+-----END PGP SIGNATURE-----
+
+--X1bOJ3K7DJ5YkBrT--
