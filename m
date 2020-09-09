@@ -2,174 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C3B2632C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 18:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A447C263264
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 18:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730770AbgIIQu0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 12:50:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46744 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730560AbgIIQGM (ORCPT
+        id S1730802AbgIIQmC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 12:42:02 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:30590 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730807AbgIIQQ6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 12:06:12 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F8A839;
-        Wed,  9 Sep 2020 18:06:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599667564;
-        bh=BOVuJQkYbStHUnnXVNptk38h3Hxi6q7yOdvlG8izAts=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=aFP3mbdf1M9oYd/JkJlwQ0bTVoYYnZgFHG9io497bm1xt/8kcj2CYnvE1HoZvcGFh
-         ziKMnNgmbjfYxyUwzsrvuYFlVgmhgY3GtJQ1DJj64LmMi5i1+u+q8A1ULu1n1V4HZu
-         3BTgvsdpVYUPce2CEGoPIqJm96GcSmu2At9mngDk=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH] drm: rcar-du: Fix pitch handling for fully planar YUV
- formats
-To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-References: <20200806022649.22506-1-laurent.pinchart+renesas@ideasonboard.com>
- <3c2147d8-b5bc-b0e8-6435-4d3ec0154249@ideasonboard.com>
- <20200908155208.GF11405@pendragon.ideasonboard.com>
- <6e66b920-96d6-591a-af59-353558b89f98@ideasonboard.com>
- <20200909120835.GJ6112@intel.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <490b02de-8b4f-057e-a0c6-07f73f6ce052@ideasonboard.com>
-Date:   Wed, 9 Sep 2020 17:06:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+        Wed, 9 Sep 2020 12:16:58 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 089GEmH0019711;
+        Wed, 9 Sep 2020 18:16:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=pX2B7fReKwvkHQysboPcLDLrH1m3FCE4w8zrrewK33E=;
+ b=QYiLxdPjc5qlg86Hyi/HVbm9yiRi38vLWdASByT+wFeaEkRY6ZDSaskLeEP2/61pvKmN
+ zrdJ10wLVeMug/QMxvTy/tcJ/9YAwXBa6UXax8zPrFwGWm//nD+0ioTBr1kGNJJfVSbP
+ aLUYDFtkV3KqTB9mYVX9JQSohNW+NWkWMIfBOPDJg1i5+T3jmEIbb/51LxY8Q7P+qAVS
+ NE7wLfvyYsuMc/cJeb1XlTlzbHK1AEuyjiDAhrprSAMA9CIGAvShzLI7m7ZbnQTHiOV+
+ Nl2d+8m7ZSX+YoKvDegOeUMuPUYNEonduG50ud2nyEKMeD7Ylungq/fyDa1fuyp8iQlU UQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 33c0eux4ny-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 09 Sep 2020 18:16:03 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1E01310002A;
+        Wed,  9 Sep 2020 18:16:02 +0200 (CEST)
+Received: from Webmail-eu.st.com (gpxdag5node6.st.com [10.75.127.79])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 067C12BF9D0;
+        Wed,  9 Sep 2020 18:16:02 +0200 (CEST)
+Received: from GPXDAG5NODE4.st.com (10.75.127.77) by GPXDAG5NODE6.st.com
+ (10.75.127.79) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 9 Sep
+ 2020 18:16:01 +0200
+Received: from GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a]) by
+ GPXDAG5NODE4.st.com ([fe80::f1ac:b650:75f9:818a%19]) with mapi id
+ 15.00.1473.003; Wed, 9 Sep 2020 18:16:01 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Paul <paul.kocialkowski@bootlin.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "Biju Das" <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
+ mode unless streaming
+Thread-Topic: [PATCH v4 1/6] media: i2c: ov5640: Remain in power down for DVP
+ mode unless streaming
+Thread-Index: AQHWhPjOKshFnubx50WwoCdor2jh8KlgXYuA
+Date:   Wed, 9 Sep 2020 16:16:01 +0000
+Message-ID: <8b5d4928-2921-b876-7d1e-04bb42eff4fa@st.com>
+References: <20200904201835.5958-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200904201835.5958-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.45]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1C1BB566B1FBDB46B15502D69C582AA4@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20200909120835.GJ6112@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-09_09:2020-09-09,2020-09-09 signatures=0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ville, Laurent,
-
-On 09/09/2020 13:08, Ville Syrjälä wrote:
-> On Tue, Sep 08, 2020 at 05:05:48PM +0100, Kieran Bingham wrote:
->> Hi Laurent,
->>
->> On 08/09/2020 16:52, Laurent Pinchart wrote:
->>> Hi Kieran,
->>>
->>> On Tue, Sep 08, 2020 at 04:42:58PM +0100, Kieran Bingham wrote:
->>>> On 06/08/2020 03:26, Laurent Pinchart wrote:
->>>>> When creating a frame buffer, the driver verifies that the pitches for
->>>>> the chroma planes match the luma plane. This is done incorrectly for
->>>>> fully planar YUV formats, without taking horizontal subsampling into
->>>>> account. Fix it.
->>>>>
->>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>>> ---
-> <snip>
->>>>>  	}, {
->>>>>  		.fourcc = DRM_FORMAT_YVU444,
->>>>>  		.v4l2 = V4L2_PIX_FMT_YVU444M,
->>>>>  		.bpp = 24,
->>>>>  		.planes = 3,
->>>>> +		.hsub = 1,
->>>>>  	},
->>>>>  };
->>>>>  
->>>>
->>>> I wonder when we can have a global/generic set of format tables so that
->>>> all of this isn't duplicated on a per-driver basis.
->>>
->>> Note that this table also contains register values, so at least that
->>> part will need to be kept. For the rest, do you mean a 4CC library that
->>
->> Yes, the driver specific mappings of course need to be driver specific.
->>
->>
->>> would be shared between DRM/KMS and V4L2 ? That's a great idea. Too bad
->>> it has been shot down when patches were submitted :-S
->>
->>
->>  /o\ ... It just seems like so much data replication that must be used
->> by many drivers.
->>
->> Even without mapping the DRM/V4L2 fourccs - even a common table in each
->> subsystem would be beneficial wouldn't it?
->>
->> I mean - RCar-DU isn't the only device that needs to know how many
->> planes DRM_FORMAT_YUV422 has, or what horizontal subsampling it uses?
->>
->> Anyway, that's not an issue with this patch, it just seems glaring to me
->> that these entries are common across all hardware that use them ...
->>
->> (the bpp/planes/subsampling of course, not the hardware specific registers).
-> 
-> See drm_format_info() & co.
-
-Aha perfect, That's what I was looking for.
-I'm glad to see that's common (at least for the DRM parts).
-
-The question is - why aren't we using it in RCar-DU.
-
-Laurent, would you see any issue in obtaining the struct drm_format_info
-rather than re-encoding all the data in these tables?
-
-And if not - would you prefer to convert on top of this patch, or
-preceding this patch?
-
-Or simply prefer to keep the existing tables ?
-
-Given that this fixes a bug - I'd say getting this patch in now is
-probably best.
-
--- 
-Regards
---
-Kieran
+SGkgUHJhYmhha2FyLA0KDQpBcyBkaXNjdXNzZWQgc2VwYXJhdGVseSBJIHdvdWxkIHByZWZlciB0
+byBiZXR0ZXIgdW5kZXJzdGFuZCBpc3N1ZSBiZWZvcmUgDQpnb2luZyB0byB0aGlzIHBhdGNoLg0K
+TmV2ZXJ0aGVsZXNzIEkgaGF2ZSBzb21lIHJlbWFya3MgaW4gY29kZSBpbiBjYXNlIHdlJ2xsIG5l
+ZWQgaXQgYXQgdGhlIGVuZC4NCg0KT24gOS80LzIwIDEwOjE4IFBNLCBMYWQgUHJhYmhha2FyIHdy
+b3RlOg0KPiBLZWVwIHRoZSBzZW5zb3IgaW4gc29mdHdhcmUgcG93ZXIgZG93biBtb2RlIGFuZCB3
+YWtlIHVwIG9ubHkgaW4NCj4gb3Y1NjQwX3NldF9zdHJlYW1fZHZwKCkgY2FsbGJhY2suDQo+IA0K
+PiBTaWduZWQtb2ZmLWJ5OiBMYWQgUHJhYmhha2FyIDxwcmFiaGFrYXIubWFoYWRldi1sYWQucmpA
+YnAucmVuZXNhcy5jb20+DQo+IFJldmlld2VkLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAu
+cmVuZXNhcy5jb20+DQo+IFRlc3RlZC1ieTogSmFjb3BvIE1vbmRpIDxqYWNvcG9Aam1vbmRpLm9y
+Zz4NCj4gLS0tDQo+ICAgZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgfCAxOSArKysrKysrKysr
+KysrKysrLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDMgZGVsZXRp
+b25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgYi9k
+cml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYw0KPiBpbmRleCAyZmU0YTdhYzA1OTIuLjg4MGZkZTcz
+YTAzMCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4gKysrIGIv
+ZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4gQEAgLTM0LDYgKzM0LDggQEANCj4gICAjZGVm
+aW5lIE9WNTY0MF9SRUdfU1lTX1JFU0VUMDIJCTB4MzAwMg0KPiAgICNkZWZpbmUgT1Y1NjQwX1JF
+R19TWVNfQ0xPQ0tfRU5BQkxFMDIJMHgzMDA2DQo+ICAgI2RlZmluZSBPVjU2NDBfUkVHX1NZU19D
+VFJMMAkJMHgzMDA4DQo+ICsjZGVmaW5lIE9WNTY0MF9SRUdfU1lTX0NUUkwwX1NXX1BXRE4JMHg0
+Mg0KPiArI2RlZmluZSBPVjU2NDBfUkVHX1NZU19DVFJMMF9TV19QV1VQCTB4MDINCg0KRm9yIHRo
+ZSB0aW1lIGJlaW5nIHRoaXMgc2VjdGlvbiB3YXMgb25seSByZWZlcnJpbmcgdG8gcmVnaXN0ZXJz
+IA0KYWRkcmVzc2VzIGFuZCBiaXQgZGV0YWlscyB3YXMgZXhwbGFpbmVkIGludG8gYSBjb21tZW50
+IHJpZ2h0IGJlZm9yZSANCmFmZmVjdGF0aW9uLCBzZWUgT1Y1NjQwX1JFR19JT19NSVBJX0NUUkww
+MCBmb3IgZXhhbXBsZS4NCg0KPiAgICNkZWZpbmUgT1Y1NjQwX1JFR19DSElQX0lECQkweDMwMGEN
+Cj4gICAjZGVmaW5lIE9WNTY0MF9SRUdfSU9fTUlQSV9DVFJMMDAJMHgzMDBlDQo+ICAgI2RlZmlu
+ZSBPVjU2NDBfUkVHX1BBRF9PVVRQVVRfRU5BQkxFMDEJMHgzMDE3DQo+IEBAIC0xMTIwLDYgKzEx
+MjIsMTIgQEAgc3RhdGljIGludCBvdjU2NDBfbG9hZF9yZWdzKHN0cnVjdCBvdjU2NDBfZGV2ICpz
+ZW5zb3IsDQo+ICAgCQl2YWwgPSByZWdzLT52YWw7DQo+ICAgCQltYXNrID0gcmVncy0+bWFzazsN
+Cj4gICANCj4gKwkJLyogcmVtYWluIGluIHBvd2VyIGRvd24gbW9kZSBmb3IgRFZQICovDQo+ICsJ
+CWlmIChyZWdzLT5yZWdfYWRkciA9PSBPVjU2NDBfUkVHX1NZU19DVFJMMCAmJg0KPiArCQkgICAg
+dmFsID09IE9WNTY0MF9SRUdfU1lTX0NUUkwwX1NXX1BXVVAgJiYNCj4gKwkJICAgIHNlbnNvci0+
+ZXAuYnVzX3R5cGUgIT0gVjRMMl9NQlVTX0NTSTJfRFBIWSkNCj4gKwkJCWNvbnRpbnVlOw0KPiAr
+DQoNCkkgdW5kZXJzdGFuZCB0aGF0IG1vcmUgb3IgbGVzcyByZWdpc3RlciBPVjU2NDBfUkVHX1NZ
+U19DVFJMMCAoMHgzMDA4KSANCmhhcyBiZWVuIHBhcnRpYWxseSByZW1vdmVkIGZyb20gYmlnIGlu
+aXQgc2VxdWVuY2U6IGZvciBwb3dlci11cCBwYXJ0LCANCmJ1dCBwb3dlci1kd24gcmVtYWlucyBh
+dCB2ZXJ5IGJlZ2lubmluZyBvZiBzZXF1ZW5jZS4NCldlIHNob3VsZCBjb21wbGV0ZWx5IHJlbW92
+ZSAweDMwMDggZnJvbSBpbml0IHNlcXVlbmNlLCBpbmNsdWRpbmcgDQpwb3dlci1kd24sIGFuZCBp
+bnRyb2R1Y2UgYSBuZXcgZnVuY3Rpb24gb3Y1NjQwX3N3X3Bvd2VyZG93bihvbi9vZmYpIHRoYXQg
+DQpzaG91bGQgYmUgY2FsbGVkIGF0IHRoZSByaWdodCBwbGFjZSBpbnN0ZWFkLg0KDQoNCj4gICAJ
+CWlmIChtYXNrKQ0KPiAgIAkJCXJldCA9IG92NTY0MF9tb2RfcmVnKHNlbnNvciwgcmVnX2FkZHIs
+IG1hc2ssIHZhbCk7DQo+ICAgCQllbHNlDQo+IEBAIC0xMjk3LDkgKzEzMDUsMTQgQEAgc3RhdGlj
+IGludCBvdjU2NDBfc2V0X3N0cmVhbV9kdnAoc3RydWN0IG92NTY0MF9kZXYgKnNlbnNvciwgYm9v
+bCBvbikNCj4gICAJICogUEFEIE9VVFBVVCBFTkFCTEUgMDINCj4gICAJICogLSBbNzoyXToJRFs1
+OjBdIG91dHB1dCBlbmFibGUNCj4gICAJICovDQo+IC0JcmV0dXJuIG92NTY0MF93cml0ZV9yZWco
+c2Vuc29yLA0KPiAtCQkJCU9WNTY0MF9SRUdfUEFEX09VVFBVVF9FTkFCTEUwMiwNCj4gLQkJCQlv
+biA/IDB4ZmMgOiAwKTsNCj4gKwlyZXQgPSBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQw
+X1JFR19QQURfT1VUUFVUX0VOQUJMRTAyLA0KPiArCQkJICAgICAgIG9uID8gMHhmYyA6IDApOw0K
+PiArCWlmIChyZXQpDQo+ICsJCXJldHVybiByZXQ7DQo+ICsNCj4gKwlyZXR1cm4gb3Y1NjQwX3dy
+aXRlX3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdfU1lTX0NUUkwwLCBvbiA/DQo+ICsJCQkJT1Y1NjQw
+X1JFR19TWVNfQ1RSTDBfU1dfUFdVUCA6DQo+ICsJCQkJT1Y1NjQwX1JFR19TWVNfQ1RSTDBfU1df
+UFdETik7DQo+ICAgfQ0KPiAgIA0KPiAgIHN0YXRpYyBpbnQgb3Y1NjQwX3NldF9zdHJlYW1fbWlw
+aShzdHJ1Y3Qgb3Y1NjQwX2RldiAqc2Vuc29yLCBib29sIG9uKQ0KPiANCg0KDQpCUiwNCkh1Z3Vl
+cy4=
