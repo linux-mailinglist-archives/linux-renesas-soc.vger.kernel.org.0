@@ -2,131 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACAD526318B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 18:18:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03066263211
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Sep 2020 18:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730851AbgIIQSi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Sep 2020 12:18:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54862 "EHLO
+        id S1731149AbgIIQem (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Sep 2020 12:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731020AbgIIQSP (ORCPT
+        with ESMTP id S1731117AbgIIQ12 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Sep 2020 12:18:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 622FBC061756
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Sep 2020 09:18:05 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7287339;
-        Wed,  9 Sep 2020 18:17:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1599668277;
-        bh=A0Urw1Q+ir9JTbhNf/GNgSjD5P2aV4lZ1tva1AAvqDU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TaxILc9JtXbSHor9uxAzaj2ighrAwq42iNeJ4SNyQSpfC8SfThYWDAMAQMBdcfAa3
-         JRJdiJAY47ZkFxgt9+abdonjJUrhTR1KemewBo7NWdCQXR9Y10ztm0PvF+XyE8jUYp
-         EwdzYjvebrjjK6Gi1trR/SsrteoomXzAVbhfg/ck=
-Date:   Wed, 9 Sep 2020 19:17:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm: rcar-du: Fix pitch handling for fully planar YUV
- formats
-Message-ID: <20200909161730.GC3931@pendragon.ideasonboard.com>
-References: <20200806022649.22506-1-laurent.pinchart+renesas@ideasonboard.com>
- <3c2147d8-b5bc-b0e8-6435-4d3ec0154249@ideasonboard.com>
- <20200908155208.GF11405@pendragon.ideasonboard.com>
- <6e66b920-96d6-591a-af59-353558b89f98@ideasonboard.com>
- <20200909120835.GJ6112@intel.com>
- <490b02de-8b4f-057e-a0c6-07f73f6ce052@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <490b02de-8b4f-057e-a0c6-07f73f6ce052@ideasonboard.com>
+        Wed, 9 Sep 2020 12:27:28 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554D9C0617AA
+        for <linux-renesas-soc@vger.kernel.org>; Wed,  9 Sep 2020 09:26:57 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id RsSr230084C55Sk01sSrm6; Wed, 09 Sep 2020 18:26:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kG2vr-0000Qv-0z; Wed, 09 Sep 2020 18:26:51 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kFzwm-0003Mo-Ki; Wed, 09 Sep 2020 15:15:36 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] pinctrl: renesas: More-consolidation
+Date:   Wed,  9 Sep 2020 15:15:31 +0200
+Message-Id: <20200909131534.12897-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+	Hi Linus,
 
-On Wed, Sep 09, 2020 at 05:06:01PM +0100, Kieran Bingham wrote:
-> On 09/09/2020 13:08, Ville Syrjälä wrote:
-> > On Tue, Sep 08, 2020 at 05:05:48PM +0100, Kieran Bingham wrote:
-> >> On 08/09/2020 16:52, Laurent Pinchart wrote:
-> >>> On Tue, Sep 08, 2020 at 04:42:58PM +0100, Kieran Bingham wrote:
-> >>>> On 06/08/2020 03:26, Laurent Pinchart wrote:
-> >>>>> When creating a frame buffer, the driver verifies that the pitches for
-> >>>>> the chroma planes match the luma plane. This is done incorrectly for
-> >>>>> fully planar YUV formats, without taking horizontal subsampling into
-> >>>>> account. Fix it.
-> >>>>>
-> >>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>>>> ---
-> > <snip>
-> >>>>>  	}, {
-> >>>>>  		.fourcc = DRM_FORMAT_YVU444,
-> >>>>>  		.v4l2 = V4L2_PIX_FMT_YVU444M,
-> >>>>>  		.bpp = 24,
-> >>>>>  		.planes = 3,
-> >>>>> +		.hsub = 1,
-> >>>>>  	},
-> >>>>>  };
-> >>>>>  
-> >>>>
-> >>>> I wonder when we can have a global/generic set of format tables so that
-> >>>> all of this isn't duplicated on a per-driver basis.
-> >>>
-> >>> Note that this table also contains register values, so at least that
-> >>> part will need to be kept. For the rest, do you mean a 4CC library that
-> >>
-> >> Yes, the driver specific mappings of course need to be driver specific.
-> >>
-> >>> would be shared between DRM/KMS and V4L2 ? That's a great idea. Too bad
-> >>> it has been shot down when patches were submitted :-S
-> >>
-> >>  /o\ ... It just seems like so much data replication that must be used
-> >> by many drivers.
-> >>
-> >> Even without mapping the DRM/V4L2 fourccs - even a common table in each
-> >> subsystem would be beneficial wouldn't it?
-> >>
-> >> I mean - RCar-DU isn't the only device that needs to know how many
-> >> planes DRM_FORMAT_YUV422 has, or what horizontal subsampling it uses?
-> >>
-> >> Anyway, that's not an issue with this patch, it just seems glaring to me
-> >> that these entries are common across all hardware that use them ...
-> >>
-> >> (the bpp/planes/subsampling of course, not the hardware specific registers).
-> > 
-> > See drm_format_info() & co.
-> 
-> Aha perfect, That's what I was looking for.
-> I'm glad to see that's common (at least for the DRM parts).
-> 
-> The question is - why aren't we using it in RCar-DU.
-> 
-> Laurent, would you see any issue in obtaining the struct drm_format_info
-> rather than re-encoding all the data in these tables?
-> 
-> And if not - would you prefer to convert on top of this patch, or
-> preceding this patch?
-> 
-> Or simply prefer to keep the existing tables ?
-> 
-> Given that this fixes a bug - I'd say getting this patch in now is
-> probably best.
+This patch series continues the work to consolidate all pin control
+drivers for Renesas SoCs, as started by Morimoto-san.
 
-I'd apply refactoring on top, if desired. You would have to keep the
-existing table for the mapping to V4L2 (although this could be moved to
-drm_format_info if desired), as well as for the register value. And that
-would then lead to a double lookup operation. That's the part that
-bothers me the most.
+I intend to queue this in the (new) pinctrl-renesas-for-v5.10 branch.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (3):
+  pinctrl: rzn1: Do not select GENERIC_PIN{CTRL_GROUPS,MUX_FUNCTIONS}
+  pinctrl: Rename sh-pfc to renesas
+  pinctrl: renesas: Reintroduce SH_PFC for common sh-pfc code
+
+ MAINTAINERS                                   |  5 +-
+ drivers/pinctrl/Kconfig                       |  2 +-
+ drivers/pinctrl/Makefile                      |  2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/Kconfig   | 54 ++++++++++++++-----
+ drivers/pinctrl/{sh-pfc => renesas}/Makefile  |  4 +-
+ drivers/pinctrl/{sh-pfc => renesas}/core.c    |  0
+ drivers/pinctrl/{sh-pfc => renesas}/core.h    |  0
+ drivers/pinctrl/{sh-pfc => renesas}/gpio.c    |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-emev2.c   |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a73a4.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7740.c |  0
+ .../{sh-pfc => renesas}/pfc-r8a77470.c        |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7778.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7779.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7790.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7791.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7792.c |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7794.c |  0
+ .../{sh-pfc => renesas}/pfc-r8a77950.c        |  0
+ .../{sh-pfc => renesas}/pfc-r8a77951.c        |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-r8a7796.c |  2 +-
+ .../{sh-pfc => renesas}/pfc-r8a77965.c        |  2 +-
+ .../{sh-pfc => renesas}/pfc-r8a77970.c        |  2 +-
+ .../{sh-pfc => renesas}/pfc-r8a77980.c        |  2 +-
+ .../{sh-pfc => renesas}/pfc-r8a77990.c        |  2 +-
+ .../{sh-pfc => renesas}/pfc-r8a77995.c        |  2 +-
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7203.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7264.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7269.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh73a0.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7720.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7722.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7723.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7724.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7734.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7757.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7785.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-sh7786.c  |  0
+ .../pinctrl/{sh-pfc => renesas}/pfc-shx3.c    |  0
+ .../{sh-pfc => renesas}/pinctrl-rza1.c        |  0
+ .../{sh-pfc => renesas}/pinctrl-rza2.c        |  0
+ .../{sh-pfc => renesas}/pinctrl-rzn1.c        |  0
+ drivers/pinctrl/{sh-pfc => renesas}/pinctrl.c |  0
+ drivers/pinctrl/{sh-pfc => renesas}/sh_pfc.h  |  0
+ 44 files changed, 55 insertions(+), 24 deletions(-)
+ rename drivers/pinctrl/{sh-pfc => renesas}/Kconfig (90%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/Makefile (96%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/core.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/core.h (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/gpio.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-emev2.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a73a4.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7740.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77470.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7778.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7779.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7790.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7791.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7792.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7794.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77950.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77951.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7796.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77965.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77970.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77980.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77990.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77995.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7203.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7264.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7269.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh73a0.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7720.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7722.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7723.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7724.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7734.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7757.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7785.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7786.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-shx3.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pinctrl-rza1.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pinctrl-rza2.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pinctrl-rzn1.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pinctrl.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/sh_pfc.h (100%)
 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
