@@ -2,51 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFD1264294
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E80602642A4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgIJJmM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 05:42:12 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:33749 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726600AbgIJJmK (ORCPT
+        id S1728626AbgIJJoo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 05:44:44 -0400
+Received: from mail-oo1-f68.google.com ([209.85.161.68]:40804 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728971AbgIJJon (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:42:10 -0400
-Received: by mail-oi1-f196.google.com with SMTP id m7so3888208oie.0;
-        Thu, 10 Sep 2020 02:42:09 -0700 (PDT)
+        Thu, 10 Sep 2020 05:44:43 -0400
+Received: by mail-oo1-f68.google.com with SMTP id r4so1289157ooq.7;
+        Thu, 10 Sep 2020 02:44:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6t4KyNE6aKdBOe7+K4uVYMteUZyvP3X+Q55taPemhA4=;
-        b=Jp6bcg7j4acdTNgd2lhDKOiy+Gynj+gVLNDZXpOjuP27uXEpY6aAc/Nru7dzdVgKY1
-         puVmYmtH0itCZXl2pnRy47EnqyzapspODtdmm1pB7GRuZRAYWOz3h1HyQcd5E4SfsTYM
-         kjV/CpfDK219M8m6vEYeb6dzwMfDMx8e+M0S2peckBo4jocVETkkt8y7G6jiAq8/tLK8
-         75y3owZsW3+ILQ4YL6L83EBGlPuwoZWjPXaajm7aKurM89qeXgSbqf+PJMMtT7OUkkIw
-         hpIpoOLp6+Lsa2LPU2kmcMuUx9o2ctaQ+NjtWkctWXfNsQKgr3ulbljCBWXzb22n6EN+
-         erdA==
-X-Gm-Message-State: AOAM5304O3/rKxsDd2DN/Nln1XD3tINYglYGOvP9yijJbQf8msIT3JpT
-        Z1DOspVCtCrQzfA0PuqECPEIJ0n59XrdGkjOk+Q=
-X-Google-Smtp-Source: ABdhPJxchL9382cME/R/2HkTsCBKE3YV6NjMKB4lOkKU/8bIrnJMCyO8Izl/WsAgXXIaQzO2ySl/oeVsdFszrdiEUFA=
-X-Received: by 2002:aca:b742:: with SMTP id h63mr3036251oif.148.1599730929239;
- Thu, 10 Sep 2020 02:42:09 -0700 (PDT)
+        bh=bme4dCuLQz1jNtKozCKrKV/qMMzTtbQIKl8SOBrnIpY=;
+        b=AuKFEPKVmBZo7pELQtXzmJI5uovDNfUgv+6n+DdteOunXuTxeExuJFgh3hgkw12ujt
+         c1O+86zv6YqYlqM7GeSTqG/NsftAv3m4qohMsbcbqdhJU8LPC1VpFv5BR35IqBtW2Fh7
+         qIXNWq2THdxNRx5iTRUjKLX+GY83Iwyz8K297ZZzcs8cFLUeRiJhdWV+8InzaEPP9hpj
+         g8WepWmi6slkV55mvrntZhRjbliwfy446eeN/JpDUHR2LTxH0w89c2qXSf/kS2675gH5
+         I9chPkNkUfsG06CL0RQAtsittMsIA/aVJ42fdyFNUak6lhDHiHRGxT733Bt+0+VT5Vvt
+         dgng==
+X-Gm-Message-State: AOAM532y2aTQtdNFtYybfYiJvUSsHcDvLjHPdxmZI8oeniAm2RS5IXMk
+        iNP1g15SYJPPzjdxABJ4WqdhNaHQP7/0upI++2unwWjm
+X-Google-Smtp-Source: ABdhPJx/YwFaGebZ9WNscKSjKZjyL215smGi7wQIDspuYwOwQujoXq+ek3zx2mrKm058JDDmK0imBOa/5Ycsl0/cbLE=
+X-Received: by 2002:a4a:da4e:: with SMTP id f14mr3811962oou.40.1599731082021;
+ Thu, 10 Sep 2020 02:44:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com> <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com>
+References: <87sgbu70tq.wl-kuninori.morimoto.gx@renesas.com>
+ <87lfhm70s6.wl-kuninori.morimoto.gx@renesas.com> <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
+In-Reply-To: <31ec6196-7613-8eb3-e092-07d0c874632a@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Sep 2020 11:41:58 +0200
-Message-ID: <CAMuHMdU_C90xQv1yrSAuP=hdEBE7vNSBcKN26L9nQStOB6=_eg@mail.gmail.com>
+Date:   Thu, 10 Sep 2020 11:44:30 +0200
+Message-ID: <CAMuHMdVHGQ0FFcLjQfXhke5PKJKnNfZ3NOF-p08v3QrQ-87npA@mail.gmail.com>
 Subject: Re: [PATCH 5/9] arm64: dts: renesas: r8a77961: Add VSP device nodes
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Laurent <laurent.pinchart@ideasonboard.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Magnus <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux-DT <devicetree@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "(Renesas) shimoda" <yoshihiro.shimoda.uh@renesas.com>,
         DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -54,16 +55,67 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 7, 2020 at 4:59 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->
-> This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
-> This patch is test on R-Car M3-W+ Salvator-XS board.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Hi Kieran,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Sep 7, 2020 at 5:55 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> On 07/09/2020 03:59, Kuninori Morimoto wrote:
+> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> >
+> > This patch adds VSP device nodes for R-Car M3-W+ (r8a77961) SoC.
+> > This patch is test on R-Car M3-W+ Salvator-XS board.
+> >
+> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > ---
+> >  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 55 +++++++++++++++++++++++
+> >  1 file changed, 55 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> > index fe0db11b9cb9..c2a6918ed5e6 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> > @@ -2056,6 +2056,61 @@ fcpvd2: fcp@fea37000 {
+> >                       iommus = <&ipmmu_vi0 10>;
+> >               };
+>
+> The FCP's added are:
+>
+>                 fcpf0: fcp@fe950000 {
+>                 fcpf1: fcp@fe951000 {
+>                 fcpvb0: fcp@fe96f000 {
+>                 fcpvb1: fcp@fe92f000 {
+>                 fcpvi0: fcp@fe9af000 {
+>                 fcpvi1: fcp@fe9bf000 {
+>                 fcpvd0: fcp@fea27000 {
+>                 fcpvd1: fcp@fea2f000 {
+>                 fcpvd2: fcp@fea37000 {
+>
+> So indeed, the first fcpf0 comes before fe960000.
+>
+> Do we keep the items grouped by the first occurrence? or sort the nodes
+> based on address?
+>
+> for some reason I thought we were ordering based on address, but I see
+> other situations where we group too - so I'm confused (and wishing there
+> was an automatic tool to get the sorting correct without fuss).
+>
+> Is there a set policy?
+
+For nodes with a unit-address, we usually[*] sort by unit-address, but we keep
+similar nodes grouped.  Hence I prefer this v1 over v2.
+
+[*] Seems like FCP/VSP are interleaved in r8a77990.dsi, doh.
+
+> > +             vspb: vsp@fe960000 {
+> > +                     compatible = "renesas,vsp2";
+> > +                     reg = <0 0xfe960000 0 0x8000>;
+> > +                     interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
+> > +                     clocks = <&cpg CPG_MOD 626>;
+> > +                     power-domains = <&sysc R8A77961_PD_A3VC>;
+> > +                     resets = <&cpg 626>;
+> > +
+> > +                     renesas,fcp = <&fcpvb0>;
+> > +             };
 
 Gr{oetje,eeting}s,
 
