@@ -2,108 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C532646E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 15:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CF0726472A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 15:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730585AbgIJNZe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 09:25:34 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:11774 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730674AbgIJNY4 (ORCPT
+        id S1730973AbgIJNm3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 09:42:29 -0400
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:32849 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730940AbgIJNjw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 09:24:56 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 1B9D3F4FDC170165F4B4;
-        Thu, 10 Sep 2020 21:24:41 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Sep 2020
- 21:24:35 +0800
-From:   Yu Kuai <yukuai3@huawei.com>
-To:     <laurent.pinchart@ideasonboard.com>,
-        <kieran.bingham+renesas@ideasonboard.com>, <airlied@linux.ie>,
-        <daniel@ffwll.ch>
-CC:     <dri-devel@lists.freedesktop.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>,
-        <yi.zhang@huawei.com>
-Subject: [PATCH] drm: rcar-du: add missing put_device() call in rcar_du_vsp_init()
-Date:   Thu, 10 Sep 2020 21:23:54 +0800
-Message-ID: <20200910132354.692397-1-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        Thu, 10 Sep 2020 09:39:52 -0400
+Received: by mail-oo1-f67.google.com with SMTP id m25so1446169oou.0;
+        Thu, 10 Sep 2020 06:39:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fuIaTh3Pz3XpBBXXvEDUU0YQElK+nkti8UzeWWJ7a+U=;
+        b=BVlnlHizRSX/wts4QURL6v+vSKhMiFmUcJYxxq5qIRR6n69yMZUwhWQgD/U+xS1YJy
+         XltqVGs2oLWzqzl0iNM64qKLMpSkEQUZKZS1gcuBvFZo2rG0oykLVgj8Loh0N6+ormp+
+         pkOSzNwldUN1wzvxcsAdIHF/pJBXJ0MBGg0+vN5qp61YSB+PCZMd5g+60Sz+FbVrkuvw
+         5wSiojc/MsQvRe7qgW33fqJAEb3IKNYCd5MxxAkVSUGBOaeZ4ptBSYliAArwZMe9gNWt
+         RoO14jtHtYRIfGlGYFfiX8Qc+peMB8BDugxL+ov8S7HDH2xsvxknCz+rqdgiC09noBGt
+         Z7Bg==
+X-Gm-Message-State: AOAM5300By7PJJdGe2Oau4XITppbZwfuUz2ZLnuxyL5GUUZxQxiNzdf6
+        WFcPQmzzI+kKJBn3vPVVKUpWoRYSekyNaqj5gpN+Fd5/JQc=
+X-Google-Smtp-Source: ABdhPJzBoEOi1+NC2zEApW5vQGpwWc46XxoohF+/VXD2icQ34M3cjcdB1EMf0Ctl0IujE3VlBgKOiOWdXEjqTyRpxg4=
+X-Received: by 2002:a4a:da4e:: with SMTP id f14mr4490811oou.40.1599745190779;
+ Thu, 10 Sep 2020 06:39:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+References: <1599739372-30669-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599739372-30669-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599739372-30669-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Sep 2020 15:39:39 +0200
+Message-ID: <CAMuHMdUELBtGqkjryfcg6P=Ja6vZuR9MG8FDu66Ze9npJ_r=DQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] arm64: dts: renesas: Add Renesas Falcon boards support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-if of_find_device_by_node() succeed, rcar_du_vsp_init() doesn't have
-a corresponding put_device(). Thus add a jump target to fix the exception
-handling for this function implementation.
+Hi Shimoda-san,
 
-Fixes: 6d62ef3ac30b ("drm: rcar-du: Expose the VSP1 compositor through KMS planes")
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+On Thu, Sep 10, 2020 at 2:03 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Initial support for the Renesas Falcon CPU and BreakOut boards
+> support.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f1a81c9b184d..172ee3f3b21c 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -352,14 +352,16 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 
- 	/* Find the VSP device and initialize it. */
- 	pdev = of_find_device_by_node(np);
--	if (!pdev)
--		return -ENXIO;
-+	if (!pdev) {
-+		ret = -ENXIO;
-+		goto put_device;
-+	}
- 
- 	vsp->vsp = &pdev->dev;
- 
- 	ret = vsp1_du_init(vsp->vsp);
- 	if (ret < 0)
--		return ret;
-+		goto put_device;
- 
- 	 /*
- 	  * The VSP2D (Gen3) has 5 RPFs, but the VSP1D (Gen2) is limited to
-@@ -369,8 +371,10 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 
- 	vsp->planes = devm_kcalloc(rcdu->dev, vsp->num_planes,
- 				   sizeof(*vsp->planes), GFP_KERNEL);
--	if (!vsp->planes)
--		return -ENOMEM;
-+	if (!vsp->planes) {
-+		ret = -ENOMEM;
-+		goto put_device;
-+	}
- 
- 	for (i = 0; i < vsp->num_planes; ++i) {
- 		enum drm_plane_type type = i < num_crtcs
-@@ -387,7 +391,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 					       ARRAY_SIZE(rcar_du_vsp_formats),
- 					       NULL, type, NULL);
- 		if (ret < 0)
--			return ret;
-+			goto put_device;
- 
- 		drm_plane_helper_add(&plane->plane,
- 				     &rcar_du_vsp_plane_helper_funcs);
-@@ -403,4 +407,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 	}
- 
- 	return 0;
-+put_device:
-+	put_device(&pdev->dev);
-+	return ret;
- }
+Thanks for the update!
+
+> --- /dev/null> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+> @@ -0,0 +1,23 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the Falcon CPU and BreakOut boards
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include "r8a779a0.dtsi"
+
+Not needed, as already included by the file below.
+
+> +#include "r8a779a0-falcon-cpu.dtsi"
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+No need to resend, will queue in renesas-devel for v5.10 with the above fixed.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
