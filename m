@@ -2,44 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB4F02642CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA4092642D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbgIJJtc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 05:49:32 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:46547 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730082AbgIJJtR (ORCPT
+        id S1730223AbgIJJup (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 05:50:45 -0400
+Received: from mail-oo1-f68.google.com ([209.85.161.68]:40955 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729781AbgIJJum (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:49:17 -0400
-Received: by mail-oi1-f194.google.com with SMTP id u126so5303261oif.13;
-        Thu, 10 Sep 2020 02:49:16 -0700 (PDT)
+        Thu, 10 Sep 2020 05:50:42 -0400
+Received: by mail-oo1-f68.google.com with SMTP id r4so1292736ooq.7;
+        Thu, 10 Sep 2020 02:50:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=n0TKrJTRREWx+qVe0GGlUx2oO/59rH6hytbSim7uux0=;
-        b=hU1Z/dAxTepLENxIDBktiZb9Xbwr4BhQD17F7ND0nhfYmL1JSeYRfS/6q1TJz3LQjb
-         Z78sFdi6gvE5+xps80kfSxcjtZd2FaHZBS5ucri8yAyU4P2ilHhq3Br9CRSo0c6rvY2P
-         8H8vRNnonQPB2/dI00MEKHQpjgBGdTzv7BFqNM57x5GFnmBiZNCUSpvg6ub/ik1L/GiC
-         lPR4MahQhgDSC2pfOGHc17wIg/lPmC5SdpOSJIEOLfxWiXgSA40cfBQF9B9d+yjY0KyA
-         K5T5AjbHjxnNQtQA4MOLKqV6slF4fuKQj/ip/Nw5v3WsC3aTWX6TQEGCBPNurla5qQ66
-         9ccw==
-X-Gm-Message-State: AOAM533xPGQIof90G92CCjgC6wQTD2n9PRebVDdUv08MLfcK3JL62nSx
-        ebeBhr8KwYfHeFgBXCY6h/OkD2TiQQQxl//nFBE=
-X-Google-Smtp-Source: ABdhPJxnT/vf2N1+yWJeFysPFXQogN8o3KOR5Mj57Mv60k4+/TY54wI+qZZ63QC/ecT2fwnb/Qiei2Z6P8v4RQMyGM4=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr3026774oia.153.1599731355901;
- Thu, 10 Sep 2020 02:49:15 -0700 (PDT)
+        bh=Uc+Xr2qe6UKlIcR63NA2C0Yz5MS8E3knGkDIrPYmc20=;
+        b=p4vSOblWcamurle18o4KETqyDK7SDjxzyB9+4/raTmJcpIqziCotSI1ktKsxNm0Ytt
+         H1sJ1ThEtcDRoJOVu+VpwFrZBkyOfGNurHiV/d96t5ozy9wEUTaU1nOn8Q6GZXcrJgs6
+         j4M/ONjmSBWzryQ+26ctscct8gJfkD/1KSzVtXuKK6q3wR3vhaqvfxbTDq3qfoatGB9l
+         vSzPEPm1lUpzhy6+en9W8YRiF0rlP0CUvbdDFxxZUBNN2wlyUFIW0X44pE0DrQ2pEw0B
+         Ddqe5ytBboOYPGObfqeXFLF5UbTfFsfHTF0vjn8+zVOlxrFNzpHo9DIw5zEQsLkV1ft4
+         CV7A==
+X-Gm-Message-State: AOAM532Bf6dWAskYZdl1lV8x4nrQA27CmbT8TYz5PQ4tiTTlpYBuTEZl
+        b6qMrHNEYxIo1XzUxrNtbwyWX8Hl5xkPak1qCq+Y4Fr5
+X-Google-Smtp-Source: ABdhPJxaQStxO5cKKQfQBE/p7ZmWrN6b1+2E8A3IeQaauYLymMsfJHdQAz9a20ZC/kOLfe0B7ViQ/Qd1cpOyMO1M3MU=
+X-Received: by 2002:a4a:5403:: with SMTP id t3mr3892746ooa.11.1599731441118;
+ Thu, 10 Sep 2020 02:50:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <87o8mhrtxo.wl-kuninori.morimoto.gx@renesas.com> <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
 In-Reply-To: <87eendrtv1.wl-kuninori.morimoto.gx@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Sep 2020 11:49:04 +0200
-Message-ID: <CAMuHMdUj2dPe5p4O6ApAs_RoB=DR3NEBENSd1ZxF+msN8GJ+_A@mail.gmail.com>
+Date:   Thu, 10 Sep 2020 11:50:30 +0200
+Message-ID: <CAMuHMdUmfavKH03LRj4WNoOEbu+oY64_Mic74zCfFbK4rO9KSw@mail.gmail.com>
 Subject: Re: [PATCH v2 07/10] arm64: dts: renesas: r8a77961: Add DU device nodes
 To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Laurent <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Magnus <magnus.damm@gmail.com>,
@@ -54,6 +55,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Morimoto-san,
+
 On Tue, Sep 8, 2020 at 2:35 AM Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
 > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
@@ -62,8 +65,34 @@ On Tue, Sep 8, 2020 at 2:35 AM Kuninori Morimoto
 > This patch was tested on R-Car M3-W+ Salvator-XS board.
 >
 > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> index 423808b6cd58..c7fabd9e875b 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+> @@ -2165,8 +2165,19 @@ port@2 {
+>                 };
+>
+>                 du: display@feb00000 {
+> +                       compatible = "renesas,du-r8a77961";
+>                         reg = <0 0xfeb00000 0 0x70000>;
+> -                       /* placeholder */
+> +                       interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+> +                                    <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
+> +                                <&cpg CPG_MOD 722>;
+> +                       clock-names = "du.0", "du.1", "du.2";
+> +                       resets = <&cpg 724>, <&cpg 722>;
+> +                       reset-names = "du.0", "du.2";
+> +
+> +                       renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> +                       status = "disabled";
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Do you want support for CMMs?
 
 Gr{oetje,eeting}s,
 
