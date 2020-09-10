@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A41CC264C89
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 20:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC2C264C7A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 20:13:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726176AbgIJSOD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 14:14:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35734 "EHLO mail.kernel.org"
+        id S1726967AbgIJSMt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 14:12:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36092 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726760AbgIJR6j (ORCPT
+        id S1726293AbgIJR6x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 13:58:39 -0400
+        Thu, 10 Sep 2020 13:58:53 -0400
 Received: from localhost.localdomain (unknown [194.230.155.174])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 46BE3214F1;
-        Thu, 10 Sep 2020 17:58:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4BA2C21D91;
+        Thu, 10 Sep 2020 17:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599760719;
-        bh=UC3OFw0SUr5PBSeWnQOTk6uMeflPyNmlay7v1RLLJw8=;
+        s=default; t=1599760732;
+        bh=z54NT2te4cQqCwvnxGuhIvp2W2PqIQwX8Rfrwo03n6k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pr+ZvUa/6oP9kDHCo1sayvtfcwy4WTShFITbY25GX52chyVTdTy0/lS0Qna16enYD
-         XldEV8L/rJP0gAPbPGhI3bFVQVzhhE4OBMtX17QRMcXBps9W4rViEpF5UDV4fKsEGQ
-         q5wmPq/dl0SO9L4mz0iCTxB0xLIQgQJAOmWFJm/I=
+        b=2OOohK7bgkjAXYZUoUF88z1ixnRLPLaG9nVyygZBQjzzZVOCec049BIyjZwe20Mwf
+         +ouY0f9kxGpb3soYwmQAOsBWuvUYeBR7gtDaLgtnbXiR6fzUxlQjTpFNUF2g/KvCr/
+         ueqLjaySfRBT8IvG2CyiV+4Sw8zMOxbXyu+/FmcU=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -52,9 +52,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 07/15] arm64: dts: xilinx: align GPIO hog names with dtschema
-Date:   Thu, 10 Sep 2020 19:57:25 +0200
-Message-Id: <20200910175733.11046-8-krzk@kernel.org>
+Subject: [PATCH v2 09/15] ARM: dts: am335x: t335: align GPIO hog names with dtschema
+Date:   Thu, 10 Sep 2020 19:57:27 +0200
+Message-Id: <20200910175733.11046-10-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200910175733.11046-1-krzk@kernel.org>
 References: <20200910175733.11046-1-krzk@kernel.org>
@@ -64,47 +64,33 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 The convention for node names is to use hyphens, not underscores.
-dtschema for pca95xx requires GPIO hogs to end with 'hog' prefix.
+dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/am335x-sbc-t335.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
-index 4f801721564f..f1255f635dfd 100644
---- a/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
-+++ b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-revA.dts
-@@ -203,25 +203,25 @@
- 		gpio-line-names = "PS_GTR_LAN_SEL0", "PS_GTR_LAN_SEL1", "PS_GTR_LAN_SEL2", "PS_GTR_LAN_SEL3",
- 				"PCI_CLK_DIR_SEL", "IIC_MUX_RESET_B", "GEM3_EXP_RESET_B",
- 				"", "", "", "", "", "", "", "", "";
--		gtr-sel0 {
-+		gtr-sel0-hog {
+diff --git a/arch/arm/boot/dts/am335x-sbc-t335.dts b/arch/arm/boot/dts/am335x-sbc-t335.dts
+index a3f6bc4072d9..81e4453687ba 100644
+--- a/arch/arm/boot/dts/am335x-sbc-t335.dts
++++ b/arch/arm/boot/dts/am335x-sbc-t335.dts
+@@ -155,13 +155,13 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 		reg = <0x26>;
+-		dvi_ena {
++		dvi-ena-hog {
  			gpio-hog;
- 			gpios = <0 0>;
- 			output-low; /* PCIE = 0, DP = 1 */
- 			line-name = "sel0";
+ 			gpios = <13 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "dvi-enable";
  		};
--		gtr-sel1 {
-+		gtr-sel1-hog {
+-		lcd_ena {
++		lcd-ena-hog {
  			gpio-hog;
- 			gpios = <1 0>;
- 			output-high; /* PCIE = 0, DP = 1 */
- 			line-name = "sel1";
- 		};
--		gtr-sel2 {
-+		gtr-sel2-hog {
- 			gpio-hog;
- 			gpios = <2 0>;
- 			output-high; /* PCIE = 0, USB0 = 1 */
- 			line-name = "sel2";
- 		};
--		gtr-sel3 {
-+		gtr-sel3-hog {
- 			gpio-hog;
- 			gpios = <3 0>;
- 			output-high; /* PCIE = 0, SATA = 1 */
+ 			gpios = <11 GPIO_ACTIVE_HIGH>;
+ 			output-high;
 -- 
 2.17.1
 
