@@ -2,170 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D47812640FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:10:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9DFB2640FE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 11:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729971AbgIJJKr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 05:10:47 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:36431 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728709AbgIJJKi (ORCPT
+        id S1728207AbgIJJLf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 05:11:35 -0400
+Received: from www.zeus03.de ([194.117.254.33]:42554 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726976AbgIJJL2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:10:38 -0400
-Received: by mail-oo1-f67.google.com with SMTP id z1so1268070ooj.3;
-        Thu, 10 Sep 2020 02:10:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rA2+XQB/EdSPP3NHBy9dTOy3jgbFce8Gbypr0acksc4=;
-        b=rUiPW6T4PLKenfUJgLwp9lOcj68uoOAQY2sB1neyNSuquBe8EWnAwBz9o3zWZlQSlr
-         dvNAfugUyPHrvztp7PW92YA487yI0U+y6r0IU+RwtkTnPBzooOdo9oAz/xK6ka7FZZMJ
-         X0u/+quDDkgpYnwtiY3+nN83Tcq1FPNf2m4/MLSWWWdFdW7upEpgPccmJh4gGDTvhv4r
-         PPK3lM8OlNVkQXWdu1GzDLYvkIdRwy9BA0vaoplmi2W6nMFATKcpuxWUZef9jabWrM/a
-         rL+9ZZO+1iuWbDdA1JDZpt6HQL0MD3I3esKihylQerdTVGVp59kb1FDEQkSQanT9jDH+
-         IYmw==
-X-Gm-Message-State: AOAM532QPWOY+MTm3GsjRSyIkK01PndcOjkaWm2HWss60K7psPFHghNU
-        iFvPQFtq6pItKNi5Gd59K/L2YYwTsm4udIe5WBM=
-X-Google-Smtp-Source: ABdhPJyvXlcZo89pVdXKPNxwROy/i/l7foRHt6CRCj8jT0NFlecXcHFwbiO8WUHwgUvF5kN473rZLpqsmj3Pa9Eq5mA=
-X-Received: by 2002:a4a:da4e:: with SMTP id f14mr3733302oou.40.1599729037227;
- Thu, 10 Sep 2020 02:10:37 -0700 (PDT)
+        Thu, 10 Sep 2020 05:11:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=kA4pqwHWPwBzhka+xE04iQmpuiD
+        XaMQLHQxlKAzjSag=; b=Ck2w80ZmK9I0RTjzhVl4VzProFqmd0scDTs7ZkZqdD5
+        r8BHMD8jaES57Pq9a5R6wDAeLeWr7p0ZyzcYUe+LsyH8N9MVEkNbVJsonFkP549p
+        DmoGwjsUya64EMQ8wqXgW4pGmVa5H5c4EPsxnhOypECRFPzYwVv93iAeM0Py0Qp8
+        =
+Received: (qmail 591291 invoked from network); 10 Sep 2020 11:11:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Sep 2020 11:11:25 +0200
+X-UD-Smtp-Session: l3s3148p1@itfZ8/GugrYgAwDPXw8CAOzs15PKmAQb
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: rcar: add HostNotify support
+Date:   Thu, 10 Sep 2020 11:11:18 +0200
+Message-Id: <20200910091118.13434-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599470390-29719-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdX_be=+3soDGQBxPGvjF5Ty40wDEPaki3Z=SwbDToPA3g@mail.gmail.com>
- <TY2PR01MB3692F7496EE91E633E9EF68AD8290@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAMuHMdUUqdqf0unaT5efUL-VmSD8Vh1PH69qOqiWZZFLmTGGDg@mail.gmail.com> <TY2PR01MB36920EF68291EF53EE91D2E7D8290@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB36920EF68291EF53EE91D2E7D8290@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Sep 2020 11:10:25 +0200
-Message-ID: <CAMuHMdU4s_yBDCfxZtsYSa1m_CGWKtXDjNL+OHni3XoPJfKrJg@mail.gmail.com>
-Subject: Re: [PATCH 02/14] dt-bindings: arm: renesas: Document Renesas Falcon boards
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+The I2C core can now utilize a slave interface to handle SMBus
+HostNotify events. Enable it in this driver.
 
-On Tue, Sep 8, 2020 at 10:45 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Tuesday, September 8, 2020 4:12 PM
-> > On Tue, Sep 8, 2020 at 3:01 AM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > From: Geert Uytterhoeven, Sent: Tuesday, September 8, 2020 12:31 AM
-> > > > On Mon, Sep 7, 2020 at 11:20 AM Yoshihiro Shimoda
-> > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > > Add device tree bindings documentation for Renesas R-Car V3U
-> > > > > Falcon CPU and BreakOut boards.
-> > > > >
-> > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- a/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-> > > > > @@ -283,6 +283,9 @@ properties:
-> > > > >
-> > > > >        - description: R-Car V3U (R8A779A0)
-> > > > >          items:
-> > > > > +          - enum:
-> > > > > +              - renesas,falcon-cpu # Falcon CPU board (RTP0RC779A0CPB0010S)
-> > > > > +              - renesas,falcon-breakout # Falcon BreakOut board (RTP0RC779A0BOB0010S)
-> > > > >            - const: renesas,r8a779a0
-> > > >
-> > > > How is this intended to be used?
-> > >
-> > > I intended to use "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0"
-> > > in the future. However, if so, I should fix the description like Kingfisher.
-> > >
-> > > > The above means its users should declare either
-> > > >
-> > > >     compatible = "renesas,falcon-cpu", "renesas,r8a779a0";
-> > > >
-> > > > or
-> > > >
-> > > >     compatible = "renesas,falcon-breakout", "renesas,r8a779a0";
-> > >
-> > > I understood it. I mistook the description...
-> > >
-> > > > However, falcon-cpu.dtsi has just
-> > > >
-> > > >     compatible = "renesas,falcon-cpu";
-> > > >
-> > > > Who will use "renesas,falcon-breakout"?
-> > >
-> > > I intended to add falcon-breakout.dtsi and the file intended to use
-> > > "renesas,falcon-breakout" like Kingfisher + ULCB in the future.
-> > >
-> > > However, I realized a combination between the cpu board and
-> > > the breakout board differs than ULCB + Kingfisher like below:
-> > >
-> > > - The ULCB without the Kingfisher can work.
-> > > -- So, some .dts files exist like r8a77951-ulcb.dts.
-> > > -- And, r8a77951-ulcb-kf.dts includes r8a77951-ulcb.dts for ULCB + Kingfisher.
-> > >
-> > > - The Falcon CPU board without the breakout board cannot work actually.
-> > > -- But, on this initial patch series enables the CPU board hardware (memory nodes & SCIF0) only.
-> > > -- The breakout board has some hardware like Ethernet and CAN.
-> > > -- The breakout board also has some connectors for sub boards.
-> > > -- So, I intended to add falcon-breakout.dtsi to support Ethernet in the future.
-> > >
-> > > In this case, I wonder if we should describe just "renesas,falcon" only
-> > > because we will not have r8a779a0-falcon-{cpu,breakout}.dts files.
-> > > But, what do you think?
-> >
-> > What kind of connector does the Falcon CPU board have?
-> > Perhaps it can be plugged into another base board, too?
->
-> The Falcon CPU board has 2 EXIO connectors. The EXIO connector
-> has 400 pins. So, I think it can be plugged into another base board.
->
-> > What about modelling it like the iwave,g22m SoM, and the iwave,g22d
-> > SODIMM board?
-> > arch/arm/boot/dts/r8a7745-iwg*
->
-> Thank you for the suggestion. So, I'll fix the patch like below.
-> ---
->
->        - description: R-Car V3U (R8A779A0)
->          items:
-> +          - enum:
-> +              - renesas,r8a779a0-cpu # Falcon CPU board (RTP0RC779A0CPB0010S
-> +          - const: renesas,r8a779a0
-> +
-> +      - items:
-> +          - enum:
-> +              - renesas,r8a779a0-breakout # Falcon BreakOut board (RTP0RC779A0BOB0010S)
-> +          - const: renesas,r8a779a0-cpu
->            - const: renesas,r8a779a0
->
->        - description: RZ/N1D (R9A06G032)
-> ---
->
-> And, I will fix the compatible of r8a779a0-falcon.dts in the patch 14/14 like below.
-> ---
-> +       compatible = "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0";
-> ---
->
-> But, what do you think?
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Thanks, looks good to me.
+Changes since RFC:
+	- adapted name of the binding and the core helpers to the latest
+	  version which got upstream now
+	- select 'I2C_SMBUS' because helper code was moved there
+	  (it could be discussed if this is optional depending if
+	   HostNotify is needed, but this is subsystem wide and, thus,
+	   a seperate patch)
+	- better var name for the used client
+	- unregistration in 'remove' is now before deleting adapter
 
-Gr{oetje,eeting}s,
+ drivers/i2c/busses/Kconfig    |  1 +
+ drivers/i2c/busses/i2c-rcar.c | 31 ++++++++++++++++++++++++++++---
+ 2 files changed, 29 insertions(+), 3 deletions(-)
 
-                        Geert
-
+diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
+index 46a24faef352..2077ed8de681 100644
+--- a/drivers/i2c/busses/Kconfig
++++ b/drivers/i2c/busses/Kconfig
+@@ -1181,6 +1181,7 @@ config I2C_RCAR
+ 	tristate "Renesas R-Car I2C Controller"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+ 	select I2C_SLAVE
++	select I2C_SMBUS
+ 	select RESET_CONTROLLER if ARCH_RCAR_GEN3
+ 	help
+ 	  If you say yes to this option, support will be included for the
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 41c3dbc641c0..217def2d7cb4 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -21,6 +21,7 @@
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/i2c.h>
++#include <linux/i2c-smbus.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+@@ -106,10 +107,11 @@
+ #define ID_ARBLOST	(1 << 3)
+ #define ID_NACK		(1 << 4)
+ /* persistent flags */
++#define ID_P_HOST_NOTIFY	BIT(28)
+ #define ID_P_REP_AFTER_RD	BIT(29)
+ #define ID_P_NO_RXDMA		BIT(30) /* HW forbids RXDMA sometimes */
+ #define ID_P_PM_BLOCKED		BIT(31)
+-#define ID_P_MASK		GENMASK(31, 29)
++#define ID_P_MASK		GENMASK(31, 28)
+ 
+ enum rcar_i2c_type {
+ 	I2C_RCAR_GEN1,
+@@ -141,6 +143,8 @@ struct rcar_i2c_priv {
+ 
+ 	struct reset_control *rstc;
+ 	int irq;
++
++	struct i2c_client *host_notify_client;
+ };
+ 
+ #define rcar_i2c_priv_to_dev(p)		((p)->adap.dev.parent)
+@@ -876,14 +880,21 @@ static int rcar_unreg_slave(struct i2c_client *slave)
+ 
+ static u32 rcar_i2c_func(struct i2c_adapter *adap)
+ {
++	struct rcar_i2c_priv *priv = i2c_get_adapdata(adap);
++
+ 	/*
+ 	 * This HW can't do:
+ 	 * I2C_SMBUS_QUICK (setting FSB during START didn't work)
+ 	 * I2C_M_NOSTART (automatically sends address after START)
+ 	 * I2C_M_IGNORE_NAK (automatically sends STOP after NAK)
+ 	 */
+-	return I2C_FUNC_I2C | I2C_FUNC_SLAVE |
+-		(I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
++	u32 func = I2C_FUNC_I2C | I2C_FUNC_SLAVE |
++		   (I2C_FUNC_SMBUS_EMUL & ~I2C_FUNC_SMBUS_QUICK);
++
++	if (priv->flags & ID_P_HOST_NOTIFY)
++		func |= I2C_FUNC_SMBUS_HOST_NOTIFY;
++
++	return func;
+ }
+ 
+ static const struct i2c_algorithm rcar_i2c_algo = {
+@@ -983,6 +994,8 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 	else
+ 		pm_runtime_put(dev);
+ 
++	if (of_property_read_bool(dev->of_node, "smbus"))
++		priv->flags |= ID_P_HOST_NOTIFY;
+ 
+ 	priv->irq = platform_get_irq(pdev, 0);
+ 	ret = devm_request_irq(dev, priv->irq, rcar_i2c_irq, 0, dev_name(dev), priv);
+@@ -997,10 +1010,20 @@ static int rcar_i2c_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto out_pm_disable;
+ 
++	if (priv->flags & ID_P_HOST_NOTIFY) {
++		priv->host_notify_client = i2c_new_slave_host_notify_device(adap);
++		if (IS_ERR(priv->host_notify_client)) {
++			ret = PTR_ERR(priv->host_notify_client);
++			goto out_del_device;
++		}
++	}
++
+ 	dev_info(dev, "probed\n");
+ 
+ 	return 0;
+ 
++ out_del_device:
++	i2c_del_adapter(&priv->adap);
+  out_pm_put:
+ 	pm_runtime_put(dev);
+  out_pm_disable:
+@@ -1013,6 +1036,8 @@ static int rcar_i2c_remove(struct platform_device *pdev)
+ 	struct rcar_i2c_priv *priv = platform_get_drvdata(pdev);
+ 	struct device *dev = &pdev->dev;
+ 
++	if (priv->host_notify_client)
++		i2c_free_slave_host_notify_device(priv->host_notify_client);
+ 	i2c_del_adapter(&priv->adap);
+ 	rcar_i2c_release_dma(priv);
+ 	if (priv->flags & ID_P_PM_BLOCKED)
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
