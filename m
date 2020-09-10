@@ -2,90 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CF0726472A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 15:44:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4E8026482B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 16:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730973AbgIJNm3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 09:42:29 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:32849 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730940AbgIJNjw (ORCPT
+        id S1730500AbgIJOpB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 10:45:01 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33176 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731226AbgIJOl1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 09:39:52 -0400
-Received: by mail-oo1-f67.google.com with SMTP id m25so1446169oou.0;
-        Thu, 10 Sep 2020 06:39:51 -0700 (PDT)
+        Thu, 10 Sep 2020 10:41:27 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m12so5578956otr.0;
+        Thu, 10 Sep 2020 07:41:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fuIaTh3Pz3XpBBXXvEDUU0YQElK+nkti8UzeWWJ7a+U=;
-        b=BVlnlHizRSX/wts4QURL6v+vSKhMiFmUcJYxxq5qIRR6n69yMZUwhWQgD/U+xS1YJy
-         XltqVGs2oLWzqzl0iNM64qKLMpSkEQUZKZS1gcuBvFZo2rG0oykLVgj8Loh0N6+ormp+
-         pkOSzNwldUN1wzvxcsAdIHF/pJBXJ0MBGg0+vN5qp61YSB+PCZMd5g+60Sz+FbVrkuvw
-         5wSiojc/MsQvRe7qgW33fqJAEb3IKNYCd5MxxAkVSUGBOaeZ4ptBSYliAArwZMe9gNWt
-         RoO14jtHtYRIfGlGYFfiX8Qc+peMB8BDugxL+ov8S7HDH2xsvxknCz+rqdgiC09noBGt
-         Z7Bg==
-X-Gm-Message-State: AOAM5300By7PJJdGe2Oau4XITppbZwfuUz2ZLnuxyL5GUUZxQxiNzdf6
-        WFcPQmzzI+kKJBn3vPVVKUpWoRYSekyNaqj5gpN+Fd5/JQc=
-X-Google-Smtp-Source: ABdhPJzBoEOi1+NC2zEApW5vQGpwWc46XxoohF+/VXD2icQ34M3cjcdB1EMf0Ctl0IujE3VlBgKOiOWdXEjqTyRpxg4=
-X-Received: by 2002:a4a:da4e:: with SMTP id f14mr4490811oou.40.1599745190779;
- Thu, 10 Sep 2020 06:39:50 -0700 (PDT)
+        bh=/JTzeYOL/MUZ0luIwiE6sB1J7IDRIRK13Ar1a9wfQGM=;
+        b=aJEoswKoNj9AvXP8y85BeZe52D1ttoqWIH8+UE/Cx86gugGOZrutl5YWa9PmmVogPo
+         Pxx6amAD9aT74227jBpk/32Tgv+hfToXhWEGx8NSJ3Fyjhvwxfj/ECw2fFv2VgWtvA7M
+         chu8bv6LlKEfhOIcLRZgc6adO8i3jh2h8HgAQbh08LktydUgW+CrpG+NoA7hYkmWjrxv
+         I7tRhb+IdptvB5rjDzO83CMJxsoS8DLu2KoGMJ1P3tXAGjdJxyLzU8PMT5Eol80rHKXO
+         ItaDWbFz36lie31na7gwslgdMFaQGFf//O40bk1YEiCeKP53e/I+WBXSO1lbIy5eYrPf
+         ALKg==
+X-Gm-Message-State: AOAM533sjVcKqvaCHIcEe/HzA3owHcSFU3kgFvraefjtg0jRinhHyQxF
+        JZE6kBy5rQ8xEE2uLWDzlo1A6OXDsTREvVGw0a6z+/Lc
+X-Google-Smtp-Source: ABdhPJzA8ekVNoPsDkNHeejFHRZriL9kziI6Qhs0VkHhQmXcp1PivgYbXh7+aNN+IChJD8Ai6bvaxJtyBepAoJpLn5A=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr4110588otb.250.1599746170203;
+ Thu, 10 Sep 2020 06:56:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <1599739372-30669-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599739372-30669-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599739372-30669-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <20200907144509.8861-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200907144509.8861-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200907144509.8861-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Sep 2020 15:39:39 +0200
-Message-ID: <CAMuHMdUELBtGqkjryfcg6P=Ja6vZuR9MG8FDu66Ze9npJ_r=DQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] arm64: dts: renesas: Add Renesas Falcon boards support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+Date:   Thu, 10 Sep 2020 15:55:59 +0200
+Message-ID: <CAMuHMdUyRagPz-Fv+Z-30BbaxrZJkPzV=PSAUe4_GhGUozeYKg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ARM: dts: r8a7742: Add VIN DT nodes
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Thu, Sep 10, 2020 at 2:03 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Initial support for the Renesas Falcon CPU and BreakOut boards
-> support.
+On Mon, Sep 7, 2020 at 4:46 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add VIN[0123] instances found in the r8a7742 SoC.
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Thanks for the update!
-
-> --- /dev/null> +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> @@ -0,0 +1,23 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Falcon CPU and BreakOut boards
-> + *
-> + * Copyright (C) 2020 Renesas Electronics Corp.
-> + */
-> +
-> +/dts-v1/;
-> +#include "r8a779a0.dtsi"
-
-Not needed, as already included by the file below.
-
-> +#include "r8a779a0-falcon-cpu.dtsi"
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-No need to resend, will queue in renesas-devel for v5.10 with the above fixed.
+i.e. will queue in renesas-devel for v5.10.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
