@@ -2,141 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAD7A2645A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 14:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CACCF2646DE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Sep 2020 15:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726324AbgIJMD6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Sep 2020 08:03:58 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:2748 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730354AbgIJMDZ (ORCPT
+        id S1730336AbgIJNYE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Sep 2020 09:24:04 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42358 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730131AbgIJNLZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Sep 2020 08:03:25 -0400
-X-IronPort-AV: E=Sophos;i="5.76,412,1592838000"; 
-   d="scan'208";a="56936707"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Sep 2020 21:03:06 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B7710425E932;
-        Thu, 10 Sep 2020 21:03:06 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 4/4] arm64: dts: renesas: Add Renesas Falcon boards support
-Date:   Thu, 10 Sep 2020 21:02:52 +0900
-Message-Id: <1599739372-30669-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1599739372-30669-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1599739372-30669-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 10 Sep 2020 09:11:25 -0400
+Received: by mail-ot1-f66.google.com with SMTP id g10so5269049otq.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Sep 2020 06:11:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kTxrQxjlXCXYRxUF7VwkUwbVyAfGqaT/aCsiLx65qhU=;
+        b=bOw/1v9i5a1Ti/GsS8AnfHpaD8LB2My3i/FTBYiYuGZcyOoyWr9i0oAnrh9BeYTTRt
+         tQaaeSe5tj+A0+Wsg0Arv9jnuG3mbQUMG7d60Ox1+dxbL6tSIzzglEce7vj6zrheVgxu
+         P4Ujy1Io6s/9+ku68VhjWt1OVg4eUiPqVJd7dkfeLGauTQ5+FzMR4Opms7qp0Ch0kNgv
+         N8mcmUwpnctQC3jYuGSt6mZkt5Aujvj0mpE2/WEJGuR+GmMP/27/uMyj17nx9D4GV4YZ
+         0VFC13qynDDlrs20W0jV2QQTfamEbad0O2F5yfyvT8TpZff/IoMOQOPHoGuTt37F0vf8
+         KJmw==
+X-Gm-Message-State: AOAM533az1qtSi9EgMOLq5O9sLJ8Zw+S/wa2WiMQttC4+m8tGUuo7Hmi
+        z7/d8Lq2ZROdG4SCyDoicuPRLKxqxz2ecOkbu7I=
+X-Google-Smtp-Source: ABdhPJyMYxSD1LXG9iWjLGUOxZUaqRL7BJLikPmpYtcWF6JGYP4G9VY5+xlnceWjfvW0D/nZjDt13T7NTfStF3HXNVQ=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr3949067otb.250.1599743485311;
+ Thu, 10 Sep 2020 06:11:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <1599657211-17504-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599657211-17504-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1599657211-17504-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Sep 2020 15:11:14 +0200
+Message-ID: <CAMuHMdV=svSDGJu4HoaeiEdWT2nk4eQFARMZKn3x7kvJx2QBgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] clk: renesas: cpg-mssr: add register pointers into
+ struct cpg_mssr_priv
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Initial support for the Renesas Falcon CPU and BreakOut boards
-support.
+Hi Shimoda-san,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- arch/arm64/boot/dts/renesas/Makefile               |  2 +
- .../boot/dts/renesas/r8a779a0-falcon-cpu.dtsi      | 46 ++++++++++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts    | 23 +++++++++++
- 3 files changed, 71 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+On Wed, Sep 9, 2020 at 3:13 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> To support other register layout in the future, add register pointers
+> of control_regs and status_regs into struct cpg_mssr_priv. After that,
+> we can remove unused macros like MSTPSR(). No behavior changes.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 4644547..dffefe0 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -54,3 +54,5 @@ dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-v3hsk.dtb
- dtb-$(CONFIG_ARCH_R8A77990) += r8a77990-ebisu.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77995) += r8a77995-draak.dtb
-+
-+dtb-$(CONFIG_ARCH_R8A779A0) += r8a779a0-falcon.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-new file mode 100644
-index 0000000..4ba269a
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi
-@@ -0,0 +1,46 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Falcon CPU board
-+ *
-+ * Copyright (C) 2020 Renesas Electronics Corp.
-+ */
-+
-+#include "r8a779a0.dtsi"
-+
-+/ {
-+	model = "Renesas Falcon CPU board";
-+	compatible = "renesas,falcon-cpu", "renesas,r8a779a0";
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x0 0x78000000>;
-+	};
-+
-+	memory@500000000 {
-+		device_type = "memory";
-+		reg = <0x5 0x00000000 0x0 0x80000000>;
-+	};
-+
-+	memory@600000000 {
-+		device_type = "memory";
-+		reg = <0x6 0x00000000 0x0 0x80000000>;
-+	};
-+
-+	memory@700000000 {
-+		device_type = "memory";
-+		reg = <0x7 0x00000000 0x0 0x80000000>;
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <16666666>;
-+};
-+
-+&extalr_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&scif0 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-new file mode 100644
-index 0000000..aa988a9
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Falcon CPU and BreakOut boards
-+ *
-+ * Copyright (C) 2020 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r8a779a0.dtsi"
-+#include "r8a779a0-falcon-cpu.dtsi"
-+
-+/ {
-+	model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
-+	compatible = "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0";
-+
-+	aliases {
-+		serial0 = &scif0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+};
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/renesas-cpg-mssr.c
+> +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+
+> @@ -137,6 +130,8 @@ struct cpg_mssr_priv {
+>         unsigned int last_dt_core_clk;
+>
+>         struct raw_notifier_head notifiers;
+> +       const u16 *status_regs;
+> +       const u16 *control_regs;
+
+Please add new fields to the struct's kerneldoc comments above.
+
+Note that you need to use a similar dispatching for the Software Reset
+and Software Reset Clearing Registers, as their offsets differ from
+previous SoCs.
+
+The reset looks good to me, thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
