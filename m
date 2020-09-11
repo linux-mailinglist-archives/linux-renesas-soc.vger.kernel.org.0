@@ -2,270 +2,406 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3913266563
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 19:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E97402666D9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 19:34:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbgIKQ6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 12:58:14 -0400
-Received: from mail-eopbgr1410124.outbound.protection.outlook.com ([40.107.141.124]:6675
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726246AbgIKPE2 (ORCPT
+        id S1726392AbgIKRcq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Sep 2020 13:32:46 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46132 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725968AbgIKMyh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 11:04:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MP7RByA6zVfSsAg67Q+bFE/Y8ihaErkBSzLFO6XmaJJak9Z1tNpZyHT62L90qnUglsjzoZf4/ID0SCc7Vcfk6pNL9kCvh1eJZqqoQRwWHQ4ZOXZi4uc9s4aGyVcyXj0UIyyiDv30hiv/HhzCWyl4esHxW9KcUuC6gQBeXv5B28NMb1RRxEK/IumjhjpAHFNI4pfDTHJgnqCwP9jp2pfBgCAbto4l3OzUFC8G+A8W0apZk7stLR1gNSK1GpD7gloVVp/IcTuES8kkAFzHX5HakJE5cYMYMsk+tgIgkqVyJsRZjrKHU+FVpVBl8yvk8vHD2OUwciI3XNNnfHD9R4rz+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hyVa8ezLwz+uPKTF5HpJY2JUjrKTtQyi3AbO0YzRyYQ=;
- b=SJH/ZMacj0fNsGfLsVpc+cHyLN83UCuBM45KGwfQl3PyNFB1goh7cmOgydcNMV3URt6tikBeXOX6BzYdksqE25FilVEGJ/9CRZOHQs3G4BME4Ue5KYGyFODX0t2WAPzGhdVm24PduKLT1fHgMU66oNbb0eoKKBqDu542ApyiKLanchZ+Fy480YarMqTmZB0YXYukEP2yCLDvw97AZlV4q4cHR2DyTZqnR6Iw1KZva0OQOhaRd/JBox0RrFVuLzsnLbRoAmLUpoC1wKhczJ2h4HTj0pG4FG7oJ79n86dNlOfoQPDN4vC8G7vh7vhrVKzlPtFbL1SpivIMMWQmpl9MMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hyVa8ezLwz+uPKTF5HpJY2JUjrKTtQyi3AbO0YzRyYQ=;
- b=ZWV1Nb88gktMIbUs1xgBZfMMeJRJ5B0v3LEbraWd+i9EqzHf9ISjqKfN5ZBf8PAJun+54x20laaGrmB9YQhXY64rvWb/IM7k17dKZpCX8mC4lOUDxW5zeCyPCErSlQUfpiUhesHWVdbbNc0kZ8ilHb+hK7yN915TMSibfPSm9Jc=
-Received: from OSAPR01MB2385.jpnprd01.prod.outlook.com (2603:1096:603:37::20)
- by OSBPR01MB5176.jpnprd01.prod.outlook.com (2603:1096:604:74::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3348.15; Fri, 11 Sep
- 2020 14:24:38 +0000
-Received: from OSAPR01MB2385.jpnprd01.prod.outlook.com
- ([fe80::75bc:81cc:bb5:7d50]) by OSAPR01MB2385.jpnprd01.prod.outlook.com
- ([fe80::75bc:81cc:bb5:7d50%6]) with mapi id 15.20.3370.017; Fri, 11 Sep 2020
- 14:24:38 +0000
-From:   Chris Paterson <Chris.Paterson2@renesas.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH] arm64: dts: renesas: r8a77990: Add DRIF support
-Thread-Topic: [PATCH] arm64: dts: renesas: r8a77990: Add DRIF support
-Thread-Index: AQHWiDTuz7MJCTxWkE21FuJi1e1lZaljfMog
-Date:   Fri, 11 Sep 2020 14:24:38 +0000
-Message-ID: <OSAPR01MB238592CAC340A0BD147847ABB7240@OSAPR01MB2385.jpnprd01.prod.outlook.com>
-References: <20200911121259.5669-1-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20200911121259.5669-1-fabrizio.castro.jz@renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: renesas.com; dkim=none (message not signed)
- header.d=none;renesas.com; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [31.54.191.121]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: e41b99da-50bd-4995-9a98-08d8565e6a85
-x-ms-traffictypediagnostic: OSBPR01MB5176:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB51760CB32140D14BA65A0CE6B7240@OSBPR01MB5176.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: dTRCdCuYM64RphQMC0i3kvWqldBEE5xFjRH2sJEFZTzbUudKLnGg/6AtyHNbQRgoQJj125JMudWJNw1RIhIqjj/S0roZ/y8YnVa0+yJKswCGO/ZsbQXPZjAHpDPBBnh2Wq2VYs5nZcz+cpIMUUB2qwwNDh97vLPRrNGFFhiqDKM4wvSy4QbxY2mXMB9XScDpUHj5YNoyMZioG761YkjBzlFCKv4WR+nErp5cUYDM7BHXXYgE+JxVIwQVXiguBXKERDDs1E8TEk2VaZA+4sAKGkQAjLsoxKe9ptYXWUSHJZaqUbRyoXyMWBsXOEU7xhYzK09OZGGfLg9+p7240KiCNA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2385.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(396003)(346002)(376002)(39860400002)(26005)(5660300002)(110136005)(478600001)(83380400001)(71200400001)(86362001)(52536014)(33656002)(66476007)(6506007)(54906003)(55016002)(186003)(66446008)(66946007)(76116006)(9686003)(2906002)(8676002)(4326008)(316002)(64756008)(66556008)(7696005)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: VbCErXVJBDyAzOaMauAMyAyHjI57QWKbIQVDOePsirWE/aNipBjOcWRY8j8mjyL99KFkpu37He5mgw15XL2NSvUNzRyP/X9tsBUJKrCd4WRlkUxUraSGbUmYtJgHYNVbh8a+trSlhjP8fQPH1YNERbzcmsOBf7H7RLhl9Trhx2mV0krM7vjxvnZaSJMETf2dWHMu3FQAl4V7nl+EcAFe1tDw/UzQOe/7fk3ET+sN85E0KgyrMKl0jKeZQmDDT0VSmVD28Px4ZwuglElYSLUk9RCLPDxFlNKTXak8lKtyC5iVpYSJcJkKGWcm/c8VPgt9s96wugpqMFhMMLPMYQPdeQzJ+9EHval6OGoq8p9CmsXl9QMZpLLcFJu8/9flIHyHNWZXajAl1Qj4lohr3pcVN6BHMJWhPJPykId9WSlZVH/dq2Y69iyJALnsdLj6b+3vK8t50F0MxyfWSc00PwMkmQ5/H5e8HveH2MRonKDMrVIcxRv3mQ93DlceMvJipRWYDw/T4K9CQVEhSZMOioziFZQzekDAWapdIEuVnuLy2LDarbzmgnOpnPl3agGGq/stOaMIdcVLAO2+WmX20rP2voJZrwNRHahYWudqepuTM82Y2849gCnHhR6qhWjGpY9Lyh6LMRMwKE/l/+sfdIGHdg==
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 11 Sep 2020 08:54:37 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08BCfbnK015873;
+        Fri, 11 Sep 2020 14:54:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=STMicroelectronics;
+ bh=x5Q6h9ZwRvAHU7lHMpAaa2BGorzKOAXdfSnwZHGDXj0=;
+ b=H9+U6/Xw3qPajeoZVAzL+jLf0dZ/ZueQFfnysXG4GQPta2nQM97/dObLUSBpuyHp2cB9
+ uaG2c1sj1JhBMS7bEVdr2yAEiNnbgYazegOTe61cG8ytRhQc1I3wNSRJqblNOLXYdf70
+ xA64gRpzNbHGykx32Tf8RfiGk3df366pL7ejnGdCaYypd1fU4fwinh0qY9brgsDL/MRq
+ NCM5PSQaBecUk2OQTIlr7rNRPoNwJ6wSE5xxvaaGydDX9ti4XSFdV7EfpQ3Wv0WPYvmx
+ A1wlmKUpYvichvNqe87Z9YIdNGVNKGaMpmn+I/qtczL6lptlmMNpIXJFoHI/HSuv65A3 lQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 33c1jfhprp-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Sep 2020 14:54:21 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 374FD10002A;
+        Fri, 11 Sep 2020 14:54:21 +0200 (CEST)
+Received: from Webmail-eu.st.com (gpxdag3node5.st.com [10.75.127.72])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 193682AC054;
+        Fri, 11 Sep 2020 14:54:21 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.75.127.51) by GPXDAG3NODE5.st.com
+ (10.75.127.72) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Sep
+ 2020 14:54:20 +0200
+Date:   Fri, 11 Sep 2020 14:54:19 +0200
+From:   Alain Volmat <alain.volmat@st.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: [PATCH 1/1] i2c: add slave testunit driver
+Message-ID: <20200911125419.GE23480@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>
+References: <20200911071658.13966-1-wsa+renesas@sang-engineering.com>
+ <20200911071658.13966-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2385.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e41b99da-50bd-4995-9a98-08d8565e6a85
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2020 14:24:38.5071
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q4538gdzpSGn0Zt2OowSjdrhYv3eVY+xO7dgESm5avcghLRPV3ETTU8RMMUsqWY9knjA9tyNBwhNUXpGZR/81KkRJ4TLpw5/y4ACLTurCqg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB5176
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200911071658.13966-2-wsa+renesas@sang-engineering.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To GPXDAG3NODE5.st.com
+ (10.75.127.72)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-11_04:2020-09-10,2020-09-11 signatures=0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fab,
+Hi Wolfram,
 
-> From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Sent: 11 September 2020 13:13
->=20
-> Add the DRIF controller nodes for the r8a77990 (a.k.a. R-Car E3).
->=20
-> Please note that R-Car E3 has register BITCTR located at offset
-> 0x80 (this register is not available on the r8a77960 and r8a77951,
-> whose support has already been upstreamed), and even though it is
-> not dealt with just yet within the driver, we have to keep that
-> into account with our device tree nodes.
->=20
-> Also, please note that while testing it has emerged that the
-> HW User Manual has the wrong DMA details for DRIF2 and DRIF3
-> on E3, as they are only allowed SYS-DMAC0 rather than SYS-DMAC1
-> and SYS-DMAC2. An errata addressing this issue will be available
-> soon.
->=20
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+great that you published your slave-unittest driver.
+I gave it a try rapidly and can confirm it works as expected on the stm32
+platform. I tested with a loopback between 2 i2c controllers.
 
-Looks okay to me. Thanks for the patch.
+Both READ_BYTES and HOST_NOTIFY work like fine. For Host-Notify I just
+rapidly added a print within the i2c_slave_host_notify_cb callback to
+verify that it is received as expected.
 
-Reviewed-by: Chris Paterson <chris.paterson2@renesas.com>
+I only have 2 small comments below.
 
-Kind regards, Chris
+Alain
 
+On Fri, Sep 11, 2020 at 09:16:58AM +0200, Wolfram Sang wrote:
+> Here is an I2C slave backend driver which allows to test some uncommon
+> functionalities of the I2C and SMBus world. Usually, you need specific
+> devices to test e.g. SMBus Host Notify and such. With this driver you
+> just need the slave interface of another I2C controller.
+> 
+> This initial version has testcases for multi-master and SMBus Host
+> Notify. Already planned but not yet implemented are SMBus Alert and
+> messages with I2C_M_RECV_LEN.
+> 
+> Please read the documentation for further details.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 120
-> ++++++++++++++++++++++
->  1 file changed, 120 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> index 1991bdc36792..caeddc2c1a70 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> @@ -1288,6 +1288,126 @@ vin5csi40: endpoint@2 {
->  			};
->  		};
->=20
-> +		drif00: rif@e6f40000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f40000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 515>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac1 0x20>, <&dmac2 0x20>;
-> +			dma-names =3D "rx", "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 515>;
-> +			renesas,bonding =3D <&drif01>;
-> +			status =3D "disabled";
-> +		};
+> Changes since RFC:
+> 
+> * CMDs start at 0x01, we reserve 0x00 for RESET or something alike
+> * invalid command numbers are now NACKed
+> * byte_read returns a version number, not 0xff
+> * reduced delay granularity from 100ms to 10ms
+> * add locking between ISR and worker
+> * i2c_msg and buffer are now local variables
+> * more robust state machine initialization
+> * made error reporting more generic
+> * more documentation
+> 
+>  Documentation/i2c/slave-testunit-backend.rst |  66 +++++++
+>  drivers/i2c/Kconfig                          |   8 +
+>  drivers/i2c/Makefile                         |   1 +
+>  drivers/i2c/i2c-slave-testunit.c             | 175 +++++++++++++++++++
+>  4 files changed, 250 insertions(+)
+>  create mode 100644 Documentation/i2c/slave-testunit-backend.rst
+>  create mode 100644 drivers/i2c/i2c-slave-testunit.c
+> 
+> diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
+> new file mode 100644
+> index 000000000000..dce2878959cb
+> --- /dev/null
+> +++ b/Documentation/i2c/slave-testunit-backend.rst
+> @@ -0,0 +1,66 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +		drif01: rif@e6f50000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f50000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 514>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac1 0x22>, <&dmac2 0x22>;
-> +			dma-names =3D "rx", "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 514>;
-> +			renesas,bonding =3D <&drif00>;
-> +			status =3D "disabled";
-> +		};
+> +================================
+> +Linux I2C slave testunit backend
+> +================================
 > +
-> +		drif10: rif@e6f60000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f60000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 513>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac1 0x24>, <&dmac2 0x24>;
-> +			dma-names =3D "rx", "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 513>;
-> +			renesas,bonding =3D <&drif11>;
-> +			status =3D "disabled";
-> +		};
+> +by Wolfram Sang <wsa@sang-engineering.com> in 2020
 > +
-> +		drif11: rif@e6f70000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f70000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 512>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac1 0x26>, <&dmac2 0x26>;
-> +			dma-names =3D "rx", "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 512>;
-> +			renesas,bonding =3D <&drif10>;
-> +			status =3D "disabled";
-> +		};
+> +This backend can be used to trigger test cases for I2C bus masters which
+> +require a remote device with certain capabilities (and which are usually not so
+> +easy to obtain). Examples include multi-master testing, and SMBus Host Notify
+> +testing. For some tests, the I2C slave controller must be able to switch
+> +between master and slave mode because it needs to send data, too.
 > +
-> +		drif20: rif@e6f80000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f80000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 511>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac0 0x28>;
-> +			dma-names =3D "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 511>;
-> +			renesas,bonding =3D <&drif21>;
-> +			status =3D "disabled";
-> +		};
+> +Note that this is a device for testing and debugging. It should not be enabled
+> +in a production build. And while there is some versioning and we try hard to
+> +keep backward compatibility, there is no stable ABI guaranteed!
 > +
-> +		drif21: rif@e6f90000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6f90000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 510>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac0 0x2a>;
-> +			dma-names =3D "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 510>;
-> +			renesas,bonding =3D <&drif20>;
-> +			status =3D "disabled";
-> +		};
+> +Instantiating the device is regular. Example for bus 0, address 0x30:
 > +
-> +		drif30: rif@e6fa0000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6fa0000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 509>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac0 0x2c>;
-> +			dma-names =3D "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 509>;
-> +			renesas,bonding =3D <&drif31>;
-> +			status =3D "disabled";
-> +		};
+> +# echo "slave-testunit 0x1030" > /sys/bus/i2c/devices/i2c-0/new_device
 > +
-> +		drif31: rif@e6fb0000 {
-> +			compatible =3D "renesas,r8a77990-drif",
-> +				     "renesas,rcar-gen3-drif";
-> +			reg =3D <0 0xe6fb0000 0 0x84>;
-> +			interrupts =3D <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&cpg CPG_MOD 508>;
-> +			clock-names =3D "fck";
-> +			dmas =3D <&dmac0 0x2e>;
-> +			dma-names =3D "rx";
-> +			power-domains =3D <&sysc
-> R8A77990_PD_ALWAYS_ON>;
-> +			resets =3D <&cpg 508>;
-> +			renesas,bonding =3D <&drif30>;
-> +			status =3D "disabled";
-> +		};
+> +After that, you will have a write-only device listening. Reads will return an
+> +8-bit version number. The device consists of 4 8-bit registers and all must be
+> +written to start a testcase, i.e. you must always write 4 bytes to the device.
+> +The registers are:
 > +
->  		rcar_sound: sound@ec500000 {
->  			/*
->  			 * #sound-dai-cells is required
-> --
-> 2.25.1
+> +0x00 CMD   - which test to trigger
+> +0x01 DATAL - configuration byte 1 for the test
+> +0x02 DATAH - configuration byte 2 for the test
+> +0x03 DELAY - delay in n * 10ms until test is started
+> +
+> +Using 'i2cset' from the i2c-tools package, the generic command looks like:
+> +
+> +# i2cset -y <bus_num> <testunit_address> <CMD> <DATAL> <DATAH> <DELAY> i
+> +
+> +DELAY is a generic parameter which will delay the execution of the test in CMD.
+> +The commands are described in the following section. An invalid command will
+> +result in the transfer not being acknowledged.
+> +
+> +Commands
+> +--------
+> +
+> +0x00 NOOP (reserved for future use)
+> +
+> +0x01 READ_BYTES (also needs master mode)
+> +   DATAL - address to read data from
+> +   DATAH - number of bytes to read
+> +
+> +This is useful to test if your bus master driver is handling multi-master
+> +correctly. You can trigger the testunit to read bytes from another device on
+> +the bus. If the bus master under test also wants to access the bus at the same
+> +time, the bus will be busy. Example to read 128 bytes from device 0x50 after
+> +50ms of delay:
+> +
+> +# i2cset -y 0 0x30 0x01 0x50 0x80 0x05 i
+> +
+> +0x02 SMBUS_HOST_NOTIFY (also needs master mode)
+> +   DATAL - low byte of the status word to send
+> +   DATAH - high byte of the status word to send
+> +
+> +This test will send an SMBUS_HOST_NOTIFY message to the host. Note that the
+> +status word is currently ignored in the Linux Kernel. Example to send a
+> +notification after 10ms:
+> +
+> +# i2cset -y 0 0x30 0x02 0x42 0x64 0x01 i
+> diff --git a/drivers/i2c/Kconfig b/drivers/i2c/Kconfig
+> index 5449729cdb87..438905e2a1d0 100644
+> --- a/drivers/i2c/Kconfig
+> +++ b/drivers/i2c/Kconfig
+> @@ -125,6 +125,14 @@ config I2C_SLAVE_EEPROM
+>  	  This backend makes Linux behave like an I2C EEPROM. Please read
+>  	  Documentation/i2c/slave-eeprom-backend.rst for further details.
+>  
+> +config I2C_SLAVE_TESTUNIT
+> +	tristate "I2C eeprom testunit driver"
 
+Should be tristate "I2C testunit driver" I believe (no eeprom)
+
+> +	help
+> +	  This backend can be used to trigger test cases for I2C bus masters
+> +	  which require a remote device with certain capabilities, e.g.
+> +	  multi-master, SMBus Host Notify, etc. Please read
+> +	  Documentation/i2c/slave-testunit-backend.rst for further details.
+> +
+>  endif
+>  
+>  config I2C_DEBUG_CORE
+> diff --git a/drivers/i2c/Makefile b/drivers/i2c/Makefile
+> index bed6ba63c983..c1d493dc9bac 100644
+> --- a/drivers/i2c/Makefile
+> +++ b/drivers/i2c/Makefile
+> @@ -16,5 +16,6 @@ obj-$(CONFIG_I2C_MUX)		+= i2c-mux.o
+>  obj-y				+= algos/ busses/ muxes/
+>  obj-$(CONFIG_I2C_STUB)		+= i2c-stub.o
+>  obj-$(CONFIG_I2C_SLAVE_EEPROM)	+= i2c-slave-eeprom.o
+> +obj-$(CONFIG_I2C_SLAVE_TESTUNIT)	+= i2c-slave-testunit.o
+>  
+>  ccflags-$(CONFIG_I2C_DEBUG_CORE) := -DDEBUG
+> diff --git a/drivers/i2c/i2c-slave-testunit.c b/drivers/i2c/i2c-slave-testunit.c
+> new file mode 100644
+> index 000000000000..c288102de324
+> --- /dev/null
+> +++ b/drivers/i2c/i2c-slave-testunit.c
+> @@ -0,0 +1,175 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * I2C slave mode testunit
+> + *
+> + * Copyright (C) 2020 by Wolfram Sang, Sang Engineering <wsa@sang-engineering.com>
+> + * Copyright (C) 2020 by Renesas Electronics Corporation
+> + */
+> +
+> +#include <linux/bitops.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/slab.h>
+> +#include <linux/workqueue.h> /* FIXME: is system_long_wq the best choice? */
+> +
+> +#define TU_CUR_VERSION 0x01
+> +
+> +enum testunit_cmds {
+> +	TU_CMD_READ_BYTES = 1,	/* save 0 for ABORT, RESET or similar */
+> +	TU_CMD_HOST_NOTIFY,
+> +	TU_NUM_CMDS
+> +};
+> +
+> +enum testunit_regs {
+> +	TU_REG_CMD,
+> +	TU_REG_DATAL,
+> +	TU_REG_DATAH,
+> +	TU_REG_DELAY,
+> +	TU_NUM_REGS
+> +};
+> +
+> +enum testunit_flags {
+> +	TU_FLAG_IN_PROCESS,
+> +};
+> +
+> +struct testunit_data {
+> +	unsigned long flags;
+> +	u8 regs[TU_NUM_REGS];
+> +	u8 reg_idx;
+> +	struct i2c_client *client;
+> +	struct delayed_work worker;
+> +};
+> +
+> +static void i2c_slave_testunit_work(struct work_struct *work)
+> +{
+> +	struct testunit_data *tu = container_of(work, struct testunit_data, worker.work);
+> +	struct i2c_msg msg;
+> +	u8 msgbuf[256];
+> +	int ret = 0;
+> +
+> +	msg.addr = I2C_CLIENT_END;
+> +	msg.buf = msgbuf;
+> +
+> +	switch (tu->regs[TU_REG_CMD]) {
+> +	case TU_CMD_READ_BYTES:
+> +		msg.addr = tu->regs[TU_REG_DATAL];
+> +		msg.flags = I2C_M_RD;
+> +		msg.len = tu->regs[TU_REG_DATAH];
+
+Some protection might be needed here since the size is coming straight from
+the i2cset command while the buffer is limited to 256 bytes.
+
+> +		break;
+> +
+> +	case TU_CMD_HOST_NOTIFY:
+> +		msg.addr = 0x08;
+> +		msg.flags = 0;
+> +		msg.len = 3;
+> +		msgbuf[0] = tu->client->addr;
+> +		msgbuf[1] = tu->regs[TU_REG_DATAL];
+> +		msgbuf[2] = tu->regs[TU_REG_DATAH];
+> +		break;
+> +
+> +	default:
+> +		break;
+> +	}
+> +
+> +	if (msg.addr != I2C_CLIENT_END) {
+> +		ret = i2c_transfer(tu->client->adapter, &msg, 1);
+> +		/* convert '0 msgs transferred' to errno */
+> +		ret = (ret == 0) ? -EIO : ret;
+> +	}
+> +
+> +	if (ret < 0)
+> +		dev_err(&tu->client->dev, "CMD%02X failed (%d)\n", tu->regs[TU_REG_CMD], ret);
+> +
+> +	clear_bit(TU_FLAG_IN_PROCESS, &tu->flags);
+> +}
+> +
+> +static int i2c_slave_testunit_slave_cb(struct i2c_client *client,
+> +				     enum i2c_slave_event event, u8 *val)
+> +{
+> +	struct testunit_data *tu = i2c_get_clientdata(client);
+> +	int ret = 0;
+> +
+> +	switch (event) {
+> +	case I2C_SLAVE_WRITE_RECEIVED:
+> +		if (test_bit(TU_FLAG_IN_PROCESS, &tu->flags))
+> +			return -EBUSY;
+> +
+> +		if (tu->reg_idx < TU_NUM_REGS)
+> +			tu->regs[tu->reg_idx] = *val;
+> +		else
+> +			ret = -EMSGSIZE;
+> +
+> +		if (tu->reg_idx <= TU_NUM_REGS)
+> +			tu->reg_idx++;
+> +
+> +		/* TU_REG_CMD always written at this point */
+> +		if (tu->regs[TU_REG_CMD] >= TU_NUM_CMDS)
+> +			ret = -EINVAL;
+> +
+> +		break;
+> +
+> +	case I2C_SLAVE_STOP:
+> +		if (tu->reg_idx == TU_NUM_REGS) {
+> +			set_bit(TU_FLAG_IN_PROCESS, &tu->flags);
+> +			queue_delayed_work(system_long_wq, &tu->worker,
+> +					   msecs_to_jiffies(10 * tu->regs[TU_REG_DELAY]));
+> +		}
+> +		fallthrough;
+> +
+> +	case I2C_SLAVE_WRITE_REQUESTED:
+> +		tu->reg_idx = 0;
+> +		break;
+> +
+> +	case I2C_SLAVE_READ_REQUESTED:
+> +	case I2C_SLAVE_READ_PROCESSED:
+> +		*val = TU_CUR_VERSION;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int i2c_slave_testunit_probe(struct i2c_client *client)
+> +{
+> +	struct testunit_data *tu;
+> +
+> +	tu = devm_kzalloc(&client->dev, sizeof(struct testunit_data), GFP_KERNEL);
+> +	if (!tu)
+> +		return -ENOMEM;
+> +
+> +	tu->client = client;
+> +	i2c_set_clientdata(client, tu);
+> +	INIT_DELAYED_WORK(&tu->worker, i2c_slave_testunit_work);
+> +
+> +	return i2c_slave_register(client, i2c_slave_testunit_slave_cb);
+> +};
+> +
+> +static int i2c_slave_testunit_remove(struct i2c_client *client)
+> +{
+> +	struct testunit_data *tu = i2c_get_clientdata(client);
+> +
+> +	cancel_delayed_work_sync(&tu->worker);
+> +	i2c_slave_unregister(client);
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id i2c_slave_testunit_id[] = {
+> +	{ "slave-testunit", 0 },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, i2c_slave_testunit_id);
+> +
+> +static struct i2c_driver i2c_slave_testunit_driver = {
+> +	.driver = {
+> +		.name = "i2c-slave-testunit",
+> +	},
+> +	.probe_new = i2c_slave_testunit_probe,
+> +	.remove = i2c_slave_testunit_remove,
+> +	.id_table = i2c_slave_testunit_id,
+> +};
+> +module_i2c_driver(i2c_slave_testunit_driver);
+> +
+> +MODULE_AUTHOR("Wolfram Sang <wsa@sang-engineering.com>");
+> +MODULE_DESCRIPTION("I2C slave mode test unit");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 2.20.1
+> 
