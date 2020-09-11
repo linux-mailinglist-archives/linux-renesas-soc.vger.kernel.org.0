@@ -2,98 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4018265CAD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 11:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2382C265D0A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 11:54:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725730AbgIKJml (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 05:42:41 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34065 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725710AbgIKJmk (ORCPT
+        id S1725789AbgIKJys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Sep 2020 05:54:48 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:54824 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725710AbgIKJyq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 05:42:40 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 08DF9FF803;
-        Fri, 11 Sep 2020 09:42:34 +0000 (UTC)
-Date:   Fri, 11 Sep 2020 11:46:24 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v5 2/3] dt-bindings: media: ov772x: Make bus-type
- mandatory
-Message-ID: <20200911094624.5k7aqkyf37zjblwt@uno.localdomain>
-References: <20200910162055.614089-1-jacopo+renesas@jmondi.org>
- <20200910162055.614089-3-jacopo+renesas@jmondi.org>
- <20200911053757.GF6566@paasikivi.fi.intel.com>
- <20200911085837.kyxx3p465ovowcel@uno.localdomain>
- <OSBPR01MB5048CACE31FB094F753F4F55AA240@OSBPR01MB5048.jpnprd01.prod.outlook.com>
+        Fri, 11 Sep 2020 05:54:46 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08B9rq9H118702;
+        Fri, 11 Sep 2020 04:53:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1599818032;
+        bh=dxP/WY/4dZH72YPcSv12tcPV/XFUasdrBjjt461p+Vw=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=yvbVhQNO427I3UMxxoaBckIDnOBYAZtnuKrvKA7Ps8tHAgg9811RsZRoZzEjIuxOa
+         Yyxaml8IUgo1SjEXiZlaAi+FmWvQ1rslc9UkPlebDIdcaPyIfRXFTL+Uq+RnmCWgRU
+         Ombas83IuTru1XXR6Zyhs879UIo5EJaKahah5VME=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08B9rqGn086091
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 11 Sep 2020 04:53:52 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 11
+ Sep 2020 04:53:52 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 11 Sep 2020 04:53:52 -0500
+Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08B9riYZ038437;
+        Fri, 11 Sep 2020 04:53:44 -0500
+Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
+ PCA953x family to dtschema
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Joel Stanley <joel@jms.id.au>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-2-krzk@kernel.org>
+ <CACPK8XdocAX5mOXf3VP29cNXH+6unYunB9NiT3qFVKyzR6WXPg@mail.gmail.com>
+ <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com>
+From:   Grygorii Strashko <grygorii.strashko@ti.com>
+Message-ID: <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
+Date:   Fri, 11 Sep 2020 12:53:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OSBPR01MB5048CACE31FB094F753F4F55AA240@OSBPR01MB5048.jpnprd01.prod.outlook.com>
+In-Reply-To: <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
 
-On Fri, Sep 11, 2020 at 08:59:13AM +0000, Prabhakar Mahadev Lad wrote:
-> Hi Jacopo,
->
-> > -----Original Message-----
-> > From: Jacopo Mondi <jacopo@jmondi.org>
-> > Sent: 11 September 2020 09:59
-> > To: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>; robh+dt@kernel.org; devicetree@vger.kernel.org; linux-media@vger.kernel.org; Lad,
-> > Prabhakar <prabhakar.csengg@gmail.com>; mchehab@kernel.org; hverkuil-cisco@xs4all.nl; laurent.pinchart@ideasonboard.com; linux-
-> > renesas-soc@vger.kernel.org; Rob Herring <robh@kernel.org>; Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Subject: Re: [PATCH v5 2/3] dt-bindings: media: ov772x: Make bus-type mandatory
-> >
-> > Hi Sakari,
-> >
-> > On Fri, Sep 11, 2020 at 08:37:57AM +0300, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Thu, Sep 10, 2020 at 06:20:54PM +0200, Jacopo Mondi wrote:
-> > > > In order to establish required properties based on the selected
-> > > > bus type, make the 'bus-type' property mandatory. As this change
-> > > > documents an endpoint property, also document the 'remote-endpoint'
-> > > > one now that the 'endpoint' schema has been expanded.
-> > > >
-> > > > Binary compatibility with existing DTB is kept as the driver does not
-> > > > enforce the property to be present, and shall fall-back to default
-> > > > parallel bus configuration, which was the only supported bus type, if
-> > > > the property is not specified.
-> > >
-> > > Could you add a comment on this to the driver, so this feature isn't
-> > > accidentally removed?
-> >
-> > Sure, can I send a patch in reply to this series to avoid a v6 ?
-> If you don’t mind Ill handle this as part of bt656 additions ?
 
-It's not an issue for me. From a process perspective it might be
-better if we know that comment and this series gets merged in the same
-release to avoid 'holes', but if you're confident the BT.656 series will
-land at the same time please go ahead!
+On 11/09/2020 09:52, Krzysztof Kozlowski wrote:
+> On Fri, 11 Sep 2020 at 08:24, Joel Stanley <joel@jms.id.au> wrote:
+>>
+>> On Thu, 10 Sep 2020 at 17:57, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>>
+>>> Convert the NXP PCA953x family of GPIO expanders bindings to device tree
+>>> schema.
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+>>
+>>> +patternProperties:
+>>> +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
+>>> +    type: object
+>>> +    properties:
+>>> +      gpio-hog: true
+>>> +      gpios: true
+>>> +      input: true
+>>> +      output-high: true
+>>> +      output-low: true
+>>> +      line-name: true
+>>> +
+>>> +    required:
+>>> +      - gpio-hog
+>>> +      - gpios
+>>> +
+>>
+>>> +            usb3-sata-sel-hog {
+>>> +                gpio-hog;
+>>> +                gpios = <4 GPIO_ACTIVE_HIGH>;
+>>> +                output-low;
+>>> +                line-name = "usb3_sata_sel";
+>>
+>> I would prefer we didn't require the addition of hte -hog prefix. It's
+>> mostly just a matter of taste, but I can think of a few more concrete
+>> reasons:
+>>
+>> We don't require -high or -low prefixes, so the node name doesn't need
+>> to describe the properties that will be found below.
+> 
+> Thanks for the comments.
+> 
+> It is not about properties (high or low) but the role of a device
+> node. The node names should represent a generic class of device (ePAPR
+> and device tree spec) and "hog" is such class.
+> 
+> The Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml already
+> uses such naming so the best would be to unify.
 
->
-> Cheers,
-> Prabhakar
->
->
-> Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
+In my opinion, It's not right to define this on per gpio-controller and introduce such
+per gpio-controller restrictions.
+
+More over, there is already generic schema for gpio hogs: gpio-hog.yaml
+Originally, gpio bindings were defined without restricting gpio hog node names and,
+generic schema follows this.
+
+I think, the generic "gpio-hogs" sub-node may be introduced to place gpio hogs child nodes,
+if gpio hogs node names restriction need to be introduces (*which i'm not sure is reasonable*).
+
+gpio@20 {
+	gpio-hogs {
+		yyy-hog {
+                         gpio-hog;
+                         gpios
+		}
+	}
+
+But this require as gpio code as generic gpio schema update (with backward compatibility in mind).
+
+
+> 
+>>
+>> Changing around node names for existing boards carries with it the
+>> chance of userspace breakage (as sysfs paths change). I would prefer
+>> we avoid that if possible.
+> 
+> The impact on userspace is indeed important, but are you sure that
+> hogs are visible to user-space via sysfs and configurable? I guess you
+> think of deprecated CONFIG_GPIO_SYSFS?
+> 
+> Rob,
+> Any hints from you about hog-naming?
+> 
+> Best regards,
+> Krzysztof
+> 
+
+-- 
+Best regards,
+grygorii
