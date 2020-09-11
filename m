@@ -2,181 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2382C265D0A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 11:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1026265D1A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 11:58:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725789AbgIKJys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 05:54:48 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:54824 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725710AbgIKJyq (ORCPT
+        id S1725784AbgIKJ54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Sep 2020 05:57:56 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:60624 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725554AbgIKJ54 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 05:54:46 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08B9rq9H118702;
-        Fri, 11 Sep 2020 04:53:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1599818032;
-        bh=dxP/WY/4dZH72YPcSv12tcPV/XFUasdrBjjt461p+Vw=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=yvbVhQNO427I3UMxxoaBckIDnOBYAZtnuKrvKA7Ps8tHAgg9811RsZRoZzEjIuxOa
-         Yyxaml8IUgo1SjEXiZlaAi+FmWvQ1rslc9UkPlebDIdcaPyIfRXFTL+Uq+RnmCWgRU
-         Ombas83IuTru1XXR6Zyhs879UIo5EJaKahah5VME=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08B9rqGn086091
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 11 Sep 2020 04:53:52 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 11
- Sep 2020 04:53:52 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 11 Sep 2020 04:53:52 -0500
-Received: from [10.250.100.73] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08B9riYZ038437;
-        Fri, 11 Sep 2020 04:53:44 -0500
-Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Joel Stanley <joel@jms.id.au>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-2-krzk@kernel.org>
- <CACPK8XdocAX5mOXf3VP29cNXH+6unYunB9NiT3qFVKyzR6WXPg@mail.gmail.com>
- <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com>
-From:   Grygorii Strashko <grygorii.strashko@ti.com>
-Message-ID: <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
-Date:   Fri, 11 Sep 2020 12:53:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        Fri, 11 Sep 2020 05:57:56 -0400
+X-IronPort-AV: E=Sophos;i="5.76,414,1592838000"; 
+   d="scan'208";a="57029955"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 11 Sep 2020 18:57:54 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4D4FB423A659;
+        Fri, 11 Sep 2020 18:57:52 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH v2] dmaengine: Kconfig: Update description for RCAR_DMAC config
+Date:   Fri, 11 Sep 2020 10:57:34 +0100
+Message-Id: <20200911095734.19348-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+rcar-dmac driver is used on Renesas R-Car Gen{2,3} and Renesas
+RZ/G{1,2} SoC's, update the same to reflect the description
+for RCAR_DMAC config.
 
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+---
+v1->v2
+* Included RZ/Gx
+* Restored RB tag from Geert
 
-On 11/09/2020 09:52, Krzysztof Kozlowski wrote:
-> On Fri, 11 Sep 2020 at 08:24, Joel Stanley <joel@jms.id.au> wrote:
->>
->> On Thu, 10 Sep 2020 at 17:57, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>
->>> Convert the NXP PCA953x family of GPIO expanders bindings to device tree
->>> schema.
->>>
->>> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->>
->>> +patternProperties:
->>> +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
->>> +    type: object
->>> +    properties:
->>> +      gpio-hog: true
->>> +      gpios: true
->>> +      input: true
->>> +      output-high: true
->>> +      output-low: true
->>> +      line-name: true
->>> +
->>> +    required:
->>> +      - gpio-hog
->>> +      - gpios
->>> +
->>
->>> +            usb3-sata-sel-hog {
->>> +                gpio-hog;
->>> +                gpios = <4 GPIO_ACTIVE_HIGH>;
->>> +                output-low;
->>> +                line-name = "usb3_sata_sel";
->>
->> I would prefer we didn't require the addition of hte -hog prefix. It's
->> mostly just a matter of taste, but I can think of a few more concrete
->> reasons:
->>
->> We don't require -high or -low prefixes, so the node name doesn't need
->> to describe the properties that will be found below.
-> 
-> Thanks for the comments.
-> 
-> It is not about properties (high or low) but the role of a device
-> node. The node names should represent a generic class of device (ePAPR
-> and device tree spec) and "hog" is such class.
-> 
-> The Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml already
-> uses such naming so the best would be to unify.
+v1 - https://patchwork.kernel.org/patch/11763239/
+---
+ drivers/dma/sh/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-In my opinion, It's not right to define this on per gpio-controller and introduce such
-per gpio-controller restrictions.
-
-More over, there is already generic schema for gpio hogs: gpio-hog.yaml
-Originally, gpio bindings were defined without restricting gpio hog node names and,
-generic schema follows this.
-
-I think, the generic "gpio-hogs" sub-node may be introduced to place gpio hogs child nodes,
-if gpio hogs node names restriction need to be introduces (*which i'm not sure is reasonable*).
-
-gpio@20 {
-	gpio-hogs {
-		yyy-hog {
-                         gpio-hog;
-                         gpios
-		}
-	}
-
-But this require as gpio code as generic gpio schema update (with backward compatibility in mind).
-
-
-> 
->>
->> Changing around node names for existing boards carries with it the
->> chance of userspace breakage (as sysfs paths change). I would prefer
->> we avoid that if possible.
-> 
-> The impact on userspace is indeed important, but are you sure that
-> hogs are visible to user-space via sysfs and configurable? I guess you
-> think of deprecated CONFIG_GPIO_SYSFS?
-> 
-> Rob,
-> Any hints from you about hog-naming?
-> 
-> Best regards,
-> Krzysztof
-> 
-
+diff --git a/drivers/dma/sh/Kconfig b/drivers/dma/sh/Kconfig
+index 54d5d0369d3c..13437323a85b 100644
+--- a/drivers/dma/sh/Kconfig
++++ b/drivers/dma/sh/Kconfig
+@@ -32,12 +32,12 @@ config SH_DMAE
+ 	  Enable support for the Renesas SuperH DMA controllers.
+ 
+ config RCAR_DMAC
+-	tristate "Renesas R-Car Gen2 DMA Controller"
++	tristate "Renesas R-Car Gen{2,3} and RZ/G{1,2} DMA Controller"
+ 	depends on ARCH_RENESAS || COMPILE_TEST
+ 	select RENESAS_DMA
+ 	help
+ 	  This driver supports the general purpose DMA controller found in the
+-	  Renesas R-Car second generation SoCs.
++	  Renesas R-Car Gen{2,3} and RZ/G{1,2} SoCs.
+ 
+ config RENESAS_USB_DMAC
+ 	tristate "Renesas USB-DMA Controller"
 -- 
-Best regards,
-grygorii
+2.17.1
+
