@@ -2,74 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 620D0265BC3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 10:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B2D0265C00
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 10:54:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725554AbgIKIhV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 04:37:21 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35875 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725550AbgIKIhT (ORCPT
+        id S1725771AbgIKIyy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Sep 2020 04:54:54 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:48641 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725550AbgIKIyw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 04:37:19 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 60so7712432otw.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Sep 2020 01:37:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=G1eyyEj8P/0RRy8Uij3GQwAklZvSuy/9cJYRiTRzr/A=;
-        b=rW4KmwLvP3udpGhGgw9E4dVAKq3gORV0uKLCyGUZBK8nOnEzbP50zrdukgRiacmVag
-         QB7xyn0hYCTJTI7LiT0gMr8JxFlXxh3U613Oxr4xcaaHklKDLwFD+3nxqDsyNf79WTNA
-         6U/KfqKwPktU/Ymy4lLpgn3F55FnGIWNqtrCkebdPk+UgexFDK6vKdAnaRKA9yk/FmlX
-         UiY8c3PnWBVJp4jAwapp+Q/JQ5LnhIFeFTRiQbYrzYs4J8iydMLZhJXYF1oMdqhH1Jb4
-         3pFZNjD9/ttbyo2N0eFyJP7LwRGixeiqZNmQ73keSP9yDJ6aVHHvD22VWONleXUFEixf
-         9MSA==
-X-Gm-Message-State: AOAM532paR/fTUr9a5BzOqJxxM77eTksDJfzFEXt5Vn7j3Co40lsO208
-        SYOEq6MfXbPxfWdd4A8BnlMZq6u197EVuJK3KMY=
-X-Google-Smtp-Source: ABdhPJz2okB2rt96CUVmoUz89d8SBQMgvs6S4JYrF8K2S2vmSKlqZcrikx/sLyxAjRgzoA6O95Xo27+43PV4rkxoKAk=
-X-Received: by 2002:a9d:3b76:: with SMTP id z109mr561136otb.250.1599813438689;
- Fri, 11 Sep 2020 01:37:18 -0700 (PDT)
+        Fri, 11 Sep 2020 04:54:52 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 5C214100012;
+        Fri, 11 Sep 2020 08:54:46 +0000 (UTC)
+Date:   Fri, 11 Sep 2020 10:58:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v5 2/3] dt-bindings: media: ov772x: Make bus-type
+ mandatory
+Message-ID: <20200911085837.kyxx3p465ovowcel@uno.localdomain>
+References: <20200910162055.614089-1-jacopo+renesas@jmondi.org>
+ <20200910162055.614089-3-jacopo+renesas@jmondi.org>
+ <20200911053757.GF6566@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-References: <1599810232-29035-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1599810232-29035-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1599810232-29035-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Sep 2020 10:37:07 +0200
-Message-ID: <CAMuHMdUjtPvTRM6EfBhzNo=xjRt0RckZ-gczt6qo10NyRh=mvA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] soc: renesas: r8a779a0-sysc: Add r8a779a0 support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200911053757.GF6566@paasikivi.fi.intel.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Sakari,
 
-On Fri, Sep 11, 2020 at 9:44 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Add support for R-Car V3U (R8A779A0) SoC power areas and
-> register access, because register specification differs
-> from R-Car Gen2/3.
+On Fri, Sep 11, 2020 at 08:37:57AM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
 >
-> Inspired by patches in the BSP by Tho Vu.
+> On Thu, Sep 10, 2020 at 06:20:54PM +0200, Jacopo Mondi wrote:
+> > In order to establish required properties based on the selected
+> > bus type, make the 'bus-type' property mandatory. As this change
+> > documents an endpoint property, also document the 'remote-endpoint'
+> > one now that the 'endpoint' schema has been expanded.
+> >
+> > Binary compatibility with existing DTB is kept as the driver does not
+> > enforce the property to be present, and shall fall-back to default
+> > parallel bus configuration, which was the only supported bus type, if
+> > the property is not specified.
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Could you add a comment on this to the driver, so this feature isn't
+> accidentally removed?
 
-Thanks for the update!
-Will queue in renesas-devel for v5.10.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sure, can I send a patch in reply to this series to avoid a v6 ?
+>
+> --
+> Regards,
+>
+> Sakari Ailus
