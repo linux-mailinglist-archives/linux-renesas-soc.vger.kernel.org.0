@@ -2,109 +2,194 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 712D2265ED1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 13:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CDD4265F54
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Sep 2020 14:14:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725802AbgIKLel (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 07:34:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725710AbgIKLdz (ORCPT
+        id S1725846AbgIKMNv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Sep 2020 08:13:51 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:1998 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725824AbgIKMNs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 07:33:55 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A92C061795;
-        Fri, 11 Sep 2020 04:33:31 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id z19so5496415lfr.4;
-        Fri, 11 Sep 2020 04:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/QE4i4/aazEggX3dg7wr3FT355FkQudm+5WO62dn5fc=;
-        b=ZdBz9q2UwkyiJEi8yLgyEcycOqWOQh+/+A9aVi86GSiibZAQFCBlj/zusrsnNfd1/M
-         kXIxwa7mj0oqdG94vSLwToFrvwADr/MCjfq9iIzPsmIiAvkWAGVhdoacywEQadRQXiOb
-         opqgQNTOTQ1fzKRNhcsOih1rksULZy3Uyk2df/nXamhviLMFUNEHWM4ZHCTGJHc2pyri
-         rRUyZSAHxqEJ0AJ0clqXWmOs6jeY7E7UmV3idy1nrlJ2MMuWcB8USaz+fD97zJoxETSx
-         AJMj1tbywhivTv9xRrUCUjKGz8kPfhZZfxqH+YuholrFYr+m73g1ta1H90NoOL/JKQPV
-         t+RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/QE4i4/aazEggX3dg7wr3FT355FkQudm+5WO62dn5fc=;
-        b=a8mR+vpB5P7+qY5fVVWURKNQUyYhmwv7d5wYexMhpoMsaxkV4XLZw2JXXK7NyKoExs
-         W3v/2PZxlFUdn+6xxgDSlWYhv/fGBqZiJgVVDhcTvpDe7TxOqKyTqH1EL1V3Tav5zqs4
-         eIGjPbRWUnVWO5M9QDiT1zploG2wzZiqVq6O5DZ1BxS+vWVHOnmMJS8N9EgrpV3AJp2i
-         fQK/hwkABMwYe6LK7H3K59j0enkZENaeupCLv2usA8SyRQQhqrNDWLHf53VcyJDE1fj8
-         Z9a0BPNG9JSDRLyL046scw/gpUZEtRVzZ4S1BIs8y+rQKis7BSI7mGiCXHZx6rI6ZAfL
-         mHJw==
-X-Gm-Message-State: AOAM5325qUwxMhmRaIgy1FLilZMAmDOsf2OQf6332YPtTudDud2MGO5v
-        zY4D5Si3SFynq4+p+klD6V0=
-X-Google-Smtp-Source: ABdhPJymzuhfD89a6kmG9I634PfKHVSojkHULfjgBdUyziy+UxX2lJToqR/e6LdP8duHsigYt6lD9w==
-X-Received: by 2002:a05:6512:32b1:: with SMTP id q17mr178582lfe.329.1599824009497;
-        Fri, 11 Sep 2020 04:33:29 -0700 (PDT)
-Received: from wasted.omprussia.ru ([2a00:1fa0:4890:6188:b7d9:478f:6876:19ba])
-        by smtp.gmail.com with ESMTPSA id 189sm483756ljj.54.2020.09.11.04.33.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Sep 2020 04:33:29 -0700 (PDT)
-Subject: Re: [PATCH] media: Kconfig: Update help description VIDEO_RENESAS_FCP
- config
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <85d326e2-a73b-fa51-a507-eced71346786@gmail.com>
-Date:   Fri, 11 Sep 2020 14:33:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Fri, 11 Sep 2020 08:13:48 -0400
+X-IronPort-AV: E=Sophos;i="5.76,415,1592838000"; 
+   d="scan'208";a="56821913"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 11 Sep 2020 21:13:14 +0900
+Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.120])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 11F9A4260FB3;
+        Fri, 11 Sep 2020 21:13:11 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] arm64: dts: renesas: r8a77990: Add DRIF support
+Date:   Fri, 11 Sep 2020 13:12:59 +0100
+Message-Id: <20200911121259.5669-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Add the DRIF controller nodes for the r8a77990 (a.k.a. R-Car E3).
 
-On 9/11/20 1:10 PM, Lad Prabhakar wrote:
+Please note that R-Car E3 has register BITCTR located at offset
+0x80 (this register is not available on the r8a77960 and r8a77951,
+whose support has already been upstreamed), and even though it is
+not dealt with just yet within the driver, we have to keep that
+into account with our device tree nodes.
 
-> rcar-fcp driver is also used on Renesas RZ/G2 SoC's, update the same
+Also, please note that while testing it has emerged that the
+HW User Manual has the wrong DMA details for DRIF2 and DRIF3
+on E3, as they are only allowed SYS-DMAC0 rather than SYS-DMAC1
+and SYS-DMAC2. An errata addressing this issue will be available
+soon.
 
-    What same, the driver?
+Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi | 120 ++++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
 
-> to reflect help description for VIDEO_RENESAS_FCP config.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-> ---
->  drivers/media/platform/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index bbf32086b607..a5716e9f463a 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -426,8 +426,8 @@ config VIDEO_RENESAS_FCP
->  	help
->  	  This is a driver for the Renesas Frame Compression Processor (FCP).
->  	  The FCP is a companion module of video processing modules in the
-> -	  Renesas R-Car Gen3 SoCs. It handles memory access for the codec,
-> -	  VSP and FDP modules.
-> +	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
-> +	  the codec, VSP and FDP modules.
->  
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called rcar-fcp.
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index 1991bdc36792..caeddc2c1a70 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -1288,6 +1288,126 @@ vin5csi40: endpoint@2 {
+ 			};
+ 		};
+ 
++		drif00: rif@e6f40000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f40000 0 0x84>;
++			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 515>;
++			clock-names = "fck";
++			dmas = <&dmac1 0x20>, <&dmac2 0x20>;
++			dma-names = "rx", "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 515>;
++			renesas,bonding = <&drif01>;
++			status = "disabled";
++		};
++
++		drif01: rif@e6f50000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f50000 0 0x84>;
++			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 514>;
++			clock-names = "fck";
++			dmas = <&dmac1 0x22>, <&dmac2 0x22>;
++			dma-names = "rx", "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 514>;
++			renesas,bonding = <&drif00>;
++			status = "disabled";
++		};
++
++		drif10: rif@e6f60000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f60000 0 0x84>;
++			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 513>;
++			clock-names = "fck";
++			dmas = <&dmac1 0x24>, <&dmac2 0x24>;
++			dma-names = "rx", "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 513>;
++			renesas,bonding = <&drif11>;
++			status = "disabled";
++		};
++
++		drif11: rif@e6f70000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f70000 0 0x84>;
++			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 512>;
++			clock-names = "fck";
++			dmas = <&dmac1 0x26>, <&dmac2 0x26>;
++			dma-names = "rx", "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 512>;
++			renesas,bonding = <&drif10>;
++			status = "disabled";
++		};
++
++		drif20: rif@e6f80000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f80000 0 0x84>;
++			interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 511>;
++			clock-names = "fck";
++			dmas = <&dmac0 0x28>;
++			dma-names = "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 511>;
++			renesas,bonding = <&drif21>;
++			status = "disabled";
++		};
++
++		drif21: rif@e6f90000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6f90000 0 0x84>;
++			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 510>;
++			clock-names = "fck";
++			dmas = <&dmac0 0x2a>;
++			dma-names = "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 510>;
++			renesas,bonding = <&drif20>;
++			status = "disabled";
++		};
++
++		drif30: rif@e6fa0000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6fa0000 0 0x84>;
++			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 509>;
++			clock-names = "fck";
++			dmas = <&dmac0 0x2c>;
++			dma-names = "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 509>;
++			renesas,bonding = <&drif31>;
++			status = "disabled";
++		};
++
++		drif31: rif@e6fb0000 {
++			compatible = "renesas,r8a77990-drif",
++				     "renesas,rcar-gen3-drif";
++			reg = <0 0xe6fb0000 0 0x84>;
++			interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 508>;
++			clock-names = "fck";
++			dmas = <&dmac0 0x2e>;
++			dma-names = "rx";
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			resets = <&cpg 508>;
++			renesas,bonding = <&drif30>;
++			status = "disabled";
++		};
++
+ 		rcar_sound: sound@ec500000 {
+ 			/*
+ 			 * #sound-dai-cells is required
+-- 
+2.25.1
 
-MBR, Sergei
