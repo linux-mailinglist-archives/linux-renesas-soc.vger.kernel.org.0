@@ -2,137 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D107426795D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 12:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B56B826797C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 12:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725837AbgILKIQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Sep 2020 06:08:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37572 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbgILKIM (ORCPT
+        id S1725834AbgILK1K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Sep 2020 06:27:10 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:45473 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725833AbgILK1I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Sep 2020 06:08:12 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A48C061573
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 03:08:12 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id k25so14488301ljg.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 03:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LhS5fiHNS+mf8gdgKUyRgo45ZOROmtSlUAQLqDxlfa4=;
-        b=m84ZT5BPICoUprfBrZfjZJo2ToERzKGaIY2M6zIDJinD/VsTcZGwo12Haard8p1vhC
-         MjZ8Hx1mOMoZusfjl0oIINyvWLew3L/D9Vjr6BiIPqengZMXdB/f0RVu1NZMRU2Q3z2V
-         kDw7HrGgkIRJkY7ZdDYxtEtXHKR5/QKvHKBVMwnPxWhPJDa8IJD1nxJmu+ACxDeUAVRj
-         eWLRVBXOA6MNERWuGkqiqoNBVFHwzaDGQ/HFBHpcyhLZgLwuWw0uLKa/KkF+xDYIC+Fm
-         y512jagysE3SZE1JiPHWpTndTacUnZvwMYiNVx5FAlo6DD9u1U+4vzX3/glDN2wD5pMh
-         pEFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LhS5fiHNS+mf8gdgKUyRgo45ZOROmtSlUAQLqDxlfa4=;
-        b=UMOPfkUYW3pCm+xA/2SOznUl6yN2cpbJGow1mPtBo1+JViaOljE53p+OBQXGpe5dq5
-         HZEO9hTtZWZktjC93jd+UmnwnMMwXwQxKzkAy7CQjcxt+8Cpy7Nfp4lRMSXuxdYmUV4J
-         71PnGGsSbzs8RfvKT/HqqtHWg5/nTwG20eMfajpoFJSPXPYjMkEs689yR7aJUMXWHTRo
-         CDBbY1/elehM6nmWMYR+oVSjwJZzQWztm3nwHNIZXwccc5USkIrU8/9NIB+TLA9Fjb9W
-         aII/uIwHx5gCmkBpc6Z16HzdqX+BH5aTEj8PyNb34VK8Vk+T113z2TVSdPmf6z7CVjNi
-         /SJw==
-X-Gm-Message-State: AOAM5310HKWSBN42LvC7ryckhJpbTFWYiQsJg08YPS27NaPlGAf+mBaJ
-        FykUsDnpzVMaw438ZQPlppRmM7aOitJpl/XYrEm6drk3VBQ=
-X-Google-Smtp-Source: ABdhPJztH8Y3Zl30n6XdqCSNpq33ojnWBwr/h05qXrY6CWiTumbfWA4LLSAc0k49IpbpJ+j5i9pFRwI9T1f7AE6sj0s=
-X-Received: by 2002:a2e:9988:: with SMTP id w8mr2308597lji.286.1599905290685;
- Sat, 12 Sep 2020 03:08:10 -0700 (PDT)
+        Sat, 12 Sep 2020 06:27:08 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A069A1BF20C;
+        Sat, 12 Sep 2020 10:27:02 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Leon Luo <leonl@leopardimaging.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        robh+dt@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org, luca@lucaceresoli.net
+Subject: [PATCH v6] dt-bindings: media: imx274: Convert to json-schema
+Date:   Sat, 12 Sep 2020 12:30:45 +0200
+Message-Id: <20200912103045.14375-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200910175733.11046-1-krzk@kernel.org> <20200910175733.11046-2-krzk@kernel.org>
- <CACPK8XdocAX5mOXf3VP29cNXH+6unYunB9NiT3qFVKyzR6WXPg@mail.gmail.com>
- <CAJKOXPe6Tf0B5W27XaD5zLk77OBzGCHpirhTdZjFH0oh8GvWgg@mail.gmail.com> <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
-In-Reply-To: <c162b6ad-57f1-a75a-11e3-9c80c60bd845@ti.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 12 Sep 2020 12:07:59 +0200
-Message-ID: <CACRpkdbrrzkYVW13V89PJ5_WRGhxSL0rOxAHA_7hYSyw28Shvg@mail.gmail.com>
-Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-To:     Grygorii Strashko <grygorii.strashko@ti.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 11, 2020 at 11:54 AM Grygorii Strashko
-<grygorii.strashko@ti.com> wrote:
+Convert the imx274 bindings document to json-schema and update
+the MAINTAINERS file accordingly.
 
-> More over, there is already generic schema for gpio hogs: gpio-hog.yaml
+Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
 
-Where is this? I don't have it in my GPIO devel branch for sure, and
-it is not in linux-next either so not in Bartosz' tree.
+v5->v6:
+- Fix supplies description and use uppercase 'V' voltage symbol.
+- Thanks Luca Laurent and Sakari and sorry for dragging this to v6.
 
-I did suggest that I want a gpio-common.yaml file which includes the
-hogs.
+v4->v5:
+- Add optional properties that were upstreamed in v5.9-rc2 in the textual
+  bindings
+- Move them to be lowercase: this patch should be fast-tracked through the
+  fixes branch to make sure it gets in before v5.9 is released, otherwise the
+  textual bindings will have supplies names in uppercase
 
-> Originally, gpio bindings were defined without restricting gpio hog node names and,
-> generic schema follows this.
->
-> I think, the generic "gpio-hogs" sub-node may be introduced to place gpio hogs child nodes,
-> if gpio hogs node names restriction need to be introduces (*which i'm not sure is reasonable*).
->
-> gpio@20 {
->         gpio-hogs {
->                 yyy-hog {
->                          gpio-hog;
->                          gpios
->                 }
->         }
->
-> But this require as gpio code as generic gpio schema update (with backward compatibility in mind).
+---
+ .../devicetree/bindings/media/i2c/imx274.txt  | 38 ----------
+ .../bindings/media/i2c/sony,imx274.yaml       | 76 +++++++++++++++++++
+ MAINTAINERS                                   |  2 +-
+ 3 files changed, 77 insertions(+), 39 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/imx274.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
 
-The whole problem I have with the DT bindings is that defining
-them is not really a Linux problem and the people maintaining it even want
-to move it out of the Linux kernel tree. It is supposedly the responsibility of
-all operating systems using device tree including but not limited to BSD
-and Zephyr.
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx274.txt b/Documentation/devicetree/bindings/media/i2c/imx274.txt
+deleted file mode 100644
+index 0727079d2410..000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/imx274.txt
++++ /dev/null
+@@ -1,38 +0,0 @@
+-* Sony 1/2.5-Inch 8.51Mp CMOS Digital Image Sensor
+-
+-The Sony imx274 is a 1/2.5-inch CMOS active pixel digital image sensor with
+-an active array size of 3864H x 2202V. It is programmable through I2C
+-interface. The I2C address is fixed to 0x1a as per sensor data sheet.
+-Image data is sent through MIPI CSI-2, which is configured as 4 lanes
+-at 1440 Mbps.
+-
+-
+-Required Properties:
+-- compatible: value should be "sony,imx274" for imx274 sensor
+-- reg: I2C bus address of the device
+-
+-Optional Properties:
+-- reset-gpios: Sensor reset GPIO
+-- clocks: Reference to the input clock.
+-- clock-names: Should be "inck".
+-- VANA-supply: Sensor 2.8v analog supply.
+-- VDIG-supply: Sensor 1.8v digital core supply.
+-- VDDL-supply: Sensor digital IO 1.2v supply.
+-
+-The imx274 device node should contain one 'port' child node with
+-an 'endpoint' subnode. For further reading on port node refer to
+-Documentation/devicetree/bindings/media/video-interfaces.txt.
+-
+-Example:
+-	sensor@1a {
+-		compatible = "sony,imx274";
+-		reg = <0x1a>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-		reset-gpios = <&gpio_sensor 0 0>;
+-		port {
+-			sensor_out: endpoint {
+-				remote-endpoint = <&csiss_in>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+new file mode 100644
+index 000000000000..f697e1a20beb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+@@ -0,0 +1,76 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/sony,imx274.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sony 1/2.5-Inch 8.51MP CMOS Digital Image Sensor
++
++maintainers:
++  - Leon Luo <leonl@leopardimaging.com>
++
++description: |
++  The Sony IMX274 is a 1/2.5-inch CMOS active pixel digital image sensor with an
++  active array size of 3864H x 2202V. It is programmable through I2C interface.
++  Image data is sent through MIPI CSI-2, which is configured as 4 lanes at 1440
++  Mbps.
++
++properties:
++  compatible:
++    const: sony,imx274
++
++  reg:
++    const: 0x1a
++
++  reset-gpios:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: inck
++
++  vana-supply:
++    description: Sensor 2.8 V analog supply.
++    maxItems: 1
++
++  vdig-supply:
++    description: Sensor 1.8 V digital core supply.
++    maxItems: 1
++
++  vddl-supply:
++    description: Sensor digital IO 1.2 V supply.
++    maxItems: 1
++
++  port:
++    type: object
++    description: Output video port. See ../video-interfaces.txt.
++
++required:
++  - compatible
++  - reg
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        imx274: camera-sensor@1a {
++            compatible = "sony,imx274";
++            reg = <0x1a>;
++            reset-gpios = <&gpio_sensor 0 0>;
++
++            port {
++                sensor_out: endpoint {
++                    remote-endpoint = <&csiss_in>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4e68598c16fa..5c019530d2c1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16150,7 +16150,7 @@ M:	Leon Luo <leonl@leopardimaging.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+ F:	drivers/media/i2c/imx274.c
 
-But there is noone picking up the responsibility outside of the Linux kernel
-tree except for Rob and Rob cannot do everything.
+ SONY IMX290 SENSOR DRIVER
+--
+2.28.0
 
-With things like this it breaks apart because noone takes the overall
-responsibility. And as subsystem maintainer I am fully overloaded with
-the Linux side of things.
-
-This is of course not your or anyone else's fault. But:
-GPIO DT binding maintainers/writers wanted!
-
-Yours,
-Linus Walleij
