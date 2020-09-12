@@ -2,201 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9040626771D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 03:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE70226792E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 11:33:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725768AbgILBoh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Sep 2020 21:44:37 -0400
-Received: from mga09.intel.com ([134.134.136.24]:12414 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725763AbgILBog (ORCPT
+        id S1725814AbgILJd6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Sep 2020 05:33:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725823AbgILJd5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Sep 2020 21:44:36 -0400
-IronPort-SDR: iPowjjEyoHGqySM2rkmLBTh0dcTk1kvn98zLsWAXqg/ZeHK274W09bVqhJcB/dRj1uC4c5Vp87
- ef1e1sUeS8Lg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9741"; a="159821379"
-X-IronPort-AV: E=Sophos;i="5.76,418,1592895600"; 
-   d="scan'208";a="159821379"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2020 18:44:26 -0700
-IronPort-SDR: 0EZ/niWX490dXsfuVFW2bOllrL22JBwoB01i2xiKfvcUpXiCKy8HDyDsWYqjUw516tUsWbDl/t
- Zy5N0RrqG5BA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,418,1592895600"; 
-   d="scan'208";a="378740242"
-Received: from lkp-server01.sh.intel.com (HELO a75722977aa5) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 Sep 2020 18:44:25 -0700
-Received: from kbuild by a75722977aa5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kGuaW-0000RO-OD; Sat, 12 Sep 2020 01:44:24 +0000
-Date:   Sat, 12 Sep 2020 09:44:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.10] BUILD SUCCESS
- 3137852c13c01abd442b021e6e6af057387988d0
-Message-ID: <5f5c27e1.G0EN2LvjkYeJGXTB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Sat, 12 Sep 2020 05:33:57 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1152EC061757
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:33:55 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id m5so8307127lfp.7
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6p01EYnEk7mg7q2BWRLUYur9aS07ulpNpOQ68P6UEdU=;
+        b=T4/DEMnlpnSCV7WTW2xouwOanuflt6Xo/jGK146kbB40c05KWhiHE0chM7d/QQ+SDj
+         irF3FaiezunfKJiJ2xgTQx2qb5yv6FMsYhcG+HkabaliX6npKDryguFJo5ukTTbyK57y
+         AisgrqPJkQZ4btrIc2XvKIpaKMg/qgl6WDnCeYz5Act8wxOBkYs4tk9Q1vm+s7cRAg14
+         /V5o3l7sz5mfMCh6aXbkx9ZxwVQrf72DQiCmXi4uP2GlDKe6W2SochnsR+YFZRbmtki7
+         nILXDwycW7wqiy/koVktjvbYpUiwvFAPgRSLu/j59QsIV+c1T90w6HEAtxm/3Re4XiHx
+         hZpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6p01EYnEk7mg7q2BWRLUYur9aS07ulpNpOQ68P6UEdU=;
+        b=gs+xUI80AKHXRIE6hTlOuc+tgF/9rLUy+f1URKzmrHRF4Xftbxya0GvBkrrbLzFtxl
+         lFAcdIRmJFKAvlgSQAjA+NlMKGqixk1qwDIjtLuLVa1XNm9Abdp9GO2zoCLKed0hfupQ
+         /f3hhQ98wTVDLQmUu13lZHH331rZ6BkfcWienjGt31ugef3Bd/CtFYwa4UTGmEN2sxy4
+         XCc23ZYZwnCZaxaNXaqq384vqSiGoKXJFW+PSEVnN+h/WdK4MtUrxSTJ8+uGJFR425dV
+         2kODpiPok7DPnFY5ef/pRntO3oSja6r1Ai/IYBrrjMGpJ3NfZ/p89Fsm8eY8AKnNB5rY
+         mvZQ==
+X-Gm-Message-State: AOAM533ShYfrW5IhsgjJnvDdOqF5kDePZRgdGLGtuNvKp7WDashehOEQ
+        GHyD38xKBEP8HLG5XEJnh5NAmkW+OhNs+oVzE36XIA==
+X-Google-Smtp-Source: ABdhPJxAcLCKcwWcBH5jCc3n7aA0z0TjdMgW1G14Oic5M3BEJe1es9jWRV/hhZhegEIkFOIYX0OOgztT8qtC+kf6ZU4=
+X-Received: by 2002:ac2:4c11:: with SMTP id t17mr1620153lfq.260.1599903233892;
+ Sat, 12 Sep 2020 02:33:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20200821112208.5295-1-geert+renesas@glider.be>
+In-Reply-To: <20200821112208.5295-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 12 Sep 2020 11:33:43 +0200
+Message-ID: <CACRpkdby9c+_Hww9RJosMrsBCw+GUVfuSjn06OB0jXJWcWyXCg@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.10
-branch HEAD: 3137852c13c01abd442b021e6e6af057387988d0  arm64: dts: renesas: r8a77961: salvator-xs: Add HDMI Sound support
+On Fri, Aug 21, 2020 at 1:22 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-elapsed time: 720m
+> Convert the Renesas Pin Function Controller (PFC) Device Tree binding
+> documentation to json-schema.
+>
+> Document missing properties.
+> Drop deprecated and obsolete #gpio-range-cells property.
+> Update the example to match reality.
+> Drop consumer examples, as they do not belong here.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-configs tested: 135
-configs skipped: 2
+Nice work on this!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Expect to get it from you as a pull request.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                      pcm030_defconfig
-arm                          gemini_defconfig
-mips                      malta_kvm_defconfig
-sh                            titan_defconfig
-mips                           ci20_defconfig
-xtensa                    xip_kc705_defconfig
-mips                         db1xxx_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                      ppc6xx_defconfig
-sh                   sh7770_generic_defconfig
-s390                          debug_defconfig
-arm                             rpc_defconfig
-mips                       capcella_defconfig
-arm                         assabet_defconfig
-c6x                        evmc6472_defconfig
-mips                      maltasmvp_defconfig
-powerpc                    amigaone_defconfig
-powerpc                      pasemi_defconfig
-arm                         at91_dt_defconfig
-sh                               alldefconfig
-m68k                        mvme16x_defconfig
-powerpc                        warp_defconfig
-powerpc                     akebono_defconfig
-powerpc                      ppc64e_defconfig
-sparc                       sparc64_defconfig
-arm                            hisi_defconfig
-arm                     am200epdkit_defconfig
-mips                            e55_defconfig
-arm                           efm32_defconfig
-arm                              zx_defconfig
-mips                          malta_defconfig
-arc                             nps_defconfig
-arm                     eseries_pxa_defconfig
-arm                        mvebu_v5_defconfig
-sh                           sh2007_defconfig
-arm                        trizeps4_defconfig
-arc                        vdk_hs38_defconfig
-arc                            hsdk_defconfig
-powerpc                        icon_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                 mpc85xx_cds_defconfig
-powerpc                     mpc5200_defconfig
-sh                         apsh4a3a_defconfig
-ia64                        generic_defconfig
-mips                       rbtx49xx_defconfig
-sh                          kfr2r09_defconfig
-mips                     decstation_defconfig
-um                             i386_defconfig
-arm                           tegra_defconfig
-mips                   sb1250_swarm_defconfig
-arm                         socfpga_defconfig
-powerpc                      pmac32_defconfig
-sh                           se7722_defconfig
-powerpc64                           defconfig
-powerpc                 mpc836x_rdk_defconfig
-m68k                       m5249evb_defconfig
-riscv                          rv32_defconfig
-c6x                        evmc6474_defconfig
-sh                          lboxre2_defconfig
-xtensa                         virt_defconfig
-sh                             sh03_defconfig
-mips                           ip22_defconfig
-powerpc                 mpc837x_rdb_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20200911
-i386                 randconfig-a006-20200911
-i386                 randconfig-a001-20200911
-i386                 randconfig-a003-20200911
-i386                 randconfig-a002-20200911
-i386                 randconfig-a005-20200911
-x86_64               randconfig-a014-20200911
-x86_64               randconfig-a011-20200911
-x86_64               randconfig-a012-20200911
-x86_64               randconfig-a016-20200911
-x86_64               randconfig-a015-20200911
-x86_64               randconfig-a013-20200911
-i386                 randconfig-a015-20200911
-i386                 randconfig-a014-20200911
-i386                 randconfig-a011-20200911
-i386                 randconfig-a013-20200911
-i386                 randconfig-a016-20200911
-i386                 randconfig-a012-20200911
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a004-20200911
-x86_64               randconfig-a006-20200911
-x86_64               randconfig-a003-20200911
-x86_64               randconfig-a002-20200911
-x86_64               randconfig-a005-20200911
-x86_64               randconfig-a001-20200911
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Yours,
+Linus Walleij
