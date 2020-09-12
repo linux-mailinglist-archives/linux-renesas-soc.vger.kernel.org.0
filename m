@@ -2,84 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE70226792E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 11:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31E7B267954
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Sep 2020 11:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725814AbgILJd6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Sep 2020 05:33:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60558 "EHLO
+        id S1725813AbgILJ6o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Sep 2020 05:58:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725823AbgILJd5 (ORCPT
+        with ESMTP id S1725843AbgILJ6g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Sep 2020 05:33:57 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1152EC061757
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:33:55 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id m5so8307127lfp.7
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:33:55 -0700 (PDT)
+        Sat, 12 Sep 2020 05:58:36 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6E5C061786
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:58:34 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id z17so8318700lfi.12
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 12 Sep 2020 02:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6p01EYnEk7mg7q2BWRLUYur9aS07ulpNpOQ68P6UEdU=;
-        b=T4/DEMnlpnSCV7WTW2xouwOanuflt6Xo/jGK146kbB40c05KWhiHE0chM7d/QQ+SDj
-         irF3FaiezunfKJiJ2xgTQx2qb5yv6FMsYhcG+HkabaliX6npKDryguFJo5ukTTbyK57y
-         AisgrqPJkQZ4btrIc2XvKIpaKMg/qgl6WDnCeYz5Act8wxOBkYs4tk9Q1vm+s7cRAg14
-         /V5o3l7sz5mfMCh6aXbkx9ZxwVQrf72DQiCmXi4uP2GlDKe6W2SochnsR+YFZRbmtki7
-         nILXDwycW7wqiy/koVktjvbYpUiwvFAPgRSLu/j59QsIV+c1T90w6HEAtxm/3Re4XiHx
-         hZpg==
+        bh=qEROEvI5Y0fCmozE88h0a1g1Y25QBKKf6eIHwJfruhM=;
+        b=bNkjodzgEyCHQlbMXE1deFOC+aEb+jZ/eg8pcskEb63rdUJ+ZCeEv0qADusqXyFQlc
+         A11APrQ8MRSDsiGuWjfcWfUicTuhJdcfAwBCzSZF3AI2dko5bJJE/+P6P2RvpWhV/ZJW
+         cfRKDxMcMAwi4jqwEY1QL3E8PLR7qOl6D3LhtSY1EQ6kna+PNpHDhnbZq7o1e4oNRtIS
+         k1tXIBeWW3YzjbDT0D4KMDI1g6L5EVxNLSjlbe+aE1Qp3BB7uy1GKQ1k68s6iGK5THKQ
+         hs3cS8rZn+V42ez4GUuUuM1DpR5Vs3XOaoHye7MswUQ7kohVMsfNhrpYFV4O+DHq4uKk
+         M7KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6p01EYnEk7mg7q2BWRLUYur9aS07ulpNpOQ68P6UEdU=;
-        b=gs+xUI80AKHXRIE6hTlOuc+tgF/9rLUy+f1URKzmrHRF4Xftbxya0GvBkrrbLzFtxl
-         lFAcdIRmJFKAvlgSQAjA+NlMKGqixk1qwDIjtLuLVa1XNm9Abdp9GO2zoCLKed0hfupQ
-         /f3hhQ98wTVDLQmUu13lZHH331rZ6BkfcWienjGt31ugef3Bd/CtFYwa4UTGmEN2sxy4
-         XCc23ZYZwnCZaxaNXaqq384vqSiGoKXJFW+PSEVnN+h/WdK4MtUrxSTJ8+uGJFR425dV
-         2kODpiPok7DPnFY5ef/pRntO3oSja6r1Ai/IYBrrjMGpJ3NfZ/p89Fsm8eY8AKnNB5rY
-         mvZQ==
-X-Gm-Message-State: AOAM533ShYfrW5IhsgjJnvDdOqF5kDePZRgdGLGtuNvKp7WDashehOEQ
-        GHyD38xKBEP8HLG5XEJnh5NAmkW+OhNs+oVzE36XIA==
-X-Google-Smtp-Source: ABdhPJxAcLCKcwWcBH5jCc3n7aA0z0TjdMgW1G14Oic5M3BEJe1es9jWRV/hhZhegEIkFOIYX0OOgztT8qtC+kf6ZU4=
-X-Received: by 2002:ac2:4c11:: with SMTP id t17mr1620153lfq.260.1599903233892;
- Sat, 12 Sep 2020 02:33:53 -0700 (PDT)
+        bh=qEROEvI5Y0fCmozE88h0a1g1Y25QBKKf6eIHwJfruhM=;
+        b=IynoPffwOay9oAQiu+0cFWgx8kJc5iKDnPMWkyqE/pivu7yG5VpoP4+osyDvcZKi3m
+         6ZuzXCXkYJChOwhvr7D6DEmCu4YR4C2pQCRo81TFhcBxLjSAzPdL28LDn4OQkTmnwmis
+         eERAAItANmuAWzm7R6XysqPBb2HmR5qzavP9LTBXnsQrm5OQCdlA5+yu0bAGhxhPDjJe
+         tZCRlOn8c4OEe+/mC0nfrJh+xE6z55uX3NHeVfoWoBJyLZLxy/HBp3la/s0rcQ5u01+r
+         QCR+0uw6rGZg9DhcyLBBU/r3NTxYQIPxBl6R+Vx1c+N/kVw2oMifSYAxiBmFBovvhudb
+         SNHQ==
+X-Gm-Message-State: AOAM532BCZa7PZmfiVGKuKOcmpJNYf9PCbEETqUHxJqlyyKDBxjTIXjY
+        jmenLi3vaF/uaTICTZ5dJ7BYHHp3XDAQaKLD9bRZeQ==
+X-Google-Smtp-Source: ABdhPJz2DrvLqFno9Czac040PFbYE4v0es0Eq6+34Rf534KupzpDXiQZE1x4bI74fTkUy2VMuaKKZBCTxqQ4dSSRceI=
+X-Received: by 2002:a19:520b:: with SMTP id m11mr1358539lfb.502.1599904713123;
+ Sat, 12 Sep 2020 02:58:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821112208.5295-1-geert+renesas@glider.be>
-In-Reply-To: <20200821112208.5295-1-geert+renesas@glider.be>
+References: <20200910175733.11046-1-krzk@kernel.org> <20200910175733.11046-3-krzk@kernel.org>
+In-Reply-To: <20200910175733.11046-3-krzk@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 12 Sep 2020 11:33:43 +0200
-Message-ID: <CACRpkdby9c+_Hww9RJosMrsBCw+GUVfuSjn06OB0jXJWcWyXCg@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: pinctrl: sh-pfc: Convert to json-schema
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+Date:   Sat, 12 Sep 2020 11:58:22 +0200
+Message-ID: <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
+Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
+ MAX732x family to dtschema
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 1:22 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> Convert the Renesas Pin Function Controller (PFC) Device Tree binding
-> documentation to json-schema.
+> Convert the Maxim MAX732x family of GPIO expanders bindings to device
+> tree schema by merging it with existing PCA95xx schema.  These are quite
+> similar so merging reduces duplication.
 >
-> Document missing properties.
-> Drop deprecated and obsolete #gpio-range-cells property.
-> Update the example to match reality.
-> Drop consumer examples, as they do not belong here.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Nice work on this!
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-
-Expect to get it from you as a pull request.
+Can I just apply this one patch to the GPIO tree?
 
 Yours,
 Linus Walleij
