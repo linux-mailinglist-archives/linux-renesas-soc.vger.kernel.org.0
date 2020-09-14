@@ -2,127 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4847C2699C9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 01:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAA952699CF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 01:40:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725999AbgINXiv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 19:38:51 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:55130 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726035AbgINXiu (ORCPT
+        id S1726013AbgINXka (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 19:40:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38572 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725994AbgINXk3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 19:38:50 -0400
-X-Halon-ID: 4e69857e-f6e3-11ea-b48b-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 4e69857e-f6e3-11ea-b48b-0050569116f7;
-        Tue, 15 Sep 2020 01:37:52 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 4/4] pinctrl: sh-pfc: r8a77965: Add VIN stf8 pins
-Date:   Tue, 15 Sep 2020 01:37:44 +0200
-Message-Id: <20200914233744.468175-5-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200914233744.468175-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20200914233744.468175-1-niklas.soderlund+renesas@ragnatech.se>
+        Mon, 14 Sep 2020 19:40:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A83EC06174A;
+        Mon, 14 Sep 2020 16:40:29 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFB7D275;
+        Tue, 15 Sep 2020 01:40:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600126827;
+        bh=dpjfNCdpvv0iSnlK1C59zQrHlYUjqqVhCoNym9uTgzg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DZR5n19qTCwZejfbuACt9XJCciUc3DBmeLtRSAUzaIZhQO59E3mm3MejRN2mgF32X
+         gBr0OjBYbbslYgAJiksiVw3NasyXrAt8ICCzOaYjQK5QoIS2GJFZviWM6qX8YuzJ+o
+         zB1PR1hvVQBgzDbkUzRwa3kmTVnWruinB+POSBTU=
+Date:   Tue, 15 Sep 2020 02:40:00 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v2] pinctrl: sh-pfc: r8a7790: Add VIN1-B and VIN2-G pins,
+ groups and functions
+Message-ID: <20200914234000.GG15543@pendragon.ideasonboard.com>
+References: <20200913182850.32660-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWjnQGKt12_=Z1Lc4fE2hecC6V7ELYpGW6FP2zm8mBp=w@mail.gmail.com>
+ <20200914232756.GA1669406@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200914232756.GA1669406@oden.dyn.berto.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds VIN{4,5} sft8 pins to the R8A77965 SoC.
+Hello,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/pinctrl/sh-pfc/pfc-r8a77965.c | 32 +++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+On Tue, Sep 15, 2020 at 01:27:56AM +0200, Niklas Söderlund wrote:
+> On 2020-09-14 16:47:27 +0200, Geert Uytterhoeven wrote:
+> > On Sun, Sep 13, 2020 at 8:29 PM Lad Prabhakar wrote:
+> > > Add pins, groups and functions for the VIN1-B [data/clk/sync] and VIN2-G [data].
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > > Changes for v2:
+> > > * Added complete list of VIN1-B pins
+> > > * Renamed vin2_data8_g to vin2_data8g
+> > > * Sorted vin1_sync_b pins
+> > >
+> > > v1 - https://patchwork.kernel.org/patch/11761191/
+> > 
+> > Thanks for the update!
+> > 
+> > > --- a/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+> > > +++ b/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+> > 
+> > > @@ -3874,6 +3940,14 @@ static const unsigned int vin1_sync_mux[] = {
+> > >         VI1_HSYNC_N_MARK,
+> > >         VI1_VSYNC_N_MARK,
+> > >  };
+> > > +static const unsigned int vin1_sync_b_pins[] = {
+> > > +       RCAR_GP_PIN(1, 24), /* HSYNC */
+> > > +       RCAR_GP_PIN(1, 25), /* VSYNC */
+> > > +};
+> > > +static const unsigned int vin1_sync_b_mux[] = {
+> > > +       VI1_HSYNC_N_B_MARK,
+> > > +       VI1_VSYNC_N_B_MARK,
+> > > +};
+> > >  static const unsigned int vin1_field_pins[] = {
+> > >         RCAR_GP_PIN(1, 13),
+> > >  };
+> > 
+> > Missing field_b and clkenb_b.
+> > 
+> > > @@ -3959,6 +4039,18 @@ static const unsigned int vin2_data18_mux[] = {
+> > >         VI2_R4_MARK, VI2_R5_MARK,
+> > >         VI2_R6_MARK, VI2_R7_MARK,
+> > >  };
+> > > +static const unsigned int vin2_data8g_pins[] = {
+> > > +       RCAR_GP_PIN(0, 27), RCAR_GP_PIN(0, 28),
+> > > +       RCAR_GP_PIN(0, 29), RCAR_GP_PIN(1, 10),
+> > > +       RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 5),
+> > > +       RCAR_GP_PIN(1, 6), RCAR_GP_PIN(1, 7),
+> > > +};
+> > > +static const unsigned int vin2_data8g_mux[] = {
+> > > +       VI2_G0_MARK, VI2_G1_MARK,
+> > > +       VI2_G2_MARK, VI2_G3_MARK,
+> > > +       VI2_G4_MARK, VI2_G5_MARK,
+> > > +       VI2_G6_MARK, VI2_G7_MARK,
+> > > +};
+> > 
+> > Laurent, Niklas: are you happy with the name "vin2_data8g", or do
+> > you have a better suggestion?
+> 
+> I learnt recently that traditionally for single 8-bit RAW inputs are 
+> named R8 (fist in RGB). But as this really is the G pins and they are 
+> labeled as such I'm OK with the name, but I would like to hear Laurent's 
+> view as well.
 
-diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77965.c b/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
-index 6616f5210b9d96d4..7dc05733b571fa41 100644
---- a/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
-@@ -4285,6 +4285,20 @@ static const union vin_data vin4_data_b_mux = {
- 	},
- };
- 
-+static const unsigned int vin4_data8_sft8_pins[] = {
-+	RCAR_GP_PIN(1, 0),  RCAR_GP_PIN(1, 1),
-+	RCAR_GP_PIN(1, 2),  RCAR_GP_PIN(1, 3),
-+	RCAR_GP_PIN(1, 4),  RCAR_GP_PIN(1, 5),
-+	RCAR_GP_PIN(1, 6),  RCAR_GP_PIN(1, 7),
-+};
-+
-+static const unsigned int vin4_data8_sft8_mux[] = {
-+	VI4_DATA8_MARK,  VI4_DATA9_MARK,
-+	VI4_DATA10_MARK, VI4_DATA11_MARK,
-+	VI4_DATA12_MARK, VI4_DATA13_MARK,
-+	VI4_DATA14_MARK, VI4_DATA15_MARK,
-+};
-+
- static const unsigned int vin4_sync_pins[] = {
- 	/* VSYNC_N, HSYNC_N */
- 	RCAR_GP_PIN(1, 17), RCAR_GP_PIN(1, 18),
-@@ -4345,6 +4359,20 @@ static const union vin_data16 vin5_data_mux = {
- 	},
- };
- 
-+static const unsigned int vin5_data8_sft8_pins[] = {
-+	RCAR_GP_PIN(1, 12), RCAR_GP_PIN(1, 13),
-+	RCAR_GP_PIN(1, 14), RCAR_GP_PIN(1, 15),
-+	RCAR_GP_PIN(1, 4),  RCAR_GP_PIN(1, 5),
-+	RCAR_GP_PIN(1, 6),  RCAR_GP_PIN(1, 7),
-+};
-+
-+static const unsigned int vin5_data8_sft8_mux[] = {
-+	VI5_DATA8_MARK,  VI5_DATA9_MARK,
-+	VI5_DATA10_MARK, VI5_DATA11_MARK,
-+	VI5_DATA12_MARK, VI5_DATA13_MARK,
-+	VI5_DATA14_MARK, VI5_DATA15_MARK,
-+};
-+
- static const unsigned int vin5_sync_pins[] = {
- 	/* VSYNC_N, HSYNC_N */
- 	RCAR_GP_PIN(1, 9), RCAR_GP_PIN(1, 10),
-@@ -4689,6 +4717,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(vin4_data18_b),
- 		VIN_DATA_PIN_GROUP(vin4_data, 20, _b),
- 		VIN_DATA_PIN_GROUP(vin4_data, 24, _b),
-+		SH_PFC_PIN_GROUP(vin4_data8_sft8),
- 		SH_PFC_PIN_GROUP(vin4_sync),
- 		SH_PFC_PIN_GROUP(vin4_field),
- 		SH_PFC_PIN_GROUP(vin4_clkenb),
-@@ -4697,6 +4726,7 @@ static const struct {
- 		VIN_DATA_PIN_GROUP(vin5_data, 10),
- 		VIN_DATA_PIN_GROUP(vin5_data, 12),
- 		VIN_DATA_PIN_GROUP(vin5_data, 16),
-+		SH_PFC_PIN_GROUP(vin5_data8_sft8),
- 		SH_PFC_PIN_GROUP(vin5_sync),
- 		SH_PFC_PIN_GROUP(vin5_field),
- 		SH_PFC_PIN_GROUP(vin5_clkenb),
-@@ -5231,6 +5261,7 @@ static const char * const vin4_groups[] = {
- 	"vin4_data18_b",
- 	"vin4_data20_b",
- 	"vin4_data24_b",
-+	"vin4_data8_sft8",
- 	"vin4_sync",
- 	"vin4_field",
- 	"vin4_clkenb",
-@@ -5242,6 +5273,7 @@ static const char * const vin5_groups[] = {
- 	"vin5_data10",
- 	"vin5_data12",
- 	"vin5_data16",
-+	"vin5_data8_sft8",
- 	"vin5_sync",
- 	"vin5_field",
- 	"vin5_clkenb",
+I think we should match the pin names from the datasheet, so a R suffix
+isn't a good option. I have a feeling we will suffer with this though,
+as here 'g' refers to the VIN green data pins (g[7:0], a.k.a.
+data[15:8]), while below 'b' refers to the second set of VIN data pins,
+not the blue data pins. One option would be to use "vin2_data8_shift8",
+but I'm not sure I'm very fond of that either. I also wonder whether we
+shouldn't call this "vin2_g8" instead of "vin2_data8g" as the pins are
+named VIN_G[7:0], not VIN_DATAG[7:0].
+
+> > >  static const unsigned int vin2_sync_pins[] = {
+> > >         RCAR_GP_PIN(1, 16), /* HSYNC */
+> > >         RCAR_GP_PIN(1, 21), /* VSYNC */
+> > 
+> > > @@ -4310,15 +4402,25 @@ static const struct {
+> > >                 VIN_DATA_PIN_GROUP(vin1_data, 10),
+> > >                 VIN_DATA_PIN_GROUP(vin1_data, 8),
+> > >                 VIN_DATA_PIN_GROUP(vin1_data, 4),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 24, _b),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 20, _b),
+> > > +               SH_PFC_PIN_GROUP(vin1_data18_b),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 16, _b),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 12, _b),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 10, _b),
+> > > +               VIN_DATA_PIN_GROUP(vin1_data, 8, _b),
+> > 
+> > Missing vin1_data4_b.
+> > 
+> > >                 SH_PFC_PIN_GROUP(vin1_sync),
+> > > +               SH_PFC_PIN_GROUP(vin1_sync_b),
+> > >                 SH_PFC_PIN_GROUP(vin1_field),
+> > >                 SH_PFC_PIN_GROUP(vin1_clkenb),
+> > >                 SH_PFC_PIN_GROUP(vin1_clk),
+> > > +               SH_PFC_PIN_GROUP(vin1_clk_b),
+> > >                 VIN_DATA_PIN_GROUP(vin2_data, 24),
+> > >                 SH_PFC_PIN_GROUP(vin2_data18),
+> > >                 VIN_DATA_PIN_GROUP(vin2_data, 16),
+> > >                 VIN_DATA_PIN_GROUP(vin2_data, 8),
+> > >                 VIN_DATA_PIN_GROUP(vin2_data, 4),
+> > > +               SH_PFC_PIN_GROUP(vin2_data8g),
+> > >                 SH_PFC_PIN_GROUP(vin2_sync),
+> > >                 SH_PFC_PIN_GROUP(vin2_field),
+> > >                 SH_PFC_PIN_GROUP(vin2_clkenb),
+> > > @@ -4784,10 +4886,19 @@ static const char * const vin1_groups[] = {
+> > >         "vin1_data10",
+> > >         "vin1_data8",
+> > >         "vin1_data4",
+> > > +       "vin1_data24_b",
+> > > +       "vin1_data20_b",
+> > > +       "vin1_data18_b",
+> > > +       "vin1_data16_b",
+> > > +       "vin1_data12_b",
+> > > +       "vin1_data10_b",
+> > > +       "vin1_data8_b",
+> > 
+> > Missing vin1_data4_b.
+> > 
+> > >         "vin1_sync",
+> > > +       "vin1_sync_b",
+> > >         "vin1_field",
+> > >         "vin1_clkenb",
+> > >         "vin1_clk",
+> > > +       "vin1_clk_b",
+> > >  };
+> > >
+> > >  static const char * const vin2_groups[] = {
+> > 
+> > The rest looks good to me.
+
 -- 
-2.28.0
+Regards,
 
+Laurent Pinchart
