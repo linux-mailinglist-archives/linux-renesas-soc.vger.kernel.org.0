@@ -2,99 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA582688D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 11:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ECD9268905
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 12:12:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgINJx5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 05:53:57 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49104 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726275AbgINJx4 (ORCPT
+        id S1726374AbgINKMH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 06:12:07 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36120 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726239AbgINKMH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 05:53:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=fXUJ5XrONh8vOCCNUuB2z8BMlfPq
-        hb1bOhFt/4k7jA4=; b=3k2dP4R8ITpJB8/JKqdgdgKYYBhyFgPkWvbzZPPSmbcg
-        t3ZIxMp+8DWFhzcY0kQP6YNmlwUZ9vXeazzqx8m4N9Oj1ZXbSeL7zTYO+r3OFjvs
-        VFRHk8F7+mCD9GBTSxN7K0Ic2k2NV8K1kY8MnkZw1Rabcw6W6U0gsrk8Jui5nMo=
-Received: (qmail 1815418 invoked from network); 14 Sep 2020 11:53:54 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Sep 2020 11:53:54 +0200
-X-UD-Smtp-Session: l3s3148p1@nHsuA0OvOuIgAwDPXwXYAPlEQEA0NVnc
-Date:   Mon, 14 Sep 2020 11:53:54 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [RFC PATCH] clk: renesas: rcar-gen3: remove stp_ck handling for
- SDHI
-Message-ID: <20200914095354.GB8570@ninjato>
-References: <20200914090426.16022-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdXCQ3LQDWWwOUndkXv15USfX9YFnWtw9JvUcqNyJ7-gBQ@mail.gmail.com>
+        Mon, 14 Sep 2020 06:12:07 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x19so17283618oix.3;
+        Mon, 14 Sep 2020 03:12:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6qIWsZAMXFA6R8dZa5JALODs0DnWG4bbFhErRCdLhSg=;
+        b=l2ZOLaGoSK6Tu1kJ+idGpISssMS2jcn6Ylw5NiuihAfX9S6AJd0pVqbp6mC7X5jz3l
+         yl07AfnjkpiHZU0dAVbH9dxcZVfRHtQ/T94dIGO+KFzDWzPCISJv9BMuvYHo6YQ8kRm8
+         onMEMqhjwkqFOHpfVv24kEBxp63CkQ8ybKt0oTRw/YPzwHDxzrMmque0jOyU94QqDWni
+         nnSbmYFmEnSBaXK/tXeUHgbRt3Ts3pQZmEdovFlThCdtpgWHasUSVMoQ/NQzbieNkWNA
+         APtAaQdKq9UmxP22R49K94AwI+yx2dAhdaDgM6VXcAVQeD4u8WmYP8Pn0KymNTts4FO5
+         7fAQ==
+X-Gm-Message-State: AOAM530gbAr6VkCkBqvA5mvH0U6SnicsY3f5vvzs0BmfVjRteU9zaOoG
+        L02a2caPFqZQA5vcQjZZ5X6wHL37LLnah39eOlq7tQocqGY=
+X-Google-Smtp-Source: ABdhPJxpdeo+d4eoib4KcvySImvbes64puBnWU6IkFUlWPxGH+QeU32RMnl8DC4QNxBS/oi9zLUCaBu/DrnvhU1DdLM=
+X-Received: by 2002:aca:3bc3:: with SMTP id i186mr7403356oia.148.1600078326032;
+ Mon, 14 Sep 2020 03:12:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wzJLGUyc3ArbnUjN"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXCQ3LQDWWwOUndkXv15USfX9YFnWtw9JvUcqNyJ7-gBQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200912211853.15321-1-marek.vasut@gmail.com> <CAMuHMdUBOOwpNLWLKX2obnezrZmOi2Uk+drvzo4KRU2H1xfJDQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUBOOwpNLWLKX2obnezrZmOi2Uk+drvzo4KRU2H1xfJDQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Sep 2020 12:11:54 +0200
+Message-ID: <CAMuHMdWW6sX+4Hn8wdkCj0kixRZcDKiZR987iEcXrs+U+-4yUA@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar: Add L1 link state fix into data abort hook
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---wzJLGUyc3ArbnUjN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 14, 2020 at 11:35:07AM +0200, Geert Uytterhoeven wrote:
-> Hi Wolfram,
->=20
-> On Mon, Sep 14, 2020 at 11:04 AM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > There is no case (and none forseen) where we would need to disable the
->=20
-> foreseen
-
-Oops, yes.
-
->=20
-> > SDn clock. So, for simplicity, remove its handling.
+On Mon, Sep 14, 2020 at 11:29 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+> On Sat, Sep 12, 2020 at 11:19 PM <marek.vasut@gmail.com> wrote:
+> > From: Marek Vasut <marek.vasut+renesas@gmail.com>
 > >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > ---
+> > The R-Car PCIe controller is capable of handling L0s/L1 link states.
+> > While the controller can enter and exit L0s link state, and exit L1
+> > link state, without any additional action from the driver, to enter
+> > L1 link state, the driver must complete the link state transition by
+> > issuing additional commands to the controller.
 > >
-> > One paradigm is to stay minimal and remove unneeded things. Another one
-> > is to not change working code unnecessarily. I favor the first one a bit
-> > more, but would understand arguing with the second one.
->=20
-> Indeed.
->=20
-> Does this make the code rely on bootloader setup or reset state?
+> > The problem is, this transition is not atomic. The controller sets
+> > PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
+> > the PCIe card, but then the controller enters some sort of inbetween
+> > state. The driver must detect this condition and complete the link
+> > state transition, by setting L1IATN bit in PMCTLR and waiting for
+> > the link state transition to complete.
+> >
+> > If a PCIe access happens inside of this window, where the controller
+> > is inbetween L0 and L1 link states, the access generates a fault and
+> > the ARM 'imprecise external abort' handler is invoked.
+> >
+> > Just like other PCI controller drivers, here we hook the fault handler,
+> > perform the fixup to help the controller enter L1 link state, and then
+> > restart the instruction which triggered the fault. Since the controller
+> > is in L1 link state now, the link can exit from L1 link state to L0 and
+> > successfully complete the access.
+> >
+> > Note that this fixup is applicable only to Aarch32 R-Car controllers,
+> > the Aarch64 R-Car perform the same fixup in TFA, see TFA commit
+> > 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
+> >
+> > Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Before, we wrote '0' or '1' to that bit depending on 'stp_ck'. After
-removing 'stp_ck', we unconditionally write 0. So, I think we are safe.
+>
+> > +        */
+> > +       hook_fault_code(16 + 6, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+>
+> After changing the "16 + 6" to "17", like pci-keystone.c does, it works!
 
+Oh, this depends on LPAE.  So it must be 17 if CONFIG_ARM_LPAE=y,
+22 otherwise.
 
---wzJLGUyc3ArbnUjN
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9fPa4ACgkQFA3kzBSg
-KbZR6BAApy5h87MLSbou15R+YabtVtILEz1ZLr+XmSCXQtQrC/1P8P9LB2U7kNaL
-k+R26rYwF1aapqgHLNX3tuR4kzCoyrd6vUNEkn+x0ylKmVA1rGVBWdxT32b3W0Zq
-2yDFK3FSonAaPMcr953HtJmpY4Sr/aJXgRFOI1txp7UjPSr6/kAtSXr0eq6apeoy
-/M9f5A8n37Fj+GTQzhOhVvNg/1IMnZythQobjqOqLhBIeBXglbbn7nZ11rRNa3YJ
-IbGt03mfNrEXELgvebM92S8LFSWWhNJb6JV0X6GRzOGrY0u9lwdJUv0Wu5+CQtiI
-foNx7bZTaNnJ09bDPY8WupKmU7CJkAg4Amaq/nSV0umrXVfTtiBgYcWusFwbzxNl
-6Z+RLqkN7fyUGFdHdlmHdSqDJhAnEQSQOjiSiFFj5T928Yc+maBjzd/ULyhKzdmO
-g0sP3EOoh/kUv9SQGq7Jakma7W2f2P4juIXYcWGssBYaTDwE5GZtoDes+QF6Dmrt
-YUcafMkaCIUwGd2h8OZe3Fy5iOnknlw6wFNS2L7sSvOwVknBRpVWCHPWuLqcJAMW
-LDsa+z/m/yOGIJ8meYbqEAmcpryEn6+JTv1CZMItRET51BNKSXYW8JkP91l9b2Ez
-RthmEungVOxymtcdSf2ObHNGTY0VqlIxOa5OmrLmqZOv7ce02pE=
-=iPTZ
------END PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---wzJLGUyc3ArbnUjN--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
