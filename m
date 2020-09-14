@@ -2,137 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33640268528
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 08:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1369268597
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 09:18:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgINGyU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 02:54:20 -0400
-Received: from mga01.intel.com ([192.55.52.88]:33536 "EHLO mga01.intel.com"
+        id S1725944AbgINHRt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 03:17:49 -0400
+Received: from www.zeus03.de ([194.117.254.33]:48146 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726039AbgINGyU (ORCPT
+        id S1725977AbgINHRo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 02:54:20 -0400
-IronPort-SDR: 9z7zLBqthAIuv2/W1wASKCv2JFUZPMQcJObAD3FqMuugDfJLE7QjmXrTGDyhaq4rb4hP7rs8Fl
- iRnRmNyioq5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9743"; a="177092748"
-X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="177092748"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2020 23:54:19 -0700
-IronPort-SDR: pdEiVDhMyKt7oIChbRSjZKBN4EcgjafmPS4ykn+81MtIwHwnqFCNhEEN4umDbCbm4DxCu/3qLv
- 5KhEZ4b/34+g==
-X-IronPort-AV: E=Sophos;i="5.76,425,1592895600"; 
-   d="scan'208";a="286329780"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2020 23:54:17 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 9E6CE20815; Mon, 14 Sep 2020 09:54:15 +0300 (EEST)
-Date:   Mon, 14 Sep 2020 09:54:15 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v4 1/3] media: i2c: ov772x: Parse endpoint properties
-Message-ID: <20200914065415.GK26842@paasikivi.fi.intel.com>
-References: <20200913184247.618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 14 Sep 2020 03:17:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=xJbhDh/H5UG36lNOTJCHnhf5scb
+        lxKNX/3BgTNy9fJ8=; b=Jr/+zwrrioT1U1FTEeslwE2y4XVv1kggJjk3r3euMiK
+        +G4KinVOPNapr2HKuk/YuLvvNz5Ga5nrfxSvgTqcNza1exmIVmdnj6hJ2J0gCwDx
+        VkyB6cFSIu1lerFi1AjWUjqgpASzzogNEkD3yWUMZSJT64zx02qA8L/CE4I4okV8
+        =
+Received: (qmail 1770395 invoked from network); 14 Sep 2020 09:17:41 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Sep 2020 09:17:41 +0200
+X-UD-Smtp-Session: l3s3148p1@4V971ECvluAgAwDPXwXYAPlEQEA0NVnc
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 0/1] i2c: add slave testunit driver
+Date:   Mon, 14 Sep 2020 09:17:36 +0200
+Message-Id: <20200914071737.6354-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Motivated by a series by Alain Volmat which implements SMBus Host Notify
+support as a slave backend (already upstream), I wondered how I could
+actually test it. Then, I picked up my old idea of a "custom remote
+device" and implemented it as another slave backend. This is the outcome
+and it works quite well on my Renesas Lager board where I connected two
+I2C busses where both I2C controllers are master and slave. One slave is
+the testunit, one slave is the HostNotify listener.
 
-Thanks for the patchset.
+As mentioned elsewhere, support for SMBus Alert and I2C_M_RECV_LEN are
+already planned. But I guess you can do much more.
 
-On Sun, Sep 13, 2020 at 07:42:45PM +0100, Lad Prabhakar wrote:
-> Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> to determine bus-type and store it locally in priv data.
-> 
-> Also for backward compatibility with the existing DT where bus-type
-> isnt specified fallback to V4L2_MBUS_PARALLEL.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/i2c/ov772x.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> index 2cc6a678069a..551082aa7026 100644
-> --- a/drivers/media/i2c/ov772x.c
-> +++ b/drivers/media/i2c/ov772x.c
-> @@ -31,6 +31,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <media/v4l2-image-sizes.h>
->  #include <media/v4l2-subdev.h>
->  
-> @@ -434,6 +435,7 @@ struct ov772x_priv {
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	struct media_pad pad;
->  #endif
-> +	enum v4l2_mbus_type		  bus_type;
->  };
->  
->  /*
-> @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
->  
->  static int ov772x_probe(struct i2c_client *client)
->  {
-> +	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-> +	struct fwnode_handle	*ep;
->  	struct ov772x_priv	*priv;
->  	int			ret;
->  	static const struct regmap_config ov772x_regmap_config = {
-> @@ -1415,6 +1419,26 @@ static int ov772x_probe(struct i2c_client *client)
->  		goto error_clk_put;
->  	}
->  
-> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> +					    NULL);
-> +	if (!ep) {
-> +		dev_err(&client->dev, "endpoint node not found\n");
-> +		ret = -EINVAL;
-> +		goto error_clk_put;
-> +	}
-> +
-> +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> +	priv->bus_type = bus_cfg.bus_type;
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	if (ret) {
-> +		/* For backward compatibility with the existing DT where
-> +		 * bus-type isnt specified fallback to V4L2_MBUS_PARALLEL
+Ideas and comments welcome!
 
-"isn't", "fall back", and a period, please.
+Happy hacking,
 
-> +		 */
-> +		priv->bus_type = V4L2_MBUS_PARALLEL;
-> +		dev_notice(&client->dev, "Falling back to V4L2_MBUS_PARALLEL mode\n");
+   Wolfram
 
-I'd just use dev_dbg().
+Wolfram Sang (1):
+  i2c: add slave testunit driver
 
-> +	}
-> +
->  	ret = ov772x_video_probe(priv);
->  	if (ret < 0)
->  		goto error_gpio_put;
+ Documentation/i2c/slave-testunit-backend.rst |  66 +++++++
+ drivers/i2c/Kconfig                          |   8 +
+ drivers/i2c/Makefile                         |   1 +
+ drivers/i2c/i2c-slave-testunit.c             | 174 +++++++++++++++++++
+ 4 files changed, 249 insertions(+)
+ create mode 100644 Documentation/i2c/slave-testunit-backend.rst
+ create mode 100644 drivers/i2c/i2c-slave-testunit.c
 
 -- 
-Regards,
+2.20.1
 
-Sakari Ailus
