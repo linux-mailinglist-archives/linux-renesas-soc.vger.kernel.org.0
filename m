@@ -2,74 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A465268B7E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 14:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E123268B89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 14:56:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbgINMxp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 08:53:45 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:44566 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726541AbgINMqj (ORCPT
+        id S1726577AbgINM4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 08:56:15 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:43219 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726376AbgINMv4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:46:39 -0400
-Received: by mail-ua1-f66.google.com with SMTP id o14so5415546ual.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 05:45:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sdE+LuX+2Qm0gSEGuHp+5gVUIvIevbsDt3zyJVz18a8=;
-        b=n22uMJVKxD8l6Go1QvUp3fCBwWZ62015Cbqb7/UIewBG9BAKe+y3WGfCpZTIb33waU
-         8DUzKiXGYMrOsUVxrgn1PwvKO2Br2LXppmrLfHPzHDFW+wQJgO7pwqq9LKzgRax9T+TQ
-         +D9Mtp4VR3QL538ZnNrSyPPIbKpwmArd73ZinORsoWWZQohVEPs5J29I/R6+z2j7hPU3
-         bELON1GVbnuQG3nUqGBdS7fzBjx6NzAryHE5ScchBP8MUb++vNF+n6U5/42wUvqsIH3v
-         TwtpeTk7AhOgSPg0YKbWQ867kemL3QtEtca+jQrL0hcpMdlzWQ6eAdsYnFJv5YeECUSo
-         m/qQ==
-X-Gm-Message-State: AOAM532/TKrGFu0//uXEyB8IuSz8qenoaMj/altR1qshj+mEJ73C0OAX
-        9X65C8iKcis6FKyuRwb+Vi41Ia84oqDEJAdwueIdAFn6SjY=
-X-Google-Smtp-Source: ABdhPJzUxCOjVtmAzH9z/y7jXufNCW8ofbrULZBtHNZfFSSc9+zcC9VH4EYPvpflzezGIBdaiPfjNspKcpw1qV1m7Vc=
-X-Received: by 2002:a4a:5d84:: with SMTP id w126mr8304418ooa.1.1600085409099;
- Mon, 14 Sep 2020 05:10:09 -0700 (PDT)
+        Mon, 14 Sep 2020 08:51:56 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0C83D24000C;
+        Mon, 14 Sep 2020 12:51:35 +0000 (UTC)
+Date:   Mon, 14 Sep 2020 14:55:26 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Subject: Re: [PATCH 5/5] media: i2c: max9286: Allocate v4l2_async_subdev
+ dynamically
+Message-ID: <20200914125526.kukq5pir7jgamekv@uno.localdomain>
+References: <20200811205939.19550-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200811205939.19550-6-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20200911101912.20701-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200911101912.20701-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Sep 2020 14:09:57 +0200
-Message-ID: <CAMuHMdU0YuF2DqndABE5RGS1ymK2hqFyim6aYsqnPkW_PHe9xQ@mail.gmail.com>
-Subject: Re: [PATCH] iommu: Kconfig: Update help description for IPMMU_VMSA config
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Joerg Roedel <joro@8bytes.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200811205939.19550-6-laurent.pinchart+renesas@ideasonboard.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 11, 2020 at 12:19 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> ipmmu-vmsa driver is also used on Renesas RZ/G{1,2} Soc's, update the
-> same to reflect the help description for IPMMU_VMSA config.
+Hi Laurent,
 
-... update the help description for the IPMMU_VMSA config symbol to reflect
-this?
-
+On Tue, Aug 11, 2020 at 11:59:39PM +0300, Laurent Pinchart wrote:
+> v4l2_async_notifier_add_subdev() requires the asd to be allocated
+> dynamically, but the max9286 driver embeds it in the max9286_source
+> structure. This causes memory corruption when the notifier is destroyed
+> at remove time with v4l2_async_notifier_cleanup().
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> Fix this issue by registering the asd with
+> v4l2_async_notifier_add_fwnode_subdev(), which allocates it dynamically
+> internally. A new max9286_asd structure is introduced, to store a
+> pointer to the corresonding max9286_source that needs to be accessed
+> from bound and unbind callbacks. There's no need to take an extra
+> explicit reference to the fwnode anymore as
+> v4l2_async_notifier_add_fwnode_subdev() does so internally.
+>
+> While at it, use %u instead of %d to print the unsigned index in the
+> error message from the v4l2_async_notifier_add_fwnode_subdev() error
+> path.
+>
+> Fixes: 66d8c9d2422d ("media: i2c: Add MAX9286 driver")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 38 +++++++++++++++++++------------------
+>  1 file changed, 20 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 47f280518fdb..5d890dddb376 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -135,13 +135,19 @@
+>  #define MAX9286_SRC_PAD			4
+>
+>  struct max9286_source {
+> -	struct v4l2_async_subdev asd;
+>  	struct v4l2_subdev *sd;
+>  	struct fwnode_handle *fwnode;
+>  };
+>
+> -#define asd_to_max9286_source(_asd) \
+> -	container_of(_asd, struct max9286_source, asd)
+> +struct max9286_asd {
+> +	struct v4l2_async_subdev base;
+> +	struct max9286_source *source;
+> +};
+> +
+> +static inline struct max9286_asd *to_max9286_asd(struct v4l2_async_subdev *asd)
+> +{
+> +	return container_of(asd, struct max9286_asd, base);
+> +}
+>
+>  struct max9286_priv {
+>  	struct i2c_client *client;
+> @@ -480,7 +486,7 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+>  				struct v4l2_async_subdev *asd)
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
+> -	struct max9286_source *source = asd_to_max9286_source(asd);
+> +	struct max9286_source *source = to_max9286_asd(asd)->source;
+>  	unsigned int index = to_index(priv, source);
+>  	unsigned int src_pad;
+>  	int ret;
+> @@ -544,7 +550,7 @@ static void max9286_notify_unbind(struct v4l2_async_notifier *notifier,
+>  				  struct v4l2_async_subdev *asd)
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(notifier->sd);
+> -	struct max9286_source *source = asd_to_max9286_source(asd);
+> +	struct max9286_source *source = to_max9286_asd(asd)->source;
+>  	unsigned int index = to_index(priv, source);
+>
+>  	source->sd = NULL;
+> @@ -569,23 +575,19 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
+>
+>  	for_each_source(priv, source) {
+>  		unsigned int i = to_index(priv, source);
+> +		struct v4l2_async_subdev *asd;
+>
+> -		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -		source->asd.match.fwnode = source->fwnode;
+> -
+> -		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
+> -						     &source->asd);
+> -		if (ret) {
+> -			dev_err(dev, "Failed to add subdev for source %d", i);
+> +		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
+> +							    source->fwnode,
+> +							    sizeof(*asd));
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This should be sizeof(struct max9286_asd), but suprisingly, it doesn't
+fail at runtime :)
 
-Gr{oetje,eeting}s,
+I'll send a patch for this in the meantime.
 
-                        Geert
+Thanks
+  j
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +		if (IS_ERR(asd)) {
+> +			dev_err(dev, "Failed to add subdev for source %u: %ld",
+> +				i, PTR_ERR(asd));
+>  			v4l2_async_notifier_cleanup(&priv->notifier);
+> -			return ret;
+> +			return PTR_ERR(asd);
+>  		}
+>
+> -		/*
+> -		 * Balance the reference counting handled through
+> -		 * v4l2_async_notifier_cleanup()
+> -		 */
+> -		fwnode_handle_get(source->fwnode);
+> +		to_max9286_asd(asd)->source = source;
+>  	}
+>
+>  	priv->notifier.ops = &max9286_notify_ops;
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
