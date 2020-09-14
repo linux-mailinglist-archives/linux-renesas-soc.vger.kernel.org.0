@@ -2,154 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 070E42694CA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 20:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB23269621
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 22:15:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726056AbgINS0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 14:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46510 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbgINS0r (ORCPT
+        id S1725961AbgINUPH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 16:15:07 -0400
+Received: from mail-il1-f193.google.com ([209.85.166.193]:37633 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725951AbgINUPG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 14:26:47 -0400
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE064C06178A;
-        Mon, 14 Sep 2020 11:26:46 -0700 (PDT)
-Received: by mail-yb1-xb41.google.com with SMTP id p81so560669ybc.12;
-        Mon, 14 Sep 2020 11:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=orsG+I+8/k9sx4wSScsBpY6FXaWOiunslMG52trpArQ=;
-        b=PsMLBBfsKcpnPHJNGDfWdPwaIPbSmT+6lwaJphJURdI124bvLiEYBfhbGovIVXhfnQ
-         E0zfi357NZVQWAPDChaKEunbAkTXBeasXdE5miKI69BltTA7nj6wGoTEiNGQs82YJ4no
-         BUd+E2CdOzzph6GQnuV1Q5oLnwPA9ZKSlr7X77BhSdxHpK9eKt0AeVKwd3qOjK5Et2f+
-         HN3j+AxREIx00+XCdLgvUncxrdGCHWjdPqDHz2nCnRRUZcIl0TnxtQiBRR118+uM7GJz
-         InYFEKZDJzTxQnhOLj2DZOyEb/syj6PjJcvGVWJ7vpA7YLapaYpOd6munu5vcuoSN5+k
-         ehkw==
+        Mon, 14 Sep 2020 16:15:06 -0400
+Received: by mail-il1-f193.google.com with SMTP id q4so835038ils.4;
+        Mon, 14 Sep 2020 13:15:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=orsG+I+8/k9sx4wSScsBpY6FXaWOiunslMG52trpArQ=;
-        b=Xc15CZrypad56yOFx04QXETOVSE7UKk1qy6aVYxB/mLVzDFv2R/0G9t65WHem86jXm
-         88wakfdfA+TpXI4R4zhr1JMV1cnr+yz5hGehu5Rc8yinY1/RYn7bAMPYe/bLi2ylLNSw
-         yZGtRPTj9iQHwWVAl2PSCUJJ9n0eTvlfzzVryGtCnQLD4WnlMmzlW+Dt7IvHWXWlLF+Z
-         YmxkWtURyWK/7/OtASejW8U9Mu70K5LqsTZy+EMKnnnWVAFss1x5YJvzNp+rdmQq+vT9
-         1zBY9aJBA61/3Rm6MyYKw6FD5F1/IyjkYv6BV1Lf6QxhcB5xismn8fvuFQwxpiYzPbUG
-         vW2g==
-X-Gm-Message-State: AOAM532H7rX5PE128qvZcZP/wtlmalypKBNPjMDczCn/WWUERxZ4iL6c
-        z0Z/PqZd+aokpIqO9xaXR0esXzzpe6BjhemTQHHTk6tl2ELrBg==
-X-Google-Smtp-Source: ABdhPJyKionoFzIjpDwMOuti0uX2GCz6L8GG13ZsyOqaOWwcu3pgXx9gXkJ5n92H3ltSPoY8hFh9owXdfQZ42A8ihaA=
-X-Received: by 2002:a25:aba1:: with SMTP id v30mr3965574ybi.518.1600108005948;
- Mon, 14 Sep 2020 11:26:45 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n0MSpQUUz3/AeMyW1sKXcTCeGErt+hRzppRfjEwGRP4=;
+        b=hh5pAJxkh9u3EekrJNCs8j83bafCP71/evlLh8ndlWbft43TWnxwNyxKK+KY29Yi6d
+         DT2+9l6/+xf+DYN36KuJ7mI1VOkMuwhIg1dY22qjciXdnNWa+Rh1cO0U4CgHOSPczLiS
+         vq+6e6hwzoT9QQBZATuNc5/nTmaSiyTnBjNMjZI/HjRwJcyudmye5VKeMG8l7l9rRdjI
+         QCCeUzuI3dvFzqYOOFIFYU8mu2sQh79y3MWJO5SkmFsiMsrX/cGQ3doYAYcHRjBSLqRM
+         bJOSutbebcO3tHolMCwvHzLVbJPx6tjyiPA9OgQHVjbfJJ9ozLfAgTBKncuA+mrs1iD8
+         J89w==
+X-Gm-Message-State: AOAM531QT4H5YglTzV2vIcR9Ck0XSBRH1TUyZapA0Uo7XklKsmXPBLFc
+        CcdkzZkYfPCmNjXLFvVzyg==
+X-Google-Smtp-Source: ABdhPJzwYkYIciGDUUmcf97fSVYjBK/rofVqSufC/hvYJ1di0l08bkmMVv+r2CHb5xTuqV9d8SlfhA==
+X-Received: by 2002:a92:1f1a:: with SMTP id i26mr7541134ile.201.1600114505427;
+        Mon, 14 Sep 2020 13:15:05 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id d1sm7395332ila.67.2020.09.14.13.15.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 13:15:04 -0700 (PDT)
+Received: (nullmailer pid 164938 invoked by uid 1000);
+        Mon, 14 Sep 2020 20:15:03 -0000
+Date:   Mon, 14 Sep 2020 14:15:03 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas,cmt: Document r8a7742 CMT
+ support
+Message-ID: <20200914201503.GA164883@bogus>
+References: <20200902091927.32211-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-References: <20200913184247.618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200914065415.GK26842@paasikivi.fi.intel.com>
-In-Reply-To: <20200914065415.GK26842@paasikivi.fi.intel.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 14 Sep 2020 19:26:19 +0100
-Message-ID: <CA+V-a8vmJo00vBqFWEnJWKagXm0ievGXW=kwG+w_oNWSmP1vcA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] media: i2c: ov772x: Parse endpoint properties
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200902091927.32211-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sakari,
+On Wed, 02 Sep 2020 10:19:27 +0100, Lad Prabhakar wrote:
+> Document SoC specific compatible strings for r8a7742. No driver change
+> is needed as the fallback strings will activate the right code.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1->v2
+> * Reabsed the patch on top YAML conversion
+> * Restored the Acks
+> ---
+>  Documentation/devicetree/bindings/timer/renesas,cmt.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-THank you for the review.
-
-On Mon, Sep 14, 2020 at 7:54 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the patchset.
->
-> On Sun, Sep 13, 2020 at 07:42:45PM +0100, Lad Prabhakar wrote:
-> > Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> > to determine bus-type and store it locally in priv data.
-> >
-> > Also for backward compatibility with the existing DT where bus-type
-> > isnt specified fallback to V4L2_MBUS_PARALLEL.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/media/i2c/ov772x.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 2cc6a678069a..551082aa7026 100644
-> > --- a/drivers/media/i2c/ov772x.c
-> > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -31,6 +31,7 @@
-> >  #include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-event.h>
-> > +#include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-image-sizes.h>
-> >  #include <media/v4l2-subdev.h>
-> >
-> > @@ -434,6 +435,7 @@ struct ov772x_priv {
-> >  #ifdef CONFIG_MEDIA_CONTROLLER
-> >       struct media_pad pad;
-> >  #endif
-> > +     enum v4l2_mbus_type               bus_type;
-> >  };
-> >
-> >  /*
-> > @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
-> >
-> >  static int ov772x_probe(struct i2c_client *client)
-> >  {
-> > +     struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-> > +     struct fwnode_handle    *ep;
-> >       struct ov772x_priv      *priv;
-> >       int                     ret;
-> >       static const struct regmap_config ov772x_regmap_config = {
-> > @@ -1415,6 +1419,26 @@ static int ov772x_probe(struct i2c_client *client)
-> >               goto error_clk_put;
-> >       }
-> >
-> > +     ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> > +                                         NULL);
-> > +     if (!ep) {
-> > +             dev_err(&client->dev, "endpoint node not found\n");
-> > +             ret = -EINVAL;
-> > +             goto error_clk_put;
-> > +     }
-> > +
-> > +     bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
-> > +     ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> > +     priv->bus_type = bus_cfg.bus_type;
-> > +     v4l2_fwnode_endpoint_free(&bus_cfg);
-> > +     if (ret) {
-> > +             /* For backward compatibility with the existing DT where
-> > +              * bus-type isnt specified fallback to V4L2_MBUS_PARALLEL
->
-> "isn't", "fall back", and a period, please.
->
-Will fix that.
-
-> > +              */
-> > +             priv->bus_type = V4L2_MBUS_PARALLEL;
-> > +             dev_notice(&client->dev, "Falling back to V4L2_MBUS_PARALLEL mode\n");
->
-> I'd just use dev_dbg().
->
-OK will switch to dev_dbg()
-
-Cheers,
-Prabhakar
+Acked-by: Rob Herring <robh@kernel.org>
