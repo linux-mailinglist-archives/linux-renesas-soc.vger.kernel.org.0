@@ -2,220 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C744D2699A8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 01:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24EE32699B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 01:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbgINX2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 19:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36666 "EHLO
+        id S1726062AbgINXat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 19:30:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbgINX2A (ORCPT
+        with ESMTP id S1725997AbgINXas (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 19:28:00 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF18C06174A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 16:27:59 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id u8so1127636lff.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 16:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=r2GMisdxFuJIz8Oi1Fu4M0eVpKlXoiL45pGV8V5Zu24=;
-        b=a+K4RbaJnscL4621Dq0mKkwgar6f4XoIA9LGaSxpiPd9HHQ4Rlx13fofQWWRRKhqVT
-         /yo3kkPAjCp27Tl7r/JI/O8rJBvORth8susMft10B0mYTYxNb7EmUfAIsh7cApWHuup1
-         9ZFW4MkQSaae7sYhOdOTFQIYXporG+j9nEaLVSgxa0kvEuG/eNu5slzBlu3DgwxeUNFR
-         vPTs+O/zHYXwbtzZDSWEEBA6usaMey3eUexXGnmjTGX5DyxMQQwfLuGSTb0mcl4SNFiC
-         7LJ3gqJUrFoKT3AuyOP0yI3kKMuc17boaTwI07hsPnq80lMDA/Nba4hOilwhsLEM+i9T
-         UZGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=r2GMisdxFuJIz8Oi1Fu4M0eVpKlXoiL45pGV8V5Zu24=;
-        b=r0FRRYGUQfhih3ESZigO8gRxScfQyzMUCEGkP4ixqWJH/kB8nnDQ+rIaHfoHr+TE4u
-         ycWC+fZU7xWy1Yx//wMTQUeib5ewgvn4liaRe5vV2TF6ibue4Zjdazqrk59r3CqLA7ih
-         crQ1w3me7ea84Tv6paaI73VMdj2Fs2hudTns3fLEdtteojQtsLqrhl6S8jL9lse9ZKe8
-         0ATJd8Y9zzKvic3NkJeseINn9nngFhD0P1+NsMSAHFoGjb4OGXyd4eYtVOG3pcPk9bd1
-         NAXBGogXxhZlm5URnlIynIT0pPprm4ZT0XU3v+h4k0Wepj8t8j1fMRZbiFeomHcxITZP
-         SvTg==
-X-Gm-Message-State: AOAM531FXlp/H1UTgFpygk4bMvqefVjeSFiZljRlPVTBmCjfGjGJG18A
-        qbJHGIEZtVi+KS96ggDiSenupeBjTVI/GA==
-X-Google-Smtp-Source: ABdhPJyp0bWKCn/K5zSlid5A0seiTiqxw7kxU6VrW0Tdi/BaM3+tE9I+UcsDSHxIzo0mrwBeSpXhYg==
-X-Received: by 2002:a05:6512:3f3:: with SMTP id n19mr4607751lfq.531.1600126077920;
-        Mon, 14 Sep 2020 16:27:57 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 80sm3955438lff.61.2020.09.14.16.27.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 16:27:57 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 01:27:56 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2] pinctrl: sh-pfc: r8a7790: Add VIN1-B and VIN2-G pins,
- groups and functions
-Message-ID: <20200914232756.GA1669406@oden.dyn.berto.se>
-References: <20200913182850.32660-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWjnQGKt12_=Z1Lc4fE2hecC6V7ELYpGW6FP2zm8mBp=w@mail.gmail.com>
+        Mon, 14 Sep 2020 19:30:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB1BC06174A;
+        Mon, 14 Sep 2020 16:30:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E2CF275;
+        Tue, 15 Sep 2020 01:30:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600126236;
+        bh=8lbUZdd+rlg5rzRakXPlDFd0J7whEsHXno1IFZUb2A0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EBEDg9qCngY9Kz3JEaaaJ4JDBOZ11G4AslbXWADML23u4h4wyOE+elli9IZ377O9W
+         xeYBbJ9Ke6wOKjCIyk2aAX6fHVC8o4lJZD84ezDXr0+zdyoYJc/rUDpWy0HLvL1Eqg
+         fkVvOOZH94weHNUzi/scUGmlp1qayOaIoqvT4Bu8=
+Date:   Tue, 15 Sep 2020 02:30:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: max9286: Fix async subdev size
+Message-ID: <20200914233008.GF15543@pendragon.ideasonboard.com>
+References: <20200914155749.183030-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWjnQGKt12_=Z1Lc4fE2hecC6V7ELYpGW6FP2zm8mBp=w@mail.gmail.com>
+In-Reply-To: <20200914155749.183030-1-jacopo+renesas@jmondi.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert, Lad,
+Hi Jacopo,
 
-On 2020-09-14 16:47:27 +0200, Geert Uytterhoeven wrote:
-> Hi Prabhakar,
-> 
-> CC Laurent, Niklas
-> 
-> On Sun, Sep 13, 2020 at 8:29 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > Add pins, groups and functions for the VIN1-B [data/clk/sync] and VIN2-G [data].
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > Changes for v2:
-> > * Added complete list of VIN1-B pins
-> > * Renamed vin2_data8_g to vin2_data8g
-> > * Sorted vin1_sync_b pins
-> >
-> > v1 - https://patchwork.kernel.org/patch/11761191/
-> 
-> Thanks for the update!
-> 
-> > --- a/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
-> > +++ b/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
-> 
-> > @@ -3874,6 +3940,14 @@ static const unsigned int vin1_sync_mux[] = {
-> >         VI1_HSYNC_N_MARK,
-> >         VI1_VSYNC_N_MARK,
-> >  };
-> > +static const unsigned int vin1_sync_b_pins[] = {
-> > +       RCAR_GP_PIN(1, 24), /* HSYNC */
-> > +       RCAR_GP_PIN(1, 25), /* VSYNC */
-> > +};
-> > +static const unsigned int vin1_sync_b_mux[] = {
-> > +       VI1_HSYNC_N_B_MARK,
-> > +       VI1_VSYNC_N_B_MARK,
-> > +};
-> >  static const unsigned int vin1_field_pins[] = {
-> >         RCAR_GP_PIN(1, 13),
-> >  };
-> 
-> Missing field_b and clkenb_b.
-> 
-> > @@ -3959,6 +4039,18 @@ static const unsigned int vin2_data18_mux[] = {
-> >         VI2_R4_MARK, VI2_R5_MARK,
-> >         VI2_R6_MARK, VI2_R7_MARK,
-> >  };
-> > +static const unsigned int vin2_data8g_pins[] = {
-> > +       RCAR_GP_PIN(0, 27), RCAR_GP_PIN(0, 28),
-> > +       RCAR_GP_PIN(0, 29), RCAR_GP_PIN(1, 10),
-> > +       RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 5),
-> > +       RCAR_GP_PIN(1, 6), RCAR_GP_PIN(1, 7),
-> > +};
-> > +static const unsigned int vin2_data8g_mux[] = {
-> > +       VI2_G0_MARK, VI2_G1_MARK,
-> > +       VI2_G2_MARK, VI2_G3_MARK,
-> > +       VI2_G4_MARK, VI2_G5_MARK,
-> > +       VI2_G6_MARK, VI2_G7_MARK,
-> > +};
-> 
-> Laurent, Niklas: are you happy with the name "vin2_data8g", or do
-> you have a better suggestion?
+Thank you for the patch.
 
-I learnt recently that traditionally for single 8-bit RAW inputs are 
-named R8 (fist in RGB). But as this really is the G pins and they are 
-labeled as such I'm OK with the name, but I would like to hear Laurent's 
-view as well.
+On Mon, Sep 14, 2020 at 05:57:49PM +0200, Jacopo Mondi wrote:
+> Since commit:
+> 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
+> the async subdevice registered to the max9286 notifier is dynamically
+> allocated by the v4l2 framework by using
+> the v4l2_async_notifier_add_fwnode_subdev function. In order to allocate
+> enough space for max9286_asd structure that encloses the async subdevice
+> paired with a pointer to the corresponding source, pass to the framework
+> the size of the whole structure in place of the one of the enclosed async
+> subdev.
+> 
+> Fixes: 86d37bf31af6 ("media: i2c: max9286: Allocate v4l2_async_subdev dynamically")
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index c82c1493e099..746c411b79a0 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -579,8 +579,7 @@ static int max9286_v4l2_notifier_register(struct max9286_priv *priv)
+>  		struct v4l2_async_subdev *asd;
+> 
+>  		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
+> -							    source->fwnode,
+> -							    sizeof(*asd));
+> +			source->fwnode, sizeof(struct max9286_asd));
 
-> 
-> >  static const unsigned int vin2_sync_pins[] = {
-> >         RCAR_GP_PIN(1, 16), /* HSYNC */
-> >         RCAR_GP_PIN(1, 21), /* VSYNC */
-> 
-> > @@ -4310,15 +4402,25 @@ static const struct {
-> >                 VIN_DATA_PIN_GROUP(vin1_data, 10),
-> >                 VIN_DATA_PIN_GROUP(vin1_data, 8),
-> >                 VIN_DATA_PIN_GROUP(vin1_data, 4),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 24, _b),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 20, _b),
-> > +               SH_PFC_PIN_GROUP(vin1_data18_b),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 16, _b),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 12, _b),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 10, _b),
-> > +               VIN_DATA_PIN_GROUP(vin1_data, 8, _b),
-> 
-> Missing vin1_data4_b.
-> 
-> >                 SH_PFC_PIN_GROUP(vin1_sync),
-> > +               SH_PFC_PIN_GROUP(vin1_sync_b),
-> >                 SH_PFC_PIN_GROUP(vin1_field),
-> >                 SH_PFC_PIN_GROUP(vin1_clkenb),
-> >                 SH_PFC_PIN_GROUP(vin1_clk),
-> > +               SH_PFC_PIN_GROUP(vin1_clk_b),
-> >                 VIN_DATA_PIN_GROUP(vin2_data, 24),
-> >                 SH_PFC_PIN_GROUP(vin2_data18),
-> >                 VIN_DATA_PIN_GROUP(vin2_data, 16),
-> >                 VIN_DATA_PIN_GROUP(vin2_data, 8),
-> >                 VIN_DATA_PIN_GROUP(vin2_data, 4),
-> > +               SH_PFC_PIN_GROUP(vin2_data8g),
-> >                 SH_PFC_PIN_GROUP(vin2_sync),
-> >                 SH_PFC_PIN_GROUP(vin2_field),
-> >                 SH_PFC_PIN_GROUP(vin2_clkenb),
-> > @@ -4784,10 +4886,19 @@ static const char * const vin1_groups[] = {
-> >         "vin1_data10",
-> >         "vin1_data8",
-> >         "vin1_data4",
-> > +       "vin1_data24_b",
-> > +       "vin1_data20_b",
-> > +       "vin1_data18_b",
-> > +       "vin1_data16_b",
-> > +       "vin1_data12_b",
-> > +       "vin1_data10_b",
-> > +       "vin1_data8_b",
-> 
-> Missing vin1_data4_b.
-> 
-> >         "vin1_sync",
-> > +       "vin1_sync_b",
-> >         "vin1_field",
-> >         "vin1_clkenb",
-> >         "vin1_clk",
-> > +       "vin1_clk_b",
-> >  };
-> >
-> >  static const char * const vin2_groups[] = {
-> 
-> The rest looks good to me.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+I'd write
+
+		struct v4l2_async_subdev *asd;
+		struct max9286_asd *masd;
+
+		asd = v4l2_async_notifier_add_fwnode_subdev(&priv->notifier,
+							    source->fwnode,
+							    sizeof(*masd));
+		if (IS_ERR(asd)) {
+			dev_err(dev, "Failed to add subdev for source %u: %ld",
+				i, PTR_ERR(asd));
+			v4l2_async_notifier_cleanup(&priv->notifier);
+			return PTR_ERR(asd);
+		}
+
+		masd = to_max9286_asd(asd);
+		masd->source = source;
+
+just to be able to avoid the ugly indentiation, but that's really
+nitpicking :-) With or without that, sorry for breaking the driver in
+the first place, and
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  		if (IS_ERR(asd)) {
+>  			dev_err(dev, "Failed to add subdev for source %u: %ld",
+>  				i, PTR_ERR(asd));
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
