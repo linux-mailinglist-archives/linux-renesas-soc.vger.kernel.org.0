@@ -2,39 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C99B268CDA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 16:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76E9C268E34
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 16:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgINOGo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 10:06:44 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:35569 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726833AbgINOGE (ORCPT
+        id S1726853AbgINOr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 10:47:58 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38821 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726799AbgINOrj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 10:06:04 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BF0812000D;
-        Mon, 14 Sep 2020 14:05:46 +0000 (UTC)
-Date:   Mon, 14 Sep 2020 16:09:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v4 1/3] media: i2c: ov772x: Parse endpoint properties
-Message-ID: <20200914140937.kja7x5k2xo2uwgqg@uno.localdomain>
-References: <20200913184247.618-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 14 Sep 2020 10:47:39 -0400
+Received: by mail-oi1-f193.google.com with SMTP id y6so143698oie.5;
+        Mon, 14 Sep 2020 07:47:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xXmiKOGJxLdtOythJHwnbZ/9MTtxjprRDh5NW6fGqZE=;
+        b=T+508UsMQ3KDmiYwa0NHhNNGrmdmx9GkkSKk4rTRE3eMrAhfSjq83N3eGR8cUgk68z
+         6z/LDpIm9X5XqKBhHYhUhcRkS5uzoWEKCJR5KtC2/31oulaOef2INTi8bRdrZqCpWQV8
+         bw57uZMtduRbmd+tb92/sua6pW6bqAvtG5x61KgCn7zVhku8Nfs97UsuOsY6h7mtnVIH
+         Bz2wTXv6KNUKSNb/+7xMnGRIT8y4sWnyxUju5pKo8jX6EbTOzt1iV4vqdYO9Iao+mbV7
+         YWHvEqrpxVAbWgPhluEUE7sg8lFOzscJg+4RgsCav+YkabZiBBJh7V5LSAjj3jLnlIZ7
+         63Cg==
+X-Gm-Message-State: AOAM532M1hGbnb8P9sSkaRsbTI/s6e7gt+sav0bRYWQRMIGJUa/WyQeS
+        KC81nD3N/qHSLCLzWJTvWe66AlPdmDn+EFq35ns=
+X-Google-Smtp-Source: ABdhPJy9ncGnp1eMb+q/xwc/WTE6IYf82utcaATWzgDC0b2bF3UWJbUmhvMYmlsX4IqNoMjBPOSTfnBa5f4QkSxGI1k=
+X-Received: by 2002:aca:3bc3:: with SMTP id i186mr8078289oia.148.1600094858794;
+ Mon, 14 Sep 2020 07:47:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200913184247.618-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200913182850.32660-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200913182850.32660-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Sep 2020 16:47:27 +0200
+Message-ID: <CAMuHMdWjnQGKt12_=Z1Lc4fE2hecC6V7ELYpGW6FP2zm8mBp=w@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: sh-pfc: r8a7790: Add VIN1-B and VIN2-G pins,
+ groups and functions
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -42,138 +55,131 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Prabhakar,
 
-On Sun, Sep 13, 2020 at 07:42:45PM +0100, Lad Prabhakar wrote:
-> Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> to determine bus-type and store it locally in priv data.
->
-> Also for backward compatibility with the existing DT where bus-type
-> isnt specified fallback to V4L2_MBUS_PARALLEL.
+CC Laurent, Niklas
+
+On Sun, Sep 13, 2020 at 8:29 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add pins, groups and functions for the VIN1-B [data/clk/sync] and VIN2-G [data].
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/media/i2c/ov772x.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+> Changes for v2:
+> * Added complete list of VIN1-B pins
+> * Renamed vin2_data8_g to vin2_data8g
+> * Sorted vin1_sync_b pins
 >
-> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> index 2cc6a678069a..551082aa7026 100644
-> --- a/drivers/media/i2c/ov772x.c
-> +++ b/drivers/media/i2c/ov772x.c
-> @@ -31,6 +31,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <media/v4l2-image-sizes.h>
->  #include <media/v4l2-subdev.h>
->
-> @@ -434,6 +435,7 @@ struct ov772x_priv {
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	struct media_pad pad;
->  #endif
-> +	enum v4l2_mbus_type		  bus_type;
+> v1 - https://patchwork.kernel.org/patch/11761191/
+
+Thanks for the update!
+
+> --- a/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+> +++ b/drivers/pinctrl/sh-pfc/pfc-r8a7790.c
+
+> @@ -3874,6 +3940,14 @@ static const unsigned int vin1_sync_mux[] = {
+>         VI1_HSYNC_N_MARK,
+>         VI1_VSYNC_N_MARK,
+>  };
+> +static const unsigned int vin1_sync_b_pins[] = {
+> +       RCAR_GP_PIN(1, 24), /* HSYNC */
+> +       RCAR_GP_PIN(1, 25), /* VSYNC */
+> +};
+> +static const unsigned int vin1_sync_b_mux[] = {
+> +       VI1_HSYNC_N_B_MARK,
+> +       VI1_VSYNC_N_B_MARK,
+> +};
+>  static const unsigned int vin1_field_pins[] = {
+>         RCAR_GP_PIN(1, 13),
+>  };
+
+Missing field_b and clkenb_b.
+
+> @@ -3959,6 +4039,18 @@ static const unsigned int vin2_data18_mux[] = {
+>         VI2_R4_MARK, VI2_R5_MARK,
+>         VI2_R6_MARK, VI2_R7_MARK,
+>  };
+> +static const unsigned int vin2_data8g_pins[] = {
+> +       RCAR_GP_PIN(0, 27), RCAR_GP_PIN(0, 28),
+> +       RCAR_GP_PIN(0, 29), RCAR_GP_PIN(1, 10),
+> +       RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 5),
+> +       RCAR_GP_PIN(1, 6), RCAR_GP_PIN(1, 7),
+> +};
+> +static const unsigned int vin2_data8g_mux[] = {
+> +       VI2_G0_MARK, VI2_G1_MARK,
+> +       VI2_G2_MARK, VI2_G3_MARK,
+> +       VI2_G4_MARK, VI2_G5_MARK,
+> +       VI2_G6_MARK, VI2_G7_MARK,
+> +};
+
+Laurent, Niklas: are you happy with the name "vin2_data8g", or do
+you have a better suggestion?
+
+>  static const unsigned int vin2_sync_pins[] = {
+>         RCAR_GP_PIN(1, 16), /* HSYNC */
+>         RCAR_GP_PIN(1, 21), /* VSYNC */
+
+> @@ -4310,15 +4402,25 @@ static const struct {
+>                 VIN_DATA_PIN_GROUP(vin1_data, 10),
+>                 VIN_DATA_PIN_GROUP(vin1_data, 8),
+>                 VIN_DATA_PIN_GROUP(vin1_data, 4),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 24, _b),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 20, _b),
+> +               SH_PFC_PIN_GROUP(vin1_data18_b),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 16, _b),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 12, _b),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 10, _b),
+> +               VIN_DATA_PIN_GROUP(vin1_data, 8, _b),
+
+Missing vin1_data4_b.
+
+>                 SH_PFC_PIN_GROUP(vin1_sync),
+> +               SH_PFC_PIN_GROUP(vin1_sync_b),
+>                 SH_PFC_PIN_GROUP(vin1_field),
+>                 SH_PFC_PIN_GROUP(vin1_clkenb),
+>                 SH_PFC_PIN_GROUP(vin1_clk),
+> +               SH_PFC_PIN_GROUP(vin1_clk_b),
+>                 VIN_DATA_PIN_GROUP(vin2_data, 24),
+>                 SH_PFC_PIN_GROUP(vin2_data18),
+>                 VIN_DATA_PIN_GROUP(vin2_data, 16),
+>                 VIN_DATA_PIN_GROUP(vin2_data, 8),
+>                 VIN_DATA_PIN_GROUP(vin2_data, 4),
+> +               SH_PFC_PIN_GROUP(vin2_data8g),
+>                 SH_PFC_PIN_GROUP(vin2_sync),
+>                 SH_PFC_PIN_GROUP(vin2_field),
+>                 SH_PFC_PIN_GROUP(vin2_clkenb),
+> @@ -4784,10 +4886,19 @@ static const char * const vin1_groups[] = {
+>         "vin1_data10",
+>         "vin1_data8",
+>         "vin1_data4",
+> +       "vin1_data24_b",
+> +       "vin1_data20_b",
+> +       "vin1_data18_b",
+> +       "vin1_data16_b",
+> +       "vin1_data12_b",
+> +       "vin1_data10_b",
+> +       "vin1_data8_b",
+
+Missing vin1_data4_b.
+
+>         "vin1_sync",
+> +       "vin1_sync_b",
+>         "vin1_field",
+>         "vin1_clkenb",
+>         "vin1_clk",
+> +       "vin1_clk_b",
 >  };
 >
->  /*
-> @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
->
->  static int ov772x_probe(struct i2c_client *client)
->  {
-> +	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-> +	struct fwnode_handle	*ep;
->  	struct ov772x_priv	*priv;
->  	int			ret;
->  	static const struct regmap_config ov772x_regmap_config = {
-> @@ -1415,6 +1419,26 @@ static int ov772x_probe(struct i2c_client *client)
->  		goto error_clk_put;
->  	}
->
-> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> +					    NULL);
-> +	if (!ep) {
-> +		dev_err(&client->dev, "endpoint node not found\n");
-> +		ret = -EINVAL;
-> +		goto error_clk_put;
-> +	}
-> +
-> +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
+>  static const char * const vin2_groups[] = {
 
-Could you set the bus type when you declare bus_cfg ? There's no point
-in setting it to UNKNOW and re-writing it here
+The rest looks good to me.
 
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+Gr{oetje,eeting}s,
 
-Should you here fwnode_handle_put(ep) ?
+                        Geert
 
-Also, this driver does not support the 'link_frequency' property, as the
-device does not support CSI-2. As commented on the previous version,
-the 'alloc' version of v4l2_fwnode_endpoint_parse() reserves space for
-that property, and requires a manual free like you have here below. So
-using the 'alloc' version is not techincally wrong, but I don't think
-it's required here.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> +	priv->bus_type = bus_cfg.bus_type;
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	if (ret) {
-
-By reading the code in v4l2-fwnode it seems to me that, if you set
-bus_cfg.bus_type:
-1) The "bus_type" property is set in the fwnode and doesn't match the
-requested one -> return -ENXIO
-2) The "bus_type" property is not set in the fwnode: no error code is
-returned and vep->bus_type is not changed.
-
-> +		/* For backward compatibility with the existing DT where
-> +		 * bus-type isnt specified fallback to V4L2_MBUS_PARALLEL
-> +		 */
-
-This mean there's no need to fallback here, as at this point we only
-support PARALLEL. If fwnode,bus_type is not set you won't faile, if
-it's set and doesn't match you should fail as the DT is not correct
-(at this point).
-
-1) In this patch: try to parse as MBUS_PARALLEL, fail if -ENXIO,
-assume parallel otherwise and continue.
-
-2) When you introduce BT.656 in the next patch things become nasty.
-Newer DTS will have bus_type mandatory once my series gets in. Old
-ones do not and assume "parallel".
-2.a) If you try to parse with "cfg.bus_type = MBUS_BT656" and there's
-no 'bus_type' in the fwnode, the 'parallel' flags are simply cleared
-at the end of v4l2_fwnode_endpoint_parse_parallel_bus(), but the
-bus_type does not get changed. You won't detect the mismatch and
-happily assume the bus type is BT.656. In other word, if you set
-cfg.bus_type that's always authoritative unless the fwnode property
-contradicts it (and if that's the case, it should be documented in
-v4l2-fnode, unless it is and I missed it).
-2.b) If the fwnode.bus_type is set, you try to parse one bus type
-first, if -ENOXIO try the second. If it fails again, then return an
-error.
-
-In the next patch, to avoid the case described in 2.a I would:
-- Parse the 'bus_type' property in the driver (mentioning it's for
-  retrocompatibility).
--- If not present: Assume parallel and parse the fwnode. Enclose that
-with a comment about "retrocompatibility" and proceed.
--- If present: Do what suggested in the 2.b case. Try one, then the
-other, then eventually fail.
-
-I hope this makes any sense, this part is such a gray area... and as a
-note to "self" in the forthcoming "of_graph.yaml", let's make bus_type
-mandatory for all endpoints!
-
-Also, I might be mistaken in following the code and if you have tested
-all cases and they work as intended please call me out on this :)
-
-Thanks
-  j
-
-> +		priv->bus_type = V4L2_MBUS_PARALLEL;
-> +		dev_notice(&client->dev, "Falling back to V4L2_MBUS_PARALLEL mode\n");
-> +	}
-> +
->  	ret = ov772x_video_probe(priv);
->  	if (ret < 0)
->  		goto error_gpio_put;
-> --
-> 2.17.1
->
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
