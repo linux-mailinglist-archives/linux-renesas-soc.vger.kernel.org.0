@@ -2,87 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D564269303
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 19:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F25182693F3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Sep 2020 19:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbgINRXE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 13:23:04 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:44351 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbgINMag (ORCPT
+        id S1726155AbgINRq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Sep 2020 13:46:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbgINMD4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 08:30:36 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 185so17633646oie.11;
-        Mon, 14 Sep 2020 05:30:35 -0700 (PDT)
+        Mon, 14 Sep 2020 08:03:56 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0432CC06178A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 04:54:13 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id k25so18370229ljk.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 04:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=zjdRdVewBNz6bXTR/96hRuG4jQDF97H/qFQIJtyLqPA=;
+        b=yAUfhrrLWO2cjdsnZ04SwrIq5fnFFZArwfa1/vIyn86XuOOmFfGPlece+QLayEvxVP
+         8DQXfQE9UkMLy0EvSppwOq2pIZFyTCeWgo/lMJGIDxbYSA4wUUSsD4pZZbXC95sRrCFb
+         EItLsdbBGtfv3Vcth8EPlhv/3kEno6NdgeKf+pP8wqoPeFRamAy7Y5dzkIzm3ZgBXpYd
+         WVIuq9M3YN55jmcRVj+IvtAYRnRgLlfJd+LAL0AtBLbIGQjCLQfQ7pv3s5bZVKASZ2Cm
+         sT0/pzW22uexJGfOoIifZVYbCEsqcGADe39Hb55wK35XZE0L2r+TEPjJ9HmxNeUq9qXt
+         nhJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=L+jbhL6fMkMsaxb8fwQQ9KI/X+FnJmmXEtjx59yCTY8=;
-        b=bydVbl2BAlEB9T2VTjvn3Yw86kHTysx2KVdO57bfKs833g0nAI4tMHEWowG6U261cJ
-         6fyORqqB7E2jQil1H22H81VXsCPkzVTUmIJ16YF6hRPhIc2XRVuria5NNm3FHl8WCqN0
-         l7QJX2uFKj+KkqRIkgQR741Hri/9mAicptyEtG6FbbyuDUloKmaa1Y4PuJEHN1HozNyt
-         vlZL7gJRHH1UOUPbld5HZWh00fkyKVxJpN3nm8R9eqINFlV64fG6GYG1f0en8mgy6ot2
-         /V2wNhO1D/pt6JCQy5Ch9xnbUI7SHwt6fGoGo65RIoT0E4dFvHWPR8+D6I2pJ22RsVz4
-         MaaQ==
-X-Gm-Message-State: AOAM532iinIkJTRqSPhFBaxG/M/fsBivcXGV54uDBg49EjBVt+MlzZmY
-        sAWfj6NUR7Dlj1QwsGHfETZ/MmcWRIRWqdeSgOS6EQY7uhM=
-X-Google-Smtp-Source: ABdhPJxWecUlEvkD5czRnfhbvWXIezlwQEVTPwks1x0nHHDWs7NJoD1rFLAao7GQAla1fDSGAwC/sv/eWpK5w0S6W3k=
-X-Received: by 2002:aca:3bc3:: with SMTP id i186mr7701067oia.148.1600086132231;
- Mon, 14 Sep 2020 05:22:12 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=zjdRdVewBNz6bXTR/96hRuG4jQDF97H/qFQIJtyLqPA=;
+        b=sj0LtedFBKbBR43gYqEPL+BqRU0bXH1sM97b2HnefMo7c4aeHnjuZAuKpcUGoMaGh8
+         Ahj0R0mBUkERUj2flEFGzFYQg89VtklCdbwgfuxJ+N5GUzXUKxtnC79fkAS00bZphnLp
+         aDcwS9OODHU13r5FroYgv2oxDAq0daR9buZLrflf1VExb4nkrn1ImtVj2U07bnK8cRTJ
+         FGK1M1niEZKAP+x0741cVFGGfEgQoeUJSi3+/XK+AYVb1TDvPiEfif0CvSBRaB7Wcv6v
+         Dcrc6KSKm/warFCr+Hh/Ukf7GLCylrni2apFtrZs6RiC3WfjYjpzVkggo2vvw9kEkd6c
+         8uXA==
+X-Gm-Message-State: AOAM531EcidnIwhT5WskHEfJ7EOc1/jKnjwEWSzbgfoSuo6CxNJQc8Lh
+        Au1Cc1Oy9tjX1hPkW7EwTWy6nMzZWZYUGg==
+X-Google-Smtp-Source: ABdhPJzInNQ1q7yxRTp/DjL1B7Zb0KZiWbCU68M5qyRxDaZUvRJqhtmoFPL1TgDxKjuDrF3Py5+Dkg==
+X-Received: by 2002:a2e:240e:: with SMTP id k14mr4719168ljk.169.1600084451418;
+        Mon, 14 Sep 2020 04:54:11 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id z6sm3332234lfq.297.2020.09.14.04.54.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 04:54:10 -0700 (PDT)
+Date:   Mon, 14 Sep 2020 13:54:10 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: Re: [PATCH] mmc: core: clear 'doing_init_tune' also after failures
+Message-ID: <20200914115410.GM1127199@oden.dyn.berto.se>
+References: <20200914112845.21855-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20200911121259.5669-1-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20200911121259.5669-1-fabrizio.castro.jz@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Sep 2020 14:22:00 +0200
-Message-ID: <CAMuHMdX3GYwVd7ezXS4Zkv1vJDe=g1=gj4KKaj==AVO1RuytXA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77990: Add DRIF support
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200914112845.21855-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 11, 2020 at 2:13 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Add the DRIF controller nodes for the r8a77990 (a.k.a. R-Car E3).
->
-> Please note that R-Car E3 has register BITCTR located at offset
-> 0x80 (this register is not available on the r8a77960 and r8a77951,
-> whose support has already been upstreamed), and even though it is
-> not dealt with just yet within the driver, we have to keep that
-> into account with our device tree nodes.
+Hi Wolfram,
 
-Indeed.
+Thanks for your work.
 
-> Also, please note that while testing it has emerged that the
-> HW User Manual has the wrong DMA details for DRIF2 and DRIF3
-> on E3, as they are only allowed SYS-DMAC0 rather than SYS-DMAC1
-> and SYS-DMAC2. An errata addressing this issue will be available
-> soon.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+On 2020-09-14 13:28:45 +0200, Wolfram Sang wrote:
+> Reorganize the code, so that the flag is always cleared independently of
+> a good or bad case.
+> 
+> Fixes: 97a7d87e96b0 ("mmc: core: add a 'doing_init_tune' flag and a 'mmc_doing_tune' helper")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.10.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+> 
+> Sorry for overlooking this :(
+> 
+>  drivers/mmc/core/mmc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/mmc/core/mmc.c b/drivers/mmc/core/mmc.c
+> index 67e95eba0e82..ff3063ce2acd 100644
+> --- a/drivers/mmc/core/mmc.c
+> +++ b/drivers/mmc/core/mmc.c
+> @@ -1766,14 +1766,14 @@ static int mmc_init_card(struct mmc_host *host, u32 ocr,
+>  		host->doing_init_tune = 1;
+>  
+>  		err = mmc_hs200_tuning(card);
+> -		if (err)
+> -			goto free_card;
+> +		if (!err)
+> +			err = mmc_select_hs400(card);
+> +
+> +		host->doing_init_tune = 0;
+>  
+> -		err = mmc_select_hs400(card);
+>  		if (err)
+>  			goto free_card;
+>  
+> -		host->doing_init_tune = 0;
+>  	} else if (!mmc_card_hs400es(card)) {
+>  		/* Select the desired bus width optionally */
+>  		err = mmc_select_bus_width(card);
+> -- 
+> 2.20.1
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
