@@ -2,135 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CA5526A1AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 11:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BEC926A1CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 11:13:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726477AbgIOJHj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 05:07:39 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34765 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726142AbgIOJHh (ORCPT
+        id S1726208AbgIOJNJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 05:13:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726372AbgIOJM4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 05:07:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id I6vzk9pSoTSPzI6w0kShyV; Tue, 15 Sep 2020 11:07:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600160853; bh=wwgZWe1k5L04vcWJJRmyzQwwC5HDOt9tNCdtKEKUfM4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=AvyVm+K9CZ3/f55Jz4WhHcI2RSUdCQ5nYp5KCh6Tt3y7V61WW8gCkKn732nfH556B
-         mwmrlfwA1D+Utwa/q9AA386I4uEaQ56k1MP+HCe6e/KEGuZt93TszOY5ziZMq0YHHK
-         n8mjLHY+5tpF9y5AW03c4p7l0avnPA8KwSCRnL4//Q3goMPCrHwbSMOiOHD4BwuruZ
-         BJ/O9mEbCdjGI01IVS6DMJTa1S136jj+6XpBhGFFVbpgBjkratBoVA9JvDLLVxrkA3
-         N8w/X9ZB7RpxbJ3ZsTlkUBxG3oo6R0iXzx/MrzB9S0S+xmRvx2IP4TS/DyddU5SFmC
-         wReH6wsfwVXhw==
-Subject: Re: [PATCH v2] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <b57b499a-b6d1-dfbb-29bb-5daa3fad5982@xs4all.nl>
-Date:   Tue, 15 Sep 2020 11:07:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 15 Sep 2020 05:12:56 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC25C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 02:12:55 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id y4so2122528ljk.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 02:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WyKefHYg0xyPy7r+SyM4ESqpBJJPZ+saS3wGEyWRpeg=;
+        b=DOok8WjCoeaYLZLFFpTooPfCWdgAOAdNsMil9P2UiSvnUAPNRGjoz0XRBu07p46Qqg
+         Bv26kMlk5z2/Cwh/kyLV79OUUEgIlL2lYctiAZNH7GZTO3+0SK862imCp2c9Rza3tQ7Z
+         /zE2JHOjjuVk58iEncDxKIWPzXez64sc+4xkVQ42qcuPBEupZq1UAO6ZvBJ1xWK7MkTl
+         b+dluNqcG4JxOOHmIS2MltlNCjSsQO1cggOcbyJUDVEfm6KMeu5M9IhCiykn7ckiQx/h
+         HW03B18fTPX6wYkoHs0bbdxmNSOyQrg18yssNVATMceMGSB/70WJxrwJNTGV7/GwKy7c
+         5g+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=WyKefHYg0xyPy7r+SyM4ESqpBJJPZ+saS3wGEyWRpeg=;
+        b=K9KBPZh6+fJ+TFGKLls0yyHHre6bFeROSsoXNMazMFGP8wnV8prfnUw8bDyiBx12VG
+         zrfpc8m8HJwKnmKpQY9+DnpMydNUB5WM/Wj5Pb6sGIlX5FerSblvBlNyHcqjevjecBuN
+         Ajg4FCZB95KRv7k7UbBPMXVITN1iV2BtqRubOJKne09Z1+EYeXCHlbc6q0Q8GLq5aC8V
+         2vVBCk9sOAs8n3kr7kvDk4ODMtGhShEbhvTQeR58fQCCIQrKXFnM3hzgQ2XJAStLM/x1
+         Oc0HJDQuAK3BDJWHklRqPcEry32ewj1j0/jKAiRx7cePk8l+9IxvIXYLtkc2m41jD9ir
+         KIVA==
+X-Gm-Message-State: AOAM532yDUS+r2lJDLcft2w+uqzvar5/21aq5GfQbGKT+NbdEORC0wke
+        LwVMq466azMwhgDnEpEX8/6v8m1kRyCX7g==
+X-Google-Smtp-Source: ABdhPJx0EXDom2v1gAapwHpKpC5Sd7VtjGCIVgNR8wfWktnPzUJH6n+BeymMtePXWAWSO0ctoKQuAg==
+X-Received: by 2002:a2e:7e12:: with SMTP id z18mr6231930ljc.388.1600161173683;
+        Tue, 15 Sep 2020 02:12:53 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4246:524b:f990:5ce8:4590:941a? ([2a00:1fa0:4246:524b:f990:5ce8:4590:941a])
+        by smtp.gmail.com with ESMTPSA id r4sm3853415lfc.162.2020.09.15.02.12.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2020 02:12:53 -0700 (PDT)
+Subject: Re: [PATCH 4/4] pinctrl: sh-pfc: r8a77965: Add VIN stf8 pins
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20200914233744.468175-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200914233744.468175-5-niklas.soderlund+renesas@ragnatech.se>
+ <e38a41d9-d765-da0a-ec03-60432dece9e0@gmail.com>
+ <CAMuHMdWksZj4_mNE5zsuO6-FGA8HmgCg+Lu=SWBMU=JWvDHK1Q@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <7e4d45b1-10d6-f275-c447-cdb0b278859d@gmail.com>
+Date:   Tue, 15 Sep 2020 12:12:49 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAMuHMdWksZj4_mNE5zsuO6-FGA8HmgCg+Lu=SWBMU=JWvDHK1Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfL9AmPTSsKXQObvKm86FCv7Isd4OPiVUewhjHs1Gji1DbNPs5Cdk7aH7z8iPeuLuGJ9QRwUtmgoQ+7hIR1zKzZ0PYKWsDHMhp8uNWvPq4FtyfdQ5NLG0
- uxfMgMGMdgLllC9+C0twdYbRlPcIp465mZ/gh4OPVZ+VxH/yB7V8wafedZXC/g4vTW8IPWvQPBYuz+wciPuERij9DWGbaK+bZYkvJ1VpjDcaVBXBN/T/LoE6
- B+byNZGRvAt6MFnBmm5DX5IYrU4FYBQ01HGkDTDJ7SN+9zkuWVX+Kgars3VYLVontLMSMfQUP/pbGsbitRO6HZD5Uz/w1kaiHk6+AoG8pZvPzrZBWpBK703v
- koKXNCPH5XRX/GcyZ0Wu/xogrmL2VsZZzDnl/8mSo1Fb2U+URosdH2yRBQkYCGCwrOUxtU7Qd8WWZdxyl9tZ22Je1Al2eEleZY9ymqppp27sgsZHS89YHAtx
- ohiyqHMAh8QK/fgF1oVZEhYTONQm3KLiN4cYF2hRV9V7Sof21bxiqwlr/oY+xkS1HrP3YEhZbmEgy0tsUxBekiCEmGp6uSKDAtapkzTJsOUvgeoVj051TN3i
- oZbyNeXIZgDjv9J04B7sUb/Y7j6fzlBMQ3DjxITVcB8lsy2HFNqL+OLiu0/uNsbCL+dEMcJKKT5w+3TC+H7g5XRX3gVZSWZtT7o8zjo8MKVKZw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 13/09/2020 20:21, Lad Prabhakar wrote:
-> The crop and compose settings for VIN in non mc mode werent updated
-> in s_fmt call this resulted in captured images being clipped.
+Hello!
+
+On 15.09.2020 11:50, Geert Uytterhoeven wrote:
+
+[...]
+>> On 15.09.2020 2:37, Niklas Söderlund wrote:
+>>> This patch adds VIN{4,5} sft8 pins to the R8A77965 SoC.
+>>
+>>      Same question here. And what is SFT8 anyway? :-)
 > 
-> With the below sequence on the third capture where size is set to
-> 640x480 resulted in clipped image of size 320x240.
+> https://lore.kernel.org/linux-renesas-soc/CAMuHMdXdDkPX447AibYNjUwGHkYxC3sE-18G2DNVQR2T-jxX2w@mail.gmail.com
+
+    So SFT is short for "shifted"? :-O
+    I'd also like to know the use case...
+
+> Would you prefer "vin[45]_g8"?
+
+    Hm, probably...
+
+> Or perhaps even "vin[45]_green8"?
 > 
-> high(640x480) -> low (320x240) -> high (640x480)
+> Gr{oetje,eeting}s,
 > 
-> This patch makes sure the VIN crop and compose settings are updated.
+>                          Geert
 
-I'm not sure the original behavior was wrong at all.
-
-When calling S_FMT(320x240) it should force the crop and compose rectangles
-into 320x240, but when calling S_FMT(640x480) the crop and compose rectangles
-do not need to be modified and are kept. It is up to userspace to update those
-crop/compose rectangles.
-
-Calling S_FMT must, however, update the crop/compose bounds/default rectangles
-where applicable.
-
-Note that the crop coordinates are against the video source resolution, *not*
-the format width/height. So this patch is definitely wrong in that respect.
-
-Regards,
-
-	Hans
-
-> 
-> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Changes for v2:
-> * Dropped redundant code mapping crop and compose rects
-> 
-> v1 - https://lkml.org/lkml/2020/7/31/364
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0e066bba747e..1bd59a8453b4 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -305,7 +305,7 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  			      struct v4l2_format *f)
->  {
->  	struct rvin_dev *vin = video_drvdata(file);
-> -	struct v4l2_rect fmt_rect, src_rect;
-> +	struct v4l2_rect src_rect;
->  	int ret;
->  
->  	if (vb2_is_busy(&vin->queue))
-> @@ -317,14 +317,11 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  		return ret;
->  
->  	vin->format = f->fmt.pix;
-> -
-> -	fmt_rect.top = 0;
-> -	fmt_rect.left = 0;
-> -	fmt_rect.width = vin->format.width;
-> -	fmt_rect.height = vin->format.height;
-> -
-> -	v4l2_rect_map_inside(&vin->crop, &src_rect);
-> -	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-> +	vin->crop.top = 0;
-> +	vin->crop.left = 0;
-> +	vin->crop.width = vin->format.width;
-> +	vin->crop.height = vin->format.height;
-> +	vin->compose = vin->crop;
->  	vin->src_rect = src_rect;
->  
->  	return 0;
-> 
-
+MBR, Sergei
