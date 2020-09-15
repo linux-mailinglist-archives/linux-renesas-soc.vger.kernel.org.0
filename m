@@ -2,67 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8C3D26AB9B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 20:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00D1A26ABE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 20:29:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbgIOSNI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 14:13:08 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:40998 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727962AbgIOSJ6 (ORCPT
+        id S1727915AbgIOS3U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 14:29:20 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:49862 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727786AbgIOSVU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 14:09:58 -0400
-X-IronPort-AV: E=Sophos;i="5.76,430,1592838000"; 
-   d="scan'208";a="57129186"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Sep 2020 03:09:57 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id CD8634006DF6;
-        Wed, 16 Sep 2020 03:09:55 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v2] clk: renesas: rcar-gen3: Update description for RZ/G2
-Date:   Tue, 15 Sep 2020 19:09:53 +0100
-Message-Id: <20200915180953.2019-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 15 Sep 2020 14:21:20 -0400
+X-Halon-ID: 344f444e-f780-11ea-a39b-005056917f90
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 344f444e-f780-11ea-a39b-005056917f90;
+        Tue, 15 Sep 2020 20:21:05 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 0/3] dt-bindings: adv7604: Convert bindings to json-schema
+Date:   Tue, 15 Sep 2020 20:19:41 +0200
+Message-Id: <20200915181944.1037620-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The rcar-gen3-cpg driver is also used on Renesas RZ/G2 SoC's, update the
-description for the CLK_RCAR_GEN3_CPG config symbol to reflect this.
+Hi Hans,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2
-* Updated commit message
-* Included RB from Geert
----
- drivers/clk/renesas/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series converts the ADV7604 bindings to YAML and lists the new file
+under MAINTAINERS. I have used the schema to validate the usage of the
+bindings and no issues are found.
 
-diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
-index 28e8730ce263..1277d5f90389 100644
---- a/drivers/clk/renesas/Kconfig
-+++ b/drivers/clk/renesas/Kconfig
-@@ -162,7 +162,7 @@ config CLK_RCAR_GEN2_CPG
- 	select CLK_RENESAS_CPG_MSSR
- 
- config CLK_RCAR_GEN3_CPG
--	bool "R-Car Gen3 CPG clock support" if COMPILE_TEST
-+	bool "R-Car Gen3 and RZ/G2 CPG clock support" if COMPILE_TEST
- 	select CLK_RENESAS_CPG_MSSR
- 
- config CLK_RCAR_USB2_CLOCK_SEL
+Previous versions of this series referred to issues found when running 
+the validation and patches that fixed them. All those patches have now 
+been picked up.
+
+Niklas Söderlund (3):
+  dt-bindings: adv7604: Fix documentation for hpd-gpios
+  dt-bindings: adv7604: Convert bindings to json-schema
+  MAINTAINERS: Add ADV7604 bindings documentation
+
+ .../devicetree/bindings/media/i2c/adv7604.txt |  88 ---------
+ .../bindings/media/i2c/adv7604.yaml           | 178 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 3 files changed, 179 insertions(+), 88 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+
 -- 
-2.17.1
+2.28.0
 
