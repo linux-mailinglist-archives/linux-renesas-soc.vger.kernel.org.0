@@ -2,244 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6C24269A12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 02:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9125B269F0A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 09:04:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgIOAEf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Sep 2020 20:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726079AbgIOAEc (ORCPT
+        id S1726033AbgIOHEU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 03:04:20 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44197 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbgIOHEA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Sep 2020 20:04:32 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C16F8C061788
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 17:04:31 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id u4so1169201ljd.10
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Sep 2020 17:04:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=jgCGWOK0Qefy5Fhi4KKTahno9HKUpTYwmUl0eHwt2L4=;
-        b=gSjbKBzMm+N312I84x+Yj8GcAMzjKnYipMN8Z/bEgnQrQsTs+OmwU4b3LVEPLwC6aK
-         ocIMM+heLgZ3vEwHp0OOlrn+cAx5nyV2M5teZHYHfh3fUcu5feP6Luzod1oRkx8I3457
-         71eZxcygUILlB5ftrtFttXWHouoHT6IlUuBmrFxSyn7h36CJ7rMgXqThgCKjCltPJO7/
-         5dXJ7pcibiBU8q64WFIsHQjS0tmzWulQO9EAq4FIaXKpCbBfpP37anhWWRP5pdiKqNz3
-         xaBkajrABn+SP7BCmkJwqx9zX2i0hh8HFQA0JsfgSSzT2EJGkd7gM9X3l3qsyjxyPBjY
-         QpGQ==
+        Tue, 15 Sep 2020 03:04:00 -0400
+Received: by mail-ot1-f65.google.com with SMTP id a2so2223802otr.11;
+        Tue, 15 Sep 2020 00:03:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=jgCGWOK0Qefy5Fhi4KKTahno9HKUpTYwmUl0eHwt2L4=;
-        b=G3ucKaqsAWVFp7xRwG8NNDOGG44/6elIaKavtsdgf1qwEV86q30ChLRfS6WCV110VU
-         dRYCWGus1vF5xxSKTw5XaEk6xtpiN/CLa7lgFuZKMKMx0+8H8Fl8Jc0vMG1kOEnvRJfT
-         jKnBmVVsBr36H3KB3jucKhuknHaK6VwF2I0ZTT/Suujsl6yGD4+BTNxHDUDXhcYhhNih
-         jaoqYtHj39SE1m5GVA0K5loEK87yFRAHQH0Va+p5e4QnWrPP9V6AdmqfvRUdATCwPg1j
-         m7ga3jK/VJfqBiKf76tGqDhJQZ8qiXAViqfegAQZQsUpLXHgdBdZXRDbNeEfTM1FsR5+
-         dQuw==
-X-Gm-Message-State: AOAM533d98yMM81M9/B28/uaXPiZGzrqqT9qq7bTaF0WCVaQ58NtCO1v
-        /Tg3tYDkvbjGM/4Cr4P5XXkawD3kTDu4/Q==
-X-Google-Smtp-Source: ABdhPJzoz6S0ZlL4vXr8oV8PcsKi+cx6YzmVIaJoGSB90g6XRePDfA1/s4dIcen7byBgEvfkByEpvg==
-X-Received: by 2002:a2e:7a04:: with SMTP id v4mr6189916ljc.128.1600128269031;
-        Mon, 14 Sep 2020 17:04:29 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 69sm4007618lfm.83.2020.09.14.17.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 17:04:28 -0700 (PDT)
-Date:   Tue, 15 Sep 2020 02:04:28 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vflTutZSW3rf5XePZzn3lm59cY0zbyV93+qA4WDI2wc=;
+        b=k49nFDQrbhjNs1ifmQuB1zLjzkdSVrqF7QBlTaeyd+CGK26htxUepiYctxBKiZDym1
+         qXr3CsnXnQRFAVrRjQhhDkK0pIPRApf2t1G0thGWwvi+lUaw6cTdMbXniX8R71Sq5E3S
+         uKAiHnGLNwcMI/WkuQX8WCvR7EzFAIYEI0azmc9P9O46nN9KlYTNPnEbhcYMRaztYwpd
+         Ki84a3pFBN7JWzttc2I1Ect+crieewkeR9h2rGYauf5o6YUQykEyuAEKmj9e+0xN5W1g
+         sFXdXzCTM48aEptRGKHNeE6DxzuSRVrsd4lWeowZlM+pzq/uAMsGz99yW5YkNFps7san
+         UqKA==
+X-Gm-Message-State: AOAM532QEL6pATWtlb0yiP+b6K7ZdEzns0M0NyurPP8K5dbGaiD2RJnt
+        SFoZGxdMhhMwsQmQLpL+ICGbLcoHcWn5NoVYXaA=
+X-Google-Smtp-Source: ABdhPJzDFx3eWG/x7GEl0MLs0+n+OdjyF6YDkSUcQMt2sPD1lvnAL+nantcsMAy0jYZffAJwXNjvGuS5GrXjaDfYZr8=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr12178418otb.250.1600153437035;
+ Tue, 15 Sep 2020 00:03:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200913182850.32660-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdWjnQGKt12_=Z1Lc4fE2hecC6V7ELYpGW6FP2zm8mBp=w@mail.gmail.com>
+ <20200914232756.GA1669406@oden.dyn.berto.se> <20200914234000.GG15543@pendragon.ideasonboard.com>
+In-Reply-To: <20200914234000.GG15543@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Sep 2020 09:03:45 +0200
+Message-ID: <CAMuHMdXdDkPX447AibYNjUwGHkYxC3sE-18G2DNVQR2T-jxX2w@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: sh-pfc: r8a7790: Add VIN1-B and VIN2-G pins,
+ groups and functions
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v2] media: rcar-vin: Update crop and compose settings for
- every s_fmt call
-Message-ID: <20200915000428.GA1695481@oden.dyn.berto.se>
-References: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200913182140.32466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
+Hi Laurent,
 
-Thanks for your work.
+On Tue, Sep 15, 2020 at 1:40 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Tue, Sep 15, 2020 at 01:27:56AM +0200, Niklas SÃ¶derlund wrote:
+> > On 2020-09-14 16:47:27 +0200, Geert Uytterhoeven wrote:
+> > > On Sun, Sep 13, 2020 at 8:29 PM Lad Prabhakar wrote:
+> > > > Add pins, groups and functions for the VIN1-B [data/clk/sync] and VIN2-G [data].
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > ---
+> > > > Changes for v2:
+> > > > * Added complete list of VIN1-B pins
+> > > > * Renamed vin2_data8_g to vin2_data8g
+> > > > * Sorted vin1_sync_b pins
+> > > >
+> > > > v1 - https://patchwork.kernel.org/patch/11761191/
 
-On 2020-09-13 19:21:40 +0100, Lad Prabhakar wrote:
-> The crop and compose settings for VIN in non mc mode werent updated
-> in s_fmt call this resulted in captured images being clipped.
-> 
-> With the below sequence on the third capture where size is set to
-> 640x480 resulted in clipped image of size 320x240.
-> 
-> high(640x480) -> low (320x240) -> high (640x480)
-> 
-> This patch makes sure the VIN crop and compose settings are updated.
+> > > > @@ -3959,6 +4039,18 @@ static const unsigned int vin2_data18_mux[] = {
+> > > >         VI2_R4_MARK, VI2_R5_MARK,
+> > > >         VI2_R6_MARK, VI2_R7_MARK,
+> > > >  };
+> > > > +static const unsigned int vin2_data8g_pins[] = {
+> > > > +       RCAR_GP_PIN(0, 27), RCAR_GP_PIN(0, 28),
+> > > > +       RCAR_GP_PIN(0, 29), RCAR_GP_PIN(1, 10),
+> > > > +       RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 5),
+> > > > +       RCAR_GP_PIN(1, 6), RCAR_GP_PIN(1, 7),
+> > > > +};
+> > > > +static const unsigned int vin2_data8g_mux[] = {
+> > > > +       VI2_G0_MARK, VI2_G1_MARK,
+> > > > +       VI2_G2_MARK, VI2_G3_MARK,
+> > > > +       VI2_G4_MARK, VI2_G5_MARK,
+> > > > +       VI2_G6_MARK, VI2_G7_MARK,
+> > > > +};
+> > >
+> > > Laurent, Niklas: are you happy with the name "vin2_data8g", or do
+> > > you have a better suggestion?
+> >
+> > I learnt recently that traditionally for single 8-bit RAW inputs are
+> > named R8 (fist in RGB). But as this really is the G pins and they are
+> > labeled as such I'm OK with the name, but I would like to hear Laurent's
+> > view as well.
+>
+> I think we should match the pin names from the datasheet, so a R suffix
+> isn't a good option. I have a feeling we will suffer with this though,
+> as here 'g' refers to the VIN green data pins (g[7:0], a.k.a.
+> data[15:8]), while below 'b' refers to the second set of VIN data pins,
+> not the blue data pins. One option would be to use "vin2_data8_shift8",
+> but I'm not sure I'm very fond of that either. I also wonder whether we
+> shouldn't call this "vin2_g8" instead of "vin2_data8g" as the pins are
+> named VIN_G[7:0], not VIN_DATAG[7:0].
 
-With this change I get failures with v4l2-compliance I don't have 
-before. I think we need to align this the other way around, copy the 
-non-MC behavior to the MC S_FTM implementation.
+On R-Car H2 and RZ/G1H they're indeed named VIx_G[7:0].
 
-# v4l2-compliance -d /dev/video28
-v4l2-compliance SHA: c7f03287bbd64c168975e7ff3192e6fd3b507686, 32 bits, 32-bit time_t
+However, looking at other R-Car Gen2 and Gen3 variants, there are
+many possibilities, from all-RGB:
+  1. R[7:0], G[7:0], B[7:0],
+over:
+  2. R[7:0], G[7:0], DATA[7:0]_B[7:0],
+  3. D[23:16]_R[7:0], D[15:8]_G[7:0]_Y[7:0], D[7:0]_B[7:0]_C[7:0],
+to all-DATA:
+  4. DATA[11:0],
+  5. DATA[23:0].
 
-Compliance test for rcar_vin device /dev/video28:
+Following 1, 24-bit should be called "rgb24", and 18-bit "rgb18"
+(I believe this is the only format using discontiguous pins?).
+The in-betweens make sense, as YCbCr[7:0] data goes over the 8-bit DATA
+or 16-bit D pins, but that sense is lost when considering other formats
+that accept 10/12/16/20-bit input.
+I guess that's why R-Car Gen3 settled at option 5, which is actually
+what we've been doing in the pin control drivers from the beginning.
 
-Driver Info:
-	Driver name      : rcar_vin
-	Card type        : R_Car_VIN
-	Bus info         : platform:e6ef1000.video
-	Driver version   : 5.9.0
-	Capabilities     : 0x85200001
-		Video Capture
-		Read/Write
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x05200001
-		Video Capture
-		Read/Write
-		Streaming
-		Extended Pix Format
+Nevertheless, I agree "vinX_g8" seems like the best name for this group,
+as it's quite obvious from the name what it means, and isn't easily
+confused with an alternate set of pins.
+Note that the BSP (for R-Car Gen3, no idea about Gen2) uses
+"vinX_data8_sft8" (which I never really liked), which Niklas is now
+trying to upstream in "[PATCH 0/4] pinctrl: sh-pfc: Add VIN stf8 pins"
+(https://lore.kernel.org/linux-renesas-soc/20200914233744.468175-1-niklas.soderlund+renesas@ragnatech.se).
+Expect more bikeshedding soon ;-)
 
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
+> > > >  static const unsigned int vin2_sync_pins[] = {
+> > > >         RCAR_GP_PIN(1, 16), /* HSYNC */
+> > > >         RCAR_GP_PIN(1, 21), /* VSYNC */
+> > >
+> > > > @@ -4310,15 +4402,25 @@ static const struct {
+> > > >                 VIN_DATA_PIN_GROUP(vin1_data, 10),
+> > > >                 VIN_DATA_PIN_GROUP(vin1_data, 8),
+> > > >                 VIN_DATA_PIN_GROUP(vin1_data, 4),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 24, _b),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 20, _b),
+> > > > +               SH_PFC_PIN_GROUP(vin1_data18_b),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 16, _b),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 12, _b),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 10, _b),
+> > > > +               VIN_DATA_PIN_GROUP(vin1_data, 8, _b),
+> > >
+> > > Missing vin1_data4_b.
+> > >
+> > > >                 SH_PFC_PIN_GROUP(vin1_sync),
+> > > > +               SH_PFC_PIN_GROUP(vin1_sync_b),
+> > > >                 SH_PFC_PIN_GROUP(vin1_field),
+> > > >                 SH_PFC_PIN_GROUP(vin1_clkenb),
+> > > >                 SH_PFC_PIN_GROUP(vin1_clk),
+> > > > +               SH_PFC_PIN_GROUP(vin1_clk_b),
+> > > >                 VIN_DATA_PIN_GROUP(vin2_data, 24),
+> > > >                 SH_PFC_PIN_GROUP(vin2_data18),
+> > > >                 VIN_DATA_PIN_GROUP(vin2_data, 16),
+> > > >                 VIN_DATA_PIN_GROUP(vin2_data, 8),
+> > > >                 VIN_DATA_PIN_GROUP(vin2_data, 4),
+> > > > +               SH_PFC_PIN_GROUP(vin2_data8g),
+> > > >                 SH_PFC_PIN_GROUP(vin2_sync),
+> > > >                 SH_PFC_PIN_GROUP(vin2_field),
+> > > >                 SH_PFC_PIN_GROUP(vin2_clkenb),
 
-Allow for multiple opens:
-	test second /dev/video28 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
+Gr{oetje,eeting}s,
 
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK
+                        Geert
 
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 1 Audio Inputs: 0 Tuners: 0
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 6 Private Controls: 1
-
-Format ioctls (Input 0):
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-		fail: v4l2-test-formats.cpp(1544): !rect_is_inside(&sel_crop.r, &sel_bounds.r)
-		fail: v4l2-test-formats.cpp(1649): testBasicCrop(node, V4L2_BUF_TYPE_VIDEO_CAPTURE)
-	test Cropping: FAIL
-	test Composing: OK
-	test Scaling: OK
-
-Codec ioctls (Input 0):
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Total for rcar_vin device /dev/video28: 45, Succeeded: 44, Failed: 1, Warnings: 0
-
-Without this patch all test pass.
-
-> 
-> Fixes: 104464f573d ("media: rcar-vin: Do not reset the crop and compose rectangles in s_fmt")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Changes for v2:
-> * Dropped redundant code mapping crop and compose rects
-> 
-> v1 - https://lkml.org/lkml/2020/7/31/364
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 0e066bba747e..1bd59a8453b4 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -305,7 +305,7 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  			      struct v4l2_format *f)
->  {
->  	struct rvin_dev *vin = video_drvdata(file);
-> -	struct v4l2_rect fmt_rect, src_rect;
-> +	struct v4l2_rect src_rect;
->  	int ret;
->  
->  	if (vb2_is_busy(&vin->queue))
-> @@ -317,14 +317,11 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
->  		return ret;
->  
->  	vin->format = f->fmt.pix;
-> -
-> -	fmt_rect.top = 0;
-> -	fmt_rect.left = 0;
-> -	fmt_rect.width = vin->format.width;
-> -	fmt_rect.height = vin->format.height;
-> -
-> -	v4l2_rect_map_inside(&vin->crop, &src_rect);
-> -	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-> +	vin->crop.top = 0;
-> +	vin->crop.left = 0;
-> +	vin->crop.width = vin->format.width;
-> +	vin->crop.height = vin->format.height;
-> +	vin->compose = vin->crop;
->  	vin->src_rect = src_rect;
->  
->  	return 0;
-> -- 
-> 2.17.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
