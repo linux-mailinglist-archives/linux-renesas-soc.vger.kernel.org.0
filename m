@@ -2,117 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71EC726B07E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D2E26B06B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727501AbgIOQnC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 12:43:02 -0400
-Received: from mga05.intel.com ([192.55.52.43]:10809 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727779AbgIOQmO (ORCPT
+        id S1727985AbgIOWKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 18:10:39 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:42300 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727631AbgIOUCq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:42:14 -0400
-IronPort-SDR: KWegu6OuociK4oIxPsIY26z5IqrF2MWT8JlhLv+6SMID37EilqUGfOs/iSPYvmIiVc9Uzfu8+K
- ac31BoeuOpoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="244130883"
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="244130883"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 09:41:36 -0700
-IronPort-SDR: X1Z8bwqnLS38s1hSAEgytpQLbi6j4B/9YrhjrX4W475Rl5ZLgkvoZXnWAYIpVQfTQCszaMK3rj
- J8RyfodN2jpQ==
-X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
-   d="scan'208";a="338733991"
-Received: from jbrandeb-mobl3.amr.corp.intel.com (HELO localhost) ([10.212.118.172])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 09:41:36 -0700
-Date:   Tue, 15 Sep 2020 09:41:35 -0700
-From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
-To:     Saeed Mahameed <saeed@kernel.org>
-Cc:     netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next v2 06/10] drivers/net/ethernet: handle one
- warning explicitly
-Message-ID: <20200915094135.00005d21@intel.com>
-In-Reply-To: <e15b85af416c7257aaa601901b18c7c9bc9586e0.camel@kernel.org>
-References: <20200915014455.1232507-1-jesse.brandeburg@intel.com>
-        <20200915014455.1232507-7-jesse.brandeburg@intel.com>
-        <e15b85af416c7257aaa601901b18c7c9bc9586e0.camel@kernel.org>
-X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
+        Tue, 15 Sep 2020 16:02:46 -0400
+Received: by mail-il1-f196.google.com with SMTP id t13so4198661ile.9;
+        Tue, 15 Sep 2020 12:59:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=w5YpoxfTyrzce47e7+bq2Lzj+yxd8SjgCIV6N4Js4ic=;
+        b=Yu6XQacuR8FopmCoRCn4AOTX+plpAdY4iKLAtjlIYsIXOmh8pRL8Cluu+Ye3hPjVG1
+         PHYk9bvW3/xu65l60VPE2QOC5mUAfJQ5cL72sRw3hR5tn6q9mpzpPd/jJQhtCi7dJthU
+         eYRF/fUtl1w+cDdO+EPsPejZ41iFQYA9HFA+XH3I3HxJayoFH9bol+D6aBXx9Mpz9zGk
+         MBS34z9zbO8M9wLsUvB2V3InRl5ncjvgTgSEDhgRMCekhHbRvSdAwxKtB4cpXchqoS9C
+         ZOF9I2LEJZ/reY2hHB5upNJLn/KOObU27798HVm2xsnGoimkJ1Y5kkahTmxmFGYD9L3i
+         5YwA==
+X-Gm-Message-State: AOAM5302eJCmcqUF4oPEtfWRw2KvaHThVPnLzyHkXHJyCAiMYvIgHTa9
+        r7v9v7OEhCCxOy1prhdEMQ==
+X-Google-Smtp-Source: ABdhPJyysbHV/o3l7AFAopcgw0STvpK5TyfVIMhU4B3slSiPLWgiIgY4LBEjD+PF3te9Q+sWVDfzSA==
+X-Received: by 2002:a05:6e02:d07:: with SMTP id g7mr12751974ilj.63.1600199989032;
+        Tue, 15 Sep 2020 12:59:49 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id q23sm8155081iob.19.2020.09.15.12.59.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 12:59:48 -0700 (PDT)
+Received: (nullmailer pid 2407937 invoked by uid 1000);
+        Tue, 15 Sep 2020 19:59:45 -0000
+Date:   Tue, 15 Sep 2020 13:59:45 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Tony Lindgren <tony@atomide.com>, linux-kernel@vger.kernel.org,
+        Nishanth Menon <nm@ti.com>, Joel Stanley <joel@jms.id.au>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-omap@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Tero Kristo <t-kristo@ti.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-mediatek@lists.infradead.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>, linux-aspeed@lists.ozlabs.org,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
+ PCA953x family to dtschema
+Message-ID: <20200915195945.GA2407885@bogus>
+References: <20200910175733.11046-1-krzk@kernel.org>
+ <20200910175733.11046-2-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200910175733.11046-2-krzk@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-Saeed Mahameed wrote:
-
-> On Mon, 2020-09-14 at 18:44 -0700, Jesse Brandeburg wrote:
-> > While fixing the W=1 builds, this warning came up because the
-> > developers used a very tricky way to get structures initialized
-> > to a non-zero value, but this causes GCC to warn about an
-> > override. In this case the override was intentional, so just
-> > disable the warning for this code with a macro that results
-> > in disabling the warning for compiles on GCC versions after 8.
-> > 
-> > NOTE: the __diag_ignore macro currently only accepts a second
-> > argument of 8 (version 80000)
-> > 
-> > Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
-> > ---
-> >  drivers/net/ethernet/renesas/sh_eth.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
-> > 
-> > diff --git a/drivers/net/ethernet/renesas/sh_eth.c
-> > b/drivers/net/ethernet/renesas/sh_eth.c
-> > index 586642c33d2b..c63304632935 100644
-> > --- a/drivers/net/ethernet/renesas/sh_eth.c
-> > +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> > @@ -45,6 +45,15 @@
-> >  #define SH_ETH_OFFSET_DEFAULTS			\
-> >  	[0 ... SH_ETH_MAX_REGISTER_OFFSET - 1] = SH_ETH_OFFSET_INVALID
-> >  
-> > +/* use some intentionally tricky logic here to initialize the whole
-> > struct to
-> > + * 0xffff, but then override certain fields, requiring us to
-> > indicate that we
-> > + * "know" that there are overrides in this structure, and we'll need
-> > to disable
-> > + * that warning from W=1 builds. GCC has supported this option since
-> > 4.2.X, but
-> > + * the macros available to do this only define GCC 8.
-> > + */
-> > +__diag_push();
-> > +__diag_ignore(GCC, 8, "-Woverride-init",
-> > +	      "logic to initialize all and then override some is OK");
-> >  static const u16 sh_eth_offset_gigabit[SH_ETH_MAX_REGISTER_OFFSET] =
-> > {
-> >  	SH_ETH_OFFSET_DEFAULTS,
-> >  
-> > @@ -332,6 +341,7 @@ static const u16
-> > sh_eth_offset_fast_sh3_sh2[SH_ETH_MAX_REGISTER_OFFSET] = {
-> >  
-> >  	[TSU_ADRH0]	= 0x0100,
-> >  };
-> > +__diag_pop();
-> >  
+On Thu, 10 Sep 2020 19:57:19 +0200, Krzysztof Kozlowski wrote:
+> Convert the NXP PCA953x family of GPIO expanders bindings to device tree
+> schema.
 > 
-> I don't have any strong feeling against disabling compiler warnings,
-> but maybe the right thing to do here is to initialize the gaps to the
-> invalid value instead of pre-initializing the whole thing first and
-> then setting up the valid values on the 2nd pass.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > 
-> I don't think there are too many gaps to fill, it is doable, so maybe
-> add this as a comment to this driver maintainer so they could pickup
-> the work from here.
+> ---
+> 
+> Changes since v1:
+> 1. Use additionalProperties.
+> 2. Add wakeup-source.
+> 3. Add hogs.
+> 4. Extend example with hogs.
+> ---
+>  .../devicetree/bindings/gpio/gpio-pca953x.txt |  90 ----------
+>  .../bindings/gpio/gpio-pca95xx.yaml           | 166 ++++++++++++++++++
+>  .../devicetree/bindings/trivial-devices.yaml  |   4 -
+>  3 files changed, 166 insertions(+), 94 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca953x.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
+> 
 
-
-added linux-renesas-soc list. @list, any comments on Saeed's comment
-above?
-
-Thanks,
- Jesse
+Reviewed-by: Rob Herring <robh@kernel.org>
