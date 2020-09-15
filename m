@@ -2,91 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D96126A8B2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 17:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3552B26A930
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 17:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727432AbgIOPXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 11:23:24 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36101 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727354AbgIOPWa (ORCPT
+        id S1727538AbgIOP4q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 11:56:46 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:44828 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727533AbgIOP4S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 11:22:30 -0400
-Received: by mail-oi1-f195.google.com with SMTP id x19so4308177oix.3;
-        Tue, 15 Sep 2020 08:22:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ROuA6JYgT1yUVQHR4W9t/eQ9FLznlFdEs+Zytwjrg1U=;
-        b=ajvfXp2a4TDwgiph0q/bqjab0HTFgU1WR5jSlZ2uPpBjytXJc797dn1L59SmIIM+a2
-         G8VTcOC9Dt4i4NVUfgHoMHMNK+/qYBbaWbZvRwjWqRmE7mjLVqUNrDTUjuNaV93W1BJ2
-         QJQFL7zzpBeYZ4yj7EXu1rCBmMs/l6Sw3Y1mvMq4rEVJS7jE8Hk+O3MvegUY+oGUYQFy
-         oyk4RFSsN2R0pWrJSDxmpqlNnrvHCEJy+4z8i6OUQfvDAHtkQ5PuYTvacAqBp5HJ2JGp
-         iLX5iwgIyJb8nDCAVPTcPSAauQZUt54IpuiFrjfFm+Cm4FUJwLWO3yA9GUtSWatio8nn
-         c4xw==
-X-Gm-Message-State: AOAM5308W9Yk3ymW0RnrcEwKHtI6z/viKtoeQG9Cr4M3+sSLKCMjOxMf
-        8LYzzpPLhSKlml3TkpIUH3Ozv6Bo9Dxpkjj7cF4=
-X-Google-Smtp-Source: ABdhPJy2I/56jMzl7zYEoOktmV7EiZA/gk3FplPKxql7nRs7S0omJfV+RLO2GKlV7CWyeVHcLw03Lk6Z4MuNEP0rNnc=
-X-Received: by 2002:aca:3bc3:: with SMTP id i186mr3593580oia.148.1600183349438;
- Tue, 15 Sep 2020 08:22:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200915140110.11268-1-yuehaibing@huawei.com>
-In-Reply-To: <20200915140110.11268-1-yuehaibing@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Sep 2020 17:22:17 +0200
-Message-ID: <CAMuHMdXnuHnML3Gop4o3k_K9nYBRsc7w1cUgGcMrAso5oOKc5Q@mail.gmail.com>
-Subject: Re: [PATCH -next] soc: renesas: r8a779a0-sysc: Make
- r8a779a0_sysc_info static
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 15 Sep 2020 11:56:18 -0400
+X-IronPort-AV: E=Sophos;i="5.76,430,1592838000"; 
+   d="scan'208";a="57341061"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2020 00:56:08 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5BEEF400F7C1;
+        Wed, 16 Sep 2020 00:56:05 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [PATCH] media: v4l2-fwnode: Return -EINVAL for invalid bus-type
+Date:   Tue, 15 Sep 2020 16:55:44 +0100
+Message-Id: <20200915155544.826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yue,
+With the current implementation if invalid bus-type is passed via DT
+v4l2_fwnode_endpoint_parse() defaulted the mus-type to V4L2_MBUS_PARALLEL
+instead of returning error.
 
-On Tue, Sep 15, 2020 at 4:58 PM YueHaibing <yuehaibing@huawei.com> wrote:
-> Fix sparse warning:
->
-> drivers/soc/renesas/r8a779a0-sysc.c:99:33: warning: symbol 'r8a779a0_sysc_info' was not declared. Should it be static?
->
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+This Patch adds V4L2_MBUS_INVALID entry to v4l2_mbus_type enum and when
+invalid bus-type is detected in v4l2_fwnode_endpoint_parse() it returns
+-EINVAL to the caller.
 
-Thanks for your patch!
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 6 +++++-
+ include/media/v4l2-mediabus.h         | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-As commit 7f29315cf4211316 ("soc: renesas: r8a779a0-sysc: Add r8a779a0
-support") hasn't been merged into arm-soc yet, is it OK for you if I
-just fold your fix into the original commit?
-
-Thanks again!
-
-> --- a/drivers/soc/renesas/r8a779a0-sysc.c
-> +++ b/drivers/soc/renesas/r8a779a0-sysc.c
-> @@ -96,7 +96,7 @@ static struct r8a779a0_sysc_area r8a779a0_areas[] __initdata = {
->         { "a1dsp1",     R8A779A0_PD_A1DSP1, R8A779A0_PD_A2CN1 },
->  };
->
-> -const struct r8a779a0_sysc_info r8a779a0_sysc_info __initconst = {
-> +static const struct r8a779a0_sysc_info r8a779a0_sysc_info __initconst = {
->         .areas = r8a779a0_areas,
->         .num_areas = ARRAY_SIZE(r8a779a0_areas),
->  };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index a4c3c77c1894..a6f3549eadd3 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -93,7 +93,7 @@ v4l2_fwnode_bus_type_to_mbus(enum v4l2_fwnode_bus_type type)
+ 	const struct v4l2_fwnode_bus_conv *conv =
+ 		get_v4l2_fwnode_bus_conv_by_fwnode_bus(type);
+ 
+-	return conv ? conv->mbus_type : V4L2_MBUS_UNKNOWN;
++	return conv ? conv->mbus_type : V4L2_MBUS_INVALID;
+ }
+ 
+ static const char *
+@@ -436,6 +436,10 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+ 		 v4l2_fwnode_mbus_type_to_string(vep->bus_type),
+ 		 vep->bus_type);
+ 	mbus_type = v4l2_fwnode_bus_type_to_mbus(bus_type);
++	if (mbus_type == V4L2_MBUS_INVALID) {
++		pr_debug("unsupported bus type %u\n", bus_type);
++		return -EINVAL;
++	}
+ 
+ 	if (vep->bus_type != V4L2_MBUS_UNKNOWN) {
+ 		if (mbus_type != V4L2_MBUS_UNKNOWN &&
+diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+index 45f88f0248c4..b4f630783cb7 100644
+--- a/include/media/v4l2-mediabus.h
++++ b/include/media/v4l2-mediabus.h
+@@ -78,6 +78,7 @@
+  * @V4L2_MBUS_CCP2:	CCP2 (Compact Camera Port 2)
+  * @V4L2_MBUS_CSI2_DPHY: MIPI CSI-2 serial interface, with D-PHY
+  * @V4L2_MBUS_CSI2_CPHY: MIPI CSI-2 serial interface, with C-PHY
++ * @V4L2_MBUS_INVALID:	invalid bus type (keep it last for sanity)
+  */
+ enum v4l2_mbus_type {
+ 	V4L2_MBUS_UNKNOWN,
+@@ -87,6 +88,7 @@ enum v4l2_mbus_type {
+ 	V4L2_MBUS_CCP2,
+ 	V4L2_MBUS_CSI2_DPHY,
+ 	V4L2_MBUS_CSI2_CPHY,
++	V4L2_MBUS_INVALID,
+ };
+ 
+ /**
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
