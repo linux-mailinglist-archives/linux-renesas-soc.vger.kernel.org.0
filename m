@@ -2,80 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 630B026AE8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 22:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3676326AF8D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 23:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727835AbgIOUMU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 16:12:20 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:33518 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727894AbgIOUME (ORCPT
+        id S1727999AbgIOV1l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 17:27:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43264 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727928AbgIOV1A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 16:12:04 -0400
-Received: by mail-il1-f196.google.com with SMTP id x2so4292377ilm.0;
-        Tue, 15 Sep 2020 13:12:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AiyxLpi/Iqmmwnxk8O+6JfWOo6yTa0l1HQ+P0CDDU94=;
-        b=ipp2fs9QHVOheqiSHaYj/2uQhW2LcBofHl16OZnJ6lGr8RWUeZnaXtWOikdPOT7KbF
-         uvyiLfcIMKfiC37hl1A/Qmtgc6GY2RPN5NxS/SP5729ZA4/i3kgxqRM8r3GfhzM2eWW5
-         629CYqqBec821SE0vGFVWvIOhJU1sZ/KVt8RbP9/P7gkTsb4V5RbsH4EZ4OwG/R5meZY
-         gADNimaealzCRcpWsRk/tWdWzQNuBDZlarxcwJcT5s+MJL2/6AnmwZbi5md5r55zYOJ8
-         pe34OJ0O+nGIR5VxfilTMW6o3lEFTUSut3GSax1gEDSdFL4+A07FzWGeppbdl1YXZ/6a
-         Q/cg==
-X-Gm-Message-State: AOAM532c+U7e7yG3ETAhGec3EEDgduNibUOZYoZT2NJnUJWnhr5Q6nIY
-        jJeugN3XeE4mmwXhkHrAgw==
-X-Google-Smtp-Source: ABdhPJz7ub0ek4UhkXlI4O4Vyla7eaIMyGd1aq18LwwunB96JIZcYVTBAU50yAZfsEZI0yCLVqf5bg==
-X-Received: by 2002:a92:7004:: with SMTP id l4mr177657ilc.189.1600200723259;
-        Tue, 15 Sep 2020 13:12:03 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id 137sm8301419ioc.20.2020.09.15.13.12.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 13:12:02 -0700 (PDT)
-Received: (nullmailer pid 2428141 invoked by uid 1000);
-        Tue, 15 Sep 2020 20:12:01 -0000
-Date:   Tue, 15 Sep 2020 14:12:01 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com,
+        Tue, 15 Sep 2020 17:27:00 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4A15C061797;
+        Tue, 15 Sep 2020 14:26:41 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58747FD8;
+        Tue, 15 Sep 2020 23:26:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600205196;
+        bh=P+7woXYx0pEjJcdRtQvnqyiYJ5fzHV7TtgZXREC0yT0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tq1BAgiyN4E1yPcSK5kmeMl4lheL/DwGppE1UX3lyFQhN6D3WiVNIrzAH/vjQekJn
+         1S61Gb6jEO6XpX37mCEcWW0gw5GD7boC+WdzpeQdKtrtMDW76FfMwA+2jedNmHJKHK
+         xFXJ0X33Im1ZZ3KLnPCZcHxwIBnrNzJsvkDkmx1k=
+Date:   Wed, 16 Sep 2020 00:26:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-        mchehab@kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v5 3/3] dt-bindings: media: ov772x: Document endpoint
- props
-Message-ID: <20200915201201.GA2428103@bogus>
-References: <20200910162055.614089-1-jacopo+renesas@jmondi.org>
- <20200910162055.614089-4-jacopo+renesas@jmondi.org>
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: Kconfig: Update help description
+ VIDEO_RENESAS_FCP config
+Message-ID: <20200915212607.GC3998@pendragon.ideasonboard.com>
+References: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200910162055.614089-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 10 Sep 2020 18:20:55 +0200, Jacopo Mondi wrote:
-> Document endpoint properties for the parallel bus type and
-> add them to the example.
-> 
-> Specify a few constraints:
-> - If the bus type is BT.656 no hsync or vsync polarities can be
->   specified.
-> - If the bus width is 10 bits, not data-shift can be applied.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  .../bindings/media/i2c/ovti,ov772x.yaml       | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
-> 
+Hi Prabhakar,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Thank you for the patch.
+
+On Fri, Sep 11, 2020 at 11:10:46AM +0100, Lad Prabhakar wrote:
+> rcar-fcp driver is also used on Renesas RZ/G2 SoC's, update the same
+
+I'm not sure what you mean by "the same" here. I'd propose
+
+The rcar_dw_hdmi driver is also used on Renesas RZ/G2 SoCs. Update the
+Kconfig entry description to reflect this.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+If you're fine with that, there's no need to resubmit the patch.
+
+> to reflect help description for VIDEO_RENESAS_FCP config.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> ---
+>  drivers/media/platform/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index bbf32086b607..a5716e9f463a 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -426,8 +426,8 @@ config VIDEO_RENESAS_FCP
+>  	help
+>  	  This is a driver for the Renesas Frame Compression Processor (FCP).
+>  	  The FCP is a companion module of video processing modules in the
+> -	  Renesas R-Car Gen3 SoCs. It handles memory access for the codec,
+> -	  VSP and FDP modules.
+> +	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
+> +	  the codec, VSP and FDP modules.
+>  
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called rcar-fcp.
+
+-- 
+Regards,
+
+Laurent Pinchart
