@@ -2,156 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F2FB26B364
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 01:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74BF226B506
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 01:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727330AbgIOXCX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 19:02:23 -0400
-Received: from bin-mail-out-05.binero.net ([195.74.38.228]:53166 "EHLO
-        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727508AbgIOXCR (ORCPT
+        id S1727356AbgIOXfX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 19:35:23 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:41221 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbgIOOf3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 19:02:17 -0400
-X-Halon-ID: 79bb749e-f7a7-11ea-92dc-005056917a89
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id 79bb749e-f7a7-11ea-92dc-005056917a89;
-        Wed, 16 Sep 2020 01:02:06 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] rcar-vin: Extend RAW8 support to all RGB layouts
-Date:   Wed, 16 Sep 2020 01:01:40 +0200
-Message-Id: <20200915230140.1201187-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200915230140.1201187-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20200915230140.1201187-1-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 15 Sep 2020 10:35:29 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x69so4080721oia.8;
+        Tue, 15 Sep 2020 07:35:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XFJbV8gqtdgXON44AjHs01o37Q1aP3y+2+6LNfuSBbg=;
+        b=aMn+a2izYD0N0/HGHxw1jMkzf8xryX+UROIPQJMtvx6MkZ8aSP4tPsKyMY7IEsQsJj
+         0i/oKjOT4mrNzz3OwkhRV75lTRr7gfhfKKiBxnBWD8hGQHT608xJF7iNG8CroImYHEqy
+         uOv5DngDbmMqSUsQ844vnGmQjxYhObhdYRJk2Ddjsxeofb/0ZpzOuAyItba6rBgcpB7p
+         Uvc4Ne/CDP33v1oq+Geqpmmne9nPuxXYlFqkfdf3KtKYmXKKA2w6G/IQnn8wgCzZu6rd
+         hWINLfZ09KT1/FoJv3T261E0MZbrxbFyS2SH3qdY8IMEkTaaDcSp0n2mLFPVMovqoOTf
+         dl4w==
+X-Gm-Message-State: AOAM530NDM0ksVtY1k/u1uO/yqEmPJtMmo/ANCkkjDGhXEJhJnedrgfB
+        7VmYU9SJktJowkM0LT78Fi4MGqqQDfHbyWfQ5yOo89MS
+X-Google-Smtp-Source: ABdhPJzZ3UVmsOsTh4cqJBlDJ7vzhFrrmrBKHqhfHpds3yc77F0pv64OlNm3mClJtOeFqGGDm7n+2njVKcAuwriGQnA=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr3393965oib.54.1600176702442;
+ Tue, 15 Sep 2020 06:31:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200915131216.21137-1-fabrizio.castro.jz@renesas.com> <20200915131216.21137-4-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20200915131216.21137-4-fabrizio.castro.jz@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Sep 2020 15:31:30 +0200
+Message-ID: <CAMuHMdXdsHDKZS1ZdACK0-wGsc6cfQFGETykJ_sQX=bat3WZ7w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: dt-bindings: media: renesas,drif: Add r8a77990 support
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Extend the list of supported formats to include all RGB layouts of RAW8.
+On Tue, Sep 15, 2020 at 3:12 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> The r8a77990 (a.k.a. R-Car E3) device tree schema is
+> compatible with R-Car H3 and M3-W schema.
+>
+> Document r8a77990 support within renesas,drif.yaml.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  | 28 ++++++++++++++++++++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 27 ++++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index a5dbb90c5210bae7..7f8997536aba6f0b 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -598,8 +598,16 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
- 	/* For RAW8 format bpp is 1, but the hardware process RAW8
- 	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
- 	 */
--	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
-+	switch (vin->format.pixelformat) {
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		stride /= 2;
-+		break;
-+	default:
-+		break;
-+	}
- 
- 	rvin_write(vin, stride, VNIS_REG);
- }
-@@ -683,6 +691,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 
- 		input_is_yuv = true;
- 		break;
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		vnmc |= VNMC_INF_RAW8;
- 		break;
-@@ -747,6 +758,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_ABGR32:
- 		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
- 		break;
-+	case V4L2_PIX_FMT_SBGGR8:
-+	case V4L2_PIX_FMT_SGBRG8:
-+	case V4L2_PIX_FMT_SGRBG8:
- 	case V4L2_PIX_FMT_SRGGB8:
- 		dmr = 0;
- 		break;
-@@ -1124,6 +1138,18 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 	case MEDIA_BUS_FMT_UYVY10_2X10:
- 	case MEDIA_BUS_FMT_RGB888_1X24:
- 		break;
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SBGGR8)
-+			return -EPIPE;
-+		break;
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SGBRG8)
-+			return -EPIPE;
-+		break;
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SGRBG8)
-+			return -EPIPE;
-+		break;
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
- 			return -EPIPE;
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 0e066bba747e0b73..4071d9bd554ab88f 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -66,6 +66,18 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_ABGR32,
- 		.bpp			= 4,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SBGGR8,
-+		.bpp			= 1,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SGBRG8,
-+		.bpp			= 1,
-+	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SGRBG8,
-+		.bpp			= 1,
-+	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_SRGGB8,
- 		.bpp			= 1,
-@@ -366,6 +378,21 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 	case MEDIA_BUS_FMT_UYVY10_2X10:
- 	case MEDIA_BUS_FMT_RGB888_1X24:
- 		break;
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SBGGR8;
-+		return 0;
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SGBRG8;
-+		return 0;
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SGRBG8;
-+		return 0;
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		if (f->index)
- 			return -EINVAL;
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.28.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
