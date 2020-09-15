@@ -2,118 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7796326AE02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 21:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0EF126AE00
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 21:48:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727877AbgIOTsS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 15:48:18 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:38071 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727755AbgIOTrp (ORCPT
+        id S1727907AbgIOTsh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 15:48:37 -0400
+Received: from mga14.intel.com ([192.55.52.115]:46132 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727784AbgIOTsg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 15:47:45 -0400
-Received: by mail-il1-f194.google.com with SMTP id t18so4188416ilp.5;
-        Tue, 15 Sep 2020 12:47:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=vlMe/O0KpaLLn52vRtI2d+InOdmPVFJgxviIiqo487k=;
-        b=Hx4JcNekRElzjsosTQx18YzIcAvdLGVEES+rJid6gQj8CuzpeLZiGqNN91MIJy46XI
-         MPEYE2DZXkOwQsUYD9QW3wYY0zoROIvSvCxBz8JNFWdn4y+pq+PTXOt4/xhsK0pjfk5/
-         7J6lXDHBJTBvAMjdGHbW77yU7mS1GYzmU6ZMlNCtBAe2MPmC0soev5xTEx/1mggZ3pG1
-         9QmQjf1azbHnRho0R3kVgpF/UtJGKgbc/RzWMpK5c0YxtFKAFApKa15QU/uRDCp9zMtT
-         5wCk6cB1o1WupcgC08+E4VOREBEW5qvRqYDXdqPYHTVdsV9LJpfzca/7mVc9e+1ARyaX
-         2Oiw==
-X-Gm-Message-State: AOAM530azeMPhpH9u6NYbGx0xkXn8phd0dSH1cuX1n8l/XFUbHa7hh/A
-        1k2YWDZQRD9HpQjSVJbMdw==
-X-Google-Smtp-Source: ABdhPJyJBucL9yXLzWld+N7C06O44ALNqm0DtTmTngrhGguRJncbPkgBRf60HAkVwNDjrR37f44klQ==
-X-Received: by 2002:a92:6901:: with SMTP id e1mr17859827ilc.209.1600199263981;
-        Tue, 15 Sep 2020 12:47:43 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id m15sm7972824iow.9.2020.09.15.12.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 12:47:43 -0700 (PDT)
-Received: (nullmailer pid 2389041 invoked by uid 1000);
-        Tue, 15 Sep 2020 19:47:40 -0000
-Date:   Tue, 15 Sep 2020 13:47:40 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Nishanth Menon <nm@ti.com>
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-Message-ID: <20200915194740.GA2385241@bogus>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-2-krzk@kernel.org>
- <20200910182814.veviax3n377undkv@akan>
- <CAJKOXPdQJz7aLu4sjds46SiZwxvB-VMBR=stjpUme+8iEo+d-w@mail.gmail.com>
- <20200910191305.phjtijx2fhkhqavu@akan>
+        Tue, 15 Sep 2020 15:48:36 -0400
+IronPort-SDR: C/e1Hfk4jzRM/jGk8W2bMbyqozhi6Ixo8mBSEzOXVczAoA8KyIsUN4YjeZ2ujKK6HzqQRfGPc2
+ D85Kw4XoNM5g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="158618135"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="158618135"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 12:48:34 -0700
+IronPort-SDR: FIhC517Di0zanHT6Hk8KEBh4TNgslsT16pfnEFFShxKkVRGbHayXjjENOLmjHJsiaw6ctLN3/Z
+ 21Y9791qKVMQ==
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="286943167"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 12:48:31 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0E96220628; Tue, 15 Sep 2020 22:48:29 +0300 (EEST)
+Date:   Tue, 15 Sep 2020 22:48:29 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH] media: v4l2-fwnode: Return -EINVAL for invalid bus-type
+Message-ID: <20200915194828.GP26842@paasikivi.fi.intel.com>
+References: <20200915155544.826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200910191305.phjtijx2fhkhqavu@akan>
+In-Reply-To: <20200915155544.826-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 02:13:05PM -0500, Nishanth Menon wrote:
-> On 20:53-20200910, Krzysztof Kozlowski wrote:
-> > On Thu, 10 Sep 2020 at 20:28, Nishanth Menon <nm@ti.com> wrote:
-> > >
-> > > On 19:57-20200910, Krzysztof Kozlowski wrote:
-> > > [...]
-> > > > +  wakeup-source:
-> > > > +    $ref: /schemas/types.yaml#/definitions/flag
-> > > > +
-> > > > +patternProperties:
-> > > > +  "^(hog-[0-9]+|.+-hog(-[0-9]+)?)$":
-> > >
-> > > I wonder if "hog" is too generic and might clash with "something-hog" in
-> > > the future?
-> > 
-> > This pattern is already used in
-> > Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml. It will
-> > match only children and so far it did not find any other nodes in ARM
-> > and ARM64 dts. I don't expect clashes. Also the question is then - if
-> > one adds a child of GPIO expander named "foobar-hog" and it is not a
-> > GPIO hog, then what is it?
-> 
-> Probably a nitpick.. but then,.. I have'nt seen us depend on hierarchy
-> for uniqueness of naming.. we choose for example "bus" no matter where
-> in the hierarchy it falls in, as long it is a bus.. etc.. same argument
-> holds good for properties as well.. "gpio-hog;" is kinda redundant if
-> you think of it for a compatible that is already gpio ;)..
-> 
-> I did'nt mean to de-rail the discussion, but was curious what the DT
-> maintainers think..
+Hi Prabhakar,
 
-Not really a fan of gpio-hog binding to have another type of hog nor can 
-I imagine what that would be.
+On Tue, Sep 15, 2020 at 04:55:44PM +0100, Lad Prabhakar wrote:
+> With the current implementation if invalid bus-type is passed via DT
+> v4l2_fwnode_endpoint_parse() defaulted the mus-type to V4L2_MBUS_PARALLEL
+> instead of returning error.
 
-Rob
+The default is dug from the rest of the properties, it could be different
+from parallel. You could simply not mention the actual result, just that it
+should have been an error.
+
+> 
+> This Patch adds V4L2_MBUS_INVALID entry to v4l2_mbus_type enum and when
+> invalid bus-type is detected in v4l2_fwnode_endpoint_parse() it returns
+> -EINVAL to the caller.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 6 +++++-
+>  include/media/v4l2-mediabus.h         | 2 ++
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index a4c3c77c1894..a6f3549eadd3 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -93,7 +93,7 @@ v4l2_fwnode_bus_type_to_mbus(enum v4l2_fwnode_bus_type type)
+>  	const struct v4l2_fwnode_bus_conv *conv =
+>  		get_v4l2_fwnode_bus_conv_by_fwnode_bus(type);
+>  
+> -	return conv ? conv->mbus_type : V4L2_MBUS_UNKNOWN;
+> +	return conv ? conv->mbus_type : V4L2_MBUS_INVALID;
+>  }
+>  
+>  static const char *
+> @@ -436,6 +436,10 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+>  		 v4l2_fwnode_mbus_type_to_string(vep->bus_type),
+>  		 vep->bus_type);
+>  	mbus_type = v4l2_fwnode_bus_type_to_mbus(bus_type);
+> +	if (mbus_type == V4L2_MBUS_INVALID) {
+> +		pr_debug("unsupported bus type %u\n", bus_type);
+> +		return -EINVAL;
+> +	}
+>  
+>  	if (vep->bus_type != V4L2_MBUS_UNKNOWN) {
+>  		if (mbus_type != V4L2_MBUS_UNKNOWN &&
+> diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
+> index 45f88f0248c4..b4f630783cb7 100644
+> --- a/include/media/v4l2-mediabus.h
+> +++ b/include/media/v4l2-mediabus.h
+> @@ -78,6 +78,7 @@
+>   * @V4L2_MBUS_CCP2:	CCP2 (Compact Camera Port 2)
+>   * @V4L2_MBUS_CSI2_DPHY: MIPI CSI-2 serial interface, with D-PHY
+>   * @V4L2_MBUS_CSI2_CPHY: MIPI CSI-2 serial interface, with C-PHY
+> + * @V4L2_MBUS_INVALID:	invalid bus type (keep it last for sanity)
+
+s/it last for sanity/as last/
+
+>   */
+>  enum v4l2_mbus_type {
+>  	V4L2_MBUS_UNKNOWN,
+> @@ -87,6 +88,7 @@ enum v4l2_mbus_type {
+>  	V4L2_MBUS_CCP2,
+>  	V4L2_MBUS_CSI2_DPHY,
+>  	V4L2_MBUS_CSI2_CPHY,
+> +	V4L2_MBUS_INVALID,
+>  };
+>  
+>  /**
+
+-- 
+Regards,
+
+Sakari Ailus
