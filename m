@@ -2,104 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF54A26AFE2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 23:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71EC726B07E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:12:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbgIOVsS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 17:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727758AbgIOVam (ORCPT
+        id S1727501AbgIOQnC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 12:43:02 -0400
+Received: from mga05.intel.com ([192.55.52.43]:10809 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727779AbgIOQmO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 17:30:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE66EC06178B;
-        Tue, 15 Sep 2020 14:30:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51E4414DF;
-        Tue, 15 Sep 2020 23:30:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600205437;
-        bh=kA7uE9NAJIlft7fViAmLhyKvPEaTdyCyxDz+3ts2ktE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CGLOBZLq9Pkfz8NfxyNVpP5qKzA1Ka6YAKdJ8S2zHCsfsZc0wngHUzyBtlH6dBy+T
-         s4p4PdUaMY/ymi4rO4uku7RtHCVqlUHYTrT9OYd7pX01kibsfF/tkXNqilvJDB64T8
-         MxTP4GhL/zX0V4W03qihvP7JGT2LEk+0BFT63pxg=
-Date:   Wed, 16 Sep 2020 00:30:08 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH] media: Kconfig: Update help description
- VIDEO_RENESAS_FCP config
-Message-ID: <20200915213008.GB28219@pendragon.ideasonboard.com>
-References: <20200911101046.20200-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200915212607.GC3998@pendragon.ideasonboard.com>
+        Tue, 15 Sep 2020 12:42:14 -0400
+IronPort-SDR: KWegu6OuociK4oIxPsIY26z5IqrF2MWT8JlhLv+6SMID37EilqUGfOs/iSPYvmIiVc9Uzfu8+K
+ ac31BoeuOpoQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="244130883"
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="244130883"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 09:41:36 -0700
+IronPort-SDR: X1Z8bwqnLS38s1hSAEgytpQLbi6j4B/9YrhjrX4W475Rl5ZLgkvoZXnWAYIpVQfTQCszaMK3rj
+ J8RyfodN2jpQ==
+X-IronPort-AV: E=Sophos;i="5.76,430,1592895600"; 
+   d="scan'208";a="338733991"
+Received: from jbrandeb-mobl3.amr.corp.intel.com (HELO localhost) ([10.212.118.172])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2020 09:41:36 -0700
+Date:   Tue, 15 Sep 2020 09:41:35 -0700
+From:   Jesse Brandeburg <jesse.brandeburg@intel.com>
+To:     Saeed Mahameed <saeed@kernel.org>
+Cc:     netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 06/10] drivers/net/ethernet: handle one
+ warning explicitly
+Message-ID: <20200915094135.00005d21@intel.com>
+In-Reply-To: <e15b85af416c7257aaa601901b18c7c9bc9586e0.camel@kernel.org>
+References: <20200915014455.1232507-1-jesse.brandeburg@intel.com>
+        <20200915014455.1232507-7-jesse.brandeburg@intel.com>
+        <e15b85af416c7257aaa601901b18c7c9bc9586e0.camel@kernel.org>
+X-Mailer: Claws Mail 3.12.0 (GTK+ 2.24.28; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200915212607.GC3998@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 12:26:08AM +0300, Laurent Pinchart wrote:
-> Hi Prabhakar,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Sep 11, 2020 at 11:10:46AM +0100, Lad Prabhakar wrote:
-> > rcar-fcp driver is also used on Renesas RZ/G2 SoC's, update the same
-> 
-> I'm not sure what you mean by "the same" here. I'd propose
-> 
-> The rcar_dw_hdmi driver is also used on Renesas RZ/G2 SoCs. Update the
-> Kconfig entry description to reflect this.
 
-And this was meant to be sent as a review of the DRM_RCAR_DW_HDMI patch
-:-S For this patch, you could write
+Saeed Mahameed wrote:
 
-"The rcar-fcp driver is also used on Renesas RZ/G2 SoCs. Update the
-Kconfig entry description to reflect this."
-
-I would also replace the subject line with
-
-"media: rcar-fcp: Update description for VIDEO_RENESAS_FCP Kconfig entry"
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> If you're fine with that, there's no need to resubmit the patch.
-> 
-> > to reflect help description for VIDEO_RENESAS_FCP config.
+> On Mon, 2020-09-14 at 18:44 -0700, Jesse Brandeburg wrote:
+> > While fixing the W=1 builds, this warning came up because the
+> > developers used a very tricky way to get structures initialized
+> > to a non-zero value, but this causes GCC to warn about an
+> > override. In this case the override was intentional, so just
+> > disable the warning for this code with a macro that results
+> > in disabling the warning for compiles on GCC versions after 8.
 > > 
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> > NOTE: the __diag_ignore macro currently only accepts a second
+> > argument of 8 (version 80000)
+> > 
+> > Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
 > > ---
-> >  drivers/media/platform/Kconfig | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  drivers/net/ethernet/renesas/sh_eth.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
 > > 
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index bbf32086b607..a5716e9f463a 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -426,8 +426,8 @@ config VIDEO_RENESAS_FCP
-> >  	help
-> >  	  This is a driver for the Renesas Frame Compression Processor (FCP).
-> >  	  The FCP is a companion module of video processing modules in the
-> > -	  Renesas R-Car Gen3 SoCs. It handles memory access for the codec,
-> > -	  VSP and FDP modules.
-> > +	  Renesas R-Car Gen3 and RZ/G2 SoCs. It handles memory access for
-> > +	  the codec, VSP and FDP modules.
+> > diff --git a/drivers/net/ethernet/renesas/sh_eth.c
+> > b/drivers/net/ethernet/renesas/sh_eth.c
+> > index 586642c33d2b..c63304632935 100644
+> > --- a/drivers/net/ethernet/renesas/sh_eth.c
+> > +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> > @@ -45,6 +45,15 @@
+> >  #define SH_ETH_OFFSET_DEFAULTS			\
+> >  	[0 ... SH_ETH_MAX_REGISTER_OFFSET - 1] = SH_ETH_OFFSET_INVALID
 > >  
-> >  	  To compile this driver as a module, choose M here: the module
-> >  	  will be called rcar-fcp.
+> > +/* use some intentionally tricky logic here to initialize the whole
+> > struct to
+> > + * 0xffff, but then override certain fields, requiring us to
+> > indicate that we
+> > + * "know" that there are overrides in this structure, and we'll need
+> > to disable
+> > + * that warning from W=1 builds. GCC has supported this option since
+> > 4.2.X, but
+> > + * the macros available to do this only define GCC 8.
+> > + */
+> > +__diag_push();
+> > +__diag_ignore(GCC, 8, "-Woverride-init",
+> > +	      "logic to initialize all and then override some is OK");
+> >  static const u16 sh_eth_offset_gigabit[SH_ETH_MAX_REGISTER_OFFSET] =
+> > {
+> >  	SH_ETH_OFFSET_DEFAULTS,
+> >  
+> > @@ -332,6 +341,7 @@ static const u16
+> > sh_eth_offset_fast_sh3_sh2[SH_ETH_MAX_REGISTER_OFFSET] = {
+> >  
+> >  	[TSU_ADRH0]	= 0x0100,
+> >  };
+> > +__diag_pop();
+> >  
+> 
+> I don't have any strong feeling against disabling compiler warnings,
+> but maybe the right thing to do here is to initialize the gaps to the
+> invalid value instead of pre-initializing the whole thing first and
+> then setting up the valid values on the 2nd pass.
+> 
+> I don't think there are too many gaps to fill, it is doable, so maybe
+> add this as a comment to this driver maintainer so they could pickup
+> the work from here.
 
--- 
-Regards,
 
-Laurent Pinchart
+added linux-renesas-soc list. @list, any comments on Saeed's comment
+above?
+
+Thanks,
+ Jesse
