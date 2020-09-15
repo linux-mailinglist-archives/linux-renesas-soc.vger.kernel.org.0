@@ -2,93 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E45026B06D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:10:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 168AA26B2B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:51:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727812AbgIOWKS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 18:10:18 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:41568 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727826AbgIOUCq (ORCPT
+        id S1727410AbgIOWvt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 18:51:49 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:44264 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727439AbgIOPmg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 16:02:46 -0400
-Received: by mail-io1-f67.google.com with SMTP id z13so5525174iom.8;
-        Tue, 15 Sep 2020 13:00:38 -0700 (PDT)
+        Tue, 15 Sep 2020 11:42:36 -0400
+Received: by mail-io1-f68.google.com with SMTP id g128so4528719iof.11;
+        Tue, 15 Sep 2020 08:42:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=L7om6RUUpmy9Tp9WTJ6hem3a68ltpv04YXLuQ+XuUpg=;
-        b=GV1G4P0FlxSFwJEMqN8Qqv6F037+uwDELcHJkwzTCoNdIhyoTQFOzuSufljKDWllZL
-         nFlRD7HDagQ2B0+g7PRldlA3XgUC6zrMHBStEkM5BR/6TaD7AfJXvsC3rb8r9UKZBr32
-         Wq0cLf0QVinmVsduv6HGQ/KgpsxX2ZnHSHRfCDoAnRxGGWKV7OXeVBLkkU0ITlpSTUbo
-         t6s0kx0ryiNF4etzZVX2psYfmmQxBDaHjb8A3E/NRaXwzUvl5h4CKnEwAEWI/CYBvNZ/
-         ZUeYJXf0SwphFqg3XBJTQGNabdyGe7fFAT/Euz0J4OzkqsB87Ddt+anvJF1FbRY3Cswu
-         7yYw==
-X-Gm-Message-State: AOAM530qjV18lQRHTyb1DJZYyYwZr/PTDC/lT9mKgZpn1N51EO80XJyk
-        w5c1j7w/Yc+YlB0RuAQY1A==
-X-Google-Smtp-Source: ABdhPJyJashEW2xOKvfkZqHZZXucxwlHXqNC9JTw65ZlLFsAeTHaT5GzkbPEe9aLJArEiug2L8iMqA==
-X-Received: by 2002:a6b:590c:: with SMTP id n12mr17087310iob.25.1600200038094;
-        Tue, 15 Sep 2020 13:00:38 -0700 (PDT)
+        bh=b2gN/1Vxx6QXOeyAQrqTUo00mXGC5F6z/gWZvfn3KiI=;
+        b=H0/R9iO4OJZTuF3dvnt3SmVIRBqwigI6g/eYdJkOaQCQ7RDAIGJN2N10sh0OBjMpnf
+         7TUEWFzOgmj/uICt5NPlLRddykO3eAXJhN8pc+DOMxEvY47Diqc4mcP4Z/ZU3I/5vj8R
+         nOrVCoaOZNZiM2delyD8vjr0QOigHUiooheg4oNScvmidym60jbRmV4KlKNRcdByKGjY
+         ARLWqrVokogAR0IZo5DH7JwjZ27Ic0DdFkSneJEO6k0c4g9NgJhfO3nvKuqmkvoYzd0O
+         lqa67B6z/j2yWF0P409hMkL7vC9/37l+CAfyorL2W8zLksl3z8YGw2Uy/C4MobvvBwsv
+         CCPw==
+X-Gm-Message-State: AOAM530VIz+RKyA8PdHDq6CqVyEk95a4nHZgvKc8ZEfg9c7KnmjIqayL
+        RrgXsgtq9YonLoOQ5i/m0//hG37PSpU+
+X-Google-Smtp-Source: ABdhPJxpK6uJvf7Hkfowl+VTeoG/xrtLJqMZAFGEChdqCkFoRctMW7L1895iNr01xpQPfgKJLoDHsw==
+X-Received: by 2002:a02:cdcd:: with SMTP id m13mr18669584jap.69.1600184550866;
+        Tue, 15 Sep 2020 08:42:30 -0700 (PDT)
 Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id d71sm9595617ill.52.2020.09.15.13.00.33
+        by smtp.gmail.com with ESMTPSA id d23sm7819480ioh.22.2020.09.15.08.42.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2020 13:00:37 -0700 (PDT)
-Received: (nullmailer pid 2409290 invoked by uid 1000);
-        Tue, 15 Sep 2020 20:00:32 -0000
-Date:   Tue, 15 Sep 2020 14:00:32 -0600
+        Tue, 15 Sep 2020 08:42:30 -0700 (PDT)
+Received: (nullmailer pid 2000976 invoked by uid 1000);
+        Tue, 15 Sep 2020 15:42:28 -0000
+Date:   Tue, 15 Sep 2020 09:42:28 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-mediatek@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-aspeed@lists.ozlabs.org,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        linux-kernel@vger.kernel.org, Jason Cooper <jason@lakedaemon.net>,
-        Tony Lindgren <tony@atomide.com>,
-        linux-renesas-soc@vger.kernel.org, Tero Kristo <t-kristo@ti.com>,
-        Joel Stanley <joel@jms.id.au>, Nishanth Menon <nm@ti.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Andrew Jeffery <andrew@aj.id.au>, linux-omap@vger.kernel.org,
-        devicetree@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
- MAX732x family to dtschema
-Message-ID: <20200915200032.GA2409250@bogus>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-3-krzk@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     geert+renesas@glider.be, magnus.damm@gmail.com,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org
+Subject: Re: [PATCH 06/14] dt-bindings: clock: renesas,cpg-mssr: Document
+ r8a779a0
+Message-ID: <20200915154228.GA2000922@bogus>
+References: <1599470390-29719-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1599470390-29719-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200910175733.11046-3-krzk@kernel.org>
+In-Reply-To: <1599470390-29719-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 10 Sep 2020 19:57:20 +0200, Krzysztof Kozlowski wrote:
-> Convert the Maxim MAX732x family of GPIO expanders bindings to device
-> tree schema by merging it with existing PCA95xx schema.  These are quite
-> similar so merging reduces duplication.
+On Mon, 07 Sep 2020 18:19:42 +0900, Yoshihiro Shimoda wrote:
+> Add binding documentation for the R-Car V3U (R8A779A0) Clock Pulse
+> Generator.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  .../devicetree/bindings/gpio/gpio-max732x.txt | 58 ---------------
->  .../bindings/gpio/gpio-pca95xx.yaml           | 72 ++++++++++++++++++-
->  2 files changed, 70 insertions(+), 60 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-max732x.txt
+>  Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Rob Herring <robh@kernel.org>
