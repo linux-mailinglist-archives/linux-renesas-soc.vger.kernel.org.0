@@ -2,83 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FB226B18E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 00:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92A4B26B47A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 01:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727613AbgIOQRR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 12:17:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37152 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727610AbgIOQQO (ORCPT
+        id S1727264AbgIOXY4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 19:24:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726202AbgIOOiA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 12:16:14 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BCE3276;
-        Tue, 15 Sep 2020 18:12:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600186327;
-        bh=yWcHzfZaIL+JJoYu6WgRXH1lmt2hAIodJaLy5+l5lQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WixtAFmwupVy7MRyDTZqdZRI02yRepxuWJ4yPMNnxeJtBh+AktZupVFYDc6j/uPZv
-         l1VpY8FBzuH0HnIh/pcPbkaK060agSmlL6VBG9R3sca6dF87vJkU+nP2QN7Zg3Jrhk
-         Z6YpX097SeLzHq2RkY1wMphh7PvJZUGsMYtNd14U=
-Date:   Tue, 15 Sep 2020 19:11:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/3] MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
-Message-ID: <20200915161138.GB26029@pendragon.ideasonboard.com>
-References: <20200915131216.21137-1-fabrizio.castro.jz@renesas.com>
- <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200915131216.21137-2-fabrizio.castro.jz@renesas.com>
+        Tue, 15 Sep 2020 10:38:00 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85459C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 07:37:56 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by albert.telenet-ops.be with bizsmtp
+        id UEdt2300X4C55Sk06Eduin; Tue, 15 Sep 2020 16:37:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kIC5h-0002o6-St
+        for linux-renesas-soc@vger.kernel.org; Tue, 15 Sep 2020 16:37:53 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kIC5h-0003bU-RQ
+        for linux-renesas-soc@vger.kernel.org; Tue, 15 Sep 2020 16:37:53 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-09-15-v5.9-rc5
+Date:   Tue, 15 Sep 2020 16:37:53 +0200
+Message-Id: <20200915143753.13787-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+I have pushed renesas-drivers-2020-09-15-v5.9-rc5 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Thank you for the patch.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-On Tue, Sep 15, 2020 at 02:12:14PM +0100, Fabrizio Castro wrote:
-> Renesas are expanding their DRIF support and offering,
-> I'll be the internal maintainer for DRIF.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Today's version is based on renesas-devel-2020-09-15-v5.9-rc5.
 
-Thank you for volunteering :-)
+Included branches with driver code:
+  - clk-renesas
+  - renesas-pinctrl
+  - topic/ravb-internal-clock-delays-v3
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Included fixes:
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 26af84f97353..9f49e5ac90d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10898,6 +10898,7 @@ F:	include/media/drv-intf/renesas-ceu.h
->  
->  MEDIA DRIVERS FOR RENESAS - DRIF
->  M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
-> +M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
->  L:	linux-media@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Supported
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
 
--- 
-Regards,
+Gr{oetje,eeting}s,
 
-Laurent Pinchart
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
