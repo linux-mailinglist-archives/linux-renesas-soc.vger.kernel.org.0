@@ -2,101 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1368226A05B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 10:04:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561DE26A082
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Sep 2020 10:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726132AbgIOIEU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 04:04:20 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36944 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726131AbgIOIEJ (ORCPT
+        id S1726119AbgIOIRo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 04:17:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726344AbgIOIRb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 04:04:09 -0400
-Received: by mail-ot1-f67.google.com with SMTP id o8so2411176otl.4;
-        Tue, 15 Sep 2020 01:04:08 -0700 (PDT)
+        Tue, 15 Sep 2020 04:17:31 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E19DDC061788
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 01:17:30 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id u4so1970935ljd.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 01:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wSLvEbWUg4Ug2BVyyqv5vvUZvbtKlJG0+Q7PCjm2FzA=;
+        b=NAS48IZIfyP4kD83np5T/GF/syBkoOrgtoI9aWrrHlYzEIRZz1wxPQrShGDrmFfTKu
+         lxQ+JGSIaBnuwIWOpUi07GIpt5r5obMALg0LBxuMYLcDSy4F5BihI9Z7VQ2oOmLnNtff
+         Zk+1a0ozqUNAqpecWyyHI7Adj0cRUH4sjNDwfkDLXuOiwiHkI+RnhQJf5crA12DcNSXs
+         +BuzPHhVzPk37j3qrY7H8M23exIgV4BJ09DqViKKv1Rk3xgK3UWYjxaacGFl+QQj3XJu
+         ioOSXk3ZJxbBnEzkduymqMI5UxrCg1EVraJwseH25h5iG8Z+hAHlsXVPe5NwLOFd/UeK
+         z1Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7Xp1L0SFcEIIAt9V0AQtwR6FE6wWS8lQCf9JPr31tGg=;
-        b=hp4e7ivQsWTTrGkvUSLOl00UjJEAA6LaNqCVIiYtuoF8MhNkdmMFr7HnFwQgqdP/BR
-         QcMo7O4l7XU+XIRDDB3VdehTJ8edBIQ6LJIoYZG7AzwdJ4ydK8IgNlWL9A46T+67XPFW
-         HGflv/NHRaS2aWqyqgWyL1x0vQJKYWaYUsuR6DW+wkQyyx9nrfuEVhBLsrbkzUigYsOI
-         xWidNDPjL7riMmTdpHjkXH7OAzLvWrlalKWsqupOQQESerY5aDNQl9XmLOnBczveuQbj
-         Jyt8b3UrzrGHb79XuKfEZ1q6iNDnAi7P65PAYLkahxlGljfwj/8hbMhsB7PrPQURC1dr
-         CENQ==
-X-Gm-Message-State: AOAM5309PBH3XRCUd8ypwYqwF3MF7c/ZSPq8QTmBzD4LkupCscwWxqhm
-        u3/2IafHscx5QZwQfNA/LAiM71YXE7bSco/YKXTbatHcEIU=
-X-Google-Smtp-Source: ABdhPJzZUD+IQtfhUdn/7HGR5HG0yD995AlvDX5V0bhWwcklTAD0MC/uLcr+2e9wL4OehJ1zi4mitIh4Jyc70cxgDdo=
-X-Received: by 2002:a9d:3b76:: with SMTP id z109mr12324636otb.250.1600157047713;
- Tue, 15 Sep 2020 01:04:07 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=wSLvEbWUg4Ug2BVyyqv5vvUZvbtKlJG0+Q7PCjm2FzA=;
+        b=U7ylUtjH6h/uU1P+HCyyPqPckuEX1TIVGnOirrx8WL6DKVqFJwmW80p7XBoOXrbSm0
+         d25NSjYUhKleUGNaHjfVpm5N4oaQZx23U5NtAL8CJKd5G6KAw4ULSCxmZtkOfCWf8XAE
+         uXZwa/uKkydAnPKe+AGQsUzMNjXOhImxiPaQtSUjg6KkV4yiJV9clcUcKfSZQ24QJz3S
+         CUOK4nU5KYuWvU/TL25m/BaD0EF+6DmCOF6y0v8UnciddG0McExNO3HBJM14izvnfGFt
+         QsvWscDXJ3j07Wxv0sC8p+H5ChyXecB9iiBvoJxxyKH2qdYPJNCyw7JvLAaXQHd7YMrJ
+         gcig==
+X-Gm-Message-State: AOAM530nEzvx4881DjSN17e6HttMy7T59qN8U44le/gOBGmA2KNCHU5E
+        LaI/E4Zl+4vZVi1Aj7FL0e06JQH0shE7AQ==
+X-Google-Smtp-Source: ABdhPJyOm8IDrNyHKmaTsBi/3RUGfUmFHAspuB/WiyixYhSvZaTh2AsqfCaUvlBsUgqtqc+8w4cfrQ==
+X-Received: by 2002:a2e:9089:: with SMTP id l9mr5959014ljg.118.1600157838914;
+        Tue, 15 Sep 2020 01:17:18 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4246:524b:f990:5ce8:4590:941a? ([2a00:1fa0:4246:524b:f990:5ce8:4590:941a])
+        by smtp.gmail.com with ESMTPSA id 68sm4562942ljf.14.2020.09.15.01.17.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2020 01:17:18 -0700 (PDT)
+Subject: Re: [PATCH 3/4] pinctrl: sh-pfc: r8a77990: Add VIN stf8 pins
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200914233744.468175-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200914233744.468175-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <644860de-61bd-fe5f-ab7f-e8f93e75133c@gmail.com>
+Date:   Tue, 15 Sep 2020 11:17:13 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200909131534.12897-1-geert+renesas@glider.be> <20200909131534.12897-3-geert+renesas@glider.be>
-In-Reply-To: <20200909131534.12897-3-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Sep 2020 10:03:56 +0200
-Message-ID: <CAMuHMdV1EUuc=bE3bJaXXqNOq-YBmAVKGTuqxKP5gQYav9NaeQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] pinctrl: Rename sh-pfc to renesas
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200914233744.468175-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 9, 2020 at 6:26 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> The drivers/pinctrl/sh-pfc subdirectory was originally created to group
-> pin control drivers for various Renesas SuperH and SH-Mobile platforms.
-> However, the name "sh-pfc" no longer reflects its contents, as the
-> directory now contains pin control drivers for Renesas SuperH, ARM32,
-> and ARM64 SoCs.
->
-> Hence rename the subdirectory from drivers/pinctrl/sh-pfc to
-> drivers/pinctrl/renesas, and the related Kconfig symbol from
-> PINCTRL_SH_PFC to PINCTRL_RENESAS.
->
-> Rename the git branch in MAINTAINERS, too, for consistency.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hello!
 
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13688,9 +13688,10 @@ PIN CONTROLLER - RENESAS
->  M:     Geert Uytterhoeven <geert+renesas@glider.be>
->  L:     linux-renesas-soc@vger.kernel.org
->  S:     Supported
-> -T:     git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git sh-pfc
-> +T:     git
+On 15.09.2020 2:37, Niklas Söderlund wrote:
 
-Obviously this line must not be split here.
+> This patch adds VIN{4,5} sft8 pins to the R8A77990 SoC.
 
-> +git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git pinctrl-renesas
+   So, is it sft8 or stf8? :-)
 
-While applying, I'm renaming this to "renesas-pinctrl", for consistency
-with my branches for arm-soc, and with what other people are doing.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>   drivers/pinctrl/sh-pfc/pfc-r8a77990.c | 32 +++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+> index c926a59dd21ceadc..1304559f04e5de4e 100644
+> --- a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+> +++ b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+[...]
 
->  F:     Documentation/devicetree/bindings/pinctrl/renesas,*
-> -F:     drivers/pinctrl/sh-pfc/
-> +F:     drivers/pinctrl/renesas/
->
->  PIN CONTROLLER - SAMSUNG
->  M:     Tomasz Figa <tomasz.figa@gmail.com>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
