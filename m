@@ -2,102 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6A426BC63
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 08:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F95F26BD95
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 09:00:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbgIPGPU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 02:15:20 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39462 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726172AbgIPGPS (ORCPT
+        id S1726128AbgIPHAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 03:00:48 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:43083 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726205AbgIPHAq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 02:15:18 -0400
-Received: by mail-wm1-f67.google.com with SMTP id b79so1627678wmb.4;
-        Tue, 15 Sep 2020 23:15:16 -0700 (PDT)
+        Wed, 16 Sep 2020 03:00:46 -0400
+Received: by mail-ot1-f67.google.com with SMTP id n61so5684129ota.10;
+        Wed, 16 Sep 2020 00:00:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1Uh7Ou5BUk6cJr1eeO8uTrFUHXPcK3jWLNCgC2OA24Q=;
-        b=iimM/rgA0sVbd2BUccvtCaS7S8lZwIZ7g2PlklMvADdLFem6OiWM1Cp8u574+7BbwY
-         SuZEVwd7epJNsDiJRE4+Jq1VKQJc9yrwdy0nCpNDLE3qBumZMKQGHyCLvEQq/GmJGGsn
-         lozDRkW7Lotntmdd7cNzedQTsHViXLvwODXKDobv18aWWxeqPYoh48hYp2hLFT8LGU4N
-         pnFMZ1tCbbmtAcrR45kBgT8VnPgzcULDPzWkXGrLHXGhH72tVQYcEuKf3ckL/FGM+RGC
-         4WLF+bKvDqb5ah5X8IjI6+nzJYaqjewQidr10BCM5H+fzQURWokGmPOeAUwiovp3wews
-         AY6w==
-X-Gm-Message-State: AOAM5315rbuqAsuieb5cut2/3K3WbfXNMeFrmbFiJ+iRqZT6D6JTixeY
-        SAiTwWdm09T9zz0g9+peMUE=
-X-Google-Smtp-Source: ABdhPJw7nNn+CFhmnzt169e4rqB2CZP7AUPFZ9UBjFZbfGui7iEULE8AHLZ3m9ra4r8Pv7DiLjNGnw==
-X-Received: by 2002:a7b:c92c:: with SMTP id h12mr2849155wml.121.1600236916238;
-        Tue, 15 Sep 2020 23:15:16 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.124])
-        by smtp.googlemail.com with ESMTPSA id u126sm4022642wmu.9.2020.09.15.23.15.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 15 Sep 2020 23:15:15 -0700 (PDT)
-Date:   Wed, 16 Sep 2020 08:15:11 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
- MAX732x family to dtschema
-Message-ID: <20200916061511.GA5719@kozik-lap>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-3-krzk@kernel.org>
- <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X4Ki+O9YCLNi2tIpHzoDERiOnawEW0CfTBjDYxntgNU=;
+        b=frwLOOIkuRTUfdwfkk0LQ6SHkSdyWzh2TiEX9QDKQmHS+Dj36Uv8XbGESMuoJDEiWB
+         4Ho6vO9MO0f7gcV5W4Nqz2sZ0e9TA8utubrbvdAo11p4/keWslG5j3i9/Nj0n54COCwi
+         yJWV7PKJL26D6zjR5IEFsgOO0zPuq1FLrf3OAWKVHZ/3yZtRm0fv6HrP9BxEFRxJNq7B
+         y6XJl5ycittay4Va2JqBsLMZnqlghqOnQJ/s5BOyzobQ/zfSY1eTZKRfNCVzXYDWDLi6
+         9LcgsLDzopxujDidIR5awZQ92MxGNpo3ku135P2iPazpdMe1JmFOwuKzZDDI8JzUoe+f
+         XjSQ==
+X-Gm-Message-State: AOAM531tdmn9Va5JuU2nXRuEpcHcM3FWTRtfqFz2h7wbov0bKY4RFMQu
+        /4+4WaqZ0g/DUDJ+g4a65l2KNL9Cpzk2q0AXEEk=
+X-Google-Smtp-Source: ABdhPJwCRXtltOGXBmibKXKrahv7XDx6jUbbWt+hShyBO7hzavLhmGgu8taRMUiimD8MWkTAQAB5E7J1s1nPgUt4GtE=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr15856887otb.250.1600239607350;
+ Wed, 16 Sep 2020 00:00:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200915140110.11268-1-yuehaibing@huawei.com> <CAMuHMdXnuHnML3Gop4o3k_K9nYBRsc7w1cUgGcMrAso5oOKc5Q@mail.gmail.com>
+ <9b20d554-eb3d-918e-54ec-b1f374b24a20@huawei.com>
+In-Reply-To: <9b20d554-eb3d-918e-54ec-b1f374b24a20@huawei.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 16 Sep 2020 08:59:56 +0200
+Message-ID: <CAMuHMdV_WzfO+RLoDd0xP1WL8vatQ=s09K7EBrRa5xjHuakwHg@mail.gmail.com>
+Subject: Re: [PATCH -next] soc: renesas: r8a779a0-sysc: Make
+ r8a779a0_sysc_info static
+To:     Yuehaibing <yuehaibing@huawei.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Sep 12, 2020 at 11:58:22AM +0200, Linus Walleij wrote:
-> On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
-> > Convert the Maxim MAX732x family of GPIO expanders bindings to device
-> > tree schema by merging it with existing PCA95xx schema.  These are quite
-> > similar so merging reduces duplication.
+Hi Yue,
+
+On Wed, Sep 16, 2020 at 3:26 AM Yuehaibing <yuehaibing@huawei.com> wrote:
+> On 2020/9/15 23:22, Geert Uytterhoeven wrote:
+> > On Tue, Sep 15, 2020 at 4:58 PM YueHaibing <yuehaibing@huawei.com> wrote:
+> >> Fix sparse warning:
+> >>
+> >> drivers/soc/renesas/r8a779a0-sysc.c:99:33: warning: symbol 'r8a779a0_sysc_info' was not declared. Should it be static?
+> >>
+> >> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
-> Can I just apply this one patch to the GPIO tree?
+> > Thanks for your patch!
+> >
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > As commit 7f29315cf4211316 ("soc: renesas: r8a779a0-sysc: Add r8a779a0
+> > support") hasn't been merged into arm-soc yet, is it OK for you if I
+> > just fold your fix into the original commit?
+>
+> Sure, it's ok for me.
 
-No, this requires the previous one (1/15) because it merges the max732x
-into pca95xx.
+Thank you, I've updated the commit in my
+rrenesas-devel/renesas-drivers-for-v5.10
+branch.  The renesas-devel/next branch will be updated later.
 
-Although now Rob reviewed both so you can pick them up.
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
