@@ -2,39 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CDBC26C957
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 21:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0976026C951
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 21:07:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727512AbgIPTHW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 15:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727378AbgIPRpB (ORCPT
+        id S1727384AbgIPRpH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 13:45:07 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:52634 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727010AbgIPRog (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:45:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 120BEC00217B
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 07:44:07 -0700 (PDT)
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D080B276;
-        Wed, 16 Sep 2020 16:43:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600267432;
-        bh=tQYjFCCN8ddzM6Kx7mSraUhUsSEme+lC3H0Pj6RtIi4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fb1AO2a+G+GhHaKP2/JuS8UysSKCFqT4hrKyazGS/EX1yqzHF3jkrf6Wpj0fPhmQu
-         y0iaEL8KA3PzuVKnfd25lutgMt2zLaEi22lhkGP5WQa5abXbvWDFbBzZAVBNOGl4/q
-         R02rwfUtAbf5h5N2P1oB7AKeMxIR2f9FNP4WgGRc=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [VSP-Tests PATCH 1/3] gen-lut: Update for python3
-Date:   Wed, 16 Sep 2020 15:43:00 +0100
-Message-Id: <20200916144302.1483470-2-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200916144302.1483470-1-kieran.bingham@ideasonboard.com>
-References: <20200916144302.1483470-1-kieran.bingham@ideasonboard.com>
+        Wed, 16 Sep 2020 13:44:36 -0400
+Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 298A13AB401;
+        Wed, 16 Sep 2020 15:45:18 +0000 (UTC)
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 8435A24000F;
+        Wed, 16 Sep 2020 15:39:54 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, mchehab@kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH 0/2] media: i2c: Add support for RDACM21 camera module
+Date:   Wed, 16 Sep 2020 17:43:36 +0200
+Message-Id: <20200916154338.159747-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -42,62 +40,82 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Python2 has now gone end-of-life and is discontinued.
+Hello,
+   this series introduces support for the RDACM21 camera module, an automotive
+camera module based on GMSL technology.
 
-Update the gen-lut utility to use python3 directly, converting xrange
-usages to range, and using bytearray to store the tables and write them
-directly removing the discontinued file object.
+The camera module integrates a MAX9271 serializer, and OV10640 image sensor
+coupled with an OV490 ISP. The image sensor and the ISP are programmed loading
+the content of an EEPROM chip integrated in the camera module package and
+are configured to produce images in 1280x1080 YUYV8 format.
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- data/frames/gen-lut.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+The camera module driver uses the max9271 library to control the serializer,
+as the RDACM20 does, to maximize code reuse.
 
-diff --git a/data/frames/gen-lut.py b/data/frames/gen-lut.py
-index 07889b11f4ac..335b9f1613bc 100755
---- a/data/frames/gen-lut.py
-+++ b/data/frames/gen-lut.py
-@@ -1,4 +1,4 @@
--#!/usr/bin/python
-+#!/usr/bin/python3
- # SPDX-License-Identifier: GPL-2.0-or-later
- # SPDX-FileCopyrightText: 2016 Renesas Electronics Corporation
- 
-@@ -49,26 +49,26 @@ def clu_value(x, y, z, scale, a, freq, weights):
- 	return (z, y, x, 0)
- 
- def generate_clu(config):
--	clu = []
-+	clu = bytearray()
- 
--	for z in xrange(17):
--		for y in xrange(17):
--			for x in xrange(17):
-+	for z in range(17):
-+		for y in range(17):
-+			for x in range(17):
- 				clu.extend(clu_value(x, y, z, **config[1]))
- 
--	file('clu-%s.bin' % config[0], 'wb').write(''.join([chr(c) for c in clu]))
-+	open('clu-%s.bin' % config[0], 'wb').write(clu)
- 
- 
- def gamma(vin, gamma, scale):
- 	return int(255 * scale * math.pow(vin / 255., gamma))
- 
- def generate_lut(config):
--	lut = []
--	for i in xrange(256):
-+	lut = bytearray()
-+	for i in range(256):
- 		lut.extend([gamma(i, g, config[1]) for g in config[2:]])
- 		lut.append(0)
- 
--	file('lut-%s.bin' % config[0], 'wb').write(''.join([chr(c) for c in lut]))
-+	open('lut-%s.bin' % config[0], 'wb').write(lut)
- 
- 
- def main(argv):
--- 
-2.25.1
+And that's for patch 2/2: it's all unicorns and rainbows!
+
+Patch 1/2 is the less nice one, and is sent as RFC to trigger discussions.
+
+The camera module is connected to a MAXIM development board which integrates a
+MAX9286 deserializer. The same expansion board is used with the RDACM20 camera
+module and the max9286 driver is meant to work with both cameras without
+modifications.
+
+Unfortunately, each camera module has its own characteristics, in details:
+
+- the RDACM20 module integrates a micro-controller unit that pre-programs the
+  embedded max9271 serializer at power-up time. The serializer then operates
+  with the GMSL reverse channel towards the de-serializer with electrical
+  noise immunity feature enabled ("high-threshold" as per chip manual), and
+  requires the de-serializer to communicate with the camera module with the
+  reverse channel amplitude compensated to 170mV.
+
+- the RDACM21 module is not pre-programmed by any micro-controller, and requires
+  the de-serializer to initially maintain the reverse channel amplitude to
+  100mV, then after the remote ends have been probed and have enabled the noise
+  immunity feature on their reverse channels to increase the amplitude to 170mV
+  to guarantee stability of the communications.
+
+For that reason, a mechanism to control the reverse channel amplitude of the
+GMSL channel is required. The channel amplitude is controlled by the
+de-serializer, but depends on the properties of the remote serializer.
+
+We have explored a few solutions in the past:
+1) A dt property that specifies the initial reverse channel amplitude (or simply
+   a boolean property that specifies if any channel pre-compensation is
+   required). Issue is that the property should be set in the de-serializer
+   but depends on the remote side configuration and on which camera module
+   is currently connected.
+
+2) Use get_mbus_config to retrieve the GMSL channel configuration. Hyun has
+   added to get_mbus_config support for GMSL parameters to control the signal
+   polarities[1]. This seems nice, but the channel amplitude has to be set
+   -before- the remote end is probed and no subdev operation can be called
+   until the remote sub-device have registered.
+
+In this initial version, [1/2] simply adjust the reverse channel after all
+remotes have probed, allowing support for RDACM21 but breaking compatibility
+with RDACM20.
+
+Any comment on how this should better be handled ?
+
+Thanks
+  j
+
+[1] https://github.com/xlnx-hyunkwon/linux-xlnx/commits/hyunk/vision-wip-5.4-next
+
+Jacopo Mondi (2):
+  RFC: media: i2c: max9286: Compensate reverse channel
+  media: i2c: Add driver for RDACM21 camera module
+
+ MAINTAINERS                 |  12 +
+ drivers/media/i2c/Kconfig   |  13 +
+ drivers/media/i2c/Makefile  |   2 +
+ drivers/media/i2c/max9286.c |   8 +-
+ drivers/media/i2c/rdacm21.c | 541 ++++++++++++++++++++++++++++++++++++
+ 5 files changed, 574 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/i2c/rdacm21.c
+
+--
+2.28.0
 
