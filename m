@@ -2,86 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F95F26BD95
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 09:00:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF4DE26BE62
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 09:43:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbgIPHAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 03:00:48 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43083 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbgIPHAq (ORCPT
+        id S1726384AbgIPHnw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 03:43:52 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:49513 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726285AbgIPHnv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 03:00:46 -0400
-Received: by mail-ot1-f67.google.com with SMTP id n61so5684129ota.10;
-        Wed, 16 Sep 2020 00:00:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X4Ki+O9YCLNi2tIpHzoDERiOnawEW0CfTBjDYxntgNU=;
-        b=frwLOOIkuRTUfdwfkk0LQ6SHkSdyWzh2TiEX9QDKQmHS+Dj36Uv8XbGESMuoJDEiWB
-         4Ho6vO9MO0f7gcV5W4Nqz2sZ0e9TA8utubrbvdAo11p4/keWslG5j3i9/Nj0n54COCwi
-         yJWV7PKJL26D6zjR5IEFsgOO0zPuq1FLrf3OAWKVHZ/3yZtRm0fv6HrP9BxEFRxJNq7B
-         y6XJl5ycittay4Va2JqBsLMZnqlghqOnQJ/s5BOyzobQ/zfSY1eTZKRfNCVzXYDWDLi6
-         9LcgsLDzopxujDidIR5awZQ92MxGNpo3ku135P2iPazpdMe1JmFOwuKzZDDI8JzUoe+f
-         XjSQ==
-X-Gm-Message-State: AOAM531tdmn9Va5JuU2nXRuEpcHcM3FWTRtfqFz2h7wbov0bKY4RFMQu
-        /4+4WaqZ0g/DUDJ+g4a65l2KNL9Cpzk2q0AXEEk=
-X-Google-Smtp-Source: ABdhPJwCRXtltOGXBmibKXKrahv7XDx6jUbbWt+hShyBO7hzavLhmGgu8taRMUiimD8MWkTAQAB5E7J1s1nPgUt4GtE=
-X-Received: by 2002:a9d:3b76:: with SMTP id z109mr15856887otb.250.1600239607350;
- Wed, 16 Sep 2020 00:00:07 -0700 (PDT)
+        Wed, 16 Sep 2020 03:43:51 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 046716000A;
+        Wed, 16 Sep 2020 07:43:46 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 09:47:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v5 1/3] media: i2c: ov772x: Parse endpoint properties
+Message-ID: <20200916074737.phc6atpsahxowfjt@uno.localdomain>
+References: <20200915174235.1229-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200915174235.1229-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-References: <20200915140110.11268-1-yuehaibing@huawei.com> <CAMuHMdXnuHnML3Gop4o3k_K9nYBRsc7w1cUgGcMrAso5oOKc5Q@mail.gmail.com>
- <9b20d554-eb3d-918e-54ec-b1f374b24a20@huawei.com>
-In-Reply-To: <9b20d554-eb3d-918e-54ec-b1f374b24a20@huawei.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Sep 2020 08:59:56 +0200
-Message-ID: <CAMuHMdV_WzfO+RLoDd0xP1WL8vatQ=s09K7EBrRa5xjHuakwHg@mail.gmail.com>
-Subject: Re: [PATCH -next] soc: renesas: r8a779a0-sysc: Make
- r8a779a0_sysc_info static
-To:     Yuehaibing <yuehaibing@huawei.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200915174235.1229-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yue,
+Hi Prabhakar,
 
-On Wed, Sep 16, 2020 at 3:26 AM Yuehaibing <yuehaibing@huawei.com> wrote:
-> On 2020/9/15 23:22, Geert Uytterhoeven wrote:
-> > On Tue, Sep 15, 2020 at 4:58 PM YueHaibing <yuehaibing@huawei.com> wrote:
-> >> Fix sparse warning:
-> >>
-> >> drivers/soc/renesas/r8a779a0-sysc.c:99:33: warning: symbol 'r8a779a0_sysc_info' was not declared. Should it be static?
-> >>
-> >> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> >
-> > Thanks for your patch!
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > As commit 7f29315cf4211316 ("soc: renesas: r8a779a0-sysc: Add r8a779a0
-> > support") hasn't been merged into arm-soc yet, is it OK for you if I
-> > just fold your fix into the original commit?
+On Tue, Sep 15, 2020 at 06:42:33PM +0100, Lad Prabhakar wrote:
+> Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+> to determine bus-type and store it locally in priv data.
 >
-> Sure, it's ok for me.
+> v4l2_fwnode_endpoint_alloc_parse() with bus_type set to
+> V4L2_MBUS_PARALLEL falls back to V4L2_MBUS_PARALLEL thus handling
+> backward compatibility with existing DT where bus-type isn't specified.
 
-Thank you, I've updated the commit in my
-rrenesas-devel/renesas-drivers-for-v5.10
-branch.  The renesas-devel/next branch will be updated later.
 
-Gr{oetje,eeting}s,
+I don't think this is necessary here. This patch does not need to
+handle any retrocompatibility, as only PARALLEL is supported.
 
-                        Geert
+The 'right' way to put it to me would be
+"Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+to determine the bus type and store it in the driver structure.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+See comment in the next patch for retrocompatibility
+
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  drivers/media/i2c/ov772x.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 2cc6a678069a..4ab4b3c883d0 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -31,6 +31,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-image-sizes.h>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -434,6 +435,7 @@ struct ov772x_priv {
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	struct media_pad pad;
+>  #endif
+> +	enum v4l2_mbus_type		  bus_type;
+>  };
+>
+>  /*
+> @@ -1354,6 +1356,8 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+>
+>  static int ov772x_probe(struct i2c_client *client)
+>  {
+> +	struct v4l2_fwnode_endpoint bus_cfg;
+> +	struct fwnode_handle	*ep;
+>  	struct ov772x_priv	*priv;
+>  	int			ret;
+>  	static const struct regmap_config ov772x_regmap_config = {
+> @@ -1415,6 +1419,27 @@ static int ov772x_probe(struct i2c_client *client)
+>  		goto error_clk_put;
+>  	}
+>
+> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> +					    NULL);
+> +	if (!ep) {
+> +		dev_err(&client->dev, "endpoint node not found\n");
+> +		ret = -EINVAL;
+> +		goto error_clk_put;
+> +	}
+> +
+> +	/* For backward compatibility with the existing DT where
+> +	 * bus-type isn't specified v4l2_fwnode_endpoint_alloc_parse()
+> +	 * with bus_type set to V4L2_MBUS_PARALLEL falls back to
+> +	 * V4L2_MBUS_PARALLEL
+> +	 */
+
+You can drop this comment block
+
+> +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	priv->bus_type = bus_cfg.bus_type;
+
+Set this after if (ret)
+
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		goto error_clk_put;
+> +
+>  	ret = ov772x_video_probe(priv);
+>  	if (ret < 0)
+>  		goto error_gpio_put;
+> --
+> 2.17.1
+>
