@@ -2,41 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBDBB26C8F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 21:01:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE72F26CB22
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 22:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727662AbgIPTAw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 15:00:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54678 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727915AbgIPTAs (ORCPT
+        id S1727106AbgIPUWI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 16:22:08 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:38446 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727133AbgIPR3d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 15:00:48 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600282848;
-        bh=0DmDgspG2F1DbUW2FbA3VeWRZjSjDzj/7XZufLTuVVg=;
-        h=Subject:From:Date:To:From;
-        b=aOYuYTzfChbmeC5AzAYtDRY+7dW5fC2wOEZc2b4J5PwhKh4nc32wBFoLeElpJMNNO
-         DoYexnTVGHHvOZcCq693LLeBWDK9EqEBUz0BYpxZ+UWRsuZN/BMsLs2aE9bWM3D+yw
-         pi0N3wQeyomfq06OipLC7S4pzQ+L0OzRnhJLiVzA=
+        Wed, 16 Sep 2020 13:29:33 -0400
+X-IronPort-AV: E=Sophos;i="5.76,432,1592838000"; 
+   d="scan'208";a="57427880"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2020 19:59:55 +0900
+Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.120])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 746884277746;
+        Wed, 16 Sep 2020 19:59:52 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 0/3] Document r8a77990 DRIF support
+Date:   Wed, 16 Sep 2020 11:59:46 +0100
+Message-Id: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <160028284838.7285.15145009135057680760.git-patchwork-housekeeping@kernel.org>
-Date:   Wed, 16 Sep 2020 19:00:48 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] tests: Provide {un,}bind testing (2020-09-16T14:18:15)
-  Superseding: [v1] tests: Provide {un,}bind testing (2020-05-25T13:21:48):
-    [VSP-Tests] tests: Provide {un,}bind testing
+Dear All,
 
+this series documents DRIF support for the r8a77990
+(a.k.a. R-Car E3).
+
+Thanks,
+Fab
+
+Fabrizio Castro (3):
+  MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
+  media: dt-bindings: media: renesas,drif: Convert to json-schema
+  media: dt-bindings: media: renesas,drif: Add r8a77990 support
+
+ .../bindings/media/renesas,drif.txt           | 177 ------------
+ .../bindings/media/renesas,drif.yaml          | 271 ++++++++++++++++++
+ MAINTAINERS                                   |   3 +-
+ 3 files changed, 273 insertions(+), 178 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/renesas,drif.txt
+ create mode 100644 Documentation/devicetree/bindings/media/renesas,drif.yaml
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.25.1
+
