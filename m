@@ -2,207 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5399226C4ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 18:13:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BE526C5E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 19:24:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbgIPQMr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 12:12:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34570 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726496AbgIPQLv (ORCPT
+        id S1726987AbgIPRYv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 13:24:51 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:42073 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726377AbgIPRYo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 12:11:51 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 488FE224D1;
-        Wed, 16 Sep 2020 15:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600271972;
-        bh=sVRW+Q4w/VIyVW+IR4tgq66N90jKOapREO5ueA+lxUY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jlud3ZfnHWw7zTZF2T9cB6BlWS09yQycNhBZqAyoDK+lyMZ+TxuwDSYneGZtg8u6D
-         Ng/l+RwM7zHlz3rDcjw2ByKDzWA1kUVYekTUzwHMFQKZc20hWBRokgls6nVd1+TzNO
-         L0+qiQjbFVgHa5z9jQyCaXAuUWBKgNknv11M93vY=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wed, 16 Sep 2020 13:24:44 -0400
+X-IronPort-AV: E=Sophos;i="5.76,432,1592838000"; 
+   d="scan'208";a="57210328"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 16 Sep 2020 20:00:04 +0900
+Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.120])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A32294278DAC;
+        Wed, 16 Sep 2020 20:00:01 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3 15/15] ARM: dts: imx6q: align GPIO hog names with dtschema
-Date:   Wed, 16 Sep 2020 17:57:15 +0200
-Message-Id: <20200916155715.21009-16-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
-References: <20200916155715.21009-1-krzk@kernel.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 3/3] media: dt-bindings: media: renesas,drif: Add r8a77990 support
+Date:   Wed, 16 Sep 2020 11:59:49 +0100
+Message-Id: <20200916105949.24858-4-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.  While
-touching the hogs, fix indentation (spaces -> tabs).
+The r8a77990 (a.k.a. R-Car E3) device tree schema is
+compatible with R-Car H3 and M3-W schema.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Document r8a77990 support within renesas,drif.yaml.
+
+Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- arch/arm/boot/dts/imx6q-b450v3.dts  | 14 +++++++-------
- arch/arm/boot/dts/imx6q-b650v3.dts  | 12 ++++++------
- arch/arm/boot/dts/imx6q-b850v3.dts  |  4 ++--
- arch/arm/boot/dts/imx6q-bx50v3.dtsi | 12 ++++++------
- 4 files changed, 21 insertions(+), 21 deletions(-)
+v1->v2:
+* No change
 
-diff --git a/arch/arm/boot/dts/imx6q-b450v3.dts b/arch/arm/boot/dts/imx6q-b450v3.dts
-index fb0980190aa0..604f2420370f 100644
---- a/arch/arm/boot/dts/imx6q-b450v3.dts
-+++ b/arch/arm/boot/dts/imx6q-b450v3.dts
-@@ -84,19 +84,19 @@
- };
+ Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+index 4763a6009e8b..2e12b353b395 100644
+--- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+@@ -53,6 +53,7 @@ properties:
+       - enum:
+         - renesas,r8a7795-drif        # R-Car H3
+         - renesas,r8a7796-drif        # R-Car M3-W
++        - renesas,r8a77990-drif       # R-Car E3
+       - const: renesas,rcar-gen3-drif # Generic R-Car Gen3 compatible device
  
- &pca9539 {
--	P04 {
-+	P04-hog {
- 		gpio-hog;
- 		gpios = <4 0>;
- 		output-low;
- 		line-name = "PCA9539-P04";
- 	};
- 
--        P07 {
--                gpio-hog;
--                gpios = <7 0>;
--                output-low;
--                line-name = "PCA9539-P07";
--        };
-+	P07-hog {
-+		gpio-hog;
-+		gpios = <7 0>;
-+		output-low;
-+		line-name = "PCA9539-P07";
-+	};
- };
- 
- &pci_root {
-diff --git a/arch/arm/boot/dts/imx6q-b650v3.dts b/arch/arm/boot/dts/imx6q-b650v3.dts
-index 8f762d9c5ae9..56d2aeb1900c 100644
---- a/arch/arm/boot/dts/imx6q-b650v3.dts
-+++ b/arch/arm/boot/dts/imx6q-b650v3.dts
-@@ -84,12 +84,12 @@
- };
- 
- &pca9539 {
--        P07 {
--                gpio-hog;
--                gpios = <7 0>;
--                output-low;
--                line-name = "PCA9539-P07";
--        };
-+	P07-hog {
-+		gpio-hog;
-+		gpios = <7 0>;
-+		output-low;
-+		line-name = "PCA9539-P07";
-+	};
- };
- 
- &usbphy1 {
-diff --git a/arch/arm/boot/dts/imx6q-b850v3.dts b/arch/arm/boot/dts/imx6q-b850v3.dts
-index 1ea64ecf4291..3d6b757bf325 100644
---- a/arch/arm/boot/dts/imx6q-b850v3.dts
-+++ b/arch/arm/boot/dts/imx6q-b850v3.dts
-@@ -199,14 +199,14 @@
- };
- 
- &pca9539 {
--	P10 {
-+	P10-hog {
- 		gpio-hog;
- 		gpios = <8 0>;
- 		output-low;
- 		line-name = "PCA9539-P10";
- 	};
- 
--	P11 {
-+	P11-hog {
- 		gpio-hog;
- 		gpios = <9 0>;
- 		output-low;
-diff --git a/arch/arm/boot/dts/imx6q-bx50v3.dtsi b/arch/arm/boot/dts/imx6q-bx50v3.dtsi
-index 02812e6cb302..2a98cc657595 100644
---- a/arch/arm/boot/dts/imx6q-bx50v3.dtsi
-+++ b/arch/arm/boot/dts/imx6q-bx50v3.dtsi
-@@ -248,42 +248,42 @@
- 				interrupt-parent = <&gpio2>;
- 				interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
- 
--				P12 {
-+				P12-hog {
- 					gpio-hog;
- 					gpios = <10 0>;
- 					output-low;
- 					line-name = "PCA9539-P12";
- 				};
- 
--				P13 {
-+				P13-hog {
- 					gpio-hog;
- 					gpios = <11 0>;
- 					output-low;
- 					line-name = "PCA9539-P13";
- 				};
- 
--				P14 {
-+				P14-hog {
- 					gpio-hog;
- 					gpios = <12 0>;
- 					output-low;
- 					line-name = "PCA9539-P14";
- 				};
- 
--				P15 {
-+				P15-hog {
- 					gpio-hog;
- 					gpios = <13 0>;
- 					output-low;
- 					line-name = "PCA9539-P15";
- 				};
- 
--				P16 {
-+				P16-hog {
- 					gpio-hog;
- 					gpios = <14 0>;
- 					output-low;
- 					line-name = "PCA9539-P16";
- 				};
- 
--				P17 {
-+				P17-hog {
- 					gpio-hog;
- 					gpios = <15 0>;
- 					output-low;
+   reg:
 -- 
-2.17.1
+2.25.1
 
