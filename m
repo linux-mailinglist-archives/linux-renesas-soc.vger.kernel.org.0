@@ -2,77 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B1E26BFEB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 10:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB9F226C0A2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 11:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726243AbgIPI4H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 04:56:07 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43759 "EHLO
+        id S1726612AbgIPJcZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 05:32:25 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35159 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725840AbgIPI4H (ORCPT
+        with ESMTP id S1726744AbgIPJcJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 04:56:07 -0400
-Received: by mail-ot1-f67.google.com with SMTP id n61so5944921ota.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 01:56:06 -0700 (PDT)
+        Wed, 16 Sep 2020 05:32:09 -0400
+Received: by mail-ot1-f67.google.com with SMTP id o6so6092588ota.2;
+        Wed, 16 Sep 2020 02:32:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5FdrzUDXCRYPUsvoelE/VW7MtqLFiUfqv8aPSNHnFKY=;
-        b=uUx94qac0FQD13qPxrlvKE6fz6lqHVxdChQH9mxp2sEpkBauNfyniYl9GxYg/SsNx3
-         iSqYPJnyiKS084xuOMHcDh7i2nowwqe2zJyArkjS41VWgkS9H3mKTBZOWfZ+MMtAf/h7
-         iDMRoIQM1YjjuVDVhYRDMTAzq0MdF0MqgGptItlO25P/wtDUWYm7Ax82DZ01/de57FBi
-         0g2vk5GkjBCnEphO1tVq9+9Zhm1T2ob81QtcL0F4u2eHr57eBkM+SAbjUgwiqp5M4oXV
-         zrMha+GHpnj2mOh7ZKrwPbuQ51z2p1JT8Jgkzi55UOWQ2Vl8kJMJHvo0ArdrtUBcZSmd
-         NTXg==
-X-Gm-Message-State: AOAM531vCHD9ktkMIXTJS2uZ4bvBahpT+nYNPmky5PttXycW7X9ahmue
-        cd2OmMbiKUbw+1UeSYVElSsi6AaWXYys2czK3NFizVplKEM=
-X-Google-Smtp-Source: ABdhPJxZhJZX2Arrzfrg3SzutQ5oVLCzB6N6lI719RUhxAAUwjG843quZYt6qGqvPzJi9D1cYPv5zi617nj3equYTuc=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr14588810otp.107.1600246566133;
- Wed, 16 Sep 2020 01:56:06 -0700 (PDT)
+        bh=gO1cQYnIv6MCy6jmh/NLJk3GH4hMeS1DLmzxepSLtGM=;
+        b=abSTZ0MaKLaRTMchdXSXttySB2E3IwUOC3VYtoMR9KmVQSsKsWmyt4/ubwotREUhXR
+         kqLKya3QpKGshqQT1pyUox2ARwJH6s97hk04fRb/5oDHMQLnBI9hCKnWFgAzwW2jQ0XZ
+         4rXWg1sYzj/aNKIrfwJ3PSlVUkEaEbLhZeGZ8vBCV69MBvwxVlVupUoIR5pRZsioM48j
+         gxmlk7JVsI7PJRHAyF3fcP73kFWBYDnGLM9DEihyjqyHXbFP0LsqI61cji6VdPKpUgil
+         SR0TydHxoC7vy5CPQ3kt0AvTKEZE3Foyvjbi2npvz1u7fdM/kElb5+bcoKwlZgMtsvLM
+         XQYw==
+X-Gm-Message-State: AOAM531G4Jc4yxcwws0jFMyVYzhAq5pugKmvpMMdlUBHU14Nzxd4+htk
+        hZkw1ycaj52xGQ1lBOwbHP+PVsdxQqv7E3OKIqQ=
+X-Google-Smtp-Source: ABdhPJwhDnkwCr9zt3bOfU6s/ZJWMCNXhnDAAzPnyJvN+ilTJMp4LBOFeBI2qOENQxSb53FbTLQFuE979X4DNea2iBs=
+X-Received: by 2002:a9d:5a92:: with SMTP id w18mr15568721oth.145.1600248728028;
+ Wed, 16 Sep 2020 02:32:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200902153606.13652-1-geert+renesas@glider.be>
- <CACRpkdZ44wuYp1aWZ-mYkJJAZUXfAZ9XVYf0rDKT8GH_JE8ezQ@mail.gmail.com>
- <CAMuHMdXBpLSdRiVkfpO-F7HpJLDqFW1LKfZnCS8nzH_ncq8ZQA@mail.gmail.com> <CACRpkdaUgatCxQvZdPbc+HvxCVF2=O71T5XjrW=0jsTR7j+_ZQ@mail.gmail.com>
-In-Reply-To: <CACRpkdaUgatCxQvZdPbc+HvxCVF2=O71T5XjrW=0jsTR7j+_ZQ@mail.gmail.com>
+References: <20200820094307.3977-1-ashiduka@fujitsu.com>
+In-Reply-To: <20200820094307.3977-1-ashiduka@fujitsu.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Sep 2020 10:55:54 +0200
-Message-ID: <CAMuHMdU75LGWFxNQaRCc3Ltr+s5JiO4Nep3R3_tNae0NseCAcw@mail.gmail.com>
-Subject: Re: [PATCH v9] ARM: boot: Validate start of physical memory against DTB
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
+Date:   Wed, 16 Sep 2020 11:31:56 +0200
+Message-ID: <CAMuHMdXns4N=pUW=iq=CJz8dtNObt1jAOhAaxQ2UA4bTqQ9AwA@mail.gmail.com>
+Subject: Re: [PATCH v3] ravb: Fixed to be able to unload modules
+To:     Yuusuke Ashizuka <ashiduka@fujitsu.com>
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hi Ashizuka-san,
 
-On Wed, Sep 16, 2020 at 10:24 AM Linus Walleij <linus.walleij@linaro.org> wrote:
-> On Tue, Sep 8, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > I agree there are plenty of opportunities to improve of head.S.
-> > Unfortunately there are also plenty of opportunities to break someone's
-> > boot process ;-(
-> >
-> > Nicolas' patch to reshuffle the registers looks like a good first step...
+On Thu, Aug 20, 2020 at 2:55 PM Yuusuke Ashizuka <ashiduka@fujitsu.com> wrote:
+> When this driver is built as a module, I cannot rmmod it after insmoding
+> it.
+> This is because that this driver calls ravb_mdio_init() at the time of
+> probe, and module->refcnt is incremented by alloc_mdio_bitbang() called
+> after that.
+> Therefore, even if ifup is not performed, the driver is in use and rmmod
+> cannot be performed.
 >
-> I must have missed this patch! I'll try to find it.
+> $ lsmod
+> Module                  Size  Used by
+> ravb                   40960  1
+> $ rmmod ravb
+> rmmod: ERROR: Module ravb is in use
+>
+> Call ravb_mdio_init() at open and free_mdio_bitbang() at close, thereby
+> rmmod is possible in the ifdown state.
+>
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yuusuke Ashizuka <ashiduka@fujitsu.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
 
-https://lore.kernel.org/linux-arm-kernel/nycvar.YSQ.7.78.906.2009041431440.4095746@knanqh.ubzr/
+Thanks for your patch, which is now commit 1838d6c62f578366 ("ravb:
+Fixed to be able to unload modules") in v5.9-rc4 (backported to stable
+v4.4, v4.9, v4.14, v4.19, v5.4, and v5.8).
+
+This is causing a regression during resume from s2idle/s2ram on (at
+least) Salvator-X(S) and Ebisu.  Reverting that commit fixes this.
+
+During boot, the Micrel PHY is detected correctly:
+
+    Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached
+PHY driver [Micrel KSZ9031 Gigabit PHY]
+(mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=228)
+    ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+
+During resume, if CONFIG_MODULES=n, it falls back to the Generic PHY
+(case A):
+
+    Generic PHY e6800000.ethernet-ffffffff:00: attached PHY driver
+[Generic PHY] (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00,
+irq=POLL)
+    ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+
+and Ethernet still works (degraded, due to polling).
+
+During resume, if CONFIG_MODULES=y, MDIO initialization fails (case B):
+
+    mdio_bus e6800000.ethernet-ffffffff:00: error -16 loading PHY
+driver module for ID 0x00221622
+    ravb e6800000.ethernet eth0: failed to initialize MDIO
+    PM: dpm_run_callback(): ravb_resume+0x0/0x1b8 returns -16
+    PM: Device e6800000.ethernet failed to resume: error -16
+
+and Ethernet no longer works.
+
+Case B happens because usermodehelper_disabled is set to UMH_DISABLED
+during system suspend, causing request_module() to return -EBUSY.
+Ignoring -EBUSY in phy_request_driver_module(), like was done for
+-ENOENT in commit 21e194425abd65b5 ("net: phy: fix issue with loading
+PHY driver w/o initramfs"), makes it fall back to the Generic PHY, cfr.
+case A.
+
+For case A, I haven't found out yet why it falls back to the Generic PHY.
+
+Thanks for your comments!
 
 Gr{oetje,eeting}s,
 
