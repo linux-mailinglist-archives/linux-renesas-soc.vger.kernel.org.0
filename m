@@ -2,126 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D22DB26C8CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 20:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9364C26C796
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 20:31:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726507AbgIPS5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 14:57:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727413AbgIPRxQ (ORCPT
+        id S1727835AbgIPSbQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 14:31:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58762 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727823AbgIPSab (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:53:16 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF56C002184
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 07:18:37 -0700 (PDT)
-Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DD0A26B;
-        Wed, 16 Sep 2020 16:18:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600265905;
-        bh=4o5DTKHE0f9KxLdQkHn0OQUhAax/CuHlASp1v/HedD4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WkSs/a4E6OLtAag8eJJNoGMVhnFOS4BQgiUVYay1lQ8bkTEWc9AQkewcAcJxqGwCt
-         wGf+SXTkI6Cglh802obpsAjbZcijXUo6HSBQOgDJCXxtjzVLXAuj7PtuxwbKbPmH0O
-         dHv6tvIkQx6gP6Jem1RPrDKbzTbqYA6xY4Nh3uC0=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v2] tests: Provide {un,}bind testing
-Date:   Wed, 16 Sep 2020 15:18:15 +0100
-Message-Id: <20200916141815.1481807-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 16 Sep 2020 14:30:31 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6614422470;
+        Wed, 16 Sep 2020 15:58:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600271923;
+        bh=z54NT2te4cQqCwvnxGuhIvp2W2PqIQwX8Rfrwo03n6k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HK32OVkYHkBdJOofLkJ+eUoiFHxyVHCmMnup/A7LJvnMbmFRiwsgEMgYtwJqubXXq
+         JCspG3tYh6jh9B4NAgWMrK96wSIlk+dYeGSlk9dnzukQSbkIiOSIKR8DOI5Es5fyRl
+         4yJvpL+qxOp5+HXbERF/ET+85d6NF+YAf9Huy1sY=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v3 09/15] ARM: dts: am335x: t335: align GPIO hog names with dtschema
+Date:   Wed, 16 Sep 2020 17:57:09 +0200
+Message-Id: <20200916155715.21009-10-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
+References: <20200916155715.21009-1-krzk@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Perform unbind-bind testing of the VSP devices to validate
-successful removal of the drivers.
+The convention for node names is to use hyphens, not underscores.
+dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
+ arch/arm/boot/dts/am335x-sbc-t335.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v2:
- - Semi-colons removed
- - duplicated tests removed.
-
-This is the updated patch, I intend to push to master.
-
---
-Kieran
-
-
- tests/vsp-unit-test-0026.sh | 55 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
- create mode 100755 tests/vsp-unit-test-0026.sh
-
-diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
-new file mode 100755
-index 000000000000..0e013cec881b
---- /dev/null
-+++ b/tests/vsp-unit-test-0026.sh
-@@ -0,0 +1,55 @@
-+#!/bin/sh
-+
-+#
-+# Test unbinding and binding all VSP1 devices, performing a simple
-+# copy test to validate the hardware afterwards.
-+#
-+
-+. ./vsp-lib.sh
-+
-+features="rpf.0 wpf.0"
-+
-+vsp1_driver=/sys/bus/platform/drivers/vsp1
-+vsps=$(cd /sys/bus/platform/devices/; ls | grep vsp)
-+
-+unbind_vsp() {
-+	echo $1 > $vsp1_driver/unbind
-+}
-+
-+bind_vsp() {
-+	echo $1 > $vsp1_driver/bind
-+}
-+
-+# Input is directly copied to the output. No change in format or size.
-+test_copy() {
-+	local format=$1
-+	local insize=$2
-+
-+	test_start "simple hardware validation after unbind/bind cycles"
-+
-+	pipe_configure rpf-wpf 0 0
-+	format_configure rpf-wpf 0 0 $format $insize $format
-+
-+	vsp_runner rpf.0 &
-+	vsp_runner wpf.0
-+
-+	local result=$(compare_frames)
-+
-+	test_complete $result
-+}
-+
-+test_main() {
-+	local format
-+
-+	# Unbind and rebind VSPs individually
-+	for v in $vsps; do
-+		unbind_vsp $v
-+		bind_vsp $v
-+	done
-+
-+	# Perform a simple copy test to validate HW is alive
-+	test_copy RGB24 128x128
-+}
-+
-+test_init $0 "$features"
-+test_run
+diff --git a/arch/arm/boot/dts/am335x-sbc-t335.dts b/arch/arm/boot/dts/am335x-sbc-t335.dts
+index a3f6bc4072d9..81e4453687ba 100644
+--- a/arch/arm/boot/dts/am335x-sbc-t335.dts
++++ b/arch/arm/boot/dts/am335x-sbc-t335.dts
+@@ -155,13 +155,13 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 		reg = <0x26>;
+-		dvi_ena {
++		dvi-ena-hog {
+ 			gpio-hog;
+ 			gpios = <13 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "dvi-enable";
+ 		};
+-		lcd_ena {
++		lcd-ena-hog {
+ 			gpio-hog;
+ 			gpios = <11 GPIO_ACTIVE_HIGH>;
+ 			output-high;
 -- 
-2.25.1
+2.17.1
 
