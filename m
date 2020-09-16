@@ -2,86 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD1FE26BF1E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 10:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9CC26BF0E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 10:21:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726243AbgIPIY2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 04:24:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60188 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbgIPIYZ (ORCPT
+        id S1726590AbgIPIVR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 04:21:17 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:57121 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgIPIVQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 04:24:25 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA9DC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 01:24:24 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id x69so6034951lff.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 01:24:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OFjISGIagwR4SeKw+6zIGknT6qC0zhtZaREwxAbFdCo=;
-        b=SoiC50HCmAj0ah/NoVfXO9B030PtiUyJJTACUw8il+Ewy1mOLRZFH5Dh525k4k7B/A
-         SQBxYzmEjiu1m5Cwynqr7XMddp/oUnT8at3nrfVFF8zlBSkfgIOJ3MPOqWqYX+bqwmZJ
-         yyiNgW4dGU1AJGq110Sva+MqQnapGkbqqcpyVInr3JBZztHHn7Y/qE8E7w/c0aBOhz8G
-         KZ6AM6MXaDDm3YFFMXpcojQdi837g6Tv0RTq3AhRq7kzxPYXF6ylS4timkXS8vMrZjm/
-         GTYvArTgSPb16VWpAaYiD0TtEwUF8YZA4lYSL+trm0EZGAYImvat5/lcwBKD/HtBUy6t
-         +n3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OFjISGIagwR4SeKw+6zIGknT6qC0zhtZaREwxAbFdCo=;
-        b=Nt/1KNISWf/+QJJxR1YfzH2SSBHTIVrdeRpN8DVOA6dofAo11FbU3uyNsYSuULiZtO
-         sbLgu16gpyyDenElxvv3pwHNpJc6RUIJe2M6hEvTyChfXpj3FznAridyh/savmsNsUFf
-         GYwfTyqUlxN0WIztvgJUiCVZ5L+zmXgaS+sQk7OIPJa/iAPZGePcVgWW6jGffYAwOrQy
-         GrkHzokD8b1fTMeomkFNIoD2Z/XBxCi+zRbP9jonYu2Kt4/oXGAVMNaUUiaYitUzfL++
-         56wp3CKhWPYEqjqLN/78QYYPKQTz2xXUZzGISvihoYsAmysR4mt3HVWzpleEsysfY5Vx
-         ECxA==
-X-Gm-Message-State: AOAM533jLfolt3YY4j2LTiKzSUVpZTciZm1ZfruV6W8kZOUZXwPoSbR6
-        aOqaBo68q/7EI6+tRlWrrDW9Rp5wSUy5intTEu/llA==
-X-Google-Smtp-Source: ABdhPJwjwaA/obULeIssaKAdJsSzCJcfp1L3ZsUhY6AoGdTANgaQkhAmgXhAxtdJmFYd0wy/onLNNgpNOurTT7lg2MQ=
-X-Received: by 2002:a05:6512:370b:: with SMTP id z11mr6753834lfr.571.1600244663107;
- Wed, 16 Sep 2020 01:24:23 -0700 (PDT)
+        Wed, 16 Sep 2020 04:21:16 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id E67C5100009;
+        Wed, 16 Sep 2020 08:21:08 +0000 (UTC)
+Date:   Wed, 16 Sep 2020 10:24:59 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v5 2/3] media: i2c: ov772x: Add support for BT.656 mode
+Message-ID: <20200916082459.udoppvygwniktkzi@uno.localdomain>
+References: <20200915174235.1229-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200915174235.1229-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-References: <20200902153606.13652-1-geert+renesas@glider.be>
- <CACRpkdZ44wuYp1aWZ-mYkJJAZUXfAZ9XVYf0rDKT8GH_JE8ezQ@mail.gmail.com> <CAMuHMdXBpLSdRiVkfpO-F7HpJLDqFW1LKfZnCS8nzH_ncq8ZQA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXBpLSdRiVkfpO-F7HpJLDqFW1LKfZnCS8nzH_ncq8ZQA@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 16 Sep 2020 10:24:12 +0200
-Message-ID: <CACRpkdaUgatCxQvZdPbc+HvxCVF2=O71T5XjrW=0jsTR7j+_ZQ@mail.gmail.com>
-Subject: Re: [PATCH v9] ARM: boot: Validate start of physical memory against DTB
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Lukasz Stelmach <l.stelmach@samsung.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200915174235.1229-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 8, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Hi Prabhakar,
 
-> I agree there are plenty of opportunities to improve of head.S.
-> Unfortunately there are also plenty of opportunities to break someone's
-> boot process ;-(
+On Tue, Sep 15, 2020 at 06:42:34PM +0100, Lad Prabhakar wrote:
+> Add support to read the bus-type for V4L2_MBUS_BT656 and
+> enable BT.656 mode in the sensor if needed.
+
+Here we should be concerned about retro-compatibility, as a new bus
+type is added. I would move the comment you had in 1/3 to this patch.
+
+Otherwise the code flow looks ok: if no bus-type is specified assume
+parallel as it was the only supported bus type at the time.
+If someone wants BT.656 it has to be a new DTS and then the bus-type
+property is mandatory.
+
 >
-> Nicolas' patch to reshuffle the registers looks like a good first step...
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  drivers/media/i2c/ov772x.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 4ab4b3c883d0..869f2d94faec 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -583,6 +583,13 @@ static int ov772x_s_stream(struct v4l2_subdev *sd, int enable)
+>  	if (priv->streaming == enable)
+>  		goto done;
+>
+> +	if (priv->bus_type == V4L2_MBUS_BT656) {
+> +		ret = regmap_update_bits(priv->regmap, COM7, ITU656_ON_OFF,
+> +					 enable ? ITU656_ON_OFF : ~ITU656_ON_OFF);
+> +		if (ret)
+> +			goto done;
+> +	}
+> +
+>  	ret = regmap_update_bits(priv->regmap, COM2, SOFT_SLEEP_MODE,
+>  				 enable ? 0 : SOFT_SLEEP_MODE);
+>  	if (ret)
+> @@ -1436,9 +1443,17 @@ static int ov772x_probe(struct i2c_client *client)
+>  	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+>  	priv->bus_type = bus_cfg.bus_type;
+>  	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +	if (ret) {
+> +		bus_cfg = (struct v4l2_fwnode_endpoint)
+> +			  { .bus_type = V4L2_MBUS_BT656 };
+> +		ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
 
-I must have missed this patch! I'll try to find it.
+If you really want to keep using alloc_parse() you should remember to
+endpoint_free() here.
 
-Yours,
-Linus Walleij
+> +		if (ret) {
+> +			fwnode_handle_put(ep);
+> +			goto error_clk_put;
+> +		}
+> +		priv->bus_type = bus_cfg.bus_type;
+> +	}
+>  	fwnode_handle_put(ep);
+
+I would assign priv->bus_type here.
+
+Also, this has grown quite a bit, have you considered making a
+ov772x_parse_dt() function ?
+
+With this last changes I think we're good to go. I'll send tags on
+the next version!
+
+Thank you for your perseverance
+
+> -	if (ret)
+> -		goto error_clk_put;
+>
+>  	ret = ov772x_video_probe(priv);
+>  	if (ret < 0)
+> --
+> 2.17.1
+>
