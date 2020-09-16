@@ -2,104 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 000F426B8D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 02:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FC0F26B957
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 03:26:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbgIPAvh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Sep 2020 20:51:37 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:53738 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726216AbgIOLjF (ORCPT
+        id S1726137AbgIPB0a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Sep 2020 21:26:30 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12293 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726023AbgIPB0a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Sep 2020 07:39:05 -0400
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 670563A60AF
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Sep 2020 11:23:17 +0000 (UTC)
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 84C3524000E;
-        Tue, 15 Sep 2020 11:20:52 +0000 (UTC)
-Date:   Tue, 15 Sep 2020 13:24:43 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] rcar-csi2: Switch to using fwnode instead of OF
-Message-ID: <20200915112443.kdvrvhxb75vnel3c@uno.localdomain>
-References: <20200914215011.339387-1-niklas.soderlund+renesas@ragnatech.se>
- <20200914215011.339387-2-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 15 Sep 2020 21:26:30 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 1B602DB28524526F960A;
+        Wed, 16 Sep 2020 09:26:26 +0800 (CST)
+Received: from [10.174.179.108] (10.174.179.108) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 16 Sep 2020 09:26:24 +0800
+Subject: Re: [PATCH -next] soc: renesas: r8a779a0-sysc: Make
+ r8a779a0_sysc_info static
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20200915140110.11268-1-yuehaibing@huawei.com>
+ <CAMuHMdXnuHnML3Gop4o3k_K9nYBRsc7w1cUgGcMrAso5oOKc5Q@mail.gmail.com>
+CC:     Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+From:   Yuehaibing <yuehaibing@huawei.com>
+Message-ID: <9b20d554-eb3d-918e-54ec-b1f374b24a20@huawei.com>
+Date:   Wed, 16 Sep 2020 09:26:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200914215011.339387-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <CAMuHMdXnuHnML3Gop4o3k_K9nYBRsc7w1cUgGcMrAso5oOKc5Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.179.108]
+X-CFilter-Loop: Reflected
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On 2020/9/15 23:22, Geert Uytterhoeven wrote:
+> Hi Yue,
+> 
+> On Tue, Sep 15, 2020 at 4:58 PM YueHaibing <yuehaibing@huawei.com> wrote:
+>> Fix sparse warning:
+>>
+>> drivers/soc/renesas/r8a779a0-sysc.c:99:33: warning: symbol 'r8a779a0_sysc_info' was not declared. Should it be static?
+>>
+>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> 
+> Thanks for your patch!
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> As commit 7f29315cf4211316 ("soc: renesas: r8a779a0-sysc: Add r8a779a0
+> support") hasn't been merged into arm-soc yet, is it OK for you if I
+> just fold your fix into the original commit?
 
-On Mon, Sep 14, 2020 at 11:50:10PM +0200, Niklas Söderlund wrote:
-> Use the fwnode_graph_get_endpoint_by_id() interface instead of
-> of_graph_get_endpoint_by_regs() to fetch the fwnode. This saves
-> translating between a device_node and fwnode_handle.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Looks good
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 511cd4984777ad99..23e89ef2429d310a 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -873,31 +873,31 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
->  	struct v4l2_async_subdev *asd;
->  	struct fwnode_handle *fwnode;
-> -	struct device_node *ep;
-> +	struct fwnode_handle *ep;
->  	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
->  	int ret;
->
-> -	ep = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
-> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(priv->dev), 0, 0, 0);
->  	if (!ep) {
->  		dev_err(priv->dev, "Not connected to subdevice\n");
->  		return -EINVAL;
->  	}
->
-> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
-> +	ret = v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
->  	if (ret) {
->  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -		of_node_put(ep);
-> +		fwnode_handle_put(ep);
->  		return -EINVAL;
->  	}
->
->  	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
->  	if (ret) {
-> -		of_node_put(ep);
-> +		fwnode_handle_put(ep);
->  		return ret;
->  	}
->
-> -	fwnode = fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> -	of_node_put(ep);
-> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> +	fwnode_handle_put(ep);
->
->  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
->
-> --
-> 2.28.0
->
+Sure, it's ok for me.
+> 
+> Thanks again!
+> 
+>> --- a/drivers/soc/renesas/r8a779a0-sysc.c
+>> +++ b/drivers/soc/renesas/r8a779a0-sysc.c
+>> @@ -96,7 +96,7 @@ static struct r8a779a0_sysc_area r8a779a0_areas[] __initdata = {
+>>         { "a1dsp1",     R8A779A0_PD_A1DSP1, R8A779A0_PD_A2CN1 },
+>>  };
+>>
+>> -const struct r8a779a0_sysc_info r8a779a0_sysc_info __initconst = {
+>> +static const struct r8a779a0_sysc_info r8a779a0_sysc_info __initconst = {
+>>         .areas = r8a779a0_areas,
+>>         .num_areas = ARRAY_SIZE(r8a779a0_areas),
+>>  };
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
