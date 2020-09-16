@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3A5F26CBE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 22:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84FFF26CD71
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 22:59:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727013AbgIPUgi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 16:36:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60440 "EHLO mail.kernel.org"
+        id S1726305AbgIPU7j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 16:59:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43610 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726876AbgIPRKa (ORCPT
+        id S1726371AbgIPQag (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:10:30 -0400
+        Wed, 16 Sep 2020 12:30:36 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CA7EF22473;
-        Wed, 16 Sep 2020 15:58:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5532D22483;
+        Wed, 16 Sep 2020 15:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600271933;
-        bh=euoNrh4CREhCtBrTlTDs/D23cyiar9mHO2VGZrvJGGw=;
+        s=default; t=1600271964;
+        bh=9+RfyEFgUiqDasaKjUmJhx8ihT+9S1w76ne+qVMEqf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r7ZBSAWp7ngag0GivIYwEMRvi2kI5TJyoUxd2xusn24/6ovXSjFvdFXYscQlIvUlL
-         gqpGyfwBEw0kKQGlha2BEP6GReJ4HpHYs1ZIL5ck1dgiJaZmcAsukmLwMClRxnlD9/
-         4owCOsi3+7MgIuO0CrXIPLYDZ/BRpPcnZzBOBK/A=
+        b=ReHiMVSOrY2Tpq0R2x5H8Q1vVDBWzXBmBLfc5eualaPr0xKGjC/n447miOTwo3Jzt
+         qomZTiLgNjLrdb3j9uOc6o/IyZ8iFtxuuPBGGb+BdMQnJohy2I79//wT/C3XFYzosB
+         WayaEjb97JjD+jDpgfQYPk+QzJ7dqdbUcl7BRxbI=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
@@ -53,9 +53,9 @@ To:     Linus Walleij <linus.walleij@linaro.org>,
         linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3 10/15] ARM: dts: am3874: iceboard: fix GPIO expander reset GPIOs
-Date:   Wed, 16 Sep 2020 17:57:10 +0200
-Message-Id: <20200916155715.21009-11-krzk@kernel.org>
+Subject: [PATCH v3 14/15] ARM: dts: armada: align GPIO hog names with dtschema
+Date:   Wed, 16 Sep 2020 17:57:14 +0200
+Message-Id: <20200916155715.21009-15-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
 References: <20200916155715.21009-1-krzk@kernel.org>
@@ -64,53 +64,104 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Correct the property for reset GPIOs of the GPIO expander.
+The convention for node names is to use hyphens, not underscores.
+dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- arch/arm/boot/dts/am3874-iceboard.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ arch/arm/boot/dts/armada-388-clearfog.dts  |  4 ++--
+ arch/arm/boot/dts/armada-388-clearfog.dtsi | 10 +++++-----
+ arch/arm/boot/dts/armada-388-helios4.dts   |  6 +++---
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm/boot/dts/am3874-iceboard.dts b/arch/arm/boot/dts/am3874-iceboard.dts
-index 1bb57019d082..9423e9feaa10 100644
---- a/arch/arm/boot/dts/am3874-iceboard.dts
-+++ b/arch/arm/boot/dts/am3874-iceboard.dts
-@@ -195,7 +195,7 @@
- 					"FMCA_PG_C2M", "FMCA_PRSNT_M2C_L", "FMCA_CLK_DIR", "SFP_LOS",
- 					"FMCB_EN_12V0", "FMCB_EN_3V3", "FMCB_EN_VADJ", "FMCB_PG_M2C",
- 					"FMCB_PG_C2M", "FMCB_PRSNT_M2C_L", "FMCB_CLK_DIR", "SFP_ModPrsL";
--				reset_gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
-+				reset-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
- 			};
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dts b/arch/arm/boot/dts/armada-388-clearfog.dts
+index 20f8d4667753..4140a5303b48 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dts
++++ b/arch/arm/boot/dts/armada-388-clearfog.dts
+@@ -73,13 +73,13 @@
+ 	 * 14-SFP_TX_DISABLE
+ 	 * 15-SFP_MOD_DEF0
+ 	 */
+-	pcie2_0_clkreq {
++	pcie2-0-clkreq-hog {
+ 		gpio-hog;
+ 		gpios = <4 GPIO_ACTIVE_LOW>;
+ 		input;
+ 		line-name = "pcie2.0-clkreq";
+ 	};
+-	pcie2_0_w_disable {
++	pcie2-0-w-disable-hog {
+ 		gpio-hog;
+ 		gpios = <7 GPIO_ACTIVE_LOW>;
+ 		output-low;
+diff --git a/arch/arm/boot/dts/armada-388-clearfog.dtsi b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+index a0aa1d188f0c..f8a06ae4a3c9 100644
+--- a/arch/arm/boot/dts/armada-388-clearfog.dtsi
++++ b/arch/arm/boot/dts/armada-388-clearfog.dtsi
+@@ -141,31 +141,31 @@
+ 		#gpio-cells = <2>;
+ 		reg = <0x20>;
  
- 			u42: pca9575@21 {
-@@ -208,7 +208,7 @@
- 					"QSFPA_LPMode", "QSFPB_ModPrsL", "QSFPB_IntL", "QSFPB_ResetL",
- 					"SFP_TxFault", "SFP_TxDisable", "SFP_RS0", "SFP_RS1",
- 					"QSFPB_ModSelL", "QSFPB_LPMode", "SEL_SFP", "ARM_MR";
--				reset_gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
-+				reset-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
- 			};
+-		pcie1_0_clkreq {
++		pcie1-0-clkreq-hog {
+ 			gpio-hog;
+ 			gpios = <0 GPIO_ACTIVE_LOW>;
+ 			input;
+ 			line-name = "pcie1.0-clkreq";
+ 		};
+-		pcie1_0_w_disable {
++		pcie1-0-w-disable-hog {
+ 			gpio-hog;
+ 			gpios = <3 GPIO_ACTIVE_LOW>;
+ 			output-low;
+ 			line-name = "pcie1.0-w-disable";
+ 		};
+-		usb3_ilimit {
++		usb3-ilimit-hog {
+ 			gpio-hog;
+ 			gpios = <5 GPIO_ACTIVE_LOW>;
+ 			input;
+ 			line-name = "usb3-current-limit";
+ 		};
+-		usb3_power {
++		usb3-power-hog {
+ 			gpio-hog;
+ 			gpios = <6 GPIO_ACTIVE_HIGH>;
+ 			output-high;
+ 			line-name = "usb3-power";
+ 		};
+-		m2_devslp {
++		m2-devslp-hog {
+ 			gpio-hog;
+ 			gpios = <11 GPIO_ACTIVE_HIGH>;
+ 			output-low;
+diff --git a/arch/arm/boot/dts/armada-388-helios4.dts b/arch/arm/boot/dts/armada-388-helios4.dts
+index fb49df2a3bce..b3728de3bd3f 100644
+--- a/arch/arm/boot/dts/armada-388-helios4.dts
++++ b/arch/arm/boot/dts/armada-388-helios4.dts
+@@ -166,19 +166,19 @@
+ 					interrupt-controller;
+ 					#interrupt-cells = <2>;
  
- 			u48: pca9575@22 {
-@@ -227,7 +227,7 @@
- 					"GP_SW5", "GP_SW6", "GP_SW7", "GP_SW8",
- 					"GP_LED8", "GP_LED7", "GP_LED6", "GP_LED5",
- 					"GP_LED4", "GP_LED3", "GP_LED2", "GP_LED1";
--				reset_gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
-+				reset-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
- 			};
- 
- 			u59: pca9575@23 {
-@@ -240,7 +240,7 @@
- 					"GTX1V8PowerFault", "PHYAPowerFault", "PHYBPowerFault", "ArmPowerFault",
- 					"BP_SLOW_GPIO0", "BP_SLOW_GPIO1", "BP_SLOW_GPIO2", "BP_SLOW_GPIO3",
- 					"BP_SLOW_GPIO4", "BP_SLOW_GPIO5", "__unused_u59_p16", "__unused_u59_p17";
--				reset_gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
-+				reset-gpios = <&gpio2 11 GPIO_ACTIVE_LOW>;
- 			};
- 
- 			tmp100@48 { compatible = "ti,tmp100"; reg = <0x48>; };
+-					board_rev_bit_0 {
++					board-rev-bit-0-hog {
+ 						gpio-hog;
+ 						gpios = <0 GPIO_ACTIVE_LOW>;
+ 						input;
+ 						line-name = "board-rev-0";
+ 					};
+-					board_rev_bit_1 {
++					board-rev-bit-1-hog {
+ 						gpio-hog;
+ 						gpios = <1 GPIO_ACTIVE_LOW>;
+ 						input;
+ 						line-name = "board-rev-1";
+ 					};
+-					usb3_ilimit {
++					usb3-ilimit-hog {
+ 						gpio-hog;
+ 						gpios = <5 GPIO_ACTIVE_HIGH>;
+ 						input;
 -- 
 2.17.1
 
