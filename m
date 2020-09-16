@@ -2,72 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E344926C662
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 19:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F25926C60F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 19:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727337AbgIPRqW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 13:46:22 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:36142 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726507AbgIPRqS (ORCPT
+        id S1727107AbgIPRbW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 13:31:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43850 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727162AbgIPRat (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 13:46:18 -0400
-X-IronPort-AV: E=Sophos;i="5.76,432,1592838000"; 
-   d="scan'208";a="57427885"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Sep 2020 19:59:58 +0900
-Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.120])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6E7F74277746;
-        Wed, 16 Sep 2020 19:59:55 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wed, 16 Sep 2020 13:30:49 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.191])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id ECA15224BD;
+        Wed, 16 Sep 2020 15:58:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600271941;
+        bh=0+FFO17wAr4hb0tN/J0gdkpjUduKv6+0Pfegkab7QXQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UkMrjjtEx8nJ2MjbDqluecoI+lmlFdY6lBVeB1DtyEZ4P5/9ibyTca30rHWlt84X2
+         7ISNGu6iFk3BvKg+ZvWwWHTE+Pw/Y20sjvuPMAEJAonWbJieF84+M3r0FhIzg++Fvu
+         4EdKzMtFbIDODiPmNDwOcbxVDAdYRSP9M2EXJdTQ=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v2 1/3] MAINTAINERS: Add Fabrizio Castro to Renesas DRIF
-Date:   Wed, 16 Sep 2020 11:59:47 +0100
-Message-Id: <20200916105949.24858-2-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
-References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v3 11/15] ARM: dts: aspeed: fix PCA95xx GPIO expander properties on Portwell
+Date:   Wed, 16 Sep 2020 17:57:11 +0200
+Message-Id: <20200916155715.21009-12-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200916155715.21009-1-krzk@kernel.org>
+References: <20200916155715.21009-1-krzk@kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Renesas are expanding their DRIF support and offering,
-I'll be the internal maintainer for DRIF.
+The PCA95xx GPIO expander requires GPIO controller properties to operate
+properly.
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Acked-by: Joel Stanley <joel@jms.id.au>
 ---
-v1->v2:
-* No change
+ arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts | 2 ++
+ 1 file changed, 2 insertions(+)
 
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2575f449139a..d9ebaf0c179b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10909,6 +10909,7 @@ F:	include/media/drv-intf/renesas-ceu.h
+diff --git a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+index 4a1ca8f5b6a7..03c161493ffc 100644
+--- a/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
++++ b/arch/arm/boot/dts/aspeed-bmc-portwell-neptune.dts
+@@ -121,6 +121,8 @@
+ 	pca9555@27 {
+ 		compatible = "nxp,pca9555";
+ 		reg = <0x27>;
++		gpio-controller;
++		#gpio-cells = <2>;
+ 	};
+ };
  
- MEDIA DRIVERS FOR RENESAS - DRIF
- M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
-+M:	Fabrizio Castro <fabrizio.castro.jz@renesas.com>
- L:	linux-media@vger.kernel.org
- L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
 -- 
-2.25.1
+2.17.1
 
