@@ -2,110 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C998726CE00
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 23:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E65A26CD87
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Sep 2020 23:00:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726466AbgIPVID (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Sep 2020 17:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46202 "EHLO
+        id S1726868AbgIPVAr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Sep 2020 17:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726193AbgIPQDj (ORCPT
+        with ESMTP id S1726420AbgIPQaY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Sep 2020 12:03:39 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13DC0C0A8938;
-        Wed, 16 Sep 2020 06:07:25 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id w2so2725651wmi.1;
-        Wed, 16 Sep 2020 06:07:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wXAbzU7xs3GHOx4VbALatUig0WdQIdhicYVb4LS021Q=;
-        b=HkQLLmAJhe1yxNGBO1sfG4gpKaDhSTi5NwsXdTXpKIBovg3XuA3g6/xN3j70bITbU4
-         QxjVP0nBEk9CQMbCYGT+u/aBsOGp5zfyrVXQx7I89bg4wEANFhrCw2dfiGY/E052yt3I
-         hP2dHzR39YBwGEPHXfXDepc1lPBLt8iuRW+waPSVRhgqd08ZYSdBtKYU5hACthSGW/4X
-         lkoZ0zEcqC20TM9vkle2lW8Zij/nvQodlaTf0X61PLM17lVyPxfo9A+nTDUntHYXMiQA
-         VeEvEmry8SX0PdlBRMVdFFgaISOKNdZl/qrv/3NQn0kQqNn/cIq+zwt4Zt7UkozUmRcL
-         +bKw==
-X-Gm-Message-State: AOAM532tlUdVMXhLtggnAgtO1EC2QqIDJh6TroQwMcyWXZ9LVX+bUHD/
-        xfVKnUptdkYVmg80LcqyPhbJgJmCVmcXkUoZ
-X-Google-Smtp-Source: ABdhPJz6nAcPpzE0Afvi4kc8Wd3d/N2pmOcJi2+gV9N28HTCz/M5xCuuIuDYCxyhmfn+uomSVR6/sQ==
-X-Received: by 2002:a1c:152:: with SMTP id 79mr4146687wmb.90.1600254559712;
-        Wed, 16 Sep 2020 04:09:19 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.191])
-        by smtp.googlemail.com with ESMTPSA id n2sm4944652wma.29.2020.09.16.04.09.16
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 16 Sep 2020 04:09:18 -0700 (PDT)
-Date:   Wed, 16 Sep 2020 13:09:15 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 02/15] dt-bindings: gpio: convert bindings for Maxim
- MAX732x family to dtschema
-Message-ID: <20200916110915.GA17710@kozik-lap>
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-3-krzk@kernel.org>
- <CACRpkdZXu2J4z=1j-syxSbz2x-QiLeTBpwHSOVNfmZ31RgM6Ng@mail.gmail.com>
- <20200916061511.GA5719@kozik-lap>
+        Wed, 16 Sep 2020 12:30:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0ADC00217D
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Sep 2020 07:45:15 -0700 (PDT)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D876426B;
+        Wed, 16 Sep 2020 16:43:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600267446;
+        bh=vqpEThUN815HEH+3aLWRHIezd8cwcQPFVZJ1JB5ol3k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cyEa0EERzK7jTN3/LryXkFHi0vYRckamY4HtrbJdcnMuHwwS5QJmGr8rFMJ+EgTa1
+         ftQQ8lU4G1lZCg2ByUqnMMODrru2XONUWmlTqA79dt1+LXFgAybe1Ux9gyMiRF3kcX
+         8bUHeUIScAvFd09n5BsXt129ULM41tRyOQ1SvL+I=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [VSP-Tests PATCH 2/3] src: monotonic-ts: Monotonic timestamp logging
+Date:   Wed, 16 Sep 2020 15:43:01 +0100
+Message-Id: <20200916144302.1483470-3-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200916144302.1483470-1-kieran.bingham@ideasonboard.com>
+References: <20200916144302.1483470-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200916061511.GA5719@kozik-lap>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 08:15:11AM +0200, Krzysztof Kozlowski wrote:
-> On Sat, Sep 12, 2020 at 11:58:22AM +0200, Linus Walleij wrote:
-> > On Thu, Sep 10, 2020 at 7:58 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > 
-> > > Convert the Maxim MAX732x family of GPIO expanders bindings to device
-> > > tree schema by merging it with existing PCA95xx schema.  These are quite
-> > > similar so merging reduces duplication.
-> > >
-> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > 
-> > Can I just apply this one patch to the GPIO tree?
-> 
-> No, this requires the previous one (1/15) because it merges the max732x
-> into pca95xx.
-> 
-> Although now Rob reviewed both so you can pick them up.
+Introduce a new utility which prefixes a monotonic timestamp rendered in the
+same format as the kernel logs to all lines fed in through stdin.
 
-I found now one comment from Rob so I will send a v3.
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+---
+ src/Makefile       | 10 +++++++---
+ src/monotonic-ts.c | 37 +++++++++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 3 deletions(-)
+ create mode 100644 src/monotonic-ts.c
 
-Best regards,
-Krzysztof
+diff --git a/src/Makefile b/src/Makefile
+index d7f901f58be6..67216e81ffc4 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -7,18 +7,22 @@ CFLAGS	?= -O0 -g -W -Wall -Wno-unused-parameter -Iinclude
+ LDFLAGS	?=
+ LIBS	:= -lm
+ GEN-IMAGE := gen-image
++MONOTONIC_TS := monotonic-ts
+ 
+ %.o : %.c
+ 	$(CC) $(CFLAGS) -c -o $@ $<
+ 
+-all: $(GEN-IMAGE)
++all: $(GEN-IMAGE) $(MONOTONIC_TS)
+ 
+ $(GEN-IMAGE): gen-image.o
+ 	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
+ 
++$(MONOTONIC_TS): monotonic-ts.o
++	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
++
+ clean:
+ 	-rm -f *.o
+-	-rm -f $(GEN-IMAGE)
++	-rm -f $(GEN-IMAGE) $(MONOTONIC_TS)
+ 
+ install:
+-	cp $(GEN-IMAGE) $(INSTALL_DIR)/
++	cp $(GEN-IMAGE) $(MONOTONIC_TS) $(INSTALL_DIR)/
+diff --git a/src/monotonic-ts.c b/src/monotonic-ts.c
+new file mode 100644
+index 000000000000..fcb671e06d27
+--- /dev/null
++++ b/src/monotonic-ts.c
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/* SPDX-FileCopyrightText: 2020 Kieran Bingham <kieran.bingham@ideasonboard.com> */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <time.h>
++
++int main(int argc, char ** argv)
++{
++	struct timespec tp;
++	char *line = NULL;
++	size_t size = 0;
++	const char *label = "";
++
++	if (argc > 1)
++		label = argv[1];
++
++	/*
++	 * Explicitly set line buffering on stdin to be sure it is delivered
++	 * in a timely fashion for our timestamping purposes when data is fed
++	 * through a pipe.
++	 */
++	setlinebuf(stdin);
++
++	do {
++		if (getline(&line, &size, stdin) <= 0)
++			break;
++
++		clock_gettime(CLOCK_MONOTONIC, &tp);
++		printf("[%ld.%.9ld]%s %s", tp.tv_sec, tp.tv_nsec, label, line);
++	} while (!feof(stdin));
++
++	free(line);
++
++	return 0;
++}
++
+-- 
+2.25.1
 
