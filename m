@@ -2,230 +2,216 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5FFE26E48E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 20:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA3326E548
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 21:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726379AbgIQSwT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 14:52:19 -0400
-Received: from mail-eopbgr1400094.outbound.protection.outlook.com ([40.107.140.94]:27399
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726390AbgIQSwG (ORCPT
+        id S1726584AbgIQTRv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 15:17:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728385AbgIQQSG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 14:52:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NmXmR0AZU7cWoKvmVIWmRMwLnAy2lefBc3vywCKnY8TXvkJpg5RNoXAuFTDXqJabwk71j7CF8ZScv8vCw6IHyvEqoBkUBheBWcL+KsVnSE5qMDV+d2fUKhC/AJBJ5UgLkvlR7tDv+WcNe65y09NSNYi8T1tZuybFqkMmgbEdY9FoPXhflaYgDWq4NZ6hnmQOA0pUzx9sD1utl6K/TIAieSRSeYjFDjhmSMDzcxjQb+ZzjYd935bD6UmAkl1gjQOBB0gwgHRujaTX+TR4SDoyT0o3jfRrEzIH48j55x/lztzUpQaX+W/iMC4+GjXIzFzEeRAJ2HdljtTzxmVGOfnrBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ukksgN8ofYEb/fELbkBbCGyJbvmKfJtIjhGrdO27Vlk=;
- b=oSM/JhEOJ6hjLUrxXifU/QbGsseGEh8F2wi/TK879XqUL7PLDqvoOrIQpk8VoLncVHCNU1qwWMs6ibH4AnAt00i5Oa5MoU/JsQ0Ao50Sx9rPnxER26Ej696TnOmMaa3U6rV4Q+dOaEwuVZ7tPKR39prUuan7soHdRirRiDDlLx3GQ/6TwTrOtiQ9678JAycg2Tt622SdR8kl0pUU7CBKGums8N0MEshC6xo6p2kbRCrd9kRuP0PxGtdN3viZ7zw4bl/27JAPxSMFn4mLOLVL6ReO/y9JCm6LGgH9cN/1aq0ysA/bv/iZooqYUgXqvHfZ1YWvIPatW7+CwmfF5Wsmjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ukksgN8ofYEb/fELbkBbCGyJbvmKfJtIjhGrdO27Vlk=;
- b=m9Aa0nhNkpgBL2pxqDwiM0bff/NNLiMO3O9pXO8p0TV+JSgscCgJCvloVbhqH2zIYXceK3Z9BXCAe/7c3HCfuRRo+yhmaCyhJWW/Q75I1nW0HmbidQN4S29NEHJA3L/aoH/ahj0vH8iN4KPDZdCbL6ihXxtombJqvy6LT7TkDKU=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TYAPR01MB5435.jpnprd01.prod.outlook.com
- (2603:1096:404:8034::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 17 Sep
- 2020 18:52:00 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::757f:58cf:296e:9f84]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::757f:58cf:296e:9f84%3]) with mapi id 15.20.3391.011; Thu, 17 Sep 2020
- 18:52:00 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Wesley Cheng <wcheng@codeaurora.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3 1/5] dt-bindings: usb: convert ti,hd3ss3220 bindings to
- json-schema
-Thread-Topic: [PATCH v3 1/5] dt-bindings: usb: convert ti,hd3ss3220 bindings
- to json-schema
-Thread-Index: AQHWeiBm7RRdOc7Pp0aB6GJsD3dNDqltPGQAgAADuAA=
-Date:   Thu, 17 Sep 2020 18:52:00 +0000
-Message-ID: <TYBPR01MB5309BED73D5BB6243D84C74B863E0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20200824141053.5062-1-biju.das.jz@bp.renesas.com>
- <20200824141053.5062-2-biju.das.jz@bp.renesas.com>
- <da7b8ea3-8cc1-5590-2200-c495e6c733af@codeaurora.org>
-In-Reply-To: <da7b8ea3-8cc1-5590-2200-c495e6c733af@codeaurora.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: codeaurora.org; dkim=none (message not signed)
- header.d=none;codeaurora.org; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [109.153.226.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 52d6c6b2-b527-4b4e-2476-08d85b3ac2b9
-x-ms-traffictypediagnostic: TYAPR01MB5435:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB54350646A553B379B09C8193863E0@TYAPR01MB5435.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: j1vjf2fCOVXNlAJGoeAQEZE5y/88LsMhjV9I/MZmxqo0krcLzunsAhGfoqRK7O/1VwrKA2eJdT/3vg1EOOGqE21wlSNCPFmGWu98OGHsgTiZrwIgs/IVoHHs79wya4JUd+uNzMyjoO+mDFQ5n7c89N8a1L72bbgTuLcaQTJMoyLzJvDlnge4reXaBhb4uy5Y+jGHdPd/Y0pmyYtYORgXxMf6rh5R4X9ekwFnymsnTQNAoJ3L737RB9fAi6Dpp8qHj9pD3SC6NUqW6p6V4TZRIuw2A8WtY8tx138QoW4O9Arfor4TSIMoV0ymjhkHQlGvXILRLYCvq4jxMNISvDF10XzkFe0+9IpBpGgIbc0Qdvxe+SA2v7tQbXWys/RIFTXgER9wA4inK+mJhs+DNqvut+dIj2fq8pE5k7zYHVARPMURCFPDvwDanREm470FwHNMAIdJ2WCQ6sTUJt6zVLp5HXikSnZ7ys6BK0NgBWRUGcmmiTnrFmYXMVpC5bO6lZMs
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(136003)(346002)(366004)(8936002)(5660300002)(52536014)(83380400001)(66446008)(8676002)(110136005)(66476007)(66556008)(71200400001)(54906003)(64756008)(6506007)(7696005)(55016002)(186003)(966005)(9686003)(316002)(2906002)(86362001)(76116006)(33656002)(53546011)(4326008)(478600001)(66946007)(26005)(142933001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: OBXD56Vuyrmtsyms88QCJXf4jGBlHaI5zdDkBgb6e+S4Y+w6zzQDFFqbIXfPM05w9zbGpDPPVbQm1tkGWtEbSC2YdXgcQufvrw+FV2608+7T8cZdxEtX2HO5MjqTAzL82OBw6Bc3fHfqHtItmq3HDaKEAvZGbXov5MnhSIqkLLYqxRj2QaU+GhXRBknMV5NouWhPFLSVovFds7bBcNHcc88ln9xaLxX6aDbI9D35V6BAsVi072Ll5w/0j/sseAhWlwnKMVL1PwpPhiu/LomyNxcgoHtbMxtxJNBJSaP7ACG8L5OpRTPIqDMr4HOXTM2CkeO4d6z2NQd3Z0t6Y1oQQEl0zSt9EO1pXqLW+wETJ4ZRr4Pj6UBdpcWMBQxO5VocZGZrZGw65lrggNmjux+8jLuThUuHCJXJaqAcxeJUTepga9IOwteo+fEzzP6SDg5WB35XnG3ROlzsPdiLOYqTIGq7bBd6hV3vrbFZiTB1z02i9Kox/0k7Mtky0I6o1miNbVpt1yy7uOnXuM/vxtkaJ2jDiFrBm9C/SfU+YoGpnlENcgVJIuXfEU+ObktM/47HUKz55U66h+Hg0BNFKwqNx6wG/PGk9jcR/1fNuA8JHby0l1x9AS/vm9ONRIG6Ih3RfnfkflogaNpzjeIAyjAQLA==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 17 Sep 2020 12:18:06 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2995EC06121F
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Sep 2020 09:10:52 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D3A7F2DB;
+        Thu, 17 Sep 2020 18:10:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600359044;
+        bh=U71hbmSNg5nxaJA/ZDEZx/AiZf+wPfVkUNZvuynS9zU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lUZokbZanOLKvOt0bItG6AabRT8FvBp0tyD0CfpZgpY0k/NIkIfrlhKxrM1OniEdN
+         s1wsdoZNqO2OD6z+KNg6qgod0igJjG4izoPJpre9TQOndXcQ1+uiotEzty7g0LVrdN
+         Gt/3HTjtSsuRul2XWkj3vsQTVVSRjP5x+Fm5wbMw=
+Date:   Thu, 17 Sep 2020 19:10:13 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] tests: Provide {un,}bind testing
+Message-ID: <20200917161013.GE3969@pendragon.ideasonboard.com>
+References: <20200916141815.1481807-1-kieran.bingham@ideasonboard.com>
+ <20200917005848.GR3853@pendragon.ideasonboard.com>
+ <7e0c5c6e-efd7-56d9-47ed-ba6dcb78bc15@ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52d6c6b2-b527-4b4e-2476-08d85b3ac2b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2020 18:52:00.4237
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QCGwfwMoSrcjE+LFGrj0sxct5xc0xOzwllELYii5lU/s9rNqTTfeJA/juy5fuDdTHCdtyl5cuTzah6/lL3pwLVVVSolo/eaRLHPwBzDuPlU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5435
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7e0c5c6e-efd7-56d9-47ed-ba6dcb78bc15@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgV2VzbGV5IENoZW5nLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiBTdWJqZWN0
-OiBSZTogW1BBVENIIHYzIDEvNV0gZHQtYmluZGluZ3M6IHVzYjogY29udmVydCB0aSxoZDNzczMy
-MjAgYmluZGluZ3MgdG8NCj4ganNvbi1zY2hlbWENCj4NCj4NCj4NCj4gT24gOC8yNC8yMDIwIDc6
-MTAgQU0sIEJpanUgRGFzIHdyb3RlOg0KPiA+IEZyb206IExhZCBQcmFiaGFrYXIgPHByYWJoYWth
-ci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPg0KPiA+IENvbnZlcnQgdGksaGQz
-c3MzMjIwLnR4dCB0byBZQU1MLiBVcGRhdGVkIHRoZSBiaW5kaW5nIGRvY3VtZW50YXRpb24gYXMN
-Cj4gPiBncmFwaCBiaW5kaW5ncyBvZiB0aGlzIGRldmljZSBtb2RlbCBTdXBlciBTcGVlZCAoU1Mp
-IGRhdGEgYnVzIHRvIHRoZQ0KPiA+IFN1cGVyIFNwZWVkIChTUykgY2FwYWJsZSBjb25uZWN0b3Iu
-DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBMYWQgUHJhYmhha2FyIDxwcmFiaGFrYXIubWFoYWRl
-di0NCj4gbGFkLnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFz
-IDxiaWp1LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiAtLS0NCj4gPiB2Mi0+djM6IFJlcGxh
-Y2VkIFRhYnMgd2l0aCBzcGFjZXMgaW4gdGhlIGV4YW1wbGUgc2VjdGlvbi4NCj4gPiB2MS0+djIg
-OiBObyBjaGFuZ2UNCj4gPiBSZWY6IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gv
-MTE2Njk0MjMvDQo+ID4gLS0tDQo+ID4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi90aSxo
-ZDNzczMyMjAudHh0ICB8IDM4IC0tLS0tLS0tLQ0KPiA+IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L3VzYi90aSxoZDNzczMyMjAueWFtbCB8IDgxDQo+ICsrKysrKysrKysrKysrKysrKysNCj4gPiAg
-MiBmaWxlcyBjaGFuZ2VkLCA4MSBpbnNlcnRpb25zKCspLCAzOCBkZWxldGlvbnMoLSkgIGRlbGV0
-ZSBtb2RlDQo+ID4gMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2Iv
-dGksaGQzc3MzMjIwLnR4dA0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiBEb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3RpLGhkM3NzMzIyMC55YW1sDQo+ID4NCj4gPiBk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi90aSxoZDNz
-czMyMjAudHh0DQo+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3Rp
-LGhkM3NzMzIyMC50eHQNCj4gPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAy
-YmQyMWIyMmNlOTUuLjAwMDAwMDAwMDAwMA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy91c2IvdGksaGQzc3MzMjIwLnR4dA0KPiA+ICsrKyAvZGV2L251bGwNCj4g
-PiBAQCAtMSwzOCArMCwwIEBADQo+ID4gLVRJIEhEM1NTMzIyMCBUeXBlQyBEUlAgUG9ydCBDb250
-cm9sbGVyLg0KPiA+IC0NCj4gPiAtUmVxdWlyZWQgcHJvcGVydGllczoNCj4gPiAtIC0gY29tcGF0
-aWJsZTogTXVzdCBiZSAidGksaGQzc3MzMjIwIi4NCj4gPiAtIC0gcmVnOiBJMkMgc2xhdmUgYWRk
-cmVzcywgbXVzdCBiZSAweDQ3IG9yIDB4NjcgYmFzZWQgb24gQUREUiBwaW4uDQo+ID4gLSAtIGlu
-dGVycnVwdHM6IEFuIGludGVycnVwdCBzcGVjaWZpZXIuDQo+ID4gLQ0KPiA+IC1SZXF1aXJlZCBz
-dWItbm9kZToNCj4gPiAtIC0gY29ubmVjdG9yOiBUaGUgInVzYi1jLWNvbm5lY3RvciIgYXR0YWNo
-ZWQgdG8gdGhlIGhkM3NzMzIyMCBjaGlwLiBUaGUNCj4gPiAtICAgYmluZGluZ3Mgb2YgdGhlIGNv
-bm5lY3RvciBub2RlIGFyZSBzcGVjaWZpZWQgaW46DQo+ID4gLQ0KPiA+IC1Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IueWFtbA0KPiA+IC0N
-Cj4gPiAtRXhhbXBsZToNCj4gPiAtaGQzc3MzMjIwQDQ3IHsNCj4gPiAtY29tcGF0aWJsZSA9ICJ0
-aSxoZDNzczMyMjAiOw0KPiA+IC1yZWcgPSA8MHg0Nz47DQo+ID4gLWludGVycnVwdC1wYXJlbnQg
-PSA8JmdwaW82PjsNCj4gPiAtaW50ZXJydXB0cyA9IDwzIElSUV9UWVBFX0xFVkVMX0xPVz47DQo+
-ID4gLQ0KPiA+IC1jb25uZWN0b3Igew0KPiA+IC1jb21wYXRpYmxlID0gInVzYi1jLWNvbm5lY3Rv
-ciI7DQo+ID4gLWxhYmVsID0gIlVTQi1DIjsNCj4gPiAtZGF0YS1yb2xlID0gImR1YWwiOw0KPiA+
-IC0NCj4gPiAtcG9ydHMgew0KPiA+IC0jYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiAtI3NpemUt
-Y2VsbHMgPSA8MD47DQo+ID4gLQ0KPiA+IC1wb3J0QDEgew0KPiA+IC1yZWcgPSA8MT47DQo+ID4g
-LWhkM3NzMzIyMF9lcDogZW5kcG9pbnQgew0KPiA+IC1yZW1vdGUtZW5kcG9pbnQgPQ0KPiA8JnVz
-YjNfcm9sZV9zd2l0Y2g+Ow0KPiA+IC19Ow0KPiA+IC19Ow0KPiA+IC19Ow0KPiA+IC19Ow0KPiA+
-IC19Ow0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-dXNiL3RpLGhkM3NzMzIyMC55YW1sDQo+ID4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvdXNiL3RpLGhkM3NzMzIyMC55YW1sDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4g
-PiBpbmRleCAwMDAwMDAwMDAwMDAuLjc1MGEwOTk1MjljMA0KPiA+IC0tLSAvZGV2L251bGwNCj4g
-PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3RpLGhkM3NzMzIy
-MC55YW1sDQo+ID4gQEAgLTAsMCArMSw4MSBAQA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlm
-aWVyOiAoR1BMLTIuMCBPUiBCU0QtMi1DbGF1c2UpICVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiAr
-JGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy91c2IvdGksaGQzc3MzMjIwLnlhbWwj
-DQo+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVtYXMvY29yZS55
-YW1sIw0KPiA+ICsNCj4gPiArdGl0bGU6IFRJIEhEM1NTMzIyMCBUeXBlQyBEUlAgUG9ydCBDb250
-cm9sbGVyDQo+ID4gKw0KPiA+ICttYWludGFpbmVyczoNCj4gPiArICAtIEJpanUgRGFzIDxiaWp1
-LmRhcy5qekBicC5yZW5lc2FzLmNvbT4NCj4gPiArDQo+ID4gK2Rlc2NyaXB0aW9uOiB8LQ0KPiA+
-ICsgIEhEM1NTMzIyMCBpcyBhIFVTQiBTdXBlclNwZWVkIChTUykgMjoxIG11eCB3aXRoIERSUCBw
-b3J0DQo+ID4gK2NvbnRyb2xsZXIuIFRoZSBkZXZpY2UgcHJvdmlkZXMgQ2hhbm5lbA0KPiA+ICsg
-IENvbmZpZ3VyYXRpb24gKENDKSBsb2dpYyBhbmQgNVYgVkNPTk4gc291cmNpbmcgZm9yIGVjb3N5
-c3RlbXMNCj4gPiAraW1wbGVtZW50aW5nIFVTQiBUeXBlLUMuIFRoZQ0KPiA+ICsgIEhEM1NTMzIy
-MCBjYW4gYmUgY29uZmlndXJlZCBhcyBhIERvd25zdHJlYW0gRmFjaW5nIFBvcnQgKERGUCksDQo+
-ID4gK1Vwc3RyZWFtIEZhY2luZyBQb3J0IChVRlApIG9yIGENCj4gPiArICBEdWFsIFJvbGUgUG9y
-dCAoRFJQKSBtYWtpbmcgaXQgaWRlYWwgZm9yIGFueSBhcHBsaWNhdGlvbi4NCj4gPiArDQo+ID4g
-K3Byb3BlcnRpZXM6DQo+ID4gKyAgY29tcGF0aWJsZToNCj4gPiArICAgY29uc3Q6IHRpLGhkM3Nz
-MzIyMA0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsNCj4g
-PiArICBpbnRlcnJ1cHRzOg0KPiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiArDQo+ID4gKyAgcG9y
-dHM6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjogT0YgZ3JhcGggYmluZGluZ3MgKHNwZWNpZmllZCBp
-biBiaW5kaW5ncy9ncmFwaC50eHQpIHRoYXQNCj4gbW9kZWwNCj4gPiArICAgICAgU1MgZGF0YSBi
-dXMgdG8gdGhlIFNTIGNhcGFibGUgY29ubmVjdG9yLg0KPiA+ICsgICAgdHlwZTogb2JqZWN0DQo+
-ID4gKyAgICBwcm9wZXJ0aWVzOg0KPiA+ICsgICAgICBwb3J0QDA6DQo+ID4gKyAgICAgICAgdHlw
-ZTogb2JqZWN0DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFN1cGVyIFNwZWVkIChTUykgY2Fw
-YWJsZSBjb25uZWN0b3IuDQo+ID4gKw0KPiA+ICsgICAgICBwb3J0QDE6DQo+ID4gKyAgICAgICAg
-dHlwZTogb2JqZWN0DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IFN1cGVyIFNwZWVkIChTUykg
-ZGF0YSBidXMuDQo+ID4gKw0KPiA+ICsgICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgIC0gcG9ydEAw
-DQo+ID4gKyAgICAgIC0gcG9ydEAxDQo+ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNv
-bXBhdGlibGUNCj4gPiArICAtIHJlZw0KPiA+ICsgIC0gaW50ZXJydXB0cw0KPiA+ICsNCj4gPiAr
-YWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gKw0KPiA+ICtleGFtcGxlczoNCj4gPiAr
-ICAtIHwNCj4gPiArICAgIGkyYzAgew0KPiA+ICsgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+
-Ow0KPiA+ICsgICAgICAgICNzaXplLWNlbGxzID0gPDA+Ow0KPiA+ICsNCj4gPiArICAgICAgICBo
-ZDNzczMyMjBANDcgew0KPiA+ICsgICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJ0aSxoZDNz
-czMyMjAiOw0KPiA+ICsgICAgICAgICAgICAgICAgcmVnID0gPDB4NDc+Ow0KPiA+ICsgICAgICAg
-ICAgICAgICAgaW50ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzY+Ow0KPiA+ICsgICAgICAgICAgICAg
-ICAgaW50ZXJydXB0cyA9IDwzPjsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgICAgICBwb3J0cyB7
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsNCj4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgcG9ydEAwIHsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICByZWcgPSA8MD47DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-aGQzc3MzMjIwX2luX2VwOiBlbmRwb2ludCB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JnNzX2VwPjsNCj4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICB9Ow0KPg0KPiBIaSBCaWp1LA0KPg0KPiBJJ20gaW52
-b2x2ZWQgaW4gYSBzZXBhcmF0ZSB0aHJlYWRbMV0gYW5kIEkganVzdCB3YW50ZWQgdG8gZ2V0IHlv
-dXIgaW5wdXRzIG9uDQo+IGhvdyB5b3UgdW5kZXJzdG9vZCB0aGUgcG9ydCBhbmQgZW5kcG9pbnQg
-YXNzaWdubWVudHMgZm9yIHRoZSBVU0IgdHlwZSBDDQo+IGNvbm5lY3RvcnMgaW4gZGlmZmVyZW50
-IGRlc2lnbnMuDQo+DQo+IFNpbmNlIHRoZSBoZDNzczMyMjAgZG9lcyB0aGUgdHlwZSBDIGxhbmUg
-ZGV0ZWN0IGFuZCBoYXMgYW4gaW50ZWdyYXRlZCBsYW5lDQo+IHNlbGVjdCBtdXgsIHdoYXQgaXMg
-dGhlIHNzX2VwIGJlaW5nIHVzZWQgZm9yPw0KDQpJbiBvdXIgY2FzZSwgVHlwZSBDIENvbm5lY3Rv
-ciAtLT4gSFMgbGluZXMgZGlyZWN0bHkgY29ubmVjdGVkIHRvIFNvQywgd2hlcmUgYXMgdGhlIFNT
-IGxpbmVzIGNvbm5lY3RlZCAgdG8gSEQzU1MzMjIwIE11eCBhbmQgb3V0cHV0IG9mIG11eCBpcyBD
-b25uZWN0ZWQgdG8gU29DLg0KDQpUaGlzIG11eCBkcml2ZXIgZGV0ZWN0cyBzdGF0ZSBjaGFuZ2Ug
-b24gdGhlIENDIGxpbmVzLCByZWFkaW5nIHRoZSBvcmllbnRhdGlvbi9yb2xlIGFuZCBjb21tdW5p
-Y2F0aW5nIHRoaXMgaW5mb3JtYXRpb24gdG8gU29DIGZvciBhc3NpZ25pbmcgcm9sZXMgdXNpbmcg
-VVNCIHJvbGUgc3dpdGNoIGZyYW1ld29yay4NCg0KQ2FzZSAxOi0gIE1vZGVsIGNvbm5lY3RvciBu
-b2RlIGFzIHRoZSBjaGlsZCBub2RlIG9mIHRoZSBtdXguDQoNClRoZSBiaW5kaW5ncyBmb3IgdGhp
-cyBjYXNlIFsxXSBpcyBub3QgY29tcGxhaW50IHRvIHR5cGVjIGNvbm5lY3RvciBiaW5kaW5ncywg
-c2luY2UgaXQgaXMgbWlzc2luZyBwb3J0QDAgbm9kZS4NClsxXSBodHRwczovL2dpdC5rZXJuZWwu
-b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9uZXh0L2xpbnV4LW5leHQuZ2l0L3RyZWUvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi90aSxoZDNzczMyMjAudHh0P2g9bmV4
-dC0yMDIwMDkxNw0KDQp0eXBlYyBDb25uZWN0b3IgYmluZGluZ3MgcmVxdWlyZXMgcG9ydEAwIHNo
-b3VsZCBiZSBIUyBhbmQgcG9ydEAxIHNob3VsZCBiZSBTUyBhcyBwZXIgdGhlIGRpc2N1c3Npb24g
-WzJdLCAgc28gSSBuZWVkIHRvIHJlbW9kZWwgY29ubmVjdG9yIG5vZGUgYXMgc2VwYXJhdGUgb25l
-Lg0KWzJdIGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTE2Njk0MjMvDQoNCkNh
-c2UgMjotICBNb2RlbCBjb25uZWN0b3Igbm9kZSBhcyBhIHNlcGFyYXRlIG9uZSBiYXNlZCBvbiB0
-aGUgaGFyZHdhcmUgZGVzaWduDQoNClR5cGUgYyBjb25uZWN0b3IgcG9ydEAwICAtLT4gU29DICAo
-aHMgZXApDQpUeXBlIGMgY29ubmVjdG9yICBwb3J0QDEgLS0+IGNvbm5lY3RlZCB0byBVU0IzLjAg
-TXV4IC0tPiAgU29DKCBmb3IgdXNiMyByb2xlIHN3aXRjaCkNCg0KSGVyZSB0aGUgaW5wdXQgb2Yg
-dGhlIE11eCBpcyBjb25uZWN0ZWQgdG8gVHlwZUMgY29ubmVjdG9yIGFuZCBPdXRwdXQgb2YgdGhl
-IG11eCBpcyBjb25uZWN0ZWQgdG8gdGhlIFNvQywgd2hpY2ggaXMgaW5saW5lIHdpdGggaGFyZHdh
-cmUgZGVzaWduLg0KVGhlIGZ1bGwgZXhhbXBsZSBvZiB0aGlzIG1vZGVsIGhlcmUgWzNdDQpbM10g
-aHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMTczMzI2My8NCg0KSW4gYm90aCBv
-dXIgZGVzaWducywgbG9va3MgbGlrZSwgdHlwZSBjIGNvbm5lY3RvciBjb25uZWN0ZWQgdG8gU1Mg
-TVVYIGFuZCBvdXRwdXQgb2YgU1MgTXV4IGlzIENvbm5lY3RlZCB0byBTb0MgZm9yIHJvbGUgc3dp
-dGNoLiBBbSBJIG1pc3Npbmcgc29tZSB0aGluZz8NClNvIG1heSBiZSB3ZSBuZWVkIHRvIHVwZGF0
-ZSB0aGUgY29ubmVjdG9yIGJpbmRpbmdzIGZvciB0aGlzIHVzZSBjYXNlLiBXaGF0IGRvIHlvdSB0
-aGluaz8NCg0KQ2hlZXJzLA0KQmlqdQ0KDQoNCg0KDQoNClJlbmVzYXMgRWxlY3Ryb25pY3MgRXVy
-b3BlIEdtYkgsIEdlc2NoYWVmdHNmdWVocmVyL1ByZXNpZGVudDogQ2Fyc3RlbiBKYXVjaCwgU2l0
-eiBkZXIgR2VzZWxsc2NoYWZ0L1JlZ2lzdGVyZWQgb2ZmaWNlOiBEdWVzc2VsZG9yZiwgQXJjYWRp
-YXN0cmFzc2UgMTAsIDQwNDcyIER1ZXNzZWxkb3JmLCBHZXJtYW55LCBIYW5kZWxzcmVnaXN0ZXIv
-Q29tbWVyY2lhbCBSZWdpc3RlcjogRHVlc3NlbGRvcmYsIEhSQiAzNzA4IFVTdC1JRE5yLi9UYXgg
-aWRlbnRpZmljYXRpb24gbm8uOiBERSAxMTkzNTM0MDYgV0VFRS1SZWcuLU5yLi9XRUVFIHJlZy4g
-bm8uOiBERSAxNDk3ODY0Nw0K
+On Thu, Sep 17, 2020 at 05:07:12PM +0100, Kieran Bingham wrote:
+> Hi Laurent,
+> 
+> On 17/09/2020 01:58, Laurent Pinchart wrote:
+> > Hi Kieran,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Sep 16, 2020 at 03:18:15PM +0100, Kieran Bingham wrote:
+> >> Perform unbind-bind testing of the VSP devices to validate
+> >> successful removal of the drivers.
+> > 
+> > This unbinds all VSP instances, including the ones used by the DU and
+> > not exposed through V4L2. What happens to the display ?
+> 
+> Bad things :-)
+> 
+> Is that something that 'can' be fixed?
+
+Only with lots of effort. I wouldn't bother for now to be honest. Could
+we however skip unbinding the vspd instances in this test ?
+
+> Or goes into the category of "shouldn't ever happen".
+> 
+> Although I think the reason for adding this test in the first place was
+> because of reports of someone testing bind/unbind and hitting failures.
+> 
+> After unbind/bind, the display is left blank. There is no 'issue' until
+> something tries to use the display again: where we get:
+> 
+> [  273.468961] vsp1 fea20000.vsp: failed to reset wpf.1
+> [  273.474156] vsp1 fea20000.vsp: DRM pipeline stop timeout
+> [  273.479595] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000038
+> [  273.488627] Mem abort info:
+> [  273.491570]   ESR = 0x96000004
+> [  273.495657]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [  273.501618]   SET = 0, FnV = 0
+> [  273.505093]   EA = 0, S1PTW = 0
+> [  273.509022] Data abort info:
+> [  273.512213]   ISV = 0, ISS = 0x00000004
+> [  273.516685]   CM = 0, WnR = 0
+> [  273.519891] user pgtable: 4k pages, 48-bit VAs, pgdp=000000072faf0000
+> [  273.527015] [0000000000000038] pgd=0000000000000000, p4d=0000000000000000
+> [  273.534399] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> [  273.540041] CPU: 0 PID: 1338 Comm: kmstest Not tainted 5.9.0-rc1-arm64-renesas-00264-g939a20a7f8b4 #339
+> [  273.549523] Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+> [  273.557517] pstate: 60000005 (nZCv daif -PAN -UAO BTYPE=--)
+> [  273.563152] pc : vsp1_du_setup_lif+0x3fc/0x4d0
+> [  273.567638] lr : vsp1_du_setup_lif+0x4cc/0x4d0
+> [  273.572121] sp : ffff80001489b900
+> [  273.575465] x29: ffff80001489b900 x28: 000000000000006f
+> [  273.580829] x27: ffff0006fa105080 x26: 0000000000000000
+> [  273.586192] x25: 0000000000000000 x24: ffff0006f0f896c0
+> [  273.591555] x23: 0000000000000378 x22: ffff0006f81c83f8
+> [  273.596917] x21: ffff0006f81c8420 x20: 0000000000000001
+> [  273.602280] x19: 0000000000000000 x18: 0000000000000010
+> [  273.607642] x17: 0000000000000000 x16: 0000000000000000
+> [  273.613004] x15: 0000000000aaaaaa x14: 0000000000000020
+> [  273.618366] x13: 00000000ffffffff x12: ffff800010b68ac8
+> [  273.623728] x11: ffffffffffffffff x10: ffff800010ef8018
+> [  273.629090] x9 : 0000000000000001 x8 : 0000000000000000
+> [  273.634452] x7 : 0000000000000001 x6 : 0000000000000001
+> [  273.639814] x5 : dead000000000100 x4 : dead000000000100
+> [  273.645176] x3 : dead000000000122 x2 : b1d0872bc242a400
+> [  273.650538] x1 : 0000000000000000 x0 : 0000000000000000
+> [  273.655900] Call trace:
+> [  273.658371]  vsp1_du_setup_lif+0x3fc/0x4d0
+> [  273.662512]  rcar_du_vsp_disable+0x1c/0x28
+> [  273.666648]  rcar_du_crtc_atomic_disable+0x2c4/0x3e0
+> [  273.671663]  drm_atomic_helper_commit_modeset_disables+0x37c/0x420
+> [  273.677902]  rcar_du_atomic_commit_tail+0x90/0xd8
+> [  273.684043]  commit_tail+0x9c/0x180
+> [  273.688952]  drm_atomic_helper_commit+0x168/0x198
+> [  273.695096]  drm_atomic_commit+0x48/0x58
+> [  273.700437]  drm_mode_atomic_ioctl+0x9fc/0xb08
+> [  273.706278]  drm_ioctl_kernel+0xb8/0x110
+> [  273.711563]  drm_ioctl+0x230/0x470
+> [  273.716293]  __arm64_sys_ioctl+0x8c/0xd0
+> [  273.721520]  el0_svc_common.constprop.0+0x70/0x180
+> [  273.727629]  do_el0_svc+0x20/0x80
+> [  273.732219]  el0_sync_handler+0x94/0x1b0
+> [  273.737386]  el0_sync+0x140/0x180
+> [  273.741943] Code: 8b1c0ed6 f9414ec0 b90262df f901b6df (a9438402)
+> [  273.749313] ---[ end trace 67e85a6fa8c4fc15 ]---
+> 
+> We don't actually have any bind/unbind hooks in the vsp1 so I guess
+> that's something for me to investigate next to make sure we shut the
+> device down correctly...
+>
+> >> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> ---
+> >>
+> >> v2:
+> >>  - Semi-colons removed
+> >>  - duplicated tests removed.
+> >>
+> >> This is the updated patch, I intend to push to master.
+> >>
+> >> --
+> >> Kieran
+> >>
+> >>
+> >>  tests/vsp-unit-test-0026.sh | 55 +++++++++++++++++++++++++++++++++++++
+> >>  1 file changed, 55 insertions(+)
+> >>  create mode 100755 tests/vsp-unit-test-0026.sh
+> >>
+> >> diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
+> >> new file mode 100755
+> >> index 000000000000..0e013cec881b
+> >> --- /dev/null
+> >> +++ b/tests/vsp-unit-test-0026.sh
+> >> @@ -0,0 +1,55 @@
+> >> +#!/bin/sh
+> >> +
+> >> +#
+> >> +# Test unbinding and binding all VSP1 devices, performing a simple
+> >> +# copy test to validate the hardware afterwards.
+> >> +#
+> >> +
+> >> +. ./vsp-lib.sh
+> >> +
+> >> +features="rpf.0 wpf.0"
+> >> +
+> >> +vsp1_driver=/sys/bus/platform/drivers/vsp1
+> >> +vsps=$(cd /sys/bus/platform/devices/; ls | grep vsp)
+> >> +
+> >> +unbind_vsp() {
+> >> +	echo $1 > $vsp1_driver/unbind
+> >> +}
+> >> +
+> >> +bind_vsp() {
+> >> +	echo $1 > $vsp1_driver/bind
+> >> +}
+> >> +
+> >> +# Input is directly copied to the output. No change in format or size.
+> >> +test_copy() {
+> >> +	local format=$1
+> >> +	local insize=$2
+> >> +
+> >> +	test_start "simple hardware validation after unbind/bind cycles"
+> >> +
+> >> +	pipe_configure rpf-wpf 0 0
+> >> +	format_configure rpf-wpf 0 0 $format $insize $format
+> >> +
+> >> +	vsp_runner rpf.0 &
+> >> +	vsp_runner wpf.0
+> >> +
+> >> +	local result=$(compare_frames)
+> >> +
+> >> +	test_complete $result
+> >> +}
+> >> +
+> >> +test_main() {
+> >> +	local format
+> >> +
+> >> +	# Unbind and rebind VSPs individually
+> >> +	for v in $vsps; do
+> >> +		unbind_vsp $v
+> >> +		bind_vsp $v
+> >> +	done
+> >> +
+> >> +	# Perform a simple copy test to validate HW is alive
+> >> +	test_copy RGB24 128x128
+> >> +}
+> >> +
+> >> +test_init $0 "$features"
+> >> +test_run
+
+-- 
+Regards,
+
+Laurent Pinchart
