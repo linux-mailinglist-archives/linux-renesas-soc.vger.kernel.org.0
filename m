@@ -2,335 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC87826E66D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 22:13:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 601E026E7B1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 23:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbgIQUNp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 16:13:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55816 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726244AbgIQUNp (ORCPT
+        id S1726009AbgIQVvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 17:51:21 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:40634 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726004AbgIQVvV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 16:13:45 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E541EFED;
-        Thu, 17 Sep 2020 22:13:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600373621;
-        bh=Lgq9PKRDYhVRmNU7RasyOZL9cSKALVzKVkOgyrxq3OM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ghKM0GYxCHRhO2OzSWfqAhvO7iCRt7cu1MM1uolJIk+nsQMPRL7i+oqzAG17EDXFX
-         hXLgKqL8giZLAXpZS4JYEwCm7oygNVuf1gJW1iEqCumOXugar6+RcBIw2vSYE1k5Ma
-         eNzDgBcqBKHUcXSs2SWfCLHPqVWYAO4XJE6hsiWs=
-Date:   Thu, 17 Sep 2020 23:13:11 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Hoan Tran <hoan@os.amperecomputing.com>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yash Shah <yash.shah@sifive.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        - <patches@opensource.cirrus.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Andy Teng <andy.teng@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Sricharan R <sricharan@codeaurora.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-unisoc@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 02/13] dt-bindings: gpio: include common schema in
- GPIO controllers
-Message-ID: <20200917201311.GH3969@pendragon.ideasonboard.com>
-References: <20200917165301.23100-1-krzk@kernel.org>
- <20200917165301.23100-3-krzk@kernel.org>
+        Thu, 17 Sep 2020 17:51:21 -0400
+X-Greylist: delayed 10845 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 17:51:20 EDT
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08HIo0hI085450;
+        Thu, 17 Sep 2020 13:50:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1600368600;
+        bh=GSyOHIEEOuX0hzpqE7QI6OG2FGREmdTA0Ssv8saQ4Us=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=qOJfMxuDioJVBGdilJVzdj19+ikEtA4D7r8p9JwE4ZX945cVQLiClRWrAGiyEL00z
+         3Kd53yJEct9m024Mvtvgqr+Tk54/M4scVWFDjrnIsykMNhKRN7VxDpdqmp3izu76Uv
+         Y8GyiKPKITdjAK/KVICYHT2F08tUL8jz3Hio7f8E=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08HInxFW069130
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 17 Sep 2020 13:49:59 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 17
+ Sep 2020 13:49:59 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 17 Sep 2020 13:49:59 -0500
+Received: from [10.250.32.129] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08HInxpC068422;
+        Thu, 17 Sep 2020 13:49:59 -0500
+Subject: Re: [PATCH net-next v4 5/5] ravb: Add support for explicit internal
+ clock delay configuration
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Philippe Schenker <philippe.schenker@toradex.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200917135707.12563-1-geert+renesas@glider.be>
+ <20200917135707.12563-6-geert+renesas@glider.be>
+From:   Dan Murphy <dmurphy@ti.com>
+Message-ID: <29970fbf-9779-d182-5df9-4f563f377311@ti.com>
+Date:   Thu, 17 Sep 2020 13:49:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200917165301.23100-3-krzk@kernel.org>
+In-Reply-To: <20200917135707.12563-6-geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+Geert
 
-Thank you for the patch.
-
-On Thu, Sep 17, 2020 at 06:52:50PM +0200, Krzysztof Kozlowski wrote:
-> Include the common GPIO schema in GPIO controllers to be sure all common
-> properties are properly validated.
-
-Same comment as for patch 09/13, shouldn't we delete redundant
-properties from all these schemas ?
-
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
+On 9/17/20 8:57 AM, Geert Uytterhoeven wrote:
+> Some EtherAVB variants support internal clock delay configuration, which
+> can add larger delays than the delays that are typically supported by
+> the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
+> properties).
+>
+> Historically, the EtherAVB driver configured these delays based on the
+> "rgmii-*id" PHY mode.  This caused issues with PHY drivers that
+> implement PHY internal delays properly[1].  Hence a backwards-compatible
+> workaround was added by masking the PHY mode[2].
+>
+> Add proper support for explicit configuration of the MAC internal clock
+> delays using the new "[rt]x-internal-delay-ps" properties.
+> Fall back to the old handling if none of these properties is present.
+>
+> [1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for
+>      the KSZ9031 PHY")
+> [2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
+>      delays twice").
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
 > ---
-> 
-> Changes since v1:
-> 1. Fix gpio-mxs.yaml
-> 2. Add snps,dw-apb-gpio.yaml
+> v4:
+>    - Add Reviewed-by,
+>
+> v3:
+>    - No changes,
+>
+> v2:
+>    - Add Reviewed-by,
+>    - Split long line,
+>    - Replace "renesas,[rt]xc-delay-ps" by "[rt]x-internal-delay-ps",
+>    - Use 1 instead of true when assigning to a single-bit bitfield.
 > ---
->  .../devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml         | 3 +++
->  Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml      | 3 +++
->  Documentation/devicetree/bindings/gpio/gpio-mxs.yaml          | 4 ++++
->  Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml      | 3 +++
->  Documentation/devicetree/bindings/gpio/gpio-rda.yaml          | 3 +++
->  Documentation/devicetree/bindings/gpio/gpio-vf610.yaml        | 3 +++
->  Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml         | 1 +
->  Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml | 3 +++
->  Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml    | 3 +++
->  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 3 +++
->  Documentation/devicetree/bindings/gpio/sifive,gpio.yaml       | 3 +++
->  Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml  | 3 +++
->  .../devicetree/bindings/gpio/socionext,uniphier-gpio.yaml     | 3 +++
->  .../devicetree/bindings/gpio/xylon,logicvc-gpio.yaml          | 3 +++
->  14 files changed, 41 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> index c213cb9ddb9f..1ac69b9c03f9 100644
-> --- a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
-> @@ -13,6 +13,9 @@ description: |
->    This controller is the Chip Common A GPIO present on a number of Broadcom
->    switch ASICs with integrated SoCs.
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
+>   drivers/net/ethernet/renesas/ravb.h      |  1 +
+>   drivers/net/ethernet/renesas/ravb_main.c | 36 ++++++++++++++++++------
+>   2 files changed, 28 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index e5ca12ce93c730a9..7453b17a37a2c8d0 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -1038,6 +1038,7 @@ struct ravb_private {
+>   	unsigned wol_enabled:1;
+>   	unsigned rxcidm:1;		/* RX Clock Internal Delay Mode */
+>   	unsigned txcidm:1;		/* TX Clock Internal Delay Mode */
+> +	unsigned rgmii_override:1;	/* Deprecated rgmii-*id behavior */
+>   	int num_tx_desc;		/* TX descriptors per packet */
+>   };
+>   
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 59dadd971345e0d1..aa120e3f1e4d4da5 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1034,11 +1034,8 @@ static int ravb_phy_init(struct net_device *ndev)
+>   		pn = of_node_get(np);
+>   	}
+>   
+> -	iface = priv->phy_interface;
+> -	if (priv->chip_id != RCAR_GEN2 && phy_interface_mode_is_rgmii(iface)) {
+> -		/* ravb_set_delay_mode() takes care of internal delay mode */
+> -		iface = PHY_INTERFACE_MODE_RGMII;
+> -	}
+> +	iface = priv->rgmii_override ? PHY_INTERFACE_MODE_RGMII
+> +				     : priv->phy_interface;
+>   	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
+>   	of_node_put(pn);
+>   	if (!phydev) {
+> @@ -1989,20 +1986,41 @@ static const struct soc_device_attribute ravb_delay_mode_quirk_match[] = {
+>   };
+>   
+>   /* Set tx and rx clock internal delay modes */
+> -static void ravb_parse_delay_mode(struct net_device *ndev)
+> +static void ravb_parse_delay_mode(struct device_node *np, struct net_device *ndev)
+>   {
+>   	struct ravb_private *priv = netdev_priv(ndev);
+> +	bool explicit_delay = false;
+> +	u32 delay;
 > +
->  properties:
->    compatible:
->      const: brcm,iproc-gpio-cca
-> diff --git a/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml b/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
-> index de0b9b5f6a70..737756e081fb 100644
-> --- a/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/fsl-imx-gpio.yaml
-> @@ -9,6 +9,9 @@ title: Freescale i.MX/MXC GPIO controller
->  maintainers:
->    - Anson Huang <Anson.Huang@nxp.com>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      oneOf:
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-> index dfa1133f8c5e..bd0c4f329625 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-mxs.yaml
-> @@ -34,6 +34,10 @@ properties:
->  patternProperties:
->    "gpio@[0-9]+$":
->      type: object
-> +
-> +    allOf:
-> +      - $ref: gpio-common.yaml#
-> +
->      properties:
->        compatible:
->          enum:
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml b/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
-> index 338c5312a106..69b12041c893 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-pca9570.yaml
-> @@ -9,6 +9,9 @@ title: PCA9570 I2C GPO expander
->  maintainers:
->    - Sungbo Eo <mans0n@gorani.run>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      enum:
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-rda.yaml b/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
-> index 6ece555f074f..d70c99f463c2 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-rda.yaml
-> @@ -9,6 +9,9 @@ title: RDA Micro GPIO controller
->  maintainers:
->    - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      const: rda,8810pl-gpio
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml b/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
-> index 6ac5a78ad3da..82f3e4b407d1 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-vf610.yaml
-> @@ -17,6 +17,9 @@ description: |
->    Note: Each GPIO port should have an alias correctly numbered in "aliases"
->    node.
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      enum:
-> diff --git a/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
-> index 4db3b8a3332c..e2b7d2d133a8 100644
-> --- a/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/mrvl-gpio.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->    - Rob Herring <robh+dt@kernel.org>
->  
->  allOf:
-> +  - $ref: gpio-common.yaml#
->    - if:
->        properties:
->          compatible:
-> diff --git a/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml b/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
-> index 32a566ec3558..2eee374e8396 100644
-> --- a/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/qcom,wcd934x-gpio.yaml
-> @@ -13,6 +13,9 @@ description: |
->    Qualcomm Technologies Inc WCD9340/WCD9341 Audio Codec has integrated
->    gpio controller to control 5 gpios on the chip.
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      enum:
-> diff --git a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> index 8bdef812c87c..845689807678 100644
-> --- a/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/renesas,em-gio.yaml
-> @@ -9,6 +9,9 @@ title: Renesas EMMA Mobile General Purpose I/O Interface
->  maintainers:
->    - Magnus Damm <magnus.damm@gmail.com>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      const: renesas,em-gio
-> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> index 5026662e4508..c116000d579f 100644
-> --- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> @@ -9,6 +9,9 @@ title: Renesas R-Car General-Purpose Input/Output Ports (GPIO)
->  maintainers:
->    - Geert Uytterhoeven <geert+renesas@glider.be>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      oneOf:
-> diff --git a/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml b/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
-> index a0efd8dc2538..f2d93b40fc7e 100644
-> --- a/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/sifive,gpio.yaml
-> @@ -10,6 +10,9 @@ maintainers:
->    - Yash Shah <yash.shah@sifive.com>
->    - Paul Walmsley <paul.walmsley@sifive.com>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    compatible:
->      items:
-> diff --git a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> index b391cc1b4590..459aafe5fd47 100644
-> --- a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-> @@ -49,6 +49,9 @@ properties:
->  patternProperties:
->    "^gpio-(port|controller)@[0-9a-f]+$":
->      type: object
-> +    allOf:
-> +      - $ref: gpio-common.yaml#
-> +
->      properties:
->        compatible:
->          const: snps,dw-apb-gpio-port
-> diff --git a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
-> index c58ff9a94f45..94a911e9c313 100644
-> --- a/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/socionext,uniphier-gpio.yaml
-> @@ -9,6 +9,9 @@ title: UniPhier GPIO controller
->  maintainers:
->    - Masahiro Yamada <yamada.masahiro@socionext.com>
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    $nodename:
->      pattern: "^gpio@[0-9a-f]+$"
-> diff --git a/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml b/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
-> index a36aec27069c..0e4581241b3f 100644
-> --- a/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/xylon,logicvc-gpio.yaml
-> @@ -23,6 +23,9 @@ description: |
->    - EN_VEE (power control) mapped to index 7
->    - V_EN (power control) mapped to index 8
->  
-> +allOf:
-> +  - $ref: gpio-common.yaml#
-> +
->  properties:
->    $nodename:
->      pattern: "^gpio@[0-9a-f]+$"
+> +	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay)) {
+> +		/* Valid values are 0 and 1800, according to DT bindings */
+> +		priv->rxcidm = !!delay;
+> +		explicit_delay = true;
+> +	}
+> +	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay)) {
+> +		/* Valid values are 0 and 2000, according to DT bindings */
+> +		priv->txcidm = !!delay;
+> +		explicit_delay = true;
+> +	}
+There are helper functions for this
 
--- 
-Regards,
+s32 phy_get_internal_delay(struct phy_device *phydev, struct device 
+*dev, const int *delay_values, int size, bool is_rx)
 
-Laurent Pinchart
+
