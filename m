@@ -2,179 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF09126DDA5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 16:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94CAB26DE36
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 16:28:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727226AbgIQOLn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 10:11:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53936 "EHLO
+        id S1726478AbgIQO2m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 10:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727196AbgIQN6S (ORCPT
+        with ESMTP id S1727562AbgIQO2X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 09:58:18 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3303CC0698C8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Sep 2020 06:57:28 -0700 (PDT)
-Received: from ramsan ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id V1xD230064C55Sk011xDCq; Thu, 17 Sep 2020 15:57:25 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kIuPR-0001Kn-3Q; Thu, 17 Sep 2020 15:57:13 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kIuPR-0003Hi-1v; Thu, 17 Sep 2020 15:57:13 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Dan Murphy <dmurphy@ti.com>,
-        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH net-next v4 5/5] ravb: Add support for explicit internal clock delay configuration
-Date:   Thu, 17 Sep 2020 15:57:07 +0200
-Message-Id: <20200917135707.12563-6-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200917135707.12563-1-geert+renesas@glider.be>
-References: <20200917135707.12563-1-geert+renesas@glider.be>
+        Thu, 17 Sep 2020 10:28:23 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D59C06121E
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Sep 2020 07:05:56 -0700 (PDT)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 168172DB;
+        Thu, 17 Sep 2020 16:04:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600351494;
+        bh=1DXRMznDHGALjYRXyTjbVwZMDpXXHk1Bi1LR7NuJYoQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Z1q//gBPT3HwTBNBqwLeh7t7eOBt2hWFYYyJPoiGDEWyTXmF9jKysSyPzA6vnMsiI
+         wpsgH7Vp/rUTwODWFDQNiwrpndJ3RW3IN5vTDDm3pUlEQox0GIc/TJXIDggGd4BvbS
+         qEA/zWMa/JxywSY50IuwE/DLhviXSmpiDXjgTWKQ=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [VSP-Tests PATCH v2 0/3] Run as user, and python3 support
+Date:   Thu, 17 Sep 2020 15:04:47 +0100
+Message-Id: <20200917140450.12264-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Some EtherAVB variants support internal clock delay configuration, which
-can add larger delays than the delays that are typically supported by
-the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
-properties).
+My development target now runs as a user, rather than root and fails to
+obtain timestamps through the /proc/timer_list which requires root
+access, and generates a warning on every log output.
 
-Historically, the EtherAVB driver configured these delays based on the
-"rgmii-*id" PHY mode.  This caused issues with PHY drivers that
-implement PHY internal delays properly[1].  Hence a backwards-compatible
-workaround was added by masking the PHY mode[2].
+Whilst not fatal, this can be fixed by using a c-based implementation to
+read the monotonic timestamps without parsing proc manually with awk.
 
-Add proper support for explicit configuration of the MAC internal clock
-delays using the new "[rt]x-internal-delay-ps" properties.
-Fall back to the old handling if none of these properties is present.
+This has the extra advantage of not spawning extra processes for every
+line that is logged, and simplifies the timestamp handling.
 
-[1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for
-    the KSZ9031 PHY")
-[2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
-    delays twice").
+Furthermore, python2 is no longer available on my platforms so the
+gen-lut.py script is updated to run as python3.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
----
-v4:
-  - Add Reviewed-by,
+I am aware that there is a second python2 tool in this repository, for
+converting histograms, however I have not yet identified what files this
+process so I have not completed the python3 migration for that file yet.
 
-v3:
-  - No changes,
+If someone wants to complete this, I have the initial conversion, or
+alternatively - if someone has a set of appropriate histograms to give
+me I can update and validate the tool myself.
 
-v2:
-  - Add Reviewed-by,
-  - Split long line,
-  - Replace "renesas,[rt]xc-delay-ps" by "[rt]x-internal-delay-ps",
-  - Use 1 instead of true when assigning to a single-bit bitfield.
----
- drivers/net/ethernet/renesas/ravb.h      |  1 +
- drivers/net/ethernet/renesas/ravb_main.c | 36 ++++++++++++++++++------
- 2 files changed, 28 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index e5ca12ce93c730a9..7453b17a37a2c8d0 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -1038,6 +1038,7 @@ struct ravb_private {
- 	unsigned wol_enabled:1;
- 	unsigned rxcidm:1;		/* RX Clock Internal Delay Mode */
- 	unsigned txcidm:1;		/* TX Clock Internal Delay Mode */
-+	unsigned rgmii_override:1;	/* Deprecated rgmii-*id behavior */
- 	int num_tx_desc;		/* TX descriptors per packet */
- };
- 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 59dadd971345e0d1..aa120e3f1e4d4da5 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1034,11 +1034,8 @@ static int ravb_phy_init(struct net_device *ndev)
- 		pn = of_node_get(np);
- 	}
- 
--	iface = priv->phy_interface;
--	if (priv->chip_id != RCAR_GEN2 && phy_interface_mode_is_rgmii(iface)) {
--		/* ravb_set_delay_mode() takes care of internal delay mode */
--		iface = PHY_INTERFACE_MODE_RGMII;
--	}
-+	iface = priv->rgmii_override ? PHY_INTERFACE_MODE_RGMII
-+				     : priv->phy_interface;
- 	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
- 	of_node_put(pn);
- 	if (!phydev) {
-@@ -1989,20 +1986,41 @@ static const struct soc_device_attribute ravb_delay_mode_quirk_match[] = {
- };
- 
- /* Set tx and rx clock internal delay modes */
--static void ravb_parse_delay_mode(struct net_device *ndev)
-+static void ravb_parse_delay_mode(struct device_node *np, struct net_device *ndev)
- {
- 	struct ravb_private *priv = netdev_priv(ndev);
-+	bool explicit_delay = false;
-+	u32 delay;
-+
-+	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay)) {
-+		/* Valid values are 0 and 1800, according to DT bindings */
-+		priv->rxcidm = !!delay;
-+		explicit_delay = true;
-+	}
-+	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay)) {
-+		/* Valid values are 0 and 2000, according to DT bindings */
-+		priv->txcidm = !!delay;
-+		explicit_delay = true;
-+	}
- 
-+	if (explicit_delay)
-+		return;
-+
-+	/* Fall back to legacy rgmii-*id behavior */
- 	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
--	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID)
-+	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_RXID) {
- 		priv->rxcidm = 1;
-+		priv->rgmii_override = 1;
-+	}
- 
- 	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII_ID ||
- 	    priv->phy_interface == PHY_INTERFACE_MODE_RGMII_TXID) {
- 		if (!WARN(soc_device_match(ravb_delay_mode_quirk_match),
- 			  "phy-mode %s requires TX clock internal delay mode which is not supported by this hardware revision. Please update device tree",
--			  phy_modes(priv->phy_interface)))
-+			  phy_modes(priv->phy_interface))) {
- 			priv->txcidm = 1;
-+			priv->rgmii_override = 1;
-+		}
- 	}
- }
- 
-@@ -2148,7 +2166,7 @@ static int ravb_probe(struct platform_device *pdev)
- 	ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
- 
- 	if (priv->chip_id != RCAR_GEN2) {
--		ravb_parse_delay_mode(ndev);
-+		ravb_parse_delay_mode(np, ndev);
- 		ravb_set_delay_mode(ndev);
- 	}
- 
+Version two updated with comments from Laurent, and collects his tags.
+
+--
+Regards
+
+Kieran
+
+Kieran Bingham (3):
+  gen-lut: Update for python3
+  src: monotonic-ts: Monotonic timestamp logging
+  scripts/logger: Use new monotonic-ts tool
+
+ data/frames/gen-lut.py | 18 +++++++++---------
+ scripts/logger.sh      | 20 ++++----------------
+ src/Makefile           |  9 +++++++--
+ src/monotonic-ts.c     | 36 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 56 insertions(+), 27 deletions(-)
+ create mode 100644 src/monotonic-ts.c
+
 -- 
-2.17.1
+2.25.1
 
