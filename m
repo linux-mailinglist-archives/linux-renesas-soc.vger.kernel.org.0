@@ -2,184 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA02326D75B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 11:04:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7BC126D7BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 11:34:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgIQJEv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 05:04:51 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50461 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726211AbgIQJEu (ORCPT
+        id S1726333AbgIQJeQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 05:34:16 -0400
+Received: from mail-eopbgr1410105.outbound.protection.outlook.com ([40.107.141.105]:45152
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726180AbgIQJeP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 05:04:50 -0400
-X-Greylist: delayed 433 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 05:04:47 EDT
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IpjOkLFp4PTBMIpjPklEVJ; Thu, 17 Sep 2020 10:57:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1600333052; bh=TbnZlMyjc7hLW5uIquqo+lfYa05Kd4uURNp0UGR0Q6c=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qhWncq+6AkVVfv7kbN22XwqiEJUyw652fCtE+1rMl8B8+4Ubq5SBp/w+g4myHmhB/
-         7lwUqNU/t4lJ5uw2PCu4vv8aZy+PbZcULxZshJcr2Hszcorv7jZGL+E95nuuRRouAo
-         7Pe/I79ebUjrg8FHil26o3k5cKs0J7e8p0il/dkIrbb7ovWr0w5YJsAHK6UeShckZ1
-         BY6wctElBKYNsJ1SgMigSZchyKs6ayjYo9ZseZgvFaaUQERN6M67ZeGXj25KcWPnHi
-         ImmhRykluwfEqWE/mJudRQrwg5AgqD11S/1yzuUAUPURbBVYD2rr2ZilmMgXHX9oAw
-         5qbiiMzqiHJyw==
-Subject: Re: [PATCH v3] media: rcar-vin: Enable YDS bit depending on bus_width
- and data_shift
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 17 Sep 2020 05:34:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fgyx2Ezvqg+ufwwEmE6yuZQ5rXxU3puTmAe0rlfL/qeZ0xXdQ9GwDiVijH7C/MGEfGjn5Tquv9LTjethqv0J8gBw2lIoiQjHC2/g++NkzKRU2aEgBM5HlOpw9w3OvIVtplP623YV5ovF11AS85BGSkiqmMJGA/eO8OaaqMeKArflZJ3yyXfA/YrG1/5hNxYWzdGnoZgezUdba54FNQjh5/w6X41+DyWQWtCFCjc0TM1dbc++D4lOnabRICeaVC2H6RoMMI4m6CA9i3rUMu80JicnL1jNRmYhAadu5Vm9X1wivxrDQ98AvxuH5juVoa9DD9n5kvsmO9hmTK3XKGbYTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1S2ldcPZJ+kYBixLlongo8BzjVNu3FVddkwh+3erVG4=;
+ b=bZiSHL2G6zSM4uaVDM/s74rxQyJxK5OgbIy6CHMFxLHOOkGWZ4p8SW5m+0GF0ih00IAkJUeXcGIQAVtCzgS9u+K+X23oacZYS3nF85RLaifyTBI8MibK3GhZbmJ86sepB2n9Fv3m8gSleuqV9eR6grEga3Qc3yJJ1bR29q2uS1kieZFJwsOsxGIXxcWRETA1IXhXtwK/PiOmDATbgEGKwLeJQ8Hamw+aYv2Q3yZDQ5P/S9Lm/2SjRWC2gIMNpWqedrMuyspPzjot6jOW7xOhBwMJB1Wa15nI37wBwWBdpptqkb65QVIW3J64h1xt7gi3ABwi7ZIQ+4a8dfX4SwkUyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1S2ldcPZJ+kYBixLlongo8BzjVNu3FVddkwh+3erVG4=;
+ b=h1h9Iuaj7fJWrjwlDSyz7uyiCO1xU2Vgcvry4ZI2XYZkQSMsn9Jo6QQNOtnjJlVjMBdpYWrfIs+JF1Y+KLN5aTApitV+wukjuSWF4LnmlwrAE24gHeKTw86YZ7B6941xuylLzMW3pTMFBufbCoNkpwxx9sfJy77TSjGzfwcXF3s=
+Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com (2603:1096:603:3a::20)
+ by OSAPR01MB3571.jpnprd01.prod.outlook.com (2603:1096:604:55::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.11; Thu, 17 Sep
+ 2020 09:34:12 +0000
+Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com
+ ([fe80::8c77:606f:d812:ecd2]) by OSAPR01MB2740.jpnprd01.prod.outlook.com
+ ([fe80::8c77:606f:d812:ecd2%7]) with mapi id 15.20.3391.013; Thu, 17 Sep 2020
+ 09:34:12 +0000
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a153e31a-4115-db74-9b21-3e0cbcd8993d@xs4all.nl>
-Date:   Thu, 17 Sep 2020 10:57:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v2 0/3] Document r8a77990 DRIF support
+Thread-Topic: [PATCH v2 0/3] Document r8a77990 DRIF support
+Thread-Index: AQHWjBiDWqW4u1Bt6EWz1E34sCU7DqlsAigAgACQkQA=
+Date:   Thu, 17 Sep 2020 09:34:11 +0000
+Message-ID: <OSAPR01MB274019F29904461003EE340CC23E0@OSAPR01MB2740.jpnprd01.prod.outlook.com>
+References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+ <20200917005502.GQ3853@pendragon.ideasonboard.com>
+In-Reply-To: <20200917005502.GQ3853@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFFR2firi3VrZbJciuz+8KyIN1Cr/M78LF570WN6OoeLmaimY1FXDLMAni4sG3Px59Z6eh/leikmodORkTkZUSnq7JXf6nAjD8UZOZBnCY5g/No67Iah
- 8pfVXOZSJ6F+9WdXNt0HteX7kNzeAdd1wShfXmPyWQMPkIYHEoaTtBgyPT9JUjNRXrQlQp5XxzSLTS02q8qdA7r39/4vgZi9UXHnD1FJ6sQK9QSPhx6b7Vs8
- hkcn5VFihQKp+dcmaSONcRb0bdcoQuzyXblHfrvGpRWAYcFB+k9KDI2nDje8zRXdLeYZORQ353NuCbMawor8/wkmDHCURnhdpi4evkb5YZSlpFrcK1SzlBnQ
- oiUTBUWC8Ihq6FKLIK91R0zBgEt/b/kOz8pCiGOZjcGwv+KqtU6r1cNvIrjtIKCnKnzDYTfHkymXF1HSMJZtiYsJI5TNrsDcTC5zXRDstfdTlQYdU7PkF992
- auVLCyO1vVGcDXwCdGwMNuZ0HTqivea7fjy8kkI6zsgPbLaHCNvQ0qKwne9UCjWd03k2lXevPSQB9l+YVO9q3pmivRFtkaiH564mW1XRxmIPc6JCHZNCcdNu
- NCRcNUBLqwpE5LKsH100hxH9HqcNmPUG0w43j/zWrvWznw==
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none
+ header.from=renesas.com;
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: a7e1b3ae-43eb-45f8-a1a7-08d85aecd5e5
+x-ms-traffictypediagnostic: OSAPR01MB3571:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSAPR01MB3571939FBC5E9852BABFB030C23E0@OSAPR01MB3571.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: v+/jsRrfWNAP35+MP96jDjjRj7Krlg2Qsy3Nw67l/ilpCysZ7Om0upr+57ioolMwfKuKU+o6RzHkuupYdaOLc8Iv633cVBq6UCdyfVlNZoo4jW/VSuZgoTAHm3OGvsGq93E/E9Yi/livUX9VyJHg9UzbgWQnS0wZfyqXqah+0GTEdDEB70pVDuDUJfL04Mm3UU37WWmkUNY/G/5PnCEwAoSVkYqn7iL57sUDViuEgTaERwFCuvNmfVGky5MrdXpGpz2GHTnusg3aqjocTHWUgIVlORw+lz3F7/ThpZabxzZJgPhjFkPfUckI7OPAZU33yjSacZjFLBodyVMjs/moRQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2740.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(66476007)(71200400001)(66556008)(64756008)(8936002)(66446008)(66946007)(8676002)(33656002)(2906002)(76116006)(54906003)(4326008)(5660300002)(26005)(6916009)(186003)(86362001)(7696005)(6506007)(316002)(478600001)(55016002)(9686003)(83380400001)(107886003)(52536014);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: u/6IpRdjyGtLD45Kl3VItFcQI9YA8f2wA4Yv3hTPGwU57/EvMyToKQbxosAxMxG1+jrFwTSV+HE0I9ZmKkqpKXW7CfzgNP+UFtzHOLLkWjKQ0/UJnKy4+Wx8suTYH1UleCgbeD2kOulpsv4mWRaWAcWsDVkXk75+HeGNsZJJ0DqkJRGZ/FMm8gn5HYl7ADxfXcDWewfFs+CuiZ3KhKI/BMTkS4OXOgkZGT5850A6fykZzjwNAVpL55Kn4PVUYL7PhbF81/h40LsoW+0TYSDe/NfpIzxSRJAwhapbR458+fqhm306qC9RZx4GR3gE9D8hj8Qw39e3qFtaqNmVEojKSG2G2dJXMRo8Rj+887YX0kuQ+3mqh5N0fSs+4+5afpmpTBsrSExoUQY3q6O1yjoh7xFSaa/WRVL40p5nOoqZ7H70KvDGoqiAlYZ85QB+Hb1hT88zNb/F+7H1NCz1mD7IUDqUxIvfeIwqCpuF7unWAaHsy8pFsJOOsnz49SP9VW4kuiXby99NQasQmC+VjHW2TG5h2zbBTsVCHIgbJARRzsbH10CN/uBU8q7RajQZ7vFjHW9pyIdbBPocxpqKLJVPOGncnXXGyBPzSHJHuwTQ2Absb9OyuKPZV8q0BCrilZOjlIoZifoZh7fBcDdS1bwAUA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2740.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7e1b3ae-43eb-45f8-a1a7-08d85aecd5e5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2020 09:34:11.9163
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mjtyPQhZWgfTqn1RIdeEjLQkL5WLnSc4YFufLUF7brJB3gfOUoq8b4MWepBvx4vT70sqSDUfPfxKgb1ewELLR4jlmitbPMulwDRi2zAxyQ8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3571
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-Can you rebase this patch? It no longer applies.
-
-Regards,
-
-	Hans
-
-On 13/09/2020 20:16, Lad Prabhakar wrote:
-> Enable YDS bit if bus_width and data_shift is set to 8 in parallel mode
-> for MEDIA_BUS_FMT_UYVY8_2X8 format.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> Changes for v3:
-> * Dropped BIT macro
-> * Introduced struct v4l2_fwnode_bus_parallel
-> 
-> Changes for v2:
-> * Dropped DT binding documentation patch
-> * Select the data pins depending on bus-width and data-shift
-> 
-> v1 -
-> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c |  9 ++++-----
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 17 ++++++++++++++---
->  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++--
->  3 files changed, 21 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 7440c8965d27..1149ab76cf5c 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -626,12 +626,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
->  
->  	switch (vin->parallel->mbus_type) {
->  	case V4L2_MBUS_PARALLEL:
-> -		vin_dbg(vin, "Found PARALLEL media bus\n");
-> -		vin->parallel->mbus_flags = vep->bus.parallel.flags;
-> -		break;
->  	case V4L2_MBUS_BT656:
-> -		vin_dbg(vin, "Found BT656 media bus\n");
-> -		vin->parallel->mbus_flags = 0;
-> +		vin_dbg(vin, "Found %s media bus\n",
-> +			vin->parallel->mbus_type == V4L2_MBUS_PARALLEL ?
-> +			"PARALLEL" : "BT656");
-> +		vin->parallel->bus = vep->bus.parallel;
->  		break;
->  	default:
->  		vin_err(vin, "Unknown media bus type\n");
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index a5dbb90c5210..d067439b0b0d 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -125,6 +125,7 @@
->  #define VNDMR2_VPS		(1 << 30)
->  #define VNDMR2_HPS		(1 << 29)
->  #define VNDMR2_CES		(1 << 28)
-> +#define VNDMR2_YDS		(1 << 22)
->  #define VNDMR2_FTEV		(1 << 17)
->  #define VNDMR2_VLV(n)		((n & 0xf) << 12)
->  
-> @@ -698,16 +699,26 @@ static int rvin_setup(struct rvin_dev *vin)
->  
->  	if (!vin->is_csi) {
->  		/* Hsync Signal Polarity Select */
-> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
-> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
->  			dmr2 |= VNDMR2_HPS;
->  
->  		/* Vsync Signal Polarity Select */
-> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
-> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
->  			dmr2 |= VNDMR2_VPS;
->  
->  		/* Data Enable Polarity Select */
-> -		if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
-> +		if (vin->parallel->bus.flags & V4L2_MBUS_DATA_ENABLE_LOW)
->  			dmr2 |= VNDMR2_CES;
-> +
-> +		switch (vin->mbus_code) {
-> +		case MEDIA_BUS_FMT_UYVY8_2X8:
-> +			if (vin->parallel->bus.bus_width == 8 &&
-> +			    vin->parallel->bus.data_shift == 8)
-> +				dmr2 |= VNDMR2_YDS;
-> +			break;
-> +		default:
-> +			break;
-> +		}
->  	}
->  
->  	/*
-> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> index c19d077ce1cb..8396e0e45478 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> @@ -19,6 +19,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-dev.h>
->  #include <media/v4l2-device.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <media/videobuf2-v4l2.h>
->  
->  /* Number of HW buffers */
-> @@ -92,7 +93,7 @@ struct rvin_video_format {
->   * @asd:	sub-device descriptor for async framework
->   * @subdev:	subdevice matched using async framework
->   * @mbus_type:	media bus type
-> - * @mbus_flags:	media bus configuration flags
-> + * @bus:	media bus parallel configuration
->   * @source_pad:	source pad of remote subdevice
->   * @sink_pad:	sink pad of remote subdevice
->   *
-> @@ -102,7 +103,7 @@ struct rvin_parallel_entity {
->  	struct v4l2_subdev *subdev;
->  
->  	enum v4l2_mbus_type mbus_type;
-> -	unsigned int mbus_flags;
-> +	struct v4l2_fwnode_bus_parallel bus;
->  
->  	unsigned int source_pad;
->  	unsigned int sink_pad;
-> 
-
+SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrLg0KDQo+IEZyb206IExh
+dXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2Vu
+dDogMTcgU2VwdGVtYmVyIDIwMjAgMDE6NTUNCj4NCj4gSGkgRmFicml6aW8sDQo+DQo+IFRoYW5r
+IHlvdSBmb3IgdGhlIHBhdGNoZXMuDQo+DQo+IE9uIFdlZCwgU2VwIDE2LCAyMDIwIGF0IDExOjU5
+OjQ2QU0gKzAxMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToNCj4gPiBEZWFyIEFsbCwNCj4gPg0K
+PiA+IHRoaXMgc2VyaWVzIGRvY3VtZW50cyBEUklGIHN1cHBvcnQgZm9yIHRoZSByOGE3Nzk5MA0K
+PiA+IChhLmsuYS4gUi1DYXIgRTMpLg0KPg0KPiBUaGlzIGxvb2tzIGdvb2QgdG8gbWUsIGJ1dCBJ
+J2QgbGlrZSB0byBnaXZlIFJvYiBhbiBvcHBvcnR1bml0eSB0byByZXZpZXcNCj4gdGhlIERUIGJp
+bmRpbmdzLiBBcyB3ZSdyZSBhbHJlYWR5IGF0IHY1LjktcmM1LCB0aGlzIHdpbGwgbGlrZWx5IG1l
+YW4NCj4gbWlzc2luZyB0aGUgdjUuMTAgbWVyZ2Ugd2luZG93ICh0aGUgbGludXgtbWVkaWEgdHJl
+ZSBjbG9zZXMgYXQgLXJjNikuIEkNCj4gZG9uJ3Qgc2VlIHRoaXMgc2VyaWVzIGJlaW5nIHVyZ2Vu
+dCwgYnV0IHBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UNCj4gZGlzYWdyZWUuDQoNClRoYXQncyBm
+aW5lIGJ5IG1lLg0KDQpCUiwNCkZhYg0KDQo+DQo+ID4gRmFicml6aW8gQ2FzdHJvICgzKToNCj4g
+PiAgIE1BSU5UQUlORVJTOiBBZGQgRmFicml6aW8gQ2FzdHJvIHRvIFJlbmVzYXMgRFJJRg0KPiA+
+ICAgbWVkaWE6IGR0LWJpbmRpbmdzOiBtZWRpYTogcmVuZXNhcyxkcmlmOiBDb252ZXJ0IHRvIGpz
+b24tc2NoZW1hDQo+ID4gICBtZWRpYTogZHQtYmluZGluZ3M6IG1lZGlhOiByZW5lc2FzLGRyaWY6
+IEFkZCByOGE3Nzk5MCBzdXBwb3J0DQo+ID4NCj4gPiAgLi4uL2JpbmRpbmdzL21lZGlhL3JlbmVz
+YXMsZHJpZi50eHQgICAgICAgICAgIHwgMTc3IC0tLS0tLS0tLS0tLQ0KPiA+ICAuLi4vYmluZGlu
+Z3MvbWVkaWEvcmVuZXNhcyxkcmlmLnlhbWwgICAgICAgICAgfCAyNzEgKysrKysrKysrKysrKysr
+KysrDQo+ID4gIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8
+ICAgMyArLQ0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDI3MyBpbnNlcnRpb25zKCspLCAxNzggZGVs
+ZXRpb25zKC0pDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NA0KPiBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvbWVkaWEvcmVuZXNhcyxkcmlmLnR4dA0KPiA+ICBjcmVhdGUgbW9kZSAx
+MDA2NDQNCj4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMs
+ZHJpZi55YW1sDQo+DQo+IC0tDQo+IFJlZ2FyZHMsDQo+DQo+IExhdXJlbnQgUGluY2hhcnQNCg0K
+DQpSZW5lc2FzIEVsZWN0cm9uaWNzIEV1cm9wZSBHbWJILCBHZXNjaGFlZnRzZnVlaHJlci9QcmVz
+aWRlbnQ6IENhcnN0ZW4gSmF1Y2gsIFNpdHogZGVyIEdlc2VsbHNjaGFmdC9SZWdpc3RlcmVkIG9m
+ZmljZTogRHVlc3NlbGRvcmYsIEFyY2FkaWFzdHJhc3NlIDEwLCA0MDQ3MiBEdWVzc2VsZG9yZiwg
+R2VybWFueSwgSGFuZGVsc3JlZ2lzdGVyL0NvbW1lcmNpYWwgUmVnaXN0ZXI6IER1ZXNzZWxkb3Jm
+LCBIUkIgMzcwOCBVU3QtSUROci4vVGF4IGlkZW50aWZpY2F0aW9uIG5vLjogREUgMTE5MzUzNDA2
+IFdFRUUtUmVnLi1Oci4vV0VFRSByZWcuIG5vLjogREUgMTQ5Nzg2NDcNCg==
