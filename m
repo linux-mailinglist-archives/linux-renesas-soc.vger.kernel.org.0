@@ -2,100 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C317E26E079
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 18:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B63B026E086
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 18:21:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728364AbgIQQT5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 12:19:57 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:42560 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728397AbgIQQTO (ORCPT
+        id S1728451AbgIQQVy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 12:21:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37240 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728448AbgIQQUv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 12:19:14 -0400
-X-Greylist: delayed 417 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 12:18:49 EDT
-X-IronPort-AV: E=Sophos;i="5.77,271,1596466800"; 
-   d="scan'208";a="57331016"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Sep 2020 01:09:26 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7A5394011AC1;
-        Fri, 18 Sep 2020 01:09:24 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH v2] media: v4l2-fwnode: Return -EINVAL for invalid bus-type
-Date:   Thu, 17 Sep 2020 17:08:47 +0100
-Message-Id: <20200917160847.31936-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 17 Sep 2020 12:20:51 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600359645;
+        bh=7iXEFBYHJrPnOw66ShZofl18/Xnd4qVbQc2h/BSFyjY=;
+        h=Subject:From:Date:To:From;
+        b=SwBS57F4PGmhF0A/KAq3yumW4POhXZhd7+CX6bTR1xHEU/aDwxnwTl6HgtBSPW3NW
+         2aW/Yo2dcdWkZJv0JjlNFq/J96QlmbBmLHN5z4JQUoh7DMG+4WA0kr4Z+HBaNByERW
+         0U1WBmXWm/GS3/RAqo9f/vI9q+j+jc0tjrGaMpPU=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <160035964546.14442.4764871674211140342.git-patchwork-housekeeping@kernel.org>
+Date:   Thu, 17 Sep 2020 16:20:45 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Return -EINVAL if invalid bus-type is detected while parsing endpoints.
+Latest series: [v2] media: v4l2-fwnode: Return -EINVAL for invalid bus-type (2020-09-17T16:08:47)
+  Superseding: [v1] media: v4l2-fwnode: Return -EINVAL for invalid bus-type (2020-09-15T15:55:44):
+    media: v4l2-fwnode: Return -EINVAL for invalid bus-type
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* Updated commit description
-* Fixed nit pointed by Sakari
 
-v1 - https://patchwork.kernel.org/patch/11777127/
----
- drivers/media/v4l2-core/v4l2-fwnode.c | 6 +++++-
- include/media/v4l2-mediabus.h         | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index d7bbe33840cb..dfc53d11053f 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -93,7 +93,7 @@ v4l2_fwnode_bus_type_to_mbus(enum v4l2_fwnode_bus_type type)
- 	const struct v4l2_fwnode_bus_conv *conv =
- 		get_v4l2_fwnode_bus_conv_by_fwnode_bus(type);
- 
--	return conv ? conv->mbus_type : V4L2_MBUS_UNKNOWN;
-+	return conv ? conv->mbus_type : V4L2_MBUS_INVALID;
- }
- 
- static const char *
-@@ -436,6 +436,10 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
- 		 v4l2_fwnode_mbus_type_to_string(vep->bus_type),
- 		 vep->bus_type);
- 	mbus_type = v4l2_fwnode_bus_type_to_mbus(bus_type);
-+	if (mbus_type == V4L2_MBUS_INVALID) {
-+		pr_debug("unsupported bus type %u\n", bus_type);
-+		return -EINVAL;
-+	}
- 
- 	if (vep->bus_type != V4L2_MBUS_UNKNOWN) {
- 		if (mbus_type != V4L2_MBUS_UNKNOWN &&
-diff --git a/include/media/v4l2-mediabus.h b/include/media/v4l2-mediabus.h
-index 59b1de197114..c20e2dc6d432 100644
---- a/include/media/v4l2-mediabus.h
-+++ b/include/media/v4l2-mediabus.h
-@@ -103,6 +103,7 @@
-  * @V4L2_MBUS_CCP2:	CCP2 (Compact Camera Port 2)
-  * @V4L2_MBUS_CSI2_DPHY: MIPI CSI-2 serial interface, with D-PHY
-  * @V4L2_MBUS_CSI2_CPHY: MIPI CSI-2 serial interface, with C-PHY
-+ * @V4L2_MBUS_INVALID:	invalid bus type (keep as last)
-  */
- enum v4l2_mbus_type {
- 	V4L2_MBUS_UNKNOWN,
-@@ -112,6 +113,7 @@ enum v4l2_mbus_type {
- 	V4L2_MBUS_CCP2,
- 	V4L2_MBUS_CSI2_DPHY,
- 	V4L2_MBUS_CSI2_CPHY,
-+	V4L2_MBUS_INVALID,
- };
- 
- /**
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
