@@ -2,123 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF28726D645
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 10:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA02326D75B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 11:04:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbgIQIU3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 04:20:29 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:37695 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbgIQIU2 (ORCPT
+        id S1726236AbgIQJEv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 05:04:51 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50461 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726211AbgIQJEu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 04:20:28 -0400
-Received: by mail-oi1-f196.google.com with SMTP id a3so1545004oib.4;
-        Thu, 17 Sep 2020 01:20:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OImvR1aLA7jiKCuY6IeLq9jEJl58ObzWa57LO9tthqA=;
-        b=k7+Eu9HN12g09HaXBwMIr9sVYAGLajzBrZmfcMhOGN0ygSbmHYy0AcNsecZxqk02iM
-         4SM2fPDWnsKrpxpHBSz8lWmsKXL95yD14LGWXxooZZv8BTvrbmCWz8lMYvv7Kt1XOyvw
-         jpRGDTPGa6nHJrQ0eSZA1NcmihAirC+7Xe6STmPPYahIV6iQcA5GHUtwlHmvOs3+Pwal
-         qrcLmjkPburTV4q4ekjxmMmqKwwSwQWKEyI4TkElwccZ9E2PDJDvSuiez4OJ1AXxl4g1
-         E1DaMaFiMPCqphXkuY4LkKWIzS4VD8ECun9LRtsGbME10Cboy9+fMfcP6zQ+VzO0TGyf
-         K4BQ==
-X-Gm-Message-State: AOAM530AFm3u+9fQxYEkrZi3JXfoXOkn+Bg6qpfTbutrbXmEivM6ijeJ
-        LoxKVYOT6T4rIzFe/wp0D+hKv97IB9OP4r02qbY=
-X-Google-Smtp-Source: ABdhPJw4DNL7Wu+0nNJb6UxHcGhuJCGJwcAhnphWlGhI1dAAORelaBnV0HoMcdp7ctWCCLtfY26jZw01C0tH+jTyDtk=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr5634950oib.54.1600330827679;
- Thu, 17 Sep 2020 01:20:27 -0700 (PDT)
+        Thu, 17 Sep 2020 05:04:50 -0400
+X-Greylist: delayed 433 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 05:04:47 EDT
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id IpjOkLFp4PTBMIpjPklEVJ; Thu, 17 Sep 2020 10:57:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1600333052; bh=TbnZlMyjc7hLW5uIquqo+lfYa05Kd4uURNp0UGR0Q6c=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qhWncq+6AkVVfv7kbN22XwqiEJUyw652fCtE+1rMl8B8+4Ubq5SBp/w+g4myHmhB/
+         7lwUqNU/t4lJ5uw2PCu4vv8aZy+PbZcULxZshJcr2Hszcorv7jZGL+E95nuuRRouAo
+         7Pe/I79ebUjrg8FHil26o3k5cKs0J7e8p0il/dkIrbb7ovWr0w5YJsAHK6UeShckZ1
+         BY6wctElBKYNsJ1SgMigSZchyKs6ayjYo9ZseZgvFaaUQERN6M67ZeGXj25KcWPnHi
+         ImmhRykluwfEqWE/mJudRQrwg5AgqD11S/1yzuUAUPURbBVYD2rr2ZilmMgXHX9oAw
+         5qbiiMzqiHJyw==
+Subject: Re: [PATCH v3] media: rcar-vin: Enable YDS bit depending on bus_width
+ and data_shift
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+References: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a153e31a-4115-db74-9b21-3e0cbcd8993d@xs4all.nl>
+Date:   Thu, 17 Sep 2020 10:57:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1600255098-21411-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdXo6nRhR0hUB0iNvdZSsg1BCb9gDH7u+Z5+SNvmEfdtJg@mail.gmail.com>
- <TY2PR01MB36924032D54CCB7718F950EFD83E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <CAMuHMdVje8bjH0E4pVUMs7+Q0QhCRw86WAiKGwBBW3G-NxrEDg@mail.gmail.com> <TY2PR01MB3692CEF31253D7998258ECD7D83E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB3692CEF31253D7998258ECD7D83E0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Sep 2020 10:20:16 +0200
-Message-ID: <CAMuHMdUTn9DXZg7KFwBmk7tq2DPqEiW6AosW0baY748tz1EcrQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] ata: sata-rcar: Fix .dma_boundary for WRITE DMA EXT
- timeout issue
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Jens Axboe <axboe@kernel.dk>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200913181608.32077-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFFR2firi3VrZbJciuz+8KyIN1Cr/M78LF570WN6OoeLmaimY1FXDLMAni4sG3Px59Z6eh/leikmodORkTkZUSnq7JXf6nAjD8UZOZBnCY5g/No67Iah
+ 8pfVXOZSJ6F+9WdXNt0HteX7kNzeAdd1wShfXmPyWQMPkIYHEoaTtBgyPT9JUjNRXrQlQp5XxzSLTS02q8qdA7r39/4vgZi9UXHnD1FJ6sQK9QSPhx6b7Vs8
+ hkcn5VFihQKp+dcmaSONcRb0bdcoQuzyXblHfrvGpRWAYcFB+k9KDI2nDje8zRXdLeYZORQ353NuCbMawor8/wkmDHCURnhdpi4evkb5YZSlpFrcK1SzlBnQ
+ oiUTBUWC8Ihq6FKLIK91R0zBgEt/b/kOz8pCiGOZjcGwv+KqtU6r1cNvIrjtIKCnKnzDYTfHkymXF1HSMJZtiYsJI5TNrsDcTC5zXRDstfdTlQYdU7PkF992
+ auVLCyO1vVGcDXwCdGwMNuZ0HTqivea7fjy8kkI6zsgPbLaHCNvQ0qKwne9UCjWd03k2lXevPSQB9l+YVO9q3pmivRFtkaiH564mW1XRxmIPc6JCHZNCcdNu
+ NCRcNUBLqwpE5LKsH100hxH9HqcNmPUG0w43j/zWrvWznw==
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Prabhakar,
 
-On Thu, Sep 17, 2020 at 10:14 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Thursday, September 17, 2020 5:05 PM
-> > On Thu, Sep 17, 2020 at 10:00 AM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > From: Geert Uytterhoeven, Sent: Wednesday, September 16, 2020 8:48 PM
-> > > > On Wed, Sep 16, 2020 at 1:27 PM Yoshihiro Shimoda
-> > > > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > > > When we wrote data to an SATA HDD, the following timeout issue
-> > > > > happened after the commit 429120f3df2d ("block: fix splitting
-> > > > > segments on boundary masks") was applied:
-> > > > >
-> > > > >     # dd if=/dev/urandom of=/mnt/de1/file1-1024M bs=1M count=1024
-> > > > >     ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
-> > > > >     ata1.00: failed command: WRITE DMA EXT
-> > > > >     ata1.00: cmd 35/00:00:00:e6:0c/00:0a:00:00:00/e0 tag 0 dma 1310720 out
-> > > > >     res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)
-> > > > >     ata1.00: status: { DRDY }
-> > > > >
-> > > > > Since the commit changed get_max_segment_size()'s behavior,
-> > > > > unexpected behavior happens if .dma_boundary of this sata-rcar driver
-> > > > > is 0x1ffffffe in somewhere (my guess).
-> > > > >
-> > > > > By the way, the commit 8bfbeed58665 ("sata_rcar: correct
-> > > > > 'sata_rcar_sht'") changed the .dma_boundary as 0x1ffffffe, but this
-> > > > > number is related to ATAPI_DMA_TRANS_CNT register. So, we should set
-> > > > > the .dma_boundary as ATA_DMA_BOUNDARY (0xffff), and set
-> > > > > .max_segment_size to min(0x1ffffffe, dma_max_mapping_size()).
-> > > > >
-> > > > > After applied this, the timeout issue disappeared.
-> > > > >
-> > > > > Fixes: 8bfbeed58665 ("sata_rcar: correct 'sata_rcar_sht'")
-> > > > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > ---
-> > > > >  As I wrote the commit description, I couldn't find why the issue
-> > > > > was related to the .dma_boundary. So, I marked RFC on this patch.
-> > > > > I would appreciate it if you would give me some advice.
-> > > >
-> > > > There's also "[PATCH v2] ata: sata_rcar: Fix DMA boundary mask"
-> > > > (https://lore.kernel.org/linux-ide/20200811081712.4981-1-geert+renesas@glider.be/)
-> > > >
-> > > > Is this related?
-> > > > Does my patch fix your issue, too?
-> > >
-> > > Thank you for the information!
-> > > Your patch fixed my issue too. So, I think my patch should be dropped.
-> >
-> > Thanks for testing!
-> >
-> > Can I add your Tested-by?
->
-> Yes. Thanks!
+Can you rebase this patch? It no longer applies.
 
-Thanks, I'll augment the patch description with the gist of your problem
-report.
+Regards,
 
-Gr{oetje,eeting}s,
+	Hans
 
-                        Geert
+On 13/09/2020 20:16, Lad Prabhakar wrote:
+> Enable YDS bit if bus_width and data_shift is set to 8 in parallel mode
+> for MEDIA_BUS_FMT_UYVY8_2X8 format.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> Changes for v3:
+> * Dropped BIT macro
+> * Introduced struct v4l2_fwnode_bus_parallel
+> 
+> Changes for v2:
+> * Dropped DT binding documentation patch
+> * Select the data pins depending on bus-width and data-shift
+> 
+> v1 -
+> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=323799
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c |  9 ++++-----
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 17 ++++++++++++++---
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++--
+>  3 files changed, 21 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 7440c8965d27..1149ab76cf5c 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -626,12 +626,11 @@ static int rvin_parallel_parse_v4l2(struct device *dev,
+>  
+>  	switch (vin->parallel->mbus_type) {
+>  	case V4L2_MBUS_PARALLEL:
+> -		vin_dbg(vin, "Found PARALLEL media bus\n");
+> -		vin->parallel->mbus_flags = vep->bus.parallel.flags;
+> -		break;
+>  	case V4L2_MBUS_BT656:
+> -		vin_dbg(vin, "Found BT656 media bus\n");
+> -		vin->parallel->mbus_flags = 0;
+> +		vin_dbg(vin, "Found %s media bus\n",
+> +			vin->parallel->mbus_type == V4L2_MBUS_PARALLEL ?
+> +			"PARALLEL" : "BT656");
+> +		vin->parallel->bus = vep->bus.parallel;
+>  		break;
+>  	default:
+>  		vin_err(vin, "Unknown media bus type\n");
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index a5dbb90c5210..d067439b0b0d 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -125,6 +125,7 @@
+>  #define VNDMR2_VPS		(1 << 30)
+>  #define VNDMR2_HPS		(1 << 29)
+>  #define VNDMR2_CES		(1 << 28)
+> +#define VNDMR2_YDS		(1 << 22)
+>  #define VNDMR2_FTEV		(1 << 17)
+>  #define VNDMR2_VLV(n)		((n & 0xf) << 12)
+>  
+> @@ -698,16 +699,26 @@ static int rvin_setup(struct rvin_dev *vin)
+>  
+>  	if (!vin->is_csi) {
+>  		/* Hsync Signal Polarity Select */
+> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
+> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_HSYNC_ACTIVE_LOW))
+>  			dmr2 |= VNDMR2_HPS;
+>  
+>  		/* Vsync Signal Polarity Select */
+> -		if (!(vin->parallel->mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
+> +		if (!(vin->parallel->bus.flags & V4L2_MBUS_VSYNC_ACTIVE_LOW))
+>  			dmr2 |= VNDMR2_VPS;
+>  
+>  		/* Data Enable Polarity Select */
+> -		if (vin->parallel->mbus_flags & V4L2_MBUS_DATA_ENABLE_LOW)
+> +		if (vin->parallel->bus.flags & V4L2_MBUS_DATA_ENABLE_LOW)
+>  			dmr2 |= VNDMR2_CES;
+> +
+> +		switch (vin->mbus_code) {
+> +		case MEDIA_BUS_FMT_UYVY8_2X8:
+> +			if (vin->parallel->bus.bus_width == 8 &&
+> +			    vin->parallel->bus.data_shift == 8)
+> +				dmr2 |= VNDMR2_YDS;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+>  	}
+>  
+>  	/*
+> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> index c19d077ce1cb..8396e0e45478 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> @@ -19,6 +19,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/videobuf2-v4l2.h>
+>  
+>  /* Number of HW buffers */
+> @@ -92,7 +93,7 @@ struct rvin_video_format {
+>   * @asd:	sub-device descriptor for async framework
+>   * @subdev:	subdevice matched using async framework
+>   * @mbus_type:	media bus type
+> - * @mbus_flags:	media bus configuration flags
+> + * @bus:	media bus parallel configuration
+>   * @source_pad:	source pad of remote subdevice
+>   * @sink_pad:	sink pad of remote subdevice
+>   *
+> @@ -102,7 +103,7 @@ struct rvin_parallel_entity {
+>  	struct v4l2_subdev *subdev;
+>  
+>  	enum v4l2_mbus_type mbus_type;
+> -	unsigned int mbus_flags;
+> +	struct v4l2_fwnode_bus_parallel bus;
+>  
+>  	unsigned int source_pad;
+>  	unsigned int sink_pad;
+> 
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
