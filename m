@@ -2,129 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D15C270745
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Sep 2020 22:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9D0E27078E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Sep 2020 22:53:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726187AbgIRUpd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Sep 2020 16:45:33 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41374 "EHLO
+        id S1726371AbgIRUw7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Sep 2020 16:52:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41550 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726174AbgIRUpc (ORCPT
+        with ESMTP id S1726154AbgIRUwy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Sep 2020 16:45:32 -0400
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E52692D7;
-        Fri, 18 Sep 2020 22:45:30 +0200 (CEST)
+        Fri, 18 Sep 2020 16:52:54 -0400
+Received: from localhost.localdomain (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93C902D7;
+        Fri, 18 Sep 2020 22:52:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1600461931;
-        bh=AGh2lWS2wlCf4fuVYoFY0R0cazuhM7gXdvdTdTTOO0Q=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=dpzH/HVYTfXjIQF4z0ROHKR8h4NGZqhqzE7Q82PAfG6bxa2xux91fcXfvySiWYw1I
-         OFFmJrnGdbhLLL5UXZbJK6dmdDgFy1t3lv9+EMWlbGRiefUxvXRxUKpDsPqFrRk7bi
-         aKTEe4UnZUk3cm9iblSHA31kX3EV+IzCS7ih0dOo=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 2/3] tests: Skip unbind/bind tests when not root
+        s=mail; t=1600462371;
+        bh=CI9AJY16fRmU9LZRwiwP/JL+npz938O8BLQiJsWZarQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ofKXb2YC5tjJUANWbPUBTPpBDz93D6lmM64SJWJ36vSiSdoBUJ71m0UGslQ2UBNEh
+         D5KZt60ZlvLnrqKg7KN/rlkhCfuBkziY73sfmV9uvjXlp94YNRIeMQTVBPiuKlMt7+
+         TroCJPIcsoapRaS66diJr8FoQImqvCbrh4pLx0NE=
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org
-References: <20200918202616.55977-1-kieran.bingham@ideasonboard.com>
- <20200918202616.55977-3-kieran.bingham@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <4c0e1641-088b-02cb-292d-c67cfbb1fd9c@ideasonboard.com>
-Date:   Fri, 18 Sep 2020 21:45:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2] tests: Skip unbind/bind tests when not root
+Date:   Fri, 18 Sep 2020 21:52:45 +0100
+Message-Id: <20200918205245.58020-1-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200918202616.55977-3-kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20200918202616.55977-3-kieran.bingham@ideasonboard.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran
+The user must be root to be able to perform the unbind/bind cycle.
+Skip this test when the user does not have root privilidges.
 
-On 18/09/2020 21:26, Kieran Bingham wrote:
-> The user must be root to be able to perform the unbind/bind cycle.
-> Skip this test when the user does not have root privilidges.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
->  tests/vsp-unit-test-0026.sh | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
-> index 0e013cec881b..88038f3fdebf 100755
-> --- a/tests/vsp-unit-test-0026.sh
-> +++ b/tests/vsp-unit-test-0026.sh
-> @@ -41,6 +41,12 @@ test_copy() {
->  test_main() {
->  	local format
->  
-> +	if [ ! "$(id -u)" = 0 ] ; then
-> +		# Root is required to run unbind tests
-> +		test_complete skip
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+---
+v2:
+ - Provide a test_start to match the test_complete operations.
 
-Ugh, this is a bit annoying as it generates a warning on the output
-actually, as we haven't yet called test_start.
 
-We could do a test_start "Rebinding VSPs", and then it will either skip
-or pass. But any failures would be in the kernel logs...
+ tests/vsp-unit-test-0026.sh | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> +		return
-> +	fi
-> +
->  	# Unbind and rebind VSPs individually
->  	for v in $vsps; do
->  		unbind_vsp $v
-> 
-
+diff --git a/tests/vsp-unit-test-0026.sh b/tests/vsp-unit-test-0026.sh
+index 0e013cec881b..391986e77336 100755
+--- a/tests/vsp-unit-test-0026.sh
++++ b/tests/vsp-unit-test-0026.sh
+@@ -41,12 +41,23 @@ test_copy() {
+ test_main() {
+ 	local format
+ 
++	test_start "rebinding VSPs"
++
++	if [ ! "$(id -u)" = 0 ] ; then
++		# Root is required to run unbind tests
++		test_complete skip
++		return
++	fi
++
+ 	# Unbind and rebind VSPs individually
+ 	for v in $vsps; do
+ 		unbind_vsp $v
+ 		bind_vsp $v
+ 	done
+ 
++	# The test passes if the kernel doesn't crash
++	test_complete pass
++
+ 	# Perform a simple copy test to validate HW is alive
+ 	test_copy RGB24 128x128
+ }
 -- 
-Regards
---
-Kieran
+2.25.1
+
