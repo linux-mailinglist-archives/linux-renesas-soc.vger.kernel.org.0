@@ -2,99 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AC7D26FD7C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Sep 2020 14:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3155C26FD7E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Sep 2020 14:48:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbgIRMs0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Sep 2020 08:48:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40256 "EHLO
+        id S1726121AbgIRMsg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Sep 2020 08:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbgIRMsV (ORCPT
+        with ESMTP id S1726154AbgIRMsb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Sep 2020 08:48:21 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E11FCC06174A
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Sep 2020 05:48:20 -0700 (PDT)
+        Fri, 18 Sep 2020 08:48:31 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E7E3C06174A
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Sep 2020 05:48:31 -0700 (PDT)
 Received: from ramsan ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id VQoL2300A4C55Sk06QoLd2; Fri, 18 Sep 2020 14:48:20 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id VQoX230074C55Sk01QoXbm; Fri, 18 Sep 2020 14:48:31 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kJFoK-00025R-Em; Fri, 18 Sep 2020 14:48:20 +0200
+        id 1kJFoV-00025W-4q; Fri, 18 Sep 2020 14:48:31 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kJFoK-00045S-D6; Fri, 18 Sep 2020 14:48:20 +0200
+        id 1kJFoV-00046R-3N; Fri, 18 Sep 2020 14:48:31 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v5.10 (take two)
-Date:   Fri, 18 Sep 2020 14:48:19 +0200
-Message-Id: <20200918124819.15652-1-geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.10 (take two)
+Date:   Fri, 18 Sep 2020 14:48:28 +0200
+Message-Id: <20200918124828.15729-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
-The following changes since commit e41cb217932969a20cea9c44299c449236058e43:
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-  clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r) (2020-09-04 09:42:01 +0200)
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.10-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v5.10-tag1
 
-for you to fetch changes up to 15d683e61bdded719e6202fed2c7401f4dcd95ab:
+for you to fetch changes up to 540d9757cea8274a44d69cbadcff5b8c381bae8d:
 
-  clk: renesas: rcar-gen3: Update description for RZ/G2 (2020-09-17 15:32:25 +0200)
+  pinctrl: renesas: Reintroduce SH_PFC for common sh-pfc code (2020-09-15 10:04:35 +0200)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v5.10 (take two)
+pinctrl: renesas: Updates for v5.10
 
-  - Add support for the new R-Car V3U (R8A779A0) SoC,
+  - Add CAN and USB1 PWEN pin groups on R-Car H2 and RZ/G1,
+  - Three more conversion of DT bindings to json-schema,
+  - Group all Renesas pinctrl drivers and improve visual Kconfig
+    structure,
+  - Rename drivers/pinctrl/sh-pfc to drivers/pinctrl/renesas,
   - Minor fixes and improvements.
 
-Note that the new Renesas R-Car V3U DT Binding Definitions are shared by
-driver and DT source files, and thus included in multiple pull requests:
-  - "[GIT PULL 1/4] Renesas ARM DT updates for v5.10 (take two)" (for
-    arm-soc),
-  - "[GIT PULL 3/4] Renesas driver updates for v5.10 (take two)" (for
-    arm-soc),
-  - "[GIT PULL] clk: renesas: Updates for v5.10 (take two)" (for clk).
+This pull request supersedes and augments "[GIT PULL] pinctrl: sh-pfc:
+Updates for v5.10"[*].
 
 Thanks for pulling!
+
+[*] https://lore.kernel.org/linux-gpio/20200904114849.30413-1-geert+renesas@glider.be/
 ----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      Merge tag 'renesas-r8a779a0-dt-binding-defs-tag' into clk-renesas-for-v5.10
+Geert Uytterhoeven (8):
+      dt-bindings: pinctrl: sh-pfc: Convert to json-schema
+      pinctrl: rza1: Switch to using "output-enable"
+      dt-bindings: pinctrl: renesas,rza2-pinctrl: Fix pin controller node name
+      dt-bindings: pinctrl: rza1: Convert to json-schema
+      dt-bindings: pinctrl: rzn1: Convert to json-schema
+      pinctrl: rzn1: Do not select GENERIC_PIN{CTRL_GROUPS,MUX_FUNCTIONS}
+      pinctrl: Rename sh-pfc to renesas
+      pinctrl: renesas: Reintroduce SH_PFC for common sh-pfc code
 
-Lad Prabhakar (1):
-      clk: renesas: rcar-gen3: Update description for RZ/G2
+Kuninori Morimoto (4):
+      pinctrl: sh-pfc: Tidy up Emma Mobile EV2
+      pinctrl: sh-pfc: Collect Renesas related CONFIGs in one place
+      pinctrl: sh-pfc: Align driver description title
+      pinctrl: sh-pfc: Tidy up driver description title
 
-Yoshihiro Shimoda (6):
-      dt-bindings: power: Add r8a779a0 SYSC power domain definitions
-      dt-bindings: clock: Add r8a779a0 CPG Core Clock Definitions
-      dt-bindings: clock: renesas,cpg-mssr: Document r8a779a0
-      clk: renesas: cpg-mssr: Use enum clk_reg_layout instead of a boolean flag
-      clk: renesas: cpg-mssr: Add register pointers into struct cpg_mssr_priv
-      clk: renesas: cpg-mssr: Add support for R-Car V3U
+Lad Prabhakar (2):
+      pinctrl: sh-pfc: r8a7790: Add USB1 PWEN pin and group
+      pinctrl: sh-pfc: r8a7790: Add CAN pins, groups and functions
 
- .../bindings/clock/renesas,cpg-mssr.yaml           |   1 +
- drivers/clk/renesas/Kconfig                        |   7 +-
- drivers/clk/renesas/Makefile                       |   1 +
- drivers/clk/renesas/r7s9210-cpg-mssr.c             |   2 +-
- drivers/clk/renesas/r8a779a0-cpg-mssr.c            | 276 +++++++++++++++++++++
- drivers/clk/renesas/renesas-cpg-mssr.c             | 136 ++++++----
- drivers/clk/renesas/renesas-cpg-mssr.h             |  14 +-
- include/dt-bindings/clock/r8a779a0-cpg-mssr.h      |  55 ++++
- include/dt-bindings/power/r8a779a0-sysc.h          |  59 +++++
- 9 files changed, 498 insertions(+), 53 deletions(-)
- create mode 100644 drivers/clk/renesas/r8a779a0-cpg-mssr.c
- create mode 100644 include/dt-bindings/clock/r8a779a0-cpg-mssr.h
- create mode 100644 include/dt-bindings/power/r8a779a0-sysc.h
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt       | 188 ----------------
+ .../devicetree/bindings/pinctrl/renesas,pfc.yaml   | 193 +++++++++++++++++
+ .../bindings/pinctrl/renesas,rza1-pinctrl.txt      | 223 -------------------
+ .../bindings/pinctrl/renesas,rza1-ports.yaml       | 190 ++++++++++++++++
+ .../bindings/pinctrl/renesas,rza2-pinctrl.yaml     |   2 +-
+ .../bindings/pinctrl/renesas,rzn1-pinctrl.txt      | 153 -------------
+ .../bindings/pinctrl/renesas,rzn1-pinctrl.yaml     | 129 +++++++++++
+ MAINTAINERS                                        |   5 +-
+ drivers/pinctrl/Kconfig                            |  34 +--
+ drivers/pinctrl/Makefile                           |   5 +-
+ drivers/pinctrl/{sh-pfc => renesas}/Kconfig        | 238 +++++++++++++--------
+ drivers/pinctrl/{sh-pfc => renesas}/Makefile       |   8 +-
+ drivers/pinctrl/{sh-pfc => renesas}/core.c         |   0
+ drivers/pinctrl/{sh-pfc => renesas}/core.h         |   0
+ drivers/pinctrl/{sh-pfc => renesas}/gpio.c         |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-emev2.c    |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a73a4.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7740.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77470.c |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7778.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7779.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7790.c  | 121 ++++++++++-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7791.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7792.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7794.c  |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77950.c |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77951.c |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7796.c  |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77965.c |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77970.c |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77980.c |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77990.c |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77995.c |   2 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7203.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7264.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7269.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh73a0.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7720.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7722.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7723.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7724.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7734.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7757.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7785.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7786.c   |   0
+ drivers/pinctrl/{sh-pfc => renesas}/pfc-shx3.c     |   0
+ drivers/pinctrl/{ => renesas}/pinctrl-rza1.c       |  11 +-
+ drivers/pinctrl/{ => renesas}/pinctrl-rza2.c       |   4 +-
+ drivers/pinctrl/{ => renesas}/pinctrl-rzn1.c       |   6 +-
+ drivers/pinctrl/{sh-pfc => renesas}/pinctrl.c      |   0
+ drivers/pinctrl/{sh-pfc => renesas}/sh_pfc.h       |   0
+ 51 files changed, 811 insertions(+), 711 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc-pinctrl.txt
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza1-pinctrl.txt
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rza1-ports.yaml
+ delete mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.txt
+ create mode 100644 Documentation/devicetree/bindings/pinctrl/renesas,rzn1-pinctrl.yaml
+ rename drivers/pinctrl/{sh-pfc => renesas}/Kconfig (51%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/Makefile (92%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/core.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/core.h (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/gpio.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-emev2.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a73a4.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7740.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77470.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7778.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7779.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7790.c (98%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7791.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7792.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7794.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77950.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77951.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a7796.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77965.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77970.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77980.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77990.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-r8a77995.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7203.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7264.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7269.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh73a0.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7720.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7722.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7723.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7724.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7734.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7757.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7785.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-sh7786.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pfc-shx3.c (100%)
+ rename drivers/pinctrl/{ => renesas}/pinctrl-rza1.c (99%)
+ rename drivers/pinctrl/{ => renesas}/pinctrl-rza2.c (99%)
+ rename drivers/pinctrl/{ => renesas}/pinctrl-rzn1.c (99%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/pinctrl.c (100%)
+ rename drivers/pinctrl/{sh-pfc => renesas}/sh_pfc.h (100%)
 
 Gr{oetje,eeting}s,
 
