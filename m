@@ -2,172 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 601E026E7B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Sep 2020 23:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A9D526EA9E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Sep 2020 03:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726009AbgIQVvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Sep 2020 17:51:21 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:40634 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726004AbgIQVvV (ORCPT
+        id S1726109AbgIRBqw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Sep 2020 21:46:52 -0400
+Received: from mga18.intel.com ([134.134.136.126]:19424 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725886AbgIRBqw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Sep 2020 17:51:21 -0400
-X-Greylist: delayed 10845 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 17:51:20 EDT
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08HIo0hI085450;
-        Thu, 17 Sep 2020 13:50:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1600368600;
-        bh=GSyOHIEEOuX0hzpqE7QI6OG2FGREmdTA0Ssv8saQ4Us=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=qOJfMxuDioJVBGdilJVzdj19+ikEtA4D7r8p9JwE4ZX945cVQLiClRWrAGiyEL00z
-         3Kd53yJEct9m024Mvtvgqr+Tk54/M4scVWFDjrnIsykMNhKRN7VxDpdqmp3izu76Uv
-         Y8GyiKPKITdjAK/KVICYHT2F08tUL8jz3Hio7f8E=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08HInxFW069130
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 17 Sep 2020 13:49:59 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 17
- Sep 2020 13:49:59 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 17 Sep 2020 13:49:59 -0500
-Received: from [10.250.32.129] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08HInxpC068422;
-        Thu, 17 Sep 2020 13:49:59 -0500
-Subject: Re: [PATCH net-next v4 5/5] ravb: Add support for explicit internal
- clock delay configuration
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Magnus Damm <magnus.damm@gmail.com>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200917135707.12563-1-geert+renesas@glider.be>
- <20200917135707.12563-6-geert+renesas@glider.be>
-From:   Dan Murphy <dmurphy@ti.com>
-Message-ID: <29970fbf-9779-d182-5df9-4f563f377311@ti.com>
-Date:   Thu, 17 Sep 2020 13:49:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 17 Sep 2020 21:46:52 -0400
+IronPort-SDR: rzfPpVxExk/1GheIAe03BpV5W0cWXQ4ED6FiVeKHXsaB0ggZv4KFrcyFrCcA9d1OeXyN7M3EMp
+ 9e5PGJquqemA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="147579611"
+X-IronPort-AV: E=Sophos;i="5.77,273,1596524400"; 
+   d="scan'208";a="147579611"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 18:46:41 -0700
+IronPort-SDR: Fu3U1ltrXjhc8FMrh6/2WbvJjLoQwZLeRd2FlJ3HJIoz9WE9IysGlDQOBhj9CTDTKd0XLpZiUH
+ 9JBBwR8ZoOMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,273,1596524400"; 
+   d="scan'208";a="483987002"
+Received: from lkp-server01.sh.intel.com (HELO a05db971c861) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 17 Sep 2020 18:46:40 -0700
+Received: from kbuild by a05db971c861 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kJ5Tz-0000Do-G6; Fri, 18 Sep 2020 01:46:39 +0000
+Date:   Fri, 18 Sep 2020 09:45:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:clk-renesas] BUILD SUCCESS
+ 15d683e61bdded719e6202fed2c7401f4dcd95ab
+Message-ID: <5f641144.0il+dR1+8XjMgqPx%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20200917135707.12563-6-geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Geert
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas
+branch HEAD: 15d683e61bdded719e6202fed2c7401f4dcd95ab  clk: renesas: rcar-gen3: Update description for RZ/G2
 
-On 9/17/20 8:57 AM, Geert Uytterhoeven wrote:
-> Some EtherAVB variants support internal clock delay configuration, which
-> can add larger delays than the delays that are typically supported by
-> the PHY (using an "rgmii-*id" PHY mode, and/or "[rt]xc-skew-ps"
-> properties).
->
-> Historically, the EtherAVB driver configured these delays based on the
-> "rgmii-*id" PHY mode.  This caused issues with PHY drivers that
-> implement PHY internal delays properly[1].  Hence a backwards-compatible
-> workaround was added by masking the PHY mode[2].
->
-> Add proper support for explicit configuration of the MAC internal clock
-> delays using the new "[rt]x-internal-delay-ps" properties.
-> Fall back to the old handling if none of these properties is present.
->
-> [1] Commit bcf3440c6dd78bfe ("net: phy: micrel: add phy-mode support for
->      the KSZ9031 PHY")
-> [2] Commit 9b23203c32ee02cd ("ravb: Mask PHY mode to avoid inserting
->      delays twice").
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
-> ---
-> v4:
->    - Add Reviewed-by,
->
-> v3:
->    - No changes,
->
-> v2:
->    - Add Reviewed-by,
->    - Split long line,
->    - Replace "renesas,[rt]xc-delay-ps" by "[rt]x-internal-delay-ps",
->    - Use 1 instead of true when assigning to a single-bit bitfield.
-> ---
->   drivers/net/ethernet/renesas/ravb.h      |  1 +
->   drivers/net/ethernet/renesas/ravb_main.c | 36 ++++++++++++++++++------
->   2 files changed, 28 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index e5ca12ce93c730a9..7453b17a37a2c8d0 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1038,6 +1038,7 @@ struct ravb_private {
->   	unsigned wol_enabled:1;
->   	unsigned rxcidm:1;		/* RX Clock Internal Delay Mode */
->   	unsigned txcidm:1;		/* TX Clock Internal Delay Mode */
-> +	unsigned rgmii_override:1;	/* Deprecated rgmii-*id behavior */
->   	int num_tx_desc;		/* TX descriptors per packet */
->   };
->   
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 59dadd971345e0d1..aa120e3f1e4d4da5 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1034,11 +1034,8 @@ static int ravb_phy_init(struct net_device *ndev)
->   		pn = of_node_get(np);
->   	}
->   
-> -	iface = priv->phy_interface;
-> -	if (priv->chip_id != RCAR_GEN2 && phy_interface_mode_is_rgmii(iface)) {
-> -		/* ravb_set_delay_mode() takes care of internal delay mode */
-> -		iface = PHY_INTERFACE_MODE_RGMII;
-> -	}
-> +	iface = priv->rgmii_override ? PHY_INTERFACE_MODE_RGMII
-> +				     : priv->phy_interface;
->   	phydev = of_phy_connect(ndev, pn, ravb_adjust_link, 0, iface);
->   	of_node_put(pn);
->   	if (!phydev) {
-> @@ -1989,20 +1986,41 @@ static const struct soc_device_attribute ravb_delay_mode_quirk_match[] = {
->   };
->   
->   /* Set tx and rx clock internal delay modes */
-> -static void ravb_parse_delay_mode(struct net_device *ndev)
-> +static void ravb_parse_delay_mode(struct device_node *np, struct net_device *ndev)
->   {
->   	struct ravb_private *priv = netdev_priv(ndev);
-> +	bool explicit_delay = false;
-> +	u32 delay;
-> +
-> +	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay)) {
-> +		/* Valid values are 0 and 1800, according to DT bindings */
-> +		priv->rxcidm = !!delay;
-> +		explicit_delay = true;
-> +	}
-> +	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay)) {
-> +		/* Valid values are 0 and 2000, according to DT bindings */
-> +		priv->txcidm = !!delay;
-> +		explicit_delay = true;
-> +	}
-There are helper functions for this
+elapsed time: 722m
 
-s32 phy_get_internal_delay(struct phy_device *phydev, struct device 
-*dev, const int *delay_values, int size, bool is_rx)
+configs tested: 138
+configs skipped: 2
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                      obs600_defconfig
+sh                         microdev_defconfig
+arm                   milbeaut_m10v_defconfig
+arm                        vexpress_defconfig
+mips                          rb532_defconfig
+powerpc64                        alldefconfig
+powerpc                     akebono_defconfig
+arc                 nsimosci_hs_smp_defconfig
+powerpc                     rainier_defconfig
+mips                       capcella_defconfig
+powerpc                     kilauea_defconfig
+s390                          debug_defconfig
+sh                          polaris_defconfig
+powerpc                     asp8347_defconfig
+arm                        mini2440_defconfig
+mips                    maltaup_xpa_defconfig
+powerpc                  mpc866_ads_defconfig
+sh                          rsk7269_defconfig
+arc                    vdk_hs38_smp_defconfig
+powerpc                        cell_defconfig
+mips                        nlm_xlp_defconfig
+powerpc                      ppc6xx_defconfig
+arc                             nps_defconfig
+arm                           h5000_defconfig
+mips                        bcm47xx_defconfig
+arm                        neponset_defconfig
+nios2                         3c120_defconfig
+powerpc                 xes_mpc85xx_defconfig
+sh                               alldefconfig
+sh                               j2_defconfig
+powerpc                      acadia_defconfig
+sh                             shx3_defconfig
+powerpc                    gamecube_defconfig
+xtensa                          iss_defconfig
+mips                      loongson3_defconfig
+mips                         cobalt_defconfig
+arm                      tct_hammer_defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                       multi_v4t_defconfig
+sh                          landisk_defconfig
+powerpc                  storcenter_defconfig
+parisc                generic-32bit_defconfig
+arm                       omap2plus_defconfig
+sh                           se7712_defconfig
+powerpc                      katmai_defconfig
+mips                  cavium_octeon_defconfig
+nios2                         10m50_defconfig
+powerpc                        fsp2_defconfig
+mips                       lemote2f_defconfig
+x86_64                           allyesconfig
+powerpc                       maple_defconfig
+sh                          sdk7780_defconfig
+powerpc                     sbc8548_defconfig
+powerpc                 mpc837x_rdb_defconfig
+sh                      rts7751r2d1_defconfig
+powerpc                     pq2fads_defconfig
+um                           x86_64_defconfig
+sh                              ul2_defconfig
+ia64                      gensparse_defconfig
+sh                          r7780mp_defconfig
+mips                      malta_kvm_defconfig
+mips                         tb0226_defconfig
+h8300                               defconfig
+mips                           ci20_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20200917
+i386                 randconfig-a006-20200917
+i386                 randconfig-a003-20200917
+i386                 randconfig-a001-20200917
+i386                 randconfig-a002-20200917
+i386                 randconfig-a005-20200917
+x86_64               randconfig-a014-20200917
+x86_64               randconfig-a011-20200917
+x86_64               randconfig-a016-20200917
+x86_64               randconfig-a012-20200917
+x86_64               randconfig-a015-20200917
+x86_64               randconfig-a013-20200917
+i386                 randconfig-a015-20200917
+i386                 randconfig-a014-20200917
+i386                 randconfig-a011-20200917
+i386                 randconfig-a013-20200917
+i386                 randconfig-a016-20200917
+i386                 randconfig-a012-20200917
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20200917
+x86_64               randconfig-a004-20200917
+x86_64               randconfig-a003-20200917
+x86_64               randconfig-a002-20200917
+x86_64               randconfig-a001-20200917
+x86_64               randconfig-a005-20200917
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
