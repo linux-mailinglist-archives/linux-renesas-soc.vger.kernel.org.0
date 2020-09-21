@@ -2,70 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE00B271C04
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 09:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73F59271E9D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 11:12:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbgIUHd1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Sep 2020 03:33:27 -0400
-Received: from mail-oo1-f68.google.com ([209.85.161.68]:44905 "EHLO
-        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726460AbgIUHdX (ORCPT
+        id S1726448AbgIUJME (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Sep 2020 05:12:04 -0400
+Received: from www.zeus03.de ([194.117.254.33]:37638 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726333AbgIUJMD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Sep 2020 03:33:23 -0400
-Received: by mail-oo1-f68.google.com with SMTP id 4so3001611ooh.11
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Sep 2020 00:33:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ij7nGsY2ppiYYOkdvuHCCyvl2KfNbwDSWE3IsKM139k=;
-        b=rG7G6mRKVLJqGtRpzu4EKQ1u0BdyP0RcULxSzggYg6mb1TzV/zt0k3NUrq7KA/3JP3
-         gn8wELuaO6ysm9ki1Wwycm0e5SmV3rus880+TkVFyy/yMNsGNUQBVhJyIp7WpeRaUcah
-         deZQLd6Z+QNpqAYx8gzcSwmkM/EeqcQvSr4oCe/t12o28kOeY6M79lJtEJSkih9H6etS
-         WjrVmIo54idXXA/ZGy7p7PexIEYBVURW30xOOW4L8pBJWak5OwjjiNSYf5+zBnChfd6Y
-         fidDMYFJjjm6MWcoTQ5xILWzd7RIneFJOb47yvMOfvzBqw6U/dFlKVQZaNEup1dUhhME
-         KeGg==
-X-Gm-Message-State: AOAM531f7mvPkGiH+LrMuLOYajBLDfAmOyrOK+M4bo7egI4l8LX/qe1j
-        juACKU3HubsSagvEmkPbv5LYNujd2s+eEiPDlaspo+XC
-X-Google-Smtp-Source: ABdhPJxMbilZ/XjuTrzkVGjbfkHD4ovt9JlN3pTfYtcAdX6GA7sonLKGdnfzrNqCwp1WrXP8ghhMWiJa9Fd14tGVk0c=
-X-Received: by 2002:a4a:da4e:: with SMTP id f14mr32117652oou.40.1600673602767;
- Mon, 21 Sep 2020 00:33:22 -0700 (PDT)
+        Mon, 21 Sep 2020 05:12:03 -0400
+X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 05:12:02 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Gv7xlTATONSjJAHN19A25wtHZ0LO
+        KQ0L+VB+9aY8UWg=; b=y9dr0NxPcnkJrq+23UjiMoloWCMhzfLo7vGOQDwFE+Yp
+        WIqnAvr3Dzilot8ibFey7/XkUEksnUy3cGwggfcA/7iZsVNDNrLmZeuV0PpQhuLf
+        iFfj4xcwvtdSHUIi5RU0hb/RanDbBK3LRbRbFasYjkFGnq1GwFpfU7/al+OP/Hc=
+Received: (qmail 68691 invoked from network); 21 Sep 2020 11:05:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Sep 2020 11:05:20 +0200
+X-UD-Smtp-Session: l3s3148p1@6a1lJs+vXrIgAwDPXwWzANnLaz0lJiia
+Date:   Mon, 21 Sep 2020 11:05:17 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH v2 1/1] i2c: add slave testunit driver
+Message-ID: <20200921090517.GA1840@ninjato>
+References: <20200914071737.6354-1-wsa+renesas@sang-engineering.com>
+ <20200914071737.6354-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20200917132117.8515-1-geert+renesas@glider.be>
- <20200917132117.8515-3-geert+renesas@glider.be> <1517062461.1109038.1600508214011@webmail.strato.com>
-In-Reply-To: <1517062461.1109038.1600508214011@webmail.strato.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Sep 2020 09:33:11 +0200
-Message-ID: <CAMuHMdXX7x6JxqeeHtCOw6N6WKBU7RH7_2LKndfKdq2PjxNOTA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a774c0: Fix MSIOF1 DMA channels
-To:     Ulrich Hecht <uli@fpond.eu>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
+Content-Disposition: inline
+In-Reply-To: <20200914071737.6354-2-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
 
-On Sat, Sep 19, 2020 at 11:36 AM Ulrich Hecht <uli@fpond.eu> wrote:
-> > On 09/17/2020 3:21 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> > According to Technical Update TN-RCT-S0352A/E, MSIOF1 DMA can only be
-> > used with SYS-DMAC0 on R-Car E3.
->
-> This patch changes the file for RZ/G2E, though. And that's not mentioned in the cited document.
+--/04w6evG8XlLl3ft
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, that's correct.  We know the issue is present there, too, and
-that the RZ/G2 documentation has not been updated yet.
-IMHO no need to keep known bugs alive any longer.
+On Mon, Sep 14, 2020 at 09:17:37AM +0200, Wolfram Sang wrote:
+> Here is an I2C slave backend driver which allows to test some uncommon
+> functionalities of the I2C and SMBus world. Usually, you need specific
+> devices to test e.g. SMBus Host Notify and such. With this driver you
+> just need the slave interface of another I2C controller.
+>=20
+> This initial version has testcases for multi-master and SMBus Host
+> Notify. Already planned but not yet implemented are SMBus Alert and
+> messages with I2C_M_RECV_LEN.
+>=20
+> Please read the documentation for further details.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Gr{oetje,eeting}s,
+Applied to for-next, thanks!
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--/04w6evG8XlLl3ft
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9obMkACgkQFA3kzBSg
+Kbbw5A/9HNx+rM9lBR3cxVPy3D3zWFaK7Uf352LoTl+svu9vU4NZ2COhsRpK1UcS
+fdWQ/lF+1rHUDfh4g/QXGgt56lJ6SYmoxkjP2qEh/DNvU/WvawotC9GrkUJlx+fA
+/eBiWcbHPBdHvOUf3XRz2akc8LpRKWftBwnXqzHrwTe9MCodDoqEOy5xi0BAd6B5
+BsXKQksWynqluWZ1rsdyNsFRqZyepQ4o/yvwqTrroxJb4Ylq20luMlxTYaDn0tVf
+cWlLVG5fMxCtCAN72cb9Jaa4GgmxnXLXevdO5fbqbtmwrPt9YCgyg42GUiSQ7b1W
+RlQMETW6qraTKIbyTA5Oc+stvurRntZ4qDKy/lmhRhLu+WSIUwBw1qAAGZnIJ3CS
+jpoCQTITujlm93Z6ym9acLM2fsTyWCScwJOMLlxd9ROsNVDcXtQgvUFGHmQhvHUm
+eIlvMOqivjh56GInW8hrDqUjt2BwIIt9nZ/YCRPwn9Z2v2bAxjNWTmtVkBapWcNC
+br9ClHYZdaNdIZvIjD6k9+ab08eGs8fKmBb0ryewrfDn7Et4gDmjsjTmejcOXfKu
+ZPRyqn89msxqnIiZRUFoLTD0j0CNGEryI7KsPzaiGpIzazPgKuiQznCZuSFpYhwM
+W0gu99daYbTMCZpI8r+A7RS2RgSxI0JkmGUhwUaZjuqukK2Q/vY=
+=X0W6
+-----END PGP SIGNATURE-----
+
+--/04w6evG8XlLl3ft--
