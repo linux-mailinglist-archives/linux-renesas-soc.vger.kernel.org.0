@@ -2,72 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 637AE271831
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Sep 2020 23:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 332BB271BAB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 09:22:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726156AbgITV2c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Sep 2020 17:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbgITV2c (ORCPT
+        id S1726430AbgIUHWP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Sep 2020 03:22:15 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:24357 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726244AbgIUHWP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Sep 2020 17:28:32 -0400
-Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17E71C061755;
-        Sun, 20 Sep 2020 14:28:32 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 80F6C13BD0527;
-        Sun, 20 Sep 2020 14:11:43 -0700 (PDT)
-Date:   Sun, 20 Sep 2020 14:28:28 -0700 (PDT)
-Message-Id: <20200920.142828.1649305713979064139.davem@davemloft.net>
-To:     liujian56@huawei.com
-Cc:     sergei.shtylyov@gmail.com, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-netx] net: renesas: sh_eth: suppress initialized
- field overwritten warning
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20200919105945.251532-1-liujian56@huawei.com>
-References: <20200919105945.251532-1-liujian56@huawei.com>
-X-Mailer: Mew version 6.8 on Emacs 27.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [2620:137:e000::1:9]); Sun, 20 Sep 2020 14:11:43 -0700 (PDT)
+        Mon, 21 Sep 2020 03:22:15 -0400
+X-IronPort-AV: E=Sophos;i="5.77,285,1596466800"; 
+   d="scan'208";a="57556396"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 21 Sep 2020 16:22:13 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C4BF741C23B7;
+        Mon, 21 Sep 2020 16:22:11 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: [RESEND PATCH] dt-bindings: ata: renesas,rcar-sata: Add r8a774e1 support
+Date:   Mon, 21 Sep 2020 08:22:06 +0100
+Message-Id: <20200921072206.15182-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Liu Jian <liujian56@huawei.com>
-Date: Sat, 19 Sep 2020 18:59:45 +0800
+Document SATA support for the RZ/G2H, no driver change required.
 
-> Suppress a bunch of warnings of the form:
-> 
-> drivers/net/ethernet/renesas/sh_eth.c:100:13: warning: initialized field overwritten [-Woverride-init]
-> 
-> This is because after the sh_eth_offset_xxx array is initialized to SH_ETH_OFFSET_INVALID,
-> some specific register_offsets are re-initialized. It wasn't a mistake.
-> 
-> Signed-off-by: Liu Jian <liujian56@huawei.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Hi All,
 
-Even if I agreed with this approach to the fix, you can't just blindly
-add a CFLAG option.  What if the compile doesn't understand or support
-that option?
+This patch is part of series [1] (orignal patch [2]) where rest of the
+patches have been picked up by the respective maintainers so just
+resending this patch.
 
-I leave it to the patch submitter to grep the Makefiles in the tree to
-learn how to handle this situation properly, because that's how I
-learned what the right thing to do since I wasn't sure.
+I have included the Acks' from the maintainers.
 
-But in the end I think just sticking a warning disable here and there
-isn't the solution.  I think this driver should explicitly initialize
-the array entries that are invalid on each and every chip.
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/
+    list/?series=319563
+[2] https://patchwork.kernel.org/patch/11668061/
 
-No only does that get rid of the warnings cleanly, but it also more
-clearly documents the available register set.  Currently you have to
-walk each and every enumeration value in the sh_eth.h header and
-see if the table has it or not, in order to figure out which registers
-are _not_ present for a chip.
+Cheers,
+Prabhakar
+---
+ Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you.
+diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+index d06096a7ba4b..2ad2444f1042 100644
+--- a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
++++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+@@ -26,6 +26,7 @@ properties:
+       - items:
+           - enum:
+               - renesas,sata-r8a774b1     # RZ/G2N
++              - renesas,sata-r8a774e1     # RZ/G2H
+               - renesas,sata-r8a7795      # R-Car H3
+               - renesas,sata-r8a77965     # R-Car M3-N
+           - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
+-- 
+2.17.1
+
