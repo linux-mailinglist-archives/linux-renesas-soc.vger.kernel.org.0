@@ -2,162 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D8D272530
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 15:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B11273413
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 22:52:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbgIUNQc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Sep 2020 09:16:32 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:44675 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726749AbgIUNQc (ORCPT
+        id S1727980AbgIUUwO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Sep 2020 16:52:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727808AbgIUUwN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Sep 2020 09:16:32 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 185so16850602oie.11;
-        Mon, 21 Sep 2020 06:16:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=55UvncN9emgCCrmaj1gu4vYImqn+PFIM+sAMY5GaIow=;
-        b=KTdft9EKjB0kw3Nw+3ByxYKU+kGeTwppqnKGEOAG31zZeO5gTMLLGeGTJrjh1RzHar
-         tJQe0ZK8ZI8Tc4HnvgYBJTv23Ha7wj3Gl7yPP/SDksUD8Jmu7rjOECP7PwVN+DG/6IfA
-         JOZ0Bbq3Xgzb3anR006FdpBzHZyRuRbmGO/A0EZ2QWFnmR+8mLhomkddjgbuXvp55Son
-         Ug+u4bg2dbe73kVvLHaStNaLv/Pcq37QpdEjHbxvnO5ivDDwBWEMs3JH9X6wUiLIsjKc
-         73DWhG8V2aR1AfhHuQpbsmbySYbkYHbuCAGr3TyoIQa118KEMe/5Pl8ihRpoSPSu9sSe
-         J5Zg==
-X-Gm-Message-State: AOAM530WRmOtWJrxT6OGShHAOYrbLqt8d+FjCy2w22Wg30Ki9qKIiHff
-        Z8ALta3M+I2WiSccS/NnA2x58IiJYc8RyzhYfQqZfHkaZzM=
-X-Google-Smtp-Source: ABdhPJwBot/z+//SxjF/p/w/MPDhBPmStMLHpdg1bc++OIc5oQKRLtdTF88aoYZXnqoQmx6TfIOw90wDYUVKOp3L5vY=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr16539084oia.153.1600694191169;
- Mon, 21 Sep 2020 06:16:31 -0700 (PDT)
+        Mon, 21 Sep 2020 16:52:13 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5234E238E2;
+        Mon, 21 Sep 2020 20:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600721533;
+        bh=caz+2H2w7wsl/UXxZawljT6slmiD8Hkcm44uMUYbu8s=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=iTc6oy1GIyiCkxQr/YO+/rVQlFP285rKfLmhOyVUXk4nqg6dsdZdstwJCKKbsl/2x
+         wPi+F1p9fIi2vfeWqWCmNntTjG51FV9VN0X1SJ9wVhLVCx3E4XMrXMf5Lk3vu5dXsm
+         YCwbn55P6Q2MvModwxgQFLUeMHfvP/c846rpvmK8=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20200820094307.3977-1-ashiduka@fujitsu.com> <CAMuHMdXns4N=pUW=iq=CJz8dtNObt1jAOhAaxQ2UA4bTqQ9AwA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXns4N=pUW=iq=CJz8dtNObt1jAOhAaxQ2UA4bTqQ9AwA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Sep 2020 15:16:19 +0200
-Message-ID: <CAMuHMdWxNHKUX+4DRZZMjvN0CdRu98SV4QTvgFokeFDu4vJfJA@mail.gmail.com>
-Subject: Re: [PATCH v3] ravb: Fixed to be able to unload modules
-To:     Yuusuke Ashizuka <ashiduka@fujitsu.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200918124819.15652-1-geert+renesas@glider.be>
+References: <20200918124819.15652-1-geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v5.10 (take two)
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Mon, 21 Sep 2020 13:52:11 -0700
+Message-ID: <160072153199.4188128.14560622973384403988@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 11:31 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Thu, Aug 20, 2020 at 2:55 PM Yuusuke Ashizuka <ashiduka@fujitsu.com> wrote:
-> > When this driver is built as a module, I cannot rmmod it after insmoding
-> > it.
-> > This is because that this driver calls ravb_mdio_init() at the time of
-> > probe, and module->refcnt is incremented by alloc_mdio_bitbang() called
-> > after that.
-> > Therefore, even if ifup is not performed, the driver is in use and rmmod
-> > cannot be performed.
-> >
-> > $ lsmod
-> > Module                  Size  Used by
-> > ravb                   40960  1
-> > $ rmmod ravb
-> > rmmod: ERROR: Module ravb is in use
-> >
-> > Call ravb_mdio_init() at open and free_mdio_bitbang() at close, thereby
-> > rmmod is possible in the ifdown state.
-> >
-> > Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> > Signed-off-by: Yuusuke Ashizuka <ashiduka@fujitsu.com>
-> > Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
->
-> Thanks for your patch, which is now commit 1838d6c62f578366 ("ravb:
-> Fixed to be able to unload modules") in v5.9-rc4 (backported to stable
-> v4.4, v4.9, v4.14, v4.19, v5.4, and v5.8).
->
-> This is causing a regression during resume from s2idle/s2ram on (at
-> least) Salvator-X(S) and Ebisu.  Reverting that commit fixes this.
->
-> During boot, the Micrel PHY is detected correctly:
->
->     Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached
-> PHY driver [Micrel KSZ9031 Gigabit PHY]
-> (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=228)
->     ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+Quoting Geert Uytterhoeven (2020-09-18 05:48:19)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit e41cb217932969a20cea9c44299c449236058e=
+43:
+>=20
+>   clk: renesas: rcar-gen2: Rename vsp1-(sy|rt) clocks to vsp(s|r) (2020-0=
+9-04 09:42:01 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/clk-renesas-for-v5.10-tag2
+>=20
+> for you to fetch changes up to 15d683e61bdded719e6202fed2c7401f4dcd95ab:
+>=20
+>   clk: renesas: rcar-gen3: Update description for RZ/G2 (2020-09-17 15:32=
+:25 +0200)
+>=20
+> ----------------------------------------------------------------
 
-phy_device_register() calls device_add(), which is immediately bound to
-the micrel driver.
-
-> During resume, if CONFIG_MODULES=n, it falls back to the Generic PHY
-> (case A):
->
->     Generic PHY e6800000.ethernet-ffffffff:00: attached PHY driver
-> [Generic PHY] (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00,
-> irq=POLL)
->     ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
->
-> and Ethernet still works (degraded, due to polling).
->
-> During resume, if CONFIG_MODULES=y, MDIO initialization fails (case B):
->
->     mdio_bus e6800000.ethernet-ffffffff:00: error -16 loading PHY
-> driver module for ID 0x00221622
->     ravb e6800000.ethernet eth0: failed to initialize MDIO
->     PM: dpm_run_callback(): ravb_resume+0x0/0x1b8 returns -16
->     PM: Device e6800000.ethernet failed to resume: error -16
->
-> and Ethernet no longer works.
->
-> Case B happens because usermodehelper_disabled is set to UMH_DISABLED
-> during system suspend, causing request_module() to return -EBUSY.
-> Ignoring -EBUSY in phy_request_driver_module(), like was done for
-> -ENOENT in commit 21e194425abd65b5 ("net: phy: fix issue with loading
-> PHY driver w/o initramfs"), makes it fall back to the Generic PHY, cfr.
-> case A.
->
-> For case A, I haven't found out yet why it falls back to the Generic PHY.
-
-During system suspend, defer_all_probes is set to true, to avoid drivers
-being probed while suspended.  Hence phy_device_register() calling
-device_add() merely adds the device, but does not probe it yet
-(really_probe() returns early)"
-
-   dpm_resume+0x128/0x4f8
-     device_resume+0xcc/0x1b0
-       dpm_run_callback+0x74/0x340
-         ravb_resume+0x190/0x1b8
-           ravb_open+0x84/0x770
-             of_mdiobus_register+0x1e0/0x468
-               of_mdiobus_register_phy+0x1b8/0x250
-                 of_mdiobus_phy_device_register+0x178/0x1e8
-                   phy_device_register+0x114/0x1b8
-                     device_add+0x3d4/0x798
-                       bus_probe_device+0x98/0xa0
-                         device_initial_probe+0x10/0x18
-                           __device_attach+0xe4/0x140
-                             bus_for_each_drv+0x64/0xc8
-                               __device_attach_driver+0xb8/0xe0
-                                 driver_probe_device.part.11+0xc4/0xd8
-                                   really_probe+0x32c/0x3b8
-
-
-Hence registering PHY devices from a net_device's ndo_open() call back
-must not be done.
-
-I will send a formal revert later today.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks. Pulled into clk-next
