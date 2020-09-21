@@ -2,123 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D03A271F29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 11:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBBD271F9D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 12:04:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgIUJqF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Sep 2020 05:46:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726355AbgIUJqE (ORCPT
+        id S1726445AbgIUKEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Sep 2020 06:04:06 -0400
+Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:36690 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726406AbgIUKEG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Sep 2020 05:46:04 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81584C061755;
-        Mon, 21 Sep 2020 02:46:04 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id o5so11988048wrn.13;
-        Mon, 21 Sep 2020 02:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=10MZ+wZvlSGpLMLJeIkgsqILP3ii9lT0DDHtw+L14VY=;
-        b=eiCBPrtDbQz9fZpSRMUVbN6HVT+LTVz2w9MZX2zQfNgGbnCdcsn5WeyL8Qcx5+1g8T
-         9f872qU2PLofzXy9DUTawLWrew/J7qTtkZTiRDYSaXvhieK4GNA58JQuLyrVGsoZfrN3
-         yARyCoQqcCMVcFeWbC7kCcoWTdc7VsnaJYVp57FQSbfWTL5qUgWpqetSd7kJsmpq3Tl1
-         O/dQqLtq1BJZu6cjPVEFpNbG0wN7JiEh/rq+O3muezrENYoo4tjwNy84IQgCoWkCY3mA
-         3nIGirFmE95me64ZAnC4fcEnl9s6YyR2ypK6aQPvSH8C1tLyRsTKX6KU2vjoW94K3Hwb
-         N/Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=10MZ+wZvlSGpLMLJeIkgsqILP3ii9lT0DDHtw+L14VY=;
-        b=ft4moxNc3nqhZaXFZU27B7f3cMPuMJARZofoTuAu648/T3genp9reTBBvAKEKjyB7P
-         IvSQluX8IKysGs/7r5IsYGN83LKNWivopJ+Ce1oBucuBbupbpFxJa7Xvui2S5UnADqpd
-         pmak/OBbtkZWvVTgsInV59I6ssAq8oWcxJMwOGyuFwzMEm2Hr42Z7BXdYz90DlBE4YKw
-         uR1agkpDv+nW6mrTf5vBF/1Bzu1IXwUKQ9YtedJNk4c9bHNiyXBs787KIYS6Y67BII8g
-         0FxSvFE8LMVwut8U53oJjeU7PujczGCwHxKgwgsFFfl2nv80vAuj0l9/p9iaCQXABFuS
-         p7qw==
-X-Gm-Message-State: AOAM533bltQgJY823R29XIwJ50BHPinw+DjtLXhwivPh9q7B8j0a/yur
-        ftdy5pzGvQa2tfkgZWCp77bhMdS5sxLpzQ==
-X-Google-Smtp-Source: ABdhPJznDhgMre1h2yMv5CA2MkQwbd2x1oCcy4YKpIiOFgYsBiNKv6yfhzZXlH8PLSlsOD0bvbtTBA==
-X-Received: by 2002:a5d:4c88:: with SMTP id z8mr51052257wrs.218.1600681562851;
-        Mon, 21 Sep 2020 02:46:02 -0700 (PDT)
-Received: from ziggy.stardust ([213.195.113.201])
-        by smtp.gmail.com with ESMTPSA id t202sm19475945wmt.14.2020.09.21.02.46.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2020 02:46:02 -0700 (PDT)
-Subject: Re: [PATCH v2 03/15] arm64: dts: mediatek: fix tca6416 reset GPIOs in
- pumpkin
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+        Mon, 21 Sep 2020 06:04:06 -0400
+X-Greylist: delayed 547 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 06:04:04 EDT
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 08L9qUoj015053;
+        Mon, 21 Sep 2020 04:54:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=GjWrxUGigUXopaPLhY4SiGmUNZT9wlcWnfHb+PSgNrc=;
+ b=cQQzdoN8o8SRQr8ipdF6z+1mmGEoN7NuYtxxPNvLbstLwMZCLYlqz3etvqI7pi0cctqo
+ gVGQgo21Y0pirllnqxTMDhMWPS3i9pvbRE61wd6PEZbQQZsse2TCLFWwiotT4k+oCs+6
+ UPZxzVU0QdKQYfRQUcEx2HxpwwH6Gtz5Jdkm4j8miomiElVTHowG0shhJJUvmI7iNziH
+ v7xNNsVRm91TDEqJR7Heu1WnLIOrzThFa5jaoyGi5Thv8HSxq79Hyf/UyK6p1TwlRLMF
+ 9OeRT7vJZ/fSku5iQfwoaw57f77fsqFfNgavz6+aw8CLj9arI6C8Zj9SBHRe2CguHbKT jg== 
+Received: from ediex01.ad.cirrus.com ([87.246.76.36])
+        by mx0b-001ae601.pphosted.com with ESMTP id 33nedn1x79-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Mon, 21 Sep 2020 04:54:40 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 21 Sep
+ 2020 10:54:39 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.1913.5 via Frontend
+ Transport; Mon, 21 Sep 2020 10:54:39 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BACD52C3;
+        Mon, 21 Sep 2020 09:54:38 +0000 (UTC)
+Date:   Mon, 21 Sep 2020 09:54:38 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
+        Rob Herring <robh+dt@kernel.org>, Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
         Shawn Guo <shawnguo@kernel.org>,
         Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Hoan Tran <hoan@os.amperecomputing.com>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Sungbo Eo <mans0n@gorani.run>, Stefan Agner <stefan@agner.ch>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20200910175733.11046-1-krzk@kernel.org>
- <20200910175733.11046-4-krzk@kernel.org>
-From:   Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <911e34dc-3516-d15d-89d6-1e234e9309f6@gmail.com>
-Date:   Mon, 21 Sep 2020 11:46:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Yash Shah <yash.shah@sifive.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        - <patches@opensource.cirrus.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Teng <andy.teng@mediatek.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Sricharan R <sricharan@codeaurora.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, <linux-gpio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-unisoc@lists.infradead.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 08/13] dt-bindings: mfd: include common schema in GPIO
+ controllers
+Message-ID: <20200921095438.GP10899@ediswmail.ad.cirrus.com>
+References: <20200917165301.23100-1-krzk@kernel.org>
+ <20200917165301.23100-9-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200910175733.11046-4-krzk@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200917165301.23100-9-krzk@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
+ adultscore=0 mlxlogscore=807 suspectscore=0 bulkscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009210071
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-
-On 10/09/2020 19:57, Krzysztof Kozlowski wrote:
-> Correct the property for reset GPIOs of tca6416 GPIO expander.
+On Thu, Sep 17, 2020 at 06:52:56PM +0200, Krzysztof Kozlowski wrote:
+> Include the common GPIO schema in GPIO controllers to be sure all common
+> properties are properly validated.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-
-Applied to v5.9-next/dts64
-
-Thanks!
-
+> 
 > ---
->   arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> index dfceffe6950a..29d8cf6df46b 100644
-> --- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> @@ -56,7 +56,7 @@
->   	tca6416: gpio@20 {
->   		compatible = "ti,tca6416";
->   		reg = <0x20>;
-> -		rst-gpio = <&pio 65 GPIO_ACTIVE_HIGH>;
-> +		reset-gpios = <&pio 65 GPIO_ACTIVE_HIGH>;
->   		pinctrl-names = "default";
->   		pinctrl-0 = <&tca6416_pins>;
->   
-> 
+
+For the Cirrus/Wolfson bits:
+
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+
+Thanks,
+Charles
