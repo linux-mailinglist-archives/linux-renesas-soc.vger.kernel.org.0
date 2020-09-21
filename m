@@ -2,94 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F7FD271BD3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 09:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE00B271C04
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Sep 2020 09:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbgIUHax (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Sep 2020 03:30:53 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:32977 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbgIUHaw (ORCPT
+        id S1726674AbgIUHd1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Sep 2020 03:33:27 -0400
+Received: from mail-oo1-f68.google.com ([209.85.161.68]:44905 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbgIUHdX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Sep 2020 03:30:52 -0400
-Received: by mail-oi1-f195.google.com with SMTP id m7so15933045oie.0;
-        Mon, 21 Sep 2020 00:30:51 -0700 (PDT)
+        Mon, 21 Sep 2020 03:33:23 -0400
+Received: by mail-oo1-f68.google.com with SMTP id 4so3001611ooh.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Sep 2020 00:33:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bvT46MVLA1wc77+QBaxqpfVEdVrcHoplawt2ilNveyU=;
-        b=A2oe3ANEBZxhfC77GDz2mQA+UsPCo3vJh70NhyUlSkvk1ByTJ/pHVoKHI6l9LFqeSE
-         226GU2D0N/qw35k5o1NqLLe7nPo0sq5c+ytPwcYjhEyeVP9BWihv119ayxiSwhyvAYwV
-         vPuAt2NcDMNRKGdtCmSaFCcRThQTvFv+wCTBQXYF6tzoEHkqvfUt2uaK+1615I307EAw
-         bxHRMwTCJnSZZDmIKQiCTIVJvJnhOR1V3/LY8eADQI5uIf0Pg9gra6gDCuaj27xjgyKY
-         BvbYqvs10TA7qM28MboExUslHZ6L30JV1xRJy9M4zBEDc2jgOv08uRk5qIayN9TH+mNN
-         ca0w==
-X-Gm-Message-State: AOAM531jLjrhEk5N8kaJ9hzZG5qVEVtLmy83vu6FFqD0397B2wstTAz4
-        yozaNZ0efL+frQiXhidk1hdj/0vkSA46Rp0E2QM=
-X-Google-Smtp-Source: ABdhPJz9xmN9krNVkmFntK1fJCP4SVdiOQdSlUn0glZjdNUu0BDHNFHEgQW2lXttV0KKLloQqhm28dH1yGE42S/hfkE=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr15852660oia.153.1600673451338;
- Mon, 21 Sep 2020 00:30:51 -0700 (PDT)
+        bh=Ij7nGsY2ppiYYOkdvuHCCyvl2KfNbwDSWE3IsKM139k=;
+        b=rG7G6mRKVLJqGtRpzu4EKQ1u0BdyP0RcULxSzggYg6mb1TzV/zt0k3NUrq7KA/3JP3
+         gn8wELuaO6ysm9ki1Wwycm0e5SmV3rus880+TkVFyy/yMNsGNUQBVhJyIp7WpeRaUcah
+         deZQLd6Z+QNpqAYx8gzcSwmkM/EeqcQvSr4oCe/t12o28kOeY6M79lJtEJSkih9H6etS
+         WjrVmIo54idXXA/ZGy7p7PexIEYBVURW30xOOW4L8pBJWak5OwjjiNSYf5+zBnChfd6Y
+         fidDMYFJjjm6MWcoTQ5xILWzd7RIneFJOb47yvMOfvzBqw6U/dFlKVQZaNEup1dUhhME
+         KeGg==
+X-Gm-Message-State: AOAM531f7mvPkGiH+LrMuLOYajBLDfAmOyrOK+M4bo7egI4l8LX/qe1j
+        juACKU3HubsSagvEmkPbv5LYNujd2s+eEiPDlaspo+XC
+X-Google-Smtp-Source: ABdhPJxMbilZ/XjuTrzkVGjbfkHD4ovt9JlN3pTfYtcAdX6GA7sonLKGdnfzrNqCwp1WrXP8ghhMWiJa9Fd14tGVk0c=
+X-Received: by 2002:a4a:da4e:: with SMTP id f14mr32117652oou.40.1600673602767;
+ Mon, 21 Sep 2020 00:33:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1594919915-5225-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594919915-5225-8-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8vJ2n3KEL8P+XmVob2zjoWaX+s4a6c1TV_WoPFkwdkZmA@mail.gmail.com> <20200920140824.GA2915460@kroah.com>
-In-Reply-To: <20200920140824.GA2915460@kroah.com>
+References: <20200917132117.8515-1-geert+renesas@glider.be>
+ <20200917132117.8515-3-geert+renesas@glider.be> <1517062461.1109038.1600508214011@webmail.strato.com>
+In-Reply-To: <1517062461.1109038.1600508214011@webmail.strato.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 21 Sep 2020 09:30:39 +0200
-Message-ID: <CAMuHMdUyXMfZcVKkqaZHJ8tJf-3Kotqg+S2NHMZT0VFO0ZJJww@mail.gmail.com>
-Subject: Re: [PATCH 07/20] dt-bindings: usb: renesas,usb3-peri: Document
- r8a774e1 support
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-ide@vger.kernel.org,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        alsa-devel <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
+Date:   Mon, 21 Sep 2020 09:33:11 +0200
+Message-ID: <CAMuHMdXX7x6JxqeeHtCOw6N6WKBU7RH7_2LKndfKdq2PjxNOTA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a774c0: Fix MSIOF1 DMA channels
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Greg,
+Hi Uli,
 
-On Sun, Sep 20, 2020 at 4:08 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Sat, Sep 19, 2020 at 11:50:07AM +0100, Lad, Prabhakar wrote:
-> > On Thu, Jul 16, 2020 at 6:19 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > >
-> > > Document RZ/G2H (R8A774E1) SoC bindings.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/usb/renesas,usb3-peri.yaml | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > Could you please pick this patch.
+On Sat, Sep 19, 2020 at 11:36 AM Ulrich Hecht <uli@fpond.eu> wrote:
+> > On 09/17/2020 3:21 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> > According to Technical Update TN-RCT-S0352A/E, MSIOF1 DMA can only be
+> > used with SYS-DMAC0 on R-Car E3.
 >
-> Don't DT patches have to be acked by a DT maintainer first?
+> This patch changes the file for RZ/G2E, though. And that's not mentioned in the cited document.
 
-https://lore.kernel.org/r/20200721033508.GA3504365@bogus
+Thanks, that's correct.  We know the issue is present there, too, and
+that the RZ/G2 documentation has not been updated yet.
+IMHO no need to keep known bugs alive any longer.
 
 Gr{oetje,eeting}s,
 
