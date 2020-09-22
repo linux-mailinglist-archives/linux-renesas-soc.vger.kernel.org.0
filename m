@@ -2,125 +2,251 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F612274586
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Sep 2020 17:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A38802745B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Sep 2020 17:49:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbgIVPkW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Sep 2020 11:40:22 -0400
-Received: from mail-il1-f196.google.com ([209.85.166.196]:33292 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726566AbgIVPkW (ORCPT
+        id S1726645AbgIVPt5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Sep 2020 11:49:57 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.216]:30537 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgIVPtz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Sep 2020 11:40:22 -0400
-Received: by mail-il1-f196.google.com with SMTP id y2so7038542ila.0;
-        Tue, 22 Sep 2020 08:40:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8GdJRN6siN1K/3VUt/RzQ7dwFh0PUHODAfHPAkJXVec=;
-        b=WGB1VOEU6jpfTlda4fWmes7xisIZXnU6Tzzeqph8/n3wBAOw1Zzd+FJ+curOT93GwE
-         EkaZEedS9NkDk7+PI4hrva4N7KYDxzhmTY22Ix8InMEmNPOfO+FawxWqqw8Xr9jDNkp6
-         nxWcILJ21C3JkJzg2pXXNe3R1uz8QvhYY7x0G38GQJSYDFOFQdq0CfM7DO68biSUS/3v
-         sbs+Nxmr843R79GP+k1CPv5IhNeldoP2gLXB8+amaKE+JnXZCj8/6V4C/ACr+c49zPWC
-         q+aP+op6vxuTRbnsxS17429wALAIsiQ1Y6y1x6Hy6d3TFnzZ4r9z0b+6jGcBD6dw7bDB
-         EuvQ==
-X-Gm-Message-State: AOAM531hp0fJc1iilTU2KuDJ2eBO3I+rtTA+fYomPskh8DUMCUJVR+yx
-        o7yqgA4/0Y9liM4Z9nOKOA==
-X-Google-Smtp-Source: ABdhPJyREJxSIdBKii6r07HwAtgscFY+xZM0Hzr/ADdWxpwvmnoH8SQzW6oBqLEpp2gzISGF/n+Kjw==
-X-Received: by 2002:a92:b503:: with SMTP id f3mr4935318ile.23.1600789220548;
-        Tue, 22 Sep 2020 08:40:20 -0700 (PDT)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id e4sm7533543iom.14.2020.09.22.08.40.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 08:40:19 -0700 (PDT)
-Received: (nullmailer pid 2730094 invoked by uid 1000);
-        Tue, 22 Sep 2020 15:40:18 -0000
-Date:   Tue, 22 Sep 2020 09:40:18 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-unisoc@lists.infradead.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        "moderated list:ARM/STM32 ARCHITECTURE" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 01/13] dt-bindings: gpio: add common schema for GPIO
- controllers
-Message-ID: <20200922154018.GA2657058@bogus>
-References: <20200917165301.23100-1-krzk@kernel.org>
- <20200917165301.23100-2-krzk@kernel.org>
- <CAL_JsqJCLgf6syqV=jNPHPyu02ygwWCDDV+U9VCm0qRpLkirSQ@mail.gmail.com>
- <20200920193915.GA31074@kozik-lap>
+        Tue, 22 Sep 2020 11:49:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1600789790;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=YsYTrKB/LkL8TDlaW2oaFPLQH0sq35CmW7sEH7lxBss=;
+        b=DwwLsbJ3SUQ2I6aCKIiLVzSelVhLGmNX9p+pkHKIC5gRhq9iQUciJtE3I/YWClHyzu
+        pR35IzXh/4/AtIVVV5lf+srzH/qu4MnvdiHUGys0zeQGjIq1V5z3wpq98mVYxJPB5ZTZ
+        VSN8KH0KHI/slAlCxpkJ3qeXfBLsBoLp3j2vQ/ToUuSiUy6d+NYkakUTkQNBhcRQY1IX
+        xcbc3dpdqpIcgK5g8hbGCST8VcxTLW5PQ7gcMhRF1H+rlbBRfTWNDtO1JpKlIvF/XARm
+        fRjRZ1m21Xl3Z/NLtMNMJHhL8EfGy/KOSbyJE5k14jNmOh9aX2+tNaLZjW/QuwVt9nZ/
+        jF9g==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR+mpEYCHo"
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 46.10.7 DYNA|AUTH)
+        with ESMTPSA id e0624aw8MFnjIe0
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Tue, 22 Sep 2020 17:49:45 +0200 (CEST)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     wsa@the-dreams.de, geert@linux-m68k.org, linux-i2c@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3] i2c: sh_mobile: implement atomic transfers
+Date:   Tue, 22 Sep 2020 17:49:43 +0200
+Message-Id: <20200922154943.29574-1-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200920193915.GA31074@kozik-lap>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Sep 20, 2020 at 09:39:15PM +0200, Krzysztof Kozlowski wrote:
-> On Fri, Sep 18, 2020 at 08:30:02AM -0600, Rob Herring wrote:
-> > On Thu, Sep 17, 2020 at 10:53 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> > >
-> > > Convert parts of gpio.txt bindings into common dtschema file for GPIO
-> > > controllers.  The schema enforces proper naming of GPIO controller nodes
-> > > and GPIO hogs.
-> > 
-> > Did you not see my previous reply about a common schema? We already
-> > have a common GPIO and hog schema in dtschema. Please add to it
-> > whatever is missing.
-> 
-> Indeed, I'll enhance the dt-schema.
-> 
-> The trouble is that each in-kernel YAML file still has to mention
-> possible gpio-hogs nodes. Is the proper solution to put them in common
-> YAML inside kernel sources?
+Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
+similar boards.
 
-Currently, the gpio.yaml schema is applied to all nodes. That has the 
-advantage that GPIO related properties are always checked whether we 
-have a device specific schema or not. It has the disadvantage that you 
-can't do some constraints like required properties or what's in child 
-nodes.
+Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Hi!
 
-We could (and probably should) change it to be referenced by specific 
-gpio controller schemas like we do for i2c, spi, etc. Then you can 
-define required properties there and do something like:
+This is a rebased version of v2 with a minor issue fixed. It does not
+resolve the runtime PM issue that may arise (see "watchdog: da9063: wake up
+parent ahead of reboot", https://patchwork.kernel.org/patch/11749121/ ), but
+in practice it works, and our understanding so far is that this will have to
+be resolved outside this driver and should IMO not block this patch.
 
-"-hogs$":
-  type: object
-  $ref: gpio-hogs.yaml#
+CU
+Uli
 
 
-> > My goal is all common schema end up in dtschema, but I haven't pushed
-> > folks to do that yet. Ones I've done are there though. One issue is
-> > what's in dtschema should be GPL/BSD and the existing text bindings
-> > are default GPL, so there's a relicensing exercise. In some cases, the
-> > schema is there but I haven't copied over the descriptions.
-> 
-> Right, I'll skip the descriptions when posting to dt-schema.
+Changes since v2:
+- rebase
+- make sure time_left is updated
 
-I was hoping someone would add the descriptions. :)
+Changes since v1:
+- don't disable runtime PM operations for atomic transfers
+- rename xfer() to sh_mobile_xfer()
+- rename timeout to time_left in sh_mobile_xfer() and simplify logic
+- minor style tweaks
+- rebase
+- add Tested-by's
 
-Rob
+
+
+ drivers/i2c/busses/i2c-sh_mobile.c | 96 ++++++++++++++++++++++--------
+ 1 file changed, 71 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
+index cab725559999..2891810fd78d 100644
+--- a/drivers/i2c/busses/i2c-sh_mobile.c
++++ b/drivers/i2c/busses/i2c-sh_mobile.c
+@@ -129,6 +129,7 @@ struct sh_mobile_i2c_data {
+ 	int sr;
+ 	bool send_stop;
+ 	bool stop_after_dma;
++	bool atomic_xfer;
+ 
+ 	struct resource *res;
+ 	struct dma_chan *dma_tx;
+@@ -330,13 +331,15 @@ static unsigned char i2c_op(struct sh_mobile_i2c_data *pd, enum sh_mobile_i2c_op
+ 		ret = iic_rd(pd, ICDR);
+ 		break;
+ 	case OP_RX_STOP: /* enable DTE interrupt, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+ 	case OP_RX_STOP_DATA: /* enable DTE interrupt, read data, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		ret = iic_rd(pd, ICDR);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+@@ -429,7 +432,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
+ 
+ 	if (wakeup) {
+ 		pd->sr |= SW_DONE;
+-		wake_up(&pd->wait);
++		if (!pd->atomic_xfer)
++			wake_up(&pd->wait);
+ 	}
+ 
+ 	/* defeat write posting to avoid spurious WAIT interrupts */
+@@ -581,12 +585,14 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
+ 	pd->pos = -1;
+ 	pd->sr = 0;
+ 
+-	pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
+-	if (pd->dma_buf)
+-		sh_mobile_i2c_xfer_dma(pd);
+-
+-	/* Enable all interrupts to begin with */
+-	iic_wr(pd, ICIC, ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++	if (!pd->atomic_xfer) {
++		pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
++		if (pd->dma_buf)
++			sh_mobile_i2c_xfer_dma(pd);
++		/* Enable all interrupts to begin with */
++		iic_wr(pd, ICIC,
++		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++	}
+ }
+ 
+ static int poll_dte(struct sh_mobile_i2c_data *pd)
+@@ -637,15 +643,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
+ 	return i ? 0 : -ETIMEDOUT;
+ }
+ 
+-static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+-			      struct i2c_msg *msgs,
+-			      int num)
++static int sh_mobile_xfer(struct sh_mobile_i2c_data *pd,
++			 struct i2c_msg *msgs, int num)
+ {
+-	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
+ 	struct i2c_msg	*msg;
+ 	int err = 0;
+ 	int i;
+-	long timeout;
++	long time_left;
+ 
+ 	/* Wake up device and enable clock */
+ 	pm_runtime_get_sync(pd->dev);
+@@ -662,15 +666,36 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 		if (do_start)
+ 			i2c_op(pd, OP_START);
+ 
+-		/* The interrupt handler takes care of the rest... */
+-		timeout = wait_event_timeout(pd->wait,
+-				       pd->sr & (ICSR_TACK | SW_DONE),
+-				       adapter->timeout);
++		if (pd->atomic_xfer) {
++			unsigned long j = jiffies + pd->adap.timeout;
++
++			time_left = time_before_eq(jiffies, j);
++			while (time_left &&
++			       !(pd->sr & (ICSR_TACK | SW_DONE))) {
++				unsigned char sr = iic_rd(pd, ICSR);
++
++				if (sr & (ICSR_AL   | ICSR_TACK |
++					  ICSR_WAIT | ICSR_DTE)) {
++					sh_mobile_i2c_isr(0, pd);
++					udelay(150);
++				} else {
++					cpu_relax();
++				}
++				time_left = time_before_eq(jiffies, j);
++			}
++		} else {
++			/* The interrupt handler takes care of the rest... */
++			time_left = wait_event_timeout(pd->wait,
++					pd->sr & (ICSR_TACK | SW_DONE),
++					pd->adap.timeout);
++
++			/* 'stop_after_dma' tells if DMA xfer was complete */
++			i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg,
++						 pd->stop_after_dma);
+ 
+-		/* 'stop_after_dma' tells if DMA transfer was complete */
+-		i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg, pd->stop_after_dma);
++		}
+ 
+-		if (!timeout) {
++		if (!time_left) {
+ 			dev_err(pd->dev, "Transfer request timed out\n");
+ 			if (pd->dma_direction != DMA_NONE)
+ 				sh_mobile_i2c_cleanup_dma(pd);
+@@ -696,14 +721,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 	return err ?: num;
+ }
+ 
++static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
++			      struct i2c_msg *msgs,
++			      int num)
++{
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = false;
++	return sh_mobile_xfer(pd, msgs, num);
++}
++
++static int sh_mobile_i2c_xfer_atomic(struct i2c_adapter *adapter,
++				     struct i2c_msg *msgs,
++				     int num)
++{
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = true;
++	return sh_mobile_xfer(pd, msgs, num);
++}
++
+ static u32 sh_mobile_i2c_func(struct i2c_adapter *adapter)
+ {
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_PROTOCOL_MANGLING;
+ }
+ 
+ static const struct i2c_algorithm sh_mobile_i2c_algorithm = {
+-	.functionality	= sh_mobile_i2c_func,
+-	.master_xfer	= sh_mobile_i2c_xfer,
++	.functionality = sh_mobile_i2c_func,
++	.master_xfer = sh_mobile_i2c_xfer,
++	.master_xfer_atomic = sh_mobile_i2c_xfer_atomic,
+ };
+ 
+ static const struct i2c_adapter_quirks sh_mobile_i2c_quirks = {
+-- 
+2.20.1
+
