@@ -2,215 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E98C274048
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Sep 2020 13:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F1182741B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Sep 2020 14:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726473AbgIVLBz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Sep 2020 07:01:55 -0400
-Received: from mail-eopbgr1410095.outbound.protection.outlook.com ([40.107.141.95]:1920
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726340AbgIVLBz (ORCPT
+        id S1726539AbgIVMAo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Sep 2020 08:00:44 -0400
+Received: from www.zeus03.de ([194.117.254.33]:60654 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726543AbgIVMAo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Sep 2020 07:01:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ax86WpBJyi/OUfn9FC6skJSe44ISl5T/GF2nxTV1dfHCgSj98ilCgwVlu+39oE+a7ULR8xfWf2/RDHn+zAf4Ju0YYgE18Euc24yuCEv09f2r+o8K8kuAbbQAUiIPimLbR3yJ5FQquFGIlsayrKwNUX4LWA8YS9Xv0Ne3KX/0ZVki2yBJYJE/GlzQu0jZ3gfJWp+W+rpehvgNFSDRSLQsB7MbCjPzRRep+5CyOo/nzuXuWidAeUYp0Y4hNWAVEPFij6m7iJAGXKm5u3tUavlT0JgtalggjF6a/r+cdQ9CJxL0a4h/m9BssghwBVCpNqVutzVI+kiMI1KPFrhCYYhoKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvZzfI0EAzwDnGijqJqCZ53EXq3Rw0tzwrQD+WL2uDA=;
- b=jBnoaLhRv1lrMeV6wBuMRoPOIVBWlsJoqZLXlgDjzQMHaXc2FfZbeoJJzaCLpOSNslK5GbiaZq0xOsYPLkZ1rWxUWLpY74bP+59z6dp5s++RKWycrAUJwve1aHTHkXp1zLUryATNpd5GyFAbr61sQ9F/XNjrUzksgTcYdcPWDzf3Q/qG/MTxIIJyN/VT2ZW4ffsIWQLEbdF1Vdx9SK2upEA+4gJ9Wcgjq1NDWNkcYnMhfKxV0dFoL79lyh9MdZbSAgq8CXJjcXCX3/YLDnrUpbFScZjgq5/VzQO9igwpBK5GS8tAMqdt5MwEfqZVUdOwOWL/bo9woBdIj4/j6cgmkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tvZzfI0EAzwDnGijqJqCZ53EXq3Rw0tzwrQD+WL2uDA=;
- b=A+uT2RfkgxBWZ1cDI/CHiCMMSXiyBNgQvgMNW7G8TDq2Yj3ktuZ9KsFcb/3w8JCDDCl/3a+gGxQO2uqrzuigARpDkEBbncIBMab6mbFbQ3xF+JtILooC/UzppYI+ok0AoDd032joZZhTgGj52FhZVihstcglyIHh3ZJneDZ1jTE=
-Received: from OS0PR01MB5300.jpnprd01.prod.outlook.com (2603:1096:604:a3::12)
- by OS0PR01MB5426.jpnprd01.prod.outlook.com (2603:1096:604:96::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14; Tue, 22 Sep
- 2020 11:01:51 +0000
-Received: from OS0PR01MB5300.jpnprd01.prod.outlook.com
- ([fe80::299d:3952:4ffc:31ad]) by OS0PR01MB5300.jpnprd01.prod.outlook.com
- ([fe80::299d:3952:4ffc:31ad%5]) with mapi id 15.20.3391.026; Tue, 22 Sep 2020
- 11:01:51 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Neil Armstrong <narmstrong@baylibre.com>
-Subject: RE: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Topic: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Index: AQHWkM76/jGpsPjEXkKsonm7MZkvwal0fYGw
-Date:   Tue, 22 Sep 2020 11:01:51 +0000
-Message-ID: <OS0PR01MB5300DCD7AC601699F1879A54863B0@OS0PR01MB5300.jpnprd01.prod.outlook.com>
-References: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a8ec5440-1bce-49d6-4bd9-08d85ee6e8f7
-x-ms-traffictypediagnostic: OS0PR01MB5426:
-x-microsoft-antispam-prvs: <OS0PR01MB5426A745E4231F85564999CC863B0@OS0PR01MB5426.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J2g4FxxmFH0qQxM8yGDgBgHXOVfOUtlkTlUJMbZCcxREZj8KaoKOVKQaLoxTPrYAbRq6i1dfGGoOxn+ymKyaL2APPjw4EyNfV4kSVSXEX7iJeT+/AdHDCOnU1f2/AwYD2pNA4Y7QX4MsWwZricTjmc3fJVrD3vd4UytJHvNvd9+27ITJDDRu75p9BOmU16lT/OD0DYo7J27jyaD/jeNXkA5aVLK6YDgsl7TUDzb+y4CJBJk+yT0+aUmTHziKpFzrfrV4aZHua36wHvjpRGhDGY2oDo9xoxKpNfJZST42USZQwHKTLUGocDSO8TNh6FQu
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5300.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(136003)(39860400002)(346002)(366004)(64756008)(8676002)(186003)(26005)(316002)(54906003)(478600001)(4326008)(110136005)(52536014)(55016002)(66446008)(66476007)(2906002)(66556008)(71200400001)(66946007)(86362001)(6506007)(33656002)(7696005)(76116006)(8936002)(5660300002)(9686003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: xZ+TSmxNgrEVdf5Lc5tBncuW/gfnoeuBWDVaP75rmUcPYjnQb1vokhWGjMEgLZa//IxAODPUcBbmuhqWDK+yos03YcEvNQj+Aiwd1HeOaLSYrG8jh4C/fgnC0y452FRoVb1wq456QC2N2g3a/4xzzpDa2NVHDqXp/dz9BoLFMnDMFL4iKiTzg8GBQWXtwESv3UlakYMKm6Ye93SBAlgYdrpZorkOjFgnIwxphI5DXvMMY4lbva4fLiIO47U/IUDQ4AxGmJXvUXZdlmOuf6eRgbHnBbs7iGoI89Q2sxFOfsPgT8yurLwoYLfOZ0Jut9f51Jw7A+lrRZxumNLsxTL4Cn8ZNZMHu+4VALjQ5eT65nLHUEz7ZRxAN91cXitutXVcczDgsZK9qYDW8Ga35VtveSXw4RanU/J7kbbpAAgLS/mTouEF0iJljpVWaX92fElc/Fsm3n0idTsahbL3QtHWeJsWeayAnhNKQjaLux6ZaRYNPsrfgCXFi6P6i7Yo1Pcssoy5YZ/frvm/Nqf9qLUUDyWYz0GSvBSTv6LAW6d3n8CoaWZjawuLJRLxepb7Z3WBF9AnFPSZcsklOWqvRNumSbzOC99DA/zy18VlBvLQAuMoPGCGUFC7vcf5ULcINELaHMguryBM3nDIKrPXOcISXA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 22 Sep 2020 08:00:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=pVIIA1FPAVeoonehKiIdJh48Aty
+        H9quaTa2lPSi/Lu0=; b=38EgKSaMTTIrg38uDYp0AL65NKL6eCzvEsi6nmBvP00
+        zD7jW9XqVDgtjPlbE90xkCcUarZlJZgc7o6m8dTNRXaLrzID7nFJ2BOKmZxcB99+
+        xBCRghrVGwrSMAuhzPBqe+QITY32EjRv4xDeW3cHdkOXAh1yR/boc2tR3C8zte2o
+        =
+Received: (qmail 207324 invoked from network); 22 Sep 2020 14:00:42 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2020 14:00:42 +0200
+X-UD-Smtp-Session: l3s3148p1@UMZnt+WvsOMgAwDPXw2nAFbEEsRzXAbg
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-clk@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] clk: renesas: rcar-gen3: remove stp_ck handling for SDHI
+Date:   Tue, 22 Sep 2020 14:00:36 +0200
+Message-Id: <20200922120036.10298-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5300.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8ec5440-1bce-49d6-4bd9-08d85ee6e8f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Sep 2020 11:01:51.5093
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GA8QS6OW5gZjj3yWunVQ1cJxCFh3+R+Cc7MGLHRYaqSlTJd2wRvBSncQFQXbW+E5pMpHJcYXfbY+RTBK12FtSZWm95WVRhGik+vuBio7fTY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5426
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+There is no case (and none foreseen) where we would need to disable the
+SDn clock. So, for simplicity, remove its handling.
 
-Thanks for the patch.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-> Subject: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
->
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> Add the support for enabling optional regulator that may be used as VCC
-> source.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> [Replaced 'error' variable with 'ret']
-> [Renamed regulator from 'vcc' to 'power']
-> Signed-off-by: Laurent Pinchart
-> <laurent.pinchart+renesas@ideasonboard.com>
+Geert seems to favor simplicity, too. So, now this patch leaves RFC
+status.
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Change since RFC: * fixed typo in commit message
 
-Cheers,
-Biju
+ drivers/clk/renesas/rcar-gen3-cpg.c | 51 ++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 26 deletions(-)
 
-> ---
-> Changes since v2:
->
-> - Use the correct regulator name
-> ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 29
-> +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c
-> b/drivers/gpu/drm/bridge/lvds-codec.c
-> index f19d9f7a5db2..f52ccffc1bd1 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -10,13 +10,16 @@
->  #include <linux/of_device.h>
->  #include <linux/of_graph.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regulator/consumer.h>
->
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_panel.h>
->
->  struct lvds_codec {
-> +struct device *dev;
->  struct drm_bridge bridge;
->  struct drm_bridge *panel_bridge;
-> +struct regulator *vcc;
->  struct gpio_desc *powerdown_gpio;
->  u32 connector_type;
->  };
-> @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge
-> *bridge,  static void lvds_codec_enable(struct drm_bridge *bridge)  {
->  struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
-> +int ret;
-> +
-> +ret =3D regulator_enable(lvds_codec->vcc);
-> +if (ret) {
-> +dev_err(lvds_codec->dev,
-> +"Failed to enable regulator \"vcc\": %d\n", ret);
-> +return;
-> +}
->
->  if (lvds_codec->powerdown_gpio)
->  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 0); @@ -46,9 +57,15 @@ static void lvds_codec_enable(struct drm_bridge
-> *bridge)  static void lvds_codec_disable(struct drm_bridge *bridge)  {
->  struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
-> +int ret;
->
->  if (lvds_codec->powerdown_gpio)
->  gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 1);
-> +
-> +ret =3D regulator_disable(lvds_codec->vcc);
-> +if (ret)
-> +dev_err(lvds_codec->dev,
-> +"Failed to disable regulator \"vcc\": %d\n", ret);
->  }
->
->  static const struct drm_bridge_funcs funcs =3D { @@ -63,12 +80,24 @@ sta=
-tic
-> int lvds_codec_probe(struct platform_device *pdev)
->  struct device_node *panel_node;
->  struct drm_panel *panel;
->  struct lvds_codec *lvds_codec;
-> +int ret;
->
->  lvds_codec =3D devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
->  if (!lvds_codec)
->  return -ENOMEM;
->
-> +lvds_codec->dev =3D &pdev->dev;
->  lvds_codec->connector_type =3D
-> (uintptr_t)of_device_get_match_data(dev);
-> +
-> +lvds_codec->vcc =3D devm_regulator_get(lvds_codec->dev, "power");
-> +if (IS_ERR(lvds_codec->vcc)) {
-> +ret =3D PTR_ERR(lvds_codec->vcc);
-> +if (ret !=3D -EPROBE_DEFER)
-> +dev_err(lvds_codec->dev,
-> +"Unable to get \"vcc\" supply: %d\n", ret);
-> +return ret;
-> +}
-> +
->  lvds_codec->powerdown_gpio =3D devm_gpiod_get_optional(dev,
-> "powerdown",
->
-> GPIOD_OUT_HIGH);
->  if (IS_ERR(lvds_codec->powerdown_gpio))
-> --
-> Regards,
->
-> Laurent Pinchart
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
+index 488f8b3980c5..a7debddf7d09 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -224,10 +224,9 @@ static struct clk * __init cpg_z_clk_register(const char *name,
+ #define CPG_SD_STP_MASK		(CPG_SD_STP_HCK | CPG_SD_STP_CK)
+ #define CPG_SD_FC_MASK		(0x7 << 2 | 0x3 << 0)
+ 
+-#define CPG_SD_DIV_TABLE_DATA(stp_hck, stp_ck, sd_srcfc, sd_fc, sd_div) \
++#define CPG_SD_DIV_TABLE_DATA(stp_hck, sd_srcfc, sd_fc, sd_div) \
+ { \
+ 	.val = ((stp_hck) ? CPG_SD_STP_HCK : 0) | \
+-	       ((stp_ck) ? CPG_SD_STP_CK : 0) | \
+ 	       ((sd_srcfc) << 2) | \
+ 	       ((sd_fc) << 0), \
+ 	.div = (sd_div), \
+@@ -247,36 +246,36 @@ struct sd_clock {
+ };
+ 
+ /* SDn divider
+- *                     sd_srcfc   sd_fc   div
+- * stp_hck   stp_ck    (div)      (div)     = sd_srcfc x sd_fc
+- *-------------------------------------------------------------------
+- *  0         0         0 (1)      1 (4)      4 : SDR104 / HS200 / HS400 (8 TAP)
+- *  0         0         1 (2)      1 (4)      8 : SDR50
+- *  1         0         2 (4)      1 (4)     16 : HS / SDR25
+- *  1         0         3 (8)      1 (4)     32 : NS / SDR12
+- *  1         0         4 (16)     1 (4)     64
+- *  0         0         0 (1)      0 (2)      2
+- *  0         0         1 (2)      0 (2)      4 : SDR104 / HS200 / HS400 (4 TAP)
+- *  1         0         2 (4)      0 (2)      8
+- *  1         0         3 (8)      0 (2)     16
+- *  1         0         4 (16)     0 (2)     32
++ *           sd_srcfc   sd_fc   div
++ * stp_hck   (div)      (div)     = sd_srcfc x sd_fc
++ *---------------------------------------------------------
++ *  0         0 (1)      1 (4)      4 : SDR104 / HS200 / HS400 (8 TAP)
++ *  0         1 (2)      1 (4)      8 : SDR50
++ *  1         2 (4)      1 (4)     16 : HS / SDR25
++ *  1         3 (8)      1 (4)     32 : NS / SDR12
++ *  1         4 (16)     1 (4)     64
++ *  0         0 (1)      0 (2)      2
++ *  0         1 (2)      0 (2)      4 : SDR104 / HS200 / HS400 (4 TAP)
++ *  1         2 (4)      0 (2)      8
++ *  1         3 (8)      0 (2)     16
++ *  1         4 (16)     0 (2)     32
+  *
+  *  NOTE: There is a quirk option to ignore the first row of the dividers
+  *  table when searching for suitable settings. This is because HS400 on
+  *  early ES versions of H3 and M3-W requires a specific setting to work.
+  */
+ static const struct sd_div_table cpg_sd_div_table[] = {
+-/*	CPG_SD_DIV_TABLE_DATA(stp_hck,  stp_ck,   sd_srcfc,   sd_fc,  sd_div) */
+-	CPG_SD_DIV_TABLE_DATA(0,        0,        0,          1,        4),
+-	CPG_SD_DIV_TABLE_DATA(0,        0,        1,          1,        8),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        2,          1,       16),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        3,          1,       32),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        4,          1,       64),
+-	CPG_SD_DIV_TABLE_DATA(0,        0,        0,          0,        2),
+-	CPG_SD_DIV_TABLE_DATA(0,        0,        1,          0,        4),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        2,          0,        8),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        3,          0,       16),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        4,          0,       32),
++/*	CPG_SD_DIV_TABLE_DATA(stp_hck,  sd_srcfc,   sd_fc,  sd_div) */
++	CPG_SD_DIV_TABLE_DATA(0,        0,          1,        4),
++	CPG_SD_DIV_TABLE_DATA(0,        1,          1,        8),
++	CPG_SD_DIV_TABLE_DATA(1,        2,          1,       16),
++	CPG_SD_DIV_TABLE_DATA(1,        3,          1,       32),
++	CPG_SD_DIV_TABLE_DATA(1,        4,          1,       64),
++	CPG_SD_DIV_TABLE_DATA(0,        0,          0,        2),
++	CPG_SD_DIV_TABLE_DATA(0,        1,          0,        4),
++	CPG_SD_DIV_TABLE_DATA(1,        2,          0,        8),
++	CPG_SD_DIV_TABLE_DATA(1,        3,          0,       16),
++	CPG_SD_DIV_TABLE_DATA(1,        4,          0,       32),
+ };
+ 
+ #define to_sd_clock(_hw) container_of(_hw, struct sd_clock, hw)
+-- 
+2.20.1
 
-
-
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
-, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
-40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
-f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
-EE reg. no.: DE 14978647
