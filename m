@@ -2,78 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D648A2753E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 10:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 991C4275412
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 11:10:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgIWI47 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 04:56:59 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33054 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgIWI46 (ORCPT
+        id S1726419AbgIWJK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 05:10:29 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39738 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726338AbgIWJK3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 04:56:58 -0400
-Received: by mail-oi1-f194.google.com with SMTP id m7so24286593oie.0;
-        Wed, 23 Sep 2020 01:56:58 -0700 (PDT)
+        Wed, 23 Sep 2020 05:10:29 -0400
+Received: by mail-oi1-f195.google.com with SMTP id c13so24291435oiy.6;
+        Wed, 23 Sep 2020 02:10:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jaZY2VGrfOfgteqzRX9fhMLVMs898ToBHKtkON5YHdY=;
-        b=GI7Ef+sDSDYVrtv7ZDjlexOPBKk4zgMS7viL08DbKehWhVsVIoqtTkDuiIydGTyl7l
-         A4C34gwhBBv7sOZik1I3BqWAvvSEDcd/bFX9vINY+B/zgFv4xgGmIgV0N4fLTItIgaB/
-         GmQfat/Y3SQIRYV354OLZWoz7shxcZyefSRWchDXJkHHXd4lIBerPZu6c8xwPD3QkZPp
-         MF8ygET4E/GMb0Dae0TDSi/Cylm6JyPtds5/WEIKB/jnGpVevXLq6/kSvtjeGmEu61ay
-         +Jp3pV5XU0UwsLBrd7J9ngKOBgqQ4kBYTuhUnz/wbOLHNTZlGhAR1DZvQo8O2+hWzlFF
-         csmA==
-X-Gm-Message-State: AOAM531riexZU0MX/TEYfdXVTkSIykrb+WGvPUH5B3nM09uj5wbuXOTm
-        Jhh1J4QLNV2MGMzHt5s6wcabwhZthP6MhocH8tw=
-X-Google-Smtp-Source: ABdhPJyDmqT9myuYXjzrqNEkRcWSI00833/w4FaxYSMwmEpBmp4YLuBhR0jeIMTAApp/Jwsj756/kgHSurShm07kbsg=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr5108320oib.54.1600851417838;
- Wed, 23 Sep 2020 01:56:57 -0700 (PDT)
+        bh=0mYSC4kkHIJP+4bMDumjNsLF1GD/gg4zgKaMqe/GqZg=;
+        b=QGlFwqe8/vAFJIohpiljuNN3u2ZftbFBvOn8+JlrLWvVxLYucmgwPrYW6p/RKZ4Fnn
+         nVbT27M3z89pxagAEdNViAoKMNhYkilwEcOLC3qXWVAU4NjGo1u/T+vnEjs7QnF1foPe
+         0EHnnjDDlkRVBQLYOCdNxt2u28YtUKq2N6gdbvMQPYq/4/L4PuF5nC9cnEsMF2br11zQ
+         zrgWC67bBSh34Yftqde1kW8wFNyFBpIILndjay/2zVFbeP8xtxdK/MHt66pPT2c/sILT
+         fu2eXbRs53xNEo6KAM51dkghGhJtjAVuAagUbA8XleDIG+4rJq+PkYe7nSFHl3QY9tGh
+         0ZTQ==
+X-Gm-Message-State: AOAM531nuVjNw+q4rnEAbdL66ho4cpf1dUM1bmDKCPv0dl3Ao3KAWrEr
+        1MqJ1F05NSG00/CD00uY/rCcQi0A8zxHWUDC/jU=
+X-Google-Smtp-Source: ABdhPJwWLwQa9iQWpN4ecqK4IS6c4WBCcTWe3lGPFVtXaRNM9+D+WBiPIKq7kgzN8xVVDKRd8cBcetEenEqxJzwo08o=
+X-Received: by 2002:aca:52d6:: with SMTP id g205mr5131935oib.54.1600852228744;
+ Wed, 23 Sep 2020 02:10:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200917195924.20384-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20200917195924.20384-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200923084458.GD1454948@mwanda>
+In-Reply-To: <20200923084458.GD1454948@mwanda>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 10:56:46 +0200
-Message-ID: <CAMuHMdWNHbHE2pSJ2uO=8pi8XrZ43Q2d4kGyUG79aWJYMFsYNA@mail.gmail.com>
-Subject: Re: [PATCH v3] pinctrl: renesas: r8a7790: Add VIN1-B and VIN2-G pins,
- groups and functions
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+Date:   Wed, 23 Sep 2020 11:10:17 +0200
+Message-ID: <CAMuHMdXyM1dUPJ7ZDAk6-cEjaG_bVBfsE=bqdpf7pA0ChdRLVw@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Fix some leaks in rmobile_init_pm_domains()
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+        kernel-janitors@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Dan,
 
-On Thu, Sep 17, 2020 at 9:59 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Add pins, groups and functions for the VIN1-B [data/sync/field/clkenb/clk]
-> and VIN2-G8.
+On Wed, Sep 23, 2020 at 10:47 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> This code needs to call iounmap() on the error paths.
+
+Thanks for your patch!
+
+> Fixes: 2ed29e15e4b2 ("ARM: shmobile: R-Mobile: Move pm-rmobile to drivers/soc/renesas/")
+
+This is not the commit that introduced the issue.
+
+Fixes: 2173fc7cb681c38b ("ARM: shmobile: R-Mobile: Add DT support for
+PM domains")
+
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+> --- a/drivers/soc/renesas/rmobile-sysc.c
+> +++ b/drivers/soc/renesas/rmobile-sysc.c
+> @@ -328,6 +328,7 @@ static int __init rmobile_init_pm_domains(void)
+>                 pmd = of_get_child_by_name(np, "pm-domains");
+>                 if (!pmd) {
+>                         pr_warn("%pOF lacks pm-domains node\n", np);
+> +                       iounmap(base);
+
+This one I can agree with, although that case is a bug in the DTS.
+
+>                         continue;
+>                 }
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v2->v3:
-> * Included vin1_data4_b, field_b  and clkenb_b
-> * Renamed vin2_data8g to vin2_g8
-> * Rebased patch on latest changes
->
-> v1->v2:
-> * Added complete list of VIN1-B pins
-> * Renamed vin2_data8_g to vin2_data8g
-> * Sorted vin1_sync_b pins
+> @@ -341,6 +342,7 @@ static int __init rmobile_init_pm_domains(void)
+>                 of_node_put(pmd);
+>                 if (ret) {
+>                         of_node_put(np);
+> +                       iounmap(base);
 
-Thanks for the update!
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.11.
+This one I cannot: in the (unlikely, only if OOM) case
+rmobile_add_pm_domains() returns an error, one or more PM subdomains may
+have been registered already.  Hence if you call iounmap() here, the
+code will try to access unmapped registers later, leading to a crash.
 
 Gr{oetje,eeting}s,
 
