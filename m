@@ -2,86 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCE8D2758B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 15:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA3AF2758C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 15:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbgIWN3i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 09:29:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40615 "EHLO
+        id S1726487AbgIWNdi convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 09:33:38 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:32907 "EHLO
         mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbgIWN3i (ORCPT
+        with ESMTP id S1726130AbgIWNdi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 09:29:38 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t76so25005527oif.7;
-        Wed, 23 Sep 2020 06:29:37 -0700 (PDT)
+        Wed, 23 Sep 2020 09:33:38 -0400
+Received: by mail-oi1-f196.google.com with SMTP id m7so25057616oie.0;
+        Wed, 23 Sep 2020 06:33:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1rMoEuPGDAy971L25OQzzcUwzDymkiOVA4jg4tTeTHI=;
-        b=Lea3InaDNDnXi04N6avkexks0kmaBfLs9johDZqyWZ+UwMdepz6gMikrBF7c7fc4jn
-         bFJj/urKShgXHQFuuVr8uzbVvG+nJ0png9li+AkqfeDkfc9GxonahGMA1Q7VXYJzRapO
-         El+FXFd2mxboXOp3toWcZX0jIX8x6TOgl06b5Ng0yqy5zX6uIYdErBEIcK0EGtvl3uqC
-         g5D9EwOu6qVCnO9YXyIB4Zb4MpwrNQd5uWqUqwkz/ToYuG8sI868SJjpw/fmCLl1MxC3
-         oBsdIOyv7WFQdcPmmfkIaoxNMCiWzXHhvctQ72+7UeH8C82f6QfF3abD0sJMlP/jbcti
-         40zA==
-X-Gm-Message-State: AOAM531EonW/bBhdS3K8QzcM2FgX9QnAsEZX/DTkeUgSbwJF8OIrACQR
-        +bj4/39YTjof4SVk83b+90DBFobJNF5OXmpCxv3T6c1c
-X-Google-Smtp-Source: ABdhPJziefyJq4JP9IubrLkGlZIwmizPmfyZzixhXhqNpkNSciMNfsNrp++kEzyejdd8neZ6NVOcBk24rZGIIwTUkDs=
-X-Received: by 2002:aca:3bc3:: with SMTP id i186mr5442092oia.148.1600867777289;
- Wed, 23 Sep 2020 06:29:37 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jLvhxV8WN8tYwAsKLuQ5qoca0AxXLmY9ncmfD688UVE=;
+        b=QsOT76/UlfNd6ehu92bgbyqo/n547aOOepxdTR6Z06939gAY+FLNAb3R5FEcUdN+je
+         saiCP8jJHSe5HtdUXiGFzquR0tTo4+ulzI9x05+ZZIeqF6iUEO8wPlh4yXWRyFxmmQD8
+         dOiQDvX5AoBEH1vSFS4nOdBP/u2wsg67E/f1UDSSBuKmdORlujLLRZfTxs7r3ADED0r5
+         +48fM1uQW7lxiuLwSlqW4Q1J7HRN62vgXxArGJ40jYRx+kKyA5IHfAP1nbfoRNctnPvY
+         9IBXuXpiwVTxJhVGpK9Shi+c4WUty9BljOnWODVGKfCKBjJigzh89rV8VFX+qTEKWhRW
+         w1WA==
+X-Gm-Message-State: AOAM533VSOa+nuMR2z4KeJY89VrrBSUr+PIZ41exm5Fy0zFmhk6MFSWG
+        7B8cDhpqJDDbhBfC9afKjx2yBwB0T6efa4XpAsxI30Xthj8=
+X-Google-Smtp-Source: ABdhPJxf5OeqXwmXtbr0WhpaUjkbIzjraQ7D8svwIUi3MJOGi3XetHfwKcml4BiolSeLliTWBCZ7aTJUY0J3J6a7hUw=
+X-Received: by 2002:aca:4441:: with SMTP id r62mr5414688oia.153.1600868017348;
+ Wed, 23 Sep 2020 06:33:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200825104455.18000-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825104455.18000-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdWmvcA8x-t=FgNOuMnAtw6j3OAgo8irmD5e2wrB+LfhHg@mail.gmail.com> <20200923121452.GD1848911@ulmo>
-In-Reply-To: <20200923121452.GD1848911@ulmo>
+References: <20200916105949.24858-1-fabrizio.castro.jz@renesas.com>
+ <20200916105949.24858-3-fabrizio.castro.jz@renesas.com> <CAMuHMdU-DSqUmch3OR1pSbDkVNGDKx_YGT_432uYpoPDh_nS1Q@mail.gmail.com>
+ <OSAPR01MB2740DB23267470CF995978E5C2380@OSAPR01MB2740.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB2740DB23267470CF995978E5C2380@OSAPR01MB2740.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 15:29:25 +0200
-Message-ID: <CAMuHMdX=G0n4MWNUM46OcUzeKUc=i1Sv4J8tnU0=_Nkt=Pf6xA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a774e1: Add PWM device nodes
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+Date:   Wed, 23 Sep 2020 15:33:26 +0200
+Message-ID: <CAMuHMdXbhqYPrFDa4rY4xM_wQcVRCr3Lh=EQHbS+jAQvLADvhg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] media: dt-bindings: media: renesas,drif: Convert
+ to json-schema
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thierry,
+Hi Fabrizio,
 
-On Wed, Sep 23, 2020 at 2:14 PM Thierry Reding <thierry.reding@gmail.com> wrote:
-> On Tue, Aug 25, 2020 at 03:32:08PM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Aug 25, 2020 at 12:45 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+On Wed, Sep 23, 2020 at 1:55 PM Fabrizio Castro
+<fabrizio.castro.jz@renesas.com> wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > On Wed, Sep 16, 2020 at 1:00 PM Fabrizio Castro
+> > <fabrizio.castro.jz@renesas.com> wrote:
+> > > Convert the Renesas DRIF bindings to DT schema and update
+> > > MAINTAINERS accordingly.
 > > >
-> > > This patch adds PWM[0123456] device nodes to the RZ/G2H (a.k.a R8A774E1)
-> > > device tree.
-> > >
-> > > Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+
+> > > +if:
+> > > +  required:
+> > > +    - renesas,primary-bond
+> > > +then:
+> > > +  required:
+> > > +    - pinctrl-0
+> > > +    - pinctrl-names
+> > > +    - port
 > >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v5.10.
+> > The last 3 properties must not be present for a secondary interface,
+> > right?
 >
-> Hi Geert,
+> If you have both channels enabled, then one of the two has to define properties:
+> * renesas,primary-bond, pinctrl-0, pinctrl-names, and port.
 >
-> did you also pick up patch 1/2 in this series?
+> If only one channel is enabled, then the primary bond concept loses its value,
+> whether renesas,primary-bond is specified or not doesn’t matter anymore, but the
+> enabled node has to specify the pinctrl related properties and the port.
+>
+> > To express that, I think you need to add:
+> >
+> >     else:
+> >       properties:
+> >         - pinctrl-0: false
+> >         - pinctrl-names: false
+> >         - port: false
+>
+> If I went with this, we would not be able to allow those properties to be specified in the
+> only enabled node for single channels configurations.
+>
+> Is there a better way to approach this?
+>
+> I'll wait for this point to get sorted before sending v3 out.
 
-No, I typically don't take DT binding updates for non-core devices.
-Can you please pick it up?
+The old binding said:
 
-Thanks!
+    -Required properties of an internal channel when:
+    -       - It is the only enabled channel of the bond (or)
+    -       - If it acts as primary among enabled bonds
+
+    -- renesas,primary-bond: empty property indicating the channel
+acts as primary
+    -                       among the bonded channels.
+
+so renesas,primary-bond is required for the only enabled node for
+single channels configurations anyway?
 
 Gr{oetje,eeting}s,
 
