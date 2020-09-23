@@ -2,155 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4782759BC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 16:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F00275A6C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 16:40:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgIWORf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 10:17:35 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40478 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726130AbgIWORf (ORCPT
+        id S1726761AbgIWOkq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 10:40:46 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:39248 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726668AbgIWOkl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 10:17:35 -0400
-Received: by mail-ot1-f68.google.com with SMTP id e23so19096490otk.7;
-        Wed, 23 Sep 2020 07:17:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VSeybIBU3kGA2PcrZleCzYug44g495BTjxa9JqK9OKc=;
-        b=d4DSqIXhTBQGPICCO//oaLJvm9k6ve5Pie/iyErDIlhkFwfjD4sG9AZq0DDWB4ScVm
-         JW/AF5vBF5Y7qXAQMZvsB7/JG8QwqcRH0kp5mlO+WPSTQi5SObcmgYn3baSNNQaFxonJ
-         /6HKB2RysjgJUBYJbMrZBO5/0RDq2n4WdR7lrq3R1a2byw2/prbxpe4JQ5CICIzM4Shp
-         BY4hM4IzP8F6MGeAZRRegytHem+QRAIRCXCO9+xqCfLZB63cKB+OsTW3yJgylaWewn3Y
-         2jeWuLIemRaE10NkPTyox8HojBmrFVAwmdzDeROhBfJvBYijv2dtsLRoJ/Zrh4U703xm
-         Ijzg==
-X-Gm-Message-State: AOAM531rlezypHkRHQtVwVNcos75MqQ+JkQLEsNFTbxbf8ae/b4cP3Ub
-        Oca0N+2knXqoOcdi72ixCFinYg/cMEJG9mk7OwlqEY3E
-X-Google-Smtp-Source: ABdhPJw/KoDzFtMyhYkvfFwDr5n2859py+1+HhxKo1UDpc0TYwvGy9TOEgrCqAZR4ZbM/xnIapI05JIh05CrefBETFo=
-X-Received: by 2002:a9d:5a92:: with SMTP id w18mr6155070oth.145.1600870654343;
- Wed, 23 Sep 2020 07:17:34 -0700 (PDT)
+        Wed, 23 Sep 2020 10:40:41 -0400
+Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 6E04C3B25DB;
+        Wed, 23 Sep 2020 14:39:19 +0000 (UTC)
+X-Originating-IP: 90.65.92.90
+Received: from localhost (lfbn-lyo-1-1913-90.w90-65.abo.wanadoo.fr [90.65.92.90])
+        (Authenticated sender: gregory.clement@bootlin.com)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 024DBFF80C;
+        Wed, 23 Sep 2020 14:38:52 +0000 (UTC)
+From:   Gregory CLEMENT <gregory.clement@bootlin.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 13/15] ARM: dts: dove: fix PCA95xx GPIO expander properties on A510
+In-Reply-To: <20200916155715.21009-14-krzk@kernel.org>
+References: <20200916155715.21009-1-krzk@kernel.org> <20200916155715.21009-14-krzk@kernel.org>
+Date:   Wed, 23 Sep 2020 16:38:52 +0200
+Message-ID: <87blhwimmb.fsf@BL-laptop>
 MIME-Version: 1.0
-References: <20200922154943.29574-1-uli+renesas@fpond.eu>
-In-Reply-To: <20200922154943.29574-1-uli+renesas@fpond.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 16:17:23 +0200
-Message-ID: <CAMuHMdXF7kX0u_awH3w8sCAvAQUN7dzZix6anSrrafwTjpLBUg@mail.gmail.com>
-Subject: Re: [PATCH v3] i2c: sh_mobile: implement atomic transfers
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
+Hi Krzysztof,
 
-On Tue, Sep 22, 2020 at 5:49 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
-> similar boards.
+> The PCA95xx GPIO expander requires GPIO controller properties to operate
+> properly.
+
+Applied on mvebu/dt
+
+Thanks,
+
+Gregory
 >
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  arch/arm/boot/dts/dove-sbc-a510.dts | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> This is a rebased version of v2 with a minor issue fixed. It does not
-> resolve the runtime PM issue that may arise (see "watchdog: da9063: wake up
-> parent ahead of reboot", https://patchwork.kernel.org/patch/11749121/ ), but
-> in practice it works, and our understanding so far is that this will have to
-> be resolved outside this driver and should IMO not block this patch.
-
-See my comment below.
-
-> Changes since v2:
-> - rebase
-> - make sure time_left is updated
-
-Thanks for the update!
-
-> --- a/drivers/i2c/busses/i2c-sh_mobile.c
-> +++ b/drivers/i2c/busses/i2c-sh_mobile.c
-
-> @@ -429,7 +432,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
->
->         if (wakeup) {
->                 pd->sr |= SW_DONE;
-> -               wake_up(&pd->wait);
-> +               if (!pd->atomic_xfer)
-> +                       wake_up(&pd->wait);
->         }
->
->         /* defeat write posting to avoid spurious WAIT interrupts */
-> @@ -581,12 +585,14 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
->         pd->pos = -1;
->         pd->sr = 0;
+> diff --git a/arch/arm/boot/dts/dove-sbc-a510.dts b/arch/arm/boot/dts/dove-sbc-a510.dts
+> index 2bb85a9b7614..df021f9b0117 100644
+> --- a/arch/arm/boot/dts/dove-sbc-a510.dts
+> +++ b/arch/arm/boot/dts/dove-sbc-a510.dts
+> @@ -143,6 +143,7 @@
+>  	gpio_ext: gpio@20 {
+>  		compatible = "nxp,pca9555";
+>  		reg = <0x20>;
+> +		gpio-controller;
+>  		#gpio-cells = <2>;
+>  	};
+>  };
+> -- 
+> 2.17.1
 >
 
-    if (pd->atomic_xfer)
-            return;
-
-and be done with it?
-
-> -       pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
-> -       if (pd->dma_buf)
-> -               sh_mobile_i2c_xfer_dma(pd);
-> -
-> -       /* Enable all interrupts to begin with */
-> -       iic_wr(pd, ICIC, ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
-> +       if (!pd->atomic_xfer) {
-> +               pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
-> +               if (pd->dma_buf)
-> +                       sh_mobile_i2c_xfer_dma(pd);
-> +               /* Enable all interrupts to begin with */
-> +               iic_wr(pd, ICIC,
-> +                      ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
-> +       }
->  }
->
-
-> @@ -696,14 +721,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
->         return err ?: num;
->  }
->
-> +static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
-> +                             struct i2c_msg *msgs,
-> +                             int num)
-> +{
-> +       struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
-> +
-> +       pd->atomic_xfer = false;
-> +       return sh_mobile_xfer(pd, msgs, num);
-> +}
-> +
-> +static int sh_mobile_i2c_xfer_atomic(struct i2c_adapter *adapter,
-> +                                    struct i2c_msg *msgs,
-> +                                    int num)
-> +{
-> +       struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
-> +
-
-To make sure external conditions are satisfied, and we never deadlock:
-
-    if (pd->dev->power.is_suspended)
-            return -EPERM;  /* any other suitable error code? */
-
-Perhaps this can even be done in the i2c core instead?
-
-> +       pd->atomic_xfer = true;
-> +       return sh_mobile_xfer(pd, msgs, num);
-> +}
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Gregory Clement, Bootlin
+Embedded Linux and Kernel engineering
+http://bootlin.com
