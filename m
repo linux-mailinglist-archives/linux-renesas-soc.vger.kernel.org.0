@@ -2,80 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C947275341
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 10:33:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A83D5275399
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 10:47:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726221AbgIWId0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 04:33:26 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38060 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726178AbgIWIdZ (ORCPT
+        id S1726387AbgIWIrV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 04:47:21 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:44372 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726342AbgIWIrV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 04:33:25 -0400
-Received: by mail-ot1-f65.google.com with SMTP id y5so18208997otg.5;
-        Wed, 23 Sep 2020 01:33:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NITkniv1dkvmRSuRBeUNrBk2YIIlyBX21LGDwAcpHhY=;
-        b=HlTKSuH7icg+4IC3Ia/kAVqQrMrN88KS56wCdkOQpxpu5FmaeMzZlcVnB3DCpcRmDM
-         ylOKCufc3W/thVFLbCD6/uJAlvQBLmKf2CSCl+ndeO+3h9NOUk5vAv35ZNIGl9qGoSCp
-         Bo3YfKoZip7VERAg+SGopovQDva8pPKgMB85msi+mXvfo2Ngtq7nA9Dsd3aim2tKc5b1
-         FNjcneGe8baT7XRAqO4/EybA8r4HRmHj/e2XbEBR3GRLqteav9LdVww5MAOY0WQ08UWv
-         e0wDuxyOiVJIbenZqq32WDnYXBsIHOMsJDE9cANaWgijgozK2kFKAv5mX1WBBP3hRXNd
-         VVTg==
-X-Gm-Message-State: AOAM532wSbJgAS/ZlknlDnPDVEgi0Rf7FNt9tvCYc4CD97zUiYZhUGZB
-        2wt1S2RttSB2Vr7+3hqcckqoA0aWcfQQZmwXyWBb6kq49KM=
-X-Google-Smtp-Source: ABdhPJwNATaaR/XWq0u61HTBnLI7iEBIp/bua4xreJw0IJku1xnl8XiT/de0zsN5uPtij9nGsAt2io8njzM0YG5+gfY=
-X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr5033590otp.107.1600850004987;
- Wed, 23 Sep 2020 01:33:24 -0700 (PDT)
+        Wed, 23 Sep 2020 04:47:21 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08N8jCsD039100;
+        Wed, 23 Sep 2020 08:47:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=/f+a55Jrpg5z5UfOHn1FeTNLOR0tV1R5oqqDEthK3mY=;
+ b=FXldwzRsBkugKughA56CsdL+tLdDRxLYXiFf5Y9TcqsMi7NPyGCWIIuPofkPyD1+Otpy
+ kq4Q/gzM/6UzQBvgxwq+2rtqHuBd1FQRI9BaJy9TIirFeNly9GD1mlIJnSUWKUc24AWu
+ xVoGxncszBButrBPTpxmFtKR+VtN+8Pr02gSVDu1in/bk6Hy7+FerL+xzKPGe7/NBO1g
+ Qo8RrQpzOuo5763eZlaTcBPs5jbh1GHVnKwaY/xgjGqTQVaINSPrY7zlQzLyqbXppxKz
+ qCUiOOE96zG6nUTRoIWHt3xjjoUT+t+upYDdiA+IlCSufn9MM01hlA0c2SPG9QKfv1BQ EA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 33q5rgfj3p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 23 Sep 2020 08:47:09 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08N8a6o2032690;
+        Wed, 23 Sep 2020 08:45:08 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 33r28uuqs9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 23 Sep 2020 08:45:08 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08N8j5lp006939;
+        Wed, 23 Sep 2020 08:45:07 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 23 Sep 2020 01:45:04 -0700
+Date:   Wed, 23 Sep 2020 11:44:58 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] soc: renesas: rmobile-sysc: Fix some leaks in
+ rmobile_init_pm_domains()
+Message-ID: <20200923084458.GD1454948@mwanda>
 MIME-Version: 1.0
-References: <20200922120036.10298-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200922120036.10298-1-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 10:33:13 +0200
-Message-ID: <CAMuHMdUw99vAgBevAHmthEUgGQepTof9skjAeBNwxiHHbMk-5w@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rcar-gen3: remove stp_ck handling for SDHI
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9752 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009230070
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9752 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 impostorscore=0
+ clxscore=1011 suspectscore=0 phishscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009230071
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+This code needs to call iounmap() on the error paths.
 
-On Tue, Sep 22, 2020 at 2:00 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> There is no case (and none foreseen) where we would need to disable the
-> SDn clock. So, for simplicity, remove its handling.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> Geert seems to favor simplicity, too. So, now this patch leaves RFC
-> status.
->
-> Change since RFC: * fixed typo in commit message
+Fixes: 2ed29e15e4b2 ("ARM: shmobile: R-Mobile: Move pm-rmobile to drivers/soc/renesas/")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/soc/renesas/rmobile-sysc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks for the update!
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.11.
-
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-(on Salvator-X(S) with R-Car H3 ES1.0 and ES2.0, M3-W ES1.0, M3-N ES1.0,
- and on Ebisu-4D with R-Car E3 ES1.0).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
+index 54b616ad4a62..d8e6dc650939 100644
+--- a/drivers/soc/renesas/rmobile-sysc.c
++++ b/drivers/soc/renesas/rmobile-sysc.c
+@@ -328,6 +328,7 @@ static int __init rmobile_init_pm_domains(void)
+ 		pmd = of_get_child_by_name(np, "pm-domains");
+ 		if (!pmd) {
+ 			pr_warn("%pOF lacks pm-domains node\n", np);
++			iounmap(base);
+ 			continue;
+ 		}
+ 
+@@ -341,6 +342,7 @@ static int __init rmobile_init_pm_domains(void)
+ 		of_node_put(pmd);
+ 		if (ret) {
+ 			of_node_put(np);
++			iounmap(base);
+ 			break;
+ 		}
+ 	}
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.28.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
