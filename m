@@ -2,102 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C73B27475C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Sep 2020 19:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5B76275262
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 09:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgIVRXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Sep 2020 13:23:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58776 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726608AbgIVRXA (ORCPT
+        id S1726617AbgIWHmg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 03:42:36 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:42590 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726557AbgIWHmg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Sep 2020 13:23:00 -0400
-Received: from localhost (p54b332c9.dip0.t-ipconnect.de [84.179.50.201])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 29A372084C;
-        Tue, 22 Sep 2020 17:22:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600795379;
-        bh=lhgvr2VdNEC+Qr3visSERhKQaZhdHQJEwqleu+L2xVU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PdzXZ0Xn2XUPkIwa/QiddqQzaowP363SDZhbe5+MMud3zoOH4knR9app2+ZQ+ThIM
-         huZP+Uyg9CvyOQ+1kj7qcqXZEomD4BsAGASttzkFh5XNL3NVaxJypJjpHUfgZy127E
-         9g+sSXggfVrw6mSODNip/XGDxqZonZlCHbnDbZGY=
-From:   Wolfram Sang <wsa@kernel.org>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFT] mmc: renesas_sdhi: drop local flag for tuning
-Date:   Tue, 22 Sep 2020 19:22:53 +0200
-Message-Id: <20200922172253.4458-1-wsa@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        Wed, 23 Sep 2020 03:42:36 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x14so24062472oic.9;
+        Wed, 23 Sep 2020 00:42:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mKWSWgxWlRUy1lzOGZ7jsSiyToKIhdB15CbpQx1G0OU=;
+        b=TGb7l7md8Wf4Z7KRf+UATbFMf4efuegbwy/IfLW5FDCpxRqWK5euJcKtK4tE41iYHl
+         vQi3kEUsCRn9TDS53VWuCM7kVzFBInHW8/ewdPF0aE7WE9bsqpNo9WpVwM4dPVG2TwO+
+         D//PVrvWVHKbbfGn5SjEaXHrilOvKTw1brX0YGsniigEVHWFV5FRXko/U6mNBP6zNAkm
+         KSqEylnfYEvp+X2fm5QCLh4wVywll6W4esSy2Nb2y631Cmj0/asQbkLI9n2i97AgkpjJ
+         2Ddfvyx379JG/DMP2seirkfj5k5mWXY8Y3rqlbx6yXjEbjRaMcKqIRXxrVMb81I5J8gF
+         JZBw==
+X-Gm-Message-State: AOAM532mNaL/jUp3h3C9dIfM8kCc9O0Qng8Aze8FE+/rTzmndx0jZ/SD
+        MsSjXKr+05fQORT+HF8GAz36FOClOVFmfrwKPvw=
+X-Google-Smtp-Source: ABdhPJxzDqaC0Fh9HsqJNLdOYO26v9/SPH6bb4HyjeJgfB0ahqHcBzuH8cthRHeNZKpUX/IppXpk+IaFN3qACzUnuWA=
+X-Received: by 2002:aca:4441:: with SMTP id r62mr4701385oia.153.1600846955359;
+ Wed, 23 Sep 2020 00:42:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200922155210.242536-1-kieran.bingham+renesas@ideasonboard.com> <20200922155210.242536-2-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20200922155210.242536-2-kieran.bingham+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Sep 2020 09:42:24 +0200
+Message-ID: <CAMuHMdXv1JRoBTT=XL+q=jwOPnTPYRZMp8pk+_M0WOGofFf0dg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: max9286: Use unsigned constants
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Kieran,
 
-The MMC core has now a generic check if some tuning is in progress. Its
-protected area is a bit larger than the custom one in this driver but we
-concluded that this works equally well for the intended case. So, drop
-the local flag and switch to the generic one.
+On Tue, Sep 22, 2020 at 5:52 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> Convert the bitfield definitions to use unsigned integers.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+Thanks for your patch!
 
-I had this patch applied while working on other SDHI topics and
-experienced no regressions. But I'd like to give Shimoda-san and the BSP
-team some time for testing. We agreed on the approach already.
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -31,85 +31,85 @@
+>  #include <media/v4l2-subdev.h>
+>
+>  /* Register 0x00 */
+> -#define MAX9286_MSTLINKSEL_AUTO                (7 << 5)
+> +#define MAX9286_MSTLINKSEL_AUTO                (7U << 5)
 
- drivers/mmc/host/renesas_sdhi.h      | 1 -
- drivers/mmc/host/renesas_sdhi_core.c | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+While using this format for multi-bit fields makes sense...
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 24958de274c1..cb962c7883dc 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -63,7 +63,6 @@ struct renesas_sdhi {
- 	u32 scc_tappos_hs400;
- 	const u8 *adjust_hs400_calib_table;
- 	bool needs_adjust_hs400;
--	bool doing_tune;
- 
- 	/* Tuning values: 1 for success, 0 for failure */
- 	DECLARE_BITMAP(taps, BITS_PER_LONG);
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index d621a4af8e87..20e5eb63caf8 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -581,7 +581,6 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
- 	unsigned int taps_size = priv->tap_num * 2, min_tap_row;
- 	unsigned long *bitmap;
- 
--	priv->doing_tune = false;
- 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_RVSREQ, 0);
- 
- 	/*
-@@ -656,7 +655,6 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
- 		return -EINVAL;
- 	}
- 
--	priv->doing_tune = true;
- 	bitmap_zero(priv->taps, priv->tap_num * 2);
- 	bitmap_zero(priv->smpcmp, priv->tap_num * 2);
- 
-@@ -765,7 +763,7 @@ static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host)
- 	    !(host->mmc->ios.timing == MMC_TIMING_MMC_HS400 && !use_4tap))
- 		return false;
- 
--	if (mmc_doing_retune(host->mmc) || priv->doing_tune)
-+	if (mmc_doing_tune(host->mmc))
- 		return false;
- 
- 	if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_RVSCNTL) &
--- 
-2.20.1
+>  #define MAX9286_MSTLINKSEL(n)          ((n) << 5)
+>  #define MAX9286_EN_VS_GEN              BIT(4)
+> -#define MAX9286_LINKEN(n)              (1 << (n))
+> +#define MAX9286_LINKEN(n)              (1U << (n))
 
+... I think single-bit fields (more below) make better use of the BIT() macro.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
