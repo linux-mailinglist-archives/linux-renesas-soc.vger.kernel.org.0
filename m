@@ -2,99 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 991C4275412
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 11:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 388352754A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 11:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbgIWJK3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 05:10:29 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:39738 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbgIWJK3 (ORCPT
+        id S1726308AbgIWJlK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 05:41:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbgIWJlK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 05:10:29 -0400
-Received: by mail-oi1-f195.google.com with SMTP id c13so24291435oiy.6;
-        Wed, 23 Sep 2020 02:10:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0mYSC4kkHIJP+4bMDumjNsLF1GD/gg4zgKaMqe/GqZg=;
-        b=QGlFwqe8/vAFJIohpiljuNN3u2ZftbFBvOn8+JlrLWvVxLYucmgwPrYW6p/RKZ4Fnn
-         nVbT27M3z89pxagAEdNViAoKMNhYkilwEcOLC3qXWVAU4NjGo1u/T+vnEjs7QnF1foPe
-         0EHnnjDDlkRVBQLYOCdNxt2u28YtUKq2N6gdbvMQPYq/4/L4PuF5nC9cnEsMF2br11zQ
-         zrgWC67bBSh34Yftqde1kW8wFNyFBpIILndjay/2zVFbeP8xtxdK/MHt66pPT2c/sILT
-         fu2eXbRs53xNEo6KAM51dkghGhJtjAVuAagUbA8XleDIG+4rJq+PkYe7nSFHl3QY9tGh
-         0ZTQ==
-X-Gm-Message-State: AOAM531nuVjNw+q4rnEAbdL66ho4cpf1dUM1bmDKCPv0dl3Ao3KAWrEr
-        1MqJ1F05NSG00/CD00uY/rCcQi0A8zxHWUDC/jU=
-X-Google-Smtp-Source: ABdhPJwWLwQa9iQWpN4ecqK4IS6c4WBCcTWe3lGPFVtXaRNM9+D+WBiPIKq7kgzN8xVVDKRd8cBcetEenEqxJzwo08o=
-X-Received: by 2002:aca:52d6:: with SMTP id g205mr5131935oib.54.1600852228744;
- Wed, 23 Sep 2020 02:10:28 -0700 (PDT)
+        Wed, 23 Sep 2020 05:41:10 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0318FC0613CE;
+        Wed, 23 Sep 2020 02:41:09 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74940555;
+        Wed, 23 Sep 2020 11:41:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1600854066;
+        bh=8WsagTADLofWy33Fh9JhoiYjR8SCGifunbn2ooUaAKk=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=bI5wgNnVtZH0ahTguXyqLstlG4CMcHW975yJpsecum6uAJel+5upDemaY9BZKGLPo
+         jOiTmHgt7y+n0K1P1uZvho+2JI2xLWOyR88YxNikkge6nRDjUxPTEqyMRjoZasDsVU
+         dTDX4OEyoi4+JtqMoKFGd6JR8pV6bvGVbrwjA3qg=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: i2c: max9286: Use unsigned constants
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20200922155210.242536-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200922155210.242536-2-kieran.bingham+renesas@ideasonboard.com>
+ <CAMuHMdXv1JRoBTT=XL+q=jwOPnTPYRZMp8pk+_M0WOGofFf0dg@mail.gmail.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <89b1ae29-5422-8d40-8075-0b814afea9b1@ideasonboard.com>
+Date:   Wed, 23 Sep 2020 10:41:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200923084458.GD1454948@mwanda>
-In-Reply-To: <20200923084458.GD1454948@mwanda>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 11:10:17 +0200
-Message-ID: <CAMuHMdXyM1dUPJ7ZDAk6-cEjaG_bVBfsE=bqdpf7pA0ChdRLVw@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rmobile-sysc: Fix some leaks in rmobile_init_pm_domains()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMuHMdXv1JRoBTT=XL+q=jwOPnTPYRZMp8pk+_M0WOGofFf0dg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dan,
+Hi Geert,
 
-On Wed, Sep 23, 2020 at 10:47 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> This code needs to call iounmap() on the error paths.
+On 23/09/2020 08:42, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> On Tue, Sep 22, 2020 at 5:52 PM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+>> Convert the bitfield definitions to use unsigned integers.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/media/i2c/max9286.c
+>> +++ b/drivers/media/i2c/max9286.c
+>> @@ -31,85 +31,85 @@
+>>  #include <media/v4l2-subdev.h>
+>>
+>>  /* Register 0x00 */
+>> -#define MAX9286_MSTLINKSEL_AUTO                (7 << 5)
+>> +#define MAX9286_MSTLINKSEL_AUTO                (7U << 5)
+> 
+> While using this format for multi-bit fields makes sense...
+> 
+>>  #define MAX9286_MSTLINKSEL(n)          ((n) << 5)
+>>  #define MAX9286_EN_VS_GEN              BIT(4)
+>> -#define MAX9286_LINKEN(n)              (1 << (n))
+>> +#define MAX9286_LINKEN(n)              (1U << (n))
+> 
+> ... I think single-bit fields (more below) make better use of the BIT() macro.
 
-Thanks for your patch!
+Ooops, I missed that, indeed that certainly looks like a BIT.
 
-> Fixes: 2ed29e15e4b2 ("ARM: shmobile: R-Mobile: Move pm-rmobile to drivers/soc/renesas/")
+I was really trying to make sure all the 'bit-field enum' type values
+are consistent here, i.e.:
 
-This is not the commit that introduced the issue.
+#define MAX9286_I2CSLVSH_1046NS_469NS	(3U << 5)
+#define MAX9286_I2CSLVSH_938NS_352NS	(2U << 5)
+#define MAX9286_I2CSLVSH_469NS_234NS	(1U << 5)
+#define MAX9286_I2CSLVSH_352NS_117NS	(0U << 5)
 
-Fixes: 2173fc7cb681c38b ("ARM: shmobile: R-Mobile: Add DT support for
-PM domains")
+I'll sift out the single bit fields that are more appropriate for BIT().
 
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+There is also the FIELD_PREP, FIELD_GET macros that could be used
+instead from include/linux/bitfield.h which are new to me, and seem
+interesting but I haven't worked out if it's worth converting the whole
+driver to use that yet or not.
 
-> --- a/drivers/soc/renesas/rmobile-sysc.c
-> +++ b/drivers/soc/renesas/rmobile-sysc.c
-> @@ -328,6 +328,7 @@ static int __init rmobile_init_pm_domains(void)
->                 pmd = of_get_child_by_name(np, "pm-domains");
->                 if (!pmd) {
->                         pr_warn("%pOF lacks pm-domains node\n", np);
-> +                       iounmap(base);
+--
+Kieran
 
-This one I can agree with, although that case is a bug in the DTS.
 
->                         continue;
->                 }
->
-> @@ -341,6 +342,7 @@ static int __init rmobile_init_pm_domains(void)
->                 of_node_put(pmd);
->                 if (ret) {
->                         of_node_put(np);
-> +                       iounmap(base);
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> 
 
-This one I cannot: in the (unlikely, only if OOM) case
-rmobile_add_pm_domains() returns an error, one or more PM subdomains may
-have been registered already.  Hence if you call iounmap() here, the
-code will try to access unmapped registers later, leading to a crash.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
