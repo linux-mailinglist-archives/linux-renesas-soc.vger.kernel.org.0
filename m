@@ -2,75 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DD4275CC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 18:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C46482760BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 21:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726744AbgIWQGe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 12:06:34 -0400
-Received: from sauhun.de ([88.99.104.3]:49986 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726156AbgIWQGe (ORCPT
+        id S1726557AbgIWTF0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 15:05:26 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36088 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgIWTFZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 12:06:34 -0400
-Received: from localhost (p54b330c5.dip0.t-ipconnect.de [84.179.48.197])
-        by pokefinder.org (Postfix) with ESMTPSA id D2AC02C0905;
-        Wed, 23 Sep 2020 18:06:31 +0200 (CEST)
-Date:   Wed, 23 Sep 2020 18:06:27 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        Wed, 23 Sep 2020 15:05:25 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v20so996052oiv.3;
+        Wed, 23 Sep 2020 12:05:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=riDSVgXlGYFR+6jWV+2ATBBKwbz1TRVTuZiwea5PJ9s=;
+        b=Hjju+W0cGOzisr1G21K0uROICBFATAVKhuJjHxEHNR5x6vMrFOeUUCtRFiAXKUSQc9
+         BemhNrK5sgPriO9puFpStpBUNo5rFLPTeP0BVSs0Mo+/2RbMEGIxcAp/NelMNU/y2GL0
+         hgM2EgDriNfjl3AuejFgKBfuDy20B4j97kFBqGLQg41gf8FzJ+HlXIhXiq2PeZemwXqc
+         Xwr7BvhjMR9jYs3bQ9/f7nW0BP3ylhkPy7oxk7TJHNdFCEfOI9FfiN9pJmdGEwM4xvf9
+         LF690BuIJFP8JPfURu6LANBwFmQ+xtpUoxWvpXWRO49KRsCLuvRke1PnT3hjh6kTMWje
+         05RA==
+X-Gm-Message-State: AOAM532aMfaJaJVM8W7kQsmpdUCEplHFopiD05xFYCb1yRuwoTXXD1H5
+        eiiwHMGoJsLDCC9jt0r/PeXA2VAgrOCtj5rPVGn5ra33
+X-Google-Smtp-Source: ABdhPJy5GTGjyHrW2H+N0TM5K1BJLFkK54/2LwkBFIxRlcZ9ns/xjt7e8BUd3q+8cbioeo7oofTcgJOa2jbn3Dd9NKw=
+X-Received: by 2002:aca:4441:: with SMTP id r62mr499595oia.153.1600887925058;
+ Wed, 23 Sep 2020 12:05:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200922154943.29574-1-uli+renesas@fpond.eu> <CAMuHMdXF7kX0u_awH3w8sCAvAQUN7dzZix6anSrrafwTjpLBUg@mail.gmail.com>
+ <20200923160627.GA6697@ninjato>
+In-Reply-To: <20200923160627.GA6697@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 23 Sep 2020 21:05:13 +0200
+Message-ID: <CAMuHMdV1dJax_gBB-mR2fvJLSiynEnS8GZkcZq3BNmb6KXxxDg@mail.gmail.com>
+Subject: Re: [PATCH v3] i2c: sh_mobile: implement atomic transfers
+To:     Wolfram Sang <wsa@the-dreams.de>
 Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux I2C <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v3] i2c: sh_mobile: implement atomic transfers
-Message-ID: <20200923160627.GA6697@ninjato>
-References: <20200922154943.29574-1-uli+renesas@fpond.eu>
- <CAMuHMdXF7kX0u_awH3w8sCAvAQUN7dzZix6anSrrafwTjpLBUg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4Ckj6UjgE2iN1+kY"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXF7kX0u_awH3w8sCAvAQUN7dzZix6anSrrafwTjpLBUg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---4Ckj6UjgE2iN1+kY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 23, 2020 at 6:06 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> > To make sure external conditions are satisfied, and we never deadlock:
+> >
+> >     if (pd->dev->power.is_suspended)
+> >             return -EPERM;  /* any other suitable error code? */
+> >
+> > Perhaps this can even be done in the i2c core instead?
+>
+> Good question! My gut feeling says "i2c core", but that would need more
+> research. I'd say we tackle this in a seperate patch but also for the
+> next merge window. Sounds good?
 
+Fine for me, it's already late in the v5.9-rc cycle.
 
-> To make sure external conditions are satisfied, and we never deadlock:
->=20
->     if (pd->dev->power.is_suspended)
->             return -EPERM;  /* any other suitable error code? */
->=20
-> Perhaps this can even be done in the i2c core instead?
+Gr{oetje,eeting}s,
 
-Good question! My gut feeling says "i2c core", but that would need more
-research. I'd say we tackle this in a seperate patch but also for the
-next merge window. Sounds good?
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---4Ckj6UjgE2iN1+kY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9rcn8ACgkQFA3kzBSg
-KbbBZA//X0ghNsv3tq4yJ+fXFHxwlhX9mfiJlgqUYhO3+sq6FWdRhN7uKwkpW4ir
-3G1KMP9AU6ZG3UTPuj68f1fyDqbSwux4YKzqiJTlKYXx0iW5qdQt7TVdng5Pj7KO
-xa8Js8P1uzo1P5MUyaKccrI65QUcjZ0ZxzIf85VVX+PHieycz1xj0Abx7Z+SlwmA
-WuJ2cxKmy5iL6x9vHFzLBxSOppQJo2eWsZ8bwH5e7XAoFRy/R5+6uMrfcfEgCyhv
-wgWS577uuXWs2uQTS1zDtWAsQWnspYwl76pBGTwm/rW64wZtAwrm9Sr4cd8iiKk5
-sivtHVMBOlHJv48Nozjqa5xEzkezrzsuz6LlfnLZ/oRmCvdgdkGIugOU0lIDtLp2
-IXXj57qIZrGz7rX0B1CtX5Jvn+IIZUSAOcN8uMnjQ6aR7bA2CoznU3BpefI6Avze
-GnHhZUXxwpr2lmf4A9KiyAYuZQE9b9IZL+O+82d45km0D8Sv5Di0jFGO9k2oZeXz
-oan0ys1m7eipEE2/CqscufAUQXAVxxBwqv1LSQ/z28FlpB2h4CIzSdP6DxgxqnW0
-CEm8fDq7X3KncdxdGG14wa2aDF/XdevJ/9UWOanAUDQ39cDaqouCwXlUD1oeFQmn
-wU5wLBrU65QdN/Iu6uhDDgMcaVz0b9AcfJWrJNXsZIEhNDWjLkY=
-=JDeM
------END PGP SIGNATURE-----
-
---4Ckj6UjgE2iN1+kY--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
