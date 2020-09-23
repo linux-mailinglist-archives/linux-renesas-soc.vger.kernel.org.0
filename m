@@ -2,83 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5B76275262
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 09:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C947275341
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Sep 2020 10:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726617AbgIWHmg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Sep 2020 03:42:36 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:42590 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbgIWHmg (ORCPT
+        id S1726221AbgIWId0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Sep 2020 04:33:26 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38060 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726178AbgIWIdZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Sep 2020 03:42:36 -0400
-Received: by mail-oi1-f193.google.com with SMTP id x14so24062472oic.9;
-        Wed, 23 Sep 2020 00:42:35 -0700 (PDT)
+        Wed, 23 Sep 2020 04:33:25 -0400
+Received: by mail-ot1-f65.google.com with SMTP id y5so18208997otg.5;
+        Wed, 23 Sep 2020 01:33:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mKWSWgxWlRUy1lzOGZ7jsSiyToKIhdB15CbpQx1G0OU=;
-        b=TGb7l7md8Wf4Z7KRf+UATbFMf4efuegbwy/IfLW5FDCpxRqWK5euJcKtK4tE41iYHl
-         vQi3kEUsCRn9TDS53VWuCM7kVzFBInHW8/ewdPF0aE7WE9bsqpNo9WpVwM4dPVG2TwO+
-         D//PVrvWVHKbbfGn5SjEaXHrilOvKTw1brX0YGsniigEVHWFV5FRXko/U6mNBP6zNAkm
-         KSqEylnfYEvp+X2fm5QCLh4wVywll6W4esSy2Nb2y631Cmj0/asQbkLI9n2i97AgkpjJ
-         2Ddfvyx379JG/DMP2seirkfj5k5mWXY8Y3rqlbx6yXjEbjRaMcKqIRXxrVMb81I5J8gF
-         JZBw==
-X-Gm-Message-State: AOAM532mNaL/jUp3h3C9dIfM8kCc9O0Qng8Aze8FE+/rTzmndx0jZ/SD
-        MsSjXKr+05fQORT+HF8GAz36FOClOVFmfrwKPvw=
-X-Google-Smtp-Source: ABdhPJxzDqaC0Fh9HsqJNLdOYO26v9/SPH6bb4HyjeJgfB0ahqHcBzuH8cthRHeNZKpUX/IppXpk+IaFN3qACzUnuWA=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr4701385oia.153.1600846955359;
- Wed, 23 Sep 2020 00:42:35 -0700 (PDT)
+        bh=NITkniv1dkvmRSuRBeUNrBk2YIIlyBX21LGDwAcpHhY=;
+        b=HlTKSuH7icg+4IC3Ia/kAVqQrMrN88KS56wCdkOQpxpu5FmaeMzZlcVnB3DCpcRmDM
+         ylOKCufc3W/thVFLbCD6/uJAlvQBLmKf2CSCl+ndeO+3h9NOUk5vAv35ZNIGl9qGoSCp
+         Bo3YfKoZip7VERAg+SGopovQDva8pPKgMB85msi+mXvfo2Ngtq7nA9Dsd3aim2tKc5b1
+         FNjcneGe8baT7XRAqO4/EybA8r4HRmHj/e2XbEBR3GRLqteav9LdVww5MAOY0WQ08UWv
+         e0wDuxyOiVJIbenZqq32WDnYXBsIHOMsJDE9cANaWgijgozK2kFKAv5mX1WBBP3hRXNd
+         VVTg==
+X-Gm-Message-State: AOAM532wSbJgAS/ZlknlDnPDVEgi0Rf7FNt9tvCYc4CD97zUiYZhUGZB
+        2wt1S2RttSB2Vr7+3hqcckqoA0aWcfQQZmwXyWBb6kq49KM=
+X-Google-Smtp-Source: ABdhPJwNATaaR/XWq0u61HTBnLI7iEBIp/bua4xreJw0IJku1xnl8XiT/de0zsN5uPtij9nGsAt2io8njzM0YG5+gfY=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr5033590otp.107.1600850004987;
+ Wed, 23 Sep 2020 01:33:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200922155210.242536-1-kieran.bingham+renesas@ideasonboard.com> <20200922155210.242536-2-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20200922155210.242536-2-kieran.bingham+renesas@ideasonboard.com>
+References: <20200922120036.10298-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200922120036.10298-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Sep 2020 09:42:24 +0200
-Message-ID: <CAMuHMdXv1JRoBTT=XL+q=jwOPnTPYRZMp8pk+_M0WOGofFf0dg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: i2c: max9286: Use unsigned constants
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Wed, 23 Sep 2020 10:33:13 +0200
+Message-ID: <CAMuHMdUw99vAgBevAHmthEUgGQepTof9skjAeBNwxiHHbMk-5w@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: rcar-gen3: remove stp_ck handling for SDHI
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-clk <linux-clk@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Wolfram,
 
-On Tue, Sep 22, 2020 at 5:52 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> Convert the bitfield definitions to use unsigned integers.
+On Tue, Sep 22, 2020 at 2:00 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> There is no case (and none foreseen) where we would need to disable the
+> SDn clock. So, for simplicity, remove its handling.
 >
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Thanks for your patch!
-
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -31,85 +31,85 @@
->  #include <media/v4l2-subdev.h>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 >
->  /* Register 0x00 */
-> -#define MAX9286_MSTLINKSEL_AUTO                (7 << 5)
-> +#define MAX9286_MSTLINKSEL_AUTO                (7U << 5)
+> Geert seems to favor simplicity, too. So, now this patch leaves RFC
+> status.
+>
+> Change since RFC: * fixed typo in commit message
 
-While using this format for multi-bit fields makes sense...
+Thanks for the update!
 
->  #define MAX9286_MSTLINKSEL(n)          ((n) << 5)
->  #define MAX9286_EN_VS_GEN              BIT(4)
-> -#define MAX9286_LINKEN(n)              (1 << (n))
-> +#define MAX9286_LINKEN(n)              (1U << (n))
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in clk-renesas-for-v5.11.
 
-... I think single-bit fields (more below) make better use of the BIT() macro.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+(on Salvator-X(S) with R-Car H3 ES1.0 and ES2.0, M3-W ES1.0, M3-N ES1.0,
+ and on Ebisu-4D with R-Car E3 ES1.0).
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
