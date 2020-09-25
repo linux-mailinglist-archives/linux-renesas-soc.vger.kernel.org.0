@@ -2,89 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB781277A55
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Sep 2020 22:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C6B2781CC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Sep 2020 09:40:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbgIXUaI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Sep 2020 16:30:08 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:59260 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726640AbgIXUaH (ORCPT
+        id S1727183AbgIYHka (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Sep 2020 03:40:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48390 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727135AbgIYHka (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Sep 2020 16:30:07 -0400
-Received: from User ([185.191.231.247]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Fri, 25 Sep 2020 05:26:42 +0900
-Reply-To: <samthong5555@yahoo.com>
-From:   "SAM THONG" <samthong5555@gmail.com>
-Subject: Business Acquisition 1
-Date:   Thu, 24 Sep 2020 13:26:43 -0700
+        Fri, 25 Sep 2020 03:40:30 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601019629;
+        bh=vtf5/bmctE7RFGuw8nj7vie9piKxovYrqnpOhMOCRis=;
+        h=Subject:From:Date:To:From;
+        b=b8JxVFRkzLYbgEIf3IC5p/YZp6ZULAgJcCqzrktt8JbjJOlUdJm/y8Pgy+HS3PMEl
+         eMUEDZzbSas4xiNxmMBi8Is8qZI/Pb+6DioCb95VEtfViNiu4RZOct6GQcX8fhPuhc
+         h/ayULn7otdDTjLhmmgefCNRaQTdDMv4S0Jc5jMA=
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJF0ktt00e70a07@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Sep 2020 20:26:42.0882 (UTC) FILETIME=[040CC220:01D692B1]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <160101962981.28293.11989088934288203580.git-patchwork-summary@kernel.org>
+Date:   Fri, 25 Sep 2020 07:40:29 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
 
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/master):
 
-Dear sir
+Patch: [v2] soc: renesas: rmobile-sysc: Fix some leaks in rmobile_init_pm_domains()
+  Submitter: Dan Carpenter <dan.carpenter@oracle.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=354217
+  Link: <20200923113142.GC1473821@mwanda>
 
-Our underwriter company is seeking the attention of genuine and reliable persons, companies
+Total patches: 1
 
-who are indeed in need of funds as investment capital or business expansion in form of a
-
-direct loan to partner with us and benefit in our new Loan and Project funding programs.
-
-
-
-We offer flexible loans and funding for various projects at very affordable low interest
-
-rate of 3% annually for a period of 1-15 years on Non collateral loan/funding . We offer
-
-loan/funding from a minimum of Euro ? / USD$ 1 Million to Euro ? / USD$ 1 Billion. Max,
-
-depending on the nature of business/project.
-
-We are currently funding for:-
-
-
-
-* Starting up a Franchise
-
-* Business Acquisition
-
-* Business Expansion
-
-* Commercial Real Estate purchase
-
-* Consultancy and Contract Execution, Marine , ETC.
-
-
-
-Kindly get in touch for further details and procedure. samthong5555@yahoo.com 
-
-
-
-Respectfully,
-
-
-SAM THONG
-
-
-
-
-
-
-
-	
-
-
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
