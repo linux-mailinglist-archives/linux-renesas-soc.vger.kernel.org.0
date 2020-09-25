@@ -2,111 +2,268 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8491278D1C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Sep 2020 17:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 556EC279280
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Sep 2020 22:45:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729373AbgIYPsM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Sep 2020 11:48:12 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:42534 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728333AbgIYPsM (ORCPT
+        id S1728983AbgIYUpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Sep 2020 16:45:05 -0400
+Received: from mga09.intel.com ([134.134.136.24]:47349 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727961AbgIYUpE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:48:12 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c18so4087588wrm.9;
-        Fri, 25 Sep 2020 08:48:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7Qh5+ZRjYoXTfTyMdsphNx4+wbs2iln0Dg7bJktrLac=;
-        b=TVeaCTXCpTsuVU0OtUUElmJo/fpDul1xq0BoKSat8xsthvyVRg3tvKSo9BDvXekHGs
-         nVMqvWqW2vDFwcKum10rq+V2w4RGf0Cbu4GkgPDlQ70SCIrY75oW3A8tvEVZ72/uj+BR
-         4EbsAekEwNtwoAc1kWoEQOvx8Y6MK0luteQWvJdUqrb31OnLBXKf4kSf6ewiSu4+Ht9/
-         WRh3LafUlWtpbwAaotcanO4mWtDq5aA5KJbY/3zBTbP98+v8CpwfiTqnpkwdUuH9XqNZ
-         IYgvZ5oXua9CSn4kvt2ZeDcdMZ9AORrztspYXytjv/MZiKPE6Q6dhPOQRLB/HCw3fCTb
-         QYOA==
-X-Gm-Message-State: AOAM530jZ7cH+UMdZuiOzssXlOROiVnnPDzz/OVL+TIcaLz6izOfYlGs
-        F+7Qk5sFmybwRzI9dgKATms=
-X-Google-Smtp-Source: ABdhPJw0NxnpCAb54EdTsCUv1oA2JhAAx01jYuFmqouNOz5V/9GWfo7kcmF2Z8f+IMYVxGIHsAi2tA==
-X-Received: by 2002:adf:f082:: with SMTP id n2mr5158088wro.35.1601048889557;
-        Fri, 25 Sep 2020 08:48:09 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.132])
-        by smtp.googlemail.com with ESMTPSA id k8sm3477035wma.16.2020.09.25.08.48.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 25 Sep 2020 08:48:08 -0700 (PDT)
-Date:   Fri, 25 Sep 2020 17:48:04 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 01/15] dt-bindings: gpio: convert bindings for NXP
- PCA953x family to dtschema
-Message-ID: <20200925154804.GB16392@kozik-lap>
-References: <20200916155715.21009-1-krzk@kernel.org>
- <20200916155715.21009-2-krzk@kernel.org>
+        Fri, 25 Sep 2020 16:45:04 -0400
+IronPort-SDR: 18LWb5QOenrKe/JXxHoSDo69tkxcnyAHTKHvbQy2LS7af7grD/odRW7V2RJMcJhhpzJs8hcubS
+ 9nh7YuX42nvw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="162514216"
+X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
+   d="scan'208";a="162514216"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 12:42:33 -0700
+IronPort-SDR: bTbUKal9ps7nVmZEomLdCf627ThlnFF8LMAPHBVrs4FvVbzQjx2vGhqJbxfo67x9az9DJSnQ7x
+ Xq8M0dSWrEPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
+   d="scan'208";a="291892916"
+Received: from lkp-server01.sh.intel.com (HELO 2dda29302fe3) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 25 Sep 2020 12:42:31 -0700
+Received: from kbuild by 2dda29302fe3 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kLtbz-0000EU-9m; Fri, 25 Sep 2020 19:42:31 +0000
+Date:   Sat, 26 Sep 2020 03:41:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-pinctrl-for-v5.11] BUILD SUCCESS
+ 174f48c9d43769f4acf8ae50910a7ec80b94e91b
+Message-ID: <5f6e4801.7hzSG9pdUrL4ObBP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200916155715.21009-2-krzk@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 05:57:01PM +0200, Krzysztof Kozlowski wrote:
-> Convert the NXP PCA953x family of GPIO expanders bindings to device tree
-> schema.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-> ---
-> 
-> Changes since v2:
-> 1. Add Rob's review tag
-> 
-> Changes since v1:
-> 1. Use additionalProperties.
-> 2. Add wakeup-source.
-> 3. Add hogs.
-> 4. Extend example with hogs.
-> ---
->  .../devicetree/bindings/gpio/gpio-pca953x.txt |  90 ----------
->  .../bindings/gpio/gpio-pca95xx.yaml           | 166 ++++++++++++++++++
->  .../devicetree/bindings/trivial-devices.yaml  |   4 -
->  3 files changed, 166 insertions(+), 94 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca953x.txt
->  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-pinctrl-for-v5.11
+branch HEAD: 174f48c9d43769f4acf8ae50910a7ec80b94e91b  pinctrl: renesas: r8a7790: Add VIN1-B and VIN2-G pins, groups and functions
 
-Hi Linus,
+elapsed time: 723m
 
-The first two patches (bindings) have Rob's ack/review. Could you pick
-them via GPIO tree?
+configs tested: 203
+configs skipped: 2
 
-Best regards,
-Krzysztof
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                          rsk7203_defconfig
+nios2                         10m50_defconfig
+powerpc               mpc834x_itxgp_defconfig
+m68k                        mvme16x_defconfig
+powerpc                       holly_defconfig
+arc                      axs103_smp_defconfig
+arc                            hsdk_defconfig
+arm                        multi_v5_defconfig
+arm                          ixp4xx_defconfig
+mips                      maltaaprp_defconfig
+sh                           se7722_defconfig
+powerpc                     tqm8548_defconfig
+mips                  decstation_64_defconfig
+arm                      integrator_defconfig
+arm                          imote2_defconfig
+sh                ecovec24-romimage_defconfig
+arm                      footbridge_defconfig
+arm                           h5000_defconfig
+powerpc                     tqm8540_defconfig
+arc                          axs103_defconfig
+powerpc                  mpc885_ads_defconfig
+i386                                defconfig
+sh                   rts7751r2dplus_defconfig
+mips                           ci20_defconfig
+powerpc                      tqm8xx_defconfig
+arm                         bcm2835_defconfig
+arm                           stm32_defconfig
+arm                          collie_defconfig
+mips                         cobalt_defconfig
+arm                        clps711x_defconfig
+powerpc                      ppc64e_defconfig
+xtensa                  audio_kc705_defconfig
+h8300                            alldefconfig
+arm                        trizeps4_defconfig
+powerpc                 mpc85xx_cds_defconfig
+sh                          rsk7264_defconfig
+sh                          sdk7786_defconfig
+mips                    maltaup_xpa_defconfig
+arm                         lpc32xx_defconfig
+arm                            qcom_defconfig
+powerpc                 xes_mpc85xx_defconfig
+m68k                          amiga_defconfig
+microblaze                      mmu_defconfig
+arm                          lpd270_defconfig
+powerpc                   bluestone_defconfig
+arc                     haps_hs_smp_defconfig
+sh                          r7785rp_defconfig
+powerpc                     taishan_defconfig
+powerpc                   motionpro_defconfig
+sh                          kfr2r09_defconfig
+powerpc                 linkstation_defconfig
+powerpc                     sbc8548_defconfig
+sh                             shx3_defconfig
+sh                          landisk_defconfig
+sh                            titan_defconfig
+xtensa                    smp_lx200_defconfig
+arm                       versatile_defconfig
+powerpc                     stx_gp3_defconfig
+sh                           se7780_defconfig
+arm                           efm32_defconfig
+powerpc                     akebono_defconfig
+sh                         apsh4a3a_defconfig
+sh                           se7712_defconfig
+sh                        sh7757lcr_defconfig
+sh                      rts7751r2d1_defconfig
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+mips                        bcm47xx_defconfig
+mips                         tb0226_defconfig
+m68k                         apollo_defconfig
+powerpc                          g5_defconfig
+mips                           rs90_defconfig
+powerpc                      ppc6xx_defconfig
+mips                             allmodconfig
+sh                           se7751_defconfig
+mips                       capcella_defconfig
+parisc                generic-32bit_defconfig
+powerpc                 mpc837x_mds_defconfig
+powerpc                 mpc837x_rdb_defconfig
+xtensa                         virt_defconfig
+sh                                  defconfig
+sh                           se7724_defconfig
+arm                            hisi_defconfig
+ia64                                defconfig
+mips                        jmr3927_defconfig
+sparc                       sparc64_defconfig
+arm                       aspeed_g4_defconfig
+powerpc                     ksi8560_defconfig
+arm                            mps2_defconfig
+um                            kunit_defconfig
+c6x                                 defconfig
+ia64                        generic_defconfig
+ia64                      gensparse_defconfig
+sh                           se7721_defconfig
+sparc                            alldefconfig
+arc                           tb10x_defconfig
+arm                        keystone_defconfig
+mips                        nlm_xlp_defconfig
+nios2                         3c120_defconfig
+arm                           corgi_defconfig
+sh                         ecovec24_defconfig
+powerpc                 mpc8315_rdb_defconfig
+arm                     davinci_all_defconfig
+arm                         hackkit_defconfig
+ia64                          tiger_defconfig
+ia64                            zx1_defconfig
+powerpc                        cell_defconfig
+mips                  maltasmvp_eva_defconfig
+arm                            xcep_defconfig
+powerpc                  storcenter_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                      ep88xc_defconfig
+arm                             rpc_defconfig
+arm                             ezx_defconfig
+m68k                             allyesconfig
+arm                        mini2440_defconfig
+arm                         assabet_defconfig
+arc                              alldefconfig
+powerpc                 mpc8540_ads_defconfig
+arm                          prima2_defconfig
+powerpc                      cm5200_defconfig
+powerpc                         wii_defconfig
+m68k                        stmark2_defconfig
+mips                         bigsur_defconfig
+mips                     loongson1c_defconfig
+m68k                       m5275evb_defconfig
+mips                        workpad_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                     ppa8548_defconfig
+riscv                          rv32_defconfig
+sh                          rsk7269_defconfig
+powerpc                      acadia_defconfig
+mips                           mtx1_defconfig
+m68k                          atari_defconfig
+mips                      maltasmvp_defconfig
+mips                           ip22_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a002-20200925
+i386                 randconfig-a006-20200925
+i386                 randconfig-a003-20200925
+i386                 randconfig-a004-20200925
+i386                 randconfig-a005-20200925
+i386                 randconfig-a001-20200925
+x86_64               randconfig-a011-20200925
+x86_64               randconfig-a013-20200925
+x86_64               randconfig-a014-20200925
+x86_64               randconfig-a015-20200925
+x86_64               randconfig-a012-20200925
+x86_64               randconfig-a016-20200925
+i386                 randconfig-a012-20200925
+i386                 randconfig-a014-20200925
+i386                 randconfig-a016-20200925
+i386                 randconfig-a013-20200925
+i386                 randconfig-a011-20200925
+i386                 randconfig-a015-20200925
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a005-20200925
+x86_64               randconfig-a003-20200925
+x86_64               randconfig-a004-20200925
+x86_64               randconfig-a002-20200925
+x86_64               randconfig-a006-20200925
+x86_64               randconfig-a001-20200925
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
