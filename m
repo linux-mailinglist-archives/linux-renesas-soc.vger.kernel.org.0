@@ -2,47 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5C88278692
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Sep 2020 14:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8491278D1C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Sep 2020 17:48:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728333AbgIYMCk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Sep 2020 08:02:40 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:58448 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727248AbgIYMCk (ORCPT
+        id S1729373AbgIYPsM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Sep 2020 11:48:12 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42534 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728333AbgIYPsM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Sep 2020 08:02:40 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08PC1sEh091014;
-        Fri, 25 Sep 2020 07:01:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1601035314;
-        bh=hRluHT8MEUBdje+dfLWcezPxtUriv4zuwVUpPSAXAbM=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=WVZUjNsSj7DdGsHdtFkiR6WobLdIx8XVugawvpE65QTk9vwsAt/Qz4j3zskHR1QEc
-         NCGmjRc/t6AZZD8KX4ahsaG96Llcrq7w57Kx9tMx8Cl1IhCBZZJVi7cZUB394uAFl4
-         NQDbIRGGPr0tGdpwU7iXQ456lMatKte55cMYBvlo=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08PC1sZM055785;
-        Fri, 25 Sep 2020 07:01:54 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 25
- Sep 2020 07:01:54 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 25 Sep 2020 07:01:54 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08PC1sMi029536;
-        Fri, 25 Sep 2020 07:01:54 -0500
-Date:   Fri, 25 Sep 2020 07:01:54 -0500
-From:   Nishanth Menon <nm@ti.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Fri, 25 Sep 2020 11:48:12 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c18so4087588wrm.9;
+        Fri, 25 Sep 2020 08:48:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7Qh5+ZRjYoXTfTyMdsphNx4+wbs2iln0Dg7bJktrLac=;
+        b=TVeaCTXCpTsuVU0OtUUElmJo/fpDul1xq0BoKSat8xsthvyVRg3tvKSo9BDvXekHGs
+         nVMqvWqW2vDFwcKum10rq+V2w4RGf0Cbu4GkgPDlQ70SCIrY75oW3A8tvEVZ72/uj+BR
+         4EbsAekEwNtwoAc1kWoEQOvx8Y6MK0luteQWvJdUqrb31OnLBXKf4kSf6ewiSu4+Ht9/
+         WRh3LafUlWtpbwAaotcanO4mWtDq5aA5KJbY/3zBTbP98+v8CpwfiTqnpkwdUuH9XqNZ
+         IYgvZ5oXua9CSn4kvt2ZeDcdMZ9AORrztspYXytjv/MZiKPE6Q6dhPOQRLB/HCw3fCTb
+         QYOA==
+X-Gm-Message-State: AOAM530jZ7cH+UMdZuiOzssXlOROiVnnPDzz/OVL+TIcaLz6izOfYlGs
+        F+7Qk5sFmybwRzI9dgKATms=
+X-Google-Smtp-Source: ABdhPJw0NxnpCAb54EdTsCUv1oA2JhAAx01jYuFmqouNOz5V/9GWfo7kcmF2Z8f+IMYVxGIHsAi2tA==
+X-Received: by 2002:adf:f082:: with SMTP id n2mr5158088wro.35.1601048889557;
+        Fri, 25 Sep 2020 08:48:09 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.132])
+        by smtp.googlemail.com with ESMTPSA id k8sm3477035wma.16.2020.09.25.08.48.06
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 25 Sep 2020 08:48:08 -0700 (PDT)
+Date:   Fri, 25 Sep 2020 17:48:04 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
         Tony Lindgren <tony@atomide.com>,
         Jason Cooper <jason@lakedaemon.net>,
         Andrew Lunn <andrew@lunn.ch>,
@@ -59,43 +56,57 @@ CC:     Linus Walleij <linus.walleij@linaro.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Tero Kristo <t-kristo@ti.com>,
+        Tero Kristo <t-kristo@ti.com>, Nishanth Menon <nm@ti.com>,
         Michal Simek <michal.simek@xilinx.com>,
-        <linux-gpio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-omap@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v3 06/15] arm64: dts: ti: align GPIO hog names with
- dtschema
-Message-ID: <20200925120154.utjxncf4qs2usuo4@akan>
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 01/15] dt-bindings: gpio: convert bindings for NXP
+ PCA953x family to dtschema
+Message-ID: <20200925154804.GB16392@kozik-lap>
 References: <20200916155715.21009-1-krzk@kernel.org>
- <20200916155715.21009-7-krzk@kernel.org>
+ <20200916155715.21009-2-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200916155715.21009-7-krzk@kernel.org>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200916155715.21009-2-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 17:57-20200916, Krzysztof Kozlowski wrote:
-> The convention for node names is to use hyphens, not underscores.
-> dtschema for pca95xx expects GPIO hogs to end with 'hog' prefix.
+On Wed, Sep 16, 2020 at 05:57:01PM +0200, Krzysztof Kozlowski wrote:
+> Convert the NXP PCA953x family of GPIO expanders bindings to device tree
+> schema.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  arch/arm64/boot/dts/ti/k3-j721e-common-proc-board.dts | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > 
+> ---
+> 
+> Changes since v2:
+> 1. Add Rob's review tag
+> 
+> Changes since v1:
+> 1. Use additionalProperties.
+> 2. Add wakeup-source.
+> 3. Add hogs.
+> 4. Extend example with hogs.
+> ---
+>  .../devicetree/bindings/gpio/gpio-pca953x.txt |  90 ----------
+>  .../bindings/gpio/gpio-pca95xx.yaml           | 166 ++++++++++++++++++
+>  .../devicetree/bindings/trivial-devices.yaml  |   4 -
+>  3 files changed, 166 insertions(+), 94 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca953x.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
 
-Applied to ti-k3-dts-next with minor update to $subject (added
-'k3-j721e-common-proc-board:')
+Hi Linus,
 
--- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+The first two patches (bindings) have Rob's ack/review. Could you pick
+them via GPIO tree?
+
+Best regards,
+Krzysztof
+
