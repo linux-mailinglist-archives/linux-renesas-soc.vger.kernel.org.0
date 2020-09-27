@@ -2,78 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BE2827A0C7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Sep 2020 14:13:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1086E27A0F3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Sep 2020 14:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgI0MNG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Sep 2020 08:13:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60624 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726185AbgI0MNF (ORCPT
+        id S1726185AbgI0Mey (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Sep 2020 08:34:54 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:40422 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726149AbgI0Mey (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Sep 2020 08:13:05 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 848BD23718;
-        Sun, 27 Sep 2020 12:13:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601208785;
-        bh=cwM2MQgUW0czb3fR0yjHJGDDSXpDnNHhOU8ZfZwwJ0Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tBPA+YlVAkBjcsDQPbok4wsg8dGHaPw8F5X3jpvi3kDY+RRRhZupH3ntET5AYvWb/
-         xl9klFyxioPJGWlWbU7KTu39H+2LhEheETfetB2xuyuu5JvUbjgrQCVTGoqRjmO8Ax
-         jdmn0p1vGfKKCRtGBM3/4dS0Zrzq5IQl/uZA8NKc=
-Date:   Sun, 27 Sep 2020 14:13:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/8] dt-bindings: serial: renesas,scif: Document r8a774e1
- bindings
-Message-ID: <20200927121315.GB164938@kroah.com>
-References: <1594230511-24790-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1594230511-24790-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8tTSo4bp8bdQnf1KA9z7d+AjxfC5Abk0iuV4L_r20PwPQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+V-a8tTSo4bp8bdQnf1KA9z7d+AjxfC5Abk0iuV4L_r20PwPQ@mail.gmail.com>
+        Sun, 27 Sep 2020 08:34:54 -0400
+X-IronPort-AV: E=Sophos;i="5.77,310,1596466800"; 
+   d="scan'208";a="58260505"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 27 Sep 2020 21:34:52 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 297DB40062C5;
+        Sun, 27 Sep 2020 21:34:49 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [RESEND PATCH] dt-bindings: net: renesas,ravb: Add support for r8a774e1 SoC
+Date:   Sun, 27 Sep 2020 13:34:39 +0100
+Message-Id: <20200927123439.29300-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Sep 19, 2020 at 11:35:39AM +0100, Lad, Prabhakar wrote:
-> Hi Greg,
-> 
-> On Wed, Jul 8, 2020 at 6:48 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > RZ/G2H (R8A774E1) SoC also has the R-Car gen3 compatible SCIF ports,
-> > so document the SoC specific bindings.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/serial/renesas,scif.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> Could you please pick this patch.
+From: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Sorry for the delay, I missed that Rob acked it.  Both now queued up.
+Document RZ/G2H (R8A774E1) SoC bindings.
 
-greg k-h
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+Hi David,
+
+This patch is part of series [1] and is Acked the DT maintainers,
+while rest of the patches have been picked up by the respective
+maintainers, could you please pick this patch.
+
+[1] https://www.spinics.net/lists/dmaengine/msg22887.html
+
+Cheers,
+Prabhakar
+---
+ Documentation/devicetree/bindings/net/renesas,ravb.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/net/renesas,ravb.txt b/Documentation/devicetree/bindings/net/renesas,ravb.txt
+index 032b76f14f4f..9119f1caf391 100644
+--- a/Documentation/devicetree/bindings/net/renesas,ravb.txt
++++ b/Documentation/devicetree/bindings/net/renesas,ravb.txt
+@@ -21,6 +21,7 @@ Required properties:
+       - "renesas,etheravb-r8a774a1" for the R8A774A1 SoC.
+       - "renesas,etheravb-r8a774b1" for the R8A774B1 SoC.
+       - "renesas,etheravb-r8a774c0" for the R8A774C0 SoC.
++      - "renesas,etheravb-r8a774e1" for the R8A774E1 SoC.
+       - "renesas,etheravb-r8a7795" for the R8A7795 SoC.
+       - "renesas,etheravb-r8a7796" for the R8A77960 SoC.
+       - "renesas,etheravb-r8a77961" for the R8A77961 SoC.
+-- 
+2.17.1
+
