@@ -2,87 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFD3727AC6B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Sep 2020 13:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 981D827AD59
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Sep 2020 13:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgI1LHB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Sep 2020 07:07:01 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49386 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726547AbgI1LHA (ORCPT
+        id S1726608AbgI1L4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Sep 2020 07:56:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726589AbgI1L4u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Sep 2020 07:07:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=k1; bh=01nGEfpmcWR/Z8vTKFz5RxIOA5A
-        q3ATg6MxZerdf3aQ=; b=TGL/vyzbSugF892RfhgX+hp2FYEjrAccb9R9llk+hFE
-        xU8wHfaFM3aT4SJLYQ02Qfvdgla5CgnY5eNsnlaLW7c5Ls7LJI7VGMIxbtrzulNP
-        Op2hYvEweuRkm2bVoBBf68QCL3d4g0X77PHiAeCdGrKAWCY4VEcJn6cNucg7ninE
-        =
-Received: (qmail 2223494 invoked from network); 28 Sep 2020 13:07:08 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Sep 2020 13:07:08 +0200
-X-UD-Smtp-Session: l3s3148p1@ObnSql2w7t+57tsR
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] i2c: testunit: improve documentation
-Date:   Mon, 28 Sep 2020 13:06:47 +0200
-Message-Id: <20200928110647.1791-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.28.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 28 Sep 2020 07:56:50 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60D07C061755
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Sep 2020 04:56:50 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by michel.telenet-ops.be with bizsmtp
+        id ZPwn230194C55Sk06Pwnmz; Mon, 28 Sep 2020 13:56:48 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kMrlv-0002wZ-Qk; Mon, 28 Sep 2020 13:56:47 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kMrlv-0002sE-OG; Mon, 28 Sep 2020 13:56:47 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] Renesas fixes for v5.9
+Date:   Mon, 28 Sep 2020 13:56:45 +0200
+Message-Id: <20200928115645.10985-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Mention that new CMDs will be NACKed while the old one is still
-on-going, that the I2C address parameter of READ_BYTES is 7 bit only,
-and reword one paragraph to be more precise.
+	Hi arm-soc folks,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/i2c/slave-testunit-backend.rst | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
 
-diff --git a/Documentation/i2c/slave-testunit-backend.rst b/Documentation/i2c/slave-testunit-backend.rst
-index f537c62a8a83..2c38e64f0bac 100644
---- a/Documentation/i2c/slave-testunit-backend.rst
-+++ b/Documentation/i2c/slave-testunit-backend.rst
-@@ -20,10 +20,10 @@ Instantiating the device is regular. Example for bus 0, address 0x30:
- 
- # echo "slave-testunit 0x1030" > /sys/bus/i2c/devices/i2c-0/new_device
- 
--After that, you will have a write-only device listening. Reads will return an
--8-bit version number. The device consists of 4 8-bit registers and all must be
--written to start a testcase, i.e. you must always write 4 bytes to the device.
--The registers are:
-+After that, you will have a write-only device listening. Reads will just return
-+an 8-bit version number of the testunit. When writing, the device consists of 4
-+8-bit registers and all must be written to start a testcase, i.e. you must
-+always write 4 bytes to the device. The registers are:
- 
- 0x00 CMD   - which test to trigger
- 0x01 DATAL - configuration byte 1 for the test
-@@ -35,6 +35,9 @@ Using 'i2cset' from the i2c-tools package, the generic command looks like:
- # i2cset -y <bus_num> <testunit_address> <CMD> <DATAL> <DATAH> <DELAY> i
- 
- DELAY is a generic parameter which will delay the execution of the test in CMD.
-+While a command is running (including the delay), new commands will not be
-+acknowledged. You need to wait until the old one is completed.
-+
- The commands are described in the following section. An invalid command will
- result in the transfer not being acknowledged.
- 
-@@ -44,7 +47,7 @@ Commands
- 0x00 NOOP (reserved for future use)
- 
- 0x01 READ_BYTES (also needs master mode)
--   DATAL - address to read data from
-+   DATAL - address to read data from (lower 7 bits, highest bit currently unused)
-    DATAH - number of bytes to read
- 
- This is useful to test if your bus master driver is handling multi-master
--- 
-2.28.0
+  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v5.9-tag1
+
+for you to fetch changes up to 08d7a73fffb6769b1cf2278bf697e692daba3abf:
+
+  ARM: dts: iwg20d-q7-common: Fix touch controller probe failure (2020-09-25 09:26:36 +0200)
+
+----------------------------------------------------------------
+Renesas fixes for v5.9
+
+  - Fix touch controller probe failure on the iWave RainboW G20D Qseven
+    board.
+
+This is a fix for a regression in v5.6.  It came in late, as resolving
+it depended on DT binding and driver development, which has just been
+accepted in linux-next.
+
+Thanks for pulling!
+----------------------------------------------------------------
+Biju Das (1):
+      ARM: dts: iwg20d-q7-common: Fix touch controller probe failure
+
+ arch/arm/boot/dts/iwg20d-q7-common.dtsi | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
