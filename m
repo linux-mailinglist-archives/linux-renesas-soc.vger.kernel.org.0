@@ -2,74 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DED028163D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Oct 2020 17:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E82C52816F5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Oct 2020 17:44:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388115AbgJBPMx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Oct 2020 11:12:53 -0400
-Received: from www.zeus03.de ([194.117.254.33]:38048 "EHLO mail.zeus03.de"
+        id S2388047AbgJBPo2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Oct 2020 11:44:28 -0400
+Received: from sauhun.de ([88.99.104.3]:43202 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388176AbgJBPMx (ORCPT
+        id S2387777AbgJBPo0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Oct 2020 11:12:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=jRBYqhHs9MUo+I345CM5zWv3GEXs
-        j18napmugZrEyZo=; b=dZ7w8Dlkp2T+HpY2X/1ppWsCRdmQr/+XuNNtkcmVPErG
-        Gr0YVpfXax97Oy/hEVyAV0q1OxPJFwgLNMJBY+4vYJZXlLoLGVpzRlkEBXf/B1yR
-        u0LASyvGKvz1m3z6C7LzkRnEmf7OTWHXoAOcnX7xRy7ZI8BsvZ8WAQZEt13vj2I=
-Received: (qmail 1420813 invoked from network); 2 Oct 2020 17:12:51 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2020 17:12:51 +0200
-X-UD-Smtp-Session: l3s3148p1@cQ/1kLGwvsQgAwDPXwkAADD+YGrDqBUE
-Date:   Fri, 2 Oct 2020 17:12:50 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-watchdog@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [RFC PATCH] watchdog: renesas_wdt: don't sleep in atomic context
-Message-ID: <20201002151250.GC1447@ninjato>
-References: <20201002150944.9696-1-wsa+renesas@sang-engineering.com>
+        Fri, 2 Oct 2020 11:44:26 -0400
+Received: from localhost (p5486cf7b.dip0.t-ipconnect.de [84.134.207.123])
+        by pokefinder.org (Postfix) with ESMTPSA id 648B62C0880;
+        Fri,  2 Oct 2020 17:44:23 +0200 (CEST)
+Date:   Fri, 2 Oct 2020 17:44:23 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
+        linux-i2c@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v4] i2c: sh_mobile: implement atomic transfers
+Message-ID: <20201002154423.GA16758@ninjato>
+References: <20200928155950.1185-1-uli+renesas@fpond.eu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
+        protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
 Content-Disposition: inline
-In-Reply-To: <20201002150944.9696-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20200928155950.1185-1-uli+renesas@fpond.eu>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---69pVuxX8awAiJ7fD
+--ew6BAiZeqk4r7MaW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi Uli,
 
->  	delay = DIV_ROUND_UP(cycles * 1000000, priv->clk_rate);
+On Mon, Sep 28, 2020 at 05:59:50PM +0200, Ulrich Hecht wrote:
+> Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
+> similar boards.
+>=20
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+It works, but I have two comments and two questions:
+
+> @@ -581,10 +585,12 @@ static void start_ch(struct sh_mobile_i2c_data *pd,=
+ struct i2c_msg *usr_msg,
+>  	pd->pos =3D -1;
+>  	pd->sr =3D 0;
+> =20
+> +	if (pd->atomic_xfer)
+> +		return;
+> +
+>  	pd->dma_buf =3D i2c_get_dma_safe_msg_buf(pd->msg, 8);
+>  	if (pd->dma_buf)
+>  		sh_mobile_i2c_xfer_dma(pd);
 > -
-> -	usleep_range(delay, 2 * delay);
-> +	udelay(delay);
 
-I should probably add a comment here explaining the situation.
+This blank line should stay.
+
+=2E..
+
+> +		if (pd->atomic_xfer) {
+> +			unsigned long j =3D jiffies + pd->adap.timeout;
+> +
+> +			time_left =3D time_before_eq(jiffies, j);
+> +			while (time_left &&
+> +			       !(pd->sr & (ICSR_TACK | SW_DONE))) {
+> +				unsigned char sr =3D iic_rd(pd, ICSR);
+> +
+> +				if (sr & (ICSR_AL   | ICSR_TACK |
+> +					  ICSR_WAIT | ICSR_DTE)) {
+> +					sh_mobile_i2c_isr(0, pd);
+> +					udelay(150);
+> +				} else {
+> +					cpu_relax();
+> +				}
+
+Is it 100% safe to call cpu_relax() that late? Aren't interrupts
+disabled? What is waking the CPU again? And where does the value 150us
+come from?
+
+> +				time_left =3D time_before_eq(jiffies, j);
+> +			}
+> +		} else {
+> +			/* The interrupt handler takes care of the rest... */
+> +			time_left =3D wait_event_timeout(pd->wait,
+> +					pd->sr & (ICSR_TACK | SW_DONE),
+> +					pd->adap.timeout);
+> +
+> +			/* 'stop_after_dma' tells if DMA xfer was complete */
+> +			i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg,
+> +						 pd->stop_after_dma);
+> =20
+
+This blank line can go.
+
+Thanks and regards,
+
+   Wolfram
 
 
---69pVuxX8awAiJ7fD
+--ew6BAiZeqk4r7MaW
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl93Q28ACgkQFA3kzBSg
-KbZU7w/+J5wDYBQWBz1IkgOLMXJINpjqVPOCvJEYUrioxPyrN8iya5hwFA1uFl6r
-7o/bp1o8FtQ/+ZyF94jEijgNKZqDvV6UG8huzv1uQ1S3Xq9ss4bXzx+yEIAPehe2
-bHjQHZ9+pd3MZOTiSis3PWfmPMxsLL/IXgKBgLITQ20CM59ADrtg28mvUBHQmr/y
-XWyhElYQ9xG/15WgM03Lva0ExsIV0YUg+LKj39aVp0EnWPDqGuScEKwzKHNfO9Xz
-SzXsyOujerFeGdUzGxlXoqMs595ARq9Km46g3dn2uRuA/XnNTsNXkGY97wR6W296
-zaxdNyZ61HXi/4MULRTKzXtsY8hGiRfGyqf8m8pTPrZmTCgLBEMk+VxUts6KHNlj
-woWQ/rinvE9oQFe1oaepdefFF92QV83k4B20B7XNOtFNjOm2GEpAF5CxgSs9f7G3
-6KKAK5gM3P7G8MEfFL/bdlrYhLN8QVNuPbUjM0KOvh1sc3G6IbR4Hnl6W6EOGJHJ
-zsH4+GS1OlbS6nTFcqTyBMmOVguRmfUK2T78fxNQamoV5Qz3OeQ7OjRr0eOdnZI1
-SzaonlIJF7VKmAKH5OhoCoCCBUKenaJfGNZvo9cC4W4hz7F/LE4vlJwQQRSLjEZU
-i/vK0QOEOErz2OGEMTsxawS8zEuXUgzGMAz7z0UR6pcFoMxnMfg=
-=aSd7
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl93StMACgkQFA3kzBSg
+Kbb33w/9GPAVT09fYkuWTA2zH4eGHNNINK6WemYumZkVbv9sceVmtg08GlgS4Wyh
+ASTpKf9lj/m+kd1viiQsYJzmC2IQG7ANozAX5BlUU4jcm4oboc6gLu6Q/My5mxEs
+vtunKXEjexrWtsaFkJtbtomFdEMMTkTWSQbGacNoPaa0bOCkErIM9rJgh+7jk6lD
+KXCIPuTBK2SbjVo3kXsR8ba1pW0H1v+60wwAzWFNWmH1tXRW2dQlWiarnJdhUQhM
+xzu/ZAglhc4A+KJXJlrQZ8GRIqP75+2ZUnFKzhPXl4oUHqiqyOvtSCFCLB1+Hlsl
+qSgTrQjxTN38FWSMzlqasWbMV1yOSgqBnl/0DK1vtsH15gDTmCPY6legI7wn49Vk
+974cGK1Z2nKPeK6QN+dPzrplpJCtfunKDliZKsa8kUWri6P7CXawdPeiPYf+afrS
+s1s3RuUKDO26dF3gzRudBYDoxMX9A3u59+gEkDrylHmXIlmqCvuazedHigObS8hS
+uhekWSwKBimIHnslY/soN7Ps9rSyusDpvIclv4MZOHunrdqbCRnzfT7E8bhcDaa3
+Ixp2GJzVmcmTu74usHH9HwgtCs8faqcmLuYb9D9QRWewr+CsJ/hN83gyvUFgrg0U
+LnMbwfhwYe4cWaOfuLVhRUHImYHfP6iqMbObdJJFjCpRqFFCxWo=
+=oEV/
 -----END PGP SIGNATURE-----
 
---69pVuxX8awAiJ7fD--
+--ew6BAiZeqk4r7MaW--
