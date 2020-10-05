@@ -2,78 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D985528319F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 10:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 250842831D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 10:22:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgJEINb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Oct 2020 04:13:31 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:21606 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726017AbgJEINb (ORCPT
+        id S1725891AbgJEIWw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Oct 2020 04:22:52 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:57786 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725885AbgJEIWt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Oct 2020 04:13:31 -0400
-X-IronPort-AV: E=Sophos;i="5.77,338,1596466800"; 
-   d="scan'208";a="58929006"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Oct 2020 17:13:29 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AF63840061A8;
-        Mon,  5 Oct 2020 17:13:26 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RESEND PATCH v2 2/2] dt-bindings: can: rcar_can: Document r8a774e1 support
-Date:   Mon,  5 Oct 2020 09:13:19 +0100
-Message-Id: <20201005081319.29322-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201005081319.29322-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201005081319.29322-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Mon, 5 Oct 2020 04:22:49 -0400
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id E0E653B081A;
+        Mon,  5 Oct 2020 08:15:29 +0000 (UTC)
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 5F22F60016;
+        Mon,  5 Oct 2020 08:15:06 +0000 (UTC)
+Date:   Mon, 5 Oct 2020 10:19:06 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] rcar-csi2: Set bus type when parsing fwnode
+Message-ID: <20201005081906.6usj2eydbjjbxkxe@uno.localdomain>
+References: <20200914215011.339387-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200914215011.339387-3-niklas.soderlund+renesas@ragnatech.se>
+ <20200915112752.f2vpxnvusson65uz@uno.localdomain>
+ <20201002212103.GO2024@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201002212103.GO2024@valkosipuli.retiisi.org.uk>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document SoC specific bindings for RZ/G2H (R8A774E1) SoC.
+Hi Sakari,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/net/can/rcar_can.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+On Sat, Oct 03, 2020 at 12:21:03AM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Tue, Sep 15, 2020 at 01:27:52PM +0200, Jacopo Mondi wrote:
+> > Hi Niklas,
+> >
+> > On Mon, Sep 14, 2020 at 11:50:11PM +0200, Niklas Söderlund wrote:
+> > > The only supported bus for the R-Car CSI-2 driver is CSI-2 DPHY, specify
+> > > this before parsing the fwnode.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > index 23e89ef2429d310a..b2e58f51b94fccd7 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > @@ -874,7 +874,9 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+> > >  	struct v4l2_async_subdev *asd;
+> > >  	struct fwnode_handle *fwnode;
+> > >  	struct fwnode_handle *ep;
+> > > -	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+> > > +	struct v4l2_fwnode_endpoint v4l2_ep = {
+> > > +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> > > +	};
+> >
+> > I would also take the occasion to make bus-type mandatory in
+> > bindings as v4l2_fwnode_endpoint_parse() will fail only if it detect a
+> > mismatch between bus_type and "bus-type".
+>
+> You don't really need bus-type property if the hardware supports a single
+> type. Then you can, as above, parse the endpoint with that type set by the
+> caller.
 
-diff --git a/Documentation/devicetree/bindings/net/can/rcar_can.txt b/Documentation/devicetree/bindings/net/can/rcar_can.txt
-index 85c6551b602a..21d6780874cc 100644
---- a/Documentation/devicetree/bindings/net/can/rcar_can.txt
-+++ b/Documentation/devicetree/bindings/net/can/rcar_can.txt
-@@ -9,6 +9,7 @@ Required properties:
- 	      "renesas,can-r8a774a1" if CAN controller is a part of R8A774A1 SoC.
- 	      "renesas,can-r8a774b1" if CAN controller is a part of R8A774B1 SoC.
- 	      "renesas,can-r8a774c0" if CAN controller is a part of R8A774C0 SoC.
-+	      "renesas,can-r8a774e1" if CAN controller is a part of R8A774E1 SoC.
- 	      "renesas,can-r8a7778" if CAN controller is a part of R8A7778 SoC.
- 	      "renesas,can-r8a7779" if CAN controller is a part of R8A7779 SoC.
- 	      "renesas,can-r8a7790" if CAN controller is a part of R8A7790 SoC.
-@@ -37,8 +38,8 @@ Required properties:
- - pinctrl-0: pin control group to be used for this controller.
- - pinctrl-names: must be "default".
- 
--Required properties for R8A774A1, R8A774B1, R8A774C0, R8A7795, R8A7796,
--R8A77965, R8A77990, and R8A77995:
-+Required properties for R8A774A1, R8A774B1, R8A774C0, R8A774E1, R8A7795,
-+R8A7796, R8A77965, R8A77990, and R8A77995:
- For the denoted SoCs, "clkp2" can be CANFD clock. This is a div6 clock and can
- be used by both CAN and CAN FD controller at the same time. It needs to be
- scaled to maximum frequency if any of these controllers use it. This is done
--- 
-2.17.1
+Ok, that's a bit confusing as if there's no bus-type property no
+bus mismatch could ever be detected, not at run-time by the v4l2-fwnode
+framework, nor by DTS validation. Of course, the chances that a DTS for a
+device that only supports CSI-2 specifies (in example) parallel bus
+properties are quite low, so I'm fine with the way things are.
 
+>
+> --
+> Sakari Ailus
