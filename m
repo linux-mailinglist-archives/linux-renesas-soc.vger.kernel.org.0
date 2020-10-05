@@ -2,55 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2A6282B27
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  4 Oct 2020 16:16:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC9E2830E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 09:32:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725825AbgJDOQZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 4 Oct 2020 10:16:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725967AbgJDOQV (ORCPT
+        id S1725895AbgJEHcH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Oct 2020 03:32:07 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:43694 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725870AbgJEHcG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 4 Oct 2020 10:16:21 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0721C0613CE;
-        Sun,  4 Oct 2020 07:16:20 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id u21so8221109eja.2;
-        Sun, 04 Oct 2020 07:16:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IuA/GAjAfgWE3DtuJ5FygujATNMhP3IHAbVKTsDiIqA=;
-        b=o/7HmuRKvHoJwhtWjEDPwsElHY8U67ts1L70GuxyQaLcoq/K9UwALWeYhgqgqR9gTh
-         DlW3EGNRXkGb+il+Y75PVPVjxiY0CuAKmc2Wc+hY0N/FIbtd4hzjitl2fJjrKm82Usxl
-         rsJzkn48QvukOqPjsNfH+xWFUYRhn8RTv1fRiaWIprigWm8nKBUSwXfQH3MH6slUHvuX
-         KMsyAAl3KL+E9SuFqXeiB34hYyVoQ1we7X6IS0I4KkuFXL5zzIeBrdGRQMyy9CBR7QRM
-         btqy6NzkoDxwiuNT4Zs9SqukWaYjm6l2e59cQUM0dAtPELXJxct9q5p7J9qxbzcino49
-         46mg==
+        Mon, 5 Oct 2020 03:32:06 -0400
+Received: by mail-ot1-f66.google.com with SMTP id n61so7677137ota.10;
+        Mon, 05 Oct 2020 00:32:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=IuA/GAjAfgWE3DtuJ5FygujATNMhP3IHAbVKTsDiIqA=;
-        b=cnK89Lau1gZOkW38a7cPd13OcU48lU9G0fbBKNQvTXkJ9VhFMlv2gKO4mpwSfJyM3f
-         VdQBpJzLy9sGCrlbGDgEKobj+r76mSCBc0Kld9b18b9k6R0mL9TLxHG4ZGN0pO5rIpKQ
-         QuYG/yhhma297+dmJzG9f03vexk/hqO3RZZFzYX+V8C3x8KZ6MOXXZwnT2XBbafiswvF
-         TQa+ZfuESIhre30g8X+Ca35u0hyOk2qlCxpfccNDfumkWUoy9MI8B+6fO4F4nhAuouls
-         h9GL5nbcTHihMRuYIDbUMrBJ44QdaLAVGdhGVDPdcTjBmSBsT8pUTlvqmGrLOpbpxzui
-         s03Q==
-X-Gm-Message-State: AOAM533HHrr19EwVWhVJyPJmQBSAervjFb23ZRhKk5VaXyaB1QrdjE3/
-        Gbxnt6HLQfozoWk5YvFsItC3z4tBmLEd0g==
-X-Google-Smtp-Source: ABdhPJxVcQBMVRxjCkWkpnQha2J49swvHCsFgusKO1kbA8gX1qmRU0waTa9C1FlR/6+79kPmYXHX3A==
-X-Received: by 2002:a17:906:2301:: with SMTP id l1mr10643720eja.488.1601820979313;
-        Sun, 04 Oct 2020 07:16:19 -0700 (PDT)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id j11sm3864780ejk.63.2020.10.04.07.16.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 04 Oct 2020 07:16:18 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MaU2ZX/ajt++VmCUpBC5H+VU47dkPeXnhuE9jFmL5V4=;
+        b=kB64USU1MlGCwMODHs6g5+w0Z8Iw8pRWUH3QMP/OxNxqOT5dnaC8Ci9AtyR7AW2vc4
+         Fh4YDvSCxvAj08KBWIqAKGwBKjXDaBJLngkgLRIgLI98FA1v17tCyWorb/lJempyxWGo
+         YUieajUPtwFyVtSxH97rDOXSNXYJJ3Lq+6Ts8EGX4aJN2PGRqDZJKiZ2J1goznBxYx5I
+         ju+IfVoptvz7VvVzotj0Eyp/KLJ4042Gi+oHiijdougUS4kVLB/I4CgjPdwNOyfSV0bz
+         8aUyxz6jEKC5J/YMmiWP/k2CYHvd5Gv4yQgeJF+UsZ1xwVX4h9CxvChfLGYAdBeftZ+r
+         Ux/Q==
+X-Gm-Message-State: AOAM530rJNhGlbtQ/oU2yCS1yQxoH77fuFyatJ28Ut4U0vgT5ovCnCuF
+        TFio+scDq7I4oY0C9uzH6HLc1sed8YnHP5tbLnc=
+X-Google-Smtp-Source: ABdhPJxC2zyGtmbS9o9N9MD5jzjDHOANV2CcE7HKk/bBLdd02gO4cQ83JSgp9nBpe7wnB6Pq/e6JL/lZ52xnVuGTirU=
+X-Received: by 2002:a05:6830:1008:: with SMTP id a8mr10030680otp.107.1601883125603;
+ Mon, 05 Oct 2020 00:32:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200926160934.136182-1-marek.vasut@gmail.com>
+ <CAMuHMdURuSsYRwi10FT+s-rVjok0f-FgS6G8rmpg46u98scMkQ@mail.gmail.com> <1431d12a-0e19-6795-b2e0-fb652f8a95c1@gmail.com>
+In-Reply-To: <1431d12a-0e19-6795-b2e0-fb652f8a95c1@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 5 Oct 2020 09:31:54 +0200
+Message-ID: <CAMuHMdWtj=c=y7a2+W10HgYNj3rh2P6nSDd-j4RKKuUiztCxjA@mail.gmail.com>
 Subject: Re: [PATCH V2] PCI: rcar: Add L1 link state fix into data abort hook
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Marek Vasut <marek.vasut@gmail.com>
 Cc:     linux-pci <linux-pci@vger.kernel.org>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
@@ -58,42 +46,59 @@ Cc:     linux-pci <linux-pci@vger.kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20200926160934.136182-1-marek.vasut@gmail.com>
- <CAMuHMdURuSsYRwi10FT+s-rVjok0f-FgS6G8rmpg46u98scMkQ@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <1431d12a-0e19-6795-b2e0-fb652f8a95c1@gmail.com>
-Date:   Sun, 4 Oct 2020 16:14:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <CAMuHMdURuSsYRwi10FT+s-rVjok0f-FgS6G8rmpg46u98scMkQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/28/20 11:35 AM, Geert Uytterhoeven wrote:
-[...]
->> +static int __init rcar_pcie_init(void)
->> +{
->> +#ifdef CONFIG_ARM_LPAE
->> +       hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
->> +                       "asynchronous external abort");
->> +#else
->> +       hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
->> +                       "imprecise external abort");
->> +#endif
-> 
-> As there can be only a single handler, this may interfere with a handler
-> for another platform in a multi-platform kernel.
-> Hence I think this should not be done unconditionally, but be moved to
-> the driver's .probe() callback.
+Hi Marek,
 
-Why is nobody doing this in the probe code then ? It seems all the other
-drivers which hook fault code do it in init as well. I can imagine that
-something might trip the fault handler even before probe is called, e.g.
-some PM handling or simply user accessing that PCIe area using setpci.
+On Sun, Oct 4, 2020 at 4:16 PM Marek Vasut <marek.vasut@gmail.com> wrote:
+> On 9/28/20 11:35 AM, Geert Uytterhoeven wrote:
+> [...]
+> >> +static int __init rcar_pcie_init(void)
+> >> +{
+> >> +#ifdef CONFIG_ARM_LPAE
+> >> +       hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> >> +                       "asynchronous external abort");
+> >> +#else
+> >> +       hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> >> +                       "imprecise external abort");
+> >> +#endif
+> >
+> > As there can be only a single handler, this may interfere with a handler
+> > for another platform in a multi-platform kernel.
+> > Hence I think this should not be done unconditionally, but be moved to
+> > the driver's .probe() callback.
+>
+> Why is nobody doing this in the probe code then ? It seems all the other
 
-[...]
+drivers/pci/controller/dwc/pci-keystone.c is:
+
+  ks_pcie_probe()
+    ks_pcie_add_pcie_port()
+      dw_pcie_host_init()
+        pp->ops->host_init(pp) = ks_pcie_host_init()
+          hook_fault_code()
+
+> drivers which hook fault code do it in init as well. I can imagine that
+
+Probably nobody bothered exercising the external abort handler on
+multi-platform kernels?
+
+> something might trip the fault handler even before probe is called, e.g.
+> some PM handling or simply user accessing that PCIe area using setpci.
+
+If that is the case, it must indeed by done earlier, but still
+conditional on the presence of the actual PCIe controller.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
