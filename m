@@ -2,78 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14AF5283123
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 09:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8D1283144
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 10:00:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbgJEHxg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Oct 2020 03:53:36 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34282 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbgJEHxg (ORCPT
+        id S1725880AbgJEIAb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Oct 2020 04:00:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725870AbgJEIAb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Oct 2020 03:53:36 -0400
-Received: by mail-ot1-f68.google.com with SMTP id d28so1487153ote.1;
-        Mon, 05 Oct 2020 00:53:35 -0700 (PDT)
+        Mon, 5 Oct 2020 04:00:31 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEF6C0613CE;
+        Mon,  5 Oct 2020 01:00:29 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id l16so1034188eds.3;
+        Mon, 05 Oct 2020 01:00:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DxvT4dUHvLDSlRAbaeKYV/ezETviNmoPzmW8OvVTpX0=;
+        b=L8r9T7OcF6XUGXBl53WZEW22hogNFZ/yKdvsl8J8d5vad5B9OQGjZJy2rg+Er2fI+A
+         gD+qMeXGsFJUqubfslJHhGmJGCnE6xVMjo1M4DuUPiSSM4r9wSVko/dno+/8OwLk7W6Y
+         Sk4fuooK1rGMNdXGjzx0ZGZwlV9gX5sGFkoLCbwG0GbzfIaXniVKX1CFnFS3gy+BIN+E
+         ZrLPZ04KGUtxWsAO+YT6NrEgiSetlYiL9i/RhCwLaljdYMwTHYrmLA5o74QP8qp+Ys9u
+         vM72ffdrBJDvMfKbZNvq6V6zTMwa8Y+bKGaeQjxzoZDR/YLa6BhWHGpzjyTVIC4x9zn/
+         ONFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ufois23g/mxCxfWP4cgLmm6PEOAY+7dY4/+DMcUR2+w=;
-        b=FA7Ev8Pq4/JRrznF1mtUsa3V8Pi0KFA4yNTByRXII5M5DjZR37dnSHAgbHlbVswb6I
-         NgdXlxer+f6QJDOcMwhMhjBgqZ46VZse4WUhjfrDbMWK8oBYihKwsIG2k6vGkR+Apmp0
-         2lFWooYxYbtbS2k1oOP8RkJeLSVPBmow0CCxQ4NlVTaalv6xUnqdOfWvj+YUY24oZ5gz
-         9eFCzj8R9hSv/yZ2r3uN5j9Q7cqMq4DxuhS8hnz8RBPFTi0ugxUlmjAwkL4MGpU0toU4
-         AUvYPKy34kZY0LP7MIWuF/49xqzrjjGKA77jyx6JUcaYE0Jhb8yuDkolq4xrio4o0Ea2
-         CauQ==
-X-Gm-Message-State: AOAM531eXcLYuXyzYOpF1nSKUC+Hl25FHXZJGTT+foME1bx1er2N3QIe
-        TL1bvxTF1zTH+hWLfyVQeHVLSxQ0ZfVu1Uj4mm/Ndbhm
-X-Google-Smtp-Source: ABdhPJwUMXeRAmZD+uY78qToNvcWn90EF6i7ZUcRJ+D3EO5sQQQnaD1A+zraaFQREFNFC7RNbTYDhVfHoH8AhHh+DSw=
-X-Received: by 2002:a9d:3b76:: with SMTP id z109mr11079631otb.250.1601884415195;
- Mon, 05 Oct 2020 00:53:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201002163945.7885-1-krzk@kernel.org>
-In-Reply-To: <20201002163945.7885-1-krzk@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 5 Oct 2020 09:53:24 +0200
-Message-ID: <CAMuHMdX5dW_UJbDektyFPMeS-go0g+UmAA1ji=AK3-k+HX_dNw@mail.gmail.com>
-Subject: Re: [RESEND PATCH v3] arm64: dts: renesas: align GPIO hog names with dtschema
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DxvT4dUHvLDSlRAbaeKYV/ezETviNmoPzmW8OvVTpX0=;
+        b=N4wz/AZUAMuZCSMUFkqluTzaRpthUZwS3asWN/bfyEoxFgLXD6sSr+6M7pttvSFpFD
+         YaYl1Kgvilrl8ujcrh7giXQ4pkw+0XB12Tx5IFFxjBTi05zw1yVJhXRoWn1Hnscx3Oqh
+         z+tMPI9LjjtCZ6w1qY6u8t029P36BJJfoB6715jggDoUFOT0+o2SugBdmRz+qQpMZNHz
+         7GxgCn3IaSxU76/l9tscixdw4Qb+DsUGnPFmWOTkMyNpHiikjWLZRrMVGBXXtgydErih
+         sh5A1HHiGs3yPFeENv8b8yt0GB3LoMGt1QukAOU8yW+yPeEtEUWMOQKfVN4YvuZp0P/s
+         jMtg==
+X-Gm-Message-State: AOAM532eozYEEm7eBd1pxuI9ZVtHtc/DWlMId6ppq4C+xt88+cefYnBB
+        n7+Fo/9SMTWdWOND3+pFnmc=
+X-Google-Smtp-Source: ABdhPJxi4ltmoPB1vIe8O7pCNnp0snOEIghXZulZar3m7uJ1FNiwZSxGitw14ipraj8R+YjK/EIduQ==
+X-Received: by 2002:aa7:ccd7:: with SMTP id y23mr14737792edt.106.1601884828010;
+        Mon, 05 Oct 2020 01:00:28 -0700 (PDT)
+Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
+        by smtp.gmail.com with ESMTPSA id r4sm5695951edv.16.2020.10.05.01.00.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Oct 2020 01:00:27 -0700 (PDT)
+Subject: Re: [PATCH V2] PCI: rcar: Add L1 link state fix into data abort hook
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        m-karicheri2@ti.com
+References: <20200926160934.136182-1-marek.vasut@gmail.com>
+ <CAMuHMdURuSsYRwi10FT+s-rVjok0f-FgS6G8rmpg46u98scMkQ@mail.gmail.com>
+ <1431d12a-0e19-6795-b2e0-fb652f8a95c1@gmail.com>
+ <CAMuHMdWtj=c=y7a2+W10HgYNj3rh2P6nSDd-j4RKKuUiztCxjA@mail.gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <668471a3-af14-e083-bed9-722015546830@gmail.com>
+Date:   Mon, 5 Oct 2020 10:00:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWtj=c=y7a2+W10HgYNj3rh2P6nSDd-j4RKKuUiztCxjA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 6:39 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> The convention for node names is to use hyphens, not underscores.
-> dtschema for pca95xx expects GPIO hogs to end with 'hog' suffix.
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  .../boot/dts/renesas/r8a77951-salvator-xs.dts      |  2 +-
->  .../boot/dts/renesas/r8a77965-salvator-xs.dts      |  2 +-
->  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi           | 14 +++++++-------
->  3 files changed, 9 insertions(+), 9 deletions(-)
->
-> The dt-schema changes were applied.
+On 10/5/20 9:31 AM, Geert Uytterhoeven wrote:
+> Hi Marek,
 
-Thanks for notifying me!
+Hi,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.11.
+> On Sun, Oct 4, 2020 at 4:16 PM Marek Vasut <marek.vasut@gmail.com> wrote:
+>> On 9/28/20 11:35 AM, Geert Uytterhoeven wrote:
+>> [...]
+>>>> +static int __init rcar_pcie_init(void)
+>>>> +{
+>>>> +#ifdef CONFIG_ARM_LPAE
+>>>> +       hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+>>>> +                       "asynchronous external abort");
+>>>> +#else
+>>>> +       hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+>>>> +                       "imprecise external abort");
+>>>> +#endif
+>>>
+>>> As there can be only a single handler, this may interfere with a handler
+>>> for another platform in a multi-platform kernel.
+>>> Hence I think this should not be done unconditionally, but be moved to
+>>> the driver's .probe() callback.
+>>
+>> Why is nobody doing this in the probe code then ? It seems all the other
+> 
+> drivers/pci/controller/dwc/pci-keystone.c is:
+> 
+>   ks_pcie_probe()
+>     ks_pcie_add_pcie_port()
+>       dw_pcie_host_init()
+>         pp->ops->host_init(pp) = ks_pcie_host_init()
+>           hook_fault_code()
 
-Gr{oetje,eeting}s,
+Well that one is interesting. I wonder whether that driver has the same
+LPAE bug (different fault code for LPAE and non-LPAE configuration) we
+found here too, since it is used on CA15 TI SoCs.
 
-                        Geert
+>> drivers which hook fault code do it in init as well. I can imagine that
+> 
+> Probably nobody bothered exercising the external abort handler on
+> multi-platform kernels?
+> 
+>> something might trip the fault handler even before probe is called, e.g.
+>> some PM handling or simply user accessing that PCIe area using setpci.
+> 
+> If that is the case, it must indeed by done earlier, but still
+> conditional on the presence of the actual PCIe controller.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I am open to suggestions how to do that part.
