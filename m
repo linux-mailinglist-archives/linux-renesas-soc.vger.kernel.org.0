@@ -2,72 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDBED283DD7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 19:56:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72E252841D4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Oct 2020 22:58:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgJERzx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Oct 2020 13:55:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50406 "EHLO mail.kernel.org"
+        id S1728009AbgJEU4o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Oct 2020 16:56:44 -0400
+Received: from www.zeus03.de ([194.117.254.33]:36272 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727320AbgJERzx (ORCPT
+        id S1727069AbgJEU4o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Oct 2020 13:55:53 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F0B92083B;
-        Mon,  5 Oct 2020 17:55:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601920552;
-        bh=/YYqoxgnewwjyfR7ZhR+yOk7SdtO5OpBzT2DcHZa1Zo=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=a8uDN8e1TjwS2NrxJagJf99/dyQQbVvUwuSssqO6wDi/6OS4y/Xf54vjmpfXAhnr4
-         7ya0wac5/Djy6TzhWJhMe1i1ang9ZGML6n+C0JgeMTVxk1govWSu3e3IreoG+Lb1yR
-         2aAAIGT7o7lfvxCm6AAfASN7xlGSOkft70nWdJ5Q=
-Date:   Mon, 05 Oct 2020 18:54:49 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-spi@vger.kernel.org
-In-Reply-To: <20201005112549.22222-1-geert+renesas@glider.be>
-References: <20201005112549.22222-1-geert+renesas@glider.be>
-Subject: Re: [PATCH] spi: renesas,sh-msiof: Add r8a77961 support
-Message-Id: <160192047990.23319.4803614539729270841.b4-ty@kernel.org>
+        Mon, 5 Oct 2020 16:56:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=jCh73zm6FjGvc3ugF/VXfQNitZGD
+        ydaHb4vZDZryESk=; b=AH2kMIuncc+OGbnrQ0upH4GzMHNYY5oDUZ9g7lLaJCfi
+        2mzeiq7HZJze2dZOB6USZLEQmgsVmR+KFgnFMzMSFLGrPrRdxa1wV8nGxFiQEWLm
+        Z3VPn4leLP+Mi+nfqXy2pn06kvMY5LqPD+khNyVB+8HibZ0OlN+uvc4f7POMVAc=
+Received: (qmail 2370074 invoked from network); 5 Oct 2020 22:56:42 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Oct 2020 22:56:42 +0200
+X-UD-Smtp-Session: l3s3148p1@mogyuPKwhLYgAwDPXwUgANl8elq/Sjdv
+Date:   Mon, 5 Oct 2020 22:56:40 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] i2c: testunit: improve documentation
+Message-ID: <20201005205640.GC1397@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200928110647.1791-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="69pVuxX8awAiJ7fD"
+Content-Disposition: inline
+In-Reply-To: <20200928110647.1791-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 5 Oct 2020 13:25:47 +0200, Geert Uytterhoeven wrote:
-> Document R-Car M3-W+ (R8A77961) SoC bindings.
 
-Applied to
+--69pVuxX8awAiJ7fD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+On Mon, Sep 28, 2020 at 01:06:47PM +0200, Wolfram Sang wrote:
+> Mention that new CMDs will be NACKed while the old one is still
+> on-going, that the I2C address parameter of READ_BYTES is 7 bit only,
+> and reword one paragraph to be more precise.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks!
+Applied to for-next, thanks!
 
-[1/1] spi: renesas,sh-msiof: Add r8a77961 support
-      commit: aef161f4f1b829e91c4aaaac75c2b8fcdbc033fc
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--69pVuxX8awAiJ7fD
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl97iIgACgkQFA3kzBSg
+KbajOBAAjzsxDNRv5wBCwT5CTjZb7gf3tbiH4Iyu5ZXZOfcmLR1TWqes+HP21o8Z
+8MqWO/mUIw8i7j8O/U5NM23Ca38eNhUfsDlR3HUAD98ngfqC4RPoq80m5Kt76qwA
+qnVzhLTgYcGIo8DOutgfflXc3jAf49GdOtW2J/09kRhBOmcUGouhTFbpH+0EtApS
+CDRwMIEpK6ukjfTJNv1IxlcX7jfM6lPDLcJn7HxUWJ15LAp+wvaEaG8gOIu1pswI
+kFXK0xi75kTU7oE33LLQqBMvKkovEa05AR/bJGJLmxdFmdGKYYgm2haC/RDbMuGi
+AJvCVMNyOao8LN2XYJw9wNyy+RRph2autehcfRrFXNSU8T6aLnBf+o9CQFJ8juoF
+1Lru5dM9fNgHRzAXZVlhA+FUmeyn2dMWhngSn+XLI2lL2d34cXgLUDpwlcYwccSA
++PDqatJGGw3wuzLbYPdQLZ/gxQ305+FqWkLtXvUYwhnzqkAyLHMkem5ckhnC3gtf
+U3pwUZC1UNHoI1ilNouHJGtTrrgglMjbiGT5hNAEoU1r3IboNc1OdslVHTPxM3mp
+o07O0nAeAM4enPEX6itLivvo1GeziLPh1/hBQ1Q8l8YIVF2c5WmJRclC/qkRGlfp
+JuvUrkLLtQc6hhi0Wp5/zCinZ5ZE8RQkR2lWnIFhNWXbUBh4JxY=
+=nlap
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+--69pVuxX8awAiJ7fD--
