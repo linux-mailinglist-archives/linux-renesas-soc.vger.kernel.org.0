@@ -2,118 +2,215 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE53B284BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Oct 2020 14:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11998285248
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Oct 2020 21:19:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbgJFMsg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Oct 2020 08:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48390 "EHLO
+        id S1727078AbgJFTTm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Oct 2020 15:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbgJFMsf (ORCPT
+        with ESMTP id S1727048AbgJFTTh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Oct 2020 08:48:35 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1D15C061755
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Oct 2020 05:48:35 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id x5so867208pjv.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Oct 2020 05:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sQ1ZRFw1JVrb5mdbUnbQ1Xk6xyYpoV5fP4T8uAyz2hw=;
-        b=UalqqU/Z4KF3vbZHbjIAfQig+pegJIOxqYiWL3gE2jPszs3jZTgNm72XNKp1ktSBl0
-         P0DrPhYxjP92TkK+Tfx4UYVBfVvTOTHUbzfIpsmDtsGUQgPnAwTNyL0jhjDrXIjKmjwS
-         25f+VrZAN7jHTdovX7Sm84YxtK/nCdB3vj14lNHA3QFSdyYd5XYXrRc9GhYmJOXaWCDW
-         0l+as7z3dms6Lv2sT1SCz0TJqDJUfL8YrQBsu3pBXkmqTsom0EVy23LLx/xm+YEsDpOl
-         Vx0HH0Dt104si2kx4f5kc+7p+JWCuVudnHX3f+XCG7amVwTzGlBGKAsNSQYgPCdevAq2
-         Ve9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sQ1ZRFw1JVrb5mdbUnbQ1Xk6xyYpoV5fP4T8uAyz2hw=;
-        b=iqTOvn+ipTJaPFc7hGw4c4zG6eqLxLTIpNndekMf5c7MXzz55Z/hvSplpa77N8R3xp
-         A9Ih9jvVhXGSQqvArZ5fo3vhW6kv6nfAbsvi78uri8cG2AfUxIEAq/er9deWx2ZASln3
-         ri8qlm278SWiGBzkIp+UW45LEWcGoZkN+rmqvnYaM1GguL0BBMvJ555X04iR3lLnxSc9
-         sMc7FyX4jYHH3UYjIK8jIpu2TWTphSR/J4CmgdyYLkP8aJAwLmKi78YJr9CPph8BeYaq
-         wwszDrF0n9pgrJq+CDCGqzcNIC8Ql1ymKRl89YrUirS1lgkPrnx60m07Wh0wMeRyIOvR
-         Oo1g==
-X-Gm-Message-State: AOAM5330jNsOpIbqe2TZ/Pfa6I7fAvEPDI9TYeZ091lYfG/H6zKWDRVR
-        PeC1zr3CEYV1KSCOhw0nS1LcZP3FN6bA+ig1L/xBTw==
-X-Google-Smtp-Source: ABdhPJxuTIkgeLojC1+VzV9TJd68luIqrRj+YDKPNYmX1CJV4VYlVmG35Q89ehXC3dXM9OFSlZ37iW033GsrkAVyMuI=
-X-Received: by 2002:a17:90a:6043:: with SMTP id h3mr4137676pjm.41.1601988514966;
- Tue, 06 Oct 2020 05:48:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <0000000000004831d405b0fc41d2@google.com> <0b0de451147224657e5ac42d755c05447ee530b0.camel@suse.de>
-In-Reply-To: <0b0de451147224657e5ac42d755c05447ee530b0.camel@suse.de>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 6 Oct 2020 14:48:23 +0200
-Message-ID: <CAAeHK+xf6dxUcTyP_5+wJ0tZTXgn8TYcyxM9biomiPKSkf3e2g@mail.gmail.com>
-Subject: Re: INFO: task hung in hub_port_init
-To:     Oliver Neukum <oneukum@suse.de>
-Cc:     syzbot <syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com>,
-        coreteam@netfilter.org, "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        gustavoars@kernel.org, ingrassia@epigenesys.com,
-        Patrick McHardy <kaber@trash.net>,
-        Jozsef Kadlecsik <kadlec@blackhole.kfki.hu>,
+        Tue, 6 Oct 2020 15:19:37 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C6BCC061755
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Oct 2020 12:19:37 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1kPsUe-0001mt-I1; Tue, 06 Oct 2020 21:19:24 +0200
+Received: from [IPv6:2a03:f580:87bc:d400:5d91:2e2e:81e1:aa2d] (unknown [IPv6:2a03:f580:87bc:d400:5d91:2e2e:81e1:aa2d])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "mkl@blackshift.org", Issuer "StartCom Class 1 Client CA" (not verified))
+        (Authenticated sender: mkl@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id A44285736DF;
+        Tue,  6 Oct 2020 19:19:13 +0000 (UTC)
+Subject: Re: [PATCH 2/3] dt-bindings: can: rcar_can: Add r8a7742 support
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-can@vger.kernel.org,
         LKML <linux-kernel@vger.kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, netfilter-devel@vger.kernel.org,
-        niklas.soderlund+renesas@ragnatech.se,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        sergei.shtylyov@cogentembedded.com,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20200816190732.6905-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200816190732.6905-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200825022102.GA3808062@bogus>
+ <CA+V-a8tFqsWE+vhF4R3-Ce0MjamPkWdwYSm8pAVN9AXSUq4d=g@mail.gmail.com>
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+Autocrypt: addr=mkl@pengutronix.de; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4ad66cd3-7c81-d83c-4c91-e9348a951028@pengutronix.de>
+Date:   Tue, 6 Oct 2020 21:19:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CA+V-a8tFqsWE+vhF4R3-Ce0MjamPkWdwYSm8pAVN9AXSUq4d=g@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="dxxBE5NOmk4pvu6T04oZaFIQ9X2ISSkJu"
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 6, 2020 at 10:56 AM Oliver Neukum <oneukum@suse.de> wrote:
->
-> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=152bb760500000
-> > final oops:     https://syzkaller.appspot.com/x/report.txt?x=172bb760500000
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=132bb760500000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
-> > Fixes: 6dcf45e51497 ("sh_eth: use correct name for ECMR_MPDE bit")
-> >
-> > INFO: task kworker/0:0:5 blocked for more than 143 seconds.
-> >       Not tainted 5.9.0-rc7-syzkaller #0
-> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > task:kworker/0:0     state:D stack:27664 pid:    5 ppid:     2 flags:0x00004000
-> > Workqueue: usb_hub_wq hub_event
-> > Call Trace:
-> >  context_switch kernel/sched/core.c:3778 [inline]
-> >  __schedule+0xec9/0x2280 kernel/sched/core.c:4527
-> >  schedule+0xd0/0x2a0 kernel/sched/core.c:4602
->
-> By this time urb_dequeue() has been killed and has returned.
->
-> >  usb_kill_urb.part.0+0x197/0x220 drivers/usb/core/urb.c:696
-> >  usb_kill_urb+0x7c/0x90 drivers/usb/core/urb.c:691
-> >  usb_start_wait_urb+0x24a/0x2b0 drivers/usb/core/message.c:64
-> >  usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
-> >  usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
-> >  hub_port_init+0x11ae/0x2d80 drivers/usb/core/hub.c:4689
-> >  hub_port_connect drivers/usb/core/hub.c:5140 [inline]
-> >  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
-> >  port_event drivers/usb/core/hub.c:5494 [inline]
-> >
->
-> This looks like it should.
->
-> Which HC driver are you using for these tests?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dxxBE5NOmk4pvu6T04oZaFIQ9X2ISSkJu
+Content-Type: multipart/mixed; boundary="nbOh468bs11BFXaW07qkgNPGXBteKDalK";
+ protected-headers="v1"
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>
+Cc: Rob Herring <robh@kernel.org>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Linus Walleij
+ <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Wolfgang Grandegger <wg@grandegger.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, netdev <netdev@vger.kernel.org>,
+ linux-can@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Message-ID: <4ad66cd3-7c81-d83c-4c91-e9348a951028@pengutronix.de>
+Subject: Re: [PATCH 2/3] dt-bindings: can: rcar_can: Add r8a7742 support
+References: <20200816190732.6905-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200816190732.6905-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200825022102.GA3808062@bogus>
+ <CA+V-a8tFqsWE+vhF4R3-Ce0MjamPkWdwYSm8pAVN9AXSUq4d=g@mail.gmail.com>
+In-Reply-To: <CA+V-a8tFqsWE+vhF4R3-Ce0MjamPkWdwYSm8pAVN9AXSUq4d=g@mail.gmail.com>
 
-Hi Oliver,
+--nbOh468bs11BFXaW07qkgNPGXBteKDalK
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: quoted-printable
 
-This is the USB/IP one, based on what I see in the reproducer.
+On 10/6/20 9:36 AM, Lad, Prabhakar wrote:
+> On Tue, Aug 25, 2020 at 3:21 AM Rob Herring <robh@kernel.org> wrote:
+>>
+>> On Sun, 16 Aug 2020 20:07:31 +0100, Lad Prabhakar wrote:
+>>> Document RZ/G1H (r8a7742) SoC specific bindings. The R8A7742 CAN modu=
+le
+>>> is identical to R-Car Gen2 family.
+>>>
+>>> No driver change is needed due to the fallback compatible value
+>>> "renesas,rcar-gen2-can".
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+>>> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+>>> ---
+>>>  Documentation/devicetree/bindings/net/can/rcar_can.txt | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>
+>> Acked-by: Rob Herring <robh@kernel.org>
+>>
+> Could you please pick up this patch. It has been acked by the
+> maintainers. Let me know if you want me to RESEND this patch.
 
-Thanks!
+Added this patch to linux-can-next.
 
-> It looks like
-> the HCD is not acting on urb_dequeue(), rather than a locking
-> issue.
+Tnx,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+
+--nbOh468bs11BFXaW07qkgNPGXBteKDalK--
+
+--dxxBE5NOmk4pvu6T04oZaFIQ9X2ISSkJu
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAl98wy0ACgkQqclaivrt
+76ln4Qf/WCSgqd3PqbxwMwYPx+VV54vnaroFMm1IrMupW194qR8bkGEyvA/FpjX2
+hPkagev4CzLTwd72FmXJyfGzbF2YZrr0nWIrvOt4h3oSiBqBt4BgU/WVLv9SjJhb
+8V0MdbuJL9nYajwCjiPsDOpR1urhWllL9WB6hQAI9MpZY5eY/AHiVNxbDSTbiDNT
+2Enq+FrgOGgI0U2+xFkFigE1/tO1GQ48vv7UtP1j8qc8VB67mDbqi+hJOcSO9Umg
+ic+atoJEZhg4w3jmxlDqrZ8aQXPuUUxMODXJFte/NRat/XoP9gZAziohVmd0Q2Tw
+8iNpXTGeeIgdXJT3SN+2RY0BPc60uQ==
+=uCEV
+-----END PGP SIGNATURE-----
+
+--dxxBE5NOmk4pvu6T04oZaFIQ9X2ISSkJu--
