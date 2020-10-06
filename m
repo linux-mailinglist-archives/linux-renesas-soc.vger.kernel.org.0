@@ -2,73 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44900284634
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Oct 2020 08:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CC328476D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Oct 2020 09:37:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgJFGkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Oct 2020 02:40:37 -0400
-Received: from sauhun.de ([88.99.104.3]:57100 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725962AbgJFGkh (ORCPT
+        id S1727116AbgJFHhX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Oct 2020 03:37:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725912AbgJFHhX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Oct 2020 02:40:37 -0400
-Received: from localhost (p54b33262.dip0.t-ipconnect.de [84.179.50.98])
-        by pokefinder.org (Postfix) with ESMTPSA id 4F0E82C0251;
-        Tue,  6 Oct 2020 08:40:35 +0200 (CEST)
-Date:   Tue, 6 Oct 2020 08:40:34 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v4] i2c: sh_mobile: implement atomic transfers
-Message-ID: <20201006064034.GB891@ninjato>
-References: <20200928155950.1185-1-uli+renesas@fpond.eu>
- <CAMuHMdVzkRwrwzju0tpsZ3DLvtUaebJDemKTEJZ0BmsdqSme-Q@mail.gmail.com>
+        Tue, 6 Oct 2020 03:37:23 -0400
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4699BC061755;
+        Tue,  6 Oct 2020 00:37:23 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id h9so8336246ybm.4;
+        Tue, 06 Oct 2020 00:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/rpeFQkYljEUQNuTkq/Bj2u7+/dyH0xezKDk13QHrgs=;
+        b=I67uwF8vGMVRz59yBBMrVkpGNZTXp4IgrRIJat4txQOiEint3X7+0frmO1+OP2xuWW
+         dy6A3KrEdkNdLr/DfTotYvumHXgSwK2/woqDxNF68WeIgGxhplRIW7dew+npYnCSKKh0
+         q3h7uIwal8cfV5ESVkmi9ioZPp34tGb++/15qwdH8wSL5PIYv3eWqjVEEIdkW15TR4+e
+         1U5wra92LcbHDEDcFSqRNeknx0uqzrkKYZC2dsKQeP9tkUZSFZrr4OC75giOsALjchSM
+         cS1xhflpWwksi5AvYe59QvVVKayZ4e9K64wtDa9w8upG1hm6/gVNje+O16L/6Vvf8ydl
+         c8PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/rpeFQkYljEUQNuTkq/Bj2u7+/dyH0xezKDk13QHrgs=;
+        b=GkC5i21vj8C6qOSZX2Bym2ax6pVJusoUzSICxndhbgPV5Qfb2c397d1SUvGoZKxEtf
+         cWXS0BAbN+V59zK7M6Lws7VoGWCJLamIRBwvxnpHPVaGDllVrHymnpI/aiF9LcSdZfSI
+         lZGtQ7AovUsY/DCIW0TUgsvx60QS7xU3ju57QSV7xVNp+GwvPo7MRtw4eTEpAbZ32vIc
+         vaXYr6xdyaGjRud+IwTOq5oDaCbehA5WUmtCmQIvzYo7pj5bw3eSHtsfJWeNL+GEOgLy
+         r+DLGHNyjrYzKqe2bcA+Dfw9Nu2tF3aP2s5WSWxzWpK+gxnfKK/IjC1zhfkQuysboRxs
+         nwww==
+X-Gm-Message-State: AOAM533iXAX4KON8G8isB2jE4LljMnI3928oM10ldWQDLlFMaONpo4JU
+        QzruJAyk5ZeDBEhphP0FMb6JW0Lct3jCbaFwOqg=
+X-Google-Smtp-Source: ABdhPJwfLgnSYcRLFdadsRTIRNtTVSAEW78ZUxbTkRbnbV/agJqAH9pErSId1/aBoVObNOb6KwW1Tf2hFeBRMZcyA9w=
+X-Received: by 2002:a25:e811:: with SMTP id k17mr4717314ybd.401.1601969842337;
+ Tue, 06 Oct 2020 00:37:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GID0FwUMdk1T2AWN"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVzkRwrwzju0tpsZ3DLvtUaebJDemKTEJZ0BmsdqSme-Q@mail.gmail.com>
+References: <20200816190732.6905-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200816190732.6905-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200825022102.GA3808062@bogus>
+In-Reply-To: <20200825022102.GA3808062@bogus>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 6 Oct 2020 08:36:56 +0100
+Message-ID: <CA+V-a8tFqsWE+vhF4R3-Ce0MjamPkWdwYSm8pAVN9AXSUq4d=g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: can: rcar_can: Add r8a7742 support
+To:     Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>, linux-can@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Marc,
 
---GID0FwUMdk1T2AWN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 25, 2020 at 3:21 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Sun, 16 Aug 2020 20:07:31 +0100, Lad Prabhakar wrote:
+> > Document RZ/G1H (r8a7742) SoC specific bindings. The R8A7742 CAN module
+> > is identical to R-Car Gen2 family.
+> >
+> > No driver change is needed due to the fallback compatible value
+> > "renesas,rcar-gen2-can".
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> > ---
+> >  Documentation/devicetree/bindings/net/can/rcar_can.txt | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+>
+> Acked-by: Rob Herring <robh@kernel.org>
+>
+Could you please pick up this patch. It has been acked by the
+maintainers. Let me know if you want me to RESEND this patch.
 
-
-> To make sure external conditions are satisfied, and we never deadlock,
-> as discussed in v3?
->=20
->     if (pd->dev->power.is_suspended)
->             return -EPERM;  /* any other suitable error code? */
-
-Let's handle this seperately. I still think this could/should go into
-the core but haven't had the time to investigate this further.
-
-
---GID0FwUMdk1T2AWN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl98EV8ACgkQFA3kzBSg
-Kba4UBAAtRj8Kgu97aG8Clt7RuvBLGN/yocAusHjzsNTKJBslODnULLFvuyY8qiV
-61MHPpShikpaIisjoGtP62Sec05u7nS0DC0JmL/74afy5EQAI5QT6asaoKKtL6zS
-TuY5b8EhQhSJDyDIwpv/WYc+8qowGK/8gHt2AIm1+6mS80ieq/4wvI51ICaMlCq5
-Mp5LfFJnE/83sOdwXOVGSumYRmZk/Rhjolbxvbuolna7pCSxch8wlU66M/dWjekX
-azJTxAJPLb2GRAK9E7mkSP1TyvEuAVs4hlfl2tqks2dGIKKbCSA2MlFNQgag+B5l
-iIGeW64FxuF1GbRt9Qxoesa4yCwqDAzq94iHTMyBsGBJViBdWhf5YljEYesgFv8p
-gEGvza4ffO4fIOuJGt1UAgMLvJmJP7FWpcPHQqKXroM3QpxQu38KDbra1cfOhohN
-XC+y7Dfwkq4/C/Na4uJYVii5O9rj8/+VsFjGdZuMlBCH0A2AddQhCK5nXz6YN+ak
-q5/NIuDgc87rgb/oKF3ko+TFq2stPxb4DOT11/ecrWFWR8wdDX2WrGmv+/GdqBEs
-gB/9MsBQ9l4jtDyq9hI6c2Y7WFHrBFLf+LLRYxx4/2wkjgacQhbfkC+9HjMH9SDW
-8NvnrnGRb79D6lHA9Y2zPDs/PJckMuII0o96KLgnUOZRyxAV1Eo=
-=DbPj
------END PGP SIGNATURE-----
-
---GID0FwUMdk1T2AWN--
+Cheers,
+Prabhakar
