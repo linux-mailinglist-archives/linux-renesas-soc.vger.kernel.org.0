@@ -2,69 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D20285D47
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Oct 2020 12:49:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5C6285F9E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Oct 2020 14:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728216AbgJGKtt convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Oct 2020 06:49:49 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:56615 "EHLO mx.metalurgs.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728215AbgJGKtt (ORCPT
+        id S1728360AbgJGM7N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Oct 2020 08:59:13 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:34482 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728356AbgJGM7N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Oct 2020 06:49:49 -0400
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 34980638DE
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Oct 2020 13:49:48 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 1ABDF638C9
-        for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Oct 2020 13:49:48 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id 190AB631A9; Wed,  7 Oct 2020 13:49:44 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.55])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id 5501861781;
-        Wed,  7 Oct 2020 13:49:36 +0300 (EEST)
-MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Wed, 07 Oct 2020 07:49:30 -0300
-Reply-To: hmurrah39@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201007104944.190AB631A9@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan./mmm,
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201007 notchecked
+        Wed, 7 Oct 2020 08:59:13 -0400
+X-IronPort-AV: E=Sophos;i="5.77,346,1596466800"; 
+   d="scan'208";a="59159729"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 07 Oct 2020 21:59:12 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D3E8A4007F30;
+        Wed,  7 Oct 2020 21:59:11 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2] dt-bindings: serial: renesas,scif: Document r8a779a0 bindings
+Date:   Wed,  7 Oct 2020 21:58:55 +0900
+Message-Id: <1602075535-18802-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Dear,
+R-Car V3U (R8A779A0) SoC also has the R-Car Gen3 compatible
+SCIF ports, so document the SoC specific bindings.
 
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Changes from v1:
+ - Add Reviewed-by Geert.
+ - Add Acked-by Rob.
+ https://patchwork.kernel.org/patch/11760273/
 
-We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+ Documentation/devicetree/bindings/serial/renesas,scif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+index f589ac7..ae29183 100644
+--- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
++++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+@@ -60,6 +60,7 @@ properties:
+               - renesas,scif-r8a77980     # R-Car V3H
+               - renesas,scif-r8a77990     # R-Car E3
+               - renesas,scif-r8a77995     # R-Car D3
++              - renesas,scif-r8a779a0     # R-Car V3U
+           - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
+           - const: renesas,scif           # generic SCIF compatible UART
+ 
+-- 
+2.7.4
 
-We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
-
-
-Please get back to me if you are interested for more
-
-details.
-
-
-Yours faithfully,
-
-Hashim Murrah
