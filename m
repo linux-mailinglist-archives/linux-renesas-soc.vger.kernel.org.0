@@ -2,118 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96E66286733
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Oct 2020 20:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84DFA287167
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Oct 2020 11:25:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgJGS3j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Oct 2020 14:29:39 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35769 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726111AbgJGS3j (ORCPT
+        id S1727155AbgJHJZm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Oct 2020 05:25:42 -0400
+Received: from www.zeus03.de ([194.117.254.33]:34896 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726570AbgJHJZm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Oct 2020 14:29:39 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w141so3538396oia.2;
-        Wed, 07 Oct 2020 11:29:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bDzHhW9LDGPASDV0QrY0c30B4pdX3NkGe7Qj/I5UDy0=;
-        b=MgVnYN5FtrPMV1FrNsS8WNFkAwChEEnaCt7P/DJIG/f5FgERSq1SttDMCuTpPnyEt+
-         o34otXXTf1eL4wDwIV9ZcvhY6LvdcRmI2krRSJ/urcPblYFi+Fx/faMvWqVkJixe/pht
-         YCnJEHapOq7bX4hc0Wpcqkml0iCeDhIEewslsD25ZAzqUm/t0AnWnU1K2ENdbNQytEZ7
-         ZHvcd3D3foIVyU4O38LkFxzmCAG2PPQosr+syrfQAH9l9UCOuwgMw7VBuCKGb1b76geT
-         CBQGOPXGg3LTw9+8n45XgCrwEyaiJn9jHDcpwQQFTonfoWXOTd0VlB7amMXi/72q49Cl
-         vBAA==
-X-Gm-Message-State: AOAM53348ggbcdZyamv+6y1iygQJ6znE7jn+sAX9aT8GWx24c/jAlhjn
-        5bjN16zhAZVIb/IbxfJLYDBwkyDjiDUN
-X-Google-Smtp-Source: ABdhPJxuO6ZUOxhlR8smJRkNCcIJPWRBNHriJqSRdlivM3fxZMy5dXZSJOQCIb+YblujJ33XhJ1u+w==
-X-Received: by 2002:aca:d17:: with SMTP id 23mr2844662oin.9.1602095378349;
-        Wed, 07 Oct 2020 11:29:38 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 92sm2201349otl.1.2020.10.07.11.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 11:29:37 -0700 (PDT)
-Received: (nullmailer pid 497563 invoked by uid 1000);
-        Wed, 07 Oct 2020 18:29:36 -0000
-Date:   Wed, 7 Oct 2020 13:29:36 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Marek Vasut <marek.vasut@gmail.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
+        Thu, 8 Oct 2020 05:25:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=ZtHwBxkPlEkFhgQoVnslkmlanx6
+        jHDsGXk20JC+R6AQ=; b=hN/Aj4Tuhtw23CrzDGlMax+oRUVc9zgR0AqmfFUJLnq
+        6NvZGNpnrOaLq8uMbb/tuEJNbXLSIRXYptIqltuKypJOKHYC4gvrxXASd7BeLYw/
+        MML7kLa7YHBNmZB0XUqPkW41G+EfWXu4uItLlMBZCNpAaIiPUvFJlcVN0UBZT060
+        =
+Received: (qmail 3289374 invoked from network); 8 Oct 2020 11:25:40 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Oct 2020 11:25:40 +0200
+X-UD-Smtp-Session: l3s3148p1@VlZlaiWxxqsgAwDPXxkNANvM/oUoqgHz
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH V2] PCI: rcar: Add L1 link state fix into data abort hook
-Message-ID: <20201007182936.GA470998@bogus>
-References: <20200926160934.136182-1-marek.vasut@gmail.com>
- <CAMuHMdURuSsYRwi10FT+s-rVjok0f-FgS6G8rmpg46u98scMkQ@mail.gmail.com>
- <1431d12a-0e19-6795-b2e0-fb652f8a95c1@gmail.com>
- <CAMuHMdWtj=c=y7a2+W10HgYNj3rh2P6nSDd-j4RKKuUiztCxjA@mail.gmail.com>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] mmc renesas_sdhi: workaround a regression when reinserting SD cards
+Date:   Thu,  8 Oct 2020 11:25:33 +0200
+Message-Id: <20201008092533.76588-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWtj=c=y7a2+W10HgYNj3rh2P6nSDd-j4RKKuUiztCxjA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 09:31:54AM +0200, Geert Uytterhoeven wrote:
-> Hi Marek,
-> 
-> On Sun, Oct 4, 2020 at 4:16 PM Marek Vasut <marek.vasut@gmail.com> wrote:
-> > On 9/28/20 11:35 AM, Geert Uytterhoeven wrote:
-> > [...]
-> > >> +static int __init rcar_pcie_init(void)
-> > >> +{
-> > >> +#ifdef CONFIG_ARM_LPAE
-> > >> +       hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> > >> +                       "asynchronous external abort");
-> > >> +#else
-> > >> +       hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> > >> +                       "imprecise external abort");
-> > >> +#endif
-> > >
-> > > As there can be only a single handler, this may interfere with a handler
-> > > for another platform in a multi-platform kernel.
-> > > Hence I think this should not be done unconditionally, but be moved to
-> > > the driver's .probe() callback.
-> >
-> > Why is nobody doing this in the probe code then ? It seems all the other
-> 
-> drivers/pci/controller/dwc/pci-keystone.c is:
-> 
->   ks_pcie_probe()
->     ks_pcie_add_pcie_port()
->       dw_pcie_host_init()
->         pp->ops->host_init(pp) = ks_pcie_host_init()
->           hook_fault_code()
+After the conversions of the reset routines, re-inserting SD cards
+didn't work anymore. Apply this temporary workaround to have working SD
+cards during the merge window. The issue will be fixed properly until
+the final release.
 
-Looks broken in deferred probe case as hook_fault_code is __init.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Really, hook_fault_code needs to be exported so these drivers can be 
-modules. Or we split out all the abort handlers to a separate broken, 
-aborting PCI hosts module.
+Hi Ulf, this regression only shows up in mmc/next, so this is *not* for
+the current release. Anyhow, I'll be away for two weeks, and can't work
+on it. So, I hope we can have this patch for a while to have a working
+state.
 
+ drivers/mmc/host/renesas_sdhi_core.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> > drivers which hook fault code do it in init as well. I can imagine that
-> 
-> Probably nobody bothered exercising the external abort handler on
-> multi-platform kernels?
-> 
-> > something might trip the fault handler even before probe is called, e.g.
-> > some PM handling or simply user accessing that PCIe area using setpci.
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 20e5eb63caf8..414314151d0a 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -572,6 +572,17 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+ 					     TMIO_MASK_INIT_RCAR2);
+ }
+ 
++/*
++ * This is a temporary workaround! This driver used 'hw_reset' wrongly and the
++ * fix for that showed a regression. So, we mimic the old behaviour until the
++ * proper solution is found.
++ */
++static void renesas_sdhi_hw_reset(struct mmc_host *mmc)
++{
++	struct tmio_mmc_host *host = mmc_priv(mmc);
++	renesas_sdhi_reset(host);
++}
++
+ #define SH_MOBILE_SDHI_MIN_TAP_ROW 3
+ 
+ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
+@@ -1009,6 +1020,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 		if (of_data && of_data->scc_offset) {
+ 			priv->scc_ctl = host->ctl + of_data->scc_offset;
+ 			host->reset = renesas_sdhi_reset;
++			host->ops.hw_reset = renesas_sdhi_hw_reset;
++			host->mmc->caps |= MMC_CAP_HW_RESET;
+ 		}
+ 	}
+ 
+-- 
+2.28.0
 
-I don't see how that's possible. You'd first hit translation faults as 
-nothing is mapped.
-
-
-> If that is the case, it must indeed by done earlier, but still
-> conditional on the presence of the actual PCIe controller.
-
-imx6 should be conditional too.
-
-Rob
