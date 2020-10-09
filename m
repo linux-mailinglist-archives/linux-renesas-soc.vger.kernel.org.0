@@ -2,128 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD13A2887DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Oct 2020 13:30:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B1FF2889F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Oct 2020 15:46:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388104AbgJILai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Oct 2020 07:30:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729986AbgJILai (ORCPT
+        id S2387416AbgJINp7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Oct 2020 09:45:59 -0400
+Received: from sonic317-26.consmr.mail.bf2.yahoo.com ([74.6.129.81]:44844 "EHLO
+        sonic317-26.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732721AbgJINp6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Oct 2020 07:30:38 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D2AC0613D2;
-        Fri,  9 Oct 2020 04:30:37 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id l16so8989801eds.3;
-        Fri, 09 Oct 2020 04:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cmzLh7799a8AwMknnddM1AHF6UxknT8ZEXggO3stiRM=;
-        b=HYYqpSAoSy4H1yNP56Um2CGJOZ14fsizdBwfpG5Kw+5vk46CFyLzekDdN74eaQEtat
-         xohHGmPtXgMjHCZD5nLd3viri39PfVUOnFn21Y/6wOUATYtJ5grJDUevR2e1SnzcPZOf
-         2w4nRL0+vlWDy6SdFdA3ZZzUewuewU8s/iRdgkkPUP49M1RvCebkjUCDfdlboarqSOKs
-         IzkZDRutIuwjTbom4Ty2NyXvdMephIFIXwfu7YZOrnrtFN/UN5FgRVvOsxcyuV280LE4
-         GWkzD1+Y6qp67mFwTDOZu/cCE8UesSyGH/6ECp3BMu7T8oKWgZtErBOXTXNMqvjTmEd9
-         aPFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cmzLh7799a8AwMknnddM1AHF6UxknT8ZEXggO3stiRM=;
-        b=YjaH4tNOjQOnlDRMsS+RDK8US3g2eFwwZGRagjGeSdtUJbWLH8vOy77lVYNF1StjaB
-         eOm8ISxdZ8LWC5b1LpA6AufAtegCfouKbJ7qdVV0LQ58SceSeRYpWz1bcRI6bmNfcIor
-         POCLhqdJmoJSiM9e7Tep60lRzvB4rPGtY2tDzJQaHZtpPPU24Okk+XLh5MEDe6/R5Sqf
-         w2NUfXxPuHKANsjsZeazYivdU3VkbdbfresoJMhb/IhnMIF9qwg3rwr9L1O4cMRlv2Hv
-         Fxqtc+hmF7COccheiQbtqzCrgJCIrXNwPbbNwntj8KAOcc3cphjQq57pTtEJ6UMvGXD+
-         67iw==
-X-Gm-Message-State: AOAM533QO1KYD95GatTob/xtuDUNn1yQRnvSMcV4iAM2WSiDTYnT35S8
-        nlID37mPqHQDpvBRygbHoKc=
-X-Google-Smtp-Source: ABdhPJzpeqGvsfbEYNdmYNuLrq27oT7l7P8raftX0Mao/IlG/V/3jYwz8CDa4jcuxdFB0UsKNv5m/g==
-X-Received: by 2002:aa7:cb05:: with SMTP id s5mr13966105edt.363.1602243036219;
-        Fri, 09 Oct 2020 04:30:36 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id h12sm5994544eds.22.2020.10.09.04.30.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 04:30:33 -0700 (PDT)
-Date:   Fri, 9 Oct 2020 13:30:32 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v2 0/2] dt-bindings: Document tpu, pwm support for R8A7742
-Message-ID: <20201009113032.GA447979@ulmo>
-References: <20201006081910.1238-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 9 Oct 2020 09:45:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602251155; bh=vwEPMXxlnKui2A6anShyb2NpJ3D8JWCHQa2USlPuv/A=; h=Date:From:Reply-To:Subject:References:From:Subject; b=cc8FR290OYH3wnyVyTJ2hIUyAZeHznuB47E6UBhpBFCJCylmw2i/CZxcqKJCFNOhepsXy/Rlm+MZudZ6LOIL8xfVTR/y9t04Pum1pPGJrDWn+8J1a/rp4Q7JC3VbjoW5OYFr5iQKsjtagwZd8GowqhrUFzjNiH8TSU0yRwM4oHIzHmGxyKu9x7HSLWzxSrrjD3R6ilpANHTA+pqjbjfQFzaIvkFliVgoCtlgKDS7cbEdwE7sy6JnUvbd14nVPkZ8K+8G20AlpQniwG0MmOFtK52N1sjnnTyWFHfRgDGI3+cuLLVndwz2bqjhfRemfwG+gtKhS2gjbtgMTm6qrYELEg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602251155; bh=GwhrInnx3caoAhAKcM0+KPxtak9OKmOMyZAGL6d7eg4=; h=Date:From:Subject; b=tMwYr1ZQ00MOeTIqHRcEaOMlyzIy86rmHrm2fuOGIfjmp+KyBBPpW8IJcdXr64RpUSwtk4Zkjw/dk4O0D9mgH4doKOW880dTHKHdjUKninYOGlNaJm6oY0loiaJF+pgFly/kzVdOwove+spIndT8uDv2RjXSWpavEcsSS10TS/1IR4zhDm7RuvP2R2pxQnVuVv3aCJep3/Zy9kcGdyywBBjABCMFAaHBHBi6Kco+DDcglBD2Pu7+qERzyGf8n+3CLnWOOkT2alQYkOya98JhfVQSmCVR+bdS3NWqbwcZf0sp6qkLDUpMRfOvhEFyXq3zESLBYG1HKTq9jxLG48jrTQ==
+X-YMail-OSG: tFBslsMVM1lklpwzDt5RjIvwdLS2x1f.ly8b_twEvlFC0gsCOHUZ9f2GBtc_EOK
+ 1j1djofjmi6oi8F6CJw7O_E85lvtjsiGoAdy5R1uRvYPo28Js.c_6_1EG7hDLcAdJu2EwbpQSh4X
+ fA0gVRDqXVj0lMTmFD83rk9XP3D9Elyb6asTT8tSUDRkxrXksy_DN6gg50Mmk.dAyOvNg.Xo_1GP
+ vElWwoyCh5vZDCTRfosAhrCqJ6ceyFyQgmsYlbsNx.84wPl_7Rhr0LTDwXwEoY9KfTEFVfpEP3Ga
+ PHZX.D42sNSV_lYFTJZoDBJBHnR2q0Bv7YwEPv2KGtIOLFSJKf7ogIWGfHxEVmpYEkEcYAyVP4Jm
+ jTeoLunN_33arG_ea3Lw1od.DjO26MtrN9p6u28TyVjL4ieFk2BmYB6L1uM72P8U9AmUFRt5723Z
+ HuJ0201w3XWctJlr_oar5GFgb8GDdh.VI0cyQaZQcaL1SaE5adXBjpSGLqP5le3T36XQOBPtuiaS
+ XdrGyt.qukgz1c1r9W3iVltiywdTQ2YfTL3FOyG1otRAZ3yL_GnKFO0IY8yfw68F3Uw347NAouip
+ fNh9rMVLbWkLMpi2z2pJlhVL0Mzpg1AcIUKoluz2t4r2tKZ6gC8XHlCFNgVRjWhwKTmYNf1cvbKM
+ I341xbk9vt2AkytJC4NQvOtPicVx8wCokl3rYNJB.NEudgtxBHXiUGaeexqlMerBYoZBwGZJVIzc
+ oQPOuhs16POPpUIT6Fn4wKHIBSrLOebt9Keyi9nQNSsa4Q_4x.8ED84AJ_hKaOL2MpIJ5i4WSzyc
+ LIKdWKvRZmFK.ST6HJAKPPymTZdrTQHJG2s7vgECMqjLcqCE7hbngg_moREM.ND9Euopep8ZZk6d
+ t3sjhyyvzi5NX84QjFVapBygIZChcq3KDBUgwY0UTFp5Kq6lDaLGz9A_ww6cVhcaMV8TLXOv2Q9B
+ ovZNmz0PdI4ohjaDflB7aaCphs1dJSF8LOQ60RykLB4cp5k_E718DtMmsQxZQ8AwrgzcC7U0cIqC
+ RKdQrCbk_jAB1NRMtJY6dydr.E7uUrIsXDHA1y4HnkwEvNs5PKilPUofSr18TKHnJl3egRXFPpq.
+ KhR5s2fx9reB8Z1EA64i6LEY195rKAjF0GDlsxEQP2uSlAZnAStCE8Jc0JeVjIFkHm.bCI5wZXqw
+ TRgA8xTyx2S8qMsnRPDBUhDO3suhVpqfPeRe8lgEY66sfkky56pB8e90ehwi5rlgVF4p5ckRxbRo
+ fejn3YZ7JYT8UL06Q_vHWn89bzJJ26IaCIXqcN9s4q7l8E7F0bs.V2RRvRj8s77lxWxnj5cm.Bpa
+ 5Lurl5P81SJfIorIB3tb1s98ewVKEWaoKmRiyT_BFWoCfAyizrAj2dxHDQRmgfDyG57_Cgk9M3un
+ Jwgp8XsAoir.Cjg7DADngE5kNp5So.RuG.ipYqh0Tsu1idIDOvk8-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Fri, 9 Oct 2020 13:45:55 +0000
+Date:   Fri, 9 Oct 2020 13:45:52 +0000 (UTC)
+From:   Elisabeth John <elisabethj451@gmail.com>
+Reply-To: elisabethj451@gmail.com
+Message-ID: <671309797.719219.1602251152248@mail.yahoo.com>
+Subject: Greetings My Dear,
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
-Content-Disposition: inline
-In-Reply-To: <20201006081910.1238-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <671309797.719219.1602251152248.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:81.0) Gecko/20100101 Firefox/81.0
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---pWyiEgJYm5f9v55/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Greetings My Dear,
 
-On Tue, Oct 06, 2020 at 09:19:08AM +0100, Lad Prabhakar wrote:
-> Hi All,
->=20
-> This patches are part of series [1], where patch 1/2 was missed to be app=
-lied
-> before YAML conversation and patch 2/2 was never applied.
->=20
-> I have restored the Acks for patch 1/2 and patch 2/2 is unchanged.
->=20
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=
-=3D329853
->=20
-> Cheers,
-> Prabhakar
->=20
-> Lad Prabhakar (2):
->   dt-bindings: pwm: renesas,tpu-pwm: Document r8a7742 support
->   dt-bindings: pwm: renesas,pwm-rcar: Add r8a7742 support
->=20
->  Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
->  Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml  | 1 +
->  2 files changed, 2 insertions(+)
+I sent this mail praying it will found you in a good condition of health, since I myself are in a very critical health condition in which I sleep every night without knowing if I may be alive to see the next day. I am Mrs.Elisabeth John a widow suffering from long time illness. I have some funds I inherited from my late husband, the sum of ($11,000,000.00, Eleven Million Dollars) my Doctor told me recently that I have serious sickness which is cancer problem. What disturbs me most is my stroke sickness. Having known my condition, I decided to donate this fund to a good person that will utilize it the way i am going to instruct herein. I need a very honest and God.
 
-Applied, thanks.
+fearing person who can claim this money and use it for Charity works, for orphanages, widows and also build schools for less privileges that will be named after my late husband if possible and to promote the word of God and the effort that the house of God is maintained. I do not want a situation where this money will be used in an ungodly manner. That's why I'm taking this decision. I'm not afraid of death so I know where I'm going. I accept this decision because I do not have any child who will inherit this money after I die. Please I want your sincerely and urgent answer to know if you will be able to execute this project, and I will give you more information on how the fund will be transferred to your bank account. I am waiting for your reply.
 
-Thierry
-
---pWyiEgJYm5f9v55/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+ASdQACgkQ3SOs138+
-s6E2rQ//YrShguVFFG7u4sQvUa08ItxuFHT7b2pTJHkeLuSIdPAyCtQ5tpS6LAyJ
-pESS9NnrAdmFmLXEgXCZjx4G1XyeSCx6l9hRbBjxVgST1QjssS4R//LcgCe5CHiT
-A1iHikOlevX3YXRXLopsgVyZCcQtPIkpPu6BhRjAi/I4ePISMHnGHSVOsDZG1SMd
-PinfjCk+cmsGi2uHugcSz5A0wIx5ISuoNQ0hlBhqCChxeZggLRwbxmZXfi2A/Cv8
-AtCLlfwleIV7POILIlUHMuoOFKXxpe2IJqBEZOIFnn2spRvD6HCZCJ5rYD6OuI8P
-xLmzfPZi1KBkRiqIKWI79ipFihCA/99QUho9JrQEnxuD9lKjlgjH4BGxX8wVcc7l
-qk4VFmWFVtDzlIRWB82GpCphUYdTmw5WNthPZMyvoLQ/G92pKjKn11dO27LKkWMp
-NmVqdsmdOw0L9bz6uYzBNU4YsTZ7yR06np7UzlHpketfPxX2Kw3OFGuR1fF1uPUQ
-q2PnZ4nNnRTLBOweMkfszknbVnszQWPa3eQy8OUgBKEfuveHkoYl1AJDFbx4uc5f
-MRDNZ+DlZjQDtNdxQy19gtoo0dlDGph3cYQJGkUvpNf7663xgXkukMqCGF8jFsZO
-vnOP1xDwJF25Vbos84kQ/uT8Q5yPU2s7hczDzcmVN14UAynGuxk=
-=nKum
------END PGP SIGNATURE-----
-
---pWyiEgJYm5f9v55/--
+May God Bless you,
+Mrs.Elisabeth John.
