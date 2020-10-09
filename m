@@ -2,88 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 918962885BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Oct 2020 11:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD13A2887DA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Oct 2020 13:30:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733000AbgJIJB3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Oct 2020 05:01:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59086 "EHLO
+        id S2388104AbgJILai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Oct 2020 07:30:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732898AbgJIJB3 (ORCPT
+        with ESMTP id S1729986AbgJILai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Oct 2020 05:01:29 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 237E8C0613D2;
-        Fri,  9 Oct 2020 02:01:29 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id f70so6669797ybg.13;
-        Fri, 09 Oct 2020 02:01:29 -0700 (PDT)
+        Fri, 9 Oct 2020 07:30:38 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D2AC0613D2;
+        Fri,  9 Oct 2020 04:30:37 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id l16so8989801eds.3;
+        Fri, 09 Oct 2020 04:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PcsONVYiBK1iW5wQec5AEduVLgrfQM/jVP9jKaNXMYw=;
-        b=YFABU5DIuDtk1xS6jIx3m5QXTG4r3ctCEX3KFO9+cszASBgOWa6k6Kj+OB8VHTB3Dx
-         kbJg3XN5gO6SS6P0IiE5aafDLfz54lYlOjWkSl1GanA4tdlaQMrMX/t3jr0O8QNkWeGh
-         eYYpEK5Y+cc0d9I0LVCseO3KfaqeCc+CidtTazeHd2dstS1ihByRfiqTGuUsGAvXVfuJ
-         mo7fCRWpxs6jU+zengQvQGLCKim27Vppyd3QT9e2vctWUrBc8zXVOK+0D4Zkd7ZaNuu0
-         1wuDS/0+0tSbVNivTS3zV2EJRT/6u9pggqMt64/WdQ1ZsjJvJL49c74E0y0+JULdg3st
-         TGpw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cmzLh7799a8AwMknnddM1AHF6UxknT8ZEXggO3stiRM=;
+        b=HYYqpSAoSy4H1yNP56Um2CGJOZ14fsizdBwfpG5Kw+5vk46CFyLzekDdN74eaQEtat
+         xohHGmPtXgMjHCZD5nLd3viri39PfVUOnFn21Y/6wOUATYtJ5grJDUevR2e1SnzcPZOf
+         2w4nRL0+vlWDy6SdFdA3ZZzUewuewU8s/iRdgkkPUP49M1RvCebkjUCDfdlboarqSOKs
+         IzkZDRutIuwjTbom4Ty2NyXvdMephIFIXwfu7YZOrnrtFN/UN5FgRVvOsxcyuV280LE4
+         GWkzD1+Y6qp67mFwTDOZu/cCE8UesSyGH/6ECp3BMu7T8oKWgZtErBOXTXNMqvjTmEd9
+         aPFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PcsONVYiBK1iW5wQec5AEduVLgrfQM/jVP9jKaNXMYw=;
-        b=eToPEGSW9DGVxpZQfJLDhWVfm5y2tdWKydv3GxkP5Yftki6Cplz+Bge8yH3W9wsGEw
-         zsUCx1vdLsIO2V7sPYnk10oiNiofKUeRr5amhQFBphmddPsC6pd1ppRgfBHnkrR+SbLy
-         XsDwWGGj8/Ejq6wawgcGkBBVEg0jZ0ffxk5kKAAKdjA+Cyz+hB2VCF/MEgSEkhsjBMp5
-         dCuIW1ae0zkZgB8+d6KPU2ZMaD2FhJm9wMV59L8WHSFwCGHlqPOIWOJv5vHFvbDSJsSl
-         auut5YpM0n+VUtWbhDy1zvDq1OJml8Bq5VIPXUDceEOOoWH9xZezGdHFV/nyMDQCHFx0
-         T9ug==
-X-Gm-Message-State: AOAM531rQaNX1Fm2STLBpNK+em0dEt7hW0jyT/ob3y32mqPilffiO4zy
-        n3SSrCXCkUM5OzmqRJAyUMWqlbiFc2GFGlulLls=
-X-Google-Smtp-Source: ABdhPJwEfupS5lSsaPNUhRbQTRDTmsZzTkwL0spN3NS0/dLm4LwSlwo/2fwEZYM8rtLoxyFlz9ezQ1aeCKE1032fMwc=
-X-Received: by 2002:a25:37c2:: with SMTP id e185mr1971300yba.401.1602234088498;
- Fri, 09 Oct 2020 02:01:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825162718.5838-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200825162718.5838-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201009072350.GB10335@amd>
-In-Reply-To: <20201009072350.GB10335@amd>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 9 Oct 2020 10:01:02 +0100
-Message-ID: <CA+V-a8uw7+U=cnqQqiHAt4z6BzrSKQdAC01JKvgcry9y23Vd5A@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ARM: dts: r8a7742-iwg21d-q7: Enable PCIe Controller
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cmzLh7799a8AwMknnddM1AHF6UxknT8ZEXggO3stiRM=;
+        b=YjaH4tNOjQOnlDRMsS+RDK8US3g2eFwwZGRagjGeSdtUJbWLH8vOy77lVYNF1StjaB
+         eOm8ISxdZ8LWC5b1LpA6AufAtegCfouKbJ7qdVV0LQ58SceSeRYpWz1bcRI6bmNfcIor
+         POCLhqdJmoJSiM9e7Tep60lRzvB4rPGtY2tDzJQaHZtpPPU24Okk+XLh5MEDe6/R5Sqf
+         w2NUfXxPuHKANsjsZeazYivdU3VkbdbfresoJMhb/IhnMIF9qwg3rwr9L1O4cMRlv2Hv
+         Fxqtc+hmF7COccheiQbtqzCrgJCIrXNwPbbNwntj8KAOcc3cphjQq57pTtEJ6UMvGXD+
+         67iw==
+X-Gm-Message-State: AOAM533QO1KYD95GatTob/xtuDUNn1yQRnvSMcV4iAM2WSiDTYnT35S8
+        nlID37mPqHQDpvBRygbHoKc=
+X-Google-Smtp-Source: ABdhPJzpeqGvsfbEYNdmYNuLrq27oT7l7P8raftX0Mao/IlG/V/3jYwz8CDa4jcuxdFB0UsKNv5m/g==
+X-Received: by 2002:aa7:cb05:: with SMTP id s5mr13966105edt.363.1602243036219;
+        Fri, 09 Oct 2020 04:30:36 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id h12sm5994544eds.22.2020.10.09.04.30.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 04:30:33 -0700 (PDT)
+Date:   Fri, 9 Oct 2020 13:30:32 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v2 0/2] dt-bindings: Document tpu, pwm support for R8A7742
+Message-ID: <20201009113032.GA447979@ulmo>
+References: <20201006081910.1238-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
+Content-Disposition: inline
+In-Reply-To: <20201006081910.1238-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pavel,
 
-Thank you for the review.
+--pWyiEgJYm5f9v55/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 9, 2020 at 8:23 AM Pavel Machek <pavel@denx.de> wrote:
->
-> Hi!
->
-> > +&pciec {
-> > +     /* SW2[6] determines which connector is activated
-> > +      * ON = PCIe X4 (connector-J7)
-> > +      * OFF = mini-PCIe (connector-J26)
-> > +      */
-> > +     status = "okay";
-> > +};
->
-> Note this is wrong comment style for non-network parts of kernel.
->
-Good point, i'll fix that.
+On Tue, Oct 06, 2020 at 09:19:08AM +0100, Lad Prabhakar wrote:
+> Hi All,
+>=20
+> This patches are part of series [1], where patch 1/2 was missed to be app=
+lied
+> before YAML conversation and patch 2/2 was never applied.
+>=20
+> I have restored the Acks for patch 1/2 and patch 2/2 is unchanged.
+>=20
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=
+=3D329853
+>=20
+> Cheers,
+> Prabhakar
+>=20
+> Lad Prabhakar (2):
+>   dt-bindings: pwm: renesas,tpu-pwm: Document r8a7742 support
+>   dt-bindings: pwm: renesas,pwm-rcar: Add r8a7742 support
+>=20
+>  Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml | 1 +
+>  Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml  | 1 +
+>  2 files changed, 2 insertions(+)
 
-Cheers,
-Prabhakar
+Applied, thanks.
+
+Thierry
+
+--pWyiEgJYm5f9v55/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+ASdQACgkQ3SOs138+
+s6E2rQ//YrShguVFFG7u4sQvUa08ItxuFHT7b2pTJHkeLuSIdPAyCtQ5tpS6LAyJ
+pESS9NnrAdmFmLXEgXCZjx4G1XyeSCx6l9hRbBjxVgST1QjssS4R//LcgCe5CHiT
+A1iHikOlevX3YXRXLopsgVyZCcQtPIkpPu6BhRjAi/I4ePISMHnGHSVOsDZG1SMd
+PinfjCk+cmsGi2uHugcSz5A0wIx5ISuoNQ0hlBhqCChxeZggLRwbxmZXfi2A/Cv8
+AtCLlfwleIV7POILIlUHMuoOFKXxpe2IJqBEZOIFnn2spRvD6HCZCJ5rYD6OuI8P
+xLmzfPZi1KBkRiqIKWI79ipFihCA/99QUho9JrQEnxuD9lKjlgjH4BGxX8wVcc7l
+qk4VFmWFVtDzlIRWB82GpCphUYdTmw5WNthPZMyvoLQ/G92pKjKn11dO27LKkWMp
+NmVqdsmdOw0L9bz6uYzBNU4YsTZ7yR06np7UzlHpketfPxX2Kw3OFGuR1fF1uPUQ
+q2PnZ4nNnRTLBOweMkfszknbVnszQWPa3eQy8OUgBKEfuveHkoYl1AJDFbx4uc5f
+MRDNZ+DlZjQDtNdxQy19gtoo0dlDGph3cYQJGkUvpNf7663xgXkukMqCGF8jFsZO
+vnOP1xDwJF25Vbos84kQ/uT8Q5yPU2s7hczDzcmVN14UAynGuxk=
+=nKum
+-----END PGP SIGNATURE-----
+
+--pWyiEgJYm5f9v55/--
