@@ -2,181 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C63BD28AEE6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Oct 2020 09:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EAC928C21A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Oct 2020 22:13:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbgJLHSa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 12 Oct 2020 03:18:30 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39910 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbgJLHS1 (ORCPT
+        id S1726120AbgJLUNU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 12 Oct 2020 16:13:20 -0400
+Received: from mga07.intel.com ([134.134.136.100]:53950 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727298AbgJLUNT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 12 Oct 2020 03:18:27 -0400
-Received: by mail-oi1-f196.google.com with SMTP id c13so17770439oiy.6;
-        Mon, 12 Oct 2020 00:18:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6Uw36YJdqhYxPLM4P24TbEXUo5xRxhqxHP5K8sE65AI=;
-        b=kNBeruPPbc2fpNjopo/B9RQgbha8yBPsndBDrNpPxW4D3VW9Xw/NeXA6aRlONzOuEp
-         ZB+j+K1J4K9diMi+8oaAHuoqUN/1MgcT7wDvhgRZS/gTHdrlWlM0osunWpPeNNYUf6be
-         uBu7b5UtS+v4u17SFhqW8s8m3CAJzYnQ+he7gwxXh5l8dBBKwScB6rV+TiPfAtHPNp2o
-         nRnodNS2jYuuJ4owvCTGU2XqoO/E96iucuvzpMKYGSPxvA8Z5DPDz9ZJU+YKefa43Gn7
-         XGxgmQCf1aijAxL1TXcNIOeGtAeGU+iXqCr3mxKJkpILP1QPUdkvGaT7jKb18rucOLfY
-         SipA==
-X-Gm-Message-State: AOAM532jO3kRuI/Oqm5F1pw5Wm/lMtKb9Q0chYqfo8c+5vTELDe5mLQ6
-        P3z+WYTKfVfb7m4JR3NkfAGk0K4W3euqAyrH3/l7wN2YyNU=
-X-Google-Smtp-Source: ABdhPJwpx9jtrZrQYRutMp6Sn54ZrTTZqeFYRx6Ll5etYXVGOo4HDIhMJG5Gl2srzhiv1evyiIvTl8+rPvXIxzC4xyA=
-X-Received: by 2002:aca:f203:: with SMTP id q3mr9406184oih.148.1602487106695;
- Mon, 12 Oct 2020 00:18:26 -0700 (PDT)
+        Mon, 12 Oct 2020 16:13:19 -0400
+IronPort-SDR: +LLzZJyCpK9L85zHv3N80LYp1rxJRqFDHAfzCkHGeqAcY/d/9ieBUic0gKawrUTR0fjKIX35pW
+ 5ApONZ5F7Hmw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="229978386"
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="229978386"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 13:13:17 -0700
+IronPort-SDR: Dj54qygZNH8lX/bBZiUrB3XHVgyH5GEvo6Q5TKyOau+PMI2GGo7JjOE+555E5jKola/ICIqxdb
+ IF/nphtaH79g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,367,1596524400"; 
+   d="scan'208";a="318046944"
+Received: from lkp-server01.sh.intel.com (HELO aa1d92d39b27) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 12 Oct 2020 13:13:16 -0700
+Received: from kbuild by aa1d92d39b27 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kS4C3-00008O-Tt; Mon, 12 Oct 2020 20:13:15 +0000
+Date:   Tue, 13 Oct 2020 04:12:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-arm-dt-for-v5.11] BUILD SUCCESS
+ 2e8cc12c636df269e22227014e4f9784403cb103
+Message-ID: <5f84b8b1.n/uuslv2ribvXWuJ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20201011160045.574323-1-marek.vasut@gmail.com>
-In-Reply-To: <20201011160045.574323-1-marek.vasut@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 12 Oct 2020 09:18:15 +0200
-Message-ID: <CAMuHMdU0xF3rMNMqn54cF7eOS8JuHDh9WFNTJi5ftq4ypHBeHg@mail.gmail.com>
-Subject: Re: [PATCH V3] PCI: rcar: Add L1 link state fix into data abort hook
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.11
+branch HEAD: 2e8cc12c636df269e22227014e4f9784403cb103  arm64: dts: renesas: r8a77961: Add MSIOF nodes
 
-On Sun, Oct 11, 2020 at 6:00 PM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->
-> The R-Car PCIe controller is capable of handling L0s/L1 link states.
-> While the controller can enter and exit L0s link state, and exit L1
-> link state, without any additional action from the driver, to enter
-> L1 link state, the driver must complete the link state transition by
-> issuing additional commands to the controller.
->
-> The problem is, this transition is not atomic. The controller sets
-> PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
-> the PCIe card, but then the controller enters some sort of inbetween
-> state. The driver must detect this condition and complete the link
-> state transition, by setting L1IATN bit in PMCTLR and waiting for
-> the link state transition to complete.
->
-> If a PCIe access happens inside this window, where the controller
-> is between L0 and L1 link states, the access generates a fault and
-> the ARM 'imprecise external abort' handler is invoked.
->
-> Just like other PCI controller drivers, here we hook the fault handler,
-> perform the fixup to help the controller enter L1 link state, and then
-> restart the instruction which triggered the fault. Since the controller
-> is in L1 link state now, the link can exit from L1 link state to L0 and
-> successfully complete the access.
->
-> Note that this fixup is applicable only to Aarch32 R-Car controllers,
-> the Aarch64 R-Car perform the same fixup in TFA, see TFA commit [1]
-> 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
-> [1] https://github.com/ARM-software/arm-trusted-firmware/commit/0969397f295621aa26b3d14b76dd397d22be58bf
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+elapsed time: 723m
 
-> V3: - Fix commit message according to spellchecker
->     - Use of_find_matching_node() to apply hook only on Gen1 and Gen2 RCar
->       (in case the kernel is multiplatform)
+configs tested: 170
+configs skipped: 2
 
-Thanks for the update!
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+h8300                       h8s-sim_defconfig
+arm                     davinci_all_defconfig
+m68k                       m5475evb_defconfig
+powerpc                       holly_defconfig
+arm                          ep93xx_defconfig
+arm                        magician_defconfig
+arm                       cns3420vb_defconfig
+mips                        maltaup_defconfig
+powerpc                       ppc64_defconfig
+powerpc                        cell_defconfig
+sh                         ecovec24_defconfig
+arc                          axs101_defconfig
+arm                      tct_hammer_defconfig
+m68k                        mvme16x_defconfig
+mips                          rm200_defconfig
+mips                           jazz_defconfig
+sh                   sh7770_generic_defconfig
+powerpc                    sam440ep_defconfig
+sh                          rsk7264_defconfig
+powerpc                       ebony_defconfig
+arm                            mmp2_defconfig
+arm                           spitz_defconfig
+powerpc                  iss476-smp_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                          r7780mp_defconfig
+c6x                         dsk6455_defconfig
+xtensa                          iss_defconfig
+arm                           sunxi_defconfig
+arm                       mainstone_defconfig
+openrisc                 simple_smp_defconfig
+riscv                    nommu_k210_defconfig
+arm                           stm32_defconfig
+mips                       bmips_be_defconfig
+arm                          badge4_defconfig
+c6x                        evmc6474_defconfig
+arm                              alldefconfig
+powerpc                 mpc832x_mds_defconfig
+powerpc                     asp8347_defconfig
+arm                  colibri_pxa270_defconfig
+mips                      loongson3_defconfig
+powerpc                     kilauea_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                         palmz72_defconfig
+arm                      integrator_defconfig
+arm                        multi_v7_defconfig
+arc                        vdk_hs38_defconfig
+powerpc                    amigaone_defconfig
+riscv                            allyesconfig
+powerpc                    mvme5100_defconfig
+sh                              ul2_defconfig
+x86_64                           allyesconfig
+mips                      fuloong2e_defconfig
+mips                           xway_defconfig
+arm                            xcep_defconfig
+powerpc                     tqm8548_defconfig
+powerpc                 mpc8540_ads_defconfig
+sparc                       sparc32_defconfig
+arm                        multi_v5_defconfig
+sh                           sh2007_defconfig
+arm                          simpad_defconfig
+openrisc                    or1ksim_defconfig
+arc                              allyesconfig
+powerpc                 mpc8313_rdb_defconfig
+openrisc                            defconfig
+ia64                         bigsur_defconfig
+powerpc                 mpc836x_mds_defconfig
+i386                             alldefconfig
+powerpc                   bluestone_defconfig
+m68k                        m5307c3_defconfig
+powerpc                 canyonlands_defconfig
+s390                                defconfig
+powerpc                 mpc836x_rdk_defconfig
+arm                       omap2plus_defconfig
+arm                        realview_defconfig
+mips                       lemote2f_defconfig
+mips                         cobalt_defconfig
+xtensa                  cadence_csp_defconfig
+arm                           corgi_defconfig
+sh                          sdk7780_defconfig
+um                            kunit_defconfig
+sh                          rsk7201_defconfig
+arm                      jornada720_defconfig
+h8300                     edosk2674_defconfig
+powerpc                      pcm030_defconfig
+arm64                            alldefconfig
+arm                             rpc_defconfig
+powerpc                     tqm8555_defconfig
+arm                       multi_v4t_defconfig
+arm                        vexpress_defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                     ppa8548_defconfig
+arm                              zx_defconfig
+sh                           se7343_defconfig
+powerpc                  mpc885_ads_defconfig
+arc                           tb10x_defconfig
+mips                          ath25_defconfig
+parisc                           allyesconfig
+sh                     sh7710voipgw_defconfig
+mips                     cu1830-neo_defconfig
+m68k                            q40_defconfig
+um                             i386_defconfig
+sh                            migor_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20201012
+i386                 randconfig-a006-20201012
+i386                 randconfig-a001-20201012
+i386                 randconfig-a003-20201012
+i386                 randconfig-a004-20201012
+i386                 randconfig-a002-20201012
+x86_64               randconfig-a016-20201012
+x86_64               randconfig-a015-20201012
+x86_64               randconfig-a012-20201012
+x86_64               randconfig-a013-20201012
+x86_64               randconfig-a014-20201012
+x86_64               randconfig-a011-20201012
+i386                 randconfig-a016-20201012
+i386                 randconfig-a015-20201012
+i386                 randconfig-a013-20201012
+i386                 randconfig-a012-20201012
+i386                 randconfig-a011-20201012
+i386                 randconfig-a014-20201012
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-> @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
->         },
->         .probe = rcar_pcie_probe,
->  };
-> +
-> +#ifdef CONFIG_ARM
-> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
-> +               unsigned int fsr, struct pt_regs *regs)
-> +{
-> +       u32 pmsr;
-> +
-> +       if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
-> +               return 1;
-> +
-> +       pmsr = readl(pcie_base + PMSR);
-> +
-> +       /*
-> +        * Test if the PCIe controller received PM_ENTER_L1 DLLP and
-> +        * the PCIe controller is not in L1 link state. If true, apply
-> +        * fix, which will put the controller into L1 link state, from
-> +        * which it can return to L0s/L0 on its own.
-> +        */
-> +       if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
-> +               writel(L1IATN, pcie_base + PMCTLR);
-> +               while (!(readl(pcie_base + PMSR) & L1FAEG))
-> +                       ;
-> +               writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
-> +               return 0;
-> +       }
-> +
-> +       return 1;
-> +}
-> +
-> +static const struct of_device_id rcar_pcie_abort_handler_of_match[] = {
+clang tested configs:
+x86_64               randconfig-a004-20201012
+x86_64               randconfig-a002-20201012
+x86_64               randconfig-a006-20201012
+x86_64               randconfig-a001-20201012
+x86_64               randconfig-a003-20201012
+x86_64               randconfig-a005-20201012
 
-__initconst (if you intend to keep this, see below).
-
-> +       { .compatible = "renesas,pcie-r8a7779" },
-> +       { .compatible = "renesas,pcie-r8a7790" },
-> +       { .compatible = "renesas,pcie-r8a7791" },
-> +       { .compatible = "renesas,pcie-rcar-gen2" },
-> +       {},
-> +};
-> +
-> +static int __init rcar_pcie_init(void)
-> +{
-> +       if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
-
-I guess it doesn't really hurt to use the existing rcar_pcie_of_match[]
-instead? It just contains two additional entries, which will never match
-in the CONFIG_ARM=y case.
-
-> +#ifdef CONFIG_ARM_LPAE
-> +               hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> +                               "asynchronous external abort");
-> +#else
-> +               hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> +                               "imprecise external abort");
-> +#endif
-> +       }
-> +
-> +       return platform_driver_register(&rcar_pcie_driver);
-> +}
-> +device_initcall(rcar_pcie_init);
-> +#else
->  builtin_platform_driver(rcar_pcie_driver);
-> +#endif
-
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-As this fixes the crash seen during s2ram with an Intel E1000E card
-present and the e1000e driver loaded:
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
