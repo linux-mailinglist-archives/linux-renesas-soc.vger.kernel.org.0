@@ -2,188 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEA5328D0E4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Oct 2020 17:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D28FC28D3AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Oct 2020 20:32:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389147AbgJMPCj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Oct 2020 11:02:39 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:48326 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389084AbgJMPCV (ORCPT
+        id S1728048AbgJMSch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Oct 2020 14:32:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726899AbgJMScg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Oct 2020 11:02:21 -0400
-X-IronPort-AV: E=Sophos;i="5.77,371,1596466800"; 
-   d="scan'208";a="59459494"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Oct 2020 00:02:20 +0900
-Received: from devel.example.org?044ree.adwin.renesas.com (unknown [10.226.36.120])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8A5F94009410;
-        Wed, 14 Oct 2020 00:02:17 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3 5/5] arm64: dts: r8a77965: Add DRIF support
-Date:   Tue, 13 Oct 2020 16:01:50 +0100
-Message-Id: <20201013150150.14801-6-fabrizio.castro.jz@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
+        Tue, 13 Oct 2020 14:32:36 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99D9DC0613D0;
+        Tue, 13 Oct 2020 11:32:36 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id c22so1239749ejx.0;
+        Tue, 13 Oct 2020 11:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0qc54GK+Ty5pId9hBt15XZ2P9bTDoR5ttEPUTX251CQ=;
+        b=UAABpbflE3V4islHYiXlskpNFKwmAB2bCvHYSozZRJfwtQ+c6UvdbWgaA8ke2NzIn2
+         0C2nt/K1+E3wfx8Ko1pIDaPs0XbY5ba2Jt51AfFpQSW5VdMQrxo1oQgfkD01qRxgYtOR
+         JMmDFbYJZrsx9BeocMBmrZiPpxqFffnZ+x6VeTKkPz9SXHh8rsExsz6KHjvJJwIj9jjS
+         LVmWg56Z76RK/S0JpiDGeyHZdOLNs8LcfBlHQv20PIzvqvKRpJIUsVaW3QFgVtwnFHK4
+         yUUnKVoCxWAMZfjodQLQ1DbQVb0pTO1c25II/Is4h6CJBh/6wyEvwgvxOBTWEUF+AlT/
+         UCmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0qc54GK+Ty5pId9hBt15XZ2P9bTDoR5ttEPUTX251CQ=;
+        b=tpdp5ZCPlAnyAmtjYUzF26oKXLk39EEfQc3Vb9ACkELPM9WY9d8Jdpk+auE62Y7E1E
+         2MmVBAfXa+8BlgvcWb5iQJGGgWpLBA8wBUiKYRB5sQM+1inBMn+tqG1dZbqitTrmBKD9
+         CBpGuMILi3tl76g2gQzjmG58HfLfPAnBvZQ11P4m1mmsxAGO05/xyXp7eqDBlUrJEY5i
+         pPk64KVIFdTDJJkXtgaYOjhGFmzeUjmbmpMVi4FjGBpoKXwyohnG3ZNr5itCY1rnPZWq
+         s7YY6nF7LtRQhwJ+2b252YEDAiX3qP+Ro1bGYYogl18rJpLdploKjlnG7ykc1SSy8mRz
+         62Mg==
+X-Gm-Message-State: AOAM532VEgKAoDlxqYCalGYUo8FkitY6Dk6NkrVU87udvCntyzcR1qRe
+        lhXlsU1bbc0sZPGBaFG1/kjyuVihlG/vRA==
+X-Google-Smtp-Source: ABdhPJwVdfPRWEgt1uZEneAkSnVKZVTAG1ExCSv0L+E8yk0E4pr8rHUc6l+lMOJgfh37HN+odm3A1g==
+X-Received: by 2002:a17:906:a119:: with SMTP id t25mr1174067ejy.67.1602613954792;
+        Tue, 13 Oct 2020 11:32:34 -0700 (PDT)
+Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
+        by smtp.gmail.com with ESMTPSA id b8sm295815edv.20.2020.10.13.11.32.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2020 11:32:33 -0700 (PDT)
+From:   Marek Vasut <marek.vasut@gmail.com>
+Subject: Re: [PATCH V3] PCI: rcar: Add L1 link state fix into data abort hook
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20201011160045.574323-1-marek.vasut@gmail.com>
+ <CAMuHMdU0xF3rMNMqn54cF7eOS8JuHDh9WFNTJi5ftq4ypHBeHg@mail.gmail.com>
+Message-ID: <82915d16-e873-be7e-d04f-0eba60b71f70@gmail.com>
+Date:   Tue, 13 Oct 2020 20:32:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU0xF3rMNMqn54cF7eOS8JuHDh9WFNTJi5ftq4ypHBeHg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the DRIF controller nodes for r8a77965 (a.k.a. R-Car M3-N).
+On 10/12/20 9:18 AM, Geert Uytterhoeven wrote:
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
----
-v2->v3:
-* New patch
+[...]
 
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 120 ++++++++++++++++++++++
- 1 file changed, 120 insertions(+)
+>> --- a/drivers/pci/controller/pcie-rcar-host.c
+>> +++ b/drivers/pci/controller/pcie-rcar-host.c
+> 
+>> @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
+>>         },
+>>         .probe = rcar_pcie_probe,
+>>  };
+>> +
+>> +#ifdef CONFIG_ARM
+>> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+>> +               unsigned int fsr, struct pt_regs *regs)
+>> +{
+>> +       u32 pmsr;
+>> +
+>> +       if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
+>> +               return 1;
+>> +
+>> +       pmsr = readl(pcie_base + PMSR);
+>> +
+>> +       /*
+>> +        * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+>> +        * the PCIe controller is not in L1 link state. If true, apply
+>> +        * fix, which will put the controller into L1 link state, from
+>> +        * which it can return to L0s/L0 on its own.
+>> +        */
+>> +       if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+>> +               writel(L1IATN, pcie_base + PMCTLR);
+>> +               while (!(readl(pcie_base + PMSR) & L1FAEG))
+>> +                       ;
+>> +               writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+>> +               return 0;
+>> +       }
+>> +
+>> +       return 1;
+>> +}
+>> +
+>> +static const struct of_device_id rcar_pcie_abort_handler_of_match[] = {
+> 
+> __initconst (if you intend to keep this, see below).
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index fe4dc12e2bdf..c5a54dc7ede2 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -1550,6 +1550,126 @@ vin7csi40: endpoint@2 {
- 			};
- 		};
- 
-+		drif00: rif@e6f40000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f40000 0 0x84>;
-+			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 515>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x20>, <&dmac2 0x20>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 515>;
-+			renesas,bonding = <&drif01>;
-+			status = "disabled";
-+		};
-+
-+		drif01: rif@e6f50000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f50000 0 0x84>;
-+			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 514>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x22>, <&dmac2 0x22>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 514>;
-+			renesas,bonding = <&drif00>;
-+			status = "disabled";
-+		};
-+
-+		drif10: rif@e6f60000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f60000 0 0x84>;
-+			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 513>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x24>, <&dmac2 0x24>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 513>;
-+			renesas,bonding = <&drif11>;
-+			status = "disabled";
-+		};
-+
-+		drif11: rif@e6f70000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f70000 0 0x84>;
-+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 512>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x26>, <&dmac2 0x26>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 512>;
-+			renesas,bonding = <&drif10>;
-+			status = "disabled";
-+		};
-+
-+		drif20: rif@e6f80000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f80000 0 0x84>;
-+			interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 511>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x28>, <&dmac2 0x28>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 511>;
-+			renesas,bonding = <&drif21>;
-+			status = "disabled";
-+		};
-+
-+		drif21: rif@e6f90000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6f90000 0 0x84>;
-+			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 510>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x2a>, <&dmac2 0x2a>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 510>;
-+			renesas,bonding = <&drif20>;
-+			status = "disabled";
-+		};
-+
-+		drif30: rif@e6fa0000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6fa0000 0 0x84>;
-+			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 509>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x2c>, <&dmac2 0x2c>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 509>;
-+			renesas,bonding = <&drif31>;
-+			status = "disabled";
-+		};
-+
-+		drif31: rif@e6fb0000 {
-+			compatible = "renesas,r8a77965-drif",
-+				     "renesas,rcar-gen3-drif";
-+			reg = <0 0xe6fb0000 0 0x84>;
-+			interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 508>;
-+			clock-names = "fck";
-+			dmas = <&dmac1 0x2e>, <&dmac2 0x2e>;
-+			dma-names = "rx", "rx";
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+			resets = <&cpg 508>;
-+			renesas,bonding = <&drif30>;
-+			status = "disabled";
-+		};
-+
- 		rcar_sound: sound@ec500000 {
- 			/*
- 			 * #sound-dai-cells is required
--- 
-2.25.1
+I do, see below.
 
+>> +       { .compatible = "renesas,pcie-r8a7779" },
+>> +       { .compatible = "renesas,pcie-r8a7790" },
+>> +       { .compatible = "renesas,pcie-r8a7791" },
+>> +       { .compatible = "renesas,pcie-rcar-gen2" },
+>> +       {},
+>> +};
+>> +
+>> +static int __init rcar_pcie_init(void)
+>> +{
+>> +       if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> 
+> I guess it doesn't really hurt to use the existing rcar_pcie_of_match[]
+> instead? It just contains two additional entries, which will never match
+> in the CONFIG_ARM=y case.
+
+Unless you try to build 32bit kernel for the R-Car3, like they do e.g.
+for RPi3. So I would prefer to keep this to handle that case too.
+
+[...]
