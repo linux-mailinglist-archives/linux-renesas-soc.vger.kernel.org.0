@@ -2,109 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD6A28CFEB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Oct 2020 16:12:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF1F28D018
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Oct 2020 16:20:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388448AbgJMOMF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Oct 2020 10:12:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33330 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388308AbgJMOMF (ORCPT
+        id S1729330AbgJMOUp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Oct 2020 10:20:45 -0400
+Received: from mga05.intel.com ([192.55.52.43]:28168 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728506AbgJMOUo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Oct 2020 10:12:05 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 193C3C0613D0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Oct 2020 07:12:04 -0700 (PDT)
-Received: from ramsan ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id fSC22300U4C55Sk06SC26L; Tue, 13 Oct 2020 16:12:02 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kSL22-00064A-MP; Tue, 13 Oct 2020 16:12:02 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kSL22-0007Nq-K8; Tue, 13 Oct 2020 16:12:02 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] i2c: sh_mobile: Mark adapter suspended during suspend
-Date:   Tue, 13 Oct 2020 16:12:01 +0200
-Message-Id: <20201013141201.28338-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 13 Oct 2020 10:20:44 -0400
+IronPort-SDR: tWCvx7h2nDtm4WlOBb+nOte+1Ucut9KoZO0NhAd9Sl6SGbxwt9huCyXZkdMCv8QcztiG6wKjiy
+ nWpfrL+NKLaA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="250610003"
+X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
+   d="scan'208";a="250610003"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 07:20:44 -0700
+IronPort-SDR: y7bU2eaFWlxhlSx6ocaqpiz974F/+BL6H9+5bQdjLdF6Sl0CaZd/k3R8SeLhvcc99BwMLukqsR
+ cVPvd6RsQ0wQ==
+X-IronPort-AV: E=Sophos;i="5.77,371,1596524400"; 
+   d="scan'208";a="463504096"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 07:20:42 -0700
+Date:   Tue, 13 Oct 2020 17:20:38 +0300
+From:   Imre Deak <imre.deak@intel.com>
+To:     Andriy Shevchenko <andriy.shevchenko@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3] drm: shmobile: Reduce include dependencies
+Message-ID: <20201013142038.GA2441144@ideak-desk.fi.intel.com>
+Reply-To: imre.deak@intel.com
+References: <20200206111232.75309-1-andriy.shevchenko@linux.intel.com>
+ <20200224090430.GT10400@smile.fi.intel.com>
+ <20200226014406.GY4764@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200226014406.GY4764@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When a driver tries to send an I2C message while the adapter is
-suspended, this typically fails with:
+On Wed, Feb 26, 2020 at 03:44:06AM +0200, Laurent Pinchart wrote:
+> Hi Andy,
+> 
+> Thank you for the patch, and sorry for the delay.
+> 
+> On Mon, Feb 24, 2020 at 11:04:30AM +0200, Andy Shevchenko wrote:
+> > On Thu, Feb 06, 2020 at 01:12:32PM +0200, Andy Shevchenko wrote:
+> > > This file doesn't need everything provided by <linux/kernel.h>.
+> 
+> s/everything/anything/
+> 
+> > > All it needs are some types, which are provided by <drm/drm_mode.h>.
+> > > 
+> > > Drop unneeded <linux/kernel.h> completely.
+> > 
+> > Any comments on this?
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Feel free to push :-)
 
-    i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+Pushed to drm-misc-next, thanks for the patch and review.
 
-Avoid accessing the adapter while it is suspended by marking it
-suspended during suspend.  This allows the I2C core to catch this, and
-print a warning:
-
-    WARNING: CPU: 1 PID: 13 at drivers/i2c/i2c-core.h:54
-__i2c_transfer+0x4a4/0x4e4
-    i2c i2c-6: Transfer while suspended
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This follows the same approach as commit 18569fa89a4db9ed ("i2c: rcar:
-add suspend/resume support").
-Exposed by commit dc279ac6e5b4e06e ("cpufreq: dt: Refactor
-initialization to handle probe deferral properly") in linux-next, which
-tries to talk to the PMIC on r8a7791/koelsch while the I2C controller is
-suspended.
----
- drivers/i2c/busses/i2c-sh_mobile.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index bdd60770779ad523..3ae6ca21a02c6b9f 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -956,10 +956,38 @@ static int sh_mobile_i2c_remove(struct platform_device *dev)
- 	return 0;
- }
- 
-+#ifdef CONFIG_PM_SLEEP
-+static int sh_mobile_i2c_suspend(struct device *dev)
-+{
-+	struct sh_mobile_i2c_data *pd = dev_get_drvdata(dev);
-+
-+	i2c_mark_adapter_suspended(&pd->adap);
-+	return 0;
-+}
-+
-+static int sh_mobile_i2c_resume(struct device *dev)
-+{
-+	struct sh_mobile_i2c_data *pd = dev_get_drvdata(dev);
-+
-+	i2c_mark_adapter_resumed(&pd->adap);
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops sh_mobile_i2c_pm_ops = {
-+	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(sh_mobile_i2c_suspend,
-+				      sh_mobile_i2c_resume)
-+};
-+
-+#define DEV_PM_OPS (&sh_mobile_i2c_pm_ops)
-+#else
-+#define DEV_PM_OPS NULL
-+#endif /* CONFIG_PM_SLEEP */
-+
- static struct platform_driver sh_mobile_i2c_driver = {
- 	.driver		= {
- 		.name		= "i2c-sh_mobile",
- 		.of_match_table = sh_mobile_i2c_dt_ids,
-+		.pm	= DEV_PM_OPS,
- 	},
- 	.probe		= sh_mobile_i2c_probe,
- 	.remove		= sh_mobile_i2c_remove,
--- 
-2.17.1
-
+> 
+> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > ---
+> > > v3: Drop header completely (Laurent)
+> > >  include/linux/platform_data/shmob_drm.h | 2 --
+> > >  1 file changed, 2 deletions(-)
+> > > 
+> > > diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
+> > > index fe815d7d9f58..d661399b217d 100644
+> > > --- a/include/linux/platform_data/shmob_drm.h
+> > > +++ b/include/linux/platform_data/shmob_drm.h
+> > > @@ -10,8 +10,6 @@
+> > >  #ifndef __SHMOB_DRM_H__
+> > >  #define __SHMOB_DRM_H__
+> > >  
+> > > -#include <linux/kernel.h>
+> > > -
+> > >  #include <drm/drm_mode.h>
+> > >  
+> > >  enum shmob_drm_clk_source {
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
