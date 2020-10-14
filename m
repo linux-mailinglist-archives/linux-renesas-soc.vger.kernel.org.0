@@ -2,175 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9AF928D831
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 04:01:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA6A28D893
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 04:37:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbgJNCBC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 13 Oct 2020 22:01:02 -0400
-Received: from mga01.intel.com ([192.55.52.88]:13977 "EHLO mga01.intel.com"
+        id S1726121AbgJNChW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Oct 2020 22:37:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36038 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725874AbgJNCBC (ORCPT
+        id S1726044AbgJNChW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 13 Oct 2020 22:01:02 -0400
-IronPort-SDR: XEY/f4yuaV+VpdugJbYWBvuZiNYtdLayQg3GAbKpaQMVoffBKxy2HcoTPswpvN14DX2aM6NTDt
- R4Cwo63aTPoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9773"; a="183525067"
-X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
-   d="scan'208";a="183525067"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 19:00:56 -0700
-IronPort-SDR: dfVYdd6vHXaGuv+HPUFeXeZtnZuOjat0tTG3oX4KPrp/Drxx+mymmsvITGWLuNZvSFDQGuj7qk
- SPIQYkjACu2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,373,1596524400"; 
-   d="scan'208";a="345473796"
-Received: from lkp-server02.sh.intel.com (HELO c57e4c60a28b) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Oct 2020 19:00:54 -0700
-Received: from kbuild by c57e4c60a28b with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kSW61-000071-OF; Wed, 14 Oct 2020 02:00:53 +0000
-Date:   Wed, 14 Oct 2020 10:00:34 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD REGRESSION
- 369d11260c6a5f7c903c8731f0f01c7e863dfad6
-Message-ID: <5f865bc2.T0ggFnVb7yLj7QUB%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 13 Oct 2020 22:37:22 -0400
+Received: from kernel.org (unknown [104.132.1.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5DEC821775;
+        Wed, 14 Oct 2020 02:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602643042;
+        bh=WkPjfRceY0f36toNfAZOxoJNWpHMBwcl2xO2WvBYe5Y=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=LjZc6yfNsaUDYl05U0CiCE2popK1ezzp+5Em+fBWWbGv95U3OFdQZ/OxEsoRopwFV
+         cKF/J9T6VhmUFLjFJ9AW7kdjYBh6k3SjIpp4At63ISNT+gArMIEQBDW0hifB6mE+vH
+         M0zthPAER7bGNdbMTDdZ1K7E61wPn/f1lpQR0ueg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200924111808.15358-1-geert+renesas@glider.be>
+References: <20200924111808.15358-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] clk: renesas: r8a779a0: Make rcar_r8a779a0_cpg_clk_register() static
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Tue, 13 Oct 2020 19:37:21 -0700
+Message-ID: <160264304119.310579.2058925532925896113@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  master
-branch HEAD: 369d11260c6a5f7c903c8731f0f01c7e863dfad6  [LOCAL] arm64: defconfig: Update renesas_defconfig
+Quoting Geert Uytterhoeven (2020-09-24 04:18:08)
+> When compiling with clang:
+>=20
+>     drivers/clk/renesas/r8a779a0-cpg-mssr.c:156:21: warning: no previous =
+prototype for function 'rcar_r8a779a0_cpg_clk_register' [-Wmissing-prototyp=
+es]
+>     struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+>                            ^
+>     drivers/clk/renesas/r8a779a0-cpg-mssr.c:156:1: note: declare 'static'=
+ if the function is not intended to be used outside of this translation unit
+>     struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+>     ^
+>     static
+>=20
+> Similarly, with sparse:
+>=20
+>     drivers/clk/renesas/r8a779a0-cpg-mssr.c:156:12: warning: symbol 'rcar=
+_r8a779a0_cpg_clk_register' was not declared. Should it be static?
+>=20
+> There are no users of rcar_r8a779a0_cpg_clk_register() outside this
+> file, so it should be static.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Fixes: c07439dea94050b6 ("clk: renesas: cpg-mssr: Add support for R-Car V=
+3U")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-Error/Warning in current branch:
-
-drivers/gpu/drm/msm/msm_iommu.c:46:2: error: implicit declaration of function 'iommu_flush_tlb_all'; did you mean 'iommu_flush_iotlb_all'? [-Werror=implicit-function-declaration]
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- arm-allmodconfig
-|   `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-|-- arm-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-|-- arm-defconfig
-|   `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-|-- arm64-allyesconfig
-|   `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-|-- arm64-defconfig
-|   `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-`-- arm64-randconfig-s031-20201013
-    `-- drivers-gpu-drm-msm-msm_iommu.c:error:implicit-declaration-of-function-iommu_flush_tlb_all
-
-elapsed time: 721m
-
-configs tested: 93
-configs skipped: 2
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                     davinci_all_defconfig
-m68k                          hp300_defconfig
-powerpc                     sbc8548_defconfig
-arm                         palmz72_defconfig
-microblaze                          defconfig
-m68k                        stmark2_defconfig
-um                           x86_64_defconfig
-arc                 nsimosci_hs_smp_defconfig
-powerpc                     asp8347_defconfig
-ia64                        generic_defconfig
-mips                        nlm_xlr_defconfig
-riscv                    nommu_k210_defconfig
-m68k                         apollo_defconfig
-mips                           mtx1_defconfig
-arm                      footbridge_defconfig
-arm                   milbeaut_m10v_defconfig
-arc                     haps_hs_smp_defconfig
-sh                               alldefconfig
-powerpc                          g5_defconfig
-riscv                    nommu_virt_defconfig
-m68k                            mac_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20201013
-x86_64               randconfig-a002-20201013
-x86_64               randconfig-a006-20201013
-x86_64               randconfig-a001-20201013
-x86_64               randconfig-a003-20201013
-x86_64               randconfig-a005-20201013
-i386                 randconfig-a005-20201013
-i386                 randconfig-a006-20201013
-i386                 randconfig-a001-20201013
-i386                 randconfig-a003-20201013
-i386                 randconfig-a004-20201013
-i386                 randconfig-a002-20201013
-i386                 randconfig-a016-20201013
-i386                 randconfig-a015-20201013
-i386                 randconfig-a013-20201013
-i386                 randconfig-a012-20201013
-i386                 randconfig-a011-20201013
-i386                 randconfig-a014-20201013
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a016-20201013
-x86_64               randconfig-a015-20201013
-x86_64               randconfig-a012-20201013
-x86_64               randconfig-a013-20201013
-x86_64               randconfig-a014-20201013
-x86_64               randconfig-a011-20201013
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
