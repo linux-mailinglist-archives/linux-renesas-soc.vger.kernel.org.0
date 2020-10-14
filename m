@@ -2,108 +2,318 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61D6728E286
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 16:52:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3307828E2A2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 16:56:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730442AbgJNOwE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Oct 2020 10:52:04 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39798 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729276AbgJNOwE (ORCPT
+        id S1731547AbgJNO4I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Oct 2020 10:56:08 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:22927 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728799AbgJNO4I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Oct 2020 10:52:04 -0400
-Received: by mail-ot1-f65.google.com with SMTP id f10so3677954otb.6;
-        Wed, 14 Oct 2020 07:52:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H7EhDwxST9+VQIVrPmCGqIr98KMTxZz8OLqw4mC4ksY=;
-        b=px1eY9ojW3F31Dvh1e4Y/SL64G0QBdg9EQxO8e7bFnJk9KmhEXTK+iG3GF3e3ZBX/x
-         oI2LyNjySCrdW8787dVw8RM3ZsVWYIVzv920knFyUcTQwluXXFvuMxXo2hD1TlTs7Hc/
-         mknYmJU/PatjhfXPD1vk9M+r3+0n9CyVmda9nNLvHNY4jLrxMTHq3dlw+W9WbcIb1y9L
-         MOJrn5Y8D6rmb537Wline/kABnY3X7l5SA7ROKRNRFNyT2oBweBH+FyXnAH61TdsKy+F
-         bDXB1Eo4CEdvmtwFffsYLvjlm5Z8eH6vEwXcXC6RcDNR8JCe6KRXLoWOcW4PYjxpk4R6
-         0IGA==
-X-Gm-Message-State: AOAM532cDiHyS0XY4GyiP2RVePaRVexHp5/NXRBNXTG89/Ad0sAOhXo6
-        WrXFuqDK1P02bZZM1Wl/OQx6vp0GiwA5ukxJWlM=
-X-Google-Smtp-Source: ABdhPJytQ8/100pK0VWl0u3XfP1/UQls0YNqRsQPR+8SOSzC59YaAxwlBA5Fic/E/JzwYaOVzHArsBb9PC3ujKxOG08=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr3728773otc.145.1602687122960;
- Wed, 14 Oct 2020 07:52:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
- <20201013150150.14801-5-fabrizio.castro.jz@renesas.com> <CAMuHMdUxCiwjsFRYpVND-FLajaceUf+jWK0ZBR5Rp5xJ+MPDgA@mail.gmail.com>
- <OSAPR01MB274089EA87D5280E83E81C7DC2050@OSAPR01MB2740.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSAPR01MB274089EA87D5280E83E81C7DC2050@OSAPR01MB2740.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Oct 2020 16:51:51 +0200
-Message-ID: <CAMuHMdUPb=Sy1R1pOXCAbDcCiMgWa27tVMvvTWn2rnotanM8cw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
- r8a77965 support
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wed, 14 Oct 2020 10:56:08 -0400
+X-IronPort-AV: E=Sophos;i="5.77,375,1596466800"; 
+   d="scan'208";a="59780486"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Oct 2020 23:56:06 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1418142E69AB;
+        Wed, 14 Oct 2020 23:56:04 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Enable VIN instances
+Date:   Wed, 14 Oct 2020 15:55:58 +0100
+Message-Id: <20201014145558.12854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Enable VIN instances along with OV5640 as endpoints on the adapter board.
 
-On Wed, Oct 14, 2020 at 4:35 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > On Tue, Oct 13, 2020 at 5:02 PM Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com> wrote:
-> > > The r8a77965 (a.k.a. R-Car M3-N) device tree schema is
-> > > compatible with the already documented R-Car Gen3 devices.
-> > >
-> > > Document r8a77965 support within renesas,drif.yaml.
-> > >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > > --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> > > @@ -53,6 +53,7 @@ properties:
-> > >        - enum:
-> > >          - renesas,r8a7795-drif        # R-Car H3
-> > >          - renesas,r8a7796-drif        # R-Car M3-W
-> > > +        - renesas,r8a77965-drif       # R-Car M3-N
-> > >          - renesas,r8a77990-drif       # R-Car E3
-> > >        - const: renesas,rcar-gen3-drif # Generic R-Car Gen3 compatible device
-> >
-> > I guess you're aware M3-N (and E3) have an extra register?
-> > Probably the driver just relies on its initial value, but it never hurts to be
-> > explicit and initialize it properly.
->
-> Yes, I am aware of the extra register, and that's reflected in the DRIF nodes
-> definition within the SoC specific device trees.
-> I'll tackle initialization and configuration of the extra register at some point,
-> do you think we could use the default value for now?
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch applies on top of [1].
 
-Yes, that's fine for me, if it works with the current driver.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+    renesas-devel.git/log/?h=renesas-arm-dt-for-v5.11
+---
+ .../boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts    | 222 ++++++++++++++++++
+ 1 file changed, 222 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+index 961c0f2eeefb..98c3fbd89fa6 100644
+--- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
++++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+@@ -20,6 +20,30 @@
+ 		serial5 = &hscif0;
+ 		ethernet1 = &ether;
+ 	};
++
++	mclk_cam1: mclk-cam1 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <26000000>;
++	};
++
++	mclk_cam2: mclk-cam2 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <26000000>;
++	};
++
++	mclk_cam3: mclk-cam3 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <26000000>;
++	};
++
++	mclk_cam4: mclk-cam4 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <26000000>;
++	};
+ };
+ 
+ &avb {
+@@ -47,6 +71,19 @@
+ 	};
+ };
+ 
++&gpio0 {
++	/* Disable hogging GP0_18 to output LOW */
++	/delete-node/ qspi_en;
++
++	/* Hog GP0_18 to output HIGH to enable VIN2 */
++	vin2_en {
++		gpio-hog;
++		gpios = <18 GPIO_ACTIVE_HIGH>;
++		output-high;
++		line-name = "VIN2_EN";
++	};
++};
++
+ &hscif0 {
+ 	pinctrl-0 = <&hscif0_pins>;
+ 	pinctrl-names = "default";
+@@ -54,6 +91,94 @@
+ 	status = "okay";
+ };
+ 
++&i2c0 {
++	ov5640@3c {
++		compatible = "ovti,ov5640";
++		reg = <0x3c>;
++		clocks = <&mclk_cam1>;
++		clock-names = "xclk";
++
++		port {
++			ov5640_0: endpoint {
++				bus-width = <8>;
++				data-shift = <2>;
++				bus-type = <6>;
++				pclk-sample = <1>;
++				remote-endpoint = <&vin0ep>;
++			};
++		};
++	};
++};
++
++&i2c1 {
++	pinctrl-0 = <&i2c1_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	clock-frequency = <400000>;
++
++	ov5640@3c {
++		compatible = "ovti,ov5640";
++		reg = <0x3c>;
++		clocks = <&mclk_cam2>;
++		clock-names = "xclk";
++
++		port {
++			ov5640_1: endpoint {
++				bus-width = <8>;
++				data-shift = <2>;
++				bus-type = <6>;
++				pclk-sample = <1>;
++				remote-endpoint = <&vin1ep>;
++			};
++		};
++	};
++};
++
++&i2c2 {
++	ov5640@3c {
++		compatible = "ovti,ov5640";
++		reg = <0x3c>;
++		clocks = <&mclk_cam3>;
++		clock-names = "xclk";
++
++		port {
++			ov5640_2: endpoint {
++				bus-width = <8>;
++				data-shift = <2>;
++				bus-type = <6>;
++				pclk-sample = <1>;
++				remote-endpoint = <&vin2ep>;
++			};
++		};
++	};
++};
++
++&i2c3 {
++	pinctrl-0 = <&i2c3_pins>;
++	pinctrl-names = "default";
++
++	status = "okay";
++	clock-frequency = <400000>;
++
++	ov5640@3c {
++		compatible = "ovti,ov5640";
++		reg = <0x3c>;
++		clocks = <&mclk_cam4>;
++		clock-names = "xclk";
++
++		port {
++			ov5640_3: endpoint {
++				bus-width = <8>;
++				data-shift = <2>;
++				bus-type = <6>;
++				pclk-sample = <1>;
++				remote-endpoint = <&vin3ep>;
++			};
++		};
++	};
++};
++
+ &pfc {
+ 	can0_pins: can0 {
+ 		groups = "can0_data_d";
+@@ -70,6 +195,16 @@
+ 		function = "hscif0";
+ 	};
+ 
++	i2c1_pins: i2c1 {
++		groups = "i2c1_c";
++		function = "i2c1";
++	};
++
++	i2c3_pins: i2c3 {
++		groups = "i2c3";
++		function = "i2c3";
++	};
++
+ 	scif0_pins: scif0 {
+ 		groups = "scif0_data";
+ 		function = "scif0";
+@@ -84,6 +219,31 @@
+ 		groups = "scifb1_data";
+ 		function = "scifb1";
+ 	};
++
++	vin0_8bit_pins: vin0 {
++		groups = "vin0_data8", "vin0_clk", "vin0_sync";
++		function = "vin0";
++	};
++
++	vin1_8bit_pins: vin1 {
++		groups = "vin1_data8_b", "vin1_clk_b", "vin1_sync_b";
++		function = "vin1";
++	};
++
++	vin2_pins: vin2 {
++		groups = "vin2_g8", "vin2_clk";
++		function = "vin2";
++	};
++
++	vin3_pins: vin3 {
++		groups = "vin3_data8", "vin3_clk", "vin3_sync";
++		function = "vin3";
++	};
++};
++
++&qspi {
++	/* Pins shared with VIN2, keep status disabled */
++	status = "disabled";
+ };
+ 
+ &scif0 {
+@@ -106,3 +266,65 @@
+ 	rts-gpios = <&gpio4 21 GPIO_ACTIVE_LOW>;
+ 	cts-gpios = <&gpio4 17 GPIO_ACTIVE_LOW>;
+ };
++
++&vin0 {
++	/*
++	 * Set SW2 switch on the SOM to 'ON'
++	 * Set SW1 switch on camera board to 'OFF' as we are using 8bit mode
++	 */
++	status = "okay";
++	pinctrl-0 = <&vin0_8bit_pins>;
++	pinctrl-names = "default";
++
++	port {
++		vin0ep: endpoint {
++			remote-endpoint = <&ov5640_0>;
++			bus-width = <8>;
++			bus-type = <6>;
++		};
++	};
++};
++
++&vin1 {
++	/* Set SW1 switch on the SOM to 'ON' */
++	status = "okay";
++	pinctrl-0 = <&vin1_8bit_pins>;
++	pinctrl-names = "default";
++
++	port {
++		vin1ep: endpoint {
++			remote-endpoint = <&ov5640_1>;
++			bus-width = <8>;
++			bus-type = <6>;
++		};
++	};
++};
++
++&vin2 {
++	status = "okay";
++	pinctrl-0 = <&vin2_pins>;
++	pinctrl-names = "default";
++
++	port {
++		vin2ep: endpoint {
++			remote-endpoint = <&ov5640_2>;
++			bus-width = <8>;
++			data-shift = <8>;
++			bus-type = <6>;
++		};
++	};
++};
++
++&vin3 {
++	status = "okay";
++	pinctrl-0 = <&vin3_pins>;
++	pinctrl-names = "default";
++
++	port {
++		vin3ep: endpoint {
++			remote-endpoint = <&ov5640_3>;
++			bus-width = <8>;
++			bus-type = <6>;
++		};
++	};
++};
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
