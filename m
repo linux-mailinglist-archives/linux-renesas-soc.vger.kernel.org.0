@@ -2,407 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2AE328DEE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 12:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D5C28DF8A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 13:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726493AbgJNKZz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Oct 2020 06:25:55 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:46879 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726307AbgJNKZz (ORCPT
+        id S1730490AbgJNLCp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Oct 2020 07:02:45 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:18022 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730467AbgJNLCo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Oct 2020 06:25:55 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 154E5E000A;
-        Wed, 14 Oct 2020 10:25:51 +0000 (UTC)
-Date:   Wed, 14 Oct 2020 12:29:53 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] arm64: dts: r8a779a0: Add VIN nodes
-Message-ID: <20201014102953.htcub73fxzyti6gn@uno.localdomain>
-References: <20201014094443.11070-1-jacopo+renesas@jmondi.org>
- <20201014094443.11070-7-jacopo+renesas@jmondi.org>
- <20201014101950.6imj3hql3cjb6fsv@oden.dyn.berto.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201014101950.6imj3hql3cjb6fsv@oden.dyn.berto.se>
+        Wed, 14 Oct 2020 07:02:44 -0400
+X-IronPort-AV: E=Sophos;i="5.77,374,1596466800"; 
+   d="scan'208";a="59768253"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Oct 2020 20:02:42 +0900
+Received: from localhost.localdomain (unknown [172.29.51.165])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B344540078A0;
+        Wed, 14 Oct 2020 20:02:40 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marek Vasut <marek.vasut@gmail.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH RFC] pinctrl: sh-pfc: pfc-r8a77965: Optimize pinctrl image size for RZ/G2N
+Date:   Wed, 14 Oct 2020 12:02:38 +0100
+Message-Id: <20201014110238.9600-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Optimize pinctrl image size, when only RZ/G2N is enabled in the defconfig.
+(ie, disabling CONFIG_ARCH_R8A77965 from the defconfig)
 
-On Wed, Oct 14, 2020 at 12:19:50PM +0200, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your work.
->
-> On 2020-10-14 11:44:43 +0200, Jacopo Mondi wrote:
-> > Add VIN nodes to R8A779A0 R-Car V3U SoC.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 320 ++++++++++++++++++++++
-> >  1 file changed, 320 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > index 83962ad30a1d..bc81e6a761d3 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > @@ -105,6 +105,326 @@ scif0: serial@e6e60000 {
-> >  			status = "disabled";
-> >  		};
-> >
-> > +		vin0: video@e6ef0000 {
-> > +			compatible = "renesas,vin-r8a779a0";
->
-> How is this tested? There is no driver support and the schema you added
+with this patch and disabling CONFIG_ARCH_R8A77965:
+$ size drivers/pinctrl/sh-pfc/pfc-r8a77965.o
+   text	   data	    bss	    dec	    hex	filename
+  49384	      0	      0	  49384	   c0e8	drivers/pinctrl/sh-pfc/pfc-r8a77965.o
 
-Compile tested as specified in the cover letter
+without patch:
+$ size drivers/pinctrl/sh-pfc/pfc-r8a77965.o
+   text	   data	    bss	    dec	    hex	filename
+  51848	      0	      0	  51848	   ca88	drivers/pinctrl/sh-pfc/pfc-r8a77965.o
 
-> the compat string to mandates the 'renesas,id' property for the vin
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+This patch will save ~ 6KB=(3x 2KB/SoC) of memory on RZ/G2[HMN] u-boot[1] with
+multi dtb support. As per discussion [1], u-boot imports PFC and Clock tables from Linux.
 
-I was sure 'renesas,id' was BSP stuff 0_0
+[1] https://patchwork.ozlabs.org/project/uboot/patch/20201013085205.6075-4-biju.das.jz@bp.renesas.com/
 
-> nodes. As far as I can tell the reason for this id is gone with the new
-> pipeline of the V3U. So I guess as long as we don't break dtschema
-> validation all is good, just wanted to make sure ;-)
->
+1) By compiling out Automative parts
+$ size drivers/pinctrl/renesas/pfc-r8a77965.o
+   text	   data	    bss	    dec	    hex	filename
+  46141	      0	      0	  46141	   b43d	drivers/pinctrl/renesas/pfc-r8a77965.o
 
-Do you think we should limit adding CPG clock entries only ?
+2) without patch
+$ size drivers/pinctrl/renesas/pfc-r8a77965.o
+   text	   data	    bss	    dec	    hex	filename
+  48191	      0	      0	  48191	   bc3f	drivers/pinctrl/renesas/pfc-r8a77965.o
 
-> > +			reg = <0 0xe6ef0000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 160 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 730>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 730>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin1: video@e6ef1000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef1000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 731>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 731>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin2: video@e6ef2000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef2000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 800>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 800>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin3: video@e6ef3000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef3000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 801>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 801>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin4: video@e6ef4000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef4000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 802>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 802>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin5: video@e6ef5000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef5000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 803>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 803>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin6: video@e6ef6000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef6000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 804>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 804>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin7: video@e6ef7000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef7000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 805>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 805>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin8: video@e6ef8000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef8000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 806>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 806>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin9: video@e6ef9000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ef9000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 807>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 807>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin10: video@e6efa000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6efa000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 808>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 808>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin11: video@e6efb000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6efb000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 809>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 809>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin12: video@e6efc000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6efc000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 810>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 810>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin13: video@e6efd000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6efd000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 811>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 811>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin14: video@e6efe000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6efe000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 812>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 812>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin15: video@e6eff000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6eff000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 813>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 813>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin16: video@e6ed0000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed0000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 814>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 814>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin17: video@e6ed1000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed1000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 815>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 815>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin18: video@e6ed2000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed2000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 816>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 816>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin19: video@e6ed3000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed3000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 817>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 817>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin20: video@e6ed4000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed4000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 818>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 818>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin21: video@e6ed5000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed5000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 819>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 819>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin22: video@e6ed6000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed6000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 820>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 820>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin23: video@e6ed7000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed7000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 821>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 821>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin24: video@e6ed8000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed8000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 822>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 822>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin25: video@e6ed9000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ed9000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 823>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 823>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin26: video@e6eda000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6eda000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 824>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 824>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin27: video@e6edb000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6edb000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 825>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 825>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin28: video@e6edc000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6edc000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 826>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 826>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin29: video@e6edd000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6edd000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 827>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 827>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin30: video@e6ede000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6ede000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 828>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 828>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> > +		vin31: video@e6edf000 {
-> > +			compatible = "renesas,vin-r8a779a0";
-> > +			reg = <0 0xe6edf000 0 0x1000>;
-> > +			interrupts = <GIC_SPI 191 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 829>;
-> > +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > +			resets = <&cpg 829>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> >  		csi40: csi2@feaa0000 {
-> >  			compatible = "renesas,r8a779a0-csi2";
-> >  			reg = <0 0xfeaa0000 0 0x10000>;
-> > --
-> > 2.28.0
-> >
->
-> --
-> Regards,
-> Niklas Söderlund
+Please share your comments.
+---
+ drivers/pinctrl/sh-pfc/pfc-r8a77965.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77965.c b/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
+index 6616f5210b9d..8e80b96aa4e5 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a77965.c
+@@ -18,6 +18,14 @@
+ #include "core.h"
+ #include "sh_pfc.h"
+ 
++#ifdef CONFIG_PINCTRL_PFC_R8A77965
++#define PFC_R8A77965_GROUP	(30)
++#define PFC_R8A77965_FUNCTION	(4)
++#else
++#define PFC_R8A77965_GROUP	(0)
++#define PFC_R8A77965_FUNCTION	(0)
++#endif
++
+ #define CFG_FLAGS (SH_PFC_PIN_CFG_DRIVE_STRENGTH | SH_PFC_PIN_CFG_PULL_UP_DOWN)
+ 
+ #define CPU_ALL_GP(fn, sfx)						\
+@@ -1847,6 +1855,7 @@ static const unsigned int canfd1_data_mux[] = {
+ 	CANFD1_TX_MARK,         CANFD1_RX_MARK,
+ };
+ 
++#ifdef CONFIG_PINCTRL_PFC_R8A77965
+ /* - DRIF0 --------------------------------------------------------------- */
+ static const unsigned int drif0_ctrl_a_pins[] = {
+ 	/* CLK, SYNC */
+@@ -2120,6 +2129,7 @@ static const unsigned int drif3_data1_b_pins[] = {
+ static const unsigned int drif3_data1_b_mux[] = {
+ 	RIF3_D1_B_MARK,
+ };
++#endif
+ 
+ /* - DU --------------------------------------------------------------------- */
+ static const unsigned int du_rgb666_pins[] = {
+@@ -4380,7 +4390,7 @@ static const unsigned int vin5_clk_mux[] = {
+ 
+ static const struct {
+ 	struct sh_pfc_pin_group common[318];
+-	struct sh_pfc_pin_group automotive[30];
++	struct sh_pfc_pin_group automotive[PFC_R8A77965_GROUP];
+ } pinmux_groups = {
+ 	.common = {
+ 		SH_PFC_PIN_GROUP(audio_clk_a_a),
+@@ -4703,6 +4713,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(vin5_clk),
+ 	},
+ 	.automotive = {
++#ifdef CONFIG_PINCTRL_PFC_R8A77965
+ 		SH_PFC_PIN_GROUP(drif0_ctrl_a),
+ 		SH_PFC_PIN_GROUP(drif0_data0_a),
+ 		SH_PFC_PIN_GROUP(drif0_data1_a),
+@@ -4733,6 +4744,7 @@ static const struct {
+ 		SH_PFC_PIN_GROUP(drif3_ctrl_b),
+ 		SH_PFC_PIN_GROUP(drif3_data0_b),
+ 		SH_PFC_PIN_GROUP(drif3_data1_b),
++#endif
+ 	}
+ };
+ 
+@@ -4792,6 +4804,7 @@ static const char * const canfd1_groups[] = {
+ 	"canfd1_data",
+ };
+ 
++#ifdef CONFIG_PINCTRL_PFC_R8A77965
+ static const char * const drif0_groups[] = {
+ 	"drif0_ctrl_a",
+ 	"drif0_data0_a",
+@@ -4833,6 +4846,7 @@ static const char * const drif3_groups[] = {
+ 	"drif3_data0_b",
+ 	"drif3_data1_b",
+ };
++#endif
+ 
+ static const char * const du_groups[] = {
+ 	"du_rgb666",
+@@ -5250,7 +5264,7 @@ static const char * const vin5_groups[] = {
+ 
+ static const struct {
+ 	struct sh_pfc_function common[51];
+-	struct sh_pfc_function automotive[4];
++	struct sh_pfc_function automotive[PFC_R8A77965_FUNCTION];
+ } pinmux_functions = {
+ 	.common = {
+ 		SH_PFC_FUNCTION(audio_clk),
+@@ -5306,10 +5320,12 @@ static const struct {
+ 		SH_PFC_FUNCTION(vin5),
+ 	},
+ 	.automotive = {
++#ifdef CONFIG_PINCTRL_PFC_R8A77965
+ 		SH_PFC_FUNCTION(drif0),
+ 		SH_PFC_FUNCTION(drif1),
+ 		SH_PFC_FUNCTION(drif2),
+ 		SH_PFC_FUNCTION(drif3),
++#endif
+ 	}
+ };
+ 
+-- 
+2.17.1
+
