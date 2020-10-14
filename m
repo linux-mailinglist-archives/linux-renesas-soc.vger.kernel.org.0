@@ -2,150 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD4BC28E3D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 18:01:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1511528E4A0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Oct 2020 18:40:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728686AbgJNQB1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Oct 2020 12:01:27 -0400
-Received: from mail-eopbgr1400130.outbound.protection.outlook.com ([40.107.140.130]:36352
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727034AbgJNQB0 (ORCPT
+        id S1727454AbgJNQkP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Oct 2020 12:40:15 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41428 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbgJNQkP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Oct 2020 12:01:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UIxIEsaRBMNS8dPYhjcZmrD+mLwkOQNfhw4fEjBoELHPsnoSU496ZNgYXpE3AeLyI5jvOX3Njq6NkIQ3WE3aefAOryExj3e7+62hkVAeekykqLJYrRqh9WZXPzUy1uSFwlXgENmga+X3QNU62JjHtDBSwB6LJ0L3SEaSGLnZXbWkZC8Ku3m5sdQvAOqPnmHMiqdVOw2E1Vm9GGteT+LfTWgpOUzHswDdOpeNPmDjHqkkjEu7u70lkTt5G5cMIQ7S8qV6+lLT6LK7RlDahCgS/JUMfsw8S96SSWX3UppL18v4I1zrmL6TRYyxPOmHqsxcAqgt3/hLPl1eP3x7Oq5tPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f7WpUZtllHCy2ddBKzNQBFdKmfzvSLqOmfXmWX5w8mU=;
- b=FMXuoiCic6gLVgmiV9gHRFeC8VWkFEj3cRvGVpUuNsC9KqwKMEsEOhEG7pmdbeaxZoqLYYoVzRhqFcFtDZNyuP+Q9fRC+VUwhqsbXKoOhL3Zwij+tTOdJIouq/A8OHckd2kGBLtz6bGOow8WkgERBTLeb935m6v7B+OfDIaK6qH7Z42HocL0kjHK8klM09bvK5UghP93GL9++nVGEiJLqErlVCFYJzEniwYT8r4IQX66CJhK4YnVZNgqPNcKI5HD/GQ+2wzSneZxrA8zksxEy52LwJ1gZJHk97grN9X4T46WG7zzRtwMV709acI2kxFRuK7kAYK+grhOAmwOu2hFEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f7WpUZtllHCy2ddBKzNQBFdKmfzvSLqOmfXmWX5w8mU=;
- b=WLUPhWEvbnCfqAKbchKpAexCKLKBkQaVdustFMwo9ksaiPskSzooR7ndal9hd6wGRXm9wlNX/tILXZy+U3OkFzmdRA4vmW4jQf7ZD+cAsXFo0/GJl0NXUbFNy1MPnRN5gomzSMrDtaM+KkD1t2+7y/jcGqDV6JzT0yCRFvoK/Hc=
-Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com (2603:1096:603:3a::20)
- by OSAPR01MB2995.jpnprd01.prod.outlook.com (2603:1096:604:2::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Wed, 14 Oct
- 2020 16:01:22 +0000
-Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com
- ([fe80::8c77:606f:d812:ecd2]) by OSAPR01MB2740.jpnprd01.prod.outlook.com
- ([fe80::8c77:606f:d812:ecd2%7]) with mapi id 15.20.3477.021; Wed, 14 Oct 2020
- 16:01:21 +0000
-From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
- r8a77965 support
-Thread-Topic: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
- r8a77965 support
-Thread-Index: AQHWoXHYI2L0behCIU2BKIZWRSjl+amXG3WAgAAPSWCAAAV3gIAAExNA
-Date:   Wed, 14 Oct 2020 16:01:20 +0000
-Message-ID: <OSAPR01MB274047DC61C63A8B869021CCC2050@OSAPR01MB2740.jpnprd01.prod.outlook.com>
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
- <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
- <CAMuHMdUxCiwjsFRYpVND-FLajaceUf+jWK0ZBR5Rp5xJ+MPDgA@mail.gmail.com>
- <OSAPR01MB274089EA87D5280E83E81C7DC2050@OSAPR01MB2740.jpnprd01.prod.outlook.com>
- <CAMuHMdUPb=Sy1R1pOXCAbDcCiMgWa27tVMvvTWn2rnotanM8cw@mail.gmail.com>
-In-Reply-To: <CAMuHMdUPb=Sy1R1pOXCAbDcCiMgWa27tVMvvTWn2rnotanM8cw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux-m68k.org; dkim=none (message not signed)
- header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 1cb48031-17d2-4317-22bf-08d8705a64e3
-x-ms-traffictypediagnostic: OSAPR01MB2995:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSAPR01MB2995591BB3BCE2DFA5B6D4BFC2050@OSAPR01MB2995.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: bxh4J2FAFQxxMSVKW2OjkEMb2fDMY8p/GAsU64/z86YyzswbpE7ju32TT+vnRY1QBQVfIvi1Hqkh4BjEKHja/rCBbez0eavjxihaEt+lVI6QEuodzqy7w5XByjgO/zFH1Ewt6pLPp1D5GwPEk37Ovty5zOzRAKtz9q3PZ29YE9qfk8kt0Vi60+Bhow8aDJGdprTr+F/pYikpLfUQW3M+nu8zsLe/R2yk/VuoMntAjDLpBHSwKg2KO7wkL2uaZI+/CrdTBEoomOUE6dITEunoymj3M3nGusXE8/UwW68REY8ghFbhJShtoDJFoKQP9JplDWkqD5xnwDbtuS9IE2S90g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2740.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(396003)(39850400004)(366004)(66556008)(66476007)(71200400001)(66446008)(5660300002)(7696005)(64756008)(26005)(52536014)(186003)(76116006)(2906002)(8676002)(8936002)(53546011)(6506007)(4326008)(9686003)(55016002)(33656002)(478600001)(66946007)(86362001)(54906003)(316002)(6916009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: zv/StDpmpGVMo6dyzX/D4mZxX2AR6OX3fdb3rktQvKc6sIDDNZuDRZhsITxWD5vdoA1lfiVaACvNL+y4sd/VmL7dRWHShrIGLA+tzWoWQlZXIMVfm4V/ttnnn8XWPTy/QoROayt2+pCBaPgJsKKCKGqmVvpSjszMkoIN85yGWO0FR93R4m/3eRXZCoDUeJmpIVpMJDM6RUzqVJ+kGq89Aq0XcDAIXcxdSPW/puRk9GLgG4qd83jHbv+xdaDBN0p2pmsjI/zKwuHeAIruPG7TNM9Zo+YCAGfFfkJwWC5f1PCNddd4EI4Nc63uYab/ehH8r+OKEp0WTbYRXb2mKw+bP8MC/f6YgebNr+BXlOcJRyUfY5EF74DrilyDyTIVdZ4h3f6y3XU6dxZHfRY0UFOvfLu4EngkyMmue6Onvtg5mN6MDkhAtdHWnsacr5+v2U6xnHYcz5ImanpmzFuXynNEaOYEug+fKbWxtSFFGf3fag/juHY/3zDQKo//Gu8Eosro3ijTQ9i8val5YOeRjbjoLfnTQ8kBl+34pU5RokIveX/8CN5gPcT+yVkLZRlkU9sRVv7s/l2CK886q2J9oU2g6GBbitBh+g72MKdULTLCfvIvNCtgjb8FD1c2uCcUxGPvweBGWimhTGclbHVMDy4IeQ==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 14 Oct 2020 12:40:15 -0400
+Received: by mail-ot1-f65.google.com with SMTP id n15so212659otl.8;
+        Wed, 14 Oct 2020 09:40:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=awjbHZmaw2mEvGp1mgXDc8wUbmV5fwPzQ3ps5KMPm2k=;
+        b=dIQYUIwoQZuAy5/qCFPM9JK+W2hP2Uxv/jC85VeJM39dk4Bx8Y2hiPwSPQtVYqxfzc
+         n+TDMIXuMTiWq0NF7o9FgpLf5zJMtUz4Dn7zOTY/Cmmrwxjxc4u8ckpIICmNNSyuGjEr
+         wOvWGMYu9MHks7JzrbNP5+VFi73sGSRepxtPG5K1yXeJMS7V0d9gpcgCz8/swibN66z4
+         JBaUOWZhCmIhADaX1/wN/zC7xZnhfEex8kwAfHd0IOAC+vC8ZGDf2OqJQGmIxrUndGC0
+         d6+vn3+iD665jWd+kqi6F7mCAGOlbjIqs84qGjSmnTAt9EzPgmbU2EriC7FhqDGiEw0u
+         b7Og==
+X-Gm-Message-State: AOAM5321G6h2lHuTBXVgf2NSRXp9oZ2MSaWHGmaXEF/8GJX93lHsHSV3
+        oAoCqR7L4LTvQWBpYo9cWoOwmZbjUc1SpwoiJw+eZx3hovQ=
+X-Google-Smtp-Source: ABdhPJyYK2BVffULinxkJTUaiKwHo3meDTY743HeDhNG3lORiwXgdZJDNH08E2bm6s/8cQMeFhZcrppTESI6pU154/Y=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr4108019otc.145.1602693612028;
+ Wed, 14 Oct 2020 09:40:12 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2740.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1cb48031-17d2-4317-22bf-08d8705a64e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2020 16:01:20.9363
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4RRLBI86C2JCMZk/yFRJNC62Mt2WbkCD20NCNnBKsHbrirproJtUm1mxBfjPUTn5yBbc7b3Ab48Dn3qFGkddagmYFFHsdIjDGZuqqoB+YQI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB2995
+References: <24ff92dd1b0ee1b802b45698520f2937418f8094.1598260050.git.viresh.kumar@linaro.org>
+ <f75c61f193f396608d592ae2a9938264d582c038.1598260050.git.viresh.kumar@linaro.org>
+ <CAMuHMdXLQKN5n58NvOp43vhc3ryLXWurBSsmcW9Q=oW502PYOQ@mail.gmail.com> <20201013095613.mbgmjwzojg5wxmau@vireshk-i7>
+In-Reply-To: <20201013095613.mbgmjwzojg5wxmau@vireshk-i7>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 14 Oct 2020 18:40:00 +0200
+Message-ID: <CAMuHMdVAJdHVMtK3Sc4sJiJGAwz1J4dKODBFcNzgstaktyKkOw@mail.gmail.com>
+Subject: Re: [PATCH V2 2/2] cpufreq: dt: Refactor initialization to handle
+ probe deferral properly
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
+        nks@flawful.org, Georgi Djakov <georgi.djakov@linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCj4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhr
-Lm9yZz4NCj4gU2VudDogMTQgT2N0b2JlciAyMDIwIDE1OjUyDQo+IFN1YmplY3Q6IFJlOiBbUEFU
-Q0ggdjMgNC81XSBtZWRpYTogZHQtYmluZGluZ3M6IG1lZGlhOiByZW5lc2FzLGRyaWY6IEFkZA0K
-PiByOGE3Nzk2NSBzdXBwb3J0DQo+DQo+IEhpIEZhYnJpemlvLA0KPg0KPiBPbiBXZWQsIE9jdCAx
-NCwgMjAyMCBhdCA0OjM1IFBNIEZhYnJpemlvIENhc3Rybw0KPiA8ZmFicml6aW8uY2FzdHJvLmp6
-QHJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiA+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2Vl
-cnRAbGludXgtbTY4ay5vcmc+DQo+ID4gPiBPbiBUdWUsIE9jdCAxMywgMjAyMCBhdCA1OjAyIFBN
-IEZhYnJpemlvIENhc3Rybw0KPiA+ID4gPGZhYnJpemlvLmNhc3Ryby5qekByZW5lc2FzLmNvbT4g
-d3JvdGU6DQo+ID4gPiA+IFRoZSByOGE3Nzk2NSAoYS5rLmEuIFItQ2FyIE0zLU4pIGRldmljZSB0
-cmVlIHNjaGVtYSBpcw0KPiA+ID4gPiBjb21wYXRpYmxlIHdpdGggdGhlIGFscmVhZHkgZG9jdW1l
-bnRlZCBSLUNhciBHZW4zIGRldmljZXMuDQo+ID4gPiA+DQo+ID4gPiA+IERvY3VtZW50IHI4YTc3
-OTY1IHN1cHBvcnQgd2l0aGluIHJlbmVzYXMsZHJpZi55YW1sLg0KPiA+ID4gPg0KPiA+ID4gPiBT
-aWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryby5qekByZW5lc2Fz
-LmNvbT4NCj4gPiA+DQo+ID4gPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+ID4gPg0KPiA+ID4g
-UmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+
-DQo+ID4gPg0KPiA+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-bWVkaWEvcmVuZXNhcyxkcmlmLnlhbWwNCj4gPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZHJpZi55YW1sDQo+ID4gPiA+IEBAIC01Myw2
-ICs1Myw3IEBAIHByb3BlcnRpZXM6DQo+ID4gPiA+ICAgICAgICAtIGVudW06DQo+ID4gPiA+ICAg
-ICAgICAgIC0gcmVuZXNhcyxyOGE3Nzk1LWRyaWYgICAgICAgICMgUi1DYXIgSDMNCj4gPiA+ID4g
-ICAgICAgICAgLSByZW5lc2FzLHI4YTc3OTYtZHJpZiAgICAgICAgIyBSLUNhciBNMy1XDQo+ID4g
-PiA+ICsgICAgICAgIC0gcmVuZXNhcyxyOGE3Nzk2NS1kcmlmICAgICAgICMgUi1DYXIgTTMtTg0K
-PiA+ID4gPiAgICAgICAgICAtIHJlbmVzYXMscjhhNzc5OTAtZHJpZiAgICAgICAjIFItQ2FyIEUz
-DQo+ID4gPiA+ICAgICAgICAtIGNvbnN0OiByZW5lc2FzLHJjYXItZ2VuMy1kcmlmICMgR2VuZXJp
-YyBSLUNhciBHZW4zIGNvbXBhdGlibGUNCj4gZGV2aWNlDQo+ID4gPg0KPiA+ID4gSSBndWVzcyB5
-b3UncmUgYXdhcmUgTTMtTiAoYW5kIEUzKSBoYXZlIGFuIGV4dHJhIHJlZ2lzdGVyPw0KPiA+ID4g
-UHJvYmFibHkgdGhlIGRyaXZlciBqdXN0IHJlbGllcyBvbiBpdHMgaW5pdGlhbCB2YWx1ZSwgYnV0
-IGl0IG5ldmVyIGh1cnRzIHRvIGJlDQo+ID4gPiBleHBsaWNpdCBhbmQgaW5pdGlhbGl6ZSBpdCBw
-cm9wZXJseS4NCj4gPg0KPiA+IFllcywgSSBhbSBhd2FyZSBvZiB0aGUgZXh0cmEgcmVnaXN0ZXIs
-IGFuZCB0aGF0J3MgcmVmbGVjdGVkIGluIHRoZSBEUklGIG5vZGVzDQo+ID4gZGVmaW5pdGlvbiB3
-aXRoaW4gdGhlIFNvQyBzcGVjaWZpYyBkZXZpY2UgdHJlZXMuDQo+ID4gSSdsbCB0YWNrbGUgaW5p
-dGlhbGl6YXRpb24gYW5kIGNvbmZpZ3VyYXRpb24gb2YgdGhlIGV4dHJhIHJlZ2lzdGVyIGF0IHNv
-bWUgcG9pbnQsDQo+ID4gZG8geW91IHRoaW5rIHdlIGNvdWxkIHVzZSB0aGUgZGVmYXVsdCB2YWx1
-ZSBmb3Igbm93Pw0KPg0KPiBZZXMsIHRoYXQncyBmaW5lIGZvciBtZSwgaWYgaXQgd29ya3Mgd2l0
-aCB0aGUgY3VycmVudCBkcml2ZXIuDQoNClllcywgYW5kIHRoYW5rIHlvdS4NCg0KQ2hlZXJzLA0K
-RmFiDQoNCj4NCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+DQo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgIEdlZXJ0DQo+DQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMg
-b2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtDQo+IG02OGsub3JnDQo+DQo+IElu
-IHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlz
-ZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1
-c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KPiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzDQoNCg0KUmVuZXNhcyBFbGVj
-dHJvbmljcyBFdXJvcGUgR21iSCwgR2VzY2hhZWZ0c2Z1ZWhyZXIvUHJlc2lkZW50OiBDYXJzdGVu
-IEphdWNoLCBTaXR6IGRlciBHZXNlbGxzY2hhZnQvUmVnaXN0ZXJlZCBvZmZpY2U6IER1ZXNzZWxk
-b3JmLCBBcmNhZGlhc3RyYXNzZSAxMCwgNDA0NzIgRHVlc3NlbGRvcmYsIEdlcm1hbnksIEhhbmRl
-bHNyZWdpc3Rlci9Db21tZXJjaWFsIFJlZ2lzdGVyOiBEdWVzc2VsZG9yZiwgSFJCIDM3MDggVVN0
-LUlETnIuL1RheCBpZGVudGlmaWNhdGlvbiBuby46IERFIDExOTM1MzQwNiBXRUVFLVJlZy4tTnIu
-L1dFRUUgcmVnLiBuby46IERFIDE0OTc4NjQ3DQo=
+Hi Viresh,
+
+On Tue, Oct 13, 2020 at 11:56 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
+> On 13-10-20, 11:47, Geert Uytterhoeven wrote:
+> > Thanks for your patch, which is now commit dc279ac6e5b4e06e ("cpufreq:
+> > dt: Refactor initialization to handle probe deferral properly") in
+> > pm/linux-next, and to which I bisected a regression.
+> > Reverting this commit fixes the issue.
+>
+> Strange. I had a look again and I failed to understand why it would
+> happen this way.
+>
+> > On r8a7791/koelsch, during resume from s2ram:
+> >
+> >      PM: suspend entry (deep)
+> >      Filesystems sync: 0.000 seconds
+> >      Freezing user space processes ... (elapsed 0.003 seconds) done.
+> >      OOM killer disabled.
+> >      Freezing remaining freezable tasks ... (elapsed 0.009 seconds) done.
+> >      Disabling non-boot CPUs ...
+> >      Enabling non-boot CPUs ...
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +i2c-sh_mobile e60b0000.i2c: Transfer request timed out
+> >     +cpu cpu0: OPP table can't be empty
+> >      CPU1 is up
+> >      rcar-pcie fe000000.pcie: PCIe x1: link up
+> >
+> > The cpufreq code tries to talk to the PMIC, while the I2C controller
+> > that hosts the PMIC is suspended, and thus any communication attempt
+> > times out.  __i2c_check_suspended() fails to notice that, as the
+> > i2c_shmobile_i2c driver doesn't have a suspend callback calling
+> > i2c_mark_adapter_suspended() yet.  After fixing that (will send a patch
+> > soon), the I2C core rightfully complains with:
+> >
+> >     WARNING: CPU: 1 PID: 13 at drivers/i2c/i2c-core.h:54
+> > __i2c_transfer+0x4a4/0x4e4
+> >     i2c i2c-6: Transfer while suspended
+> >     CPU: 1 PID: 13 Comm: cpuhp/1 Not tainted
+> > 5.9.0-shmobile-09581-g05a3e5886c7615b1-dirty #718
+> >     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+> >     [<c010dcec>] (unwind_backtrace) from [<c0109b18>] (show_stack+0x10/0x14)
+> >     [<c0109b18>] (show_stack) from [<c075e928>] (dump_stack+0x8c/0xac)
+> >     [<c075e928>] (dump_stack) from [<c011c23c>] (__warn+0xd0/0xe8)
+> >     [<c011c23c>] (__warn) from [<c011c2c4>] (warn_slowpath_fmt+0x70/0x9c)
+> >     [<c011c2c4>] (warn_slowpath_fmt) from [<c0548be8>]
+> > (__i2c_transfer+0x4a4/0x4e4)
+> >     [<c0548be8>] (__i2c_transfer) from [<c0548cd8>] (i2c_transfer+0xb0/0xf8)
+> >     [<c0548cd8>] (i2c_transfer) from [<c046f884>] (regmap_i2c_read+0x54/0x88)
+> >     [<c046f884>] (regmap_i2c_read) from [<c046b69c>]
+> > (_regmap_raw_read+0x118/0x1f0)
+> >     [<c046b69c>] (_regmap_raw_read) from [<c046b7b8>]
+> > (_regmap_bus_read+0x44/0x68)
+> >     [<c046b7b8>] (_regmap_bus_read) from [<c04698a0>] (_regmap_read+0x84/0x110)
+> >     [<c04698a0>] (_regmap_read) from [<c046c10c>] (regmap_read+0x40/0x58)
+> >     [<c046c10c>] (regmap_read) from [<c03cf0a8>]
+> > (regulator_get_voltage_sel_regmap+0x28/0x74)
+> >     [<c03cf0a8>] (regulator_get_voltage_sel_regmap) from [<c03cb29c>]
+> > (regulator_get_voltage_rdev+0xa4/0x14c)
+> >     [<c03cb29c>] (regulator_get_voltage_rdev) from [<c03cc658>]
+> > (regulator_get_voltage+0x2c/0x60)
+> >     [<c03cc658>] (regulator_get_voltage) from [<c03cd994>]
+> > (regulator_is_supported_voltage+0x30/0xd8)
+> >     [<c03cd994>] (regulator_is_supported_voltage) from [<c05a32b4>]
+> > (_opp_add+0x164/0x1b8)
+> >     [<c05a32b4>] (_opp_add) from [<c05a3388>] (_opp_add_v1+0x80/0xb8)
+> >     [<c05a3388>] (_opp_add_v1) from [<c05a5220>]
+> > (dev_pm_opp_of_add_table+0x130/0x168)
+> >     [<c05a5220>] (dev_pm_opp_of_add_table) from [<c05a5330>]
+> > (dev_pm_opp_of_cpumask_add_table+0x60/0xac)
+> >     [<c05a5330>] (dev_pm_opp_of_cpumask_add_table) from [<c05ab88c>]
+> > (cpufreq_init+0x94/0x1c4)
+> >     [<c05ab88c>] (cpufreq_init) from [<c05a8190>] (cpufreq_online+0x148/0x7ac)
+> >     [<c05a8190>] (cpufreq_online) from [<c05a87fc>]
+> > (cpuhp_cpufreq_online+0x8/0x10)
+> >     [<c05a87fc>] (cpuhp_cpufreq_online) from [<c011d088>]
+> > (cpuhp_invoke_callback+0xf8/0x2e4)
+> >     [<c011d088>] (cpuhp_invoke_callback) from [<c011d418>]
+> > (cpuhp_thread_fun+0xac/0x244)
+> >     [<c011d418>] (cpuhp_thread_fun) from [<c013c090>]
+> > (smpboot_thread_fn+0x19c/0x1a8)
+> >     [<c013c090>] (smpboot_thread_fn) from [<c0138408>] (kthread+0x104/0x110)
+> >     [<c0138408>] (kthread) from [<c0100148>] (ret_from_fork+0x14/0x2c)
+>
+> So there is a dependency chain here. cpufreq->regulator->i2c,
+> specially with the patch you pointed out, we handle defer-probing in a
+> better way and so I would expect i2c driver to get in first and
+> cpufreq should get registered later only. And I would have expected
+> the same during suspend/resume.
+>
+> Can you see why this happens ?
+
+On this platform (r8a7791-koelsch.dts), there is no opp table in DT.
+
+  Before:
+    boot:
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:362
+      cpu cpu0: resources_available:95
+      cpu cpu0: resources_available:102: clk_get() returned z
+      cpu cpu0: resources_available:120:
+dev_pm_opp_of_find_icc_paths() returned 0
+      cpu cpu0: resources_available:125: find_supply_name() returned cpu0
+      cpu cpu0: resources_available:132: regulator_get_optional()
+returned -EPROBE_DEFER
+      cpu cpu0: cpu0 regulator not ready, retry
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:371:
+resources_available() returned -517
+      ...
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:362
+      cpu cpu0: resources_available:95
+      cpu cpu0: resources_available:102: clk_get() returned z
+      cpu cpu0: resources_available:120:
+dev_pm_opp_of_find_icc_paths() returned 0
+      cpu cpu0: resources_available:125: find_supply_name() returned cpu0
+      cpu cpu0: resources_available:132: regulator_get_optional()
+returned (ptrval)
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:371:
+resources_available() returned 0
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:375
+      cpufreq_dt: cpufreq_init:162
+      cpu cpu0: cpufreq_init:170: clk_get() returned z
+      cpu cpu0: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
+      cpu cpu0: cpufreq_init:198: find_supply_name() returned cpu0
+      <i2c comm>
+      cpu cpu0: cpufreq_init:201: dev_pm_opp_set_regulators() returned (ptrval)
+      <i2c comm>
+      cpu cpu0: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu0: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
+      cpu cpu0: OPP table is not ready, deferring probe
+      cpufreq_dt: cpufreq_init:162
+      cpu cpu1: cpufreq_init:170: clk_get() returned z
+      cpu cpu1: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
+      cpu cpu1: no regulator for cpu1
+      cpu cpu1: cpufreq_init:198: find_supply_name() returned (null)
+      cpu cpu1: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu1: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
+      cpu cpu1: OPP table is not ready, deferring probe
+
+    s2ram:
+      cpufreq_dt: cpufreq_init:162
+      cpu cpu1: cpufreq_init:170: clk_get() returned z
+      cpu cpu1: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
+      cpu cpu1: no regulator for cpu1
+      cpu cpu1: cpufreq_init:198: find_supply_name() returned (null)
+      cpu cpu1: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu1: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
+      cpu cpu1: OPP table is not ready, deferring probe
+      CPU1 is up
+
+  After:
+    boot:
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:356
+      cpufreq_dt: dt_cpufreq_early_init:251
+      cpu cpu0: dt_cpufreq_early_init:256
+      cpu cpu0: dt_cpufreq_early_init:271: dev_pm_opp_get_opp_table()
+returned (ptrval)
+      cpu cpu0: dt_cpufreq_early_init:284: find_supply_name() returned cpu0
+      cpu cpu0: dt_cpufreq_early_init:288: dev_pm_opp_set_regulators()
+returned -EPROBE_DEFER
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
+dt_cpufreq_early_init() returned -517
+      ...
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:356
+      cpufreq_dt: dt_cpufreq_early_init:251
+      cpu cpu0: dt_cpufreq_early_init:256
+      cpu cpu0: dt_cpufreq_early_init:271: dev_pm_opp_get_opp_table()
+returned (ptrval)
+      cpu cpu0: dt_cpufreq_early_init:284: find_supply_name() returned cpu0
+      cpu cpu0: dt_cpufreq_early_init:288: dev_pm_opp_set_regulators()
+returned (ptrval)
+      cpu cpu0: dt_cpufreq_early_init:301:
+dev_pm_opp_of_get_sharing_cpus() returned -2
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
+dt_cpufreq_early_init() returned 0
+      cpufreq_dt: dt_cpufreq_early_init:251
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
+dt_cpufreq_early_init() returned 0
+      cpufreq-dt cpufreq-dt: dt_cpufreq_probe:365
+      cpufreq_dt: cpufreq_init:114
+      cpu cpu0: cpufreq_init:124: clk_get() returned z
+      cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
+      cpu cpu0: OPP table can't be empty
+      cpufreq_dt: cpufreq_init:114
+      cpu cpu0: cpufreq_init:124: clk_get() returned z
+      <i2c comm>
+      cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
+
+    s2ram:
+
+      cpufreq_dt: cpufreq_init:114
+      cpu cpu0: cpufreq_init:124: clk_get() returned z
+      WARNING: CPU: 1 PID: 14 at drivers/i2c/i2c-core.h:54
+__i2c_transfer+0x2d8/0x310
+      i2c i2c-6: Transfer while suspended
+      cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
+      cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
+      cpu cpu0: OPP table can't be empty
+      CPU1 is up
+
+I hope this helps.
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
