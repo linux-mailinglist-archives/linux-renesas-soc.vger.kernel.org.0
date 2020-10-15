@@ -2,48 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C529228F372
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Oct 2020 15:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3607C28F386
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Oct 2020 15:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729735AbgJONjs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Oct 2020 09:39:48 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35606 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727845AbgJONjs (ORCPT
+        id S1729735AbgJONmI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Oct 2020 09:42:08 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41076 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729543AbgJONmI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Oct 2020 09:39:48 -0400
-Received: by mail-ot1-f65.google.com with SMTP id s66so2938753otb.2;
-        Thu, 15 Oct 2020 06:39:47 -0700 (PDT)
+        Thu, 15 Oct 2020 09:42:08 -0400
+Received: by mail-oi1-f196.google.com with SMTP id q136so3132295oic.8;
+        Thu, 15 Oct 2020 06:42:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=E/M/Pc0HbldfufL0yjiT7Vgey1LfUPuA+fwHq/WSxEE=;
-        b=McOV9PBcf+ZQ0voFBbGUEQkXm3NVEzRIu82xBk6XzAR8h6i12yJ4dpiUQvqPWitieJ
-         5NuQlrIfKGUNwobWZq2BzaFffrQyySP85mGtIKg+9RMpf5pzXixXCy6TMRtxZLNUNpNk
-         hFLLibS6CrsIV3ePqeEXdhYEnYAwBh05wdDAHDXuok9TZibYMqQ6su8eppgNNEmoGya/
-         bbH4p9PGyy/FvoBTE79hGYrACckhP6FRQAYzLF/KWzS8I01SfadT/b2xel2vYMok7Lf/
-         J8ruMToZJTjoFU/Pk2R2ZALKN9W+PgRcJ5P5sHkQP9PLJelMT+x2/RSIbncmIdEFJRaW
-         5G/A==
-X-Gm-Message-State: AOAM532Ou9AkuMdelCngUhaHLmmnP3I5xJ4QtdOxLRQm7+hQypM+Cs2J
-        Km1bLPIk87Uuy1WpQV012ue/Y1lDmh3eteSifPfPSYewFQg=
-X-Google-Smtp-Source: ABdhPJzzvw47VJtPKUJ8vBhxk5hsE2yuYwJ3HOHcFuuYpB4kVX8SXSTUpWPiUez9CtY0q72vviwost5V3tbMt13QbIw=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr2520241oti.107.1602769187312;
- Thu, 15 Oct 2020 06:39:47 -0700 (PDT)
+        bh=orF3cUU9oOlrO0FJRLdebs2VBGQcFMsbBrA1OLiycKc=;
+        b=E/Pycu/0l1XZnpUdw5stPYHepQP6695avZbWdQQM8OOaKtWzpwfKWnA8qWYOwrWWlP
+         Uyo9GrzhkM8gIM0wUEmfv00ojlMBa9FnODWiggpBiedP+pDsU5SvcOdIyTWyoUELDuA4
+         5YcY3ypl+8rHci2Po9LUsNX2wduaWarlG/mejOmOinVrfSVxqxLLW3U2OJ9egLLEJIx7
+         EzPV4quwaotN8pKh7OAL7pdUlmbt/o+bkHSojx/hYSzOaI6OYmq9LHl0MHP+4cdEEvQP
+         evRBMf0VgHWceVXlHB0cziYH8LN2L+heK8jfwzQ/uxN0qcM3g3+MpxqV/5fKCEzOuqNY
+         ESRQ==
+X-Gm-Message-State: AOAM533TeRMSSjUyj51A+aiQ/sUwCf7FGxVHJxbBhaYiQ3KO0rb/0c54
+        C02YCTlvXw04r+o80u2UaH80Nb6+jCTZSvvYO4w=
+X-Google-Smtp-Source: ABdhPJwIHm97HoA7V3FJf/i1TcP1cp8zPRHXwEDlwF/Nb56j3OiUhYXo+FNYC1Wl0GFutzFDpqRcyF818BuYmu4Dmng=
+X-Received: by 2002:aca:c490:: with SMTP id u138mr2200333oif.54.1602769327067;
+ Thu, 15 Oct 2020 06:42:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201015132350.8360-1-biju.das.jz@bp.renesas.com> <20201015132350.8360-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20201015132350.8360-2-biju.das.jz@bp.renesas.com>
+References: <20201015132350.8360-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20201015132350.8360-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 15 Oct 2020 15:39:36 +0200
-Message-ID: <CAMuHMdXu3AKFAY3b6SfWgpQL9VBJBC9HL4ZK5EFu=7FZ2zJoXA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: cat875: Remove rxc-skew-ps from
- ethernet-phy node
+Date:   Thu, 15 Oct 2020 15:41:56 +0200
+Message-ID: <CAMuHMdUogbfHYv+g3+2=7JwhgH3MngmDEe5nvjZwkjTOJyn9dQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: hihope-rzg2-ex: Drop rxc-skew-ps
+ from ethernet-phy node
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Simon Horman <horms+renesas@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
@@ -56,25 +56,25 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Thu, Oct 15, 2020 at 3:24 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> The CAT875 sub board from Silicon Linux uses Realtek phy and the driver
-> does not support rxc-skew-ps property.
+> HiHope RZG2[HMN] boards uses Realtek phy and the driver does not support
+> rxc-skew-ps property. So remove rxc-skew-ps from ethernet-phy node.
 >
-> Fixes: 6b170cd3ed02949f ("arm64: dts: renesas: cat875: Add ethernet support")
+> Fixes: 7433f1fb8ec8fe ("arm64: dts: renesas: Add HiHope RZ/G2M sub board support")
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/cat875.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
-> @@ -21,7 +21,6 @@
+> --- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+> @@ -23,7 +23,6 @@
 >         status = "okay";
 >
 >         phy0: ethernet-phy@0 {
 > -               rxc-skew-ps = <1500>;
 >                 reg = <0>;
 >                 interrupt-parent = <&gpio2>;
->                 interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
+>                 interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
 
 Should "rx-internal-delay-ps = <1800>" be added to the avb node instead
 (after [1] has entered v5.10-rc1, and the DTS part of [2] has been
