@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFBCF28F22B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Oct 2020 14:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC12228F28C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Oct 2020 14:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbgJOMfV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Oct 2020 08:35:21 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43296 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgJOMfV (ORCPT
+        id S1726149AbgJOMoD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Oct 2020 08:44:03 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:43800 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725899AbgJOMoD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Oct 2020 08:35:21 -0400
-Received: by mail-oi1-f194.google.com with SMTP id l85so2888341oih.10;
-        Thu, 15 Oct 2020 05:35:19 -0700 (PDT)
+        Thu, 15 Oct 2020 08:44:03 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l85so2914879oih.10;
+        Thu, 15 Oct 2020 05:44:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=JYxE7+1GIr9Y7Alby7j1jIy6dZhSk+zAk9I33SomSlo=;
-        b=qnEDOhsLzfhuob0cJqmoiW0pf/ogyCzatxP/wi7ZRbL0Bn/YgQ+AgaXOm03TC7BcD9
-         6BMqEFl9VpsAJdplI/XMDucleWxfAjuadxDf++Qx+N8WslYmwvbuMB170/8JQUXLj7r+
-         rpIfLdaL/x+RgUDHrsiZ29guTgoww5FIzRZ0RrTmR3iREtARg7tkiH2KlakumRD/rb1T
-         w0PyAaAnqbJoSIkbprdyodA9EBdopjzUweK1N4wThNBjDOyW3mN4ULOpfU7kY9UPskG+
-         Kr8IHfS+2zepZgHujUCIEzNVCWB3OBxK8ZA7ft8bop5CLq9LeA6XQZe6/avjD+WUx6qc
-         z2MQ==
-X-Gm-Message-State: AOAM5337R1meV/zvVpwXI4M0CBlkI5sOXQkAohvuHlEXuPgPofGqblWp
-        JESq0daSyBId3jEti+oRvDy7h3XnxWG3I9BgdNOiQZgK
-X-Google-Smtp-Source: ABdhPJyeHzVNtD4u+iYZTBH+/7EAr+AaR2E6W0QVHO0jXNt72LqnZBjvtzoG7HuSxobPBloquV4FEhQrkHaFyc0gQZw=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr1848993oia.153.1602765318932;
- Thu, 15 Oct 2020 05:35:18 -0700 (PDT)
+        bh=QjCSWT7tA5YUwjA+pLeB3xL2aqhlDUV3/tNCLk2jMMw=;
+        b=f6fUe1cTcUWlRDk41Shwmm+cktj9ti64QiYFRPD1sePYgdxI1U9K5wq7wqW/wybd53
+         cfkBDb4ilGvSv5X4WGntd4W85haCVjDS0oN248rA+Z5A9QAzMorIyKhGd/aiF361YjWg
+         QcScNlATxiCLLhyC0fPQSqN8SlNcYnHZ2oADwTWwryMhH6rFE9q/bfQzcoEU71va5Isa
+         LuPyWSlxjzlVHEqg5CAKhFeqSSuscShiitHFhsXw0bGxBXijJR+yO1/dHUj2XENFiMIC
+         YrJN1LEbDx/7IzWTJirdmpDJC+1aXnvNb7jdCOOi5ZAsVuKxiIT4XOAqWETUBRwI/JER
+         VJjA==
+X-Gm-Message-State: AOAM533BIKn7nsMrTTEdijNlYh8AWiBcuuvYQ34cKAyaDOE5WMf2tAJv
+        j1hZ0ltbUFluxQ7Wz9o8MOPxkkfLmAmBC1nlKfs=
+X-Google-Smtp-Source: ABdhPJwnaCRQYCyL0eGrxY3aSifBwtEw2nvQzJKW2jaO2huhkge+b1CFNE7DXELCbeaYcpjBxCTaAssQ6T3RUcGuJ2E=
+X-Received: by 2002:aca:c490:: with SMTP id u138mr2020084oif.54.1602765842489;
+ Thu, 15 Oct 2020 05:44:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201014094443.11070-1-jacopo+renesas@jmondi.org> <20201014094443.11070-2-jacopo+renesas@jmondi.org>
-In-Reply-To: <20201014094443.11070-2-jacopo+renesas@jmondi.org>
+References: <20201014094443.11070-1-jacopo+renesas@jmondi.org> <20201014094443.11070-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201014094443.11070-4-jacopo+renesas@jmondi.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 15 Oct 2020 14:35:07 +0200
-Message-ID: <CAMuHMdUkj+nVPYtc7WsofTcLwpAKXJwM0V7qmgg1sTBN0UzyFg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] clk: renesas: r8a779a0: Add CSI4[0-3] clocks
+Date:   Thu, 15 Oct 2020 14:43:51 +0200
+Message-ID: <CAMuHMdW_z3Rppv4LcMabbfZ9SLY+TxDjw7=13F2sWStMdEdaag@mail.gmail.com>
+Subject: Re: [PATCH 3/6] arm64: dts: renesas: r8a779a0: Add CSI-2 nodes
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -47,13 +47,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
+
 On Wed, Oct 14, 2020 at 11:40 AM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Add clock definitions of the CSI-2 receivers for R-Car V3U.
+> Add CSI-2 nodes to R8A779A0 R-Car V3U SoC.
 >
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
+Thanks for your patch!
+
+> The chip manual reports that the CSI-2 units are fed with S1D1 and S1D2
+> clocks. The same applies to other SoCs, but none lists the two
+> additional clocks in the DTS node. So I left them out here as well.
+
+As these clocks are always-on, and as long as the driver does't
+care about the actual clock rates, that is fine.
+
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> @@ -105,6 +105,47 @@ scif0: serial@e6e60000 {
+>                         status = "disabled";
+>                 };
+>
+> +               csi40: csi2@feaa0000 {
+> +                       compatible = "renesas,r8a779a0-csi2";
+> +                       reg = <0 0xfeaa0000 0 0x10000>;
+> +                       interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_HIGH>;
+> +                       clocks = <&cpg CPG_MOD 331>;
+> +                       power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +                       resets = <&cpg 331>;
+> +                       status = "disabled";
+
+Missing "ports" subnode?
+
+Apart from that:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.11.
 
 Gr{oetje,eeting}s,
 
