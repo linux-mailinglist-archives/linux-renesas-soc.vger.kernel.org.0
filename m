@@ -2,509 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1541729012B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 11:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55FA72903F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 13:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405543AbgJPJMj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 05:12:39 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:47951 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405974AbgJPJMb (ORCPT
+        id S2406133AbgJPL0i convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 07:26:38 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:35528 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405448AbgJPL0h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 05:12:31 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id D57EB2005B;
-        Fri, 16 Oct 2020 09:12:27 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
-        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] arm64: dts: r8a779a0: Add VIN nodes
-Date:   Fri, 16 Oct 2020 13:11:58 +0200
-Message-Id: <20201016111158.17521-7-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201016111158.17521-1-jacopo+renesas@jmondi.org>
-References: <20201016111158.17521-1-jacopo+renesas@jmondi.org>
+        Fri, 16 Oct 2020 07:26:37 -0400
+Received: by mail-oi1-f195.google.com with SMTP id w141so2044661oia.2;
+        Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+tUY23Fnh3h/GUDvCPSO5j6kFLC3m6/J+eXR/e+9gis=;
+        b=OY6jTR2PEiiI3M8FICkaBN2p+/I/v/ZDzSdcY+otgYgb27/h4+dzBqE1loJ4m96n+P
+         QQK9WzCQwGuVpmigluqXIlSlg72VbPKojflugmxtBGB7dLSXSyM+lRfPYh5N3JrdwYK7
+         mobBXm2XCYWEC3X0+VuhyjDIg4FtUpGhOW4LbfVhzY6KJuw5IBzJodcIuIrOxM/D+hQ8
+         2dcZaj4qNgtSMRys9hn6gvimHTvVu0Ll8UIw7BVmlWKqefbGNxEHPYCvv0EtyNvp826n
+         4ofBkF/R5nxuL2z6DM/oKpbXX7FdBdtW385fhX80ZQikz9HzYeiJw/bFQFdgzf8Fw5Bo
+         8+8Q==
+X-Gm-Message-State: AOAM531wxxKP2K7T0tUYkiDBEKCxPesVvSA310uHGEBq/FaoC+MQLDcY
+        l+EECev/yrRONOS4hgvDkcgEMQfI98wsdY+/BSg=
+X-Google-Smtp-Source: ABdhPJzJxpTR69NUAVkUWUX3gX1LbNWNYPglOpaeIaONbhmS67DHnmzw4TpWpRKbNYJcwWDEwgLLGL+bSTDsfyNoUDk=
+X-Received: by 2002:aca:c490:: with SMTP id u138mr2109166oif.54.1602847596494;
+ Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com> <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+In-Reply-To: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 16 Oct 2020 13:26:25 +0200
+Message-ID: <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add VIN nodes to R8A779A0 R-Car V3U SoC.
+Hi Niklas,
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
+On Fri, Oct 16, 2020 at 12:46 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
+> > On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > This series add suspend and resume support directly to R-Car VIN and
+> > > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
+> > > pipeline. The capture pipeline is stopped when suspending and started
+> > > when resuming, all while retaining the buffers provided from user-space.
+> > > This makes the start and stop of the pipeline transparent from an
+> > > application point of view.
+> > >
+> > > As the pipeline is switched off subdevices that poweroff themself when
+> > > not in use (such as R-Car CSI-2) are also switched off and are
+> > > indirectly serviced by the suspend support in VIN.
+> >
+> > Thanks for your series!
+> >
+> > > This work is based on-top of the media-tree and is tested on both R-Car
+> > > Gen2 and Gen3 without any regressions.
+> >
+> > FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
+> > off the SoC?
+>
+> I have only been able to test it with s2idle. My issue is that s2ram
+> fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead
+> use a initramfs I can resume from s2ram but I don't have the setup to
+> test capture in that environment.
 
-v2:
-- Add 'renesas,id' property and empty 'ports' node to pass dtbs validation
+>     [  347.775223] libphy: ravb_mii: probed
+>     [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
+>     [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
+>     [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
+>     [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
+>     [  347.929701] ata1: link resume succeeded after 1 retries
+>     [  347.989934] OOM killer enabled.
+>     [  347.993184] Restarting tasks ... done.
+>     [  348.004321] PM: suspend exit
+>     [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
+>     [  529.376515] nfs: server 10.0.1.1 not responding, still trying
+>     [  529.376702] nfs: server 10.0.1.1 not responding, still trying
+>     [  529.385628] nfs: server 10.0.1.1 not responding, still trying
+>     ** Board never reaches user-space **
+>
+> Is there a known fix for this?
 
----
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 448 ++++++++++++++++++++++
- 1 file changed, 448 insertions(+)
+Please try cherry-picking commit 77972b55fb9d35d4 ("Revert "ravb: Fixed
+to be able to unload modules"") from v5.9.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 62ed6ce29cb0..b275807a7a14 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -105,6 +105,454 @@ scif0: serial@e6e60000 {
- 			status = "disabled";
- 		};
+Gr{oetje,eeting}s,
 
-+		vin0: video@e6ef0000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef0000 0 0x1000>;
-+			interrupts = <GIC_SPI 160 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 730>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 730>;
-+			renesas,id = <0>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin1: video@e6ef1000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef1000 0 0x1000>;
-+			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 731>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 731>;
-+			renesas,id = <1>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin2: video@e6ef2000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef2000 0 0x1000>;
-+			interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 800>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 800>;
-+			renesas,id = <2>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin3: video@e6ef3000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef3000 0 0x1000>;
-+			interrupts = <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 801>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 801>;
-+			renesas,id = <3>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin4: video@e6ef4000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef4000 0 0x1000>;
-+			interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 802>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 802>;
-+			renesas,id = <4>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin5: video@e6ef5000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef5000 0 0x1000>;
-+			interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 803>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 803>;
-+			renesas,id = <5>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin6: video@e6ef6000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef6000 0 0x1000>;
-+			interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 804>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 804>;
-+			renesas,id = <6>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin7: video@e6ef7000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef7000 0 0x1000>;
-+			interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 805>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 805>;
-+			renesas,id = <7>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin8: video@e6ef8000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef8000 0 0x1000>;
-+			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 806>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 806>;
-+			renesas,id = <8>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin9: video@e6ef9000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ef9000 0 0x1000>;
-+			interrupts = <GIC_SPI 169 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 807>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 807>;
-+			renesas,id = <9>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin10: video@e6efa000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6efa000 0 0x1000>;
-+			interrupts = <GIC_SPI 170 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 808>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 808>;
-+			renesas,id = <10>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin11: video@e6efb000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6efb000 0 0x1000>;
-+			interrupts = <GIC_SPI 171 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 809>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 809>;
-+			renesas,id = <11>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin12: video@e6efc000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6efc000 0 0x1000>;
-+			interrupts = <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 810>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 810>;
-+			renesas,id = <12>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin13: video@e6efd000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6efd000 0 0x1000>;
-+			interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 811>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 811>;
-+			renesas,id = <13>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin14: video@e6efe000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6efe000 0 0x1000>;
-+			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 812>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 812>;
-+			renesas,id = <14>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin15: video@e6eff000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6eff000 0 0x1000>;
-+			interrupts = <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 813>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 813>;
-+			renesas,id = <15>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin16: video@e6ed0000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed0000 0 0x1000>;
-+			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 814>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 814>;
-+			renesas,id = <16>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin17: video@e6ed1000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed1000 0 0x1000>;
-+			interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 815>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 815>;
-+			renesas,id = <17>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin18: video@e6ed2000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed2000 0 0x1000>;
-+			interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 816>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 816>;
-+			renesas,id = <18>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin19: video@e6ed3000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed3000 0 0x1000>;
-+			interrupts = <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 817>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 817>;
-+			renesas,id = <19>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin20: video@e6ed4000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed4000 0 0x1000>;
-+			interrupts = <GIC_SPI 180 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 818>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 818>;
-+			renesas,id = <20>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin21: video@e6ed5000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed5000 0 0x1000>;
-+			interrupts = <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 819>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 819>;
-+			renesas,id = <21>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin22: video@e6ed6000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed6000 0 0x1000>;
-+			interrupts = <GIC_SPI 182 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 820>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 820>;
-+			renesas,id = <22>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin23: video@e6ed7000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed7000 0 0x1000>;
-+			interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 821>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 821>;
-+			renesas,id = <23>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin24: video@e6ed8000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed8000 0 0x1000>;
-+			interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 822>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 822>;
-+			renesas,id = <24>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin25: video@e6ed9000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ed9000 0 0x1000>;
-+			interrupts = <GIC_SPI 185 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 823>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 823>;
-+			renesas,id = <25>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin26: video@e6eda000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6eda000 0 0x1000>;
-+			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 824>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 824>;
-+			renesas,id = <26>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin27: video@e6edb000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6edb000 0 0x1000>;
-+			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 825>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 825>;
-+			renesas,id = <27>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin28: video@e6edc000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6edc000 0 0x1000>;
-+			interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 826>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 826>;
-+			renesas,id = <28>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin29: video@e6edd000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6edd000 0 0x1000>;
-+			interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 827>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 827>;
-+			renesas,id = <29>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin30: video@e6ede000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6ede000 0 0x1000>;
-+			interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 828>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 828>;
-+			renesas,id = <30>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
-+		vin31: video@e6edf000 {
-+			compatible = "renesas,vin-r8a779a0";
-+			reg = <0 0xe6edf000 0 0x1000>;
-+			interrupts = <GIC_SPI 191 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 829>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 829>;
-+			renesas,id = <31>;
-+			status = "disabled";
-+
-+			ports {
-+			};
-+		};
-+
- 		gic: interrupt-controller@f1000000 {
- 			compatible = "arm,gic-v3";
- 			#interrupt-cells = <3>;
---
-2.28.0
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
