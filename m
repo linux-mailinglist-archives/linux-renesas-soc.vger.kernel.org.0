@@ -2,138 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68E4928FFA8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 10:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 210C2290378
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 12:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404979AbgJPICB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 04:02:01 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:38409 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404892AbgJPICA (ORCPT
+        id S2395482AbgJPKqd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 06:46:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395480AbgJPKqd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 04:02:00 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 22A9E1BF210;
-        Fri, 16 Oct 2020 08:01:56 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 12:01:42 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Fri, 16 Oct 2020 06:46:33 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF691C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id 184so2263666lfd.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
+        b=uAVW5LZ0qDoTr11vN0BBe+1vX4rbwGvp1XMQ/KEaZr5f8W+mk4dcL3Hgw++zlnaVSB
+         qzBQgmXWZ9vDUwe0nFRnajnG7HorEG1vaaUA/rpdEGxwwzHhy5FHmWiwsziwdjCV3n/o
+         j1jhzHz4h1apXSkrGBMeve4P5jamP+ZkiIyooQ0d4wuURiXbv4zBbW3H8CDfSOyLr/tv
+         cQhpOTL0DB8If7bRY6fYQM62OIylS7oWEHSrKuDZ/0JXEiwwp78Fd5tFQaeQkbW19orn
+         gGsUmMlU7HLVhxT5SniR8+MJsn4664VJOAd/0NrqaADR2qS9LX4WILVoRV5lDg8iBMzV
+         RgOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
+        b=kejmQRIhY/iwxrkWf2keULiSWPHNGMCcro7542EKqJiCCqbu+xIBV70mvEc/GgK4f/
+         Oe7qfPQFcGjc0bhDAPaC+/8kdUxGkjL67BeESEaYCBI3E+SCecXzsdc37o19QDKqtDyC
+         1OF3WR4rIp5pxgvfZDs7iJ1lE13YpqHAEhcovciwCE18YTWyDL6cQBH+kHXi3r49Ofx3
+         k+oP7p5b8r5oc0ASPbr9OlAGPYTMHNSS5TOYHfQsdKW88UwkSmJK6ABL01plvqTwn6Tk
+         PdqiSMty6sukCWNX9Q1E51vL36AUCeFvAbZlMO3WkuKgqiFRQqR4DmZOiM4udhtcT6cf
+         LRoA==
+X-Gm-Message-State: AOAM5324CVF96Ul4Uldv3WJMaltlFKia6BzF2PWqZSS9w0/aOKxTTXVA
+        iUlA+NPfXblmBcwYw9+Gg2rrqg==
+X-Google-Smtp-Source: ABdhPJwn+emKMSImv/ay6it3kVmAQdJapmCqNQeyL62QfTbrTgeXOFuxoVIoJrgyIbbuV0Xr3WfHKQ==
+X-Received: by 2002:a19:350:: with SMTP id 77mr1194910lfd.92.1602845191026;
+        Fri, 16 Oct 2020 03:46:31 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id z19sm704004lfr.46.2020.10.16.03.46.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 03:46:30 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 12:46:29 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/6] clk: renesas: r8a779a0: Add VIN[00-31] clocks
-Message-ID: <20201016100142.c6fg4xltz5m6dbjp@uno.localdomain>
-References: <20201014094443.11070-1-jacopo+renesas@jmondi.org>
- <20201014094443.11070-5-jacopo+renesas@jmondi.org>
- <0de062e4-0385-444b-1abc-881c313a6479@gmail.com>
- <20201015093227.y3n5ohzuydg2fe3t@uno.localdomain>
- <CAMuHMdVNmQ6f09M8Hkrq0xuMNtQM4RGDOrmPENNRcWz36gZXgA@mail.gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
+Message-ID: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVNmQ6f09M8Hkrq0xuMNtQM4RGDOrmPENNRcWz36gZXgA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-On Thu, Oct 15, 2020 at 06:30:03PM +0200, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Thu, Oct 15, 2020 at 9:32 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > On Wed, Oct 14, 2020 at 09:55:32PM +0300, Sergei Shtylyov wrote:
-> > > On 10/14/20 12:44 PM, Jacopo Mondi wrote:
-> > > > Add clock definitions of the VIN instances for R-Car V3U.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > >
-> > > > ---
-> > > > Clocks at indexes 730 and 731 are named 'vin0' and 'vin1'.
-> > > > I assumed it's a typographic error and renamed them 'vin00' and 'vin01'
-
-Add this to the list of things which not exactly clear in the current
-documentation
-
-> > > > ---
-> > > >  drivers/clk/renesas/r8a779a0-cpg-mssr.c | 32 +++++++++++++++++++++++++
-> > > >  1 file changed, 32 insertions(+)
-> > > >
-> > > > diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> > > > index bd54a28c50ee..2a00eb82013f 100644
-> > > > --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> > > > +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-> > > > @@ -149,6 +149,38 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
-> > > >     DEF_MOD("scif1",        703,    R8A779A0_CLK_S1D8),
-> > > >     DEF_MOD("scif3",        704,    R8A779A0_CLK_S1D8),
-> > > >     DEF_MOD("scif4",        705,    R8A779A0_CLK_S1D8),
-> > > > +   DEF_MOD("vin00",        730,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin01",        731,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin02",        800,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin03",        801,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin04",        802,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin05",        803,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin06",        804,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin07",        805,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin10",        806,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin11",        807,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin12",        808,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin13",        809,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin14",        810,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin15",        811,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin16",        812,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin17",        813,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin20",        814,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin21",        815,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin22",        816,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin23",        817,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin24",        818,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin25",        819,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin26",        820,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin27",        821,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin30",        822,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin31",        823,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin32",        824,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin33",        825,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin34",        826,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin35",        827,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin36",        828,    R8A779A0_CLK_S1D1),
-> > > > +   DEF_MOD("vin37",        829,    R8A779A0_CLK_S1D1),
+On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > This series add suspend and resume support directly to R-Car VIN and
+> > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
+> > pipeline. The capture pipeline is stopped when suspending and started
+> > when resuming, all while retaining the buffers provided from user-space.
+> > This makes the start and stop of the pipeline transparent from an
+> > application point of view.
 > >
-> > >    The subject says VIN[0-31]?
-> >
-> > There are 32 VIN instances (hence the [0-31] in the subject), grouped
-> > in 4 units of 8 channels each.
-> >
-> > I can drop the [0-31] in the subject if it's confusing.
->
-> The VIN naming in the R-Car V3U documentation is very confusing.
-> E.g. all of the following are used, and refer to the same channel:
->   1. VIN37,
->   2. VIN31,
->   3. vin3 ch7.
->
-> Looks good to me, but I cannot verify the parent clocks
+> > As the pipeline is switched off subdevices that poweroff themself when
+> > not in use (such as R-Car CSI-2) are also switched off and are
+> > indirectly serviced by the suspend support in VIN.
+> 
+> Thanks for your series!
+> 
+> > This work is based on-top of the media-tree and is tested on both R-Car
+> > Gen2 and Gen3 without any regressions.
+> 
+> FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
+> off the SoC?
 
-I got them from the downstream driver, as they're not documented.
+I have only been able to test it with s2idle. My issue is that s2ram 
+fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead 
+use a initramfs I can resume from s2ram but I don't have the setup to 
+test capture in that environment.
 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+My procedure for s2idle that works with nfsroot is,
 
-Thanks
-  j
+    # path=$(find /sys -path '/sys/devices/platform/*/ttySC0/power/wakeup')
+    # echo enabled > $path
+    # echo N > /sys/module/printk/parameters/console_suspend
+    # echo s2idle > /sys/power/mem_slee
+    # echo mem > /sys/power/state
+    ** Wait a while and then wakeup using the console **
+    #
 
->
+My procedure for s2ram that does _not_ work with nfsroot (but do with 
+initramfs). Both tests are done on a M3-N.
+
+    # echo N > /sys/module/printk/parameters/console_suspend
+    # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+    ** flipp SW23 off **
+    # echo mem > /sys/power/state
+    [  347.096336] PM: suspend entry (deep)
+    [  347.104251] Filesystems sync: 0.003 seconds
+    [  347.123751] Freezing user space processes ... (elapsed 0.007 seconds) done.
+    [  347.138760] OOM killer disabled.
+    [  347.142099] Freezing remaining freezable tasks ... (elapsed 0.002 seconds) done.
+    [  347.167466] ravb e6800000.ethernet eth0: Link is Down
+    [  347.440549] Disabling non-boot CPUs ...
+    [  347.448805] CPU1: shutdown
+    [  347.451731] psci: CPU1 killed (polled 0 ms)
+    ** Waits 30+ seconds then switch SW23 on **
+    INFO:    ARM GICv2 driver initialized
+    NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.2.0.6
+    NOTICE:  BL2: PRR is R-Car M3N Ver.1.0
+    NOTICE:  BL2: Board is Salvator-XS Rev.1.0
+    NOTICE:  BL2: Boot device is HyperFlash(160MHz)
+    NOTICE:  BL2: LCM state is CM
+    NOTICE:  AVS setting succeeded. DVFS_SetVID=0x53
+    NOTICE:  BL2: DDR3200(rev.0.40)
+    NOTICE:  BL2: [WARM_BOOT]
+    NOTICE:  BL2: DRAM Split is OFF
+    NOTICE:  BL2: QoS is default setting(rev.0.09)
+    NOTICE:  BL2: DRAM refresh interval 1.95 usec
+    NOTICE:  BL2: Periodic Write DQ Training
+    NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
+    NOTICE:  BL2: FDT at 0xe6322508
+    NOTICE:  BL2: v2.3(release):v2.3-188-g9935047b2086faa3
+    NOTICE:  BL2: Built : 23:31:02, Jun 18 2020
+    NOTICE:  BL2: Normal boot
+    INFO:    BL2: Doing platform setup
+    [  347.461237] Enabling non-boot CPUs ...
+    [  347.465551] Detected PIPT I-cache on CPU1
+    [  347.465611] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
+    [  347.468691] CPU1 is up
+    [  347.607806] usb usb2: root hub lost power or was reset
+    [  347.613594] usb usb1: root hub lost power or was reset
+    [  347.767713] usb usb4: root hub lost power or was reset
+    [  347.773424] usb usb3: root hub lost power or was reset
+    [  347.775223] libphy: ravb_mii: probed
+    [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
+    [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
+    [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
+    [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
+    [  347.929701] ata1: link resume succeeded after 1 retries
+    [  347.989934] OOM killer enabled.
+    [  347.993184] Restarting tasks ... done.
+    [  348.004321] PM: suspend exit
+    [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
+    [  529.376515] nfs: server 10.0.1.1 not responding, still trying
+    [  529.376702] nfs: server 10.0.1.1 not responding, still trying
+    [  529.385628] nfs: server 10.0.1.1 not responding, still trying
+    ** Board never reaches user-space **
+
+Is there a known fix for this?
+
+> 
 > Gr{oetje,eeting}s,
->
+> 
 >                         Geert
->
-> --
+> 
+> -- 
 > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
+> 
 > In personal conversations with technical people, I call myself a hacker. But
 > when I'm talking to journalists I just say "programmer" or something like that.
 >                                 -- Linus Torvalds
+
+-- 
+Regards,
+Niklas Söderlund
