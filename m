@@ -2,136 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1647A290888
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 17:33:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52B7B2908D8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 17:50:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410082AbgJPPdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 11:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410276AbgJPPct (ORCPT
+        id S2408728AbgJPPuJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 11:50:09 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:37459 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406693AbgJPPuJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 11:32:49 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1F4C0613D5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 08:32:49 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id w21so1482258plq.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 08:32:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qGdeYT3MiQwKX79eLQ/b7rznlfvba/UsEutEjQXYcRw=;
-        b=BwNX2GgLB3+EPMYvB86xvOSo+D+yDOe6vQWybxXuycnnDbw09lPKB6ZNFRRn76EG1N
-         +a+FOf9PbCPumM4w1i7u3gv/SM0i4bIkRdp5TU/yRTKrnVGkQaoPC3U5wPaWExnnI690
-         PTnEFPfXgo5vqPNME5OPr10m2iAlzCJw5nAhL3CXv2iq9dxEOmv0kYwesfsMME4Ili0i
-         L94JvtSezyXy7B29nFfS1pOp+3WtggJE4Lv9GH187tGRePR2hU+QlMGygWjM1Zdv1B0p
-         31JZXa4Q27dgXy4sqGFWldTvpI+P8/3gilbfIiLd06tpssBIib2+m6h27W3UBRqo8y9t
-         6r4g==
+        Fri, 16 Oct 2020 11:50:09 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t77so2934197oie.4;
+        Fri, 16 Oct 2020 08:50:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qGdeYT3MiQwKX79eLQ/b7rznlfvba/UsEutEjQXYcRw=;
-        b=DtQJWBGvFpyc594G3T0BRo8l8iv+0z37jEiTN7oDzCGIBVihB6A/KehfAYSm9Z9Erv
-         q8b2m/gKkRS0Bus0XWl6XZ7NMW+96uHyc8UF275KbqXJgMVSlPOmUAN3CKmh2GSyinMl
-         locHVR5WYV/fkhZON2n2Kzr8mJJaSFGjSij+oxvSEFzi3/nBv5mPmoMiUfQFGllBUG7T
-         OauCgR470UqJLCaPCfOQ5p9oWu9vlHK0kDKp5S9yDe5q09ggAA/ttv7BsHBnYpREQfu8
-         GTjH2/xQ0xWRq1LaU+EaKBoBXtOqKOdVZoUhsl3yRRLPqw0eO6Oeak1ZObROaBu//PSj
-         dCNA==
-X-Gm-Message-State: AOAM533qyqGVZLN9cEU3ZoSBO46Vrw76JQAVmRoEi56FuSXtFDrN4fCz
-        DXzSJmPvJ0rdDKIS4KHG3B8Rgw==
-X-Google-Smtp-Source: ABdhPJw2dgqLLhcauvMt2GOLvh+Ndd9jqu5UiMTATm0z7/s81PCLWvQUWsdVJtYomEFuLgMOx7E29w==
-X-Received: by 2002:a17:90a:fd0f:: with SMTP id cv15mr4439472pjb.161.1602862368712;
-        Fri, 16 Oct 2020 08:32:48 -0700 (PDT)
-Received: from [192.168.1.134] ([66.219.217.173])
-        by smtp.gmail.com with ESMTPSA id x26sm3177157pfn.178.2020.10.16.08.32.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2020 08:32:48 -0700 (PDT)
-Subject: Re: [PATCH v3] ata: sata_rcar: Fix DMA boundary mask
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-ide@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200917130920.6689-1-geert+renesas@glider.be>
- <CAMuHMdWQapEyvd=rpdfW5XHbwLtaiyLsnAXn5dM8zGCpc9VSFA@mail.gmail.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <d7eefafb-5a63-8790-8d3e-6cb04edd5fdc@kernel.dk>
-Date:   Fri, 16 Oct 2020 09:32:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OutJAEBktoisySZZcByItl3Q7TUScJ10GyZHZCfE+J8=;
+        b=WBHnu0sdCeXQExMxfrAoTMM4WheW06fz5d47dHxqW0hgWRtXy5ItaJt5IJKlquY9hK
+         AMBfTkH5uw4V5JhDGYh5HIc6CgnDWApBtvUyDxP7jENDp7wATKZnFLQ7rSKunvnCipBD
+         HlGvg4ZIO2rEVV1UVlycIPki5+3Z1yH93qkGOwAs6Rk1LYSd/WQARR4l1FtQ3zSfKo2O
+         ms6x98YHiGn/aD36ziHH13PKobfB+OnoxwX/dV50cmTHRvgyNaFL4P+FA3Ppxq50Xvge
+         bniqCRtmkjup5AiLUxl0ShQZuqRNvq6hGO4zm2TpLGAQ+kPn2JXZCw0En49wg6G8MWiR
+         XG7A==
+X-Gm-Message-State: AOAM533aylxuP0ld8RduMhoRL+4mpqaeGiL6cB8oRKxdZaWOQYxDg7RQ
+        A2j1XFnQB+wvEJKM5cmO6A==
+X-Google-Smtp-Source: ABdhPJwLBfdFmgtP6mYMrzKLPn0KqWGaktsmZbu5Mz+71BRtAeCHaNgIuZl/yqNpm/RQeW/wtTsCIQ==
+X-Received: by 2002:aca:b642:: with SMTP id g63mr2743291oif.165.1602863408002;
+        Fri, 16 Oct 2020 08:50:08 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v22sm1164318oia.7.2020.10.16.08.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 08:50:07 -0700 (PDT)
+Received: (nullmailer pid 1475301 invoked by uid 1000);
+        Fri, 16 Oct 2020 15:50:06 -0000
+Date:   Fri, 16 Oct 2020 10:50:06 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>
+Subject: Re: [PATCH v4 2/5] media: dt-bindings: media: renesas,drif: Convert
+ to json-schema
+Message-ID: <20201016155006.GA1474949@bogus>
+References: <20201014155719.15120-1-fabrizio.castro.jz@renesas.com>
+ <20201014155719.15120-3-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWQapEyvd=rpdfW5XHbwLtaiyLsnAXn5dM8zGCpc9VSFA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201014155719.15120-3-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/15/20 12:34 PM, Geert Uytterhoeven wrote:
-> Hi Jens,
+On Wed, 14 Oct 2020 16:57:16 +0100, Fabrizio Castro wrote:
+> Convert the Renesas DRIF bindings to DT schema and update
+> MAINTAINERS accordingly.
 > 
-> On Thu, Sep 17, 2020 at 3:09 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
->> Before commit 9495b7e92f716ab2 ("driver core: platform: Initialize
->> dma_parms for platform devices"), the R-Car SATA device didn't have DMA
->> parameters.  Hence the DMA boundary mask supplied by its driver was
->> silently ignored, as __scsi_init_queue() doesn't check the return value
->> of dma_set_seg_boundary(), and the default value of 0xffffffff was used.
->>
->> Now the device has gained DMA parameters, the driver-supplied value is
->> used, and the following warning is printed on Salvator-XS:
->>
->>     DMA-API: sata_rcar ee300000.sata: mapping sg segment across boundary [start=0x00000000ffffe000] [end=0x00000000ffffefff] [boundary=0x000000001ffffffe]
->>     WARNING: CPU: 5 PID: 38 at kernel/dma/debug.c:1233 debug_dma_map_sg+0x298/0x300
->>
->> (the range of start/end values depend on whether IOMMU support is
->>  enabled or not)
->>
->> The issue here is that SATA_RCAR_DMA_BOUNDARY doesn't have bit 0 set, so
->> any typical end value, which is odd, will trigger the check.
->>
->> Fix this by increasing the DMA boundary value by 1.
->>
->> This also fixes the following WRITE DMA EXT timeout issue:
->>
->>     # dd if=/dev/urandom of=/mnt/de1/file1-1024M bs=1M count=1024
->>     ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
->>     ata1.00: failed command: WRITE DMA EXT
->>     ata1.00: cmd 35/00:00:00:e6:0c/00:0a:00:00:00/e0 tag 0 dma 1310720 out
->>     res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)
->>     ata1.00: status: { DRDY }
->>
->> as seen by Shimoda-san since commit 429120f3df2dba2b ("block: fix
->> splitting segments on boundary masks").
->>
->> Fixes: 8bfbeed58665dbbf ("sata_rcar: correct 'sata_rcar_sht'")
->> Fixes: 9495b7e92f716ab2 ("driver core: platform: Initialize dma_parms for platform devices")
->> Fixes: 429120f3df2dba2b ("block: fix splitting segments on boundary masks")
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Reviewed-by: Christoph Hellwig <hch@lst.de>
->> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
->> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
->> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->> Cc: stable <stable@vger.kernel.org>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3->v4:
+> * Replace "if" statement with "else" statement for the branch
+>   rejecting pinctrl-0 and pinctrl-names properties, as suggested
+>   by Geert
+> v2->v3:
+> * Removed the definition of pinctrl-0 and pinctrl-names, as
+>   suggested by Geert
+> * Added "power-domains" to the list of required properties,
+>   as suggested by Geert
+> v1->v2:
+> * s/controller/Controller/ in the title of renesas,drif.yaml
+>   as suggested by Laurent.
 > 
-> Can you please apply this patch?
-> This is a fix for a regression in v5.7-rc5, and was first posted almost
-> 5 months ago.
+>  .../bindings/media/renesas,drif.txt           | 177 -----------
+>  .../bindings/media/renesas,drif.yaml          | 277 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 278 insertions(+), 178 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,drif.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,drif.yaml
+> 
 
-Applied, sorry that got missed.
 
--- 
-Jens Axboe
+My bot found errors running 'make dt_binding_check' on your patch:
+
+./Documentation/devicetree/bindings/media/renesas,drif.yaml:54:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+
+
+See https://patchwork.ozlabs.org/patch/1382223
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
 
