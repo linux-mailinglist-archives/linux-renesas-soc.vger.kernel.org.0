@@ -2,144 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C7B429061F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 15:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1647A290888
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 17:33:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405407AbgJPNQw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 09:16:52 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:36876 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405352AbgJPNQw (ORCPT
+        id S2410082AbgJPPdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 11:33:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410276AbgJPPct (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 09:16:52 -0400
-Received: from relay11.mail.gandi.net (unknown [217.70.178.231])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id ACBB63B4205;
-        Fri, 16 Oct 2020 12:56:44 +0000 (UTC)
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 397C5100008;
-        Fri, 16 Oct 2020 12:56:17 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 16:56:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Fri, 16 Oct 2020 11:32:49 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1F4C0613D5
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 08:32:49 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id w21so1482258plq.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 08:32:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qGdeYT3MiQwKX79eLQ/b7rznlfvba/UsEutEjQXYcRw=;
+        b=BwNX2GgLB3+EPMYvB86xvOSo+D+yDOe6vQWybxXuycnnDbw09lPKB6ZNFRRn76EG1N
+         +a+FOf9PbCPumM4w1i7u3gv/SM0i4bIkRdp5TU/yRTKrnVGkQaoPC3U5wPaWExnnI690
+         PTnEFPfXgo5vqPNME5OPr10m2iAlzCJw5nAhL3CXv2iq9dxEOmv0kYwesfsMME4Ili0i
+         L94JvtSezyXy7B29nFfS1pOp+3WtggJE4Lv9GH187tGRePR2hU+QlMGygWjM1Zdv1B0p
+         31JZXa4Q27dgXy4sqGFWldTvpI+P8/3gilbfIiLd06tpssBIib2+m6h27W3UBRqo8y9t
+         6r4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qGdeYT3MiQwKX79eLQ/b7rznlfvba/UsEutEjQXYcRw=;
+        b=DtQJWBGvFpyc594G3T0BRo8l8iv+0z37jEiTN7oDzCGIBVihB6A/KehfAYSm9Z9Erv
+         q8b2m/gKkRS0Bus0XWl6XZ7NMW+96uHyc8UF275KbqXJgMVSlPOmUAN3CKmh2GSyinMl
+         locHVR5WYV/fkhZON2n2Kzr8mJJaSFGjSij+oxvSEFzi3/nBv5mPmoMiUfQFGllBUG7T
+         OauCgR470UqJLCaPCfOQ5p9oWu9vlHK0kDKp5S9yDe5q09ggAA/ttv7BsHBnYpREQfu8
+         GTjH2/xQ0xWRq1LaU+EaKBoBXtOqKOdVZoUhsl3yRRLPqw0eO6Oeak1ZObROaBu//PSj
+         dCNA==
+X-Gm-Message-State: AOAM533qyqGVZLN9cEU3ZoSBO46Vrw76JQAVmRoEi56FuSXtFDrN4fCz
+        DXzSJmPvJ0rdDKIS4KHG3B8Rgw==
+X-Google-Smtp-Source: ABdhPJw2dgqLLhcauvMt2GOLvh+Ndd9jqu5UiMTATm0z7/s81PCLWvQUWsdVJtYomEFuLgMOx7E29w==
+X-Received: by 2002:a17:90a:fd0f:: with SMTP id cv15mr4439472pjb.161.1602862368712;
+        Fri, 16 Oct 2020 08:32:48 -0700 (PDT)
+Received: from [192.168.1.134] ([66.219.217.173])
+        by smtp.gmail.com with ESMTPSA id x26sm3177157pfn.178.2020.10.16.08.32.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2020 08:32:48 -0700 (PDT)
+Subject: Re: [PATCH v3] ata: sata_rcar: Fix DMA boundary mask
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-ide@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH v3 2/7] dt-bindings: media: max9286: Document
- 'maxim,high-threshold'
-Message-ID: <20201016145603.bapqjxsvezn6flyv@uno.localdomain>
-References: <20201016120625.64337-1-jacopo+renesas@jmondi.org>
- <20201016120625.64337-3-jacopo+renesas@jmondi.org>
- <CAMuHMdUof5Yb=5notGDYycJtZyLzGp2RPjJ=m6GVodBRDxw9ow@mail.gmail.com>
+        stable <stable@vger.kernel.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200917130920.6689-1-geert+renesas@glider.be>
+ <CAMuHMdWQapEyvd=rpdfW5XHbwLtaiyLsnAXn5dM8zGCpc9VSFA@mail.gmail.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <d7eefafb-5a63-8790-8d3e-6cb04edd5fdc@kernel.dk>
+Date:   Fri, 16 Oct 2020 09:32:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWQapEyvd=rpdfW5XHbwLtaiyLsnAXn5dM8zGCpc9VSFA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUof5Yb=5notGDYycJtZyLzGp2RPjJ=m6GVodBRDxw9ow@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert
-   (and Kieran, as his question on the other patch is actually on
-   the same point)
+On 10/15/20 12:34 PM, Geert Uytterhoeven wrote:
+> Hi Jens,
+> 
+> On Thu, Sep 17, 2020 at 3:09 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+>> Before commit 9495b7e92f716ab2 ("driver core: platform: Initialize
+>> dma_parms for platform devices"), the R-Car SATA device didn't have DMA
+>> parameters.  Hence the DMA boundary mask supplied by its driver was
+>> silently ignored, as __scsi_init_queue() doesn't check the return value
+>> of dma_set_seg_boundary(), and the default value of 0xffffffff was used.
+>>
+>> Now the device has gained DMA parameters, the driver-supplied value is
+>> used, and the following warning is printed on Salvator-XS:
+>>
+>>     DMA-API: sata_rcar ee300000.sata: mapping sg segment across boundary [start=0x00000000ffffe000] [end=0x00000000ffffefff] [boundary=0x000000001ffffffe]
+>>     WARNING: CPU: 5 PID: 38 at kernel/dma/debug.c:1233 debug_dma_map_sg+0x298/0x300
+>>
+>> (the range of start/end values depend on whether IOMMU support is
+>>  enabled or not)
+>>
+>> The issue here is that SATA_RCAR_DMA_BOUNDARY doesn't have bit 0 set, so
+>> any typical end value, which is odd, will trigger the check.
+>>
+>> Fix this by increasing the DMA boundary value by 1.
+>>
+>> This also fixes the following WRITE DMA EXT timeout issue:
+>>
+>>     # dd if=/dev/urandom of=/mnt/de1/file1-1024M bs=1M count=1024
+>>     ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
+>>     ata1.00: failed command: WRITE DMA EXT
+>>     ata1.00: cmd 35/00:00:00:e6:0c/00:0a:00:00:00/e0 tag 0 dma 1310720 out
+>>     res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)
+>>     ata1.00: status: { DRDY }
+>>
+>> as seen by Shimoda-san since commit 429120f3df2dba2b ("block: fix
+>> splitting segments on boundary masks").
+>>
+>> Fixes: 8bfbeed58665dbbf ("sata_rcar: correct 'sata_rcar_sht'")
+>> Fixes: 9495b7e92f716ab2 ("driver core: platform: Initialize dma_parms for platform devices")
+>> Fixes: 429120f3df2dba2b ("block: fix splitting segments on boundary masks")
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+>> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+>> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>> Cc: stable <stable@vger.kernel.org>
+> 
+> Can you please apply this patch?
+> This is a fix for a regression in v5.7-rc5, and was first posted almost
+> 5 months ago.
 
-On Fri, Oct 16, 2020 at 01:50:34PM +0200, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Fri, Oct 16, 2020 at 12:09 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> > Document the 'maxim,high-threshold' vendor property in the bindings
-> > document of the max9286 driver.
-> >
-> > The newly introduced boolean property allows controlling the initial
-> > configuration of the GMSL reverse control channel to accommodate
-> > remote serializers pre-programmed with the high threshold power
-> > supply noise immunity enabled.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->
-> Thanks for your patch!
->
-> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > @@ -51,6 +51,19 @@ properties:
-> >    '#gpio-cells':
-> >      const: 2
-> >
-> > +  maxim,high-threshold:
-> > +    description: |
-> > +      A boolean property to increase the initial amplitude of the reverse
-> > +      control channel to compensate for remote serializers pre-programmed with
-> > +      high threshold noise-immunity.
-> > +
-> > +      Some camera modules (in example the RDACM20 one) include an on-board MCU
-> > +      that pre-programs the embedded serializer with reverse channel power
-> > +      supply noise immunity enabled. The deserializer shall increase its
-> > +      reverse channel amplitude to compensate that and be able to communicate
-> > +      with the remote end.
-> > +    type: boolean
->
-> Does this "high" threshold correspond to some numerical value?
-> I.e. could we run into a future need to support more values than just
-> true/false?
-> If yes, we may want to use a numerical value from the start.
+Applied, sorry that got missed.
 
-So, this boolean property controls the initial setting of the reverse
-channel amplitude, which has to be opportunely adjusted to be able to
-probe the remote devices as i2c messages are bridged on the reverse
-channel from the deserializer to the remote serializers.
+-- 
+Jens Axboe
 
-It also implies that if the initial setting is not "high" it has to be
-increased after the remotes have probed, as it is assumed at the end
-the remotes' probe() routine they have enabled their high threshold
-noise immunity feature.
-
-The register that controls the de-serializer reverse channel amplitude
-is not fully documented in the chip manual version I have, but the
-application developer guide shows that it can range from 30mV to
-200mV. The same developer guide shows 100mV and 170mV as "initial" and
-"high threshold" values to be used.
-
-On the serializer's side (MAX9271 at least) high threshold is a
-boolean control, it is either enabled or disabled.
-
-Hence I suspect that for the max9286-max9271 combo, using fixed 100mV
-and 170mV values is enough. Other serializers might allow a more fine
-grained control of the noise cancelling threshold, and might require a
-more precise adjustment of the deserializer side. I'm honestly not
-sure at this point not having seen any other one.
-
-So yes, this is a deserializer setting that depends on the serializer
-in use, and I'm not 100% comfortable expressing it as a deserializer
-property. That said, having an initial numerical value might serve the
-same purpose allowing more flexibility, if other serializers require a
-more precise control of the initial amplitude.
-
-After the remotes have probed, we could also re-explore the
-possibility of getting the bus configuration using get_mbus_config, as
-detailed in the v1 cover letter [1] as at that time their sub-devices
-have been registered and we can call operations on them. But again,
-this might be not required at all.
-
-Thanks
-   j
-
-[1] https://www.spinics.net/lists/linux-renesas-soc/msg52886.html
-
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
