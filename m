@@ -2,174 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B240C2906CA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 16:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218C8290991
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 18:20:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408563AbgJPOHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 10:07:36 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:44813 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406133AbgJPOHg (ORCPT
+        id S2408126AbgJPQUN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 12:20:13 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34588 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408124AbgJPQUN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:07:36 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 5424D240047;
-        Fri, 16 Oct 2020 14:07:33 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 18:07:18 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 5/5] rcar-vin: Add support for suspend and resume
-Message-ID: <20201016160718.klbkccgcbnpoi7bq@uno.localdomain>
-References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 16 Oct 2020 12:20:13 -0400
+Received: by mail-ot1-f66.google.com with SMTP id d28so2933713ote.1;
+        Fri, 16 Oct 2020 09:20:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Bg/ZEjUAQxpVo6DSmy7ehWLfv9K2VCGfCFh4744GjRc=;
+        b=S49QRK2fKLGU2K6EDau3kWnKFdWlILXt9zoc/ksEtfT35oRF72pvAwAjuCDq5K1eXx
+         2V4FUwZUTzRVy83Hobf5Lqhw27lvk9bNFFVkV9Hgfn7QnrIPWZytMGJRGVth1Y8Q4k51
+         gqy7lirI7XLyH6BjJyqKFbgvNCbMMudOaE6wDvFtzmB90wlhmTOnkfOGeLXt2GEGyqS+
+         L2cBhubTfGGl/RMKyc3VHPkAQcoYLFAJSG9Zpiwr/VWm+fia+SbWlAjPzWuDoTklcLo0
+         uR/WFN1aFhjZtTuwk88uPg8/uEysV/sWyTuxVxnIzqEkeJe4Q8++1cOCqp+mCWKrmHgx
+         1VvQ==
+X-Gm-Message-State: AOAM530GbmqX2uUTxuhP7jOHskMdtb3/lZOvj9yWuOvfqPzhCdBCgLul
+        F6bmz9W0lKNoXhVEHPO5Tw==
+X-Google-Smtp-Source: ABdhPJzwlRz1vTJgihHyEJSqFrbGp1k4E5FHdra55hue6dM2uq8YhIQh0z4TfoqKQBRF4dyEp0kc/Q==
+X-Received: by 2002:a9d:2a8a:: with SMTP id e10mr3150968otb.3.1602865212165;
+        Fri, 16 Oct 2020 09:20:12 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id f2sm1174379oig.15.2020.10.16.09.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 09:20:11 -0700 (PDT)
+Received: (nullmailer pid 1520687 invoked by uid 1000);
+        Fri, 16 Oct 2020 16:20:10 -0000
+Date:   Fri, 16 Oct 2020 11:20:10 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v4 3/5] media: dt-bindings: media: renesas,drif: Add
+ r8a77990 support
+Message-ID: <20201016162010.GA1520090@bogus>
+References: <20201014155719.15120-1-fabrizio.castro.jz@renesas.com>
+ <20201014155719.15120-4-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201014155719.15120-4-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
-
-On Fri, Oct 16, 2020 at 01:14:08AM +0200, Niklas Söderlund wrote:
-> Add support for suspend and resume by stopping and starting the video
-> pipeline while still retaining all buffers given to the driver by
-> user-space and internally allocated ones, this gives the application a
-> seamless experience.
->
-> Buffers are never returned to user-space unprocessed so user-space don't
-> notice when suspending. When resuming the driver restarts the capture
-> session using the internal scratch buffer, this happens before
-> user-space is unfrozen, this leads to speedy response times once the
-> application resumes its execution.
->
-> As the entire pipeline is stopped on suspend all subdevices in use are
-> also stopped, and if they enter a shutdown state when not streaming
-> (such as the R-Car CSI-2 driver) they too will be suspended and resumed
-> in sync with the VIN driver.
->
-> To be able to do keep track of which VINs should be resumed a new
-
-s/to do/to/
-
-> internal state SUSPENDED is added to recode this.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Wed, 14 Oct 2020 16:57:17 +0100, Fabrizio Castro wrote:
+> The r8a77990 (a.k.a. R-Car E3) device tree schema is
+> compatible with R-Car H3 and M3-W schema.
+> 
+> Document r8a77990 support within renesas,drif.yaml.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 51 +++++++++++++++++++++
->  drivers/media/platform/rcar-vin/rcar-vin.h  | 10 ++--
->  2 files changed, 57 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 34d003e0e9b9c25a..4adf4ce518f79c93 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -918,6 +918,54 @@ static int rvin_mc_init(struct rvin_dev *vin)
->  	return ret;
->  }
->
-> +/* -----------------------------------------------------------------------------
-> + * Suspend / Resume
-> + */
-> +
-> +static int __maybe_unused rvin_suspend(struct device *dev)
-> +{
-> +	struct rvin_dev *vin = dev_get_drvdata(dev);
-> +
-> +	if (vin->state != RUNNING)
-> +		return 0;
-> +
-> +	rvin_stop_streaming(vin);
+> v3->v4:
+> * No change
+> v2->v3:
+> * No change
+> v1->v2:
+> * No change
+> 
+>  Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-This delay suspend untill all the userspace queued buffers are not
-completed, right ?
-
-> +
-> +	vin->state = SUSPENDED;
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused rvin_resume(struct device *dev)
-> +{
-> +	struct rvin_dev *vin = dev_get_drvdata(dev);
-> +
-> +	if (vin->state != SUSPENDED)
-> +		return 0;
-> +
-> +	/*
-> +	 * Restore group master CHSEL setting.
-> +	 *
-> +	 * This needs to be by every VIN resuming not only the master
-> +	 * as we don't know if and in which order the master VINs will
-> +	 * be resumed.
-> +	 */
-> +	if (vin->info->use_mc) {
-> +		unsigned int master_id = rvin_group_id_to_master(vin->id);
-> +		struct rvin_dev *master = vin->group->vin[master_id];
-> +		int ret;
-> +
-> +		if (WARN_ON(!master))
-> +			return -ENODEV;
-> +
-> +		ret = rvin_set_channel_routing(master, master->chsel);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return rvin_start_streaming(vin);
-> +}
-> +
->  /* -----------------------------------------------------------------------------
->   * Platform Device Driver
->   */
-> @@ -1421,9 +1469,12 @@ static int rcar_vin_remove(struct platform_device *pdev)
->  	return 0;
->  }
->
-> +static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
-> +
->  static struct platform_driver rcar_vin_driver = {
->  	.driver = {
->  		.name = "rcar-vin",
-> +		.pm = &rvin_pm_ops,
->  		.of_match_table = rvin_of_id_table,
->  	},
->  	.probe = rcar_vin_probe,
-> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> index 4ec8584709c847a9..4539bd53d9d41e9c 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> @@ -49,16 +49,18 @@ enum rvin_csi_id {
->  };
->
->  /**
-> - * STOPPED  - No operation in progress
-> - * STARTING - Capture starting up
-> - * RUNNING  - Operation in progress have buffers
-> - * STOPPING - Stopping operation
-> + * STOPPED   - No operation in progress
-> + * STARTING  - Capture starting up
-> + * RUNNING   - Operation in progress have buffers
-> + * STOPPING  - Stopping operation
-> + * SUSPENDED - Capture is suspended
->   */
->  enum rvin_dma_state {
->  	STOPPED = 0,
->  	STARTING,
->  	RUNNING,
->  	STOPPING,
-> +	SUSPENDED,
->  };
->
->  /**
-> --
-> 2.28.0
->
+Acked-by: Rob Herring <robh@kernel.org>
