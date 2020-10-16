@@ -2,104 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55FA72903F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 13:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A2129045B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 13:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406133AbgJPL0i convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 07:26:38 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35528 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405448AbgJPL0h (ORCPT
+        id S2406927AbgJPLus (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 07:50:48 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:43437 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406895AbgJPLus (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 07:26:37 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w141so2044661oia.2;
-        Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
+        Fri, 16 Oct 2020 07:50:48 -0400
+Received: by mail-ot1-f68.google.com with SMTP id n61so2097208ota.10;
+        Fri, 16 Oct 2020 04:50:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+tUY23Fnh3h/GUDvCPSO5j6kFLC3m6/J+eXR/e+9gis=;
-        b=OY6jTR2PEiiI3M8FICkaBN2p+/I/v/ZDzSdcY+otgYgb27/h4+dzBqE1loJ4m96n+P
-         QQK9WzCQwGuVpmigluqXIlSlg72VbPKojflugmxtBGB7dLSXSyM+lRfPYh5N3JrdwYK7
-         mobBXm2XCYWEC3X0+VuhyjDIg4FtUpGhOW4LbfVhzY6KJuw5IBzJodcIuIrOxM/D+hQ8
-         2dcZaj4qNgtSMRys9hn6gvimHTvVu0Ll8UIw7BVmlWKqefbGNxEHPYCvv0EtyNvp826n
-         4ofBkF/R5nxuL2z6DM/oKpbXX7FdBdtW385fhX80ZQikz9HzYeiJw/bFQFdgzf8Fw5Bo
-         8+8Q==
-X-Gm-Message-State: AOAM531wxxKP2K7T0tUYkiDBEKCxPesVvSA310uHGEBq/FaoC+MQLDcY
-        l+EECev/yrRONOS4hgvDkcgEMQfI98wsdY+/BSg=
-X-Google-Smtp-Source: ABdhPJzJxpTR69NUAVkUWUX3gX1LbNWNYPglOpaeIaONbhmS67DHnmzw4TpWpRKbNYJcwWDEwgLLGL+bSTDsfyNoUDk=
-X-Received: by 2002:aca:c490:: with SMTP id u138mr2109166oif.54.1602847596494;
- Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=r/6QPBpExSoKarbZok55Q3okDwia1sPzi7Df1m2mfVg=;
+        b=qLToeB5QN1lU57o82TzXNCNnk7969ntfaxFxVwFV3jA3LMKKDaYD5hMx9O1n8jqMQy
+         gcFgKrGkH586eh4+kGgUIO0P9F03Ni51NSLhPBQKU0XZDjQp3udoVkLjtgK5TnJgHcUw
+         7O8Fav044cbmPkiSW4zOVoUsUtSkrDgbulY39X2S3GgwKnRKQobxcqz4+Q570wB5jfY1
+         ZTCvlx/N8sQluHklITV83SolbK9YEFSXset9LbWG6+OzMcNDo6NE7uwYOX60Ed6z4KD6
+         6G4ohuGZp8PsFO/YlfM5hACtveQTeCNN0InGeqovuY1zVB5Uks0VGbBgp80nKWDX6zc+
+         nJTw==
+X-Gm-Message-State: AOAM533SzFuIscj/9eSs+FR/MGtuV/dozYLBDOkUT2lujQlREu3/NK2I
+        ApT6XyHsQBLQ/8ZsSjgmwRl5VIyyL8QbNux3A0zrOLrU
+X-Google-Smtp-Source: ABdhPJwigMKNyVfvIGoimEjWHJyvFWyITKnqMAGiCmKOG0IomEp8v2CuuetHlv8E32U+FTI2pVl7xHVgLom/iXuQAgs=
+X-Received: by 2002:a9d:5e14:: with SMTP id d20mr2082934oti.107.1602849045708;
+ Fri, 16 Oct 2020 04:50:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com> <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
-In-Reply-To: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+References: <20201016120625.64337-1-jacopo+renesas@jmondi.org> <20201016120625.64337-3-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201016120625.64337-3-jacopo+renesas@jmondi.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Oct 2020 13:26:25 +0200
-Message-ID: <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Date:   Fri, 16 Oct 2020 13:50:34 +0200
+Message-ID: <CAMuHMdUof5Yb=5notGDYycJtZyLzGp2RPjJ=m6GVodBRDxw9ow@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] dt-bindings: media: max9286: Document 'maxim,high-threshold'
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Jacopo,
 
-On Fri, Oct 16, 2020 at 12:46 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
-> > On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > This series add suspend and resume support directly to R-Car VIN and
-> > > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
-> > > pipeline. The capture pipeline is stopped when suspending and started
-> > > when resuming, all while retaining the buffers provided from user-space.
-> > > This makes the start and stop of the pipeline transparent from an
-> > > application point of view.
-> > >
-> > > As the pipeline is switched off subdevices that poweroff themself when
-> > > not in use (such as R-Car CSI-2) are also switched off and are
-> > > indirectly serviced by the suspend support in VIN.
-> >
-> > Thanks for your series!
-> >
-> > > This work is based on-top of the media-tree and is tested on both R-Car
-> > > Gen2 and Gen3 without any regressions.
-> >
-> > FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
-> > off the SoC?
+On Fri, Oct 16, 2020 at 12:09 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Document the 'maxim,high-threshold' vendor property in the bindings
+> document of the max9286 driver.
 >
-> I have only been able to test it with s2idle. My issue is that s2ram
-> fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead
-> use a initramfs I can resume from s2ram but I don't have the setup to
-> test capture in that environment.
-
->     [  347.775223] libphy: ravb_mii: probed
->     [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
->     [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
->     [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
->     [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
->     [  347.929701] ata1: link resume succeeded after 1 retries
->     [  347.989934] OOM killer enabled.
->     [  347.993184] Restarting tasks ... done.
->     [  348.004321] PM: suspend exit
->     [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
->     [  529.376515] nfs: server 10.0.1.1 not responding, still trying
->     [  529.376702] nfs: server 10.0.1.1 not responding, still trying
->     [  529.385628] nfs: server 10.0.1.1 not responding, still trying
->     ** Board never reaches user-space **
+> The newly introduced boolean property allows controlling the initial
+> configuration of the GMSL reverse control channel to accommodate
+> remote serializers pre-programmed with the high threshold power
+> supply noise immunity enabled.
 >
-> Is there a known fix for this?
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Please try cherry-picking commit 77972b55fb9d35d4 ("Revert "ravb: Fixed
-to be able to unload modules"") from v5.9.
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -51,6 +51,19 @@ properties:
+>    '#gpio-cells':
+>      const: 2
+>
+> +  maxim,high-threshold:
+> +    description: |
+> +      A boolean property to increase the initial amplitude of the reverse
+> +      control channel to compensate for remote serializers pre-programmed with
+> +      high threshold noise-immunity.
+> +
+> +      Some camera modules (in example the RDACM20 one) include an on-board MCU
+> +      that pre-programs the embedded serializer with reverse channel power
+> +      supply noise immunity enabled. The deserializer shall increase its
+> +      reverse channel amplitude to compensate that and be able to communicate
+> +      with the remote end.
+> +    type: boolean
+
+Does this "high" threshold correspond to some numerical value?
+I.e. could we run into a future need to support more values than just
+true/false?
+If yes, we may want to use a numerical value from the start.
 
 Gr{oetje,eeting}s,
 
