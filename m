@@ -2,64 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44A862904B3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 14:04:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E970F290272
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 12:06:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407120AbgJPMEn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 08:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406845AbgJPMEl (ORCPT
+        id S2394653AbgJPKG4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 06:06:56 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:40099 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394309AbgJPKG4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 08:04:41 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B49BC061755;
-        Fri, 16 Oct 2020 05:04:40 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id h24so2736519ejg.9;
-        Fri, 16 Oct 2020 05:04:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99xt5tOxYL+SsaIFtCFHk6b78TJvFfz6VlYtP/wHSYo=;
-        b=AbuFMvGpPxRfTL0Vkv6wAp+YVoZ+whZsEj43YJm114aAlLx625EC1u/srVJNFN1TCC
-         G+K86rE8ptlqoY4+Ytn1Rrq5kKmuvHcYNmKxZOtkBh0806jurIDiL8iSwp99+kf8KKE/
-         YAVmXkE8a801FFX/0zTyt8b0RIFCa695HTQBmzwCIpAcn7rPDe15pCDNvgBqgJ+kz65J
-         f4gTRCj5ViPxdG5IBArXJTrFGCaYofVs/b4CnHXgPky197QMpfNw+iExW3S8s8WJckMq
-         +ClQ5QS6J9fq70XpZ2i5r+1uopRCp751MF0Jvlo1uUIefTq6vuurS0crkIwbh9ngHYF0
-         hegA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99xt5tOxYL+SsaIFtCFHk6b78TJvFfz6VlYtP/wHSYo=;
-        b=ryOQKUuwuBIpsvDKjo3SqY8z+kTnWzpvNCTG1/OqCn1R572V0E7IFB0NXLxgnScW75
-         k1LXK1IGsgLN6PZ4KjbPzhwLARnxT+F22AW7/eJt/pgvKm1wnrWmzAzRF65fVNT0uiS5
-         Sipu84SLDmztavoFAAiNBfVV9jcjtgfej4SjjTM/rvxRhAF0TioqyXTBFq0e+35/G8aA
-         wKYVAUzoX22Z/UtJuYCzMiuJeZ+dJ9HJWjEpm27WLaqUglh5Rkjc0PVamz8HFjT1TdfB
-         ecgIsjMNr60xvlX3qJal1UszFSyJN4KjzeWdYks4cd0b+U8b4gr0s3FXQhmdD+EIcoL/
-         t0MQ==
-X-Gm-Message-State: AOAM532Fjb3rvc5uWYvY1uQdgxNML6CU+8NWGZQDhrk/HHtp8K2XzqSI
-        d1C57QV+RZQWnCc924Tqh2cZRS+xCqm24Q==
-X-Google-Smtp-Source: ABdhPJx96sTZPYVmd1ghvhar6UA0CdNGRd8QNjox83Ax1W1Vq/YQtzqh/rrU7JIMwtMpdOSQqPb1dw==
-X-Received: by 2002:a17:906:1f08:: with SMTP id w8mr3260880ejj.181.1602849879120;
-        Fri, 16 Oct 2020 05:04:39 -0700 (PDT)
-Received: from localhost.localdomain (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id g18sm1450298eje.12.2020.10.16.05.04.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 05:04:38 -0700 (PDT)
-From:   marek.vasut@gmail.com
-To:     linux-pci@vger.kernel.org
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
-Date:   Fri, 16 Oct 2020 14:04:31 +0200
-Message-Id: <20201016120431.7062-1-marek.vasut@gmail.com>
+        Fri, 16 Oct 2020 06:06:56 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id D6F22E0010;
+        Fri, 16 Oct 2020 10:06:50 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v3 0/7] media: i2c: Add support for RDACM21 camera module
+Date:   Fri, 16 Oct 2020 14:06:18 +0200
+Message-Id: <20201016120625.64337-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,38 +35,64 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marek Vasut <marek.vasut+renesas@gmail.com>
+v3:
+- small update in 3/7 as suggested by Kieran and Sergei
+- Add Kieran's tag to 3/7 and 4/7
 
-This fixes MSI operation on legacy PCI cards, which cannot issue 64bit MSIs.
-The R-Car controller only has one MSI trigger address instead of two, one
-for 64bit and one for 32bit MSI, set the address to 32bit PCIe space so that
-legacy PCI cards can also trigger MSIs.
+Copy of v2 copy letter for reference:
 
-Fixes: 290c1fb35860 ("PCI: rcar: Add MSI support for PCIe")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/pci/controller/pcie-rcar-host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patch [1/7] introduces the camera module driver.
+Only change compared to v1:
+- Increase pixel clock to 55MHz
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 1194d5f3341b..ac5c7d7573a6 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -753,7 +753,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
- 	}
- 
- 	/* setup MSI data target */
--	msi->pages = __get_free_pages(GFP_KERNEL, 0);
-+	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
- 	rcar_pcie_hw_enable_msi(host);
- 
- 	return 0;
--- 
+From [2/7] to [5/7] there's a proposal of a possible way to support
+both RDACM20 and RDACM21 with the same deserializer driver.
+See v1 cover letter for details:
+https://www.spinics.net/lists/linux-renesas-soc/msg52886.html
+
+I have tested on Eagle V3M with 4 RDACM21, but the whole point of
+this series is to retain compatibility with RDACM20.
+
+For this reason I have included 2 patches on top, not intended for merge
+that re-propose DTS support for the MAXIM max9286 expansion board connected
+to Salvator-X and add the newly introduced property to the DTS file.
+
+Kieran, I know you have a working setup with RDACM20, the final two patches are
+meant for ease your testing. Can you give this series a spin ?
+For your convenience I pushed a branch
+git://jmondi.org/linux #gmsl/jmondi/renesas-drivers-2020-10-13-v5.9/rdacm21_high-threshold
+
+Series based on latest renesas-drivers tag: renesas-drivers-2020-10-13-v5.9
+
+If I get a confirmation this setup works on Salvator-X, I'll submit the new
+property for inclusion to devicetree people, which I have left out at the
+moment.
+
+Thanks
+  j
+
+Jacopo Mondi (6):
+  media: i2c: Add driver for RDACM21 camera module
+  dt-bindings: media: max9286: Document 'maxim,high-threshold'
+  media: i2c: max9286: Break-out reverse channel setup
+  media: i2c: max9286: Make channel amplitude programmable
+  media: i2c: max9286: Configure reverse channel amplitude
+  [DNI] arm64: dts: renesas: salvator-x-max9286: Use high-threshold
+
+Laurent Pinchart (1):
+  arm64: dts: renesas: salvator-x: Add MAX9286 expansion board
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  15 +
+ MAINTAINERS                                   |  12 +
+ .../boot/dts/renesas/salvator-x-max9286.dtsi  | 396 +++++++++++++
+ drivers/media/i2c/Kconfig                     |  13 +
+ drivers/media/i2c/Makefile                    |   2 +
+ drivers/media/i2c/max9286.c                   |  51 +-
+ drivers/media/i2c/rdacm21.c                   | 538 ++++++++++++++++++
+ 7 files changed, 1017 insertions(+), 10 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
+ create mode 100644 drivers/media/i2c/rdacm21.c
+
+--
 2.28.0
 
