@@ -2,49 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2B8B28FE56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 08:31:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 232F028FE58
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 08:31:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394246AbgJPGbJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 02:31:09 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44017 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394244AbgJPGbJ (ORCPT
+        id S2394249AbgJPGbk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 02:31:40 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33291 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394244AbgJPGbk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 02:31:09 -0400
-Received: by mail-ot1-f68.google.com with SMTP id n61so1454163ota.10;
-        Thu, 15 Oct 2020 23:31:09 -0700 (PDT)
+        Fri, 16 Oct 2020 02:31:40 -0400
+Received: by mail-ot1-f66.google.com with SMTP id t15so1508734otk.0;
+        Thu, 15 Oct 2020 23:31:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Udwqr7O5zi30yP/PtquvZaBuILNM0n87MEoRaEeVK4Q=;
-        b=jrS/olqNZPq1/FwNt4qOhkCHyeppdRqVUX1aQH8VnDlMonKylX8cuARxFmauTcowg3
-         B2GNFUjH0WfLK0WZz8FJ+YsM9a/Y/7WjdG5jc5KcXGFUDUYhR571Lw/cb01bYk9gorRR
-         NDNGvRcQAppTAaPdri4IuvD8Gq2SBBHyo89dLEYGucLVuKZfmHIv92iqiEvpg2dchuQK
-         gRHvADAnL+C8RPHmT9rrubZUrOgF4jlH0LxHNT4Ji+LJ5C6uYxJ0dyTYhYUEVaipbuUN
-         EP6X/eesOac/nH/Et9V6543DCW23heUnpEGmYktw/jv6unFQCddhz9YDrpoQCvJklZVv
-         kUzw==
-X-Gm-Message-State: AOAM5339/YDgpf4D8Aw6ofDygMGvH2DWUMKZBrGqgxdSFo/10saR+eJu
-        rtbGerI2y8Aha3YpreSCuBhQz29KN2cxy/qM2P4=
-X-Google-Smtp-Source: ABdhPJxfyd1l4/BjCcqgxqJFxu8WkoXmr8FOL4ykQG/DWe5YKgf6zXtU/Z3ewSDOuHHdkA7eQNYLBhWh5joXNBmXess=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr1472820otc.145.1602829868635;
- Thu, 15 Oct 2020 23:31:08 -0700 (PDT)
+        bh=ROAI7V0cyZg7AP0LFun/mv0zfNkM5pWxF5hFVn1DqmQ=;
+        b=HhNvQ53kM4MIULfe4th0W2hbpyrs2hHALwhbOQ9iAF2DNv4CRsimK/7VktEXE3VH9t
+         XsgToGTCaD8QhXvR6pC5hE80BVzMVm/easYRKvpVvVZrtvVjYA2AffNtnfO1Kzhrak3/
+         mPXDubjvRhPIvrau0DVxqmpuFcqt1PznmJLqCiCpEmQH3924B6mLGtjyV/uxzE+RBprH
+         gD4q5X+ehlieu4ax2JMRvwtTO67v3gYeq+27tD/vAVOZOx80FmGHPSmawX9WcyL0yRST
+         JwLEBgfIa3hiWyY6ATCd/j6Ux/vXRtgOU0nct/xDEyXLmI/tFTjJlF0vnTCdijhtFUc9
+         ZFMA==
+X-Gm-Message-State: AOAM532R5JxGKralfZQ2f2eSCpUXhjYIz3ngaf1tf6NdWLy/sBv7PGqV
+        jP7XzxdDnFI7ylkpTx+2tZPOS1wexAdG8XJLWf0=
+X-Google-Smtp-Source: ABdhPJwiEwJQj2hOFsIxeixjoNWjhOjLsSHgq4tUbeqNWYj/lkUPFTv4bGRDzd1EeBxLflPct8Gw+eUwfvoS1L8oe+I=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr1473765otc.145.1602829899178;
+ Thu, 15 Oct 2020 23:31:39 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201015132350.8360-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdUogbfHYv+g3+2=7JwhgH3MngmDEe5nvjZwkjTOJyn9dQ@mail.gmail.com> <TYBPR01MB53091FA117DF513BAF6A46E486030@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB53091FA117DF513BAF6A46E486030@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+ <20201015132350.8360-2-biju.das.jz@bp.renesas.com> <CAMuHMdXu3AKFAY3b6SfWgpQL9VBJBC9HL4ZK5EFu=7FZ2zJoXA@mail.gmail.com>
+ <TYBPR01MB5309036B8D9960CDE8B0A9BE86030@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB5309036B8D9960CDE8B0A9BE86030@TYBPR01MB5309.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Oct 2020 08:30:57 +0200
-Message-ID: <CAMuHMdV5baxxGxWc5Y5O5dKXAXZcNhUdJdWfgwKrzcUGj8p=LQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: hihope-rzg2-ex: Drop rxc-skew-ps
- from ethernet-phy node
+Date:   Fri, 16 Oct 2020 08:31:27 +0200
+Message-ID: <CAMuHMdV00mfk73wyCCZrV8xHLnNmYkfQP2H10Ut7f2VCyoNC7Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: cat875: Remove rxc-skew-ps from
+ ethernet-phy node
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Simon Horman <horms+renesas@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
@@ -56,33 +57,32 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Fri, Oct 16, 2020 at 8:15 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH 1/2] arm64: dts: renesas: hihope-rzg2-ex: Drop rxc-
-> > skew-ps from ethernet-phy node
+On Fri, Oct 16, 2020 at 8:13 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 2/2] arm64: dts: renesas: cat875: Remove rxc-skew-ps
+> > from ethernet-phy node
 > > On Thu, Oct 15, 2020 at 3:24 PM Biju Das <biju.das.jz@bp.renesas.com>
 > > wrote:
-> > > HiHope RZG2[HMN] boards uses Realtek phy and the driver does not
-> > > support rxc-skew-ps property. So remove rxc-skew-ps from ethernet-phy
-> > node.
+> > > The CAT875 sub board from Silicon Linux uses Realtek phy and the
+> > > driver does not support rxc-skew-ps property.
 > > >
-> > > Fixes: 7433f1fb8ec8fe ("arm64: dts: renesas: Add HiHope RZ/G2M sub
-> > > board support")
+> > > Fixes: 6b170cd3ed02949f ("arm64: dts: renesas: cat875: Add ethernet
+> > > support")
 > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-
 > > lad.rj@bp.renesas.com>
 > >
 > > Thanks for your patch!
 > >
-> > > --- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-> > > @@ -23,7 +23,6 @@
+> > > --- a/arch/arm64/boot/dts/renesas/cat875.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/cat875.dtsi
+> > > @@ -21,7 +21,6 @@
 > > >         status = "okay";
 > > >
 > > >         phy0: ethernet-phy@0 {
 > > > -               rxc-skew-ps = <1500>;
 > > >                 reg = <0>;
 > > >                 interrupt-parent = <&gpio2>;
-> > >                 interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
+> > >                 interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
 > >
 > > Should "rx-internal-delay-ps = <1800>" be added to the avb node instead
 > > (after [1] has entered v5.10-rc1, and the DTS part of [2] has been  applied to
