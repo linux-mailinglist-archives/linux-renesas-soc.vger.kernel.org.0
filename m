@@ -2,269 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9173F28FFBB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 10:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF07028FFC1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 10:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405041AbgJPIHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 04:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51444 "EHLO
+        id S2404989AbgJPIIy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 04:08:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404950AbgJPIHf (ORCPT
+        with ESMTP id S2404988AbgJPIIy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 04:07:35 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC5EC061755
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 01:07:35 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id w11so841510pll.8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 01:07:35 -0700 (PDT)
+        Fri, 16 Oct 2020 04:08:54 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8CAC061755;
+        Fri, 16 Oct 2020 01:08:53 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id a7so1769385lfk.9;
+        Fri, 16 Oct 2020 01:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=DlwW+fcfTWBNvcnVu7Sv80xFknbWTFutzwDIk9gaJjE=;
-        b=LUk9zq96kNpGkHO/ADwxoe55gSIsO56LL+guLwbM2CXIRklwg/6JMCduPgun4K2lL4
-         SQO0QTieKgx69/9XRT8N/YF46aidklbIyD5rkzZ7NZBLUl8VFw1EzhrZtUtggf0Iurou
-         Y0vWoVIpb2O4YfNX8uFxS1Z09YQHcvqKFXQOo0L/NXecKisBafRsY8v+RJ3GlhFz0gNs
-         S6xEPf+HQBte/gEkPQl/W77cYzwIfYnx/dUKEG19m+lLJc2yA0TdSlbDmpI2Hjbu2lmj
-         +rBrYweFXEhvy2qE8pdq/pKWMMwlaSrUfTiYE/d000SDJb2/o0UQpCV+GvQAHPzL0vrw
-         he/w==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qZe2CLjNbYrE8jVJW7Bxg0tsRI3b/ccVNXtLY33BYJg=;
+        b=d3vu7Heq2NfOyc1FsZpYFtDai+Xs3zayyghnh4V8U8y6gj0m7ixSpc1ovm/93Q0qEZ
+         usutg6ivd4Lv3Ev8zPh/gZmnO64gYCZeooTZIZTyjTc/NX8F7OLpENlg1c2diLxQO/EF
+         bmlvmjnxtbovvP/Ip1CG1IojFb2y6x+X/Rh3zrN2xTUYpLpLo9dE4HMf8X9h6vIJ0/eM
+         DfFr2ppHR9B3DFjF0EbKlDGgSMhFiR6yfWbAwZi6szH2jFcwQUV2g9QH2/YilJw6dnLb
+         clfia3XgxLHpj3CXd5cDrHETOM5kPL1ba4hx0AXuoaXIfEcSEJ94DBjsjcCPRv0xj6ak
+         SKfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DlwW+fcfTWBNvcnVu7Sv80xFknbWTFutzwDIk9gaJjE=;
-        b=IDfEdFLWOHy2tzKJ/xEHWJLdmHJ655gkQ4+NsurrUsBhB2tPn5JhPFKHE4D3b5YJGg
-         5vGxSI1iMoN9AI+9cjvR6oh/5oFIJRX2v6Y8Jt9MzJUxgmW/71Vijt1M3khyCZ67r97x
-         6NoijUEyM8IBbzd2wsuOdFWgskIArZ/m1hciuZatwr9yP335fBes3Zd4ix5iyYSXb5Zc
-         NPVyKUeWrVXJj3K+Z+h9IIWcNWrueol2mXg/G0y+csf8cl67cba6/JpHp80O8wRMZQny
-         /Bsg5yiQNnTh9b0geAPk5cOavnDo4OQ164wwBMVAvZG5nSF9Y8lfjqn4FR7yTOsMXS2E
-         BP0w==
-X-Gm-Message-State: AOAM530oe0S7P0g/vbK+rBAfKowqOnqzZWhnqch+RAIUk15LHvlthpcE
-        AJT7yCNek9p/JNgEFtGt5WEQVg==
-X-Google-Smtp-Source: ABdhPJxAlUjMkrXQRc67VkrTCWmyjbtdtJMb9iHzky/anOb+gSL7iwG+IcTfGyhEIhk+gfXsZZMDhw==
-X-Received: by 2002:a17:902:8ec7:b029:d2:42fe:37de with SMTP id x7-20020a1709028ec7b02900d242fe37demr2624044plo.23.1602835655145;
-        Fri, 16 Oct 2020 01:07:35 -0700 (PDT)
-Received: from localhost ([122.181.54.133])
-        by smtp.gmail.com with ESMTPSA id k3sm1750426pff.71.2020.10.16.01.07.33
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 16 Oct 2020 01:07:33 -0700 (PDT)
-Date:   Fri, 16 Oct 2020 13:37:30 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephan Gerhold <stephan@gerhold.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>, Nishanth Menon <nm@ti.com>,
-        nks@flawful.org, Georgi Djakov <georgi.djakov@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH V2 2/2] cpufreq: dt: Refactor initialization to handle
- probe deferral properly
-Message-ID: <20201016080730.h7u3jmlyjbyhqn3t@vireshk-i7>
-References: <24ff92dd1b0ee1b802b45698520f2937418f8094.1598260050.git.viresh.kumar@linaro.org>
- <f75c61f193f396608d592ae2a9938264d582c038.1598260050.git.viresh.kumar@linaro.org>
- <CAMuHMdXLQKN5n58NvOp43vhc3ryLXWurBSsmcW9Q=oW502PYOQ@mail.gmail.com>
- <20201013095613.mbgmjwzojg5wxmau@vireshk-i7>
- <CAMuHMdVAJdHVMtK3Sc4sJiJGAwz1J4dKODBFcNzgstaktyKkOw@mail.gmail.com>
- <20201016050347.ers54itzmxgijzsy@vireshk-i7>
- <CAMuHMdUUzoFxbJts3gVC7i5A5daa_TYzKdrGEHho=3a1eeC_ww@mail.gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=qZe2CLjNbYrE8jVJW7Bxg0tsRI3b/ccVNXtLY33BYJg=;
+        b=Q2R3Ra2B8CdFT9cR+tGCVEo+MOUSgP323AaGfr2Zm+Kd5OZtCpgV43moU8FR1JpZaz
+         mZDrqjyYkbshC4XesbzWezykFgl6GU246v8+nl3/9rMCSAjwTkVd0G3PLj9Nj2mtbjbR
+         QagCO8U3W7Jefx5R90xJNKl8prIg462EwfSSgueZmOQYDio3CR1VMFxlMEsBOo9DAoMm
+         9EuKs1J/CcVIZLh+joczjjkyFAOyoOFIRbWcP43V+PxiHYWHG5iKct/yBmHbaa67eF0w
+         fH8CzU1xxqmQpp6qgGVkA8gxgmQknB89bh1zhcWh8aihQySLyqoyQeT/b/HwUl/QMhCp
+         YtIQ==
+X-Gm-Message-State: AOAM5301/YjQI3lVLgntfuqwbxTMFiOWIIrS/Eb0xLL/wJQcRC3/VqHk
+        Q+G9F4ygTEpA0BG4CsV+9N0=
+X-Google-Smtp-Source: ABdhPJyj4PJbafl41hzy4tbyoGjRVJdCzt1YMxHhDWj9o44Bmfvdyu6Orr9SSPXyhKO+BEuMt14cmw==
+X-Received: by 2002:a19:7509:: with SMTP id y9mr809233lfe.306.1602835732292;
+        Fri, 16 Oct 2020 01:08:52 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:42b1:307f:5872:636a:7546:106a? ([2a00:1fa0:42b1:307f:5872:636a:7546:106a])
+        by smtp.gmail.com with ESMTPSA id q2sm579439lfe.50.2020.10.16.01.08.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2020 01:08:51 -0700 (PDT)
+Subject: Re: [PATCH v2 4/7] media: i2c: max9286: Make channel amplitude
+ programmable
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+References: <20201015182710.54795-1-jacopo+renesas@jmondi.org>
+ <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <09c29e37-6adb-f5e4-fe57-46babaa6dae4@gmail.com>
+Date:   Fri, 16 Oct 2020 11:08:37 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUUzoFxbJts3gVC7i5A5daa_TYzKdrGEHho=3a1eeC_ww@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+In-Reply-To: <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16-10-20, 08:44, Geert Uytterhoeven wrote:
-> On Fri, Oct 16, 2020 at 7:03 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
-> > On 14-10-20, 18:40, Geert Uytterhoeven wrote:
-> > > On this platform (r8a7791-koelsch.dts), there is no opp table in DT.
+Hello!
+
+On 15.10.2020 21:27, Jacopo Mondi wrote:
+
+> Instrument the function that configures the reverse channel with a
+> programmable amplitude value.
 > 
-> I think you missed the clue above:
-
-I read it earlier as well.
-
-> this DTS does not have an opp-table
-> with operating-points-v2, but cpu0 does have the operating-points (v1)
-> property (note the latter is something I missed before).
-
-This is different than having no OPP table in DT.
-
-> > >
-> > >   Before:
-> >
-> > I assume this means before this patchset came in..
+> This change serves to prepare to adjust the reverse channel amplitude
+> depending on the remote end high-threshold configuration.
 > 
-> Indeed.
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>   drivers/media/i2c/max9286.c | 22 ++++++++++++++++------
+>   1 file changed, 16 insertions(+), 6 deletions(-)
 > 
-> > >     boot:
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:362
-> > >       cpu cpu0: resources_available:95
-> > >       cpu cpu0: resources_available:102: clk_get() returned z
-> > >       cpu cpu0: resources_available:120:
-> > > dev_pm_opp_of_find_icc_paths() returned 0
-> > >       cpu cpu0: resources_available:125: find_supply_name() returned cpu0
-> > >       cpu cpu0: resources_available:132: regulator_get_optional()
-> > > returned -EPROBE_DEFER
-> > >       cpu cpu0: cpu0 regulator not ready, retry
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:371:
-> > > resources_available() returned -517
-> >
-> > we deferred probe once.
-> >
-> > >       ...
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:362
-> > >       cpu cpu0: resources_available:95
-> > >       cpu cpu0: resources_available:102: clk_get() returned z
-> > >       cpu cpu0: resources_available:120:
-> > > dev_pm_opp_of_find_icc_paths() returned 0
-> > >       cpu cpu0: resources_available:125: find_supply_name() returned cpu0
-> > >       cpu cpu0: resources_available:132: regulator_get_optional()
-> > > returned (ptrval)
-> >
-> > found regulator next time.
-> >
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:371:
-> > > resources_available() returned 0
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:375
-> > >       cpufreq_dt: cpufreq_init:162
-> > >       cpu cpu0: cpufreq_init:170: clk_get() returned z
-> > >       cpu cpu0: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
-> > >       cpu cpu0: cpufreq_init:198: find_supply_name() returned cpu0
-> > >       <i2c comm>
-> > >       cpu cpu0: cpufreq_init:201: dev_pm_opp_set_regulators() returned (ptrval)
-> > >       <i2c comm>
-> > >       cpu cpu0: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu0: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
-> > >       cpu cpu0: OPP table is not ready, deferring probe
-> >
-> > This failed, as we couldn't have deferred probe from cpufreq_init.
-> > Which means that cpufreq didn't work here.
-> 
-> No opp-table in DT.
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 89a7248f5c25..163e102199e3 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -906,19 +906,29 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>    * Probe/Remove
+>    */
+>   
+> -static void max9286_reverse_channel_setup(struct max9286_priv *priv)
+> +static void max9286_reverse_channel_setup(struct max9286_priv *priv,
+> +					  unsigned int chan_amplitude)
+>   {
+> +	/* Reverse channel transmission time: default to 1. */
+> +	u8 chan_config = MAX9286_REV_TRF(1);
+> +
+>   	/*
+>   	 * Reverse channel setup.
+>   	 *
+>   	 * - Enable custom reverse channel configuration (through register 0x3f)
+>   	 *   and set the first pulse length to 35 clock cycles.
+> -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+> -	 *   high threshold enabled by the serializer driver.
+> +	 * - Adjust reverse channel amplitude: values > 130 are programmed
+> +	 *   using the additional +100mV REV_AMP_X boost flag
+>   	 */
+>   	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+> -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+> -		      MAX9286_REV_AMP_X);
+> +
+> +	if (chan_amplitude > 100) {
+> +		/* It is not possible express values (100 < x < 130) */
 
-V1 is also an OPP table.
+    "To express", perhaps?
 
-> Shouldn't it use operating-points v1 instead?
+> +		chan_amplitude = chan_amplitude < 130
+> +			       ? 30 : chan_amplitude - 100;
+> +		chan_config |= MAX9286_REV_AMP_X;
+> +	}
+> +	max9286_write(priv, 0x3b, chan_config | MAX9286_REV_AMP(chan_amplitude));
+>   	usleep_range(2000, 2500);
+>   }
+>   
+[...]
 
-Both v1 and v2 are considered as OPP tables. When we say that the
-opp-count is 0, it means that it failed to find any of them.
-
-> > >       cpufreq_dt: cpufreq_init:162
-> > >       cpu cpu1: cpufreq_init:170: clk_get() returned z
-> > >       cpu cpu1: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
-> > >       cpu cpu1: no regulator for cpu1
-> > >       cpu cpu1: cpufreq_init:198: find_supply_name() returned (null)
-> > >       cpu cpu1: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu1: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
-> > >       cpu cpu1: OPP table is not ready, deferring probe
-> >
-> > Same for CPU1.
-> 
-> Note that only CPU0 has operating-points v1.
-
-Both should have it ideally, though it works if CPU0 gets probed
-first. But if CPU0 is hotplugged out and we try to probe CPU1, then it
-will fail.
-
-The fact that cpufreq core tried to probe CPU1 means that it failed
-for CPU0. And this is before the patchset in question came in.
-
-I don't think cpufreq was working earlier for your platform, please
-check why.
-
-> >
-> > >
-> > >     s2ram:
-> > >       cpufreq_dt: cpufreq_init:162
-> > >       cpu cpu1: cpufreq_init:170: clk_get() returned z
-> > >       cpu cpu1: cpufreq_init:179: dev_pm_opp_of_get_sharing_cpus() returned -2
-> > >       cpu cpu1: no regulator for cpu1
-> > >       cpu cpu1: cpufreq_init:198: find_supply_name() returned (null)
-> > >       cpu cpu1: cpufreq_init:230: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu1: cpufreq_init:239: dev_pm_opp_get_opp_count() returned 0
-> > >       cpu cpu1: OPP table is not ready, deferring probe
-> >
-> > And same here.
-> >
-> > >       CPU1 is up
-> > >
-> > >   After:
-> > >     boot:
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:356
-> > >       cpufreq_dt: dt_cpufreq_early_init:251
-> > >       cpu cpu0: dt_cpufreq_early_init:256
-> > >       cpu cpu0: dt_cpufreq_early_init:271: dev_pm_opp_get_opp_table()
-> > > returned (ptrval)
-> > >       cpu cpu0: dt_cpufreq_early_init:284: find_supply_name() returned cpu0
-> > >       cpu cpu0: dt_cpufreq_early_init:288: dev_pm_opp_set_regulators()
-> > > returned -EPROBE_DEFER
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
-> > > dt_cpufreq_early_init() returned -517
-> > >       ...
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:356
-> > >       cpufreq_dt: dt_cpufreq_early_init:251
-> > >       cpu cpu0: dt_cpufreq_early_init:256
-> > >       cpu cpu0: dt_cpufreq_early_init:271: dev_pm_opp_get_opp_table()
-> > > returned (ptrval)
-> > >       cpu cpu0: dt_cpufreq_early_init:284: find_supply_name() returned cpu0
-> > >       cpu cpu0: dt_cpufreq_early_init:288: dev_pm_opp_set_regulators()
-> > > returned (ptrval)
-> > >       cpu cpu0: dt_cpufreq_early_init:301:
-> > > dev_pm_opp_of_get_sharing_cpus() returned -2
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
-> > > dt_cpufreq_early_init() returned 0
-> > >       cpufreq_dt: dt_cpufreq_early_init:251
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:360:
-> > > dt_cpufreq_early_init() returned 0
-> > >       cpufreq-dt cpufreq-dt: dt_cpufreq_probe:365
-> > >       cpufreq_dt: cpufreq_init:114
-> > >       cpu cpu0: cpufreq_init:124: clk_get() returned z
-> > >       cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
-> > >       cpu cpu0: OPP table can't be empty
-> >
-> > Same issue here.
-> >
-> > >       cpufreq_dt: cpufreq_init:114
-> > >       cpu cpu0: cpufreq_init:124: clk_get() returned z
-> > >       <i2c comm>
-> > >       cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
-> > >
-> > >     s2ram:
-> > >
-> > >       cpufreq_dt: cpufreq_init:114
-> > >       cpu cpu0: cpufreq_init:124: clk_get() returned z
-> > >       WARNING: CPU: 1 PID: 14 at drivers/i2c/i2c-core.h:54
-> > > __i2c_transfer+0x2d8/0x310
-> > >       i2c i2c-6: Transfer while suspended
-> > >       cpu cpu0: cpufreq_init:142: dev_pm_opp_of_cpumask_add_table() returned 0
-> > >       cpu cpu0: cpufreq_init:151: dev_pm_opp_get_opp_count() returned 0
-> > >       cpu cpu0: OPP table can't be empty
-> > >       CPU1 is up
-> > >
-> > > I hope this helps.
-> >
-> > Unfortunately it raised more questions than what it answered :(
-> 
-> Before, it bailed out before talking to the regulator during s2ram,
-> After, it talks to the regulator before bailing out, triggering the WARN().
-
-It wasn't working before and it isn't working now. Though I do see a
-problem with cpufreq core where it tries suspend/resume even though
-->init() failed for all CPUs earlier. I will fix that separately.
-
-I think someone needs to see why it wasn't working earlier and then we
-can see if we have pending issues.
-
--- 
-viresh
+MBR, Sergei
