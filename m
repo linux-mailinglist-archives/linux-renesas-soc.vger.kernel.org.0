@@ -2,149 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C637F2909D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 18:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AAF3290843
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 17:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409116AbgJPQkF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 12:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409112AbgJPQkF (ORCPT
+        id S2410049AbgJPP0S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 11:26:18 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:6801 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410005AbgJPP0S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 12:40:05 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E038CC061755;
-        Fri, 16 Oct 2020 09:40:05 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id n9so1765326pgf.9;
-        Fri, 16 Oct 2020 09:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IckxrY+DJUgifghNLeuNR0thZvPKeVF++1zmyr1erYw=;
-        b=ESgt/PDnWql9lpWADVRcvJtTdx/yh6tAhrYC8ZbqFWYpenEaoveVB1MkC0MmzrYBkq
-         A2hcACvYNVxP+qeCOXAm6TAoHg/hA945fUoFPjZyDgwGUzM0gBZIAAgt2f2WdEixOwMc
-         MuvuXD0etsBBlcYQYZVQb0nnaZp6KJlo0Db6lw+kJqZnzH3zDaZxJ8q6h45XeRph8MCx
-         rDJyF81mIAxRxSew5JoQXhgwt1mXtnZ6p+gLQPRXbuD31FMcP8zYOHwfP4c+cBdpMPa/
-         g3a4a6g6G4qJAcV8hOS7BmEgZ9IbBpK/hWsUtfcO9d6EafuL7fBhEFwToR4bak2AEIOr
-         WedQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IckxrY+DJUgifghNLeuNR0thZvPKeVF++1zmyr1erYw=;
-        b=ZQZ7syF6ObbW2/ktYVm4DWNpDvLu3y6rjFWc2PXj/62SrFct7P8BaJJMFTJONq03MY
-         O+mHGh2RAu0YLR3OVezwATVRnDZxKNQAbiRk4ZfyPhQ8XLO/0SbFz7qoSUXUQ8vSEuf5
-         qnh2XHnqFFKMf5ZELakTo9pJThyZWZvPdllkdOOujZhSwl9N5SxXLzcTxaYqf73pj6aL
-         /sabuLrPbXIHVrVPpYqsjgY4HTe6zCaxUpbDy/2CfkpnRXNK4gjpTBrDiSrBbkY3Ccnh
-         ezVs5TYKR5vuXRCkpPcgLaZuCtAEBmY0Wz86O00LdjnpT1bQiPA9/S/1SrlKZd5q8lmo
-         2HCw==
-X-Gm-Message-State: AOAM533aUFtw8ySkRAmoysJY6n6RRmf84/dCjCzU8y/NeoiN2HTMB+ie
-        Y8MqcYCWSogu+OIBUbhrERWGwHzHOI+wsSx/3CkKziFATDl9AA==
-X-Google-Smtp-Source: ABdhPJx6pQLev1hrd9p9RQDKLQbYA4y9N4AoDM8hkHzN15gVHnEjk9hji9W0yK8afB4GH5dGC6kXh6x1X4qhgS5fHFQ=
-X-Received: by 2002:a63:308:: with SMTP id 8mr3912525pgd.203.1602866405342;
- Fri, 16 Oct 2020 09:40:05 -0700 (PDT)
+        Fri, 16 Oct 2020 11:26:18 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id E63F0240010;
+        Fri, 16 Oct 2020 15:26:14 +0000 (UTC)
+Date:   Fri, 16 Oct 2020 19:26:00 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 5/5] rcar-vin: Add support for suspend and resume
+Message-ID: <20201016172600.n66gz2qmwmjjdwb3@uno.localdomain>
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
+ <20201016160718.klbkccgcbnpoi7bq@uno.localdomain>
+ <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <20200917130920.6689-1-geert+renesas@glider.be>
-In-Reply-To: <20200917130920.6689-1-geert+renesas@glider.be>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 16 Oct 2020 19:40:54 +0300
-Message-ID: <CAHp75Vd3s1N_f9oM=MiMv6ZhtrOzYMKAQz+CURVkxG4JgGVw+Q@mail.gmail.com>
-Subject: Re: [PATCH v3] ata: sata_rcar: Fix DMA boundary mask
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-ide@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 4:12 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Before commit 9495b7e92f716ab2 ("driver core: platform: Initialize
-> dma_parms for platform devices"), the R-Car SATA device didn't have DMA
-> parameters.  Hence the DMA boundary mask supplied by its driver was
-> silently ignored, as __scsi_init_queue() doesn't check the return value
-> of dma_set_seg_boundary(), and the default value of 0xffffffff was used.
->
-> Now the device has gained DMA parameters, the driver-supplied value is
-> used, and the following warning is printed on Salvator-XS:
->
->     DMA-API: sata_rcar ee300000.sata: mapping sg segment across boundary [start=0x00000000ffffe000] [end=0x00000000ffffefff] [boundary=0x000000001ffffffe]
->     WARNING: CPU: 5 PID: 38 at kernel/dma/debug.c:1233 debug_dma_map_sg+0x298/0x300
->
-> (the range of start/end values depend on whether IOMMU support is
->  enabled or not)
->
-> The issue here is that SATA_RCAR_DMA_BOUNDARY doesn't have bit 0 set, so
-> any typical end value, which is odd, will trigger the check.
->
-> Fix this by increasing the DMA boundary value by 1.
->
-> This also fixes the following WRITE DMA EXT timeout issue:
->
->     # dd if=/dev/urandom of=/mnt/de1/file1-1024M bs=1M count=1024
->     ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
->     ata1.00: failed command: WRITE DMA EXT
->     ata1.00: cmd 35/00:00:00:e6:0c/00:0a:00:00:00/e0 tag 0 dma 1310720 out
->     res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)
->     ata1.00: status: { DRDY }
->
-> as seen by Shimoda-san since commit 429120f3df2dba2b ("block: fix
-> splitting segments on boundary masks").
->
-> Fixes: 8bfbeed58665dbbf ("sata_rcar: correct 'sata_rcar_sht'")
-> Fixes: 9495b7e92f716ab2 ("driver core: platform: Initialize dma_parms for platform devices")
-> Fixes: 429120f3df2dba2b ("block: fix splitting segments on boundary masks")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: stable <stable@vger.kernel.org>
-> ---
-> v3:
->   - Add Reviewed-by, Tested-by,
->   - Augment description and Fixes: with Shimoda-san's problem report
->     https://lore.kernel.org/r/1600255098-21411-1-git-send-email-yoshihiro.shimoda.uh@renesas.com,
->
-> v2:
->   - Add Reviewed-by, Tested-by, Cc.
-> ---
->  drivers/ata/sata_rcar.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
-> index 141ac600b64c87ef..44b0ed8f6bb8a120 100644
-> --- a/drivers/ata/sata_rcar.c
-> +++ b/drivers/ata/sata_rcar.c
-> @@ -120,7 +120,7 @@
->  /* Descriptor table word 0 bit (when DTA32M = 1) */
->  #define SATA_RCAR_DTEND                        BIT(0)
->
-> -#define SATA_RCAR_DMA_BOUNDARY         0x1FFFFFFEUL
-> +#define SATA_RCAR_DMA_BOUNDARY         0x1FFFFFFFUL
+Hi Niklas,
 
-Wondering if GENMASK() here will be better to avoid such mistakes.
+On Fri, Oct 16, 2020 at 04:15:03PM +0200, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> Thanks for your feedback.
+>
+> On 2020-10-16 18:07:18 +0200, Jacopo Mondi wrote:
+> > Hi Niklas,
+> >
+> > On Fri, Oct 16, 2020 at 01:14:08AM +0200, Niklas Söderlund wrote:
+> > > Add support for suspend and resume by stopping and starting the video
+> > > pipeline while still retaining all buffers given to the driver by
+> > > user-space and internally allocated ones, this gives the application a
+> > > seamless experience.
+> > >
+> > > Buffers are never returned to user-space unprocessed so user-space don't
+> > > notice when suspending. When resuming the driver restarts the capture
+> > > session using the internal scratch buffer, this happens before
+> > > user-space is unfrozen, this leads to speedy response times once the
+> > > application resumes its execution.
+> > >
+> > > As the entire pipeline is stopped on suspend all subdevices in use are
+> > > also stopped, and if they enter a shutdown state when not streaming
+> > > (such as the R-Car CSI-2 driver) they too will be suspended and resumed
+> > > in sync with the VIN driver.
+> > >
+> > > To be able to do keep track of which VINs should be resumed a new
+> >
+> > s/to do/to/
+> >
+> > > internal state SUSPENDED is added to recode this.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-core.c | 51 +++++++++++++++++++++
+> > >  drivers/media/platform/rcar-vin/rcar-vin.h  | 10 ++--
+> > >  2 files changed, 57 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > index 34d003e0e9b9c25a..4adf4ce518f79c93 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > @@ -918,6 +918,54 @@ static int rvin_mc_init(struct rvin_dev *vin)
+> > >  	return ret;
+> > >  }
+> > >
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Suspend / Resume
+> > > + */
+> > > +
+> > > +static int __maybe_unused rvin_suspend(struct device *dev)
+> > > +{
+> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
+> > > +
+> > > +	if (vin->state != RUNNING)
+> > > +		return 0;
+> > > +
+> > > +	rvin_stop_streaming(vin);
+> >
+> > This delay suspend untill all the userspace queued buffers are not
+> > completed, right ?
+>
+> Yes it will delay suspend until all the buffers queued by user-space AND
+> have been written to one of the 3 hardware slots are completed. So the
+> worst case scenario is a delay of 3 frames to complete.
+>
+> Buffers queued by an application not yet commited to a slot are not
+> waited for. Instead they are used when capture is resumed.
+
+Ah right! I think exhausting the 3 filled slots it's an acceptable
+delay during suspend operation.
+
+Please add:
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+which I forgot in the previous reply
+
+Thanks
+  j
 
 >
->  /* Gen2 Physical Layer Control Registers */
->  #define RCAR_GEN2_PHY_CTL1_REG         0x1704
+> >
+> > > +
+> > > +	vin->state = SUSPENDED;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int __maybe_unused rvin_resume(struct device *dev)
+> > > +{
+> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
+> > > +
+> > > +	if (vin->state != SUSPENDED)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * Restore group master CHSEL setting.
+> > > +	 *
+> > > +	 * This needs to be by every VIN resuming not only the master
+> > > +	 * as we don't know if and in which order the master VINs will
+> > > +	 * be resumed.
+> > > +	 */
+> > > +	if (vin->info->use_mc) {
+> > > +		unsigned int master_id = rvin_group_id_to_master(vin->id);
+> > > +		struct rvin_dev *master = vin->group->vin[master_id];
+> > > +		int ret;
+> > > +
+> > > +		if (WARN_ON(!master))
+> > > +			return -ENODEV;
+> > > +
+> > > +		ret = rvin_set_channel_routing(master, master->chsel);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return rvin_start_streaming(vin);
+> > > +}
+> > > +
+> > >  /* -----------------------------------------------------------------------------
+> > >   * Platform Device Driver
+> > >   */
+> > > @@ -1421,9 +1469,12 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> > >  	return 0;
+> > >  }
+> > >
+> > > +static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+> > > +
+> > >  static struct platform_driver rcar_vin_driver = {
+> > >  	.driver = {
+> > >  		.name = "rcar-vin",
+> > > +		.pm = &rvin_pm_ops,
+> > >  		.of_match_table = rvin_of_id_table,
+> > >  	},
+> > >  	.probe = rcar_vin_probe,
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > index 4ec8584709c847a9..4539bd53d9d41e9c 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > @@ -49,16 +49,18 @@ enum rvin_csi_id {
+> > >  };
+> > >
+> > >  /**
+> > > - * STOPPED  - No operation in progress
+> > > - * STARTING - Capture starting up
+> > > - * RUNNING  - Operation in progress have buffers
+> > > - * STOPPING - Stopping operation
+> > > + * STOPPED   - No operation in progress
+> > > + * STARTING  - Capture starting up
+> > > + * RUNNING   - Operation in progress have buffers
+> > > + * STOPPING  - Stopping operation
+> > > + * SUSPENDED - Capture is suspended
+> > >   */
+> > >  enum rvin_dma_state {
+> > >  	STOPPED = 0,
+> > >  	STARTING,
+> > >  	RUNNING,
+> > >  	STOPPING,
+> > > +	SUSPENDED,
+> > >  };
+> > >
+> > >  /**
+> > > --
+> > > 2.28.0
+> > >
+>
 > --
-> 2.17.1
->
-
-
--- 
-With Best Regards,
-Andy Shevchenko
+> Regards,
+> Niklas Söderlund
