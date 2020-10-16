@@ -2,186 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 210C2290378
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 12:46:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F2D329037B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Oct 2020 12:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395482AbgJPKqd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Oct 2020 06:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47916 "EHLO
+        id S2395494AbgJPKsX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Oct 2020 06:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395480AbgJPKqd (ORCPT
+        with ESMTP id S2395491AbgJPKsQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Oct 2020 06:46:33 -0400
+        Fri, 16 Oct 2020 06:48:16 -0400
 Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF691C0613D3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id 184so2263666lfd.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A8DC0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:48:14 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id b1so2245252lfp.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Oct 2020 03:48:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
-        b=uAVW5LZ0qDoTr11vN0BBe+1vX4rbwGvp1XMQ/KEaZr5f8W+mk4dcL3Hgw++zlnaVSB
-         qzBQgmXWZ9vDUwe0nFRnajnG7HorEG1vaaUA/rpdEGxwwzHhy5FHmWiwsziwdjCV3n/o
-         j1jhzHz4h1apXSkrGBMeve4P5jamP+ZkiIyooQ0d4wuURiXbv4zBbW3H8CDfSOyLr/tv
-         cQhpOTL0DB8If7bRY6fYQM62OIylS7oWEHSrKuDZ/0JXEiwwp78Fd5tFQaeQkbW19orn
-         gGsUmMlU7HLVhxT5SniR8+MJsn4664VJOAd/0NrqaADR2qS9LX4WILVoRV5lDg8iBMzV
-         RgOQ==
+        bh=ZlBunlcShoHfhB1fmbzAp/Jc2DcXlgRRI6F6yPhywro=;
+        b=ORJjCKJ++XhGaD7eZCMNQolkXf2O1gu7eQtFAIlgE0eYXbmVTd6hN5wWN0zblDiRrM
+         WQVneb2ymz1sCWfeOarU3TfU0KQEsn0rSz2fmsl/OFFgiq2+/Dgr/Nur0GboXDWZyixk
+         rmVVZ4Aj4UZFxwwQot9QX69NeUJtIquHjV7HRmP2tp5TlWuRklvzCoQRyDQuIURI+AUv
+         xsGiZJxm7wYQE5k1P7VfHHOITO5sGMXd/8Z4rUYTCkIbGvFvAFv6gpRMFW/Dkklt7LsC
+         83/Vpyo8cYYfY1xNUivMkytjpieL9rHGJuTpJMM10v7Tgq8Unqc4letrgd8JS0QqNC30
+         Ql1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
-        b=kejmQRIhY/iwxrkWf2keULiSWPHNGMCcro7542EKqJiCCqbu+xIBV70mvEc/GgK4f/
-         Oe7qfPQFcGjc0bhDAPaC+/8kdUxGkjL67BeESEaYCBI3E+SCecXzsdc37o19QDKqtDyC
-         1OF3WR4rIp5pxgvfZDs7iJ1lE13YpqHAEhcovciwCE18YTWyDL6cQBH+kHXi3r49Ofx3
-         k+oP7p5b8r5oc0ASPbr9OlAGPYTMHNSS5TOYHfQsdKW88UwkSmJK6ABL01plvqTwn6Tk
-         PdqiSMty6sukCWNX9Q1E51vL36AUCeFvAbZlMO3WkuKgqiFRQqR4DmZOiM4udhtcT6cf
-         LRoA==
-X-Gm-Message-State: AOAM5324CVF96Ul4Uldv3WJMaltlFKia6BzF2PWqZSS9w0/aOKxTTXVA
-        iUlA+NPfXblmBcwYw9+Gg2rrqg==
-X-Google-Smtp-Source: ABdhPJwn+emKMSImv/ay6it3kVmAQdJapmCqNQeyL62QfTbrTgeXOFuxoVIoJrgyIbbuV0Xr3WfHKQ==
-X-Received: by 2002:a19:350:: with SMTP id 77mr1194910lfd.92.1602845191026;
-        Fri, 16 Oct 2020 03:46:31 -0700 (PDT)
+        bh=ZlBunlcShoHfhB1fmbzAp/Jc2DcXlgRRI6F6yPhywro=;
+        b=B3rvvTYMGM5jJ5ve/y4rwOTAy8kc8bc8wFOktMiDHVxz+SPWDdRChDcN3yE/BibTpt
+         quJ/AeVbxAEBCjWzLfJXWpPfLpjxLw5jKIZ+AIUx3xzWNMimceNlXOMeuT87aaSjzids
+         vRRTIKK0hAIbyiqgpNoBV+ORQSIG2UtEHMJfxXMNZc646Tk7OHzSuWAYfVN4W+5ZNHWQ
+         FnqHJcT6tE9GJet5klAZs/rB28JThuXktKiJTCZvR6MjVmkT+Jjsowm4XdmfR3mFuTDj
+         3CZC9sGZqK/NcsnYKsop1TotbvRtcTIHtmmAiitfFPV6XKMMSMpfjBFAyqCYDqK0ry0t
+         UTdw==
+X-Gm-Message-State: AOAM531p9DghH0awRFwzfCKycFQYEG32MIbCH3vwtUyphNPP8xAJdqkp
+        txSQKeHajN2F64XXtN7jAvFc+uAOUZL/Hg==
+X-Google-Smtp-Source: ABdhPJwYmqHAF50z96iUiLYikZRk6e1MI+eV5J4/QlAStNhj1AhyNRJET4r7BvlaxAUWZy8OtKmB1A==
+X-Received: by 2002:a19:848e:: with SMTP id g136mr987714lfd.466.1602845293305;
+        Fri, 16 Oct 2020 03:48:13 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id z19sm704004lfr.46.2020.10.16.03.46.30
+        by smtp.gmail.com with ESMTPSA id k21sm761042ljb.43.2020.10.16.03.48.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 03:46:30 -0700 (PDT)
-Date:   Fri, 16 Oct 2020 12:46:29 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
-Message-ID: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
-References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
+        Fri, 16 Oct 2020 03:48:12 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 12:48:12 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
+        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] dt-bindings: media: renesas,vin: Add V3U support
+Message-ID: <20201016104812.nxdqjznjj6fxidmu@oden.dyn.berto.se>
+References: <20201016111158.17521-1-jacopo+renesas@jmondi.org>
+ <20201016111158.17521-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
+In-Reply-To: <20201016111158.17521-6-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Jacopo,
 
-On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
-> Hi Niklas,
+Thanks for your work.
+
+On 2020-10-16 13:11:57 +0200, Jacopo Mondi wrote:
+> Add compatible string definition for R-Car V3U.
 > 
-> On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > This series add suspend and resume support directly to R-Car VIN and
-> > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
-> > pipeline. The capture pipeline is stopped when suspending and started
-> > when resuming, all while retaining the buffers provided from user-space.
-> > This makes the start and stop of the pipeline transparent from an
-> > application point of view.
-> >
-> > As the pipeline is switched off subdevices that poweroff themself when
-> > not in use (such as R-Car CSI-2) are also switched off and are
-> > indirectly serviced by the suspend support in VIN.
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
 > 
-> Thanks for your series!
+> This and the following patch are still under discussion as the
+> proper support for the V3U VIN might require the implementation
+> of a different driver.
 > 
-> > This work is based on-top of the media-tree and is tested on both R-Car
-> > Gen2 and Gen3 without any regressions.
-> 
-> FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
-> off the SoC?
+> I'm fine deferring it to when we'll have a more clear plan for V3U support.
 
-I have only been able to test it with s2idle. My issue is that s2ram 
-fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead 
-use a initramfs I can resume from s2ram but I don't have the setup to 
-test capture in that environment.
-
-My procedure for s2idle that works with nfsroot is,
-
-    # path=$(find /sys -path '/sys/devices/platform/*/ttySC0/power/wakeup')
-    # echo enabled > $path
-    # echo N > /sys/module/printk/parameters/console_suspend
-    # echo s2idle > /sys/power/mem_slee
-    # echo mem > /sys/power/state
-    ** Wait a while and then wakeup using the console **
-    #
-
-My procedure for s2ram that does _not_ work with nfsroot (but do with 
-initramfs). Both tests are done on a M3-N.
-
-    # echo N > /sys/module/printk/parameters/console_suspend
-    # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
-    ** flipp SW23 off **
-    # echo mem > /sys/power/state
-    [  347.096336] PM: suspend entry (deep)
-    [  347.104251] Filesystems sync: 0.003 seconds
-    [  347.123751] Freezing user space processes ... (elapsed 0.007 seconds) done.
-    [  347.138760] OOM killer disabled.
-    [  347.142099] Freezing remaining freezable tasks ... (elapsed 0.002 seconds) done.
-    [  347.167466] ravb e6800000.ethernet eth0: Link is Down
-    [  347.440549] Disabling non-boot CPUs ...
-    [  347.448805] CPU1: shutdown
-    [  347.451731] psci: CPU1 killed (polled 0 ms)
-    ** Waits 30+ seconds then switch SW23 on **
-    INFO:    ARM GICv2 driver initialized
-    NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.2.0.6
-    NOTICE:  BL2: PRR is R-Car M3N Ver.1.0
-    NOTICE:  BL2: Board is Salvator-XS Rev.1.0
-    NOTICE:  BL2: Boot device is HyperFlash(160MHz)
-    NOTICE:  BL2: LCM state is CM
-    NOTICE:  AVS setting succeeded. DVFS_SetVID=0x53
-    NOTICE:  BL2: DDR3200(rev.0.40)
-    NOTICE:  BL2: [WARM_BOOT]
-    NOTICE:  BL2: DRAM Split is OFF
-    NOTICE:  BL2: QoS is default setting(rev.0.09)
-    NOTICE:  BL2: DRAM refresh interval 1.95 usec
-    NOTICE:  BL2: Periodic Write DQ Training
-    NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
-    NOTICE:  BL2: FDT at 0xe6322508
-    NOTICE:  BL2: v2.3(release):v2.3-188-g9935047b2086faa3
-    NOTICE:  BL2: Built : 23:31:02, Jun 18 2020
-    NOTICE:  BL2: Normal boot
-    INFO:    BL2: Doing platform setup
-    [  347.461237] Enabling non-boot CPUs ...
-    [  347.465551] Detected PIPT I-cache on CPU1
-    [  347.465611] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
-    [  347.468691] CPU1 is up
-    [  347.607806] usb usb2: root hub lost power or was reset
-    [  347.613594] usb usb1: root hub lost power or was reset
-    [  347.767713] usb usb4: root hub lost power or was reset
-    [  347.773424] usb usb3: root hub lost power or was reset
-    [  347.775223] libphy: ravb_mii: probed
-    [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
-    [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
-    [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
-    [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
-    [  347.929701] ata1: link resume succeeded after 1 retries
-    [  347.989934] OOM killer enabled.
-    [  347.993184] Restarting tasks ... done.
-    [  348.004321] PM: suspend exit
-    [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
-    [  529.376515] nfs: server 10.0.1.1 not responding, still trying
-    [  529.376702] nfs: server 10.0.1.1 not responding, still trying
-    [  529.385628] nfs: server 10.0.1.1 not responding, still trying
-    ** Board never reaches user-space **
-
-Is there a known fix for this?
+I think it's best we defer it until we have a plan for how we are going 
+to support it on the driver side.
 
 > 
-> Gr{oetje,eeting}s,
+> v2:
+> - Increase maxium value for the 'renesas,id' property to support
+>   the V3U's 31 VIN instances
 > 
->                         Geert
+> ---
+>  Documentation/devicetree/bindings/media/renesas,vin.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> index ad2fe660364b..f7ac1fd3df25 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -51,6 +51,7 @@ properties:
+>                - renesas,vin-r8a77980 # R-Car V3H
+>                - renesas,vin-r8a77990 # R-Car E3
+>                - renesas,vin-r8a77995 # R-Car D3
+> +              - renesas,vin-r8a779a0 # R-Car V3U
 > 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+>    reg:
+>      maxItems: 1
+> @@ -120,7 +121,7 @@ properties:
+>      description: VIN channel number
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>      minimum: 0
+> -    maximum: 15
+> +    maximum: 31
+> 
+>    ports:
+>      type: object
+> --
+> 2.28.0
+> 
 
 -- 
 Regards,
