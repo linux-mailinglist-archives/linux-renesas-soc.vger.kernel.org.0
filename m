@@ -2,222 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D177E2912E0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Oct 2020 18:08:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87497291415
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Oct 2020 21:15:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438593AbgJQQIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 17 Oct 2020 12:08:35 -0400
-Received: from mail-eopbgr1400092.outbound.protection.outlook.com ([40.107.140.92]:56105
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2438586AbgJQQIe (ORCPT
+        id S2439403AbgJQTPw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Oct 2020 15:15:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439275AbgJQTPw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 17 Oct 2020 12:08:34 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=afFiLeGLHKyF4epEhCX9UO4iPJ06P54zU8stnQbzoj+5ps/FE4fg8RLi+13GZBzJbEhEY+LKM6hgj4HkozF/Z2oFDpodH6iCJgbbJ2Ca0xprYN78ym3tLlKBKoIoQQeoF8CcLl4DNWlAvCweNb/Lul3TnWVb2JvRt/rkuK4WfuQWpfes1Ovi8d4HjcQaillyHhS0IosJcRkXDUGY/fCh3eEJLL+saJC9pXsOB6/cqTL+27LVDxrpKyYyMAqv9TFPo0Muq6Mv2MrGoRIEUTjPVnLUS+JmtdfHGHOOFRUEsdc/HRtFfg0Qf2msFZgS65jugP8scq09FtULSMXTyF1RAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5r9w2xxLiLFpHtnO0wNuLnuldbHsPA9gFfh1weOS4k0=;
- b=LP2mK0SzLLqiRSdacTXPS6rfhR3pPJduHnOJgtoMOa6ttSPsUpEAckJgywyX+9MOAgwkDtncIiIvN9Qx0ZlR0usE1Ok2UL823q/W4ES07zG+xZCHlIe73Eq/GBz1eTmPFLAxbTDHpCmh8vYRCo/HU3IYPkHkpagxLSFxNyB77owJKu80bj0UMgRK0S5LpKyyPytPeubFMfIe/2MU3Npl9vqu8kPKy6IrlKeubzqA8pOw4CS/UiNolUe+yaca1+bWg/1DmV/c7Zwgi2Zt5H7Utp5Tdego36sREjTzro9rjyJOI20G2YUi29BOijM5Z2BzH2kvo/tAIxXLo7SKDbIUKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Sat, 17 Oct 2020 15:15:52 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB44AC061755;
+        Sat, 17 Oct 2020 12:15:50 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id m20so6421003ljj.5;
+        Sat, 17 Oct 2020 12:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5r9w2xxLiLFpHtnO0wNuLnuldbHsPA9gFfh1weOS4k0=;
- b=RpoDmJuOFfYi8KKrWXaEa7Yh6ggzy5oIAA4TFXNXpUmBjiKrXLj/801zAeCRW67xwr6OhKgLt4nH4EN8i6zgh9fMypU45f4OhqZNPE9ZWV1IO6RRaHQtC6No6LTA8pM9dz0jazXMmlwB36xc58l5/YxquGY7PNSBIBA71B/wNBY=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TYXPR01MB1773.jpnprd01.prod.outlook.com
- (2603:1096:403:11::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Sat, 17 Oct
- 2020 16:08:29 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::757f:58cf:296e:9f84]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::757f:58cf:296e:9f84%4]) with mapi id 15.20.3477.028; Sat, 17 Oct 2020
- 16:08:29 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Sam Ravnborg <sam@ravnborg.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Andrzej Hajda <a.hajda@samsung.com>
-Subject: RE: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Topic: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
-Thread-Index: AQHWkM76/jGpsPjEXkKsonm7MZkvwama3jWAgAE/dSA=
-Date:   Sat, 17 Oct 2020 16:08:28 +0000
-Message-ID: <TYBPR01MB5309A7393BADCF462577188986000@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201016210419.GD1496366@ravnborg.org>
-In-Reply-To: <20201016210419.GD1496366@ravnborg.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ravnborg.org; dkim=none (message not signed)
- header.d=none;ravnborg.org; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [109.154.85.180]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 231a7d65-2845-4acd-9c86-08d872b6e314
-x-ms-traffictypediagnostic: TYXPR01MB1773:
-x-microsoft-antispam-prvs: <TYXPR01MB177376B23966C137742BA92F86000@TYXPR01MB1773.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: L/WOR5DddXh8Em5HwHGaAV81FO+Rwb2yyzcF63jQnj4gE7Z1K0cW/RMw5y7kGKA6ARPPfzYlGtNqGWpTXrCy9BjZ8cELwQTx6PZtcqQI1vZ50xGd4LyYDPaOAYZme5QUU7XLsG9L49JoC//yI8Vm5FjxMgr2GjdytEwM5aiYcA7MURFjaGXOJ+gkXVuNLRI5mEOamgmjpj0rhwpEFX27hvaWExWaPjEUrOQR1sLyen509PJ+SjFpwXcpEbtiBO/pYAOxxpM3GUeuOXl2kgWMRuQqAFsCdAnSvGoXDUUEZ8Axmqf8Amajp9LomCUgVMPmd277LY0WxBiH4GKAt0P6TwYY3F5qkGmcwrSOwYCJH14=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(376002)(39850400004)(136003)(346002)(7696005)(5660300002)(6506007)(9686003)(52536014)(316002)(8936002)(478600001)(110136005)(966005)(54906003)(76116006)(4326008)(26005)(8676002)(66556008)(64756008)(66476007)(66446008)(186003)(2906002)(55016002)(86362001)(33656002)(66946007)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 5aGQsJQEBTHWzg5tkSpu6js/XZVfBIlX0pTfobjNC2+pCvcjGj5TbnMECGn1N4VthLpucIVolETCBFUxYkFZnbwKpixve3FUixxZECeJHlF+Fwkps1ttqX9f0xPJ7K/Tw0e+dOG/oySbjxZBnzkkatXXkHlXz7hfpUcFs8IGVNdd2rvZT5nXpNqnh9dN2c1D8REODnCphdChXTSParmGMVzT2hA/zvvS3AqY3lcLC33Zw9dWr2C/Cz+K/HT93fO+7rBIzputHgDpzbt9l1+GLacqIlC7kvFtjj73zUs4aXYg0Nw9jGPmt9N/0MePyaRWqCkoU07Bao9v8amNkp2JyqBdlPaDjps6iPny0HXvUiAGVjwvUzaqrEQzQ5Z9yeJPTQ3xGstB8w5TYodAGIu2w2oh7z9V27hT+gMEH5sGcQ53azHVVPjdttCpPEEcZQgxXhzaRUhGdXZCpsgjOIIQbfK5tHn9/kRt4/py8t/ABE7NzV+j9UOJIGzBnROVShvla9JFjRAMbtprcdhlDpWS0qcJ9zymyc0yuqJCEmMpi18rK/Ors8OwVPynvo1t3gJFmFoOkcyCeIcHuaVJrjhtd0rlmJ6DNxN5Vec8K4jCtXzhWNYvH5YE+FfyPUgkKMZ9rHFfUOUqGBIROrejolpUBg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1pDfRvE5t/wD9O6TX1BzomcWhFOCiJ7ybHvakZc7Cs8=;
+        b=RWEJe4O6Gptbz6cUhZ1+gwg8FetxX0elzhmYmdIwQmNcrUMjIIfvj5vNtRbZsE30FA
+         19BNxGCDCbMFnFl/OC9CMslTK3c01ODhU0AEw5VrDspDdsWy3otGoV5c7OnR9mn6OD0W
+         LkiusyQPRnw2uTCjM5befx3UoNE7XLyiAgsc5eESzacWP+DmXs5mD4mpXIGIL0lLLd1u
+         D0pwv7pL8jw80N4ISNcAL/zmPxI7MaV2WdlrJ1Gk5ss98d4eauI3vnyzumuuuQqYWtx1
+         CZ3RaQShS9iLanLaM2f5exUxAIPvXLHg2l2niA55Q3M9V6wGR1eR73Lp4pc+3VKq2ogb
+         jMpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1pDfRvE5t/wD9O6TX1BzomcWhFOCiJ7ybHvakZc7Cs8=;
+        b=Rz/BIiF3mVVN/1bBTc4GOEubGjLeAagmapLPAo5PwKxfP72XXQPrXn3xwSNuftCOpl
+         aKcP57SxO1JYmF6TGpWH2YV5z+NVgOb56tKLPDyf2b0gOgMIl8LxAeGsCszU/OkvgAB0
+         eggP7Y+BeV/LLdLRFNbEcwPv3xah0eNlbI8ynfiR3n9tOXnQN4K0FhL9loIbS21M9M0z
+         1gUkODXDiWmJjfCf+sq+9qVO73tsHLtYlbFCf5mg8T7TqMff/jKvxxSaTX+M+4wmVN+S
+         hDbgI+W85r6w+IMuZLyWCjshpwZbvZiEZvoxEoQlv7l2/GohoSStH3vOQG6UrFH1taSx
+         3IlQ==
+X-Gm-Message-State: AOAM53346+3H2PTHBChMpzvM3l4kQF07NiaIu8uVjen5hRbOO+3wYnib
+        1TE4lJW2NEmDHCJDbGlQ91BKfk4ttwuBhw==
+X-Google-Smtp-Source: ABdhPJwZPRkgmtwcjRHQfWqrJTh8ctpurvMHZB8H6WxkSyS6oplxryBX2xh3DPLl81qVNZRG8lVErA==
+X-Received: by 2002:a2e:989a:: with SMTP id b26mr3378280ljj.276.1602962147703;
+        Sat, 17 Oct 2020 12:15:47 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:44ab:aa29:cc3a:7ce3:762e:af0? ([2a00:1fa0:44ab:aa29:cc3a:7ce3:762e:af0])
+        by smtp.gmail.com with ESMTPSA id r19sm750940ljn.73.2020.10.17.12.15.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 17 Oct 2020 12:15:47 -0700 (PDT)
+Subject: Re: [PATCH v3] ata: sata_rcar: Fix DMA boundary mask
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Jens Axboe <axboe@kernel.dk>, Ulf Hansson <ulf.hansson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-ide@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+References: <20200917130920.6689-1-geert+renesas@glider.be>
+ <CAHp75Vd3s1N_f9oM=MiMv6ZhtrOzYMKAQz+CURVkxG4JgGVw+Q@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <b9b74843-70ea-f53c-53cf-e929d0542d2c@gmail.com>
+Date:   Sat, 17 Oct 2020 22:15:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 231a7d65-2845-4acd-9c86-08d872b6e314
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2020 16:08:28.9351
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /BFWwTX6EQOPBUQ3uLTUupIY4S2M1Ielit5MqnhOixKkFUxe3v2JJmaGQAGnx5QRNx/q8+8T5vTkNADc1+SGX1s0Tqelt3a+sNzfKlhfNkY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1773
+In-Reply-To: <CAHp75Vd3s1N_f9oM=MiMv6ZhtrOzYMKAQz+CURVkxG4JgGVw+Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam,
+On 10/16/20 7:40 PM, Andy Shevchenko wrote:
 
-> Subject: Re: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
->=20
-> Hi Biju, Laurent
->=20
-> On Tue, Sep 22, 2020 at 01:55:26PM +0300, Laurent Pinchart wrote:
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Add the support for enabling optional regulator that may be used as
-> > VCC source.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > [Replaced 'error' variable with 'ret'] [Renamed regulator from 'vcc'
-> > to 'power']
-> > Signed-off-by: Laurent Pinchart
-> > <laurent.pinchart+renesas@ideasonboard.com>
->=20
-> Applied to drm-misc-next.
-> Biju, could you make a follow-up patch that introduces dev_err_probe()
-> where appropriate? I did not fix up the code but this was a good candidat=
-e.
+>> Before commit 9495b7e92f716ab2 ("driver core: platform: Initialize
+>> dma_parms for platform devices"), the R-Car SATA device didn't have DMA
+>> parameters.  Hence the DMA boundary mask supplied by its driver was
+>> silently ignored, as __scsi_init_queue() doesn't check the return value
+>> of dma_set_seg_boundary(), and the default value of 0xffffffff was used.
+>>
+>> Now the device has gained DMA parameters, the driver-supplied value is
+>> used, and the following warning is printed on Salvator-XS:
+>>
+>>     DMA-API: sata_rcar ee300000.sata: mapping sg segment across boundary [start=0x00000000ffffe000] [end=0x00000000ffffefff] [boundary=0x000000001ffffffe]
+>>     WARNING: CPU: 5 PID: 38 at kernel/dma/debug.c:1233 debug_dma_map_sg+0x298/0x300
+>>
+>> (the range of start/end values depend on whether IOMMU support is
+>>  enabled or not)
+>>
+>> The issue here is that SATA_RCAR_DMA_BOUNDARY doesn't have bit 0 set, so
+>> any typical end value, which is odd, will trigger the check.
+>>
+>> Fix this by increasing the DMA boundary value by 1.
+>>
+>> This also fixes the following WRITE DMA EXT timeout issue:
+>>
+>>     # dd if=/dev/urandom of=/mnt/de1/file1-1024M bs=1M count=1024
+>>     ata1.00: exception Emask 0x0 SAct 0x0 SErr 0x0 action 0x6 frozen
+>>     ata1.00: failed command: WRITE DMA EXT
+>>     ata1.00: cmd 35/00:00:00:e6:0c/00:0a:00:00:00/e0 tag 0 dma 1310720 out
+>>     res 40/00:01:00:00:00/00:00:00:00:00/00 Emask 0x4 (timeout)
+>>     ata1.00: status: { DRDY }
+>>
+>> as seen by Shimoda-san since commit 429120f3df2dba2b ("block: fix
+>> splitting segments on boundary masks").
+>>
+>> Fixes: 8bfbeed58665dbbf ("sata_rcar: correct 'sata_rcar_sht'")
+>> Fixes: 9495b7e92f716ab2 ("driver core: platform: Initialize dma_parms for platform devices")
+>> Fixes: 429120f3df2dba2b ("block: fix splitting segments on boundary masks")
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+>> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+>> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>> Cc: stable <stable@vger.kernel.org>
+>> ---
+>> v3:
+>>   - Add Reviewed-by, Tested-by,
+>>   - Augment description and Fixes: with Shimoda-san's problem report
+>>     https://lore.kernel.org/r/1600255098-21411-1-git-send-email-yoshihiro.shimoda.uh@renesas.com,
+>>
+>> v2:
+>>   - Add Reviewed-by, Tested-by, Cc.
+>> ---
+>>  drivers/ata/sata_rcar.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/ata/sata_rcar.c b/drivers/ata/sata_rcar.c
+>> index 141ac600b64c87ef..44b0ed8f6bb8a120 100644
+>> --- a/drivers/ata/sata_rcar.c
+>> +++ b/drivers/ata/sata_rcar.c
+>> @@ -120,7 +120,7 @@
+>>  /* Descriptor table word 0 bit (when DTA32M = 1) */
+>>  #define SATA_RCAR_DTEND                        BIT(0)
+>>
+>> -#define SATA_RCAR_DMA_BOUNDARY         0x1FFFFFFEUL
+>> +#define SATA_RCAR_DMA_BOUNDARY         0x1FFFFFFFUL
+> 
+> Wondering if GENMASK() here will be better to avoid such mistakes.
 
-Ok, sure will do.
+   How? The bit 0 is reserved, so only even byte counts are possiblе...
 
-Thanks,
-Biju
->=20
-> 	Sam
->=20
-> > ---
-> > Changes since v2:
-> >
-> > - Use the correct regulator name
-> > ---
-> >  drivers/gpu/drm/bridge/lvds-codec.c | 29
-> > +++++++++++++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/lvds-codec.c
-> > b/drivers/gpu/drm/bridge/lvds-codec.c
-> > index f19d9f7a5db2..f52ccffc1bd1 100644
-> > --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> > +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> > @@ -10,13 +10,16 @@
-> >  #include <linux/of_device.h>
-> >  #include <linux/of_graph.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/regulator/consumer.h>
-> >
-> >  #include <drm/drm_bridge.h>
-> >  #include <drm/drm_panel.h>
-> >
-> >  struct lvds_codec {
-> > +	struct device *dev;
-> >  	struct drm_bridge bridge;
-> >  	struct drm_bridge *panel_bridge;
-> > +	struct regulator *vcc;
-> >  	struct gpio_desc *powerdown_gpio;
-> >  	u32 connector_type;
-> >  };
-> > @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge
-> > *bridge,  static void lvds_codec_enable(struct drm_bridge *bridge)  {
-> >  	struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
-> > +	int ret;
-> > +
-> > +	ret =3D regulator_enable(lvds_codec->vcc);
-> > +	if (ret) {
-> > +		dev_err(lvds_codec->dev,
-> > +			"Failed to enable regulator \"vcc\": %d\n", ret);
-> > +		return;
-> > +	}
-> >
-> >  	if (lvds_codec->powerdown_gpio)
-> >  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 0); @@ -46,9
-> > +57,15 @@ static void lvds_codec_enable(struct drm_bridge *bridge)
-> > static void lvds_codec_disable(struct drm_bridge *bridge)  {
-> >  	struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
-> > +	int ret;
-> >
-> >  	if (lvds_codec->powerdown_gpio)
-> >  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
-> 1);
-> > +
-> > +	ret =3D regulator_disable(lvds_codec->vcc);
-> > +	if (ret)
-> > +		dev_err(lvds_codec->dev,
-> > +			"Failed to disable regulator \"vcc\": %d\n", ret);
-> >  }
-> >
-> >  static const struct drm_bridge_funcs funcs =3D { @@ -63,12 +80,24 @@
-> > static int lvds_codec_probe(struct platform_device *pdev)
-> >  	struct device_node *panel_node;
-> >  	struct drm_panel *panel;
-> >  	struct lvds_codec *lvds_codec;
-> > +	int ret;
-> >
-> >  	lvds_codec =3D devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-> >  	if (!lvds_codec)
-> >  		return -ENOMEM;
-> >
-> > +	lvds_codec->dev =3D &pdev->dev;
-> >  	lvds_codec->connector_type =3D
-> > (uintptr_t)of_device_get_match_data(dev);
-> > +
-> > +	lvds_codec->vcc =3D devm_regulator_get(lvds_codec->dev, "power");
-> > +	if (IS_ERR(lvds_codec->vcc)) {
-> > +		ret =3D PTR_ERR(lvds_codec->vcc);
-> > +		if (ret !=3D -EPROBE_DEFER)
-> > +			dev_err(lvds_codec->dev,
-> > +				"Unable to get \"vcc\" supply: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> >  	lvds_codec->powerdown_gpio =3D devm_gpiod_get_optional(dev,
-> "powerdown",
-> >
-> GPIOD_OUT_HIGH);
-> >  	if (IS_ERR(lvds_codec->powerdown_gpio))
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+[...]
+
+MBR, Sergei
