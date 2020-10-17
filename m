@@ -2,114 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A08F0291223
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Oct 2020 16:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D177E2912E0
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Oct 2020 18:08:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438210AbgJQODS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 17 Oct 2020 10:03:18 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44895 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438207AbgJQODS (ORCPT
+        id S2438593AbgJQQIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Oct 2020 12:08:35 -0400
+Received: from mail-eopbgr1400092.outbound.protection.outlook.com ([40.107.140.92]:56105
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2438586AbgJQQIe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 17 Oct 2020 10:03:18 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e20so5330321otj.11;
-        Sat, 17 Oct 2020 07:03:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0b/seI0e+TIVKTjq67vJOS1hG39AvC6HlXoE0qWwu7c=;
-        b=BbVp3WTXErfIVv40Gb9GPfD65Db6axQ1gm/t7/23KdvZ8YEFb9y4/lNoXBEqCFaArL
-         xx1KVrLxrYOj2z2BaNtJjgAhTY99DR8YlfcIJldNZmI3piCQGGLOX2fG7Wdhpq4Jn9nh
-         GQ9p9CKjZQBG1s3EuUnD2sYX0CqJ9KicqzA0Xq4m0Vrs1y6pD8gYcCdxpBtNkWeC1jet
-         HqTvulOi4echVFp8EqHj+Ph0DZR4Vbd1CZPmxTa28w0Q3n6vzWjttJne1QNDloA/XIL+
-         GZ32i/qWOpI+7j6g1u3rp+4SgyQ2t/ELMF8yUSAqc2JCK0hURqCaih/ynmardpBW8rJW
-         zgFg==
-X-Gm-Message-State: AOAM53079Nwx99CoWdeVnGuDMbGWHdVWjTguHKawGMsnNWrLB4BSTafS
-        5XRbml9I3i/Y2RWZUdyqTi1kTCcUiIw7+6+jiHE=
-X-Google-Smtp-Source: ABdhPJzI8ptGp0z9jVeQrsLhxqPhvm+m6NNLmUXaM7rl2FAUkiWKzsDfgt0OINi0GxYXHzP0DJ3/NM5xOiSWlEDKLIw=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr5732667oti.107.1602943397450;
- Sat, 17 Oct 2020 07:03:17 -0700 (PDT)
+        Sat, 17 Oct 2020 12:08:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=afFiLeGLHKyF4epEhCX9UO4iPJ06P54zU8stnQbzoj+5ps/FE4fg8RLi+13GZBzJbEhEY+LKM6hgj4HkozF/Z2oFDpodH6iCJgbbJ2Ca0xprYN78ym3tLlKBKoIoQQeoF8CcLl4DNWlAvCweNb/Lul3TnWVb2JvRt/rkuK4WfuQWpfes1Ovi8d4HjcQaillyHhS0IosJcRkXDUGY/fCh3eEJLL+saJC9pXsOB6/cqTL+27LVDxrpKyYyMAqv9TFPo0Muq6Mv2MrGoRIEUTjPVnLUS+JmtdfHGHOOFRUEsdc/HRtFfg0Qf2msFZgS65jugP8scq09FtULSMXTyF1RAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5r9w2xxLiLFpHtnO0wNuLnuldbHsPA9gFfh1weOS4k0=;
+ b=LP2mK0SzLLqiRSdacTXPS6rfhR3pPJduHnOJgtoMOa6ttSPsUpEAckJgywyX+9MOAgwkDtncIiIvN9Qx0ZlR0usE1Ok2UL823q/W4ES07zG+xZCHlIe73Eq/GBz1eTmPFLAxbTDHpCmh8vYRCo/HU3IYPkHkpagxLSFxNyB77owJKu80bj0UMgRK0S5LpKyyPytPeubFMfIe/2MU3Npl9vqu8kPKy6IrlKeubzqA8pOw4CS/UiNolUe+yaca1+bWg/1DmV/c7Zwgi2Zt5H7Utp5Tdego36sREjTzro9rjyJOI20G2YUi29BOijM5Z2BzH2kvo/tAIxXLo7SKDbIUKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5r9w2xxLiLFpHtnO0wNuLnuldbHsPA9gFfh1weOS4k0=;
+ b=RpoDmJuOFfYi8KKrWXaEa7Yh6ggzy5oIAA4TFXNXpUmBjiKrXLj/801zAeCRW67xwr6OhKgLt4nH4EN8i6zgh9fMypU45f4OhqZNPE9ZWV1IO6RRaHQtC6No6LTA8pM9dz0jazXMmlwB36xc58l5/YxquGY7PNSBIBA71B/wNBY=
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ (2603:1096:404:8025::15) by TYXPR01MB1773.jpnprd01.prod.outlook.com
+ (2603:1096:403:11::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Sat, 17 Oct
+ 2020 16:08:29 +0000
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::757f:58cf:296e:9f84]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::757f:58cf:296e:9f84%4]) with mapi id 15.20.3477.028; Sat, 17 Oct 2020
+ 16:08:29 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Sam Ravnborg <sam@ravnborg.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Subject: RE: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+Thread-Topic: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+Thread-Index: AQHWkM76/jGpsPjEXkKsonm7MZkvwama3jWAgAE/dSA=
+Date:   Sat, 17 Oct 2020 16:08:28 +0000
+Message-ID: <TYBPR01MB5309A7393BADCF462577188986000@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <20200922105526.5252-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201016210419.GD1496366@ravnborg.org>
+In-Reply-To: <20201016210419.GD1496366@ravnborg.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: ravnborg.org; dkim=none (message not signed)
+ header.d=none;ravnborg.org; dmarc=none action=none
+ header.from=bp.renesas.com;
+x-originating-ip: [109.154.85.180]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 231a7d65-2845-4acd-9c86-08d872b6e314
+x-ms-traffictypediagnostic: TYXPR01MB1773:
+x-microsoft-antispam-prvs: <TYXPR01MB177376B23966C137742BA92F86000@TYXPR01MB1773.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: L/WOR5DddXh8Em5HwHGaAV81FO+Rwb2yyzcF63jQnj4gE7Z1K0cW/RMw5y7kGKA6ARPPfzYlGtNqGWpTXrCy9BjZ8cELwQTx6PZtcqQI1vZ50xGd4LyYDPaOAYZme5QUU7XLsG9L49JoC//yI8Vm5FjxMgr2GjdytEwM5aiYcA7MURFjaGXOJ+gkXVuNLRI5mEOamgmjpj0rhwpEFX27hvaWExWaPjEUrOQR1sLyen509PJ+SjFpwXcpEbtiBO/pYAOxxpM3GUeuOXl2kgWMRuQqAFsCdAnSvGoXDUUEZ8Axmqf8Amajp9LomCUgVMPmd277LY0WxBiH4GKAt0P6TwYY3F5qkGmcwrSOwYCJH14=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(376002)(39850400004)(136003)(346002)(7696005)(5660300002)(6506007)(9686003)(52536014)(316002)(8936002)(478600001)(110136005)(966005)(54906003)(76116006)(4326008)(26005)(8676002)(66556008)(64756008)(66476007)(66446008)(186003)(2906002)(55016002)(86362001)(33656002)(66946007)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 5aGQsJQEBTHWzg5tkSpu6js/XZVfBIlX0pTfobjNC2+pCvcjGj5TbnMECGn1N4VthLpucIVolETCBFUxYkFZnbwKpixve3FUixxZECeJHlF+Fwkps1ttqX9f0xPJ7K/Tw0e+dOG/oySbjxZBnzkkatXXkHlXz7hfpUcFs8IGVNdd2rvZT5nXpNqnh9dN2c1D8REODnCphdChXTSParmGMVzT2hA/zvvS3AqY3lcLC33Zw9dWr2C/Cz+K/HT93fO+7rBIzputHgDpzbt9l1+GLacqIlC7kvFtjj73zUs4aXYg0Nw9jGPmt9N/0MePyaRWqCkoU07Bao9v8amNkp2JyqBdlPaDjps6iPny0HXvUiAGVjwvUzaqrEQzQ5Z9yeJPTQ3xGstB8w5TYodAGIu2w2oh7z9V27hT+gMEH5sGcQ53azHVVPjdttCpPEEcZQgxXhzaRUhGdXZCpsgjOIIQbfK5tHn9/kRt4/py8t/ABE7NzV+j9UOJIGzBnROVShvla9JFjRAMbtprcdhlDpWS0qcJ9zymyc0yuqJCEmMpi18rK/Ors8OwVPynvo1t3gJFmFoOkcyCeIcHuaVJrjhtd0rlmJ6DNxN5Vec8K4jCtXzhWNYvH5YE+FfyPUgkKMZ9rHFfUOUqGBIROrejolpUBg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20201016120416.7008-1-marek.vasut@gmail.com>
-In-Reply-To: <20201016120416.7008-1-marek.vasut@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 17 Oct 2020 16:03:05 +0200
-Message-ID: <CAMuHMdUR1=+mX7RnrL2e4+kiR=pa9vPc3GVyUBOVsf+DFei2Aw@mail.gmail.com>
-Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 231a7d65-2845-4acd-9c86-08d872b6e314
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2020 16:08:28.9351
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /BFWwTX6EQOPBUQ3uLTUupIY4S2M1Ielit5MqnhOixKkFUxe3v2JJmaGQAGnx5QRNx/q8+8T5vTkNADc1+SGX1s0Tqelt3a+sNzfKlhfNkY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1773
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 2:04 PM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->
-> The R-Car PCIe controller is capable of handling L0s/L1 link states.
-> While the controller can enter and exit L0s link state, and exit L1
-> link state, without any additional action from the driver, to enter
-> L1 link state, the driver must complete the link state transition by
-> issuing additional commands to the controller.
->
-> The problem is, this transition is not atomic. The controller sets
-> PMEL1RX bit in PMSR register upon reception of PM_ENTER_L1 DLLP from
-> the PCIe card, but then the controller enters some sort of inbetween
-> state. The driver must detect this condition and complete the link
-> state transition, by setting L1IATN bit in PMCTLR and waiting for
-> the link state transition to complete.
->
-> If a PCIe access happens inside this window, where the controller
-> is between L0 and L1 link states, the access generates a fault and
-> the ARM 'imprecise external abort' handler is invoked.
->
-> Just like other PCI controller drivers, here we hook the fault handler,
-> perform the fixup to help the controller enter L1 link state, and then
-> restart the instruction which triggered the fault. Since the controller
-> is in L1 link state now, the link can exit from L1 link state to L0 and
-> successfully complete the access.
->
-> Note that this fixup is applicable only to Aarch32 R-Car controllers,
-> the Aarch64 R-Car perform the same fixup in TFA, see TFA commit [1]
-> 0969397f2 ("rcar_gen3: plat: Prevent PCIe hang during L1X config access")
-> [1] https://github.com/ARM-software/arm-trusted-firmware/commit/0969397f295621aa26b3d14b76dd397d22be58bf
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
-> V2: - Update commit message, add link to TFA repository commit
->     - Handle the LPAE case as in ARM fault.c and fsr-{2,3}level.c
->     - Cache clock and check whether they are enabled before register
->       access
-> V3: - Fix commit message according to spellchecker
->     - Use of_find_matching_node() to apply hook only on Gen1 and Gen2 RCar
->       (in case the kernel is multiplatform)
-> V4: - Mark rcar_pcie_abort_handler_of_match with __initconst
+Hi Sam,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Subject: Re: [PATCH v3] drm/bridge: lvds-codec: Add support for regulator
+>=20
+> Hi Biju, Laurent
+>=20
+> On Tue, Sep 22, 2020 at 01:55:26PM +0300, Laurent Pinchart wrote:
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > Add the support for enabling optional regulator that may be used as
+> > VCC source.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > [Replaced 'error' variable with 'ret'] [Renamed regulator from 'vcc'
+> > to 'power']
+> > Signed-off-by: Laurent Pinchart
+> > <laurent.pinchart+renesas@ideasonboard.com>
+>=20
+> Applied to drm-misc-next.
+> Biju, could you make a follow-up patch that introduces dev_err_probe()
+> where appropriate? I did not fix up the code but this was a good candidat=
+e.
 
-Please add tags given to the previous version:
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Ok, sure will do.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Biju
+>=20
+> 	Sam
+>=20
+> > ---
+> > Changes since v2:
+> >
+> > - Use the correct regulator name
+> > ---
+> >  drivers/gpu/drm/bridge/lvds-codec.c | 29
+> > +++++++++++++++++++++++++++++
+> >  1 file changed, 29 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/lvds-codec.c
+> > b/drivers/gpu/drm/bridge/lvds-codec.c
+> > index f19d9f7a5db2..f52ccffc1bd1 100644
+> > --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> > +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> > @@ -10,13 +10,16 @@
+> >  #include <linux/of_device.h>
+> >  #include <linux/of_graph.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/regulator/consumer.h>
+> >
+> >  #include <drm/drm_bridge.h>
+> >  #include <drm/drm_panel.h>
+> >
+> >  struct lvds_codec {
+> > +	struct device *dev;
+> >  	struct drm_bridge bridge;
+> >  	struct drm_bridge *panel_bridge;
+> > +	struct regulator *vcc;
+> >  	struct gpio_desc *powerdown_gpio;
+> >  	u32 connector_type;
+> >  };
+> > @@ -38,6 +41,14 @@ static int lvds_codec_attach(struct drm_bridge
+> > *bridge,  static void lvds_codec_enable(struct drm_bridge *bridge)  {
+> >  	struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
+> > +	int ret;
+> > +
+> > +	ret =3D regulator_enable(lvds_codec->vcc);
+> > +	if (ret) {
+> > +		dev_err(lvds_codec->dev,
+> > +			"Failed to enable regulator \"vcc\": %d\n", ret);
+> > +		return;
+> > +	}
+> >
+> >  	if (lvds_codec->powerdown_gpio)
+> >  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
+> 0); @@ -46,9
+> > +57,15 @@ static void lvds_codec_enable(struct drm_bridge *bridge)
+> > static void lvds_codec_disable(struct drm_bridge *bridge)  {
+> >  	struct lvds_codec *lvds_codec =3D to_lvds_codec(bridge);
+> > +	int ret;
+> >
+> >  	if (lvds_codec->powerdown_gpio)
+> >  		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio,
+> 1);
+> > +
+> > +	ret =3D regulator_disable(lvds_codec->vcc);
+> > +	if (ret)
+> > +		dev_err(lvds_codec->dev,
+> > +			"Failed to disable regulator \"vcc\": %d\n", ret);
+> >  }
+> >
+> >  static const struct drm_bridge_funcs funcs =3D { @@ -63,12 +80,24 @@
+> > static int lvds_codec_probe(struct platform_device *pdev)
+> >  	struct device_node *panel_node;
+> >  	struct drm_panel *panel;
+> >  	struct lvds_codec *lvds_codec;
+> > +	int ret;
+> >
+> >  	lvds_codec =3D devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+> >  	if (!lvds_codec)
+> >  		return -ENOMEM;
+> >
+> > +	lvds_codec->dev =3D &pdev->dev;
+> >  	lvds_codec->connector_type =3D
+> > (uintptr_t)of_device_get_match_data(dev);
+> > +
+> > +	lvds_codec->vcc =3D devm_regulator_get(lvds_codec->dev, "power");
+> > +	if (IS_ERR(lvds_codec->vcc)) {
+> > +		ret =3D PTR_ERR(lvds_codec->vcc);
+> > +		if (ret !=3D -EPROBE_DEFER)
+> > +			dev_err(lvds_codec->dev,
+> > +				"Unable to get \"vcc\" supply: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> >  	lvds_codec->powerdown_gpio =3D devm_gpiod_get_optional(dev,
+> "powerdown",
+> >
+> GPIOD_OUT_HIGH);
+> >  	if (IS_ERR(lvds_codec->powerdown_gpio))
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
