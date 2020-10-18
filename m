@@ -2,41 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74D20291D74
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Oct 2020 21:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B22F6291A79
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Oct 2020 21:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730571AbgJRTpw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Oct 2020 15:45:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35956 "EHLO mail.kernel.org"
+        id S1730800AbgJRTYc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 18 Oct 2020 15:24:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38548 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728716AbgJRTW5 (ORCPT
+        id S1729506AbgJRTYc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:22:57 -0400
+        Sun, 18 Oct 2020 15:24:32 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41E22222EB;
-        Sun, 18 Oct 2020 19:22:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7EC12223AB;
+        Sun, 18 Oct 2020 19:24:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603048977;
-        bh=VwfiyVImG4KNBSklL8nDqKwntMq1xxLWJNG+hRC/SFw=;
+        s=default; t=1603049071;
+        bh=VT0Bmb4Wg8Imwpbfcbw7Zxqc2bJh0Cmv2/xczKlzgA0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b/WNWdOVMbEnJB4goX1Jvm4H+EqZ5/ait1XrE/avt23q8+0PO8BxZKNNyb6033zgb
-         CfmIjdb3QjJ2hXB8utT2ZgH3/El3ngJSjrNbeBAip8HfV2xdALsk6BSLzX6xEIU+Xm
-         N2V0zXgP93EHt3QXd40iz4AeceXc8fB/AydmTwIk=
+        b=OYBV8JzaAt2ZvumhnUk2OJwwFKtwe8FFgWwYuWGr1b1w2HBXGuaF20FxE/rcARCB0
+         6NzmL8xO/C1AU1WTzl9AcSfLLhWBvO903DCLtu1uDQq2rNU46EMohQmrKVfCHjcbtZ
+         SFeKgpJBBbO5HigPzR/Ys2GguVml24ptA8rii01I=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 19/80] media: rcar_drif: Fix fwnode reference leak when parsing DT
-Date:   Sun, 18 Oct 2020 15:21:30 -0400
-Message-Id: <20201018192231.4054535-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/56] media: vsp1: Fix runtime PM imbalance on error
+Date:   Sun, 18 Oct 2020 15:23:31 -0400
+Message-Id: <20201018192417.4055228-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
-References: <20201018192231.4054535-1-sashal@kernel.org>
+In-Reply-To: <20201018192417.4055228-1-sashal@kernel.org>
+References: <20201018192417.4055228-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,61 +47,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Dinghao Liu <dinghao.liu@zju.edu.cn>
 
-[ Upstream commit cdd4f7824994c9254acc6e415750529ea2d2cfe0 ]
+[ Upstream commit 98fae901c8883640202802174a4bd70a1b9118bd ]
 
-The fwnode reference corresponding to the endpoint is leaked in an error
-path of the rcar_drif_parse_subdevs() function. Fix it, and reorganize
-fwnode reference handling in the function to release references early,
-simplifying error paths.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar_drif.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ drivers/media/platform/vsp1/vsp1_drv.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-index 0f267a237b424..208ff260b0c10 100644
---- a/drivers/media/platform/rcar_drif.c
-+++ b/drivers/media/platform/rcar_drif.c
-@@ -1223,28 +1223,22 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
- 	if (!ep)
- 		return 0;
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+index b6619c9c18bb4..4e6530ee809af 100644
+--- a/drivers/media/platform/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/vsp1/vsp1_drv.c
+@@ -562,7 +562,12 @@ int vsp1_device_get(struct vsp1_device *vsp1)
+ 	int ret;
  
-+	/* Get the endpoint properties */
-+	rcar_drif_get_ep_properties(sdr, ep);
+ 	ret = pm_runtime_get_sync(vsp1->dev);
+-	return ret < 0 ? ret : 0;
++	if (ret < 0) {
++		pm_runtime_put_noidle(vsp1->dev);
++		return ret;
++	}
 +
- 	fwnode = fwnode_graph_get_remote_port_parent(ep);
-+	fwnode_handle_put(ep);
- 	if (!fwnode) {
- 		dev_warn(sdr->dev, "bad remote port parent\n");
--		fwnode_handle_put(ep);
- 		return -EINVAL;
- 	}
- 
- 	sdr->ep.asd.match.fwnode = fwnode;
- 	sdr->ep.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
- 	ret = v4l2_async_notifier_add_subdev(notifier, &sdr->ep.asd);
--	if (ret) {
--		fwnode_handle_put(fwnode);
--		return ret;
--	}
--
--	/* Get the endpoint properties */
--	rcar_drif_get_ep_properties(sdr, ep);
--
- 	fwnode_handle_put(fwnode);
--	fwnode_handle_put(ep);
- 
--	return 0;
-+	return ret;
++	return 0;
  }
  
- /* Check if the given device is the primary bond */
+ /*
+@@ -845,12 +850,12 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	/* Configure device parameters based on the version register. */
+ 	pm_runtime_enable(&pdev->dev);
+ 
+-	ret = pm_runtime_get_sync(&pdev->dev);
++	ret = vsp1_device_get(vsp1);
+ 	if (ret < 0)
+ 		goto done;
+ 
+ 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+-	pm_runtime_put_sync(&pdev->dev);
++	vsp1_device_put(vsp1);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+ 		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
 -- 
 2.25.1
 
