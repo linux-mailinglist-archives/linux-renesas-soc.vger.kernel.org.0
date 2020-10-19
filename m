@@ -2,146 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C1929230D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Oct 2020 09:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A3B22926F3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Oct 2020 14:06:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727678AbgJSHkV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Oct 2020 03:40:21 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:61907 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727612AbgJSHkU (ORCPT
+        id S1726731AbgJSMGU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Oct 2020 08:06:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726823AbgJSMGU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Oct 2020 03:40:20 -0400
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Mon, 19 Oct 2020 03:40:20 EDT
-IronPort-SDR: 0vfhQ4TKOy46x3X9FsKpxxu4nIrYHHT4Z7vcZpw5Vz87tJTIi8HGFEzcdUNPjIxl6PuLab9eNs
- 5yi4kZ2A6Eu1ET9Qm9WfCjtJQI9zf/LSqkn2y0Q9d5qPWxdxSgSbI7dyz4nRNxHtkqFikdMaQo
- VbjOV+wsmqPHq7Kq7CmAgYTRn9JVoRM2r+Zr3s140s/L0/weo5LGcFKYAdf5+ZavA/VX2zKwc6
- IVee9cs8gf6ukkRq8aEV4mPrw5zoVhXxYjH5osZOvK50kwKZQ9RGpElQpdiNWEtZlfUwUR2Cc/
- qAg=
-X-IronPort-AV: E=Sophos;i="5.77,394,1596528000"; 
-   d="scan'208";a="56358194"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 18 Oct 2020 23:33:13 -0800
-IronPort-SDR: 94hb2TNwQ8JmgpSo2vHl8oKWvzJ8X0FVboOZLH3MKnNwe7RVC9xgbCP5W5P4nM4tIpxzeqhX98
- 4JNWMru1i7HV1/5cEohaKd+4fZV/tBcW7SjKhiGtTO11USDx65mQ42O8WZo6O8L8gNd3S0kG+Z
- Hy4ouYgEiaXiMI9Nf795/czEtfvk5xnSKbPe6Am5A5kjfLSVqzz04gzjcQxS+xtxIXotEo2B9H
- 3Tbm5SJkDJPhG4Mo/uiII5+LOV1B8nhcS8sAGXTmZrKEENj1FdCLRd6mq4K/CKng2ySrWbmmlY
- j5k=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Sergei Shtylyov' <sergei.shtylyov@gmail.com>
-CC:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, <geert+renesas@glider.be>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        "Behme, Dirk - Bosch" <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-References: <20200930192124.25060-1-andrew_gabbasov@mentor.com> <000001d697c2$71651d70$542f5850$@mentor.com> <2819a14d-500c-561b-337e-417201eb040f@gmail.com>
-In-Reply-To: <2819a14d-500c-561b-337e-417201eb040f@gmail.com>
-Subject: RE: [PATCH net] ravb: Fix bit fields checking in ravb_hwtstamp_get()
-Date:   Mon, 19 Oct 2020 10:32:59 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000001d6a5ea$16fe8e80$44fbab80$@mentor.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQHWl179dggpQ/YNgUW3t7t7L6TDlKmcTonagAJPmgA=
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+        Mon, 19 Oct 2020 08:06:20 -0400
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB595C0613DC
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Oct 2020 05:06:19 -0700 (PDT)
+Received: from ramsan ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id ho6G2300U4C55Sk01o6GBr; Mon, 19 Oct 2020 14:06:17 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kUTvc-0000WJ-KH; Mon, 19 Oct 2020 14:06:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kUTvc-0005m5-IE; Mon, 19 Oct 2020 14:06:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC 0/6] R-Car V3U GPIO support
+Date:   Mon, 19 Oct 2020 14:06:08 +0200
+Message-Id: <20201019120614.22149-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Sergei,
+	Hi all,
 
-> -----Original Message-----
-> From: Sergei Shtylyov [mailto:sergei.shtylyov@gmail.com]
-> Sent: Saturday, October 17, 2020 10:49 PM
-> To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>
-> Cc: linux-renesas-soc@vger.kernel.org; netdev@vger.kernel.org; linux-kernel@vger.kernel.org; David S. Miller
-> <davem@davemloft.net>; geert+renesas@glider.be; Julia Lawall <julia.lawall@inria.fr>; Behme, Dirk - Bosch
-> <dirk.behme@de.bosch.com>; Eugeniu Rosca <erosca@de.adit-jv.com>
-> Subject: Re: [PATCH net] ravb: Fix bit fields checking in ravb_hwtstamp_get()
-> 
-> Hello!
-> 
-> On 10/1/20 10:13 AM, Andrew Gabbasov wrote:
-> 
->    The patch was set to the "Changes Requested" state -- most probably because of this
-> mail. Though unintentionally, it served to throttle actions on this patch. I did only
-> remember about this patch yesterday... :-)
-> 
-> [...]
-> >> In the function ravb_hwtstamp_get() in ravb_main.c with the existing
-> > values
-> >> for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL
-> >> (0x6)
-> >>
-> >> if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
-> >> 	config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> >> else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
-> >> 	config.rx_filter = HWTSTAMP_FILTER_ALL;
-> >>
-> >> if the test on RAVB_RXTSTAMP_TYPE_ALL should be true, it will never be
-> >> reached.
-> >>
-> >> This issue can be verified with 'hwtstamp_config' testing program
-> >> (tools/testing/selftests/net/hwtstamp_config.c). Setting filter type to
-> > ALL
-> >> and subsequent retrieving it gives incorrect value:
-> >>
-> >> $ hwtstamp_config eth0 OFF ALL
-> >> flags = 0
-> >> tx_type = OFF
-> >> rx_filter = ALL
-> >> $ hwtstamp_config eth0
-> >> flags = 0
-> >> tx_type = OFF
-> >> rx_filter = PTP_V2_L2_EVENT
-> >>
-> >> Correct this by converting if-else's to switch.
-> >
-> > Earlier you proposed to fix this issue by changing the value
-> > of RAVB_RXTSTAMP_TYPE_ALL constant to 0x4.
-> > Unfortunately, simple changing of the constant value will not
-> > be enough, since the code in ravb_rx() (actually determining
-> > if timestamp is needed)
-> >
-> > u32 get_ts = priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE;
-> > [...]
-> > get_ts &= (q == RAVB_NC) ?
-> >                 RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
-> >                 ~RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
-> >
-> > will work incorrectly and will need to be fixed too, making this
-> > piece of code more complicated.
-> >
-> > So, it's probably easier and safer to keep the constant value and
-> > the code in ravb_rx() intact, and just fix the get ioctl code,
-> > where the issue is actually located.
-> 
->    We have one more issue with the current driver: bit 2 of priv->tstamp_rx_ctrl
-> can only be set as a part of the ALL mask, not individually. I'm now thinking we
-> should set RAVB_RXTSTAMP_TYPE[_ALL] to 2 (and probably just drop the ALL mask)...
+This RFC patch series adds support for the GPIO blocks on the R-Car V3U
+(r8a77990) SoC.  This includes clock (incl. some drive-by fixes), DT
+binding, driver, and DTS updates.
 
-[skipped]
+Due to lack of hardware, this is compile-tested only.
 
->    Yeah, that's better. But do we really need am anonymous bit 2 that can't be
-> toggled other than via passing the ALL mask?
+Thanks for your comments!
 
-The driver supports setting timestamps either for all packets or for some
-particular kind of packets (events). Bit 1 in internal mask corresponds
-to this selected kind. Bit 2 corresponds to all other packets, and ALL mask 
-combines both variants. Although bit 2 can't be controlled individually
-(since there is no much sense to Request stamping of only packets, other than
-events, moreover, there is no user-visible filter constant to represent it),
-and that's why is anonymous, it provides a convenient way to handle stamping
-logic in ravb_rx(), so I don't see an immediate need to get rid of it.
+Geert Uytterhoeven (5):
+  [RFC] clk: renesas: r8a779a0: Remove non-existent S2 clock
+  [RFC] clk: renesas: r8a779a0: Fix parent of CBFUSA clock
+  [RFC] clk: renesas: r8a779a0: Add PFC/GPIO clocks
+  [RFC] dt-bindings: gpio: rcar: Add r8a779a0 support
+  [RFC] arm64: dts: r8a779a0: Add GPIO nodes
 
-Thanks.
+Phong Hoang (1):
+  [RFC] gpio: rcar: Add support for R-Car V3U
 
-Best regards,
-Andrew
+ .../bindings/gpio/renesas,rcar-gpio.yaml      |   3 +
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 140 ++++++++++++++++++
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c       |   8 +-
+ drivers/gpio/gpio-rcar.c                      |  23 +++
+ 4 files changed, 172 insertions(+), 2 deletions(-)
 
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
