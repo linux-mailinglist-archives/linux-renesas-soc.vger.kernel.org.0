@@ -2,139 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BEFA292824
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Oct 2020 15:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC9729300F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Oct 2020 22:49:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727860AbgJSN2L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Oct 2020 09:28:11 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:56081 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727796AbgJSN2L (ORCPT
+        id S1728075AbgJSUtZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Oct 2020 16:49:25 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42987 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727723AbgJSUtZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Oct 2020 09:28:11 -0400
-X-IronPort-AV: E=Sophos;i="5.77,394,1596466800"; 
-   d="scan'208";a="60192166"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Oct 2020 22:28:09 +0900
-Received: from localhost.localdomain (unknown [172.29.53.218])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D5B6C40065AD;
-        Mon, 19 Oct 2020 22:28:07 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Mon, 19 Oct 2020 16:49:25 -0400
+Received: by mail-ot1-f67.google.com with SMTP id h62so1052386oth.9;
+        Mon, 19 Oct 2020 13:49:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VF8WhyOYxc6TogxeINHMmYzt1J7GZgkJjEGtMkCxL0s=;
+        b=kFWwECKoOgax1l+C/pIqggrq5da9fo2HUVa4A8jyEqqmmivkkxF+hD/kfBxISfE7dT
+         qidv+T68p+tBM0ibX2WLiFHzN6wh1hZtUkRkKUjKsX3wMro0yhVFfGnFGQi6HIB5b0BP
+         ZH/xmNeoj19x8U+C3Z/516t7ZSi4Hfq5XSBNN9g9HPhAOEzoBeD4zLh747vDnrjCCiR4
+         If35UpWPJxcJjRm7TgkwYuNbFhBBgLIuuuwkC7ASmrjxfb4sdMumK6y0gSwkmHJwcjlt
+         p5u3WMA/b13ZodDyHGQ8XE+s1BsLqIS1/bN2STLVlmJfZwfiz9hSKQfbP3+xxFqLOGbq
+         uNVA==
+X-Gm-Message-State: AOAM531snPJglXGYbyV7L5xtyi5347Wd0WcVd9Uj+IqKnlesI2e1mbwI
+        CKlKPE432CN6XMoLow8zEQXF6bLtYg==
+X-Google-Smtp-Source: ABdhPJzZxIr6EV5zzMSKx7mzxwW0uKsXstbfyfnAtrTiSwNA3TVRZvQdOp3Gaeb64pihflei2otyPQ==
+X-Received: by 2002:a9d:6e17:: with SMTP id e23mr1207141otr.354.1603140564245;
+        Mon, 19 Oct 2020 13:49:24 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l184sm300548ooc.10.2020.10.19.13.49.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2020 13:49:23 -0700 (PDT)
+Received: (nullmailer pid 3579377 invoked by uid 1000);
+        Mon, 19 Oct 2020 20:49:22 -0000
+Date:   Mon, 19 Oct 2020 15:49:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] pinctrl: renesas: r8a7796: Optimize pinctrl image size for R8A774A1
-Date:   Mon, 19 Oct 2020 14:28:05 +0100
-Message-Id: <20201019132805.5996-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 4/5] media: dt-bindings: media: renesas,drif: Add
+ r8a77965 support
+Message-ID: <20201019204922.GA3579303@bogus>
+References: <20201014155719.15120-1-fabrizio.castro.jz@renesas.com>
+ <20201014155719.15120-5-fabrizio.castro.jz@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201014155719.15120-5-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This driver supports both RZ/G2M and R-Car M3-W/W+(R8A7796[0|1]) SoC's.
-Optimize pinctrl image size for RZ/G2M, when R-Car M3-W/W+(R8A7796[0|1])
-SoC's are disabled in the defconfig.
+On Wed, 14 Oct 2020 16:57:18 +0100, Fabrizio Castro wrote:
+> The r8a77965 (a.k.a. R-Car M3-N) device tree schema is
+> compatible with the already documented R-Car Gen3 devices.
+> 
+> Document r8a77965 support within renesas,drif.yaml.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3->v4:
+> * No change
+> v2->v3:
+> * New patch
+> 
+>  Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->V2
- * Added missing R8A77960 check in automotive.
- (Ref:https://patchwork.kernel.org/project/linux-renesas-soc/patch/20201019124258.4574-3-biju.das.jz@bp.renesas.com/)
----
- drivers/pinctrl/renesas/pfc-r8a7796.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
-index 55f0344a3d3e..8203948a83ea 100644
---- a/drivers/pinctrl/renesas/pfc-r8a7796.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
-@@ -1831,6 +1831,7 @@ static const unsigned int canfd1_data_mux[] = {
- 	CANFD1_TX_MARK,         CANFD1_RX_MARK,
- };
- 
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- /* - DRIF0 --------------------------------------------------------------- */
- static const unsigned int drif0_ctrl_a_pins[] = {
- 	/* CLK, SYNC */
-@@ -2045,6 +2046,7 @@ static const unsigned int drif3_data1_b_pins[] = {
- static const unsigned int drif3_data1_b_mux[] = {
- 	RIF3_D1_B_MARK,
- };
-+#endif
- 
- /* - DU --------------------------------------------------------------------- */
- static const unsigned int du_rgb666_pins[] = {
-@@ -4133,7 +4135,9 @@ static const unsigned int vin5_clk_mux[] = {
- 
- static const struct {
- 	struct sh_pfc_pin_group common[316];
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- 	struct sh_pfc_pin_group automotive[30];
-+#endif
- } pinmux_groups = {
- 	.common = {
- 		SH_PFC_PIN_GROUP(audio_clk_a_a),
-@@ -4453,6 +4457,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(vin5_clkenb),
- 		SH_PFC_PIN_GROUP(vin5_clk),
- 	},
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- 	.automotive = {
- 		SH_PFC_PIN_GROUP(drif0_ctrl_a),
- 		SH_PFC_PIN_GROUP(drif0_data0_a),
-@@ -4485,6 +4490,7 @@ static const struct {
- 		SH_PFC_PIN_GROUP(drif3_data0_b),
- 		SH_PFC_PIN_GROUP(drif3_data1_b),
- 	}
-+#endif
- };
- 
- static const char * const audio_clk_groups[] = {
-@@ -4543,6 +4549,7 @@ static const char * const canfd1_groups[] = {
- 	"canfd1_data",
- };
- 
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- static const char * const drif0_groups[] = {
- 	"drif0_ctrl_a",
- 	"drif0_data0_a",
-@@ -4584,6 +4591,7 @@ static const char * const drif3_groups[] = {
- 	"drif3_data0_b",
- 	"drif3_data1_b",
- };
-+#endif
- 
- static const char * const du_groups[] = {
- 	"du_rgb666",
-@@ -4997,7 +5005,9 @@ static const char * const vin5_groups[] = {
- 
- static const struct {
- 	struct sh_pfc_function common[50];
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- 	struct sh_pfc_function automotive[4];
-+#endif
- } pinmux_functions = {
- 	.common = {
- 		SH_PFC_FUNCTION(audio_clk),
-@@ -5051,12 +5061,14 @@ static const struct {
- 		SH_PFC_FUNCTION(vin4),
- 		SH_PFC_FUNCTION(vin5),
- 	},
-+#if defined(CONFIG_PINCTRL_PFC_R8A77960) || defined(CONFIG_PINCTRL_PFC_R8A77961)
- 	.automotive = {
- 		SH_PFC_FUNCTION(drif0),
- 		SH_PFC_FUNCTION(drif1),
- 		SH_PFC_FUNCTION(drif2),
- 		SH_PFC_FUNCTION(drif3),
- 	}
-+#endif
- };
- 
- static const struct pinmux_cfg_reg pinmux_config_regs[] = {
--- 
-2.17.1
-
+Acked-by: Rob Herring <robh@kernel.org>
