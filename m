@@ -2,92 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F3B72936B2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Oct 2020 10:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2310F293833
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Oct 2020 11:37:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbgJTIW7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Oct 2020 04:22:59 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35224 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727009AbgJTIW6 (ORCPT
+        id S2392945AbgJTJhG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Oct 2020 05:37:06 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:32951 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2392757AbgJTJhE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Oct 2020 04:22:58 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w141so1321436oia.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Oct 2020 01:22:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sAETfftP4JZZUHdG743O9+Ny0uV+u7ZXkp2ZhwES+Yk=;
-        b=m4z6HVSro4j7PLv+7ED8oDbFCDzp3rqdQ02+V/lgA+ig+ynFbKUCiBiwQpcN3gEu+F
-         lsKSbGYLAXo9ZQe6F6R3X/PI88s/XT+RRjdjirFkq0uPahbXE5EOhIxylFJ3fLJcSBEB
-         g0+MKhR8ZGl4Kw6EgPo3C+GwYgTZuccwTOUPfTAGKr/KnlBAkG6i3Q0GWe5UetaDh81E
-         5JYCtbwd7njvEQwRtNFSQZ4H53t2IomJkgNmNoTmNJKUoynu0FAvvr5rDRsgDi93FVpZ
-         7s/1Z4K/GZWLCzXu3S/V5UwoVIoMckXpOL33Clfp5M4S7bo66lU+vnQmC4afaHIO2k8s
-         YVkA==
-X-Gm-Message-State: AOAM530LaYZFP7LeaONobtLB/ogp1o2qmA0oqWA/6vazjrS4QQKigD3J
-        qV4tCTeb6mX0daGX0Mlt+OorG/iIct7lKLBAHgomX5nd
-X-Google-Smtp-Source: ABdhPJwr8FRpQ+wCnlcvULARYCLMSHR2NWRJf7U05LaVOdC0HZtY8fqOQaS0SlRgjIN6LRKZgbq9lMxlKFwwFfxFGdU=
-X-Received: by 2002:aca:f203:: with SMTP id q3mr1005519oih.148.1603182177520;
- Tue, 20 Oct 2020 01:22:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201019120614.22149-1-geert+renesas@glider.be> <20201019120614.22149-6-geert+renesas@glider.be>
-In-Reply-To: <20201019120614.22149-6-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 20 Oct 2020 10:22:46 +0200
-Message-ID: <CAMuHMdWovS9TDK0twf97XzNWhTmUQLCJLCYirgWPtsB9C5_Viw@mail.gmail.com>
-Subject: Re: [PATCH/RFC 5/6] gpio: rcar: Add support for R-Car V3U
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 20 Oct 2020 05:37:04 -0400
+X-IronPort-AV: E=Sophos;i="5.77,396,1596466800"; 
+   d="scan'208";a="60282705"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 20 Oct 2020 18:37:03 +0900
+Received: from localhost.localdomain (unknown [172.29.52.189])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id DCD80400090B;
+        Tue, 20 Oct 2020 18:36:59 +0900 (JST)
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        dri-devel@lists.freedesktop.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] drm/bridge: lvds-codec: Use dev_err_probe for error handling
+Date:   Tue, 20 Oct 2020 10:36:55 +0100
+Message-Id: <20201020093655.3584-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 2:06 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> From: Phong Hoang <phong.hoang.wz@renesas.com>
->
-> Add support for the R-Car V3U (r8a779a0) SoC.
-> This includes support for the new "General Input Enable" register to
-> control input enable.
->
-> Signed-off-by: Phong Hoang <phong.hoang.wz@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Untested on actual hardware.
->
-> Should input be enabled unconditionally, as recommended by the Hardware
-> Manual for backwards compatibility with existing software?
-> As per (errata?) commit ae9550f635533b1c ("gpio-rcar: Use OUTDT when
-> reading GPIOs configured as output"), the gpio-rcar driver does not use
-> the INDT register to read the status of a GPIO line when configured for
-> output.
+dev_err_probe function simplifies error handling. So use the same in probe
+function wherever possible.
 
-More investigation:
-  1. On SH7734, R-Car Gen1, R-Car Gen2, and RZ/G1, INDT only reflects
-     the state of the input pin if the GPIO is configured for input
-     (documented, verified on R-Car M2-W),
-  2. On R-Car Gen3 and RZ/G2, INDT always reflects the state of the
-     input pin (documented, verified on R-Car H3/M3-W/M3-N),
-  3. On R-Car V3U, input enable can be configured explicitly through the
-      new INEN register (documented, unverified).
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/gpu/drm/bridge/lvds-codec.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-Given register accesses are slow, I think it makes sense to enable input
-explicitly and unconditionally on R-Car V3U, and always use INDT to read
-pin state on R-Car Gen3 and V3U.
-
-Thanks for your comments!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+index f52ccffc1bd1..dcf579a4cf83 100644
+--- a/drivers/gpu/drm/bridge/lvds-codec.c
++++ b/drivers/gpu/drm/bridge/lvds-codec.c
+@@ -80,7 +80,6 @@ static int lvds_codec_probe(struct platform_device *pdev)
+ 	struct device_node *panel_node;
+ 	struct drm_panel *panel;
+ 	struct lvds_codec *lvds_codec;
+-	int ret;
+ 
+ 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+ 	if (!lvds_codec)
+@@ -90,13 +89,9 @@ static int lvds_codec_probe(struct platform_device *pdev)
+ 	lvds_codec->connector_type = (uintptr_t)of_device_get_match_data(dev);
+ 
+ 	lvds_codec->vcc = devm_regulator_get(lvds_codec->dev, "power");
+-	if (IS_ERR(lvds_codec->vcc)) {
+-		ret = PTR_ERR(lvds_codec->vcc);
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(lvds_codec->dev,
+-				"Unable to get \"vcc\" supply: %d\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(lvds_codec->vcc))
++		return dev_err_probe(dev, PTR_ERR(lvds_codec->vcc),
++				     "Unable to get \"vcc\" supply\n");
+ 
+ 	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+ 							     GPIOD_OUT_HIGH);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
