@@ -2,89 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF046293C41
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Oct 2020 14:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE7C2946D4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Oct 2020 05:05:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406742AbgJTMwU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Oct 2020 08:52:20 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:60469 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2406732AbgJTMwS (ORCPT
+        id S2406831AbgJUDEy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Oct 2020 23:04:54 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:37502 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2406694AbgJUDEy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Oct 2020 08:52:18 -0400
-X-IronPort-AV: E=Sophos;i="5.77,397,1596466800"; 
-   d="scan'208";a="60296206"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Oct 2020 21:52:17 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4E768421A443;
-        Tue, 20 Oct 2020 21:52:15 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Subject: [PATCH v2 4/4] arm64: dts: renesas: Add support for MIPI Adapter V2.1 connected to HiHope RZ/G2N
-Date:   Tue, 20 Oct 2020 13:51:34 +0100
-Message-Id: <20201020125134.22625-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201020125134.22625-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201020125134.22625-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 20 Oct 2020 23:04:54 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id A26D780450BD7FB833D0;
+        Wed, 21 Oct 2020 11:04:51 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 21 Oct 2020 11:04:46 +0800
+From:   Tian Tao <tiantao6@hisilicon.com>
+To:     <niklas.soderlund@ragnatech.se>, <rui.zhang@intel.com>,
+        <daniel.lezcano@linaro.org>, <amitk@kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] thermal: replace spin_lock_irqsave by spin_lock in hard IRQ
+Date:   Wed, 21 Oct 2020 11:05:30 +0800
+Message-ID: <1603249530-25218-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for AISTARVISION MIPI Adapter V2.1 board connected to HiHope
-RZ/G2N board.
+The code has been in a irq-disabled context since it is hard IRQ. There
+is no necessity to do it again.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
-v1->v2 - No change
----
- arch/arm64/boot/dts/renesas/Makefile             |  1 +
- .../r8a774b1-hihope-rzg2n-ex-mipi-2.1.dts        | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dts
+ drivers/thermal/rcar_thermal.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 6581d19a3217..5f163af16180 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -14,6 +14,7 @@ dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-ex-idk-1110wr.dtb
- dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-rev2.dtb
- dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-rev2-ex.dtb
- dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-rev2-ex-idk-1110wr.dtb
-+dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-ex-mipi-2.1.dtb
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index 5c2a13b..6ae757d 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -409,16 +409,15 @@ static irqreturn_t rcar_thermal_irq(int irq, void *data)
+ {
+ 	struct rcar_thermal_common *common = data;
+ 	struct rcar_thermal_priv *priv;
+-	unsigned long flags;
+ 	u32 status, mask;
  
- dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb
- dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-ek874.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dts
-new file mode 100644
-index 000000000000..ce8e3bcc7dc9
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n-ex-mipi-2.1.dts
-@@ -0,0 +1,16 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the HiHope RZ/G2N board
-+ * connected with aistarvision-mipi-v2-adapter board
-+ *
-+ * Copyright (C) 2020 Renesas Electronics Corp.
-+ */
-+
-+/dts-v1/;
-+#include "r8a774b1-hihope-rzg2n-ex.dts"
-+#include "hihope-rzg2-ex-aistarvision-mipi-adapter-2.1.dtsi"
-+
-+/ {
-+	model = "HopeRun HiHope RZ/G2N with sub board connected with aistarvision-mipi-v2-adapter board";
-+	compatible = "hoperun,hihope-rzg2n", "renesas,r8a774b1";
-+};
+-	spin_lock_irqsave(&common->lock, flags);
++	spin_lock(&common->lock);
+ 
+ 	mask	= rcar_thermal_common_read(common, INTMSK);
+ 	status	= rcar_thermal_common_read(common, STR);
+ 	rcar_thermal_common_write(common, STR, 0x000F0F0F & mask);
+ 
+-	spin_unlock_irqrestore(&common->lock, flags);
++	spin_unlock(&common->lock);
+ 
+ 	status = status & ~mask;
+ 
 -- 
-2.17.1
+2.7.4
 
