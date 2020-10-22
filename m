@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62AF8296003
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Oct 2020 15:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8731A296008
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Oct 2020 15:31:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900087AbgJVNaI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Oct 2020 09:30:08 -0400
-Received: from mail-oo1-f65.google.com ([209.85.161.65]:34896 "EHLO
-        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900085AbgJVNaH (ORCPT
+        id S2900108AbgJVNbY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Oct 2020 09:31:24 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41487 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2895506AbgJVNbY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:30:07 -0400
-Received: by mail-oo1-f65.google.com with SMTP id f2so349396ooj.2;
-        Thu, 22 Oct 2020 06:30:07 -0700 (PDT)
+        Thu, 22 Oct 2020 09:31:24 -0400
+Received: by mail-oi1-f196.google.com with SMTP id q136so1697779oic.8;
+        Thu, 22 Oct 2020 06:31:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=CFaQWSOXV9qt2/l1JFdMm791rib9Pg4tPJgreWRaO/U=;
-        b=De9w+94zK4pxvOv2Gtwbc9lIDUjG5z0ep8SsF0IyIp8wNXHD0P+EiQOip/o4N+J9Ng
-         9yX/qrfFYZrX6BmYZ3PuaENkhehtgtO/2jdAmAVOC83StwC6rZHseTi3aSWo9k4aFy1/
-         9v/+pTdlezQJiJcBVLGgiFkoDNogOPsWN0fIqFrdE8QvBeq4RUtxDLIFl+L18wAwfr/F
-         nKBZfUxDl3VMqyVvj1djrTB5BQ/fTluc2x4XtrgVELPUtu5etZL00wY7sGQilE5QiW7u
-         5C2eWIpn8jQmmaDtsEdSxKdvDW5Pr2ZU3eJ2N/vpMTB4ehvJ0/owqDkILKB5aDVofLi0
-         HvXA==
-X-Gm-Message-State: AOAM530fILpBPEnNL3jJxdKojX50nrpbrbTifGIvio6mCcEUgYP6d963
-        7DfmeDQ1mdxTmW72bgf9nNWigeSdS6LqmsztXJM=
-X-Google-Smtp-Source: ABdhPJy5cDPAALrFpc4iA+ABqdhedWKLPxIg1aOR9/kjFKpsAInfU3r5SWBoa102Ex4efGrT7KZCBACH/KmYSx8UhMI=
-X-Received: by 2002:a4a:dbd3:: with SMTP id t19mr2021384oou.40.1603373406821;
- Thu, 22 Oct 2020 06:30:06 -0700 (PDT)
+        bh=UhboZwAGzeqzQpbq3SMH7k8GtFSAUCRloSoaVz8dUUs=;
+        b=Y7IexbPEecF+GNQEpvybf3tEErwTEY+ZJr5GblEGI6Ls6p09MDwg7HfeBCdsWr0JPm
+         dXZ6YkaKD8NPQDSv7ggPuIgnBHsokl03LiV4Nfau1zj3tWW4b7hNqzZbK+BxyrOZ0igc
+         knPizA/Rr9euH2ykS3eMtICkpE2hYaAC7dK8vhZfP0D2rytYvqdyaZkl8IzXRRBAYJkM
+         DEFLyzj3o1ZDcOPvqRt+nNov+ytYftsWvBdVPJfi7328cbEZjZMDL04J+QoB2HlYT+TQ
+         AxpS3NfCgy2NAu5rrX3r+xq3qssYMM67TP8tQ3ndPqHC9KgIKEZ9Ot+4fpjtxvcZHG0K
+         4T9A==
+X-Gm-Message-State: AOAM533MEs08nSI4LEQjgW7ltY2TYeoNObddlHJe0FxLmZsTTNZYpB0Q
+        OyL5oZtVc5FS6VLOL/nwLqYKiTP8EawdxewsKqk=
+X-Google-Smtp-Source: ABdhPJz39R2SFO1iDXQQFvpVsKcekU58PIW9IUOOZB7j78BBf8BG/32DMa0/YHxLmJtqtTQWkAvTv7xhsdS1EoPSXP4=
+X-Received: by 2002:a05:6808:8f5:: with SMTP id d21mr1427916oic.153.1603373482175;
+ Thu, 22 Oct 2020 06:31:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201016121709.8447-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201016121709.8447-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20201016121709.8447-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201016121709.8447-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201016121709.8447-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201016121709.8447-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Oct 2020 15:29:55 +0200
-Message-ID: <CAMuHMdUc56QdWcBb4rNtcN1C7OK8qrWxofo4qGCaEfWz4-bBkQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] clk: renesas: r8a774a1: Add RPC clocks
+Date:   Thu, 22 Oct 2020 15:31:10 +0200
+Message-ID: <CAMuHMdX--Z-ms9O3c=+Daqq3JDaR30rVtMLCPQ4L9q=EtPcdAg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] clk: renesas: r8a774b1: Add RPC clocks
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -55,7 +55,7 @@ On Fri, Oct 16, 2020 at 2:17 PM Lad Prabhakar
 > From: Biju Das <biju.das.jz@bp.renesas.com>
 >
 > Describe the RPCSRC internal clock and the RPC[D2] clocks derived from it,
-> as well as the RPC-IF module clock, in the RZ/G2M (R8A774A1) CPG/MSSR
+> as well as the RPC-IF module clock, in the RZ/G2N (R8A774B1) CPG/MSSR
 > driver.
 >
 > Inspired by commit 94e3935b5756 ("clk: renesas: r8a77980: Add RPC clocks").
