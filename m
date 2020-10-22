@@ -2,83 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 733BC295F58
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Oct 2020 15:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64043295F80
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Oct 2020 15:15:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2899212AbgJVNFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Oct 2020 09:05:43 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38704 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2507266AbgJVNFm (ORCPT
+        id S2899420AbgJVNPL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Oct 2020 09:15:11 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33638 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2899418AbgJVNPK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:05:42 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i12so1408292ota.5;
-        Thu, 22 Oct 2020 06:05:42 -0700 (PDT)
+        Thu, 22 Oct 2020 09:15:10 -0400
+Received: by mail-ot1-f65.google.com with SMTP id t15so1440584otk.0;
+        Thu, 22 Oct 2020 06:15:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8FFAd/eJZE1Yn1pz9IpvcrWplNn+a/oQdfzvpZYK5X0=;
-        b=AjHU5PzzFce/QIg303hKIvlFus6G2c1kfviYvyNRwVzxO78n6l+506JAY0yA+8zCqr
-         +xgkv2XdcR+suiU98la4Y5J2DH4sv9iN+4iIbynZBqL3QSQGmV2qYOlXTjKFQUBED4Al
-         phwEzoyDhDd/cw/9Ejl2f7yUsDD7m8g02+bz5Vrg5zHPQutw/CSblC7zgGLkWET19DVn
-         v9srkkfBHcMV/YSsgR8KLlf69z8d+hHmBtu+1JqgwHr1E1DVj8gCQ5AwPFubF8cuDUni
-         BGqin5IDSCRxlQQQ7Ono4hAofKLl89xDezfUb1KUwABBDPU6Np24kDgKj0DZKaqi5NBB
-         1KSw==
-X-Gm-Message-State: AOAM530Zpk31ybUORGGNlfZtXMaTB3z5RnL7DFIAAg/wPBvaAwEoEeUn
-        3P1Atr9R/mhOG+LYrBVAi4wO/Z03vnIdqOj1x54=
-X-Google-Smtp-Source: ABdhPJywLgvsw0OStkR4P9MyJaZd3A1JOy3t/IQFaQV5YWbCduI41fzTz1M/mU+H9MCaXB4x8Cfk+5gTBhd9lkPivhg=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr1652961oti.107.1603371941785;
- Thu, 22 Oct 2020 06:05:41 -0700 (PDT)
+        bh=+DwNBiOfd/W1wJmAT2LUI2b+7Yl1dva8JuD4+CTDhpQ=;
+        b=sMpPP7oBKow0TFFpiWvCtS8U3LljnKXTvmDobe8QV//0JhVAVCDESe6BidzBQMjc0J
+         T7z7gAy6m9jN3GHOss/IcA9KvYnRWYI2D12jAadYUrhOh258teFRkx+pu+iqIE/AhKpM
+         8rvhu9qHUPsrBqB8bRsyRm8m40BnEF33w7Olnu0TKFFkVdH3U321mTyhmhKCbhB8XQ1H
+         mnREQZHil1EntduT0UO6YLSpZY0gd4LSiKkUVpK2jBGZJyrEkUUDtfrw3F7cZhXcViEQ
+         aaW0kXs8ZTbs3tC/1dDmWiuSPjXduQHpwOb05lQOXGjDH79UiIEGCiKJkHD/UepzVNik
+         0kAw==
+X-Gm-Message-State: AOAM531WQNgpprULBPmq4pVCnHzRqp/ReXllCCI9fgFuhGUyiZvJp3Hl
+        3UqVCGDNgxCkMWzK88lgp8Ldu7UEC6ZiwzERyvM=
+X-Google-Smtp-Source: ABdhPJxO5jd7p0wI597lNPcO+CZVGy8EEE2WT/eF+ljkV8+bCY8q7sHDk3uEBW+i+dyZUIiDXEj9+GB5hdDClsh7ugI=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr1917794otb.250.1603372509185;
+ Thu, 22 Oct 2020 06:15:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201014145558.12854-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX6g5dh2jU5DKUiOLbxXcwPodUcrYS6=mU53F=oLAw0PA@mail.gmail.com> <CA+V-a8vNGtC9bAhAf+xX-pYqjEmT1z8nNcChb9dSvRF9GUQqKw@mail.gmail.com>
-In-Reply-To: <CA+V-a8vNGtC9bAhAf+xX-pYqjEmT1z8nNcChb9dSvRF9GUQqKw@mail.gmail.com>
+References: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Oct 2020 15:05:30 +0200
-Message-ID: <CAMuHMdUfEtd5-LGqKA_B98Z8TXAiyQorZaRdeTZVPsF7uDDH3g@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Enable VIN instances
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Date:   Thu, 22 Oct 2020 15:14:57 +0200
+Message-ID: <CAMuHMdV2HxxAijk0hd8y_Czvpkz9O2edSpx3tn0JB+Yajfk9Pg@mail.gmail.com>
+Subject: Re: [PATCH] mtd: spi-nor: winbond: Add support for w25m512jw
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Thu, Oct 22, 2020 at 3:02 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Oct 22, 2020 at 12:43 PM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Wed, Oct 14, 2020 at 4:56 PM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Enable VIN instances along with OV5640 as endpoints on the adapter board.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > I believe the "data-shift" patches for rcar-vin haven't been accepted yet,
-> > and this patch depends on it, logically?
-> >
-> They have been accepted and is currently in linux-next [1] (should be
-> part of v5.10)
+On Fri, Oct 16, 2020 at 1:56 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> This chip is (nearly) identical to the Winbond w25m512jv which is
+> already supported by Linux. Compared to the w25m512jv, the 'jw'
+> has a different JEDEC ID.
 >
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e88349437654f9d1b3c144049b9990026f911e56
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks, I seem to have missed that in my git grep output earlier today.
-Will queue in renesas-devel for v5.11.
+Datasheets available at
+https://www.winbond.com/hq/product/code-storage-flash-memory/spistack-flash/?__locale=en&partNo=W25M512JV
+https://www.winbond.com/hq/product/code-storage-flash-memory/spistack-flash/?__locale=en&partNo=W25M512JW
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
