@@ -2,111 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C36292960B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Oct 2020 16:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 472FC296A93
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Oct 2020 09:48:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900680AbgJVOJh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Oct 2020 10:09:37 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:46485 "EHLO
+        id S375849AbgJWHse (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Oct 2020 03:48:34 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33146 "EHLO
         mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900678AbgJVOJg (ORCPT
+        with ESMTP id S375847AbgJWHse (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Oct 2020 10:09:36 -0400
-Received: by mail-ot1-f66.google.com with SMTP id m11so1567329otk.13;
-        Thu, 22 Oct 2020 07:09:35 -0700 (PDT)
+        Fri, 23 Oct 2020 03:48:34 -0400
+Received: by mail-ot1-f66.google.com with SMTP id t15so563148otk.0;
+        Fri, 23 Oct 2020 00:48:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qWi7olx0i8jeUc5svHxbdLLoehMJAACFeJtvJPwksLs=;
-        b=TbKTaJNJyUE3xuyt9c+RFUDzi/fzDxpbvkg+Gd0HW4kDr+x/JtQEn1ATDy35BinY6I
-         OgQ7JHOTf1HShQmVWyQ3uQUbM9SKZWzUjhIdYy7PE5MPCLmVVSq4WByn7UhA/oRIELtI
-         z7lgGjdEg5IcDs7NGci8SYLzaFXawjNkVOISFfY7PwyVUUdp+ICIavHovIO/j3vO6BD/
-         H8aoEhGKH281K4TCvroGSi7VdLtfgWe4dGQ0DjCrOumnnZnGDMPcMZOLgEKe8m869m5F
-         9IKDCHb1UHeQ5Dvv2gqH9wxXyzD/9giJUvNN1p7PMxaciCQtDUzayA3pSTNC+pgkDOaN
-         rZHw==
-X-Gm-Message-State: AOAM533aBZYhgcy7dJau4Ii9f3Tg2BZ8vo2e+8I3jrm2BJiKjXRKJ3TE
-        gkEA9V0p8g+GQHADAEuiOdLe8BtTgy0kCr5kcvw=
-X-Google-Smtp-Source: ABdhPJyI/I2qD0HIY714dpAMocse+Wp7lpuhjH3pC+OK6EZ5BfvM4PxsL1QFGTV3yw9z+HQUyBUlrd1ttcwaiSXosyA=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr1979468otc.145.1603375775423;
- Thu, 22 Oct 2020 07:09:35 -0700 (PDT)
+        bh=rIe/mHeTa+ilTJbmDCcM8LeOw8q5C9qXcM6+qzg3FWc=;
+        b=TzsM03azT1PXaA8gVH1NSz39R0qMKWgCpTmuTmOKtPodl9T3aLU4K9vpoD6E5BNqPY
+         o/D1yn/KfGpgePY199PPOEASgzSoIlmVQD187yF8dxHiIRWqO0en2TkOIMB3OLUvlZjR
+         F0YTNJ6ddbJCLwKKGYlbZCe+A2dkgOvaY5FwUwGm/aX9AEMUhQJGOsRbY/lFmZaHA4re
+         IEJflH5xkvK92UFClZbU7dP01lHIcnPfnB2sRraxjp0jS31cnloWcB+XZYZxf8IHR+XG
+         gmUobek5FJBvFuIs9Pb1KBV5H5aUTSoUHSnKL9z31oioRxdVeUygPsB/LOu578C8hrMf
+         KNSw==
+X-Gm-Message-State: AOAM53107/9maN3SN/DbnSt9Y/gm4KaCXXqq1fw2hKHl/fsRRUciYtPn
+        nkY2Z5QlvpKwAsNgLNh77zNfXHSvexKXzjbFFKCv8S0b
+X-Google-Smtp-Source: ABdhPJxvy3cdokwnQ4uNcADGgpFKWcwTt7eB9hV5VJmTHIo0C4JRXc6LOt/WzUNc8QVH6u1SR3VoNV2ZfAxYDS/5iWA=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr662539otc.145.1603439313221;
+ Fri, 23 Oct 2020 00:48:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201016121709.8447-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201016121709.8447-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20201016121709.8447-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201020125134.22625-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201020125134.22625-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201020125134.22625-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Oct 2020 16:09:24 +0200
-Message-ID: <CAMuHMdVPfoU_X3A4ioy9TeJHmovE5P=fDYpShsWTzFYXmZoiww@mail.gmail.com>
-Subject: Re: [PATCH 4/4] clk: renesas: r8a774c0: Add RPC clocks
+Date:   Fri, 23 Oct 2020 09:48:21 +0200
+Message-ID: <CAMuHMdWnmrcdRXFcGa_w016EAO2NC51f=oyPx28KbkvnKW0-QA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] arm64: dts: renesas: aistarvision-mipi-adapter-2.1:
+ Add parent macro for each sensor
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Fri, Oct 16, 2020 at 2:17 PM Lad Prabhakar
+On Tue, Oct 20, 2020 at 2:52 PM Lad Prabhakar
 <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Describe the RPCSRC internal clock and the RPC[D2] clocks derived from it,
-> as well as the RPC-IF module clock, in the RZ/G2E (R8A774C0) CPG/MSSR
-> driver.
+> For HiHope RZ/G2H the OV5645 sensor is populated on i2c2 whereas the imx219
+> sensor is populated on i2c3 so add support for handling such cases by
+> adding a parent macro for each sensor.
 >
-> Inspired by commit 94e3935b5756 ("clk: renesas: r8a77980: Add RPC clocks").
+> Also update r8a774c0-ek874-mipi-2.1.dts to incorporate the changes.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-> @@ -73,6 +74,12 @@ static const struct cpg_core_clk r8a774c0_core_clks[] __initconst = {
->         DEF_FIXED(".s2",       CLK_S2,             CLK_PLL1,       4, 1),
->         DEF_FIXED(".s3",       CLK_S3,             CLK_PLL1,       6, 1),
->         DEF_FIXED(".sdsrc",    CLK_SDSRC,          CLK_PLL1,       2, 1),
-> +       DEF_BASE(".rpcsrc",    CLK_RPCSRC, CLK_TYPE_GEN3_RPCSRC, CLK_PLL1),
-> +
-> +       DEF_BASE("rpc",        R8A774C0_CLK_RPC, CLK_TYPE_GEN3_RPC,
-> +                CLK_RPCSRC),
-> +       DEF_BASE("rpcd2",      R8A774C0_CLK_RPCD2, CLK_TYPE_GEN3_RPCD2,
-> +                R8A774C0_CLK_RPC),
->
->         DEF_DIV6_RO(".r",      CLK_RINT,           CLK_EXTAL, CPG_RCKCR, 32),
->
-
-> @@ -275,6 +283,10 @@ static int __init r8a774c0_cpg_mssr_init(struct device *dev)
->         return rcar_gen3_cpg_init(cpg_pll_config, 0, cpg_mode);
->  }
->
-> +static const struct clk_div_table cpg_rpcsrc_div_table[] = {
-> +       { 0, 5 }, { 1, 3 }, { 2, 8 }, {3, 2}, {0, 0},
-> +};
-
-The above models RPCSRC as a clock generated by dividing PLL1 by either
-5, 3, 8, or 2.  This does not match the hardware user's manual, which
-states that RPCSRC is either PLL1 divided by 5 or 3, or PLL0 divided by
-8 or 2.
-
-I think you need a new clock type (CLK_TYPE_GEN3E_RPCSRC, as it applies
-to RZ/G2E, and R-Car E3?), which registers a composite clock consisting
-of a mux and divider.  This is a bit similar to the RPC/RPCD2 clocks,
-which are composite clocks consisting of a divider and a gate.
-
-Note that R-Car D3 is similar, except that PLL0 is divided by 5 or 2, which
-means yet another clock type (and div_table).
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.11.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
