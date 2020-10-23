@@ -2,62 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D874A297371
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Oct 2020 18:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97194297904
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Oct 2020 23:45:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1751459AbgJWQUT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Oct 2020 12:20:19 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:48898 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1750315AbgJWQUT (ORCPT
+        id S1756832AbgJWVpU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Oct 2020 17:45:20 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:56196 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1756829AbgJWVpU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Oct 2020 12:20:19 -0400
-X-IronPort-AV: E=Sophos;i="5.77,408,1596466800"; 
-   d="scan'208";a="60417029"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Oct 2020 01:20:17 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 11B984007F22;
-        Sat, 24 Oct 2020 01:20:14 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: [PATCH] PCI: pcie-rcar-host: Drop unused members from struct rcar_pcie_host
-Date:   Fri, 23 Oct 2020 17:20:08 +0100
-Message-Id: <20201023162008.967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 23 Oct 2020 17:45:20 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1603489518;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PWPxXpTrrlDAeAy6R37UaEC62YtNtDdRIHMGAEIcaW4=;
+        b=hqS9jtc72zZGGGvuARTIcDq9Bv39aoItwcwnJj5bZVZ2Y4JcL/OEvlg+F4rBW/3QvdAo5W
+        o0oTfq/JEl4KlySZQgb8ctuo3u2t4yiY9b6aBcHTW1doqMSIHqCIOvyPOespByI8R6DteC
+        Mnc2b44dqqRk9b+Qv75thSsNdMP1/hFPGgZwGYvIST3FPSH+Cr6RBt2I+41mJMlymMsCys
+        mHJAgOydFcQv7eHmls5kMa3fy0LD5Pcz/XRmitDfDdEjcuX1a1GlLRAJpgSj9HpYAXHDLi
+        D2rO3RQkEqlalHqnhcm0LAiOEq6O4vCeeKCmk5lcO2FbWHiaWTLhSE4ogtegpA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1603489518;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PWPxXpTrrlDAeAy6R37UaEC62YtNtDdRIHMGAEIcaW4=;
+        b=vN0BUdufar4GqRZsYtOJFbaVQZ+fsFLNAUb3ZoyM9mXLBSx29xYtazVk59Lodu4n6WWhfb
+        64PcddB3kDPYxGBw==
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tian Tao <tiantao6@hisilicon.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>, amitk@kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] thermal: replace spin_lock_irqsave by spin_lock in hard IRQ
+In-Reply-To: <CAMuHMdVcraVpetQwdj7hW5bCum1SUXz14X6NhcVtq3BH3Csyzw@mail.gmail.com>
+References: <1603249530-25218-1-git-send-email-tiantao6@hisilicon.com> <CAMuHMdVcraVpetQwdj7hW5bCum1SUXz14X6NhcVtq3BH3Csyzw@mail.gmail.com>
+Date:   Fri, 23 Oct 2020 23:45:17 +0200
+Message-ID: <877drg62he.fsf@nanos.tec.linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Drop unused members dev and base from struct rcar_pcie_host.
+On Thu, Oct 22 2020 at 14:51, Geert Uytterhoeven wrote:
+> On Wed, Oct 21, 2020 at 2:15 PM Tian Tao <tiantao6@hisilicon.com> wrote:
+>> The code has been in a irq-disabled context since it is hard IRQ. There
+>> is no necessity to do it again.
+>>
+> Is this also true if CONFIG_PREEMPT_RT=y, and all irq handlers execute
+> in the context of special tasks?
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/pci/controller/pcie-rcar-host.c | 2 --
- 1 file changed, 2 deletions(-)
+On RT or even on mainline with 'threadirqs' on the command line all
+interrupts which are not explicitly requested with IRQF_NO_THREAD run
+their handlers in thread context. The same applies to soft interrupts.
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index cdc0963f154e..4d1c4b24e537 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -50,9 +50,7 @@ static inline struct rcar_msi *to_rcar_msi(struct msi_controller *chip)
- /* Structure representing the PCIe interface */
- struct rcar_pcie_host {
- 	struct rcar_pcie	pcie;
--	struct device		*dev;
- 	struct phy		*phy;
--	void __iomem		*base;
- 	struct clk		*bus_clk;
- 	struct			rcar_msi msi;
- 	int			(*phy_init_fn)(struct rcar_pcie_host *host);
--- 
-2.17.1
+That means they are subject to the normal scheduler rules and no other
+code is going to acquire that lock from hard interrupt context either,
+so the irqsave() here is pointless in all cases.
+
+Famous last words...
+
+  ... unless the driver does magic things like having a hrtimer armed
+  which expires in hard interrupt context and touches the very same
+  lock, but that's not the case in this particular driver.
+
+So the change itself is correct, but the change log could do with some
+polishing. :)
+
+Thanks,
+
+        tglx
 
