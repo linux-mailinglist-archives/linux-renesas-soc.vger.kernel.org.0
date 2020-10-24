@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72C53297A37
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Oct 2020 03:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C3C6297A36
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Oct 2020 03:45:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1758616AbgJXBpc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Oct 2020 21:45:32 -0400
-Received: from mga17.intel.com ([192.55.52.151]:50965 "EHLO mga17.intel.com"
+        id S1758609AbgJXBpa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Oct 2020 21:45:30 -0400
+Received: from mga12.intel.com ([192.55.52.136]:32425 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1758589AbgJXBpc (ORCPT
+        id S1758589AbgJXBpa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Oct 2020 21:45:32 -0400
-IronPort-SDR: Mf1fY+RSkA6MntD84pxf8NRef9RJfM6c5EMVdK1gzO7ZDwvb8yPfz99wd6hL1+STAnA1O9fGP/
- v+aGRNu9V5fA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9783"; a="147606464"
+        Fri, 23 Oct 2020 21:45:30 -0400
+IronPort-SDR: aIqYMBD5YJ0epjq6OYvHl8h0hOkPa3l/2YNxuCG+pSZWWLqdWpJxaiZb61jkx1JhjP19/UB0xr
+ Q/omCiknbQRA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9783"; a="147040134"
 X-IronPort-AV: E=Sophos;i="5.77,410,1596524400"; 
-   d="scan'208";a="147606464"
+   d="scan'208";a="147040134"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 18:45:29 -0700
-IronPort-SDR: AKYKqyOAn6L9IDVq6Bg0fxh+T4BBuloEdZkFQd2hUvn8RN0G0V9HvUTFI5jQXJ/fMD3CWIjHNd
- XHmfu3Ds3zsQ==
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 18:45:27 -0700
+IronPort-SDR: /Vq2WeyBhrvA+qiHaUid2mSjuzh7BwpdjsEcWlHiTtAenLC7Prc73lqj6FSbu8LrTAZF3bMn4I
+ yycfopNAYvGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,410,1596524400"; 
-   d="scan'208";a="360407577"
+   d="scan'208";a="359775382"
 Received: from lkp-server01.sh.intel.com (HELO cda15bb6d7bd) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Oct 2020 18:45:26 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Oct 2020 18:45:26 -0700
 Received: from kbuild by cda15bb6d7bd with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1kW8cX-0000JP-Hq; Sat, 24 Oct 2020 01:45:25 +0000
-Date:   Sat, 24 Oct 2020 09:44:54 +0800
+        id 1kW8cX-0000JN-H3; Sat, 24 Oct 2020 01:45:25 +0000
+Date:   Sat, 24 Oct 2020 09:44:56 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.11] BUILD SUCCESS
- e323fa4edfcaee0e522989b1768ef5ec8c467679
-Message-ID: <5f938716.r/KoGeVaYJfKzjsG%lkp@intel.com>
+Subject: [renesas-devel:master] BUILD SUCCESS
+ b9cbdbd8c23facb1dc1dbfc0bce38b8c2298412c
+Message-ID: <5f938718.PMn1p1w6jLYfg8VU%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -46,12 +46,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.11
-branch HEAD: e323fa4edfcaee0e522989b1768ef5ec8c467679  arm64: dts: r8a77965: Add DRIF support
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: b9cbdbd8c23facb1dc1dbfc0bce38b8c2298412c  Merge branch 'renesas-arm-dt-for-v5.11' into renesas-devel
 
 elapsed time: 723m
 
-configs tested: 194
+configs tested: 175
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -82,10 +82,6 @@ arm                           omap1_defconfig
 arm                         lubbock_defconfig
 arm                           spitz_defconfig
 sh                           se7751_defconfig
-powerpc                 linkstation_defconfig
-arm                        spear6xx_defconfig
-arm                     am200epdkit_defconfig
-microblaze                          defconfig
 powerpc                      obs600_defconfig
 arc                 nsimosci_hs_smp_defconfig
 m68k                          sun3x_defconfig
@@ -111,20 +107,10 @@ i386                             alldefconfig
 powerpc                    klondike_defconfig
 arm                            pleb_defconfig
 xtensa                              defconfig
-powerpc                      chrp32_defconfig
-xtensa                    xip_kc705_defconfig
-m68k                            q40_defconfig
-openrisc                    or1ksim_defconfig
 sh                           se7705_defconfig
 sh                          polaris_defconfig
 arm                           stm32_defconfig
 powerpc                         wii_defconfig
-powerpc                    sam440ep_defconfig
-xtensa                         virt_defconfig
-arm                      tct_hammer_defconfig
-m68k                          atari_defconfig
-powerpc                      bamboo_defconfig
-powerpc                     ksi8560_defconfig
 sh                           se7206_defconfig
 parisc                generic-64bit_defconfig
 sparc64                          alldefconfig
@@ -134,11 +120,6 @@ mips                malta_qemu_32r6_defconfig
 mips                        bcm47xx_defconfig
 xtensa                           alldefconfig
 xtensa                  nommu_kc705_defconfig
-powerpc                     akebono_defconfig
-sh                           se7343_defconfig
-arm                            dove_defconfig
-powerpc                 mpc836x_mds_defconfig
-powerpc                  iss476-smp_defconfig
 powerpc                        warp_defconfig
 arm                        neponset_defconfig
 arm                        oxnas_v6_defconfig
@@ -148,14 +129,12 @@ sh                           se7724_defconfig
 arm                      pxa255-idp_defconfig
 powerpc                      ppc40x_defconfig
 arm                           viper_defconfig
+xtensa                         virt_defconfig
 powerpc                      ppc6xx_defconfig
 arm                       versatile_defconfig
 h8300                               defconfig
 m68k                        stmark2_defconfig
 powerpc                        icon_defconfig
-nios2                               defconfig
-powerpc                          allyesconfig
-powerpc                 mpc8313_rdb_defconfig
 powerpc                 mpc832x_rdb_defconfig
 mips                        qi_lb60_defconfig
 arc                        nsim_700_defconfig
@@ -169,6 +148,7 @@ ia64                             allyesconfig
 m68k                             allmodconfig
 m68k                                defconfig
 m68k                             allyesconfig
+nios2                               defconfig
 arc                              allyesconfig
 nds32                             allnoconfig
 c6x                              allyesconfig
@@ -189,6 +169,7 @@ sparc                               defconfig
 i386                                defconfig
 mips                             allyesconfig
 mips                             allmodconfig
+powerpc                          allyesconfig
 powerpc                          allmodconfig
 powerpc                           allnoconfig
 x86_64               randconfig-a001-20201023
