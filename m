@@ -2,174 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8324729910F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Oct 2020 16:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A60172991A7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Oct 2020 17:02:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1783933AbgJZPds (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Oct 2020 11:33:48 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:40057 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1769833AbgJZPds (ORCPT
+        id S1784677AbgJZQCK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Oct 2020 12:02:10 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40191 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1773890AbgJZQBh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Oct 2020 11:33:48 -0400
-Received: by mail-oi1-f195.google.com with SMTP id m128so10869797oig.7;
-        Mon, 26 Oct 2020 08:33:46 -0700 (PDT)
+        Mon, 26 Oct 2020 12:01:37 -0400
+Received: by mail-ot1-f66.google.com with SMTP id f97so8452527otb.7;
+        Mon, 26 Oct 2020 09:01:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Npr8JFXnNVuOd5JBeJSU1d/jU6NcSqcvSBeX3MQnMCw=;
-        b=sH8yJaENEr9zRQqaDTeQATgawIviJucH7DkUXXsgh8DUOOgsVqXmevMa7ZuxmlFGmy
-         1ohrWmb9/tj16yPG2s5pYTUROLtqGX/V10vi7a47Jgx1G2P18lLhl/NRZoc2dtnuTq9V
-         iVyOzl5cucanZmyyOk6EuYGtLfig1zg1LplGrstjAUprL4QMyZxP9eeOtIL4T9KcASBy
-         dPAqu+c9EVn3dbX04FohmSHSW+og8a7/byFE3+GVynRI9ZrKm5Ptkr7U8K3dpMPA10ky
-         4e7T0lFGmuvfJdjGN0eTaDtE7O6PF/pANZLirGwbTY+4ntfDrCUB2bj+Nk2Z+8MEGODV
-         J7Aw==
-X-Gm-Message-State: AOAM530FuyZkAkAPmr4PIiuMp5gaI7duxLyjIIOJe72FXaJ7sHD2h1pZ
-        tIVjAA9nkCzA72riuBn4rTS73gPBeriHdAJbV4Q=
-X-Google-Smtp-Source: ABdhPJwLqZF2nUpKrvhcxyI34nr4X7bBy8icWsJGObwdQ8i/5k3Ztdf2PJq2vrTAVMJP3VVhuKLd7HTBbICac/wUeIE=
-X-Received: by 2002:aca:c490:: with SMTP id u138mr13399294oif.54.1603726426441;
- Mon, 26 Oct 2020 08:33:46 -0700 (PDT)
+        bh=asUJBtXsqUx3cRgU1NNSgl2otnJ/rjwe37VOtYFH0nY=;
+        b=WyuQhwHY0btZowk4UvP2KtA00bvttBpF6ZCVn2YlBFAZGx/aVnuYQlzEYejda8I/tw
+         /UMvlHtz0S4Ccx8f9J0iYSJMCeJgjYQ7FyhO33HARqMO338327lkHnCjluPAnlnInYl7
+         fsHMv2rIewlaMw7C4QEAiFGeJCwPCq4GHhOO/iRZnSjCx1ZtVWccOhXJ0pfx6G83UG39
+         WkAR/TuSS2c5J3CoM6cjztr0ZyPOgw12FVXSDpz1D2f6YBbyXPiVRXavNBDTglxYDyKw
+         ocGPhCXBysJD1IawsPlcNpzB4+s8tq0vSfHyEJ/Viyy4Uq5vgXvI1xsj4nDb4QSUcG33
+         6tVg==
+X-Gm-Message-State: AOAM533ww+RT/DBROtZHoIsZcbjqxcNOm0NP1M/AhXwlkIvKGHF4Nklr
+        lJCxwIuYmKBbuJJDcAm6sxD+uwuUShKORexkxjc=
+X-Google-Smtp-Source: ABdhPJxPI+usSlZbZdx1IIlBwkjAFNrQaHoxsJAFSYYUxD2jVsGeXmh3ZzBEHoa089xtWunX1BF5lEiWHp0IZeVW1xM=
+X-Received: by 2002:a9d:5e14:: with SMTP id d20mr11342816oti.107.1603728095846;
+ Mon, 26 Oct 2020 09:01:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200916061500.1970090-1-hch@lst.de> <20200916061500.1970090-7-hch@lst.de>
-In-Reply-To: <20200916061500.1970090-7-hch@lst.de>
+References: <20200821194310.3089815-1-keescook@chromium.org>
+ <20200821194310.3089815-14-keescook@chromium.org> <CAMuHMdUg0WJHEcq6to0-eODpXPOywLot6UD2=GFHpzoj_hCoBQ@mail.gmail.com>
+ <CAMuHMdUw9KwC=EVB60yjg7mA7Fg-efOiKE7577p+uEdGJVS2OQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUw9KwC=EVB60yjg7mA7Fg-efOiKE7577p+uEdGJVS2OQ@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Oct 2020 16:33:34 +0100
-Message-ID: <CAMuHMdX9c0va_EqBw1wfD_JiVPpjiBPLzE88EmLGVLfVhECugw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] dma-mapping: introduce DMA range map, supplanting dma_pfn_offset
-To:     Christoph Hellwig <hch@lst.de>,
-        Jim Quinlan <james.quinlan@broadcom.com>
-Cc:     Linux IOMMU <iommu@lists.linux-foundation.org>,
+Date:   Mon, 26 Oct 2020 17:01:24 +0100
+Message-ID: <CAMuHMdUJFEt3LxWHk73AsLDGhjzBvJGAML76UAxeGzb4zOf96w@mail.gmail.com>
+Subject: Re: [PATCH v6 13/29] arm64/build: Assert for unwanted sections
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Ingo Molnar <mingo@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        James Morse <james.morse@arm.com>,
+        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@redhat.com>,
         Russell King <linux@armlinux.org.uk>,
-        Santosh Shilimkar <ssantosh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph, Jim,
-
-On Wed, Sep 16, 2020 at 8:30 AM Christoph Hellwig <hch@lst.de> wrote:
-> From: Jim Quinlan <james.quinlan@broadcom.com>
+On Mon, Oct 26, 2020 at 2:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Oct 26, 2020 at 1:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Fri, Aug 21, 2020 at 9:56 PM Kees Cook <keescook@chromium.org> wrote:
+> > > In preparation for warning on orphan sections, discard
+> > > unwanted non-zero-sized generated sections, and enforce other
+> > > expected-to-be-zero-sized sections (since discarding them might hide
+> > > problems with them suddenly gaining unexpected entries).
+> > >
+> > > Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> >
+> > This is now commit be2881824ae9eb92 ("arm64/build: Assert for unwanted
+> > sections") in v5.10-rc1, and is causing the following error with
+> > renesas_defconfig[1]:
+> >
+> >     aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
+> > `kernel/bpf/core.o' being placed in section `.eh_frame'
+> >     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+> >     aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+> >
+> > I cannot reproduce this with the standard arm64 defconfig.
+> >
+> > I bisected the error to the aforementioned commit, but understand this
+> > is not the real reason.  If I revert this commit, I still get:
+> >
+> >     aarch64-linux-gnu-ld: warning: orphan section `.got.plt' from
+> > `arch/arm64/kernel/head.o' being placed in section `.got.plt'
+> >     aarch64-linux-gnu-ld: warning: orphan section `.plt' from
+> > `arch/arm64/kernel/head.o' being placed in section `.plt'
+> >     aarch64-linux-gnu-ld: warning: orphan section `.data.rel.ro' from
+> > `arch/arm64/kernel/head.o' being placed in section `.data.rel.ro'
+> >     aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
+> > `kernel/bpf/core.o' being placed in section `.eh_frame'
+> >
+> > I.e. including the ".eh_frame" warning. I have tried bisecting that
+> > warning (i.e. with be2881824ae9eb92 reverted), but that leads me to
+> > commit b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section
+> > placement"), which is another red herring.
 >
-> The new field 'dma_range_map' in struct device is used to facilitate the
-> use of single or multiple offsets between mapping regions of cpu addrs and
-> dma addrs.  It subsumes the role of "dev->dma_pfn_offset" which was only
-> capable of holding a single uniform offset and had no region bounds
-> checking.
+> kernel/bpf/core.o is the only file containing an eh_frame section,
+> causing the warning.
+> If I compile core.c with "-g" added, like arm64 defconfig does, the
+> eh_frame section is no longer emitted.
 >
-> The function of_dma_get_range() has been modified so that it takes a single
-> argument -- the device node -- and returns a map, NULL, or an error code.
-> The map is an array that holds the information regarding the DMA regions.
-> Each range entry contains the address offset, the cpu_start address, the
-> dma_start address, and the size of the region.
+> Hence setting CONFIG_DEBUG_INFO=y, cfr. arm64 defconfig, the warning
+> is gone, but I'm back to the the "Unexpected GOT/PLT entries" below...
 >
-> of_dma_configure() is the typical manner to set range offsets but there are
-> a number of ad hoc assignments to "dev->dma_pfn_offset" in the kernel
-> driver code.  These cases now invoke the function
-> dma_direct_set_offset(dev, cpu_addr, dma_addr, size).
->
-> Signed-off-by: Jim Quinlan <james.quinlan@broadcom.com>
-> [hch: various interface cleanups]
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+> > Note that even on plain be2881824ae9eb92, I get:
+> >
+> >     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+> >     aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+> >
+> > The parent commit obviously doesn't show that (but probably still has
+> > the problem).
 
-Thanks for your patch, which is now commit e0d072782c734d27
-("dma-mapping: introduce DMA range map, supplanting dma_pfn_offset") in
-v5.10-rc1, and to which I have bisected a PCIe failure on R-Car M2-W
-(r8a7791/koelsch).
-
-The first PCI host bridge, containing USB, probes fine:
-
- pci-rcar-gen2 ee090000.pci: host bridge /soc/pci@ee090000 ranges:
- pci-rcar-gen2 ee090000.pci:      MEM 0x00ee080000..0x00ee08ffff -> 0x00ee080000
- pci-rcar-gen2 ee090000.pci: PCI: revision 11
- pci-rcar-gen2 ee090000.pci: PCI host bridge to bus 0000:00
- pci_bus 0000:00: root bus resource [bus 00]
- pci_bus 0000:00: root bus resource [mem 0xee080000-0xee08ffff]
- pci 0000:00:00.0: [1033:0000] type 00 class 0x060000
- pci 0000:00:00.0: reg 0x10: [mem 0xee090800-0xee090bff]
- pci 0000:00:00.0: reg 0x14: [mem 0x40000000-0x7fffffff pref]
- pci 0000:00:01.0: [1033:0035] type 00 class 0x0c0310
- pci 0000:00:01.0: reg 0x10: [mem 0x00000000-0x00000fff]
- pci 0000:00:01.0: supports D1 D2
- pci 0000:00:01.0: PME# supported from D0 D1 D2 D3hot
- pci 0000:00:02.0: [1033:00e0] type 00 class 0x0c0320
- pci 0000:00:02.0: reg 0x10: [mem 0x00000000-0x000000ff]
- pci 0000:00:02.0: supports D1 D2
- pci 0000:00:02.0: PME# supported from D0 D1 D2 D3hot
- PCI: bus0: Fast back to back transfers disabled
- pci 0000:00:01.0: BAR 0: assigned [mem 0xee080000-0xee080fff]
- pci 0000:00:02.0: BAR 0: assigned [mem 0xee081000-0xee0810ff]
- pci 0000:00:01.0: enabling device (0140 -> 0142)
- pci 0000:00:02.0: enabling device (0140 -> 0142)
-
-The second PCI host bridge, connected to an (empty) PCIe slot, fails:
-
- pci-rcar-gen2 ee0d0000.pci: host bridge /soc/pci@ee0d0000 ranges:
- pci-rcar-gen2 ee0d0000.pci:      MEM 0x00ee0c0000..0x00ee0cffff -> 0x00ee0c0000
- pci-rcar-gen2 ee0d0000.pci: PCI: revision 11
- pci-rcar-gen2 ee0d0000.pci: PCI host bridge to bus 0001:01
- pci_bus 0001:01: root bus resource [bus 01]
- pci_bus 0001:01: root bus resource [mem 0xee0c0000-0xee0cffff]
- pci 0001:01:00.0: [1033:0000] type 00 class 0x060000
- pci 0001:01:00.0: reg 0x10: [mem 0xee0d0800-0xee0d0bff]
- pci 0001:01:00.0: reg 0x14: [mem 0x40000000-0x7fffffff pref]
- pci 0001:01:01.0: [1033:0035] type 00 class 0x0c0310
- pci 0001:01:01.0: reg 0x10: [mem 0x00000000-0x00000fff]
- pci 0001:01:01.0: supports D1 D2
- pci 0001:01:01.0: PME# supported from D0 D1 D2 D3hot
- pci 0001:01:02.0: [1033:00e0] type 00 class 0x0c0320
- pci 0001:01:02.0: reg 0x10: [mem 0x00000000-0x000000ff]
- pci 0001:01:02.0: supports D1 D2
- pci 0001:01:02.0: PME# supported from D0 D1 D2 D3hot
- PCI: bus1: Fast back to back transfers disabled
- pci 0001:01:01.0: BAR 0: assigned [mem 0xee0c0000-0xee0c0fff]
- pci 0001:01:02.0: BAR 0: assigned [mem 0xee0c1000-0xee0c10ff]
- pci 0001:01:01.0: enabling device (0140 -> 0142)
- pci 0001:01:02.0: enabling device (0140 -> 0142)
--rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
--rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
--rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
--rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
--rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
--rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
--rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
--rcar-pcie fe000000.pcie: PCIe link down
-+rcar-pcie fe000000.pcie: Adjusted size 0x0 invalid
-+rcar-pcie: probe of fe000000.pcie failed with error -22
-
-I've posted a patch "[PATCH] dma-mapping: Fix 32-bit overflow with
-CONFIG_ARM_LPAE=n"
-(https://lore.kernel.org/linux-arm-kernel/20201026152755.3738293-1-geert+renesas@glider.be/).
+Reverting both
+b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section placement")
+be2881824ae9eb92 ("arm64/build: Assert for unwanted sections")
+seems to solve my problems, without any ill effects?
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
