@@ -2,163 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC42298A62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Oct 2020 11:29:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C6C0298CDE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Oct 2020 13:29:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1769795AbgJZK3l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Oct 2020 06:29:41 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:63606 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1769657AbgJZK3l (ORCPT
+        id S1775121AbgJZM3h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Oct 2020 08:29:37 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:46782 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1775119AbgJZM3g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Oct 2020 06:29:41 -0400
-IronPort-SDR: otwfDwVkQZr3NQwBywMU8ffQKo7cZtyxE47KOtsHGQi5MT1KQ5gUJAoLsxqst7UEMC9DOXr9e3
- QzxaqF8yO2O+3q4FmafIijEyoB0ZCKANM6kMegymPPKSPF3IHUIR78RhWbyNWZyUlg8xbaNl8w
- H0+SRGe7edkEmo2vGmNDRc+zYMO2HFU1BL261oqauRW6EnWzE36O3jyVH2FQmZ5o/l8OaU7UfT
- tIBnBrjfS9qkIiMVQwQU/jlAwXsMMrLYQlxPxNh7DDhwpLDpad9rFbjtEyHntTsU8LW2zAllcw
- i9E=
-X-IronPort-AV: E=Sophos;i="5.77,419,1596528000"; 
-   d="scan'208";a="54324541"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 26 Oct 2020 02:29:39 -0800
-IronPort-SDR: O0g58AkoeYCj7u7+jb91zeViXBebA06j6obqBo10HcdbDlEj9EPxk/TZ0GB8xNe0zPKE2q5mHM
- vCjrkkdepk4awBx/KXFvt4W45f4wZ7/L8B0vAgaOw8zp4+swW7zwqp9ifVmCUeBC9XKFqhbOiT
- m0es60O02ASbx9mDk7ptCcYtPS+gmxOPgcIpc7neTts6WMuNUNrzKxYpQqQBqhSApyoatSNLXR
- rIfY3ZW+9XbkjxUvL7goWDqcc2T07xFJvUl+qzuxhB/jDZutqls5ohQT9xin1ot95A4UsteoHC
- CIA=
-From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
-To:     'Sergei Shtylyov' <sergei.shtylyov@gmail.com>
-CC:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>, <geert+renesas@glider.be>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        "Behme, Dirk - Bosch" <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-References: <20200930192124.25060-1-andrew_gabbasov@mentor.com> <000001d697c2$71651d70$542f5850$@mentor.com> <2819a14d-500c-561b-337e-417201eb040f@gmail.com> <000001d6a5ea$16fe8e80$44fbab80$@mentor.com> <ead79908-7abd-93da-f943-2387f4137875@gmail.com>
-In-Reply-To: <ead79908-7abd-93da-f943-2387f4137875@gmail.com>
-Subject: RE: [PATCH net] ravb: Fix bit fields checking in ravb_hwtstamp_get()
-Date:   Mon, 26 Oct 2020 13:29:26 +0300
-Organization: Mentor Graphics Corporation
-Message-ID: <000001d6ab82$e4fcf6d0$aef6e470$@mentor.com>
+        Mon, 26 Oct 2020 08:29:36 -0400
+Received: by mail-ot1-f67.google.com with SMTP id j21so2690120ota.13;
+        Mon, 26 Oct 2020 05:29:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0trfHgi8OBfd5iB69j5LL8jeOJ1Nb/421IvjhePhaus=;
+        b=P+zlDX8Hgk/S9xxcgd506ahxBtu8rxysyBTc4iPdrjvaUKbAIYNXAzklq2sAXHfcdT
+         4zOl+sJ2I4EsX+ysfwgaFtIp72UAzGYVSLOPvF+7rEaf7n2sNg49vN9xroPjX9W7ix/w
+         WE4/Am7rq952ISK+5wgv41hBKbfGPpC12JbSi0QdtNGx3Z24DWvMShNR6iLwpMmIld/V
+         Cl3vz8QU7l24bWJe5h+7EEnnfzMMNiE2I3HTK173CU7NJkOwH2R7GA/Cp9j8Ft8XvQ3O
+         NS6eW1NQBUzx0XKvJy/3hq0kCaG9seTK3IeK/3Rzb0LxjhtrTxyU0xRs1LlbIkzZmDnW
+         y5xg==
+X-Gm-Message-State: AOAM531eY9L/FwrZLkaV9J3oHAKbC/BsZQCvHwKqpupJ1LbS0AUInOks
+        1iPCyBSNeiZM0MrFucyCj7d0TsG3BsDmzzs2Luw=
+X-Google-Smtp-Source: ABdhPJyBweNoUQCltnRnsquxLRWEfPnJGEis2BPFL9CWHQhByaLq9YhLr+yqM3AxsL8UQGje3+jKX3bZuCidiISTg8s=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr13055312otc.145.1603715374142;
+ Mon, 26 Oct 2020 05:29:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQHWl179dggpQ/YNgUW3t7t7L6TDlKmcTonagAs3kmCAAk8jUA==
-Content-Language: en-us
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+References: <20200821194310.3089815-1-keescook@chromium.org> <20200821194310.3089815-14-keescook@chromium.org>
+In-Reply-To: <20200821194310.3089815-14-keescook@chromium.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 26 Oct 2020 13:29:22 +0100
+Message-ID: <CAMuHMdUg0WJHEcq6to0-eODpXPOywLot6UD2=GFHpzoj_hCoBQ@mail.gmail.com>
+Subject: Re: [PATCH v6 13/29] arm64/build: Assert for unwanted sections
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Ingo Molnar <mingo@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        James Morse <james.morse@arm.com>,
+        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Hi Kees,
 
-Thank you for the review.
+On Fri, Aug 21, 2020 at 9:56 PM Kees Cook <keescook@chromium.org> wrote:
+> In preparation for warning on orphan sections, discard
+> unwanted non-zero-sized generated sections, and enforce other
+> expected-to-be-zero-sized sections (since discarding them might hide
+> problems with them suddenly gaining unexpected entries).
+>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-> -----Original Message-----
-> From: Sergei Shtylyov [mailto:sergei.shtylyov@gmail.com]
-> Sent: Saturday, October 24, 2020 9:02 PM
-> To: Gabbasov, Andrew <Andrew_Gabbasov@mentor.com>
-> Cc: linux-renesas-soc@vger.kernel.org; netdev@vger.kernel.org; linux-kernel@vger.kernel.org; David S. Miller
-> <davem@davemloft.net>; geert+renesas@glider.be; Julia Lawall <julia.lawall@inria.fr>; Behme, Dirk - Bosch
-> <dirk.behme@de.bosch.com>; Eugeniu Rosca <erosca@de.adit-jv.com>
-> Subject: Re: [PATCH net] ravb: Fix bit fields checking in ravb_hwtstamp_get()
-> 
-> Hello!
-> 
-> On 10/19/20 10:32 AM, Andrew Gabbasov wrote:
-> 
->    Sorry for the delay again, I keep forgetting about the mails I' couldn't reply
-> quickly. :-|
-> 
-> [...]
-> >>    The patch was set to the "Changes Requested" state -- most probably because of this
-> >> mail. Though unintentionally, it served to throttle actions on this patch. I did only
-> >> remember about this patch yesterday... :-)
-> >>
-> >> [...]
-> >>>> In the function ravb_hwtstamp_get() in ravb_main.c with the existing values
-> >>>> for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL (0x6)
-> >>>>
-> >>>> if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
-> >>>> 	config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> >>>> else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
-> >>>> 	config.rx_filter = HWTSTAMP_FILTER_ALL;
-> >>>>
-> >>>> if the test on RAVB_RXTSTAMP_TYPE_ALL should be true, it will never be
-> >>>> reached.
-> >>>>
-> >>>> This issue can be verified with 'hwtstamp_config' testing program
-> >>>> (tools/testing/selftests/net/hwtstamp_config.c). Setting filter type to ALL
-> >>>> and subsequent retrieving it gives incorrect value:
-> >>>>
-> >>>> $ hwtstamp_config eth0 OFF ALL
-> >>>> flags = 0
-> >>>> tx_type = OFF
-> >>>> rx_filter = ALL
-> >>>> $ hwtstamp_config eth0
-> >>>> flags = 0
-> >>>> tx_type = OFF
-> >>>> rx_filter = PTP_V2_L2_EVENT
-> >>>>
-> >>>> Correct this by converting if-else's to switch.
-> >>>
-> >>> Earlier you proposed to fix this issue by changing the value
-> >>> of RAVB_RXTSTAMP_TYPE_ALL constant to 0x4.
-> >>> Unfortunately, simple changing of the constant value will not
-> >>> be enough, since the code in ravb_rx() (actually determining
-> >>> if timestamp is needed)
-> >>>
-> >>> u32 get_ts = priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE;
-> >>> [...]
-> >>> get_ts &= (q == RAVB_NC) ?
-> >>>                 RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
-> >>>                 ~RAVB_RXTSTAMP_TYPE_V2_L2_EVENT;
-> >>>
-> >>> will work incorrectly and will need to be fixed too, making this
-> >>> piece of code more complicated.
-> 
->    Judging on the above code, we can only stamp RAVB_RXTSTAMP_TYPE_V2_L2_EVENT
-> on the NC queue, and the rest only on the BE queue, right?
+This is now commit be2881824ae9eb92 ("arm64/build: Assert for unwanted
+sections") in v5.10-rc1, and is causing the following error with
+renesas_defconfig[1]:
 
-Yes, this is how it is implemented now. Frankly speaking, I didn't dig
-too deeply into the deriver code to understand whether it is correct
-and if there could be any other variants.
+    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
+`kernel/bpf/core.o' being placed in section `.eh_frame'
+    aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+    aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
 
-> >>> So, it's probably easier and safer to keep the constant value and
-> >>> the code in ravb_rx() intact, and just fix the get ioctl code,
-> >>> where the issue is actually located.
-> >>
-> >>    We have one more issue with the current driver: bit 2 of priv->tstamp_rx_ctrl
-> >> can only be set as a part of the ALL mask, not individually. I'm now thinking we
-> >> should set RAVB_RXTSTAMP_TYPE[_ALL] to 2 (and probably just drop the ALL mask)...
-> >
-> > [skipped]
-> >
-> >>    Yeah, that's better. But do we really need am anonymous bit 2 that can't be
-> >> toggled other than via passing the ALL mask?
-> >
-> > The driver supports setting timestamps either for all packets or for some
-> > particular kind of packets (events). Bit 1 in internal mask corresponds
-> > to this selected kind. Bit 2 corresponds to all other packets, and ALL mask
-> > combines both variants. Although bit 2 can't be controlled individually
-> > (since there is no much sense to Request stamping of only packets, other than
-> > events, moreover, there is no user-visible filter constant to represent it),
-> > and that's why is anonymous, it provides a convenient way to handle stamping
-> > logic in ravb_rx(), so I don't see an immediate need to get rid of it.
-> 
->     OK, you convinced me. :-)
->     I suggest that you repost the patch since it's now applying with a large offset.
+I cannot reproduce this with the standard arm64 defconfig.
 
-I've resubmitted the patch as v2. It is re-based on top of the latest linux master.
-Since you sent your "Reviewed-by:" for this patch and there were no changes other
-than file offsets, I took the liberty to add "Reviewed-by:" with your name too.
+I bisected the error to the aforementioned commit, but understand this
+is not the real reason.  If I revert this commit, I still get:
 
+    aarch64-linux-gnu-ld: warning: orphan section `.got.plt' from
+`arch/arm64/kernel/head.o' being placed in section `.got.plt'
+    aarch64-linux-gnu-ld: warning: orphan section `.plt' from
+`arch/arm64/kernel/head.o' being placed in section `.plt'
+    aarch64-linux-gnu-ld: warning: orphan section `.data.rel.ro' from
+`arch/arm64/kernel/head.o' being placed in section `.data.rel.ro'
+    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
+`kernel/bpf/core.o' being placed in section `.eh_frame'
+
+I.e. including the ".eh_frame" warning. I have tried bisecting that
+warning (i.e. with be2881824ae9eb92 reverted), but that leads me to
+commit b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section
+placement"), which is another red herring.
+
+Note that even on plain be2881824ae9eb92, I get:
+
+    aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+    aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+
+The parent commit obviously doesn't show that (but probably still has
+the problem).
+
+Do you have a clue!
 
 Thanks!
 
-Best regards,
-Andrew
+> --- a/arch/arm64/kernel/vmlinux.lds.S
+> +++ b/arch/arm64/kernel/vmlinux.lds.S
+> @@ -121,6 +121,14 @@ SECTIONS
+>                 *(.got)                 /* Global offset table          */
+>         }
+>
+> +       /*
+> +        * Make sure that the .got.plt is either completely empty or it
+> +        * contains only the lazy dispatch entries.
+> +        */
+> +       .got.plt : { *(.got.plt) }
+> +       ASSERT(SIZEOF(.got.plt) == 0 || SIZEOF(.got.plt) == 0x18,
+> +              "Unexpected GOT/PLT entries detected!")
+> +
+>         . = ALIGN(SEGMENT_ALIGN);
+>         _etext = .;                     /* End of text section */
+>
+> @@ -243,6 +251,18 @@ SECTIONS
+>         ELF_DETAILS
+>
+>         HEAD_SYMBOLS
+> +
+> +       /*
+> +        * Sections that should stay zero sized, which is safer to
+> +        * explicitly check instead of blindly discarding.
+> +        */
+> +       .plt : {
+> +               *(.plt) *(.plt.*) *(.iplt) *(.igot)
+> +       }
+> +       ASSERT(SIZEOF(.plt) == 0, "Unexpected run-time procedure linkages detected!")
+> +
+> +       .data.rel.ro : { *(.data.rel.ro) }
+> +       ASSERT(SIZEOF(.data.rel.ro) == 0, "Unexpected RELRO detected!")
+>  }
+>
+>  #include "image-vars.h"
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log/?h=topic/renesas-defconfig
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
