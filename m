@@ -2,97 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B15D298266
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Oct 2020 16:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B05FD298A4A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Oct 2020 11:22:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1415019AbgJYPvq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 25 Oct 2020 11:51:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727880AbgJYPvq (ORCPT
+        id S1768761AbgJZKWG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Oct 2020 06:22:06 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:30935 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1737087AbgJZKWG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 25 Oct 2020 11:51:46 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60584C0613CE;
-        Sun, 25 Oct 2020 08:51:46 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id w25so6890236edx.2;
-        Sun, 25 Oct 2020 08:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ENM8NUlE+VbmDvxGv+dxsLS9+OxbsabhFcC8lexS+kg=;
-        b=fnE9KK2bm1iWLICzjnjJf2DlsTjFVGZOdG7lqDMAzsofkYTSiU7mi5GJQF59rChlg7
-         yHySxnocodqpVkhaPV7GYwEk7IHIOCXog1I6sBy47YJYhJZzy7hIVeK6Lcc6tBwy+IgU
-         KpMQpXGdGLE/SO18YcJez1cMEEBXmNgR/BKH/4C0aMZABtm8mvkqOd7TGYa6DMdTogL2
-         sJMvuWrrHph9U27TT6sgAWes8Yh2XmJ1kD5Uy1CQP9aRE3XZWPwZdbvmj6dnEeFGrlbM
-         yLk+b5An1UUN6dFkpu4RrX3VyVgP0YM+KnMMI1o4ehHbb5NXbeGcF/Yvmuoore1iSCsF
-         a/JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ENM8NUlE+VbmDvxGv+dxsLS9+OxbsabhFcC8lexS+kg=;
-        b=BZjsylWK1brJbVKAG77jszChveqIwbXqXYWqPPU4QbIWHcT8M5CUlCzYPEUCqFQ3Aa
-         nmGDMLDE/as0RJUEaQ0DhK0bztKIGP0DSvC9G+W32JHaNcMMcRjb36W9EDjNmuj0L8Je
-         9ZvTGK2tjmfg2MLly2+PjOJKp8e47PtFvszRma2bWlc/pg6BpzKgZvHCnwjVj7w0A25N
-         dHv/isYsKwYw3hUA43DL1hrstI3Rsyr3dJsRwoAyyANfLV95WMhsrZ2mXNu96eNfCrtT
-         svexUQo/l474BtzAhyXnRAEtHhEHdxXn94l4el6uF2FYnMrUkLcS85Vind/ew1wngkGI
-         5FKg==
-X-Gm-Message-State: AOAM532GjfBnSkYrbAcfd3botyDU2fH2dO51VbrRtMHr1CWCuxl62wtg
-        PoktSwbcPAuPq1Z4rw2CbPvIMiz1Btk=
-X-Google-Smtp-Source: ABdhPJyg4AURQQWoA5ScuhUpZnzNoyasJ3Md0JAcI6Gjkk6KRO7pJedOyZnQV/dozoHLiXNXrnZggg==
-X-Received: by 2002:a50:88e5:: with SMTP id d92mr12093424edd.145.1603641104733;
-        Sun, 25 Oct 2020 08:51:44 -0700 (PDT)
-Received: from [192.168.1.4] (ip-89-176-112-137.net.upcbroadband.cz. [89.176.112.137])
-        by smtp.gmail.com with ESMTPSA id p9sm4089326ejo.75.2020.10.25.08.51.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 25 Oct 2020 08:51:43 -0700 (PDT)
-Subject: Re: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20201016120431.7062-1-marek.vasut@gmail.com>
- <CAMuHMdW3obrfdnt7=oTxrpav2+rXhNhDiJ3fWRP3aF0jZQYNNQ@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <5f056161-8adc-384f-9b60-842d9d7a3e8f@gmail.com>
-Date:   Sun, 25 Oct 2020 16:37:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Mon, 26 Oct 2020 06:22:06 -0400
+IronPort-SDR: YRo55J557N13+I3yWtqXaapNWdovLDr6SmrPQ9TR5zQjHgrmA7m/DQAY4lhPGBsAeLpZ1PR0G3
+ rnn/2aOjAwuMjXz9H2Q3IncdFbTIo7TAN3v4XEXLDIdHR+mxnao8jdPB9lxx09VubUrGv3Ch3Z
+ zleYb9IhmCucHgU39GWS7+gI/3gSMOJC+v9A604wGQnkfRQS2GHXd4KB7lasP1tjtvNHtz6QZA
+ ZB+khe1nx66wh6YKZkkpmMXAIfkOTiyhTBdtEdCbolJlpN6Q3571J1ddriFw//VEzN6Z8P8wzG
+ alU=
+X-IronPort-AV: E=Sophos;i="5.77,419,1596528000"; 
+   d="scan'208";a="56606908"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa1.mentor.iphmx.com with ESMTP; 26 Oct 2020 02:22:05 -0800
+IronPort-SDR: oiPiE7abMAhr4lniMrTvHffBVbglbEkbjdrbyq1oreQ3h6LVBjNQUO/1+zMSCpuJuv/tWt8166
+ wj6/HlJaKMHYJO1ZarWZ8/AbKS5y0hqhSqzjoAYchV7kPj6nByKWNOG4SSgw/qslOUdIZkqI8Q
+ oNtcDJf0pUIQYc5Cottm/efsCJ+FxRCegOJtK8uOnZ5XRalEe9JZxBOxjrw9F8gcV4owBFv8ci
+ 8twIHaduWQpucbjcZynWKSExD3J6DieFNiDFs8ZJt3vI/F4E+J0M77krf1KTtV3v2WjexqYGuY
+ cHU=
+From:   Andrew Gabbasov <andrew_gabbasov@mentor.com>
+To:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>, <geert+renesas@glider.be>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        Dirk Behme <dirk.behme@de.bosch.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>
+Subject: [PATCH net v2] ravb: Fix bit fields checking in ravb_hwtstamp_get()
+Date:   Mon, 26 Oct 2020 05:21:30 -0500
+Message-ID: <20201026102130.29368-1-andrew_gabbasov@mentor.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdW3obrfdnt7=oTxrpav2+rXhNhDiJ3fWRP3aF0jZQYNNQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/20/20 9:47 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
+In the function ravb_hwtstamp_get() in ravb_main.c with the existing
+values for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL
+(0x6)
 
-Hi,
+if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
+	config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
+	config.rx_filter = HWTSTAMP_FILTER_ALL;
 
-[...]
+if the test on RAVB_RXTSTAMP_TYPE_ALL should be true,
+it will never be reached.
 
->> --- a/drivers/pci/controller/pcie-rcar-host.c
->> +++ b/drivers/pci/controller/pcie-rcar-host.c
->> @@ -753,7 +753,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
->>         }
->>
->>         /* setup MSI data target */
->> -       msi->pages = __get_free_pages(GFP_KERNEL, 0);
->> +       msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
-> 
-> BTW, can this fail, especially now this is allocated from a more
-> limited pool?
+This issue can be verified with 'hwtstamp_config' testing program
+(tools/testing/selftests/net/hwtstamp_config.c). Setting filter type
+to ALL and subsequent retrieving it gives incorrect value:
 
-I am pretty sure this can fail on systems that don't have DRAM below 4
-GiB , but that is never the case on any hardware with this controller.
+$ hwtstamp_config eth0 OFF ALL
+flags = 0
+tx_type = OFF
+rx_filter = ALL
+$ hwtstamp_config eth0
+flags = 0
+tx_type = OFF
+rx_filter = PTP_V2_L2_EVENT
 
-[...]
+Correct this by converting if-else's to switch.
+
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 9c4df4ede011..bd30505fbc57 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1744,12 +1744,16 @@ static int ravb_hwtstamp_get(struct net_device *ndev, struct ifreq *req)
+ 	config.flags = 0;
+ 	config.tx_type = priv->tstamp_tx_ctrl ? HWTSTAMP_TX_ON :
+ 						HWTSTAMP_TX_OFF;
+-	if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
++	switch (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE) {
++	case RAVB_RXTSTAMP_TYPE_V2_L2_EVENT:
+ 		config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
+-	else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
++		break;
++	case RAVB_RXTSTAMP_TYPE_ALL:
+ 		config.rx_filter = HWTSTAMP_FILTER_ALL;
+-	else
++		break;
++	default:
+ 		config.rx_filter = HWTSTAMP_FILTER_NONE;
++	}
+ 
+ 	return copy_to_user(req->ifr_data, &config, sizeof(config)) ?
+ 		-EFAULT : 0;
+-- 
+2.21.0
+
