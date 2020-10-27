@@ -2,178 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11F3129A7B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 10:23:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2558529A821
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 10:46:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2509808AbgJ0JXc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Oct 2020 05:23:32 -0400
-Received: from mga03.intel.com ([134.134.136.65]:50754 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2509213AbgJ0JXb (ORCPT
+        id S2895907AbgJ0JqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Oct 2020 05:46:02 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39344 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408989AbgJ0JqB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:23:31 -0400
-IronPort-SDR: AF4/PZdUCPA6hj/h5UgJJYkrws2S9Z28qFaJGDtzrNRbSr27WMaoA8dIZ3ihTjODMpNl20/HQT
- OMcKz7Pqhsag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="168150046"
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; 
-   d="scan'208";a="168150046"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 02:23:31 -0700
-IronPort-SDR: jE9CLSgj3Kf9sr9wf2eR/Z+SHYYc9vBsa4p5OzC9mmUx0aOlK1HbWORJY2w969snWMXPfMetPI
- Ka6OqB6rveIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,423,1596524400"; 
-   d="scan'208";a="350218126"
-Received: from lkp-server01.sh.intel.com (HELO ef28dff175aa) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 27 Oct 2020 02:23:30 -0700
-Received: from kbuild by ef28dff175aa with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kXLCT-0000BI-KD; Tue, 27 Oct 2020 09:23:29 +0000
-Date:   Tue, 27 Oct 2020 17:22:54 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 97fc35aeb7972f323f99555b338011609999b24e
-Message-ID: <5f97e6ee.4sI8BZHuvVWMTVj/%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 27 Oct 2020 05:46:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id y12so1105589wrp.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Oct 2020 02:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=VYa/0M9CM+BFisp0qH8kfuZ9SqVMtB0gZkYPNI1LHUU=;
+        b=LhwMfe8w6zLfJePcO71XK8ee5zI6g7hCE/+/Iv80FqeoYy8S9+GElomDGzzytfo39Q
+         2bJ1yAOuAmnVikJKD/7z19CmjhO4va2e6Rlp4ZTxhjWpV0uvTy3AO3G9LYuDTMF26lmg
+         UKJPPgs1OEadT8weo63Ekv/JXNjO8jym8S7zYRkmRr24jFhOQhQTlWa5KzhLt+e5KN2a
+         PK645FT3m5ueILODfTBsE3KC3zhymiuHpIksxb7uVQfo/eiC+nn+ZM2TkCZXX5x2Q+BD
+         Ciged51VnfWoZRt+kfav00GdfBjjZYrUT13fBnMonVnqBF+VUuzocc9x2NxJyrBbLPrG
+         Umgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VYa/0M9CM+BFisp0qH8kfuZ9SqVMtB0gZkYPNI1LHUU=;
+        b=ODsIo1xu4kskq/lh+O3hKcizRK493AY6AWqFruqQiowhmV3iEiMSRPACTcRPfVh7vo
+         oZo2v81vU+b6MUah+hVBIw2oKBuYXvHbkPPNm2WjgW2tmAOYlv8gyfIq0jPzQyT65S7Z
+         SO4EdQgAlCk7nLGhNvGV8q9jRpllDXjClA+tHDnWwHMM6G2Lm23q6s5ryhuiwEDEUeSv
+         gDnkd/wH87YUz8cZ2kR03s2LAq9w9B6A0mVst22EfEDb02a0uXC/66WzDgQmpUlV3UMg
+         CK96JXbp2Qp9sD0UOema6bDcxe7Zm67g4M8osL+KzJL03f5EK2YozrKMYwV1kqK/8xJ1
+         2zXw==
+X-Gm-Message-State: AOAM533vINL31/O8uKn5Pn3JFMWjqrOpVSzv99Q4f1+COBuIqhEOwyEc
+        OFaZhj40LYFsFO82Hm7XidJ0cLOtPEITVQ==
+X-Google-Smtp-Source: ABdhPJwi1n98cnvdQ4wWt7HHvJ6RTxLPMC9CSUIOBLuZQdN6syw6ubyoZ6lhMUyNR1z5RFzQ5I/kyw==
+X-Received: by 2002:adf:edcf:: with SMTP id v15mr1671184wro.291.1603791958130;
+        Tue, 27 Oct 2020 02:45:58 -0700 (PDT)
+Received: from ?IPv6:2a01:e34:ed2f:f020:6cbc:1a3:aabd:d451? ([2a01:e34:ed2f:f020:6cbc:1a3:aabd:d451])
+        by smtp.googlemail.com with ESMTPSA id o3sm1321735wru.15.2020.10.27.02.45.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2020 02:45:57 -0700 (PDT)
+Subject: Re: [PATCH] thermal: rcar: replace spin_lock_irqsave by spin_lock in
+ hard IRQ
+To:     Tian Tao <tiantao6@hisilicon.com>, niklas.soderlund@ragnatech.se,
+        rui.zhang@intel.com, amitk@kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1603760790-37748-1-git-send-email-tiantao6@hisilicon.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <72412b5a-fd9a-a23e-aaf8-1a7b6eaa16c5@linaro.org>
+Date:   Tue, 27 Oct 2020 10:45:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1603760790-37748-1-git-send-email-tiantao6@hisilicon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: 97fc35aeb7972f323f99555b338011609999b24e  Merge branches 'renesas-arm-dt-for-v5.11' and 'renesas-drivers-for-v5.11' into renesas-next
+On 27/10/2020 02:06, Tian Tao wrote:
+> On RT or even on mainline with 'threadirqs' on the command line all
+> interrupts which are not explicitly requested with IRQF_NO_THREAD
+> run their handlers in thread context. The same applies to soft interrupts.
+> That means they are subject to the normal scheduler rules and no other
+> code is going to acquire that lock from hard interrupt context either,
+> so the irqsave() here is pointless in all cases.
+> 
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 
-elapsed time: 725m
+Applied, thanks
 
-configs tested: 113
-configs skipped: 2
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+-- 
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                             sh03_defconfig
-powerpc                     sequoia_defconfig
-ia64                             alldefconfig
-arm                           sunxi_defconfig
-powerpc                        icon_defconfig
-sh                     magicpanelr2_defconfig
-mips                         tb0219_defconfig
-sh                          landisk_defconfig
-arm                             mxs_defconfig
-powerpc                       holly_defconfig
-ia64                             allyesconfig
-arm                          pxa910_defconfig
-xtensa                         virt_defconfig
-powerpc                 linkstation_defconfig
-mips                      bmips_stb_defconfig
-parisc                generic-32bit_defconfig
-arm                      integrator_defconfig
-arm                          simpad_defconfig
-arm                          moxart_defconfig
-sh                        edosk7760_defconfig
-arm                             rpc_defconfig
-sh                              ul2_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                      footbridge_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc                 mpc836x_rdk_defconfig
-sh                          rsk7269_defconfig
-arm                       multi_v4t_defconfig
-arm                        trizeps4_defconfig
-powerpc                     redwood_defconfig
-arc                      axs103_smp_defconfig
-ia64                                defconfig
-m68k                        mvme16x_defconfig
-powerpc                      acadia_defconfig
-powerpc                     tqm8560_defconfig
-powerpc                         ps3_defconfig
-powerpc                 mpc832x_rdb_defconfig
-c6x                        evmc6678_defconfig
-powerpc                       ppc64_defconfig
-arm                       versatile_defconfig
-arc                     nsimosci_hs_defconfig
-ia64                             allmodconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20201026
-i386                 randconfig-a003-20201026
-i386                 randconfig-a005-20201026
-i386                 randconfig-a001-20201026
-i386                 randconfig-a006-20201026
-i386                 randconfig-a004-20201026
-x86_64               randconfig-a011-20201026
-x86_64               randconfig-a013-20201026
-x86_64               randconfig-a016-20201026
-x86_64               randconfig-a015-20201026
-x86_64               randconfig-a012-20201026
-x86_64               randconfig-a014-20201026
-i386                 randconfig-a016-20201026
-i386                 randconfig-a015-20201026
-i386                 randconfig-a014-20201026
-i386                 randconfig-a012-20201026
-i386                 randconfig-a013-20201026
-i386                 randconfig-a011-20201026
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a001-20201026
-x86_64               randconfig-a003-20201026
-x86_64               randconfig-a002-20201026
-x86_64               randconfig-a006-20201026
-x86_64               randconfig-a004-20201026
-x86_64               randconfig-a005-20201026
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
