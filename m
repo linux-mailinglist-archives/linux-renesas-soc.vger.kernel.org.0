@@ -2,75 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BCC2299E9D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 01:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F4F29A203
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 02:06:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411553AbgJ0AKf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Oct 2020 20:10:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2411550AbgJ0AKd (ORCPT
+        id S2441433AbgJ0BGB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Oct 2020 21:06:01 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:5423 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439444AbgJ0BGB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:10:33 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9CF7E20791;
-        Tue, 27 Oct 2020 00:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757433;
-        bh=96qkF3OVvKbNjSRVzcNNdUCeRvK4nfDw20DQkavEE5o=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P4c4+KbgnxmVHyBx19MVElPEp+JccEtjpEqQSp8l5XwWdrCCf3FbJV3efhSSsy5Wu
-         5+yx/HTIXyZ3xm9ADvXu39uCz4Qhati2bjeU6KMb7tE21Py6Z8agSFh67GWP66eFHQ
-         cQQhcQ+LSekrFm/7oVO/cLp3bOxY0cy+SkGXWPLc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 39/46] arm64: dts: renesas: ulcb: add full-pwr-cycle-in-suspend into eMMC nodes
-Date:   Mon, 26 Oct 2020 20:09:38 -0400
-Message-Id: <20201027000946.1026923-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
-References: <20201027000946.1026923-1-sashal@kernel.org>
+        Mon, 26 Oct 2020 21:06:01 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CKtn76hkWz6yYb;
+        Tue, 27 Oct 2020 09:06:03 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 27 Oct 2020 09:05:50 +0800
+From:   Tian Tao <tiantao6@hisilicon.com>
+To:     <niklas.soderlund@ragnatech.se>, <rui.zhang@intel.com>,
+        <daniel.lezcano@linaro.org>, <amitk@kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH] thermal: rcar: replace spin_lock_irqsave by spin_lock in hard IRQ
+Date:   Tue, 27 Oct 2020 09:06:30 +0800
+Message-ID: <1603760790-37748-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+On RT or even on mainline with 'threadirqs' on the command line all
+interrupts which are not explicitly requested with IRQF_NO_THREAD
+run their handlers in thread context. The same applies to soft interrupts.
+That means they are subject to the normal scheduler rules and no other
+code is going to acquire that lock from hard interrupt context either,
+so the irqsave() here is pointless in all cases.
 
-[ Upstream commit 992d7a8b88c83c05664b649fc54501ce58e19132 ]
-
-Add full-pwr-cycle-in-suspend property to do a graceful shutdown of
-the eMMC device in system suspend.
-
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Link: https://lore.kernel.org/r/1594989201-24228-1-git-send-email-yoshihiro.shimoda.uh@renesas.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- arch/arm64/boot/dts/renesas/ulcb.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/thermal/rcar_thermal.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-index e95d99265af9d..38f846530fcde 100644
---- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
-@@ -397,6 +397,7 @@ &sdhi2 {
- 	bus-width = <8>;
- 	mmc-hs200-1_8v;
- 	non-removable;
-+	full-pwr-cycle-in-suspend;
- 	status = "okay";
- };
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index 5c2a13b..6ae757d 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -409,16 +409,15 @@ static irqreturn_t rcar_thermal_irq(int irq, void *data)
+ {
+ 	struct rcar_thermal_common *common = data;
+ 	struct rcar_thermal_priv *priv;
+-	unsigned long flags;
+ 	u32 status, mask;
+ 
+-	spin_lock_irqsave(&common->lock, flags);
++	spin_lock(&common->lock);
+ 
+ 	mask	= rcar_thermal_common_read(common, INTMSK);
+ 	status	= rcar_thermal_common_read(common, STR);
+ 	rcar_thermal_common_write(common, STR, 0x000F0F0F & mask);
+ 
+-	spin_unlock_irqrestore(&common->lock, flags);
++	spin_unlock(&common->lock);
+ 
+ 	status = status & ~mask;
  
 -- 
-2.25.1
+2.7.4
 
