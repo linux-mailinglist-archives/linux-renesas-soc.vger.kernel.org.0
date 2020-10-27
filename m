@@ -2,184 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5F0029AB39
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 12:53:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C771629AB6A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 13:04:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2899611AbgJ0Lx3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Oct 2020 07:53:29 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34590 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2899578AbgJ0Lx3 (ORCPT
+        id S1750630AbgJ0MEt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Oct 2020 08:04:49 -0400
+Received: from mail-eopbgr1300118.outbound.protection.outlook.com ([40.107.130.118]:45184
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1750627AbgJ0MEs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Oct 2020 07:53:29 -0400
-Received: by mail-io1-f68.google.com with SMTP id z5so1199564iob.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Oct 2020 04:53:28 -0700 (PDT)
+        Tue, 27 Oct 2020 08:04:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=URbMw4UrROPISB99OPW8lyWj7H9m0yl7joj1DXTe1Tt40K5UfvsbZhGUWROfqieS8Ncu+5odO2DI7acoMRcl7otgFgez7dqBoLfj06HUwVslnftb7LzXmUZ3ar/6w4zSIh4yP1lEbR5Fv5i1PmYj8Oya/WHg4wScjAuXQzcBfuq9WbY7ouDt5YFi/KPhLIRFaQl67Gif3fXiA3vv7ahwimmPsX7Yk57Qg9Rfcycn0Z++Yt6rNhOv4frvVIHInXJAbcW88pxRdsqWgaOxYogTI+69zcc60eS+PzaHxwJzYW0rlkFn9wcCS0Tm7Ein8VJFkY4VaJmA6xvpFmRuohQVag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m0MZUwFbcMIjBsW/NfzeAnCref3xb0nE+JAhrM1Iy8U=;
+ b=XrJFcw1VFBtkkX/ycLiKBehXGs7BvnwGBztyNHg1zwvjNPCv4N3qll3c+3UPodNLYbcdlWsJ/vM/CxLpwW5ot5NIC2v3/+20qla6jbqPTNqBG17YHifNpfHaJmAYjIGJ+qkbY8TVyhe4X5FP1gixq1q6SCN7fsKSgnE/OCsj6D9VScPDZpnKglZ/sEly5XpwzrUJZEuMLvLsR1WE///UZKSlod8y1HTl3AmDNs8TXVz45oKD+oFW7FpqEFIS9DMHmS+NadEBHdEoQikp+4KRRdQlBdLKF2X+oag5Sk5/drbluzWHsTq2WDnH/3c4AQuAgGLk3efd0GZQeG30PtiIvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=s+UBJg6LO9Rf1v1keW2mwB44PjQMVZlghePfQtTq54M=;
-        b=iqYh9kcc313LqLNQ1u4THo/DppeQEGGrWD4aOGxMar3Y2DW1ZASEPI1TZCajzyWbQ6
-         b3CrL66dJSqwP/YWR2lmAnp1wMHm9kQQL4ut04qtHRuAlsyqNt1/VrX5prOagxLSjBDV
-         NL9l0nm97nL0V22EvKatUVRHCfiiwfrfSTBdxnKXmbkqn1ESdtWKtbWnBVFHj5UISPUJ
-         IyEiVjg6EOSfRB4EHcgmXN30WxDSUzM4nv1wcaHIrWdBup/7owLVh51sLUksKQeKrLF0
-         xUbBrOOpUlxxVHFZNsO7YdJ2ECy2kwRJ1hJqDjDdTSRiagBlFn0ecRg03JUEYoAkA27h
-         3Mrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=s+UBJg6LO9Rf1v1keW2mwB44PjQMVZlghePfQtTq54M=;
-        b=lIQVVN5ey+rnT6CMRGZm0kMreF+nAEMWn3HyzIXmmfteMAgKN06YQIu4skcYAgFJjk
-         85oIcXsAIS8GIAezVYhaKX/Iok2+CAfQGwjzk7SFPxGLXAgaGAT/UX71a3rN/4ncq5A6
-         kDybBG8EQ6X4b4Wo0fCoNLVNJVCmzD1prIkpnz6mBrkVYlXLip9vr2FCH+HIrak0KPib
-         uJVh0+oI2xriUo/rMQAQnu55NlK01nDHkWlFOgHV6CPOepdW55JA+hGoj0Ktrqr/dCwy
-         eNFdM6NxrVFfJLDPrIioFH71jYdc1KCT+Xd2xkKAFRDNnreByzFmf5sDY9nm7QVYGUlV
-         UDVw==
-X-Gm-Message-State: AOAM533BnfFaZ3hznQ4Ni3zgXHYX9p/l/NZaQNCNV9k5183Pt8JDyd36
-        HQHocrpQJ9UAke68Ee0wnujLF2nJ1cQTZq0WrFz1cg==
-X-Google-Smtp-Source: ABdhPJyvSct9JJTg273eAAF5FKtW1ItmWMUxF+cbtvl+7ovbBPYn79lxWvcnBziQwfg/eNxTx6jWn9QkHK0mkwDGp34=
-X-Received: by 2002:a02:234a:: with SMTP id u71mr1925579jau.3.1603799607846;
- Tue, 27 Oct 2020 04:53:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200821194310.3089815-1-keescook@chromium.org>
- <20200821194310.3089815-14-keescook@chromium.org> <CAMuHMdUg0WJHEcq6to0-eODpXPOywLot6UD2=GFHpzoj_hCoBQ@mail.gmail.com>
- <CAMuHMdUw9KwC=EVB60yjg7mA7Fg-efOiKE7577p+uEdGJVS2OQ@mail.gmail.com>
- <CAMuHMdUJFEt3LxWHk73AsLDGhjzBvJGAML76UAxeGzb4zOf96w@mail.gmail.com>
- <CAMj1kXHXk3BX6mz6X_03sj_pSLj9Ck-=1S57tV3__N9JQOcDEw@mail.gmail.com>
- <20201027100844.GA1514990@myrica> <CAMuHMdVkLXmJEiV-uwOqKnfGQZX65tMFMTjs0O8q5BJsAhCGzg@mail.gmail.com>
- <CAMj1kXEdgOkH6VFa5_J6yqaJheToHUSM8jYXyGfA9JS5xwyLGQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXEdgOkH6VFa5_J6yqaJheToHUSM8jYXyGfA9JS5xwyLGQ@mail.gmail.com>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Tue, 27 Oct 2020 17:23:16 +0530
-Message-ID: <CA+G9fYsvr-Yjh4mxuVD8ZD+XpUSkh0475zpgHcf4LhV=b+P5Pg@mail.gmail.com>
-Subject: Re: [PATCH v6 13/29] arm64/build: Assert for unwanted sections
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kees Cook <keescook@chromium.org>,
-        Anders Roxell <anders.roxell@linaro.org>
-Cc:     Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Ingo Molnar <mingo@redhat.com>,
-        James Morse <james.morse@arm.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Borislav Petkov <bp@suse.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m0MZUwFbcMIjBsW/NfzeAnCref3xb0nE+JAhrM1Iy8U=;
+ b=XlLNywsFm1xDKyn8P2eyh04JOuRJKBSntK5L+UXzsJAFOfnUhN4aiRsZ5sMl2XkV1UK1lzKCyGki50AGmDEfm4BUOFvjGsF8tKdY9/Mt3gVVRbGwIJaPlKdeSSHyKSepKfXsUlY2egdfeiKMtZUtlciEHwrP2HmKuHwGnmtbySw=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB3689.jpnprd01.prod.outlook.com (2603:1096:404:d2::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Tue, 27 Oct
+ 2020 12:04:44 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::bcba:dccf:7d4c:c883]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::bcba:dccf:7d4c:c883%4]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 12:04:44 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     "marek.vasut@gmail.com" <marek.vasut@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+CC:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
+Thread-Topic: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
+Thread-Index: AQHWo7SHW9P+URzHU0+bBX0ASEFVNKmrattA
+Date:   Tue, 27 Oct 2020 12:04:44 +0000
+Message-ID: <TY2PR01MB36926F4E927C231E77D050DED8160@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <20201016120431.7062-1-marek.vasut@gmail.com>
+In-Reply-To: <20201016120431.7062-1-marek.vasut@gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9b835ea5-d442-4b6b-1f0f-08d87a707e39
+x-ms-traffictypediagnostic: TY2PR01MB3689:
+x-microsoft-antispam-prvs: <TY2PR01MB3689BF8844C9F11AA9B85083D8160@TY2PR01MB3689.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: nlyHG6r1Vo3lFGqvYX9kUWtT235NMQFYcOLQhMgl0136kACLXXK3kZytCKo6V7QE3iTwQF401ugIVydGyyhVLagBif5EFnT+jxZGlIZ9nohE1VwbNAVxiyUJRwxs7HoH2jXHWM5QdwBYlQGWBkwti/INjX4Jrd7cTIYu2ftU7V9DqBE7J2MFILDhcsbrYFMEvhGNM5RcdYDnhrADdfDUkSpH8j40aVxl45lHITKVp6VComHAbqFENYHK17yNUmSxc0lESWy0oo3r7tzjc6QKc1/x02ut5BQowyQVUVkrk4IGianvelaNDX5EZFgcJ/lzhZ1DCW1jOiQ5w04js0G0ZQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6506007)(33656002)(66476007)(8936002)(52536014)(2906002)(55016002)(8676002)(76116006)(9686003)(498600001)(66446008)(66556008)(110136005)(4326008)(55236004)(66946007)(7696005)(54906003)(86362001)(26005)(4744005)(186003)(5660300002)(64756008)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: fSYkNB8kH9CZ98N/SvXGWK9Qo5KGDRi6t5zDEX+SVFa4YNZqVd+dzqMOY6UGVsl8L6Ri0SKJEZjgofiiEJq2jxsS7GQwFZI1VcefJWB+d8Jg0aIaAQvAPhU/nq5vcf8fEfM9lWFNAmUr4jxKXEBFeFLt+Ee4cD7839RRTymdgwBpXumQUD01d0FYROJL75LqYfEeJFqFnokShtzUA5INqZxXkAddSfx6yxnfd38JeSoG0wzV0uokdHsXVi367UAKhNtNEpu82S3cbVNcomvac+tf+bQ0VLSRB2JWh1fhIrLEUPsxM3+1jcF95NZzT9Wxvbnp1jCVYxBc5Wg6iFnrQEov+omm9Hna3IxkYqurt09TsCj220bAEbTzBRVc4Sb30mkhqkPUjs1QkMahcfYMkCY4uS3LwHHN0NxnOeIVFOQ+vCc6ox+sHxv2dMA87wKRMHkVoIsPDOFTDWW5GUAi2/DX0dj5JXFYooI262Iz9pqpf7KOASctIJPyaHRlA50IIVbn26CvUQA3bvOa+fKtCxIycO/hPVGuJhYajZMZ+b8cBakuz4y7yR6KUun7Xczl9mWOnDzqEUWf/IPrppZHgfTX72TB0hDFJhCGqC0bZ7MHU4vf7OLqod1CMCBjvlnSGMFzAkv7jc2E6tzzBTEwhQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b835ea5-d442-4b6b-1f0f-08d87a707e39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 12:04:44.4154
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4MA5rfTm8Aih1wNE2cPyNWVF7oWuiHMVEoaCEa+jukonJGzlDJgfkHBRvwN4kcfn2OeqpoJxp0dzpztca1MhjWhX0NGH2kPpO3UmHHcyF2yvQQH6oypzFXy6Y9LMduwK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3689
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 27 Oct 2020 at 17:00, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Tue, 27 Oct 2020 at 11:20, Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
-> >
-> > Hi Jean-Philippe,
-> >
-> > On Tue, Oct 27, 2020 at 11:09 AM Jean-Philippe Brucker
-> > <jean-philippe@linaro.org> wrote:
-> > > On Mon, Oct 26, 2020 at 06:38:46PM +0100, Ard Biesheuvel wrote:
-> > > > > > > Note that even on plain be2881824ae9eb92, I get:
-> > > > > > >
-> > > > > > >     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected=
-!
-> > > > > > >     aarch64-linux-gnu-ld: Unexpected run-time procedure linka=
-ges detected!
-> > > > > > >
-> > > > > > > The parent commit obviously doesn't show that (but probably s=
-till has
-> > > > > > > the problem).
-> > > > >
-> > > > > Reverting both
-> > > > > b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section placement"=
-)
-> > > > > be2881824ae9eb92 ("arm64/build: Assert for unwanted sections")
-> > > > > seems to solve my problems, without any ill effects?
-> > > > >
-> > > >
-> > > > I cannot reproduce the issue here with my distro GCC+binutils (Debi=
-an 8.3.0)
-> > >
-> > > I have the same problem with one of my debug configs and Linux v5.10-=
-rc1,
-> > > and can reproduce with the Debian 8.3.0 toolchain, by using the arm64
-> > > defconfig and disabling CONFIG_MODULES:
-> > >
-> > > ld -EL -maarch64elf --no-undefined -X -z norelro -shared -Bsymbolic -=
-z notext --no-apply-dynamic-relocs --fix-cortex-a53-843419 --orphan-handlin=
-g=3Dwarn --build-id=3Dsha1 --strip-debug -o .tmp_vmlinux.kallsyms1 -T ./arc=
-h/arm64/kernel/vmlinux.lds --whole-archive arch/arm64/kernel/head.o init/bu=
-ilt-in.a usr/built-in.a arch/arm64/built-in.a kernel/built-in.a certs/built=
--in.a mm/built-in.a fs/built-in.a ipc/built-in.a security/built-in.a crypto=
-/built-in.a block/built-in.a arch/arm64/lib/built-in.a lib/built-in.a drive=
-rs/built-in.a sound/built-in.a net/built-in.a virt/built-in.a --no-whole-ar=
-chive --start-group arch/arm64/lib/lib.a lib/lib.a ./drivers/firmware/efi/l=
-ibstub/lib.a --end-group
-> > > ld: Unexpected GOT/PLT entries detected!
-> > > ld: Unexpected run-time procedure linkages detected!
+Hello Marek-san,
 
- ld: Unexpected GOT/PLT entries detected!
- ld: Unexpected run-time procedure linkages detected!
+> From: marek.vasut@gmail.com, Sent: Friday, October 16, 2020 9:05 PM
+>=20
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>=20
+> This fixes MSI operation on legacy PCI cards, which cannot issue 64bit MS=
+Is.
+> The R-Car controller only has one MSI trigger address instead of two, one
+> for 64bit and one for 32bit MSI, set the address to 32bit PCIe space so t=
+hat
+> legacy PCI cards can also trigger MSIs.
+>=20
+> Fixes: 290c1fb35860 ("PCI: rcar: Add MSI support for PCIe")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Cc: linux-renesas-soc@vger.kernel.org
 
-The arm64 build error fixed by (I have tested defconfig)
+Thank you for the patch!
 
-[PATCH] soc: qcom: QCOM_RPMH fix build with modular QCOM_RPMH
-https://lore.kernel.org/linux-arm-msm/20201027111422.4008114-1-anders.roxel=
-l@linaro.org/
----
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-When building allmodconfig leading to the following link error with
-CONFIG_QCOM_RPMH=3Dy and CONFIG_QCOM_COMMAND_DB=3Dm:
+And I tested on R-Car H3. So,
 
-aarch64-linux-gnu-ld: drivers/clk/qcom/clk-rpmh.o: in function `clk_rpmh_pr=
-obe':
-  drivers/clk/qcom/clk-rpmh.c:474: undefined reference to `cmd_db_read_addr=
-'
-  drivers/clk/qcom/clk-rpmh.c:474:(.text+0x254): relocation truncated
-to fit: R_AARCH64_CALL26 against undefined symbol `cmd_db_read_addr'
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Fix this by adding a Kconfig depenency and forcing QCOM_RPMH to be a
-module when QCOM_COMMAND_DB is a module. Also removing the dependency on
-'ARCH_QCOM || COMPILE_TEST' since that is already a dependency for
-QCOM_COMMAND_DB.
+Best regards,
+Yoshihiro Shimoda
 
-Fixes: 778279f4f5e4 ("soc: qcom: cmd-db: allow loading as a module")
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- drivers/soc/qcom/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
-index 9b4ae9c16ba7..3bdd1604f78f 100644
---- a/drivers/soc/qcom/Kconfig
-+++ b/drivers/soc/qcom/Kconfig
-@@ -109,7 +109,7 @@ config QCOM_RMTFS_MEM
-
- config QCOM_RPMH
-  tristate "Qualcomm RPM-Hardened (RPMH) Communication"
-- depends on ARCH_QCOM || COMPILE_TEST
-+ depends on QCOM_COMMAND_DB
-  help
-   Support for communication with the hardened-RPM blocks in
-   Qualcomm Technologies Inc (QTI) SoCs. RPMH communication uses an
---=20
-2.28.0
-
-
-- Naresh
