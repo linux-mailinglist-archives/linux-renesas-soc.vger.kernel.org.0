@@ -2,169 +2,228 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE13B29A6F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 09:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D520929A70A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Oct 2020 09:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2509491AbgJ0Ivf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Oct 2020 04:51:35 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:39000 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2509488AbgJ0Ivf (ORCPT
+        id S2895151AbgJ0Iyc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Oct 2020 04:54:32 -0400
+Received: from mail-eopbgr1300133.outbound.protection.outlook.com ([40.107.130.133]:6704
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2895135AbgJ0Iyc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Oct 2020 04:51:35 -0400
-Received: by mail-oi1-f195.google.com with SMTP id u127so521821oib.6;
-        Tue, 27 Oct 2020 01:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QuQazVJddiiMcHpJSWJ6P15wkN0uJ4Rr3unxje95N5k=;
-        b=TnBULGUOLWENKlxwQUv664xtnuu/tIWVynH1dGeC3cYzW5ge8r/xYJD9YH1D66GrKB
-         Tntlol2KG+3jUOa23+MVVRiZjTYoXr04E9zJQhfS7nAMzliCbcGqBjwIONmDgSyM4Nma
-         vZ4u2yO9Ve2LmIZKj/oGhW0wafC8a7cYY0aurMVojF29Ou3XwykxJ9hcai0QNnIc4ONr
-         RpuGj0k0lvuVcn+ZLJOqmN6hMaHrZMNpGJZXAaRmuH2W6B9e3qn73a/+ilq/NeDt2JcE
-         hBXsqYV76q8bLvTlbswDzt5UN1CNLP0DCca7jGyDPqjSQBYD5f7jkCrDJGF9xGxl1lpL
-         uSQQ==
-X-Gm-Message-State: AOAM533yQx2IFXa6r/hvOjx9hX3ELOEiLcUmy+gENX4rolcqJU4PxXOi
-        VbhtnFynjLRFmndsLBLcyL72I7PAKyIsWjY6BrE=
-X-Google-Smtp-Source: ABdhPJySfGkbbKGp0kdsGkoJSUHyBdUu4Vk5rkDPOdc2rZmaJaJzvBeFtHoAEvLtFV2WfesebZxh5ZOmpbeFGptGWx0=
-X-Received: by 2002:aca:f40c:: with SMTP id s12mr663393oih.153.1603788692533;
- Tue, 27 Oct 2020 01:51:32 -0700 (PDT)
+        Tue, 27 Oct 2020 04:54:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jZ/dsM31SOvzhVpNf0Zjhwv2TwPg5NSDVidWn4wuZoczGseR1rcvhVpHmMl+Lb9YRNQmg3sq6ZlWl6xO606/g0AGJgADheyW7/xZS84/NCSdLOOGOarV6uzGFk9YHCgrijcHYykjziIUESBuc+J+qUPcb0R3efngcESDP4ZH1kWje5OMih5sBuH8PdTj9yu2vjyjHsitGoXysoQWS80dPi/KCYRlOFMSIl6gxqpGqVsk/dlNpxnj9RuvgxFGmtGI/Q2Fi9Cv7Bt3UcoTW9DSMydGczPs2SeWrBUpJWcFEXy2eCa6IOuPeMAjnaV0ZCgi+tojiwu+SueAvmSpDk0rlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nyxInbiysuLRNu/zRaKttkCKXYZtR4L6JIU6kamgFGo=;
+ b=Z36mRdfXPEZWq1GgGSUTiMq+2rtusXUCAkUilrcHQlzVaEdw+aGBIPGhF7yVaj7HmUqYCMTdFNq4WbK8VmW0CJ2gIgs5EMyMuLD4BqPBt44fvmKlrlyjReDPry0s6JvShJbkUpQ2Z7tQKmGr0xAXGTrEzStFZnI6yDQAzpzCcW0x/R+GtKGIwZiQ93z7MCBnMm7fV+ONx/xyUeRSYhTp3E2974Xz/c2k/UAbx0F+LDYSCQrzs9J7wVUuAwBwBwL7M+HOS+TWe1lS2j3aAPwWwqxwYkzEVYo6j7YzjzXPmlHeaAt9XaCg6Tzazy5ciTz8xsMEybfCOQGOU5UDyPDZMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nyxInbiysuLRNu/zRaKttkCKXYZtR4L6JIU6kamgFGo=;
+ b=Lwef7wAkkq3udu/2fBUKo6mgs9ENyFpaAkvVFShJDyoCeFuM9XKYVfcs6qkbc25ZIYa5EpKxJQyG9Cq1PQopGKE95jcUqXuLGSSSIvI29o4A9Z1IlskqJHZLSUbh4w5HPB+Y2LhEIxeGf0XNbli8M96IVaHwLoiuN/LiHKteKjw=
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ (2603:1096:404:8025::15) by TY2PR01MB4331.jpnprd01.prod.outlook.com
+ (2603:1096:404:10c::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Tue, 27 Oct
+ 2020 08:54:20 +0000
+Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::757f:58cf:296e:9f84]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
+ ([fe80::757f:58cf:296e:9f84%4]) with mapi id 15.20.3499.018; Tue, 27 Oct 2020
+ 08:54:20 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v4 6/6] arm64: dts: renesas: beacon-renesom-baseboard:
+ Move connector node out of hd3ss3220 device
+Thread-Topic: [PATCH v4 6/6] arm64: dts: renesas: beacon-renesom-baseboard:
+ Move connector node out of hd3ss3220 device
+Thread-Index: AQHWj1Tcwh2pUiHDwEmlFyQoT8x5E6mrXabA
+Date:   Tue, 27 Oct 2020 08:54:20 +0000
+Message-ID: <TYBPR01MB5309E301D3EA84E56064B88286160@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <20200920134905.4370-1-biju.das.jz@bp.renesas.com>
+ <20200920134905.4370-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20200920134905.4370-7-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=bp.renesas.com;
+x-originating-ip: [81.141.62.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f67c857a-bd3e-4b8b-1e6b-08d87a55e524
+x-ms-traffictypediagnostic: TY2PR01MB4331:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY2PR01MB43317D46AC595FB5624389FE86160@TY2PR01MB4331.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:227;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2cznagziE7zgTTXcfAd+JjeHZpGzjPB99gW9JuOGtumtO0QLn0IPRJ6VS1QyPJHMSMQ0hpPB/TnndQkwgKre9CtSOutTxCkZvgKK4vHbobAvRDUcJ+QM3IO1nFyKM7K7ZEZTgXEs5a42h9AU8HmEEMLWmuriHNgt0skZCq5d7BFgSTg9Bclahuh48vQ0pQ/ZV+jSRHWbUMXZYz8M2kpiYaOZHHMtab6gzoMM/Z0gvlhr3RdylB4VU2xIGFDx8cZJegMR3OMkph3kdjU5RRH0ohq2AcOq/Vrhq2VWar/GMdB4aqphCRl8AXm+io4N5ODtns5O4FHwalq0hemHH9QycCObw0GOwOQclUlyCFispkda87IgMkC9C4x18mmOeINhL9o7tHBsoyqS5IJMEI6Hsg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39860400002)(376002)(346002)(396003)(136003)(2906002)(8936002)(186003)(6506007)(478600001)(966005)(76116006)(66946007)(66556008)(26005)(64756008)(66446008)(66476007)(52536014)(4326008)(9686003)(107886003)(71200400001)(83380400001)(5660300002)(33656002)(316002)(86362001)(7696005)(110136005)(54906003)(8676002)(55016002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: Txuicw+e7Vy2WwpHARksg9m3SHWyKTUgCtk8okHpGT+K4Yy2st3Q2b5P0bYCHl/nAdxa99ecR6NYWn6BEEwMyJ0/u4uChQCs9jAhiKaNhVaTzK1lmgRAFkPZgeu6PsbkTX4DCYYNrqe3uhnyBnWfhVAYCO/viLSLfiwPaLBCopK2I/mvFJ/0foFwG5uAlW/zRgYlhHM2HN8nD+yDIStJo0b2/V7NoTJTYGir5TYw5867+cOpeKcXCRc32wDTe0jMMsWIuplXjeEeW9BDakQbSp/+KO+mkBwk66I9QN5vXhI2+UKoaaijUGLsqeExdpBafwfU3P10pOkKjWfi30NN86UqZSmm+Vr57kevh5lZbCFZ5bZjpLYVl/oXc3nwV0QUYXOm9uE1x+R7CdFQlt1QilcVgvcGuK3fFkwbYsiBF89eUj8/KbvMg0+Edf4lR+WmUChplOo+5Be6EVSBqSYTrV1jfggNpV4iRb34/dsIroILAY7fZK7BIzMH7qLhAbKQWyLGFPyTkcq81IfBTiH3bc2Wz08FAu9OWK8o+6FeTXUI5PSMPK78RLIfrvCdthArVLDXvkFaIgjvt5wvJhTdgw0CVo4mA85a6yDU8eHxZ498kSF20APihxageXYkgMWUaYkYwMfolvbbUErkxuuS/w==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20200821194310.3089815-1-keescook@chromium.org>
- <20200821194310.3089815-14-keescook@chromium.org> <CAMuHMdUg0WJHEcq6to0-eODpXPOywLot6UD2=GFHpzoj_hCoBQ@mail.gmail.com>
- <CAMuHMdUw9KwC=EVB60yjg7mA7Fg-efOiKE7577p+uEdGJVS2OQ@mail.gmail.com>
- <CAMuHMdUJFEt3LxWHk73AsLDGhjzBvJGAML76UAxeGzb4zOf96w@mail.gmail.com>
- <CAMj1kXHXk3BX6mz6X_03sj_pSLj9Ck-=1S57tV3__N9JQOcDEw@mail.gmail.com> <CAMuHMdV4jKccjKkoj38EFC-5yN99pBvthFyrX81EG4GpassZwA@mail.gmail.com>
-In-Reply-To: <CAMuHMdV4jKccjKkoj38EFC-5yN99pBvthFyrX81EG4GpassZwA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Oct 2020 09:51:21 +0100
-Message-ID: <CAMuHMdWXB+DB4gZoU6g8a0aw3hEdE_FSv9MEJF0M8X63WThkcA@mail.gmail.com>
-Subject: Re: [PATCH v6 13/29] arm64/build: Assert for unwanted sections
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, Ingo Molnar <mingo@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        James Morse <james.morse@arm.com>,
-        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f67c857a-bd3e-4b8b-1e6b-08d87a55e524
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 08:54:20.7326
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BdEsj4+Wh/Bg4NAhkvmRvCkzgM6X+/Muhwmded6+B0p3GXSj6unhPEmrQz7+YL81GfF/cRKHDzaT9YNn9qeOafxG7SHIFIi5nMRt3nnZq+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4331
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ard,
+Hi Geert,
 
-On Mon, Oct 26, 2020 at 6:43 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Oct 26, 2020 at 6:39 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> > On Mon, 26 Oct 2020 at 17:01, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Mon, Oct 26, 2020 at 2:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Mon, Oct 26, 2020 at 1:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Fri, Aug 21, 2020 at 9:56 PM Kees Cook <keescook@chromium.org> wrote:
-> > > > > > In preparation for warning on orphan sections, discard
-> > > > > > unwanted non-zero-sized generated sections, and enforce other
-> > > > > > expected-to-be-zero-sized sections (since discarding them might hide
-> > > > > > problems with them suddenly gaining unexpected entries).
-> > > > > >
-> > > > > > Suggested-by: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > > > >
-> > > > > This is now commit be2881824ae9eb92 ("arm64/build: Assert for unwanted
-> > > > > sections") in v5.10-rc1, and is causing the following error with
-> > > > > renesas_defconfig[1]:
-> > > > >
-> > > > >     aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
-> > > > > `kernel/bpf/core.o' being placed in section `.eh_frame'
-> > > > >     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-> > > > >     aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-> > > > >
-> > > > > I cannot reproduce this with the standard arm64 defconfig.
-> > > > >
-> > > > > I bisected the error to the aforementioned commit, but understand this
-> > > > > is not the real reason.  If I revert this commit, I still get:
-> > > > >
-> > > > >     aarch64-linux-gnu-ld: warning: orphan section `.got.plt' from
-> > > > > `arch/arm64/kernel/head.o' being placed in section `.got.plt'
-> > > > >     aarch64-linux-gnu-ld: warning: orphan section `.plt' from
-> > > > > `arch/arm64/kernel/head.o' being placed in section `.plt'
-> > > > >     aarch64-linux-gnu-ld: warning: orphan section `.data.rel.ro' from
-> > > > > `arch/arm64/kernel/head.o' being placed in section `.data.rel.ro'
-> > > > >     aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
-> > > > > `kernel/bpf/core.o' being placed in section `.eh_frame'
-> > > > >
-> > > > > I.e. including the ".eh_frame" warning. I have tried bisecting that
-> > > > > warning (i.e. with be2881824ae9eb92 reverted), but that leads me to
-> > > > > commit b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section
-> > > > > placement"), which is another red herring.
-> > > >
-> > > > kernel/bpf/core.o is the only file containing an eh_frame section,
-> > > > causing the warning.
-> > > > If I compile core.c with "-g" added, like arm64 defconfig does, the
-> > > > eh_frame section is no longer emitted.
-> > > >
-> > > > Hence setting CONFIG_DEBUG_INFO=y, cfr. arm64 defconfig, the warning
-> > > > is gone, but I'm back to the the "Unexpected GOT/PLT entries" below...
-> > > >
-> > > > > Note that even on plain be2881824ae9eb92, I get:
-> > > > >
-> > > > >     aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-> > > > >     aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
-> > > > >
-> > > > > The parent commit obviously doesn't show that (but probably still has
-> > > > > the problem).
-> > >
-> > > Reverting both
-> > > b3e5d80d0c48c0cc ("arm64/build: Warn on orphan section placement")
-> > > be2881824ae9eb92 ("arm64/build: Assert for unwanted sections")
-> > > seems to solve my problems, without any ill effects?
-> > >
-> >
-> > I cannot reproduce the issue here with my distro GCC+binutils (Debian 8.3.0)
-> >
-> > The presence of .data.rel.ro and .got.plt sections suggests that the
-> > toolchain is using -fpie and/or -z relro to build shared objects
-> > rather than a fully linked bare metal binary.
-> >
-> > Which toolchain are you using? Does adding -fno-pie to the compiler
->
-> gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)  from Ubuntu 20.04LTS.
->
-> > command line and/or adding -z norelro to the linker command line make
-> > any difference?
->
-> I'll give that a try later...
+The dependencies patches hit on 5.10-rc1 [1] [2][3].  This patch cleanly ap=
+plies on renesas-devel.=20
 
-Adding -fno-pie to KBUILD_AFLAGS and KBUILD_CFLAGS doesn't
-make a difference.
+[1]  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
+mit/?h=3Dv5.10-rc1&id=3D588614be61b7cb46f697c3e141b2aef7f6b49347
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?h=3Dv5.10-rc1&id=3Da6806e32e7a41c20c6b288009cb6f30929668327
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?h=3Dv5.10-rc1&id=3D1c6e8ee63adbaf02a1e5177610fe9b77bec93d8a
 
-Same for adding -z norelno to the final link command:
 
-    aarch64-linux-gnu-ld: warning: -z norelno ignored
-    aarch64-linux-gnu-ld: warning: orphan section `.eh_frame' from
-`kernel/bpf/core.o' being placed in section `.eh_frame'
-    aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
-    aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+Regards,
+Biju
 
-Gr{oetje,eeting}s,
 
-                        Geert
+> Subject: [PATCH v4 6/6] arm64: dts: renesas: beacon-renesom-baseboard:
+> Move connector node out of hd3ss3220 device
+>=20
+> Move connector node out of hd3ss3220 device in order to comply with usb
+> connector bindings.
+>=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+> v3->v4: No change
+> v2->v3: No change
+> v1->v2: No change
+> ---
+>  .../dts/renesas/beacon-renesom-baseboard.dtsi | 67 ++++++++++++++-----
+>  1 file changed, 50 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> index 66c9153b3101..e66b5b36e489 100644
+> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> @@ -223,6 +223,29 @@
+>  		#clock-cells =3D <0>;
+>  		clock-frequency =3D <25000000>;
+>  	};
+> +
+> +	connector {
+> +		compatible =3D "usb-c-connector";
+> +		label =3D "USB-C";
+> +		data-role =3D "dual";
+> +
+> +		ports {
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +			port@0 {
+> +				reg =3D <0>;
+> +				hs_ep: endpoint {
+> +					remote-endpoint =3D <&usb3_hs_ep>;
+> +				};
+> +			};
+> +			port@1 {
+> +				reg =3D <1>;
+> +				ss_ep: endpoint {
+> +					remote-endpoint =3D
+> <&hd3ss3220_in_ep>;
+> +				};
+> +			};
+> +		};
+> +	};
+>  };
+>=20
+>  &audio_clk_a {
+> @@ -427,20 +450,19 @@
+>  		interrupt-parent =3D <&gpio6>;
+>  		interrupts =3D <4 IRQ_TYPE_LEVEL_LOW>;
+>=20
+> -		connector {
+> -			compatible =3D "usb-c-connector";
+> -			label =3D "USB-C";
+> -			data-role =3D "dual";
+> -
+> -			ports {
+> -				#address-cells =3D <1>;
+> -				#size-cells =3D <0>;
+> -
+> -				port@1 {
+> -					reg =3D <1>;
+> -					hd3ss3220_ep: endpoint {
+> -						remote-endpoint =3D
+> <&usb3_role_switch>;
+> -					};
+> +		ports {
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <0>;
+> +			port@0 {
+> +				reg =3D <0>;
+> +				hd3ss3220_in_ep: endpoint {
+> +					remote-endpoint =3D <&ss_ep>;
+> +				};
+> +			};
+> +			port@1 {
+> +				reg =3D <1>;
+> +				hd3ss3220_out_ep: endpoint {
+> +					remote-endpoint =3D
+> <&usb3_role_switch>;
+>  				};
+>  			};
+>  		};
+> @@ -714,9 +736,20 @@
+>  	status =3D "okay";
+>  	usb-role-switch;
+>=20
+> -	port {
+> -		usb3_role_switch: endpoint {
+> -			remote-endpoint =3D <&hd3ss3220_ep>;
+> +	ports {
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+> +		port@0 {
+> +			reg =3D <0>;
+> +			usb3_hs_ep: endpoint {
+> +				remote-endpoint =3D <&hs_ep>;
+> +			};
+> +		};
+> +		port@1 {
+> +			reg =3D <1>;
+> +			usb3_role_switch: endpoint {
+> +				remote-endpoint =3D <&hd3ss3220_out_ep>;
+> +			};
+>  		};
+>  	};
+>  };
+> --
+> 2.17.1
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
