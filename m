@@ -2,106 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D6329D896
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 23:34:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3542029D90A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 23:42:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388004AbgJ1Wb6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Oct 2020 18:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387998AbgJ1Wb6 (ORCPT
+        id S1731307AbgJ1Wl7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Oct 2020 18:41:59 -0400
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:52556 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388432AbgJ1Wl6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:31:58 -0400
-Received: from leibniz.telenet-ops.be (leibniz.telenet-ops.be [IPv6:2a02:1800:110:4::f00:d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D513FC0613D2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 15:31:57 -0700 (PDT)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4CLrFD436RzMv9TS
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 15:15:12 +0100 (CET)
+        Wed, 28 Oct 2020 18:41:58 -0400
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4CLt293WsCzN3JZF
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 16:35:45 +0100 (CET)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by baptiste.telenet-ops.be with bizsmtp
-        id lSFC2300L4C55Sk01SFCF4; Wed, 28 Oct 2020 15:15:12 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id lTbj2300a4C55Sk01Tbj7o; Wed, 28 Oct 2020 16:35:45 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kXmEJ-000oZ8-UU; Wed, 28 Oct 2020 15:15:11 +0100
+        id 1kXnUF-000pP4-F7; Wed, 28 Oct 2020 16:35:43 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kXmEJ-007Fpj-Ev; Wed, 28 Oct 2020 15:15:11 +0100
+        id 1kXnUF-007HhG-1D; Wed, 28 Oct 2020 16:35:43 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 4/4] gpio: rcar: Implement gpio_chip.get_multiple()
-Date:   Wed, 28 Oct 2020 15:15:04 +0100
-Message-Id: <20201028141504.1729093-5-geert+renesas@glider.be>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Amit Kucheria <amit.kucheria@linaro.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v3] dt-bindings: thermal: rcar-thermal: Improve schema validation
+Date:   Wed, 28 Oct 2020 16:35:41 +0100
+Message-Id: <20201028153541.1736279-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201028141504.1729093-1-geert+renesas@glider.be>
-References: <20201028141504.1729093-1-geert+renesas@glider.be>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for getting the state of multiple pins using a minimum of
-register reads.
+  - Factor out common required properties,
+  - "interrupts", "clocks", and "power-domains" are required on R-Mobile
+    APE6, too,
+  - Invert logic to simplify descriptions.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+Reviewed-by: Amit Kucheria <amit.kucheria@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- drivers/gpio/gpio-rcar.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+v3:
+  - Rebase on top of commit 5be478f9c24fbdf8 ("dt-bindings: Another
+    round of adding missing 'additionalProperties'"),
 
-diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
-index b33d1a2076eaa2e5..0b572dbc4a36801d 100644
---- a/drivers/gpio/gpio-rcar.c
-+++ b/drivers/gpio/gpio-rcar.c
-@@ -310,6 +310,35 @@ static int gpio_rcar_get(struct gpio_chip *chip, unsigned offset)
- 		return !!(gpio_rcar_read(p, INDT) & bit);
- }
+v2:
+  - Add Reviewed-by.
+---
+ .../bindings/thermal/rcar-thermal.yaml        | 48 +++++++++++--------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+index 7e9557ac0e4a011c..927de79ab4b56e37 100644
+--- a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+@@ -62,25 +62,35 @@ properties:
+   "#thermal-sensor-cells":
+     const: 0
  
-+static int gpio_rcar_get_multiple(struct gpio_chip *chip, unsigned long *mask,
-+				  unsigned long *bits)
-+{
-+	struct gpio_rcar_priv *p = gpiochip_get_data(chip);
-+	u32 bankmask, outputs, m, val = 0;
-+	unsigned long flags;
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        enum:
+-          - renesas,thermal-r8a73a4 # R-Mobile APE6
+-          - renesas,thermal-r8a7779 # R-Car H1
+-then:
+-  required:
+-    - compatible
+-    - reg
+-else:
+-  required:
+-    - compatible
+-    - reg
+-    - interrupts
+-    - clocks
+-    - power-domains
+-    - resets
++required:
++  - compatible
++  - reg
 +
-+	bankmask = mask[0] & GENMASK(chip->ngpio - 1, 0);
-+	if (chip->valid_mask)
-+		bankmask &= chip->valid_mask[0];
++allOf:
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              enum:
++                - renesas,thermal-r8a73a4 # R-Mobile APE6
++                - renesas,thermal-r8a7779 # R-Car H1
++    then:
++      required:
++        - resets
++        - '#thermal-sensor-cells'
 +
-+	if (!bankmask)
-+		return 0;
-+
-+	spin_lock_irqsave(&p->lock, flags);
-+	outputs = gpio_rcar_read(p, INOUTSEL);
-+	m = outputs & bankmask;
-+	if (m)
-+		val |= gpio_rcar_read(p, OUTDT) & m;
-+
-+	m = ~outputs & bankmask;
-+	if (m)
-+		val |= gpio_rcar_read(p, INDT) & m;
-+	spin_unlock_irqrestore(&p->lock, flags);
-+
-+	bits[0] = val;
-+	return 0;
-+}
-+
- static void gpio_rcar_set(struct gpio_chip *chip, unsigned offset, int value)
- {
- 	struct gpio_rcar_priv *p = gpiochip_get_data(chip);
-@@ -478,6 +507,7 @@ static int gpio_rcar_probe(struct platform_device *pdev)
- 	gpio_chip->get_direction = gpio_rcar_get_direction;
- 	gpio_chip->direction_input = gpio_rcar_direction_input;
- 	gpio_chip->get = gpio_rcar_get;
-+	gpio_chip->get_multiple = gpio_rcar_get_multiple;
- 	gpio_chip->direction_output = gpio_rcar_direction_output;
- 	gpio_chip->set = gpio_rcar_set;
- 	gpio_chip->set_multiple = gpio_rcar_set_multiple;
++  - if:
++      not:
++        properties:
++          compatible:
++            contains:
++              const: renesas,thermal-r8a7779 # R-Car H1
++    then:
++      required:
++        - interrupts
++        - clocks
++        - power-domains
+ 
+ additionalProperties: false
+ 
 -- 
 2.25.1
 
