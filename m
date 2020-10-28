@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D53D929D789
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 23:25:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90C8A29D7A1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 23:28:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732827AbgJ1WZV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Oct 2020 18:25:21 -0400
-Received: from newton.telenet-ops.be ([195.130.132.45]:49430 "EHLO
+        id S1732876AbgJ1WZX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Oct 2020 18:25:23 -0400
+Received: from newton.telenet-ops.be ([195.130.132.45]:49952 "EHLO
         newton.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732859AbgJ1WZU (ORCPT
+        with ESMTP id S1732830AbgJ1WZW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:25:20 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by newton.telenet-ops.be (Postfix) with ESMTPS id 4CLsc85q3dzMwFwT
+        Wed, 28 Oct 2020 18:25:22 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by newton.telenet-ops.be (Postfix) with ESMTPS id 4CLsc85pWwzMwFwC
         for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 16:16:40 +0100 (CET)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id lTGf2300h4C55Sk01TGf1z; Wed, 28 Oct 2020 16:16:40 +0100
+        by baptiste.telenet-ops.be with bizsmtp
+        id lTGf2300f4C55Sk01TGfGz; Wed, 28 Oct 2020 16:16:40 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kXnBn-000pDZ-Ii; Wed, 28 Oct 2020 16:16:39 +0100
+        id 1kXnBn-000pDa-IS; Wed, 28 Oct 2020 16:16:39 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kXnBn-007H8m-67; Wed, 28 Oct 2020 16:16:39 +0100
+        id 1kXnBn-007H8r-7B; Wed, 28 Oct 2020 16:16:39 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -33,9 +33,9 @@ Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/8] pinctrl: renesas: Remove superfluous goto in sh_pfc_gpio_set_direction()
-Date:   Wed, 28 Oct 2020 16:16:30 +0100
-Message-Id: <20201028151637.1734130-2-geert+renesas@glider.be>
+Subject: [PATCH 2/8] pinctrl: renesas: Singular/plural grammar fixes
+Date:   Wed, 28 Oct 2020 16:16:31 +0100
+Message-Id: <20201028151637.1734130-3-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201028151637.1734130-1-geert+renesas@glider.be>
 References: <20201028151637.1734130-1-geert+renesas@glider.be>
@@ -45,32 +45,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit b13431ed6eab808a ("pinctrl: sh-pfc: Remove incomplete flag
-"cfg->type"") removed the last statement in between the goto and the
-label.  Hence remove both.
+Fix a few singular vs. plural grammar issues in comments.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pinctrl/renesas/pinctrl.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/pinctrl/renesas/gpio.c    | 2 +-
+ drivers/pinctrl/renesas/pinctrl.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/pinctrl/renesas/gpio.c b/drivers/pinctrl/renesas/gpio.c
+index 9c6e931ae766edf7..ad06f5355d1ed1c5 100644
+--- a/drivers/pinctrl/renesas/gpio.c
++++ b/drivers/pinctrl/renesas/gpio.c
+@@ -328,7 +328,7 @@ int sh_pfc_register_gpiochip(struct sh_pfc *pfc)
+ 	if (pfc->info->data_regs == NULL)
+ 		return 0;
+ 
+-	/* Find the memory window that contain the GPIO registers. Boards that
++	/* Find the memory window that contains the GPIO registers. Boards that
+ 	 * register a separate GPIO device will not supply a memory resource
+ 	 * that covers the data registers. In that case don't try to handle
+ 	 * GPIOs.
 diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
-index 212a4a9c3a8fc1c7..f8d5fae66e862fd6 100644
+index f8d5fae66e862fd6..8e54f9b662f37f37 100644
 --- a/drivers/pinctrl/renesas/pinctrl.c
 +++ b/drivers/pinctrl/renesas/pinctrl.c
-@@ -460,12 +460,7 @@ static int sh_pfc_gpio_set_direction(struct pinctrl_dev *pctldev,
- 	}
- 
+@@ -399,7 +399,7 @@ static int sh_pfc_gpio_request_enable(struct pinctrl_dev *pctldev,
  	spin_lock_irqsave(&pfc->lock, flags);
--
- 	ret = sh_pfc_config_mux(pfc, pin->enum_id, new_type);
--	if (ret < 0)
--		goto done;
--
--done:
- 	spin_unlock_irqrestore(&pfc->lock, flags);
- 	return ret;
- }
+ 
+ 	if (!pfc->gpio) {
+-		/* If GPIOs are handled externally the pin mux type need to be
++		/* If GPIOs are handled externally the pin mux type needs to be
+ 		 * set to GPIO here.
+ 		 */
+ 		const struct sh_pfc_pin *pin = &pfc->info->pins[idx];
+@@ -450,8 +450,8 @@ static int sh_pfc_gpio_set_direction(struct pinctrl_dev *pctldev,
+ 	unsigned int dir;
+ 	int ret;
+ 
+-	/* Check if the requested direction is supported by the pin. Not all SoC
+-	 * provide pin config data, so perform the check conditionally.
++	/* Check if the requested direction is supported by the pin. Not all
++	 * SoCs provide pin config data, so perform the check conditionally.
+ 	 */
+ 	if (pin->configs) {
+ 		dir = input ? SH_PFC_PIN_CFG_INPUT : SH_PFC_PIN_CFG_OUTPUT;
 -- 
 2.25.1
 
