@@ -2,95 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5985229D4C9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 22:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12AB829D2D5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 22:37:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728801AbgJ1Vyl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Oct 2020 17:54:41 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36250 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728764AbgJ1Vyi (ORCPT
+        id S1726832AbgJ1VhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Oct 2020 17:37:03 -0400
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:47630 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbgJ1Vg7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:54:38 -0400
-Received: by mail-oi1-f195.google.com with SMTP id y186so1166822oia.3;
-        Wed, 28 Oct 2020 14:54:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Uc78x8CmwZLzrKJ78c98Bv6j8H6O42mQH8+34OvgxWs=;
-        b=CfLad6XA+URAMmONLs7b5YFk1mHUAf4qjcUe8DI/9oDAlz54boCzbDAKkTmf/CCWsl
-         gHEVo6hlLzXiKHvmhPx6HluQBtx1UON4ioMgTG6jkfmfK+qG8sMzT2xPizgejuQxgO5y
-         1FAxWzIrn2YxMYnkg/a7NSQHEEiaG/5CuxPkkl7upE8iTB3p0uNuG4HfhMFsiiW/l1ln
-         K4C5yrvAhMrf0bH7AF0TNuoYpk8vMVyAKy2rXR7SEOfjs7N2zJhDEPiBKl88T5lbBgLb
-         RA1nAgNC6E9BgEMX0Eu/ySQXhY09yq5dHrjyQlr+jognx+uhdUNuuK9C8oyXaI5QJsZy
-         v5MA==
-X-Gm-Message-State: AOAM533I7KlG0uCOBss75cPbYyMhld80JTisozrAP/XNAb+NSAhfMhju
-        TSuXCssD3XRn5t+xXW6ehNVlPxBZmQ==
-X-Google-Smtp-Source: ABdhPJzBeWZH6SAY7afIgY1/3BfjtQmztEeFkp69qvQ5J2PDJhbpSiCR8mcjBJXcwrLL2OvDMKpx/g==
-X-Received: by 2002:aca:4ac6:: with SMTP id x189mr4914954oia.58.1603896288433;
-        Wed, 28 Oct 2020 07:44:48 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v123sm2710068oif.29.2020.10.28.07.44.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 07:44:47 -0700 (PDT)
-Received: (nullmailer pid 3995233 invoked by uid 1000);
-        Wed, 28 Oct 2020 14:44:47 -0000
-Date:   Wed, 28 Oct 2020 09:44:47 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com,
-        marek.vasut+renesas@gmail.com, linux-renesas-soc@vger.kernel.org,
-        linux-pci@vger.kernel.org, bhelgaas@google.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: pci: rcar-pci-host: convert bindings to
- json-schema
-Message-ID: <20201028144447.GA3994930@bogus>
-References: <1603850751-32762-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1603850751-32762-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 28 Oct 2020 17:36:59 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 4CLt714S6QzN68Ls
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 16:39:57 +0100 (CET)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by albert.telenet-ops.be with bizsmtp
+        id lTfw2304W4C55Sk06Tfxz5; Wed, 28 Oct 2020 16:39:57 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kXnYK-000pTp-M8; Wed, 28 Oct 2020 16:39:56 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kXnYK-007Hp8-6a; Wed, 28 Oct 2020 16:39:56 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] irqchip/renesas-intc-irqpin: Merge irlm_bit and needs_irlm
+Date:   Wed, 28 Oct 2020 16:39:55 +0100
+Message-Id: <20201028153955.1736767-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1603850751-32762-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 28 Oct 2020 11:05:49 +0900, Yoshihiro Shimoda wrote:
-> Convert Renesas PCIe Host controller bindings documentation to
-> json-schema. Note that some compatible doesn't contain on
-> the original documantation so that incremental patches are required
-> for it.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  .../devicetree/bindings/pci/rcar-pci-host.yaml     | 146 +++++++++++++++++++++
->  Documentation/devicetree/bindings/pci/rcar-pci.txt |  72 ----------
->  2 files changed, 146 insertions(+), 72 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
->  delete mode 100644 Documentation/devicetree/bindings/pci/rcar-pci.txt
-> 
+Get rid of the separate flag to indicate if the IRLM bit is present in
+the INTC/Interrupt Control Register 0, by considering -1 an invalid
+irlm_bit value.
 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Tested on r8a7778/bock-w, r8a7779/marzen, r8a7740/armadillo. and
+sh73a0/kzm9g.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+ drivers/irqchip/irq-renesas-intc-irqpin.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/pci/rcar-pci-host.yaml:18:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/pci/rcar-pci-host.yaml:27:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-
-dtschema/dtc warnings/errors:
-
-
-See https://patchwork.ozlabs.org/patch/1389094
-
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/irqchip/irq-renesas-intc-irqpin.c b/drivers/irqchip/irq-renesas-intc-irqpin.c
+index 3819185bfd02c63f..cb7f60b3b4a920c2 100644
+--- a/drivers/irqchip/irq-renesas-intc-irqpin.c
++++ b/drivers/irqchip/irq-renesas-intc-irqpin.c
+@@ -71,8 +71,7 @@ struct intc_irqpin_priv {
+ };
+ 
+ struct intc_irqpin_config {
+-	unsigned int irlm_bit;
+-	unsigned needs_irlm:1;
++	int irlm_bit;		/* -1 if non-existent */
+ };
+ 
+ static unsigned long intc_irqpin_read32(void __iomem *iomem)
+@@ -349,11 +348,10 @@ static const struct irq_domain_ops intc_irqpin_irq_domain_ops = {
+ 
+ static const struct intc_irqpin_config intc_irqpin_irlm_r8a777x = {
+ 	.irlm_bit = 23, /* ICR0.IRLM0 */
+-	.needs_irlm = 1,
+ };
+ 
+ static const struct intc_irqpin_config intc_irqpin_rmobile = {
+-	.needs_irlm = 0,
++	.irlm_bit = -1,
+ };
+ 
+ static const struct of_device_id intc_irqpin_dt_ids[] = {
+@@ -470,7 +468,7 @@ static int intc_irqpin_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* configure "individual IRQ mode" where needed */
+-	if (config && config->needs_irlm) {
++	if (config && config->irlm_bit >= 0) {
+ 		if (io[INTC_IRQPIN_REG_IRLM])
+ 			intc_irqpin_read_modify_write(p, INTC_IRQPIN_REG_IRLM,
+ 						      config->irlm_bit, 1, 1);
+-- 
+2.25.1
 
