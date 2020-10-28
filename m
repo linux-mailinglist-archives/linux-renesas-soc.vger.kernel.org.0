@@ -2,85 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A3E29D305
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 22:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5985229D4C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 22:54:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbgJ1VkZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Oct 2020 17:40:25 -0400
-Received: from newton.telenet-ops.be ([195.130.132.45]:60414 "EHLO
-        newton.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727200AbgJ1VkX (ORCPT
+        id S1728801AbgJ1Vyl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Oct 2020 17:54:41 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:36250 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728764AbgJ1Vyi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Oct 2020 17:40:23 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by newton.telenet-ops.be (Postfix) with ESMTPS id 4CLkR13trJzMs3bB
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Oct 2020 10:53:17 +0100 (CET)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id lMtG2300W4C55Sk01MtGMp; Wed, 28 Oct 2020 10:53:17 +0100
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kXi8q-000lf0-Hq; Wed, 28 Oct 2020 10:53:16 +0100
-Date:   Wed, 28 Oct 2020 10:53:16 +0100 (CET)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-cc:     Rafael Wysocki <rjw@rjwysocki.net>,
-        Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] opp: Don't always remove static OPPs in
- _of_add_opp_table_v1()
-In-Reply-To: <2c73ab54717ef358b118ea0cfb727b1427e7730a.1602648719.git.viresh.kumar@linaro.org>
-Message-ID: <alpine.DEB.2.22.394.2010281050200.183010@ramsan.of.borg>
-References: <2c73ab54717ef358b118ea0cfb727b1427e7730a.1602648719.git.viresh.kumar@linaro.org>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Wed, 28 Oct 2020 17:54:38 -0400
+Received: by mail-oi1-f195.google.com with SMTP id y186so1166822oia.3;
+        Wed, 28 Oct 2020 14:54:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Uc78x8CmwZLzrKJ78c98Bv6j8H6O42mQH8+34OvgxWs=;
+        b=CfLad6XA+URAMmONLs7b5YFk1mHUAf4qjcUe8DI/9oDAlz54boCzbDAKkTmf/CCWsl
+         gHEVo6hlLzXiKHvmhPx6HluQBtx1UON4ioMgTG6jkfmfK+qG8sMzT2xPizgejuQxgO5y
+         1FAxWzIrn2YxMYnkg/a7NSQHEEiaG/5CuxPkkl7upE8iTB3p0uNuG4HfhMFsiiW/l1ln
+         K4C5yrvAhMrf0bH7AF0TNuoYpk8vMVyAKy2rXR7SEOfjs7N2zJhDEPiBKl88T5lbBgLb
+         RA1nAgNC6E9BgEMX0Eu/ySQXhY09yq5dHrjyQlr+jognx+uhdUNuuK9C8oyXaI5QJsZy
+         v5MA==
+X-Gm-Message-State: AOAM533I7KlG0uCOBss75cPbYyMhld80JTisozrAP/XNAb+NSAhfMhju
+        TSuXCssD3XRn5t+xXW6ehNVlPxBZmQ==
+X-Google-Smtp-Source: ABdhPJzBeWZH6SAY7afIgY1/3BfjtQmztEeFkp69qvQ5J2PDJhbpSiCR8mcjBJXcwrLL2OvDMKpx/g==
+X-Received: by 2002:aca:4ac6:: with SMTP id x189mr4914954oia.58.1603896288433;
+        Wed, 28 Oct 2020 07:44:48 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v123sm2710068oif.29.2020.10.28.07.44.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 07:44:47 -0700 (PDT)
+Received: (nullmailer pid 3995233 invoked by uid 1000);
+        Wed, 28 Oct 2020 14:44:47 -0000
+Date:   Wed, 28 Oct 2020 09:44:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com,
+        marek.vasut+renesas@gmail.com, linux-renesas-soc@vger.kernel.org,
+        linux-pci@vger.kernel.org, bhelgaas@google.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: pci: rcar-pci-host: convert bindings to
+ json-schema
+Message-ID: <20201028144447.GA3994930@bogus>
+References: <1603850751-32762-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1603850751-32762-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1603850751-32762-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- 	Hi Viresh,
+On Wed, 28 Oct 2020 11:05:49 +0900, Yoshihiro Shimoda wrote:
+> Convert Renesas PCIe Host controller bindings documentation to
+> json-schema. Note that some compatible doesn't contain on
+> the original documantation so that incremental patches are required
+> for it.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  .../devicetree/bindings/pci/rcar-pci-host.yaml     | 146 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt |  72 ----------
+>  2 files changed, 146 insertions(+), 72 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/pci/rcar-pci.txt
+> 
 
-On Wed, 14 Oct 2020, Viresh Kumar wrote:
-> The patch missed returning 0 early in case of success and hence the
-> static OPPs got removed by mistake. Fix it.
->
-> Fixes: 90d46d71cce2 ("opp: Handle multiple calls for same OPP table in _of_add_opp_table_v1()")
-> Reported-by: Aisheng Dong <aisheng.dong@nxp.com>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
 
-This revives cpufreq on R-Car Gen2, and fixes a later s2ram regression
-in commit dc279ac6e5b4e06e ("cpufreq: dt: Refactor initialization to
-handle probe deferral properly"), where the PMIC is accessesed while
-the I2C controller is still suspended.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/pci/rcar-pci-host.yaml:18:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/pci/rcar-pci-host.yaml:27:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
-> --- a/drivers/opp/of.c
-> +++ b/drivers/opp/of.c
-> @@ -944,6 +944,8 @@ static int _of_add_opp_table_v1(struct device *dev, struct opp_table *opp_table)
-> 		nr -= 2;
-> 	}
->
-> +	return 0;
-> +
-> remove_static_opp:
-> 	_opp_remove_all_static(opp_table);
->
-> -- 
-> 2.25.0.rc1.19.g042ed3e048af
+dtschema/dtc warnings/errors:
 
-Gr{oetje,eeting}s,
 
- 						Geert
+See https://patchwork.ozlabs.org/patch/1389094
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
