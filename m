@@ -2,81 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1682F29CD06
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 02:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08CA629CD7C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Oct 2020 03:06:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbgJ1Bir (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Oct 2020 21:38:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37002 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1833087AbgJ1AQW (ORCPT
+        id S1725792AbgJ1CGB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Oct 2020 22:06:01 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:3619 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725730AbgJ1CGB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Oct 2020 20:16:22 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 49E762223C;
-        Wed, 28 Oct 2020 00:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603844181;
-        bh=Dl+mj1slgc0isDj7rpRd4dRtbRYsNG/Rbix4uZLptjM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ZRL4/5G+YNajasrAV3EwWJZg8NDm9kYY1bbgpaAAjDnDx9pz6zPHFVUd8vHiLU0KK
-         m/lX2Ug/7DSPawiu0/3UeN5Fa0gX/uiyIBuKqHBjNM24BTWkittOYbsl7t1VUURp+A
-         b/KmWtoNJmd/rXxJ6n3IwsPxNtLN6CPi0jcyEGbs=
-Date:   Tue, 27 Oct 2020 17:16:20 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Cc:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>, <geert+renesas@glider.be>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Dirk Behme <dirk.behme@de.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: Re: [PATCH net v2] ravb: Fix bit fields checking in
- ravb_hwtstamp_get()
-Message-ID: <20201027171620.2b5eef40@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20201026102130.29368-1-andrew_gabbasov@mentor.com>
-References: <20201026102130.29368-1-andrew_gabbasov@mentor.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Tue, 27 Oct 2020 22:06:01 -0400
+X-IronPort-AV: E=Sophos;i="5.77,425,1596466800"; 
+   d="scan'208";a="60779609"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 28 Oct 2020 11:06:00 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4F954417A2E8;
+        Wed, 28 Oct 2020 11:06:00 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     bhelgaas@google.com, marek.vasut+renesas@gmail.com,
+        robh+dt@kernel.org
+Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/3] dt-bindings: pci: rcar-pci-host: convert bindings to json-schema
+Date:   Wed, 28 Oct 2020 11:05:48 +0900
+Message-Id: <1603850751-32762-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 26 Oct 2020 05:21:30 -0500 Andrew Gabbasov wrote:
-> In the function ravb_hwtstamp_get() in ravb_main.c with the existing
-> values for RAVB_RXTSTAMP_TYPE_V2_L2_EVENT (0x2) and RAVB_RXTSTAMP_TYPE_ALL
-> (0x6)
-> 
-> if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_V2_L2_EVENT)
-> 	config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
-> else if (priv->tstamp_rx_ctrl & RAVB_RXTSTAMP_TYPE_ALL)
-> 	config.rx_filter = HWTSTAMP_FILTER_ALL;
-> 
-> if the test on RAVB_RXTSTAMP_TYPE_ALL should be true,
-> it will never be reached.
-> 
-> This issue can be verified with 'hwtstamp_config' testing program
-> (tools/testing/selftests/net/hwtstamp_config.c). Setting filter type
-> to ALL and subsequent retrieving it gives incorrect value:
-> 
-> $ hwtstamp_config eth0 OFF ALL
-> flags = 0
-> tx_type = OFF
-> rx_filter = ALL
-> $ hwtstamp_config eth0
-> flags = 0
-> tx_type = OFF
-> rx_filter = PTP_V2_L2_EVENT
-> 
-> Correct this by converting if-else's to switch.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Signed-off-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Convert bindings of rcar-pci.txt to json-schema. And, I realized
+r8a77965 [1] and r8a774e1 [2] are not documented on rcar-pci.txt.
+So, I made incremental patches to document them.
 
-Applied, thank you!
+[1]
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/1528373494-18503-2-git-send-email-ykaneko0929@gmail.com/
+
+This patch was old, so I didn't reuse this patch.
+
+[2]
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/20200927124257.29612-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+
+I reused this patch.
+
+
+Lad Prabhakar (1):
+  dt-bindings: pci: rcar-pci: Add device tree support for r8a774e1
+
+Yoshihiro Shimoda (2):
+  dt-bindings: pci: rcar-pci-host: convert bindings to json-schema
+  dt-bindings: pci: rcar-pci-host: document r8a77965 bindings
+
+ .../devicetree/bindings/pci/rcar-pci-host.yaml     | 148 +++++++++++++++++++++
+ Documentation/devicetree/bindings/pci/rcar-pci.txt |  72 ----------
+ 2 files changed, 148 insertions(+), 72 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
+ delete mode 100644 Documentation/devicetree/bindings/pci/rcar-pci.txt
+
+-- 
+2.7.4
+
