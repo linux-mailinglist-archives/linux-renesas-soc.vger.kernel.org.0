@@ -2,103 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 288ED29ED69
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Oct 2020 14:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E33D929ED12
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Oct 2020 14:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbgJ2Nqr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Oct 2020 09:46:47 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:43978 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727512AbgJ2Nqq (ORCPT
+        id S1725791AbgJ2NjL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Oct 2020 09:39:11 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34324 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725300AbgJ2NjK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Oct 2020 09:46:46 -0400
-X-Greylist: delayed 510 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Oct 2020 09:46:45 EDT
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E6A9A3C057F;
-        Thu, 29 Oct 2020 14:38:19 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id jZfYc79CLMZM; Thu, 29 Oct 2020 14:38:14 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 4196E3C0579;
-        Thu, 29 Oct 2020 14:38:14 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.94.34) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 29 Oct
- 2020 14:38:13 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Steffen Pengel <spengel@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r8a77961: ulcb-kf: Initial device tree
-Date:   Thu, 29 Oct 2020 14:37:41 +0100
-Message-ID: <20201029133741.25721-2-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201029133741.25721-1-erosca@de.adit-jv.com>
-References: <20201029133741.25721-1-erosca@de.adit-jv.com>
+        Thu, 29 Oct 2020 09:39:10 -0400
+Received: by mail-ot1-f68.google.com with SMTP id k3so2276335otp.1;
+        Thu, 29 Oct 2020 06:39:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3RYf3vNl8HqQ8zBK55sLVdQ8ARXkNafJFWOB62pZROQ=;
+        b=c23MYynMUbualBXAusEqai+bdUbRjEofFzc1zAFq4eVj47juMJeprZoeOpx/TGPGEB
+         SrElp+kplCsfgqtaG8qcIvqesNP+PRYNFBQWryaXJQsKJP9a6jD9A1OEJbQeeu9o3GGy
+         liEYIgxKpZX8PqeUDMap5z2HLyXT3iqannCe8Owts09isTbI16LFKILTvy0f/Mcp45IA
+         aHEM/eJDvF6/4JUBNqS20/L/ngSguAWY8e4yRNaia+p8Aw8GzWDAl1ApJYikeZ2/d/oU
+         ak6v8C6Hv9YFdVZA+ClpIZx6re7fyPVVUWeGwwBYMQ0tQMmndKfegKz3+JKwryoyhIjK
+         FBbg==
+X-Gm-Message-State: AOAM530ikNuKnn0vHDBMqdLgDXdTldSOeyipTJJ7KlhZB+voD8kwxW1e
+        4Kzyh4dRTTHallQg6fhKuFvwBanWT38uFv835Mk=
+X-Google-Smtp-Source: ABdhPJxbZM+wGTQtyzJK0pqVD5aE/ZZ1gwMp2HHcmx++gZIIHJRPZZevP5TBdrK9I5Guafho/6z87YEQKfYRBUMvoKk=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr3273222otb.250.1603978748575;
+ Thu, 29 Oct 2020 06:39:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.72.94.34]
+References: <20200920134905.4370-1-biju.das.jz@bp.renesas.com> <20200920134905.4370-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20200920134905.4370-6-biju.das.jz@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 29 Oct 2020 14:38:57 +0100
+Message-ID: <CAMuHMdXYCFWf_pCaaHrybxWYq6LoV0QJk9ShLLUAu1Z6qgArvA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] arm64: dts: renesas: cat874: Move connector node
+ out of hd3ss3220 device
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Create a dedicated DTB for M3-ES3.0 + ULCB + Kingfisher combo.
-Inspire from the pre-existing ULCB-KF device trees:
+On Sun, Sep 20, 2020 at 3:49 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Move connector node out of hd3ss3220 device in order to comply with usb
+> connector bindings.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-$ ls -1 arch/arm64/boot/dts/renesas/*ulcb-kf.dts
-arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dts
-arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dts
-arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dts
-arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dts
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.11.
 
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
- arch/arm64/boot/dts/renesas/Makefile             |  1 +
- arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dts | 15 +++++++++++++++
- 2 files changed, 16 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dts
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index dffefe030a76..4215b7023d88 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -39,6 +39,7 @@ dtb-$(CONFIG_ARCH_R8A77960) += r8a77960-ulcb-kf.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-salvator-xs.dtb
- dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb.dtb
-+dtb-$(CONFIG_ARCH_R8A77961) += r8a77961-ulcb-kf.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-salvator-x.dtb
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-salvator-xs.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dts b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dts
-new file mode 100644
-index 000000000000..6ec958348eb0
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a77961-ulcb-kf.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the M3ULCB Kingfisher board
-+ *
-+ * Copyright (C) 2020 Eugeniu Rosca <rosca.eugeniu@gmail.com>
-+ */
-+
-+#include "r8a77961-ulcb.dts"
-+#include "ulcb-kf.dtsi"
-+
-+/ {
-+	model = "Renesas M3ULCB Kingfisher board based on r8a77961";
-+	compatible = "shimafuji,kingfisher", "renesas,m3ulcb",
-+		     "renesas,r8a77961";
-+};
+                        Geert
+
 -- 
-2.29.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
