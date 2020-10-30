@@ -2,66 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BED5029FD3A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 06:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E4429FF0A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 08:48:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725812AbgJ3F3P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Oct 2020 01:29:15 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:54405 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725784AbgJ3F3N (ORCPT
+        id S1725823AbgJ3HsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Oct 2020 03:48:13 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35572 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725784AbgJ3HsN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Oct 2020 01:29:13 -0400
-X-IronPort-AV: E=Sophos;i="5.77,432,1596466800"; 
-   d="scan'208";a="61230119"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 30 Oct 2020 14:29:11 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 30352400F796;
-        Fri, 30 Oct 2020 14:29:11 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     bhelgaas@google.com, marek.vasut+renesas@gmail.com,
-        robh+dt@kernel.org
-Cc:     prabhakar.mahadev-lad.rj@bp.renesas.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 3/3] dt-bindings: pci: rcar-pci: Add device tree support for r8a774e1
-Date:   Fri, 30 Oct 2020 14:29:05 +0900
-Message-Id: <1604035745-22095-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1604035745-22095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1604035745-22095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 30 Oct 2020 03:48:13 -0400
+Received: by mail-oi1-f193.google.com with SMTP id w191so5856835oif.2;
+        Fri, 30 Oct 2020 00:48:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aUqZb88Q/0ufWYeJ+IWRUs61LFgtSnTkf63Dv6bu7V8=;
+        b=lHCwP4GwwBnJ5+s5JZiF+dKCbpSaOJYzEjyh2FpIp7dwbs1fhyhkIJqokA+airao0/
+         yLLeHMfBsXl7Qo7+/NMC/df/fWiUDvKDoCvjAAGKgSYYvn4m3ubYBdFRbTuz4qyU+rG4
+         PTO9h1UvJ65EBQTTWApKS4WC85sOwf1fnXqsUrtCFZn+L2dXAhA1upk3mElLpRcnI23H
+         l3V8o6SQ8lZdbcIb/M0SKXlWSmrkTmYAe6VNmogAQX7HwGdq19TutcRNgbKwhvf9tEUN
+         hY7OrhbQpnt1Cn/3zn4FPEfMyQP/eT4Ryn0AUh4k+ZpcAhEF//6JXTk449mBPMT0Fryq
+         oGuA==
+X-Gm-Message-State: AOAM5304GdtbpRsL11muXoKM6UjQzOVu81gWn1kNUh2rScKBvufAesSQ
+        o/AV8f3CMSqGkKWzc7oyKl8oFP9B9/fu4j7T601R3kdrk0O2VQ==
+X-Google-Smtp-Source: ABdhPJyM4/0ApYw24j7hJhvVORFY3r9UAsjCRQf9AbmQ++DpOBDdsns9JiBEZ14reWsk+RiL97ai+YaxCmHoLPd7gYc=
+X-Received: by 2002:aca:f203:: with SMTP id q3mr694400oih.148.1604043704014;
+ Fri, 30 Oct 2020 00:41:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201030002850.6495-1-linus.walleij@linaro.org>
+In-Reply-To: <20201030002850.6495-1-linus.walleij@linaro.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 30 Oct 2020 08:41:32 +0100
+Message-ID: <CAMuHMdUS_xZS8nvWiVG9BPit26kvgeYeB2tL3NbLZ6ru5ujD4A@mail.gmail.com>
+Subject: Re: [PATCH] fbdev/sh_mobile: Drop unused include
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Oct 30, 2020 at 1:30 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> The driver includes <linux/gpio.h> but doesn't use any symbols
+> from this file.
+>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: linux-renesas-soc@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-Add PCIe support for the RZ/G2H (a.k.a. R8A774E1).
-
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Documentation/devicetree/bindings/pci/rcar-pci-host.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+on r8a77440/armadillo, where this is the last piece of non-DT support.
 
-diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-index c93b0d1..4a2bcc01 100644
---- a/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-+++ b/Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
-@@ -31,6 +31,7 @@ properties:
-               - renesas,pcie-r8a774a1     # RZ/G2M
-               - renesas,pcie-r8a774b1     # RZ/G2N
-               - renesas,pcie-r8a774c0     # RZ/G2E
-+              - renesas,pcie-r8a774e1     # RZ/G2H
-               - renesas,pcie-r8a7795      # R-Car H3
-               - renesas,pcie-r8a7796      # R-Car M3-W
-               - renesas,pcie-r8a77961     # R-Car M3-W+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
