@@ -2,149 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDE6F29F409
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Oct 2020 19:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF7529F9B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 01:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725791AbgJ2SYH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Oct 2020 14:24:07 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:39798 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbgJ2SYG (ORCPT
+        id S1725372AbgJ3Aaz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Oct 2020 20:30:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbgJ3Aay (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Oct 2020 14:24:06 -0400
-Received: by mail-ot1-f68.google.com with SMTP id o14so3207751otj.6;
-        Thu, 29 Oct 2020 11:24:05 -0700 (PDT)
+        Thu, 29 Oct 2020 20:30:54 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B11C0613D2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Oct 2020 17:30:54 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id 2so5028693ljj.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Oct 2020 17:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WcU6T4hccd5cIgxH69lq3LU3dv7XKAqa7a9Wy3kb2Dc=;
+        b=leJqdVBahsfYuyVGnp9yBWGadv/E8WB9Ig4JGQiNyu3DnPfed0IwIVmf2uEAdtpuMB
+         ICLXiiowdZVfibEEsDMCqRbfIl91S6AvQAV/+A5ydpcsVu+2/dl4vtIzGJRXDePNuGHU
+         JPR7fquhT3lhSKFh61nxSr9dt9pBUBgf8JFbGPQkM4bGwd7ibRTpTjm9lhZvGS0HglWz
+         qF8HP0VrVTBR8H0UY4K23h2f9qLhZe2BArWsOgoXQviCEeNcpqnmracXw+EZnSOGbP8t
+         sa+c265v/OqRU1CmqKElqEBP86I09lB4vcMkMTblkYkyRH9ZwJkQPaJWCrbniyFLXYIz
+         Uz+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4IEYVtSqduzhGKS9TyBWfCcxOVUYCwSEwdK+Y1cmD9g=;
-        b=QdMx1xV7BZ61iQAQ0kpE65veH9yeMKRjW1dgKYmc6COpJZq9+8m9llRJeoiVEXgPsm
-         ifOaiuBeXdRNRs25xUTIT8R3zGZUS9JHr+Ab0Yft3Ca8jAnw7EYn3eE9FdUkoCOCJ8W2
-         vGO4Dijsr0bwpDoVGrtmFYXnUiQwSS3J6H9fornWYODFiRwKqhwSzFZEvffRnds4UNSS
-         VkRwETbiKD+w3XJn0YByCN2mpmDTbWkOTPnULZwQXGUjN5xZlSR3CFyX/BjVieBDou9R
-         PMGRsUlROni9MJdQSjjQS0gIXI3L/J54PFFcTeQGgVEZoMg6spgCF6eyLPWmeiegmoqH
-         7suQ==
-X-Gm-Message-State: AOAM532JplyHMm5N2KU+nH89FITNwsDYWFw1R2WDOGt74mWglF1Vrm06
-        3Gmcr732TlA8pt64Jzv2jLtgs60NYg7OfTYSUPA=
-X-Google-Smtp-Source: ABdhPJzdcG3i35C8JpSQjiJAt0AYBSzBfVI22Cmxbvt5f6BbGMnt3YyMb5pTRGJoLY7Dz/YMWPRgYGqb4ryIfkaf0K0=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr3962567oti.107.1603995845494;
- Thu, 29 Oct 2020 11:24:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201029133741.25721-1-erosca@de.adit-jv.com> <20201029133741.25721-2-erosca@de.adit-jv.com>
- <CAMuHMdX5pCtR-LMbuSJQvDNyVOwcipt7zZOF3c3J-d-Bq98NQg@mail.gmail.com> <20201029163213.GA12422@lxhi-065.adit-jv.com>
-In-Reply-To: <20201029163213.GA12422@lxhi-065.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 29 Oct 2020 19:23:53 +0100
-Message-ID: <CAMuHMdXbwfPk5_dZEzjLuUZx6ysxdmu6hKbd54Ev6jTQUObTCA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a77961: ulcb-kf: Initial
- device tree
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WcU6T4hccd5cIgxH69lq3LU3dv7XKAqa7a9Wy3kb2Dc=;
+        b=CTsY5KlLWIN3OV6ZTzbLnfNBhk4HPMRIzlfF2GM6dvqT0VFH77jmk6iNlGee2lqppH
+         NGnMK7V3E/Ix+KcE4pRVwRvnwEYe9KPq1K+J33jnHAfjC865Lf1cO39F1VPyudiL3qpV
+         yVyTSaSCyffFv5kJqIaVV21ay3vIUkphKcvBVH2wyf0xlj+a0I62kIk8JZ21sqWuAbA+
+         hS7EbGlo2Ivdh5JNuDIAPS5gq+8O+m5HlIi7nHPuDc3J1sOOjrbKWDLsVPbbLyn4P9+y
+         4M7B2Zkll6EmJeT218dj2L6HybC5pwqwRZhNttXKMbIIyVxh6l1YX6LVR4ERKu8Po8Ng
+         yD2w==
+X-Gm-Message-State: AOAM530DiFFosRhoXxGVFklaXLe+ANaYFbICGZU8/MlO8njP/gt3VVsA
+        wkt3jmMKL3xtBKde3bIJ+0I/kA==
+X-Google-Smtp-Source: ABdhPJysATEz/+0sEJLgj3DA4+hz7bygNlLwNnEkTdEngOO0I/TIZuUL4RDZe3S4Qiv5MhxkgBI03A==
+X-Received: by 2002:a2e:8049:: with SMTP id p9mr3121422ljg.9.1604017852754;
+        Thu, 29 Oct 2020 17:30:52 -0700 (PDT)
+Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id j10sm497336ljb.93.2020.10.29.17.30.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 17:30:52 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Steffen Pengel <spengel@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] fbdev/sh_mobile: Drop unused include
+Date:   Fri, 30 Oct 2020 01:28:50 +0100
+Message-Id: <20201030002850.6495-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
+The driver includes <linux/gpio.h> but doesn't use any symbols
+from this file.
 
-On Thu, Oct 29, 2020 at 5:34 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Thu, Oct 29, 2020 at 03:09:10PM +0100, Geert Uytterhoeven wrote:
-> > On Thu, Oct 29, 2020 at 2:38 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > > Create a dedicated DTB for M3-ES3.0 + ULCB + Kingfisher combo.
-> > > Inspire from the pre-existing ULCB-KF device trees:
-> > >
-> > > $ ls -1 arch/arm64/boot/dts/renesas/*ulcb-kf.dts
-> > > arch/arm64/boot/dts/renesas/r8a77950-ulcb-kf.dts
-> > > arch/arm64/boot/dts/renesas/r8a77951-ulcb-kf.dts
-> > > arch/arm64/boot/dts/renesas/r8a77960-ulcb-kf.dts
-> > > arch/arm64/boot/dts/renesas/r8a77965-ulcb-kf.dts
-> > >
-> > > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v5.11.
->
-> Thank you for the prompt review!
->
-> > > +       compatible = "shimafuji,kingfisher", "renesas,m3ulcb",
-> > > +                    "renesas,r8a77961";
-> >
-> > Can you please send a patch to add this combo to
-> > Documentation/devicetree/bindings/arm/renesas.yaml?
->
-> I would happily do so if you resolve below concerns.
->
-> Since the inception of the Kingfisher extension board description in
-> v4.15-rc1 commit 5418a900412699 ("arm: shmobile: Document Kingfisher
-> board DT bindings"), nobody attempted describing the SoC+ULCB+KF
-> combinations in spite of four of such DT configurations being actively
-> used and maintained, i.e. r8a779{50,51,60,65}-ulcb-kf.
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/video/fbdev/sh_mobile_lcdcfb.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-I'm a bit confused. We do have:
-
-      - description: Kingfisher (SBEV-RCAR-KF-M03)
-        items:
-          - const: shimafuji,kingfisher
-          - enum:
-              - renesas,h3ulcb
-              - renesas,m3ulcb
-              - renesas,m3nulcb
-          - enum:
-              - renesas,r8a7795
-              - renesas,r8a7796
-              - renesas,r8a77965
-
-> So, if we start documenting the r8a77961-ulcb-kf combo as a board, this
-> raises below questions:
->
->   => should the missing 4 SoC+ULCB+KF instances be documented as well?
->   => should a new compatible string be created for each such HW combo,
->      e.g. "renesas,<soc>-ulcb-kf"?
->
-> I feel none of the above is really needed, based on the patterns
-> established in Documentation/devicetree/bindings/arm/renesas.yaml,
-> but I might be wrong. Thoughts/suggestions appreciated.
-
-I don't think we want to add new compatible string to describe each
-combo. Just add "renesas,r8a77961" to the last enum?
-
-> IMHO one thing which is certainly worth clarifying and fixing is the
-> KF revision currently documented in renesas.yaml, i.e. M03.
->
-> Shimafuji released at least M04, M05 and M06 revisions of KF (nicely
-> compared at https://elinux.org/R-Car/Boards/Kingfisher#Change_point).
->
-> The question is, does the community intend to support M03 through M06
-> (in which case all of them might need an entry in the documentation) or
-> anything which is earlier than M06 has to be considered deprecated (in
-> which case renesas.yaml would need a simple s/M03/M06/ update)?
-
-I'm not that familiar with KingFisher and the various revisions.
-Do these differences have an impact on the software side?
-The diodes and filters probably don't.
-The I2C repeaters are PCA9548ADB on M03, hence they use a Linux
-driver. By what have they been replaced?
-What's the nature of the MOST ↔ GPS Function select register change?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+index c1043420dbd3..027c74d7c010 100644
+--- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
++++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
+@@ -16,7 +16,6 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/delay.h>
+ #include <linux/fbcon.h>
+-#include <linux/gpio.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/ioctl.h>
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.26.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
