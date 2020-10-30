@@ -2,135 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADB632A0339
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 11:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC8F2A061A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 14:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbgJ3Ksd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Oct 2020 06:48:33 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46664 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726482AbgJ3Ksc (ORCPT
+        id S1726355AbgJ3NCK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Oct 2020 09:02:10 -0400
+Received: from mail-eopbgr1310091.outbound.protection.outlook.com ([40.107.131.91]:27424
+        "EHLO APC01-SG2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726178AbgJ3NCJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Oct 2020 06:48:32 -0400
-Received: by mail-oi1-f193.google.com with SMTP id x1so6169289oic.13;
-        Fri, 30 Oct 2020 03:48:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o/a1Fg1l8jTDVjB4D1N/25wYLdlaFeX7TtKVbE5a6QU=;
-        b=MNbNqKWaeycBfMaxfs6jaw6By+KU4zltvwRJkSq0T1j0gdpXHOYSNhkpx2UXtopcBr
-         2Zu0dWaYcW4m/feTRAbvoxDHKGk44zdu/eW9schEKFU1hHEs8VrPDlLa1wLtz5UROleP
-         ytedGPZbXZUEpaNQHxmkmqzlXB6+25GZbIgD9+JxPofVcK7zAZbrnW9WXnQ7V20jbCHa
-         8uGphlESQC4eZUfyoApvINUZF/IjoDzxntLonSn37Sm3gQgIZjVh6KMj/lJ2q/drwbGz
-         T4Rs/v9mwPEvPyQZef7BnZb6hJxV/ZivDbUp0fexufOWW0gHj4hT0Ap1zV0xG0Q/U6Rz
-         7cag==
-X-Gm-Message-State: AOAM5331PGhsco4iAhx/h6G9z3qMFxJjJAbqpO3fMLtGF42zlNy/9WdH
-        dVny4LIJKJ19icKlxu5SnZzSP9XaekaWmtvtqdM=
-X-Google-Smtp-Source: ABdhPJz6VOJFKEvyavQMgMiOs1PPCRImkfzYWVg19kSmpxLT/Yeaz/lHde0Miqty14Cx+GLfOtOvCsICUqXj+iFp8yE=
-X-Received: by 2002:aca:c490:: with SMTP id u138mr1180705oif.54.1604054911030;
- Fri, 30 Oct 2020 03:48:31 -0700 (PDT)
+        Fri, 30 Oct 2020 09:02:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GEXBCIxbLTbtHykdqshsZEvcqJmW9con1dFmpp3VQ7gjCQ8WwwJaOPNNv47aPeUATJy1MaWE74twrvcaC/e7AE4YNNDUGfd9NILdQ1ZO6xXVumqgT0rWh8smZatm5zVDXWAkBa38y1J19ITBCMwtvX7+4Zq8HZtajHWd9YM8Q74D0QkADVygTR9EoktStD4JghBEcWs5pHZmkD2jG+fOi/XNy2eN85OREdlx3pBtzZyHqdnxyKXjDV0NiYd1Q+63+2ChpcxsVgbEprcqZxjmypRRNCECNJWX14SDYu58vJNLk1dCog2BoE986QmFI8wPQCgTW0jUfk3bQHCjVZ1Ucw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tuz6n2ay/uh3o5VgWKORPoVZzeA8bvUHNd1PNpmk5h8=;
+ b=ZKsbVOOh0KlWiNIQcu/T+P/T3v6j7yjqv4lSSthkzIvzwPG01+U9BwUfKt2DJwhDA+gJjdSMJ/4id8YcYRKAHgUBOnmipti7i4xAPFc8TkHzsImctbM7R7Fp3wJvHW5xb0pjUHbYKnFZ1CFEyVSvhjWFx7MvmE+x8VBnUwfaoEfzEQ5rXJkd/ZaVX5UNpDWhJ1T+Zk79eFdTeKUnN8KB10gyKo7NOfTF/Utfe5M1//AtHFE6FKP3O3L5AQHvtQkz6ws+Q+QYQxZEWZoar2+m45NcFksTRqzu0lAJ/ddGVZF9/XzKpxncXr0mUldyXkvwm0gVF+bjStHKnHLLtRzaBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tuz6n2ay/uh3o5VgWKORPoVZzeA8bvUHNd1PNpmk5h8=;
+ b=LPZ1X8grX0KgI4WR75iOw07nOyVWtgTz0wK/v4sNj8Cu8IAcBxD2+zuJz3BDTnt0wj0NZnNnQRIG45wZFyHF3R1PPwsq6VyyDIOegMA0c5JuSp5CrJ09jAmUVbzFAlenNhbmq0dWdgDOpM4RhRr7HfUkuVdxtQfeb90ZqlDBIHc=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB4025.jpnprd01.prod.outlook.com (2603:1096:404:d6::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Fri, 30 Oct
+ 2020 13:02:02 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::bcba:dccf:7d4c:c883]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::bcba:dccf:7d4c:c883%4]) with mapi id 15.20.3477.028; Fri, 30 Oct 2020
+ 13:02:02 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>
+CC:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH/RFC] mmc: core: disable power off notification when host
+ is removed
+Thread-Topic: [PATCH/RFC] mmc: core: disable power off notification when host
+ is removed
+Thread-Index: AQHWoUNC6tSZ/elwUUidYVOSVqoT96mwNceA
+Date:   Fri, 30 Oct 2020 13:02:02 +0000
+Message-ID: <TY2PR01MB3692EB14470C517E771746E0D8150@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1602581312-23607-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:1d1:f583:fc3b:d64f]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5d73255a-39c3-4198-ea04-08d87cd3feaa
+x-ms-traffictypediagnostic: TY2PR01MB4025:
+x-microsoft-antispam-prvs: <TY2PR01MB4025AE62EB35B08731CDF7CDD8150@TY2PR01MB4025.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kJ8t9u6j0C+vSTXzDgr2YdyCB0qhBA41KyKJLkE3Zr9kOVwaKazucOk36lykcpA0b6ewz8uBusuodQo4+v7ime+pHak/eSArm7q8OOEwWwKPcBhi/w2vmEITwAF+HK7G0dLou3GxrCtTGouoP13XvrwR7oek817z/014WEKWhYgyseMUQ4Hek9yZf9+pVNCCWxjACSyyDqm+vKHqh9ve54tH9TovTJrTgCrV3SXwDgB+6KrQveu/WCnzE6CfcXCaMjCXFrgc3ynIP/OpYO2+ytXe+j+mHW5xHraHCRBYdPdukLeATXFYwbst2/q2D+3Bo2ZgtYZv57gnAmBybMuyRA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(39860400002)(376002)(396003)(136003)(8676002)(52536014)(478600001)(316002)(8936002)(9686003)(66476007)(33656002)(76116006)(66556008)(54906003)(83380400001)(6506007)(15650500001)(64756008)(66446008)(6916009)(66946007)(71200400001)(86362001)(7696005)(5660300002)(55016002)(4744005)(186003)(2906002)(4326008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: tUhOk2p/8Rjclt0fEWbfH8msVLEOT/pwYMvqw5yQwpvaNT4BDOzlj4KbcI8oVbWxKtJX4lvTLkyuUBgfq0buTzoc6+znXnGhxERaz/PYzwab7zWIxDfoS8sLIR7HcH9NBH/gvTTrUU0ubjo2ek/GIGU6KDAfMmH0CpmsG5linshA7ZYZXkIbZRvW0aLanwWbIekoihRZm9NkhswRJOmRcqCvGjrRD4IcbfIStzudOXklB++zGe8peq1f4uxsZLiv/VwJfylt27TT/O95NevfAbZNzg89P/Wu9ttLohKkykYI9eshmiMc85096l1FyzUqHuADpGUT99g5xEgMfEWjybicbK9OvHAoz385c2yRmj4N5gYFzpM6aJct1+MBZeW/RdCLuoMDlInb3vDPTJN1pWCXpJVWhGW4Zveqo9PY49lg3J7CyX6yCCVkWr7QyOYfBWmAbDON55Ca5KF7Zh2fjP5dnFR5fKKiQwtDe9dwGIsCd+WTcTae0X4qPTNLGJkv/O7cJEh53F6L19e8fuIs1tCmxnpD7CLEm2adoiYJMt2t8qPwsqB5FdGA9bpxpgfTj5LjAmDu9wJ8nYAQjGEQ4fK+ZVbz3Y1hCvQda4S38vX87yAWcgBVX8MC4KOvkBBH+gXo/uIUlu0QU06INDBHvCnwY6RuxOZ9peVr+T+/evpKG9Juogc3yAOwmI6Hvr2LgrTcKhyvEM59UnEg/dpCSg==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20201029105515.16309-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVGO+DEgsTr62nA+egU2etZA_vwE9GrOG1JPWBvv90UXg@mail.gmail.com> <CA+V-a8sagMFjaxxVUGMeqG5wdAWwT=oqOPHgTBZ7j0hPP1LcNw@mail.gmail.com>
-In-Reply-To: <CA+V-a8sagMFjaxxVUGMeqG5wdAWwT=oqOPHgTBZ7j0hPP1LcNw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 30 Oct 2020 11:48:19 +0100
-Message-ID: <CAMuHMdX_x9YkUv3DCZxW_sydX1NiQ=5EJjsgo9yQ7pZV-xC_+g@mail.gmail.com>
-Subject: Re: [PATCH v2] clk: renesas: r8a774c0: Add RPC clocks
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d73255a-39c3-4198-ea04-08d87cd3feaa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 13:02:02.4803
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: k3XI+7z3SEoICJ6s7O4n3y4D4C7LfkgNjR/dmDb8qFvo9TuViWZD81cVhl7z6vUI/sr3T/m4bqTVLxrMVkLmXBqiuFH4NZRgQrCH9Y4FQ0u2Z1qRXavoKV/AjbfC9JmI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4025
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Ulf,
 
-On Fri, Oct 30, 2020 at 11:13 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Oct 29, 2020 at 2:29 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Oct 29, 2020 at 11:55 AM Lad Prabhakar
-> > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > Describe the RPCSRC internal clock and the RPC[D2] clocks derived from it,
-> > > as well as the RPC-IF module clock, in the RZ/G2E (R8A774C0) CPG/MSSR
-> > > driver.
-> >
-> > Thanks for your patch!
-> >
-> > > Add new clk type CLK_TYPE_GEN3E3_RPCSRC to handle registering rpcsrc
-> > > clock as the source for RPCSRC can be either PLL0/PLL1 and this depends
-> > > on MD[1:4] pins where as compared to other R-Car Gen3 SoC's the RPCSRC
-> > > clock source is always PLL1.
-> > >
-> > > MD[4] MD[3] MD[2] MD[1]
-> > >   0     0     0    1     -> RPCSRC CLK source is PLL1
-> > >   0     0     1    1     -> RPCSRC CLK source is PLL1
-> > >   0     1     0    0     -> RPCSRC CLK source is PLL1
-> > >   1     0     1    1     -> RPCSRC CLK source is PLL1
-> > >   x     x     x    x     -> For any other values RPCSRC CLK source is PLL0
-> >
-> > AFAIU, the _initial values_ of the RPCCKCR bits depend on the MD pins.
-> > They can still be changed at run-time, and might have been changed by
-> > the bootloader before transferring control to Linux.
-> >
-> > > R-Car Gen3 manual Rev.2.20 has in-correct information related to
-> > > determining the clock source for RPCSRC.
-> >
-> > Which part of the information is not correct?
-> > Where can I find corrected information?
-> > Is my understanding above incorrect, too?
-> >
-> R-Car Gen3 HW manual mentions the below statement (page 529, Rev.2.20 manual):
-> [R-Car E3]
-> When (MD4, MD3, MD2, MD1) = (0, 0, 0, 1) or (0, 1, 0, 0): DIV[2:0] =
-> 011, DIV[4:3] = 00 (300 MHz PLL0)
+> From: Yoshihiro Shimoda, Sent: Tuesday, October 13, 2020 6:29 PM
+>=20
+> User is possible to turn the power off after a host was removed.
+> So, disable the power off notification when a host is removed.
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  This topic was discussed in a few month ago [1], and now I could make
+>  a patch for unbinding the mmc host. I'm not sure this is a correct way
+>  so that I marked RFC.
 
-That indeed doesn't match the values in the DIV[4:0] bits description.
+I would like to drop this patch because my colleague found an issue after
+he applied this patch. The issue is the following timeout happened if
+we unbind a host controller right after system suspend because
+the _mmc_resume() was not called.
 
-> Confirming with internal team this should be below:
->
-> When (MD4, MD3, MD2, MD1) = (0, 0, 0, 1) or (0, 1, 0, 0): DIV[2:0] =
-> 011, DIV[4:3] = 00 (80 MHz PLL1)
->
-> This should be fixed in the next version of the document, and when
-> available I'll ask Chris P to send it across.
+	mmc0: Power Off Notification timed out, 100
 
-OK, that does match the bits.
+I'll make v2 patch in next week.
 
-> > > @@ -696,6 +717,22 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
-> > >                                                   cpg_rpcsrc_div_table,
-> > >                                                   &cpg_lock);
-> > >
-> > > +       case CLK_TYPE_GEN3E3_RPCSRC:
-> > > +               e3_rpcsrc_parent = cpg_rpcsrc_e3_get_parent(cpg_mode);
-> >
-> > This is not correct if the boot loader has changed the parent clock.
-> >
-> You mean by manually togelling the MD pins before we get into Linux ?
+Best regards,
+Yoshihiro Shimoda
 
-No, by writing to the RPCCKCR register.
-Remember, the _initial_ values are determined by the MD pins.
-They can still be changed.
-
-E.g. on R-Car D3, I verified that changing PLL0CR.CKSEL at runtime
-does work.  In the end, we decided to just look at MD12 instead (IIRC
-because the CKSEL bit was removed from later documentation, but
-Rev 2.20 documents it again ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
