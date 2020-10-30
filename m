@@ -2,87 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 136F92A08A5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 15:58:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 952362A08EC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 16:01:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgJ3O6h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Oct 2020 10:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39152 "EHLO
+        id S1726873AbgJ3PBL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Oct 2020 11:01:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726929AbgJ3O6g (ORCPT
+        with ESMTP id S1726935AbgJ3PAa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Oct 2020 10:58:36 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC08C0613D2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:58:34 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id s15so8993989ejf.8
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:58:34 -0700 (PDT)
+        Fri, 30 Oct 2020 11:00:30 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839E5C0613AB
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id i6so8293309lfd.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i2vW/gUa8KABq6vJRUyix0aI3FxbHcHCVNJ+zNv4J+U=;
-        b=KPV3bpHHrAzBaaC50FEZp+AnzqFoDsf4z8fG2+W4QSR91laGEjppD2dpd2cPkJZauC
-         qEcnqyokHcyC/alN6Zz1evo0v6FklEUsIcAlIBHlWmh+p5dlgqj5bTy20UcTr5kpJ2Ln
-         Xjn3QVSADxZAq22aqaHl7jdGHHSpuAfyBIBsMRkPWTA/IBeRuZbKJXr8DmwMdpdhIrPb
-         205xpSbwsxBUDgFC23oKMYvmnUtvbEj0Y6uD9Z54izsByibk6E/MkizklE7OH+T4ko+W
-         ELOVHsUsUjbAtx1KWcn55nqyRK8UJafNsSkFd9igeyIjYA9RJPlA7fpbMT924mVbq96P
-         FJAw==
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
+         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
+         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
+         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
+         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
+         Sb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i2vW/gUa8KABq6vJRUyix0aI3FxbHcHCVNJ+zNv4J+U=;
-        b=ozR0ayZ0sjjAuml2rSXbqkM1K0K60BbW0Z00gJOrAeuLIYwUboe68VYxwgO/4a2tGN
-         6Ht+veNv5/2FsmXIHRza2O3B2Uc29R+TsWUw7tUxe2+ofZdJL9ev3BstS687BooJO9l3
-         4ONnEQrTI7eER+YgbFim8t490mWYy+6Bkr6WMzDMOBDsT9O2cDRumeCnPqP3dSpDiyw9
-         d3T0ZV3R3mEj7ZBR01wuy7gRuilZ3g6dglQZX4ysnN8dHcH2sbaVB3nz0bqVHs/grSDa
-         AgIHRGd+mDV5GjYywu7iFrdGb0C9G9JsmjDUb99+OxoLMOsa3CqV3PxIqlUOF1CmCIU4
-         I3yA==
-X-Gm-Message-State: AOAM530vCIy7xh+QY7Jb2ZlnUOH43DgC0qQWrDayBo/jXi/lanOkf/Hb
-        W1ox00C/O+LvQJqirVJrLwmIxVZLU4bOxo5mhZCISw==
-X-Google-Smtp-Source: ABdhPJwAe5vVmO6vKwNIvkOdI5Rlek4y2s3XyxCFNDw0GCTi9mdwLw0HpOOabuKkXdvVQpzi81tYQoZqMo3W99mrbmw=
-X-Received: by 2002:a17:906:6a8b:: with SMTP id p11mr2948429ejr.470.1604069913474;
- Fri, 30 Oct 2020 07:58:33 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=K61Cnj8bZFTtXiMswOxAQyoO6ZTu2MebWGKnnkulVTQTGOVBAEkaw+ljNM67akothh
+         oKWwLCtoEKQqrMDLEjiHWVHeEfV3Cw9++9qpXRY3LunPw232f/IfO93pgASXJcTUkguQ
+         vuqMGqEtspAwVqbQXMDZC+uhAzJ2a29Xwi6TuGAVjB3cYylYeyEWQCjZE0EdPWXhb2qP
+         8Sr1WcgZS6dSyzNQjRvM23hH3C/lQjJGj71RE/B8l9611vpb8NMzQmXPFwnAWCFtkjda
+         q/mH4nT52Qf1QFMgfeGYbyP/7WmInClkoSGn6vp2XP/xv2J7phProV9wS3NTtLBuaqcj
+         7E5A==
+X-Gm-Message-State: AOAM532fyRri4shmu6cJj2DmFrnCoD0tkJ/xBZx2HzXmQMofISkGVlSl
+        gsMmZOVlOYipoOOqjZR9HZvWrLbzT9DG1T31HKHYOeCoVg==
+X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
+X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
+ Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201028141504.1729093-1-geert+renesas@glider.be>
-In-Reply-To: <20201028141504.1729093-1-geert+renesas@glider.be>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Fri, 30 Oct 2020 15:58:22 +0100
-Message-ID: <CAMpxmJWXUHCOMdZOjqXADx3jM2p0pQUdm2j=qO96ZgJr46JxuA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] gpio: rcar: Cleanups and improvements
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
+ -0700 (PDT)
+Reply-To: li.anable85@gmail.com
+From:   Liliane Abel <k.griest04@gmail.com>
+Date:   Fri, 30 Oct 2020 15:59:34 +0100
+Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 3:15 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->         Hi Linus, Bartosz,
->
-> This patch series contains a few cleanups and improvements for the R-Car
-> GPIO driver.  All four patches are independent.
->
-> The gpio_chip.get_multiple() implementation has been tested on R-Car
-> Gen2 and Gen3.
->
-> Thanks for your comments!
->
-> Geert Uytterhoeven (4):
->   gpio: rcar: Cache gpiochip_get_data() return value
->   gpio: rcar: Align register offsets
->   gpio: rcar: Rework hardware features handling
->   gpio: rcar: Implement gpio_chip.get_multiple()
->
->  drivers/gpio/gpio-rcar.c | 87 ++++++++++++++++++++++++++--------------
->  1 file changed, 58 insertions(+), 29 deletions(-)
->
+Dearest
 
-Applied the entire series, thanks!
+Greeting my dear, I am Liliane Abel by name, The only daughter of late
+Mr.Benson Abel. My father is one of the top Politician in our country
+and my mother is a farmers and cocoa merchant when they were both
+alive. After the death of my mother, long ago, my father was
+controlling their business until he was poisoned by his business
+associates which he suffered and died.
 
-Bartosz
+Before the death of my father, He told me about (two million five
+hundred thousand united states dollars) which he deposited in the bank
+in Lome-Togo, It was the money he intended to transfer overseas for
+investment before he was poisoned. He also instructed me that I should
+seek for foreign partners in any country of my choice who will assist
+me transfer this money in overseas account where the money will be
+wisely invested.
+I am seeking for your kind assistance in the following ways:  (1) to
+provide a safe bank account into where the money will be transferred
+for investment. (2) To serve as a guardian of this fund since I am a
+girl of 19 years old. (3) To make arrangement for me to come over to
+your country to further my education. This is my reason for writing to
+you. Please if you are willing to assist me I will offer you 25% of
+the total money. Reply if  you are interested
+Best regards.
+Liliane Abel.
