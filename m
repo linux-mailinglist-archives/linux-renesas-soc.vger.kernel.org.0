@@ -2,83 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 952362A08EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 16:01:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53DF82A0DB0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Oct 2020 19:44:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726873AbgJ3PBL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Oct 2020 11:01:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726935AbgJ3PAa (ORCPT
+        id S1727208AbgJ3SoJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Oct 2020 14:44:09 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38640 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbgJ3SoJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:00:30 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839E5C0613AB
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id i6so8293309lfd.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
-         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
-         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
-         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
-         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
-         Sb9g==
+        Fri, 30 Oct 2020 14:44:09 -0400
+Received: by mail-ot1-f67.google.com with SMTP id b2so6450709ots.5;
+        Fri, 30 Oct 2020 11:44:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=K61Cnj8bZFTtXiMswOxAQyoO6ZTu2MebWGKnnkulVTQTGOVBAEkaw+ljNM67akothh
-         oKWwLCtoEKQqrMDLEjiHWVHeEfV3Cw9++9qpXRY3LunPw232f/IfO93pgASXJcTUkguQ
-         vuqMGqEtspAwVqbQXMDZC+uhAzJ2a29Xwi6TuGAVjB3cYylYeyEWQCjZE0EdPWXhb2qP
-         8Sr1WcgZS6dSyzNQjRvM23hH3C/lQjJGj71RE/B8l9611vpb8NMzQmXPFwnAWCFtkjda
-         q/mH4nT52Qf1QFMgfeGYbyP/7WmInClkoSGn6vp2XP/xv2J7phProV9wS3NTtLBuaqcj
-         7E5A==
-X-Gm-Message-State: AOAM532fyRri4shmu6cJj2DmFrnCoD0tkJ/xBZx2HzXmQMofISkGVlSl
-        gsMmZOVlOYipoOOqjZR9HZvWrLbzT9DG1T31HKHYOeCoVg==
-X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
-X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
- Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gcNHJHCau2pOQDpyrZFfl1xJmZDsePWMpoESjYncX1c=;
+        b=djzc+nyU1mUonI5WezInvuY4FHaTWxjSZR3tQm7nRzG/EhiHq5HlRS5cnpT7Kp2rD3
+         8VZyXTwGnA8TBkyA/HUKqfj5BjcL+iHKquHAq6+1lvS515gR+2I4kdM7S0j7Qr0pP/+x
+         w8ggTGfOFTUCIUGW4fquCI2t5+KsCWrWOiEqBtP8BYE/ICTveVXnxe0OmIIg1lHl+Sc4
+         HnociNBzCir2cws8G5T2I6+blFp5eh9xeJNE75QkwY2Kfy50XAwzD+X6DGLNN+lt0ZFN
+         QiATuXrpvTehRqadUpmztVT/yCGDSgcj+smD41Y37jfY+CSQTrVD9iWc+XI/vfpLiY8W
+         tNpA==
+X-Gm-Message-State: AOAM531pAlRrwB9jSh9g3YJMCedDbnyMqBXB5n19xXdF0Zn63/riyrIo
+        kmJkJOZlHDiHrrZM+u12aw==
+X-Google-Smtp-Source: ABdhPJzvm7F7vBRH4cH6t3hxs9pt9tO7//v63JS74luelUUJOxBLVqB87resXg6syLdyeUlPHUUS0w==
+X-Received: by 2002:a9d:3b4:: with SMTP id f49mr1313853otf.188.1604083448041;
+        Fri, 30 Oct 2020 11:44:08 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id z8sm1470690otm.45.2020.10.30.11.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 11:44:07 -0700 (PDT)
+Received: (nullmailer pid 4127461 invoked by uid 1000);
+        Fri, 30 Oct 2020 18:44:06 -0000
+Date:   Fri, 30 Oct 2020 13:44:06 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jim Quinlan <james.quinlan@broadcom.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dma-mapping: Fix 32-bit overflow with CONFIG_ARM_LPAE=n
+Message-ID: <20201030184406.GA4125298@bogus>
+References: <20201026152755.3738293-1-geert+renesas@glider.be>
+ <20201027075551.GB22487@lst.de>
+ <20201029155918.GA23872@lst.de>
 MIME-Version: 1.0
-Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
- -0700 (PDT)
-Reply-To: li.anable85@gmail.com
-From:   Liliane Abel <k.griest04@gmail.com>
-Date:   Fri, 30 Oct 2020 15:59:34 +0100
-Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201029155918.GA23872@lst.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dearest
+On Thu, Oct 29, 2020 at 04:59:18PM +0100, Christoph Hellwig wrote:
+> On Tue, Oct 27, 2020 at 08:55:51AM +0100, Christoph Hellwig wrote:
+> > Looks good:
+> > 
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > 
+> > Rob and Frank: do you want to take this through the OF tree, or should
+> > I queue it up in the dma-mapping tree that caused the problem?
+> 
+> I've picked this up in the dma-mapping tree so that we don't miss
+> rc2.
 
-Greeting my dear, I am Liliane Abel by name, The only daughter of late
-Mr.Benson Abel. My father is one of the top Politician in our country
-and my mother is a farmers and cocoa merchant when they were both
-alive. After the death of my mother, long ago, my father was
-controlling their business until he was poisoned by his business
-associates which he suffered and died.
+Thanks.
 
-Before the death of my father, He told me about (two million five
-hundred thousand united states dollars) which he deposited in the bank
-in Lome-Togo, It was the money he intended to transfer overseas for
-investment before he was poisoned. He also instructed me that I should
-seek for foreign partners in any country of my choice who will assist
-me transfer this money in overseas account where the money will be
-wisely invested.
-I am seeking for your kind assistance in the following ways:  (1) to
-provide a safe bank account into where the money will be transferred
-for investment. (2) To serve as a guardian of this fund since I am a
-girl of 19 years old. (3) To make arrangement for me to come over to
-your country to further my education. This is my reason for writing to
-you. Please if you are willing to assist me I will offer you 25% of
-the total money. Reply if  you are interested
-Best regards.
-Liliane Abel.
+Rob
