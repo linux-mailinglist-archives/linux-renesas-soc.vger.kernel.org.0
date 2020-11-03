@@ -2,68 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D94022A3E64
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 09:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FC082A3F17
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 09:41:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbgKCIOI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Nov 2020 03:14:08 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43418 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbgKCIOH (ORCPT
+        id S1725982AbgKCIll (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Nov 2020 03:41:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725968AbgKCIll (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Nov 2020 03:14:07 -0500
-Received: by mail-oi1-f195.google.com with SMTP id t143so5992993oif.10;
-        Tue, 03 Nov 2020 00:14:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ML4Qf2IqKuHcmdLErDvia81aDuFZXWApB8R0myLdlug=;
-        b=M4XZErl9B0aIQdjMek68NW5uPjM3LZS8XFYIG1fECO24XjirO6YXXLBZK4dXtTmcJy
-         GuELGoo/XLhkLmco6aZjZr7B6utayagAOUl42VGhy6TLtY6AWvBdx0eu5Vkc77Cz8yQa
-         I96gAL0MXmNGZtgaspaBbsny9Mck7iUvLptQkPLJyRIb0ZzjFg6VNgx6cNvWjaoRJbWo
-         xaKtR8voriEhtPVrusYA0OYF5RmN+fIMVzGR9rKxrxf5qsWzOIr98qhh5vawvA5L0Q1+
-         IdEH0EcO4xA4j66EQTI5jhZ6E30D/QsIZ0Bovrj+qkBwrSlsvXmRtjkRP+y2ReC5Yy1x
-         WtPw==
-X-Gm-Message-State: AOAM5317/fdRU4nIsu731FiGBWOvVGU1WcT2N+f7qr5UgM58cKVPt8d6
-        IA1CP31V/CjGXSLBO58dRXavJ4fPGwraZR6N0F4=
-X-Google-Smtp-Source: ABdhPJxd/V5/vQ62F/8v5GZf9h7zRgvzdy/A865p+t6gXgSFDf+t3yUfm1M525rHBfhXHW6P8QU2h35EFUGW1cuZdb8=
-X-Received: by 2002:aca:52c9:: with SMTP id g192mr1290541oib.54.1604391246828;
- Tue, 03 Nov 2020 00:14:06 -0800 (PST)
+        Tue, 3 Nov 2020 03:41:41 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53082C0613D1
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  3 Nov 2020 00:41:41 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id nkhd2300l4C55Sk01khdkb; Tue, 03 Nov 2020 09:41:39 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kZrsn-002TJC-Da; Tue, 03 Nov 2020 09:41:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kZrsn-005mij-0F; Tue, 03 Nov 2020 09:41:37 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v5.10-rc1
+Date:   Tue,  3 Nov 2020 09:41:36 +0100
+Message-Id: <20201103084136.1378875-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1604375093-6451-1-git-send-email-yejune.deng@gmail.com>
-In-Reply-To: <1604375093-6451-1-git-send-email-yejune.deng@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Nov 2020 09:13:55 +0100
-Message-ID: <CAMuHMdWoGAEwT97R3pC-864FyG2fc7fQoaBmHxgZPnrRVWE9vw@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: rcar-usb2-clock-sel: Replace devm_reset_control_array_get()
-To:     Yejune Deng <yejune.deng@gmail.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 3, 2020 at 4:45 AM Yejune Deng <yejune.deng@gmail.com> wrote:
-> devm_reset_control_array_get_shared() looks more readable
->
-> Signed-off-by: Yejune Deng <yejune.deng@gmail.com>
+Refresh the defconfig for Renesas ARM systems:
+  - Reorder SoC-specific config options (cfr. commit 6d5aded8d57fc032
+    ("soc: renesas: Sort driver description title")).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.11.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.11.
 
-Gr{oetje,eeting}s,
+ arch/arm/configs/shmobile_defconfig | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-                        Geert
-
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index 4a161b3c35b9e978..01a6ebdf033a6482 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -179,22 +179,22 @@ CONFIG_STAGING=y
+ CONFIG_STAGING_BOARD=y
+ # CONFIG_IOMMU_SUPPORT is not set
+ CONFIG_ARCH_EMEV2=y
++CONFIG_ARCH_R8A7794=y
++CONFIG_ARCH_R8A7779=y
++CONFIG_ARCH_R8A7790=y
++CONFIG_ARCH_R8A7778=y
++CONFIG_ARCH_R8A7793=y
++CONFIG_ARCH_R8A7791=y
++CONFIG_ARCH_R8A7792=y
++CONFIG_ARCH_R8A7740=y
++CONFIG_ARCH_R8A73A4=y
+ CONFIG_ARCH_R7S72100=y
+ CONFIG_ARCH_R7S9210=y
+-CONFIG_ARCH_R8A73A4=y
+-CONFIG_ARCH_R8A7740=y
++CONFIG_ARCH_R8A77470=y
++CONFIG_ARCH_R8A7745=y
+ CONFIG_ARCH_R8A7742=y
+ CONFIG_ARCH_R8A7743=y
+ CONFIG_ARCH_R8A7744=y
+-CONFIG_ARCH_R8A7745=y
+-CONFIG_ARCH_R8A77470=y
+-CONFIG_ARCH_R8A7778=y
+-CONFIG_ARCH_R8A7779=y
+-CONFIG_ARCH_R8A7790=y
+-CONFIG_ARCH_R8A7791=y
+-CONFIG_ARCH_R8A7792=y
+-CONFIG_ARCH_R8A7793=y
+-CONFIG_ARCH_R8A7794=y
+ CONFIG_ARCH_R9A06G032=y
+ CONFIG_ARCH_SH73A0=y
+ CONFIG_IIO=y
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
