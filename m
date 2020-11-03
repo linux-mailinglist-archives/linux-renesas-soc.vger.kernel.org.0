@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BFF72A4B46
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 17:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4FC2A4B48
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 17:25:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728541AbgKCQY6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Nov 2020 11:24:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51582 "EHLO mail.kernel.org"
+        id S1728553AbgKCQZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Nov 2020 11:25:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51678 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728532AbgKCQY5 (ORCPT
+        id S1728532AbgKCQZB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Nov 2020 11:24:57 -0500
+        Tue, 3 Nov 2020 11:25:01 -0500
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AAA09223EA;
-        Tue,  3 Nov 2020 16:24:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9A57820773;
+        Tue,  3 Nov 2020 16:24:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604420696;
-        bh=WSq+jGqn7IIOco4olcXArGnNZtTL3ya7nktnhlMAieY=;
+        s=default; t=1604420700;
+        bh=qxGUjyAKucLG+05VEGNWglb8mPI0UTja9MiuRVQDnWQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yrMBsSVpyHPGYp5WdpHIcomDX/1s7Fplmr9Z+EABIl+81/8DnZ8QV3Z45fS6g1+Az
-         9sSwRq+O1v0J10XthWmjnbMGyMCDdG/t2VgL8VvZp0wrhAx7txHVCLIzd9xBcPENqZ
-         9/Plw74JvB3w/LtLcedTi2KlfWvUeFTl2ZZ0rDxg=
+        b=SZbyoJ5pnEf+2XmxMIM4Wz8VfXVkz422bs0tNq1TqfNT7AJ3RhQO56Mja9kGxdzyY
+         Iw7uk5fZ9AL6sqennPXEvwVOJ6Jc3MQxwa1075nRhYBGvJSMwcMkcOvEKodk4r2u8s
+         4fEdGjJlRddsgT8C75w5oWDwcBdAO8RssCG0zhU8=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -39,9 +39,9 @@ To:     Michael Turquette <mturquette@baylibre.com>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 5/8] clk: imx8mq: drop of_match_ptr from of_device_id table
-Date:   Tue,  3 Nov 2020 17:24:32 +0100
-Message-Id: <20201103162435.13689-5-krzk@kernel.org>
+Subject: [PATCH 6/8] clk: renesas: r8a779a0-cpg-mssr: add static to local function
+Date:   Tue,  3 Nov 2020 17:24:33 +0100
+Message-Id: <20201103162435.13689-6-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103162435.13689-1-krzk@kernel.org>
 References: <20201103162435.13689-1-krzk@kernel.org>
@@ -52,32 +52,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The driver can match only via the DT table so the table should be always
-used and the of_match_ptr does not have any sense (this also allows ACPI
-matching via PRP0001, even though it might be not relevant here).  This
-fixes compile warning (!CONFIG_OF && !CONFIG_MODULES):
+The function rcar_r8a779a0_cpg_clk_register() is not used outside of the
+unit so it can be made static to fix compilation warning:
 
-    drivers/clk/imx/clk-imx8mq.c:626:34: warning:
-        ‘imx8mq_clk_of_match’ defined but not used [-Wunused-const-variable=]
+    drivers/clk/renesas/r8a779a0-cpg-mssr.c:156:21: warning:
+        no previous prototype for ‘rcar_r8a779a0_cpg_clk_register’ [-Wmissing-prototypes]
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/clk/imx/clk-imx8mq.c | 2 +-
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/imx/clk-imx8mq.c b/drivers/clk/imx/clk-imx8mq.c
-index 8265d1d48af4..75186888ecae 100644
---- a/drivers/clk/imx/clk-imx8mq.c
-+++ b/drivers/clk/imx/clk-imx8mq.c
-@@ -639,7 +639,7 @@ static struct platform_driver imx8mq_clk_driver = {
- 		 * reloading the driver will crash or break devices.
- 		 */
- 		.suppress_bind_attrs = true,
--		.of_match_table = of_match_ptr(imx8mq_clk_of_match),
-+		.of_match_table = imx8mq_clk_of_match,
- 	},
- };
- module_platform_driver(imx8mq_clk_driver);
+diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+index 17ebbac7ddfb..7e25b3b8945b 100644
+--- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+@@ -153,7 +153,7 @@ static const struct rcar_r8a779a0_cpg_pll_config *cpg_pll_config __initdata;
+ static unsigned int cpg_clk_extalr __initdata;
+ static u32 cpg_mode __initdata;
+ 
+-struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
++static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+ 	const struct cpg_core_clk *core, const struct cpg_mssr_info *info,
+ 	struct clk **clks, void __iomem *base,
+ 	struct raw_notifier_head *notifiers)
 -- 
 2.25.1
 
