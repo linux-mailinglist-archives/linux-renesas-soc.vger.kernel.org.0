@@ -2,80 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F352A4B53
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 17:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 900C12A5A2B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Nov 2020 23:37:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728592AbgKCQZK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Nov 2020 11:25:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51826 "EHLO mail.kernel.org"
+        id S1730343AbgKCWhi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Nov 2020 17:37:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728209AbgKCQZI (ORCPT
+        id S1729342AbgKCWhi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Nov 2020 11:25:08 -0500
-Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Tue, 3 Nov 2020 17:37:38 -0500
+Received: from localhost (230.sub-72-107-127.myvzw.com [72.107.127.230])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 88E22223AB;
-        Tue,  3 Nov 2020 16:25:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AD8CD223C6;
+        Tue,  3 Nov 2020 22:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604420707;
-        bh=SanVrlJxei82XUzDoQ0j0q/1TrJYAyCBfZoNzZcHYms=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZTCkpKFTdy/oHxFi4BqIJvjJASzLH+BQB/2GH2+d3wZA5soSEbxrGQHb4ckVyKwzH
-         Rn5Amvc9htrCqAOrFcZmbFY2fKF/3GC5gbW1UwqHWznTR+JHmQEDCiHPosNpp3tvP0
-         cMXTHiaJGLCxX522ty4i1VHBe7O/aBrAhR+S6FlQ=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Peng Fan <peng.fan@nxp.com>, Abel Vesa <abel.vesa@nxp.com>,
-        Anson Huang <Anson.Huang@nxp.com>, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        s=default; t=1604443058;
+        bh=alGO7l081fbLxENgyUANQp2DJKzDlClpHItGzHVenpI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=BNG78IeCTtKTR9mC8s7C6PJdRxVBP8JQhM8VBKQ9udqSn56aae9EeAx5IeiH3n3MQ
+         reVqUActE6b/2phX9L5Jl5KoCidj/Rfb9+EeKWbr8DF4KuD9rI7/r70Vod8OSP0XEN
+         UsoIbRERVWFFmKfLGyIZd2Tmnf2TcxokCQld4sAk=
+Date:   Tue, 3 Nov 2020 16:37:36 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     bhelgaas@google.com, marek.vasut+renesas@gmail.com,
+        robh+dt@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 8/8] clk: scpi: mark scpi_clk_match as maybe unused
-Date:   Tue,  3 Nov 2020 17:24:35 +0100
-Message-Id: <20201103162435.13689-8-krzk@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201103162435.13689-1-krzk@kernel.org>
-References: <20201103162435.13689-1-krzk@kernel.org>
+Subject: Re: [PATCH v2 0/3] dt-bindings: pci: rcar-pci-host: convert bindings
+ to json-schema
+Message-ID: <20201103223736.GA271290@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1604035745-22095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The scpi_clk_match (struct of_device_id) is referenced only with
-CONFIG_OF builds thus mark it as __maybe_unused:
+Please follow the subject line convention, e.g.,
 
-    drivers/clk/clk-scpi.c:132:34: warning:
-        ‘scpi_clk_match’ defined but not used [-Wunused-const-variable=]
+  dt-bindings: PCI: rcar-pci-host: Convert ...
+  dt-bindings: PCI: rcar-pci-host: Document ...
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/clk/clk-scpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/clk/clk-scpi.c b/drivers/clk/clk-scpi.c
-index 5a9b140dd8c8..a39af7616b13 100644
---- a/drivers/clk/clk-scpi.c
-+++ b/drivers/clk/clk-scpi.c
-@@ -129,7 +129,7 @@ static const struct clk_ops scpi_dvfs_ops = {
- 	.set_rate = scpi_dvfs_set_rate,
- };
- 
--static const struct of_device_id scpi_clk_match[] = {
-+static const struct of_device_id scpi_clk_match[] __maybe_unused = {
- 	{ .compatible = "arm,scpi-dvfs-clocks", .data = &scpi_dvfs_ops, },
- 	{ .compatible = "arm,scpi-variable-clocks", .data = &scpi_clk_ops, },
- 	{}
--- 
-2.25.1
-
+On Fri, Oct 30, 2020 at 02:29:02PM +0900, Yoshihiro Shimoda wrote:
+> Convert bindings of rcar-pci.txt to json-schema.
+> 
+> Changes from v1:
+>  - In patch 1/3
+>  -- Fix indentation which yamllint detects.
+>  -- Fix typo which checkpatch.pl detects.
+>  -- Add ref: pci-bus.yaml
+>  -- Remove some properties which the pci-bus.yaml defines.
+>  -- Use unevaluatedProperties instead of additionalProperties.
+>  - In patch 2/3
+>  -- Add Reviewed-by from Geert-san.
+> 
+> Lad Prabhakar (1):
+>   dt-bindings: pci: rcar-pci: Add device tree support for r8a774e1
+> 
+> Yoshihiro Shimoda (2):
+>   dt-bindings: pci: rcar-pci-host: convert bindings to json-schema
+>   dt-bindings: pci: rcar-pci-host: document r8a77965 bindings
+> 
+>  .../devicetree/bindings/pci/rcar-pci-host.yaml     | 115 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt |  72 -------------
+>  2 files changed, 115 insertions(+), 72 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/pci/rcar-pci.txt
+> 
+> -- 
+> 2.7.4
+> 
