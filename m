@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D44E2A6292
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Nov 2020 11:52:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D976D2A62A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Nov 2020 11:54:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728607AbgKDKwg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Nov 2020 05:52:36 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38405 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727001AbgKDKwg (ORCPT
+        id S1729526AbgKDKyG convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Nov 2020 05:54:06 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38309 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729400AbgKDKyC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Nov 2020 05:52:36 -0500
-Received: by mail-oi1-f196.google.com with SMTP id 9so21712712oir.5;
-        Wed, 04 Nov 2020 02:52:34 -0800 (PST)
+        Wed, 4 Nov 2020 05:54:02 -0500
+Received: by mail-ot1-f68.google.com with SMTP id b2so18911562ots.5;
+        Wed, 04 Nov 2020 02:54:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5Tgxgz65t1p/f8iIMRXffOT0LvSZivNKheyZ9LDhkIc=;
-        b=cbmlMwJ0Vp256O2KwLamG2DUJZOIdeGF5l4Kjk3ITDK+9H5qdqtxPEo0YlbKFaTtIn
-         w1ac7agk8zpVIzjLjnYsgdr31pP9ecf+dgq0dk7SwOl8e/A1Vg3bjJc1zSEBLlZOOE7T
-         TApX/5T8Ql3uwEwcbiu11yCCg1etISdbaGlszRETpM8wrSNI/2NIwkQo+4EeTHRkUe+7
-         brBxApDeb9I8cSZpMpRr8y+0P4ILD2SE5pWx+kFsSuGiauEoE2HLELz6zJOZCFm/BC4e
-         KsswlrXc2pk1EBsd7Ns2uJqSinTdcQlKRnqVqX41I+ronvC+YRR+p5/Dw3Vm7jbFPUV0
-         yy5A==
-X-Gm-Message-State: AOAM532vZHsqYy/A5FAvWQ1vne6OXICcgL4NQlViiKebm9kZJhGHKNm1
-        041CfR+K0ZknbFTwLxlUjdOMjUa2Xfj6cepu/tA=
-X-Google-Smtp-Source: ABdhPJyvMxieCAu21C5+PVfz2yWWX9ytXdUxoVF8evK3bsrE8Y92FJiB0HEOlFOhHtXntxTD7+2uR7Dx21t0iuJoSCQ=
-X-Received: by 2002:aca:52c9:: with SMTP id g192mr2234724oib.54.1604487154307;
- Wed, 04 Nov 2020 02:52:34 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bZFiMdw9AfqczhhnOLw0PdAOZHm8uCoTpsDyjy95y2E=;
+        b=PnmXdWwIy28xkBlun+jgMrCoMHcwgx7gtWd0vZowd88ho8ZMlN6kk0KhOJPShUjhmR
+         68ebQuFcynEWqKEXd1cdQ33NJKX88u66I1n/1lPiqQftyX3Dcs2zB5dO8qgNuoT0xFES
+         eEn8qnS+BIItu67eDa1vAoGX2xRA1SExRAJ/OpvmnE4EsB3uiRZ/7+zhd9viu5Metx8n
+         MKK4viTP0I9+QFuoovVYjPUxzPjHHOMEwwHKQZ641KVpNEVw3+KTOyZJ+0bNk4QrtQ5X
+         vv209H2PRRLmvLTg+aBzZWJSwR4DwTNxIN2CxadTzyF7WhN9YPXsdMtbWXgiFc3NJLEr
+         y83w==
+X-Gm-Message-State: AOAM532BuRxuTN/NsgP96Mp3NycjlecPpCy+3YI1EohXGAaebaknB/Ji
+        5MN0y+4w7zQV/9ZQrxcB0TD9oxnerjTZdN4DNAM=
+X-Google-Smtp-Source: ABdhPJxaanoeAw7n0wE9LQbm8ZIt9sxPb+Ju/MIYOPk3JellEUYqDZJQbswViFLjObmKhp6PbZKlxVIncGF/D5wwYFk=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr18639764otb.250.1604487241619;
+ Wed, 04 Nov 2020 02:54:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103162435.13689-1-krzk@kernel.org> <20201103162435.13689-7-krzk@kernel.org>
-In-Reply-To: <20201103162435.13689-7-krzk@kernel.org>
+References: <20201103162435.13689-1-krzk@kernel.org> <20201103162435.13689-6-krzk@kernel.org>
+In-Reply-To: <20201103162435.13689-6-krzk@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Nov 2020 11:52:23 +0100
-Message-ID: <CAMuHMdVx_oYFpe8G7iKcQ0FFwpPTTiWZLps3WsLSphqJ0pweyQ@mail.gmail.com>
-Subject: Re: [PATCH 7/8] clk: renesas: renesas-cpg-mssr: fix kerneldoc of cpg_mssr_priv
+Date:   Wed, 4 Nov 2020 11:53:50 +0100
+Message-ID: <CAMuHMdUQwk_oWBEv-ZweF0Z5MLATs4+1zdXdaf1ftit0rvav6Q@mail.gmail.com>
+Subject: Re: [PATCH 6/8] clk: renesas: r8a779a0-cpg-mssr: add static to local function
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -46,6 +47,7 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Peng Fan <peng.fan@nxp.com>, Abel Vesa <abel.vesa@nxp.com>,
         Anson Huang <Anson.Huang@nxp.com>,
         linux-clk <linux-clk@vger.kernel.org>,
@@ -53,20 +55,25 @@ Cc:     Michael Turquette <mturquette@baylibre.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Krzysztof,
+
 On Tue, Nov 3, 2020 at 5:25 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> The struct cpg_mssr_priv missed proper formatting:
+> The function rcar_r8a779a0_cpg_clk_register() is not used outside of the
+> unit so it can be made static to fix compilation warning:
 >
->     drivers/clk/renesas/renesas-cpg-mssr.c:142: warning:
->         cannot understand function prototype: 'struct cpg_mssr_priv '
+>     drivers/clk/renesas/r8a779a0-cpg-mssr.c:156:21: warning:
+>         no previous prototype for ‘rcar_r8a779a0_cpg_clk_register’ [-Wmissing-prototypes]
 >
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.11.
+Thanks for your patch!
+A fix for this is already queued in renesas-clk-for-v5.11:
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?h=renesas-clk-for-v5.11&id=c3f207f6d23d01c0fa817fcd6118bbbc509abe39
 
 Gr{oetje,eeting}s,
 
