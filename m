@@ -2,105 +2,227 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBFC22A5DE7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Nov 2020 06:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEE1D2A5EC0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Nov 2020 08:30:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgKDFlQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Nov 2020 00:41:16 -0500
-Received: from mail-eopbgr1410135.outbound.protection.outlook.com ([40.107.141.135]:38784
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725535AbgKDFlQ (ORCPT
+        id S1728922AbgKDHai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Nov 2020 02:30:38 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:36880 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728504AbgKDHai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Nov 2020 00:41:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=obBWgSp/UfHvlvpbwgXPPev05ENieLwxUgb4oHFc2S1sj4pnhIyMZzNQrBKvAkduP21vJywPiwksDebrSep1aTr6QMr7lo0F2mFkFOAIsp3q2pSq6Lh+6WDqHC6UhUXOnD6iV84zEelw0EFjiRtprRRtC+7uNbBxwNda1HsSJnbs9/vH/BjT24Ec8gQkomu9ZTPV3bAAEcM2aQXomxOXU9wW/etUBtZamJ5hx+bc/bGiRqnAvkhw5O1s/rK8xTgYUwV2R0CWV0bltC+SyXTufCoBj3tDOGSxcFJ+VqTV1yhJd3QeuV+8/31cO2u/16h7C3RHGp4ZKbbiGJE/nvCCqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rk8d7fVFWE7sSm2vJctL0Qdlgk90C1nERbWWQVgoCts=;
- b=BExW1fdhFYel8L6/T2zCTMeW/QTze280fURjP03tzYtSdEptk4TMIShPCTlxfW0KLSwh9mC3N1j0ZfRLpEKbXRr4z+byoFBKVxNMhOEZHM80xoHRq9wYQriE2g1QN2SrGWwDqqcg19/4bHpqACoJ6cTj3tQUqb6842LVSfUo109y3MbDjWY/1di12K9Wx0HY63IczqjhCvwLW8Kq3mge7JLXiF8Ka3+O4WfDvA5HC/Uza8uoZFEDWxxoWxUSrrPvC2cn1Rkn73pIq6xjaOCoWftTUqk1b0YCg3wu2BABlxgwKL44hybbabnNWz9G2x5lp8fjxIaY4WqTL92VBUoFog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rk8d7fVFWE7sSm2vJctL0Qdlgk90C1nERbWWQVgoCts=;
- b=IY80gAudVp1exgVPnH1jQNseb/vo0flg5lKQAX/LjD5cTvuFAB0thsO7PTTIfPpmjdD/CQlFhsrJsQlJVMGmJHUBofIHgXWVBB7PmvOFPy5CTRh5Og7IDs3hTwrDHh4jKMAq6AzgbPLycUlwTQ34FD8KTrNYOpMRb284cOHx7CA=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB3936.jpnprd01.prod.outlook.com (2603:1096:404:c7::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.28; Wed, 4 Nov
- 2020 05:41:13 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::bcba:dccf:7d4c:c883]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::bcba:dccf:7d4c:c883%4]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
- 05:41:13 +0000
+        Wed, 4 Nov 2020 02:30:38 -0500
+X-IronPort-AV: E=Sophos;i="5.77,450,1596466800"; 
+   d="scan'208";a="61630461"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Nov 2020 16:30:37 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F124741F211B;
+        Wed,  4 Nov 2020 16:30:36 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-CC:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: RE: [PATCH/RFC v2 2/2] gpio: rcar: Add R-Car V3U (R8A7799A) support
-Thread-Topic: [PATCH/RFC v2 2/2] gpio: rcar: Add R-Car V3U (R8A7799A) support
-Thread-Index: AQHWrpTVnMJmsp+jTESBiVO0zkRvHKm3eBNQ
-Date:   Wed, 4 Nov 2020 05:41:13 +0000
-Message-ID: <TY2PR01MB369202D0007B832F8627F318D8EF0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20201030081522.2297074-1-geert+renesas@glider.be>
- <20201030081522.2297074-3-geert+renesas@glider.be>
-In-Reply-To: <20201030081522.2297074-3-geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: glider.be; dkim=none (message not signed)
- header.d=none;glider.be; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:184:fa7:6262:a02c]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b2e91b28-0420-451a-8ea7-08d880843df4
-x-ms-traffictypediagnostic: TYAPR01MB3936:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB393688B68F7012BEAF680391D8EF0@TYAPR01MB3936.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5797;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: E36SIoWu8F1TuXjTLvKGDHvzf3xpxHPdQXUIjQ2E/xz8Jm4rAMGmjTfggHfn9193ClkyZoGms7H3EcLLeJsieMHoxatNoguqb2Nr//BCKLIKk2QwKNbT5HqND/vySJ5fc6WsygpqU2IjF3u8yB7T9uubZZW3zJznXXUD9n43IuetMqIKi0txLRMiuv2grBr16VeG3i/afa68ShI7b6kEBQtRg7ff4Wo2bIxEnm4n9VQGu15BxK4x3ZzGpxZKmUAFcVltskUbtepS9ue6viaDXt1/E3fA3JgVE3i6sZcBxWbJQpwCinP2V6cIlgmfy/Z9NF82UK6QX5+7MnyQwfDF+Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(136003)(396003)(39860400002)(366004)(9686003)(54906003)(55016002)(7696005)(71200400001)(8676002)(186003)(52536014)(316002)(53546011)(6506007)(4326008)(5660300002)(478600001)(110136005)(76116006)(33656002)(66476007)(107886003)(66946007)(66446008)(64756008)(66556008)(2906002)(4744005)(86362001)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: xg9gVV2oXznaUjjgX9YbzZgnD34uouuR/4wrfJuwtktxRdxk8rhLHYhp354lLq5BoBYpu6SBbx3kzy96K2CKt3un3TM+V+hR6QJ+IXHWEJMP2QxePOhdoDDECkM3BAaiYJfEdTdNJ02068g9hYW6HAIEyg8AUAa1dFtConv0MXyAFdfYyOswQb1fm5O+pudNWUg/RqyQjODZyaDZBXShO8U1W/PPdpH8uELFv5VS+wGtYT5/PpGSJlHjp11vBxPSZ1UDWcvC7BOrO4q0IQ6hX4bkF7QtdB9q6ri/FCgxH+hjcguPIO0iyogP2l9104dcJwTA+mLEvWRT6Tbm36FdJLMIOomp3fjW7K33MI69RNrRn7HqqoppHRQN/uK8MrmTRR8Kdk/HjglK/nLVq9sK5VvCkgfvq6aWwPxdp5I4WAElMNejWAAle8VBHTHkWoVmNwPvtzArMHPkwWiG0D23pcNsefGtOfdYjHL73LALS8oa1opEUrWt+dhnXfPWMmbm9plFabQYiw8rhwndOzVSK392N8htnWb4g2dIbQN3G9cTdfZ/f7WhxU/IA2ApxN85nONEXiV2pI6geVPWeXeqxAaFnZ3QP2Ukr95kGa89UD4qRsubgMvtT+mVtuF43uKbf+Fo2LOzkjQkMoW38C9RwAu7uGfG/AjxVBtAsp7kF2JhgchP8KIzLbLDMI2WGdIy
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2e91b28-0420-451a-8ea7-08d880843df4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2020 05:41:13.5181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mLToL77bN7/1zLZ5o2l7oY2JmAbtr9NoxoBj3Fj80dFmw8ZokvRPahC8SVQCeLSjm0fAL5tb9/f4D0ZgeHtr2JaHcMrDHEe3HpFauvd7Gp1OVy6MLehfdNPCWHeYX5YX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3936
+To:     geert+renesas@glider.be, robh+dt@kernel.org
+Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Convert bindings to json-schema
+Date:   Wed,  4 Nov 2020 16:30:05 +0900
+Message-Id: <1604475005-29495-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert-san,
+Convert Renesas R-Car USB 2.0 clock selector bindings documentation
+to json-schema.
 
-Thank you for the patch!
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ .../bindings/clock/renesas,rcar-usb2-clock-sel.txt |  68 --------------
+ .../clock/renesas,rcar-usb2-clock-sel.yaml         | 100 +++++++++++++++++++++
+ 2 files changed, 100 insertions(+), 68 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
 
-> From: Geert Uytterhoeven, Sent: Friday, October 30, 2020 5:15 PM
-> Subject: [PATCH/RFC v2 2/2] gpio: rcar: Add R-Car V3U (R8A7799A) support
-
-This subject should be "R8A779A0", not "R8A7799A".
-
-After fixed it,
-
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Best regards,
-Yoshihiro Shimoda
+diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
+deleted file mode 100644
+index da92f57..0000000
+--- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
++++ /dev/null
+@@ -1,68 +0,0 @@
+-* Renesas R-Car USB 2.0 clock selector
+-
+-This file provides information on what the device node for the R-Car USB 2.0
+-clock selector.
+-
+-If you connect an external clock to the USB_EXTAL pin only, you should set
+-the clock rate to "usb_extal" node only.
+-If you connect an oscillator to both the USB_XTAL and USB_EXTAL, this module
+-is not needed because this is default setting. (Of course, you can set the
+-clock rates to both "usb_extal" and "usb_xtal" nodes.
+-
+-Case 1: An external clock connects to R-Car SoC
+-	+----------+   +--- R-Car ---------------------+
+-	|External  |---|USB_EXTAL ---> all usb channels|
+-	|clock     |   |USB_XTAL                       |
+-	+----------+   +-------------------------------+
+-In this case, we need this driver with "usb_extal" clock.
+-
+-Case 2: An oscillator connects to R-Car SoC
+-	+----------+   +--- R-Car ---------------------+
+-	|Oscillator|---|USB_EXTAL -+-> all usb channels|
+-	|          |---|USB_XTAL --+                   |
+-	+----------+   +-------------------------------+
+-In this case, we don't need this selector.
+-
+-Required properties:
+-- compatible: "renesas,r8a7795-rcar-usb2-clock-sel" if the device is a part of
+-	      an R8A7795 SoC.
+-	      "renesas,r8a7796-rcar-usb2-clock-sel" if the device if a part of
+-	      an R8A77960 SoC.
+-	      "renesas,r8a77961-rcar-usb2-clock-sel" if the device if a part of
+-	      an R8A77961 SoC.
+-	      "renesas,rcar-gen3-usb2-clock-sel" for a generic R-Car Gen3
+-	      compatible device.
+-
+-	      When compatible with the generic version, nodes must list the
+-	      SoC-specific version corresponding to the platform first
+-	      followed by the generic version.
+-
+-- reg: offset and length of the USB 2.0 clock selector register block.
+-- clocks: A list of phandles and specifier pairs.
+-- clock-names: Name of the clocks.
+- - The functional clock of USB 2.0 host side must be "ehci_ohci"
+- - The functional clock of HS-USB side must be "hs-usb-if"
+- - The USB_EXTAL clock pin must be "usb_extal"
+- - The USB_XTAL clock pin must be "usb_xtal"
+-- #clock-cells: Must be 0
+-- power-domains: A phandle and symbolic PM domain specifier.
+-                 See power/renesas,rcar-sysc.yaml.
+-- resets: A list of phandles and specifier pairs.
+-- reset-names: Name of the resets.
+- - The reset of USB 2.0 host side must be "ehci_ohci"
+- - The reset of HS-USB side must be "hs-usb-if"
+-
+-Example (R-Car H3):
+-
+-	usb2_clksel: clock-controller@e6590630 {
+-		compatible = "renesas,r8a7795-rcar-usb2-clock-sel",
+-			     "renesas,rcar-gen3-usb2-clock-sel";
+-		reg = <0 0xe6590630 0 0x02>;
+-		clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>,
+-			 <&usb_extal>, <&usb_xtal>;
+-		clock-names = "ehci_ohci", "hs-usb-if", "usb_extal", "usb_xtal";
+-		#clock-cells = <0>;
+-		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+-		resets = <&cpg 703>, <&cpg 704>;
+-		reset-names = "ehci_ohci", "hs-usb-if";
+-	};
+diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
+new file mode 100644
+index 0000000..25ae140
+--- /dev/null
++++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
+@@ -0,0 +1,100 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/clock/renesas,rcar-usb2-clock-sel.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Renesas R-Car USB 2.0 clock selector
++
++maintainers:
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++description: |
++  If you connect an external clock to the USB_EXTAL pin only, you should set
++  the clock rate to "usb_extal" node only.
++  If you connect an oscillator to both the USB_XTAL and USB_EXTAL, this module
++  is not needed because this is default setting. (Of course, you can set the
++  clock rates to both "usb_extal" and "usb_xtal" nodes.
++
++  Case 1: An external clock connects to R-Car SoC
++    +----------+   +--- R-Car ---------------------+
++    |External  |---|USB_EXTAL ---> all usb channels|
++    |clock     |   |USB_XTAL                       |
++    +----------+   +-------------------------------+
++
++  In this case, we need this driver with "usb_extal" clock.
++
++  Case 2: An oscillator connects to R-Car SoC
++    +----------+   +--- R-Car ---------------------+
++    |Oscillator|---|USB_EXTAL -+-> all usb channels|
++    |          |---|USB_XTAL --+                   |
++    +----------+   +-------------------------------+
++  In this case, we don't need this selector.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a7795-rcar-usb2-clock-sel  # R-Car H3
++          - renesas,r8a7796-rcar-usb2-clock-sel  # R-Car M3-W
++          - renesas,r8a77961-rcar-usb2-clock-sel # R-Car M3-W+
++      - const: renesas,rcar-gen3-usb2-clock-sel
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 4
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: ehci_ohci
++      - const: hs-usb-if
++      - const: usb_extal
++      - const: usb_xtal
++
++  '#clock-cells':
++    const: 0
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    minItems: 2
++    maxItems: 2
++
++  reset-names:
++    items:
++      - const: ehci_ohci
++      - const: hs-usb-if
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - '#clock-cells'
++  - power-domains
++  - resets
++  - reset-names
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
++    #include <dt-bindings/power/r8a7795-sysc.h>
++
++    usb2_clksel: clock-controller@e6590630 {
++        compatible = "renesas,r8a7795-rcar-usb2-clock-sel",
++                     "renesas,rcar-gen3-usb2-clock-sel";
++        reg = <0xe6590630 0x02>;
++        clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>,
++                 <&usb_extal>, <&usb_xtal>;
++        clock-names = "ehci_ohci", "hs-usb-if", "usb_extal", "usb_xtal";
++        #clock-cells = <0>;
++        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++        resets = <&cpg 703>, <&cpg 704>;
++        reset-names = "ehci_ohci", "hs-usb-if";
++    };
+-- 
+2.7.4
 
