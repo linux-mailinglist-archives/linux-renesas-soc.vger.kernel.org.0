@@ -2,65 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A618D2A7E59
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Nov 2020 13:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A752A89F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Nov 2020 23:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgKEMLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Nov 2020 07:11:51 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:42336 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725468AbgKEMLv (ORCPT
+        id S1732265AbgKEWfu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Nov 2020 17:35:50 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:42919 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726801AbgKEWfu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:11:51 -0500
-X-IronPort-AV: E=Sophos;i="5.77,453,1596466800"; 
-   d="scan'208";a="61764979"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Nov 2020 21:11:50 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7582C42CCE89;
-        Thu,  5 Nov 2020 21:11:48 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: hihope-rev4: Add a comment explaining switch SW2404 required for audio_clk_b
-Date:   Thu,  5 Nov 2020 12:11:27 +0000
-Message-Id: <20201105121127.11830-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 5 Nov 2020 17:35:50 -0500
+Received: by mail-oi1-f195.google.com with SMTP id w145so3384702oie.9;
+        Thu, 05 Nov 2020 14:35:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4mlZPU3sPVvtAOd4V6r5fBsZrhdGvTkLIZ2NWUKCS5U=;
+        b=fnfFzhY973yj4JwbzgDh05nUl9+ungL7NY9Ap2AKfppoA81YDSvClQCq4qCewVcSVy
+         cku/yxXzmiTXiHjKRIxkCKkpNUGnkvjcvGWrslkgJj/TofO0OO5m6pwuPzbDY6TaFj+K
+         hPnr7lnMKpsSzk3kKTikMs1WvVXAU1vsUYaGgGweU0pgnpaIKgybo/ZOohtG9LYvxPZ2
+         bigenvgAe6kkpsJmIIACYgwcRVjIso9Mx374geZFlT+cCVn5/TEAwJ+VnrfxIuba2DdN
+         ICzWXJicHmtOCD0YGx9Grlju1Gzavgkbsc61Aoz/kUwcMueZg2f/E4EHzkncqMF/Vmcn
+         DWtw==
+X-Gm-Message-State: AOAM531XNkHi7R/7qCWV1HKd/gM5LmNXqB1OZEwHArql4YuIOF5dheaR
+        WMOX037uGQq0GZ0hVDTBsg==
+X-Google-Smtp-Source: ABdhPJwt3adhhn5DCAed1okfmjhtDZ30W4RQDBnuWl1f5BQkobXXO+SPPjU0QwlqoBgKziEz+j3IOg==
+X-Received: by 2002:a05:6808:647:: with SMTP id z7mr1090857oih.76.1604615749414;
+        Thu, 05 Nov 2020 14:35:49 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l23sm630405otk.68.2020.11.05.14.35.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2020 14:35:48 -0800 (PST)
+Received: (nullmailer pid 1925581 invoked by uid 1000);
+        Thu, 05 Nov 2020 22:35:47 -0000
+Date:   Thu, 5 Nov 2020 16:35:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, bhelgaas@google.com,
+        linux-renesas-soc@vger.kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: PCI: rcar-pci-host: Convert bindings
+ to json-schema
+Message-ID: <20201105223547.GA1925483@bogus>
+References: <1604455096-13923-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1604455096-13923-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1604455096-13923-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Switch SW2404 should be at poistion 1 so that clock output from CS2000
-is connected to AUDIO_CLKB_A.
+On Wed, 04 Nov 2020 10:58:14 +0900, Yoshihiro Shimoda wrote:
+> Convert Renesas PCIe Host controller bindings documentation to
+> json-schema. Note that some compatible doesn't contain on
+> the original documentation so that incremental patches are required
+> for it.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  .../devicetree/bindings/pci/rcar-pci-host.yaml     | 113 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt |  72 -------------
+>  2 files changed, 113 insertions(+), 72 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-host.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/pci/rcar-pci.txt
+> 
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
----
- arch/arm64/boot/dts/renesas/hihope-rev4.dtsi | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi b/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
-index 3046c07a288b..929f4a1d3f90 100644
---- a/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-rev4.dtsi
-@@ -91,7 +91,11 @@
- 	#clock-cells = <1>;
- 	clock-frequency = <12288000 11289600>;
- 
--	/* update <audio_clk_b> to <cs2000> */
-+	/*
-+	 * Update <audio_clk_b> to <cs2000>
-+	 * Switch SW2404 should be at position 1 so that clock from
-+	 * CS2000 is connected to AUDIO_CLKB_A
-+	 */
- 	clocks = <&cpg CPG_MOD 1005>,
- 		 <&cpg CPG_MOD 1006>, <&cpg CPG_MOD 1007>,
- 		 <&cpg CPG_MOD 1008>, <&cpg CPG_MOD 1009>,
--- 
-2.17.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
