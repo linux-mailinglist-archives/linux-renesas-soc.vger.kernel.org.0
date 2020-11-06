@@ -2,82 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57D402A94BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Nov 2020 11:52:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C77342A9571
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Nov 2020 12:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727020AbgKFKwJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Nov 2020 05:52:09 -0500
-Received: from www.zeus03.de ([194.117.254.33]:42738 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726201AbgKFKwJ (ORCPT
+        id S1727090AbgKFLbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Nov 2020 06:31:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44026 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbgKFLbb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Nov 2020 05:52:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=kW7jcQSeh8KMLetp28cKRk+j585r
-        hCI11GvwBBmB3/8=; b=kI+AOGA5BUJRlVCx+d7p4EFmN4WRvYwAZPuMh7R1316K
-        F6jYFbBMld5rHCZADc6vL92zVdORiEK9D8hBGUySXF9mQW0lZmrzb5hr7LLpkxOj
-        E/s5pRO9wxv/vNJgn8ANvHC6M7lMavaHKqr/EsTR4woS5LbXmk6h+WEOOLjCH68=
-Received: (qmail 920005 invoked from network); 6 Nov 2020 11:52:07 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Nov 2020 11:52:07 +0100
-X-UD-Smtp-Session: l3s3148p1@4wXvAG6zwO0gAwDPXwt7AM2DJu0qMDpA
-Date:   Fri, 6 Nov 2020 11:52:06 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Fri, 6 Nov 2020 06:31:31 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F037C0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  6 Nov 2020 03:31:30 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id 23so1004517ljv.7
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Nov 2020 03:31:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=hif1CZpMrYGPnFgjUhQLDUvAxi2xjeaezyOfQgkstsM=;
+        b=ip/e5/u++h2rXLikKFrTQSqmIo1HDreDxy8nzHlOBWQKhE4wg3ui0uSw4PoWePAX4F
+         YIakG+kuGJrgJgmPV8MsBzMXEXUDPFFmxiczeGWBsVAdf4o7NsonRyG66TLe54edmDaD
+         E2NItGZf8QggDH14V9QbcV3E/7/qRg+X5Iw0yzRU1+kUp6FmhWC82KYlHirPhwoDJSju
+         6Rh2OwaP9nkBJ5/D3Td8carQISBo3YhzNOEp8EkQPut+6itn1kFQU4lU1o/webG4VSZ8
+         rav1BhPeBLOKbBTfRPUiB0I3iklnJ1sGz9gMKwnsZIp5orPY26gHlKqgdfS1/VOA5fHb
+         hRQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=hif1CZpMrYGPnFgjUhQLDUvAxi2xjeaezyOfQgkstsM=;
+        b=GjLRTEbH37pteA51Bzq0Ozc/SzJXDduP+tBkUDoVaSCMEX0Rrkf8SmFgENy6/Fovp6
+         QezvSMXGqVFCidB0RjUVboWUAzZc33M1XB9bMFGjRobtXJF2X5XK1+g1F5o3iW1Kfvlw
+         12VLWYARM+dBrDyd9+5DIF3NR5a6u4T7BFhtdnzIGwyGC0TvIiVZbiTQKNy9/LogQidO
+         UvXHdoYIRb12yUhwxE+jmJ2cbbKQJhsSlkYjI0GJ2ri+qWWPL2z9S6px2QkHcX3Yj/34
+         D/2zGPUqLmagneCczm67rie/7FQT7WzXdBNfsPEXFaYd23d7H8ASpt/Qfl+WXihZ9PbR
+         OU0Q==
+X-Gm-Message-State: AOAM5320eE8qSoqde1OhKxPHnvrOq85y62ep3/pPcmv1EDxWXuaC8PZ0
+        /yVpxAeBe/811LU/VOvhKiaD8Q==
+X-Google-Smtp-Source: ABdhPJxE3GzXs+vGJ85CuDuIPZqmAF9AVZ0xVJMZ6+bflinVahMWz77YFam7wWMEb21B9VP3s3xO0w==
+X-Received: by 2002:a2e:3c10:: with SMTP id j16mr550600lja.236.1604662289177;
+        Fri, 06 Nov 2020 03:31:29 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id t14sm128278lfk.221.2020.11.06.03.31.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2020 03:31:28 -0800 (PST)
+Date:   Fri, 6 Nov 2020 12:31:27 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     ulf.hansson@linaro.org, kuninori.morimoto.gx@renesas.com,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com,
+        kuninori.morimoto.gx@renesas.com, linux-mmc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH] mmc: host: renesas_sdhi_core: Missing
  tmio_mmc_host_free() in renesas_sdhi_remove()
-Message-ID: <20201106105206.GC3343@ninjato>
+Message-ID: <20201106113127.GA3195686@oden.dyn.berto.se>
 References: <1604654730-29914-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ZmUaFz6apKcXQszQ"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <1604654730-29914-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Shimoda-san,
 
---ZmUaFz6apKcXQszQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your patch.
 
-On Fri, Nov 06, 2020 at 06:25:30PM +0900, Yoshihiro Shimoda wrote:
+On 2020-11-06 18:25:30 +0900, Yoshihiro Shimoda wrote:
 > The commit 94b110aff867 ("mmc: tmio: add tmio_mmc_host_alloc/free()")
 > added tmio_mmc_host_free(), but missed the function calling in
 > the sh_mobile_sdhi_remove() at that time. So, fix it. Otherwise,
 > we cannot rebind the sdhi/mmc devices when we use aliases of mmc.
->=20
+> 
 > Fixes: 94b110aff867 ("mmc: tmio: add tmio_mmc_host_alloc/free()")
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Tested on my Salvator-XS (R-Car M3-N):
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/mmc/host/renesas_sdhi_core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 4143141..03c905a 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -1160,6 +1160,7 @@ int renesas_sdhi_remove(struct platform_device *pdev)
+>  
+>  	tmio_mmc_host_remove(host);
+>  	renesas_sdhi_clk_disable(host);
+> +	tmio_mmc_host_free(host);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.7.4
+> 
 
-
---ZmUaFz6apKcXQszQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl+lKtYACgkQFA3kzBSg
-KbZPag//e8nuRSqILARungh4l4ZRMFCV7MMWqtf5JYxhIUBLs9PWoSYOYlWxZfPx
-KQKlxDfDDIgAF208ljRQjvUohBhiq7/aozDbIZgWSMTyz8QP+EfzkyBX3I++YsGp
-eOYkTAvYNq5gEBxwvA5EquD+f0o5smoEoWKzAsDGE7Y0VLN//jAqajBK3L9Xw62H
-/oh2priwxKY3zGrSmUr5trgRw17E7fE7eJgL7ZfxDIPdCQUhikBYk3t6ki38AVH+
-P3GxxaSsoCmGfUf8jRQuVjgLyKyK8LFYLpB4HtPjguCFwBS/ktyTTm34x9DVEV/j
-ACpYwgGrW0Uh2+C84xN1hChhTDvAI/yIhJ3o6eqP9gip1qJzFEIFySwYd7WANUsG
-RIaPmAK8QZepeQdjT1YG4ZIGjFUuzZLtaC3DzJ2/Gc3XxpQ0jvBlAoBA6fM6YT9S
-Bw5qqXQiJMWM3x7GqzB0k42dTaVPyDp/o80iZovEr6fSnZHoZsb39AQME2ccmLkT
-XBrQ2Y7qc0OsQj+DMWiP4v6r46cK1A8WT5LNY5TPdAmrVak1X2Z7VUDetxEKz/SC
-2r3lBdnmQvoacpjq7y2vy0BXtOVjafrIY5PKjQVOue4qD9JDsGtz5GyaoYdFczv9
-Gq1kHAxUkGWmbfefhdEvLrtC78iguawLu6SeHTdypS3hN4l7Um4=
-=oZXa
------END PGP SIGNATURE-----
-
---ZmUaFz6apKcXQszQ--
+-- 
+Regards,
+Niklas Söderlund
