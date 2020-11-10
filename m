@@ -2,94 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D35902AD6F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 13:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBE32AD701
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 14:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730320AbgKJM6m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Nov 2020 07:58:42 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:49604 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730097AbgKJM6k (ORCPT
+        id S1730344AbgKJNA6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Nov 2020 08:00:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46624 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726462AbgKJNA6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Nov 2020 07:58:40 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AACwLYH048316;
-        Tue, 10 Nov 2020 06:58:21 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1605013101;
-        bh=uXVTrgsRm6xY9WiAoZBFXURTjX9qcI5PcYnV6mMJCcs=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=o0maWUH0jBdrqWzHt8J4HSOq5DApwIzALpFxAaUT2fjXekW29+rcGT433zXQV9XRR
-         OQsOr+LqNcipxlFQM+i1b7Ma+dfGHYWWnxKcUPxskmBJJxGCigXkOaqh7aT+D/45Tt
-         y0CTAqzwyg3/DxvIM63BVViXQJN9X81VFxj1LR6s=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AACwLRt034302
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 10 Nov 2020 06:58:21 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 06:58:20 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 06:58:20 -0600
-Received: from [10.250.233.179] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AACwHnW123876;
-        Tue, 10 Nov 2020 06:58:18 -0600
-Subject: Re: [PATCH] mtd: spi-nor: winbond: Add support for w25m512jw
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        <linux-mtd@lists.infradead.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-References: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Vignesh Raghavendra <vigneshr@ti.com>
-Message-ID: <849bf80d-4081-1b90-9490-702e8a0b5a12@ti.com>
-Date:   Tue, 10 Nov 2020 18:28:16 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 10 Nov 2020 08:00:58 -0500
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A366C0613D1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Nov 2020 05:00:58 -0800 (PST)
+Received: by mail-ua1-x943.google.com with SMTP id q4so3902589ual.8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Nov 2020 05:00:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/6YurlLlicIVj7vLlm8si4vZRusPlgVaXDTWA7wmn+g=;
+        b=rDNNZITX2eio3Y2gggFJkipPaqFZoZQ3tJdsafYlzEG4BApRQhWQFPJDQF//QFxRya
+         hUiOKYI6hcoVOROiTkiedKf2AEc98+40lH8xz9TTtY1F0mg1BUw8ECnE7rclmWMzz0e+
+         qxTnzDE3DBtGZwoScLgnikl5ly0U6vleBlO9WEynAQ5nlxswg6+tcFAqgC91LQiosFKh
+         hilZI/29fQQLxqr+cbXrndzeA2hSTAEBmoW46D6JvX+h2Hl3LAnXGt1YWaMBvLhQrGBQ
+         E4SJf6uLfHubJB99tf60FUa5hUaK2kKE++miD3zZzsLSNdjw9wN0BGK3FGAJD64rhRe1
+         yXdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/6YurlLlicIVj7vLlm8si4vZRusPlgVaXDTWA7wmn+g=;
+        b=ez4u+DVQE2aOHKr//BFQY9+ORooQD72fheHlTdW9zaD6+GYLrIh0TO5rto9V8MivUL
+         /XHDAWYaCuUlJ3yK7jGin2hpsR1Pk8C81+YE/+SJ8QOl3jNZNx0KDxMhYphksn04ORaI
+         C1TNFATItaONr0oDyZ1amM/npXW9bV50PwWtynyncwoMwCmKbVpqyeCtKc5uZaDwOyZF
+         Wmc2IuAdbQQFBQ0ncEPEx5gobQDAhX9mLExxwK4MGr8ratywsN5PXkGUd0gR8grzWZuy
+         3FFVxMWQ0bpohoeNo5wHZKGMN/BYbEBSro3xAEXaAPxyojECDzlvcYEYIqie6BtUiEr6
+         lB8g==
+X-Gm-Message-State: AOAM533yPzUVyJMwWucwjDhxQkX4GaaXq2913lorpmvtwHC3KXgSMG0q
+        uVVYzOuPmjYULm4M/attFpeIj02nBRnJw58nO0QcZxp5VGOa0A==
+X-Google-Smtp-Source: ABdhPJw3KTVisdj01eFLXUGuNaz3s+PkFiTbMVxRTquH65s3FQzzLHnoZJSAsiB0Ngt1mKU7ftVcAST6y5t4FF5A2hI=
+X-Received: by 2002:ab0:7103:: with SMTP id x3mr4441288uan.100.1605013257136;
+ Tue, 10 Nov 2020 05:00:57 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20201106072549.1495-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFpGX0HOQr4z4LEH9FLiqeRJzNiUpBLpCNquJGJnZNFycg@mail.gmail.com> <20201110124018.GA3612@ninjato>
+In-Reply-To: <20201110124018.GA3612@ninjato>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 10 Nov 2020 14:00:19 +0100
+Message-ID: <CAPDyKFqT0Yz=aKku_OFj3=dDaBpK6kdvAPOOV9_xAvQ_yt+1bg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] tmio/sdhi: fix workaround for a regression
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, 10 Nov 2020 at 13:40, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> On Tue, Nov 10, 2020 at 01:26:08PM +0100, Ulf Hansson wrote:
+> > On Fri, 6 Nov 2020 at 08:26, Wolfram Sang
+> > <wsa+renesas@sang-engineering.com> wrote:
+> > >
+> > > After some refactoring, I had to insert a workaround because a
+> > > regression was discovered when re-inserting SD cards. Now, this series
+> > > implements the proper fixes and finally reverts the workaround.
+> > >
+> > > This has been tested on Salvator-XS (M3N and H3 ES2.0). These patches
+> > > were already discussed with Shimoda-san and the BSP team internally.
+> > > However, I'd appreciate Shimoda-san's tags be given here to make sure
+> > > the patches are exactly that what we discussed.
+> > >
+> > > Thanks and happy hacking!
+> > >
+> > >
+> > > Wolfram Sang (3):
+> > >   mmc: tmio: when resetting, reset DMA controller, too
+> > >   mmc: tmio: bring tuning HW to a sane state with MMC_POWER_OFF
+> > >   Revert "mmc: renesas_sdhi: workaround a regression when reinserting SD
+> > >     cards"
+> > >
+> > >  drivers/mmc/host/renesas_sdhi_core.c | 13 -------------
+> > >  drivers/mmc/host/tmio_mmc_core.c     |  7 +++++--
+> > >  2 files changed, 5 insertions(+), 15 deletions(-)
+> > >
+> >
+> > Applied for next, thanks!
+>
+> Can we have this in 5.10, too?
 
+Of course, thanks for the reminder! I have moved these to my fixes branch.
 
-On 10/16/20 5:25 PM, Lad Prabhakar wrote:
-> This chip is (nearly) identical to the Winbond w25m512jv which is
-> already supported by Linux. Compared to the w25m512jv, the 'jw'
-> has a different JEDEC ID.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-I believe this was tested on a real HW? Including Quad mode?
-
-> ---
->  drivers/mtd/spi-nor/winbond.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-> index 6dcde15fb1aa..b5dfc09fef30 100644
-> --- a/drivers/mtd/spi-nor/winbond.c
-> +++ b/drivers/mtd/spi-nor/winbond.c
-> @@ -88,6 +88,8 @@ static const struct flash_info winbond_parts[] = {
->  			     SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
->  	{ "w25m512jv", INFO(0xef7119, 0, 64 * 1024, 1024,
->  			    SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
-> +	{ "w25m512jw", INFO(0xef6119, 0, 64 * 1024, 1024,
-> +			    SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
->  };
->  
->  /**
-> 
+Kind regards
+Uffe
