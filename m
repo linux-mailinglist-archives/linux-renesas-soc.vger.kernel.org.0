@@ -2,197 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F4052AD6EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 13:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D35902AD6F8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 13:58:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730326AbgKJM4T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Nov 2020 07:56:19 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:59092 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729787AbgKJM4T (ORCPT
+        id S1730320AbgKJM6m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Nov 2020 07:58:42 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:49604 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730097AbgKJM6k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Nov 2020 07:56:19 -0500
-X-IronPort-AV: E=Sophos;i="5.77,466,1596466800"; 
-   d="scan'208";a="62244176"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Nov 2020 21:56:17 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A74DA4007F41;
-        Tue, 10 Nov 2020 21:56:15 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
+        Tue, 10 Nov 2020 07:58:40 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AACwLYH048316;
+        Tue, 10 Nov 2020 06:58:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1605013101;
+        bh=uXVTrgsRm6xY9WiAoZBFXURTjX9qcI5PcYnV6mMJCcs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=o0maWUH0jBdrqWzHt8J4HSOq5DApwIzALpFxAaUT2fjXekW29+rcGT433zXQV9XRR
+         OQsOr+LqNcipxlFQM+i1b7Ma+dfGHYWWnxKcUPxskmBJJxGCigXkOaqh7aT+D/45Tt
+         y0CTAqzwyg3/DxvIM63BVViXQJN9X81VFxj1LR6s=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AACwLRt034302
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 10 Nov 2020 06:58:21 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 06:58:20 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 06:58:20 -0600
+Received: from [10.250.233.179] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AACwHnW123876;
+        Tue, 10 Nov 2020 06:58:18 -0600
+Subject: Re: [PATCH] mtd: spi-nor: winbond: Add support for w25m512jw
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        <linux-mtd@lists.infradead.org>,
+        <linux-renesas-soc@vger.kernel.org>
+CC:     <linux-kernel@vger.kernel.org>,
         Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3] clk: renesas: r8a774c0: Add RPC clocks
-Date:   Tue, 10 Nov 2020 12:56:09 +0000
-Message-Id: <20201110125609.30246-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
+        Biju Das <biju.das.jz@bp.renesas.com>
+References: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <849bf80d-4081-1b90-9490-702e8a0b5a12@ti.com>
+Date:   Tue, 10 Nov 2020 18:28:16 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Describe the RPCSRC internal clock and the RPC[D2] clocks derived from it,
-as well as the RPC-IF module clock, in the RZ/G2E (R8A774C0) CPG/MSSR
-driver.
 
-Add new clk type CLK_TYPE_GEN3E3_RPCSRC to register rpcsrc as a fixed
-clock on R-Car Gen3 E3 (and also RZ/G2E which is identical to E3 SoC),
-parent and the divider is set based on the register value CPG_RPCCKCR[4:3]
-(parent is cross verified against MD[4:1] pins) which has been set prior
-to booting the kernel.
 
-MD[4] MD[3] MD[2] MD[1]
-  0     0     0    1     -> RPCSRC CLK source is PLL1
-  0     0     1    1     -> RPCSRC CLK source is PLL1
-  0     1     0    0     -> RPCSRC CLK source is PLL1
-  1     0     1    1     -> RPCSRC CLK source is PLL1
-  x     x     x    x     -> For any other values RPCSRC CLK source is PLL0
+On 10/16/20 5:25 PM, Lad Prabhakar wrote:
+> This chip is (nearly) identical to the Winbond w25m512jv which is
+> already supported by Linux. Compared to the w25m512jv, the 'jw'
+> has a different JEDEC ID.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3
-* Implemented as a fixed clock
+I believe this was tested on a real HW? Including Quad mode?
 
-v1->v2
-* Fixed divider table depending on the clk source
-* Introduced CLK_TYPE_GEN3E3_RPCSRC for E3/G2E.
-
-v1: https://lkml.org/lkml/2020/10/16/474
----
- drivers/clk/renesas/r8a774c0-cpg-mssr.c |  9 +++++
- drivers/clk/renesas/rcar-gen3-cpg.c     | 49 +++++++++++++++++++++++++
- drivers/clk/renesas/rcar-gen3-cpg.h     |  4 ++
- 3 files changed, 62 insertions(+)
-
-diff --git a/drivers/clk/renesas/r8a774c0-cpg-mssr.c b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-index 9fc9fa9e531a..ed3a2cf0e0bb 100644
---- a/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a774c0-cpg-mssr.c
-@@ -44,6 +44,7 @@ enum clk_ids {
- 	CLK_S2,
- 	CLK_S3,
- 	CLK_SDSRC,
-+	CLK_RPCSRC,
- 	CLK_RINT,
- 	CLK_OCO,
- 
-@@ -74,6 +75,13 @@ static const struct cpg_core_clk r8a774c0_core_clks[] __initconst = {
- 	DEF_FIXED(".s3",       CLK_S3,             CLK_PLL1,       6, 1),
- 	DEF_FIXED(".sdsrc",    CLK_SDSRC,          CLK_PLL1,       2, 1),
- 
-+	DEF_FIXED_RPCSRC_E3(".rpcsrc", CLK_RPCSRC, CLK_PLL0, CLK_PLL1),
-+
-+	DEF_BASE("rpc",		R8A774C0_CLK_RPC, CLK_TYPE_GEN3_RPC,
-+		 CLK_RPCSRC),
-+	DEF_BASE("rpcd2",	R8A774C0_CLK_RPCD2, CLK_TYPE_GEN3_RPCD2,
-+		 R8A774C0_CLK_RPC),
-+
- 	DEF_DIV6_RO(".r",      CLK_RINT,           CLK_EXTAL, CPG_RCKCR, 32),
- 
- 	DEF_RATE(".oco",       CLK_OCO,            8 * 1000 * 1000),
-@@ -199,6 +207,7 @@ static const struct mssr_mod_clk r8a774c0_mod_clks[] __initconst = {
- 	DEF_MOD("can-fd",		 914,	R8A774C0_CLK_S3D2),
- 	DEF_MOD("can-if1",		 915,	R8A774C0_CLK_S3D4),
- 	DEF_MOD("can-if0",		 916,	R8A774C0_CLK_S3D4),
-+	DEF_MOD("rpc-if",		 917,	R8A774C0_CLK_RPCD2),
- 	DEF_MOD("i2c6",			 918,	R8A774C0_CLK_S3D2),
- 	DEF_MOD("i2c5",			 919,	R8A774C0_CLK_S3D2),
- 	DEF_MOD("i2c-dvfs",		 926,	R8A774C0_CLK_CP),
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-index 488f8b3980c5..00c3d5570274 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.c
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-@@ -427,6 +427,19 @@ static struct clk * __init cpg_sd_clk_register(const char *name,
- 	return clk;
- }
- 
-+static bool __init cpg_rpcsrc_e3_parent_is_pll0(u32 mode)
-+{
-+	unsigned int e3_rpcsrc = (mode & GENMASK(4, 1)) >> 1;
-+	unsigned int pll1[] = { 0x1, 0x3, 0x4, 0xb, };
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(pll1); i++)
-+		if (e3_rpcsrc == pll1[i])
-+			return false;
-+
-+	return true;
-+}
-+
- struct rpc_clock {
- 	struct clk_divider div;
- 	struct clk_gate gate;
-@@ -696,6 +709,42 @@ struct clk * __init rcar_gen3_cpg_clk_register(struct device *dev,
- 						  cpg_rpcsrc_div_table,
- 						  &cpg_lock);
- 
-+	case CLK_TYPE_GEN3E3_RPCSRC:
-+		/*
-+		 * Register RPCSRC as fixed factor clock based on the
-+		 * MD[4:1] pins and CPG_RPCCKCR[4:3] register value for
-+		 * which has been set prior to booting the kernel.
-+		 */
-+
-+		value = (readl(base + CPG_RPCCKCR) & GENMASK(4, 3)) >> 3;
-+		if (cpg_rpcsrc_e3_parent_is_pll0(cpg_mode)) {
-+			if (value != 2)
-+				return ERR_PTR(-EINVAL);
-+		} else {
-+			if (value == 2)
-+				return ERR_PTR(-EINVAL);
-+		}
-+
-+		switch (value) {
-+		case 0:
-+			div = 5;
-+			break;
-+		case 1:
-+			div = 3;
-+			break;
-+		case 2:
-+			parent = clks[core->parent >> 16];
-+			if (IS_ERR(parent))
-+				return ERR_CAST(parent);
-+			div = 8;
-+			break;
-+		case 3:
-+		default:
-+			div = 2;
-+			break;
-+		}
-+		break;
-+
- 	case CLK_TYPE_GEN3_RPC:
- 		return cpg_rpc_clk_register(core->name, base,
- 					    __clk_get_name(parent), notifiers);
-diff --git a/drivers/clk/renesas/rcar-gen3-cpg.h b/drivers/clk/renesas/rcar-gen3-cpg.h
-index c4ac80cac6a0..4d20b2a8bd9f 100644
---- a/drivers/clk/renesas/rcar-gen3-cpg.h
-+++ b/drivers/clk/renesas/rcar-gen3-cpg.h
-@@ -24,6 +24,7 @@ enum rcar_gen3_clk_types {
- 	CLK_TYPE_GEN3_OSC,	/* OSC EXTAL predivider and fixed divider */
- 	CLK_TYPE_GEN3_RCKSEL,	/* Select parent/divider using RCKCR.CKSEL */
- 	CLK_TYPE_GEN3_RPCSRC,
-+	CLK_TYPE_GEN3E3_RPCSRC,
- 	CLK_TYPE_GEN3_RPC,
- 	CLK_TYPE_GEN3_RPCD2,
- 
-@@ -54,6 +55,9 @@ enum rcar_gen3_clk_types {
- #define DEF_GEN3_Z(_name, _id, _type, _parent, _div, _offset)	\
- 	DEF_BASE(_name, _id, _type, _parent, .div = _div, .offset = _offset)
- 
-+#define DEF_FIXED_RPCSRC_E3(_name, _id, _parent0, _parent1)	\
-+	DEF_BASE(_name, _id, CLK_TYPE_GEN3E3_RPCSRC, (_parent0) << 16 | (_parent1))
-+
- struct rcar_gen3_cpg_pll_config {
- 	u8 extal_div;
- 	u8 pll1_mult;
--- 
-2.17.1
-
+> ---
+>  drivers/mtd/spi-nor/winbond.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
+> index 6dcde15fb1aa..b5dfc09fef30 100644
+> --- a/drivers/mtd/spi-nor/winbond.c
+> +++ b/drivers/mtd/spi-nor/winbond.c
+> @@ -88,6 +88,8 @@ static const struct flash_info winbond_parts[] = {
+>  			     SECT_4K | SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ) },
+>  	{ "w25m512jv", INFO(0xef7119, 0, 64 * 1024, 1024,
+>  			    SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
+> +	{ "w25m512jw", INFO(0xef6119, 0, 64 * 1024, 1024,
+> +			    SECT_4K | SPI_NOR_QUAD_READ | SPI_NOR_DUAL_READ) },
+>  };
+>  
+>  /**
+> 
