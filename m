@@ -2,99 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB0DC2AD629
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 13:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6CA92AD681
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Nov 2020 13:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730150AbgKJM0v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Nov 2020 07:26:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730086AbgKJM0u (ORCPT
+        id S1730018AbgKJMkd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Nov 2020 07:40:33 -0500
+Received: from www.zeus03.de ([194.117.254.33]:57144 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729832AbgKJMkd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Nov 2020 07:26:50 -0500
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63722C0613CF
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Nov 2020 04:26:49 -0800 (PST)
-Received: by mail-vs1-xe44.google.com with SMTP id 128so6905377vso.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Nov 2020 04:26:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bg9l2seJVZ7O7doP72lzXqaBCKK3JjxmLYGn2ZaiXcE=;
-        b=hI5Q10IHntEe+TBd+uxnI0cuMODlj3zS83HMI5chgEqkVPHIvrZA5bajZ1jL3JQ62E
-         Bsz9VZmPIGh0/aVD8a7lc7ChkAuXhV+UMC3NNKI+7vntCiIbtw1xsTyKM5tnhBcGjw4X
-         v6cRCFQOusD/Xm8oS5l2vv9SEM02Ep+NJbFL7vRaZbItkjxk/5Io0+GoR92WoovFuVI+
-         GYnCKqesI8xHK8Qync1FzDZkQY4bR5Nlo9v9gMrrav+4JpW4qz4iLyW50CsU/Qnc6vDF
-         E+q9gOm9nK0uMJUy82EEWaTsBCMQ7gPd4Sq7XtBjseMCQaBT/v+FQ6ilZd3dKtRV6iZ0
-         j5gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bg9l2seJVZ7O7doP72lzXqaBCKK3JjxmLYGn2ZaiXcE=;
-        b=eFmUGJ2RCcqRlqOVPFJAzBB9ygwojFIAdl9i4ojYdfzqw+Nnp7+KzDBsxSzwIn8Wgn
-         T2qxTrQJwfeRbbr8VDfvsz/RaJRW5tF89xmQaZZ7Dm4IYOmicCrAJuIhyCvP/oClUYwv
-         OwU+e/ZLY/83xsDghQKd1mqAEqGJggpMElgWmgVVyMmtipiEmbcaQuj/9HNaOiY7DJeC
-         wx/GzJcpyN2Kc2TfiCC2wRxcjUpkTW9G07hTQu5S1alHHwpNJGLzu7ZqOlwSHHTcJ6rE
-         OCHuD+XAF9apN4qkUdKwfVvDqyZYCyDRCUaxi+I46MiaACC9l1a/Lie2utIBnwEzdXJj
-         er0g==
-X-Gm-Message-State: AOAM533VKrsFxlqDo2wH4ocQ4Nb39ht/Aub1oozFN2qxu71XINJCZe8V
-        bLLpmPE8IhI6+S8ZmUiGaC8ZKedVhFlnYGMv1drD6Q==
-X-Google-Smtp-Source: ABdhPJwCzDANDGShOXJKvk1oOOH5z9VQ/+FB3yhI81IbVRvxLSqK721kLxBv0lsbOd5pLzQRi5uOOBXcNbMG43NXCR8=
-X-Received: by 2002:a67:310d:: with SMTP id x13mr11578035vsx.19.1605011208686;
- Tue, 10 Nov 2020 04:26:48 -0800 (PST)
+        Tue, 10 Nov 2020 07:40:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=pyVtQ0Obh2Q3P6ikIBydi4r4enjH
+        MjwO65sFvCdnVgw=; b=keBbEP+KNYeI2FAFTwELS1nvIwDcDkI9ZLH1TwoyX48i
+        PHW+C8IEIdoc8jkABm/9R6+EstPwIutHTRYUr5FVUigbBy7NL/3tRPkVTVcP6K+x
+        onHCbXWbaDmolskfutvf1cOqdnRCJg1tEp/gdkgz8HUFrxxzgZz5khy9A437dw0=
+Received: (qmail 2168012 invoked from network); 10 Nov 2020 13:40:31 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Nov 2020 13:40:31 +0100
+X-UD-Smtp-Session: l3s3148p1@zIsC/L+zYMkgAwDPXxAvAEQD26z+TKuA
+Date:   Tue, 10 Nov 2020 13:40:18 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 0/3] tmio/sdhi: fix workaround for a regression
+Message-ID: <20201110124018.GA3612@ninjato>
+References: <20201106072549.1495-1-wsa+renesas@sang-engineering.com>
+ <CAPDyKFpGX0HOQr4z4LEH9FLiqeRJzNiUpBLpCNquJGJnZNFycg@mail.gmail.com>
 MIME-Version: 1.0
-References: <1604654730-29914-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1604654730-29914-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 10 Nov 2020 13:26:11 +0100
-Message-ID: <CAPDyKFpNrX4SgXbOeUgniy0nBt3-LNCAEijm2EnYmEL-SsEEsA@mail.gmail.com>
-Subject: Re: [PATCH] mmc: host: renesas_sdhi_core: Missing tmio_mmc_host_free()
- in renesas_sdhi_remove()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Morimoto <kuninori.morimoto.gx@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFpGX0HOQr4z4LEH9FLiqeRJzNiUpBLpCNquJGJnZNFycg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 6 Nov 2020 at 10:25, Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> The commit 94b110aff867 ("mmc: tmio: add tmio_mmc_host_alloc/free()")
-> added tmio_mmc_host_free(), but missed the function calling in
-> the sh_mobile_sdhi_remove() at that time. So, fix it. Otherwise,
-> we cannot rebind the sdhi/mmc devices when we use aliases of mmc.
->
-> Fixes: 94b110aff867 ("mmc: tmio: add tmio_mmc_host_alloc/free()")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Applied for fixes and by adding a stable tag, thanks!
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kind regards
-Uffe
+On Tue, Nov 10, 2020 at 01:26:08PM +0100, Ulf Hansson wrote:
+> On Fri, 6 Nov 2020 at 08:26, Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> >
+> > After some refactoring, I had to insert a workaround because a
+> > regression was discovered when re-inserting SD cards. Now, this series
+> > implements the proper fixes and finally reverts the workaround.
+> >
+> > This has been tested on Salvator-XS (M3N and H3 ES2.0). These patches
+> > were already discussed with Shimoda-san and the BSP team internally.
+> > However, I'd appreciate Shimoda-san's tags be given here to make sure
+> > the patches are exactly that what we discussed.
+> >
+> > Thanks and happy hacking!
+> >
+> >
+> > Wolfram Sang (3):
+> >   mmc: tmio: when resetting, reset DMA controller, too
+> >   mmc: tmio: bring tuning HW to a sane state with MMC_POWER_OFF
+> >   Revert "mmc: renesas_sdhi: workaround a regression when reinserting SD
+> >     cards"
+> >
+> >  drivers/mmc/host/renesas_sdhi_core.c | 13 -------------
+> >  drivers/mmc/host/tmio_mmc_core.c     |  7 +++++--
+> >  2 files changed, 5 insertions(+), 15 deletions(-)
+> >
+>=20
+> Applied for next, thanks!
+
+Can we have this in 5.10, too?
 
 
-> ---
->  drivers/mmc/host/renesas_sdhi_core.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 4143141..03c905a 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -1160,6 +1160,7 @@ int renesas_sdhi_remove(struct platform_device *pdev)
->
->         tmio_mmc_host_remove(host);
->         renesas_sdhi_clk_disable(host);
-> +       tmio_mmc_host_free(host);
->
->         return 0;
->  }
-> --
-> 2.7.4
->
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl+qii4ACgkQFA3kzBSg
+KbZaMg/9FXv7Ki/XM6daV8bP43ekPc5wBSEeH48y6uA+jCU7xZuY2faBpTe70+Rq
+fc4zOqF4we+KnEzbu6VDTlzLBcRt0xI+4Xz1K/vVp3iA3gWBEJK5OgiGa/A/2lL3
+dL+aOXP6Xka7T5Gb7gfCP42BSlzYfofYXiOqGPBKBmspH3ofZPLpp0fOCevzxqOf
+8SquYEM2JWLolaiyw1TAJziIHUPqufrqfa4Mz6ura1EEk/JmAlVobdxLNppjwiL1
+d9Q4hIwmgqhatzEqc/IpY1llhZ3XIExJWpCafV4i9Gd1l1ssGHvYAVrIYwD6+uuz
+YpO/jEKU6v2eDpoJ22XzWFbUilhPVsARdnpYi2DLbE55LVXXnyysaNWkYr86j+or
+GU59ss0qDk1rT5xcf4BLL+GSwJv8LgA4iOCDgLRFgcu69LLNy5brYyl/yoWeEeja
+bZQNCQ84RytTQHFutwa21u4QmXYQsbdK1fMz3by/4/ioWrhKzH+UFs5QiHfo2jGq
+Rj0Cia6Ip1G2Z5Anr+Xs5h8J/9wGj4vXZiit4JscqvrTdLhfopK6LBus4cKTQbk7
+IorTtl44gcxLcGaWDHWn1YeEtXXlyTwoEConMKKWGWHfwe0LObGuDWuyjK4wJRxs
+6lirNpwOCY/jqKrrHMsNGlE0k7NuEbDpbT4w98oG4MKkksO8Dbk=
+=7yAt
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
