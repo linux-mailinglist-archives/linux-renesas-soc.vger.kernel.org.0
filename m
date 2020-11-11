@@ -2,68 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE2C72AF1D6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 14:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0292AF1C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 14:13:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbgKKNSc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Nov 2020 08:18:32 -0500
-Received: from mail.bata.co.id ([117.54.3.130]:40554 "EHLO mail.bata.co.id"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbgKKNSb (ORCPT
+        id S1726771AbgKKNNC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Nov 2020 08:13:02 -0500
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:39352 "EHLO
+        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726039AbgKKNNB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Nov 2020 08:18:31 -0500
-X-Greylist: delayed 1574 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 08:18:29 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.bata.co.id (Postfix) with ESMTP id 7DCCB6C7435;
-        Wed, 11 Nov 2020 19:34:30 +0700 (WIB)
-Received: from mail.bata.co.id ([127.0.0.1])
-        by localhost (mail.bata.co.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id pRUA-vTlcBKb; Wed, 11 Nov 2020 19:34:30 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.bata.co.id (Postfix) with ESMTP id 7681C6C7442;
-        Wed, 11 Nov 2020 19:34:29 +0700 (WIB)
-X-Virus-Scanned: amavisd-new at bata.co.id
-Received: from mail.bata.co.id ([127.0.0.1])
-        by localhost (mail.bata.co.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id kB-x6Y7g7J3t; Wed, 11 Nov 2020 19:34:29 +0700 (WIB)
-Received: from mail.bata.co.id (mail.bata.co.id [117.54.3.130])
-        by mail.bata.co.id (Postfix) with ESMTP id 44FFA6C7426;
-        Wed, 11 Nov 2020 19:34:28 +0700 (WIB)
-Date:   Wed, 11 Nov 2020 19:34:28 +0700 (WIB)
-From:   =?utf-8?B?0KHQuNGB0YLQtdC80L3QuNC5INCw0LTQvNGW0L3RltGB0YLRgNCw0YLQvtGA?= 
-        <sb57405@bata.co.id>
-Reply-To: mailupgrade@mail2engineer.com
-Message-ID: <1937473043.51996.1605098068234.JavaMail.zimbra@bata.co.id>
-Subject: 
+        Wed, 11 Nov 2020 08:13:01 -0500
+Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
+        by pbmsgap02.intersil.com (8.16.0.42/8.16.0.42) with SMTP id 0ABDCs5q026026;
+        Wed, 11 Nov 2020 08:12:54 -0500
+Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
+        by pbmsgap02.intersil.com with ESMTP id 34npmk9w5p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Wed, 11 Nov 2020 08:12:54 -0500
+Received: from pbmxdp02.intersil.corp (132.158.200.223) by
+ pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.1979.3; Wed, 11 Nov 2020 08:12:52 -0500
+Received: from localhost.localdomain (132.158.202.109) by
+ pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
+ 15.1.1979.3 via Frontend Transport; Wed, 11 Nov 2020 08:12:52 -0500
+From:   Chris Brandt <chris.brandt@renesas.com>
+To:     Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        "Jesse Pfeister" <jpfeister@fender.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH] usb: cdc-acm: Add DISABLE_ECHO for Renesas USB Download mode
+Date:   Wed, 11 Nov 2020 08:12:09 -0500
+Message-ID: <20201111131209.3977903-1-chris.brandt@renesas.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-X-Originating-IP: [110.225.88.196]
-X-Mailer: Zimbra 8.8.15_GA_3975 (zclient/8.8.15_GA_3975)
-Thread-Index: ocKgZdWkWCk5ri83QYGbmxXwd/cP5Q==
-Thread-Topic: 
-Content-Transfer-Encoding: 8BIT
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-11_06:2020-11-10,2020-11-11 signatures=0
+X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 spamscore=0 mlxlogscore=983
+ malwarescore=0 phishscore=0 adultscore=0 suspectscore=2 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011110075
+X-Proofpoint-Spam-Reason: mlx
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-УВАГА;
+Renesas R-Car and RZ/G SoCs have a firmware download mode over USB.
+However, on reset a banner string is transmitted out which is not expected
+to be echoed back and will corrupt the protocol.
 
-Ваша поштова скринька перевищила ліміт пам’яті, який становить 5 ГБ, визначений адміністратором, який наразі працює на 10,9 ГБ, і можливо, ви не зможете надсилати або отримувати нову пошту, поки ви знову не підтвердите свою поштову скриньку. Щоб підтвердити свою поштову скриньку, надішліть таку інформацію нижче:
+Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Cc: stable <stable@vger.kernel.org>
+---
+ drivers/usb/class/cdc-acm.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Ім'я:
-Ім'я користувача:
-пароль:
-Підтвердьте пароль:
-Електронна пошта:
-телефон:
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 1e7568867910..f52f1bc0559f 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1693,6 +1693,15 @@ static const struct usb_device_id acm_ids[] = {
+ 	{ USB_DEVICE(0x0870, 0x0001), /* Metricom GS Modem */
+ 	.driver_info = NO_UNION_NORMAL, /* has no union descriptor */
+ 	},
++	{ USB_DEVICE(0x045b, 0x023c),	/* Renesas USB Download mode */
++	.driver_info = DISABLE_ECHO,	/* Don't echo banner */
++	},
++	{ USB_DEVICE(0x045b, 0x0248),	/* Renesas USB Download mode */
++	.driver_info = DISABLE_ECHO,	/* Don't echo banner */
++	},
++	{ USB_DEVICE(0x045b, 0x024D),	/* Renesas USB Download mode */
++	.driver_info = DISABLE_ECHO,	/* Don't echo banner */
++	},
+ 	{ USB_DEVICE(0x0e8d, 0x0003), /* FIREFLY, MediaTek Inc; andrey.arapov@gmail.com */
+ 	.driver_info = NO_UNION_NORMAL, /* has no union descriptor */
+ 	},
+-- 
+2.28.0
 
-Якщо ви не можете повторно перевірити свою поштову скриньку, поштову скриньку буде вимкнено!
-
-Вибачте за порушення
-Код підтвердження: 666690opp4r56: 006524
-Електронна пошта Технічна підтримка © 2020
-
-Дякую
-Системний адміністратор
