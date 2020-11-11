@@ -2,29 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEE92AF013
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 12:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD3F2AF025
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 12:57:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgKKLze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Nov 2020 06:55:34 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:48655 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbgKKLzd (ORCPT
+        id S1725995AbgKKL5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Nov 2020 06:57:03 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:33173 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbgKKL5D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Nov 2020 06:55:33 -0500
-X-Originating-IP: 93.34.118.233
+        Wed, 11 Nov 2020 06:57:03 -0500
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 6AF05C0004;
-        Wed, 11 Nov 2020 11:55:30 +0000 (UTC)
-Date:   Wed, 11 Nov 2020 12:55:31 +0100
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 7799F100002;
+        Wed, 11 Nov 2020 11:57:00 +0000 (UTC)
+Date:   Wed, 11 Nov 2020 12:57:02 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH 1/4] pinctrl: renesas: r8a77951: Add vin{4,5}_g8 pins
-Message-ID: <20201111115531.kgp6kabpdwygxpn2@uno.localdomain>
+Message-ID: <20201111115702.kpjzypke4s7r5jmz@uno.localdomain>
 References: <20201110234752.52846-1-niklas.soderlund+renesas@ragnatech.se>
  <20201110234752.52846-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
@@ -36,29 +35,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+An additional note
 
 On Wed, Nov 11, 2020 at 12:47:49AM +0100, Niklas Söderlund wrote:
 > This patch adds VIN{4,5}_g8 support to the R8A77951 SoC.
-
-Now that I've asked offline why the 'g' in the group name I see
-the reason which otherwise let me search for a _g group that does not
-exists in the documentation.
-
-Can you mention in this and other patches that the groups are 8-pins
-groups on VIN4/5 [15:8] pins, named 'g' as when capturing RGB they are
-dedicated to the green channel ?
-
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Patch looks good
-
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
 > ---
 >  drivers/pinctrl/renesas/pfc-r8a77951.c | 30 +++++++++++++++++++++++++-
 >  1 file changed, 29 insertions(+), 1 deletion(-)
@@ -77,6 +59,13 @@ Thanks
 > +	RCAR_GP_PIN(1, 4),  RCAR_GP_PIN(1, 5),
 > +	RCAR_GP_PIN(1, 6),  RCAR_GP_PIN(1, 7),
 > +};
+
+Existing groups have an empty line here, and also 3/4 and 4/4 do.
+
+Can you add it in 1/4 and 2/4 ?
+
+Thanks
+  j
 > +static const unsigned int vin4_g8_mux[] = {
 > +	VI4_DATA8_MARK,  VI4_DATA9_MARK,
 > +	VI4_DATA10_MARK, VI4_DATA11_MARK,
