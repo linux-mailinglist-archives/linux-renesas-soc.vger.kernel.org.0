@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 279A52AEE5A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 11:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 360C52AEE5D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Nov 2020 11:02:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbgKKKCy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Nov 2020 05:02:54 -0500
-Received: from www.zeus03.de ([194.117.254.33]:47534 "EHLO mail.zeus03.de"
+        id S1726395AbgKKKCz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Nov 2020 05:02:55 -0500
+Received: from www.zeus03.de ([194.117.254.33]:47556 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726395AbgKKKCy (ORCPT
+        id S1726719AbgKKKCy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 11 Nov 2020 05:02:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=n8Gi3QPLhRpJD0
-        CXun5HzOY47PMuSQ9DGAr0KyEXrlE=; b=MjzU5vGEcc0zSFoH2uh5i46XNxDEHH
-        2Q2qNbH/sC4owKqbLBBywyiKKwWFVdfAAzGOZG4JKM0o8lzebEGg1WutwUF2hdi/
-        3T5FmapguVpXziTb342G37ZREhMVByu35bDWbibejQns1chH3Xp9Ed9iamr0CdXe
-        zTrQhKdH7krqc=
-Received: (qmail 2440301 invoked from network); 11 Nov 2020 11:02:51 +0100
+        :mime-version:content-transfer-encoding; s=k1; bh=YCy8wxg1ufxHfZ
+        ISYOWIDzjZu1g2JJvtQZltsM1gT/0=; b=V6L3CBRSm11S+DClWWr0p9iMu5PFGi
+        prNNqxnf9/jAsrUMx+IoWM8t2ThvKYvakjEIfAQzooMg277hEiQPNt+vgUVeczli
+        pu9oH/meb0An5y/EWzhzoMnAO+CLLP20arL39HpL6IzXtpvK+42R4F2FGCUCD7IB
+        lu4T5VbLLYb9o=
+Received: (qmail 2440327 invoked from network); 11 Nov 2020 11:02:51 +0100
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 11 Nov 2020 11:02:51 +0100
-X-UD-Smtp-Session: l3s3148p1@Elr75dGzVpMgAwDPXwjxAOzndPPvnXZD
+X-UD-Smtp-Session: l3s3148p1@rq0A5tGzWJMgAwDPXwjxAOzndPPvnXZD
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-mmc@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 1/3] mmc: renesas_sdhi: improve HOST_MODE usage
-Date:   Wed, 11 Nov 2020 11:02:42 +0100
-Message-Id: <20201111100244.15823-2-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/3] mmc: renesas_sdhi: don't hardcode SDIF values
+Date:   Wed, 11 Nov 2020 11:02:43 +0100
+Message-Id: <20201111100244.15823-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201111100244.15823-1-wsa+renesas@sang-engineering.com>
 References: <20201111100244.15823-1-wsa+renesas@sang-engineering.com>
@@ -40,78 +40,59 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-HOST_MODE should have a CTL_ prefix, too. This makes the code more
-readable because we immediately know what it is. Also, remove the
-hardcoded values with something readable, too.
+Use a macro to name the hardcoded values. Also, move the SDIF register
+definition into the SDHI driver because this is an SDHI extension.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/renesas_sdhi_core.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ drivers/mmc/host/renesas_sdhi_core.c | 7 +++++--
+ drivers/mmc/host/tmio_mmc.h          | 1 -
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index 25c6a1993f8e..b3eb0182c4af 100644
+index b3eb0182c4af..55633826d38c 100644
 --- a/drivers/mmc/host/renesas_sdhi_core.c
 +++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -39,7 +39,15 @@
- #include "renesas_sdhi.h"
- #include "tmio_mmc.h"
+@@ -49,6 +49,9 @@
+ #define HOST_MODE_GEN3_32BIT	(HOST_MODE_GEN3_WMODE | HOST_MODE_GEN3_BUSWIDTH)
+ #define HOST_MODE_GEN3_64BIT	0
  
--#define HOST_MODE		0xe4
-+#define CTL_HOST_MODE	0xe4
-+#define HOST_MODE_GEN2_SDR50_WMODE	BIT(0)
-+#define HOST_MODE_GEN2_SDR104_WMODE	BIT(0)
-+#define HOST_MODE_GEN3_WMODE		BIT(0)
-+#define HOST_MODE_GEN3_BUSWIDTH		BIT(8)
++#define CTL_SDIF_MODE	0xe6
++#define SDIF_MODE_HS400		BIT(0)
 +
-+#define HOST_MODE_GEN3_16BIT	HOST_MODE_GEN3_WMODE
-+#define HOST_MODE_GEN3_32BIT	(HOST_MODE_GEN3_WMODE | HOST_MODE_GEN3_BUSWIDTH)
-+#define HOST_MODE_GEN3_64BIT	0
- 
  #define SDHI_VER_GEN2_SDR50	0x490c
  #define SDHI_VER_RZ_A1		0x820b
-@@ -60,26 +68,26 @@ static void renesas_sdhi_sdbuf_width(struct tmio_mmc_host *host, int width)
- 	 */
- 	switch (sd_ctrl_read16(host, CTL_VERSION)) {
- 	case SDHI_VER_GEN2_SDR50:
--		val = (width == 32) ? 0x0001 : 0x0000;
-+		val = (width == 32) ? HOST_MODE_GEN2_SDR50_WMODE : 0;
- 		break;
- 	case SDHI_VER_GEN2_SDR104:
--		val = (width == 32) ? 0x0000 : 0x0001;
-+		val = (width == 32) ? 0 : HOST_MODE_GEN2_SDR104_WMODE;
- 		break;
- 	case SDHI_VER_GEN3_SD:
- 	case SDHI_VER_GEN3_SDMMC:
- 		if (width == 64)
--			val = 0x0000;
-+			val = HOST_MODE_GEN3_64BIT;
- 		else if (width == 32)
--			val = 0x0101;
-+			val = HOST_MODE_GEN3_32BIT;
- 		else
--			val = 0x0001;
-+			val = HOST_MODE_GEN3_16BIT;
- 		break;
- 	default:
- 		/* nothing to do */
- 		return;
- 	}
+ /* very old datasheets said 0x490c for SDR104, too. They are wrong! */
+@@ -381,7 +384,7 @@ static void renesas_sdhi_hs400_complete(struct mmc_host *mmc)
+ 		sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
  
--	sd_ctrl_write16(host, HOST_MODE, val);
-+	sd_ctrl_write16(host, CTL_HOST_MODE, val);
- }
+ 	/* Set HS400 mode */
+-	sd_ctrl_write16(host, CTL_SDIF_MODE, 0x0001 |
++	sd_ctrl_write16(host, CTL_SDIF_MODE, SDIF_MODE_HS400 |
+ 			sd_ctrl_read16(host, CTL_SDIF_MODE));
  
- static int renesas_sdhi_clk_enable(struct tmio_mmc_host *host)
-@@ -795,7 +803,7 @@ static int renesas_sdhi_write16_hook(struct tmio_mmc_host *host, int addr)
- 	case CTL_SD_MEM_CARD_OPT:
- 	case CTL_TRANSACTION_CTL:
- 	case CTL_DMA_ENABLE:
--	case HOST_MODE:
-+	case CTL_HOST_MODE:
- 		if (host->pdata->flags & TMIO_MMC_HAVE_CBSY)
- 			bit = TMIO_STAT_CMD_BUSY;
- 		fallthrough;
+ 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DT2FF,
+@@ -529,7 +532,7 @@ static void renesas_sdhi_reset_hs400_mode(struct tmio_mmc_host *host,
+ 			sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
+ 
+ 	/* Reset HS400 mode */
+-	sd_ctrl_write16(host, CTL_SDIF_MODE, ~0x0001 &
++	sd_ctrl_write16(host, CTL_SDIF_MODE, ~SDIF_MODE_HS400 &
+ 			sd_ctrl_read16(host, CTL_SDIF_MODE));
+ 
+ 	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_DT2FF, priv->scc_tappos);
+diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+index 9546e542619c..7ff41185896a 100644
+--- a/drivers/mmc/host/tmio_mmc.h
++++ b/drivers/mmc/host/tmio_mmc.h
+@@ -42,7 +42,6 @@
+ #define CTL_DMA_ENABLE 0xd8
+ #define CTL_RESET_SD 0xe0
+ #define CTL_VERSION 0xe2
+-#define CTL_SDIF_MODE 0xe6
+ 
+ /* Definitions for values the CTL_STOP_INTERNAL_ACTION register can take */
+ #define TMIO_STOP_STP		BIT(0)
 -- 
 2.28.0
 
