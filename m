@@ -2,67 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE572B15F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Nov 2020 07:51:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1682A2B1E48
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Nov 2020 16:09:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbgKMGvv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Nov 2020 01:51:51 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:47683 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726037AbgKMGvv (ORCPT
+        id S1726808AbgKMPJF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Nov 2020 10:09:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36948 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbgKMPJE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Nov 2020 01:51:51 -0500
-X-IronPort-AV: E=Sophos;i="5.77,474,1596466800"; 
-   d="scan'208";a="62357456"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Nov 2020 15:51:49 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A62E2401351A;
-        Fri, 13 Nov 2020 15:51:49 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org
-Cc:     geert+renesas@glider.be, robh+dt@kernel.org,
-        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 RESEND] dt-bindings: serial: renesas,scif: Document r8a779a0 bindings
-Date:   Fri, 13 Nov 2020 15:51:36 +0900
-Message-Id: <1605250296-30570-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 13 Nov 2020 10:09:04 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F648C0613D1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Nov 2020 07:09:04 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by albert.telenet-ops.be with bizsmtp
+        id rr912300F4C55Sk06r91jz; Fri, 13 Nov 2020 16:09:01 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kdahB-0028AM-1p; Fri, 13 Nov 2020 16:09:01 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kdahA-00GSnI-FR; Fri, 13 Nov 2020 16:09:00 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL 0/4] Renesas ARM SoC updates for v5.11
+Date:   Fri, 13 Nov 2020 16:08:50 +0100
+Message-Id: <20201113150854.3923885-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-R-Car V3U (R8A779A0) SoC also has the R-Car Gen3 compatible
-SCIF ports, so document the SoC specific bindings.
+	Hi arm-soc folks,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Rob Herring <robh@kernel.org>
----
- I should have sent this patch to Greg. I confirmed this patch can be
- applied into next-20201112. So, I resend this now.
- 
- Changes from v1:
- - Add Reviewed-by Geert.
- - Add Acked-by Rob.
- https://patchwork.kernel.org/patch/11760273/
+This is my first pull request for the inclusion of Renesas SoC updates
+for v5.11.
 
- Documentation/devicetree/bindings/serial/renesas,scif.yaml | 1 +
- 1 file changed, 1 insertion(+)
+It consists of 4 parts:
 
-diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-index f589ac7..ae29183 100644
---- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-+++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-@@ -60,6 +60,7 @@ properties:
-               - renesas,scif-r8a77980     # R-Car V3H
-               - renesas,scif-r8a77990     # R-Car E3
-               - renesas,scif-r8a77995     # R-Car D3
-+              - renesas,scif-r8a779a0     # R-Car V3U
-           - const: renesas,rcar-gen3-scif # R-Car Gen3 and RZ/G2
-           - const: renesas,scif           # generic SCIF compatible UART
- 
--- 
-2.7.4
+  [GIT PULL 1/4] Renesas ARM defconfig updates for v5.11
 
+    - Enable support for the new R-Car V3U SoC in the arm64 defconfig,
+    - Refresh shmobile_defconfig for v5.10-rc1.
+
+  [GIT PULL 2/4] Renesas ARM DT updates for v5.11
+
+    - Touch screen and OV5640 camera support for the iWave RainboW Qseven
+      board (G21D), and its camera expansion board,
+    - Support for the AISTARVISION MIPI Adapter V2.1 board connected to
+      HiHope RZ/G2 boards,
+    - SPI (MSIOF) support for the R-Car M3-W+ SoC,
+    - Digital Radio Interface (DRIF) support for the R-Car M3-N SoC,
+    - Initial support for the R-Car M3-W+ ULCB/Kingfisher board combo,
+    - Minor fixes and improvements.
+
+  [GIT PULL 3/4] Renesas driver updates for v5.11
+
+    - Fix a mapping leak in the failure path of the R-Mobile System
+      Controller driver.
+
+  [GIT PULL 4/4] Renesas DT binding updates for v5.11
+
+    - Document suport for the R-Car M3-W+ ULCB/Kingfisher board combo.
+
+Thanks for pulling!
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
