@@ -2,185 +2,349 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC212B3F58
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 10:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AC862B3F7D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 10:10:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728269AbgKPJDq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 04:03:46 -0500
-Received: from mail-eopbgr1300110.outbound.protection.outlook.com ([40.107.130.110]:50933
-        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726291AbgKPJDp (ORCPT
+        id S1728497AbgKPJIl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 04:08:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728492AbgKPJIk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 04:03:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i6A7OpKF8emcrHcczSh+i/Wh5N1hIOzs8MGC8UQ8QjGh4sz0OgeZ0p3YxVJpej/ApYTtIlABGsmLUgT/aFSgr3hzvjVH1oo7NYnFr7emRKGNha1XD2ARTTgzViSUvG6oP34GgsbwW1/KSndRL2Dl556wOkd5o5pVSvUJZm+UhTokzBEjdjDEv1IBxUJyslLoHF/fLxBmZ/E/5kpg4VNgup+a38srUDUwZ9jfgsH38+8233mzvYrMxGMS2koZkwBoA3letHRo7WFLF09SL7X5xb3Bx8nBvPlp1ZKqP3Ldhu/TwDf4yD8oO+VGzgDQHO4oyOo204g6KQLJOVgAL9qBXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qWO3aZGmNIcRlkc1pWNHfnp3BnwEvnrkYqUUABghIRI=;
- b=ZYmRennERsSrjOj3zsYrYVxcXCqSE/A4Fl5g+6ego/iIvOaipy+beBdSo3ny5whWbVmlpe6PCz6JsmujckqRthkko07KEYWv+wi8n9JYijsdXYZM9jERTdPTN1YfPQ/Z4U5iJZvBIIr2hunfM3vRhFY4FIIYNcs27T3tLtCA+G5QEu+g401ysY9hWt7Zu54UxZ1ih1PywS8szlGr7m8m9SNK5+u7kdNb1imDOr/ya9D84TJzRVmpyC4M6snsr8qADjMj2p8P4QyWtdsb2FfdVP4gAsWyuH15A7za/rJwSBVDSSFGaZGFqitXMpmatKl08rU0yr1KQxpEjtSatkDKbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qWO3aZGmNIcRlkc1pWNHfnp3BnwEvnrkYqUUABghIRI=;
- b=n9Lo8hYqxiN/cjbSZUCmGzU3V30j9GrioqQknNSXC+/z+0hzaWF/XWPMkkdvv286enZemxxDnP64yLd19TlraRPK9MpOE4V+fcUpz/RtikxBjB84yrGj0FMsg4Av1ah8MpHaAJES95YDp5TEa/1DdjMeH7O0gkT2ylNYNfCTNnU=
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- (2603:1096:404:8025::15) by TY2PR01MB2122.jpnprd01.prod.outlook.com
- (2603:1096:404:b::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Mon, 16 Nov
- 2020 09:03:38 +0000
-Received: from TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::5d23:de2f:4a70:97db]) by TYBPR01MB5309.jpnprd01.prod.outlook.com
- ([fe80::5d23:de2f:4a70:97db%3]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
- 09:03:37 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: RE: [PATCH v3] clk: renesas: r8a774c0: Add RPC clocks
-Thread-Topic: [PATCH v3] clk: renesas: r8a774c0: Add RPC clocks
-Thread-Index: AQHWt2DiQMDgJXOywkKPxRA3EPixuqnKd7OAgAAE/+A=
-Date:   Mon, 16 Nov 2020 09:03:37 +0000
-Message-ID: <TYBPR01MB53099FFA01431B1E5188B8C686E30@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-References: <20201110125609.30246-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUky4OEvCLnDYr3C-PB+PKdSx3U5+dCfhiftDhf3RKmAQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUky4OEvCLnDYr3C-PB+PKdSx3U5+dCfhiftDhf3RKmAQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linux-m68k.org; dkim=none (message not signed)
- header.d=none;linux-m68k.org; dmarc=none action=none
- header.from=bp.renesas.com;
-x-originating-ip: [109.154.85.162]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 2e57675b-827d-4190-d95f-08d88a0e8179
-x-ms-traffictypediagnostic: TY2PR01MB2122:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB2122ACB205E47422D2B4CB1586E30@TY2PR01MB2122.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wn7MduTF7qM/etjjQPj62pVEvRStRAEcnsYj/GPwGoFKwMHDIZX0FfRfyCceWAvFlih1djHStiPIMqY0A18Q99nR3WEG+T/0KwX6AOXxj/S3MolW143xUymP+uS5Tl80BTwiPayfQR8hQuJ/dxXV/yZyLHpVAy++hd8hdJM3HZYjAsgt2fiw5k5aUt7ygDoqSGXzRkhTw1onFMCWK064urGLtDosoBH6+uKJwaYxgAP9Gv6RyDbdd5CuaBexlsdIEz2XlWLr0ZfPriq75caT+KeYT84bLVgHYCFa3Z9BHpEA8YaVRsCpKm0zx9B/VqMe106tQWmV9WRBI4AstfpqpA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5309.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(4326008)(9686003)(478600001)(55016002)(71200400001)(83380400001)(86362001)(26005)(5660300002)(7696005)(110136005)(66446008)(6506007)(2906002)(66476007)(66946007)(316002)(52536014)(66556008)(33656002)(6636002)(186003)(53546011)(8676002)(8936002)(54906003)(76116006)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: EFfqc2KOMwjN/udlLKG6IwXr55H86vC3M+8EObf8o7B30bRnvT8bg8XMYVi3FwuwBY+nBlbfV9AdET1glVmN/Ftjfc5dyvwdqnGKb8RjBcYI53vYq1K4qx9PqIa4xv1j+Qe35gQ5UJehJuidZXYE9uUDg59hi6/zHbndcL6EdcaV1bIvBG/s7N1bYKPkXP2WpshYmLtOi2de4GjFx9321A2/JtjkgUkijezUAjfovFHyQ6+W1D288j84LD9LXqti8B+jq4c6S6UPjWgikAoHIz6/Kv/Xb0H27qr9xij3GrfB3328Fk91xpmXW9fhznXi7lxSfJ5HbWn0Ue6iRyxJ67QM0422xG9/SxLhE1nLKJExStoQGtkk7VEbaEg9KHw8OQKqjjHsY6C28C0Uphmj1LnTAxTfAURzTgGoc2k5wm/tqppvwslZqQFpKSoiEe3ZhB7tH9mcPW5hiBWWJlJ/Rc2cl0TV8DbOa+gNCzhUPkVEhgR/jN7mWnyNOfsZkwuuMAoaodojnUpz+2R7E4iiV64PZojUjWnvtI/r8Id3EH5ZSGqSnt05zlaQZUBaYASOgENSXg6Sq16dLOcFi3PXfL9S+BgJ3RznPTI2uTtPL4+lDEh//fVyF4NvySJ33JSSyGFSpw/Ejz8JTlPydlbNMaUm5HBcfQ7Zn+hwzP9N26IBU/s8ZtoX0YzVX5U6vgerCZb9VBkb7bD16ZSGFkbGoPeyeCU/PNr4139GR+QQst6j2N55epSAsLYynQ7RTcU6ZdvENZV9Osu/1S00tjGDM6IdnzQ6D7Ki7j1hWPo4Spvi0iGizafbeQMvQHZk7oHAEGF8IQyOKkmmz8ZrzBggjFUt2ud62abJo0fbFcz66zvwNGENWwG1h+wohJMQ+nDaMYKxyZWqqYTeD7+ag8bD6g==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 16 Nov 2020 04:08:40 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9897C0613CF;
+        Mon, 16 Nov 2020 01:08:39 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FA0EA1B;
+        Mon, 16 Nov 2020 10:08:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605517718;
+        bh=hrMv1vbbUtetNS7RaEEghajJeVGOwKNBYzYUnIya410=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OWaetcKsfDKTe093ZUGjnr3FoZwet9y1m/w5yS/zgsjKefeYdNeT1sB05VOyoXcJO
+         S+4zDgUi+y4HVyXn0kPhU7DeXi3r6ZtpYqKhaLCraWrtGpeDd8sstMTynngIB60xPJ
+         X4JFWWcafuopww5t88rsf6u+ps84LFcO7g28n5MA=
+Date:   Mon, 16 Nov 2020 11:08:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v4 1/8] media: i2c: Add driver for RDACM21 camera module
+Message-ID: <20201116090833.GB6540@pendragon.ideasonboard.com>
+References: <20201112162729.101384-1-jacopo+renesas@jmondi.org>
+ <20201112162729.101384-2-jacopo+renesas@jmondi.org>
+ <95e2e968-d77f-0838-641a-d81a6df6f0b5@ideasonboard.com>
+ <20201114140457.h7x6l53cfqqhpq6l@uno.localdomain>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5309.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e57675b-827d-4190-d95f-08d88a0e8179
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Nov 2020 09:03:37.6877
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: us+FftfCZ/pvzvegvNIgKin7tREZ93l9ft0y17vNVWRQhtjP1MAA5Uy09/CnVzvdApNV1u4KeQf66ZxiB6tThD+xfmgJc3x+pI2+4HLEma8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2122
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201114140457.h7x6l53cfqqhpq6l@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2M10gY2xrOiByZW5lc2FzOiByOGE3
-NzRjMDogQWRkIFJQQyBjbG9ja3MNCj4gDQo+IEhpIFByYWJoYWthciwNCj4gDQo+IE9uIFR1ZSwg
-Tm92IDEwLCAyMDIwIGF0IDE6NTYgUE0gTGFkIFByYWJoYWthciA8cHJhYmhha2FyLm1haGFkZXYt
-DQo+IGxhZC5yakBicC5yZW5lc2FzLmNvbT4gd3JvdGU6DQo+ID4gRGVzY3JpYmUgdGhlIFJQQ1NS
-QyBpbnRlcm5hbCBjbG9jayBhbmQgdGhlIFJQQ1tEMl0gY2xvY2tzIGRlcml2ZWQgZnJvbQ0KPiA+
-IGl0LCBhcyB3ZWxsIGFzIHRoZSBSUEMtSUYgbW9kdWxlIGNsb2NrLCBpbiB0aGUgUlovRzJFIChS
-OEE3NzRDMCkNCj4gPiBDUEcvTVNTUiBkcml2ZXIuDQo+ID4NCj4gPiBBZGQgbmV3IGNsayB0eXBl
-IENMS19UWVBFX0dFTjNFM19SUENTUkMgdG8gcmVnaXN0ZXIgcnBjc3JjIGFzIGEgZml4ZWQNCj4g
-PiBjbG9jayBvbiBSLUNhciBHZW4zIEUzIChhbmQgYWxzbyBSWi9HMkUgd2hpY2ggaXMgaWRlbnRp
-Y2FsIHRvIEUzIFNvQyksDQo+ID4gcGFyZW50IGFuZCB0aGUgZGl2aWRlciBpcyBzZXQgYmFzZWQg
-b24gdGhlIHJlZ2lzdGVyIHZhbHVlDQo+ID4gQ1BHX1JQQ0NLQ1JbNDozXSAocGFyZW50IGlzIGNy
-b3NzIHZlcmlmaWVkIGFnYWluc3QgTURbNDoxXSBwaW5zKSB3aGljaA0KPiA+IGhhcyBiZWVuIHNl
-dCBwcmlvciB0byBib290aW5nIHRoZSBrZXJuZWwuDQo+ID4NCj4gPiBNRFs0XSBNRFszXSBNRFsy
-XSBNRFsxXQ0KPiA+ICAgMCAgICAgMCAgICAgMCAgICAxICAgICAtPiBSUENTUkMgQ0xLIHNvdXJj
-ZSBpcyBQTEwxDQo+ID4gICAwICAgICAwICAgICAxICAgIDEgICAgIC0+IFJQQ1NSQyBDTEsgc291
-cmNlIGlzIFBMTDENCj4gPiAgIDAgICAgIDEgICAgIDAgICAgMCAgICAgLT4gUlBDU1JDIENMSyBz
-b3VyY2UgaXMgUExMMQ0KPiA+ICAgMSAgICAgMCAgICAgMSAgICAxICAgICAtPiBSUENTUkMgQ0xL
-IHNvdXJjZSBpcyBQTEwxDQo+ID4gICB4ICAgICB4ICAgICB4ICAgIHggICAgIC0+IEZvciBhbnkg
-b3RoZXIgdmFsdWVzIFJQQ1NSQyBDTEsgc291cmNlIGlzDQo+IFBMTDANCj4gPg0KPiA+IFNpZ25l
-ZC1vZmYtYnk6IExhZCBQcmFiaGFrYXIgPHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5l
-c2FzLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVz
-YXMuY29tPg0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAtLS0NCj4gPiB2
-Mi0+djMNCj4gPiAqIEltcGxlbWVudGVkIGFzIGEgZml4ZWQgY2xvY2sNCj4gDQo+IFNvdW5kcyBm
-aW5lIHRvIG1lLiAgSWYgd2UgZXZlciBuZWVkIHRvIGNvbmZpZ3VyZSB0aGlzIGNsb2NrIGZyb20g
-TGludXgsDQo+IHRoZSBkcml2ZXIgY2FuIGJlIGNoYW5nZWQuDQo+IA0KPiA+IC0tLSBhL2RyaXZl
-cnMvY2xrL3JlbmVzYXMvcmNhci1nZW4zLWNwZy5jDQo+ID4gKysrIGIvZHJpdmVycy9jbGsvcmVu
-ZXNhcy9yY2FyLWdlbjMtY3BnLmMNCj4gPiBAQCAtNDI3LDYgKzQyNywxOSBAQCBzdGF0aWMgc3Ry
-dWN0IGNsayAqIF9faW5pdA0KPiBjcGdfc2RfY2xrX3JlZ2lzdGVyKGNvbnN0IGNoYXIgKm5hbWUs
-DQo+ID4gICAgICAgICByZXR1cm4gY2xrOw0KPiA+ICB9DQo+ID4NCj4gPiArc3RhdGljIGJvb2wg
-X19pbml0IGNwZ19ycGNzcmNfZTNfcGFyZW50X2lzX3BsbDAodTMyIG1vZGUpIHsNCj4gPiArICAg
-ICAgIHVuc2lnbmVkIGludCBlM19ycGNzcmMgPSAobW9kZSAmIEdFTk1BU0soNCwgMSkpID4+IDE7
-DQo+ID4gKyAgICAgICB1bnNpZ25lZCBpbnQgcGxsMVtdID0geyAweDEsIDB4MywgMHg0LCAweGIs
-IH07DQo+ID4gKyAgICAgICBpbnQgaTsNCj4gPiArDQo+ID4gKyAgICAgICBmb3IgKGkgPSAwOyBp
-IDwgQVJSQVlfU0laRShwbGwxKTsgaSsrKQ0KPiA+ICsgICAgICAgICAgICAgICBpZiAoZTNfcnBj
-c3JjID09IHBsbDFbaV0pDQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNl
-Ow0KPiANCj4gRGlkIHlvdSBrbm93IGdjYyAodmVyc2lvbiA5LjMuMCkgZ2VuZXJhdGVzIHNtYWxs
-ZXIgY29kZSBmb3I6DQo+IA0KPiAgICAgICAgIHN3aXRjaCAoZTNfcnBjc3JjKSB7DQo+ICAgICAg
-ICAgY2FzZSAweDE6DQo+ICAgICAgICAgY2FzZSAweDM6DQo+ICAgICAgICAgY2FzZSAweDQ6DQo+
-ICAgICAgICAgY2FzZSAweGI6DQo+ICAgICAgICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+IA0K
-PiAgICAgICAgIGRlZmF1bHQ6DQo+ICAgICAgICAgICAgICAgICByZXR1cm4gdHJ1ZTsNCj4gICAg
-ICAgICB9DQo+IA0KPiA/DQo+IA0KPiA+IEBAIC02OTYsNiArNzA5LDQyIEBAIHN0cnVjdCBjbGsg
-KiBfX2luaXQNCj4gcmNhcl9nZW4zX2NwZ19jbGtfcmVnaXN0ZXIoc3RydWN0IGRldmljZSAqZGV2
-LA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Y3BnX3JwY3NyY19kaXZfdGFibGUsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAmY3BnX2xvY2spOw0KPiA+DQo+ID4gKyAgICAgICBjYXNlIENM
-S19UWVBFX0dFTjNFM19SUENTUkM6DQo+ID4gKyAgICAgICAgICAgICAgIC8qDQo+ID4gKyAgICAg
-ICAgICAgICAgICAqIFJlZ2lzdGVyIFJQQ1NSQyBhcyBmaXhlZCBmYWN0b3IgY2xvY2sgYmFzZWQg
-b24gdGhlDQo+ID4gKyAgICAgICAgICAgICAgICAqIE1EWzQ6MV0gcGlucyBhbmQgQ1BHX1JQQ0NL
-Q1JbNDozXSByZWdpc3RlciB2YWx1ZSBmb3INCj4gPiArICAgICAgICAgICAgICAgICogd2hpY2gg
-aGFzIGJlZW4gc2V0IHByaW9yIHRvIGJvb3RpbmcgdGhlIGtlcm5lbC4NCj4gPiArICAgICAgICAg
-ICAgICAgICovDQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAgICB2YWx1ZSA9IChyZWFkbChiYXNl
-ICsgQ1BHX1JQQ0NLQ1IpICYgR0VOTUFTSyg0LCAzKSkgPj4NCj4gMzsNCj4gPiArICAgICAgICAg
-ICAgICAgaWYgKGNwZ19ycGNzcmNfZTNfcGFyZW50X2lzX3BsbDAoY3BnX21vZGUpKSB7DQo+ID4g
-KyAgICAgICAgICAgICAgICAgICAgICAgaWYgKHZhbHVlICE9IDIpDQo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICByZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsNCj4gPiArICAgICAg
-ICAgICAgICAgfSBlbHNlIHsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBpZiAodmFsdWUg
-PT0gMikNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiBFUlJfUFRS
-KC1FSU5WQUwpOw0KPiA+ICsgICAgICAgICAgICAgICB9DQo+IA0KPiBJTUhPIHRoaXMgY3Jvc3Mt
-dmVyaWZpY2F0aW9uIGlzIG5vdCBuZWVkZWQsIGFuZCBoYXJtZnVsOiBpdCBwcmV2ZW50cyB0aGUN
-Cj4gYm9vdCBsb2FkZXIgZnJvbSBjaGFuZ2luZyB0aGUgY29uZmlndXJhdGlvbiwgd2hpY2ggSSB0
-aGluayBpcyBhIHZhbGlkIHVzZQ0KPiBjYXNlLg0KDQpCdXQgdGhpcyBjaGVjayB2YWxpZGF0ZXMs
-IHdoZXRoZXIgYm9vdGxvYWRlciBkb25lIHdyb25nIGNvbmZpZ3VyYXRpb24gb3Igbm90Pw0KRm9y
-IGVnOi0gUExMMSBhbmQgc2V0dGluZyB3cm9uZyBkaXZpZGVyIHZhbHVlIGluIFJQQ0NLQ1IuDQoN
-Ckl0IGFsbG93cyBib290bG9hZGVyIGZvciBjaGFuZ2luZyByaWdodCBjb25maWd1cmF0aW9ucy4g
-SSBtYXkgYmUgd3JvbmcuIFBsZWFzZSBjb3JyZWN0IG1lIGlmIEkgYW0gd3JvbmcuDQoNClJlZ2Fy
-ZHMsDQpCaWp1DQoNCg0KPiA+ICsNCj4gPiArICAgICAgICAgICAgICAgc3dpdGNoICh2YWx1ZSkg
-ew0KPiA+ICsgICAgICAgICAgICAgICBjYXNlIDA6DQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgZGl2ID0gNTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiArICAg
-ICAgICAgICAgICAgY2FzZSAxOg0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGRpdiA9IDM7
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4gKyAgICAgICAgICAgICAg
-IGNhc2UgMjoNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBwYXJlbnQgPSBjbGtzW2NvcmUt
-PnBhcmVudCA+PiAxNl07DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgaWYgKElTX0VSUihw
-YXJlbnQpKQ0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIEVSUl9D
-QVNUKHBhcmVudCk7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgZGl2ID0gODsNCj4gDQo+
-IFItQ2FyIEQzIGlzIHZlcnkgc2ltaWxhciwgYnV0IHVzZXMgZGl2ID0gNSBpbnN0ZWFkIG9mIDgu
-DQo+IFBlcmhhcHMgdGhpcyB2YWx1ZSBjYW4gYmUgcmV0cmlldmVkIGZyb20gY3BnX2NvcmVfY2xr
-LmRpdj8NCj4gT2YgY291cnNlLCB3ZSBjYW4gZG8gdGhhdCBsYXRlciwgd2hlbiBEMyBzdXBwb3J0
-IGlzIGFkZGVkLg0KPiANCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiAr
-ICAgICAgICAgICAgICAgY2FzZSAzOg0KPiA+ICsgICAgICAgICAgICAgICBkZWZhdWx0Og0KPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgIGRpdiA9IDI7DQo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgYnJlYWs7DQo+ID4gKyAgICAgICAgICAgICAgIH0NCj4gPiArICAgICAgICAgICAgICAg
-YnJlYWs7DQo+ID4gKw0KPiA+ICAgICAgICAgY2FzZSBDTEtfVFlQRV9HRU4zX1JQQzoNCj4gPiAg
-ICAgICAgICAgICAgICAgcmV0dXJuIGNwZ19ycGNfY2xrX3JlZ2lzdGVyKGNvcmUtPm5hbWUsIGJh
-c2UsDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBfX2Ns
-a19nZXRfbmFtZShwYXJlbnQpLA0KPiA+IG5vdGlmaWVycyk7DQo+IA0KPiBUaGUgcmVzdCBsb29r
-cyBnb29kIHRvIG1lLg0KPiANCj4gR3J7b2V0amUsZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAg
-ICAgICAgICAgICAgICBHZWVydA0KPiANCj4gLS0NCj4gR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRo
-ZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEzMiAtLSBnZWVydEBsaW51eC0NCj4gbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxl
-LCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLg0KPiBCdXQgd2hlbiBJJ20gdGFsa2luZyB0byBqb3Vy
-bmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcNCj4gbGlrZSB0aGF0
-Lg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzDQo=
+Hi Jacopo,
+
+On Sat, Nov 14, 2020 at 03:04:57PM +0100, Jacopo Mondi wrote:
+> On Thu, Nov 12, 2020 at 10:31:05PM +0000, Kieran Bingham wrote:
+> > Hi Jacopo,
+> 
+> [snip]
+> 
+> > > +	/* Wait for firmware boot by reading streamon status. */
+> > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > +	ov490_write(dev, 0xfffe, 0x29);
+> > > +	usleep_range(100, 150);
+> > > +	for (timeout = 300; timeout > 0; timeout--) {
+> > > +		ov490_read(dev, 0xd000, &val);
+> > > +		if (val == 0x0c)
+> >
+> > What is 0x0c here? Is it something we can better describe in a #define?
+> >
+> 
+> The 0x0c value itself means "frame output enable" + "whole frame
+> output enable". I don't think it has much value to define it,
+> otherwise we would need to define also the register 8029d000
+
+Shouldn't we have macros for *all* register addresses and fields ?
+
+> Also, the ov490 is programmed loading the content of a SPI Flash chip,
+> I guess it's just known that "output enabled" is required to have
+> stream operations properly working.
+> 
+> > > +			break;
+> > > +		mdelay(1);
+> > > +	}
+> > > +	if (!timeout) {
+> > > +		dev_err(dev->dev, "Timeout firmware boot wait\n");
+> > > +		return -ENODEV;
+> > > +	}
+> > > +	dev_dbg(dev->dev, "Firmware booted in %u msec\n", 300 - timeout);
+> > > +
+> > > +	/* Read OV10640 Id to test communications. */
+> > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > +	ov490_write(dev, 0xfffe, 0x19);
+> > > +	usleep_range(100, 150);
+> > > +
+> > > +	ov490_write(dev, 0x5000, 0x01);
+> > > +	ov490_write(dev, 0x5001, 0x30);
+> > > +	ov490_write(dev, 0x5002, 0x0a);
+> > > +
+> > > +	ov490_write(dev, 0xfffe, 0x80);
+> > > +	usleep_range(100, 150);
+> > > +	ov490_write(dev, 0xc0, 0xc1);
+> > > +	ov490_write(dev, 0xfffe, 0x19);
+> > > +	usleep_range(1000, 1500);
+> > > +	ov490_read(dev, 0x5000, &val);
+> > > +	if (val != OV10640_ID_LOW) {
+> > > +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> > > +		return -ENODEV;
+> > > +	}
+> > > +
+> > > +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
+> > > +		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
+> > > +				  ov490_regs_wizard[i].val);
+> > > +		if (ret < 0) {
+> > > +			dev_err(dev->dev,
+> > > +				"%s: register %u (0x%04x) write failed (%d)\n",
+> > > +				__func__, i, ov490_regs_wizard[i].reg, ret);
+> > > +
+> > > +			return -EIO;
+> > > +		}
+> > > +
+> > > +		usleep_range(100, 150);
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * The ISP is programmed with the content of a serial flash memory.
+> > > +	 * Read the firmware configuration to reflect it through the V4L2 APIs.
+> > > +	 */
+> > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > +	ov490_write(dev, 0xfffe, 0x82);
+> > > +	usleep_range(100, 150);
+> > > +	ov490_read(dev, OV490_ISP_HSIZE_HIGH, &val);
+> > > +	dev->fmt.width = (val & 0xf) << 8;
+> > > +	ov490_read(dev, OV490_ISP_HSIZE_LOW, &val);
+> > > +	dev->fmt.width |= (val & 0xff);
+> > > +
+> > > +	ov490_read(dev, OV490_ISP_VSIZE_HIGH, &val);
+> > > +	dev->fmt.height = (val & 0xf) << 8;
+> > > +	ov490_read(dev, OV490_ISP_VSIZE_LOW, &val);
+> > > +	dev->fmt.height |= val & 0xff;
+> > > +
+> > > +	/* Set bus width to 12 bits [0:11] */
+> > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > +	ov490_write(dev, 0xfffe, 0x28);
+> > > +	usleep_range(100, 150);
+> > > +	ov490_write(dev, 0x6009, 0x10);
+> > > +
+> > > +	dev_info(dev->dev, "Identified RDACM21 camera module\n");
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int rdacm21_initialize(struct rdacm21_device *dev)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	/* Verify communication with the MAX9271: ping to wakeup. */
+> > > +	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+> > > +	i2c_smbus_read_byte(dev->serializer->client);
+> > > +
+> > > +	/* Serial link disabled during config as it needs a valid pixel clock. */
+> > > +	ret = max9271_set_serial_link(dev->serializer, false);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/* Set GPO high to hold OV490 in reset during max9271 configuration. */
+> > > +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPO);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/* Configure I2C bus at 105Kbps speed and configure GMSL link. */
+> > > +	ret = max9271_configure_i2c(dev->serializer,
+> > > +				    MAX9271_I2CSLVSH_469NS_234NS |
+> > > +				    MAX9271_I2CSLVTO_1024US |
+> > > +				    MAX9271_I2CMSTBT_105KBPS);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = max9271_configure_gmsl_link(dev->serializer);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +	dev->serializer->client->addr = dev->addrs[0];
+> > > +
+> > > +	/*
+> > > +	 * Release OV490 from reset and program address translation
+> > > +	 * before performing OV490 configuration.
+> > > +	 */
+> > > +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPO);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = max9271_set_translation(dev->serializer, dev->addrs[1],
+> > > +				      OV490_I2C_ADDRESS);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +	dev->isp->addr = dev->addrs[1];
+> > > +
+> > > +	ret = ov490_initialize(dev);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	/*
+> > > +	 * Set reverse channel high threshold to increase noise immunity.
+> > > +	 *
+> > > +	 * This should be compensated by increasing the reverse channel
+> > > +	 * amplitude on the remote deserializer side.
+> > > +	 */
+> > > +	ret = max9271_set_high_threshold(dev->serializer, true);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int rdacm21_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct rdacm21_device *dev;
+> > > +	struct fwnode_handle *ep;
+> > > +	int ret;
+> > > +
+> > > +	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
+> > > +	if (!dev)
+> > > +		return -ENOMEM;
+> > > +	dev->dev = &client->dev;
+> > > +
+> > > +	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+> > > +				       GFP_KERNEL);
+> > > +	if (!dev->serializer)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	dev->serializer->client = client;
+> > > +
+> > > +	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+> > > +					 dev->addrs, 2);
+> > > +	if (ret < 0) {
+> > > +		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	/* Create the dummy I2C client for the sensor. */
+> > > +	dev->isp = i2c_new_dummy_device(client->adapter, OV490_I2C_ADDRESS);
+> > > +	if (IS_ERR(dev->isp))
+> > > +		return PTR_ERR(dev->isp);
+> > > +
+> > > +	ret = rdacm21_initialize(dev);
+> > > +	if (ret < 0)
+> > > +		goto error;
+> > > +
+> > > +	/* Initialize and register the subdevice. */
+> > > +	v4l2_i2c_subdev_init(&dev->sd, client, &rdacm21_subdev_ops);
+> > > +	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > +
+> > > +	v4l2_ctrl_handler_init(&dev->ctrls, 1);
+> > > +	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> > > +			  OV10640_PIXEL_RATE, OV10640_PIXEL_RATE, 1,
+> > > +			  OV10640_PIXEL_RATE);
+> > > +	dev->sd.ctrl_handler = &dev->ctrls;
+> > > +
+> > > +	ret = dev->ctrls.error;
+> > > +	if (ret)
+> > > +		goto error_free_ctrls;
+> > > +
+> > > +	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > > +	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
+> > > +	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+> > > +	if (ret < 0)
+> > > +		goto error_free_ctrls;
+> > > +
+> > > +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> > > +	if (!ep) {
+> > > +		dev_err(&client->dev,
+> > > +			"Unable to get endpoint in node %pOF\n",
+> > > +			client->dev.of_node);
+> > > +		ret = -ENOENT;
+> > > +		goto error_free_ctrls;
+> > > +	}
+> > > +	dev->sd.fwnode = ep;
+> > > +
+> > > +	ret = v4l2_async_register_subdev(&dev->sd);
+> > > +	if (ret)
+> > > +		goto error_put_node;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +error_put_node:
+> > > +	fwnode_handle_put(dev->sd.fwnode);
+> > > +error_free_ctrls:
+> > > +	v4l2_ctrl_handler_free(&dev->ctrls);
+> > > +error:
+> > > +	i2c_unregister_device(dev->isp);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int rdacm21_remove(struct i2c_client *client)
+> > > +{
+> > > +	struct rdacm21_device *dev = i2c_to_rdacm21(client);
+> > > +
+> > > +	fwnode_handle_put(dev->sd.fwnode);
+> > > +	v4l2_async_unregister_subdev(&dev->sd);
+> > > +	v4l2_ctrl_handler_free(&dev->ctrls);
+> > > +	i2c_unregister_device(dev->isp);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static const struct of_device_id rdacm21_of_ids[] = {
+> > > +	{ .compatible = "imi,rdacm21" },
+> > > +	{ }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, rdacm21_of_ids);
+> > > +
+> > > +static struct i2c_driver rdacm21_i2c_driver = {
+> > > +	.driver	= {
+> > > +		.name	= "rdacm21",
+> > > +		.of_match_table = rdacm21_of_ids,
+> > > +	},
+> > > +	.probe_new	= rdacm21_probe,
+> > > +	.remove		= rdacm21_remove,
+> > > +};
+> > > +
+> > > +module_i2c_driver(rdacm21_i2c_driver);
+> > > +
+> > > +MODULE_DESCRIPTION("GMSL Camera driver for RDACM21");
+> > > +MODULE_AUTHOR("Jacopo Mondi, Kieran Bingham, Laurent Pinchart, Niklas Söderlund, Vladimir Barinov");
+> >
+> > I think by this point you could chop MODULE_AUTHOR for this one down to
+> > just you ;-)
+> >
+> >
+> > A fairly arbitrary, and cursory
+> >
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >
+> > I'll be aiming to test this (series) as soon as I can too.
+> 
+> Thanks, let me know if I should submit for proper inclusion!
+> 
+> > > +MODULE_LICENSE("GPL v2");
+
+-- 
+Regards,
+
+Laurent Pinchart
