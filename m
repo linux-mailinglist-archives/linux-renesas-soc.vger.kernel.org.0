@@ -2,91 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46CE72B4C37
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 18:10:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A153B2B5401
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 22:57:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731182AbgKPRJc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 12:09:32 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:35651 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728047AbgKPRJb (ORCPT
+        id S1729870AbgKPV50 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 16:57:26 -0500
+Received: from www.zeus03.de ([194.117.254.33]:58836 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729179AbgKPV50 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 12:09:31 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 9CA68FF809;
-        Mon, 16 Nov 2020 17:09:29 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 18:09:32 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] rcar-csi2: Do not try to recover after transfer error
-Message-ID: <20201116170932.2qlkrxu76smncyt7@uno.localdomain>
-References: <20201112225147.1672622-1-niklas.soderlund+renesas@ragnatech.se>
- <20201112225147.1672622-5-niklas.soderlund+renesas@ragnatech.se>
+        Mon, 16 Nov 2020 16:57:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=XrKkK9//xmkuZclHuwqvzXUEPMT
+        /g0ElH9PqUy+Et+w=; b=mkloZQgWyxFDs+JKvGwR+9xUWmC00hNDWbGzdx0lM7u
+        WCQ68bZBL+uoJ54LA1bdY9NTRIP82OVoIxixZLJbE5Pxy3BUrPCUwOjhvunuhtFi
+        rH1zYBXzldZemQXoStLczNLN1XBNLkrgc8B8de/W1K5GJAq2U2ujyWvEzEEz9S4U
+        =
+Received: (qmail 54261 invoked from network); 16 Nov 2020 22:57:24 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Nov 2020 22:57:24 +0100
+X-UD-Smtp-Session: l3s3148p1@4f+YdkC0VJogAwDPXwbiANfOM/mHw/ia
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] Documentation: kernel-parameters: add missing '<'
+Date:   Mon, 16 Nov 2020 22:57:11 +0100
+Message-Id: <20201116215711.2291-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112225147.1672622-5-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/admin-guide/kernel-parameters.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, Nov 12, 2020 at 11:51:47PM +0100, Niklas Söderlund wrote:
-> Instead of restarting the R-Car CSI-2 receiver if a transmission error
-> is detected inform the R-Car VIN driver of the error so it can stop the
-> whole pipeline and inform user-space. This is done to reflect a updated
-> usage recommendation in later versions of the datasheet.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 945d2eb8723367f0..a7212ecc46572a3b 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -773,21 +773,19 @@ static irqreturn_t rcsi2_irq(int irq, void *data)
->
->  	rcsi2_write(priv, INTERRSTATE_REG, err_status);
->
-> -	dev_info(priv->dev, "Transfer error, restarting CSI-2 receiver\n");
-> -
->  	return IRQ_WAKE_THREAD;
->  }
->
->  static irqreturn_t rcsi2_irq_thread(int irq, void *data)
->  {
->  	struct rcar_csi2 *priv = data;
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_EOS,
-> +	};
->
-> -	mutex_lock(&priv->lock);
-> -	rcsi2_stop(priv);
-> -	usleep_range(1000, 2000);
-> -	if (rcsi2_start(priv))
-> -		dev_warn(priv->dev, "Failed to restart CSI-2 receiver\n");
-> -	mutex_unlock(&priv->lock);
-> +	dev_err(priv->dev, "Transfer error detected.\n");
-> +
-> +	v4l2_subdev_notify_event(&priv->subdev, &event);
+diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
+index 6d421694d98e..3addfe0963bb 100644
+--- a/Documentation/admin-guide/kernel-parameters.rst
++++ b/Documentation/admin-guide/kernel-parameters.rst
+@@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
+ sized groups and for each group use some amount from the beginning of that
+ group:
+ 
+-	<cpu number>-cpu number>:<used size>/<group size>
++	<cpu number>-<cpu number>:<used size>/<group size>
+ 
+ For example one can add to the command line following parameter:
+ 
+-- 
+2.28.0
 
-Is event handling synchronous with the notification ? I mean, now that
-the sleep has gone, is this worth a threaded irq ?
-
-Thanks
-  j
-
->
->  	return IRQ_HANDLED;
->  }
-> --
-> 2.29.2
->
