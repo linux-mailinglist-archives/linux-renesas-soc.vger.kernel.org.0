@@ -2,147 +2,388 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA552B4004
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 10:42:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAF462B406B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 11:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728546AbgKPJkK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 04:40:10 -0500
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:42454 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728498AbgKPJkK (ORCPT
+        id S1727398AbgKPKDG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 05:03:06 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:60727 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726754AbgKPKDG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 04:40:10 -0500
-Received: by mail-ot1-f49.google.com with SMTP id h16so11262011otq.9;
-        Mon, 16 Nov 2020 01:40:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ozWL5OAdv4loIOYSI2yw5b8cevUZnV5lZwb9w6X66dI=;
-        b=AjyuUFcd1/euDFc0wSKAnk4T6aBrbAHIwOToNcHca5ovSWo8G15iROYADDU00DH188
-         lAGREQbKH42aTDDEqBNDTCerLcOTE2JrAkCGzcHXuGRJPV7Z12iRPE47kUx97iV3Dz3v
-         feqJN3IcD9YetDJnTglBvEIopdZwhwjHdUGi5ExebXxdf1UsnGpnYf7ISZUc/XUseXGc
-         Q+4Hk0moL6pe1fDuhDpOlKl7uAgQtaRo3Jut/3jSr/ORhjkuJTXEk3w+FCrPVO3UgBDg
-         YSpokQdpQcEuDQ3iG78tFgH2vk0Zd4AfuZ1nBPuWNp01PFXcOGCvaez/VvZNkrdp4Dl+
-         0yIg==
-X-Gm-Message-State: AOAM533nSiJL89yAdUGzapf4/aB3gDvS0Rm+v0ZMy5avaBOVlggsynXM
-        i+M0l2Z0+d31h1oQMuqjMQmmbQi01RPtLNyfqpQ=
-X-Google-Smtp-Source: ABdhPJw7n2VYocrj3d8OUp4CkB9RuXyfyKFAWDv7dExWP3Tgt++vCdlJBPXqExdqc3laPYRWmHYvRLDaKGXS+v+Qrvk=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr9929476otc.145.1605519609344;
- Mon, 16 Nov 2020 01:40:09 -0800 (PST)
+        Mon, 16 Nov 2020 05:03:06 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 7A6BFFF812;
+        Mon, 16 Nov 2020 10:03:00 +0000 (UTC)
+Date:   Mon, 16 Nov 2020 11:03:02 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v4 1/8] media: i2c: Add driver for RDACM21 camera module
+Message-ID: <20201116100302.mmv5skzk7s34ocxa@uno.localdomain>
+References: <20201112162729.101384-1-jacopo+renesas@jmondi.org>
+ <20201112162729.101384-2-jacopo+renesas@jmondi.org>
+ <95e2e968-d77f-0838-641a-d81a6df6f0b5@ideasonboard.com>
+ <20201114140457.h7x6l53cfqqhpq6l@uno.localdomain>
+ <20201116090833.GB6540@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20201110125609.30246-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUky4OEvCLnDYr3C-PB+PKdSx3U5+dCfhiftDhf3RKmAQ@mail.gmail.com> <TYBPR01MB53099FFA01431B1E5188B8C686E30@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB53099FFA01431B1E5188B8C686E30@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 16 Nov 2020 10:39:58 +0100
-Message-ID: <CAMuHMdX+RdE0kgqWNatNBBy_GPiihxcC3exAYi76a50qSHvDMA@mail.gmail.com>
-Subject: Re: [PATCH v3] clk: renesas: r8a774c0: Add RPC clocks
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201116090833.GB6540@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Laurent,
 
-On Mon, Nov 16, 2020 at 10:03 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH v3] clk: renesas: r8a774c0: Add RPC clocks
-> > On Tue, Nov 10, 2020 at 1:56 PM Lad Prabhakar <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com> wrote:
-> > > Describe the RPCSRC internal clock and the RPC[D2] clocks derived from
-> > > it, as well as the RPC-IF module clock, in the RZ/G2E (R8A774C0)
-> > > CPG/MSSR driver.
-> > >
-> > > Add new clk type CLK_TYPE_GEN3E3_RPCSRC to register rpcsrc as a fixed
-> > > clock on R-Car Gen3 E3 (and also RZ/G2E which is identical to E3 SoC),
-> > > parent and the divider is set based on the register value
-> > > CPG_RPCCKCR[4:3] (parent is cross verified against MD[4:1] pins) which
-> > > has been set prior to booting the kernel.
-> > >
-> > > MD[4] MD[3] MD[2] MD[1]
-> > >   0     0     0    1     -> RPCSRC CLK source is PLL1
-> > >   0     0     1    1     -> RPCSRC CLK source is PLL1
-> > >   0     1     0    0     -> RPCSRC CLK source is PLL1
-> > >   1     0     1    1     -> RPCSRC CLK source is PLL1
-> > >   x     x     x    x     -> For any other values RPCSRC CLK source is
-> > PLL0
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > ---
-> > > v2->v3
-> > > * Implemented as a fixed clock
-> >
-> > Sounds fine to me.  If we ever need to configure this clock from Linux,
-> > the driver can be changed.
-> >
-> > > --- a/drivers/clk/renesas/rcar-gen3-cpg.c
-> > > +++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-
-> > > @@ -696,6 +709,42 @@ struct clk * __init
-> > rcar_gen3_cpg_clk_register(struct device *dev,
-> > >                                                   cpg_rpcsrc_div_table,
-> > >                                                   &cpg_lock);
-> > >
-> > > +       case CLK_TYPE_GEN3E3_RPCSRC:
-> > > +               /*
-> > > +                * Register RPCSRC as fixed factor clock based on the
-> > > +                * MD[4:1] pins and CPG_RPCCKCR[4:3] register value for
-> > > +                * which has been set prior to booting the kernel.
-> > > +                */
-> > > +
-> > > +               value = (readl(base + CPG_RPCCKCR) & GENMASK(4, 3)) >>
-> > 3;
-> > > +               if (cpg_rpcsrc_e3_parent_is_pll0(cpg_mode)) {
-> > > +                       if (value != 2)
-> > > +                               return ERR_PTR(-EINVAL);
-> > > +               } else {
-> > > +                       if (value == 2)
-> > > +                               return ERR_PTR(-EINVAL);
-> > > +               }
-> >
-> > IMHO this cross-verification is not needed, and harmful: it prevents the
-> > boot loader from changing the configuration, which I think is a valid use
-> > case.
+On Mon, Nov 16, 2020 at 11:08:33AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
 >
-> But this check validates, whether bootloader done wrong configuration or not?
-> For eg:- PLL1 and setting wrong divider value in RPCCKCR.
+> On Sat, Nov 14, 2020 at 03:04:57PM +0100, Jacopo Mondi wrote:
+> > On Thu, Nov 12, 2020 at 10:31:05PM +0000, Kieran Bingham wrote:
+> > > Hi Jacopo,
+> >
+> > [snip]
+> >
+> > > > +	/* Wait for firmware boot by reading streamon status. */
+> > > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > > +	ov490_write(dev, 0xfffe, 0x29);
+> > > > +	usleep_range(100, 150);
+> > > > +	for (timeout = 300; timeout > 0; timeout--) {
+> > > > +		ov490_read(dev, 0xd000, &val);
+> > > > +		if (val == 0x0c)
+> > >
+> > > What is 0x0c here? Is it something we can better describe in a #define?
+> > >
+> >
+> > The 0x0c value itself means "frame output enable" + "whole frame
+> > output enable". I don't think it has much value to define it,
+> > otherwise we would need to define also the register 8029d000
 >
-> It allows bootloader for changing right configurations. I may be wrong. Please correct me if I am wrong.
+> Shouldn't we have macros for *all* register addresses and fields ?
+>
 
-What is a wrong configuration? According to the RPCSRC docs, DIV[4:3]
-select both the parent clock and the divider.
-All four possible values are valid.
+I'm not sure it's worth it, we have a single register-value table, and
+the way ov490 is programmed, as you can see is to specify the high
+bytes of the 32-bits register to write in the special 'page' registers
+0xfffd, 0xfffe (which I've not found documented)
 
-MD[4:1] select the boot device, and determine the _initial values_ of
-the DIV[4:0] bits.  Nothing in the documentation says they cannot be
-changed later, after which the DIV[4:3] bits no longer match MD[4:1].
+	ov490_write(dev, 0xfffd, 0x80);
+	ov490_write(dev, 0xfffe, 0x29);
+	ov490_read(dev, 0xd000, &val);
 
-If you want to be really sure, you can change the bits, and measure the
-impact on the RPC clock signal.
+This, to my understanding reads register 0x8029d000
 
-A long time ago, I did a similar thing for PLL0CR.CKSEL on R-Car D3, and
-looked at the impact on the serial console (albeit with remote access,
-i.e. no console output if kernel and hardware didn't agree ;-)
+We would need three macros, maybe a
+        PAGE_HIGH(reg)  (u8)(reg >> 24)
+        PAGE_LOW(reg)   (u8)(reg >> 16)
+        REG_LOW(reg)    (u16)(reg)
 
-Gr{oetje,eeting}s,
+To that's a lot of churn for no gain imho, the code isn't much more
+clear
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > Also, the ov490 is programmed loading the content of a SPI Flash chip,
+> > I guess it's just known that "output enabled" is required to have
+> > stream operations properly working.
+> >
+> > > > +			break;
+> > > > +		mdelay(1);
+> > > > +	}
+> > > > +	if (!timeout) {
+> > > > +		dev_err(dev->dev, "Timeout firmware boot wait\n");
+> > > > +		return -ENODEV;
+> > > > +	}
+> > > > +	dev_dbg(dev->dev, "Firmware booted in %u msec\n", 300 - timeout);
+> > > > +
+> > > > +	/* Read OV10640 Id to test communications. */
+> > > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > > +	ov490_write(dev, 0xfffe, 0x19);
+> > > > +	usleep_range(100, 150);
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Not to add that I don't have register 0x80195000 in the documentation I've
+access to (the master SCCB control page is at  address 0x8090xxxx
+
+> > > > +
+> > > > +	ov490_write(dev, 0x5000, 0x01);
+> > > > +	ov490_write(dev, 0x5001, 0x30);
+> > > > +	ov490_write(dev, 0x5002, 0x0a)
+> > > > +	ov490_write(dev, 0xfffe, 0x80);
+
+This sequence in example, reads the 0x300a register of the slave
+(ov10640) by programming registers
+                0x80195000      0x1
+                0x80195001      0x30
+                0x80195002      0x0a
+
+> > > > +	usleep_range(100, 150);
+> > > > +	ov490_write(dev, 0xc0, 0xc1);
+
+Triggering a transaction writing 0xc1 to 0x808000c0 (0xc1
+undocumented)
+
+> > > > +	ov490_write(dev, 0xfffe, 0x19);
+> > > > +	usleep_range(1000, 1500);
+> > > > +	ov490_read(dev, 0x5000, &val);
+
+and reading back the transaction result at address 0x80195000
+
+I got these parts from
+https://github.com/CogentEmbedded/meta-rcar/blob/v2.12.0/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0040-H3-MAX9286-TI964-support-add-10635-10640-cameras.patch#L3732
+
+and that's why I kept Vladimir's authorship in MODULE_AUTHORS()
+
+> > > > +	if (val != OV10640_ID_LOW) {
+> > > > +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> > > > +		return -ENODEV;
+> > > > +	}
+> > > > +
+> > > > +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> > > > +
+> > > > +	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
+> > > > +		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
+> > > > +				  ov490_regs_wizard[i].val);
+> > > > +		if (ret < 0) {
+> > > > +			dev_err(dev->dev,
+> > > > +				"%s: register %u (0x%04x) write failed (%d)\n",
+> > > > +				__func__, i, ov490_regs_wizard[i].reg, ret);
+> > > > +
+> > > > +			return -EIO;
+> > > > +		}
+> > > > +
+> > > > +		usleep_range(100, 150);
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * The ISP is programmed with the content of a serial flash memory.
+> > > > +	 * Read the firmware configuration to reflect it through the V4L2 APIs.
+> > > > +	 */
+> > > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > > +	ov490_write(dev, 0xfffe, 0x82);
+> > > > +	usleep_range(100, 150);
+> > > > +	ov490_read(dev, OV490_ISP_HSIZE_HIGH, &val);
+> > > > +	dev->fmt.width = (val & 0xf) << 8;
+> > > > +	ov490_read(dev, OV490_ISP_HSIZE_LOW, &val);
+> > > > +	dev->fmt.width |= (val & 0xff);
+> > > > +
+> > > > +	ov490_read(dev, OV490_ISP_VSIZE_HIGH, &val);
+> > > > +	dev->fmt.height = (val & 0xf) << 8;
+> > > > +	ov490_read(dev, OV490_ISP_VSIZE_LOW, &val);
+> > > > +	dev->fmt.height |= val & 0xff;
+> > > > +
+> > > > +	/* Set bus width to 12 bits [0:11] */
+> > > > +	ov490_write(dev, 0xfffd, 0x80);
+> > > > +	ov490_write(dev, 0xfffe, 0x28);
+> > > > +	usleep_range(100, 150);
+> > > > +	ov490_write(dev, 0x6009, 0x10);
+> > > > +
+> > > > +	dev_info(dev->dev, "Identified RDACM21 camera module\n");
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int rdacm21_initialize(struct rdacm21_device *dev)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	/* Verify communication with the MAX9271: ping to wakeup. */
+> > > > +	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+> > > > +	i2c_smbus_read_byte(dev->serializer->client);
+> > > > +
+> > > > +	/* Serial link disabled during config as it needs a valid pixel clock. */
+> > > > +	ret = max9271_set_serial_link(dev->serializer, false);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/* Set GPO high to hold OV490 in reset during max9271 configuration. */
+> > > > +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPO);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/* Configure I2C bus at 105Kbps speed and configure GMSL link. */
+> > > > +	ret = max9271_configure_i2c(dev->serializer,
+> > > > +				    MAX9271_I2CSLVSH_469NS_234NS |
+> > > > +				    MAX9271_I2CSLVTO_1024US |
+> > > > +				    MAX9271_I2CMSTBT_105KBPS);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	ret = max9271_configure_gmsl_link(dev->serializer);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +	dev->serializer->client->addr = dev->addrs[0];
+> > > > +
+> > > > +	/*
+> > > > +	 * Release OV490 from reset and program address translation
+> > > > +	 * before performing OV490 configuration.
+> > > > +	 */
+> > > > +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPO);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	ret = max9271_set_translation(dev->serializer, dev->addrs[1],
+> > > > +				      OV490_I2C_ADDRESS);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +	dev->isp->addr = dev->addrs[1];
+> > > > +
+> > > > +	ret = ov490_initialize(dev);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/*
+> > > > +	 * Set reverse channel high threshold to increase noise immunity.
+> > > > +	 *
+> > > > +	 * This should be compensated by increasing the reverse channel
+> > > > +	 * amplitude on the remote deserializer side.
+> > > > +	 */
+> > > > +	ret = max9271_set_high_threshold(dev->serializer, true);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int rdacm21_probe(struct i2c_client *client)
+> > > > +{
+> > > > +	struct rdacm21_device *dev;
+> > > > +	struct fwnode_handle *ep;
+> > > > +	int ret;
+> > > > +
+> > > > +	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
+> > > > +	if (!dev)
+> > > > +		return -ENOMEM;
+> > > > +	dev->dev = &client->dev;
+> > > > +
+> > > > +	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+> > > > +				       GFP_KERNEL);
+> > > > +	if (!dev->serializer)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	dev->serializer->client = client;
+> > > > +
+> > > > +	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+> > > > +					 dev->addrs, 2);
+> > > > +	if (ret < 0) {
+> > > > +		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	/* Create the dummy I2C client for the sensor. */
+> > > > +	dev->isp = i2c_new_dummy_device(client->adapter, OV490_I2C_ADDRESS);
+> > > > +	if (IS_ERR(dev->isp))
+> > > > +		return PTR_ERR(dev->isp);
+> > > > +
+> > > > +	ret = rdacm21_initialize(dev);
+> > > > +	if (ret < 0)
+> > > > +		goto error;
+> > > > +
+> > > > +	/* Initialize and register the subdevice. */
+> > > > +	v4l2_i2c_subdev_init(&dev->sd, client, &rdacm21_subdev_ops);
+> > > > +	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > > > +
+> > > > +	v4l2_ctrl_handler_init(&dev->ctrls, 1);
+> > > > +	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> > > > +			  OV10640_PIXEL_RATE, OV10640_PIXEL_RATE, 1,
+> > > > +			  OV10640_PIXEL_RATE);
+> > > > +	dev->sd.ctrl_handler = &dev->ctrls;
+> > > > +
+> > > > +	ret = dev->ctrls.error;
+> > > > +	if (ret)
+> > > > +		goto error_free_ctrls;
+> > > > +
+> > > > +	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > > > +	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
+> > > > +	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+> > > > +	if (ret < 0)
+> > > > +		goto error_free_ctrls;
+> > > > +
+> > > > +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> > > > +	if (!ep) {
+> > > > +		dev_err(&client->dev,
+> > > > +			"Unable to get endpoint in node %pOF\n",
+> > > > +			client->dev.of_node);
+> > > > +		ret = -ENOENT;
+> > > > +		goto error_free_ctrls;
+> > > > +	}
+> > > > +	dev->sd.fwnode = ep;
+> > > > +
+> > > > +	ret = v4l2_async_register_subdev(&dev->sd);
+> > > > +	if (ret)
+> > > > +		goto error_put_node;
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +error_put_node:
+> > > > +	fwnode_handle_put(dev->sd.fwnode);
+> > > > +error_free_ctrls:
+> > > > +	v4l2_ctrl_handler_free(&dev->ctrls);
+> > > > +error:
+> > > > +	i2c_unregister_device(dev->isp);
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static int rdacm21_remove(struct i2c_client *client)
+> > > > +{
+> > > > +	struct rdacm21_device *dev = i2c_to_rdacm21(client);
+> > > > +
+> > > > +	fwnode_handle_put(dev->sd.fwnode);
+> > > > +	v4l2_async_unregister_subdev(&dev->sd);
+> > > > +	v4l2_ctrl_handler_free(&dev->ctrls);
+> > > > +	i2c_unregister_device(dev->isp);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static const struct of_device_id rdacm21_of_ids[] = {
+> > > > +	{ .compatible = "imi,rdacm21" },
+> > > > +	{ }
+> > > > +};
+> > > > +MODULE_DEVICE_TABLE(of, rdacm21_of_ids);
+> > > > +
+> > > > +static struct i2c_driver rdacm21_i2c_driver = {
+> > > > +	.driver	= {
+> > > > +		.name	= "rdacm21",
+> > > > +		.of_match_table = rdacm21_of_ids,
+> > > > +	},
+> > > > +	.probe_new	= rdacm21_probe,
+> > > > +	.remove		= rdacm21_remove,
+> > > > +};
+> > > > +
+> > > > +module_i2c_driver(rdacm21_i2c_driver);
+> > > > +
+> > > > +MODULE_DESCRIPTION("GMSL Camera driver for RDACM21");
+> > > > +MODULE_AUTHOR("Jacopo Mondi, Kieran Bingham, Laurent Pinchart, Niklas Söderlund, Vladimir Barinov");
+> > >
+> > > I think by this point you could chop MODULE_AUTHOR for this one down to
+> > > just you ;-)
+> > >
+> > >
+> > > A fairly arbitrary, and cursory
+> > >
+> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > I'll be aiming to test this (series) as soon as I can too.
+> >
+> > Thanks, let me know if I should submit for proper inclusion!
+> >
+> > > > +MODULE_LICENSE("GPL v2");
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
