@@ -2,49 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6612C2B41D7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 12:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 145462B4221
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 12:06:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728695AbgKPLA1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 06:00:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728603AbgKPLA1 (ORCPT
+        id S1729350AbgKPLEk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 06:04:40 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:45089 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727228AbgKPLEj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 06:00:27 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605524426;
-        bh=DZi7kgyxkI2WBrKCz7dqB1DYsL71dVCRIpwu/cmUWu8=;
-        h=Subject:From:Date:To:From;
-        b=Ih+GJ7z3cG6Kf4FdE49h2KvfEGu71FmNuO9kU3pVG5shjKXryCdnyV81K59N1WFnA
-         cQ092KL5W295YVU1Dts3YCXGvIOYk20TvvD2YuoRibNcvuwJmzkNCHhrhoNtD4jXIW
-         KQX3gyDzJMKoEJMB1C7WKbKz3GVwDV5IFugNeTrc=
+        Mon, 16 Nov 2020 06:04:39 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 6C51140041;
+        Mon, 16 Nov 2020 11:04:35 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     koji.matsuoka.xm@renesas.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/2] media: rcar-vin: Mask access to VNCSI_IFMD register
+Date:   Mon, 16 Nov 2020 12:04:26 +0100
+Message-Id: <20201116110428.27338-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <160552442641.18636.17495830760421704727.git-patchwork-summary@kernel.org>
-Date:   Mon, 16 Nov 2020 11:00:26 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+As reported in patch 2/2 commit message the the VNCSI_IFMD register
+has the following limitations according to chip manual revision 2.20
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+- V3M, V3H and E3 do not support the DES1 field has they do not feature
+a CSI20 receiver.
+- D3 only supports parallel input, and the whole register shall always
+be written as 0.
 
-Patch: usb: cdc-acm: Add DISABLE_ECHO for Renesas USB Download mode
-  Submitter: Chris Brandt <chris.brandt@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=382065
-  Lore link: https://lore.kernel.org/r/20201111131209.3977903-1-chris.brandt@renesas.com
+This patch upports the BSP change commit f54697394457
+("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990") from
+Koji Matsuoka
 
-Total patches: 1
+Tested on r-car E3 Ebisu.
+
+v1 -> v2:
+- Inspect the channel routing table to deduce the availability of DES1/DES0
+  bits as suggested by Niklas.
+
+Thanks
+   j
+
+Jacopo Mondi (2):
+  media: rcar-vin: Remove unused macro
+  media: rcar-vin: Mask VNCSI_IFMD register
+
+ drivers/media/platform/rcar-vin/rcar-dma.c | 27 ++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
 --
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.29.1
 
