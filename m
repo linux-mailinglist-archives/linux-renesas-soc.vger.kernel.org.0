@@ -2,38 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B84902B5CE3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 11:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7750F2B5CE9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 11:31:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727408AbgKQKab (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Nov 2020 05:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33082 "EHLO
+        id S1727377AbgKQKac (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Nov 2020 05:30:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727350AbgKQKab (ORCPT
+        with ESMTP id S1726338AbgKQKac (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Nov 2020 05:30:31 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C4FFC0617A6
+        Tue, 17 Nov 2020 05:30:32 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFEF8C0613CF
         for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Nov 2020 02:30:31 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id tNWV2300G4C55Sk06NWVKw; Tue, 17 Nov 2020 11:30:29 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id tNWV2300R4C55Sk01NWVsL; Tue, 17 Nov 2020 11:30:29 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1keyFo-003Bbz-VZ; Tue, 17 Nov 2020 11:30:28 +0100
+        id 1keyFo-003Bc0-WF; Tue, 17 Nov 2020 11:30:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1keyFo-008xpR-A4; Tue, 17 Nov 2020 11:30:28 +0100
+        id 1keyFo-008xpW-Ay; Tue, 17 Nov 2020 11:30:28 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 6/7] ARM: shmobile: sh73a0: Use ioremap() to map SMP registers
-Date:   Tue, 17 Nov 2020 11:30:21 +0100
-Message-Id: <20201117103022.2136527-7-geert+renesas@glider.be>
+Subject: [PATCH 7/7] ARM: shmobile: sh73a0: Remove obsolete static mapping
+Date:   Tue, 17 Nov 2020 11:30:22 +0100
+Message-Id: <20201117103022.2136527-8-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201117103022.2136527-1-geert+renesas@glider.be>
 References: <20201117103022.2136527-1-geert+renesas@glider.be>
@@ -43,72 +43,51 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace using the legacy IOMEM() macro to map various registers related
-to secondary CPU bringup by ioremap().
+There are no more users of the statically mapped IOMEM region on
+SH-Mobile AG5.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/mach-shmobile/smp-sh73a0.c | 33 +++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ arch/arm/mach-shmobile/setup-sh73a0.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-diff --git a/arch/arm/mach-shmobile/smp-sh73a0.c b/arch/arm/mach-shmobile/smp-sh73a0.c
-index 0403aa8629ddc10a..6d892d11d81c524d 100644
---- a/arch/arm/mach-shmobile/smp-sh73a0.c
-+++ b/arch/arm/mach-shmobile/smp-sh73a0.c
-@@ -16,31 +16,42 @@
+diff --git a/arch/arm/mach-shmobile/setup-sh73a0.c b/arch/arm/mach-shmobile/setup-sh73a0.c
+index d626bce83462c86e..405e1af68a684f9a 100644
+--- a/arch/arm/mach-shmobile/setup-sh73a0.c
++++ b/arch/arm/mach-shmobile/setup-sh73a0.c
+@@ -22,24 +22,6 @@
  #include "common.h"
  #include "sh73a0.h"
  
--#define WUPCR		IOMEM(0xe6151010)
--#define SRESCR		IOMEM(0xe6151018)
--#define PSTR		IOMEM(0xe6151040)
--#define SBAR		IOMEM(0xe6180020)
--#define APARMBAREA	IOMEM(0xe6f10020)
-+#define CPG_BASE2	0xe6151000
-+#define WUPCR		0x10	/* System-CPU Wake Up Control Register */
-+#define SRESCR		0x18	/* System-CPU Software Reset Control Register */
-+#define PSTR		0x40	/* System-CPU Power Status Register */
-+
-+#define SYSC_BASE	0xe6180000
-+#define SBAR		0x20	/* SYS Boot Address Register */
-+
-+#define AP_BASE		0xe6f10000
-+#define APARMBAREA	0x20	/* Address Translation Area Register */
- 
- #define SH73A0_SCU_BASE 0xf0000000
- 
- static int sh73a0_boot_secondary(unsigned int cpu, struct task_struct *idle)
- {
- 	unsigned int lcpu = cpu_logical_map(cpu);
-+	void __iomem *cpg2 = ioremap(CPG_BASE2, PAGE_SIZE);
- 
--	if (((__raw_readl(PSTR) >> (4 * lcpu)) & 3) == 3)
--		__raw_writel(1 << lcpu, WUPCR);	/* wake up */
-+	if (((__raw_readl(cpg2 + PSTR) >> (4 * lcpu)) & 3) == 3)
-+		__raw_writel(1 << lcpu, cpg2 + WUPCR);	/* wake up */
- 	else
--		__raw_writel(1 << lcpu, SRESCR);	/* reset */
+-static struct map_desc sh73a0_io_desc[] __initdata = {
+-	/* create a 1:1 identity mapping for 0xe6xxxxxx
+-	 * used by CPGA, INTC and PFC.
+-	 */
+-	{
+-		.virtual	= 0xe6000000,
+-		.pfn		= __phys_to_pfn(0xe6000000),
+-		.length		= 256 << 20,
+-		.type		= MT_DEVICE_NONSHARED
+-	},
+-};
 -
-+		__raw_writel(1 << lcpu, cpg2 + SRESCR);	/* reset */
-+	iounmap(cpg2);
- 	return 0;
- }
- 
- static void __init sh73a0_smp_prepare_cpus(unsigned int max_cpus)
+-static void __init sh73a0_map_io(void)
+-{
+-	debug_ll_io_init();
+-	iotable_init(sh73a0_io_desc, ARRAY_SIZE(sh73a0_io_desc));
+-}
+-
+ static void __init sh73a0_generic_init(void)
  {
-+	void __iomem *ap = ioremap(AP_BASE, PAGE_SIZE);
-+	void __iomem *sysc = ioremap(SYSC_BASE, PAGE_SIZE);
-+
- 	/* Map the reset vector (in headsmp.S) */
--	__raw_writel(0, APARMBAREA);      /* 4k */
--	__raw_writel(__pa(shmobile_boot_vector), SBAR);
-+	__raw_writel(0, ap + APARMBAREA);      /* 4k */
-+	__raw_writel(__pa(shmobile_boot_vector), sysc + SBAR);
-+	iounmap(sysc);
-+	iounmap(ap);
+ #ifdef CONFIG_CACHE_L2X0
+@@ -56,7 +38,6 @@ static const char *const sh73a0_boards_compat_dt[] __initconst = {
  
- 	/* setup sh73a0 specific SCU bits */
- 	shmobile_smp_scu_prepare_cpus(SH73A0_SCU_BASE, max_cpus);
+ DT_MACHINE_START(SH73A0_DT, "Generic SH73A0 (Flattened Device Tree)")
+ 	.smp		= smp_ops(sh73a0_smp_ops),
+-	.map_io		= sh73a0_map_io,
+ 	.init_machine	= sh73a0_generic_init,
+ 	.init_late	= shmobile_init_late,
+ 	.dt_compat	= sh73a0_boards_compat_dt,
 -- 
 2.25.1
 
