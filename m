@@ -2,167 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 974442B5597
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 01:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 990A02B5691
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 03:09:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730992AbgKQAMs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 19:12:48 -0500
-Received: from mail-eopbgr1320137.outbound.protection.outlook.com ([40.107.132.137]:19131
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731455AbgKQAMr (ORCPT
+        id S1726518AbgKQCIh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 21:08:37 -0500
+Received: from mga07.intel.com ([134.134.136.100]:38754 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725730AbgKQCIh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 19:12:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aHHoQ4KjWvoiG8tD7XiZJTYTC8UpVEpWBp64vX19VSLVDP7MrgTeJdS3UG4K4HQmcch/kmoo73UHF+H7E1j3EHFB+XZWZTiIJg2dYl5lkoHCHhDXydqiZyDuaUJX2/4nPD39GBCR7itTG8rC/LdToonI/eVASaXdskzHBmG7u9kzZUy060iqNfTy1YB4S49xtYgbfbaZsIfA1mcmUQ1XIIZwTI6yehRH/T0XEsfNihwKIcHZNVxvFaOrAk+zc3ivEy60G0YeiBRwpiSUgx44AsZlaD8GTr5on4538xR5BjdqsZ6bDT/hUfDjOPfVKfLulw3ArBlV734j4qZXllEkvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oL8fk4bHuWdIyM+gyoqez5Hr2TBiYlaNNFRprxRBaOI=;
- b=cKUtB6ZnnqxNfc2sVHhB39JYVinwwY4qVozEAp/1F6ZOkiLj1z5YVntqlO7cfPzp8+27KE/f/w/mGjAylHjiJ803FyrcQNskvbELOcF6jSm4G+1xYTtLkgu2a4mDCgv5daS30236ALYnX0K/VWEcOXpiaGr9YHtEFzuRQClH94BGfQx51sxzyJwMa2Q/Y4DowtqjwnJBPnFFPjxz46XmnncZJ8PoECg0YJdgxpQTPliwX/w32TlrdfLXCyHP3wZuJhlIzyfs6CWt1ELX+zCe+izDrpL5I6GN+eiIxH0uIAqP5PPMvRSdd6GAKaGQ8BbeDroQHP3IBoiNOSJd7GGo/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oL8fk4bHuWdIyM+gyoqez5Hr2TBiYlaNNFRprxRBaOI=;
- b=JKiZWd2do9DIwCrZuNpIBqNZlK6tGi0oBmimcm3pAs3mnyUwjdLmLpK375mPThMxIbH+19Z9G/bhtiDQCsxT5UGHFxPeXUCjkLZ0nRGB7J2EqNR+Ah0lugpeYDZwBhdkvuI8vck1eoJslMyv03+r73knH7KksmQySGaG+Va5fg0=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (20.178.142.214) by
- TY2PR01MB2060.jpnprd01.prod.outlook.com (52.133.184.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.28; Tue, 17 Nov 2020 00:12:41 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::59ed:a6ce:d8dc:90dd]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::59ed:a6ce:d8dc:90dd%6]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
- 00:12:41 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-CC:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3] mmc: core: Issue power off notification in
- mmc_remove()
-Thread-Topic: [PATCH v3] mmc: core: Issue power off notification in
- mmc_remove()
-Thread-Index: AQHWt08XZyKbbXU7hkSbImAY/PEDYanLAX4AgAB5BIA=
-Date:   Tue, 17 Nov 2020 00:12:41 +0000
-Message-ID: <TY2PR01MB369258A9D48460A7519F3239D8E20@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAPDyKFoGNfn_9Zc-Q_0q+vRNnE=4Y0WH-Nm=cEyJeo1NiaGUxg@mail.gmail.com>
-In-Reply-To: <CAPDyKFoGNfn_9Zc-Q_0q+vRNnE=4Y0WH-Nm=cEyJeo1NiaGUxg@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:6dbd:1b22:eb28:c425]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c8990f8e-53c0-433c-cb63-08d88a8d7fd9
-x-ms-traffictypediagnostic: TY2PR01MB2060:
-x-microsoft-antispam-prvs: <TY2PR01MB2060E69ED845F876D77F4E08D8E20@TY2PR01MB2060.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ib1eTfEZO4xGxFRrZgwpRnjf4X8+IjTHpLRf49+UbQDo4HOKSLoS0TiKBWva0vu3AAuyMUFU9DkVNBbvHdkU+GXl3HVQc3I4QPoiBqULXtGT8BHYBoqDGj2PFW8SE1mv5WDtfKyenCUFB7d4hSDBnDNEVSvS16zks7SHTEScA4mcgnIbW5nzvosK7IbFjdMZ5QFgcz2AYahw8ymrDHdLWcOdAQXTBA2Mi0hc+UyxZlwZg6wixgP8ksGx577C2QWo5JWPWWtdw7sze/lzTHavNMnP1RGc48m/8RgnY+lJZSkWoBYbxX3PNK7+f5oA+eyki44wT5WXRyuzXppRv5TkvA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(39850400004)(346002)(136003)(376002)(6916009)(71200400001)(64756008)(66446008)(52536014)(66556008)(33656002)(5660300002)(316002)(4326008)(54906003)(66476007)(186003)(8936002)(478600001)(15650500001)(7696005)(6506007)(83380400001)(86362001)(66946007)(76116006)(8676002)(55016002)(9686003)(2906002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 6YtbGGnqkBNaTEFysp5glapR/wzH6GxKj01RzzkO4hDDxPRA3N2WLXgQgTGmAd+nUbLZK0x0pFp+x7ouC2E+SLQ8ghT3NKvud5nRtQJiqMPLT7/CeP9x1Yx2EovAaOPtq8yMt/6ApZph2Q3mEpX/terwNB/JVuBUSvRkZVSfbgs+cHqTE1AqDphpMfRvByVylimemIylJF6OPSHv/yNogXlaOAqu52RUBie1lZ60+q4QhzVqiWiw81/f5NsMKJFv5FxPxHL/qlyxhIsKwVtKF5tpkcaYeKwyvUvlGDjE/Apflbvc/0d7BWNl9bcYlnT7vZUtsGWfVta3kxpk40BtiEx50SCZbfZhQokUTRW5+zOpxtT13NAOyJ/JDyVw3xQ8I/57qZrga8E6AyWWk74KGt4FaZImY2VrpvtbGN8MpKwRvPXfQLr5jliIpNSuSqOs5fOCiSkjJLmVGpYDz1cCdzCFV52mO68OG2wDiBjnHZw+E+h1LByMy33jDCpaDF44r+3Es8atcJ1i3eVv9vSItunhTCF9oh872Mkjoh7VNhiVnrTrhp3sPTX/RtxYoDs8ySiM0+LGgR3HOTXX7Go6QXbNiA4+iN49Jj3Az8E/VEQUKflTVlK3Z++qURF7+tGQbkTUrGaKFTSNBOdukrsrLG2H6Tdxv6wrXIyZhPpigHN2HsxT0+9OrL3K2jraye1rptCHbhJhrKbp1vU85W6V6A==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 16 Nov 2020 21:08:37 -0500
+IronPort-SDR: tJVgECZkFqgqihA84Wfdpb3OO815y0RU87vUxobNP/gfQc1X7NcZOMzpcXDYPwpZsvqAOf+4Mk
+ g7Y3/+VfEslA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="234998628"
+X-IronPort-AV: E=Sophos;i="5.77,484,1596524400"; 
+   d="scan'208";a="234998628"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 18:08:31 -0800
+IronPort-SDR: 6wDmXiuENruk+52eoig4ZAy0Y4VpLOu8mnP1XRm1Mrt2llolfWUiTyEtkcj9PFpMDGpzP25RrO
+ DkYpOt8gJH/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,484,1596524400"; 
+   d="scan'208";a="358695708"
+Received: from lkp-server01.sh.intel.com (HELO 5abab2bd15ab) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 16 Nov 2020 18:08:28 -0800
+Received: from kbuild by 5abab2bd15ab with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1keqQ0-00001W-4z; Tue, 17 Nov 2020 02:08:28 +0000
+Date:   Tue, 17 Nov 2020 10:07:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD SUCCESS
+ 2a323cdab73739ab28725e19129d440c6db35fc4
+Message-ID: <5fb33078.r5+oCBUBRTI+Y2N8%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8990f8e-53c0-433c-cb63-08d88a8d7fd9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2020 00:12:41.0927
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8WdBg+jXYJWMFbkQS6oTjXbp6T4tqt37gf10lzXTqmsn4rsiVmZvWtrspHWNYHRgOEMS+pbrrTvCTO2KUi3U5+jD5/nVQn9moeJuTKC/DWzS0UrfAa9xqJUtyvDLwdhG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2060
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8gVWxmLA0KDQo+IEZyb206IFVsZiBIYW5zc29uLCBTZW50OiBUdWVzZGF5LCBOb3ZlbWJl
-ciAxNywgMjAyMCAxOjQ3IEFNDQo+IA0KPiBPbiBUdWUsIDEwIE5vdiAyMDIwIGF0IDExOjQ4LCBZ
-b3NoaWhpcm8gU2hpbW9kYQ0KPiA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNhcy5jb20+IHdy
-b3RlOg0KPiA+DQo+ID4gVXNlciBpcyBwb3NzaWJsZSB0byB0dXJuIHRoZSBwb3dlciBvZmYgYWZ0
-ZXIgYSBob3N0IHdhcyByZW1vdmVkLg0KPiA+IFNvLCBjYWxsIG1tY19wb3dlcm9mZl9ub3RpZnko
-RVhUX0NTRF9OT19QT1dFUl9OT1RJRklDQVRJT04pDQo+ID4gaW4gbW1jX3JlbW92ZSgpLiBOb3Rl
-IHRoYXQgdGhlIG1tYyBhbmQgaG9zdCBkcml2ZXIgd2lsbCBiZQ0KPiA+IGluIHRoZSBmb2xsb3dp
-bmcgbW9kZXMgd2hlbiBtbWNfcmVtb3ZlKCkgaXMgY2FsbGVkOg0KPiA+DQo+ID4gIDEuIG1tY19j
-YXJkX3N1c3BlbmRlZCgpID09IGZhbHNlICYmDQo+ID4gICAgIHBvd2VyX29mZl9ub3RpZmljYXRp
-b24gPT0gRVhUX0NTRF9QT1dFUl9PTg0KPiA+ICAyLiBtbWNfY2FyZF9zdXNwZW5kZWQoKSA9PSB0
-cnVlICYmDQo+ID4gICAgIHBvd2VyX29mZl9ub3RpZmljYXRpb24gPT0gRVhUX0NTRF9QT1dFUl9P
-RkZfe1NIT1JULExPTkd9DQo+ID4gIDMuIG1tY19jYXJkX3N1c3BlbmRlZCgpID09IHRydWUgJiYg
-bW1jX3NsZWVwKCkgd2FzIGNhbGxlZA0KPiA+DQo+ID4gU28sIG1tY19yZW1vdmUoKSBjYWxscyBf
-bW1jX3Jlc3VtZSgpIGFueXdheSBmb3IgdGhlIGNhc2VzLg0KPiA+IE90aGVyd2lzZToNCj4gPg0K
-PiA+ICAtIF9tbWNfcmVzdW1lIHdpbGwgYmUgY2FsbGVkIHZpYSBtbWNfcnVudGltZV9yZXN1bWUo
-KSBhbmQgdGhlbg0KPiA+ICAgIHBvd2VyX29mZl9ub3RpZmljYXRpb24gd2lsbCBiZSBzZXQgdG8g
-RVhUX0NTRF9QT1dFUl9PTi4NCj4gPiAgLSB0aW1lb3V0IHdpbGwgaGFwcGVuIGluIG1tY19ibGtf
-cGFydF9zd2l0Y2goKSB2aWEgbW1jX2Jsa19yZW1vdmUoKQ0KPiA+ICAgIGlmICJwYXJ0X2N1cnIi
-IG9mIG1tYyBibG9jayBpcyBub3Qgc2V0IHRvIGRlZmF1bHQuDQo+ID4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNhcy5jb20+
-DQo8c25pcD4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tbWMvY29yZS9tbWMuYyBiL2RyaXZl
-cnMvbW1jL2NvcmUvbW1jLmMNCj4gPiBpbmRleCBmZjMwNjNjLi4xODQxM2YyIDEwMDY0NA0KPiA+
-IC0tLSBhL2RyaXZlcnMvbW1jL2NvcmUvbW1jLmMNCj4gPiArKysgYi9kcml2ZXJzL21tYy9jb3Jl
-L21tYy5jDQo+ID4gQEAgLTE5ODMsMTEgKzE5ODMsMzUgQEAgc3RhdGljIGludCBtbWNfcG93ZXJv
-ZmZfbm90aWZ5KHN0cnVjdCBtbWNfY2FyZCAqY2FyZCwgdW5zaWduZWQgaW50IG5vdGlmeV90eXBl
-KQ0KPiA+ICAgICAgICAgcmV0dXJuIGVycjsNCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyBpbnQg
-X21tY19yZXN1bWUoc3RydWN0IG1tY19ob3N0ICpob3N0KTsNCj4gPiAgLyoNCj4gPiAgICogSG9z
-dCBpcyBiZWluZyByZW1vdmVkLiBGcmVlIHVwIHRoZSBjdXJyZW50IGNhcmQuDQo+ID4gICAqLw0K
-PiA+ICBzdGF0aWMgdm9pZCBtbWNfcmVtb3ZlKHN0cnVjdCBtbWNfaG9zdCAqaG9zdCkNCj4gPiAg
-ew0KPiA+ICsgICAgICAgLyoNCj4gPiArICAgICAgICAqIFRoZSBtbWMgYW5kIGhvc3QgZHJpdmVy
-IHdpbGwgYmUgaW4gdGhlIGZvbGxvd2luZyBtb2RlcyBoZXJlOg0KPiA+ICsgICAgICAgICogIDEu
-IG1tY19jYXJkX3N1c3BlbmRlZCgpID09IGZhbHNlICYmDQo+ID4gKyAgICAgICAgKiAgICAgcG93
-ZXJfb2ZmX25vdGlmaWNhdGlvbiA9PSBFWFRfQ1NEX1BPV0VSX09ODQo+ID4gKyAgICAgICAgKiAg
-Mi4gbW1jX2NhcmRfc3VzcGVuZGVkKCkgPT0gdHJ1ZSAmJg0KPiA+ICsgICAgICAgICogICAgIHBv
-d2VyX29mZl9ub3RpZmljYXRpb24gPT0gRVhUX0NTRF9QT1dFUl9PRkZfe1NIT1JULExPTkd9DQo+
-ID4gKyAgICAgICAgKiAgMy4gbW1jX2NhcmRfc3VzcGVuZGVkKCkgPT0gdHJ1ZSAmJiBtbWNfc2xl
-ZXAoKSB3YXMgY2FsbGVkDQo+ID4gKyAgICAgICAgKg0KPiA+ICsgICAgICAgICogU28sIGNhbGwg
-X21tY19yZXN1bWUoKSBoZXJlIGFueXdheSBmb3IgdGhlIGNhc2VzLiBPdGhlcndpc2U6DQo+ID4g
-KyAgICAgICAgKiAgLSBfbW1jX3Jlc3VtZSB3aWxsIGJlIGNhbGxlZCB2aWEgbW1jX3J1bnRpbWVf
-cmVzdW1lKCkgYW5kIHRoZW4NCj4gPiArICAgICAgICAqICAgIHBvd2VyX29mZl9ub3RpZmljYXRp
-b24gd2lsbCBiZSBzZXQgdG8gRVhUX0NTRF9QT1dFUl9PTi4NCj4gPiArICAgICAgICAqICAtIHRp
-bWVvdXQgd2lsbCBoYXBwZW4gaW4gbW1jX2Jsa19wYXJ0X3N3aXRjaCgpIHZpYSBtbWNfYmxrX3Jl
-bW92ZSgpDQo+ID4gKyAgICAgICAgKiAgICBpZiAicGFydF9jdXJyIiBvZiBtbWMgYmxvY2sgaXMg
-bm90IHNldCB0byBkZWZhdWx0Lg0KPiA+ICsgICAgICAgICovDQo+ID4gKyAgICAgICBfbW1jX3Jl
-c3VtZShob3N0KTsNCj4gPiArDQo+ID4gKyAgICAgICAvKiBEaXNhYmxlIHBvd2VyX29mZl9ub3Rp
-ZmljYXRpb24gYnl0ZSBpbiB0aGUgZXh0X2NzZCByZWdpc3RlciAqLw0KPiA+ICsgICAgICAgaWYg
-KGhvc3QtPmNhcmQtPmV4dF9jc2QucmV2ID49IDYpIHsNCj4gPiArICAgICAgICAgICAgICAgbW1j
-X2NsYWltX2hvc3QoaG9zdCk7DQo+ID4gKyAgICAgICAgICAgICAgIG1tY19wb3dlcm9mZl9ub3Rp
-ZnkoaG9zdC0+Y2FyZCwgRVhUX0NTRF9OT19QT1dFUl9OT1RJRklDQVRJT04pOw0KPiA+ICsgICAg
-ICAgICAgICAgICBtbWNfcmVsZWFzZV9ob3N0KGhvc3QpOw0KPiA+ICsgICAgICAgfQ0KPiANCj4g
-VW5mb3J0dW5hdGUsIEkgdGhpbmsgdGhlcmUgaXMgZXZlbiBtb3JlIGNvbXBsZXhpdHkgaW52b2x2
-ZWQgaGVyZS4gSQ0KPiBkb24ndCB0aGluayB0aGUgYWJvdmUgd29yayBmb3IgYWxsIGNhc2VzLg0K
-PiANCj4gTGV0IG1lIHRyeSB0byBlbGFib3JhdGUgLSB0aGVyZSBhcmUgdHdvIHNjZW5hcmlvcyBv
-ZiB3aGVuIG1tY19yZW1vdmUoKQ0KPiBpcyBjYWxsZWQuDQo+IA0KPiAxKQ0KPiBXaGVuIHRoZSBj
-YXJkIGJlY29tZXMgcmVtb3ZlZCwgbGlrZWx5IG5vdCB0aGUgY2FzZSBmb3IgZU1NQyBidXQgaXQg
-bWF5DQo+IGhhcHBlbiBmb3IgYSBsZWdhY3kgTU1DIGNhcmQsIGZvciBleGFtcGxlLiBJbiB0aGlz
-IGNhc2UsIHRoZXJlIGlzIG5vdA0KPiBtdWNoIHdlIGNhbiBkbyB0byBmaXggdGhlIHByb2JsZW0s
-IGFzIHRoZSBjYXJkIGlzIGFscmVhZHkgImRlYWQiLg0KPiANCj4gMikNCj4gVGhlIGNhcmQgaXMg
-d29ya2luZyBwcm9wZXJseSAoaXQgbWF5IGJlIHN1c3BlbmRlZCB0aG91Z2gpIHdoaWxlDQo+IG1t
-Y19yZW1vdmVfaG9zdCgpIGdldHMgY2FsbGVkIGJlY2F1c2UgdGhlIGhvc3QgZHJpdmVyIGlzIGJl
-aW5nDQo+IHVuYmluZGVkLg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3IGFuZCBjb21tZW50
-cyEgSSB1bmRlcnN0b29kIG15IHBhdGNoIHdhcyBub3QNCmVub3VnaCBmb3IgdGhlc2Ugc2NlbmFy
-aW9zLg0KDQo+IEZvciAxKQ0KPiBXZSBzaG91bGQgb25seSBjbGVhbiB1cCBhbmQgcmVtb3ZlIHRo
-ZSBjYXJkIHN0cnVjdHMsIHdoaWNoIHRoZSBjdXJyZW50DQo+IGNvZGUgYWxyZWFkeSBkb2VzLg0K
-PiANCj4gRm9yIDIpDQo+IFdlIHdhbnQgdG8gc3VwcG9ydCBhIGdyYWNlZnVsIHBvd2VyIG9mZiBz
-ZXF1ZW5jZSBvciB0aGUgY2FyZCAodG8NCj4gcHJldmVudCBkYXRhIGNvcnJ1cHRpb24gZm9yIGV4
-YW1wbGUpLiBIb3dldmVyLCBkZXBlbmRpbmcgb24gdGhlDQo+IHBsYXRmb3JtIGFuZCBob3N0LCBp
-dCBtYXkgbm90IGJlIHBvc3NpYmxlIHRvIHBvd2VyIG9mZiBib3RoIFZDQyBhbmQNCj4gVkNDUS4g
-Rm9yIGV4YW1wbGUsIGl0J3MgcXVpdGUgY29tbW9uIHRoYXQgVkNDUSByZW1haW5zIHBvd2VyZWQg
-b24sDQo+IHdoaWxlIG9ubHkgVkNDIGNhbiBiZSBwb3dlciBnYXRlZC4gSnVzdCBkaXNhYmxpbmcg
-dGhlIHBvd2VyIG9mZg0KPiBub3RpZmljYXRpb24gb2YgdGhlIGVNTUMgY2FyZCAoYXMgeW91IHN1
-Z2dlc3QgYWJvdmUpLCBkb2Vzbid0IHJlYWxseQ0KPiBoZWxwLiBJbiBmYWN0LCBpdCBjb3VsZCBt
-ZWFuIHRoYXQgd2UgbWF5IHZpb2xhdGUgdGhlIGVNTUMgc3BlYyB3aGVuDQo+IHBvd2VyIGdhdGlu
-ZyBWQ0MgdGhyb3VnaCBtbWNfcG93ZXJfb2ZmKCkuDQo+IA0KPiBJIGFtIHRoaW5raW5nIG9mIGEg
-ZmV3IHBvc3NpYmxlIHNvbHV0aW9ucy4gUGVyaGFwcyBlYXNpZXIgaWYgSSBwb3N0IGENCj4gcGF0
-Y2ggdGhhdCB5b3UgdHJ5IC0gdW5sZXNzIHlvdSBoYXZlIGlkZWFzIHlvdXJzZWxmIG9mIGhvdyB0
-byBmaXgNCj4gdGhpcy4NCg0KVGhhbmsgeW91ISBVbmZvcnR1bmF0ZWx5LCBJIGRvbid0IGhhdmUg
-YW55IGlkZWEgaG93IHRvIGZpeCB0aGlzIG5vdy4NClNvLCBpZiB5b3UgcG9zdCBhIHBhdGNoLCBJ
-J2xsIHRyeS4NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGENCg0K
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: 2a323cdab73739ab28725e19129d440c6db35fc4  Merge tag 'v5.10-rc4' into renesas-devel
+
+elapsed time: 723m
+
+configs tested: 167
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                     tqm8541_defconfig
+arm                            qcom_defconfig
+ia64                        generic_defconfig
+m68k                         amcore_defconfig
+arm                      footbridge_defconfig
+mips                     cu1830-neo_defconfig
+arm                         socfpga_defconfig
+nios2                         10m50_defconfig
+powerpc                 mpc8315_rdb_defconfig
+xtensa                  nommu_kc705_defconfig
+sh                          rsk7203_defconfig
+arm                       netwinder_defconfig
+arm                     am200epdkit_defconfig
+m68k                            q40_defconfig
+m68k                       m5475evb_defconfig
+arm                       cns3420vb_defconfig
+arm                        mini2440_defconfig
+arm                        vexpress_defconfig
+mips                  decstation_64_defconfig
+powerpc               mpc834x_itxgp_defconfig
+mips                         bigsur_defconfig
+sh                           sh2007_defconfig
+mips                        bcm63xx_defconfig
+arc                                 defconfig
+nios2                         3c120_defconfig
+sh                          landisk_defconfig
+arm                          ep93xx_defconfig
+arm                         lpc32xx_defconfig
+arm                  colibri_pxa270_defconfig
+arm                              alldefconfig
+arm                        shmobile_defconfig
+openrisc                            defconfig
+sh                         microdev_defconfig
+sh                             espt_defconfig
+powerpc                     tqm8555_defconfig
+mips                         tb0219_defconfig
+arc                      axs103_smp_defconfig
+mips                        qi_lb60_defconfig
+m68k                            mac_defconfig
+mips                          ath79_defconfig
+sh                         ecovec24_defconfig
+mips                           xway_defconfig
+riscv                             allnoconfig
+powerpc                     mpc512x_defconfig
+m68k                          hp300_defconfig
+arm                          gemini_defconfig
+arm                      tct_hammer_defconfig
+mips                        bcm47xx_defconfig
+arm                            zeus_defconfig
+arm                     eseries_pxa_defconfig
+sh                               alldefconfig
+arm                           h3600_defconfig
+arm                        neponset_defconfig
+mips                        jmr3927_defconfig
+powerpc                       holly_defconfig
+xtensa                          iss_defconfig
+powerpc                     mpc83xx_defconfig
+mips                      bmips_stb_defconfig
+powerpc                   lite5200b_defconfig
+sh                        apsh4ad0a_defconfig
+s390                             alldefconfig
+arm                           sunxi_defconfig
+powerpc                  mpc885_ads_defconfig
+arm                           h5000_defconfig
+arm                          simpad_defconfig
+powerpc                     ppa8548_defconfig
+sh                          rsk7264_defconfig
+powerpc                     tqm5200_defconfig
+mips                            e55_defconfig
+powerpc                     tqm8560_defconfig
+sh                     sh7710voipgw_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20201116
+x86_64               randconfig-a005-20201116
+x86_64               randconfig-a004-20201116
+x86_64               randconfig-a002-20201116
+x86_64               randconfig-a001-20201116
+x86_64               randconfig-a006-20201116
+i386                 randconfig-a006-20201116
+i386                 randconfig-a005-20201116
+i386                 randconfig-a001-20201116
+i386                 randconfig-a002-20201116
+i386                 randconfig-a004-20201116
+i386                 randconfig-a003-20201116
+i386                 randconfig-a006-20201115
+i386                 randconfig-a005-20201115
+i386                 randconfig-a001-20201115
+i386                 randconfig-a002-20201115
+i386                 randconfig-a004-20201115
+i386                 randconfig-a003-20201115
+x86_64               randconfig-a015-20201115
+x86_64               randconfig-a011-20201115
+x86_64               randconfig-a016-20201115
+x86_64               randconfig-a012-20201115
+x86_64               randconfig-a014-20201115
+x86_64               randconfig-a013-20201115
+i386                 randconfig-a012-20201116
+i386                 randconfig-a014-20201116
+i386                 randconfig-a016-20201116
+i386                 randconfig-a011-20201116
+i386                 randconfig-a015-20201116
+i386                 randconfig-a013-20201116
+i386                 randconfig-a012-20201115
+i386                 randconfig-a014-20201115
+i386                 randconfig-a016-20201115
+i386                 randconfig-a011-20201115
+i386                 randconfig-a015-20201115
+i386                 randconfig-a013-20201115
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a003-20201115
+x86_64               randconfig-a005-20201115
+x86_64               randconfig-a004-20201115
+x86_64               randconfig-a002-20201115
+x86_64               randconfig-a001-20201115
+x86_64               randconfig-a006-20201115
+x86_64               randconfig-a015-20201116
+x86_64               randconfig-a011-20201116
+x86_64               randconfig-a014-20201116
+x86_64               randconfig-a013-20201116
+x86_64               randconfig-a016-20201116
+x86_64               randconfig-a012-20201116
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
