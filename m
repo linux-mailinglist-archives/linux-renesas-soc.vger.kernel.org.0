@@ -2,96 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E102B5D06
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 11:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9F262B5EA1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 12:50:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727214AbgKQKhf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Nov 2020 05:37:35 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:47049 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbgKQKhf (ORCPT
+        id S1728180AbgKQLu3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Nov 2020 06:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45450 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727885AbgKQLu3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Nov 2020 05:37:35 -0500
-Received: by mail-ot1-f65.google.com with SMTP id g19so18885614otp.13;
-        Tue, 17 Nov 2020 02:37:34 -0800 (PST)
+        Tue, 17 Nov 2020 06:50:29 -0500
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D179C0617A6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Nov 2020 03:50:29 -0800 (PST)
+Received: by mail-ua1-x941.google.com with SMTP id w3so6423524uau.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Nov 2020 03:50:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e+rjCaps2k7U9izTRIPQGN/KMYZwRytG4PHUUpIgG80=;
+        b=YzqcEnN3GkNtcoqkI0qssQWdkbl05WfUiQqqJ2bWmCieyvmra8mQPgB7634gWNdORE
+         b5PJ+mVtpRNgN2prafS3KaIq2yKpO5xTfx0CrxnWeCAX/n31LOft5nzVyu96/FGyquwT
+         KTCiz+EqR2L8ESvFLPHHsR428S0sidn0fd157bydJeAdNYAorJL+vX2DTAX0bI6a0Oay
+         yxr/A17G9V7zV/2Qm5W8hs2czi7yQLI23I4xLLlSzWJwCieYiV7rgasXl/x1pasdVZNa
+         moSXmfsVJyhE9QtB88sqa9pNMQKz2afl9w/hZclYaEkWOXDI0dxS+Bvqh6c0bkf/YhLu
+         RX+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=xlpCdbdwdgiAHLJ6o3j80s/A4tWrQRJFEA4CoHh+SMQ=;
-        b=lWyeL40SYRWaaQ0rOX80mEl3n9CH4mVMQvaiDT7zG5c0wplXgelM9COEIWiR9qJrKo
-         4M5cIRRya2nuOj+rkr7dfitxQPhdWpw2c1MwrYlQDzSz61Ky/WHsK9IqNUNhOAXSIrgx
-         yqFLckwLPSoXMsDpxViraJgvMlp0aKdmwMsvTQU30xLeQL8A9XSQpgAqLlwmJXOIJY8g
-         t+ODtM71CDdfJc6gOvwdzuwKvrQ/VzyDo8OYLn8zzxLxh2SYpQw2QZ62ASw9PbWgHIvc
-         1PZJyGkEv2LspiMc/aevZygaax2gbb6j0t4I+nqQvcbLCiUPR8yaBumgapxTr6j3QeK0
-         FcJw==
-X-Gm-Message-State: AOAM5305487CT7c845SG/CcdHTjzb225hmEiEjoxmFvF/DnCXSZ+xxpm
-        8yPM9WwnDBW6toRIf1Q5gFhTzCSWcFzd6p75wxI=
-X-Google-Smtp-Source: ABdhPJwdmx7r6I5zj8jodkYho7XnaytzF+QMp1QBc/itOa9ld+ji3I3oUftzlTM4p0M68kkeI24eiE8vpMn7CYfNO3c=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr2362156oti.107.1605609454288;
- Tue, 17 Nov 2020 02:37:34 -0800 (PST)
+        bh=e+rjCaps2k7U9izTRIPQGN/KMYZwRytG4PHUUpIgG80=;
+        b=lKK95N31NrwqLHuOgiZQ+QI/onwNydLicEQvSTyt9oOrYeL4O3PwsnXaiGR3+U4eF+
+         og5G96G2mQd4xbemLWCRyIbX6oFL0yyN8K/RUUERrVniXSfrh5muhKJGNr9oPLk98lc1
+         dx22OxcRRzt9ljUBGAK357VZ2DesAd4Xueq+ypuJ4JbcmfeZZECg+jI/zr7+zWgH3lNL
+         YjwD1eAWnXKVGbDY2fqIIEm7G+VGmaoUBUR3duyeItp0IcD2r5lE2IqcgNDhuRsUGF/T
+         rFw69lc6TukeLL8EflwU3/cMt2Rrg5CSjN9myuc6hHxGHrlrIWM6Z3Edydb/Uvr1Ku8e
+         CElg==
+X-Gm-Message-State: AOAM532aL7u/OXXp4RSmbnx7zlVqpG5x6EmFTjqMlLUyqJW4nPjE8gmB
+        uFaPaqxY+E6pJ3cKVWZm9MBLHsfC77fxioPi2BaOzxQxtkHNpw==
+X-Google-Smtp-Source: ABdhPJwF7Dt1wGHBA1HHAJEu9MvM5rVl5FxeUSNjTPa+EOqiQKf25uSI0oat04CPYqdeq/6atR0EsombgTTeDILVNKc=
+X-Received: by 2002:ab0:754f:: with SMTP id k15mr10189267uaq.15.1605613828595;
+ Tue, 17 Nov 2020 03:50:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117103123.3938-1-chunfeng.yun@mediatek.com>
-In-Reply-To: <20201117103123.3938-1-chunfeng.yun@mediatek.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Nov 2020 11:37:23 +0100
-Message-ID: <CAMuHMdXVXqj9k4FMFH5aiqKwNrWocJpjahYKA8k2e3Z2ji2hvQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: arm: add additionalProperties
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-unisoc@lists.infradead.org,
-        linux-realtek-soc@lists.infradead.org,
+References: <20201110142058.36393-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201110142058.36393-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 17 Nov 2020 12:49:52 +0100
+Message-ID: <CAPDyKFrX=h_wOZkba9=gLHp46RwRPEX7QCMJ52ONA8nSxHH7Kw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] mmc: renesas_sdhi: reset SCC only when available
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chunfeng,
-
-On Tue, Nov 17, 2020 at 11:32 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
-> Add an explicit "additionalProperties: true" to avoid
-> dt_binding_check error caused by:
-> 'additionalProperties' is a required property
+On Tue, 10 Nov 2020 at 15:21, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> This will not change function, due to additionalProperties
-> is true by default.
+> While working on another improvement for the reset routine, I noted an
+> issue with an old Gen2 SDHI instance which did not have a SCC. It turned
+> out that we never distinguished between the SCC and non-SCC versions on
+> Gen2 when it came to resetting. So far, it went OK but my upcoming
+> change broke. So, this series fixes the underlying issue by only
+> resetting the SCC when one is available.
 >
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> I made very fine-grained patches because this driver is so fragile.
+> Nonetheless, my tests on a Renesas Lager board (R-Car H2) and
+> Salvator-XS (R-Car M3-N) were successful. Debug output showed that
+> proper code paths were taken and checksumming large files worked as well
+> as reinserting cards. The patches are based on mmc/next and 5.11 will
+> do because there seems to be no issue with current kernels.
+>
+> I'd be very happy about further review and testing!
+>
+> Thanks and all the best,
+>
+>    Wolfram
+>
+>
+> Wolfram Sang (4):
+>   mmc: renesas_sdhi: only reset SCC when its pointer is populated
+>   mmc: renesas_sdhi: probe into TMIO after SCC parameters have been
+>     setup
+>   mmc: renesas_sdhi: populate SCC pointer at the proper place
+>   mmc: renesas_sdhi: simplify reset routine a little
+>
+>  drivers/mmc/host/renesas_sdhi_core.c | 38 +++++++++++++---------------
+>  1 file changed, 18 insertions(+), 20 deletions(-)
 
-Thanks for your patch!
+Applied for next, thanks!
 
-> --- a/Documentation/devicetree/bindings/arm/actions.yaml
-> +++ b/Documentation/devicetree/bindings/arm/actions.yaml
-> @@ -49,3 +49,5 @@ properties:
->            - enum:
->                - ucrobotics,bubblegum-96 # uCRobotics Bubblegum-96
->            - const: actions,s900
-> +
-> +additionalProperties: true
-
-Looks very similar to commit 62298364bd489b06 ("dt-bindings: Explicitly
-allow additional properties in board/SoC schemas") in v5.10-rc2?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind regards
+Uffe
