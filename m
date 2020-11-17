@@ -2,72 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22D7C2B540F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Nov 2020 23:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 974442B5597
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Nov 2020 01:13:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbgKPWE3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Nov 2020 17:04:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59392 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgKPWE3 (ORCPT
+        id S1730992AbgKQAMs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Nov 2020 19:12:48 -0500
+Received: from mail-eopbgr1320137.outbound.protection.outlook.com ([40.107.132.137]:19131
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731455AbgKQAMr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Nov 2020 17:04:29 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D960C0613CF;
-        Mon, 16 Nov 2020 14:04:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=/xocZCfhg5vWf5C6x5mHJA0uTJTO2SUn0N9gEtzL+A0=; b=X0wMRL6mtPIbbVqF7kSyLjG5DP
-        75YrAwCWan3gwFvnQWJALCnoMtTKKxiJXHfc3J4Aw6rJLjf7+rRgBJCEGZU2+sV5a3kO+b869CkpI
-        ACEs4eZLyZq+Vl7Tpcwfoq2WJC1YDvlbB8X3D2aV/vF+4HiygIc2YSy+SlfmIkA4CET3e7GpjMP72
-        jnnauIl02bp9kJnc/DIq3rzLHgybFeZ7/Oo0m7ZtFzp2JYCbnu2kiWwq0d5ot+VBuJ597K/QuRzKR
-        IU8WgV585Wdpf7NU2NqsArLA5UbX3II+EpKl1QipDah0YDEuHY4LTpL8mm12oHmimtUSGbN8Wjn4a
-        J/VC+KQQ==;
-Received: from [2601:1c0:6280:3f0::990e] (helo=dragon.site)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kembq-0006KE-3G; Mon, 16 Nov 2020 22:04:26 +0000
-Subject: Re: [PATCH] Documentation: kernel-parameters: add missing '<'
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, corbet@lwn.net
-References: <20201116215711.2291-1-wsa+renesas@sang-engineering.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <e0c79f2c-9484-a544-c476-e929c4f1abdd@infradead.org>
-Date:   Mon, 16 Nov 2020 14:04:20 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Mon, 16 Nov 2020 19:12:47 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aHHoQ4KjWvoiG8tD7XiZJTYTC8UpVEpWBp64vX19VSLVDP7MrgTeJdS3UG4K4HQmcch/kmoo73UHF+H7E1j3EHFB+XZWZTiIJg2dYl5lkoHCHhDXydqiZyDuaUJX2/4nPD39GBCR7itTG8rC/LdToonI/eVASaXdskzHBmG7u9kzZUy060iqNfTy1YB4S49xtYgbfbaZsIfA1mcmUQ1XIIZwTI6yehRH/T0XEsfNihwKIcHZNVxvFaOrAk+zc3ivEy60G0YeiBRwpiSUgx44AsZlaD8GTr5on4538xR5BjdqsZ6bDT/hUfDjOPfVKfLulw3ArBlV734j4qZXllEkvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oL8fk4bHuWdIyM+gyoqez5Hr2TBiYlaNNFRprxRBaOI=;
+ b=cKUtB6ZnnqxNfc2sVHhB39JYVinwwY4qVozEAp/1F6ZOkiLj1z5YVntqlO7cfPzp8+27KE/f/w/mGjAylHjiJ803FyrcQNskvbELOcF6jSm4G+1xYTtLkgu2a4mDCgv5daS30236ALYnX0K/VWEcOXpiaGr9YHtEFzuRQClH94BGfQx51sxzyJwMa2Q/Y4DowtqjwnJBPnFFPjxz46XmnncZJ8PoECg0YJdgxpQTPliwX/w32TlrdfLXCyHP3wZuJhlIzyfs6CWt1ELX+zCe+izDrpL5I6GN+eiIxH0uIAqP5PPMvRSdd6GAKaGQ8BbeDroQHP3IBoiNOSJd7GGo/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oL8fk4bHuWdIyM+gyoqez5Hr2TBiYlaNNFRprxRBaOI=;
+ b=JKiZWd2do9DIwCrZuNpIBqNZlK6tGi0oBmimcm3pAs3mnyUwjdLmLpK375mPThMxIbH+19Z9G/bhtiDQCsxT5UGHFxPeXUCjkLZ0nRGB7J2EqNR+Ah0lugpeYDZwBhdkvuI8vck1eoJslMyv03+r73knH7KksmQySGaG+Va5fg0=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (20.178.142.214) by
+ TY2PR01MB2060.jpnprd01.prod.outlook.com (52.133.184.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.28; Tue, 17 Nov 2020 00:12:41 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::59ed:a6ce:d8dc:90dd]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::59ed:a6ce:d8dc:90dd%6]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
+ 00:12:41 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+CC:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3] mmc: core: Issue power off notification in
+ mmc_remove()
+Thread-Topic: [PATCH v3] mmc: core: Issue power off notification in
+ mmc_remove()
+Thread-Index: AQHWt08XZyKbbXU7hkSbImAY/PEDYanLAX4AgAB5BIA=
+Date:   Tue, 17 Nov 2020 00:12:41 +0000
+Message-ID: <TY2PR01MB369258A9D48460A7519F3239D8E20@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1605005330-7178-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAPDyKFoGNfn_9Zc-Q_0q+vRNnE=4Y0WH-Nm=cEyJeo1NiaGUxg@mail.gmail.com>
+In-Reply-To: <CAPDyKFoGNfn_9Zc-Q_0q+vRNnE=4Y0WH-Nm=cEyJeo1NiaGUxg@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:6dbd:1b22:eb28:c425]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c8990f8e-53c0-433c-cb63-08d88a8d7fd9
+x-ms-traffictypediagnostic: TY2PR01MB2060:
+x-microsoft-antispam-prvs: <TY2PR01MB2060E69ED845F876D77F4E08D8E20@TY2PR01MB2060.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ib1eTfEZO4xGxFRrZgwpRnjf4X8+IjTHpLRf49+UbQDo4HOKSLoS0TiKBWva0vu3AAuyMUFU9DkVNBbvHdkU+GXl3HVQc3I4QPoiBqULXtGT8BHYBoqDGj2PFW8SE1mv5WDtfKyenCUFB7d4hSDBnDNEVSvS16zks7SHTEScA4mcgnIbW5nzvosK7IbFjdMZ5QFgcz2AYahw8ymrDHdLWcOdAQXTBA2Mi0hc+UyxZlwZg6wixgP8ksGx577C2QWo5JWPWWtdw7sze/lzTHavNMnP1RGc48m/8RgnY+lJZSkWoBYbxX3PNK7+f5oA+eyki44wT5WXRyuzXppRv5TkvA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(39850400004)(346002)(136003)(376002)(6916009)(71200400001)(64756008)(66446008)(52536014)(66556008)(33656002)(5660300002)(316002)(4326008)(54906003)(66476007)(186003)(8936002)(478600001)(15650500001)(7696005)(6506007)(83380400001)(86362001)(66946007)(76116006)(8676002)(55016002)(9686003)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 6YtbGGnqkBNaTEFysp5glapR/wzH6GxKj01RzzkO4hDDxPRA3N2WLXgQgTGmAd+nUbLZK0x0pFp+x7ouC2E+SLQ8ghT3NKvud5nRtQJiqMPLT7/CeP9x1Yx2EovAaOPtq8yMt/6ApZph2Q3mEpX/terwNB/JVuBUSvRkZVSfbgs+cHqTE1AqDphpMfRvByVylimemIylJF6OPSHv/yNogXlaOAqu52RUBie1lZ60+q4QhzVqiWiw81/f5NsMKJFv5FxPxHL/qlyxhIsKwVtKF5tpkcaYeKwyvUvlGDjE/Apflbvc/0d7BWNl9bcYlnT7vZUtsGWfVta3kxpk40BtiEx50SCZbfZhQokUTRW5+zOpxtT13NAOyJ/JDyVw3xQ8I/57qZrga8E6AyWWk74KGt4FaZImY2VrpvtbGN8MpKwRvPXfQLr5jliIpNSuSqOs5fOCiSkjJLmVGpYDz1cCdzCFV52mO68OG2wDiBjnHZw+E+h1LByMy33jDCpaDF44r+3Es8atcJ1i3eVv9vSItunhTCF9oh872Mkjoh7VNhiVnrTrhp3sPTX/RtxYoDs8ySiM0+LGgR3HOTXX7Go6QXbNiA4+iN49Jj3Az8E/VEQUKflTVlK3Z++qURF7+tGQbkTUrGaKFTSNBOdukrsrLG2H6Tdxv6wrXIyZhPpigHN2HsxT0+9OrL3K2jraye1rptCHbhJhrKbp1vU85W6V6A==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201116215711.2291-1-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8990f8e-53c0-433c-cb63-08d88a8d7fd9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2020 00:12:41.0927
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 8WdBg+jXYJWMFbkQS6oTjXbp6T4tqt37gf10lzXTqmsn4rsiVmZvWtrspHWNYHRgOEMS+pbrrTvCTO2KUi3U5+jD5/nVQn9moeJuTKC/DWzS0UrfAa9xqJUtyvDLwdhG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2060
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/16/20 1:57 PM, Wolfram Sang wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.rst b/Documentation/admin-guide/kernel-parameters.rst
-> index 6d421694d98e..3addfe0963bb 100644
-> --- a/Documentation/admin-guide/kernel-parameters.rst
-> +++ b/Documentation/admin-guide/kernel-parameters.rst
-> @@ -60,7 +60,7 @@ Note that for the special case of a range one can split the range into equal
->   sized groups and for each group use some amount from the beginning of that
->   group:
->   
-> -	<cpu number>-cpu number>:<used size>/<group size>
-> +	<cpu number>-<cpu number>:<used size>/<group size>
->   
->   For example one can add to the command line following parameter:
->   
-> 
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+SGVsbG8gVWxmLA0KDQo+IEZyb206IFVsZiBIYW5zc29uLCBTZW50OiBUdWVzZGF5LCBOb3ZlbWJl
+ciAxNywgMjAyMCAxOjQ3IEFNDQo+IA0KPiBPbiBUdWUsIDEwIE5vdiAyMDIwIGF0IDExOjQ4LCBZ
+b3NoaWhpcm8gU2hpbW9kYQ0KPiA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNhcy5jb20+IHdy
+b3RlOg0KPiA+DQo+ID4gVXNlciBpcyBwb3NzaWJsZSB0byB0dXJuIHRoZSBwb3dlciBvZmYgYWZ0
+ZXIgYSBob3N0IHdhcyByZW1vdmVkLg0KPiA+IFNvLCBjYWxsIG1tY19wb3dlcm9mZl9ub3RpZnko
+RVhUX0NTRF9OT19QT1dFUl9OT1RJRklDQVRJT04pDQo+ID4gaW4gbW1jX3JlbW92ZSgpLiBOb3Rl
+IHRoYXQgdGhlIG1tYyBhbmQgaG9zdCBkcml2ZXIgd2lsbCBiZQ0KPiA+IGluIHRoZSBmb2xsb3dp
+bmcgbW9kZXMgd2hlbiBtbWNfcmVtb3ZlKCkgaXMgY2FsbGVkOg0KPiA+DQo+ID4gIDEuIG1tY19j
+YXJkX3N1c3BlbmRlZCgpID09IGZhbHNlICYmDQo+ID4gICAgIHBvd2VyX29mZl9ub3RpZmljYXRp
+b24gPT0gRVhUX0NTRF9QT1dFUl9PTg0KPiA+ICAyLiBtbWNfY2FyZF9zdXNwZW5kZWQoKSA9PSB0
+cnVlICYmDQo+ID4gICAgIHBvd2VyX29mZl9ub3RpZmljYXRpb24gPT0gRVhUX0NTRF9QT1dFUl9P
+RkZfe1NIT1JULExPTkd9DQo+ID4gIDMuIG1tY19jYXJkX3N1c3BlbmRlZCgpID09IHRydWUgJiYg
+bW1jX3NsZWVwKCkgd2FzIGNhbGxlZA0KPiA+DQo+ID4gU28sIG1tY19yZW1vdmUoKSBjYWxscyBf
+bW1jX3Jlc3VtZSgpIGFueXdheSBmb3IgdGhlIGNhc2VzLg0KPiA+IE90aGVyd2lzZToNCj4gPg0K
+PiA+ICAtIF9tbWNfcmVzdW1lIHdpbGwgYmUgY2FsbGVkIHZpYSBtbWNfcnVudGltZV9yZXN1bWUo
+KSBhbmQgdGhlbg0KPiA+ICAgIHBvd2VyX29mZl9ub3RpZmljYXRpb24gd2lsbCBiZSBzZXQgdG8g
+RVhUX0NTRF9QT1dFUl9PTi4NCj4gPiAgLSB0aW1lb3V0IHdpbGwgaGFwcGVuIGluIG1tY19ibGtf
+cGFydF9zd2l0Y2goKSB2aWEgbW1jX2Jsa19yZW1vdmUoKQ0KPiA+ICAgIGlmICJwYXJ0X2N1cnIi
+IG9mIG1tYyBibG9jayBpcyBub3Qgc2V0IHRvIGRlZmF1bHQuDQo+ID4NCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNhcy5jb20+
+DQo8c25pcD4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tbWMvY29yZS9tbWMuYyBiL2RyaXZl
+cnMvbW1jL2NvcmUvbW1jLmMNCj4gPiBpbmRleCBmZjMwNjNjLi4xODQxM2YyIDEwMDY0NA0KPiA+
+IC0tLSBhL2RyaXZlcnMvbW1jL2NvcmUvbW1jLmMNCj4gPiArKysgYi9kcml2ZXJzL21tYy9jb3Jl
+L21tYy5jDQo+ID4gQEAgLTE5ODMsMTEgKzE5ODMsMzUgQEAgc3RhdGljIGludCBtbWNfcG93ZXJv
+ZmZfbm90aWZ5KHN0cnVjdCBtbWNfY2FyZCAqY2FyZCwgdW5zaWduZWQgaW50IG5vdGlmeV90eXBl
+KQ0KPiA+ICAgICAgICAgcmV0dXJuIGVycjsNCj4gPiAgfQ0KPiA+DQo+ID4gK3N0YXRpYyBpbnQg
+X21tY19yZXN1bWUoc3RydWN0IG1tY19ob3N0ICpob3N0KTsNCj4gPiAgLyoNCj4gPiAgICogSG9z
+dCBpcyBiZWluZyByZW1vdmVkLiBGcmVlIHVwIHRoZSBjdXJyZW50IGNhcmQuDQo+ID4gICAqLw0K
+PiA+ICBzdGF0aWMgdm9pZCBtbWNfcmVtb3ZlKHN0cnVjdCBtbWNfaG9zdCAqaG9zdCkNCj4gPiAg
+ew0KPiA+ICsgICAgICAgLyoNCj4gPiArICAgICAgICAqIFRoZSBtbWMgYW5kIGhvc3QgZHJpdmVy
+IHdpbGwgYmUgaW4gdGhlIGZvbGxvd2luZyBtb2RlcyBoZXJlOg0KPiA+ICsgICAgICAgICogIDEu
+IG1tY19jYXJkX3N1c3BlbmRlZCgpID09IGZhbHNlICYmDQo+ID4gKyAgICAgICAgKiAgICAgcG93
+ZXJfb2ZmX25vdGlmaWNhdGlvbiA9PSBFWFRfQ1NEX1BPV0VSX09ODQo+ID4gKyAgICAgICAgKiAg
+Mi4gbW1jX2NhcmRfc3VzcGVuZGVkKCkgPT0gdHJ1ZSAmJg0KPiA+ICsgICAgICAgICogICAgIHBv
+d2VyX29mZl9ub3RpZmljYXRpb24gPT0gRVhUX0NTRF9QT1dFUl9PRkZfe1NIT1JULExPTkd9DQo+
+ID4gKyAgICAgICAgKiAgMy4gbW1jX2NhcmRfc3VzcGVuZGVkKCkgPT0gdHJ1ZSAmJiBtbWNfc2xl
+ZXAoKSB3YXMgY2FsbGVkDQo+ID4gKyAgICAgICAgKg0KPiA+ICsgICAgICAgICogU28sIGNhbGwg
+X21tY19yZXN1bWUoKSBoZXJlIGFueXdheSBmb3IgdGhlIGNhc2VzLiBPdGhlcndpc2U6DQo+ID4g
+KyAgICAgICAgKiAgLSBfbW1jX3Jlc3VtZSB3aWxsIGJlIGNhbGxlZCB2aWEgbW1jX3J1bnRpbWVf
+cmVzdW1lKCkgYW5kIHRoZW4NCj4gPiArICAgICAgICAqICAgIHBvd2VyX29mZl9ub3RpZmljYXRp
+b24gd2lsbCBiZSBzZXQgdG8gRVhUX0NTRF9QT1dFUl9PTi4NCj4gPiArICAgICAgICAqICAtIHRp
+bWVvdXQgd2lsbCBoYXBwZW4gaW4gbW1jX2Jsa19wYXJ0X3N3aXRjaCgpIHZpYSBtbWNfYmxrX3Jl
+bW92ZSgpDQo+ID4gKyAgICAgICAgKiAgICBpZiAicGFydF9jdXJyIiBvZiBtbWMgYmxvY2sgaXMg
+bm90IHNldCB0byBkZWZhdWx0Lg0KPiA+ICsgICAgICAgICovDQo+ID4gKyAgICAgICBfbW1jX3Jl
+c3VtZShob3N0KTsNCj4gPiArDQo+ID4gKyAgICAgICAvKiBEaXNhYmxlIHBvd2VyX29mZl9ub3Rp
+ZmljYXRpb24gYnl0ZSBpbiB0aGUgZXh0X2NzZCByZWdpc3RlciAqLw0KPiA+ICsgICAgICAgaWYg
+KGhvc3QtPmNhcmQtPmV4dF9jc2QucmV2ID49IDYpIHsNCj4gPiArICAgICAgICAgICAgICAgbW1j
+X2NsYWltX2hvc3QoaG9zdCk7DQo+ID4gKyAgICAgICAgICAgICAgIG1tY19wb3dlcm9mZl9ub3Rp
+ZnkoaG9zdC0+Y2FyZCwgRVhUX0NTRF9OT19QT1dFUl9OT1RJRklDQVRJT04pOw0KPiA+ICsgICAg
+ICAgICAgICAgICBtbWNfcmVsZWFzZV9ob3N0KGhvc3QpOw0KPiA+ICsgICAgICAgfQ0KPiANCj4g
+VW5mb3J0dW5hdGUsIEkgdGhpbmsgdGhlcmUgaXMgZXZlbiBtb3JlIGNvbXBsZXhpdHkgaW52b2x2
+ZWQgaGVyZS4gSQ0KPiBkb24ndCB0aGluayB0aGUgYWJvdmUgd29yayBmb3IgYWxsIGNhc2VzLg0K
+PiANCj4gTGV0IG1lIHRyeSB0byBlbGFib3JhdGUgLSB0aGVyZSBhcmUgdHdvIHNjZW5hcmlvcyBv
+ZiB3aGVuIG1tY19yZW1vdmUoKQ0KPiBpcyBjYWxsZWQuDQo+IA0KPiAxKQ0KPiBXaGVuIHRoZSBj
+YXJkIGJlY29tZXMgcmVtb3ZlZCwgbGlrZWx5IG5vdCB0aGUgY2FzZSBmb3IgZU1NQyBidXQgaXQg
+bWF5DQo+IGhhcHBlbiBmb3IgYSBsZWdhY3kgTU1DIGNhcmQsIGZvciBleGFtcGxlLiBJbiB0aGlz
+IGNhc2UsIHRoZXJlIGlzIG5vdA0KPiBtdWNoIHdlIGNhbiBkbyB0byBmaXggdGhlIHByb2JsZW0s
+IGFzIHRoZSBjYXJkIGlzIGFscmVhZHkgImRlYWQiLg0KPiANCj4gMikNCj4gVGhlIGNhcmQgaXMg
+d29ya2luZyBwcm9wZXJseSAoaXQgbWF5IGJlIHN1c3BlbmRlZCB0aG91Z2gpIHdoaWxlDQo+IG1t
+Y19yZW1vdmVfaG9zdCgpIGdldHMgY2FsbGVkIGJlY2F1c2UgdGhlIGhvc3QgZHJpdmVyIGlzIGJl
+aW5nDQo+IHVuYmluZGVkLg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3IGFuZCBjb21tZW50
+cyEgSSB1bmRlcnN0b29kIG15IHBhdGNoIHdhcyBub3QNCmVub3VnaCBmb3IgdGhlc2Ugc2NlbmFy
+aW9zLg0KDQo+IEZvciAxKQ0KPiBXZSBzaG91bGQgb25seSBjbGVhbiB1cCBhbmQgcmVtb3ZlIHRo
+ZSBjYXJkIHN0cnVjdHMsIHdoaWNoIHRoZSBjdXJyZW50DQo+IGNvZGUgYWxyZWFkeSBkb2VzLg0K
+PiANCj4gRm9yIDIpDQo+IFdlIHdhbnQgdG8gc3VwcG9ydCBhIGdyYWNlZnVsIHBvd2VyIG9mZiBz
+ZXF1ZW5jZSBvciB0aGUgY2FyZCAodG8NCj4gcHJldmVudCBkYXRhIGNvcnJ1cHRpb24gZm9yIGV4
+YW1wbGUpLiBIb3dldmVyLCBkZXBlbmRpbmcgb24gdGhlDQo+IHBsYXRmb3JtIGFuZCBob3N0LCBp
+dCBtYXkgbm90IGJlIHBvc3NpYmxlIHRvIHBvd2VyIG9mZiBib3RoIFZDQyBhbmQNCj4gVkNDUS4g
+Rm9yIGV4YW1wbGUsIGl0J3MgcXVpdGUgY29tbW9uIHRoYXQgVkNDUSByZW1haW5zIHBvd2VyZWQg
+b24sDQo+IHdoaWxlIG9ubHkgVkNDIGNhbiBiZSBwb3dlciBnYXRlZC4gSnVzdCBkaXNhYmxpbmcg
+dGhlIHBvd2VyIG9mZg0KPiBub3RpZmljYXRpb24gb2YgdGhlIGVNTUMgY2FyZCAoYXMgeW91IHN1
+Z2dlc3QgYWJvdmUpLCBkb2Vzbid0IHJlYWxseQ0KPiBoZWxwLiBJbiBmYWN0LCBpdCBjb3VsZCBt
+ZWFuIHRoYXQgd2UgbWF5IHZpb2xhdGUgdGhlIGVNTUMgc3BlYyB3aGVuDQo+IHBvd2VyIGdhdGlu
+ZyBWQ0MgdGhyb3VnaCBtbWNfcG93ZXJfb2ZmKCkuDQo+IA0KPiBJIGFtIHRoaW5raW5nIG9mIGEg
+ZmV3IHBvc3NpYmxlIHNvbHV0aW9ucy4gUGVyaGFwcyBlYXNpZXIgaWYgSSBwb3N0IGENCj4gcGF0
+Y2ggdGhhdCB5b3UgdHJ5IC0gdW5sZXNzIHlvdSBoYXZlIGlkZWFzIHlvdXJzZWxmIG9mIGhvdyB0
+byBmaXgNCj4gdGhpcy4NCg0KVGhhbmsgeW91ISBVbmZvcnR1bmF0ZWx5LCBJIGRvbid0IGhhdmUg
+YW55IGlkZWEgaG93IHRvIGZpeCB0aGlzIG5vdy4NClNvLCBpZiB5b3UgcG9zdCBhIHBhdGNoLCBJ
+J2xsIHRyeS4NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGENCg0K
