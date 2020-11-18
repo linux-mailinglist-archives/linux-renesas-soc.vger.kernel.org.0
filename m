@@ -2,204 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 060782B7D22
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 12:59:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A5CB2B7DF4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 13:58:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727881AbgKRL63 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Nov 2020 06:58:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726985AbgKRL63 (ORCPT
+        id S1726107AbgKRM6C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Nov 2020 07:58:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59654 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725747AbgKRM6B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Nov 2020 06:58:29 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A61D2C0613D4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 03:58:28 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id w142so2541234lff.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 03:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2S1xFY3cUq6ZkRFJo9F1WPP/Q+c40qtiLMxRMddI34Y=;
-        b=hgyqvPsGY7eL1OyYrV61JS4hnoXG0iPUXe/7HM7K+kfPWynp0Qhe5wUH86CZaV+763
-         nYk+m7G/zmrqX/+V/iPoqLJCaohNS9w5yWxoZI0dguxNe61J4ody52EsSCJ043zgp9Ci
-         xvDQ9ZGyubyGl7k7ozdbGiPkj6JJs97RYrJ2KFbOGt0foG4pqVGU5oPXPIYF/2eKRvOV
-         62K1cH3bgUSwJhgWKpTM4FPk29e07wi1/LLgwuIw/cHnX0kbrY0YH66LLtrd8SlWSZt0
-         Zn2MKMiDCofSG8BwcvgqxWGTjIWpBz8K9PSb8ubtbujq1fuj/JVLEmY6phPm3YgXSDM1
-         4fPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2S1xFY3cUq6ZkRFJo9F1WPP/Q+c40qtiLMxRMddI34Y=;
-        b=Hr+1wFDe7d75+L+GXXqjVtljNxRZ0kCCNKoGPn1V9pHMtTh3NhR9x7+cgX27FWL45W
-         xcLy5acn5xnZ7aub7UXFkNosyKeMmc2p2Jdx/SnoUPW40GNOsY5Rpuk3k34yN2oO/Lsd
-         uyjmP91bWIrp0INvnL5Y+1l3gLK9eMhFigQOEoexWIT0EcjMvqrQyRw2urozX6hGQRLD
-         2FAEuZJks+w9Zii5D/DgvYUZXh8P1ueziigk0LSrQwkSv/Nz4EDSTWCjTWg6WwFaixbx
-         MbiHnbccOoBY+yZojPih1AsOm/Qx1/LGISKN9vepF2OQPp7DXaJuFUNDCbD7dpCCjXap
-         X33A==
-X-Gm-Message-State: AOAM533pvM5LKU9RTXIxkPJVZt6LgrT5mXbtKaCJCfh/kT+usITUgO2N
-        uWAHGcT/Lf+uPxRvMxQEou51r4WoDRjXeI8v
-X-Google-Smtp-Source: ABdhPJykhAJNiiKOmcVPj3kq3yn0eXCzt2GavmcTLKpNTRol9ltst2QjezFLfAGndsaYQMX38y4Ltw==
-X-Received: by 2002:a19:e21b:: with SMTP id z27mr3365013lfg.409.1605700707184;
-        Wed, 18 Nov 2020 03:58:27 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id g8sm3554584lfb.223.2020.11.18.03.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 03:58:26 -0800 (PST)
-Date:   Wed, 18 Nov 2020 12:58:25 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH] ARM: shmobile: Stop using __raw_*() I/O accessors
-Message-ID: <20201118115825.GD3118893@oden.dyn.berto.se>
-References: <20201117142447.2205664-1-geert+renesas@glider.be>
+        Wed, 18 Nov 2020 07:58:01 -0500
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7AA6724199
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 12:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605704280;
+        bh=U/JZw2OCNXxFlR2RJ0Jb1tR92K1dh1XhscjTmUJXg10=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=n1MTzFnDXrKhw2jSAwfCLro30UfyPSMXxxsO7BK3lL8S3Euy+SgcJK98GW6+80NdO
+         su6XQbMmJ+YNQWfZpSjFkDX+40U7yN+jr30FKYTDeYEnX8q72h8TsoTOQTlBzBojyt
+         PuvrHCfS762zYlmb5tBmEwNT7ns5fjtctGwb/G98=
+Received: by mail-ot1-f48.google.com with SMTP id g19so1584149otp.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 04:58:00 -0800 (PST)
+X-Gm-Message-State: AOAM533/atfvUkdX4JNC61XJDcmcTAtsyADAzIp+tY14fRW6LkUOOem1
+        diT1FJqbZZ1lcDWCS4JOlvCp/ld65mtunLbbR1Y=
+X-Google-Smtp-Source: ABdhPJxiupv1KXeIl55555tiRZhe8Iq5l21BSEfGmI+oxbbLbUyq/13A0XpX1DgXX1PeNUixfr6GzbMG7A/H5efl85c=
+X-Received: by 2002:a9d:65d5:: with SMTP id z21mr5912329oth.251.1605704279716;
+ Wed, 18 Nov 2020 04:57:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201117142447.2205664-1-geert+renesas@glider.be>
+References: <20201117103022.2136527-1-geert+renesas@glider.be>
+ <20201117103022.2136527-3-geert+renesas@glider.be> <CAK8P3a1CAmC3=QFA1EryDsx0aR-OF+=mf=Xj9cPrObe+qRoJKQ@mail.gmail.com>
+ <CAMuHMdWTuzxg-a0f5MfPN=66EXcEqLfHCQMhiSAWH04p1BQ2ng@mail.gmail.com>
+ <CAK8P3a363pGBYAyGgV1r+evpNk9Cpcu-vE++s7Ma4YB25AW+yg@mail.gmail.com>
+ <CAMuHMdVFRXMcOgv5Qa6QgEAKsU31sKDBsTPs6ONdSqLAQZShow@mail.gmail.com>
+ <CAK8P3a3QZJjV99Oo=GytUc3q3RkSrtccTC12Vgd=E=UByFX7ZA@mail.gmail.com>
+ <CAMuHMdW6aw2M=SiV_pr6oQWaQRDcb9O2P8GRg_WRTjcpL5i4mA@mail.gmail.com>
+ <CAK8P3a3bgbm29z8L66kYo25yKP2EKKLhVZSjS-mcYTO4J2m70A@mail.gmail.com>
+ <CAMuHMdVeRXbhzGit7y2OHJxbJpO5zOurF=We31KLnu+iMJOBng@mail.gmail.com>
+ <CAK8P3a0LJMuCzhd0dM5PuzvUeXPmJvbQ2WUdivbPoHZBHmDtLw@mail.gmail.com>
+ <CAMuHMdWzoa3pOVqp40euW5ZecW-fGjbRtDfh6n=DugeeLmz1Ww@mail.gmail.com>
+ <f7a667e8-e179-d08f-3c0e-30501bc01696@physik.fu-berlin.de>
+ <CAK8P3a0ErYtJ3dPVbzdPJAwvKUA1EZrDVFR8SKqiuBSB1Oa2=Q@mail.gmail.com> <07daa7bc-405c-f808-cd9d-6bf7159876c2@physik.fu-berlin.de>
+In-Reply-To: <07daa7bc-405c-f808-cd9d-6bf7159876c2@physik.fu-berlin.de>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Wed, 18 Nov 2020 13:57:43 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1JzFTOFbELRF2mjiOHpbYfeyYBwYR3OeHsJQWrLOAVUA@mail.gmail.com>
+Message-ID: <CAK8P3a1JzFTOFbELRF2mjiOHpbYfeyYBwYR3OeHsJQWrLOAVUA@mail.gmail.com>
+Subject: Re: [PATCH 2/7] ARM: shmobile: r8a7779: Use ioremap() to map INTC2 registers
+To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Wed, Nov 18, 2020 at 11:57 AM John Paul Adrian Glaubitz
+<glaubitz@physik.fu-berlin.de> wrote:
+> On 11/18/20 11:48 AM, Arnd Bergmann wrote:
+> >>> https://wiki.debian.org/ArmPorts
+> >>> https://wiki.debian.org/OpenRISC
+> >>
+> >> Apparently, interest for armeb was lost after people realized the hardware
+> >> being used could run little-endian as well and OpenRISC apparently had
+> >> licensing issues.
+> >
+> > Right, my point above was that the licensing issues were resolved last
+> > year when the gcc port finally landed in gcc-9.
+>
+> Ah, right. dpkg still has support for or1k [1], so generally it should be possible
+> then to use the tool rebootstrap [2] to cross-build a Debian base system for OpenRISC
+> from source.
+>
+> We could add it to Debian Ports if there is sufficient interest and usable hardware
+> available.
 
-Thanks for your work.
+I think hardware is mainly available in form of FPGAs, which means the hardware
+capabilities are fairly limited. I only mentioned it because it was a
+recent (from i.e.
+this century) big-endian target that already had the beginnings of a
+Debian port.
 
-On 2020-11-17 15:24:47 +0100, Geert Uytterhoeven wrote:
-> There is no reason to keep on using the __raw_{read,write}l() I/O
-> accessors in Renesas ARM platform code.  Switch to using the plain
-> {read,write}l() I/O accessors, to have a chance that this works on
-> big-endian.
-> 
-> Suggested-by: Arnd Bergmann <arnd@kernel.org>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Otherwise it's probably similar to arc, microblaze, nios2, xtensa,
+csky or nds32:
+if someone really wanted a Debian port and is willing to do the work,
+it could be
+done, but in practice any of those would be better off a minimum
+custom user space
+(buildroot, yocto, ...) anyway.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+In practice, new 32-bit ports may be limited to machines that can build packages
+on 64-bit hardware with enough memory, as it is currently done on i386, mipsel,
+armel, armhf, and the ports for hppa, powerpc, and x32. This means
+arc, microblaze
+and rv32 could still be supported once there is sufficient kernel
+support for their
+64-bit targets.
 
-> ---
-> To be queued in renesas-devel for v5.11.
-> 
->  arch/arm/mach-shmobile/platsmp-scu.c   |  2 +-
->  arch/arm/mach-shmobile/setup-r8a7778.c |  8 ++++----
->  arch/arm/mach-shmobile/setup-r8a7779.c | 14 +++++++-------
->  arch/arm/mach-shmobile/smp-r8a7779.c   |  2 +-
->  arch/arm/mach-shmobile/smp-sh73a0.c    | 10 +++++-----
->  5 files changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/arch/arm/mach-shmobile/platsmp-scu.c b/arch/arm/mach-shmobile/platsmp-scu.c
-> index fcfcef1d1ae4f81f..3849f71e6e12eba6 100644
-> --- a/arch/arm/mach-shmobile/platsmp-scu.c
-> +++ b/arch/arm/mach-shmobile/platsmp-scu.c
-> @@ -64,7 +64,7 @@ static int shmobile_smp_scu_psr_core_disabled(int cpu)
->  {
->  	unsigned long mask = SCU_PM_POWEROFF << (cpu * 8);
->  
-> -	if ((__raw_readl(shmobile_scu_base + 8) & mask) == mask)
-> +	if ((readl(shmobile_scu_base + 8) & mask) == mask)
->  		return 1;
->  
->  	return 0;
-> diff --git a/arch/arm/mach-shmobile/setup-r8a7778.c b/arch/arm/mach-shmobile/setup-r8a7778.c
-> index 819dbda47298ae88..02cda9cada4c4546 100644
-> --- a/arch/arm/mach-shmobile/setup-r8a7778.c
-> +++ b/arch/arm/mach-shmobile/setup-r8a7778.c
-> @@ -31,12 +31,12 @@ static void __init r8a7778_init_irq_dt(void)
->  	irqchip_init();
->  
->  	/* route all interrupts to ARM */
-> -	__raw_writel(0x73ffffff, base + INT2NTSR0);
-> -	__raw_writel(0xffffffff, base + INT2NTSR1);
-> +	writel(0x73ffffff, base + INT2NTSR0);
-> +	writel(0xffffffff, base + INT2NTSR1);
->  
->  	/* unmask all known interrupts in INTCS2 */
-> -	__raw_writel(0x08330773, base + INT2SMSKCR0);
-> -	__raw_writel(0x00311110, base + INT2SMSKCR1);
-> +	writel(0x08330773, base + INT2SMSKCR0);
-> +	writel(0x00311110, base + INT2SMSKCR1);
->  
->  	iounmap(base);
->  }
-> diff --git a/arch/arm/mach-shmobile/setup-r8a7779.c b/arch/arm/mach-shmobile/setup-r8a7779.c
-> index 446d40b50b7b784b..b6e282116d664705 100644
-> --- a/arch/arm/mach-shmobile/setup-r8a7779.c
-> +++ b/arch/arm/mach-shmobile/setup-r8a7779.c
-> @@ -34,15 +34,15 @@ static void __init r8a7779_init_irq_dt(void)
->  	irqchip_init();
->  
->  	/* route all interrupts to ARM */
-> -	__raw_writel(0xffffffff, base + INT2NTSR0);
-> -	__raw_writel(0x3fffffff, base + INT2NTSR1);
-> +	writel(0xffffffff, base + INT2NTSR0);
-> +	writel(0x3fffffff, base + INT2NTSR1);
->  
->  	/* unmask all known interrupts in INTCS2 */
-> -	__raw_writel(0xfffffff0, base + INT2SMSKCR0);
-> -	__raw_writel(0xfff7ffff, base + INT2SMSKCR1);
-> -	__raw_writel(0xfffbffdf, base + INT2SMSKCR2);
-> -	__raw_writel(0xbffffffc, base + INT2SMSKCR3);
-> -	__raw_writel(0x003fee3f, base + INT2SMSKCR4);
-> +	writel(0xfffffff0, base + INT2SMSKCR0);
-> +	writel(0xfff7ffff, base + INT2SMSKCR1);
-> +	writel(0xfffbffdf, base + INT2SMSKCR2);
-> +	writel(0xbffffffc, base + INT2SMSKCR3);
-> +	writel(0x003fee3f, base + INT2SMSKCR4);
->  
->  	iounmap(base);
->  }
-> diff --git a/arch/arm/mach-shmobile/smp-r8a7779.c b/arch/arm/mach-shmobile/smp-r8a7779.c
-> index 80fef14a47ba6b7e..51163854d9a14d17 100644
-> --- a/arch/arm/mach-shmobile/smp-r8a7779.c
-> +++ b/arch/arm/mach-shmobile/smp-r8a7779.c
-> @@ -45,7 +45,7 @@ static void __init r8a7779_smp_prepare_cpus(unsigned int max_cpus)
->  	void __iomem *base = ioremap(HPBREG_BASE, 0x1000);
->  
->  	/* Map the reset vector (in headsmp-scu.S, headsmp.S) */
-> -	__raw_writel(__pa(shmobile_boot_vector), base + AVECR);
-> +	writel(__pa(shmobile_boot_vector), base + AVECR);
->  
->  	/* setup r8a7779 specific SCU bits */
->  	shmobile_smp_scu_prepare_cpus(R8A7779_SCU_BASE, max_cpus);
-> diff --git a/arch/arm/mach-shmobile/smp-sh73a0.c b/arch/arm/mach-shmobile/smp-sh73a0.c
-> index 916f6367bc282eb4..62f4d2501e174a78 100644
-> --- a/arch/arm/mach-shmobile/smp-sh73a0.c
-> +++ b/arch/arm/mach-shmobile/smp-sh73a0.c
-> @@ -39,10 +39,10 @@ static int sh73a0_boot_secondary(unsigned int cpu, struct task_struct *idle)
->  	unsigned int lcpu = cpu_logical_map(cpu);
->  	void __iomem *cpg2 = ioremap(CPG_BASE2, PAGE_SIZE);
->  
-> -	if (((__raw_readl(cpg2 + PSTR) >> (4 * lcpu)) & 3) == 3)
-> -		__raw_writel(1 << lcpu, cpg2 + WUPCR);	/* wake up */
-> +	if (((readl(cpg2 + PSTR) >> (4 * lcpu)) & 3) == 3)
-> +		writel(1 << lcpu, cpg2 + WUPCR);	/* wake up */
->  	else
-> -		__raw_writel(1 << lcpu, cpg2 + SRESCR);	/* reset */
-> +		writel(1 << lcpu, cpg2 + SRESCR);	/* reset */
->  	iounmap(cpg2);
->  	return 0;
->  }
-> @@ -53,8 +53,8 @@ static void __init sh73a0_smp_prepare_cpus(unsigned int max_cpus)
->  	void __iomem *sysc = ioremap(SYSC_BASE, PAGE_SIZE);
->  
->  	/* Map the reset vector (in headsmp.S) */
-> -	__raw_writel(0, ap + APARMBAREA);      /* 4k */
-> -	__raw_writel(__pa(shmobile_boot_vector), sysc + SBAR);
-> +	writel(0, ap + APARMBAREA);      /* 4k */
-> +	writel(__pa(shmobile_boot_vector), sysc + SBAR);
->  	iounmap(sysc);
->  	iounmap(ap);
->  
-> -- 
-> 2.25.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+      Arnd
