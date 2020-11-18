@@ -2,88 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C99E52B78F2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 09:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0DE42B7902
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 09:45:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgKRIkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Nov 2020 03:40:37 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:42884 "EHLO
+        id S1726158AbgKRIoa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Nov 2020 03:44:30 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41535 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbgKRIkh (ORCPT
+        with ESMTP id S1726107AbgKRIoa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Nov 2020 03:40:37 -0500
-Received: by mail-ot1-f67.google.com with SMTP id h16so985528otq.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 00:40:36 -0800 (PST)
+        Wed, 18 Nov 2020 03:44:30 -0500
+Received: by mail-ot1-f67.google.com with SMTP id o3so996880ota.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 00:44:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=G6UIudI6miWRrNt+vXjrk7oCZqNBfNeGTCXwAs/2dJM=;
-        b=dJSa/FC8lhpEVjDdp5j4wT293k3LMGA/75zFr8yORPubwziRsksPRDADnYvdMrTbV8
-         Fr5FAFSwzUtxmQ3eTnSvnERhJqSMMYJtrUB7Z8tpX/2smEsZijUnO3XiYfifhfW9IoxR
-         5ly8r1L/Zi4X8qVpDtxIILWqUujnVQY0H80UQ+fk04LtDEx2vXXZfXWE5BHoZ1vK7o0R
-         OPNCkJqbGY2g6WH24b7dzg7RsTYfmWNvZobY+7SChg+Ac/Dz0RyAjiBOe9KXhtTLNGNl
-         3x1CFxto56Sb7NZPc9IMOeNsMqdOsXn/DH4rzhFVYrNRLQaPTPW7POqrf6JP2kvoIeGF
-         dcyA==
-X-Gm-Message-State: AOAM533ee4NjRudlU9GcG0oGjZQZV/MKNA4HqIhIiO594KQBCy3+/Jrq
-        s/WMVQRno3eD3Hv9wE5QTVxuflD3HPp8/F17euQ=
-X-Google-Smtp-Source: ABdhPJztVt3wjbNKiX4USfCqID2D5dXbPeI/nVV7wIAdTvPekL7zmGfLiIlmD5lcGorY3OcAPSPGkziUaITgvv4CScQ=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr5971044oth.250.1605688836081;
- Wed, 18 Nov 2020 00:40:36 -0800 (PST)
+        bh=e6PDnLKKp1aKQm5bhqotcSOw3JYpOImhgeaen/hHwbw=;
+        b=hLMQFf8f+S3sxoQMhMReJxGm+YL1tr4tSjFG/TW3t/Xh8rQP8QMy07OpaKnmlRLrFv
+         OMt/osxBOaj5Y4bWzC2ju8xK/VBlK2qQq/PrB2Z+qUN5kKK7MuRefVxyGewWZKew9vD9
+         77YeQWbV5m/2c+1Xi+V4VBE10oWqhwAwyLZ9etKWQCxbBENs1hG6wPIWloWGDVKOsujS
+         M8TmIuPrhtReyxxgdZVYGq48ZjJ9fR2UKx+oLY1grR0ByiI3OWC6nQKE/eYcFdwsnd1M
+         Pa7hhFkfqrlnGz5yzuCWhd6w0twyhnwYxdkoqo48LbxL51660lcDdNFHh/nPEnRrxaGV
+         eVEQ==
+X-Gm-Message-State: AOAM531qfw07SjPVeT8metz2YBrickqlN4DHpY7hI1lm+ot0rcBaIupC
+        PoIAqNlCHH1QqRA/6YfSQwBt9je8zoZWKSr9ISA=
+X-Google-Smtp-Source: ABdhPJz4WNFuTcFkuSfJvhGa1w+rbuzT1mbt7eFn2QkxA0a6opYhjksrO8IYBqkKBvBsh+QdJjFULdM4dZBCKfq3eVY=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr5978448oth.250.1605689070002;
+ Wed, 18 Nov 2020 00:44:30 -0800 (PST)
 MIME-Version: 1.0
 References: <20201117103022.2136527-1-geert+renesas@glider.be>
- <20201117103022.2136527-3-geert+renesas@glider.be> <CAK8P3a1CAmC3=QFA1EryDsx0aR-OF+=mf=Xj9cPrObe+qRoJKQ@mail.gmail.com>
- <CAMuHMdWTuzxg-a0f5MfPN=66EXcEqLfHCQMhiSAWH04p1BQ2ng@mail.gmail.com>
- <CAK8P3a363pGBYAyGgV1r+evpNk9Cpcu-vE++s7Ma4YB25AW+yg@mail.gmail.com>
- <CAMuHMdVFRXMcOgv5Qa6QgEAKsU31sKDBsTPs6ONdSqLAQZShow@mail.gmail.com>
- <CAK8P3a3QZJjV99Oo=GytUc3q3RkSrtccTC12Vgd=E=UByFX7ZA@mail.gmail.com>
- <CAMuHMdW6aw2M=SiV_pr6oQWaQRDcb9O2P8GRg_WRTjcpL5i4mA@mail.gmail.com>
- <CAK8P3a3bgbm29z8L66kYo25yKP2EKKLhVZSjS-mcYTO4J2m70A@mail.gmail.com>
- <CAMuHMdVeRXbhzGit7y2OHJxbJpO5zOurF=We31KLnu+iMJOBng@mail.gmail.com> <CAK8P3a0LJMuCzhd0dM5PuzvUeXPmJvbQ2WUdivbPoHZBHmDtLw@mail.gmail.com>
-In-Reply-To: <CAK8P3a0LJMuCzhd0dM5PuzvUeXPmJvbQ2WUdivbPoHZBHmDtLw@mail.gmail.com>
+ <20201117103022.2136527-6-geert+renesas@glider.be> <d46368c6-5528-e39f-663a-950e026b84e4@gmail.com>
+In-Reply-To: <d46368c6-5528-e39f-663a-950e026b84e4@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 18 Nov 2020 09:40:24 +0100
-Message-ID: <CAMuHMdWzoa3pOVqp40euW5ZecW-fGjbRtDfh6n=DugeeLmz1Ww@mail.gmail.com>
-Subject: Re: [PATCH 2/7] ARM: shmobile: r8a7779: Use ioremap() to map INTC2 registers
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Date:   Wed, 18 Nov 2020 09:44:18 +0100
+Message-ID: <CAMuHMdW7Auao=4YMxaY+19qUPciY+vCd+cJeOUHM0+4Bu3ZKDQ@mail.gmail.com>
+Subject: Re: [PATCH 5/7] ARM: shmobile: sh73a0: Use ioremap() to map L2C registers
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC Adrian
+Hi Sergei,
 
-On Wed, Nov 18, 2020 at 9:27 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> On Tue, Nov 17, 2020 at 5:49 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Nov 17, 2020 at 5:37 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> > > On Tue, Nov 17, 2020 at 4:52 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > Doh, and even Debian ports doesn't support armeb anymore, else it
-> > > > would just be a debootstrap away...
-> > >
-> > > Debian actually dropped all big-endian platforms other than s390
-> > > now, the last other one was mips32 (mips32el is still there for the
-> > > moment).
-> >
-> > I did mean "Debian Ports", which still supports a few more. But no
-> > armeb.
+On Wed, Nov 18, 2020 at 9:32 AM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
+> On 17.11.2020 13:30, Geert Uytterhoeven wrote:
 >
-> Ok, got it. I guess the old armeb ports was never in Debian, and predated
-> the debian-ports system.
+> > Replace using the legacy IOMEM() macro to map the L2C registers by
 >
-> Debian ports indeed still contain packages for big-endian m68k (obviously)
-> as well as hppa, powerpc, ppc64 (in addition to the official ppc64le) and
-> sparc64). I'm surprised nobody so far tried restarting the openrisc port,
-> which got dropped when it appeared the corresponding gcc port would not
-> be upstreamed.
+>     Mapping? Else it doesn't rhyme. ;-)
 
-I guess that is partly due to the limited availability of OpenRISC
-hardware?  I had it running on a DE0-NANO, but 32 MiB RAM and
-no Ethernet doesn't bring you far...
+Can you please elaborate?
+
+> > ioremap().
 
 Gr{oetje,eeting}s,
 
