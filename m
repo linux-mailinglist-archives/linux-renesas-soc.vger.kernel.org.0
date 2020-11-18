@@ -2,73 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 481202B78CD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 09:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B12552B78D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 09:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727105AbgKRIap (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Nov 2020 03:30:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50390 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727743AbgKRIao (ORCPT
+        id S1727109AbgKRIcr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Nov 2020 03:32:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727001AbgKRIcr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Nov 2020 03:30:44 -0500
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D17D0241A6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 08:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605688243;
-        bh=Yrkqbbv6K2Tri/mVQfo/ZNBbDZyh45m07w5kYYrVFvc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CI2i1yBBvPa7MG+YkHqlfqNANGDsJh0Hp4Gm2z9RUMmG3DKIiE77v6jmnjm2QHQbD
-         4jp9ja4CdHpXCwtsGxuZjqtxZ5nkH9RZQLupdp8kj1FvUWV0ZXHZPIib67c4isj0nL
-         E7qrqVkMX+Ao89Y2X6cpPi6Ggso+FdjamYogZPg0=
-Received: by mail-ot1-f50.google.com with SMTP id y22so965222oti.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 00:30:43 -0800 (PST)
-X-Gm-Message-State: AOAM532zGaIOMeHCo0CD4EVhXU0iifko4vAhkAkUbIZbmW86qqLOPnsm
-        97WChIzfj19NqxJOdZ/5GfzPC9oua8BK0gFxfXw=
-X-Google-Smtp-Source: ABdhPJxJXpkIVHbBLG9MtRBgAFGdIgQL3qSYUp3BfVR6RpClHTpc9fmE24wdwKfsRbUPTIKf+QkgCAZ5teBX1YZWZ80=
-X-Received: by 2002:a05:6830:22d2:: with SMTP id q18mr5302011otc.305.1605688243092;
- Wed, 18 Nov 2020 00:30:43 -0800 (PST)
-MIME-Version: 1.0
+        Wed, 18 Nov 2020 03:32:47 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36FE2C0613D4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 00:32:47 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id l11so1782502lfg.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 00:32:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=frwilUsR2jJYx+sJpOmqWqPjoJfxROZMlkJkXkBBZxI=;
+        b=mUq/9n5KL8yOSAnKnn7YORvyLBx5JjNeGeEqgftY67VHRafu5vQtBel30dA/3JBRq2
+         W5Y0kFbYOXcUN+MKoYM2263UTtqdT5yd782Jtl5hJj1oHRZHYuwv23EhIxPjNJqOCnhG
+         5b1Rdck5VMhcl70g/Mvo1L4DInaJXSQvOTODOSN20HdayhLOcoqMO1Ig78YTey4FsM6m
+         ZP6vDK1wNmi62zVtXDwhPy2w+GOmTP2nIKTXS5bkT8rp1835EzTW2a+df0IsdLgt9ouV
+         WhI/bFOWZmLisM3JDrGq+LdhSY41cQ4cpxwBgFHEs8Xyo64k0DRDENWefPgKLaAHnQ57
+         XurQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=frwilUsR2jJYx+sJpOmqWqPjoJfxROZMlkJkXkBBZxI=;
+        b=aXGLN9EpW4FB3iyaIdF/7T2vnitfPj/7Tj4oV8W708LMXKkQIN4lvsS5uvh9ImuQXv
+         Huf1UU7Lnn230109Jy//Z/ovBgd7uzlTGq7D11yAjTJXHcyqMokJQTwddrmjSxLDI/jU
+         F0120VWc4yqk5KUzb/ASB+mFmpn7gipZ+14iQ64Wy9f+2S0hCEsSROjI28IAV5kdurOE
+         6HdwIydN/e4ZGIGo5eLkskofVZ2bCzKZnCCOTQd/AF8pveWAU4AsrXZE6Q/V9EDDi8kr
+         qQ7TIcJNPrVGMlRSibNC0i8vm2mZwp4nnBJg95hN6xr+qZ7OIZTbj16rZyIJ+o/hb9r0
+         t21g==
+X-Gm-Message-State: AOAM53065S4lYnN0IDkbHzad5y1kerTdXs0FWYfe/saIXtF37ZLyBaIl
+        AEuVJLL8xO47cTGTuc9N1Kk=
+X-Google-Smtp-Source: ABdhPJyQJyZDOh6fdLI4VLHBsYFdqoOT6H1RYLPw2K8N4g8slKaq7wrf6aGxgQLK4tXuUrqZFO3zgw==
+X-Received: by 2002:a19:dc07:: with SMTP id t7mr3215756lfg.208.1605688365725;
+        Wed, 18 Nov 2020 00:32:45 -0800 (PST)
+Received: from ?IPv6:2a00:1fa0:401:c2f8:8882:a0cb:e27c:5eb5? ([2a00:1fa0:401:c2f8:8882:a0cb:e27c:5eb5])
+        by smtp.gmail.com with ESMTPSA id f1sm3482481lfm.184.2020.11.18.00.32.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2020 00:32:45 -0800 (PST)
+Subject: Re: [PATCH 5/7] ARM: shmobile: sh73a0: Use ioremap() to map L2C
+ registers
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
 References: <20201117103022.2136527-1-geert+renesas@glider.be>
- <20201117103022.2136527-3-geert+renesas@glider.be> <CAK8P3a1CAmC3=QFA1EryDsx0aR-OF+=mf=Xj9cPrObe+qRoJKQ@mail.gmail.com>
- <CAMuHMdWTuzxg-a0f5MfPN=66EXcEqLfHCQMhiSAWH04p1BQ2ng@mail.gmail.com>
- <CAK8P3a363pGBYAyGgV1r+evpNk9Cpcu-vE++s7Ma4YB25AW+yg@mail.gmail.com>
- <CAMuHMdVFRXMcOgv5Qa6QgEAKsU31sKDBsTPs6ONdSqLAQZShow@mail.gmail.com>
- <CAK8P3a3QZJjV99Oo=GytUc3q3RkSrtccTC12Vgd=E=UByFX7ZA@mail.gmail.com>
- <CAMuHMdW6aw2M=SiV_pr6oQWaQRDcb9O2P8GRg_WRTjcpL5i4mA@mail.gmail.com> <CAK8P3a3bgbm29z8L66kYo25yKP2EKKLhVZSjS-mcYTO4J2m70A@mail.gmail.com>
-In-Reply-To: <CAK8P3a3bgbm29z8L66kYo25yKP2EKKLhVZSjS-mcYTO4J2m70A@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 18 Nov 2020 09:30:27 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1k27-V3=A5ABHd73HeHy8bi2XWzT+5n-2v+9cO0oUa1g@mail.gmail.com>
-Message-ID: <CAK8P3a1k27-V3=A5ABHd73HeHy8bi2XWzT+5n-2v+9cO0oUa1g@mail.gmail.com>
-Subject: Re: [PATCH 2/7] ARM: shmobile: r8a7779: Use ioremap() to map INTC2 registers
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+ <20201117103022.2136527-6-geert+renesas@glider.be>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <d46368c6-5528-e39f-663a-950e026b84e4@gmail.com>
+Date:   Wed, 18 Nov 2020 11:32:35 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
+MIME-Version: 1.0
+In-Reply-To: <20201117103022.2136527-6-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 5:37 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> > R-Car M2-W boots until DHCP timeout.  Could be due to either sh_eth or
-> > the micrel PHY driver, or MDIO (replacing io{read,write}32() by
-> > {read,write}l() in sh_eth.c doesn't help).
->
-> My guess would be that the sh_eth_soft_swap() logic is wrong
-> there, it seems to have been written in the SuperH days.
+Hello!
 
-Coincidentally, we both got an email from the zero-day bot
-today about sparse warnings in that driver:
+On 17.11.2020 13:30, Geert Uytterhoeven wrote:
 
-https://lore.kernel.org/lkml/202011181609.lmqkyQnN-lkp@intel.com/
+> Replace using the legacy IOMEM() macro to map the L2C registers by
 
-Some of these relate to suspicious endianness conversion, though
-the email itself was about missing __iomem annotations.
+    Mapping? Else it doesn't rhyme. ;-)
 
-       Arnd
+> ioremap().
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[...]
+
+MBR, Sergei
