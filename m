@@ -2,106 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5CB2B7DF4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 13:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20C472B7E5B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 14:37:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgKRM6C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Nov 2020 07:58:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59654 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbgKRM6B (ORCPT
+        id S1726085AbgKRNfA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Nov 2020 08:35:00 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44126 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725613AbgKRNfA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Nov 2020 07:58:01 -0500
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AA6724199
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 12:58:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605704280;
-        bh=U/JZw2OCNXxFlR2RJ0Jb1tR92K1dh1XhscjTmUJXg10=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=n1MTzFnDXrKhw2jSAwfCLro30UfyPSMXxxsO7BK3lL8S3Euy+SgcJK98GW6+80NdO
-         su6XQbMmJ+YNQWfZpSjFkDX+40U7yN+jr30FKYTDeYEnX8q72h8TsoTOQTlBzBojyt
-         PuvrHCfS762zYlmb5tBmEwNT7ns5fjtctGwb/G98=
-Received: by mail-ot1-f48.google.com with SMTP id g19so1584149otp.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Nov 2020 04:58:00 -0800 (PST)
-X-Gm-Message-State: AOAM533/atfvUkdX4JNC61XJDcmcTAtsyADAzIp+tY14fRW6LkUOOem1
-        diT1FJqbZZ1lcDWCS4JOlvCp/ld65mtunLbbR1Y=
-X-Google-Smtp-Source: ABdhPJxiupv1KXeIl55555tiRZhe8Iq5l21BSEfGmI+oxbbLbUyq/13A0XpX1DgXX1PeNUixfr6GzbMG7A/H5efl85c=
-X-Received: by 2002:a9d:65d5:: with SMTP id z21mr5912329oth.251.1605704279716;
- Wed, 18 Nov 2020 04:57:59 -0800 (PST)
+        Wed, 18 Nov 2020 08:35:00 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 787D59BF;
+        Wed, 18 Nov 2020 14:34:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605706497;
+        bh=DBt7k3kM16a1u4PscOHfyfWUlWagJI1Kn1oXOaUi74g=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=PFMJylTmhX9Td6Aa/GgqxbJCyoBWhtUe2G6Hw/yT+/b5rZZ4NP+5+GmQvEmaWCbSJ
+         N8gk/redcZBNO3iJDOefIogErGBCMIH19/r5/Bb62o97wrcZ/HS45IGy90kOUIkvo2
+         vBUb62DL6Chh4vrJM5ZuNFIfEV8r9sGLBHkfL0mU=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v5 0/8] media: i2c: Add RDACM21 camera module
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <53e43d23-483a-adc2-a3c4-3a2b821da832@ideasonboard.com>
+Date:   Wed, 18 Nov 2020 13:34:54 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201117103022.2136527-1-geert+renesas@glider.be>
- <20201117103022.2136527-3-geert+renesas@glider.be> <CAK8P3a1CAmC3=QFA1EryDsx0aR-OF+=mf=Xj9cPrObe+qRoJKQ@mail.gmail.com>
- <CAMuHMdWTuzxg-a0f5MfPN=66EXcEqLfHCQMhiSAWH04p1BQ2ng@mail.gmail.com>
- <CAK8P3a363pGBYAyGgV1r+evpNk9Cpcu-vE++s7Ma4YB25AW+yg@mail.gmail.com>
- <CAMuHMdVFRXMcOgv5Qa6QgEAKsU31sKDBsTPs6ONdSqLAQZShow@mail.gmail.com>
- <CAK8P3a3QZJjV99Oo=GytUc3q3RkSrtccTC12Vgd=E=UByFX7ZA@mail.gmail.com>
- <CAMuHMdW6aw2M=SiV_pr6oQWaQRDcb9O2P8GRg_WRTjcpL5i4mA@mail.gmail.com>
- <CAK8P3a3bgbm29z8L66kYo25yKP2EKKLhVZSjS-mcYTO4J2m70A@mail.gmail.com>
- <CAMuHMdVeRXbhzGit7y2OHJxbJpO5zOurF=We31KLnu+iMJOBng@mail.gmail.com>
- <CAK8P3a0LJMuCzhd0dM5PuzvUeXPmJvbQ2WUdivbPoHZBHmDtLw@mail.gmail.com>
- <CAMuHMdWzoa3pOVqp40euW5ZecW-fGjbRtDfh6n=DugeeLmz1Ww@mail.gmail.com>
- <f7a667e8-e179-d08f-3c0e-30501bc01696@physik.fu-berlin.de>
- <CAK8P3a0ErYtJ3dPVbzdPJAwvKUA1EZrDVFR8SKqiuBSB1Oa2=Q@mail.gmail.com> <07daa7bc-405c-f808-cd9d-6bf7159876c2@physik.fu-berlin.de>
-In-Reply-To: <07daa7bc-405c-f808-cd9d-6bf7159876c2@physik.fu-berlin.de>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Wed, 18 Nov 2020 13:57:43 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1JzFTOFbELRF2mjiOHpbYfeyYBwYR3OeHsJQWrLOAVUA@mail.gmail.com>
-Message-ID: <CAK8P3a1JzFTOFbELRF2mjiOHpbYfeyYBwYR3OeHsJQWrLOAVUA@mail.gmail.com>
-Subject: Re: [PATCH 2/7] ARM: shmobile: r8a7779: Use ioremap() to map INTC2 registers
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 11:57 AM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
-> On 11/18/20 11:48 AM, Arnd Bergmann wrote:
-> >>> https://wiki.debian.org/ArmPorts
-> >>> https://wiki.debian.org/OpenRISC
-> >>
-> >> Apparently, interest for armeb was lost after people realized the hardware
-> >> being used could run little-endian as well and OpenRISC apparently had
-> >> licensing issues.
-> >
-> > Right, my point above was that the licensing issues were resolved last
-> > year when the gcc port finally landed in gcc-9.
->
-> Ah, right. dpkg still has support for or1k [1], so generally it should be possible
-> then to use the tool rebootstrap [2] to cross-build a Debian base system for OpenRISC
-> from source.
->
-> We could add it to Debian Ports if there is sufficient interest and usable hardware
-> available.
+Hi Jacopo,
 
-I think hardware is mainly available in form of FPGAs, which means the hardware
-capabilities are fairly limited. I only mentioned it because it was a
-recent (from i.e.
-this century) big-endian target that already had the beginnings of a
-Debian port.
+On 16/11/2020 13:52, Jacopo Mondi wrote:
+> Hello,
+>    this v5 mostly changes how the rdacm21 driver handles writes to the
+> OV490 chip by handling the 'high' part of the sensor register through an
+> helper function as suggested by Kieran and Laurent.
+> 
+> The diff is available at:
+> https://paste.debian.net/1172700/
+> 
+> Minor fixes in patches subjects and in bindings as reported by Sergei and
+> Kieran.
+> 
+> Bindings have now been sent to DT people now that they've been reviewed
+> by Kieran.
+> 
+> v4: https://patchwork.linuxtv.org/project/linux-media/list/?series=3847
+> v3: https://patchwork.linuxtv.org/project/linux-media/list/?series=3657
+> 
+> Background in v1 cover letter:
+> https://www.spinics.net/lists/linux-renesas-soc/msg52886.html
+> 
+> I have tested on Eagle V3M with 4 RDACM21, but the whole point of
+> this series is to retain compatibility with RDACM20.
+> 
+> For this reason I have included 2 patches on top, not intended for merge
+> that re-propose DTS support for the MAXIM max9286 expansion board connected
+> to Salvator-X and add the newly introduced property to the DTS file.
+> 
+> Kieran, I know you have a working setup with RDACM20, the final patches are
+> meant for ease your testing. Can you give this series a spin ?
 
-Otherwise it's probably similar to arc, microblaze, nios2, xtensa,
-csky or nds32:
-if someone really wanted a Debian port and is willing to do the work,
-it could be
-done, but in practice any of those would be better off a minimum
-custom user space
-(buildroot, yocto, ...) anyway.
 
-In practice, new 32-bit ports may be limited to machines that can build packages
-on 64-bit hardware with enough memory, as it is currently done on i386, mipsel,
-armel, armhf, and the ports for hppa, powerpc, and x32. This means
-arc, microblaze
-and rv32 could still be supported once there is sufficient kernel
-support for their
-64-bit targets.
+After some rabbit-holes :-D:
 
-      Arnd
+A 5-camera capture on Salvator-X - https://pasteboard.co/JAW0PSr.png
+For this series, on both Eagle-V3M and Salvator-X
+
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+
+> Series based on latest renesas-drivers tag: renesas-drivers-2020-11-10-v5.10-rc3
+> 
+> Thanks
+>   j
+> 
+> Jacopo Mondi (7):
+>   media: i2c: Add driver for RDACM21 camera module
+>   dt-bindings: media: max9286: Document
+>     'maxim,initial-reverse-channel-mV'
+>   media: i2c: max9286: Break-out reverse channel setup
+>   media: i2c: max9286: Make channel amplitude programmable
+>   media: i2c: max9286: Configure reverse channel amplitude
+>   [DNI] arm64: dts: renesas: salvator-x-max9286: Specify channel
+>     amplitude
+>   [DNI] arm64: dts: renesas: eagle: Specify channel amplitude
+> 
+> Laurent Pinchart (1):
+>   arm64: dts: renesas: salvator-x: Add MAX9286 expansion board
+> 
+>  .../bindings/media/i2c/maxim,max9286.yaml     |  23 +
+>  MAINTAINERS                                   |  12 +
+>  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   1 +
+>  .../boot/dts/renesas/salvator-x-max9286.dtsi  | 396 ++++++++++++
+>  drivers/media/i2c/Kconfig                     |  13 +
+>  drivers/media/i2c/Makefile                    |   2 +
+>  drivers/media/i2c/max9286.c                   |  58 +-
+>  drivers/media/i2c/rdacm21.c                   | 595 ++++++++++++++++++
+>  8 files changed, 1087 insertions(+), 13 deletions(-)
+>  create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
+>  create mode 100644 drivers/media/i2c/rdacm21.c
+> 
+> --
+> 2.29.1
+> 
+
