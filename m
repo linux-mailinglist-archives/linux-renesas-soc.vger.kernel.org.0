@@ -2,108 +2,176 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BFF62B992E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 18:22:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4B32B995E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 18:37:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728147AbgKSRUZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Nov 2020 12:20:25 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46923 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726474AbgKSRUZ (ORCPT
+        id S1729091AbgKSRf6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Nov 2020 12:35:58 -0500
+Received: from foss.arm.com ([217.140.110.172]:35906 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728512AbgKSRf5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Nov 2020 12:20:25 -0500
-Received: by mail-oi1-f196.google.com with SMTP id q206so7100561oif.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Nov 2020 09:20:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sk4MoO+LBfDTKu6OgdJdAY5YUGXwENPvznRsktaXdo4=;
-        b=jUkUervr6VUFJK/L1Z80pJQt+mhRZWJlcSC3IapY0TzWuU84Z8V15wMxwl2pKrC37Q
-         yTzdO3zgqrnadoQ1dIgjPrUg6ExFWscbCWg8e+o2wIL4qyu5NHaYAqMrcWMu2qDk+tFM
-         7WjOKMc8DyGnEo/9rjmqqUj7wVabl7LAgQYZ7dspROBc4/KczpcIvkZFZgOWuhc/Sh1z
-         Ai/d5ljIOLNK3RrguQKXvQD49t/2mwlKZrrkZeyAR5eI6zYrhAy5dHr5LMzgixq8lckz
-         SmPBqzJv5Lr7wJvepvsWcqo541KjjBTxKmD5urSIZ0R2JBusbkyVTIahA+9jCNa0CQ2a
-         +sKQ==
-X-Gm-Message-State: AOAM531tB622zpPGFnHl7zMhqNZ2MIIEVGGl5oIOswXmZPYFYVtZJT1b
-        EesAwarI4QE9IhmBm8ao/30DTCUc4tdmiOrLSNMZ4jpjqPZXgA==
-X-Google-Smtp-Source: ABdhPJzgZrXSuxmDdjWZrHUmxsm+jfFVAzUz5sBfRUlrwoFQZyrcDI5kwCuyl1wH1xbwx4NkdOaD2shf4anOir8QBnc=
-X-Received: by 2002:aca:52c9:: with SMTP id g192mr3713049oib.54.1605806422678;
- Thu, 19 Nov 2020 09:20:22 -0800 (PST)
+        Thu, 19 Nov 2020 12:35:57 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9B8F1396;
+        Thu, 19 Nov 2020 09:35:56 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE6B13F718;
+        Thu, 19 Nov 2020 09:35:55 -0800 (PST)
+Date:   Thu, 19 Nov 2020 17:35:53 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20201119173553.GB23852@e121166-lin.cambridge.arm.com>
+References: <20201016120416.7008-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
-References: <20201119125318.4066097-1-geert+renesas@glider.be>
- <CAK8P3a0mHYgOYLBO1MHw1CUVgdnOQk4aRf5XTBj+jR-yEtzcoA@mail.gmail.com>
- <CAMuHMdXmHOo+6TgYOsAuSC7-iHEyBnLvqX=MCN3qYybUi5M-hw@mail.gmail.com> <CAK8P3a17rA4N7TyiwrTdS_=4AAyDXrAi7W8k45BPuTLL1xU4Gg@mail.gmail.com>
-In-Reply-To: <CAK8P3a17rA4N7TyiwrTdS_=4AAyDXrAi7W8k45BPuTLL1xU4Gg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 Nov 2020 18:20:11 +0100
-Message-ID: <CAMuHMdW=gi2hpMts5KdxhLSm4XUD1e4Q9ubjrDZbe85yGuT=Zw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsi: Stop using __raw_*() I/O accessors
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201016120416.7008-1-marek.vasut@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+On Fri, Oct 16, 2020 at 02:04:16PM +0200, marek.vasut@gmail.com wrote:
 
-On Thu, Nov 19, 2020 at 5:22 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> On Thu, Nov 19, 2020 at 5:13 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Nov 19, 2020 at 4:54 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> > > On Thu, Nov 19, 2020 at 1:53 PM Geert Uytterhoeven
-> > > <geert+renesas@glider.be> wrote:
-> > >
-> > > I'm also not sure whether changing this breaks big-endian SuperH,
-> > > which defines the accessors differently from Arm and most other
-> > > architectures.
-> >
-> > On SH, this driver is only used on SH7724 systems.
-> > Compiling an ecovec24_defconfig kernel with CONFIG_CPU_BIG_ENDIAN=y
-> > shows that the same code (native 32-bit access) is generated for
-> > big-endian as for little-endian, which means that it indeed must be
-> > broken for one of them. But this is not changed by my patch.
->
-> Not necessarily: I think superh is more like the old 'BE32' variant of Arm
-> big-endian, in that on-chip registers are accessed in CPU-endian byte order,
-> while access to external RAM is byte-swapped.
+[...]
 
-That's indeed quite likely: according to the SH7724 docs, the endianness
-of "the system" is configured by an external pin at power-on reset time,
-and cannot be changed dynamically.  Hence testing this would require a
-big-endian boot loader, too.
+> +#ifdef CONFIG_ARM
+> +/*
+> + * Here we keep a static copy of the remapped PCIe controller address.
+> + * This is only used on aarch32 systems, all of which have one single
+> + * PCIe controller, to provide quick access to the PCIe controller in
+> + * the L1 link state fixup function, called from the ARM fault handler.
+> + */
+> +static void __iomem *pcie_base;
+> +/*
+> + * Static copy of bus clock pointer, so we can check whether the clock
+> + * is enabled or not.
+> + */
+> +static struct clk *pcie_bus_clk;
+> +#endif
 
-> > > Maybe better just mark the driver as 'depends on SH || !CPU_BIG_ENDIAN'
-> > > as it is clearly broken on big-endian Arm.
-> >
-> > "depends on !CPU_BIG_ENDIAN"?
->
-> I think I'd just leave it as it is. Unless someone wants to try out this
+Don't think you can have multiple host bridges in a given platform,
+if it is a possible configuration this won't work.
 
-OK.
+>  static inline struct rcar_msi *to_rcar_msi(struct msi_controller *chip)
+>  {
+>  	return container_of(chip, struct rcar_msi, chip);
+> @@ -804,6 +820,12 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+>  	}
+>  	host->msi.irq2 = i;
+>  
+> +#ifdef CONFIG_ARM
+> +	/* Cache static copy for L1 link state fixup hook on aarch32 */
+> +	pcie_base = pcie->base;
+> +	pcie_bus_clk = host->bus_clk;
+> +#endif
+> +
+>  	return 0;
+>  
+>  err_irq2:
+> @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
+>  	},
+>  	.probe = rcar_pcie_probe,
+>  };
+> +
+> +#ifdef CONFIG_ARM
+> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+> +		unsigned int fsr, struct pt_regs *regs)
+> +{
+> +	u32 pmsr;
+> +
+> +	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
+> +		return 1;
+> +
+> +	pmsr = readl(pcie_base + PMSR);
+> +
+> +	/*
+> +	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+> +	 * the PCIe controller is not in L1 link state. If true, apply
+> +	 * fix, which will put the controller into L1 link state, from
+> +	 * which it can return to L0s/L0 on its own.
+> +	 */
+> +	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+> +		writel(L1IATN, pcie_base + PMCTLR);
+> +		while (!(readl(pcie_base + PMSR) & L1FAEG))
+> +			;
+> +		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+> +		return 0;
+> +	}
 
-> board in both big-endian and little-endian configurations and also
-> listen to the audio output, it's impossible to know whether it is actually
-> broken. sound/soc/sh/dma-sh7760.c does have a comment from 2007
-> saying "// FIXME: little-endian only for now".
+I suppose a fault on multiple cores can happen simultaneously, if it
+does this may not work well either - I assume all config/io/mem would
+trigger a fault.
 
-SH7760 does not use the FSI driver.
-A few SH defconfig files have CONFIG_CPU_BIG_ENDIAN=y, but
-the later SH4A parts all seem to be used in little-endian mode.
+As I mentioned in my reply to v1, is there a chance we can move
+this quirk into config accessors (if the PM_ENTER_L1_DLLP is
+subsequent to a write into PMCSR to programme a D state) ?
 
-Gr{oetje,eeting}s,
+Config access is serialized but I suspect as I said above that this
+triggers on config/io/mem alike.
 
-                        Geert
+Just asking to try to avoid a fault handler if possible.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thanks,
+Lorenzo
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+> +	{ .compatible = "renesas,pcie-r8a7779" },
+> +	{ .compatible = "renesas,pcie-r8a7790" },
+> +	{ .compatible = "renesas,pcie-r8a7791" },
+> +	{ .compatible = "renesas,pcie-rcar-gen2" },
+> +	{},
+> +};
+> +
+> +static int __init rcar_pcie_init(void)
+> +{
+> +	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> +#ifdef CONFIG_ARM_LPAE
+> +		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +				"asynchronous external abort");
+> +#else
+> +		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> +				"imprecise external abort");
+> +#endif
+> +	}
+> +
+> +	return platform_driver_register(&rcar_pcie_driver);
+> +}
+> +device_initcall(rcar_pcie_init);
+> +#else
+>  builtin_platform_driver(rcar_pcie_driver);
+> +#endif
+> diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
+> index d4c698b5f821..9bb125db85c6 100644
+> --- a/drivers/pci/controller/pcie-rcar.h
+> +++ b/drivers/pci/controller/pcie-rcar.h
+> @@ -85,6 +85,13 @@
+>  #define  LTSMDIS		BIT(31)
+>  #define  MACCTLR_INIT_VAL	(LTSMDIS | MACCTLR_NFTS_MASK)
+>  #define PMSR			0x01105c
+> +#define  L1FAEG			BIT(31)
+> +#define  PMEL1RX		BIT(23)
+> +#define  PMSTATE		GENMASK(18, 16)
+> +#define  PMSTATE_L1		(3 << 16)
+> +#define PMCTLR			0x011060
+> +#define  L1IATN			BIT(31)
+> +
+>  #define MACS2R			0x011078
+>  #define MACCGSPSETR		0x011084
+>  #define  SPCNGRSN		BIT(31)
+> -- 
+> 2.28.0
+> 
