@@ -2,91 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B8F82B7E6E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Nov 2020 14:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B98F2B90FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 12:30:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbgKRNkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Nov 2020 08:40:06 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44202 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbgKRNkF (ORCPT
+        id S1725931AbgKSL1O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Nov 2020 06:27:14 -0500
+Received: from foss.arm.com ([217.140.110.172]:53852 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725783AbgKSL1N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Nov 2020 08:40:05 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4D449BF;
-        Wed, 18 Nov 2020 14:40:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1605706803;
-        bh=1geR/exmqMp91/LbjtCPKbAdQ0uy80PivlfD1KouC6M=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=f5JgRB3PcbggpnlgDTDW8VxQgAnICGfZvjkH+u5ntgxoYi0ovNw4Xb28eDtwoD3sL
-         dqhD19xVvqM8wKOyLNH+Tlcd5yaAph0dcWCbJ8b7vVKFU9BL1iyA9gg8KfKlEHV5B5
-         N1yPoHhmoer205R5VdqxHDlXtqzBV8Gku3pXoOt4=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v5 7/8] [DNI] arm64: dts: renesas: salvator-x-max9286:
- Specify channel amplitude
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
- <20201116135305.81319-8-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <71d9898f-2371-7c9d-e0da-cdec1b69ba0f@ideasonboard.com>
-Date:   Wed, 18 Nov 2020 13:40:00 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 19 Nov 2020 06:27:13 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 728C01396;
+        Thu, 19 Nov 2020 03:27:12 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C7E683F718;
+        Thu, 19 Nov 2020 03:27:10 -0800 (PST)
+Date:   Thu, 19 Nov 2020 11:27:08 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>, linux-pci@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [RESEND PATCH] dt-bindings: pci: rcar-pci: Add device tree
+ support for r8a774e1
+Message-ID: <20201119112708.GB19942@e121166-lin.cambridge.arm.com>
+References: <20200927124257.29612-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20201116135305.81319-8-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200927124257.29612-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
-
-On 16/11/2020 13:53, Jacopo Mondi wrote:
-> Use the newly introduced 'maxim,initial-reverse-channel-mV'
-> property to specify the initial reverse channel amplitude when
-> the remote serializers are pre-programmed with noise immunity threshold
-> enabled.
+On Sun, Sep 27, 2020 at 01:42:57PM +0100, Lad Prabhakar wrote:
+> Add PCIe support for the RZ/G2H (a.k.a. R8A774E1).
 > 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
+> Hi Lorenzo,
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi b/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
-> index 6f4798859542..f14a133b7302 100644
-> --- a/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
-> @@ -128,6 +128,7 @@ gmsl-deserializer@4c {
->  		compatible = "maxim,max9286";
->  		reg = <0x4c>;
->  		poc-supply = <&poc_12v>;
-> +		maxim,initial-reverse-channel-mV = <170>;
->  
->  		ports {
->  			#address-cells = <1>;
-> @@ -263,6 +264,7 @@ gmsl-deserializer@6c {
->  		compatible = "maxim,max9286";
->  		reg = <0x6c>;
->  		poc-supply = <&poc_12v>;
-> +		maxim,initial-reverse-channel-mV = <170>;
->  
->  		ports {
->  			#address-cells = <1>;
-> 
+> This patch is part of series [1] and is Acked the DT maintainers,
+> while rest of the patches have been picked up by the respective
+> maintainers, could you please pick this patch.
 
+I can, is this still pending (I think so but wanted to check) ?
+
+Thanks,
+Lorenzo
+
+> 
+> [1] https://www.spinics.net/lists/dmaengine/msg22971.html
+> 
+> Cheers,
+> Prabhakar
+> ---
+>  Documentation/devicetree/bindings/pci/rcar-pci.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci.txt b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> index 14d307deff06..8e495d6811a0 100644
+> --- a/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> +++ b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> @@ -7,6 +7,7 @@ compatible: "renesas,pcie-r8a7742" for the R8A7742 SoC;
+>  	    "renesas,pcie-r8a774a1" for the R8A774A1 SoC;
+>  	    "renesas,pcie-r8a774b1" for the R8A774B1 SoC;
+>  	    "renesas,pcie-r8a774c0" for the R8A774C0 SoC;
+> +	    "renesas,pcie-r8a774e1" for the R8A774E1 SoC;
+>  	    "renesas,pcie-r8a7779" for the R8A7779 SoC;
+>  	    "renesas,pcie-r8a7790" for the R8A7790 SoC;
+>  	    "renesas,pcie-r8a7791" for the R8A7791 SoC;
+> -- 
+> 2.17.1
+> 
