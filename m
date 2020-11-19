@@ -2,170 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C60A02B9343
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 14:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE32F2B94C9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 15:41:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbgKSNJr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Nov 2020 08:09:47 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:25940 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727520AbgKSNJq (ORCPT
+        id S1727428AbgKSOip (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Nov 2020 09:38:45 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:55639 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727214AbgKSOim (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Nov 2020 08:09:46 -0500
-X-IronPort-AV: E=Sophos;i="5.77,490,1596466800"; 
-   d="scan'208";a="63036289"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Nov 2020 22:09:45 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F3DF24005E1A;
-        Thu, 19 Nov 2020 22:09:43 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 4/4] pinctrl: renesas: r8a77965: Add QSPI[01] pins, groups and functions
-Date:   Thu, 19 Nov 2020 13:09:26 +0000
-Message-Id: <20201119130926.25692-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201119130926.25692-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201119130926.25692-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 19 Nov 2020 09:38:42 -0500
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id D5ADB100003;
+        Thu, 19 Nov 2020 14:38:37 +0000 (UTC)
+Date:   Thu, 19 Nov 2020 15:38:41 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v5 0/8] media: i2c: Add RDACM21 camera module
+Message-ID: <20201119143841.62hn535fj4rncblv@uno.localdomain>
+References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
+ <53e43d23-483a-adc2-a3c4-3a2b821da832@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <53e43d23-483a-adc2-a3c4-3a2b821da832@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add pins, groups and functions for QSPIO[01].
+Hi Kieran
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/pinctrl/renesas/pfc-r8a77965.c | 75 +++++++++++++++++++++++++-
- 1 file changed, 73 insertions(+), 2 deletions(-)
+On Wed, Nov 18, 2020 at 01:34:54PM +0000, Kieran Bingham wrote:
+> Hi Jacopo,
+>
+> On 16/11/2020 13:52, Jacopo Mondi wrote:
+> > Hello,
+> >    this v5 mostly changes how the rdacm21 driver handles writes to the
+> > OV490 chip by handling the 'high' part of the sensor register through an
+> > helper function as suggested by Kieran and Laurent.
+> >
+> > The diff is available at:
+> > https://paste.debian.net/1172700/
+> >
+> > Minor fixes in patches subjects and in bindings as reported by Sergei and
+> > Kieran.
+> >
+> > Bindings have now been sent to DT people now that they've been reviewed
+> > by Kieran.
+> >
+> > v4: https://patchwork.linuxtv.org/project/linux-media/list/?series=3847
+> > v3: https://patchwork.linuxtv.org/project/linux-media/list/?series=3657
+> >
+> > Background in v1 cover letter:
+> > https://www.spinics.net/lists/linux-renesas-soc/msg52886.html
+> >
+> > I have tested on Eagle V3M with 4 RDACM21, but the whole point of
+> > this series is to retain compatibility with RDACM20.
+> >
+> > For this reason I have included 2 patches on top, not intended for merge
+> > that re-propose DTS support for the MAXIM max9286 expansion board connected
+> > to Salvator-X and add the newly introduced property to the DTS file.
+> >
+> > Kieran, I know you have a working setup with RDACM20, the final patches are
+> > meant for ease your testing. Can you give this series a spin ?
+>
+>
+> After some rabbit-holes :-D:
+>
+> A 5-camera capture on Salvator-X - https://pasteboard.co/JAW0PSr.png
+> For this series, on both Eagle-V3M and Salvator-X
+>
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-diff --git a/drivers/pinctrl/renesas/pfc-r8a77965.c b/drivers/pinctrl/renesas/pfc-r8a77965.c
-index 590e5f8006d4..92f231baff7d 100644
---- a/drivers/pinctrl/renesas/pfc-r8a77965.c
-+++ b/drivers/pinctrl/renesas/pfc-r8a77965.c
-@@ -3408,6 +3408,57 @@ static const unsigned int pwm6_b_mux[] = {
- 	PWM6_B_MARK,
- };
- 
-+/* - QSPI0 ------------------------------------------------------------------ */
-+static const unsigned int qspi0_ctrl_pins[] = {
-+	/* QSPI0_SPCLK, QSPI0_SSL */
-+	PIN_QSPI0_SPCLK, PIN_QSPI0_SSL,
-+};
-+static const unsigned int qspi0_ctrl_mux[] = {
-+	QSPI0_SPCLK_MARK, QSPI0_SSL_MARK,
-+};
-+static const unsigned int qspi0_data2_pins[] = {
-+	/* QSPI0_MOSI_IO0, QSPI0_MISO_IO1 */
-+	PIN_QSPI0_MOSI_IO0, PIN_QSPI0_MISO_IO1,
-+};
-+static const unsigned int qspi0_data2_mux[] = {
-+	QSPI0_MOSI_IO0_MARK, QSPI0_MISO_IO1_MARK,
-+};
-+static const unsigned int qspi0_data4_pins[] = {
-+	/* QSPI0_MOSI_IO0, QSPI0_MISO_IO1 */
-+	PIN_QSPI0_MOSI_IO0, PIN_QSPI0_MISO_IO1,
-+	/* QSPI0_IO2, QSPI0_IO3 */
-+	PIN_QSPI0_IO2, PIN_QSPI0_IO3,
-+};
-+static const unsigned int qspi0_data4_mux[] = {
-+	QSPI0_MOSI_IO0_MARK, QSPI0_MISO_IO1_MARK,
-+	QSPI0_IO2_MARK, QSPI0_IO3_MARK,
-+};
-+/* - QSPI1 ------------------------------------------------------------------ */
-+static const unsigned int qspi1_ctrl_pins[] = {
-+	/* QSPI1_SPCLK, QSPI1_SSL */
-+	PIN_QSPI1_SPCLK, PIN_QSPI1_SSL,
-+};
-+static const unsigned int qspi1_ctrl_mux[] = {
-+	QSPI1_SPCLK_MARK, QSPI1_SSL_MARK,
-+};
-+static const unsigned int qspi1_data2_pins[] = {
-+	/* QSPI1_MOSI_IO0, QSPI1_MISO_IO1 */
-+	PIN_QSPI1_MOSI_IO0, PIN_QSPI1_MISO_IO1,
-+};
-+static const unsigned int qspi1_data2_mux[] = {
-+	QSPI1_MOSI_IO0_MARK, QSPI1_MISO_IO1_MARK,
-+};
-+static const unsigned int qspi1_data4_pins[] = {
-+	/* QSPI1_MOSI_IO0, QSPI1_MISO_IO1 */
-+	PIN_QSPI1_MOSI_IO0, PIN_QSPI1_MISO_IO1,
-+	/* QSPI1_IO2, QSPI1_IO3 */
-+	PIN_QSPI1_IO2, PIN_QSPI1_IO3,
-+};
-+static const unsigned int qspi1_data4_mux[] = {
-+	QSPI1_MOSI_IO0_MARK, QSPI1_MISO_IO1_MARK,
-+	QSPI1_IO2_MARK, QSPI1_IO3_MARK,
-+};
-+
- /* - SATA --------------------------------------------------------------------*/
- static const unsigned int sata0_devslp_a_pins[] = {
- 	/* DEVSLP */
-@@ -4381,7 +4432,7 @@ static const unsigned int vin5_clk_mux[] = {
- };
- 
- static const struct {
--	struct sh_pfc_pin_group common[318];
-+	struct sh_pfc_pin_group common[324];
- #ifdef CONFIG_PINCTRL_PFC_R8A77965
- 	struct sh_pfc_pin_group automotive[30];
- #endif
-@@ -4586,6 +4637,12 @@ static const struct {
- 		SH_PFC_PIN_GROUP(pwm5_b),
- 		SH_PFC_PIN_GROUP(pwm6_a),
- 		SH_PFC_PIN_GROUP(pwm6_b),
-+		SH_PFC_PIN_GROUP(qspi0_ctrl),
-+		SH_PFC_PIN_GROUP(qspi0_data2),
-+		SH_PFC_PIN_GROUP(qspi0_data4),
-+		SH_PFC_PIN_GROUP(qspi1_ctrl),
-+		SH_PFC_PIN_GROUP(qspi1_data2),
-+		SH_PFC_PIN_GROUP(qspi1_data4),
- 		SH_PFC_PIN_GROUP(sata0_devslp_a),
- 		SH_PFC_PIN_GROUP(sata0_devslp_b),
- 		SH_PFC_PIN_GROUP(scif0_data),
-@@ -5078,6 +5135,18 @@ static const char * const pwm6_groups[] = {
- 	"pwm6_b",
- };
- 
-+static const char * const qspi0_groups[] = {
-+	"qspi0_ctrl",
-+	"qspi0_data2",
-+	"qspi0_data4",
-+};
-+
-+static const char * const qspi1_groups[] = {
-+	"qspi1_ctrl",
-+	"qspi1_data2",
-+	"qspi1_data4",
-+};
-+
- static const char * const sata0_groups[] = {
- 	"sata0_devslp_a",
- 	"sata0_devslp_b",
-@@ -5257,7 +5326,7 @@ static const char * const vin5_groups[] = {
- };
- 
- static const struct {
--	struct sh_pfc_function common[51];
-+	struct sh_pfc_function common[53];
- #ifdef CONFIG_PINCTRL_PFC_R8A77965
- 	struct sh_pfc_function automotive[4];
- #endif
-@@ -5294,6 +5363,8 @@ static const struct {
- 		SH_PFC_FUNCTION(pwm4),
- 		SH_PFC_FUNCTION(pwm5),
- 		SH_PFC_FUNCTION(pwm6),
-+		SH_PFC_FUNCTION(qspi0),
-+		SH_PFC_FUNCTION(qspi1),
- 		SH_PFC_FUNCTION(sata0),
- 		SH_PFC_FUNCTION(scif0),
- 		SH_PFC_FUNCTION(scif1),
--- 
-2.17.1
+Thanks!
 
+>
+>
+>
+> > Series based on latest renesas-drivers tag: renesas-drivers-2020-11-10-v5.10-rc3
+> >
+> > Thanks
+> >   j
+> >
+> > Jacopo Mondi (7):
+> >   media: i2c: Add driver for RDACM21 camera module
+> >   dt-bindings: media: max9286: Document
+> >     'maxim,initial-reverse-channel-mV'
+> >   media: i2c: max9286: Break-out reverse channel setup
+> >   media: i2c: max9286: Make channel amplitude programmable
+> >   media: i2c: max9286: Configure reverse channel amplitude
+> >   [DNI] arm64: dts: renesas: salvator-x-max9286: Specify channel
+> >     amplitude
+> >   [DNI] arm64: dts: renesas: eagle: Specify channel amplitude
+> >
+> > Laurent Pinchart (1):
+> >   arm64: dts: renesas: salvator-x: Add MAX9286 expansion board
+> >
+> >  .../bindings/media/i2c/maxim,max9286.yaml     |  23 +
+> >  MAINTAINERS                                   |  12 +
+> >  .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   1 +
+> >  .../boot/dts/renesas/salvator-x-max9286.dtsi  | 396 ++++++++++++
+> >  drivers/media/i2c/Kconfig                     |  13 +
+> >  drivers/media/i2c/Makefile                    |   2 +
+> >  drivers/media/i2c/max9286.c                   |  58 +-
+> >  drivers/media/i2c/rdacm21.c                   | 595 ++++++++++++++++++
+> >  8 files changed, 1087 insertions(+), 13 deletions(-)
+> >  create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
+> >  create mode 100644 drivers/media/i2c/rdacm21.c
+> >
+> > --
+> > 2.29.1
+> >
+>
