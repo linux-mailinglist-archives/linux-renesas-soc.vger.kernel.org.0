@@ -2,63 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A351C2BB4D0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 20:11:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6B302BB4F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 20:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbgKTTE4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Nov 2020 14:04:56 -0500
-Received: from mail-oo1-f68.google.com ([209.85.161.68]:36294 "EHLO
-        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728076AbgKTTEz (ORCPT
+        id S1731110AbgKTTMx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Nov 2020 14:12:53 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35879 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728892AbgKTTMx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Nov 2020 14:04:55 -0500
-Received: by mail-oo1-f68.google.com with SMTP id l20so2443438oot.3;
-        Fri, 20 Nov 2020 11:04:54 -0800 (PST)
+        Fri, 20 Nov 2020 14:12:53 -0500
+Received: by mail-ot1-f66.google.com with SMTP id y24so4182290otk.3;
+        Fri, 20 Nov 2020 11:12:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=GZA3+M/VVNa3SUOOY7jLzWKoR84YmwgaI/DsfKj9aqU=;
-        b=HyP61hAt5Gr1OI2qdLLxiKGqwV9lUi9d/01uaGzaLMzXyXOFr/YthCzrLu319gAVZM
-         GS6MUln4+kyelqx2jXJ5kqjiTVihvp6rzbBqhJ8xO7LXUoN9jf5+mCSktW+ZrGU+yc2O
-         Y4C7JrzhABx2HzK1SV3HjRuWq6gpAXKtGsePM2UrX5WyVyKp+qk5Ej6F+QKdLp4FXFTg
-         PWXJWEogyxyjGN/3anO4Y1geUlvrR4UaMBBytWaPXhKjvLUMgr+wNT20Mkz30yYZE98r
-         2Vm9vUo55MWu43QuX2QYn0bhv2pzFiKfA4PCfJq79S2kqxN3aUMVjgMmkaXZOBqGZL0z
-         7l/w==
-X-Gm-Message-State: AOAM532nunou55uxjN3NviRLaI4mVAPfpPcD70N21wVcVBvKbE88ECE/
-        XTGtTyMlzG6JMkDyz8s+42o5METrWj2A4uLP0Pc=
-X-Google-Smtp-Source: ABdhPJwl/mRWeppvi1dwTiN5ioQWhB7KWKxlwUdKmlSbCN3evBAbGlx0526M4UT3y5zLWSFcqAWi5nCCaq59k6y+lv4=
-X-Received: by 2002:a4a:e80b:: with SMTP id b11mr14876540oob.1.1605899094394;
- Fri, 20 Nov 2020 11:04:54 -0800 (PST)
+        bh=hLqZnQT5B6jK/D0DIjq9dhHr4z0uuriK5bU3awMZYMg=;
+        b=SSolebQ5XxlvtB/LHZjvnlFaVtn5VevW/BjltcusQ4pH2a5Sw43JnFpr151OuDcA4I
+         K7qn3bC/O3WHRiOsiSLH22Y3D1oL8XQFH+7Ffk9SslDzWIdhpnGQPbl1dib4VaLV2qKt
+         itRAXSr8JIkJvizhozaKKu3cAJbiL43LRGFEitAaFcgFYjSEa8feEQzRvO1sTN6/myIU
+         Vul3948edupxgNAMLETTJSbavg4ne0AnG+kCbZQGOqqnuon8CiJDzQEK75OISI/8t/mm
+         gkgOXcaBBYX/isUZYGokwyToU9hYDI/pPErPmkeMtgdOh8bJbBETuMQJn96l66cWdIkF
+         7UiA==
+X-Gm-Message-State: AOAM530S6NeyubAOTxN0/AArm03+gjXFAY4OIF2MEP/fxZofgPLwyIcO
+        l4ZOxXbuIfJuOHAPhoE2kHPSPaeldwiR4JFgCq0BSnmMURI=
+X-Google-Smtp-Source: ABdhPJzLoa6WKtDILDOGpkstaZxzPvZRNmrWOcGtpvxISC7FFKWVO6GT9/653JEKtFUhbfBUcBa/Z0pHLAn+ZnaPR4E=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr14561462otc.145.1605899570960;
+ Fri, 20 Nov 2020 11:12:50 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <da20103af0c22424c5d08a12f7107771bf4c01c5.1605896059.git.gustavoars@kernel.org>
-In-Reply-To: <da20103af0c22424c5d08a12f7107771bf4c01c5.1605896059.git.gustavoars@kernel.org>
+References: <20201120161529.236447-1-jacopo+renesas@jmondi.org> <20201120161529.236447-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201120161529.236447-2-jacopo+renesas@jmondi.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Nov 2020 20:04:42 +0100
-Message-ID: <CAMuHMdWcooXsRULUVwZR35z=2fUN=5pJoV9arAK+baWCz8ECjg@mail.gmail.com>
-Subject: Re: [PATCH 049/141] pinctrl: Fix fall-through warnings for Clang
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
+Date:   Fri, 20 Nov 2020 20:12:39 +0100
+Message-ID: <CAMuHMdX3tHXXQwLf+FcqgwqXC6j+4NYiv2Li4qsodVRTKqqrGg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: max9271: Fix GPIO enable/disable
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-hardening@vger.kernel.org
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 7:31 PM Gustavo A. R. Silva
-<gustavoars@kernel.org> wrote:
-> In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
-> by explicitly adding a break statement instead of letting the code fall
-> through to the next case.
+On Fri, Nov 20, 2020 at 5:15 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Fix GPIO enable/disable operations which wrongly read the 0x0f register
+> to obtain the current mask of the enabled lines instead of using
+> the correct 0x0e register.
 >
-> Link: https://github.com/KSPP/linux/issues/115
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Also fix access to bit 0 of the register which is marked as reserved.
+>
+> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl-for-v5.11.
 
 Gr{oetje,eeting}s,
 
