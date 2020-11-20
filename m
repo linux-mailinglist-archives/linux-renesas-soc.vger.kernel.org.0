@@ -2,105 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1FD2BACEB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 16:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E927A2BAE2E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 16:23:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728320AbgKTPG7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Nov 2020 10:06:59 -0500
-Received: from www.zeus03.de ([194.117.254.33]:43456 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728770AbgKTPG4 (ORCPT
+        id S1729049AbgKTPNy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Nov 2020 10:13:54 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:23669 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728923AbgKTPNy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Nov 2020 10:06:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=US1jiov3Q39Q8O
-        HNdgriM3I4d/ngv0XuinAIEULvBe8=; b=O1jzibQ4MJATu6NSPuZrYQEnLNIeG7
-        if8WaG4dBwguqtPkCBWDQ0tn/2KlXGey3rBcvSKVIsENX70EDbnfw6V3xMYEazu3
-        6sXEZA0Fad+DnNteTHyiiuAxwdFJFZwykGYhPwEqQFIK1mliAsiD3l1ZuNSFQxLB
-        +PahJJSFqmkis=
-Received: (qmail 1520255 invoked from network); 20 Nov 2020 16:06:54 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Nov 2020 16:06:54 +0100
-X-UD-Smtp-Session: l3s3148p1@DU3pMYu0Ft0gAwDPXwi7AEBAgYxIRHZX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH RFT v2 3/3] mmc: renesas_sdhi: enable WAIT_WHILE_BUSY
-Date:   Fri, 20 Nov 2020 16:06:47 +0100
-Message-Id: <20201120150647.123237-4-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201120150647.123237-1-wsa+renesas@sang-engineering.com>
-References: <20201120150647.123237-1-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 20 Nov 2020 10:13:54 -0500
+X-IronPort-AV: E=Sophos;i="5.78,356,1599490800"; 
+   d="scan'208";a="63383353"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 21 Nov 2020 00:13:51 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 290BB4004CFA;
+        Sat, 21 Nov 2020 00:13:49 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add OV7725 nodes
+Date:   Fri, 20 Nov 2020 15:13:43 +0000
+Message-Id: <20201120151343.24175-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Now that we got the timeout handling in the driver correct, we can use
-this capability to avoid polling via the MMC core.
+Add the ov7725 endpoint nodes to the camera daughter board. The ov7725
+sensors can be populated on I2C{0,1,2,3} buses.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+By default the VIN{0,1,2,3} are tied to OV5640{0,1,2,3} endpoints
+respectively in the camera DB dts hence the remote-endpoint property in
+OV7725{0,1,2,3} endpoints is commented out.
+
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/mmc/host/renesas_sdhi_internal_dmac.c | 4 ++--
- drivers/mmc/host/renesas_sdhi_sys_dmac.c      | 7 ++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+Hi All,
 
-diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-index fe13e1ea22dc..d8b811c46628 100644
---- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-@@ -88,7 +88,7 @@ static struct renesas_sdhi_scc rcar_gen3_scc_taps[] = {
- 
- static const struct renesas_sdhi_of_data of_rza2_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
--			  TMIO_MMC_HAVE_CBSY,
-+			  TMIO_MMC_HAVE_CBSY | MMC_CAP_WAIT_WHILE_BUSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
- 			  MMC_CAP_CMD23,
-@@ -105,7 +105,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
--			  MMC_CAP_CMD23,
-+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT | MMC_CAP2_MERGE_CAPABLE,
- 	.bus_shift	= 2,
- 	.scc_offset	= 0x1000,
-diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-index c5f789675302..0a3494fcc5e8 100644
---- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-@@ -31,13 +31,14 @@ static const struct renesas_sdhi_of_data of_default_cfg = {
- 
- static const struct renesas_sdhi_of_data of_rz_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_32BIT_DATA_PORT |
--			  TMIO_MMC_HAVE_CBSY,
-+			  TMIO_MMC_HAVE_CBSY | MMC_CAP_WAIT_WHILE_BUSY,
- 	.tmio_ocr_mask	= MMC_VDD_32_33,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
+This patch is based on top of [1].
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/geert/
+    renesas-devel.git/log/?h=renesas-arm-dt-for-v5.11
+
+Cheers,
+Prabhakar
+---
+ .../boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts    | 93 +++++++++++++++++++
+ 1 file changed, 93 insertions(+)
+
+diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+index 98c3fbd89fa6..d1386bf7bdbe 100644
+--- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
++++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+@@ -108,6 +108,29 @@
+ 			};
+ 		};
+ 	};
++
++	ov7725@21 {
++		compatible = "ovti,ov7725";
++		reg = <0x21>;
++		clocks = <&mclk_cam1>;
++
++		port {
++			ov7725_0: endpoint {
++				bus-width = <8>;
++				bus-type = <6>;
++				/*
++				 * uncomment remote-endpoint property to
++				 * tie ov7725_0 to vin0ep also make
++				 * sure to comment/remove remote-endpoint
++				 * property from ov5640_0 endpoint and
++				 * replace remote-endpoint property in
++				 * vin0ep node with
++				 * remote-endpoint = <&ov7725_0>;
++				 */
++				/* remote-endpoint = <&vin0ep>; */
++			};
++		};
++	};
  };
  
- static const struct renesas_sdhi_of_data of_rcar_gen1_compatible = {
--	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL,
-+	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
-+			  MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
+ &i2c1 {
+@@ -133,6 +156,29 @@
+ 			};
+ 		};
+ 	};
++
++	ov7725@21 {
++		compatible = "ovti,ov7725";
++		reg = <0x21>;
++		clocks = <&mclk_cam2>;
++
++		port {
++			ov7725_1: endpoint {
++				bus-width = <8>;
++				bus-type = <6>;
++				/*
++				 * uncomment remote-endpoint property to
++				 * tie ov7725_1 to vin1ep also make
++				 * sure to comment/remove remote-endpoint
++				 * property from ov5640_1 endpoint and
++				 * replace remote-endpoint property in
++				 * vin1ep node with
++				 * remote-endpoint = <&ov7725_1>;
++				 */
++				/* remote-endpoint = <&vin1ep>; */
++			};
++		};
++	};
  };
-@@ -58,7 +59,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
- 	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
- 			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
--			  MMC_CAP_CMD23,
-+			  MMC_CAP_CMD23 | MMC_CAP_WAIT_WHILE_BUSY,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
- 	.dma_buswidth	= DMA_SLAVE_BUSWIDTH_4_BYTES,
- 	.dma_rx_offset	= 0x2000,
+ 
+ &i2c2 {
+@@ -152,6 +198,30 @@
+ 			};
+ 		};
+ 	};
++
++	ov7725@21 {
++		status = "disabled";
++		compatible = "ovti,ov7725";
++		reg = <0x21>;
++		clocks = <&mclk_cam3>;
++
++		port {
++			ov7725_2: endpoint {
++				bus-width = <8>;
++				bus-type = <6>;
++				/*
++				 * uncomment remote-endpoint property to
++				 * tie ov7725_2 to vin2ep also make
++				 * sure to comment/remove remote-endpoint
++				 * property from ov5640_2 endpoint and
++				 * replace remote-endpoint property in
++				 * vin2ep node with
++				 * remote-endpoint = <&ov7725_2>;
++				 */
++				/* remote-endpoint = <&vin2ep>; */
++			};
++		};
++	};
+ };
+ 
+ &i2c3 {
+@@ -177,6 +247,29 @@
+ 			};
+ 		};
+ 	};
++
++	ov7725@21 {
++		compatible = "ovti,ov7725";
++		reg = <0x21>;
++		clocks = <&mclk_cam4>;
++
++		port {
++			ov7725_3: endpoint {
++				bus-width = <8>;
++				bus-type = <6>;
++				/*
++				 * uncomment remote-endpoint property to
++				 * tie ov7725_3 to vin3ep also make
++				 * sure to comment/remove remote-endpoint
++				 * property from ov5640_3 endpoint and
++				 * replace remote-endpoint property in
++				 * vin3ep node with
++				 * remote-endpoint = <&ov7725_3>;
++				 */
++				/* remote-endpoint = <&vin3ep>; */
++			};
++		};
++	};
+ };
+ 
+ &pfc {
 -- 
-2.28.0
+2.17.1
 
