@@ -2,77 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DEDD2BAFDA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 17:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAADB2BB115
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 17:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728710AbgKTQPm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Nov 2020 11:15:42 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:63361 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728254AbgKTQPl (ORCPT
+        id S1730261AbgKTQ5k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Nov 2020 11:57:40 -0500
+Received: from foss.arm.com ([217.140.110.172]:52484 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728748AbgKTQ5k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Nov 2020 11:15:41 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 690A640044;
-        Fri, 20 Nov 2020 16:15:38 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Fri, 20 Nov 2020 11:57:40 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 714C01042;
+        Fri, 20 Nov 2020 08:57:39 -0800 (PST)
+Received: from red-moon.arm.com (unknown [10.57.59.104])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 49F7E3F70D;
+        Fri, 20 Nov 2020 08:57:37 -0800 (PST)
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: rdacm20: Enable GPIO1 explicitly
-Date:   Fri, 20 Nov 2020 17:15:29 +0100
-Message-Id: <20201120161529.236447-3-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201120161529.236447-1-jacopo+renesas@jmondi.org>
-References: <20201120161529.236447-1-jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH] PCI: pcie-rcar-host: Drop unused members from struct rcar_pcie_host
+Date:   Fri, 20 Nov 2020 16:57:25 +0000
+Message-Id: <160589135951.28652.16815637433396377893.b4-ty@arm.com>
+X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20201023162008.967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201023162008.967-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The MAX9271 GPIO1 line that controls the sensor reset is by default
-enabled after a serializer chip reset.
+On Fri, 23 Oct 2020 17:20:08 +0100, Lad Prabhakar wrote:
+> Drop unused members dev and base from struct rcar_pcie_host.
 
-As rdacm20 does not go through an explicit serializer reset, make sure
-GPIO1 is enabled to make the camera module driver more robust.
+Applied to pci/rcar, thanks!
 
-Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/i2c/rdacm20.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+[1/1] PCI: rcar: Drop unused members from struct rcar_pcie_host
+      https://git.kernel.org/lpieralisi/pci/c/6e8e137abe
 
-diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-index 1ed928c4ca70..16bcb764b0e0 100644
---- a/drivers/media/i2c/rdacm20.c
-+++ b/drivers/media/i2c/rdacm20.c
-@@ -487,9 +487,18 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
- 	 * Reset the sensor by cycling the OV10635 reset signal connected to the
- 	 * MAX9271 GPIO1 and verify communication with the OV10635.
- 	 */
--	max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	if (ret)
-+		return ret;
-+
-+	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	if (ret)
-+		return ret;
- 	usleep_range(10000, 15000);
--	max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+
-+	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
-+	if (ret)
-+		return ret;
- 	usleep_range(10000, 15000);
-
- again:
---
-2.29.1
-
+Thanks,
+Lorenzo
