@@ -2,176 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C4B32B995E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Nov 2020 18:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 197712BA4CD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Nov 2020 09:40:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729091AbgKSRf6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Nov 2020 12:35:58 -0500
-Received: from foss.arm.com ([217.140.110.172]:35906 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728512AbgKSRf5 (ORCPT
+        id S1727199AbgKTIiS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Nov 2020 03:38:18 -0500
+Received: from mail-oo1-f67.google.com ([209.85.161.67]:37812 "EHLO
+        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727091AbgKTIiQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Nov 2020 12:35:57 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D9B8F1396;
-        Thu, 19 Nov 2020 09:35:56 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE6B13F718;
-        Thu, 19 Nov 2020 09:35:55 -0800 (PST)
-Date:   Thu, 19 Nov 2020 17:35:53 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
-Message-ID: <20201119173553.GB23852@e121166-lin.cambridge.arm.com>
-References: <20201016120416.7008-1-marek.vasut@gmail.com>
+        Fri, 20 Nov 2020 03:38:16 -0500
+Received: by mail-oo1-f67.google.com with SMTP id t10so2042888oon.4;
+        Fri, 20 Nov 2020 00:38:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UV+TC/nIwAvGxe27TfWZuXpBFdXk+Z+MJcbi20RbkeU=;
+        b=eIacIT8z2vDIUOLlvn7KuqiYOxLlnNo79paIpbcE7SVGFSffMVyrQUtTZPBxUTJp5K
+         ROZsMJLwxRCwWr6zqrwzw3BD/hD9T5BszMwbvWmzVsigkh177O0kAzrt30XhB04XuvUt
+         euCDJunZb4/gkLuI2YsnGbn0rDinyPtPSEMtavSfMzS/bYTN/Yeyr5G1F7X+To8Y+CcF
+         aDAw40UkidmSGt3pha3FcFcnkdsPLQZyOLFRZ9bkFulkfmHK2O8Re9sgCILOpFiwZR1C
+         E2jM5uEbqjYT/l6XWR3IJzc0yW4N2aRsVea09TH2rgDYLCQ+Pft5IH5Jfzq4mvDjuySA
+         J/EA==
+X-Gm-Message-State: AOAM532JESzbsTFITWUUnh14OPNEhpD9Y4wq/zWG6ENd0IxkEPj5l/Iu
+        YHRQpXF2lKrF0EmXgz+SURtwuH17CbumCUTICkA=
+X-Google-Smtp-Source: ABdhPJzR2//2OJGmAKmRurcCF5Pmnvd6Zw26PQX+HmnocDInNWRSJsXMuOxEhUFxFac+BI2+l6sGNVQCQfmxyanSYpo=
+X-Received: by 2002:a4a:e5ce:: with SMTP id r14mr13417862oov.11.1605861496120;
+ Fri, 20 Nov 2020 00:38:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201016120416.7008-1-marek.vasut@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201119130926.25692-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201119130926.25692-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201119130926.25692-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 Nov 2020 09:38:05 +0100
+Message-ID: <CAMuHMdV+FDJ2pFyC0rGgOS3LwpA-dg8siTiA6gCjNLr05iDSGw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] pinctrl: renesas: r8a77951: Add QSPI[01] pins, groups
+ and functions
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 02:04:16PM +0200, marek.vasut@gmail.com wrote:
+On Thu, Nov 19, 2020 at 2:09 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> Add pins, groups and functions for QSPIO[01].
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-[...]
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl-for-v5.11.
 
-> +#ifdef CONFIG_ARM
-> +/*
-> + * Here we keep a static copy of the remapped PCIe controller address.
-> + * This is only used on aarch32 systems, all of which have one single
-> + * PCIe controller, to provide quick access to the PCIe controller in
-> + * the L1 link state fixup function, called from the ARM fault handler.
-> + */
-> +static void __iomem *pcie_base;
-> +/*
-> + * Static copy of bus clock pointer, so we can check whether the clock
-> + * is enabled or not.
-> + */
-> +static struct clk *pcie_bus_clk;
-> +#endif
+Gr{oetje,eeting}s,
 
-Don't think you can have multiple host bridges in a given platform,
-if it is a possible configuration this won't work.
+                        Geert
 
->  static inline struct rcar_msi *to_rcar_msi(struct msi_controller *chip)
->  {
->  	return container_of(chip, struct rcar_msi, chip);
-> @@ -804,6 +820,12 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
->  	}
->  	host->msi.irq2 = i;
->  
-> +#ifdef CONFIG_ARM
-> +	/* Cache static copy for L1 link state fixup hook on aarch32 */
-> +	pcie_base = pcie->base;
-> +	pcie_bus_clk = host->bus_clk;
-> +#endif
-> +
->  	return 0;
->  
->  err_irq2:
-> @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
->  	},
->  	.probe = rcar_pcie_probe,
->  };
-> +
-> +#ifdef CONFIG_ARM
-> +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
-> +		unsigned int fsr, struct pt_regs *regs)
-> +{
-> +	u32 pmsr;
-> +
-> +	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
-> +		return 1;
-> +
-> +	pmsr = readl(pcie_base + PMSR);
-> +
-> +	/*
-> +	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
-> +	 * the PCIe controller is not in L1 link state. If true, apply
-> +	 * fix, which will put the controller into L1 link state, from
-> +	 * which it can return to L0s/L0 on its own.
-> +	 */
-> +	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
-> +		writel(L1IATN, pcie_base + PMCTLR);
-> +		while (!(readl(pcie_base + PMSR) & L1FAEG))
-> +			;
-> +		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
-> +		return 0;
-> +	}
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-I suppose a fault on multiple cores can happen simultaneously, if it
-does this may not work well either - I assume all config/io/mem would
-trigger a fault.
-
-As I mentioned in my reply to v1, is there a chance we can move
-this quirk into config accessors (if the PM_ENTER_L1_DLLP is
-subsequent to a write into PMCSR to programme a D state) ?
-
-Config access is serialized but I suspect as I said above that this
-triggers on config/io/mem alike.
-
-Just asking to try to avoid a fault handler if possible.
-
-Thanks,
-Lorenzo
-
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
-> +	{ .compatible = "renesas,pcie-r8a7779" },
-> +	{ .compatible = "renesas,pcie-r8a7790" },
-> +	{ .compatible = "renesas,pcie-r8a7791" },
-> +	{ .compatible = "renesas,pcie-rcar-gen2" },
-> +	{},
-> +};
-> +
-> +static int __init rcar_pcie_init(void)
-> +{
-> +	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
-> +#ifdef CONFIG_ARM_LPAE
-> +		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> +				"asynchronous external abort");
-> +#else
-> +		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
-> +				"imprecise external abort");
-> +#endif
-> +	}
-> +
-> +	return platform_driver_register(&rcar_pcie_driver);
-> +}
-> +device_initcall(rcar_pcie_init);
-> +#else
->  builtin_platform_driver(rcar_pcie_driver);
-> +#endif
-> diff --git a/drivers/pci/controller/pcie-rcar.h b/drivers/pci/controller/pcie-rcar.h
-> index d4c698b5f821..9bb125db85c6 100644
-> --- a/drivers/pci/controller/pcie-rcar.h
-> +++ b/drivers/pci/controller/pcie-rcar.h
-> @@ -85,6 +85,13 @@
->  #define  LTSMDIS		BIT(31)
->  #define  MACCTLR_INIT_VAL	(LTSMDIS | MACCTLR_NFTS_MASK)
->  #define PMSR			0x01105c
-> +#define  L1FAEG			BIT(31)
-> +#define  PMEL1RX		BIT(23)
-> +#define  PMSTATE		GENMASK(18, 16)
-> +#define  PMSTATE_L1		(3 << 16)
-> +#define PMCTLR			0x011060
-> +#define  L1IATN			BIT(31)
-> +
->  #define MACS2R			0x011078
->  #define MACCGSPSETR		0x011084
->  #define  SPCNGRSN		BIT(31)
-> -- 
-> 2.28.0
-> 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
