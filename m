@@ -2,78 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E20F92C0FD8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 17:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2AB82C103F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 17:28:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730934AbgKWQKN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Nov 2020 11:10:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47242 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731760AbgKWQKM (ORCPT
+        id S2389946AbgKWQZM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Nov 2020 11:25:12 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:46696 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730953AbgKWQZG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Nov 2020 11:10:12 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 845C871;
-        Mon, 23 Nov 2020 17:10:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1606147810;
-        bh=4NQ1cSAYVJfYcd5LiRfwMr++N6YqrCcNRBQrry0GaBU=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=qTQvBoxf+xQhE0ho4BfN5UQTYXjc77Cl+FmUdcP/arjJtqXR8VPO5Qd2p2c+BHYPW
-         HaHWHIIpl+j5+YKjJFMwvA8bYCEbvQSielTMUgfEPZY9fRpSxJm6Jjme22jMvti2jA
-         dn5ZP9kNL73179epPvsEnL4+CaaK1U7G83qopx3c=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2] scripts: boards: Support alternative H3 variant
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20201123120150.117735-1-kieran@bingham.xyz>
- <0d682991-9140-f1a9-7b44-98c303b5d37b@gmail.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <e78b696e-222d-13cf-a5cd-0a678e391c84@ideasonboard.com>
-Date:   Mon, 23 Nov 2020 16:10:07 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 23 Nov 2020 11:25:06 -0500
+Received: by mail-ot1-f66.google.com with SMTP id g19so16405027otp.13;
+        Mon, 23 Nov 2020 08:25:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SWzdE85KMSmQ5K6aYMgWVQjn8/tst2VI3dLUnv/55SM=;
+        b=tt87NnnAO5VGtl3XI4J4ai62RjtWg2YZ7uCoDHeJuRIVwzPzXDnEZRCOqttT2DdQ4t
+         egb3NYfE/CJdb59O38AVWWufklBxs9mdhTQAJQlXY3UDIzdp9Z4Dud/At/9hDKnvLIVc
+         ESs5CmJr2JscwRtUymU4vNeYYKwuvo+9wiq7nnIUnWUds+gB+FKLigO6FH/qkW1dlKBT
+         lAxZMSl+gk0L5eb9wfCTMvLHjcNioUhoGntJjTOGk/F2iZjlHy/jDUqF0wiJg1+Vi4Ma
+         53gNnAYdtU+gEJdw7C0x5o3zl+CpmYJ+EiWLxBvL+58CzGP/7SAAgpN+vn8HCjRubbjT
+         my3Q==
+X-Gm-Message-State: AOAM531fkC8Xvk2qw3PULaWa9M0XKIlDezforErFLqtVJUBmOJiA+1Sn
+        rVaEZPsNS/s7cmPiuzbl3rq70WUkqrCPpad71gQ=
+X-Google-Smtp-Source: ABdhPJxW9u67TbnPp8ObIChv5a6F+ncd8SoV+BFvs894Bl4MJzyAX0TVAjkpawJr+z1OvIzzPyEcIsCefAg0WelXSFg=
+X-Received: by 2002:a9d:16f:: with SMTP id 102mr68959otu.206.1606148702991;
+ Mon, 23 Nov 2020 08:25:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0d682991-9140-f1a9-7b44-98c303b5d37b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com> <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+In-Reply-To: <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 23 Nov 2020 17:24:51 +0100
+Message-ID: <CAJZ5v0jJ6GFm4LFCR2V3qvD9rZrVw=pXyXSjSWPYtQudg-F3xg@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
+        cluster-devel@redhat.com, coreteam@netfilter.org,
+        devel@driverdev.osuosl.org, dm-devel@redhat.com,
+        drbd-dev@lists.linbit.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-afs@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i3c@lists.infradead.org,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>, linux-iio@vger.kernel.org,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>, linux-mtd@lists.infradead.org,
+        linux-nfs@vger.kernel.org, linux-rdma@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:TARGET SUBSYSTEM" <linux-scsi@vger.kernel.org>,
+        linux-sctp@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>, linux-watchdog@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        netfilter-devel@vger.kernel.org,
+        nouveau <nouveau@lists.freedesktop.org>,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> On Mon, 2020-11-23 at 15:19 +0100, Miguel Ojeda wrote:
+> > On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
 
-On 23/11/2020 15:51, Sergei Shtylyov wrote:
-> On 11/23/20 3:01 PM, Kieran Bingham wrote:
-> 
->> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>
->> The Salvator-X H3 has had a rename of it's model information.
-> 
->    It's actually "its". :-)
+[cut]
 
-Indeed, I can never get out of the habit of this. "it's" has become
-built into my muscle memory some how, and always ends up slipping out
-where it shouldn't.
+> >
+> > Maintainers routinely review 1-line trivial patches, not to mention
+> > internal API changes, etc.
+>
+> We're also complaining about the inability to recruit maintainers:
+>
+> https://www.theregister.com/2020/06/30/hard_to_find_linux_maintainers_says_torvalds/
+>
+> And burn out:
+>
+> http://antirez.com/news/129
 
-Sounds like I'm expecting comments from Niklas too, so seems I'll need a
-v3 anyway. :S
+Right.
 
---
-Thanks.
+> The whole crux of your argument seems to be maintainers' time isn't
+> important so we should accept all trivial patches ... I'm pushing back
+> on that assumption in two places, firstly the valulessness of the time
+> and secondly that all trivial patches are valuable.
+>
+> > If some company does not want to pay for that, that's fine, but they
+> > don't get to be maintainers and claim `Supported`.
+>
+> What I'm actually trying to articulate is a way of measuring value of
+> the patch vs cost ... it has nothing really to do with who foots the
+> actual bill.
+>
+> One thesis I'm actually starting to formulate is that this continual
+> devaluing of maintainers is why we have so much difficulty keeping and
+> recruiting them.
 
-Kieran.
+Absolutely.
 
-> 
->> Support the new naming, and add the extra variants now available.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> [...]
-> 
-> MBR, Sergei
-> 
-
+This is just one of the factors involved, but a significant one IMV.
