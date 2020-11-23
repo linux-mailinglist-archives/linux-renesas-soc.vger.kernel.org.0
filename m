@@ -2,46 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF0E2C0D06
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 15:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6262D2C0D3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 15:27:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730729AbgKWOOn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Nov 2020 09:14:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729562AbgKWOOn (ORCPT
+        id S1730287AbgKWOT2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Nov 2020 09:19:28 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46572 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730128AbgKWOT2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:14:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5B90C0613CF;
-        Mon, 23 Nov 2020 06:14:42 -0800 (PST)
+        Mon, 23 Nov 2020 09:19:28 -0500
 Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B9302A4;
-        Mon, 23 Nov 2020 15:14:39 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 407B02A4;
+        Mon, 23 Nov 2020 15:19:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1606140879;
-        bh=cqYcWBxxRdiroukACA2GX9TWCAK8fr3As9+XxoGpe+M=;
+        s=mail; t=1606141165;
+        bh=9Zf3Ky7qi7Zqo+wk/9Giqhh6k3x7irvOrLPUr8Bcz1I=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=BFzvW1MQAi7HgaIHuns7KsQnWOMxnzBgzsrmjdc3GuhwM78yuatk8YEvJcmwpmFZt
-         emgt/3AbXYrfQL2bFZ3X8d0KPrWVN/a/mBAWhSPUy3ADEv3FkDsIBKBcuGnc39TGzr
-         ncPYmVsn4aMNV0DZoLDD/CLCsg2GK+6W4amVhtRY=
+        b=OKDZQ6PnGpemyoJDHbp2p50zJtq+8TTYCOZYHZIMvy07AJagUWJbGo6aRcb2H9Gqv
+         6/qIigqENZDh4wzK0XtC5Ja5xo4tPfketTRKQgLVSekn20T8erBDmCM1WSURgWSQEj
+         rpOBrb9TkAS2Qx7YyR3akfjO6QGA/TAV5021sTlQ=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 1/2] media: max9271: Fix GPIO enable/disable
+Subject: Re: [PATCH 2/2] media: rdacm20: Enable GPIO1 explicitly
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         laurent.pinchart+renesas@ideasonboard.com,
         niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20201120161529.236447-1-jacopo+renesas@jmondi.org>
- <20201120161529.236447-2-jacopo+renesas@jmondi.org>
+ <20201120161529.236447-3-jacopo+renesas@jmondi.org>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <04709485-b438-d169-64b6-beb61d22d562@ideasonboard.com>
-Date:   Mon, 23 Nov 2020 14:14:36 +0000
+Message-ID: <639206d5-ccd6-4819-3372-4850fc734204@ideasonboard.com>
+Date:   Mon, 23 Nov 2020 14:19:23 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201120161529.236447-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201120161529.236447-3-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -52,58 +49,53 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Jacopo,
 
 On 20/11/2020 16:15, Jacopo Mondi wrote:
-> Fix GPIO enable/disable operations which wrongly read the 0x0f register
-> to obtain the current mask of the enabled lines instead of using
-> the correct 0x0e register.
+> The MAX9271 GPIO1 line that controls the sensor reset is by default
+> enabled after a serializer chip reset.
 > 
-> Also fix access to bit 0 of the register which is marked as reserved.
+> As rdacm20 does not go through an explicit serializer reset, make sure
+> GPIO1 is enabled to make the camera module driver more robust.
 > 
 > Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Took me a few reads of this and the datasheet to be sure :S
+Looks helpful to ensure a GPIO is enabled before toggling ;-)
 
-But now I am :-D
+Reading the datasheet, GPIO1EN defaults to enabled, so I assume this was
+already working - however I think being explicit is a good thing anyway.
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
+
 > ---
->  drivers/media/i2c/max9271.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  drivers/media/i2c/rdacm20.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
-> index 0f6f7a092a46..c247db569bab 100644
-> --- a/drivers/media/i2c/max9271.c
-> +++ b/drivers/media/i2c/max9271.c
-> @@ -223,12 +223,12 @@ int max9271_enable_gpios(struct max9271_device *dev, u8 gpio_mask)
->  {
->  	int ret;
->  
-> -	ret = max9271_read(dev, 0x0f);
-> +	ret = max9271_read(dev, 0x0e);
->  	if (ret < 0)
->  		return 0;
->  
->  	/* BIT(0) reserved: GPO is always enabled. */
-> -	ret |= gpio_mask | BIT(0);
-> +	ret |= (gpio_mask & ~BIT(0));
->  	ret = max9271_write(dev, 0x0e, ret);
->  	if (ret < 0) {
->  		dev_err(&dev->client->dev, "Failed to enable gpio (%d)\n", ret);
-> @@ -245,12 +245,12 @@ int max9271_disable_gpios(struct max9271_device *dev, u8 gpio_mask)
->  {
->  	int ret;
->  
-> -	ret = max9271_read(dev, 0x0f);
-> +	ret = max9271_read(dev, 0x0e);
->  	if (ret < 0)
->  		return 0;
->  
->  	/* BIT(0) reserved: GPO cannot be disabled */
-> -	ret &= (~gpio_mask | BIT(0));
-> +	ret &= ~(gpio_mask | BIT(0));
->  	ret = max9271_write(dev, 0x0e, ret);
->  	if (ret < 0) {
->  		dev_err(&dev->client->dev, "Failed to disable gpio (%d)\n", ret);
+> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+> index 1ed928c4ca70..16bcb764b0e0 100644
+> --- a/drivers/media/i2c/rdacm20.c
+> +++ b/drivers/media/i2c/rdacm20.c
+> @@ -487,9 +487,18 @@ static int rdacm20_initialize(struct rdacm20_device *dev)
+>  	 * Reset the sensor by cycling the OV10635 reset signal connected to the
+>  	 * MAX9271 GPIO1 and verify communication with the OV10635.
+>  	 */
+> -	max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	ret = max9271_enable_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	if (ret)
+> +		return ret;
+>  	usleep_range(10000, 15000);
+> -	max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +
+> +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPIO1OUT);
+> +	if (ret)
+> +		return ret;
+>  	usleep_range(10000, 15000);
+> 
+>  again:
+> --
+> 2.29.1
 > 
 
