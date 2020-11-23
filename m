@@ -2,148 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E37C2C0D51
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 15:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 942362C0EDF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 16:33:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388979AbgKWOUJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Nov 2020 09:20:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
+        id S1732376AbgKWPb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Nov 2020 10:31:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730804AbgKWOUH (ORCPT
+        with ESMTP id S2388361AbgKWPb1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:20:07 -0500
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97705C061A4D;
-        Mon, 23 Nov 2020 06:20:06 -0800 (PST)
-Received: by mail-yb1-xb41.google.com with SMTP id r127so12314537yba.10;
-        Mon, 23 Nov 2020 06:20:06 -0800 (PST)
+        Mon, 23 Nov 2020 10:31:27 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE63C061A4D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:31:27 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id r24so8168635lfm.8
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:31:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
-        b=b0LkeT2q71Z3peIccxL7MkU5QadaCN3igdEC89IE4ykmdOxIlhuoo/0+H7pQCoNmlh
-         0UX19Z7soasUpz2fDZHX56luUWrH4GLKAJ9K28HwPu9km7qlcvasqfBffaQW+LtXvh6a
-         fVP4J8wQFxbi1QWFB10Wsq9dLONxRShLcqQtcaktrZCy3tSRV5R4FOw2MSdgwNuCxNwd
-         cKQMyE/jYgmlc9Qm972BZKz9xJaasT5iW6gpZgai8YpCh1sxJNgZFzlfCpv21Fvd7rwb
-         akOsznbnFT4mJT95mXFDUPnplTdAJirWAcm8YfzHFRAfOGn9Vk91PuRcq7JipLelDPMB
-         VWgQ==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JRF+rLwewREO4rIyeHCTBXq42dsVx1D9BSn3MiMmrM0=;
+        b=rJBPTcCmJ3+mg/4z6nktjrzadD4E+14x0ePKoWDUViOe6ROl5LijE3wuZHEi6cwMdx
+         l960f/nn7svgye+GDtpL83SxEMo2UxGBANB9JY5oU6LFd8rDo6au2DjHZ/T7ISCIds3T
+         qNmWi8YBFDPKprwAlRATv0k6T0edvH+97GJwCn+K10Xy9tlvxmeIG+W+n0QBUm5LElib
+         FqBDRpvS5ra9MM3ncUE8JLl6K72i+4BWs4VWe/wYLRCCAlPy3eqdeE5S3y+KBOSK9cS6
+         qh32nFxzG0lQiDH7x+dZIxztVgKYBnuf+JcmAlhfty94SXziy+hnW8faLZrYqWxVz0n6
+         Tuew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
-        b=lKwdUTbbfqoTkTAIgp9mZrmqU0ijWcHp+iS8IAhntH72d3s9iYJuX87xfDva9I4lf3
-         v8fZFrd6A/ZoNnnKI9Ufo/CQd84EPCVmP699vgDnaebb1AOTGh35TDQox+Tjt+Mkl+PO
-         9xhrICCS8DPqhs5qDLfgPBudTzTlVuoCX1zMCGn265RUXoKazk8TNw8gVmCeIWmxjXu0
-         9atl13SD50eRTituupdU7yHj0eeNc1FZy80Dql4f4jClf3PJKAd0dw0fF0iq70BlyjBm
-         D/8h5bsNDzQDKcXJmk5WKbzZmOyiV9nWldAukc3pft/P820sC0PeoGme7yQLVJZl6dNN
-         68lQ==
-X-Gm-Message-State: AOAM533cX8axbPLyO/5uGloelj8h1rp7LshnxgMBjIAQvMSvBl7c7+7W
-        X/53WSk6j6xjolzoHOFypqUhx/48H/iN54UXOIs=
-X-Google-Smtp-Source: ABdhPJyiJqjBIpEzWlk5pyqpoGG3+KpoWdKnlyza2YA6ODhXnRhATytwh5Bq+iGOzNqc5gs+zuqHC8iB1cjfDTXU/ik=
-X-Received: by 2002:a25:bcc7:: with SMTP id l7mr32380985ybm.115.1606141205830;
- Mon, 23 Nov 2020 06:20:05 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JRF+rLwewREO4rIyeHCTBXq42dsVx1D9BSn3MiMmrM0=;
+        b=eZ9qGq/7kUHEOb3b6Pi09REZtKDGQ6hBFtaIqtwR3u3nf0uVXNTHnrApY1R3wkyowd
+         PpykAilafJghwwhlEHbNd/3h4bGlf+AMrL2Q1fX1Kg3wJsGkKRiIpQm/B6qBDBqoATaz
+         t4J8ARmvmA+jb9MzFJaY7aP0lazAHdFkdEJxLLAGwhOG/ArEb8PmMCb8s2q/hfjNB7Zz
+         8SeG32hChw2b14tj4qqMmpl5v1FHuAu077EUvWnaG0soA+6JTQIvOBJBfO508JjgjK36
+         J2bR/HZYjcsqHblgktXYmWMikmW2KJVYbRn4BIG1+NRSYi2OVCPrYVdYiK1gece3T1Dd
+         sOwA==
+X-Gm-Message-State: AOAM532TJLw5HfZ/qW9NaARJH7RcrtieIEWeqxkVxT+fNbP8O8uqArCu
+        HhoVNDG0RdeETVGx8SD6k5QD7Q==
+X-Google-Smtp-Source: ABdhPJyk5FChYVni+HhXXqyuETiODb2SsgeW8exbc1rEV2bRX25xz98wAvSxsQO0yYEk+iBNhVfD/g==
+X-Received: by 2002:a19:bce:: with SMTP id 197mr15080870lfl.468.1606145485778;
+        Mon, 23 Nov 2020 07:31:25 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id g8sm1417638lfb.223.2020.11.23.07.31.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2020 07:31:24 -0800 (PST)
+Date:   Mon, 23 Nov 2020 16:31:24 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     koji.matsuoka.xm@renesas.com, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: rcar-vin: Mask VNCSI_IFMD register
+Message-ID: <20201123153124.GC1773213@oden.dyn.berto.se>
+References: <20201116110428.27338-1-jacopo+renesas@jmondi.org>
+ <20201116110428.27338-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com> <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-In-Reply-To: <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 23 Nov 2020 15:19:55 +0100
-Message-ID: <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To:     James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
-        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
-        cluster-devel@redhat.com, coreteam@netfilter.org,
-        devel@driverdev.osuosl.org, dm-devel@redhat.com,
-        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201116110428.27338-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> Well, it seems to be three years of someone's time plus the maintainer
-> review time and series disruption of nearly a thousand patches.  Let's
-> be conservative and assume the producer worked about 30% on the series
-> and it takes about 5-10 minutes per patch to review, merge and for
-> others to rework existing series.  So let's say it's cost a person year
-> of a relatively junior engineer producing the patches and say 100h of
-> review and application time.  The latter is likely the big ticket item
-> because it's what we have in least supply in the kernel (even though
-> it's 20x vs the producer time).
+Hi Jacopo,
 
-How are you arriving at such numbers? It is a total of ~200 trivial lines.
+Thanks for your work.
 
-> It's not about the risk of the changes it's about the cost of
-> implementing them.  Even if you discount the producer time (which
-> someone gets to pay for, and if I were the engineering manager, I'd be
-> unhappy about), the review/merge/rework time is pretty significant in
-> exchange for six minor bug fixes.  Fine, when a new compiler warning
-> comes along it's certainly reasonable to see if we can benefit from it
-> and the fact that the compiler people think it's worthwhile is enough
-> evidence to assume this initially.  But at some point you have to ask
-> whether that assumption is supported by the evidence we've accumulated
-> over the time we've been using it.  And if the evidence doesn't support
-> it perhaps it is time to stop the experiment.
+On 2020-11-16 12:04:28 +0100, Jacopo Mondi wrote:
+> The VNCSI_IFMD register controls the data expansion mode and the
+> channel routing between the CSI-2 receivers and VIN instances.
+> 
+> According to the chip manual revision 2.20 not all fields are available
+> for all the SoCs:
+> - V3M, V3H and E3 do not support the DES1 field has they do not feature
+>   a CSI20 receiver.
+> - D3 only supports parallel input, and the whole register shall always
+>   be written as 0.
+> 
+> Inspect the per-SoC channel routing table where the available CSI-2
+> instances are reported and configure VNCSI_IFMD accordingly.
+> 
+> This patch upports the BSP change commit f54697394457
+> ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
 
-Maintainers routinely review 1-line trivial patches, not to mention
-internal API changes, etc.
+I really like this approach, nice work.
 
-If some company does not want to pay for that, that's fine, but they
-don't get to be maintainers and claim `Supported`.
+> 
+> Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 26 +++++++++++++++++++---
+>  1 file changed, 23 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 378514a75bc2..ab6818b34e5a 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1570,7 +1570,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+>   */
+>  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+>  {
+> -	u32 ifmd, vnmc;
+> +	const struct rvin_group_route *route;
+> +	u32 ifmd = 0;
+> +	u32 vnmc;
+>  	int ret;
+>  
+>  	ret = pm_runtime_get_sync(vin->dev);
+> @@ -1583,9 +1585,27 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+>  	vnmc = rvin_read(vin, VNMC_REG);
+>  	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
+>  
+> -	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
+> +	/*
+> +	 * Set data expansion mode to "pad with 0s" by inspecting the routes
+> +	 * table to find out which bit fields are available in the IFMD
+> +	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
+> +	 * IFMD_DES0 controls data expansion mode for CSI40/41.
+> +	 */
+> +	for (route = vin->info->routes; route->mask; route++) {
+> +		/* CSI21 is only available in r8a7795es1 and not documented. */
 
-Cheers,
-Miguel
+I would drop this comment as we do not know what will happen in future 
+SoCs.
+
+> +		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
+> +			ifmd |= VNCSI_IFMD_DES1;
+> +		else
+> +			ifmd |= VNCSI_IFMD_DES0;
+>  
+> -	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
+> +		/* If both have been set stop looping. */
+> +		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
+> +			break;
+
+I would remove the comment here as I think the code is quiet self 
+explanatory and reading the comment made me think I was missing 
+something obvious ;-)
+
+> +	}
+
+Missing blank line.
+
+With these small nits fixed,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> +	if (ifmd) {
+> +		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
+> +		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
+> +	}
+>  
+>  	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
+>  
+> -- 
+> 2.29.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
