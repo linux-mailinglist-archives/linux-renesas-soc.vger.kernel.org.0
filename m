@@ -2,64 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 051D82C02E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 11:02:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75DA22C052A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 13:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbgKWKAT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Nov 2020 05:00:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33414 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727108AbgKWKAS (ORCPT
+        id S1729319AbgKWMCE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Nov 2020 07:02:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729317AbgKWMCD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Nov 2020 05:00:18 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606125618;
-        bh=PIFDpT3LKQd3gCQy0l8GW+vUbaWUFUFYMbaywpCvNQQ=;
-        h=Subject:From:Date:To:From;
-        b=TGyVdDAJm2VIV2Fw+6atTNTTF4WA3gnfVJDQwM1cBUBh9oy+ivboqK4cL5eJarKIP
-         0M9OyBmOUbkc9POnoNarWCypt24VIy8wIX7+8YgtktB93KDRehvpwMZAZTz5ThmiF5
-         sO5fXoxmsIU4o2mq0/qWOlqPVUZUBwvzYuit1LZ0=
+        Mon, 23 Nov 2020 07:02:03 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A92DBC0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 04:02:00 -0800 (PST)
+Received: from Q.local (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C09242A4;
+        Mon, 23 Nov 2020 13:01:57 +0100 (CET)
+From:   Kieran Bingham <kieran@ksquared.org.uk>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v2] scripts: boards: Support alternative H3 variant
+Date:   Mon, 23 Nov 2020 12:01:50 +0000
+Message-Id: <20201123120150.117735-1-kieran@bingham.xyz>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <160612561825.25842.4685860621750109067.git-patchwork-summary@kernel.org>
-Date:   Mon, 23 Nov 2020 10:00:18 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (refs/heads/master):
+The Salvator-X H3 has had a rename of it's model information.
+Support the new naming, and add the extra variants now available.
 
-Series: ARM: shmobile: Remove IOMEM and static mappings
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=385839
-  Lore link: https://lore.kernel.org/r/20201117103022.2136527-1-geert+renesas@glider.be
-    Patches: [1/7] ARM: shmobile: r8a7778: Introduce HPBREG_BASE
-             [2/7] ARM: shmobile: r8a7779: Use ioremap() to map INTC2 registers
-             [3/7] ARM: shmobile: r8a7779: Use ioremap() to map SMP registers
-             [4/7] ARM: shmobile: r8a7779: Remove obsolete static mappings
-             [5/7] ARM: shmobile: sh73a0: Use ioremap() to map L2C registers
-             [6/7] ARM: shmobile: sh73a0: Use ioremap() to map SMP registers
-             [7/7] ARM: shmobile: sh73a0: Remove obsolete static mapping
-Patch: soc: renesas: rmobile-sysc: Stop using __raw_*() I/O accessors
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=387513
-  Lore link: https://lore.kernel.org/r/20201119125214.4065925-1-geert+renesas@glider.be
-Patch: ARM: shmobile: Stop using __raw_*() I/O accessors
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=386037
-  Lore link: https://lore.kernel.org/r/20201117142447.2205664-1-geert+renesas@glider.be
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ scripts/boards.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Total patches: 9
-
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+diff --git a/scripts/boards.sh b/scripts/boards.sh
+index 151ee3ed3459..8335e41836ed 100644
+--- a/scripts/boards.sh
++++ b/scripts/boards.sh
+@@ -8,7 +8,9 @@ case $info in
+         vins="4 5"
+         csis="40"
+         ;;
+-    "Renesas Salvator-X board based on r8a7795 ES1.x")
++    "Renesas Salvator-X board based on r8a7795 ES1.x" | \
++    "Renesas Salvator-X board based on r8a77950" | \
++    "Renesas Salvator-X board based on r8a77951")
+         gen="gen3"
+         vins="0 1 2 3 4 5 6 7"
+         csis="20 21 40 41"
+-- 
+2.25.1
 
