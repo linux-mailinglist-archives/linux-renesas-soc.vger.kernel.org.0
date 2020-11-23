@@ -2,167 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 942362C0EDF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 16:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 941962C0F54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Nov 2020 16:56:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732376AbgKWPb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Nov 2020 10:31:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55726 "EHLO
+        id S1732233AbgKWPvt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Nov 2020 10:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388361AbgKWPb1 (ORCPT
+        with ESMTP id S1731987AbgKWPvs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:31:27 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE63C061A4D
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:31:27 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id r24so8168635lfm.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:31:27 -0800 (PST)
+        Mon, 23 Nov 2020 10:51:48 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A28C0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:51:48 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id z21so24380735lfe.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Nov 2020 07:51:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=JRF+rLwewREO4rIyeHCTBXq42dsVx1D9BSn3MiMmrM0=;
-        b=rJBPTcCmJ3+mg/4z6nktjrzadD4E+14x0ePKoWDUViOe6ROl5LijE3wuZHEi6cwMdx
-         l960f/nn7svgye+GDtpL83SxEMo2UxGBANB9JY5oU6LFd8rDo6au2DjHZ/T7ISCIds3T
-         qNmWi8YBFDPKprwAlRATv0k6T0edvH+97GJwCn+K10Xy9tlvxmeIG+W+n0QBUm5LElib
-         FqBDRpvS5ra9MM3ncUE8JLl6K72i+4BWs4VWe/wYLRCCAlPy3eqdeE5S3y+KBOSK9cS6
-         qh32nFxzG0lQiDH7x+dZIxztVgKYBnuf+JcmAlhfty94SXziy+hnW8faLZrYqWxVz0n6
-         Tuew==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LVAapKUsvG7d/MeGMieUI4uemPqYthLBSOaZiTexBIM=;
+        b=kafc0Po0sRMU9R15i0bDxSFUjJh0gzWEEbWr/Xcy1QnCCI7eQfNZ5hYxDKfmGaWRGb
+         /sagtGnSxdz64O4u9sJ6iASgfXmdRdfxH3V9d0pMR2kzqQpTv2HPB0S0dF19NrDZm6mb
+         sweFrFutAXF2hOTMxz6qYnQ4nfSZfSYw6CLRTeV8deseXj0yXegyYB9Tsul9SC2xHzl3
+         g/QVz/0BFhk89R6CfUM5U8vNVyCP28brMc75zZ+AgMFG+7lCX2K1cCshigUoTgLm8YcB
+         Mdvj4ee1r18/w5TNgpejuKq5WAJRepuU9PLDs570QaYPLjLzwssQeipt7ngCQ/jI7HKO
+         Wc2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=JRF+rLwewREO4rIyeHCTBXq42dsVx1D9BSn3MiMmrM0=;
-        b=eZ9qGq/7kUHEOb3b6Pi09REZtKDGQ6hBFtaIqtwR3u3nf0uVXNTHnrApY1R3wkyowd
-         PpykAilafJghwwhlEHbNd/3h4bGlf+AMrL2Q1fX1Kg3wJsGkKRiIpQm/B6qBDBqoATaz
-         t4J8ARmvmA+jb9MzFJaY7aP0lazAHdFkdEJxLLAGwhOG/ArEb8PmMCb8s2q/hfjNB7Zz
-         8SeG32hChw2b14tj4qqMmpl5v1FHuAu077EUvWnaG0soA+6JTQIvOBJBfO508JjgjK36
-         J2bR/HZYjcsqHblgktXYmWMikmW2KJVYbRn4BIG1+NRSYi2OVCPrYVdYiK1gece3T1Dd
-         sOwA==
-X-Gm-Message-State: AOAM532TJLw5HfZ/qW9NaARJH7RcrtieIEWeqxkVxT+fNbP8O8uqArCu
-        HhoVNDG0RdeETVGx8SD6k5QD7Q==
-X-Google-Smtp-Source: ABdhPJyk5FChYVni+HhXXqyuETiODb2SsgeW8exbc1rEV2bRX25xz98wAvSxsQO0yYEk+iBNhVfD/g==
-X-Received: by 2002:a19:bce:: with SMTP id 197mr15080870lfl.468.1606145485778;
-        Mon, 23 Nov 2020 07:31:25 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id g8sm1417638lfb.223.2020.11.23.07.31.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 07:31:24 -0800 (PST)
-Date:   Mon, 23 Nov 2020 16:31:24 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     koji.matsuoka.xm@renesas.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: rcar-vin: Mask VNCSI_IFMD register
-Message-ID: <20201123153124.GC1773213@oden.dyn.berto.se>
-References: <20201116110428.27338-1-jacopo+renesas@jmondi.org>
- <20201116110428.27338-3-jacopo+renesas@jmondi.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LVAapKUsvG7d/MeGMieUI4uemPqYthLBSOaZiTexBIM=;
+        b=S0oMMtHOfcFXQq853L69O1aqZ9QefpOPbWm7hfqHsZY3y2+q+sCSNATd04yhK3VQD6
+         MbrfEf6dDDQeFHjxlkh1hHqrGOydVZ1UhfYKkSscwJYChzj6F8CJLHzww58V6wa41ha5
+         S2dRpgSQxBIY36KJJwz6lGLaMw6AR4QDaJBlOlAb5pKjGcA6NS5Fa7GH3CiJSMB8M7H9
+         /wIpB1nFcb2PJXDQ8P4AMNBKKWsdxh+f3F1YnSUPMo4C7Bjaa/AJwmMZoBet080UbC1l
+         2DsbgRUtjW/qyasFOzraShnmtFnLbv7f6wW1kIiGO6Qc2IM0S2CVi17sKcbxsjI4Dkfs
+         Rpjw==
+X-Gm-Message-State: AOAM530VBgV6HoWTS8B4jsaoTR5nLx68X84IzU82AFssfOdqR/IgJ1l6
+        l5YmClYR9ZIG4QtI+xLJ1J0=
+X-Google-Smtp-Source: ABdhPJywh4zVYrENBt3gNkI3RNrwM1nyGy9jZeeZJn7OdCStDqKnMi8CO2ucdN1r3dIFukFdXl6gXw==
+X-Received: by 2002:a19:c717:: with SMTP id x23mr3545884lff.111.1606146707100;
+        Mon, 23 Nov 2020 07:51:47 -0800 (PST)
+Received: from ?IPv6:2a00:1fa0:2d9:200d:7c26:7999:20ce:bced? ([2a00:1fa0:2d9:200d:7c26:7999:20ce:bced])
+        by smtp.gmail.com with ESMTPSA id t17sm1428062lfk.61.2020.11.23.07.51.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2020 07:51:46 -0800 (PST)
+Subject: Re: [PATCH v2] scripts: boards: Support alternative H3 variant
+To:     Kieran Bingham <kieran@ksquared.org.uk>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20201123120150.117735-1-kieran@bingham.xyz>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <0d682991-9140-f1a9-7b44-98c303b5d37b@gmail.com>
+Date:   Mon, 23 Nov 2020 18:51:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201116110428.27338-3-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201123120150.117735-1-kieran@bingham.xyz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On 11/23/20 3:01 PM, Kieran Bingham wrote:
 
-Thanks for your work.
-
-On 2020-11-16 12:04:28 +0100, Jacopo Mondi wrote:
-> The VNCSI_IFMD register controls the data expansion mode and the
-> channel routing between the CSI-2 receivers and VIN instances.
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > 
-> According to the chip manual revision 2.20 not all fields are available
-> for all the SoCs:
-> - V3M, V3H and E3 do not support the DES1 field has they do not feature
->   a CSI20 receiver.
-> - D3 only supports parallel input, and the whole register shall always
->   be written as 0.
+> The Salvator-X H3 has had a rename of it's model information.
+
+   It's actually "its". :-)
+
+> Support the new naming, and add the extra variants now available.
 > 
-> Inspect the per-SoC channel routing table where the available CSI-2
-> instances are reported and configure VNCSI_IFMD accordingly.
-> 
-> This patch upports the BSP change commit f54697394457
-> ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+[...]
 
-I really like this approach, nice work.
-
-> 
-> Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 26 +++++++++++++++++++---
->  1 file changed, 23 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 378514a75bc2..ab6818b34e5a 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1570,7 +1570,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
->   */
->  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
->  {
-> -	u32 ifmd, vnmc;
-> +	const struct rvin_group_route *route;
-> +	u32 ifmd = 0;
-> +	u32 vnmc;
->  	int ret;
->  
->  	ret = pm_runtime_get_sync(vin->dev);
-> @@ -1583,9 +1585,27 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
->  	vnmc = rvin_read(vin, VNMC_REG);
->  	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
->  
-> -	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
-> +	/*
-> +	 * Set data expansion mode to "pad with 0s" by inspecting the routes
-> +	 * table to find out which bit fields are available in the IFMD
-> +	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
-> +	 * IFMD_DES0 controls data expansion mode for CSI40/41.
-> +	 */
-> +	for (route = vin->info->routes; route->mask; route++) {
-> +		/* CSI21 is only available in r8a7795es1 and not documented. */
-
-I would drop this comment as we do not know what will happen in future 
-SoCs.
-
-> +		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
-> +			ifmd |= VNCSI_IFMD_DES1;
-> +		else
-> +			ifmd |= VNCSI_IFMD_DES0;
->  
-> -	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-> +		/* If both have been set stop looping. */
-> +		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
-> +			break;
-
-I would remove the comment here as I think the code is quiet self 
-explanatory and reading the comment made me think I was missing 
-something obvious ;-)
-
-> +	}
-
-Missing blank line.
-
-With these small nits fixed,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> +	if (ifmd) {
-> +		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
-> +		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-> +	}
->  
->  	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
->  
-> -- 
-> 2.29.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+MBR, Sergei
