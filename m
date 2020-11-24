@@ -2,73 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBEAE2C2FC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Nov 2020 19:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B86262C2FED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Nov 2020 19:26:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404168AbgKXSLL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Nov 2020 13:11:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49514 "EHLO
+        id S2390922AbgKXSZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Nov 2020 13:25:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404106AbgKXSLL (ORCPT
+        with ESMTP id S1729291AbgKXSZf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Nov 2020 13:11:11 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A538C0613D6;
-        Tue, 24 Nov 2020 10:11:11 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id d20so14287422lfe.11;
-        Tue, 24 Nov 2020 10:11:11 -0800 (PST)
+        Tue, 24 Nov 2020 13:25:35 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BAF8C0613D6;
+        Tue, 24 Nov 2020 10:25:35 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id u18so30221112lfd.9;
+        Tue, 24 Nov 2020 10:25:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GMTk9IPtCbGbtCQyv0EbWnn+I/Sjehwg2jsohofHzyU=;
-        b=OuxEl7gcKqpSycWYVeoIHCdSCnT9MUbGiUTCdoiA15DPvS4+IFUKsxCFotAbxnYA8b
-         OxpR3J4DqTHeklh7UxLJKLfZiGqmrI39FFam9AGvdDcjg3tSeYcvqx+eS0EWfSKOmcuj
-         vNDfNuGFN4QbrfSHpwWeFVAPp1VqxdPwSXeh6WnoQkMyqgyTmXUcxlrw7z0M4jNnK/kG
-         9Jm1Tt6pHFgvHlrpHQ962xnFzm55cCKe1HGb1cs0D4BnFLkUWQ/t6N2iynzesktkQQqx
-         pn/qtPmJMJGNyOXvngK7aUWCXeuz7Q5IqB2YFDjKjmCbDQ1ew1biJVhaaJqjlZGetYmB
-         x1CA==
+        bh=UJjsUIJzM0L8VpqpnHDH93pDsPibhk+dafDV5ovqlqc=;
+        b=U2WSvA3lpYt48zpIrtTW/gYo3QuW7DKx/OacJA/Y3aLva8d5I/YEhhs3il9mYDQnMi
+         cbwi3qzI8efVdLDujDtg5W5ZiQP4F4MIWAsyCg7lt6YE7fb+p81fBrs7qDBGMLFdC12W
+         ZGRuqtUjhTLen4Qelv8gg/0IlqTSSKuoQNpv7ToiHLE+do8Q7fdZMjqiMeYUusoilkLY
+         6zouTTSIIuM53UEq0k+dDV9dTA4TR50SphZB5L8DpHVSlGK3Z3m3/vLTVnxy5lWIo5ME
+         PKPZ9+tn8CvmKNioHPFFFUvejMtGOYe7lQ+z0DW27R6FA5HncKGenzQw1ooGS6CeLhVn
+         kLSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=GMTk9IPtCbGbtCQyv0EbWnn+I/Sjehwg2jsohofHzyU=;
-        b=JKsm6Zor0Eb6AW71Er6YDo98gGI62NucUK2BCY14VxYhzy1BWPFfiQ7OKR6xUi7clZ
-         JbfIMixCne1ymChYNkZFt9NRxIwkwMuyJVr+3opbml6ov3NE+RfFDA1vFetCE1zMI0TK
-         jvN7grbAo/hUUidlm7OgwSwKSErfe9XLxHalMlnKnF9G9GhUyeIsRzrBkBqy9C8C4d6S
-         2NAQRfv6ABCPkZKd+xCgw4SwJAWN0LaoOqg3NY3Zg2G0k7/HQA9PGDk+4dkc//CizIVw
-         8B44PM73F6CWujwQ44Ql3Yvw57wuMxP8CG+rO/lTUomcJMzPMIhZqjHJGRsAwCVKt3gT
-         tWPw==
-X-Gm-Message-State: AOAM531JbIeFx1cmWtLZw57bvCmGUIUXnTRimgaIN/2KLojaDigIWSFb
-        NAjq+fEVHPM3ngN6VW+Kjx7WWiZs9vlJuA==
-X-Google-Smtp-Source: ABdhPJwGVQNUfCQ7hEW5Zm+tTZ5mu9/gDWYE4o8op7oYuHr8vq8kO7d/abeOd2xvXy0GHBMmkLG+Ng==
-X-Received: by 2002:a05:6512:6d0:: with SMTP id u16mr1810672lff.497.1606241469651;
-        Tue, 24 Nov 2020 10:11:09 -0800 (PST)
+        bh=UJjsUIJzM0L8VpqpnHDH93pDsPibhk+dafDV5ovqlqc=;
+        b=tFGvgKT78Y7zLyO/7dvd4yDo6IQBLiVeI47OTNNKQ52foHXczyo7pVy3SpGAK7wYXs
+         LfnnDEStRcrMIfX2cs1nFvgm5hUlFHcdGAlTkCxe2S/mAB2UBo/lIk7KAev2SM3u/khR
+         zY9ape4gxboEsWiWBQ/AqvvFXxkKAXbJSfDPxz4yE7ZIzBBgMS7/l9A66vWUHYigXZ67
+         BClunCvbU/UEhpkGryihhOexQdNUUHq9cChZUYCjkG5v3XTWhEa5sKTjLWJ7OgWQqZLz
+         3d+EoFUe7OMv+zCO4mqJirjs82j+OLie73M2JPOir4wEQa2sbSYnoxwaIbccSZBs444E
+         N41Q==
+X-Gm-Message-State: AOAM530+is0XSsVun0bl0RuD/Oy6E86JmfzCdF7Qe+uhJRBI4K9hPnjv
+        2KLFV5IacfuQrqc6UM4xPxQ=
+X-Google-Smtp-Source: ABdhPJy9+8OYqjiP3vCs5s6cLbl0AVWZ1CAbEIIGjeSM9vsLiwckI8Bq8YMOg9NFtJvOyV2sJXWUBQ==
+X-Received: by 2002:a19:ca13:: with SMTP id a19mr2450470lfg.308.1606242334033;
+        Tue, 24 Nov 2020 10:25:34 -0800 (PST)
 Received: from ?IPv6:2a00:1fa0:651:eeec:8461:5bd1:fea0:1c50? ([2a00:1fa0:651:eeec:8461:5bd1:fea0:1c50])
-        by smtp.gmail.com with ESMTPSA id 6sm407998ljr.127.2020.11.24.10.11.08
+        by smtp.gmail.com with ESMTPSA id w4sm409357ljd.28.2020.11.24.10.25.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2020 10:11:09 -0800 (PST)
-Subject: Re: [PATCH 2/5] memory: renesas-rpc-if: Make
- rpcif_enable/disable_rpm() as static inline
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Tue, 24 Nov 2020 10:25:33 -0800 (PST)
+Subject: Re: [PATCH 0/5] memory: renesas-rpc-if: Trivial fixes
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Jiri Kosina <trivial@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        Mark Brown <broonie@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 References: <20201124112552.26377-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20201124112552.26377-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8v5iUcK6Hh=3rPiWbFs32U1TjPqT4AuwQniSFguk9-9bQ@mail.gmail.com>
 From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <d7e512d5-e56f-db04-182c-e907b2cfbb71@gmail.com>
-Date:   Tue, 24 Nov 2020 21:11:07 +0300
+Message-ID: <b66509aa-e4fe-1e1f-6261-0f0064db6518@gmail.com>
+Date:   Tue, 24 Nov 2020 21:25:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201124112552.26377-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <CA+V-a8v5iUcK6Hh=3rPiWbFs32U1TjPqT4AuwQniSFguk9-9bQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,53 +75,33 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On 11/24/20 2:34 PM, Lad, Prabhakar wrote:
 
-On 11/24/20 2:25 PM, Lad Prabhakar wrote:
-
-> Define rpcif_enable_rpm() and rpcif_disable_rpm() as static
-
-   Not sure why I didn't do it this way myself...
-
-> inline in the header instead of exporting it.
-
-   s/it/them/.
-
-> Suggested-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/memory/renesas-rpc-if.c | 13 -------------
->  include/memory/renesas-rpc-if.h | 13 +++++++++++--
->  2 files changed, 11 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-> index 69f2e2b4cd50..c5b5691503d7 100644
-> --- a/drivers/memory/renesas-rpc-if.c
-> +++ b/drivers/memory/renesas-rpc-if.c
 [...]
-> @@ -204,18 +203,6 @@ int rpcif_sw_init(struct rpcif *rpc, struct device *dev)
->  }
->  EXPORT_SYMBOL(rpcif_sw_init);
->  
-> -void rpcif_enable_rpm(struct rpcif *rpc)
-> -{
-> -	pm_runtime_enable(rpc->dev);
-> -}
-> -EXPORT_SYMBOL(rpcif_enable_rpm);
-> -
-> -void rpcif_disable_rpm(struct rpcif *rpc)
-> -{
-> -	pm_runtime_put_sync(rpc->dev);
+>> This patch series fixes trivial issues in RPC-IF driver.
+>>
+>> Cheers,
+>> Prabhakar
+>>
+>> Lad Prabhakar (5):
+>>   memory: renesas-rpc-if: Return correct value to the caller of
+>>     rpcif_manual_xfer()
+>>   memory: renesas-rpc-if: Make rpcif_enable/disable_rpm() as static
+>>     inline
+>>   memory: renesas-rpc-if: Export symbols as GPL
+>>   memory: renesas-rpc-if: Avoid use of C++ style comments
+>>   memory: renesas-rpc-if: Fix a reference leak in rpcif_probe()
+>>
+> Patches sent to sergei.shtylyov@cogentembedded.com have bounced back
+> so including gmail address (patchwork [1]).
 
-   Ugh... sorry for this blunder (that went unnoticed till now). Mind fixing
-it to pm_runtime_disable() (before this patch)?
+   Sorry, I got laid off by Cogent last May. Thanks for CCing my gmail address...
 
-> -}
-> -EXPORT_SYMBOL(rpcif_disable_rpm);
-> -
->  void rpcif_hw_init(struct rpcif *rpc, bool hyperflash)
->  {
->  	u32 dummy;
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=390163
+> 
+> Cheers,
+> Prabhakar
+
 [...]
 
 MBR, Sergei
