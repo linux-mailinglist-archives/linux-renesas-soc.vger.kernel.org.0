@@ -2,84 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66ED62C3AC4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 09:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E14712C3B52
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 09:49:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727180AbgKYIRM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 03:17:12 -0500
-Received: from www.zeus03.de ([194.117.254.33]:41860 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727102AbgKYIRL (ORCPT
+        id S1726357AbgKYIsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Nov 2020 03:48:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbgKYIsy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 03:17:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=vsBon6SKC8FZzrPulDjtdMyYi0hC
-        Vmls3FDPb+rElwo=; b=F1FmyBlRyuL/KP1bR9SrItKopfML5kC5LneMyB2pO4rT
-        jBRxw6M/sNntWaQVtJmlGhJhoPZL/0ETGqmE7hfWLTUwV8sTCE6ctdiC8pQGESzM
-        aqhNqOkMrgY1FPJo+kgYhXOdLw1jkJJ+jJSfal/RnxcxmzOb93YE8Xms3G1vTX8=
-Received: (qmail 3213386 invoked from network); 25 Nov 2020 09:17:09 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Nov 2020 09:17:09 +0100
-X-UD-Smtp-Session: l3s3148p1@Gs20Deq0psEgAwDPXwZjAFYQ5uAAs3hj
-Date:   Wed, 25 Nov 2020 09:17:08 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH RFT v2 1/3] mmc: tmio: set max_busy_timeout
-Message-ID: <20201125081708.GC1577@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-References: <20201120150647.123237-1-wsa+renesas@sang-engineering.com>
- <20201120150647.123237-2-wsa+renesas@sang-engineering.com>
- <TY2PR01MB36925B9010516CE67A9DBBA2D8FB0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+        Wed, 25 Nov 2020 03:48:54 -0500
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EED7C0613D4;
+        Wed, 25 Nov 2020 00:48:54 -0800 (PST)
+Received: by mail-lj1-x241.google.com with SMTP id b17so1402940ljf.12;
+        Wed, 25 Nov 2020 00:48:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1CiFGI+zAQ3sbdgy5ohjyQFrwpN9S9lbEbuqLPPcRrc=;
+        b=sIrmXlu/HrT1IFeUrE7K8dvjEY9Vg8JWaKtNuINQr9xIkrznrBM18y1b/G16+7tfMC
+         l5ohUg1QLDXZ6662jBthgmh0G2P80PPAybSD+5pSyXIAsAOoAQgzGrbWipN9NFtG6DXe
+         3iNnfkXxhGRP73zAV2pze1QWRnvEj+DdFCNVu6THWm2adx5nXO11IvU/FlerplW17Hme
+         8jioAfOhiJUl5kTW8QaYw0mDzcyIX2TrSAg7VIxMi2QZ4fWd9KDj0Ifmw4XV+fuOCB3p
+         drwAhQ69R39cwa1pgwLITw9wJt3iSwg+KW6+alm3UNQF88ZNyo9ql5Nz9JmgXbnJfJNn
+         LA2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=1CiFGI+zAQ3sbdgy5ohjyQFrwpN9S9lbEbuqLPPcRrc=;
+        b=eDnCcYdr2/ZmuzAs6HMpoTO4lIwdZvPjoupNvMJHNVZ/Qvsci+Rjdi5WLBMDDPYDVk
+         1uwBy28d6cOswhuuEXl1eD/eBMHzcPWyq3GnpbaQwIXNmmkkCWQeGmJfOxQ+GOJFX2FC
+         TWPGX4pzjZBL68F+gBDGOZEzTuuniD0GCruIxLWvb8wufd6ESU1vwGna5ivvkfOM6Jc0
+         6//mXArBWbtKGU6VN/xLqlyTWHNAk6VIfboVQzxWU4V2syzJMEnBTCfSKY2KrkTdXQcM
+         vre3avw6dkWr7tR9lYfPJ8y2IHJxkR9kuRCecysvO051R8GElJ4djmxrILaYCQqpc6sZ
+         yOTw==
+X-Gm-Message-State: AOAM531ZS2Ah+eStaShtIZuv5YSjy9HgT2aQE3jJMiznrCd0esD5qqVX
+        K/opVviYtgCoJDCoaBBY9SrA6k6niRYwJQ==
+X-Google-Smtp-Source: ABdhPJyDbFwMZisczcuSAtsoZd69soFXx8+zX1JJzEiv9GMl2dMM3pPPJgz2gyrDGK5V/tjzTDtukw==
+X-Received: by 2002:a2e:7203:: with SMTP id n3mr959896ljc.86.1606294132804;
+        Wed, 25 Nov 2020 00:48:52 -0800 (PST)
+Received: from ?IPv6:2a00:1fa0:4212:944b:4041:d4db:b733:f39e? ([2a00:1fa0:4212:944b:4041:d4db:b733:f39e])
+        by smtp.gmail.com with ESMTPSA id r80sm176066lff.77.2020.11.25.00.48.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2020 00:48:52 -0800 (PST)
+Subject: Re: [PATCH 1/5] memory: renesas-rpc-if: Return correct value to the
+ caller of rpcif_manual_xfer()
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jiri Kosina <trivial@kernel.org>,
+        Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>, stable@vger.kernel.org
+References: <20201124112552.26377-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201124112552.26377-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <26fc2f22-eae4-86bc-1c39-e8498b77e1cd@gmail.com>
+Date:   Wed, 25 Nov 2020 11:48:42 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dkEUBIird37B8yKS"
-Content-Disposition: inline
-In-Reply-To: <TY2PR01MB36925B9010516CE67A9DBBA2D8FB0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <20201124112552.26377-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello!
 
---dkEUBIird37B8yKS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 24.11.2020 14:25, Lad Prabhakar wrote:
 
+> In the error path of rpcif_manual_xfer() the value of ret is overwritten
+> by value returned by reset_control_reset() function and thus returning
+> incorrect value to the caller.
+> 
+> This patch makes sure the correct value is returned to the caller of
+> rpcif_manual_xfer() by dropping the overwrite of ret in error path.
+> Also now we ignore the value returned by reset_control_reset() in the
+> error path and instead print a error message when it fails.
+> 
+> Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Cc: stable@vger.kernel.org
 
-> > +	val =3D (val & CARD_OPT_TOP_MASK) >> CARD_OPT_TOP_SHIFT;
-> > +	cycles =3D 1 << (13  + val);
->=20
-> nit: we can remove double-spaces like (13 + val).
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
 
-Thanks, I will fix it.
-
-
---dkEUBIird37B8yKS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl++EwQACgkQFA3kzBSg
-KbYMhxAAoSJlP5EtYrV+yqNpqdT+ZmZYEERjs6jd4QbPMlIq8C5YtNs3ilevgiQq
-yE0eFDWpQjPTmlbR0Z2JNwulfTeatK3zz0CMZA1iQOtRxfWLcqj9/Kbb09wHZJ1O
-DT6S+TzFeh6zd3LWbj8Q4NeWOjzU0SnVqgvDmqd3eLovvm9ayK9frqlcQ2oQB620
-95QvsmPy29DMWI+udziyVYwSWzb7DcG541oMpwOIDr+RZbot3PhyFHVWBgcMOBok
-ZWlkqEfKgCL/ibNSlnGfiwAR2hKP8O3IO6MjiFp64kO/JkvB8ZJgCIlhdkOSSyZc
-eLROD8ENGy8EJt6WHwtwSQFbHqAifE7rqt3jUKsNdkwRG8T5FRhvrYo2d68vplpv
-ru+fDawUWbsBiQi3DVXiaetqUDINAPYtTaB07BrFAbC3i7iWvXRhBIGezu0rQTjG
-IxCU6kygm6jUPwhWfVPPlJZnwL90zcbYDFoxJJ/7SEO2OYt5Tr/zSSsNkJ7Nq7eq
-Nu5R12c77ay0el/JEPaMzuBtBlkyw/LYEk8brIT90ejZgqebrizDw7QFJM/nCtn1
-JYiETrH7QkHjfCRnwRg4NqovXs7jpKBlhY8hTSDJ8tCePjZP0hBahtQVbu5SX2E/
-U/FbOzzX3a/DPaiyez3VOCV7fbLIF8BQe5RUOXSNfNbhVC6n+1M=
-=honH
------END PGP SIGNATURE-----
-
---dkEUBIird37B8yKS--
+MBR, Sergei
