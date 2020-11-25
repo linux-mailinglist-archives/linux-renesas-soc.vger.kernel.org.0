@@ -2,100 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E14712C3B52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 09:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF1F42C3B6F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 09:56:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbgKYIsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 03:48:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725921AbgKYIsy (ORCPT
+        id S1726715AbgKYI4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Nov 2020 03:56:24 -0500
+Received: from www.zeus03.de ([194.117.254.33]:56168 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726651AbgKYI4Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 03:48:54 -0500
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EED7C0613D4;
-        Wed, 25 Nov 2020 00:48:54 -0800 (PST)
-Received: by mail-lj1-x241.google.com with SMTP id b17so1402940ljf.12;
-        Wed, 25 Nov 2020 00:48:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1CiFGI+zAQ3sbdgy5ohjyQFrwpN9S9lbEbuqLPPcRrc=;
-        b=sIrmXlu/HrT1IFeUrE7K8dvjEY9Vg8JWaKtNuINQr9xIkrznrBM18y1b/G16+7tfMC
-         l5ohUg1QLDXZ6662jBthgmh0G2P80PPAybSD+5pSyXIAsAOoAQgzGrbWipN9NFtG6DXe
-         3iNnfkXxhGRP73zAV2pze1QWRnvEj+DdFCNVu6THWm2adx5nXO11IvU/FlerplW17Hme
-         8jioAfOhiJUl5kTW8QaYw0mDzcyIX2TrSAg7VIxMi2QZ4fWd9KDj0Ifmw4XV+fuOCB3p
-         drwAhQ69R39cwa1pgwLITw9wJt3iSwg+KW6+alm3UNQF88ZNyo9ql5Nz9JmgXbnJfJNn
-         LA2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=1CiFGI+zAQ3sbdgy5ohjyQFrwpN9S9lbEbuqLPPcRrc=;
-        b=eDnCcYdr2/ZmuzAs6HMpoTO4lIwdZvPjoupNvMJHNVZ/Qvsci+Rjdi5WLBMDDPYDVk
-         1uwBy28d6cOswhuuEXl1eD/eBMHzcPWyq3GnpbaQwIXNmmkkCWQeGmJfOxQ+GOJFX2FC
-         TWPGX4pzjZBL68F+gBDGOZEzTuuniD0GCruIxLWvb8wufd6ESU1vwGna5ivvkfOM6Jc0
-         6//mXArBWbtKGU6VN/xLqlyTWHNAk6VIfboVQzxWU4V2syzJMEnBTCfSKY2KrkTdXQcM
-         vre3avw6dkWr7tR9lYfPJ8y2IHJxkR9kuRCecysvO051R8GElJ4djmxrILaYCQqpc6sZ
-         yOTw==
-X-Gm-Message-State: AOAM531ZS2Ah+eStaShtIZuv5YSjy9HgT2aQE3jJMiznrCd0esD5qqVX
-        K/opVviYtgCoJDCoaBBY9SrA6k6niRYwJQ==
-X-Google-Smtp-Source: ABdhPJyDbFwMZisczcuSAtsoZd69soFXx8+zX1JJzEiv9GMl2dMM3pPPJgz2gyrDGK5V/tjzTDtukw==
-X-Received: by 2002:a2e:7203:: with SMTP id n3mr959896ljc.86.1606294132804;
-        Wed, 25 Nov 2020 00:48:52 -0800 (PST)
-Received: from ?IPv6:2a00:1fa0:4212:944b:4041:d4db:b733:f39e? ([2a00:1fa0:4212:944b:4041:d4db:b733:f39e])
-        by smtp.gmail.com with ESMTPSA id r80sm176066lff.77.2020.11.25.00.48.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2020 00:48:52 -0800 (PST)
-Subject: Re: [PATCH 1/5] memory: renesas-rpc-if: Return correct value to the
- caller of rpcif_manual_xfer()
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jiri Kosina <trivial@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>, stable@vger.kernel.org
-References: <20201124112552.26377-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20201124112552.26377-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Organization: Brain-dead Software
-Message-ID: <26fc2f22-eae4-86bc-1c39-e8498b77e1cd@gmail.com>
-Date:   Wed, 25 Nov 2020 11:48:42 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Wed, 25 Nov 2020 03:56:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=s9QzhPeX8dJgXEmhPuua0r1ugD1c
+        jN1o4B8Qo9YdHKo=; b=JL2lejY6+mxPLqr+A1bw2lLxW7XWv2Gh6rgYwjZ+cNjb
+        h3U5hn5/LDos7loG+hLf3mi4i1uoglcrTccDvQ10PSP2ESAk0GhPEVJ7oerA7niU
+        V34N80KWTHZnL8U4edskkCbYcHyOxpWJHJwfA/EN8u6PulKyISpCTxA8GGbkA4o=
+Received: (qmail 3224541 invoked from network); 25 Nov 2020 09:56:22 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Nov 2020 09:56:22 +0100
+X-UD-Smtp-Session: l3s3148p1@iYz2meq0fMIgAwDPXwZjAFYQ5uAAs3hj
+Date:   Wed, 25 Nov 2020 09:56:21 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masaharu Hayakawa <masaharu.hayakawa.ry@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+Subject: Re: [PATCH RFT v2 2/3] mmc: tmio: Add data timeout error detection
+Message-ID: <20201125085621.GD1577@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masaharu Hayakawa <masaharu.hayakawa.ry@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+References: <20201120150647.123237-1-wsa+renesas@sang-engineering.com>
+ <20201120150647.123237-3-wsa+renesas@sang-engineering.com>
+ <TY2PR01MB3692D348DCAA67B40C589C50D8FB0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20201124112552.26377-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="cHMo6Wbp1wrKhbfi"
+Content-Disposition: inline
+In-Reply-To: <TY2PR01MB3692D348DCAA67B40C589C50D8FB0@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
 
-On 24.11.2020 14:25, Lad Prabhakar wrote:
+--cHMo6Wbp1wrKhbfi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> In the error path of rpcif_manual_xfer() the value of ret is overwritten
-> by value returned by reset_control_reset() function and thus returning
-> incorrect value to the caller.
-> 
-> This patch makes sure the correct value is returned to the caller of
-> rpcif_manual_xfer() by dropping the overwrite of ret in error path.
-> Also now we ignore the value returned by reset_control_reset() in the
-> error path and instead print a error message when it fails.
-> 
-> Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Cc: stable@vger.kernel.org
+Hi Shimoda-san,
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+> I talked Saito-san about this patch locally and we can drop these lines
+> because this driver can detect data timeout in Access End interrupt
+> and the driver didn't enable error related interrupts like CRCFAIL.
 
-MBR, Sergei
+I see. I already wondered why the BSP patch
+6f7519552fbed1474561ff423acb967eb03994e3 did not have these lines.
+
+> The following commit [1] is a BSP local patch though,
+> we need to set -EILSEQ to retune a card for R-Car Gen3 [2]
+> by MMC core driver [3].
+
+So, if there is a non-removable eMMC or a SD card inserted, then we need
+to EILSEQ to enforce a retune. Otherwise it is a data timeout. Is my
+understanding correct?
+
+I wonder, though, if "Gen3" is a complete description? There are SDHI
+instances on Gen2 which can also do SDR104. Won't they need the same
+treatment? Then we could say that every SDHI which has an SCC will need
+this treatment.
+
+>  - The patch also change the tmio_mmc_cmd_irq() when CMDTIMEOUT happens for R-Car Gen3.
+>    But, for upstream, we should make a separated patch for it.
+
+I am sorry. I don't fully understand. Why does the change to
+tmio_mmc_cmd_irq() need a seperate patch?
+
+>  - These "for R-Car Gen3" means I'm thinking we need additional condition:
+>     1) to set -EILSRQ or -ETIMEDOUT for R-Car Gen3
+>     2) to set -ETIMEDOUT anyway for other SoCs.
+>    # These are complex conditions a little though...
+
+Well, from what I understood this sounds not too hard. Let's hope I just
+got it correctly :)
+
+However, there is something in this patch which makes mmc_test #15 work,
+though. We still want this in this series, or do you think it is better
+to move it to a seperate series?
+
+Kind regards,
+
+   Wolfram
+
+
+--cHMo6Wbp1wrKhbfi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl++HDEACgkQFA3kzBSg
+KbY+9A/+K0Iw0KoAhSse6g1BPYOi2qykYWcFbj3Zit3x7EZWGho4BYxCvOvbbA4m
+Zwi33RAjIvm1OTmV3Nj+Q9l4zenh0QTga3ZyguX0rEWfviR5qCou6Mxs3wXpcf3E
+BP030M9XZphdy2eDkyGskGJNkiXn9Z7ua6/i1IItr+rlnZ/2W+bpPs+4ff/wXXzb
+FiySh8lIvntdgsKW8JLTBIi9QfYlEQCezvuLfcSM436wI7/1uEEb1w/Jo2OlaHwM
+o7ljdqlSvEI6oee1xBe2ICRnKY33f/CiaEndNIfhuAvmJcO5OyBTiLc+htJhp1P8
+AUPGAYEbAjMuN6YfQEadjvdB7dNnzGnOCWuyzwhjdRjbCssoeDVSPbYIQDtYKq9s
+FNEXh1Nf6pjVdZaapLa4dDhbHj7x/iNpapu2cwBGMPPOaY7c3aG2K+/kEuJkmv/l
+2kuofss+htsP54C/JUHtHVkyjJEJKQOJ5bca+jmhNaW2gz8IfU8CTJFkUcazlLXX
+yf4ytDaQUETWkzOljaK7KKmvI56Bz4blgGg6GMjsmfZPq3LJpQWcnXKWMJR0D9jg
+ULDVLbVp2RJ6gAEIe7OeiNktdbKIOPj9vkE12hzCe93tpSbH1a8HQDek8QTNaa0v
+h//hgJcPKpDdv+37mXHZ9kRhgPa2QoNfX/+MoxXO00gtzxJtLWk=
+=XmaH
+-----END PGP SIGNATURE-----
+
+--cHMo6Wbp1wrKhbfi--
