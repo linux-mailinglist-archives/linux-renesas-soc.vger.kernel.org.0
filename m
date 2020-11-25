@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF9B12C49E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 22:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E422C49E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 22:30:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732168AbgKYVaR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1732181AbgKYVaR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Wed, 25 Nov 2020 16:30:17 -0500
-Received: from www.zeus03.de ([194.117.254.33]:50282 "EHLO mail.zeus03.de"
+Received: from www.zeus03.de ([194.117.254.33]:50290 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732181AbgKYVaQ (ORCPT
+        id S1732193AbgKYVaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 25 Nov 2020 16:30:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=aE3wqLs30NB8bR
-        VMcLLuxzHypyiCP75iOyI8qCJmj5A=; b=ywxJmmf4XrJsz4tAQVBQRIwxNLnv3g
-        O9c3EqMtQGu1Kckg/g7i6aaNweLgY5RgWDqqU3cVk7fZBNi//i3uyXFz+MLqa6bp
-        4i5gEJHKApRwOvgHUFVVT/rhE6UbyWEfzgO9eOW/Cc8ATJWsVVwEJNVnmK4JamCS
-        KWFxI7n7BQW3E=
-Received: (qmail 3441497 invoked from network); 25 Nov 2020 22:30:14 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Nov 2020 22:30:14 +0100
-X-UD-Smtp-Session: l3s3148p1@7JQKIvW0kL8gAwDPXwZjAA625bO7DiyS
+        :mime-version:content-transfer-encoding; s=k1; bh=rdfbV7Lr2bOWPq
+        aYvs96W61a1TNaIaXNyfLaNfizkOk=; b=oBJlt/8B07U9npgKc9G4jW3l5PhSdd
+        V8M7h01hAyc0FAB+B7iex0rRufvir8wN9otycWXo9XBqxjq3I2mbEItqX5tKJuT5
+        cFhMzii8s2CkB+oPvCsoI4pttLv13C4+kx8xjgRAexJHMHy5zQWAzdagOxrVeQ3X
+        vUU/G5JuJ0duc=
+Received: (qmail 3441528 invoked from network); 25 Nov 2020 22:30:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 25 Nov 2020 22:30:15 +0100
+X-UD-Smtp-Session: l3s3148p1@+TAQIvW0kr8gAwDPXwZjAA625bO7DiyS
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-mmc@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Wolfram Sang <wsa@kernel.org>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH 2/3] mmc: tmio: add hook for custom busy_wait calculation
-Date:   Wed, 25 Nov 2020 22:30:00 +0100
-Message-Id: <20201125213001.15003-3-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 3/3] mmc: renesas_sdhi: populate hook for longer busy_wait
+Date:   Wed, 25 Nov 2020 22:30:01 +0100
+Message-Id: <20201125213001.15003-4-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201125213001.15003-1-wsa+renesas@sang-engineering.com>
 References: <20201125213001.15003-1-wsa+renesas@sang-engineering.com>
@@ -42,69 +42,74 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Wolfram Sang <wsa@kernel.org>
 
-Newer SDHI variants can 'wait while busy' longer than the generic TMIO.
-Provide a hook to get the maximum cycle count to wait for. If the hook
-is not populated, fall back to a generic version which works well with
-all older TMIO/SDHI variants.
+Make use of the EXTOP bit in R-Car Gen3 SoCs to have a twice as large
+busy wait duration.
 
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mmc/host/tmio_mmc.h      |  1 +
- drivers/mmc/host/tmio_mmc_core.c | 17 ++++++++++++-----
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ drivers/mmc/host/renesas_sdhi_core.c | 20 ++++++++++++++++++++
+ drivers/mmc/host/tmio_mmc.h          |  2 ++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
-index 819198af17f4..f60559bc413a 100644
---- a/drivers/mmc/host/tmio_mmc.h
-+++ b/drivers/mmc/host/tmio_mmc.h
-@@ -181,6 +181,7 @@ struct tmio_mmc_host {
- 	void (*reset)(struct tmio_mmc_host *host);
- 	bool (*check_retune)(struct tmio_mmc_host *host);
- 	void (*fixup_request)(struct tmio_mmc_host *host, struct mmc_request *mrq);
-+	unsigned int (*get_timeout_cycles)(struct tmio_mmc_host *host);
- 
- 	void (*prepare_hs400_tuning)(struct tmio_mmc_host *host);
- 	void (*hs400_downgrade)(struct tmio_mmc_host *host);
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index da9a6243f146..f0711f4c1e5b 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -887,16 +887,20 @@ static void tmio_mmc_set_bus_width(struct tmio_mmc_host *host,
- 	sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, reg);
- }
- 
--static void tmio_mmc_max_busy_timeout(struct tmio_mmc_host *host)
-+static unsigned int tmio_mmc_get_timeout_cycles(struct tmio_mmc_host *host)
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 153767054c05..38f028e70633 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -561,6 +561,7 @@ static int renesas_sdhi_prepare_hs400_tuning(struct mmc_host *mmc, struct mmc_io
+ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
  {
- 	u16 val = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
--	unsigned int clk_rate = host->mmc->actual_clock ?: host->mmc->f_max;
--	unsigned int cycles;
+ 	struct renesas_sdhi *priv = host_to_priv(host);
++	u16 val;
  
- 	val = (val & CARD_OPT_TOP_MASK) >> CARD_OPT_TOP_SHIFT;
--	cycles = 1 << (13 + val);
-+	return 1 << (13 + val);
+ 	if (priv->scc_ctl) {
+ 		renesas_sdhi_disable_scc(host->mmc);
+@@ -573,6 +574,21 @@ static void renesas_sdhi_reset(struct tmio_mmc_host *host)
+ 	}
+ 
+ 	sd_ctrl_write32_as_16_and_16(host, CTL_IRQ_MASK, TMIO_MASK_INIT_RCAR2);
++
++	if (sd_ctrl_read16(host, CTL_VERSION) >= SDHI_VER_GEN3_SD) {
++		val = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
++		val |= CARD_OPT_EXTOP;
++		sd_ctrl_write16(host, CTL_SD_MEM_CARD_OPT, val);
++	}
 +}
 +
-+static void tmio_mmc_max_busy_timeout(struct tmio_mmc_host *host)
++static unsigned int renesas_sdhi_gen3_get_cycles(struct tmio_mmc_host *host)
 +{
-+	unsigned int clk_rate = host->mmc->actual_clock ?: host->mmc->f_max;
- 
--	host->mmc->max_busy_timeout = cycles / (clk_rate / MSEC_PER_SEC);
-+	host->mmc->max_busy_timeout = host->get_timeout_cycles(host) /
-+				      (clk_rate / MSEC_PER_SEC);
++	u16 num, val = sd_ctrl_read16(host, CTL_SD_MEM_CARD_OPT);
++
++	num = (val & CARD_OPT_TOP_MASK) >> CARD_OPT_TOP_SHIFT;
++	return 1 << ((val & CARD_OPT_EXTOP ? 14 : 13) + num);
++
  }
  
- /* Set MMC clock / power.
-@@ -1116,6 +1120,9 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
- 	if (!(pdata->flags & TMIO_MMC_HAS_IDLE_WAIT))
- 		_host->write16_hook = NULL;
+ #define SH_MOBILE_SDHI_MIN_TAP_ROW 3
+@@ -1067,6 +1083,10 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 			quirks->hs400_calib_table + 1);
+ 	}
  
-+	if (pdata->flags & TMIO_MMC_USE_BUSY_TIMEOUT && !_host->get_timeout_cycles)
-+		_host->get_timeout_cycles = tmio_mmc_get_timeout_cycles;
++	/* these have an EXTOP bit */
++	if (ver >= SDHI_VER_GEN3_SD)
++		host->get_timeout_cycles = renesas_sdhi_gen3_get_cycles;
 +
- 	_host->set_pwr = pdata->set_pwr;
+ 	/* Enable tuning iff we have an SCC and a supported mode */
+ 	if (of_data && of_data->scc_offset &&
+ 	    (host->mmc->caps & MMC_CAP_UHS_SDR104 ||
+diff --git a/drivers/mmc/host/tmio_mmc.h b/drivers/mmc/host/tmio_mmc.h
+index f60559bc413a..784fa6ed5843 100644
+--- a/drivers/mmc/host/tmio_mmc.h
++++ b/drivers/mmc/host/tmio_mmc.h
+@@ -82,7 +82,9 @@
+ /* Definitions for values the CTL_SD_MEM_CARD_OPT register can take */
+ #define CARD_OPT_TOP_MASK	0xf0
+ #define CARD_OPT_TOP_SHIFT	4
++#define CARD_OPT_EXTOP		BIT(9) /* first appeared on R-Car Gen3 SDHI */
+ #define CARD_OPT_WIDTH8		BIT(13)
++#define CARD_OPT_ALWAYS1	BIT(14)
+ #define CARD_OPT_WIDTH		BIT(15)
  
- 	ret = tmio_mmc_init_ocr(_host);
+ /* Definitions for values the CTL_SDIO_STATUS register can take */
 -- 
 2.28.0
 
