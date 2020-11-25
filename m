@@ -2,166 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B62CE2C40FC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 14:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E94902C4127
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 14:32:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727338AbgKYNRE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 08:17:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56834 "EHLO
+        id S1726060AbgKYNcM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Nov 2020 08:32:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgKYNRD (ORCPT
+        with ESMTP id S1725616AbgKYNcL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:17:03 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAD3C0613D4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Nov 2020 05:17:03 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id s27so3077236lfp.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 25 Nov 2020 05:17:03 -0800 (PST)
+        Wed, 25 Nov 2020 08:32:11 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D59C0613D4;
+        Wed, 25 Nov 2020 05:32:11 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id y197so4369245qkb.7;
+        Wed, 25 Nov 2020 05:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=HkRtjRKM05bLlO/XYCtld1KcwloYyZOvT1GTARJX0yY=;
-        b=vaBWkenHZuKdNuLrjwQ+qVd0vmJfHlagTcPl7VfHzH9dYF+QU+lKnOvLz1K4anA7Sd
-         It0KGyCImOzbwsqEX02YzyfjerAcKh05xGUJ68ytQ0FeU4DE/MAAD4Km2ezQck9R8myB
-         Eohe5MRCGd5zM6oBfk27x2NLd6hj855vVOwz2wk+xvm1pLFlfx22fimJDBV5RQdY9/IZ
-         ViOJIf0aBebN2jWVY6JZbcyWmP9h2h8Tj9RGRrohBeyJwQ9wIdIfNoYYqQpJ020JnUdk
-         5DOqgXt1fznstbiB7d8BD7wikrY8p517nwIKVuM/JxRxT+XHq/2c3fj6XoWPd2e4osUe
-         P9+A==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4bZsdhn7SQQg2YyIuDumss+hUTJbkU+0PCGD/wxinKw=;
+        b=d2ZLZt7lxUzQpltq5qn85M/VHDeJaKsiIlfwqnc/K4CuJ9di/yhGSUI0jgSDsFUMwg
+         oClWVUMAu6alJ5NBfROaEOso9QetfZ3sprRpvchV6xSmJMsGZviLxdgCGF1fCEtdDwlj
+         sq5WpWrFTFlhCUtX1iPMRG5vlckrd2mOBwAEHebreueazhVdu/zGUGbz6TR5FZ9SaCQL
+         VYvSK7LDZNHsl7SpWA5GKYi4IaPFsix2TG55vo1xPJ5hdeUCO+ZjwxxqAjX4fH4iC3F1
+         acjPlcvTJmLcumnYptgj1KPkvLfqzZBghjfjse/2b6dVLrAJuviaESFMx3hlT7FnW6Wd
+         mCTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=HkRtjRKM05bLlO/XYCtld1KcwloYyZOvT1GTARJX0yY=;
-        b=TQj8lnQUm1/ZhYDzKM7Nw3hdnJG+YAsUxc9EoaPRgKHK8n04/FWrrzl2WZ+xUVY34A
-         Bmr0h8MTQ7R1G0uhNr5w9T9UjlPsjne6CSYjFt7j7OgMsAdbgicVpa/MboBTnGmdUdNS
-         BeLnZ3AFq3FbzX3JVqpOtpEoiKWlGgMZvzXwrPDnXx7DYAYjf0QZKbgbkr9AXr/7rd2E
-         AN/vCMurhmPxBtCQrm7GGbAknwxJ7INnBxYHPwmdWqNiL05eC2ncy2t4hoYK9MI2nht+
-         vmsWvFbVovuu6LtcnRQbEPLkvoTWkwR1mClslh1vIiJhZu5JYejgkUFUtkGzlF7mF5op
-         semw==
-X-Gm-Message-State: AOAM533gkaDIb1FnolNdA1Acntbl03ab3S8RhXqbLkJ0AYKmgnUDrBF7
-        zGTHrMMYc9WNPMCa0aXxGowpCCoGC7i0xA==
-X-Google-Smtp-Source: ABdhPJyqugkD6SrIzoTySqMszYOMe+UphjPSmeHMpbHK0agxohO8OXonD7v0by/QHWa5KCf4FvfWrQ==
-X-Received: by 2002:a19:ec1:: with SMTP id 184mr1336365lfo.319.1606310221742;
-        Wed, 25 Nov 2020 05:17:01 -0800 (PST)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id j69sm257650lfj.49.2020.11.25.05.17.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 05:17:00 -0800 (PST)
-Date:   Wed, 25 Nov 2020 14:16:59 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] adv748x: afe: Select input port when device is reset
-Message-ID: <20201125131659.GB2162566@oden.dyn.berto.se>
-References: <20201122163637.3590465-1-niklas.soderlund+renesas@ragnatech.se>
- <20201122163637.3590465-2-niklas.soderlund+renesas@ragnatech.se>
- <99e2a13b-fc63-4ead-77e4-878574a5cbe0@ideasonboard.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4bZsdhn7SQQg2YyIuDumss+hUTJbkU+0PCGD/wxinKw=;
+        b=fYfpqhrpuYaWPg8O17FTx3fdtj4I7j/cyHFYkFgrETIwo2kR8ON2FkcutzUhWuEd5X
+         37J/dhWAQoBG/S3iinHacVj88OoEhOSev1wbYQWjyKTAmZshbJpUSPWZ0IH3/YQKg0U7
+         F2T8m70+tO2myBXfNOBu+ocVNP66VQ4t07bESG/aPtOgMxa8BpdEuRuUZrgsro6Kk8Us
+         fi8aoBMkbmimKCDenHH0Sl7mbd3Ogb3MY5FUjkbUOJaoGvbG3IwAxic78a9uuprIGHnP
+         1o8Kpr6QE6h1lS51vgdGkdAfRXJ+Mbug4rXrsCF8BqXyeHe5oioDbTqiGWbuzJvh2sJl
+         +2jw==
+X-Gm-Message-State: AOAM530YGI6F7mJsF46nLjQ/5BJMIqLkY6N4d5dywjMYsOV/qPDs4IHi
+        uYZpn0HFfbmyRy5Ppb6ad4OfTo2HM4Lsu2KPPJwYaLCfvJM=
+X-Google-Smtp-Source: ABdhPJwsAQcSzRRItdNy9wHYuvo5UgZ6tyKawN3CGwAVYIblp0M9EiRZDNALJHPK//RtPtjwI2TtmjTyOqNmXx1eIFE=
+X-Received: by 2002:a25:3a86:: with SMTP id h128mr3427345yba.401.1606311131173;
+ Wed, 25 Nov 2020 05:32:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <99e2a13b-fc63-4ead-77e4-878574a5cbe0@ideasonboard.com>
+References: <20201124112552.26377-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8v5iUcK6Hh=3rPiWbFs32U1TjPqT4AuwQniSFguk9-9bQ@mail.gmail.com> <b66509aa-e4fe-1e1f-6261-0f0064db6518@gmail.com>
+In-Reply-To: <b66509aa-e4fe-1e1f-6261-0f0064db6518@gmail.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 25 Nov 2020 13:31:44 +0000
+Message-ID: <CA+V-a8vXp6ZJZ+J157rMwYeebZheUffna3s1zVB6A39ju8hH1g@mail.gmail.com>
+Subject: Re: [PATCH 0/5] memory: renesas-rpc-if: Trivial fixes
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jiri Kosina <trivial@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+On Tue, Nov 24, 2020 at 6:25 PM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
+>
+> On 11/24/20 2:34 PM, Lad, Prabhakar wrote:
+>
+> [...]
+> >> This patch series fixes trivial issues in RPC-IF driver.
+> >>
+> >> Cheers,
+> >> Prabhakar
+> >>
+> >> Lad Prabhakar (5):
+> >>   memory: renesas-rpc-if: Return correct value to the caller of
+> >>     rpcif_manual_xfer()
+> >>   memory: renesas-rpc-if: Make rpcif_enable/disable_rpm() as static
+> >>     inline
+> >>   memory: renesas-rpc-if: Export symbols as GPL
+> >>   memory: renesas-rpc-if: Avoid use of C++ style comments
+> >>   memory: renesas-rpc-if: Fix a reference leak in rpcif_probe()
+> >>
+> > Patches sent to sergei.shtylyov@cogentembedded.com have bounced back
+> > so including gmail address (patchwork [1]).
+>
+>    Sorry, I got laid off by Cogent last May. Thanks for CCing my gmail address...
+>
+Sorry to hear that.
 
-On 2020-11-25 12:10:08 +0000, Kieran Bingham wrote:
-> Hi Niklas,
-> 
-> On 22/11/2020 16:36, Niklas Söderlund wrote:
-> > It's not enough to select the AFE input port during probe it also needs
-> > to be set when the device is reset. Move the port selection to
-> > adv748x_reset() that is called during probe and when the device needs to
-> > be reset.
-> > 
-> 
-> Should we instead have an adv748x_afe_reset(), rather than expose the
-> AFE internals to the top level core?
+Thank you for the review. I'll fix the review comments for patch 2/2
+and post a v2.
 
-We could, I have no real preference. But in this case all 
-adv748x_afe_reset() would do is call adv748x_afe_s_input() so unless we 
-foresee more work to be done at reset time my preference would be like 
-this but it's your call.
-
-> 
-> That said, shouldn't we be able to take advantage of regmap to restore
-> registers in this instance?
-
-I'm no regmap expert so I don't know. But if so we need to be sure the 
-order of registers match what is needed as we need to restore the i2c 
-addresses for all none core "pages".
-
-> 
-> --
-> Kieran
-> 
-> 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/i2c/adv748x/adv748x-afe.c  | 6 +-----
-> >  drivers/media/i2c/adv748x/adv748x-core.c | 4 ++++
-> >  drivers/media/i2c/adv748x/adv748x.h      | 1 +
-> >  3 files changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
-> > index dbbb1e4d63637a33..4052cf67bf16c7fb 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-afe.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-afe.c
-> > @@ -154,7 +154,7 @@ static void adv748x_afe_set_video_standard(struct adv748x_state *state,
-> >  		   (sdpstd & 0xf) << ADV748X_SDP_VID_SEL_SHIFT);
-> >  }
-> >  
-> > -static int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
-> > +int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
-> >  {
-> >  	struct adv748x_state *state = adv748x_afe_to_state(afe);
-> >  
-> > @@ -520,10 +520,6 @@ int adv748x_afe_init(struct adv748x_afe *afe)
-> >  		}
-> >  	}
-> >  
-> > -	adv748x_afe_s_input(afe, afe->input);
-> > -
-> > -	adv_dbg(state, "AFE Default input set to %d\n", afe->input);
-> > -
-> >  	/* Entity pads and sinks are 0-indexed to match the pads */
-> >  	for (i = ADV748X_AFE_SINK_AIN0; i <= ADV748X_AFE_SINK_AIN7; i++)
-> >  		afe->pads[i].flags = MEDIA_PAD_FL_SINK;
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> > index 00966fe104881a14..8676ad2428856dd3 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> > @@ -516,6 +516,10 @@ static int adv748x_reset(struct adv748x_state *state)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	adv748x_afe_s_input(&state->afe, state->afe.input);
-> > +
-> > +	adv_dbg(state, "AFE Default input set to %d\n", state->afe.input);
-> > +
-> >  	/* Reset TXA and TXB */
-> >  	adv748x_tx_power(&state->txa, 1);
-> >  	adv748x_tx_power(&state->txa, 0);
-> > diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> > index 1061f425ece5989e..747947ea3e316451 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x.h
-> > +++ b/drivers/media/i2c/adv748x/adv748x.h
-> > @@ -435,6 +435,7 @@ int adv748x_tx_power(struct adv748x_csi2 *tx, bool on);
-> >  
-> >  int adv748x_afe_init(struct adv748x_afe *afe);
-> >  void adv748x_afe_cleanup(struct adv748x_afe *afe);
-> > +int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input);
-> >  
-> >  int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx);
-> >  void adv748x_csi2_cleanup(struct adv748x_csi2 *tx);
-> > 
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Cheers,
+Prabhakar
