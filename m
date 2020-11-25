@@ -2,80 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F412C49F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 22:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 713032C4A17
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 22:35:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731057AbgKYVcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 16:32:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57610 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729371AbgKYVcE (ORCPT
+        id S1732332AbgKYVdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Nov 2020 16:33:35 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:38476 "EHLO
+        kvm5.telegraphics.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730364AbgKYVdc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 16:32:04 -0500
-Received: from localhost (p54b331e1.dip0.t-ipconnect.de [84.179.49.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D023206E0;
-        Wed, 25 Nov 2020 21:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606339923;
-        bh=mniWtMtAvRH6VagEPZskf5opXqZXSa/Gpz7mtgf/MUE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XivMvT88x+OBdHA+VRD3R026OiTP4trjz9O3+zOUyIiYWimN/2Xm9BRYSAc7yUe2n
-         09PiLfO6YK3jlz8EgqzV/CSwcHAckBxW4FTWzIVLlgfABaKgDSDc7k9Q52oRxiZQFJ
-         A9ib0uPqyz2s0GQTMF9N7BM30c2aGqCLxK6KWWlo=
-Date:   Wed, 25 Nov 2020 22:32:00 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 3/3] mmc: renesas_sdhi: populate hook for longer busy_wait
-Message-ID: <20201125213200.GA14913@ninjato>
-References: <20201125213001.15003-1-wsa+renesas@sang-engineering.com>
- <20201125213001.15003-4-wsa+renesas@sang-engineering.com>
+        Wed, 25 Nov 2020 16:33:32 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kvm5.telegraphics.com.au (Postfix) with ESMTP id 9789F29FB0;
+        Wed, 25 Nov 2020 16:33:24 -0500 (EST)
+Date:   Thu, 26 Nov 2020 08:33:24 +1100 (AEDT)
+From:   Finn Thain <fthain@telegraphics.com.au>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Joe Perches <joe@perches.com>,
+        Jakub Kicinski <kuba@kernel.org>, alsa-devel@alsa-project.org,
+        linux-atm-general@lists.sourceforge.net,
+        reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        linux-fbdev@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        linux-ide@vger.kernel.org, dm-devel@redhat.com,
+        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+        samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+        linux1394-devel@lists.sourceforge.net,
+        linux-afs@lists.infradead.org,
+        usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+        rds-devel@oss.oracle.com, linux-scsi@vger.kernel.org,
+        linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
+        bridge@lists.linux-foundation.org,
+        linux-security-module@vger.kernel.org,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+        linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+        intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>,
+        tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        selinux@vger.kernel.org,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
+        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
+        nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
+        ceph-devel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-hwmon@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        linux-nfs@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Network Development <netdev@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+        netfilter-devel@vger.kernel.org,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
+        linux-integrity@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
+ Clang
+In-Reply-To: <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
+Message-ID: <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
+References: <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com> <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com> <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
+ <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com> <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com> <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com> <20201123130348.GA3119@embeddedor>
+ <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com> <202011241327.BB28F12F6@keescook> <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com> <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
-Content-Disposition: inline
-In-Reply-To: <20201125213001.15003-4-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, 25 Nov 2020, Nick Desaulniers wrote:
 
---k+w/mQv8wyuph6w0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> So developers and distributions using Clang can't have 
+> -Wimplicit-fallthrough enabled because GCC is less strict (which has 
+> been shown in this thread to lead to bugs)?  We'd like to have nice 
+> things too, you know.
+> 
 
-On Wed, Nov 25, 2020 at 10:30:01PM +0100, Wolfram Sang wrote:
-> From: Wolfram Sang <wsa@kernel.org>
+Apparently the GCC developers don't want you to have "nice things" either. 
+Do you think that the kernel should drop gcc in favour of clang?
+Or do you think that a codebase can somehow satisfy multiple checkers and 
+their divergent interpretations of the language spec?
 
-Eeks, this should have been:
+> This is not a shiny new warning; it's already on for GCC and has existed 
+> in both compilers for multiple releases.
+> 
 
-=46rom: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Perhaps you're referring to the compiler feature that lead to the 
+ill-fated, tree-wide /* fallthrough */ patch series.
 
-Please let me know if I should resend.
-
-
---k+w/mQv8wyuph6w0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl++zUwACgkQFA3kzBSg
-KbZiVQ/+MJbFzqxIXQTLG/AtIflWqw5YnTKoq9yitEtRwIJqbrRqepzwNgBCnAKM
-PYdUFVwOIEUOo6tNMPxNKcKZGhgnf5Ei4EUA+qU6pcnLCuBTqjpU5yHOgXNhKljp
-tSqC0/NQ+ojXP5Z+536GamJWIsKj3IHHKVkzViakjuTJqhWPwbXsAX7pI5acFlYF
-c/YNHC4heI44jbqte86iiMtUSDgS1aoM/5y1nw5BbWP1iG3F0aPfAnbPShZEKHAn
-6saI8ikJXy08mdudGVLsLrlXfP7kSnJX1yQyPPbtFs4ayQBWhkG4UQSb/vhJYXWj
-KO1C7yQxR5NIoutHk1GVDqLse54tW9hHzE7ymChUtYr9NVgtO9G+LSjvvFOlVIGK
-gTtWMPiSTTaiRVNq++b6WUoYHuo9T1HJA+ZHvHtha3PMKvOFW5YnppbPoih+4xsc
-W/ErxSgqlTJiZX28tGleE/UaAyi87zX1+Rgi56CIGa9RPFY1xWLZCwMFgWYn2cYN
-mtsMkoDChObbgjBWkZr2jqU7DOe/8MFRjK/h/oov0HvyBZOWDtxDgXuzAV2T99A2
-+JTCYpW7K9bHW43habh9cmTg0K0r+sWjG0OXOA69a50lKEubItipXvAbXuT+9dUt
-RbkPDaalvGcLEWlGclp5Mxubrt9PLTxev7Ngbv77qyRHA1pNL3w=
-=XMQL
------END PGP SIGNATURE-----
-
---k+w/mQv8wyuph6w0--
+When the ink dries on the C23 language spec and the implementations figure 
+out how to interpret it then sure, enforce the warning for new code -- the 
+cost/benefit analysis is straight forward. However, the case for patching 
+existing mature code is another story.
