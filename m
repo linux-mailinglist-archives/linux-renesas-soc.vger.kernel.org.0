@@ -2,123 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 537952C4695
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 18:24:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2AEC2C4692
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Nov 2020 18:24:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730816AbgKYRXl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 12:23:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730695AbgKYRXl (ORCPT
+        id S1731911AbgKYRXU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Nov 2020 12:23:20 -0500
+Received: from mga17.intel.com ([192.55.52.151]:61831 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730695AbgKYRXU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 12:23:41 -0500
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69282C0613D4;
-        Wed, 25 Nov 2020 09:23:41 -0800 (PST)
-Received: by mail-yb1-xb41.google.com with SMTP id o144so432412ybg.7;
-        Wed, 25 Nov 2020 09:23:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xZV9+j2Fz0qufkKJrAOkz5+JLHtjo8L5rHWDGquTLcM=;
-        b=eRcROy/69g3Xqx5IEAOienCCL4wA9c4r4VW24UnEl49nZGhLWIOFQdfP1kuGsuJKxv
-         OcHkqlR/2mkXuJiIW/hlI4Jzp5gtfXgeoR6Co/4tZI5YL0dPGZn9GreyB2Y9zHjo675z
-         yQy9komEWr8d6OTAkZW7Xeh1J1+7kWJlMg5hrln+4XpT6WL4YmXYuZ5UQfQz/4q58KPz
-         2F6M0rl9kLKDj8V4w9Nr67NuVN8kYl5qHUKw3xYuvZrgKzZqzp5OqObg3bIbxDKt4BR9
-         3HmkzpMiA7HCT7DCNbJu2a8ZzSoqj4ToCt+xq0OFw5lM6dGNWDK+RvJTujvqAz3KlkVi
-         uHrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xZV9+j2Fz0qufkKJrAOkz5+JLHtjo8L5rHWDGquTLcM=;
-        b=p70NIXwPvDgtCGhJg+Rr04brd1jOFJssmuXP2hGSVEV56UDoVrJVkMJ1lYArn+8PAP
-         ryRuWirnU+e7zQzBTksIpK/31OA06vZ4rKtfK+QCAhnfaakuZCjGPtv2NJPbKLC9tSxT
-         4lNlg2k9V+X74eGbsDapdHMpPdgSipUbBwgbXAnaBmnT6tDEGvv4V74lu7yYnGaaAKbV
-         jnn1vS1AvuokMzqbLDcCu1dd8jcJeYZA1LoyZ3nVCzMJ5RQcYOdc9IHvAEEWE9Kqh5Ux
-         5CyC/xf/yVHHghEAK+z7O05Fxon1DdzAX2sl+YWLu5rsdLfD6jSOqYnt8B2FEpo/ww+h
-         aPRw==
-X-Gm-Message-State: AOAM5332nzVaPXV3TZ7RaFNPdouo3oReb3AOLpRMjCHuyzZWe6NFnKgL
-        g3wYpONQsG+qe+mU2z4CqLtGHtr0fd8m5BBSutCMs7zt0zswSQ==
-X-Google-Smtp-Source: ABdhPJw6hNT6UUNkOq0XdmIWXdolS1DJJdpm/q+dUjJB/51hdmbKlTvkCe+FCMK03zdyRUd35gMkKTDJtiSalO+tFxQ=
-X-Received: by 2002:a25:e00b:: with SMTP id x11mr5466249ybg.518.1606325020731;
- Wed, 25 Nov 2020 09:23:40 -0800 (PST)
+        Wed, 25 Nov 2020 12:23:20 -0500
+IronPort-SDR: gNmKAyj6EVpxyjlK2/ygiRrR2MKLyK/J4770zqE+CbI8OTd17XS/eFzrSvcoY3YdtwHXejN6IM
+ b/Df5qaZ8+3g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="152008152"
+X-IronPort-AV: E=Sophos;i="5.78,369,1599548400"; 
+   d="scan'208";a="152008152"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 09:23:18 -0800
+IronPort-SDR: up3uT+4vM7wHKCwYFBBE0RE0DVGHTcjffpZ97qA+Mwo7ACStNeFjxCppGrCdLHUswwR5m3t2TV
+ WyTWKbd80E6g==
+X-IronPort-AV: E=Sophos;i="5.78,369,1599548400"; 
+   d="scan'208";a="328060510"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2020 09:23:17 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 065EA208C5; Wed, 25 Nov 2020 19:23:15 +0200 (EET)
+Date:   Wed, 25 Nov 2020 19:23:14 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 5/5] v4l2-fwnode: Remove
+ v4l2_async_notifier_parse_fwnode_endpoints_by_port()
+Message-ID: <20201125172314.GK3940@paasikivi.fi.intel.com>
+References: <20201125164450.2056963-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201125164450.2056963-6-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20201125130148.28724-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdX+FZjAfbWWw53EToHP6c4JFmQX9wogAyW3OcOxHgMd0w@mail.gmail.com>
- <OSBPR01MB504858A417137ED7AC31F925AAFA0@OSBPR01MB5048.jpnprd01.prod.outlook.com>
- <CAMuHMdXGqv9aKra7Ncg4mRoc2caO5iOw+ydrNmo9UcHeDTgVGw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXGqv9aKra7Ncg4mRoc2caO5iOw+ydrNmo9UcHeDTgVGw@mail.gmail.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 25 Nov 2020 17:23:14 +0000
-Message-ID: <CA+V-a8sEQJhBF-MSj5o7Pf5KbkycQ2NpLnLmnCmHmN+tANO5Vg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] r8a7742-iwg21d-q7-dbcm: Add support for ov7725 sensors
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201125164450.2056963-6-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hejssan,
 
-On Wed, Nov 25, 2020 at 4:32 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Nov 25, 2020 at 5:26 PM Prabhakar Mahadev Lad
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > -----Original Message-----
-> > > From: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Sent: 25 November 2020 16:21
-> > > To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Cc: Magnus Damm <magnus.damm@gmail.com>; Rob Herring <robh+dt@kernel.org>; Linux-Renesas <linux-
-> > > renesas-soc@vger.kernel.org>; open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
-> > > <devicetree@vger.kernel.org>; Linux Kernel Mailing List <linux-kernel@vger.kernel.org>; Biju Das
-> > > <biju.das.jz@bp.renesas.com>; Prabhakar <prabhakar.csengg@gmail.com>
-> > > Subject: Re: [PATCH v2 0/2] r8a7742-iwg21d-q7-dbcm: Add support for ov7725 sensors
-> > >
-> > > Hi Prabhakar,
-> > >
-> > > On Wed, Nov 25, 2020 at 2:02 PM Lad Prabhakar
-> > > <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> > > > This patch set enables to connect ov7725 sensors on iWave-RZ/G1H Qseven
-> > > > board.
-> > >
-> > > Thanks for your series!
-> > >
-> > > Do you think it's a valid use case to mix and match ov5640 and ov7725
-> > > cameras? E.g. connect two of each?
-> > >
-> > Yes that is valid case to mix and match. Do you want me to make it configurable too ?
->
-> If this is a valid use case, then please do so.
->
-In that case do we still want to keep the ov7725/ov5640 nodes in
-separate dtsi  ?
+Tack för dessa lappar!
 
-Cheers,
-Prabhakar
+On Wed, Nov 25, 2020 at 05:44:50PM +0100, Niklas Söderlund wrote:
+> There are no users left of this helper and as it implements an
+> undesirable and too simple behaviour that should instead be implemented
+> directly by drivers remove it to prevent future uses of it.
+> 
+> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 14 -------
+>  include/media/v4l2-fwnode.h           | 53 ---------------------------
+>  2 files changed, 67 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index 44dd04b05e2970ab..5353e37eb950e813 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -911,20 +911,6 @@ v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_async_notifier_parse_fwnode_endpoints);
+>  
+> -int
+> -v4l2_async_notifier_parse_fwnode_endpoints_by_port(struct device *dev,
+> -						   struct v4l2_async_notifier *notifier,
+> -						   size_t asd_struct_size,
+> -						   unsigned int port,
+> -						   parse_endpoint_func parse_endpoint)
+> -{
+> -	return __v4l2_async_notifier_parse_fwnode_ep(dev, notifier,
+> -						     asd_struct_size,
+> -						     port, true,
+> -						     parse_endpoint);
+> -}
+> -EXPORT_SYMBOL_GPL(v4l2_async_notifier_parse_fwnode_endpoints_by_port);
 
-> Thanks!
->
-> > > Or should all four cameras be of the same type?
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Could you also merge __v4l2_async_notifier_parse_fwnode_ep with
+v4l2_async_notifier_parse_fwnode_endpoints as well? I'd do it in a separate
+patch though.
+
+> -
+>  /*
+>   * v4l2_fwnode_reference_parse - parse references for async sub-devices
+>   * @dev: the device node the properties of which are parsed for references
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index 4e1f6e1d847ec864..4365430eea6f3802 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -484,59 +484,6 @@ v4l2_async_notifier_parse_fwnode_endpoints(struct device *dev,
+>  					   size_t asd_struct_size,
+>  					   parse_endpoint_func parse_endpoint);
+>  
+> -/**
+> - * v4l2_async_notifier_parse_fwnode_endpoints_by_port - Parse V4L2 fwnode
+> - *							endpoints of a port in a
+> - *							device node
+> - * @dev: the device the endpoints of which are to be parsed
+> - * @notifier: notifier for @dev
+> - * @asd_struct_size: size of the driver's async sub-device struct, including
+> - *		     sizeof(struct v4l2_async_subdev). The &struct
+> - *		     v4l2_async_subdev shall be the first member of
+> - *		     the driver's async sub-device struct, i.e. both
+> - *		     begin at the same memory address.
+> - * @port: port number where endpoints are to be parsed
+> - * @parse_endpoint: Driver's callback function called on each V4L2 fwnode
+> - *		    endpoint. Optional.
+> - *
+> - * This function is just like v4l2_async_notifier_parse_fwnode_endpoints() with
+> - * the exception that it only parses endpoints in a given port. This is useful
+> - * on devices that have both sinks and sources: the async sub-devices connected
+> - * to sources have already been configured by another driver (on capture
+> - * devices). In this case the driver must know which ports to parse.
+> - *
+> - * Parse the fwnode endpoints of the @dev device on a given @port and populate
+> - * the async sub-devices list of the notifier. The @parse_endpoint callback
+> - * function is called for each endpoint with the corresponding async sub-device
+> - * pointer to let the caller initialize the driver-specific part of the async
+> - * sub-device structure.
+> - *
+> - * The notifier memory shall be zeroed before this function is called on the
+> - * notifier the first time.
+> - *
+> - * This function may not be called on a registered notifier and may be called on
+> - * a notifier only once per port.
+> - *
+> - * The &struct v4l2_fwnode_endpoint passed to the callback function
+> - * @parse_endpoint is released once the function is finished. If there is a need
+> - * to retain that configuration, the user needs to allocate memory for it.
+> - *
+> - * Any notifier populated using this function must be released with a call to
+> - * v4l2_async_notifier_cleanup() after it has been unregistered and the async
+> - * sub-devices are no longer in use, even if the function returned an error.
+> - *
+> - * Return: %0 on success, including when no async sub-devices are found
+> - *	   %-ENOMEM if memory allocation failed
+> - *	   %-EINVAL if graph or endpoint parsing failed
+> - *	   Other error codes as returned by @parse_endpoint
+> - */
+> -int
+> -v4l2_async_notifier_parse_fwnode_endpoints_by_port(struct device *dev,
+> -						   struct v4l2_async_notifier *notifier,
+> -						   size_t asd_struct_size,
+> -						   unsigned int port,
+> -						   parse_endpoint_func parse_endpoint);
+> -
+>  /**
+>   * v4l2_async_notifier_parse_fwnode_sensor_common - parse common references on
+>   *					       sensors for async sub-devices
+> -- 
+> 2.29.2
+> 
+
+-- 
+Sakari Ailus
