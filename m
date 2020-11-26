@@ -2,112 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 728DE2C53EC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 13:26:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E08CE2C55F4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 14:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732832AbgKZMZ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Nov 2020 07:25:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46628 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732307AbgKZMZZ (ORCPT
+        id S2390576AbgKZNj1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Nov 2020 08:39:27 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45963 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390472AbgKZNj0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Nov 2020 07:25:25 -0500
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com [IPv6:2607:f8b0:4864:20::944])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18ECBC0613D4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Nov 2020 04:25:25 -0800 (PST)
-Received: by mail-ua1-x944.google.com with SMTP id v9so475443uar.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Nov 2020 04:25:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=z0R8R2jRUBjx4Bl2gydbnlUNsAXVgTr3tONaL7KpOr8=;
-        b=ebegGbRzwXfxBzAhS27GYQiIki+X7TrcC4MeZIV/HhnMZVCREiAZah+qAmYGJQZQbT
-         lNKR8hPz8RXUEo8KYu4eFtqktC4XRnrU1Pkgk6Ix/KxaQV0Io3wZxPT5XAMFnbgcNev0
-         L7xxOR50D3B4XwCQFhxbQ7Oy1Uc8MszwOJSewu6djUbCe1ECrF/Vb1untmKrUKiRIZJK
-         aqw5esy0TH4WRd7ac5uUWjods47LU8rkfOEC/SZ+Q3Oef4+mZYAz00ln6VaB4a6g4hva
-         BVd1SGA5iC8G1ep2sXM70bs2SLSDFMmPViLltJtOQ/8vXUo1Vi9kXmimpF4AP0hmN4Ff
-         xmxQ==
+        Thu, 26 Nov 2020 08:39:26 -0500
+Received: by mail-ot1-f66.google.com with SMTP id k3so1867888otp.12;
+        Thu, 26 Nov 2020 05:39:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=z0R8R2jRUBjx4Bl2gydbnlUNsAXVgTr3tONaL7KpOr8=;
-        b=OU26QZMW2FFr7hgh1ak8BCiVhZhgvp5gA4PX6JElzrBYFws47aKNtSGFyLUYoJo4r6
-         p0ZZ11GqWL5C+LqhCHws83Cojt6AqYaddI8QVZzrS+AIK+vmligLapV7KzNZnO7hPLJg
-         1x3i7x5GXEbsFpgb7RsFjZeXheHi035cOoHA2+ANH2z4dOP7/x3ACuGnq449AtwlREDj
-         k4rPGrtQGVGM9B4abTj67lACyltL5r3Hubxi1XRVTqmxg3sAeEHtPzpJziHJ8Tnu2aQ2
-         piUPaOuL2e/yPAdxO0LzDdAv1jmTLi+UioUgDh8WFBOECzqOuW/weiWNmtj7rrk1aBzC
-         cgvQ==
-X-Gm-Message-State: AOAM533obZfbW+Eg2M7SA3ccFO24+TKZTgPSotBRuORkxwcLPY+/dbSw
-        b5zY4Zr0kjaGmcBgRwYGsfLQCHXcl8XqwOVaZQPDhg==
-X-Google-Smtp-Source: ABdhPJyIbGHUduONNAJYMEVtVww2ipJCdnEnn7o/ur8X9U+TIiWucwa3nmNUuTCbSkCIeITZgm7L8y5esOktO29kySA=
-X-Received: by 2002:ab0:c12:: with SMTP id a18mr1325949uak.19.1606393524171;
- Thu, 26 Nov 2020 04:25:24 -0800 (PST)
+        bh=EBEmuU91pYqLfQ3YGZGbk+yq54IRZktH6WhNjM47s9I=;
+        b=tFIHTnEyqYiduRZ3ZvlVAofsOcU39W6Vd8uTy5xn6bH8LSXe0pdA2MNCnIn/QjSvvX
+         Y/4OCUKBeWZblQAGz/YvkrnhIiWVy8SkH7DM+d6KJeGo4PBj7ywZTtw6H0KOsk2D//9E
+         EduRpv45zqNbs++tJfNwk40yvkghr4Z4lAvr3wDc4NSVIVYLqtqbORULha+7zo4z/O2A
+         Yy3bhA8HKUxDd681oy8UyoOPQW54ejWsxMNeBU5QCpcauiUzZGDKWG6EOoS3SM3ouA3e
+         WuSmyHrvLiGTtaly2dcv94InuJccNzz09ebj7c6DqSsvAWuC2SdJCO0TEb6w0uktbVZB
+         kskQ==
+X-Gm-Message-State: AOAM533gGx0EE3nS0/gnXzUTi3vvAAzwkeQCnvdGkjo0Nmk69E2hJgWY
+        xI638a+kN3cGXFz8mhlg5LlbcTOQ4K/luutVj+A=
+X-Google-Smtp-Source: ABdhPJyQuVrEtrEM865mHm51prMFOdSEfEfHVcshVA+1GyxtMBdVjPX52mxFA8+Xfw/klNI/acrafaOcpwgnBGhU614=
+X-Received: by 2002:a9d:686:: with SMTP id 6mr1970874otx.107.1606397965198;
+ Thu, 26 Nov 2020 05:39:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20201125204953.3344-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201125204953.3344-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 26 Nov 2020 13:24:47 +0100
-Message-ID: <CAPDyKFrA1av8NV8r1ARtv70_uxvvW0jaUp+=+APp=bp03=Ph9g@mail.gmail.com>
-Subject: Re: [PATCH] mmc: tmio: improve bringing HW to a sane state with MMC_POWER_OFF
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+References: <20201126103053.29881-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201126103053.29881-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201126103053.29881-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 26 Nov 2020 14:39:14 +0100
+Message-ID: <CAMuHMdW_Ov+vqymyqX-GO_8ifNaLAaGLayrpHzvAFD7kn_f0Zw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Separate out
+ ov5640 nodes
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 25 Nov 2020 at 21:51, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Further testing of error cases revealed that downgrade is not enough, so
-> we need to reset the SCC which is done by calling the custom reset
-> function. This reset function can distinguish between the various SDHI
-> variants, so protecting the call with MIN_RCAR2 is enough here.
->
-> Fixes: 24ce2d7b8bea ("mmc: tmio: bring tuning HW to a sane state with MMC_POWER_OFF")
-> Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> I was also evaluating if tmio_mmc_reset() would be better than
-> host->reset. I finally decided against it. This is the minimal change
-> that we need and which fixes an actual issue. I can't see why we would
-> want to terminate DMA because either everything went smooth and DMA
-> completed or the DMA error has already been handled. I think. Please
-> speak up if you disagree.
+Hi Prabhakar,
 
-I have no strong opinion, but just wanted to highlight that I observed
-that tmio_mmc_host_runtime_resume() calls tmio_mmc_reset(). No idea
-what that means for R-Car Gen2+.
+On Thu, Nov 26, 2020 at 11:31 AM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> The camera daughter board can also be connected to 8-bit ov7725 sensors,
+> so in preparation for configurable option to choose depending on the
+> camera's connected separate out ov5640 nodes in a dtsi file.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 
->
->  drivers/mmc/host/tmio_mmc_core.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index 7f4a28125010..a89547f5d733 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -929,9 +929,9 @@ static void tmio_mmc_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
->         switch (ios->power_mode) {
->         case MMC_POWER_OFF:
->                 tmio_mmc_power_off(host);
-> -               /* Downgrade ensures a sane state for tuning HW (e.g. SCC) */
-> -               if (host->mmc->ops->hs400_downgrade)
-> -                       host->mmc->ops->hs400_downgrade(host->mmc);
-> +               /* For R-Car Gen2+, we need to reset SDHI specific SCC */
-> +               if (host->pdata->flags & TMIO_MMC_MIN_RCAR2)
-> +                       host->reset(host);
->                 host->set_clock(host, 0);
->                 break;
->         case MMC_POWER_UP:
-> --
-> 2.28.0
->
+Thanks for your patch!
 
-Kind regards
-Uffe
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+However, I think this can still be improved upon.  As it's a bit difficult
+to explain, I'll send an updated version of your series with my
+suggestions applied.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
