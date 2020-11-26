@@ -2,70 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8439E2C4D7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 03:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8E62C4FAC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 08:48:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732007AbgKZClA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Nov 2020 21:41:00 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:8040 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730809AbgKZClA (ORCPT
+        id S1730463AbgKZHsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Nov 2020 02:48:13 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:57853 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730206AbgKZHsN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Nov 2020 21:41:00 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4ChMSP53YhzhXqh;
-        Thu, 26 Nov 2020 10:40:37 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Thu, 26 Nov 2020
- 10:40:47 +0800
-From:   Wang Li <wangli74@huawei.com>
-To:     <yoshihiro.shimoda.uh@renesas.com>, <kishon@ti.com>,
-        <vkoul@kernel.org>, <biju.das@bp.renesas.com>
-CC:     <linux-renesas-soc@vger.kernel.org>, <wangli74@huawei.com>
-Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: disable runtime pm in case of failure
-Date:   Thu, 26 Nov 2020 10:44:12 +0800
-Message-ID: <20201126024412.4046845-1-wangli74@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        Thu, 26 Nov 2020 02:48:13 -0500
+X-Originating-IP: 80.104.176.17
+Received: from uno.homenet.telecomitalia.it (host-80-104-176-17.retail.telecomitalia.it [80.104.176.17])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id E22C61C000C;
+        Thu, 26 Nov 2020 07:48:09 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     koji.matsuoka.xm@renesas.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/2] media: rcar-vin: Mask access to VNCSI_IFMD register
+Date:   Thu, 26 Nov 2020 08:47:55 +0100
+Message-Id: <20201126074757.2768-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pm_runtime_enable() will decrease power disable depth. Thus a pairing
-increment is needed on the error handling path to keep it balanced.
+As reported in patch 2/2 commit message the the VNCSI_IFMD register
+has the following limitations according to chip manual revision 2.20
 
-Fixes: 5d8042e95fd4 ("phy: rcar-gen3-usb2: Add support for r8a77470")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wang Li <wangli74@huawei.com>
----
-Changelog:
-v2
-- Correct the commit message.
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+- V3M, V3H and E3 do not support the DES1 field has they do not feature
+a CSI20 receiver.
+- D3 only supports parallel input, and the whole register shall always
+be written as 0.
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index e34e4475027c..2cb949f931b6 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -656,8 +656,10 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	 */
- 	pm_runtime_enable(dev);
- 	phy_usb2_ops = of_device_get_match_data(dev);
--	if (!phy_usb2_ops)
--		return -EINVAL;
-+	if (!phy_usb2_ops) {
-+		ret = -EINVAL;
-+		goto error;
-+	}
- 
- 	mutex_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
--- 
-2.25.4
+This patch upports the BSP change commit f54697394457
+("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990") from
+Koji Matsuoka
+
+Tested on r-car E3 Ebisu.
+
+v2 -> v3:
+- Remove a few comments and add Niklas' tag to [2/2]
+
+v1 -> v2:
+- Inspect the channel routing table to deduce the availability of DES1/DES0
+  bits as suggested by Niklas.
+
+Jacopo Mondi (2):
+  media: rcar-vin: Remove unused macro
+  media: rcar-vin: Mask VNCSI_IFMD register
+
+ drivers/media/platform/rcar-vin/rcar-dma.c | 26 ++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
+
+--
+2.29.1
 
