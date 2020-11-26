@@ -2,67 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 798082C532F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 12:44:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 337FB2C53D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 13:17:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728014AbgKZLoI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Nov 2020 06:44:08 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42640 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbgKZLoI (ORCPT
+        id S1733253AbgKZMQF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Nov 2020 07:16:05 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42707 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbgKZMQE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Nov 2020 06:44:08 -0500
-Received: by mail-oi1-f195.google.com with SMTP id v202so1960285oia.9;
-        Thu, 26 Nov 2020 03:44:07 -0800 (PST)
+        Thu, 26 Nov 2020 07:16:04 -0500
+Received: by mail-oi1-f196.google.com with SMTP id v202so2049527oia.9;
+        Thu, 26 Nov 2020 04:16:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MNWYKGbypDFoap5qLqujfYdysD6Sz9Zm1+agwezrpTA=;
-        b=YVxgn0YqIEmg0l/Jz0hVbr9k9SMJhLbSPEkYorzpAQcA4XocGSLx0WGnEtbR33trFm
-         ypP3XOQx4PP1EdA6XNoDe9X1Xg5uh9Xwk1blbgbuxOnn1c5FITIS+gTz+uQCbO3BEt3Z
-         vp4CwUxaPbjUk34+OEMfCqXksxlX8kjDPPgmAowuGJeUuUVwenO/U9nv6SKUeVX53LU1
-         MyJaUKj5RIqoYfnrkz6vs7cLziyf8OR8WDLdgQUDr+sTD6yJqeD+u9tD2E49k8hwwt4p
-         qS3uJoDlIrZw/KO3ERbOJV4cfclWn4jswMQdOXZoTFLljuQEKz/NAiRrB1HG6ri32O6k
-         5tPQ==
-X-Gm-Message-State: AOAM530xKy4ewgE7ocoNC000FTf9yPsIrJmfbMustEhRS9m8E5EQlELK
-        +cmUcjY19UyiUv16u9ndZ5tKA8DiA+GoSjAugERW28RPHKg=
-X-Google-Smtp-Source: ABdhPJyeMCVnytHUJxvejUca4WmcqCiMZgzdNYmp3MKVcP3J8+Nj7T+G8FqNJBrWgxz0Dw6spFlW8hCGb9byy+IEX6Q=
-X-Received: by 2002:aca:4bc3:: with SMTP id y186mr1737668oia.153.1606391047346;
- Thu, 26 Nov 2020 03:44:07 -0800 (PST)
+        bh=t/erZnxWXnxslQ4ZhtLnAtPyOjEighdhdwi5yfyZdws=;
+        b=lBRl2HmeaCEzdJS7n7mxNy3A/MUvs4QdmzzE/g28UiGXpAuFhaORZqlawGR5bBdYgo
+         7S+FTexYE6ZIdIezMCK+id0qbsxqUg1M1Cj9hLZydFMUIYmzMyiTYYpF2cITycaGHw/u
+         XNhM1DEILI9znD2cWAha4/3Ca98k/1RcjQq4HmkcQGKl9CFvAgaNLvgeTNsIJvspOrHw
+         TSTrrXVOZvqN+wExW9siCmE3hUrnkHFIyAoFzkP22jSQXDS+wzhoGYSWC/9/fvej+ve7
+         GDSfXzuHYYhCb2+16xk7DkT7qceuzOdQMkba4d4TDE3p41HbXXRDVMjicLyohHuey1MS
+         izSA==
+X-Gm-Message-State: AOAM530OuaiaohfAaMiw0lWjcHhL6OWCHQI533GsCzULN1lwMPAX/4SF
+        hpTmE/h0GqqzR7vJJYCbbzCKlCledZOamFpLv05mPPPAOAU=
+X-Google-Smtp-Source: ABdhPJwN+e7eH2GQ98zSkQWw5t1ej/MBCxGJaynWcP5LLdoZlTCD7RzzBKxa0FMw9Yya6B5SI/5OgcN5nECRLPM9vi4=
+X-Received: by 2002:aca:1c0f:: with SMTP id c15mr1916067oic.54.1606392963052;
+ Thu, 26 Nov 2020 04:16:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20201125073303.19057-1-yuya.hamamachi.sx@renesas.com> <20201125073303.19057-3-yuya.hamamachi.sx@renesas.com>
-In-Reply-To: <20201125073303.19057-3-yuya.hamamachi.sx@renesas.com>
+References: <1604543524-31482-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdX17hSkcxYPgnGP95nH3H5s+G9Si01X_6PxJn0Skyoqhg@mail.gmail.com>
+In-Reply-To: <CAMuHMdX17hSkcxYPgnGP95nH3H5s+G9Si01X_6PxJn0Skyoqhg@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Nov 2020 12:43:56 +0100
-Message-ID: <CAMuHMdXY5gO=xOvqstUyCje=Et1MjvS5MjkDdL0u0HqDjURxQw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a77951: Add PCIe EP nodes
-To:     Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-Cc:     linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Thu, 26 Nov 2020 13:15:52 +0100
+Message-ID: <CAMuHMdWE1KF42W=D9cvjHR0mvWs6GuarPTkhMRS5n6Fu1mwAQg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: clock: renesas: rcar-usb2-clock-sel:
+ Convert bindings to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 8:43 AM Yuya Hamamachi
-<yuya.hamamachi.sx@renesas.com> wrote:
-> Add PCIe EP nodes for R8A77951 SoC dtsi.
+On Mon, Nov 16, 2020 at 9:40 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Nov 5, 2020 at 3:32 AM Yoshihiro Shimoda
+> <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > Convert Renesas R-Car USB 2.0 clock selector bindings documentation
+> > to json-schema.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 >
-> Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.11.
+Oops, forgot I should queue this in renesas-clk-for-v5.11. Will do.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
