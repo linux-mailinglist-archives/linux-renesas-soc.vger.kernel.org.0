@@ -2,93 +2,242 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0421D2C5CA7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 20:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 988BA2C5DB5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 23:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404194AbgKZTiB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Nov 2020 14:38:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728078AbgKZTiA (ORCPT
+        id S1729608AbgKZWJz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Nov 2020 17:09:55 -0500
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:17837 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726814AbgKZWJz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Nov 2020 14:38:00 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D2BC0613D4;
-        Thu, 26 Nov 2020 11:38:00 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id t6so3937685lfl.13;
-        Thu, 26 Nov 2020 11:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5QyGNLQXxlgfPVb7GFlTMWTGFOCo2TM20uYJcJe6adg=;
-        b=tYjcVBLKofRyux7TmpRywDhK2h5xeftj8t6LIJX9Fdt6qwu8OPwg7NBnTKs30qKfl1
-         wb5vXtGCYcVho2O3NW0jz8lJlFpR0eFbPQNEHirTDgdyfuVsvIuKuWS84PsJvikejCLs
-         ozA1BrNb3k69cuPf6PAl2eEfuj4EcrpMOB+O2hgZ6KN+6JuX1CKeVAXOHMxnMVHksBvb
-         Vj6QhWpVjOFU85WuZ2Yw1A81SccA7vSa9HxabwXLdZ7iiOzi89CeofTiQzZVUUnr2yUb
-         LliDWx1v7Lgx/pI0+5XyJpQhAKo+id8yO0WVanaS3w09DmoNO7w2dE40v+QeBOpAynjU
-         uaTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5QyGNLQXxlgfPVb7GFlTMWTGFOCo2TM20uYJcJe6adg=;
-        b=g6ADl+A3Zu8jIHfL6hFW6cMh0mKd8b8tq9o/ImHPL4oNDlHgR8DeLxgKZDc6ROoIPD
-         TghCxU1/m4TPMTrHA7YV4mgNtMePjNMIGdFQCwjusLFEb0pZUEpARicw/TIc4ha2RHCg
-         VEVziCt9ZoM5nV9cGvk30ff9PdqvfT85qNEDeU13tUDttaySQ2QIOQcMGlYLdDKfaKrq
-         wk1vchOxzjKPYirIrFp3F2lCDKfPc/G3rXWxgFpsDtxkk/O0iL71jbLhJNyXrjFp46Wr
-         kwKJHdlpKkj31BCfn+h2ezBh7p41u8uPoWbcwJw01xOQE98J1+sZaIVUMRGR07o8T1VM
-         PJfg==
-X-Gm-Message-State: AOAM531PHZ9La5taa+GygW/OUL9wID6NPMVF2+regDreCL6LPAo4mFKT
-        Mv53fPFz0nzyCMj34yFW5gI=
-X-Google-Smtp-Source: ABdhPJxPeCHQTiePLnWS07bgYBnjfw5VFvp2iXJdXUO4AX6rmkHZRIuoGt9lC3HQCvoSF5HUpEqPkQ==
-X-Received: by 2002:a19:c815:: with SMTP id y21mr1816781lff.589.1606419478722;
-        Thu, 26 Nov 2020 11:37:58 -0800 (PST)
-Received: from ?IPv6:2a00:1fa0:4282:4e35:1b33:42ef:d169:a655? ([2a00:1fa0:4282:4e35:1b33:42ef:d169:a655])
-        by smtp.gmail.com with ESMTPSA id 202sm416680lfg.203.2020.11.26.11.37.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2020 11:37:58 -0800 (PST)
-Subject: Re: [PATCH v2 0/5] memory: renesas-rpc-if: Trivial fixes
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jiri Kosina <trivial@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-References: <20201126191146.8753-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <a42dc8dd-9a67-bf5b-c289-ae73c5218dc5@gmail.com>
-Date:   Thu, 26 Nov 2020 22:37:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Thu, 26 Nov 2020 17:09:55 -0500
+X-Halon-ID: afb85b74-3033-11eb-a076-005056917f90
+Authorized-sender: niklas.soderlund@fsdn.se
+Received: from bismarck.berto.se (p4fca2458.dip0.t-ipconnect.de [79.202.36.88])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id afb85b74-3033-11eb-a076-005056917f90;
+        Thu, 26 Nov 2020 23:06:58 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-pm@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] thermal: rcar_gen3_thermal: Do not use interrupts for normal operation
+Date:   Thu, 26 Nov 2020 23:09:23 +0100
+Message-Id: <20201126220923.3107213-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201126191146.8753-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/26/20 10:11 PM, Lad Prabhakar wrote:
+Remove the usage of interrupts for the normal temperature operation and
+depend on the polling performed by the thermal core. This is done to
+prepare to use the interrupts as they are intended to trigger once
+specific trip points are passed and not to react to temperature changes
+in the normal operational range.
 
-> This patch series fixes trivial issues in RPC-IF driver.
-> 
-> Changes for v2:
-> * Balanced PM in rpcif_disable_rpm
-> * Fixed typo in patch 4/5
-> * Dropped C++ style fixes patch
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/thermal/rcar_gen3_thermal.c | 108 +---------------------------
+ 1 file changed, 2 insertions(+), 106 deletions(-)
 
-   The part that fixed the comment style wasd good, you should\ve kept it...
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index 0dd47dca3e771256..94f2c133a47f66b6 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -188,70 +188,10 @@ static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
+ 	return 0;
+ }
+ 
+-static int rcar_gen3_thermal_mcelsius_to_temp(struct rcar_gen3_thermal_tsc *tsc,
+-					      int mcelsius)
+-{
+-	int celsius, val;
+-
+-	celsius = DIV_ROUND_CLOSEST(mcelsius, 1000);
+-	if (celsius <= INT_FIXPT(tsc->tj_t))
+-		val = celsius * tsc->coef.a1 + tsc->coef.b1;
+-	else
+-		val = celsius * tsc->coef.a2 + tsc->coef.b2;
+-
+-	return INT_FIXPT(val);
+-}
+-
+-static int rcar_gen3_thermal_update_range(struct rcar_gen3_thermal_tsc *tsc)
+-{
+-	int temperature, low, high;
+-
+-	rcar_gen3_thermal_get_temp(tsc, &temperature);
+-
+-	low = temperature - MCELSIUS(1);
+-	high = temperature + MCELSIUS(1);
+-
+-	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP1,
+-				rcar_gen3_thermal_mcelsius_to_temp(tsc, low));
+-
+-	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP2,
+-				rcar_gen3_thermal_mcelsius_to_temp(tsc, high));
+-
+-	return 0;
+-}
+-
+ static const struct thermal_zone_of_device_ops rcar_gen3_tz_of_ops = {
+ 	.get_temp	= rcar_gen3_thermal_get_temp,
+ };
+ 
+-static void rcar_thermal_irq_set(struct rcar_gen3_thermal_priv *priv, bool on)
+-{
+-	unsigned int i;
+-	u32 val = on ? IRQ_TEMPD1 | IRQ_TEMP2 : 0;
+-
+-	for (i = 0; i < priv->num_tscs; i++)
+-		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQMSK, val);
+-}
+-
+-static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
+-{
+-	struct rcar_gen3_thermal_priv *priv = data;
+-	u32 status;
+-	int i;
+-
+-	for (i = 0; i < priv->num_tscs; i++) {
+-		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
+-		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
+-		if (status) {
+-			rcar_gen3_thermal_update_range(priv->tscs[i]);
+-			thermal_zone_device_update(priv->tscs[i]->zone,
+-						   THERMAL_EVENT_UNSPECIFIED);
+-		}
+-	}
+-
+-	return IRQ_HANDLED;
+-}
+-
+ static const struct soc_device_attribute r8a7795es1[] = {
+ 	{ .soc_id = "r8a7795", .revision = "ES1.*" },
+ 	{ /* sentinel */ }
+@@ -268,7 +208,6 @@ static void rcar_gen3_thermal_init_r8a7795es1(struct rcar_gen3_thermal_tsc *tsc)
+ 
+ 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0x3F);
+ 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
+-	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN, IRQ_TEMPD1 | IRQ_TEMP2);
+ 
+ 	rcar_gen3_thermal_write(tsc, REG_GEN3_CTSR,
+ 				CTSR_PONM | CTSR_AOUT | CTSR_THBGR | CTSR_VMEN);
+@@ -294,7 +233,6 @@ static void rcar_gen3_thermal_init(struct rcar_gen3_thermal_tsc *tsc)
+ 
+ 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQCTL, 0);
+ 	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQMSK, 0);
+-	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQEN, IRQ_TEMPD1 | IRQ_TEMP2);
+ 
+ 	reg_val = rcar_gen3_thermal_read(tsc, REG_GEN3_THCTR);
+ 	reg_val |= THCTR_THSST;
+@@ -345,9 +283,6 @@ MODULE_DEVICE_TABLE(of, rcar_gen3_thermal_dt_ids);
+ static int rcar_gen3_thermal_remove(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct rcar_gen3_thermal_priv *priv = dev_get_drvdata(dev);
+-
+-	rcar_thermal_irq_set(priv, false);
+ 
+ 	pm_runtime_put(dev);
+ 	pm_runtime_disable(dev);
+@@ -369,8 +304,7 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 	const int *rcar_gen3_ths_tj_1 = of_device_get_match_data(dev);
+ 	struct resource *res;
+ 	struct thermal_zone_device *zone;
+-	int ret, irq, i;
+-	char *irqname;
++	int ret, i;
+ 
+ 	/* default values if FUSEs are missing */
+ 	/* TODO: Read values from hardware on supported platforms */
+@@ -386,28 +320,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, priv);
+ 
+-	/*
+-	 * Request 2 (of the 3 possible) IRQs, the driver only needs to
+-	 * to trigger on the low and high trip points of the current
+-	 * temp window at this point.
+-	 */
+-	for (i = 0; i < 2; i++) {
+-		irq = platform_get_irq(pdev, i);
+-		if (irq < 0)
+-			return irq;
+-
+-		irqname = devm_kasprintf(dev, GFP_KERNEL, "%s:ch%d",
+-					 dev_name(dev), i);
+-		if (!irqname)
+-			return -ENOMEM;
+-
+-		ret = devm_request_threaded_irq(dev, irq, NULL,
+-						rcar_gen3_thermal_irq,
+-						IRQF_ONESHOT, irqname, priv);
+-		if (ret)
+-			return ret;
+-	}
+-
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_get_sync(dev);
+ 
+@@ -459,8 +371,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 		if (ret < 0)
+ 			goto error_unregister;
+ 
+-		rcar_gen3_thermal_update_range(tsc);
+-
+ 		dev_info(dev, "TSC%d: Loaded %d trip points\n", i, ret);
+ 	}
+ 
+@@ -471,8 +381,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 		goto error_unregister;
+ 	}
+ 
+-	rcar_thermal_irq_set(priv, true);
+-
+ 	return 0;
+ 
+ error_unregister:
+@@ -481,15 +389,6 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int __maybe_unused rcar_gen3_thermal_suspend(struct device *dev)
+-{
+-	struct rcar_gen3_thermal_priv *priv = dev_get_drvdata(dev);
+-
+-	rcar_thermal_irq_set(priv, false);
+-
+-	return 0;
+-}
+-
+ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
+ {
+ 	struct rcar_gen3_thermal_priv *priv = dev_get_drvdata(dev);
+@@ -499,15 +398,12 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
+ 		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
+ 
+ 		priv->thermal_init(tsc);
+-		rcar_gen3_thermal_update_range(tsc);
+ 	}
+ 
+-	rcar_thermal_irq_set(priv, true);
+-
+ 	return 0;
+ }
+ 
+-static SIMPLE_DEV_PM_OPS(rcar_gen3_thermal_pm_ops, rcar_gen3_thermal_suspend,
++static SIMPLE_DEV_PM_OPS(rcar_gen3_thermal_pm_ops, NULL,
+ 			 rcar_gen3_thermal_resume);
+ 
+ static struct platform_driver rcar_gen3_thermal_driver = {
+-- 
+2.29.2
 
-> * Included RB tags from Sergei
-> 
-> Cheers,
-> Prabhakar
-[...]
-
-MBR, Sergei
