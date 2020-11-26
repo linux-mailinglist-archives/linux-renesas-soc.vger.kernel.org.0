@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 490C32C5DCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 23:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E4512C5DD2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 23:31:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388035AbgKZWah (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Nov 2020 17:30:37 -0500
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:30408 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732550AbgKZWah (ORCPT
+        id S2388010AbgKZWai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Nov 2020 17:30:38 -0500
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:55211 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732550AbgKZWai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Nov 2020 17:30:37 -0500
-X-Halon-ID: fa841939-3036-11eb-a78a-0050569116f7
+        Thu, 26 Nov 2020 17:30:38 -0500
+X-Halon-ID: fe6e0644-3036-11eb-a78a-0050569116f7
 Authorized-sender: niklas.soderlund@fsdn.se
 Received: from bismarck.berto.se (p4fca2458.dip0.t-ipconnect.de [79.202.36.88])
         by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id fa841939-3036-11eb-a78a-0050569116f7;
-        Thu, 26 Nov 2020 23:30:31 +0100 (CET)
+        id fe6e0644-3036-11eb-a78a-0050569116f7;
+        Thu, 26 Nov 2020 23:30:32 +0100 (CET)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -25,10 +25,12 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 0/3] thermal: Add support for R-Car V3U (r8a779a0)
-Date:   Thu, 26 Nov 2020 23:30:25 +0100
-Message-Id: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 1/3] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779a0 support
+Date:   Thu, 26 Nov 2020 23:30:26 +0100
+Message-Id: <20201126223028.3119044-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -36,41 +38,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Add support for R-Car V3U. The V3U IP differs a bit from its siblings in
+such way that it have 4 TSC nodes and the interrupts are not routed to
+the INTC-AP but to the ECM.
 
-This series enables support for the R-Car V3U r8a779a0 thermal IP. It 
-needs to touch both the device tree schema and driver as the IP is a tad 
-different then its siblings in the Gen3 family.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ .../bindings/thermal/rcar-gen3-thermal.yaml     | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-  - It have 4 TSC cells instead of 2-3 that is used in other SoCs.
-
-  - The interrupts are no longer wired to the INTC-AP so the driver 
-    can't make use of them directly and are therefor made optional for 
-    the V3U bindings. For this reason this series depends on [1].
-
-The driver is tested together with it's dependency [1] and [2] on V3U 
-and all 4 thermal sensors behaves as expected. The driver has also been 
-tested on other R-Car Gen3 SoC for regressions, none where found.
-
-The additional THCODE tuning parameters used in 3/3 are taken from the 
-datasheet example and may need to be updated. In future the tuning 
-parameters shall be read from fused registers on the IP directly and the 
-hardcoded values in the driver only used as fallback for IP where the 
-values are not fused.
-
-1. [PATCH] thermal: rcar_gen3_thermal: Do not use interrupts for normal operation
-2. [PATCH 0/2] clk: renesas: r8a779a0: Add clocks to support thermal
-
-Niklas Söderlund (3):
-  dt-bindings: thermal: rcar-gen3-thermal: Add r8a779a0 support
-  arm64: dts: renesas: r8a779a0: Add thermal support
-  thermal: rcar_gen3_thermal: Add r8a779a0 support
-
- .../bindings/thermal/rcar-gen3-thermal.yaml   | 17 ++++-
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 70 +++++++++++++++++++
- drivers/thermal/rcar_gen3_thermal.c           |  7 +-
- 3 files changed, 91 insertions(+), 3 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+index f386f2a7c06c95c7..b33a76eeac4e4fed 100644
+--- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
+@@ -26,13 +26,16 @@ properties:
+       - renesas,r8a77961-thermal # R-Car M3-W+
+       - renesas,r8a77965-thermal # R-Car M3-N
+       - renesas,r8a77980-thermal # R-Car V3H
++      - renesas,r8a779a0-thermal # R-Car V3U
++
+   reg:
+     minItems: 2
+-    maxItems: 3
++    maxItems: 4
+     items:
+       - description: TSC1 registers
+       - description: TSC2 registers
+       - description: TSC3 registers
++      - description: TSC4 registers
+ 
+   interrupts:
+     items:
+@@ -55,12 +58,22 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - interrupts
+   - clocks
+   - power-domains
+   - resets
+   - "#thermal-sensor-cells"
+ 
++if:
++  not:
++    properties:
++      compatible:
++        contains:
++          enum:
++            - renesas,r8a779a0-thermal
++then:
++  required:
++    - interrupts
++
+ additionalProperties: false
+ 
+ examples:
 -- 
 2.29.2
 
