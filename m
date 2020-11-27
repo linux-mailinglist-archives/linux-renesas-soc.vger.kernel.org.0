@@ -2,73 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 498ED2C6325
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 11:35:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 512432C63C2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 12:19:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbgK0Kdy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Nov 2020 05:33:54 -0500
-Received: from mail-oo1-f66.google.com ([209.85.161.66]:38652 "EHLO
-        mail-oo1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgK0Kdy (ORCPT
+        id S1725980AbgK0LTG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 06:19:06 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:37495 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbgK0LTG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Nov 2020 05:33:54 -0500
-Received: by mail-oo1-f66.google.com with SMTP id z13so1000813ooa.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Nov 2020 02:33:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Dt1GCnG5RHmVGHvSCBLpP5rg1mJjgGa7hOsnvGhVKhc=;
-        b=Je2hSfANXRkbIxhRGCL625f0kLUZ46Z89CyZXI2Eam2fSjCSSjWXYliN32WgSGwTk0
-         CQ9I/b/roPd+auOZBQNkwj/FdCjvIiXfQMUxjmTvKwGluNYjP2Oio51WbssnNbvEAkJ2
-         +MXjmhiJ+6WvKc0UEEg7KvPZPx1/ZbFQnqe6cx5Vc0XXdMSIR9YfXudko1/NEFhPRHO+
-         zpFPj3TvMCVC3lF6+LJBMtoOxyFo0ZmVeHO7G6iHRotFdsbP2s6Q5ThAvI6OQQ+YZGok
-         34qWpY7bAW2oDvetdI0vsC12hyi8ot1GEPE4hAE2tckvBsRf3rL5VTw0HUJh/49iWTB3
-         qkWw==
-X-Gm-Message-State: AOAM531owZTsWYiOtY/JAwwQx/Y8WXB8o/Ca82ttq+FEsAbC4OGW94BP
-        QhFxgXBMyIaRfBZJkxANM9aZBHa/6eD8o0MpjCI=
-X-Google-Smtp-Source: ABdhPJyFTFbTLIF2z5e2cY1Qu1D6GOMtZrX10ErPsWxx6qHfLrMM2lCz9w7V9RmO9SO/7FSKpVjslreNdxD8c2GQ0Do=
-X-Received: by 2002:a4a:274b:: with SMTP id w11mr5097710oow.11.1606473233890;
- Fri, 27 Nov 2020 02:33:53 -0800 (PST)
+        Fri, 27 Nov 2020 06:19:06 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id CD55D1BF21B;
+        Fri, 27 Nov 2020 11:19:02 +0000 (UTC)
+Date:   Fri, 27 Nov 2020 12:19:08 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/5] v4l2-fwnode: Remove
+ v4l2_async_notifier_parse_fwnode_endpoints_by_port() helper
+Message-ID: <20201127111908.rmwxgech2b4jr6w7@uno.localdomain>
+References: <20201125164450.2056963-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201126101251.jcsvi6g5xsbnc52w@uno.localdomain>
+ <20201126102205.GN3940@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-References: <20201126172154.25625-1-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172154.25625-1-uli+renesas@fpond.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Nov 2020 11:33:42 +0100
-Message-ID: <CAMuHMdWt+NBD4u4iCf=OdSyFBBW0HU3HwWYyOK3tX87cUOSMwg@mail.gmail.com>
-Subject: Re: [PATCH 00/11] pinctrl: renesas: R8A779A0 (V3U) device support
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201126102205.GN3940@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
+Hi Sakari,
 
-On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This series adds V3U pin control support for EtherAVB, CANFD, DU, HSCIF,
-> INTC-EX, MMC, MSIOF, PWM, QSPI, TMU and TPU.
+On Thu, Nov 26, 2020 at 12:22:05PM +0200, Sakari Ailus wrote:
+> Hi Jacopo,
 >
-> It has been ported from the BSP and has been compile-tested only. It
-> depends on the "pinctrl: renesas: basic R8A779A0 (V3U) support" series
-> posted earlier.
+> On Thu, Nov 26, 2020 at 11:12:51AM +0100, Jacopo Mondi wrote:
+> > Hi Niklas, Sakari,
+> >
+> > On Wed, Nov 25, 2020 at 05:44:45PM +0100, Niklas Söderlund wrote:
+> > > Hello,
+> > >
+> > > This series aims to remove a V4L2 helper that provides a too simple
+> > > implementation, v4l2_async_notifier_parse_fwnode_endpoints_by_port().
+> > > Instead drivers shall implement what the helper does directly to get
+> > > greater control of the process. There is only one user left in tree of
+> > > this interface, R-Car VIN.
+> >
+> > What is the plan going forward ?
+> > removing v4l2_async_notifier_parse_fwnode_endpoints_by_port() here
+> > then remove v4l2_async_notifier_parse_fwnode_endpoints() as it has a
+> > single user in mainline too ?
+> >
+> > Are we standardizing all platform drivers to use
+> > v4l2_async_notifier_add_fwnode_subdev() and perform fwnode.match
+> > initialization by themselves or is there a plan to replace
+>
+> Yes, please.
+>
+> > v4l2_async_notifier_parse_fwnode_endpoints*() with something else ?
+>
+> That's always been somewhat clunky and required special cases. The other
+> option, i.e. what this patchset does, is straightforward as well as allows
+> setting defaults in drivers, and admittedly, comes with a little bit of
+> extra code in drivers in areas that are driver specific. The old functions
+> such as v4l2_async_notifier_parse_fwnode_endpoints() just pretended they
+> were not...
 
-Thanks for your series!
+Agreed in full :)
+(At the expense of a little extra code in drivers)
 
-> Ulrich Hecht (11):
->   pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
-
-This patch depends on i2c support, which was not included in your series?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
+> --
+> Regards,
+>
+> Sakari Ailus
