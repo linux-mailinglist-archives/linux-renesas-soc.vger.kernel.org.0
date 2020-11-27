@@ -2,85 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5339C2C61C9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 10:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 07FC32C61EC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 10:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbgK0JeU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Nov 2020 04:34:20 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:40435 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbgK0JeT (ORCPT
+        id S1728642AbgK0Jkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 04:40:39 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:8434 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728561AbgK0Jki (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Nov 2020 04:34:19 -0500
-Received: by mail-oi1-f194.google.com with SMTP id a130so5201867oif.7;
-        Fri, 27 Nov 2020 01:34:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+o1zY6oeZsDsItG8Zlzn8+hdL/E+Dvm6aLi6UCmULNY=;
-        b=iuxQtW3e9JZz/l0oiSiwFWm/H2uysEK/rorJ+p7ck0M1uyyBBv8oCETVLXcHliLgK6
-         OnMJLnT5u9SZsqnI1Ay9PAYH+hsKfZVirdXQAqXYupkBqCbqzQXCWKYPcewc8NYDHIlm
-         Odg+tDPfbHGblHWDeVkduw2vwkSB13PYS8y98tebZ2ZcowUlCWOm8KH4UG7KeYwL1Mnl
-         OZ11FC7Vjj8uUpKlq6LMRfIT4Tk8+cbMtgUGIMAzBrhADRQcrPPpVEzBA/sLYVOkx38s
-         tF3hWmDdLscpAORENx7y5Jar1bpOT25t+Y9KEAZBNGMTGnQVHxx+C8qcEn4Y1gKiPxxZ
-         bs7w==
-X-Gm-Message-State: AOAM5313zndwpO8VzQyQMgYBui+OWO/pfzOzpvZ7lFbHWQBb/1bvEkvg
-        +/dXUB0R6dS4z2R2kyldRzWYofLEORTLhV+IbvA=
-X-Google-Smtp-Source: ABdhPJypZau4G8SzRKhoEB8MnXbJ2NQjoa9bW01aaFTI6Gq5cOeHMzFtu7h3MBg9R2pYA0XiH2NAr2gRYk1zlk3GHN4=
-X-Received: by 2002:aca:c3c4:: with SMTP id t187mr4569554oif.148.1606469658632;
- Fri, 27 Nov 2020 01:34:18 -0800 (PST)
+        Fri, 27 Nov 2020 04:40:38 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cj8kD2RX9zhjSw;
+        Fri, 27 Nov 2020 17:40:20 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 27 Nov 2020 17:40:27 +0800
+From:   Qinglang Miao <miaoqinglang@huawei.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>
+CC:     <dri-devel@lists.freedesktop.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Qinglang Miao <miaoqinglang@huawei.com>
+Subject: [PATCH] drm: rcar-du: fix reference leak in rcar_cmm_enable
+Date:   Fri, 27 Nov 2020 17:44:44 +0800
+Message-ID: <20201127094444.121186-1-miaoqinglang@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201126191146.8753-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201126191146.8753-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20201126191146.8753-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Nov 2020 10:34:07 +0100
-Message-ID: <CAMuHMdVfuJ79OR3mUPEux7JC0yDAbgnbx6wuyXMdBtJhHSSFEg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] memory: renesas-rpc-if: Return correct value to
- the caller of rpcif_manual_xfer()
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jiri Kosina <trivial@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 8:12 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> In the error path of rpcif_manual_xfer() the value of ret is overwritten
-> by value returned by reset_control_reset() function and thus returning
-> incorrect value to the caller.
->
-> This patch makes sure the correct value is returned to the caller of
-> rpcif_manual_xfer() by dropping the overwrite of ret in error path.
-> Also now we ignore the value returned by reset_control_reset() in the
-> error path and instead print a error message when it fails.
->
-> Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
-> Reported-by: Pavel Machek <pavel@denx.de>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+pm_runtime_get_sync will increment pm usage counter even it
+failed. Forgetting to putting operation will result in a
+reference leak here.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+A new function pm_runtime_resume_and_get is introduced in
+[0] to keep usage counter balanced. So We fix the reference
+leak by replacing it with new funtion.
 
-Gr{oetje,eeting}s,
+[0] dd8088d5a896 ("PM: runtime: Add  pm_runtime_resume_and_get to deal with usage counter")
 
-                        Geert
+Fixes: e08e934d6c28 ("drm: rcar-du: Add support for CMM")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_cmm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+index c578095b0..382d53f8a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+@@ -122,7 +122,7 @@ int rcar_cmm_enable(struct platform_device *pdev)
+ {
+ 	int ret;
+ 
+-	ret = pm_runtime_get_sync(&pdev->dev);
++	ret = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (ret < 0)
+ 		return ret;
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.23.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
