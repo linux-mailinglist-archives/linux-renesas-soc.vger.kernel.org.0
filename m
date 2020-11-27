@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 751CA2C679E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 15:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70B192C6816
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 15:44:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730393AbgK0ON2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Nov 2020 09:13:28 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:39200 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730041AbgK0ON1 (ORCPT
+        id S1730948AbgK0Oof (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 09:44:35 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46745 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730944AbgK0Oof (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Nov 2020 09:13:27 -0500
-Received: by mail-ot1-f66.google.com with SMTP id z24so4806664oto.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Nov 2020 06:13:25 -0800 (PST)
+        Fri, 27 Nov 2020 09:44:35 -0500
+Received: by mail-oi1-f194.google.com with SMTP id w15so6051442oie.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Nov 2020 06:44:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=C22ycaIKmEvxsyP8+iSJ36KP/aQ8aMy2WhWEG15HfsQ=;
-        b=NpKoxh/T3Zdcfiip/WwjkY2nhJeORroafb46LcOdfhmLM/08F1LJ8LiNX4zmIGI2Nw
-         fEvmkXlDD02w54xod6Kza/G4g3fT6XzqEod9aUPyemgB6bVlFSEoK0DzJ15PN/aBJuqk
-         uDDGOhPO2H2GgmL0hiM3iEWI0jXAY59KzEpRWsjU7ymnU71RowP/Ngu3PhsFldN9lzx9
-         QWr27ykHCB7rP5E5OcfqqT4+vsa+L8DVLb1Tbj52o36zN1kwPoHW/PAIW6Su8F5UaKWP
-         i1flbNutvV9RrQ9oKivEzrXRvW5ETSU/cln5iAeVXjrLSzCLbPey3LGaKfKODNQyqomI
-         n+cw==
-X-Gm-Message-State: AOAM532n48ZIXjV8LXagbGYxzUpxPAAb+RwZjLoL6fCIrBr0WLi3YCpR
-        40plrdNlyt69AHzvsEJRoqDkd9cygqWhfS1x2xiHEsBDnX5KdQ==
-X-Google-Smtp-Source: ABdhPJzehBcg7RQOMR1n1ya/ho/5mKc2lBic1nge11C9azZGomlNJtJlsycLXMi7/WegJJ+Miv4nt53qTz1WmclphOo=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr5945721otc.145.1606486405346;
- Fri, 27 Nov 2020 06:13:25 -0800 (PST)
+        bh=kKhJ2qGDTu4VllnNZIMpoK6o5n1cvGiQevHYw27b0EE=;
+        b=V6PWyv3ENZXaZ4pbE80r2zVKcy1vWKa+GCnP+AFY3DfDZj+bTyqp4YivfEItzkHbi4
+         OQbAP2I9fDo60LYN7g2k7kdwGJZdrODifvB3//A05UKFix06dIulvgAmAO6TfF2HUPiq
+         +pjbhSpeMFST6xwunNf34OvmxjQ9rLl4rqLWbrgUIwzPaGRDJQIXKohMxxUTawxKsy2F
+         hCqFGpFBhvsPKm2orpSZg8AZWuLTKX3cRu1+X0lvELpJs31Tb7nBSVmaaEj4QxJ1vl0O
+         EU6oP3+vSrCWFcDnQCutDUiO9zkEjjCamyTR5FsIIM/YxliGE04u5gDZxKQuqAMcCC0h
+         NPbA==
+X-Gm-Message-State: AOAM532zgqLuiq/4/OYDiJzuaoTd2/BsqbfHxyEj9eRqRpcu2uhV2sSj
+        NpqyAtZ8XtVRmkpWV1jpAnVaoLyzdBJu9fBXdSBwgOH1lLlZ+Q==
+X-Google-Smtp-Source: ABdhPJx2AzCXnbsiH8LEl7TwHpVfUshc8pnOFMF+IrYPb6RuWW62Rgd9Cc7pl1HgvLP3ZSDcAaeFqbO2lWxzmQNaZ0A=
+X-Received: by 2002:aca:c3c4:: with SMTP id t187mr5486854oif.148.1606488274645;
+ Fri, 27 Nov 2020 06:44:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126172058.25275-1-uli+renesas@fpond.eu> <20201126172058.25275-4-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172058.25275-4-uli+renesas@fpond.eu>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-2-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172154.25625-2-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Nov 2020 15:13:14 +0100
-Message-ID: <CAMuHMdUW7MNq6xrAKuqb5CMPDNPB_8fxjbpjz5cd8MzsR7JnHg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] pinctrl: renesas: r8a779a0: Add SCIF pins, groups and functions
+Date:   Fri, 27 Nov 2020 15:44:23 +0100
+Message-ID: <CAMuHMdVOPo=e4U+XPwnGAOYeCMmx5VkhDfThRv6L=iSMzG-FfA@mail.gmail.com>
+Subject: Re: [PATCH 01/11] pinctrl: renesas: r8a779a0: Add EtherAVB pins,
+ groups and functions
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
@@ -47,45 +48,18 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Uli,
 
-On Thu, Nov 26, 2020 at 6:21 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds SCIF0, 1, 3 and 4 pins, groups and functions for the
-> R8A779A0 (V3U) SoC.
+On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This patch adds groups and function for AVB PHY, LINK, MAGIC, MII and
+> PTP pins for the R8A779A0 (V3U) SoC.
 >
 > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
 Thanks for your patch!
 
-> --- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> +/* - SCIF1 ------------------------------------------------------------------ */
-> +static const unsigned int scif1_data_pins[] = {
-> +       /* RX1, TX1 */
-> +       RCAR_GP_PIN(1, 21), RCAR_GP_PIN(1, 22),
-> +};
-> +static const unsigned int scif1_data_mux[] = {
-> +       RX1_MARK, TX1_MARK,
-> +};
-
-According to the R-Car V3U Pin Multiplex Table, there are two sets.
-Table 6.14 in the User's Manual agrees.
-The above definition corresponds to set A.
-Set B is available on pins GP3_02 and GP3_01.
-
-> +static const unsigned int scif1_clk_pins[] = {
-> +       /* SCK1 */
-> +       RCAR_GP_PIN(1, 18),
-> +};
-> +static const unsigned int scif1_clk_mux[] = {
-> +       SCK1_MARK,
-> +};
-> +static const unsigned int scif1_ctrl_pins[] = {
-> +       /* RTS1#, CTS1# */
-> +       RCAR_GP_PIN(1, 20), RCAR_GP_PIN(1, 19),
-> +};
-> +static const unsigned int scif1_ctrl_mux[] = {
-> +       RTS1_N_MARK, CTS1_N_MARK,
-> +};
+However, AVB0 and AVB1 also support MII, so I think you should add
+separate pin groups to support that.
 
 Gr{oetje,eeting}s,
 
