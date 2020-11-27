@@ -2,81 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 857882C5DD4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Nov 2020 23:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E31A2C6151
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 10:03:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387992AbgKZWaj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Nov 2020 17:30:39 -0500
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:59592 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391763AbgKZWai (ORCPT
+        id S1727247AbgK0JCw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 04:02:52 -0500
+Received: from mail-oo1-f68.google.com ([209.85.161.68]:45164 "EHLO
+        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbgK0JCv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Nov 2020 17:30:38 -0500
-X-Halon-ID: ff5c21c7-3036-11eb-a78a-0050569116f7
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p4fca2458.dip0.t-ipconnect.de [79.202.36.88])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id ff5c21c7-3036-11eb-a78a-0050569116f7;
-        Thu, 26 Nov 2020 23:30:34 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org, linux-pm@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 3/3] thermal: rcar_gen3_thermal: Add r8a779a0 support
-Date:   Thu, 26 Nov 2020 23:30:28 +0100
-Message-Id: <20201126223028.3119044-4-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 27 Nov 2020 04:02:51 -0500
+Received: by mail-oo1-f68.google.com with SMTP id r11so945099oos.12;
+        Fri, 27 Nov 2020 01:02:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WCDGStRGrWljlmeCrp0x/menr4lF/jcnjR6aNhcAfIU=;
+        b=G4yGPqmQbsmhg+LAXDZS4673NHxjfQlXEDvQgxJlHiT/esJEIhe6GrIfTwZJX1wUq7
+         UZESEFYLwA9fchNgpAFOdA4NOO0Ku1OLdHZBuxZ+HYxbSeNbe45K2YxPRQY8qs8MHutG
+         JWqGpQ0PxOCKmKcEOHSXoK/xW3Mdtj0yZFapuJQDlbn9njGewMpGpyjLQP/kEiaQzI5M
+         LJ+5a+O7aBR4OtmA7+vs6BG7gWxlFMXNwei3f/q9NhbnIPSrpPuFxuz+6lK6JeS/PccA
+         qX/cUwYV7pKM5+qLbR9pZhLug4cGVp8JkCIIy48kNMgw0UVj7EjpAo9rjtnSdJS65i4U
+         W9DA==
+X-Gm-Message-State: AOAM5339cMIkSWwhyoo6bf8eS4F13y8r6rnE3G7e6nV5aPhc4mq681HV
+        PQR4//IQbi9PERDtk8If2vU5Yy1xluo70FwfZRei2g4cyzs=
+X-Google-Smtp-Source: ABdhPJzO+PJ++vIKkExLnAjex6zGrSuq2307OjOyS7/RQY+seoCu+D0sprha5UA1VcUK3FZQIpQItpeO6JbRjPaXH4s=
+X-Received: by 2002:a4a:274b:: with SMTP id w11mr4835946oow.11.1606467770714;
+ Fri, 27 Nov 2020 01:02:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20201126221416.3110341-1-niklas.soderlund+renesas@ragnatech.se> <20201126221416.3110341-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201126221416.3110341-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 27 Nov 2020 10:02:39 +0100
+Message-ID: <CAMuHMdVWqES8xWWedmbXJO2d+8CYneEteWzsuzuvVxi38TWXLQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] clk: renesas: r8a779a0: Add CP clock
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for R-Car V3U. The new THCODE values are taken from the
-example in the datasheet.
+Hi Niklas,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_gen3_thermal.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+On Thu, Nov 26, 2020 at 11:14 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Implement support for the CP clock on V3U.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 94f2c133a47f66b6..75c69fe6e9553f25 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -60,13 +60,14 @@
- #define MCELSIUS(temp)	((temp) * 1000)
- #define GEN3_FUSE_MASK	0xFFF
- 
--#define TSC_MAX_NUM	3
-+#define TSC_MAX_NUM	4
- 
- /* default THCODE values if FUSEs are missing */
- static const int thcodes[TSC_MAX_NUM][3] = {
- 	{ 3397, 2800, 2221 },
- 	{ 3393, 2795, 2216 },
- 	{ 3389, 2805, 2237 },
-+	{ 3415, 2694, 2195 },
- };
- 
- /* Structure for thermal temperature calculation */
-@@ -276,6 +277,10 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
- 		.compatible = "renesas,r8a77980-thermal",
- 		.data = &rcar_gen3_ths_tj_1,
- 	},
-+	{
-+		.compatible = "renesas,r8a779a0-thermal",
-+		.data = &rcar_gen3_ths_tj_1,
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rcar_gen3_thermal_dt_ids);
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Note that this change was also included in "[PATCH/RFC 3/6] clk:
+renesas: r8a779a0: Add PFC/GPIO clocks".
+https://lore.kernel.org/linux-renesas-soc/20201019120614.22149-4-geert+renesas@glider.be/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.29.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
