@@ -2,64 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FDD42C6C9D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 21:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43DDD2C6D4B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Nov 2020 23:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732377AbgK0UiL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Nov 2020 15:38:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43632 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732423AbgK0UhH (ORCPT
+        id S1731032AbgK0Wkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 17:40:39 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:58310 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732251AbgK0WiW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Nov 2020 15:37:07 -0500
-Received: from kernel.org (unknown [104.132.1.79])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ACB0C21D7F;
-        Fri, 27 Nov 2020 20:37:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606509426;
-        bh=ULgWkvmDlIUY55y1ofW2kwgDWhQZ95ZYXPdKqB+/lgo=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=fsQnKtmpZxuoBo05efGaHxVWuRGEk4Gxwf8ZlJSI3Ctk5BA94wQgBlxzqKOGI+q/5
-         /YS65Z9XVbQOVeoehXnYFV6oMvwqkDvKr+WBW7HNPx99M759eldHMClyf3DDI0fAaC
-         xmO4fSuf9g7sL5r6U1G+ge5tVngqXjWrtKjHFXt0=
-Content-Type: text/plain; charset="utf-8"
+        Fri, 27 Nov 2020 17:38:22 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id D8DF71C0B7C; Fri, 27 Nov 2020 23:38:03 +0100 (CET)
+Date:   Fri, 27 Nov 2020 23:38:03 +0100
+From:   Pavel Machek <pavel@denx.de>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jiri Kosina <trivial@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, Pavel Machek <pavel@denx.de>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] memory: renesas-rpc-if: Return correct value to
+ the caller of rpcif_manual_xfer()
+Message-ID: <20201127223803.GA19743@duo.ucw.cz>
+References: <20201126191146.8753-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201126191146.8753-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20201127134256.79186-1-geert@linux-m68k.org>
-References: <20201127134256.79186-1-geert@linux-m68k.org>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v5.11 (take two)
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Fri, 27 Nov 2020 12:37:05 -0800
-Message-ID: <160650942533.2717324.17625868257825974183@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
+Content-Disposition: inline
+In-Reply-To: <20201126191146.8753-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2020-11-27 05:42:56)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit cf5577a1cfc104c71f011738ab753bf2ac2f91=
-ed:
->=20
->   clk: renesas: r8a779a0: Fix R and OSC clocks (2020-11-10 09:25:46 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-clk-for-v5.11-tag2
->=20
-> for you to fetch changes up to acaece1de58901a7f56cc0d4e5149897a903ad23:
->=20
->   dt-bindings: clock: renesas: rcar-usb2-clock-sel: Convert bindings to j=
-son-schema (2020-11-27 09:01:25 +0100)
->=20
-> ----------------------------------------------------------------
 
-Thanks. Pulled into clk-next
+--9jxsPFA5p3P2qPhR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu 2020-11-26 19:11:42, Lad Prabhakar wrote:
+> In the error path of rpcif_manual_xfer() the value of ret is overwritten
+> by value returned by reset_control_reset() function and thus returning
+> incorrect value to the caller.
+>=20
+> This patch makes sure the correct value is returned to the caller of
+> rpcif_manual_xfer() by dropping the overwrite of ret in error path.
+> Also now we ignore the value returned by reset_control_reset() in the
+> error path and instead print a error message when it fails.
+>=20
+> Fixes: ca7d8b980b67f ("memory: add Renesas RPC-IF driver")
+> Reported-by: Pavel Machek <pavel@denx.de>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+
+Reviewed-by: Pavel Machek (CIP) <pavel@denx.de>
+
+--=20
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+
+--9jxsPFA5p3P2qPhR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCX8F/ywAKCRAw5/Bqldv6
+8sJlAJ9fTid4o1km6GdynHQGgwdTjZ+VGgCgl/kASNL5bG8vz5uJ1VZMGINCKxo=
+=vOP0
+-----END PGP SIGNATURE-----
+
+--9jxsPFA5p3P2qPhR--
