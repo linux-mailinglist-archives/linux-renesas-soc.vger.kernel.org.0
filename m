@@ -2,35 +2,29 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF4852C6E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Nov 2020 02:57:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA0CA2C6E8A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Nov 2020 03:53:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731107AbgK1B5Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Nov 2020 20:57:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36018 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728558AbgK1B4o (ORCPT
+        id S1729422AbgK1ChM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Nov 2020 21:37:12 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:8055 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729604AbgK1CgW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Nov 2020 20:56:44 -0500
-Received: from kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com (unknown [163.114.132.4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4095D205CA;
-        Sat, 28 Nov 2020 01:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606528603;
-        bh=/AovefSgiuRd31XQmOS9AF0RmkmpI91VIqcfw8fNgrs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eyGi6E7SuDO9386oUKVGSEG0ez4gj4XwGK1MXMIIBR10TbpbwZW/QZxXYjTWrSnVv
-         InuCJ+n6w8PcTBzD19rySO9XHash+x59TTm3R/lPFnr14vItgN3okP/vw//a+w2B6P
-         yTvYXOIB9+KeTZcFtW6bq59ill7Ot+GqJY0bXQvI=
-Date:   Fri, 27 Nov 2020 17:56:42 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Fri, 27 Nov 2020 21:36:22 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CjbFs0wC4zhcHy;
+        Sat, 28 Nov 2020 10:35:45 +0800 (CST)
+Received: from [10.74.191.121] (10.74.191.121) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 28 Nov 2020 10:36:00 +0800
+Subject: Re: [PATCH] powerpc: fix the allyesconfig build
+To:     Jakub Kicinski <kuba@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+CC:     Michael Ellerman <mpe@ellerman.id.au>,
         PowerPC <linuxppc-dev@lists.ozlabs.org>,
         Nicholas Piggin <npiggin@gmail.com>,
-        Daniel Axtens <dja@axtens.net>, Joel Stanley <joel@jms.id.au>,
+        "Daniel Axtens" <dja@axtens.net>, Joel Stanley <joel@jms.id.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -39,36 +33,94 @@ Cc:     Michael Ellerman <mpe@ellerman.id.au>,
         "David S. Miller" <davem@davemloft.net>,
         <linux-renesas-soc@vger.kernel.org>, <linux-clk@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: Re: [PATCH] powerpc: fix the allyesconfig build
-Message-ID: <20201127175642.45502b20@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
-In-Reply-To: <20201128122819.32187696@canb.auug.org.au>
 References: <20201128122819.32187696@canb.auug.org.au>
+ <20201127175642.45502b20@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <382701ba-c50e-18cf-83be-60eeab228372@huawei.com>
+Date:   Sat, 28 Nov 2020 10:36:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201127175642.45502b20@kicinski-fedora-pc1c0hjn.DHCP.thefacebook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.74.191.121]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 28 Nov 2020 12:28:19 +1100 Stephen Rothwell wrote:
-> There are 2 drivers that have arrays of packed structures that contain
-> pointers that end up at unaligned offsets.  These produce warnings in
-> the PowerPC allyesconfig build like this:
->=20
-> WARNING: 148 bad relocations
-> c00000000e56510b R_PPC64_UADDR64   .rodata+0x0000000001c72378
-> c00000000e565126 R_PPC64_UADDR64   .rodata+0x0000000001c723c0
->=20
-> They are not drivers that are used on PowerPC (I assume), so mark them
-> to not be built on PPC64 when CONFIG_RELOCATABLE is enabled.
+On 2020/11/28 9:56, Jakub Kicinski wrote:
+> On Sat, 28 Nov 2020 12:28:19 +1100 Stephen Rothwell wrote:
+>> There are 2 drivers that have arrays of packed structures that contain
+>> pointers that end up at unaligned offsets.  These produce warnings in
+>> the PowerPC allyesconfig build like this:
+>>
+>> WARNING: 148 bad relocations
+>> c00000000e56510b R_PPC64_UADDR64   .rodata+0x0000000001c72378
+>> c00000000e565126 R_PPC64_UADDR64   .rodata+0x0000000001c723c0
+>>
+>> They are not drivers that are used on PowerPC (I assume), so mark them
+>> to not be built on PPC64 when CONFIG_RELOCATABLE is enabled.
+> 
+> 😳😳
+> 
+> What's the offending structure in hisilicon? I'd rather have a look
+> packing structs with pointers in 'em sounds questionable.
+> 
+> I only see these two:
+> 
+> $ git grep packed drivers/net/ethernet/hisilicon/
+> drivers/net/ethernet/hisilicon/hns/hnae.h:struct __packed hnae_desc {
+> drivers/net/ethernet/hisilicon/hns3/hns3_enet.h:struct __packed hns3_desc {
 
-=F0=9F=98=B3=F0=9F=98=B3
+I assmue "struct __packed hnae_desc" is the offending structure, because
+flag_ipoffset field is defined as __le32 and is not 32 bit aligned.
 
-What's the offending structure in hisilicon? I'd rather have a look
-packing structs with pointers in 'em sounds questionable.
+struct __packed hnae_desc {
+	__le64 addr;							//0
+	union {
+		struct {						//64
+			union {
+				__le16 asid_bufnum_pid;
+				__le16 asid;
+			};
+			__le16 send_size;				//92
+			union {
+				__le32 flag_ipoffset;			//*108*
+				struct {
+					__u8 bn_pid;
+					__u8 ra_ri_cs_fe_vld;
+					__u8 ip_offset;
+					__u8 tse_vlan_snap_v6_sctp_nth;
+				};
+			};
+			__le16 mss;
+			__u8 l4_len;
+			__u8 reserved1;
+			__le16 paylen;
+			__u8 vmid;
+			__u8 qid;
+			__le32 reserved2[2];
+		} tx;
 
-I only see these two:
+		struct {
+			__le32 ipoff_bnum_pid_flag;
+			__le16 pkt_len;
+			__le16 size;
+			union {
+				__le32 vlan_pri_asid;
+				struct {
+					__le16 asid;
+					__le16 vlan_cfi_pri;
+				};
+			};
+			__le32 rss_hash;
+			__le32 reserved_1[2];
+		} rx;
+	};
+};
 
-$ git grep packed drivers/net/ethernet/hisilicon/
-drivers/net/ethernet/hisilicon/hns/hnae.h:struct __packed hnae_desc {
-drivers/net/ethernet/hisilicon/hns3/hns3_enet.h:struct __packed hns3_desc {
+> .
+> 
