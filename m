@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CBF12C8053
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 09:55:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4A22C8069
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 09:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727352AbgK3Ix7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 03:53:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
+        id S1726270AbgK3I6a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 03:58:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726249AbgK3Ix6 (ORCPT
+        with ESMTP id S1726032AbgK3I6a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 03:53:58 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C11C0613D3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 00:53:18 -0800 (PST)
+        Mon, 30 Nov 2020 03:58:30 -0500
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6971CC0613D2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 00:57:50 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by andre.telenet-ops.be with bizsmtp
-        id yYt92300d4C55Sk01Yt99w; Mon, 30 Nov 2020 09:53:13 +0100
+        by baptiste.telenet-ops.be with bizsmtp
+        id yYxl2300R4C55Sk01YxloH; Mon, 30 Nov 2020 09:57:48 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kjevl-006uxW-He; Mon, 30 Nov 2020 09:53:09 +0100
+        id 1kjf0D-006v1U-7H; Mon, 30 Nov 2020 09:57:45 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kjevl-006a5y-0Z; Mon, 30 Nov 2020 09:53:09 +0100
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
+        id 1kjf0C-006wyu-PQ; Mon, 30 Nov 2020 09:57:44 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Stephen Rothwell <sfr@canb.auug.org.au>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -36,10 +36,10 @@ To:     Stephen Rothwell <sfr@canb.auug.org.au>,
 Cc:     Gareth Williams <gareth.williams.jx@renesas.com>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] clk: renesas: r9a06g032: Drop __packed for portability
-Date:   Mon, 30 Nov 2020 09:53:03 +0100
-Message-Id: <20201130085303.1566901-1-geert@linux-m68k.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] clk: renesas: r9a06g032: Drop __packed for portability
+Date:   Mon, 30 Nov 2020 09:57:43 +0100
+Message-Id: <20201130085743.1656317-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,13 +67,11 @@ net size increase is only 76 bytes (gcc 9.3.0 on arm32).
 
 Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Fixes: 4c3d88526eba2143 ("clk: renesas: Renesas R9A06G032 clock driver")
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Please take directly (ppc or clk), as this is a build fix.
-https://lore.kernel.org/linux-clk/20201128122819.32187696@canb.auug.org.au/
-
-Compile-tested only due to lack of hardware.
-
+v2:
+  - Fix authorship.
+---
  drivers/clk/renesas/r9a06g032-clocks.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
