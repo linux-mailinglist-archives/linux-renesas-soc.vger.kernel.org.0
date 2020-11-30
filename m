@@ -2,80 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9845F2C7FD3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 09:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CBF12C8053
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 09:55:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726474AbgK3I2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 03:28:20 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.163]:33607 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgK3I2U (ORCPT
+        id S1727352AbgK3Ix7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 03:53:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726249AbgK3Ix6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 03:28:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1606724666;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=l5arlystRqfBEf2sfz6x1EjXGTfh0lrExuBwEI0B2L8=;
-        b=XWAIUxXjnRevCqluznLkSBTYcFbCejNh0Z+l2Ir6l1zDfH3jFKk7ksQzTLv1iCh6up
-        jjXPP5Latp2R9PwyM1xQ7FWPpygFq2/sgQin5eI6uGV4mp3h6puzEElWm41yiI3x1632
-        rgEeFVHZEd0+YDrE4M3y3SyMsWzs/RZ9392J4T/vss6/+1wMsTp8VQmTAAnPOg39dSnl
-        e3fVQL5xK2vqjx7wu/Y2mnb+1bEt68HCzkjRVxs47Ml5DbBtVtPuX8qAptt+HQCzbRf5
-        Zj+hYb6h0q11zBetxbfvTQ5sPUeMJHpkQB4oq0URpNYisL9WZNirZyt8+1B4gkZBlIKE
-        wsbg==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCs/83N2Y0="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp05-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 47.3.3 AUTH)
-        with ESMTPSA id 60ba70wAU8OKdWN
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Mon, 30 Nov 2020 09:24:20 +0100 (CET)
-Date:   Mon, 30 Nov 2020 09:24:20 +0100 (CET)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
-Message-ID: <5754923.305606.1606724660476@webmail.strato.com>
-In-Reply-To: <CAMuHMdWt+NBD4u4iCf=OdSyFBBW0HU3HwWYyOK3tX87cUOSMwg@mail.gmail.com>
-References: <20201126172154.25625-1-uli+renesas@fpond.eu>
- <CAMuHMdWt+NBD4u4iCf=OdSyFBBW0HU3HwWYyOK3tX87cUOSMwg@mail.gmail.com>
-Subject: Re: [PATCH 00/11] pinctrl: renesas: R8A779A0 (V3U) device support
+        Mon, 30 Nov 2020 03:53:58 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C11C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 00:53:18 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by andre.telenet-ops.be with bizsmtp
+        id yYt92300d4C55Sk01Yt99w; Mon, 30 Nov 2020 09:53:13 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kjevl-006uxW-He; Mon, 30 Nov 2020 09:53:09 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kjevl-006a5y-0Z; Mon, 30 Nov 2020 09:53:09 +0100
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>
+Cc:     Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH] clk: renesas: r9a06g032: Drop __packed for portability
+Date:   Mon, 30 Nov 2020 09:53:03 +0100
+Message-Id: <20201130085303.1566901-1-geert@linux-m68k.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.3-Rev28
-X-Originating-Client: open-xchange-appsuite
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The R9A06G032 clock driver uses an array of packed structures to reduce
+kernel size.  However, this array contains pointers, which are no longer
+aligned naturally, and cannot be relocated on PPC64.  Hence when
+compile-testing this driver on PPC64 with CONFIG_RELOCATABLE=y (e.g.
+PowerPC allyesconfig), the following warnings are produced:
 
-> On 11/27/2020 11:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> 
->  
-> Hi Uli,
-> 
-> On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> > This series adds V3U pin control support for EtherAVB, CANFD, DU, HSCIF,
-> > INTC-EX, MMC, MSIOF, PWM, QSPI, TMU and TPU.
-> >
-> > It has been ported from the BSP and has been compile-tested only. It
-> > depends on the "pinctrl: renesas: basic R8A779A0 (V3U) support" series
-> > posted earlier.
-> 
-> Thanks for your series!
-> 
-> > Ulrich Hecht (11):
-> >   pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
-> 
-> This patch depends on i2c support, which was not included in your series?
+    WARNING: 136 bad relocations
+    c000000000616be3 R_PPC64_UADDR64   .rodata+0x00000000000cf338
+    c000000000616bfe R_PPC64_UADDR64   .rodata+0x00000000000cf370
+    ...
 
-Whoops, screwed up the format-patch there...
-I'll post the I2C patch separately for review and include it in v2 of this series.
+Fix this by dropping the __packed attribute from the r9a06g032_clkdesc
+definition, trading a small size increase for portability.
 
-CU
-Uli
+This increases the 156-entry clock table by 1 byte per entry, but due to
+the compiler generating more efficient code for unpacked accesses, the
+net size increase is only 76 bytes (gcc 9.3.0 on arm32).
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Fixes: 4c3d88526eba2143 ("clk: renesas: Renesas R9A06G032 clock driver")
+Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+---
+Please take directly (ppc or clk), as this is a build fix.
+https://lore.kernel.org/linux-clk/20201128122819.32187696@canb.auug.org.au/
+
+Compile-tested only due to lack of hardware.
+
+ drivers/clk/renesas/r9a06g032-clocks.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index d900f6bf53d0b944..892e91b92f2c80f5 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -55,7 +55,7 @@ struct r9a06g032_clkdesc {
+ 			u16 sel, g1, r1, g2, r2;
+ 		} dual;
+ 	};
+-} __packed;
++};
+ 
+ #define I_GATE(_clk, _rst, _rdy, _midle, _scon, _mirack, _mistat) \
+ 	{ .gate = _clk, .reset = _rst, \
+-- 
+2.25.1
+
