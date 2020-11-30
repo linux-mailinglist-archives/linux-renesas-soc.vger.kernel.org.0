@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9467E2C85C9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2960D2C85D1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:46:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbgK3NoR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 08:44:17 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35400 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725898AbgK3NoR (ORCPT
+        id S1726410AbgK3Nqr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 08:46:47 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36107 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbgK3Nqr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:44:17 -0500
-Received: by mail-oi1-f196.google.com with SMTP id c80so14181684oib.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:44:01 -0800 (PST)
+        Mon, 30 Nov 2020 08:46:47 -0500
+Received: by mail-ot1-f65.google.com with SMTP id y24so11299291otk.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:46:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2yotst0H5N3sZzmi/sQsfBHJ9yIMaYzCZ3JMJ9Im3Ws=;
-        b=Cj+4ZWVx4OyTs4TpKpmU0L0MLffefc54oohKJxh6cnkeJyhHqi2pQuTUXLG5XA/qg8
-         h2LyihTLiy1OngD5o5lyoCh270OD8Dzp8Khf9fgUSvDjmIjTBOvipGL+4ZyMu+3ChQ/v
-         uIoIFYAsD579iimHsyNnXOuHjJmFKhTrTPKSLPKyMJ/WsA3Wsyk0t3i2fGo8McAdTbfN
-         2otdp4VnoAc3kbEmgjcd/o7/uRUViLXw58z2d23XXr89Q4Qz22tnXnzXqoDn1fwKjV6i
-         TCVKI3kco5NlcGbupLZCsRXz2l+0IF2R+XutcqeObnxg25DD2u2F70oVTo7c9ukX/UDN
-         wmLQ==
-X-Gm-Message-State: AOAM531z1eTqEYPyQXs8CQffSCl8ktlSL6/8O62AY8K9XoPL/hRb6uL/
-        pqyPCkU4H7+Piq+WBymuEAUfZ1OMqDos1B6Ok7c=
-X-Google-Smtp-Source: ABdhPJzszDOhzMuODwIS40Cq458+KogNdsKe9HgzbaVHnsmx/VGRcFVE3gIVD8WAHkjbiC9BXdW6NWmz7o5SB6E32Qk=
-X-Received: by 2002:aca:1c0f:: with SMTP id c15mr14582399oic.54.1606743815799;
- Mon, 30 Nov 2020 05:43:35 -0800 (PST)
+        bh=Vnh3XeBWKKeUCEU0sHjAI52TBFvi8+FC4hGWZzy+wOk=;
+        b=Sq4lNluJqv8jhiwv4hz1ekvsetBpVXWBc+9j7olGXnyS98Idd3c4fJ9V1R50iMTc49
+         o1qoYgLw9YF4Yn2c15vktPMDepgIUpV9FYLOoY1Iz9CgoBLFbktIwKSyj+Oxlx8bbm++
+         E3BGFQtT30o7FP34p2HgIPZPl2I8z/vA3+pyva/K7JHBn7X97JZCKIEuePYyxcZ7E4mk
+         vJE0JprK1Jl3Rz8Rcs7VNHM/4wUZtsYUOfh6EPGtARj7IXCEilKQoUZr0cmht+yWrtZ5
+         kaVIx+RdPIln0RKoa0Q4YvTSrvcfX13mqYzEw3XecJgt2/vamxq9W+NB4cyMVe1SeDtr
+         h1bQ==
+X-Gm-Message-State: AOAM5318hMoGDNjA37xgttMJG0rZJkX58SkV4tOUJ8e+0QxjWXOQVkn/
+        YlsEKZyyrMinZmKPMqt3UXRk8lZubO9t//xhYKVzuk25
+X-Google-Smtp-Source: ABdhPJzMDYLfLonFq+78sz2k9SI5/GDPULwb+ai7Rwcv1DEm67e2xAGE1XjOlHhuIwTIYyrLkhWLCEFf/Ab6Sv3hlPc=
+X-Received: by 2002:a9d:686:: with SMTP id 6mr15708101otx.107.1606743957691;
+ Mon, 30 Nov 2020 05:45:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-8-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172154.25625-8-uli+renesas@fpond.eu>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-9-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172154.25625-9-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Nov 2020 14:43:24 +0100
-Message-ID: <CAMuHMdXXAS-jAHXKPcBguwHiARqA968xEW9xeUB-V7bHBKTnOQ@mail.gmail.com>
-Subject: Re: [PATCH 07/11] pinctrl: renesas: r8a779a0: Add MSIOF pins, groups
+Date:   Mon, 30 Nov 2020 14:45:46 +0100
+Message-ID: <CAMuHMdWLcuDES3RXhM1urorE3_xHxQb5QnVVWqjN+sZQcdnX0A@mail.gmail.com>
+Subject: Re: [PATCH 08/11] pinctrl: renesas: r8a779a0: Add PWM pins, groups
  and functions
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -46,117 +46,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
-
 On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds MSIOF0-5 pins, groups and functions to R8A779A0 (V3U)
+> This patch adds PWM0-4 pins, groups and functions to the R8A779A0 (V3U)
 > SoC.
 >
 > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-Thanks for your patch!
-
-> --- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
-
-> @@ -2256,6 +2520,31 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
->         SH_PFC_PIN_GROUP(mmc_wp),
->         SH_PFC_PIN_GROUP(mmc_ds),
->
-> +       SH_PFC_PIN_GROUP(msiof0_clk),
-> +       SH_PFC_PIN_GROUP(msiof0_sync),
-> +       SH_PFC_PIN_GROUP(msiof0_ss1),
-> +       SH_PFC_PIN_GROUP(msiof0_ss2),
-> +       SH_PFC_PIN_GROUP(msiof0_txd),
-> +       SH_PFC_PIN_GROUP(msiof0_rxd),
-> +       SH_PFC_PIN_GROUP(msiof1_clk),
-> +       SH_PFC_PIN_GROUP(msiof1_sync),
-> +       SH_PFC_PIN_GROUP(msiof1_ss1),
-> +       SH_PFC_PIN_GROUP(msiof1_ss2),
-> +       SH_PFC_PIN_GROUP(msiof1_txd),
-> +       SH_PFC_PIN_GROUP(msiof1_rxd),
-> +       SH_PFC_PIN_GROUP(msiof2_clk),
-> +       SH_PFC_PIN_GROUP(msiof2_sync),
-> +       SH_PFC_PIN_GROUP(msiof2_ss1),
-> +       SH_PFC_PIN_GROUP(msiof2_ss2),
-> +       SH_PFC_PIN_GROUP(msiof2_txd),
-> +       SH_PFC_PIN_GROUP(msiof2_rxd),
-> +       SH_PFC_PIN_GROUP(msiof3_clk),
-> +       SH_PFC_PIN_GROUP(msiof3_sync),
-> +       SH_PFC_PIN_GROUP(msiof3_ss1),
-> +       SH_PFC_PIN_GROUP(msiof3_ss2),
-> +       SH_PFC_PIN_GROUP(msiof3_txd),
-> +       SH_PFC_PIN_GROUP(msiof3_rxd),
-
-What happened to msiof[45]?
-
-> +
->         SH_PFC_PIN_GROUP(scif0_data),
->         SH_PFC_PIN_GROUP(scif0_clk),
->         SH_PFC_PIN_GROUP(scif0_ctrl),
-> @@ -2459,6 +2748,42 @@ static const char * const mmc_groups[] = {
->         "mmc_ds",
->  };
->
-> +static const char * const msiof0_groups[] = {
-> +       "msiof0_clk",
-> +       "msiof0_sync",
-> +       "msiof0_ss1",
-> +       "msiof0_ss2",
-> +       "msiof0_txd",
-> +       "msiof0_rxd",
-> +};
-> +
-> +static const char * const msiof1_groups[] = {
-> +       "msiof1_clk",
-> +       "msiof1_sync",
-> +       "msiof1_ss1",
-> +       "msiof1_ss2",
-> +       "msiof1_txd",
-> +       "msiof1_rxd",
-> +};
-> +
-> +static const char * const msiof2_groups[] = {
-> +       "msiof2_clk",
-> +       "msiof2_sync",
-> +       "msiof2_ss1",
-> +       "msiof2_ss2",
-> +       "msiof2_txd",
-> +       "msiof2_rxd",
-> +};
-> +
-> +static const char * const msiof3_groups[] = {
-> +       "msiof3_clk",
-> +       "msiof3_sync",
-> +       "msiof3_ss1",
-> +       "msiof3_ss2",
-> +       "msiof3_txd",
-> +       "msiof3_rxd",
-> +};
-
-Likewise.
-
-> +
->  static const char * const scif0_groups[] = {
->         "scif0_data",
->         "scif0_clk",
-> @@ -2524,6 +2849,11 @@ static const struct sh_pfc_function pinmux_functions[] = {
->
->         SH_PFC_FUNCTION(mmc),
->
-> +       SH_PFC_FUNCTION(msiof0),
-> +       SH_PFC_FUNCTION(msiof1),
-> +       SH_PFC_FUNCTION(msiof2),
-> +       SH_PFC_FUNCTION(msiof3),
-
-Likewise.
-
-> +
->         SH_PFC_FUNCTION(scif0),
->         SH_PFC_FUNCTION(scif1),
->         SH_PFC_FUNCTION(scif3),
-
-With the missing entries added:
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
