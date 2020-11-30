@@ -2,109 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC2352C8072
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 10:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 651FA2C807D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 10:02:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgK3I7Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 03:59:16 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:45981 "EHLO
+        id S1725972AbgK3JBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 04:01:53 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38555 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726671AbgK3I7P (ORCPT
+        with ESMTP id S1725965AbgK3JBw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 03:59:15 -0500
-Received: by mail-ot1-f67.google.com with SMTP id k3so10557141otp.12;
-        Mon, 30 Nov 2020 00:59:00 -0800 (PST)
+        Mon, 30 Nov 2020 04:01:52 -0500
+Received: by mail-ot1-f67.google.com with SMTP id h39so10582629otb.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 01:01:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=X8FoExwOHfGwv6em4eg1AHlrFN+EBui3VH6c7kGHW8M=;
-        b=tYehXjYZRFKCAprWD2yeGaK3EmRIMutMS9Nh0HLxZ/lGfu0Lz9zh1k0S1RW3o5iVt4
-         KYrbmsdtLejLO0B5T9vBb8MBgSHh/1SUH4enn/VEkyoL2q3zus7tbR9x0fIyGvo/UiSy
-         Hnvdesa9ovkigevLmcAvq7MNNaCSkQIyHOI9IoZi+DBJPjQJ/7pa6/d0cWnk9UW55qwE
-         EcsNYVeZcLCwQbzazgrjAQ9VsGjE49TsmoSrSNTvypVlY1X2pL1wlgQrGXOBRVoYzvWf
-         cXvy8g31g2Bj5KBaFNlujwmRlozSiJRmi8p3/AUkaiu45qUls8bXmvuieh2uznjjI13/
-         2eNg==
-X-Gm-Message-State: AOAM530NKsvpYaAatyMW3oNw4qJDjdElPqaZl93kImYqiWzb5OVUozGJ
-        UFEygl3cBfV6dGK97lHWmdRyvPpTgoHFYMmMX+E=
-X-Google-Smtp-Source: ABdhPJyrxbQKboqBlxNa7SnfyzU9JOt4/0bUzb0T5TziKWmjRC/+Hn6sbqGLcmZKse22Dhoci+I3ZQs7I9ocW0SW4DY=
-X-Received: by 2002:a9d:686:: with SMTP id 6mr14830891otx.107.1606726714613;
- Mon, 30 Nov 2020 00:58:34 -0800 (PST)
+        bh=g3+6k7Cwpo+ojJHoNfl00GdshPCqClEqpUCTHNJlQzw=;
+        b=R0fT4/ogFQKgE1vEeJJU22JwCiyZg90PIobMa0V2jtmmEbUI2/HG8+6oQ8FaxDEQW5
+         3hMCsnrJVjlenqD+VksXv9e8xsLbMIopjXljvwCtiDpMMh1NbE7SsCOcZHoz3cUoqKGv
+         3/QhMtJuU482HNRu5ZzWD7fXa5qab/36M9C8AfSyB6wfkk9b6StIwIgocDAX7Bsey6bJ
+         dkTRAKRy5Ht2w8jLvV8+11PiU9y3ApcdiD4/+xR1qZ0B7NIXpiDALi4XmJ4h4CFQyQHH
+         jelXDP/38SbdeWzCo1YgLeurVAb74QilH1dHjztrcCgjXKVjolLWfCbRBRSCwN1/FVF0
+         5PoQ==
+X-Gm-Message-State: AOAM531+zjwfbjBNYDPbObwdOaAYBrJCLPYS469yk5h+q7e/febaPGrE
+        OP1u+KjB746WzNO/yyaSa9fZeEX1wrz5PhUCzvCDcVft
+X-Google-Smtp-Source: ABdhPJwfA6paPXnqmiCuwTvN665lm0o9KS37Q/F1sMRvp3BVxHoh+8s2k4zsksT2tRQt7as04AeGkS8zKKYBbwsOLYM=
+X-Received: by 2002:a9d:686:: with SMTP id 6mr14837302otx.107.1606726872030;
+ Mon, 30 Nov 2020 01:01:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20201128122819.32187696@canb.auug.org.au>
-In-Reply-To: <20201128122819.32187696@canb.auug.org.au>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <CAMuHMdWt+NBD4u4iCf=OdSyFBBW0HU3HwWYyOK3tX87cUOSMwg@mail.gmail.com>
+ <5754923.305606.1606724660476@webmail.strato.com>
+In-Reply-To: <5754923.305606.1606724660476@webmail.strato.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Nov 2020 09:58:23 +0100
-Message-ID: <CAMuHMdVJKarCRRRJq_hmvvv0NcSpREdqDbH8L5NitZmFUEbqmw@mail.gmail.com>
-Subject: Re: [PATCH] powerpc: fix the allyesconfig build
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        PowerPC <linuxppc-dev@lists.ozlabs.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Daniel Axtens <dja@axtens.net>, Joel Stanley <joel@jms.id.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+Date:   Mon, 30 Nov 2020 10:01:00 +0100
+Message-ID: <CAMuHMdX_7C3ynD6fnDRDTuG4XCb1ZC7V=f_ujb32C5aomre8PA@mail.gmail.com>
+Subject: Re: [PATCH 00/11] pinctrl: renesas: R8A779A0 (V3U) device support
+To:     Ulrich Hecht <uli@fpond.eu>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>
+        Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+Hi Uli,
 
-On Sat, Nov 28, 2020 at 2:28 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> There are 2 drivers that have arrays of packed structures that contain
-> pointers that end up at unaligned offsets.  These produce warnings in
-> the PowerPC allyesconfig build like this:
+On Mon, Nov 30, 2020 at 9:28 AM Ulrich Hecht <uli@fpond.eu> wrote:
+> > On 11/27/2020 11:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> > > This series adds V3U pin control support for EtherAVB, CANFD, DU, HSCIF,
+> > > INTC-EX, MMC, MSIOF, PWM, QSPI, TMU and TPU.
+> > >
+> > > It has been ported from the BSP and has been compile-tested only. It
+> > > depends on the "pinctrl: renesas: basic R8A779A0 (V3U) support" series
+> > > posted earlier.
+> >
+> > Thanks for your series!
+> >
+> > > Ulrich Hecht (11):
+> > >   pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
+> >
+> > This patch depends on i2c support, which was not included in your series?
 >
-> WARNING: 148 bad relocations
-> c00000000e56510b R_PPC64_UADDR64   .rodata+0x0000000001c72378
-> c00000000e565126 R_PPC64_UADDR64   .rodata+0x0000000001c723c0
->
-> They are not drivers that are used on PowerPC (I assume), so mark them
-> to not be built on PPC64 when CONFIG_RELOCATABLE is enabled.
->
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Yisen Zhuang <yisen.zhuang@huawei.com>
-> Cc: Salil Mehta <salil.mehta@huawei.com>
-> Cc: David S. Miller <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Nicholas Piggin  <npiggin@gmail.com>
-> Cc: Daniel Axtens <dja@axtens.net>
-> Cc: Joel Stanley <joel@jms.id.au>
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Whoops, screwed up the format-patch there...
+> I'll post the I2C patch separately for review and include it in v2 of this series.
 
-Thanks for your patch!
-
-> --- a/drivers/clk/renesas/Kconfig
-> +++ b/drivers/clk/renesas/Kconfig
-> @@ -151,6 +151,10 @@ config CLK_R8A779A0
->         select CLK_RENESAS_CPG_MSSR
->
->  config CLK_R9A06G032
-> +       # PPC64 RELOCATABLE kernels cannot handle relocations to
-> +       # unaligned locations that are produced by the array of
-> +       # packed structures in this driver.
-> +       depends on !(PPC64 && RELOCATABLE)
->         bool "Renesas R9A06G032 clock driver"
->         help
->           This is a driver for R9A06G032 clocks
-
-I prefer to fix this in the driver instead.  The space saving by packing the
-structure is minimal.
-I've sent a patch
-https://lore.kernel.org/r/20201130085743.1656317-1-geert+renesas@glider.be
-(when lore is back)
+Thank you! No need to send v2 yet (still reviewing).
 
 Gr{oetje,eeting}s,
 
