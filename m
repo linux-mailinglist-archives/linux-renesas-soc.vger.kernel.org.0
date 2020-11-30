@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2960D2C85D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DFE42C85DC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:51:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726410AbgK3Nqr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 08:46:47 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:36107 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgK3Nqr (ORCPT
+        id S1726498AbgK3NuF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 08:50:05 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:33514 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbgK3NuE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:46:47 -0500
-Received: by mail-ot1-f65.google.com with SMTP id y24so11299291otk.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:46:31 -0800 (PST)
+        Mon, 30 Nov 2020 08:50:04 -0500
+Received: by mail-oi1-f196.google.com with SMTP id k26so14207105oiw.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:49:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Vnh3XeBWKKeUCEU0sHjAI52TBFvi8+FC4hGWZzy+wOk=;
-        b=Sq4lNluJqv8jhiwv4hz1ekvsetBpVXWBc+9j7olGXnyS98Idd3c4fJ9V1R50iMTc49
-         o1qoYgLw9YF4Yn2c15vktPMDepgIUpV9FYLOoY1Iz9CgoBLFbktIwKSyj+Oxlx8bbm++
-         E3BGFQtT30o7FP34p2HgIPZPl2I8z/vA3+pyva/K7JHBn7X97JZCKIEuePYyxcZ7E4mk
-         vJE0JprK1Jl3Rz8Rcs7VNHM/4wUZtsYUOfh6EPGtARj7IXCEilKQoUZr0cmht+yWrtZ5
-         kaVIx+RdPIln0RKoa0Q4YvTSrvcfX13mqYzEw3XecJgt2/vamxq9W+NB4cyMVe1SeDtr
-         h1bQ==
-X-Gm-Message-State: AOAM5318hMoGDNjA37xgttMJG0rZJkX58SkV4tOUJ8e+0QxjWXOQVkn/
-        YlsEKZyyrMinZmKPMqt3UXRk8lZubO9t//xhYKVzuk25
-X-Google-Smtp-Source: ABdhPJzMDYLfLonFq+78sz2k9SI5/GDPULwb+ai7Rwcv1DEm67e2xAGE1XjOlHhuIwTIYyrLkhWLCEFf/Ab6Sv3hlPc=
-X-Received: by 2002:a9d:686:: with SMTP id 6mr15708101otx.107.1606743957691;
- Mon, 30 Nov 2020 05:45:57 -0800 (PST)
+        bh=VJR8SR1AVTqC/HcTT55QIh/fVY0Hi1xRVc/hROmrWvU=;
+        b=Is9SiRX/MZ3geS5VBWPlk5fZiSbIKDa1SabXL/VX4e32qNc8Haxon84xdV0hn5Wf7w
+         wIal2hZRotdzkoV37zHiB8KhHzzskoP9oiC3BK+0mLcLUtmS8SPJu7zEDCnn0jNy/R5y
+         2syd0Ribao49gPoYABMtBl0bfY2od3+gfpPjRYs9m0cOR/n5j1uTR8azC88Ep3XrR553
+         4IOt09CvGkK4DwQDjWYkTIb51ieV+aw4786uIfO2MZXRAvfWp5Oxy1zWtfxhD+RB1xIE
+         H4uKTLHWuuij1ZbQvHbiRGdBhrLKsxoPgQQH11+y2gyYM11pga+jpaFovSHnoWWhcW08
+         AJfA==
+X-Gm-Message-State: AOAM533GuK/gX1mDyDGeebgUUrBEgli4TFkm7Fj0hMiCxNTMT7fZe+3n
+        T7TnD7WdwK7qrFOWFpAJsrDSMQxuRTIvZhY5pgPQC5vi
+X-Google-Smtp-Source: ABdhPJwiIQqyH5C4KNh4qTsz//7f7xHl10cfslZOug/UKkks3ae1IYd+6i6B+y1hOMRZD/WBeByNKni2+RwIVc7q1DA=
+X-Received: by 2002:aca:1c0f:: with SMTP id c15mr14603265oic.54.1606744157619;
+ Mon, 30 Nov 2020 05:49:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-9-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172154.25625-9-uli+renesas@fpond.eu>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-10-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172154.25625-10-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Nov 2020 14:45:46 +0100
-Message-ID: <CAMuHMdWLcuDES3RXhM1urorE3_xHxQb5QnVVWqjN+sZQcdnX0A@mail.gmail.com>
-Subject: Re: [PATCH 08/11] pinctrl: renesas: r8a779a0: Add PWM pins, groups
+Date:   Mon, 30 Nov 2020 14:49:06 +0100
+Message-ID: <CAMuHMdXsrU8Z+CoeqbNmATBwrSO2=7VeT4nVkU0AZLDEQQUTxg@mail.gmail.com>
+Subject: Re: [PATCH 09/11] pinctrl: renesas: r8a779a0: Add QSPI pins, groups,
  and functions
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -47,8 +47,8 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds PWM0-4 pins, groups and functions to the R8A779A0 (V3U)
-> SoC.
+> Add the QSPI0-1 pins, groups and functions to the R8A779A0 (V3U) PFC
+> driver.
 >
 > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
