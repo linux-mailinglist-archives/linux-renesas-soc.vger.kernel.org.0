@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBE152C8533
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82D5E2C8591
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 14:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgK3NcU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 08:32:20 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:34725 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgK3NcT (ORCPT
+        id S1726985AbgK3NeH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 08:34:07 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35587 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727224AbgK3NeE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:32:19 -0500
-Received: by mail-oi1-f194.google.com with SMTP id s18so14155744oih.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:32:04 -0800 (PST)
+        Mon, 30 Nov 2020 08:34:04 -0500
+Received: by mail-ot1-f65.google.com with SMTP id t18so2798587otk.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:33:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wm2cLZmb0JuqDIKNNno9NeTFn7vVuFyPy5GcXlOo+Y4=;
-        b=gJJQBPKb+lbilkkg1CUvFH6ar6+MLzuhUF7XMpz8CsXSpFvENYAuqykDYmV0t+IwZm
-         Cv069a1/Eqk6//vOiOsrjuoMyMNApjp/kgH+h9hAC87dqmVX5zIf6eCb0UHciXtwIGzY
-         nsUu5Cs7MWH+DR5XK/5PPrNjgh2fXClFrIXiT4G6MoK4XGHlK1AWwEiE9W5bxoxad8bL
-         vdfZ9jWqyTWBoNyRqt8U23TRBkh7w312sY5iJaqd9HVzANux+P3kgQMrUDmr+uU6h3yW
-         OE8plFJOW1S2D4abFPIhL7PppLRxMYS6iPS2BD7rI4NkvQhvj+aKWvQupGKNN8kFnouh
-         8GcA==
-X-Gm-Message-State: AOAM532RGEhFlw+NplJJ2jUpsVnMAZvtKbwlDqBcXOG4o9q7EUa2ORN5
-        D0GLZeFYKPpDiCyu1GusvXl/zsZs/CLzIeoBV/UzgwWD
-X-Google-Smtp-Source: ABdhPJxfIfah5bF6EpZdig9wLnxeg97W/L9kK85fmNX5wQtDGIQX6lRSu/LRbWZ6UEsiwpS4mrBg+VCaLljxqfgyv4g=
-X-Received: by 2002:aca:1c0f:: with SMTP id c15mr14535258oic.54.1606743098960;
- Mon, 30 Nov 2020 05:31:38 -0800 (PST)
+        bh=aAj8eG27ljnDWkNNrJcHx318iuDzNfHKiJ1zlkRX+rQ=;
+        b=V9aGzRV7amA1vcBjQwKxB9TyYVcp+8WsuFsF8UESwUkLydT0jtz2UedJxvREn1Cptf
+         X2XuRbfPSQWOqZp0Zob5ljx/FDcEw3kiYB6ohmAurnrTAlRqKSH62LBWpe7YoEJas5BU
+         Vv0vLpwC9aHRyYXlkpu5Kk3sHhI8gjmQW8KgYB/KTNkppIFn34KeLONX92l9SFOtK6qq
+         wQCgZZXeqUt3i2PGKF1JpG/0mlVQkX/+J3nmspdj6QbDflBzwxMwFgsSKdIYCKWFIrS0
+         q7i3ammXaUUeLFxPRSb0gYZVI19lYtWpVzgU+vN8a1AyT0yxbJu960sTvdKJSejPpDk+
+         C0kw==
+X-Gm-Message-State: AOAM53036nnNlN5eMfjL/XYMo66nG8fElFk6DuLIek2FwKKsuhKLOjrh
+        crgGvI+n/Rn78HYZRjZmxQnue88/gtQTd/0dmNI=
+X-Google-Smtp-Source: ABdhPJyk4SG6m+GmA0aBFfuO8biSR3/uYEnP9q/Y0H0YHoUtIzzIPN5662UDR6XWWOVpUIJkgAjblRdkZkESAWC8AVo=
+X-Received: by 2002:a9d:686:: with SMTP id 6mr15659494otx.107.1606743203560;
+ Mon, 30 Nov 2020 05:33:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-5-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172154.25625-5-uli+renesas@fpond.eu>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-6-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172154.25625-6-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Nov 2020 14:31:28 +0100
-Message-ID: <CAMuHMdVxnaxtkgWquSRinuVGrbj3Rvx-3uVhD=q+YJvmVeGzXQ@mail.gmail.com>
-Subject: Re: [PATCH 04/11] pinctrl: renesas: r8a779a0: Add HSCIF pins, groups
- and functions
+Date:   Mon, 30 Nov 2020 14:33:12 +0100
+Message-ID: <CAMuHMdXzUSWNSsF9+hpokK_qjRr68S_9arU--DLX2G7Fa2-EnQ@mail.gmail.com>
+Subject: Re: [PATCH 05/11] pinctrl: renesas: r8a779a0: Add INTC-EX pins,
+ groups and function
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
@@ -47,8 +47,8 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds HSCIF0-3 pins, groups and functions to the R8A779A0
-> (V3U) SoC.
+> Add pins, groups, and function for the Interrupt Controller for External
+> Devices (INTC-EX) on the R-Car R8A779A0 (V3U) SoC.
 >
 > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
