@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D6B2C8615
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 15:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCEF32C8618
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Nov 2020 15:01:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725897AbgK3N6s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Nov 2020 08:58:48 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:46143 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgK3N6s (ORCPT
+        id S1726442AbgK3OAT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Nov 2020 09:00:19 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:38535 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726007AbgK3OAT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:58:48 -0500
-Received: by mail-ot1-f67.google.com with SMTP id z23so7661368oti.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 05:58:33 -0800 (PST)
+        Mon, 30 Nov 2020 09:00:19 -0500
+Received: by mail-oi1-f194.google.com with SMTP id o25so14225810oie.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Nov 2020 06:00:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I4U3lqKZ8er/80wdSwv0ZILyVNrOIGBWglOrpUCqcgo=;
-        b=oQpe8fxKDnbJhkWmLsEa8l23xGX7FPz/YZPMkBI0G7LPPSHXtpEJRQfkozunhrL1L5
-         qiXhj7FEa7wbo0vxllHOs8wK1h45wgQyBiwIesg2Uta1lJYdBe+p3W8n4d6gCiuMkp4e
-         AbNnPHmFTgC20Kk4MWrbDTUIASrvxCBarBCt957S/5td++a3d4kHvXujAjsyYvQQYw6q
-         KOEVHUQCa0t8ozpLL48x2uE78ztR6L6FG3diu/SZXy3FJyJaEbViKnfPD62L5xjni9Fp
-         2/fciJ00aFbMkcokq/48RHCbH4hHuXj/U/1SQyGLyb/x3V0PUfmblRATXgmJ3bYXJMIR
-         mU4A==
-X-Gm-Message-State: AOAM531oMOMwk9x8S/x1RuKjgVQUwlPA7np2XzKZzmBJssrPpHQqdXzj
-        l5ywghUh37h1j81FkeLzj41r7rXqEkZKsxkN3jU=
-X-Google-Smtp-Source: ABdhPJxeqTiCO/EdDpqSwP6pAW8wlpY+Bj/d9hI9Dk3ZMgWF1ZZ4XYGpiTQotFRyGBl4+2PdxJ2j0AGEaWGC89pEM9E=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr8510487oth.250.1606744687745;
- Mon, 30 Nov 2020 05:58:07 -0800 (PST)
+        bh=sg/QXPFo4L+Kf4RtbUUMndzXFfwhVZUTSrPODsU6sxo=;
+        b=fTHwiXRTt/iR/fbOnJG/xZkdMtAEJIxvr5U+VgYtyab/TvLSPVsvwl+36LYTTVAFwf
+         20I2BnNwDN2Zfkk/IlOqRtzq8zmNuyjwApdkJARCN+zHYtS6ojXDI6c997IFArPsM0tA
+         /uCN9kwFAGDavAgn5VhYj0geTV4WlN/Is4iJuEoeFQujrk0Uv5ICAC7+WMkLwXrl68o7
+         CDPeIZ3fCuT5Nf2xlYcEjaFcnberOnmXNbhWdsydr3hq2qzNHaMnJDt/+NYb1puwk/qY
+         OgiHkkiP9GJS1mI3jh2DuU5X2jMHmYHfSMzBocQfFU6uVt6i02H/L3hh/dMwNXQaZjyG
+         CScw==
+X-Gm-Message-State: AOAM530J7cgXjhGgc38g7l0MKbwxzosWlAboR4Ln17JXpIMuNF6BfFVf
+        VC2mEs4PClJsHBsTw888AhaIHLBwpKu3F6dRNc6Diivq
+X-Google-Smtp-Source: ABdhPJzqWtut92STzoRoL5+a6wvrbzarG2WdzzveZJQe6zpBUKKF4eMOyFP+FKUT+ymGxj/XndxpT0JUkM9EgmgSKUw=
+X-Received: by 2002:aca:1c0f:: with SMTP id c15mr14639542oic.54.1606744778501;
+ Mon, 30 Nov 2020 05:59:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-11-uli+renesas@fpond.eu>
-In-Reply-To: <20201126172154.25625-11-uli+renesas@fpond.eu>
+References: <20201126172154.25625-1-uli+renesas@fpond.eu> <20201126172154.25625-12-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172154.25625-12-uli+renesas@fpond.eu>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 30 Nov 2020 14:57:56 +0100
-Message-ID: <CAMuHMdXtz+7f0kpg4Yi5swmmZe6ZwkYi+vBJ-Bvt-EmKcnaY1Q@mail.gmail.com>
-Subject: Re: [PATCH 10/11] pinctrl: renesas: r8a779a0: Add TMU pins, groups
+Date:   Mon, 30 Nov 2020 14:59:27 +0100
+Message-ID: <CAMuHMdXVAKAL3La-=vL8yGEawh=BYGLCmL3gw3QaPbkN2Cv3+Q@mail.gmail.com>
+Subject: Re: [PATCH 11/11] pinctrl: renesas: r8a779a0: Add TPU pins, groups
  and functions
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -46,60 +46,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uli,
-
 On Thu, Nov 26, 2020 at 6:22 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> This patch adds TMU TCLK1-4 pins, groups and functions to the R8A779A0
-> (V3U) SoC.
+> Add pins, groups and functions for the 16-Bit Timer Pulse Unit outputs
+> on the R-Car R8A779A0 (V3U) SoC.
 >
 > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-Thanks for your patch!
-
-
-> ---
->  drivers/pinctrl/renesas/pfc-r8a779a0.c | 47 ++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
->
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a779a0.c b/drivers/pinctrl/renesas/pfc-r8a779a0.c
-> index a83b6fa9ab9e..4aa725b3fbca 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
-> @@ -2502,6 +2502,39 @@ static const unsigned int scif_clk_mux[] = {
->         SCIF_CLK_MARK,
->  };
->
-> +/* - TMU -------------------------------------------------------------------- */
-> +static const unsigned int tmu_tclk1_pins[] = {
-> +       /* TCLK1 */
-> +       RCAR_GP_PIN(2, 23),
-> +};
-> +static const unsigned int tmu_tclk1_mux[] = {
-> +       TCLK1_MARK,
-> +};
-
-According to the R-Car V3U Pin Multiplex Table, there are two sets.
-The above definition corresponds to set A.
-Set B is available on pin GP1_23.
-
-> +
-> +static const unsigned int tmu_tclk2_pins[] = {
-> +       /* TCLK2 */
-> +       RCAR_GP_PIN(2, 24),
-> +};
-> +static const unsigned int tmu_tclk2_mux[] = {
-> +       TCLK2_MARK,
-> +};
-
-According to the R-Car V3U Pin Multiplex Table, there are two sets.
-The above definition corresponds to set A.
-Set B is available on pin GP2_10.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
