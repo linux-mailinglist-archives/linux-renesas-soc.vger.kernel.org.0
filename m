@@ -2,100 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDF322C9937
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Dec 2020 09:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B83B72C9A1E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Dec 2020 09:56:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387431AbgLAIWJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Dec 2020 03:22:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727192AbgLAIWH (ORCPT
+        id S1729120AbgLAIz2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Dec 2020 03:55:28 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35435 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727612AbgLAIzY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Dec 2020 03:22:07 -0500
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 94ECB20659;
-        Tue,  1 Dec 2020 08:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606810884;
-        bh=xHTFstOj6O/KMLPWIJ9livXkeh5E3cNJZoMEX1ICbl0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0ugfFVtmDEFz3qweRxNJGIbdlhHbJEbe+SPrGbc9I44gM+O6I2rVgrcZagGiPQlJe
-         qDa/e9cJY/n7rREFFqWQI6CYR7sTmaWJfiub5J4ReXH3L76qQfPF0XWoTZ+/KCqBa1
-         43uSa/AsDxhQJOFTJrlenu8ULt+S2HlexiyIiZjk=
-Date:   Tue, 1 Dec 2020 02:20:47 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        amd-gfx@lists.freedesktop.org, bridge@lists.linux-foundation.org,
-        ceph-devel@vger.kernel.org, cluster-devel@redhat.com,
-        coreteam@netfilter.org, devel@driverdev.osuosl.org,
-        dm-devel@redhat.com, drbd-dev@tron.linbit.com,
-        dri-devel@lists.freedesktop.org, GR-everest-linux-l2@marvell.com,
-        GR-Linux-NIC-Dev@marvell.com, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-        linux-afs@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-decnet-user@lists.sourceforge.net,
-        linux-ext4@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-Message-ID: <20201201082047.GA11832@embeddedor>
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <yq1h7p6gjkk.fsf@ca-mkp.ca.oracle.com>
+        Tue, 1 Dec 2020 03:55:24 -0500
+Received: by mail-ot1-f68.google.com with SMTP id t18so963073otk.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Dec 2020 00:55:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=drPgkwdhOBRxvmkB/65dceRp+WBXpceyLl/zH4DkKcA=;
+        b=c/Bw7bQZg2uvW26K6E04UPeI460g7RkuOuTqjwGhLc8b6AhBU1kTq5Qftp9x/NhQtt
+         IDsaDj30IK6VLvh/Uw+/dXWk5UkdW41QYiFNy/fMF/ct3bQ6xHRwff0sUorMkIBWt0Yf
+         4j0ES5CoX7U/c82pPxIhQ249OHciFAP3ObfXAeGTJhkg08AT6p1GHMH7ufmiOMqkU/d9
+         z9Oa3/oWrdO37dxJmuNkweRJ3OztAWwWnONmQVQW3vhqIB7zL18t7RhBokQjdkHOao58
+         Bg5hGGWKqr9tVQ2CILhBIure2ZONfOQJfoZJaYRC8s71fbckG138k4wQF2sLQ94Ipz3j
+         4qIA==
+X-Gm-Message-State: AOAM530DlhpOdlWKkGhstCMjcND3oWJNNYX2vsGVsmWDTRNebtyU+9U4
+        oi4Z6TSw8xLqiN7QcxmPosvfVlSLMA7vPru+gszlT6zJuWY=
+X-Google-Smtp-Source: ABdhPJwQI+G0lK93TaIf+dPi5zAjfmCK7oAkTEEVcEeGjP8pRiFBtQMtisEtKh1pnvqTDUX+iNYKxOunnHsgtNyOEHw=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr1183006oth.250.1606812883092;
+ Tue, 01 Dec 2020 00:54:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq1h7p6gjkk.fsf@ca-mkp.ca.oracle.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201126172058.25275-1-uli+renesas@fpond.eu> <20201126172058.25275-3-uli+renesas@fpond.eu>
+In-Reply-To: <20201126172058.25275-3-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 1 Dec 2020 09:54:31 +0100
+Message-ID: <CAMuHMdWLVkZ2ZkrCCykLVYhehpr6=f-jGT07cKoH45P-moo+VA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] pinctrl: renesas: Initial R8A779A0 (V3U) PFC support
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 12:52:27AM -0500, Martin K. Petersen wrote:
-> 
-> Gustavo,
-> 
-> > This series aims to fix almost all remaining fall-through warnings in
-> > order to enable -Wimplicit-fallthrough for Clang.
-> 
-> Applied 20-22,54,120-124 to 5.11/scsi-staging, thanks.
+Hi Uli,
 
-Awesome! :)
+One more comment...
 
-Thanks, Martin.
---
-Gustavo
+On Thu, Nov 26, 2020 at 6:21 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This patch adds initial pinctrl support for the R8A779A0 (V3U) SoC,
+> including bias control.
+
+... and drive strength, and I/O voltage control.
+
+> + static int r8a779a0_pin_to_pocctrl(struct sh_pfc *pfc, unsigned int pin,
+> +                                    u32 *pocctrl)
+> + {
+> +         int bit = pin & 0x1f;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC0].reg;
+> +         if (pin >= RCAR_GP_PIN(0, 15) && pin <= RCAR_GP_PIN(0, 27))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC1].reg;
+> +         if (pin >= RCAR_GP_PIN(1, 0) && pin <= RCAR_GP_PIN(1, 30))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC2].reg;
+> +         if (pin >= RCAR_GP_PIN(2, 2) && pin <= RCAR_GP_PIN(2, 15))
+> +                 return bit;
+
+The above are pins switchable between 1.8V and 3.3V pins, which are
+handled fine.
+
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC4].reg;
+> +         if (pin >= RCAR_GP_PIN(4, 0) && pin <= RCAR_GP_PIN(4, 17))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC5].reg;
+> +         if (pin >= RCAR_GP_PIN(5, 0) && pin <= RCAR_GP_PIN(5, 17))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC6].reg;
+> +         if (pin >= RCAR_GP_PIN(6, 0) && pin <= RCAR_GP_PIN(6, 17))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC7].reg;
+> +         if (pin >= RCAR_GP_PIN(7, 0) && pin <= RCAR_GP_PIN(7, 17))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC8].reg;
+> +         if (pin >= RCAR_GP_PIN(8, 0) && pin <= RCAR_GP_PIN(8, 17))
+> +                 return bit;
+> +
+> +         *pocctrl = pinmux_ioctrl_regs[POC9].reg;
+> +         if (pin >= RCAR_GP_PIN(9, 0) && pin <= RCAR_GP_PIN(9, 17))
+> +                 return bit;
+
+The above are 2.5/3.3V pins, and they are not handled correctly by
+sh_pfc_pinconf_[gs]et(), which always assumes 1.8/3.3V.
+
+I think the simplest solution would be to split the
+SH_PFC_PIN_CFG_IO_VOLTAGE flag in two flags, and the pin_to_pocctrl()
+callback in two callbacks, one for 1.8/3.3V and one for 2.5/3.3V pins,
+but you may have a better idea?
+
+Note that the R-Car V3M, V3H, E3, and D3 SoCs also have 2.5/3.3V pins,
+but their pinctrl drivers just don't handle them, and limit voltage control
+to the 1.8/3.3V pins.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
