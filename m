@@ -2,131 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B99E2C9E96
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Dec 2020 11:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0EE02CA0F4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Dec 2020 12:12:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729570AbgLAKEA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Dec 2020 05:04:00 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57979 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbgLAKEA (ORCPT
+        id S1726689AbgLALKw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Dec 2020 06:10:52 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.216]:26730 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726344AbgLALKv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Dec 2020 05:04:00 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4Cld2r6g3fz9sVq;
-        Tue,  1 Dec 2020 21:03:16 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1606816997;
-        bh=FjlfdSawU3ve6xceGaXc0QUrfyKru3+HxazOT6mqyKY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IHjAgsfE79WFoxv6HT962TApwskmVwbg+TFoy4P2amGUPldXPj7dEfM9nw3ZY9obF
-         6mv9vDBWM37rVBi+54ouahzhn1+Q34Ksg15gbui959tLFvSVNcUPtIZlilSTAiFohj
-         IcHZNSm35vYFtawWC4FXpdJMm9m3IAi63A3pchrKKhC4v9beRrKFQ+NdiNNOrR9zVN
-         N2udVtB8YtgPnBPY91MYCCsEIsZnEkZu30wmmskANsb7NMk2hZn8Fx/jcb9+xjRuKR
-         6Pbd0kclOvdE10i7wstCH2KKjfh5QA5TVwcWDvtaFoYMc8dIMoqAHDLF62d0twCFqI
-         zKH07q16tc6oA==
-Date:   Tue, 1 Dec 2020 21:03:15 +1100
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Gareth Williams <gareth.williams.jx@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] clk: renesas: r9a06g032: Drop __packed for
- portability
-Message-ID: <20201201210315.45a73673@canb.auug.org.au>
-In-Reply-To: <20201130085743.1656317-1-geert+renesas@glider.be>
-References: <20201130085743.1656317-1-geert+renesas@glider.be>
+        Tue, 1 Dec 2020 06:10:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1606820818;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=CaCRNVSJOQ/+vSUfUe1CFq5EJcCBLS6oG69Cwbly/io=;
+        b=Ghcmw+dz14wfuqV8hhWKsKDjfbeYA59NgXgOVNibuvmODGzCZ7LH7AFROBOkuTT+Ic
+        BFCNpiE7YH8ePLPsk1YGndthFj9D49fphrlgXeeXivHtyoA1fl06KZ0F3bMDG31j0stY
+        PUU3CeAYGtjqMCE0w5Gbn1/CyGbA2qx3mkDwTgww43jyXL0Bq05EHLCeUYm4PG0lkSbN
+        CcYUzvEXHhOjcCTKtQLzYuIDzmQQbgne0GiwRnrpFNmaWLd43wVWp5otUWy1czMN2RGk
+        5VY9Qf25VSPYTcjxb5/WPn04GqkN5jvkjlle+0PGYkR68L0AuAvCRBxsjDTDFRxgceDN
+        dwxg==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR+2tEbLpo"
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 47.3.3 DYNA|AUTH)
+        with ESMTPSA id 60ba70wB1B6qm5I
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Tue, 1 Dec 2020 12:06:52 +0100 (CET)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     wsa@the-dreams.de, geert@linux-m68k.org, hoai.luu.ub@renesas.com,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: [PATCH] pinctrl: renesas: r8a779a0: Add I2C pins, groups and functions
+Date:   Tue,  1 Dec 2020 12:06:41 +0100
+Message-Id: <20201201110641.28986-1-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/x=8K5Ql==6p6MPT1Tt8f7jL";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---Sig_/x=8K5Ql==6p6MPT1Tt8f7jL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This patch adds I2C0-6 pins, groups and functions to the R8A779A0 (V3U)
+SoC.
 
-Hi Geert,
+Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+---
 
-On Mon, 30 Nov 2020 09:57:43 +0100 Geert Uytterhoeven <geert+renesas@glider=
-.be> wrote:
->
-> The R9A06G032 clock driver uses an array of packed structures to reduce
-> kernel size.  However, this array contains pointers, which are no longer
-> aligned naturally, and cannot be relocated on PPC64.  Hence when
-> compile-testing this driver on PPC64 with CONFIG_RELOCATABLE=3Dy (e.g.
-> PowerPC allyesconfig), the following warnings are produced:
->=20
->     WARNING: 136 bad relocations
->     c000000000616be3 R_PPC64_UADDR64   .rodata+0x00000000000cf338
->     c000000000616bfe R_PPC64_UADDR64   .rodata+0x00000000000cf370
->     ...
->=20
-> Fix this by dropping the __packed attribute from the r9a06g032_clkdesc
-> definition, trading a small size increase for portability.
->=20
-> This increases the 156-entry clock table by 1 byte per entry, but due to
-> the compiler generating more efficient code for unpacked accesses, the
-> net size increase is only 76 bytes (gcc 9.3.0 on arm32).
->=20
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Fixes: 4c3d88526eba2143 ("clk: renesas: Renesas R9A06G032 clock driver")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Fix authorship.
-> ---
->  drivers/clk/renesas/r9a06g032-clocks.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas=
-/r9a06g032-clocks.c
-> index d900f6bf53d0b944..892e91b92f2c80f5 100644
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-> @@ -55,7 +55,7 @@ struct r9a06g032_clkdesc {
->  			u16 sel, g1, r1, g2, r2;
->  		} dual;
->  	};
-> -} __packed;
-> +};
-> =20
->  #define I_GATE(_clk, _rst, _rdy, _midle, _scon, _mirack, _mistat) \
->  	{ .gate =3D _clk, .reset =3D _rst, \
-> --=20
-> 2.25.1
->=20
+Hi!
 
-Tested-by: Stephen Rothwell <sfr@canb.auug.org.au> # PowerPC allyesconfig b=
-uild
+This patch was missing from the "pinctrl: renesas: basic R8A779A0 (V3U)
+support" series. I have thus posted it on its own for review now and will
+include it in v2 of the series later.
 
---=20
-Cheers,
-Stephen Rothwell
+CU
+Uli
 
---Sig_/x=8K5Ql==6p6MPT1Tt8f7jL
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
+ drivers/pinctrl/renesas/pfc-r8a779a0.c | 108 +++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/GFOQACgkQAVBC80lX
-0Gx20wgAi6BiXoJObYe8V+LMkb6ZXfIlTf41CHmeVC6NHNznore2v1594BTP0Zgf
-gTyOp2mkrn+sKaunxMzoZt3aEwtKkSUs0t5ksN7WIS/Ilnp6RDqtUr3hk5L+Ig0H
-M6GBg+78RiPDvAgF5xjxGTaDh5SCtB1MFNqGy+Yf1pe+p6JZtpBqhaXDLv+cvHSV
-45Fj1RLJ23HYERQ/PUBPHwHI3hVco5EI5eEDuaXEJWGCtsAfWXsj3AYIylx3Emyp
-zYlfxgr5ZVEKsTY8DJBgVvn5K85hjFIy7ljRx+3kByQh6IyPpWWUDoPAS5TfepCj
-YvgHxHtnnei5Urke1xFol0P0jasF2A==
-=A+fg
------END PGP SIGNATURE-----
+diff --git a/drivers/pinctrl/renesas/pfc-r8a779a0.c b/drivers/pinctrl/renesas/pfc-r8a779a0.c
+index 8ce7238e8ad3..d0d0a682b13b 100644
+--- a/drivers/pinctrl/renesas/pfc-r8a779a0.c
++++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
+@@ -1199,6 +1199,70 @@ static const struct sh_pfc_pin pinmux_pins[] = {
+ 	PINMUX_GPIO_GP_ALL(),
+ };
+ 
++/* - I2C0 ------------------------------------------------------------------- */
++
++static const unsigned int i2c0_pins[] = {
++	/* SDA0, SCL0 */
++	RCAR_GP_PIN(2, 3), RCAR_GP_PIN(2, 2),
++};
++static const unsigned int i2c0_mux[] = {
++	GP2_03_MARK, GP2_02_MARK,
++};
++
++/* - I2C1 ------------------------------------------------------------------- */
++static const unsigned int i2c1_pins[] = {
++	/* SDA1, SCL1 */
++	RCAR_GP_PIN(2, 5), RCAR_GP_PIN(2, 4),
++};
++static const unsigned int i2c1_mux[] = {
++	GP2_05_MARK, GP2_04_MARK,
++};
++
++/* - I2C2 ------------------------------------------------------------------- */
++static const unsigned int i2c2_pins[] = {
++	/* SDA2, SCL2 */
++	RCAR_GP_PIN(2, 7), RCAR_GP_PIN(2, 6),
++};
++static const unsigned int i2c2_mux[] = {
++	GP2_07_MARK, GP2_06_MARK,
++};
++
++/* - I2C3 ------------------------------------------------------------------- */
++static const unsigned int i2c3_pins[] = {
++	/* SDA3, SCL3 */
++	RCAR_GP_PIN(2, 9), RCAR_GP_PIN(2, 8),
++};
++static const unsigned int i2c3_mux[] = {
++	GP2_09_MARK, GP2_08_MARK,
++};
++
++/* - I2C4 ------------------------------------------------------------------- */
++static const unsigned int i2c4_pins[] = {
++	/* SDA4, SCL4 */
++	RCAR_GP_PIN(2, 11), RCAR_GP_PIN(2, 10),
++};
++static const unsigned int i2c4_mux[] = {
++	GP2_11_MARK, GP2_10_MARK,
++};
++
++/* - I2C5 ------------------------------------------------------------------- */
++static const unsigned int i2c5_pins[] = {
++	/* SDA5, SCL5 */
++	RCAR_GP_PIN(2, 13), RCAR_GP_PIN(2, 12),
++};
++static const unsigned int i2c5_mux[] = {
++	GP2_13_MARK, GP2_12_MARK,
++};
++
++/* - I2C6 ------------------------------------------------------------------- */
++static const unsigned int i2c6_pins[] = {
++	/* SDA5, SCL5 */
++	RCAR_GP_PIN(2, 15), RCAR_GP_PIN(2, 14),
++};
++static const unsigned int i2c6_mux[] = {
++	GP2_15_MARK, GP2_14_MARK,
++};
++
+ /* - SCIF0 ------------------------------------------------------------------ */
+ static const unsigned int scif0_data_pins[] = {
+ 	/* RX0, TX0 */
+@@ -1301,6 +1365,14 @@ static const unsigned int scif_clk_mux[] = {
+ };
+ 
+ static const struct sh_pfc_pin_group pinmux_groups[] = {
++	SH_PFC_PIN_GROUP(i2c0),
++	SH_PFC_PIN_GROUP(i2c1),
++	SH_PFC_PIN_GROUP(i2c2),
++	SH_PFC_PIN_GROUP(i2c3),
++	SH_PFC_PIN_GROUP(i2c4),
++	SH_PFC_PIN_GROUP(i2c5),
++	SH_PFC_PIN_GROUP(i2c6),
++
+ 	SH_PFC_PIN_GROUP(scif0_data),
+ 	SH_PFC_PIN_GROUP(scif0_clk),
+ 	SH_PFC_PIN_GROUP(scif0_ctrl),
+@@ -1316,6 +1388,34 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(scif_clk),
+ };
+ 
++static const char * const i2c0_groups[] = {
++	"i2c0",
++};
++
++static const char * const i2c1_groups[] = {
++	"i2c1",
++};
++
++static const char * const i2c2_groups[] = {
++	"i2c2",
++};
++
++static const char * const i2c3_groups[] = {
++	"i2c3",
++};
++
++static const char * const i2c4_groups[] = {
++	"i2c4",
++};
++
++static const char * const i2c5_groups[] = {
++	"i2c5",
++};
++
++static const char * const i2c6_groups[] = {
++	"i2c6",
++};
++
+ static const char * const scif0_groups[] = {
+ 	"scif0_data",
+ 	"scif0_clk",
+@@ -1345,6 +1445,14 @@ static const char * const scif_clk_groups[] = {
+ };
+ 
+ static const struct sh_pfc_function pinmux_functions[] = {
++	SH_PFC_FUNCTION(i2c0),
++	SH_PFC_FUNCTION(i2c1),
++	SH_PFC_FUNCTION(i2c2),
++	SH_PFC_FUNCTION(i2c3),
++	SH_PFC_FUNCTION(i2c4),
++	SH_PFC_FUNCTION(i2c5),
++	SH_PFC_FUNCTION(i2c6),
++
+ 	SH_PFC_FUNCTION(scif0),
+ 	SH_PFC_FUNCTION(scif1),
+ 	SH_PFC_FUNCTION(scif3),
+-- 
+2.20.1
 
---Sig_/x=8K5Ql==6p6MPT1Tt8f7jL--
