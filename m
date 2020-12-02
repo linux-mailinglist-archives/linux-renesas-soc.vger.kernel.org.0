@@ -2,53 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 767C02CBDF0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Dec 2020 14:11:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D8092CBE2B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Dec 2020 14:26:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730201AbgLBNJB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Dec 2020 08:09:01 -0500
-Received: from mail-eopbgr1400131.outbound.protection.outlook.com ([40.107.140.131]:25872
+        id S1727860AbgLBN0z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Dec 2020 08:26:55 -0500
+Received: from mail-eopbgr1400139.outbound.protection.outlook.com ([40.107.140.139]:35983
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726875AbgLBNI7 (ORCPT
+        id S1727050AbgLBN0z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Dec 2020 08:08:59 -0500
+        Wed, 2 Dec 2020 08:26:55 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YKtmsNxKxTtmF/5x13MUZRI8QDyXs3lG83QHT5eonPyLl34LhXN1f60KegqH/BJ/BhgJtZkR/i1ajWFqM36UpV/Lf6vmB567HiwYI9gMs4F3dU4znfRu9qnE3EjHT0ex5AUHkVqoTmBIlYyAwc7maoLVWA8QzQY0H0mcnaFNT2OT0kG94YI46G1uT277R8S2Qbiaz22umXhnwj2iRcCpBxNddpTtXcyPPBpEwyvv8Zs3HXxjhjtI2t/sw8GNFNPWSnAiVfd1+pWsPE2iIIe4bWljEQ95dyOrRYwW9th8wpd/eg42I4Y197A9hUhNC9HW5LBBQyIYrtjhLNkB5hg4Jg==
+ b=QaJwH9ljqxbVDP97luvQIKdkXabsPdyUiWfApY3hGW0Xz7kwTUr9/7SI2vkYaNU2CFj5pk3E87e1068sCKmVqAy/U67bCupgWGRZ1LE239Ub6LDUTxTd3FpmrtJtsgHR4dNHnmZPswHaQCNZgezetiDhE3hLP0Hg0q7l+ic2mfImTiz7xB8+GScj/143CpNnp0v9D20ZDCcDWJnDx52nGTunTKtI+FDc1GDIBhLFMhQbrjqyShbfUEhXeoG9KHmYQd1ko6BSr/r6GIPJVAtHiq0kmvvm8MWBox3i3jXIOX21jXLDtlIZGhtwbD3keVpde6pA5RkqcWy66dMAtoPMfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KJ88iOj8XjUEO58Q5+4hGScqxjgxZkKtYqYhkZ7EDn8=;
- b=m1lmSGmhNx0+BR1MVKOLg4zEPIbXH/ibtS0RUA8EoLnhGvp6cMEvaHHgdhEtrcS3QaAzLJ1taqDJhGFY39kf5RkQnYxNcwJK/aBVzm1KEIbxggtJ0PyA1Jyhfi8ZT/4sXL0x07jWwneejqFhy0VW9LEIg4McHx+VI+HhFFX9epXVT+1MeWyk5fFeCmXM4G17VP/T56UdPvsSrb+YWMTYX2n6S1bRlvZEJCk2Pwmhviah8Tw/eNY5xK8dgBMiIN9ixGOy6id6WG+srKpmZqbmJK08UNVJVquQ14uaIb9uAa3ATfdMMAX1BdQpmyWKXlwXJkp7LwceQE8R7zrz0RRQwA==
+ bh=swURQtOpnMgNDNyKjR+eIPutN/uCMGHZoRXNWQVu+no=;
+ b=OPPNLreX2k2zoveTMLTf6bmC3BkAblt4IDXF1o1Z/yjqI/STIbkoosowSHLfrMqCRYx6OnCSiYSNp5D0V7V47VLD8BCc+6cIvfw04r/Pr/WMzvjmn4wuVpWtpPJeEBn4gT9C041AdGL7RVcI+1HsW+S6lAv+r9AzTAcV7Rs3AWG3AFjMNMRLLpDaXTXdfyfdmz1l9ogMvv0JKMiILIVCn65Gf3M8lwqGX0X4LpiPQ0iwn4IT6FfyFno9uH973/vKq35hPx1cU7RoUonHAeTOrDVFYdIB60+wDEmncQcbn8YVGt/MNSYvdwksjFVi6B+F0bg0dlfJvYD5DpgstCROBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KJ88iOj8XjUEO58Q5+4hGScqxjgxZkKtYqYhkZ7EDn8=;
- b=s5o5W8HTrJVj82ZB55t8Wm2SYow5tDrmoUOhxq9xAEzXysaztSSUM708nbLPjYtHxFAaJ7MiC1TZwmleFnc0QnIQg4nRBzBD49wJthyoMB0aqiH1AQEn3vLYjQQCzl2EzBYGh6lDL9oiyuPIqRxAkmYfup0PVs/PXTSLiUE93OM=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB5277.jpnprd01.prod.outlook.com (2603:1096:404:c3::23) with
+ bh=swURQtOpnMgNDNyKjR+eIPutN/uCMGHZoRXNWQVu+no=;
+ b=lYssk32spKi+zX+1EITXqU313+M9OLrn0b5sZI43GGzto/1YHCXbkLrg2ffCuTFYmCLDStwpCC6/Gb113rKDGl6E+Y/IG28rh+8n/niQXl0l+P/egtI9sJmur/wfqBg2fI/tluzBro88Acbu1yHTnYW9uJi4U9LF/SG0Wemb5dM=
+Received: from OSBPR01MB3686.jpnprd01.prod.outlook.com (2603:1096:604:49::23)
+ by OSAPR01MB3827.jpnprd01.prod.outlook.com (2603:1096:604:5b::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Wed, 2 Dec
- 2020 13:08:09 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3611.032; Wed, 2 Dec 2020
- 13:08:09 +0000
+ 2020 13:26:06 +0000
+Received: from OSBPR01MB3686.jpnprd01.prod.outlook.com
+ ([fe80::7141:f272:e046:cb65]) by OSBPR01MB3686.jpnprd01.prod.outlook.com
+ ([fe80::7141:f272:e046:cb65%4]) with mapi id 15.20.3611.025; Wed, 2 Dec 2020
+ 13:26:05 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
 CC:     "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 0/3] tmio: set max_busy_timeout
-Thread-Topic: [PATCH 0/3] tmio: set max_busy_timeout
-Thread-Index: AQHWw3Itbd0ZmyjsF0mpbnRxkgxzWKnj0DIg
-Date:   Wed, 2 Dec 2020 13:08:08 +0000
-Message-ID: <TY2PR01MB3692AAE65A75EC48A4CC50E9D8F30@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20201125213001.15003-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201125213001.15003-1-wsa+renesas@sang-engineering.com>
+Subject: RE: [PATCH] mmc: tmio: improve bringing HW to a sane state with
+ MMC_POWER_OFF
+Thread-Topic: [PATCH] mmc: tmio: improve bringing HW to a sane state with
+ MMC_POWER_OFF
+Thread-Index: AQHWw2yTXOZCIGD6V0O8+hzLhzoTJqnj0bOQ
+Date:   Wed, 2 Dec 2020 13:26:05 +0000
+Message-ID: <OSBPR01MB36863540D1934A9BBF423D04D8F30@OSBPR01MB3686.jpnprd01.prod.outlook.com>
+References: <20201125204953.3344-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201125204953.3344-1-wsa+renesas@sang-engineering.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -56,77 +58,70 @@ X-MS-TNEF-Correlator:
 authentication-results: sang-engineering.com; dkim=none (message not signed)
  header.d=none;sang-engineering.com; dmarc=none action=none
  header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:5971:87d:47f0:7231]
+x-originating-ip: [124.210.22.195]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4990cf90-f8fe-45a6-d0cf-08d896c350e1
-x-ms-traffictypediagnostic: TYAPR01MB5277:
-x-microsoft-antispam-prvs: <TYAPR01MB5277186B9D8DFAB432D2D157D8F30@TYAPR01MB5277.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-office365-filtering-correlation-id: 1344b986-2a3a-4d9c-269a-08d896c5d2a2
+x-ms-traffictypediagnostic: OSAPR01MB3827:
+x-microsoft-antispam-prvs: <OSAPR01MB3827AB351FD4530E0FB4C135D8F30@OSAPR01MB3827.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2803;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LncX1pogUpryzhpLiBnjlmlkc4JDTUdHDFb031K0tLaaFlyIEepJTdtLNboTUPOxis3oS1PNNPKIkSOxT5Lp0ElaNwJOpp+wwYmmmivX1CdcpyCcGQTN4ZfQ1sXjDYRs/DXBSc0kpo8EZmeRWvQ20ffUGzeV2J2lWfjaTQVzfwLQMweZuVIEA5+CkWAsJajhglmmqSUgJZmNLuUbqBXYlrBunMGrIaC40YPUM0GUpfPk5iX02CqzDnKnLQFQYbe5s834d5hkA9qWYGSJvX6wdVIVDEgOlpzQ+JnmcNfFlUG1ov5P1pTIvob62O7m9uJkbEX+v7ODkk8rgTlK+A1x1A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(376002)(136003)(39860400002)(2906002)(66946007)(66476007)(66556008)(52536014)(66446008)(64756008)(5660300002)(86362001)(76116006)(316002)(83380400001)(110136005)(55016002)(9686003)(6506007)(186003)(7696005)(4326008)(33656002)(478600001)(8936002)(8676002)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JOg1o5Q3jxcomdzxnzmfgDK9LV6DVDY+SJy3VnAxr4r9grMbXF5Bl/jln3Qd?=
- =?us-ascii?Q?o+AikdmgFqhHRWacBlO+xdrXcSIKvmnxP5GU5gkV2/G3S9SHG+oQNXdbzyoR?=
- =?us-ascii?Q?7WVSNBcp0v4P3ssjzR+tra/i1G7T7hX6jiFjQI7L5odl0dzxvrBEUnldIULf?=
- =?us-ascii?Q?Ejf+YL91KH4rcw0SXpwqTxbqgE+/0WLdzcNbGsYb7OJYfW65U20hns7zvMeo?=
- =?us-ascii?Q?ZgT6sQ50Q7RAJpjnXFAvk3mlKgkZcji6qDynV7cgB4mvt4FWKAyQ2Atc1c3m?=
- =?us-ascii?Q?6jp4II1lKQHhhLp8ySYx2Fqc1VYqWbIa4YLfTFnxRzBsMsMtrge/4jocYX53?=
- =?us-ascii?Q?RmfzqJuVm10LOHmDpPrlGhVFSKZXVWMcd+2GYmDlPkZrbkp8fMvXHQANJOrw?=
- =?us-ascii?Q?Yodn1IKo8JQMFhxBfauE/VR7bA8i71t/tPzgXq09AlMT7Waf6yXPrGXFHWZU?=
- =?us-ascii?Q?X+e2Pm1Y8x6ENX+NYqQd2P5HJw1uCXv8I7Xst99QDs3IGiG2HALAoc8USpty?=
- =?us-ascii?Q?F0zcapCWr6O/ktbPxwKIfOwFS/oYhdFo9Xp1La9MaAIIM7zRQBYWxXbgURdc?=
- =?us-ascii?Q?KXlnf29BOpWOH6IX8PmNp6vcSKewNMTvl2kiYenIHSjmiKR8PVpNtausIwUR?=
- =?us-ascii?Q?9VHxUI2st6ksYEVQRzRQ8Ry4Bgy6kcHuoCLMEBUIqOZNdERzf+tXy2ggEhbA?=
- =?us-ascii?Q?qwHkP2+h/qQzEpzSmS23DDDy8NlXob11sJXZz6mYegKXkW5gQ7GMNqowc6PY?=
- =?us-ascii?Q?X0I9HwzGw95sF76Xeg8gpddO5/UXq0uP4CMF5wNapeIchAQe0cmp7bsLCqhn?=
- =?us-ascii?Q?npuQ518I8TbY/UxgSUvGLh2CrQiHoPfQ4g91sL21SksjnHrFZeg4ooEpZeXB?=
- =?us-ascii?Q?MYRmuFZP1p/e21r4yE5odPf/kzkn55n71KO0bq8YTZBl5cn/Hav16VqUrwMa?=
- =?us-ascii?Q?SaQyMHHeoBgmqYOYD9mnBY0hS4QWcbtNmEU8D6G2SsJcNrQlKf86ukfB4Ve9?=
- =?us-ascii?Q?g4qr9SzqriFBEWK7h2Yiyv8cjh0Dox2AQADatL2+tftkVvk=3D?=
+x-microsoft-antispam-message-info: tmcbhhuaAFnJ7d86lS8kk5n+weKSVh95RK+H6srUIgHY1cXzQ6gLdrnSkHXlDvOPu9XI0pa8YpgtFoThjrsah8Cp3yJeWjsJiHzzCWfgvPN75oPa2MMxcFi6A6Vvz3OGBZNbMHHgCQzXvLLFClvD7SGY1IKW4z8wIkd3Qt+Nkm571x/v/9awW37EswtTj8sNxDhPu/JI69xNIs4Xc/MdcBcRIt57s9Sx/wIH2GopaZF3ppWu4OVDpJMc9hbhT4C5nTbB8fZslh7hlNiLXB8bT0Xb8RPiWNImUuWSYMES0Mu9JZRwFiaAmnpBDEoTJPa+qiUhdMHONTJlcQvx5k2Pkg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSBPR01MB3686.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(346002)(396003)(366004)(136003)(7696005)(76116006)(83380400001)(2906002)(71200400001)(8936002)(110136005)(86362001)(5660300002)(4744005)(66476007)(33656002)(66946007)(66446008)(186003)(52536014)(9686003)(316002)(8676002)(66556008)(64756008)(55016002)(26005)(55236004)(4326008)(6506007)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?T9IHV5uSskDC5bX2ff3scIeNb+W+Nl6+9YIErbDykxFjt7wDLt+Cb4PhoOVF?=
+ =?us-ascii?Q?iB0aFKv37nr+yeKOg+6TD1WsVc29Y4otXq0izdc5sUQjDHHyQPW5F663GHuj?=
+ =?us-ascii?Q?C85xks3TJP9Mf9B1Kw61/Uu1cQw43K//Lq3NrFMSl+LreHgvy1QXu7oTrAoi?=
+ =?us-ascii?Q?uPbMxSaDF1qUGf08AgUNw0pIwc3NblztxC7+OA9/GOwku+tqvv+8YJaSxIJc?=
+ =?us-ascii?Q?zanMa37QlhrAemuV8zO8Euznm3FBUc/1PyiZEnleAyus3Cwh3Bql9TKSuQv0?=
+ =?us-ascii?Q?8Xj/xoLIseZ+l6P1pkL0tEDl3JXY5MzmUcRYikEbhc3mPy+6qed+bZ01tC4S?=
+ =?us-ascii?Q?T4PyBtEqNgR6UfZzbb4x4gpCA/hq7O4turatdKWXgLpyp54GTD21NJI1FLVd?=
+ =?us-ascii?Q?NfYj97ET2gBGTC5SfTyHEtCnBmcHn7OeIwzJ83jAcmzoFRiR+/dsYVm/voCk?=
+ =?us-ascii?Q?gMJzkM+xBkksS7rlTHM5dE43nnwXA/mv2f4ZBnP2xmmTCX+BziTnVw4WzSWr?=
+ =?us-ascii?Q?pz6yoxqSXbJtGSm0HsXi0N73vP7/uEKsLyfElNlzVhBNVbLdr4Ranc/0idwJ?=
+ =?us-ascii?Q?pxq9nq+SvkWQvqwrBT+82/DBYNVccseka1wK9pQZv5DhaKgDKAW+UsEXFRJi?=
+ =?us-ascii?Q?5imz6YDfXFVwjR2xk7OeEhGYyymknwyCHAs0El/Y3O3WCG2S4zMRz9I0f5Vg?=
+ =?us-ascii?Q?LU+sTUg3l32HBw1bcSjzumD7P+ai7lx34PdZ6Nfhhow5NAB8emrB08PPUY4v?=
+ =?us-ascii?Q?D7j3kULeGHoMuJkS3kzraxflV3TJ0CVkwXKegEOrL7P3bTSgyj01pw+Aeqf6?=
+ =?us-ascii?Q?JF4GzfdIOJFDDAyYVRQ/ycnBmLenzs86KGgp5pVFqz2BgeVIoYdgGn1YjmY7?=
+ =?us-ascii?Q?sb7DZg1iLq8m7AU0vIBGa4jU/0OcM0eMyzue3chBr9C8gw1KxRDx6OoGqEGF?=
+ =?us-ascii?Q?2+pBsofK7hg0bTnjVupqzikZtuF1xYMe4FTg4/S9rgg=3D?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4990cf90-f8fe-45a6-d0cf-08d896c350e1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2020 13:08:09.1101
+X-MS-Exchange-CrossTenant-AuthSource: OSBPR01MB3686.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1344b986-2a3a-4d9c-269a-08d896c5d2a2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2020 13:26:05.6952
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YP3LSCWLUTu+mCloBqABIGsaR4YduxqlNyArwKJ+BvoUDd7VNk8VcdCqFvQ9aG4P8tYDqqo4oaazxnZ/2lBxtznni0B44zl3bdgsGPU/n5BKzgPJ9FrCnVc5vSjzCUQ0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5277
+X-MS-Exchange-CrossTenant-userprincipalname: fEWUHFpqKE/BcrH/pepp9RAF12NesaxRc8kcoB8Hzut1xGCh/rXs5Q7KtbRAq5NmpIY62liX2k0y3i3ppJhDGIW6WOPkWIOjVuY+SDEJHxZQHLn5ifpKo6/uk3BRFf1W
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3827
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram-san,
 
-> From: Wolfram Sang, Sent: Thursday, November 26, 2020 6:30 AM
+> From: Wolfram Sang, Sent: Thursday, November 26, 2020 5:50 AM
 >=20
-> This is a follow-up to the series "mmc: tmio: honor busy timeouts
-> properly" which I sent out a few days ago. One of the patches there
-> needs more discussion, so I regrouped the series with another one, and
-> this is the first outcome. It is solely about max_busy_timeout:
+> Further testing of error cases revealed that downgrade is not enough, so
+> we need to reset the SCC which is done by calling the custom reset
+> function. This reset function can distinguish between the various SDHI
+> variants, so protecting the call with MIN_RCAR2 is enough here.
 >=20
-> Patch 1 is from the previous series (with the comment from Shimoda-san
-> addressed) and sets max_busy_timeout with what TMIO always did. Patch 2
-> introduces a hook and a default fallback for extended timeout ranges.
-> Patch 3 uses the hook for the extended range of R-Car Gen3 SDHIs.
->=20
-> It has been tested that the applied values make sense. I have not
-> measured if the MMC core really sends R1 instead of R1B when the desired
-> timeout value is exceeded. All on a Salvator-XS with R-Car M3N.
+> Fixes: 24ce2d7b8bea ("mmc: tmio: bring tuning HW to a sane state with MMC=
+_POWER_OFF")
+> Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thank you for the patch! I tested on Salvator-XS with R-Car H3 and
-I checked the MMC core use R1 instead of R1B by using an additional
-printk on mmc_do_erase().
-
-So,
+Thank you for the patch! I tested on Salvator-XS with R-Car H3
+and confirmed that this patch could fix an issue which the SCC hang
+issue happened when the mmc_hw_reset() was called. So,
 
 Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
