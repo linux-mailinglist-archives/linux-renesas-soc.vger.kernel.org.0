@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5347E2CD55B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 13:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 683A32CD58F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 13:35:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730416AbgLCMUU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Dec 2020 07:20:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48186 "EHLO
+        id S1728660AbgLCMfH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Dec 2020 07:35:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730400AbgLCMUO (ORCPT
+        with ESMTP id S1728609AbgLCMfH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Dec 2020 07:20:14 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB58AC061A4E
-        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Dec 2020 04:19:33 -0800 (PST)
+        Thu, 3 Dec 2020 07:35:07 -0500
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB165C061A4F
+        for <linux-renesas-soc@vger.kernel.org>; Thu,  3 Dec 2020 04:34:26 -0800 (PST)
 Received: from ramsan.of.borg ([84.195.186.194])
-        by xavier.telenet-ops.be with bizsmtp
-        id zoKN2300L4C55Sk01oKNbM; Thu, 03 Dec 2020 13:19:29 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id zoaG230074C55Sk06oaGAu; Thu, 03 Dec 2020 13:34:24 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kknZy-007hFq-LD; Thu, 03 Dec 2020 13:19:22 +0100
+        id 1kknoN-007hYK-VC; Thu, 03 Dec 2020 13:34:15 +0100
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1kknZy-00C2tN-7R; Thu, 03 Dec 2020 13:19:22 +0100
+        id 1kknoN-00C5VC-Af; Thu, 03 Dec 2020 13:34:15 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Russell King <linux@armlinux.org.uk>,
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
         Nicolas Pitre <nico@fluxnic.net>,
         Ard Biesheuvel <ardb@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
         Linus Walleij <linus.walleij@linaro.org>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Eric Miao <eric.miao@nvidia.com>,
         =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
@@ -41,319 +41,277 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Eric Miao <eric.miao@nvidia.com>,
         Chris Brandt <chris.brandt@renesas.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v10 3/3] ARM: uncompress: Validate start of physical memory against passed DTB
-Date:   Thu,  3 Dec 2020 13:19:16 +0100
-Message-Id: <20201203121916.2870975-4-geert+renesas@glider.be>
+Subject: [PATCH v2] ARM: Parse kdump DT properties
+Date:   Thu,  3 Dec 2020 13:34:14 +0100
+Message-Id: <20201203123414.2881043-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201203121916.2870975-1-geert+renesas@glider.be>
-References: <20201203121916.2870975-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently, the start address of physical memory is obtained by masking
-the program counter with a fixed mask of 0xf8000000.  This mask value
-was chosen as a balance between the requirements of different platforms.
-However, this does require that the start address of physical memory is
-a multiple of 128 MiB, precluding booting Linux on platforms where this
-requirement is not fulfilled.
+Parse the following DT properties in the crash dump kernel, to provide a
+modern interface between kexec and the crash dump kernel:
+  - linux,elfcorehdr: ELF core header segment, similar to the
+    "elfcorehdr=" kernel parameter.
+  - linux,usable-memory-range: Usable memory reserved for the crash dump
+    kernel.
+    This makes the memory reservation explicit.  If present, Linux no
+    longer needs to mask the program counter, and rely on the "mem="
+    kernel parameter to obtain the start and size of usable memory.
 
-Fix this limitation by validating the masked address against the memory
-information in the passed DTB.  Only use the start address
-from DTB when masking would yield an out-of-range address, prefer the
-traditional method in all other cases.  Note that this applies only to the
-explicitly passed DTB on modern systems, and not to a DTB appended to
-the kernel, or to ATAGS.  The appended DTB may need to be augmented by
-information from ATAGS, which may need to rely on knowledge of the start
-address of physical memory itself.
+For backwards compatibility, the traditional method to derive the start
+of memory is still used if "linux,usable-memory-range" is absent, and
+the "elfcorehdr=" and "mem=" kernel parameters are still parsed.
 
-This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-i.e. not at a multiple of 128 MiB.
+Loosely based on the ARM64 version by Akashi Takahiro.
 
-Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-Suggested-by: Ard Biesheuvel <ardb@kernel.org>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v10:
-  - Update for commit 9443076e4330a14a ("ARM: p2v: reduce p2v alignment
-    requirement to 2 MiB"),
-  - Use OF_DT_MAGIC macro,
-  - Rename fdt_get_mem_start() to fdt_check_mem_start(),
-  - Skip validation if there is an appended DTB,
-  - Pass mem_start to fdt_check_mem_start() to streamline code,
-  - Optimize register allocation,
-  - Update CONFIG_AUTO_ZRELADDR help text,
-  - Check all memory nodes and ranges (not just the first one), and
-    "linux,usable-memory", similar to early_init_dt_scan_memory(),
-  - Drop Reviewed-by, Tested-by tags,
+This depends on "[PATCH v10 0/3] ARM: uncompress: Validate start of
+physical memory against passed DTB"
+https://lore.kernel.org/linux-arm-kernel/20201203121916.2870975-1-geert+renesas@glider.be/
 
-v9:
-  - Add minlen parameter to getprop(), for better validation of
-    memory properties,
-  - Only use start of memory from the DTB if masking would yield an
-    out-of-range address, to fix kdump, as suggested by Ard.
-
-v8:
-  - Rebase on top of commit 893ab00439a45513 ("kbuild: remove cc-option
-    test of -fno-stack-protector"),
-
-v7:
-  - Rebase on top of commit 161e04a5bae58a65 ("ARM: decompressor: split
-    off _edata and stack base into separate object"),
-
-v6:
-  - Rebase on top of commit 7ae4a78daacf240a ("ARM: 8969/1:
-    decompressor: simplify libfdt builds"),
-  - Include <linux/libfdt.h> instead of <libfdt.h>,
-
-v5:
-  - Add Tested-by, Reviewed-by,
-  - Round up start of memory to satisfy 16 MiB alignment rule,
-
-v4:
-  - Fix stack location after commit 184bf653a7a452c1 ("ARM:
-    decompressor: factor out routine to obtain the inflated image
-    size"),
-
-v3:
-  - Add Reviewed-by,
-  - Fix ATAGs with appended DTB,
-  - Add Tested-by,
+The corresponding patch for kexec-tools is "[PATCH] arm: kdump: Add DT
+properties to crash dump kernel's DTB:
+https://lore.kernel.org/linux-arm-kernel/20200902154129.6358-1-geert+renesas@glider.be/
 
 v2:
-  - Use "cmp r0, #-1", instead of "cmn r0, #1",
-  - Add missing stack setup,
-  - Support appended DTB.
+  - Rebase on top of reworked DTB memory information handling,
 ---
- arch/arm/Kconfig                              |   7 +-
- arch/arm/boot/compressed/Makefile             |   5 +-
- .../arm/boot/compressed/fdt_check_mem_start.c | 131 ++++++++++++++++++
- arch/arm/boot/compressed/head.S               |  32 ++++-
- 4 files changed, 168 insertions(+), 7 deletions(-)
- create mode 100644 arch/arm/boot/compressed/fdt_check_mem_start.c
+ Documentation/devicetree/bindings/chosen.txt  |  4 +-
+ .../arm/boot/compressed/fdt_check_mem_start.c | 48 ++++++++--
+ arch/arm/mm/init.c                            | 90 +++++++++++++++++++
+ 3 files changed, 134 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index b2bf019dcefa6379..c341aa6fa862455c 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -1908,9 +1908,10 @@ config AUTO_ZRELADDR
- 	help
- 	  ZRELADDR is the physical address where the decompressed kernel
- 	  image will be placed. If AUTO_ZRELADDR is selected, the address
--	  will be determined at run-time by masking the current IP with
--	  0xf8000000. This assumes the zImage being placed in the first 128MB
--	  from start of memory.
-+	  will be determined at run-time, either by masking the current IP
-+	  with 0xf8000000, or, if invalid, from the DTB passed in r2.
-+	  This assumes the zImage being placed in the first 128MB from
-+	  start of memory.
+diff --git a/Documentation/devicetree/bindings/chosen.txt b/Documentation/devicetree/bindings/chosen.txt
+index 45e79172a646c537..ba75c58413667760 100644
+--- a/Documentation/devicetree/bindings/chosen.txt
++++ b/Documentation/devicetree/bindings/chosen.txt
+@@ -79,7 +79,7 @@ a different secondary CPU release mechanism)
+ linux,usable-memory-range
+ -------------------------
  
- config EFI_STUB
- 	bool
-diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-index a815b1ae990d2d48..7361d45dc2ad603e 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -87,10 +87,13 @@ libfdt_objs := fdt_rw.o fdt_ro.o fdt_wip.o fdt.o
- ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
- OBJS	+= $(libfdt_objs) atags_to_fdt.o
- endif
-+ifeq ($(CONFIG_USE_OF),y)
-+OBJS	+= $(libfdt_objs) fdt_check_mem_start.o
-+endif
+-This property (arm64 only) holds a base address and size, describing a
++This property (arm and arm64 only) holds a base address and size, describing a
+ limited region in which memory may be considered available for use by
+ the kernel. Memory outside of this range is not available for use.
  
- # -fstack-protector-strong triggers protection checks in this code,
- # but it is being used too early to link to meaningful stack_chk logic.
--$(foreach o, $(libfdt_objs) atags_to_fdt.o, \
-+$(foreach o, $(libfdt_objs) atags_to_fdt.o fdt_check_mem_start.o, \
- 	$(eval CFLAGS_$(o) := -I $(srctree)/scripts/dtc/libfdt -fno-stack-protector))
+@@ -106,7 +106,7 @@ respectively, of the root node.
+ linux,elfcorehdr
+ ----------------
  
- # These were previously generated C files. When you are building the kernel
+-This property (currently used only on arm64) holds the memory range,
++This property (currently used only on arm and arm64) holds the memory range,
+ the address and the size, of the elf core header which mainly describes
+ the panicked kernel's memory layout as PT_LOAD segments of elf format.
+ e.g.
 diff --git a/arch/arm/boot/compressed/fdt_check_mem_start.c b/arch/arm/boot/compressed/fdt_check_mem_start.c
-new file mode 100644
-index 0000000000000000..0bd39319d8a7f973
---- /dev/null
+index e58c3a79c8a31ec4..4625f554194a2279 100644
+--- a/arch/arm/boot/compressed/fdt_check_mem_start.c
 +++ b/arch/arm/boot/compressed/fdt_check_mem_start.c
-@@ -0,0 +1,131 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+@@ -55,16 +55,17 @@ static uint64_t get_val(const fdt32_t *cells, uint32_t ncells)
+  * DTB, and, if out-of-range, replace it by the real start address.
+  * To preserve backwards compatibility (systems reserving a block of memory
+  * at the start of physical memory, kdump, ...), the traditional method is
+- * always used if it yields a valid address.
++ * used if it yields a valid address, unless the "linux,usable-memory-range"
++ * property is present.
+  *
+  * Return value: start address of physical memory to use
+  */
+ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+ {
+-	uint32_t addr_cells, size_cells, base;
++	uint32_t addr_cells, size_cells, usable_base, base;
+ 	uint32_t fdt_mem_start = 0xffffffff;
+-	const fdt32_t *reg, *endp;
+-	uint64_t size, end;
++	const fdt32_t *usable, *reg, *endp;
++	uint64_t size, usable_end, end;
+ 	const char *type;
+ 	int offset, len;
+ 
+@@ -80,6 +81,27 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+ 	if (addr_cells > 2 || size_cells > 2)
+ 		return mem_start;
+ 
++	/*
++	 * Usable memory in case of a crash dump kernel
++	 * This property describes a limitation: memory within this range is
++	 * only valid when also described through another mechanism
++	 */
++	usable = get_prop(fdt, "/chosen", "linux,usable-memory-range",
++			  (addr_cells + size_cells) * sizeof(fdt32_t));
++	if (usable) {
++		size = get_val(usable + addr_cells, size_cells);
++		if (!size)
++			return mem_start;
 +
-+#include <linux/kernel.h>
-+#include <linux/libfdt.h>
-+#include <linux/sizes.h>
++		if (addr_cells > 1 && fdt32_ld(usable)) {
++			/* Outside 32-bit address space */
++			return mem_start;
++		}
 +
-+static const void *get_prop(const void *fdt, const char *node_path,
-+			    const char *property, int minlen)
-+{
-+	const void *prop;
-+	int offset, len;
-+
-+	offset = fdt_path_offset(fdt, node_path);
-+	if (offset < 0)
-+		return NULL;
-+
-+	prop = fdt_getprop(fdt, offset, property, &len);
-+	if (!prop || len < minlen)
-+		return NULL;
-+
-+	return prop;
-+}
-+
-+static uint32_t get_cells(const void *fdt, const char *name)
-+{
-+	const fdt32_t *prop = get_prop(fdt, "/", name, sizeof(fdt32_t));
-+
-+	if (!prop) {
-+		/* default */
-+		return 1;
++		usable_base = fdt32_ld(usable + addr_cells - 1);
++		usable_end = usable_base + size;
 +	}
 +
-+	return fdt32_ld(prop);
+ 	/* Walk all memory nodes and regions */
+ 	for (offset = fdt_next_node(fdt, -1, NULL); offset >= 0;
+ 	     offset = fdt_next_node(fdt, offset, NULL)) {
+@@ -107,7 +129,20 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+ 
+ 			base = fdt32_ld(reg + addr_cells - 1);
+ 			end = base + size;
+-			if (mem_start >= base && mem_start < end) {
++			if (usable) {
++				/*
++				 * Clip to usable range, which takes precedence
++				 * over mem_start
++				 */
++				if (base < usable_base)
++					base = usable_base;
++
++				if (end > usable_end)
++					end = usable_end;
++
++				if (end <= base)
++					continue;
++			} else if (mem_start >= base && mem_start < end) {
+ 				/* Calculated address is valid, use it */
+ 				return mem_start;
+ 			}
+@@ -123,7 +158,8 @@ uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
+ 	}
+ 
+ 	/*
+-	 * The calculated address is not usable.
++	 * The calculated address is not usable, or was overridden by the
++	 * "linux,usable-memory-range" property.
+ 	 * Use the lowest usable physical memory address from the DTB instead,
+ 	 * and make sure this is a multiple of 2 MiB for phys/virt patching.
+ 	 */
+diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+index d54d69cf17322d33..83f80a8a13d6afd1 100644
+--- a/arch/arm/mm/init.c
++++ b/arch/arm/mm/init.c
+@@ -4,6 +4,7 @@
+  *
+  *  Copyright (C) 1995-2005 Russell King
+  */
++#include <linux/crash_dump.h>
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+ #include <linux/swap.h>
+@@ -210,8 +211,95 @@ void check_cpu_icache_size(int cpuid)
+ }
+ #endif
+ 
++#ifdef CONFIG_OF_EARLY_FLATTREE
++static int __init early_init_dt_scan_usablemem(unsigned long node,
++		const char *uname, int depth, void *data)
++{
++	struct memblock_region *usablemem = data;
++	const __be32 *reg;
++	int len;
++
++	if (depth != 1 || strcmp(uname, "chosen") != 0)
++		return 0;
++
++	reg = of_get_flat_dt_prop(node, "linux,usable-memory-range", &len);
++	if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
++		return 1;
++
++	usablemem->base = dt_mem_next_cell(dt_root_addr_cells, &reg);
++	usablemem->size = dt_mem_next_cell(dt_root_size_cells, &reg);
++	return 1;
 +}
 +
-+static uint64_t get_val(const fdt32_t *cells, uint32_t ncells)
++static void __init fdt_enforce_memory_region(void)
 +{
-+	uint64_t r = 0;
++	struct memblock_region reg = {
++		.size = 0,
++	};
 +
-+	r = fdt32_ld(cells);
-+	if (ncells > 1)
-+		r = (r << 32) | fdt32_ld(cells + 1);
++	of_scan_flat_dt(early_init_dt_scan_usablemem, &reg);
 +
-+	return r;
++	if (reg.size)
++		memblock_cap_memory_range(reg.base, reg.size);
++}
++
++#else
++static inline void fdt_enforce_memory_region(void) { }
++#endif
++
++#if defined(CONFIG_CRASH_DUMP) && defined(CONFIG_OF_EARLY_FLATTREE)
++static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
++		const char *uname, int depth, void *data)
++{
++	const __be32 *reg;
++	int len;
++
++	if (depth != 1 || strcmp(uname, "chosen") != 0)
++		return 0;
++
++	reg = of_get_flat_dt_prop(node, "linux,elfcorehdr", &len);
++	if (!reg || (len < (dt_root_addr_cells + dt_root_size_cells)))
++		return 1;
++
++	elfcorehdr_addr = dt_mem_next_cell(dt_root_addr_cells, &reg);
++	elfcorehdr_size = dt_mem_next_cell(dt_root_size_cells, &reg);
++	return 1;
 +}
 +
 +/*
-+ * Check the start of physical memory
++ * reserve_elfcorehdr() - reserves memory for elf core header
 + *
-+ * Traditionally, the start address of physical memory is obtained by masking
-+ * the program counter.  However, this does require that this address is a
-+ * multiple of 128 MiB, precluding booting Linux on platforms where this
-+ * requirement is not fulfilled.
-+ * Hence validate the calculated address against the memory information in the
-+ * DTB, and, if out-of-range, replace it by the real start address.
-+ * To preserve backwards compatibility (systems reserving a block of memory
-+ * at the start of physical memory, kdump, ...), the traditional method is
-+ * always used if it yields a valid address.
-+ *
-+ * Return value: start address of physical memory to use
++ * This function reserves the memory occupied by an elf core header
++ * described in the device tree. This region contains all the
++ * information about primary kernel's core image and is used by a dump
++ * capture kernel to access the system memory on primary kernel.
 + */
-+uint32_t fdt_check_mem_start(uint32_t mem_start, const void *fdt)
++static void __init reserve_elfcorehdr(void)
 +{
-+	uint32_t addr_cells, size_cells, base;
-+	uint32_t fdt_mem_start = 0xffffffff;
-+	const fdt32_t *reg, *endp;
-+	uint64_t size, end;
-+	const char *type;
-+	int offset, len;
++	of_scan_flat_dt(early_init_dt_scan_elfcorehdr, NULL);
 +
-+	if (!fdt)
-+		return mem_start;
++	if (!elfcorehdr_size)
++		return;
 +
-+	if (fdt_magic(fdt) != FDT_MAGIC)
-+		return mem_start;
-+
-+	/* There may be multiple cells on LPAE platforms */
-+	addr_cells = get_cells(fdt, "#address-cells");
-+	size_cells = get_cells(fdt, "#size-cells");
-+	if (addr_cells > 2 || size_cells > 2)
-+		return mem_start;
-+
-+	/* Walk all memory nodes and regions */
-+	for (offset = fdt_next_node(fdt, -1, NULL); offset >= 0;
-+	     offset = fdt_next_node(fdt, offset, NULL)) {
-+		type = fdt_getprop(fdt, offset, "device_type", NULL);
-+		if (!type || strcmp(type, "memory"))
-+			continue;
-+
-+		reg = fdt_getprop(fdt, offset, "linux,usable-memory", &len);
-+		if (!reg)
-+			reg = fdt_getprop(fdt, offset, "reg", &len);
-+		if (!reg)
-+			continue;
-+
-+		for (endp = reg + (len / sizeof(fdt32_t));
-+		     endp - reg >= addr_cells + size_cells;
-+		     reg += addr_cells + size_cells) {
-+			size = get_val(reg + addr_cells, size_cells);
-+			if (!size)
-+				continue;
-+
-+			if (addr_cells > 1 && fdt32_ld(reg)) {
-+				/* Outside 32-bit address space, skipping */
-+				continue;
-+			}
-+
-+			base = fdt32_ld(reg + addr_cells - 1);
-+			end = base + size;
-+			if (mem_start >= base && mem_start < end) {
-+				/* Calculated address is valid, use it */
-+				return mem_start;
-+			}
-+
-+			if (base < fdt_mem_start)
-+				fdt_mem_start = base;
-+		}
++	if (memblock_is_region_reserved(elfcorehdr_addr, elfcorehdr_size)) {
++		pr_warn("elfcorehdr is overlapped\n");
++		return;
 +	}
 +
-+	if (fdt_mem_start == 0xffffffff) {
-+		/* No usable memory found, falling back to default */
-+		return mem_start;
-+	}
++	memblock_reserve(elfcorehdr_addr, elfcorehdr_size);
 +
-+	/*
-+	 * The calculated address is not usable.
-+	 * Use the lowest usable physical memory address from the DTB instead,
-+	 * and make sure this is a multiple of 2 MiB for phys/virt patching.
-+	 */
-+	return round_up(fdt_mem_start, SZ_2M);
++	pr_info("Reserving %llu KiB of memory at 0x%llx for elfcorehdr\n",
++		elfcorehdr_size >> 10, elfcorehdr_addr);
 +}
-diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-index d9cce7238a365081..1b6425df87e84e71 100644
---- a/arch/arm/boot/compressed/head.S
-+++ b/arch/arm/boot/compressed/head.S
-@@ -282,10 +282,36 @@ not_angel:
- 		 * are already placing their zImage in (eg) the top 64MB
- 		 * of this range.
- 		 */
--		mov	r4, pc
--		and	r4, r4, #0xf8000000
-+		mov	r0, pc
-+		and	r0, r0, #0xf8000000
-+#ifdef CONFIG_USE_OF
-+		adr	r1, LC1
-+#ifdef CONFIG_ARM_APPENDED_DTB
-+		/*
-+		 * Look for an appended DTB.  If found, we cannot use it to
-+		 * validate the calculated start of physical memory, as its
-+		 * memory nodes may need to be augmented by ATAGS stored at
-+		 * an offset from the same start of physical memory.
-+		 */
-+		ldr	r2, [r1, #4]	@ get &_edata
-+		add	r2, r2, r1	@ relocate it
-+		ldr	r2, [r2]	@ get DTB signature
-+		ldr	r3, =OF_DT_MAGIC
-+		cmp	r2, r3		@ do we have a DTB there?
-+		beq	1f		@ if yes, skip validation
-+#endif /* CONFIG_ARM_APPENDED_DTB */
++#else
++static inline void reserve_elfcorehdr(void) { }
++#endif
 +
-+		/* Make sure we have some stack */
-+		ldr	sp, [r1]	@ get stack location
-+		add	sp, sp, r1	@ apply relocation
+ void __init arm_memblock_init(const struct machine_desc *mdesc)
+ {
++	/* Handle linux,usable-memory-range property */
++	fdt_enforce_memory_region();
 +
-+		/* Validate calculated start against passed DTB */
-+		mov	r1, r8
-+		bl	fdt_check_mem_start
-+1:
-+#endif /* CONFIG_USE_OF */
- 		/* Determine final kernel image address. */
--		add	r4, r4, #TEXT_OFFSET
-+		add	r4, r0, #TEXT_OFFSET
- #else
- 		ldr	r4, =zreladdr
- #endif
+ 	/* Register the kernel text, kernel data and initrd with memblock. */
+ 	memblock_reserve(__pa(KERNEL_START), KERNEL_END - KERNEL_START);
+ 
+@@ -225,6 +313,8 @@ void __init arm_memblock_init(const struct machine_desc *mdesc)
+ 
+ 	early_init_fdt_scan_reserved_mem();
+ 
++	reserve_elfcorehdr();
++
+ 	/* reserve memory for DMA contiguous allocations */
+ 	dma_contiguous_reserve(arm_dma_limit);
+ 
 -- 
 2.25.1
 
