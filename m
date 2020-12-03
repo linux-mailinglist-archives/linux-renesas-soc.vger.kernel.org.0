@@ -2,98 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBF62CD689
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 14:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 407792CD889
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 15:06:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730648AbgLCNUB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Dec 2020 08:20:01 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:43010 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726220AbgLCNUA (ORCPT
+        id S1730591AbgLCOGI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Dec 2020 09:06:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727242AbgLCOGI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Dec 2020 08:20:00 -0500
-Received: by mail-ed1-f68.google.com with SMTP id q16so2024273edv.10;
-        Thu, 03 Dec 2020 05:19:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=U5ZVC3sunVFHgRKQY/zbvAIFfdPzaZHDRhvSxd0iuCE=;
-        b=lueueSHh+Bg5s1vjE8O/WUjU2OP0gWsWUfJEenXlTac5paA/RIQcBgsF4wONpZ9vOf
-         M3p9u+RysDblTKVhu9/GbyAmozxM+MJxSGoh5INVIHbAsZ4dmaf5ecnJjCaJx+Ak6zI3
-         f21wagsnp04SoQWUeQfgdIHKFW9q0QiouuLwggEB48shkcFjqjWHDlZgaLk35cX13dnb
-         5WJ5tLh6eE6c3BXUoqU828ckmQDxhRAJkj6qvmNPNSv6xgaPHJYLIqQZROFPaBvinc7b
-         x5zMYftnh9SurvztDOJg8cHFSZG5i7QkIqkJSRilpNXsObMd+udECon68ZXxcuuoscAR
-         PixQ==
-X-Gm-Message-State: AOAM532sWi0xfPMr2y5CYjHoVGC0QEf30s3EG9qfzQ8bTC9VdE6z47WE
-        57FhbXh2bOPZqEbVwP1JwT0=
-X-Google-Smtp-Source: ABdhPJz+bQwBKGefuBknu1BjS54iOeA1ob3n67a9OJaj56moVo3v6k92CFDzMUmtkfABm+yw1W2sdQ==
-X-Received: by 2002:aa7:c98d:: with SMTP id c13mr2939916edt.188.1607001559171;
-        Thu, 03 Dec 2020 05:19:19 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id k3sm824083ejd.36.2020.12.03.05.19.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 05:19:18 -0800 (PST)
-Date:   Thu, 3 Dec 2020 15:19:16 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jiri Kosina <trivial@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/5] memory: renesas-rpc-if: Trivial fixes
-Message-ID: <20201203131916.GA2924@kozik-lap>
-References: <20201126191146.8753-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8vjTQv7wrdJFe6TS3saUE=Sj6ty0JSz0VZUd=TyDVfp4Q@mail.gmail.com>
+        Thu, 3 Dec 2020 09:06:08 -0500
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 049C8C061A4E;
+        Thu,  3 Dec 2020 06:05:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=QFnw1VAMIMbQicaf3rgoSZRJ6IT9RzN8Pv4ZM1fxb14=; b=v+PlqEPtOHZQXJBag6IUKH0QS
+        WYGHluAVUxystXwSqMh1BGc6fWamXExl7QyzeUjlsxhIZIztWKny4hYzmWwYfQucdiphA/W8IOi6J
+        cyCixIG1llVtduxNbXriWI1n/DclNg/F5xPuAhA8pHIGwaOKEaWiHOKJuqBGijmdMiXto4YmIKysA
+        sf62p2IGRAtwCAIYove4EDk61sfuvjUNyjmkjSLvzlGo5BI3Py+42hFjxKfl63O/7trDPkBqTB/q2
+        kNdsFI7jEEyZfWENgvZkBudMHZMcArbCBwl4JmWdyeXQLN5BOdNaUrxqUQVDp3fU9XnFAyibTDl45
+        3BzBafBdA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:39274)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1kkpEB-00038k-FQ; Thu, 03 Dec 2020 14:04:59 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1kkpE2-000871-J6; Thu, 03 Dec 2020 14:04:50 +0000
+Date:   Thu, 3 Dec 2020 14:04:50 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Nicolas Pitre <nico@fluxnic.net>, Ard Biesheuvel <ardb@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Lukasz Stelmach <l.stelmach@samsung.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] ARM: uncompress: Validate start of physical
+ memory against passed DTB
+Message-ID: <20201203140450.GH1551@shell.armlinux.org.uk>
+References: <20201203121916.2870975-1-geert+renesas@glider.be>
+ <20201203121916.2870975-4-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8vjTQv7wrdJFe6TS3saUE=Sj6ty0JSz0VZUd=TyDVfp4Q@mail.gmail.com>
+In-Reply-To: <20201203121916.2870975-4-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 03, 2020 at 10:41:54AM +0000, Lad, Prabhakar wrote:
-> Hi Krzysztof,
-> 
-> On Thu, Nov 26, 2020 at 7:11 PM Lad Prabhakar
-> <prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> >
-> > Hi All,
-> >
-> > This patch series fixes trivial issues in RPC-IF driver.
-> >
-> > Changes for v2:
-> > * Balanced PM in rpcif_disable_rpm
-> > * Fixed typo in patch 4/5
-> > * Dropped C++ style fixes patch
-> > * Included RB tags from Sergei
-> >
-> > Cheers,
-> > Prabhakar
-> >
-> > Lad Prabhakar (5):
-> >   memory: renesas-rpc-if: Return correct value to the caller of
-> >     rpcif_manual_xfer()
-> >   memory: renesas-rpc-if: Fix unbalanced pm_runtime_enable in
-> >     rpcif_{enable,disable}_rpm
-> >   memory: renesas-rpc-if: Fix a reference leak in rpcif_probe()
-> >   memory: renesas-rpc-if: Make rpcif_enable/disable_rpm() as static
-> >     inline
-> >   memory: renesas-rpc-if: Export symbols as GPL
-> >
-> As these are fixes to the existing driver will these be part of v5.10 release ?
+On Thu, Dec 03, 2020 at 01:19:16PM +0100, Geert Uytterhoeven wrote:
+> diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+> index d9cce7238a365081..1b6425df87e84e71 100644
+> --- a/arch/arm/boot/compressed/head.S
+> +++ b/arch/arm/boot/compressed/head.S
+> @@ -282,10 +282,36 @@ not_angel:
+>  		 * are already placing their zImage in (eg) the top 64MB
+>  		 * of this range.
+>  		 */
+> -		mov	r4, pc
+> -		and	r4, r4, #0xf8000000
+> +		mov	r0, pc
+> +		and	r0, r0, #0xf8000000
+> +#ifdef CONFIG_USE_OF
+> +		adr	r1, LC1
+> +#ifdef CONFIG_ARM_APPENDED_DTB
+> +		/*
+> +		 * Look for an appended DTB.  If found, we cannot use it to
+> +		 * validate the calculated start of physical memory, as its
+> +		 * memory nodes may need to be augmented by ATAGS stored at
+> +		 * an offset from the same start of physical memory.
+> +		 */
+> +		ldr	r2, [r1, #4]	@ get &_edata
+> +		add	r2, r2, r1	@ relocate it
+> +		ldr	r2, [r2]	@ get DTB signature
+> +		ldr	r3, =OF_DT_MAGIC
+> +		cmp	r2, r3		@ do we have a DTB there?
+> +		beq	1f		@ if yes, skip validation
+> +#endif /* CONFIG_ARM_APPENDED_DTB */
+> +
+> +		/* Make sure we have some stack */
+> +		ldr	sp, [r1]	@ get stack location
+> +		add	sp, sp, r1	@ apply relocation
+> +
+> +		/* Validate calculated start against passed DTB */
+> +		mov	r1, r8
+> +		bl	fdt_check_mem_start
 
-Quick look with:
-	git lg v5.9..v5.10-rc1 -- drivers/memory/
-did not show that this driver was added in v5.10-rc1, so the fixes are
-not planned to be for v5.10 release never. Why they should be? Maybe I
-missed something here?
+I don't think this is going to work. You can only run C code when
+it has been linked for a specific address and is loaded at the
+correct address as it contains absolute addresses. We work around
+that in the decompressor by (ab)using the GOT table, and the code
+that fixes up the GOT table is run later, after you've called out
+to some C code here.
 
-Best regards,
-Krzysztof
+Quite how this works for you without the GOT fixups having been
+done, I'm not sure.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
