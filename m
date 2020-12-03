@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F00AB2CD5F7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 13:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C20912CD607
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Dec 2020 13:51:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730491AbgLCMun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Dec 2020 07:50:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52630 "EHLO mail.kernel.org"
+        id S2389114AbgLCMvD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Dec 2020 07:51:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52898 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730434AbgLCMun (ORCPT
+        id S2389097AbgLCMvB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Dec 2020 07:50:43 -0500
-X-Gm-Message-State: AOAM533Dtr02rDlSh5OKX4axx36ME3DUtLosKIheyUoNXClKjeTJtdjR
-        8A4GP8U5ArTY17NYj/zVdOOQYnF8sw0h/lzxVvY=
+        Thu, 3 Dec 2020 07:51:01 -0500
+X-Gm-Message-State: AOAM531Y41a1SDwTGwQ0J/XFwie12hZVEW8UkJFzt/TW5M8oTtWlLAoO
+        fzyrOJlFwog4v5vcs4Ltdqca0mtOHYYcfNgQBnU=
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1606999802;
-        bh=5MjvXoBCvX+CIlTanN0Tk1XSyBNXQoHNfaH+mI7A6vU=;
+        s=k20201202; t=1606999820;
+        bh=vzl05i7nSGf1kne8kmAzzMVoofwdQKpDIeU8H+Oz5wM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=geLkymAQFoBMKID+/f2xhuEUCs0OFsYCk6iTR8W8uIzMLSUGITvDqN42VJxWXqLWu
-         Wl8IYmjvdYED66t7sG1kZ/GiKU2JPEUGOm7JQl7KpO6ooCgjWy4RnsIX43Q5xDpFsc
-         A+aSAL1CnF8cCdOL71Cifd42+fzLUIB5ltosmmhZkZ/B6H7SAzg+hzXfCPg6wA48XN
-         doV0qlrQ2jcjdDVqxMQK7BB+IBOu+Ex5yBo+xxgo1/9F+HQ0aJKAiNMpzTUTWmk/uQ
-         ylwMaYQM/bttHIl5JB6iLWZgXsxtA9+xSV761tvv8pE7XQ4/fpW1ylI2bsSh34AAZk
-         kM0GE0WLhlU2Q==
-X-Google-Smtp-Source: ABdhPJyQWbwgmTA7NHAwK/kzwHFWlwPZ30WdMrgZrq7K0773ZVkCg8CFOxprXX72+rwfryD9UttHF8qmkOELB8F9rRA=
-X-Received: by 2002:a05:6830:214c:: with SMTP id r12mr1905187otd.90.1606999801170;
- Thu, 03 Dec 2020 04:50:01 -0800 (PST)
+        b=hIruvSBbNhIXCctS/qHJ5SbBqa7zZm7SHZ0Dx1cUCVLVq64wixXp0xqH16DWzBktm
+         fEzRUycRBp0r6RusMyyriQQdZLwj7WlYXuMGuZwAT5FJgb/wLt+Eu3fK02wXA1rRhf
+         Hgq6n9ELmV/4M4noXU4fj65JQHNdY7Rv/Hz/hyf0rYV2acSAUheKKsB6nh0jDlV65V
+         2EcP2XkHQyWrhXLwH3A89yxbDUq2bwz0iQl00wvT3se3FPVRrAqlpGQomZKCLGAQNx
+         Ga/j8DWgRIl6DIgHaOzmJ1XM3BZxG9xOwxgcaPi0OvXro3Fqz3HH/VYJ4BUW1lE7R9
+         6di/59PpP2ahQ==
+X-Google-Smtp-Source: ABdhPJwCVCGuvTrj9Bwk32WG/2YHesLb7zugZFBRceF4d/5Gt/R0tpRuPdXss6gjIUkuvNl6bPm0gGmg7sUKY1gEk84=
+X-Received: by 2002:aca:5ec2:: with SMTP id s185mr1667470oib.33.1606999819105;
+ Thu, 03 Dec 2020 04:50:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201203121916.2870975-1-geert+renesas@glider.be> <20201203121916.2870975-2-geert+renesas@glider.be>
-In-Reply-To: <20201203121916.2870975-2-geert+renesas@glider.be>
+References: <20201203121916.2870975-1-geert+renesas@glider.be> <20201203121916.2870975-3-geert+renesas@glider.be>
+In-Reply-To: <20201203121916.2870975-3-geert+renesas@glider.be>
 From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Thu, 3 Dec 2020 13:49:49 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEKdRGQXFh9qMgrWcZnoW5s8Bj5TaKqStU=w1qJ-Nu9zA@mail.gmail.com>
-Message-ID: <CAMj1kXEKdRGQXFh9qMgrWcZnoW5s8Bj5TaKqStU=w1qJ-Nu9zA@mail.gmail.com>
-Subject: Re: [PATCH v10 1/3] ARM: uncompress: Add be32tocpu macro
+Date:   Thu, 3 Dec 2020 13:50:08 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGy=ZLRg_+d-amY2FNj7hrZOM2umHcCiFYY5_eZsG95AQ@mail.gmail.com>
+Message-ID: <CAMj1kXGy=ZLRg_+d-amY2FNj7hrZOM2umHcCiFYY5_eZsG95AQ@mail.gmail.com>
+Subject: Re: [PATCH v10 2/3] ARM: uncompress: Add OF_DT_MAGIC macro
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Russell King <linux@armlinux.org.uk>,
         Nicolas Pitre <nico@fluxnic.net>,
@@ -56,118 +56,53 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hallo Geert,
-
 On Thu, 3 Dec 2020 at 13:19, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 >
-> DTB stores all values as 32-bit big-endian integers.
-> Add a macro to convert such values to native CPU endianness, to reduce
-> duplication.
+> The DTB magic marker is stored as a 32-bit big-endian value, and thus
+> depends on the CPU's endianness.  Add a macro to define this value in
+> native endianness, to reduce #ifdef clutter and (future) duplication.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+
 > ---
 > v10:
 >   - New.
 > ---
->  arch/arm/boot/compressed/head.S | 26 ++++++++++++--------------
->  1 file changed, 12 insertions(+), 14 deletions(-)
+>  arch/arm/boot/compressed/head.S | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 >
 > diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-> index 835ce64f1674c9a2..aabdc544c03aafdc 100644
+> index aabdc544c03aafdc..d9cce7238a365081 100644
 > --- a/arch/arm/boot/compressed/head.S
 > +++ b/arch/arm/boot/compressed/head.S
-> @@ -165,6 +165,16 @@
->                 orr     \res, \res, \tmp1, lsl #24
->                 .endm
+> @@ -11,6 +11,12 @@
 >
-> +               .macro  be32tocpu, val, tmp
-> +#ifndef __ARMEB__
-> +               /* convert to little endian */
-> +               eor     \tmp, \val, \val, ror #16
-> +               bic     \tmp, \tmp, #0x00ff0000
-> +               mov     \val, \val, ror #8
-> +               eor     \val, \val, \tmp, lsr #8
+>  #include "efi-header.S"
+>
+> +#ifdef __ARMEB__
+> +#define OF_DT_MAGIC 0xd00dfeed
+> +#else
+> +#define OF_DT_MAGIC 0xedfe0dd0
 > +#endif
-> +               .endm
 > +
-
-Thanks for cleaning this up.
-
-This patch is fine as is.
-
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-
-However, I would like to note that, since we are touching this code,
-we might do it properly. (Given the v10, feel free to ignore or defer
-to a later time)
-
-- put this into asm/assembler.h so other .S files can use it
-- use rev instructions when supported
-- factor out the difference between xx_to cpu and bswap
-
-I.e.,
-
-.macro bswap32, val, tmp
-.if  __LINUX_ARM_ARCH__ >= 6
-rev \val, \val
-.else
-eor     \tmp, \val, \val, ror #16
-bic     \tmp, \tmp, #0x00ff0000
-mov     \val, \val, ror #8
-eor     \val, \val, \tmp, lsr #8
-.endif
-.endm
-
-.macro  be32tocpu, val, tmp
-#ifndef __ARMEB__
-bswap32 \val, \tmp
-#endif
-.endm
-
-.macro  le32tocpu, val, tmp
-#ifdef __ARMEB__
-bswap32 \val, \tmp
-#endif
-.endm
-
-This would allow us to reuse this macro in
-arch/arm/crypto/aes-cipher-core.S, and replace the __rev macro it
-defines.
-
-
->                 .section ".start", "ax"
->  /*
->   * sort out different calling conventions
-> @@ -345,13 +355,7 @@ restart:   adr     r0, LC1
+>   AR_CLASS(     .arch   armv7-a )
+>   M_CLASS(      .arch   armv7-m )
 >
->                 /* Get the initial DTB size */
->                 ldr     r5, [r6, #4]
+> @@ -335,11 +341,7 @@ restart:   adr     r0, LC1
+>   */
+>
+>                 ldr     lr, [r6, #0]
 > -#ifndef __ARMEB__
-> -               /* convert to little endian */
-> -               eor     r1, r5, r5, ror #16
-> -               bic     r1, r1, #0x00ff0000
-> -               mov     r5, r5, ror #8
-> -               eor     r5, r5, r1, lsr #8
+> -               ldr     r1, =0xedfe0dd0         @ sig is 0xd00dfeed big endian
+> -#else
+> -               ldr     r1, =0xd00dfeed
 > -#endif
-> +               be32tocpu r5, r1
->                 dbgadtb r6, r5
->                 /* 50% DTB growth should be good enough */
->                 add     r5, r5, r5, lsr #1
-> @@ -403,13 +407,7 @@ restart:   adr     r0, LC1
+> +               ldr     r1, =OF_DT_MAGIC
+>                 cmp     lr, r1
+>                 bne     dtb_check_done          @ not found
 >
->                 /* Get the current DTB size */
->                 ldr     r5, [r6, #4]
-> -#ifndef __ARMEB__
-> -               /* convert r5 (dtb size) to little endian */
-> -               eor     r1, r5, r5, ror #16
-> -               bic     r1, r1, #0x00ff0000
-> -               mov     r5, r5, ror #8
-> -               eor     r5, r5, r1, lsr #8
-> -#endif
-> +               be32tocpu r5, r1
->
->                 /* preserve 64-bit alignment */
->                 add     r5, r5, #7
 > --
 > 2.25.1
 >
