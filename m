@@ -2,45 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD032CEB3E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Dec 2020 10:45:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73E542CEB42
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Dec 2020 10:45:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgLDJoK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Dec 2020 04:44:10 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:35687 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726999AbgLDJoK (ORCPT
+        id S2387707AbgLDJom (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Dec 2020 04:44:42 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:35634 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387558AbgLDJom (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Dec 2020 04:44:10 -0500
-Received: by mail-ot1-f66.google.com with SMTP id t18so4626799otk.2;
-        Fri, 04 Dec 2020 01:43:54 -0800 (PST)
+        Fri, 4 Dec 2020 04:44:42 -0500
+Received: by mail-oi1-f194.google.com with SMTP id t9so5534879oic.2;
+        Fri, 04 Dec 2020 01:44:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vWnMuYS3DqYvyte2bJR+CQw9EeKiRYtc7g55CoJJvhY=;
-        b=l+elcDQ/K9JuTc9SR4JYD4YIcTwxyy92JGGraI8Y6oc/gTNAHrj5tIFmmyFIEBsLk+
-         l/REVHMXCyIaiMBVMsJPnMMaSDx1rZ1qm/baC1Q7ta1eJhIA8FpuWCAq725S9AXk5YSw
-         Ug1lxFBCVXXmz3CzpuNYpr11O9c4aXkNkA0zpKFLuc5uVDZVEcLaZMZfQanOjACXjR+b
-         mWQLwrypxNAcZKsWJNwTGQDOav41PpTRKJFqbvBCjs7t0rXYzK8xIPW7Pu70ibASPMxK
-         ebCFgRcVkegA2/pX/jMv9GNWNPVFBAdJXdvIrX1l/A+L9nZ+gkDKiH8C3oh33QqdjMXQ
-         E+CA==
-X-Gm-Message-State: AOAM530Ubm4GNor9mYs5LPSa1YsgSzvcXVTUsrDnBT+CyBsZ/Lghy394
-        C/iqLYyeAr/w6kf3dBrMjgAfgAFnnJ5LMudZ4EmZSSfZ
-X-Google-Smtp-Source: ABdhPJwa2nHZxZfwgznkfp4cNPcEXFV9DPoRmPn1AE2ri2l4LBz9GBMkyMKpdQXRMVrJiVY7AnVg4oB9zB7xPivnnuY=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr2983512oth.250.1607075009366;
- Fri, 04 Dec 2020 01:43:29 -0800 (PST)
+        bh=teJBkIOdcEyHQREoug8GtgL+HlHmdfdZG73N4EBOAuw=;
+        b=uaMAU9szN5MupmNGuOjN0XvlLjlx1rwswu/IMiIiW4CWLRdp2oJbxHnb+5+zrLXO08
+         OqB84bDrysQR5uYC7mL/KBn0tUtN+VYfkH+R8RJHkiLdq8+VAMqfgRLdyxcNjXrEwxQF
+         MJqv47tvI00WkJjsZ/4mpuIPRoBIYjERY8KleUPGz6XWHo7a1gOHdUlmlKXO2Lv+I0vw
+         ZvRbBrOl5OqlkHQ9xHCmUy5nJDGZFvB8eDP5X50zWpRGKAgoW3GO+XjS+H7DU+jQ0MIy
+         55W6ucvz/LgX62Hx3zf87fR0I75QRaBawAZ2GIxH6HqsXyCqateAS6i7SzriJJpqA0oL
+         DPOg==
+X-Gm-Message-State: AOAM530hYGVweSnHvzAlG7p1OWp/pSn6T80ISAZcCGNZo5PKkbDkZych
+        wPSauecSTz3GnQpwfT89LiVjPMvTTBumRQY4rYA=
+X-Google-Smtp-Source: ABdhPJzALZqx5c2/Y7FZLK+7tDRjLX0yzFC7Zhfa+CuKjbZ3PDK4yEEUZ+ml5aSiB2o2Y7i8njdtw6KNOXXDrLnW0LE=
+X-Received: by 2002:aca:5c08:: with SMTP id q8mr862703oib.54.1607075035352;
+ Fri, 04 Dec 2020 01:43:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20201203121916.2870975-1-geert+renesas@glider.be>
- <20201203121916.2870975-2-geert+renesas@glider.be> <CAMj1kXEKdRGQXFh9qMgrWcZnoW5s8Bj5TaKqStU=w1qJ-Nu9zA@mail.gmail.com>
-In-Reply-To: <CAMj1kXEKdRGQXFh9qMgrWcZnoW5s8Bj5TaKqStU=w1qJ-Nu9zA@mail.gmail.com>
+ <20201203121916.2870975-3-geert+renesas@glider.be> <n5sr2s9o-3n53-91q0-noo6-o576n6o36253@syhkavp.arg>
+In-Reply-To: <n5sr2s9o-3n53-91q0-noo6-o576n6o36253@syhkavp.arg>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 4 Dec 2020 10:43:17 +0100
-Message-ID: <CAMuHMdVBCVWWNqFfziGy5RbDRyudV9wm3m62BA4mvmgtvA4Axw@mail.gmail.com>
-Subject: Re: [PATCH v10 1/3] ARM: uncompress: Add be32tocpu macro
-To:     Ard Biesheuvel <ardb@kernel.org>
+Date:   Fri, 4 Dec 2020 10:43:44 +0100
+Message-ID: <CAMuHMdW8pASio9=1KMg1Z_MP4LkzM0fM3Fr4Ox0spe52brm2Pg@mail.gmail.com>
+Subject: Re: [PATCH v10 2/3] ARM: uncompress: Add OF_DT_MAGIC macro
+To:     Nicolas Pitre <nico@fluxnic.net>
 Cc:     Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Dmitry Osipenko <digetx@gmail.com>,
         Linus Walleij <linus.walleij@linaro.org>,
@@ -59,56 +59,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ard,
-
-On Thu, Dec 3, 2020 at 1:50 PM Ard Biesheuvel <ardb@kernel.org> wrote:
-> On Thu, 3 Dec 2020 at 13:19, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> > DTB stores all values as 32-bit big-endian integers.
-> > Add a macro to convert such values to native CPU endianness, to reduce
-> > duplication.
+On Thu, Dec 3, 2020 at 5:27 PM Nicolas Pitre <nico@fluxnic.net> wrote:
+> On Thu, 3 Dec 2020, Geert Uytterhoeven wrote:
+> > The DTB magic marker is stored as a 32-bit big-endian value, and thus
+> > depends on the CPU's endianness.  Add a macro to define this value in
+> > native endianness, to reduce #ifdef clutter and (future) duplication.
 > >
 > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > v10:
-> >   - New.
-> > ---
-> >  arch/arm/boot/compressed/head.S | 26 ++++++++++++--------------
-> >  1 file changed, 12 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-> > index 835ce64f1674c9a2..aabdc544c03aafdc 100644
-> > --- a/arch/arm/boot/compressed/head.S
-> > +++ b/arch/arm/boot/compressed/head.S
-> > @@ -165,6 +165,16 @@
-> >                 orr     \res, \res, \tmp1, lsl #24
-> >                 .endm
-> >
-> > +               .macro  be32tocpu, val, tmp
-> > +#ifndef __ARMEB__
-> > +               /* convert to little endian */
-> > +               eor     \tmp, \val, \val, ror #16
-> > +               bic     \tmp, \tmp, #0x00ff0000
-> > +               mov     \val, \val, ror #8
-> > +               eor     \val, \val, \tmp, lsr #8
-> > +#endif
-> > +               .endm
-> > +
 >
-> Thanks for cleaning this up.
->
-> This patch is fine as is.
->
-> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
 
 Thanks, submitted to rmk's patch tracker.
-
-> However, I would like to note that, since we are touching this code,
-> we might do it properly. (Given the v10, feel free to ignore or defer
-> to a later time)
-
-[...]
-
-Thanks for the suggestion, adding to my list.
 
 Gr{oetje,eeting}s,
 
