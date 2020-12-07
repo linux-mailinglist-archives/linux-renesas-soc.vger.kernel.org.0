@@ -2,79 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D4CC2D0B8F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Dec 2020 09:16:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 340682D0D47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Dec 2020 10:45:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726146AbgLGIQE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Dec 2020 03:16:04 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41358 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbgLGIQD (ORCPT
+        id S1726338AbgLGJpY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Dec 2020 04:45:24 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39173 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgLGJpX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Dec 2020 03:16:03 -0500
-Received: by mail-oi1-f196.google.com with SMTP id 15so3339402oix.8
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 07 Dec 2020 00:15:48 -0800 (PST)
+        Mon, 7 Dec 2020 04:45:23 -0500
+Received: by mail-wr1-f65.google.com with SMTP id c1so128065wrq.6;
+        Mon, 07 Dec 2020 01:45:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=D9KE6NyFNEZU3d8Y2IOOJNHxklbUFPSawLkFJ0IvFZs=;
-        b=a4/ZBO/fABctJuhy6aegJnh6IhY3suB4R2rbAP4vrkL7kKsR6TzRzub2LhFgOIRFj1
-         FpKOXGLvtMqQ8+3Xddka90qV/9l6zWCNFJHe17gX1bpr7w8purrzwP9X8I3as4l5NDm0
-         DR5J5226YG0Bn1yc/NKItrHLrkt1WazXmjh0A4+AuycC3Qg9xs2LjEFKZbOc+es/nDPK
-         hPM9/ExiS/kK/nDfnMnadCwI3CAbPvMy0BfEDymLUwfcIfsyjvE4c+DJgVxCluDQkPOT
-         9s8S5rXTECjylzqaETttiBEMcGETt0ZRZRvIRomYoXU/squcwnmwEPKpWmSrXunAXcem
-         ftUQ==
-X-Gm-Message-State: AOAM532a+rvcjPCcE1RayOkO7GHA+NLExYSGnAzrRAc8E4A4mWDFdUz6
-        y+gv0i4gip7etXHcVAD7mF7/mz/kRQciNQQNRWinHDmO
-X-Google-Smtp-Source: ABdhPJyHqGB/MfqU2tuwSgI2DjUPWlVmiDjm9GeNsV0cy3iUwtbQKTAfmYrBjlKDl3fpjoRaygIR1/316iZg18+RjbE=
-X-Received: by 2002:aca:5c08:: with SMTP id q8mr10026212oib.54.1607328922988;
- Mon, 07 Dec 2020 00:15:22 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VDaELBJNAHnJCXBlzzeKHCr2UreS9lliSm76y6uffoQ=;
+        b=gy59ZTWN6ENG7kU1yOoJnRr/OAmnMjmu+9sruDAOlz/B/7PsqyWdOZw+pJy7NvfPXE
+         1EoFT06PVwCF+C8RonZmNu+J46krGGsOapkmdZ2Zm/I9wntlWIYL6aNjacPefbxBxgY5
+         wqvMtVTsxV4+RRIefudjuJYLsyuZtStISfjCsoTHx0WwVwavqZUbyLBmcfzY3wuXhqdV
+         roL+3kiPrGXTgO601C0yFCfpD3E3jbDk+cDh37iZmPlg3Ic6/XtJqbIrQCPhE17C711H
+         92KpQUZOlmx0OnRMkzrGD/xDCKeZFbzZl8g3489mKkdQaXP1xWUV3KtiIQq6lH+peK8n
+         GDHg==
+X-Gm-Message-State: AOAM531cEoE62yjfzncfGJkXUQzdkj+t7MTOTNDMvOCdaCpZ0/5Rv/jp
+        WxIQqZtWaZ+m0uzDC3q+C70=
+X-Google-Smtp-Source: ABdhPJwfT27kvUX1kkV3sfhoA2umu107YomTUVjpfX0vBm8TaA9H5pQnBuJGrMYFT9xoqapaV/Ri3w==
+X-Received: by 2002:a5d:414e:: with SMTP id c14mr18452293wrq.256.1607334281147;
+        Mon, 07 Dec 2020 01:44:41 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id y7sm13652154wmb.37.2020.12.07.01.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 01:44:39 -0800 (PST)
+Date:   Mon, 7 Dec 2020 10:44:38 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     michael.srba@seznam.cz
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: i2c: imx219: add support for specifying
+ clock-frequencies
+Message-ID: <20201207094438.GA17448@kozik-lap>
+References: <20201205183355.6488-1-michael.srba@seznam.cz>
 MIME-Version: 1.0
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com> <20201204220139.15272-2-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20201204220139.15272-2-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Dec 2020 09:15:11 +0100
-Message-ID: <CAMuHMdXrEpnQNT=QZRrgQ-jzBvRumUHgqfBrgCHcELpxg7VnQA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] drm: rcar-du: Fix crash when using LVDS1 clock for CRTC
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201205183355.6488-1-michael.srba@seznam.cz>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Sat, Dec 05, 2020 at 07:33:53PM +0100, michael.srba@seznam.cz wrote:
+> From: Michael Srba <Michael.Srba@seznam.cz>
+> 
+> This patch adds 1% tolerance on input clock, similar to other camera sensor
+> drivers. It also allows for specifying the actual clock in the device tree,
+> instead of relying on it being already set to the right frequency (which is
+> often not the case).
 
-On Fri, Dec 4, 2020 at 11:02 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> On D3 and E3 platforms, the LVDS encoder includes a PLL that can
-> generate a clock for the corresponding CRTC, used even when the CRTC
-> output to a non-LVDS port. This mechanism is supported by the driver,
-> but the implementation is broken in dual-link LVDS mode. In that case,
-> the LVDS1 drm_encoder is skipped, which causes a crash when trying to
-> access its bridge later on.
->
-> Fix this by storing bridge pointers internally instead of retrieving
-> them from the encoder.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+All this can be achieved with assigned-clocks-rate and basically you do
+not add here value. At least not for DT-based systems. The supported
+clock rates will be the same. The method of choosing frequency is
+over-complicated comparing to simple assigned-clocks.
 
-Thanks for your patch!
+If this is for ACPI systems, please document in commit msg why you
+cannot used assigned-clocks and choose this solution.
 
-I think this warrants a Fixes tag, to assist the stable team in backporting
-this fix.
+> 
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> ---
+>  drivers/media/i2c/imx219.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..a8f05562d0af 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,13 +1443,26 @@ static int imx219_probe(struct i2c_client *client)
+>  		return PTR_ERR(imx219->xclk);
+>  	}
+>  
+> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_err(dev, "could not get xclk frequency\n");
+> +		return ret;
+> +	}
+> +
+> +	/* this driver currently expects 24MHz; allow 1% tolerance */
+> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>  			imx219->xclk_freq);
+>  		return -EINVAL;
+>  	}
+>  
+> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_err(dev, "could not set xclk frequency\n");
+> +		return ret;
+> +	}
+> +
+> +
 
-Gr{oetje,eeting}s,
+No need for double line break.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Krzysztof
