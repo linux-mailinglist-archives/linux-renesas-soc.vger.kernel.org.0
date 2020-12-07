@@ -2,87 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F34142D0657
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  6 Dec 2020 18:38:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 833D52D0A7C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Dec 2020 07:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727397AbgLFRd0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 6 Dec 2020 12:33:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
+        id S1725887AbgLGGAq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Dec 2020 01:00:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbgLFRdW (ORCPT
+        with ESMTP id S1725773AbgLGGAq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 6 Dec 2020 12:33:22 -0500
-Received: from mxf1.seznam.cz (mxf1.seznam.cz [IPv6:2a02:598:a::78:123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A138EC0613D2;
-        Sun,  6 Dec 2020 09:32:36 -0800 (PST)
-Received: from email.seznam.cz
-        by email-smtpc17a.ko.seznam.cz (email-smtpc17a.ko.seznam.cz [10.53.18.18])
-        id 6a3e7310313027796b97bf4e;
-        Sun, 06 Dec 2020 18:32:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
-        t=1607275952; bh=oaf72hRe5cPmAi3mu1C9bnHaKNa77su7C6AXZDPrAHc=;
-        h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding;
-        b=AkS52x0MtR+9dyWl448IgUHIN4nxi48XI0Y2KOmFUWP5AgP2BOhJDFPcsxc+xrVFE
-         RpgqRChNKUIpWBLO7a+LJVQr90xgmjQFWz8/UtxNDW+J4+HAndsYFjzXLWrQEk8TdA
-         T7Y7JxXFsg/weAoaYqa1d1ZnetzOsQWA8qKuSzw0=
-Received: from localhost.localdomain (ip-228-128.dynamic.ccinternet.cz [212.69.128.228])
-        by email-relay23.ko.seznam.cz (Seznam SMTPD 1.3.122) with ESMTP;
-        Sun, 06 Dec 2020 18:29:47 +0100 (CET)  
-From:   michael.srba@seznam.cz
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mon, 7 Dec 2020 01:00:46 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FEDC0613D4
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  6 Dec 2020 22:00:05 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1km9Yx-0003Dh-4W; Mon, 07 Dec 2020 06:59:55 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1km9Yu-00024l-PM; Mon, 07 Dec 2020 06:59:52 +0100
+Date:   Mon, 7 Dec 2020 06:59:52 +0100
+From:   Sascha Hauer <s.hauer@pengutronix.de>
+To:     michael.srba@seznam.cz
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Michael Srba <Michael.Srba@seznam.cz>
-Subject: [PATCH v2 3/3] arm64: dts: update device trees to specify clock-frequency in imx219 node
-Date:   Sun,  6 Dec 2020 18:27:20 +0100
-Message-Id: <20201206172720.9406-3-michael.srba@seznam.cz>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying
+ clock-frequencies
+Message-ID: <20201207055952.GB14307@pengutronix.de>
 References: <20201206172720.9406-1-michael.srba@seznam.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 06:33:53 up 4 days, 18:00, 39 users,  load average: 0.07, 0.11, 0.14
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Michael Srba <Michael.Srba@seznam.cz>
+Hi Michael,
 
-This patch adds the clock-frequency property to all device trees that use
-the imx219 binding, with the value of exactly 24Mhz which was previously
-implicitly assumed.
+On Sun, Dec 06, 2020 at 06:27:18PM +0100, michael.srba@seznam.cz wrote:
+> From: Michael Srba <Michael.Srba@seznam.cz>
+> 
+> This patch adds 1% tolerance on input clock, similar to other camera sensor
+> drivers. It also allows for specifying the actual clock in the device tree,
+> instead of relying on it being already set to the right frequency (which is
+> often not the case).
+> 
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> 
+> ---
+> 
+> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
+> 
+> ---
+>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..b6500e2ab19e 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
+>  		return PTR_ERR(imx219->xclk);
+>  	}
+>  
+> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_warn(dev, "could not get xclk frequency\n");
+> +
+> +		/* default to 24MHz */
+> +		imx219->xclk_freq = 24000000;
+> +	}
+> +
+> +	/* this driver currently expects 24MHz; allow 1% tolerance */
+> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>  			imx219->xclk_freq);
+>  		return -EINVAL;
+>  	}
+>  
+> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_err(dev, "could not set xclk frequency\n");
+> +		return ret;
+> +	}
 
-Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
----
+clk_set_rate() returns successfully when the rate change has succeeded.
+It tells you nothing about the actual rate that has been set. The rate
+could be very different from what you want to get, depending on what the
+hardware is able to archieve. There's clk_round_rate() that tells you
+which rate you'll get when you call clk_set_rate() with that value.
+You would have to call clk_round_rate() first and see if you are happy
+with the result, afterwards set the rate. From that view it doesn't make
+much sense to check the device tree if a number between 23760000 and
+24240000 is specified there, the clk api will do rounding anyway.
 
-changes since v1: remove errorneous edit
+Also there's the assigned-clocks device tree binding, see
+Documentation/devicetree/bindings/clock/clock-bindings.txt. This allows
+you to set the desired clock rate directly in the device tree. All
+that's left to do in the driver is to replace the check for the exact
+rate with a check which allows a certain tolerance.
 
----
- arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+Sascha
 
-diff --git a/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-index dac6ff49020f..986c6c1f7312 100644
---- a/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-@@ -82,6 +82,7 @@ imx219: imx219@10 {
- 		compatible = "sony,imx219";
- 		reg = <0x10>;
- 		clocks = <&osc25250_clk>;
-+		clock-frequency = <24000000>;
- 		VANA-supply = <&imx219_vana_2v8>;
- 		VDIG-supply = <&imx219_vdig_1v8>;
- 		VDDL-supply = <&imx219_vddl_1v2>;
 -- 
-2.29.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
