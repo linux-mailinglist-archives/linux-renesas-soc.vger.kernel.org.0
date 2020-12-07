@@ -2,109 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82A382D18D7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Dec 2020 19:58:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35DD12D1C94
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Dec 2020 23:01:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgLGS4o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Dec 2020 13:56:44 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43667 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726355AbgLGS4o (ORCPT
+        id S1725969AbgLGV7f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Dec 2020 16:59:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49280 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725799AbgLGV7f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Dec 2020 13:56:44 -0500
-Received: by mail-ot1-f66.google.com with SMTP id q25so1692643otn.10;
-        Mon, 07 Dec 2020 10:56:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jYKdPSvZjpIiPbVZhXmqc2j76RFh4wXSWnm0PlBYAnE=;
-        b=Z39OpqLW8DFiyjS998uYGx7yV9CaoJ6CB3vqIhUR7AoKj4b94CowyDILTxij5oy+FD
-         dtUjSBjWIrNiqQUrBAmTd+uFYhm67Ukb3yRymUn/x8+8/wVA0LQusZzmA9HDixnR0Xyi
-         3Piapd4vLNiSNtKQofK9rJ3vHdOv/+Hct0dJYLn9rnTGaRNL+dlunk2d4XQWeBMqmB7D
-         LiIdUPhqxnsw1HkGcbEsAV973nFhqA3CO0zYnBDKjl0eTlSn6MPo6S/Px43lVUm2ewE6
-         o17v6elkCNWIm/vl/iE25do+AyvSob1yEOR1OZPSyeHAPcvv2lG4Bhhc3Rxi4RGCE11o
-         4lcQ==
-X-Gm-Message-State: AOAM533otl+9OCHicf0q08pMd/6D0HRkJ0tHop0CMUjqoPLHEwpQQglg
-        q5N8COSX8iZo+pHVpnge4XW7CsWb+g==
-X-Google-Smtp-Source: ABdhPJz/ljYtKFGmvSgmn4Lys4Ug3P+P2nQy5R4djRcCMl2NVsn0vyrFdDgT0CIZTb6Yp59q9uNiOw==
-X-Received: by 2002:a9d:7a97:: with SMTP id l23mr13992794otn.232.1607367363221;
-        Mon, 07 Dec 2020 10:56:03 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i4sm2780609oos.31.2020.12.07.10.56.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 10:56:01 -0800 (PST)
-Received: (nullmailer pid 617149 invoked by uid 1000);
-        Mon, 07 Dec 2020 18:56:00 -0000
-Date:   Mon, 7 Dec 2020 12:56:00 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/6] dt-bindings: PCI: pci-ep: Add binding to specify
- virtual function
-Message-ID: <20201207185600.GA609331@robh.at.kernel.org>
-References: <20201112175358.2653-1-kishon@ti.com>
- <20201112175358.2653-2-kishon@ti.com>
+        Mon, 7 Dec 2020 16:59:35 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607378335;
+        bh=Pi5GADo6j4UFpk7CEuwQxIw6GRAKpKOinEGB1LvlK40=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=KGof9gI3o9RpVbn/pS5WFPRGlaLFmaat4RM4BGFeRNLSHlKSSHteQphl4wn4+azfu
+         KtERqlIJtZSCGenwUfPJkTcYW5ZJo6IBaJZoGiMapsW+KkrIKC2mdgS1XT7LAGDN0s
+         X8oHcPnPLb5vpHTdUsEyhcggEGCUIH0+SovzMe+isE8PeJLcTrgfeCOnJsxYhGv0Ix
+         YEYGj7ZZgjUm10GiavckoUcToMio2df5OtD8hXaMLZTbytitIOHIniT/e+vu/8vmsz
+         c27HS+3Y2UafuVnMgDcRFeLt04g1LbIpjZPSRhAfHIcKz9QI8OZkV7qkZ2RodmdEyF
+         MihTQOyjKVDdQ==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201112175358.2653-2-kishon@ti.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201130085743.1656317-1-geert+renesas@glider.be>
+References: <20201130085743.1656317-1-geert+renesas@glider.be>
+Subject: Re: [PATCH v2] clk: renesas: r9a06g032: Drop __packed for portability
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Gareth Williams <gareth.williams.jx@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Date:   Mon, 07 Dec 2020 13:58:53 -0800
+Message-ID: <160737833361.1580929.4851886406060076908@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 11:23:53PM +0530, Kishon Vijay Abraham I wrote:
-> Add binding to specify virtual function (associated with each physical
-> function) in endpoint mode.
-> 
-> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Quoting Geert Uytterhoeven (2020-11-30 00:57:43)
+> The R9A06G032 clock driver uses an array of packed structures to reduce
+> kernel size.  However, this array contains pointers, which are no longer
+> aligned naturally, and cannot be relocated on PPC64.  Hence when
+> compile-testing this driver on PPC64 with CONFIG_RELOCATABLE=3Dy (e.g.
+> PowerPC allyesconfig), the following warnings are produced:
+>=20
+>     WARNING: 136 bad relocations
+>     c000000000616be3 R_PPC64_UADDR64   .rodata+0x00000000000cf338
+>     c000000000616bfe R_PPC64_UADDR64   .rodata+0x00000000000cf370
+>     ...
+>=20
+> Fix this by dropping the __packed attribute from the r9a06g032_clkdesc
+> definition, trading a small size increase for portability.
+>=20
+> This increases the 156-entry clock table by 1 byte per entry, but due to
+> the compiler generating more efficient code for unpacked accesses, the
+> net size increase is only 76 bytes (gcc 9.3.0 on arm32).
+>=20
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Fixes: 4c3d88526eba2143 ("clk: renesas: Renesas R9A06G032 clock driver")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  Documentation/devicetree/bindings/pci/pci-ep.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/pci-ep.yaml b/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> index 7847bbcd4a03..90c85a0c44a1 100644
-> --- a/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> +++ b/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> @@ -23,6 +23,15 @@ properties:
->      default: 1
->      maximum: 255
->  
-> +  max-virtual-functions:
-> +    description: Maximum number of virtual functions that can be configured
 
-Need to say what each element of the array corresponds to.
-
-> +    allOf:
-
-Can drop 'allOf' here.
-
-> +      - $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 0
-
-minItems should never be 0. That's no property present.
-
-> +    maxItems: 255
-> +    items:
-> +      maximum: 255
-> +
->    max-link-speed:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [ 1, 2, 3, 4 ]
-> -- 
-> 2.17.1
-> 
+Applied to clk-fixes
