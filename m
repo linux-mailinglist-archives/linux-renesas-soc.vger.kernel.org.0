@@ -2,71 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3DBA2D31D4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 19:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A17D52D3348
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 21:27:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730946AbgLHSMi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Dec 2020 13:12:38 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40380 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730495AbgLHSMi (ORCPT
+        id S1731382AbgLHUQM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Dec 2020 15:16:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34114 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731126AbgLHUO0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Dec 2020 13:12:38 -0500
-Received: by mail-oi1-f193.google.com with SMTP id p126so20344958oif.7;
-        Tue, 08 Dec 2020 10:12:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=cwCLzsE/tJgmmJNunjALWP2lRl/HDWi24Jsjga6oelY=;
-        b=Ql95cxZLVPOJU0qIAMxf2pkjiovtATHP3WRgHi72KSgQ+bbiDRCHnv4JA8CKNJcWzx
-         SittnHu/XTlqpt29zL+1jo7oGptT8KkxfppaxnXcY8JlonuzcHFNkB+8Tf1WQ+pPgG5h
-         YjDlAn0Nyve6Ve5/EYSoPcCnzlnIeSvSsB+NNr3jgJ2p7UhorqApjQHAQHbsfTrcu0LP
-         7fvL/lwmy6lLBdxlG2Ksl0PAWVOgjHb/Jalwb0XcvdHcC22sNUv2iKMwJ79E6+V2UIeT
-         ZFOwV+xqnhHn+2B64HoEe24uLBs52PsDTzd8+37LkmivNQRmlLUA9kIHZIGvZVa2ibaA
-         vo/w==
-X-Gm-Message-State: AOAM533zS46ber84Hx/rbLJ5w4kLurRlryBZAxm0YlMYKWBTrh+IdMhG
-        We2JycEu905JWvAntJ7fvO+c76tUGw==
-X-Google-Smtp-Source: ABdhPJw0UcN/EVGDjTeY2qx4MN2AFeGn9GVguBwbcsYpNcu4JsevRGimwUvxTt+sfw31yQq1chcZTg==
-X-Received: by 2002:aca:58d7:: with SMTP id m206mr3778694oib.0.1607451117420;
-        Tue, 08 Dec 2020 10:11:57 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l5sm2813820ooo.2.2020.12.08.10.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 10:11:55 -0800 (PST)
-Received: (nullmailer pid 2811959 invoked by uid 1000);
-        Tue, 08 Dec 2020 18:11:54 -0000
-Date:   Tue, 8 Dec 2020 12:11:54 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH 1/3] dt-bindings: thermal: rcar-gen3-thermal: Add
- r8a779a0 support
-Message-ID: <20201208181154.GA2811929@robh.at.kernel.org>
-References: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se>
- <20201126223028.3119044-2-niklas.soderlund+renesas@ragnatech.se>
+        Tue, 8 Dec 2020 15:14:26 -0500
+Date:   Tue, 8 Dec 2020 12:46:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607453189;
+        bh=q3WtZ7+3GFEm/pY2DmpaI8vQo/9kMR9V+MJjmPUSEh4=;
+        h=From:To:Cc:Subject:In-Reply-To:From;
+        b=pMqfE1Zc2R5gtsRAAP1jz4Tx6de89EleUcU7lt+vC6fm+X+kgkFN30MxyYbwt1kl1
+         ElEdxdjuBipAscfIB/Z3Bp6oGsL4YP07RoTF/hXcYKGTD0dXuEDgJWqr01/ai8u4dr
+         YjcYHlL1TmnRuHEe+gd40p9mDN68BLG+P6c6FolAVQ/pjeoXfZ6k+FWAoIl8IwZQZp
+         StGxvu0suBv2iMHsOh+nsW9JpGz9Z6+VxGUjyzHsAMqMb1fWVzt+io2/0hw63UymJ8
+         EMclLan5jSwXHfcL06P7GUa+QsbW/XBtA6rGy/IAw++kyPGS+0D+TDyM7GkUicbNgC
+         qhGoLb+ZFaHTA==
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20201208184627.GA2393103@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201126223028.3119044-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <a65139b9-3b06-0562-7b6e-9a438aecff66@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 26 Nov 2020 23:30:26 +0100, Niklas Söderlund wrote:
-> Add support for R-Car V3U. The V3U IP differs a bit from its siblings in
-> such way that it have 4 TSC nodes and the interrupts are not routed to
-> the INTC-AP but to the ECM.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  .../bindings/thermal/rcar-gen3-thermal.yaml     | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
-> 
+On Tue, Dec 08, 2020 at 07:05:09PM +0100, Marek Vasut wrote:
+> On 12/8/20 5:40 PM, Bjorn Helgaas wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> > > +static const struct of_device_id rcar_pcie_abort_handler_of_match[] __initconst = {
+> > > +	{ .compatible = "renesas,pcie-r8a7779" },
+> > > +	{ .compatible = "renesas,pcie-r8a7790" },
+> > > +	{ .compatible = "renesas,pcie-r8a7791" },
+> > > +	{ .compatible = "renesas,pcie-rcar-gen2" },
+> > > +	{},
+> > > +};
+> > 
+> > Why do we need another copy of these, as opposed to doing something
+> > with of_device_get_match_data(), e.g., like brcm_pcie_probe() does?
+> 
+> This is not a copy, but as subset of SoCs which are affected by this
+> problem.
+
+I know it's not a complete copy.  Many systems include flags like
+"broken_l1" in their match_data.  Something like this:
+
+  struct rcar_pcie_drvdata {
+    int            (*phy_init_fn)(struct rcar_pcie_host *host);
+    unsigned int   broken_l1:1;
+  };
+
+  static const struct rcar_pcie_drvdata rcar_init_h1_drvdata = {
+    .phy_init_fn = rcar_pcie_phy_init_h1,
+    .broken_l1 = 1,
+  };
+
+  static const struct rcar_pcie_drvdata rcar_init_gen2_drvdata = {
+    .phy_init_fn = rcar_pcie_phy_init_gen2,
+    .broken_l1 = 1,
+  };
+
+  static const struct rcar_pcie_drvdata rcar_init_gen3_drvdata = {
+    .phy_init_fn = rcar_pcie_phy_init_gen3,
+  };
+
+  static const struct of_device_id rcar_pcie_of_match[] = {
+    { .compatible = "renesas,pcie-r8a7779", .data = rcar_init_h1_drvdata },
+    { .compatible = "renesas,pcie-r8a7790", .data = rcar_init_gen2_drvdata },
+    { .compatible = "renesas,pcie-r8a7791", .data = rcar_init_gen2_drvdata },
+    ...
+
+> > > +static int __init rcar_pcie_init(void)
+> > > +{
+> > > +	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> > > +#ifdef CONFIG_ARM_LPAE
+> > > +		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> > > +				"asynchronous external abort");
+> > > +#else
+> > > +		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> > > +				"imprecise external abort");
+> > > +#endif
+> > > +	}
+> > > +
+> > > +	return platform_driver_register(&rcar_pcie_driver);
+> > > +}
+> > > +device_initcall(rcar_pcie_init);
+> > > +#else
+> > >   builtin_platform_driver(rcar_pcie_driver);
+> > > +#endif
+> > 
+> > Is the device_initcall() vs builtin_platform_driver() something
+> > related to the hook_fault_code()?  What would break if this were
+> > always builtin_platform_driver()?
+> 
+> rcar_pcie_init() would not be called before probe.
+
+Sorry to be slow, but why does it need to be called before probe?
+Obviously software isn't putting the controller in D3 or enabling ASPM
+before probe.
+
+Bjorn
