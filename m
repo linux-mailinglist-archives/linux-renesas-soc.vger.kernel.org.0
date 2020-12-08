@@ -2,100 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B84DC2D3180
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 18:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 315AA2D319F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 19:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730792AbgLHRxU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Dec 2020 12:53:20 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44845 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727998AbgLHRxT (ORCPT
+        id S1730859AbgLHSBq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Dec 2020 13:01:46 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:35062 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728633AbgLHSBq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Dec 2020 12:53:19 -0500
-Received: by mail-ot1-f66.google.com with SMTP id f16so16568433otl.11;
-        Tue, 08 Dec 2020 09:53:04 -0800 (PST)
+        Tue, 8 Dec 2020 13:01:46 -0500
+Received: by mail-oi1-f173.google.com with SMTP id s2so10839752oij.2;
+        Tue, 08 Dec 2020 10:01:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2DtuTL0FxwT290gTl9AoRJ1ttUQTGS6Lfz9q2+uDAU8=;
-        b=Bmg5BWw0PncLsJmUzor5mCG02dKgSt9bIH7hkLT7tLWtXfhDDHKQDF4TkeoXMpo3Jq
-         KPLo11EKdp4JWoCMduNXDk4k3DTKxrezk3RiHjqodic2vpja20Eq9kC4E4XWCVs9TmZs
-         rFgOZu0NU6T/j3Q/i2aTc/ntpy1aD7kbLwsK4VheWvq5ntlMlk3D53wcbwjACR0ewwR/
-         8zpt0X8JUYPrFtfqFARUqHiMuhNtPBtDoX42BUoHmOoJvyMcv94qPn54/OPpBC8sMjuS
-         vgXQYpC+0DsJkrRldDDAl/vU/LegkSBWu0fE4Ryk/26jl0+HkdUTetLNf0jAz9YbyRe9
-         2arA==
-X-Gm-Message-State: AOAM530CPiNmWFID07mFkZR7xpWo6wg4T09MG8YPyuwUfLSwY61X6IJ4
-        QyPPb6Do/QF3sCz0VeDG6bHPzfpIGPlIPYHfrxg=
-X-Google-Smtp-Source: ABdhPJzL+Jrpg7stR8UBH7MiZ+WgYPpegtz3OOWnaNTqLb3Ehz6MdkdV7PMo+LxMUf5KoSyIcBd6+YC1Gd1NxmWGleg=
-X-Received: by 2002:a9d:2203:: with SMTP id o3mr17834818ota.107.1607449959142;
- Tue, 08 Dec 2020 09:52:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20201016120416.7008-1-marek.vasut@gmail.com> <20201119173553.GB23852@e121166-lin.cambridge.arm.com>
- <57358982-ef8c-ed91-c011-00b8a48c4ebd@gmail.com> <20201208101823.GA30579@e121166-lin.cambridge.arm.com>
- <529ff24a-dcb5-6c9e-2825-b2fbd0fbcd70@gmail.com>
-In-Reply-To: <529ff24a-dcb5-6c9e-2825-b2fbd0fbcd70@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Dec 2020 18:52:27 +0100
-Message-ID: <CAMuHMdUHdXqVaGnP7Zj097oLcqoyzG-MgLVneCfiuFOxMFDFtw@mail.gmail.com>
-Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Wolfram Sang <wsa@the-dreams.de>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kFebtoZ+xbAt55JiPd4L9/A7iku/ldoQ9QBHKjhY4bM=;
+        b=RteRTuKLndOrCBgNO++E1L7GSd6ARkDl1TLB5qZhreN0OiWHWkFBVHZeQ/j0IOczS7
+         plsIluq+k/D9Xl3QqbwD2L0Ig5KEMWxkL5WcBiXTVtd91jUS2uhMRP73psj/962/GvFG
+         DTPGNAht1WXFjNhpaJX/a1TVpKolluPGPxpDORcqpuINApYfbqIlqokOsvLixOyxitNZ
+         mIScF9XhiLV4OxHqZ4iEXtS8obB3zf/XygdnBLc5bUdIUQByK6J00lJywa1mtMATiIqG
+         zUq8SPu0cqranC24+n4fxrfoCP/7TbrJqtTsb0iGzcZEEkW56EZaSna9nBpONAGAFCwx
+         QREw==
+X-Gm-Message-State: AOAM532lZCxp4RP6FHeqz+iO4Gz6F02i5GoRfGXN4DQp+KAywNW4GX8f
+        uZwUdOVqhjOR4tuP2PMwwQ==
+X-Google-Smtp-Source: ABdhPJyUR6+RUSOcxFLBvWT3TN2A5KaWs9sDnn+DI2X0yrSULmGJ8hz6OalYNy9b7luqMKMC1W+yFA==
+X-Received: by 2002:aca:c0c6:: with SMTP id q189mr3649888oif.178.1607450465207;
+        Tue, 08 Dec 2020 10:01:05 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id x66sm3845250oig.56.2020.12.08.10.01.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 10:01:03 -0800 (PST)
+Received: (nullmailer pid 2794752 invoked by uid 1000);
+        Tue, 08 Dec 2020 18:01:02 -0000
+Date:   Tue, 8 Dec 2020 12:01:02 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH/RFC] dt-bindings: pci: rcar-pci-ep: Document missing
+ interrupts property
+Message-ID: <20201208180102.GA2630497@robh.at.kernel.org>
+References: <20201126115927.4089838-1-geert@linux-m68k.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201126115927.4089838-1-geert@linux-m68k.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 8, 2020 at 6:45 PM Marek Vasut <marek.vasut@gmail.com> wrote:
-> On 12/8/20 11:18 AM, Lorenzo Pieralisi wrote:
-> [...]
-> >>> I suppose a fault on multiple cores can happen simultaneously, if it
-> >>> does this may not work well either - I assume all config/io/mem would
-> >>> trigger a fault.
-> >>>
-> >>> As I mentioned in my reply to v1, is there a chance we can move
-> >>> this quirk into config accessors (if the PM_ENTER_L1_DLLP is
-> >>> subsequent to a write into PMCSR to programme a D state) ?
-> >>
-> >> I don't think we can, since the userspace can do such a config space write
-> >> with e.g. setpci and then this fixup is still needed.
-> >
-> > Userspace goes via the kernel config accessors anyway, right ?
->
-> As far as I can tell, you can just write the register with devmem, so
-> no. You cannot assume everything will go through the accessors. I don't
-> think setpci does either.
->
-> > I would like to avoid having arch specific hooks in PCI drivers so
-> > if we can work around it somehow it is much better.
->
-> I think we had this discussion before, which ultimately led to hiding
-> the workaround in ATF on Gen3. On Gen2, there is no ATF, so the work
-> around must be in Linux.
->
-> > I can still merge this patch this week but I would like to explore
-> > alternatives before committing it.
->
-> Please merge it as-is.
+On Thu, Nov 26, 2020 at 12:59:27PM +0100, Geert Uytterhoeven wrote:
+> The R-Car PCIe controller does not use interrupts when configured
+> for endpoint mode, hence the bindings do not document the interrupt
+> property.  However, all DTS files provide interrupts properties, and
+> thus fail to validate.
+> 
+> Fix this by documenting the interrupts property.
+> 
+> Fixes: 5be478f9c24fbdf8 ("dt-bindings: Another round of adding missing 'additionalProperties'")
 
-+1
+I don't think this fixes is appropriate. The commit itself wasn't 
+broken, this binding is.
 
-This can be triggered easily, just insert a stock Intel Ethernet card,
-s2ram, and boom.
+> Fixes: 4c0f80920923f103 ("dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint controller")
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> ---
+> Alternatively, the interrupts properties should be removed from the
+> corresponding device nodes in the DTS files.  Obviously they should be
+> retained in the device nodes representing PCIe controllers configured in
+> host mode, which describe the same hardware...
 
-Gr{oetje,eeting}s,
+No, I think this patch is the right change. EP and host bindings should 
+be similiar.
 
-                        Geert
+Fix your Sob and resend please.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
