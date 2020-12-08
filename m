@@ -2,259 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF372D255C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 09:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 732D42D28AD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 11:20:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727725AbgLHIEs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Dec 2020 03:04:48 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:50630 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725927AbgLHIEn (ORCPT
+        id S1727992AbgLHKTQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Dec 2020 05:19:16 -0500
+Received: from foss.arm.com ([217.140.110.172]:46982 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726703AbgLHKTQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Dec 2020 03:04:43 -0500
-X-IronPort-AV: E=Sophos;i="5.78,401,1599490800"; 
-   d="scan'208";a="65020046"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Dec 2020 17:04:10 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D5E6842296C4;
-        Tue,  8 Dec 2020 17:04:10 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org
-Cc:     khiem.nguyen.xt@renesas.com, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 3/3] mfd: bd9571mwv: Add support for BD9574MWF
-Date:   Tue,  8 Dec 2020 17:04:03 +0900
-Message-Id: <1607414643-25498-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1607414643-25498-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1607414643-25498-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 8 Dec 2020 05:19:16 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FE061FB;
+        Tue,  8 Dec 2020 02:18:30 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E9613F68F;
+        Tue,  8 Dec 2020 02:18:29 -0800 (PST)
+Date:   Tue, 8 Dec 2020 10:18:23 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Marek Vasut <marek.vasut@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Cc:     linux-pci@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20201208101823.GA30579@e121166-lin.cambridge.arm.com>
+References: <20201016120416.7008-1-marek.vasut@gmail.com>
+ <20201119173553.GB23852@e121166-lin.cambridge.arm.com>
+ <57358982-ef8c-ed91-c011-00b8a48c4ebd@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <57358982-ef8c-ed91-c011-00b8a48c4ebd@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+On Sun, Nov 29, 2020 at 02:05:08PM +0100, Marek Vasut wrote:
+> On 11/19/20 6:35 PM, Lorenzo Pieralisi wrote:
+> > > +#ifdef CONFIG_ARM
+> > > +/*
+> > > + * Here we keep a static copy of the remapped PCIe controller address.
+> > > + * This is only used on aarch32 systems, all of which have one single
+> > > + * PCIe controller, to provide quick access to the PCIe controller in
+> > > + * the L1 link state fixup function, called from the ARM fault handler.
+> > > + */
+> > > +static void __iomem *pcie_base;
+> > > +/*
+> > > + * Static copy of bus clock pointer, so we can check whether the clock
+> > > + * is enabled or not.
+> > > + */
+> > > +static struct clk *pcie_bus_clk;
+> > > +#endif
+> > 
+> > Don't think you can have multiple host bridges in a given platform,
+> > if it is a possible configuration this won't work.
+> 
+> Correct, all the affected platforms have only one host bridge.
+> 
+> > >   static inline struct rcar_msi *to_rcar_msi(struct msi_controller *chip)
+> > >   {
+> > >   	return container_of(chip, struct rcar_msi, chip);
+> > > @@ -804,6 +820,12 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
+> > >   	}
+> > >   	host->msi.irq2 = i;
+> > > +#ifdef CONFIG_ARM
+> > > +	/* Cache static copy for L1 link state fixup hook on aarch32 */
+> > > +	pcie_base = pcie->base;
+> > > +	pcie_bus_clk = host->bus_clk;
+> > > +#endif
+> > > +
+> > >   	return 0;
+> > >   err_irq2:
+> > > @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
+> > >   	},
+> > >   	.probe = rcar_pcie_probe,
+> > >   };
+> > > +
+> > > +#ifdef CONFIG_ARM
+> > > +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
+> > > +		unsigned int fsr, struct pt_regs *regs)
+> > > +{
+> > > +	u32 pmsr;
+> > > +
+> > > +	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
+> > > +		return 1;
+> > > +
+> > > +	pmsr = readl(pcie_base + PMSR);
+> > > +
+> > > +	/*
+> > > +	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
+> > > +	 * the PCIe controller is not in L1 link state. If true, apply
+> > > +	 * fix, which will put the controller into L1 link state, from
+> > > +	 * which it can return to L0s/L0 on its own.
+> > > +	 */
+> > > +	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
+> > > +		writel(L1IATN, pcie_base + PMCTLR);
+> > > +		while (!(readl(pcie_base + PMSR) & L1FAEG))
+> > > +			;
+> > > +		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
+> > > +		return 0;
+> > > +	}
+> > 
+> > I suppose a fault on multiple cores can happen simultaneously, if it
+> > does this may not work well either - I assume all config/io/mem would
+> > trigger a fault.
+> > 
+> > As I mentioned in my reply to v1, is there a chance we can move
+> > this quirk into config accessors (if the PM_ENTER_L1_DLLP is
+> > subsequent to a write into PMCSR to programme a D state) ?
+> 
+> I don't think we can, since the userspace can do such a config space write
+> with e.g. setpci and then this fixup is still needed.
 
-The new PMIC BD9574MWF inherits features from BD9571MWV.
-Add the support of new PMIC to existing bd9571mwv driver.
 
-Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
-[shimoda: rebase and refactor]
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/mfd/bd9571mwv.c       | 92 +++++++++++++++++++++++++++++++++++++++++++
- include/linux/mfd/bd9571mwv.h | 80 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 172 insertions(+)
+Userspace goes via the kernel config accessors anyway, right ?
 
-diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-index 57bdb6a..f8f0a87 100644
---- a/drivers/mfd/bd9571mwv.c
-+++ b/drivers/mfd/bd9571mwv.c
-@@ -20,6 +20,7 @@ static const struct mfd_cell bd9571mwv_cells[] = {
- 	{ .name = "bd9571mwv-gpio", },
- };
- 
-+/* Regmap for BD9571MWV */
- static const struct regmap_range bd9571mwv_readable_yes_ranges[] = {
- 	regmap_reg_range(BD9571MWV_VENDOR_CODE, BD9571MWV_PRODUCT_REVISION),
- 	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-@@ -112,6 +113,95 @@ static const struct bd957x_data bd9571mwv_data = {
- 	.num_cells = ARRAY_SIZE(bd9571mwv_cells),
- };
- 
-+static const struct mfd_cell bd9574mwf_cells[] = {
-+	{ .name = "bd9571mwv-gpio", },
-+};
-+
-+/* Regmap for BD9574MWF */
-+static const struct regmap_range bd9574mwf_readable_yes_ranges[] = {
-+	regmap_reg_range(BD9574MWF_VENDOR_CODE, BD9574MWF_PRODUCT_REVISION),
-+	regmap_reg_range(BD9574MWF_GPIO_IN, BD9574MWF_GPIO_IN),
-+	regmap_reg_range(BD9574MWF_GPIO_INT, BD9574MWF_GPIO_INTMASK),
-+	regmap_reg_range(BD9574MWF_GPIO_MUX, BD9574MWF_GPIO_MUX),
-+	regmap_reg_range(BD9574MWF_INT_INTREQ, BD9574MWF_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_readable_table = {
-+	.yes_ranges	= bd9574mwf_readable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_readable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_writable_yes_ranges[] = {
-+	regmap_reg_range(BD9574MWF_GPIO_DIR, BD9574MWF_GPIO_OUT),
-+	regmap_reg_range(BD9574MWF_GPIO_INT_SET, BD9574MWF_GPIO_INTMASK),
-+	regmap_reg_range(BD9574MWF_INT_INTREQ, BD9574MWF_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_writable_table = {
-+	.yes_ranges	= bd9574mwf_writable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_writable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_volatile_yes_ranges[] = {
-+	regmap_reg_range(BD9574MWF_GPIO_IN, BD9574MWF_GPIO_IN),
-+	regmap_reg_range(BD9574MWF_GPIO_INT, BD9574MWF_GPIO_INT),
-+	regmap_reg_range(BD9574MWF_INT_INTREQ, BD9574MWF_INT_INTREQ),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_volatile_table = {
-+	.yes_ranges	= bd9574mwf_volatile_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_volatile_yes_ranges),
-+};
-+
-+static const struct regmap_config bd9574mwf_regmap_config = {
-+	.reg_bits	= 8,
-+	.val_bits	= 8,
-+	.cache_type	= REGCACHE_RBTREE,
-+	.rd_table	= &bd9574mwf_readable_table,
-+	.wr_table	= &bd9574mwf_writable_table,
-+	.volatile_table	= &bd9574mwf_volatile_table,
-+	.max_register	= 0xff,
-+};
-+
-+static const struct regmap_irq bd9574mwf_irqs[] = {
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_MD1, 0,
-+		       BD9574MWF_INT_INTREQ_MD1_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_MD2_E1, 0,
-+		       BD9574MWF_INT_INTREQ_MD2_E1_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_MD2_E2, 0,
-+		       BD9574MWF_INT_INTREQ_MD2_E2_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_PROT_ERR, 0,
-+		       BD9574MWF_INT_INTREQ_PROT_ERR_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_GP, 0,
-+		       BD9574MWF_INT_INTREQ_GP_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_BKUP_HOLD_OF, 0,
-+		       BD9574MWF_INT_INTREQ_BKUP_HOLD_OF_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_WDT_OF, 0,
-+		       BD9574MWF_INT_INTREQ_WDT_OF_INT),
-+	REGMAP_IRQ_REG(BD9574MWF_IRQ_BKUP_TRG, 0,
-+		       BD9574MWF_INT_INTREQ_BKUP_TRG_INT),
-+};
-+
-+static struct regmap_irq_chip bd9574mwf_irq_chip = {
-+	.name		= "bd9574mwf",
-+	.status_base	= BD9574MWF_INT_INTREQ,
-+	.mask_base	= BD9574MWF_INT_INTMASK,
-+	.ack_base	= BD9574MWF_INT_INTREQ,
-+	.init_ack_masked = true,
-+	.num_regs	= 1,
-+	.irqs		= bd9574mwf_irqs,
-+	.num_irqs	= ARRAY_SIZE(bd9574mwf_irqs),
-+};
-+
-+static const struct bd957x_data bd9574mwf_data = {
-+	.product_code_val = BD9574MWF_PRODUCT_CODE_VAL,
-+	.part_number = BD9574MWF_PART_NUMBER,
-+	.regmap_config = &bd9574mwf_regmap_config,
-+	.irq_chip = &bd9574mwf_irq_chip,
-+	.cells = bd9574mwf_cells,
-+	.num_cells = ARRAY_SIZE(bd9574mwf_cells),
-+};
-+
- static int bd9571mwv_identify(struct bd9571mwv *bd)
- {
- 	struct device *dev = bd->dev;
-@@ -182,6 +272,8 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 	product_code = (unsigned int)ret;
- 	if (product_code == BD9571MWV_PRODUCT_CODE_VAL)
- 		bd->data = &bd9571mwv_data;
-+	else if (product_code == BD9574MWF_PRODUCT_CODE_VAL)
-+		bd->data = &bd9574mwf_data;
- 
- 	if (!bd->data) {
- 		dev_err(bd->dev, "No found supported device %d\n",
-diff --git a/include/linux/mfd/bd9571mwv.h b/include/linux/mfd/bd9571mwv.h
-index 0126b52..e9e219b 100644
---- a/include/linux/mfd/bd9571mwv.h
-+++ b/include/linux/mfd/bd9571mwv.h
-@@ -99,6 +99,86 @@ enum bd9571mwv_irqs {
- 	BD9571MWV_IRQ_BKUP_TRG,
- };
- 
-+/* List of registers for BD9574MWF */
-+#define BD9574MWF_VENDOR_CODE			0x00
-+#define BD9574MWF_VENDOR_CODE_VAL		0xdb
-+#define BD9574MWF_PRODUCT_CODE			0x01
-+#define BD9574MWF_PRODUCT_CODE_VAL		0x74
-+#define BD9574MWF_PRODUCT_REVISION		0x02
-+
-+#define BD9574MWF_I2C_FUSA_MODE			0x10
-+#define BD9574MWF_I2C_MD2_E1_BIT_1		0x11
-+#define BD9574MWF_I2C_MD2_E1_BIT_2		0x12
-+
-+#define BD9574MWF_BKUP_MODE_CNT			0x20
-+#define BD9574MWF_BKUP_MODE_STATUS		0x21
-+#define BD9574MWF_BKUP_RECOVERY_CNT		0x22
-+#define BD9574MWF_BKUP_CTRL_TIM_CNT		0x23
-+#define BD9574MWF_WAITBKUP_WDT_CNT		0x24
-+#define BD9574MWF_BKUP_HOLD_TIM_CNT1		0x26
-+#define BD9574MWF_QLLM_CNT			0x27
-+#define BD9574MWF_BKUP_HOLD_TIM_CNT2		0x28
-+
-+#define BD9574MWF_DCDC_FREQ			0x48
-+
-+#define BD9574MWF_VDCORE_VINIT			0x50
-+#define BD9574MWF_VD09_VINIT			0x51
-+#define BD9574MWF_VDCORE_SETVMAX		0x52
-+#define BD9574MWF_VDCORE_SETVID			0x54
-+#define BD9574MWF_VDCORE_MONIVDAC		0x55
-+#define BD9574MWF_VDCORE_PGD_CNT		0x56
-+
-+#define BD9574MWF_GPIO_DIR			0x60
-+#define BD9574MWF_GPIO_OUT			0x61
-+#define BD9574MWF_GPIO_IN			0x62
-+#define BD9574MWF_GPIO_DEB			0x63
-+#define BD9574MWF_GPIO_INT_SET			0x64
-+#define BD9574MWF_GPIO_INT			0x65
-+#define BD9574MWF_GPIO_INTMASK			0x66
-+#define BD9574MWF_GPIO_MUX			0x67
-+
-+#define BD9574MWF_REG_KEEP(n)			(0x70 + (n))
-+
-+#define BD9574MWF_PMIC_INTERNAL_STATUS		0x80
-+#define BD9574MWF_PROT_ERROR_STATUS0		0x81
-+#define BD9574MWF_PROT_ERROR_STATUS1		0x82
-+#define BD9574MWF_PROT_ERROR_STATUS2		0x83
-+#define BD9574MWF_PROT_ERROR_STATUS3		0x84
-+#define BD9574MWF_PROT_ERROR_STATUS4		0x85
-+#define BD9574MWF_PROT_ERROR_STATUS5		0x86
-+#define BD9574MWF_SYS_ERROR_STATUS		0x87
-+
-+#define BD9574MWF_INT_INTREQ			0x90
-+#define BD9574MWF_INT_INTREQ_MD1_INT		BIT(0)
-+#define BD9574MWF_INT_INTREQ_MD2_E1_INT		BIT(1)
-+#define BD9574MWF_INT_INTREQ_MD2_E2_INT		BIT(2)
-+#define BD9574MWF_INT_INTREQ_PROT_ERR_INT	BIT(3)
-+#define BD9574MWF_INT_INTREQ_GP_INT		BIT(4)
-+#define BD9574MWF_INT_INTREQ_BKUP_HOLD_OF_INT	BIT(5)
-+#define BD9574MWF_INT_INTREQ_WDT_OF_INT		BIT(6)
-+#define BD9574MWF_INT_INTREQ_BKUP_TRG_INT	BIT(7)
-+#define BD9574MWF_INT_INTMASK			0x91
-+
-+#define BD9574MWF_SSCG_CNT			0xA0
-+#define BD9574MWF_POFFB_MRB			0xA1
-+#define BD9574MWF_SMRB_WR_PROT			0xA2
-+#define BD9574MWF_SMRB_ASSERT			0xA3
-+#define BD9574MWF_SMRB_STATUS			0xA4
-+
-+#define BD9574MWF_PART_NUMBER			"BD9574MWF"
-+
-+/* Define the BD9574MWF IRQ numbers */
-+enum bd9574mwf_irqs {
-+	BD9574MWF_IRQ_MD1,
-+	BD9574MWF_IRQ_MD2_E1,
-+	BD9574MWF_IRQ_MD2_E2,
-+	BD9574MWF_IRQ_PROT_ERR,
-+	BD9574MWF_IRQ_GP,
-+	BD9574MWF_IRQ_BKUP_HOLD_OF,
-+	BD9574MWF_IRQ_WDT_OF,
-+	BD9574MWF_IRQ_BKUP_TRG,
-+};
-+
- /**
-  * struct bd957x_data - internal data for the bd957x driver
-  *
--- 
-2.7.4
+I would like to avoid having arch specific hooks in PCI drivers so
+if we can work around it somehow it is much better.
 
+I can still merge this patch this week but I would like to explore
+alternatives before committing it.
+
+Lorenzo
+> 
+> > Config access is serialized but I suspect as I said above that this
+> > triggers on config/io/mem alike.
+> > 
+> > Just asking to try to avoid a fault handler if possible.
+> 
+> See above, I doubt we can fully avoid this workaround.
+> 
+> [...]
