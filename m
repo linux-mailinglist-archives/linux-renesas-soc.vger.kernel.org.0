@@ -2,137 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 732D42D28AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 11:20:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC4642D291E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 11:42:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727992AbgLHKTQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Dec 2020 05:19:16 -0500
-Received: from foss.arm.com ([217.140.110.172]:46982 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726703AbgLHKTQ (ORCPT
+        id S1728752AbgLHKlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Dec 2020 05:41:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58804 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727754AbgLHKlt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Dec 2020 05:19:16 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FE061FB;
-        Tue,  8 Dec 2020 02:18:30 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E9613F68F;
-        Tue,  8 Dec 2020 02:18:29 -0800 (PST)
-Date:   Tue, 8 Dec 2020 10:18:23 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marek Vasut <marek.vasut@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Cc:     linux-pci@vger.kernel.org, Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
-Message-ID: <20201208101823.GA30579@e121166-lin.cambridge.arm.com>
-References: <20201016120416.7008-1-marek.vasut@gmail.com>
- <20201119173553.GB23852@e121166-lin.cambridge.arm.com>
- <57358982-ef8c-ed91-c011-00b8a48c4ebd@gmail.com>
+        Tue, 8 Dec 2020 05:41:49 -0500
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2748AC061749;
+        Tue,  8 Dec 2020 02:41:09 -0800 (PST)
+Received: by mail-yb1-xb43.google.com with SMTP id r127so15678265yba.10;
+        Tue, 08 Dec 2020 02:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=p7rrbUd2GD8qSW4MR1E/gn6XTXa69KV3qccqhSvpT90=;
+        b=qZ700TONe6wtSSOERiY7Wo59iFs3E7QSwaHUpbsfsu/Iuq/vAANipWoW2C8+7LDdYs
+         RFUycp0spo4M4xFAc/a4L0yPdKFqPuOSIjJKg5ylus9uDSn4z4VIHJXvoGJOAaBZsUS5
+         mMayD7Q8lGHnXAVm6ukPtUbLBWMpd5NLSb+HsiB+PvokgMBeeF2BLZANoX7ZifdNP+eC
+         llpCYNdG5+Wr215Rhf4mAUIB6NIpxjqcPYbepEar//GGKuz7sR/81vQSmoNlqhvyyb8e
+         fz58FtDYNbmroUwk0MUElCURKlzgfCDcyN/J+rfQjaF4cNutYBMSk0U829RTj3zQq6gq
+         rp2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=p7rrbUd2GD8qSW4MR1E/gn6XTXa69KV3qccqhSvpT90=;
+        b=PZsEw7puKBEhjCzl9oaNjifyjZQisZrVc5AvXhCH3kNsBnR+sTZGeZsmIj9Y+zqSc6
+         eOfjgBOIl2nHEyDbkuPkwp93eVcAekLfYbtJKMWPsG+0YN7+2lVwwkdadAnPGGX2HoSA
+         eTYYz4OW48qbO/fOcttCOKbaokX+g7ixZ7H6RNgu4dXgELBzY8W/A/V5G/0JNA8DJiSG
+         g8JsIgwshbRdSVTv0F0Ddh57ZAStW0IYcrhYcHgqyuHL2RUXLmCJwF6Rvmodif2QK03/
+         G+aE7p8lbumAiNlY9EP+o/eIc40ox92YMdwJGlKIB/CrHWWFhT7btNaEfHkAu5j2jRqO
+         kMeg==
+X-Gm-Message-State: AOAM532KXRUmyIir4XnK6waZ+E+KM9DGNdPENaQPXuTLpJ4La0nA4m9Q
+        zBiJ2jFUVGDGl089VWJ9D2zr9Mh4Z8DtU+Y/ba/AMIJlBRiOog==
+X-Google-Smtp-Source: ABdhPJzoiP8vkb53TcwcnNYltAkd/i5mNY3iOc6ozDjpmI+Zwa/A+32+zc4Q0zgAuvAdQZdmBPJT0zkSE/tF02Ee+7I=
+X-Received: by 2002:a25:d486:: with SMTP id m128mr2073609ybf.214.1607424068476;
+ Tue, 08 Dec 2020 02:41:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57358982-ef8c-ed91-c011-00b8a48c4ebd@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <482d020e-bb1a-cf00-3f05-2bf26694ec16@microchip.com>
+In-Reply-To: <482d020e-bb1a-cf00-3f05-2bf26694ec16@microchip.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 8 Dec 2020 10:40:42 +0000
+Message-ID: <CA+V-a8tCATgVYkxrzQGWg9GhD=70Hy=O_eESa5mcewt2PpUo7Q@mail.gmail.com>
+Subject: Re: [PATCH] mtd: spi-nor: winbond: Add support for w25m512jw
+To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
+Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh R <vigneshr@ti.com>, linux-mtd@lists.infradead.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Nov 29, 2020 at 02:05:08PM +0100, Marek Vasut wrote:
-> On 11/19/20 6:35 PM, Lorenzo Pieralisi wrote:
-> > > +#ifdef CONFIG_ARM
-> > > +/*
-> > > + * Here we keep a static copy of the remapped PCIe controller address.
-> > > + * This is only used on aarch32 systems, all of which have one single
-> > > + * PCIe controller, to provide quick access to the PCIe controller in
-> > > + * the L1 link state fixup function, called from the ARM fault handler.
-> > > + */
-> > > +static void __iomem *pcie_base;
-> > > +/*
-> > > + * Static copy of bus clock pointer, so we can check whether the clock
-> > > + * is enabled or not.
-> > > + */
-> > > +static struct clk *pcie_bus_clk;
-> > > +#endif
-> > 
-> > Don't think you can have multiple host bridges in a given platform,
-> > if it is a possible configuration this won't work.
-> 
-> Correct, all the affected platforms have only one host bridge.
-> 
-> > >   static inline struct rcar_msi *to_rcar_msi(struct msi_controller *chip)
-> > >   {
-> > >   	return container_of(chip, struct rcar_msi, chip);
-> > > @@ -804,6 +820,12 @@ static int rcar_pcie_get_resources(struct rcar_pcie_host *host)
-> > >   	}
-> > >   	host->msi.irq2 = i;
-> > > +#ifdef CONFIG_ARM
-> > > +	/* Cache static copy for L1 link state fixup hook on aarch32 */
-> > > +	pcie_base = pcie->base;
-> > > +	pcie_bus_clk = host->bus_clk;
-> > > +#endif
-> > > +
-> > >   	return 0;
-> > >   err_irq2:
-> > > @@ -1050,4 +1072,58 @@ static struct platform_driver rcar_pcie_driver = {
-> > >   	},
-> > >   	.probe = rcar_pcie_probe,
-> > >   };
-> > > +
-> > > +#ifdef CONFIG_ARM
-> > > +static int rcar_pcie_aarch32_abort_handler(unsigned long addr,
-> > > +		unsigned int fsr, struct pt_regs *regs)
-> > > +{
-> > > +	u32 pmsr;
-> > > +
-> > > +	if (!pcie_base || !__clk_is_enabled(pcie_bus_clk))
-> > > +		return 1;
-> > > +
-> > > +	pmsr = readl(pcie_base + PMSR);
-> > > +
-> > > +	/*
-> > > +	 * Test if the PCIe controller received PM_ENTER_L1 DLLP and
-> > > +	 * the PCIe controller is not in L1 link state. If true, apply
-> > > +	 * fix, which will put the controller into L1 link state, from
-> > > +	 * which it can return to L0s/L0 on its own.
-> > > +	 */
-> > > +	if ((pmsr & PMEL1RX) && ((pmsr & PMSTATE) != PMSTATE_L1)) {
-> > > +		writel(L1IATN, pcie_base + PMCTLR);
-> > > +		while (!(readl(pcie_base + PMSR) & L1FAEG))
-> > > +			;
-> > > +		writel(L1FAEG | PMEL1RX, pcie_base + PMSR);
-> > > +		return 0;
-> > > +	}
-> > 
-> > I suppose a fault on multiple cores can happen simultaneously, if it
-> > does this may not work well either - I assume all config/io/mem would
-> > trigger a fault.
-> > 
-> > As I mentioned in my reply to v1, is there a chance we can move
-> > this quirk into config accessors (if the PM_ENTER_L1_DLLP is
-> > subsequent to a write into PMCSR to programme a D state) ?
-> 
-> I don't think we can, since the userspace can do such a config space write
-> with e.g. setpci and then this fixup is still needed.
+Hi Tudor,
 
+On Mon, Dec 7, 2020 at 5:27 PM <Tudor.Ambarus@microchip.com> wrote:
+>
+> Hi, Lad,
+>
+> On 10/16/20 2:55 PM, Lad Prabhakar wrote:
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
+the content is safe
+> >
+> > This chip is (nearly) identical to the Winbond w25m512jv which is
+> > already supported by Linux. Compared to the w25m512jv, the 'jw'
+> > has a different JEDEC ID.
+>
+> W25M512JW-IQ (2 x 256M-bit) Serial MCP (Multi Chip Package) Flash memory,
+> introduces a new =E2=80=9CSoftware Die Select (C2h)=E2=80=9D instruction,=
+ which we don't
+> support. I guess you can't access the second die with what we have in
+> mainline. Or am I wrong? We'll need to add support for multi-die support
+> if we want to add new multi-die flashes.
+>
+My bad, yes only the first die is accessible.  I'll post a patch
+dropping this id.
 
-Userspace goes via the kernel config accessors anyway, right ?
-
-I would like to avoid having arch specific hooks in PCI drivers so
-if we can work around it somehow it is much better.
-
-I can still merge this patch this week but I would like to explore
-alternatives before committing it.
-
-Lorenzo
-> 
-> > Config access is serialized but I suspect as I said above that this
-> > triggers on config/io/mem alike.
-> > 
-> > Just asking to try to avoid a fault handler if possible.
-> 
-> See above, I doubt we can fully avoid this workaround.
-> 
-> [...]
+Cheers,
+Prabhakar
