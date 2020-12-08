@@ -2,55 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B5142D1F75
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 01:52:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFB132D1F34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 01:44:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728901AbgLHAvl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Dec 2020 19:51:41 -0500
-Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:35013 "EHLO
-        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgLHAvk (ORCPT
+        id S1728825AbgLHAnm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Dec 2020 19:43:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728824AbgLHAnm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Dec 2020 19:51:40 -0500
-X-Greylist: delayed 16991 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Dec 2020 19:51:35 EST
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
-        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id DE24F1A606F;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
-        by postfix.imss71 (Postfix) with ESMTP id BC3D8382029;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
-        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id 426EA83825B;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
+        Mon, 7 Dec 2020 19:43:42 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB13FC061794
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  7 Dec 2020 16:43:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C5ADDD;
+        Tue,  8 Dec 2020 01:43:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1607388180;
+        bh=sXJJQ3Ales9snSM+M951qVfwVZH4bo1xYMrGw8Lpq9Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FQSetC4HXvcy/ljFLmrhL7T9XbUuMZSSBPTz78w2qxhWVLqXotEyYaZBLTVy3I7IP
+         fLS+PoCfAbo9W1c63ChXr1sqWBzUZlDh6t7XlRvXXXY17KWXb1eks/VBu03Zy5a4D0
+         Euw6t6DVm6SBO4Hg3qSmbNm6q1M8c8V1qqxZpbiU=
+Date:   Tue, 8 Dec 2020 02:42:57 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 1/9] drm: rcar-du: Fix crash when using LVDS1 clock for
+ CRTC
+Message-ID: <X87MEVMhOgcFxKwj@pendragon.ideasonboard.com>
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-2-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXrEpnQNT=QZRrgQ-jzBvRumUHgqfBrgCHcELpxg7VnQA@mail.gmail.com>
 MIME-Version: 1.0
-Message-ID: <20201207190926.000057A2.0664@hyogo-dai.ac.jp>
-Date:   Tue, 08 Dec 2020 04:09:26 +0900
-From:   "Raymond " <hozumi@hyogo-dai.ac.jp>
-To:     <infocarferw1@aim.com>
-Reply-To: <infocarfer@aim.com>
-Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
-         Kuo Fung I have Important Matter to Discuss with you concerning
-         my late client. Died without a NEXT OF KIN. Send me your private
-         email for full details information.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MAILER: Active! mail
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
-X-TM-AS-Result: No--2.951-5.0-31-10
-X-imss-scan-details: No--2.951-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TMASE-MatchedRID: X41QhRrT5f5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce6P0
-        clhHAFPyJA6GJqxAEzL554DD9nXlqqPFjJEFr+olfeZdJ1XsoriOub3SYcq1hJf7eAx/Ae/AbQo
-        eraIcZBRw7u01FqNA2K1Ia4IbeAdLm9ukrtqhno/rIUidklntLAP5zT0d393cymsk/wUE4hoZaR
-        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
-        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXrEpnQNT=QZRrgQ-jzBvRumUHgqfBrgCHcELpxg7VnQA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-email:kraymond75@aol.com
+Geert,
 
+On Mon, Dec 07, 2020 at 09:15:11AM +0100, Geert Uytterhoeven wrote:
+> On Fri, Dec 4, 2020 at 11:02 PM Laurent Pinchart wrote:
+> > On D3 and E3 platforms, the LVDS encoder includes a PLL that can
+> > generate a clock for the corresponding CRTC, used even when the CRTC
+> > output to a non-LVDS port. This mechanism is supported by the driver,
+> > but the implementation is broken in dual-link LVDS mode. In that case,
+> > the LVDS1 drm_encoder is skipped, which causes a crash when trying to
+> > access its bridge later on.
+> >
+> > Fix this by storing bridge pointers internally instead of retrieving
+> > them from the encoder.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+> I think this warrants a Fixes tag, to assist the stable team in backporting
+> this fix.
 
+I'll add one.
 
+-- 
+Regards,
+
+Laurent Pinchart
