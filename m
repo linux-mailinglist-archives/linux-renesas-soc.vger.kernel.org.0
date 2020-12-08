@@ -2,92 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC4642D291E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 11:42:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A01C2D2C96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Dec 2020 15:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728752AbgLHKlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Dec 2020 05:41:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58804 "EHLO
+        id S1729634AbgLHOFJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Dec 2020 09:05:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727754AbgLHKlt (ORCPT
+        with ESMTP id S1729521AbgLHOFJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Dec 2020 05:41:49 -0500
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2748AC061749;
-        Tue,  8 Dec 2020 02:41:09 -0800 (PST)
-Received: by mail-yb1-xb43.google.com with SMTP id r127so15678265yba.10;
-        Tue, 08 Dec 2020 02:41:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=p7rrbUd2GD8qSW4MR1E/gn6XTXa69KV3qccqhSvpT90=;
-        b=qZ700TONe6wtSSOERiY7Wo59iFs3E7QSwaHUpbsfsu/Iuq/vAANipWoW2C8+7LDdYs
-         RFUycp0spo4M4xFAc/a4L0yPdKFqPuOSIjJKg5ylus9uDSn4z4VIHJXvoGJOAaBZsUS5
-         mMayD7Q8lGHnXAVm6ukPtUbLBWMpd5NLSb+HsiB+PvokgMBeeF2BLZANoX7ZifdNP+eC
-         llpCYNdG5+Wr215Rhf4mAUIB6NIpxjqcPYbepEar//GGKuz7sR/81vQSmoNlqhvyyb8e
-         fz58FtDYNbmroUwk0MUElCURKlzgfCDcyN/J+rfQjaF4cNutYBMSk0U829RTj3zQq6gq
-         rp2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p7rrbUd2GD8qSW4MR1E/gn6XTXa69KV3qccqhSvpT90=;
-        b=PZsEw7puKBEhjCzl9oaNjifyjZQisZrVc5AvXhCH3kNsBnR+sTZGeZsmIj9Y+zqSc6
-         eOfjgBOIl2nHEyDbkuPkwp93eVcAekLfYbtJKMWPsG+0YN7+2lVwwkdadAnPGGX2HoSA
-         eTYYz4OW48qbO/fOcttCOKbaokX+g7ixZ7H6RNgu4dXgELBzY8W/A/V5G/0JNA8DJiSG
-         g8JsIgwshbRdSVTv0F0Ddh57ZAStW0IYcrhYcHgqyuHL2RUXLmCJwF6Rvmodif2QK03/
-         G+aE7p8lbumAiNlY9EP+o/eIc40ox92YMdwJGlKIB/CrHWWFhT7btNaEfHkAu5j2jRqO
-         kMeg==
-X-Gm-Message-State: AOAM532KXRUmyIir4XnK6waZ+E+KM9DGNdPENaQPXuTLpJ4La0nA4m9Q
-        zBiJ2jFUVGDGl089VWJ9D2zr9Mh4Z8DtU+Y/ba/AMIJlBRiOog==
-X-Google-Smtp-Source: ABdhPJzoiP8vkb53TcwcnNYltAkd/i5mNY3iOc6ozDjpmI+Zwa/A+32+zc4Q0zgAuvAdQZdmBPJT0zkSE/tF02Ee+7I=
-X-Received: by 2002:a25:d486:: with SMTP id m128mr2073609ybf.214.1607424068476;
- Tue, 08 Dec 2020 02:41:08 -0800 (PST)
+        Tue, 8 Dec 2020 09:05:09 -0500
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2773EC061749
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Dec 2020 06:04:29 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 1q4Q2400F4C55Sk01q4Qr3; Tue, 08 Dec 2020 15:04:24 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kmdbM-008yzm-81
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Dec 2020 15:04:24 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kmdbL-0092xH-Sc
+        for linux-renesas-soc@vger.kernel.org; Tue, 08 Dec 2020 15:04:23 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-12-08-v5.10-rc7
+Date:   Tue,  8 Dec 2020 15:04:23 +0100
+Message-Id: <20201208140423.2156268-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201016115549.31369-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <482d020e-bb1a-cf00-3f05-2bf26694ec16@microchip.com>
-In-Reply-To: <482d020e-bb1a-cf00-3f05-2bf26694ec16@microchip.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 8 Dec 2020 10:40:42 +0000
-Message-ID: <CA+V-a8tCATgVYkxrzQGWg9GhD=70Hy=O_eESa5mcewt2PpUo7Q@mail.gmail.com>
-Subject: Re: [PATCH] mtd: spi-nor: winbond: Add support for w25m512jw
-To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
-Cc:     "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh R <vigneshr@ti.com>, linux-mtd@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tudor,
+I have pushed renesas-drivers-2020-12-08-v5.10-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Mon, Dec 7, 2020 at 5:27 PM <Tudor.Ambarus@microchip.com> wrote:
->
-> Hi, Lad,
->
-> On 10/16/20 2:55 PM, Lad Prabhakar wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
-> >
-> > This chip is (nearly) identical to the Winbond w25m512jv which is
-> > already supported by Linux. Compared to the w25m512jv, the 'jw'
-> > has a different JEDEC ID.
->
-> W25M512JW-IQ (2 x 256M-bit) Serial MCP (Multi Chip Package) Flash memory,
-> introduces a new =E2=80=9CSoftware Die Select (C2h)=E2=80=9D instruction,=
- which we don't
-> support. I guess you can't access the second die with what we have in
-> mainline. Or am I wrong? We'll need to add support for multi-die support
-> if we want to add new multi-die flashes.
->
-My bad, yes only the first die is accessible.  I'll post a patch
-dropping this id.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Cheers,
-Prabhakar
+Today's version is based on renesas-devel-2020-12-07-v5.10-rc7.
+
+Included branches with driver code:
+  - renesas-clk
+  - renesas-pinctrl
+  - git://git.ragnatech.se/linux#for-renesas-drivers
+
+Included fixes:
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
