@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A460D2D4B1C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Dec 2020 20:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0671D2D4B44
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Dec 2020 21:09:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729407AbgLIT6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Dec 2020 14:58:07 -0500
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:17116 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727089AbgLIT6H (ORCPT
+        id S1726227AbgLIUJX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Dec 2020 15:09:23 -0500
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:22065 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726439AbgLIUJX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Dec 2020 14:58:07 -0500
-X-Halon-ID: b813def2-3a58-11eb-a542-005056917a89
+        Wed, 9 Dec 2020 15:09:23 -0500
+X-Halon-ID: 50d946f7-3a5a-11eb-a542-005056917a89
 Authorized-sender: niklas.soderlund@fsdn.se
 Received: from bismarck.berto.se (p4fca2458.dip0.t-ipconnect.de [79.202.36.88])
         by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id b813def2-3a58-11eb-a542-005056917a89;
-        Wed, 09 Dec 2020 20:57:25 +0100 (CET)
+        id 50d946f7-3a5a-11eb-a542-005056917a89;
+        Wed, 09 Dec 2020 21:08:42 +0100 (CET)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -25,9 +25,9 @@ To:     Geert Uytterhoeven <geert+renesas@glider.be>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] dt-bindings: timer: renesas,cmt: Document R8A77961
-Date:   Wed,  9 Dec 2020 20:57:01 +0100
-Message-Id: <20201209195701.805254-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] arm64: dts: renesas: r8a7796{1,5}: Add CMT nodes
+Date:   Wed,  9 Dec 2020 21:07:36 +0100
+Message-Id: <20201209200738.811173-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -36,33 +36,32 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add missing bindings for M3-W+.
+Hi,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- Documentation/devicetree/bindings/timer/renesas,cmt.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Add CMT nodes to Renesas R-Car M3-W+ and D3 that for unknown reasons are 
+missing these nodes. I only have access to the M3-W+ and I have tested 
+this series on this (and H3, M3-W, M3-) by enabling all CMT nodes in DT 
+and then using the kernel timer selftests located in
+tools/testing/selftests/timers/
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-index 428db3a21bb9c384..d16b5a243ed48eef 100644
---- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
-@@ -74,6 +74,7 @@ properties:
-               - renesas,r8a774e1-cmt0     # 32-bit CMT0 on RZ/G2H
-               - renesas,r8a7795-cmt0      # 32-bit CMT0 on R-Car H3
-               - renesas,r8a7796-cmt0      # 32-bit CMT0 on R-Car M3-W
-+              - renesas,r8a77961-cmt0     # 32-bit CMT0 on R-Car M3-W+
-               - renesas,r8a77965-cmt0     # 32-bit CMT0 on R-Car M3-N
-               - renesas,r8a77970-cmt0     # 32-bit CMT0 on R-Car V3M
-               - renesas,r8a77980-cmt0     # 32-bit CMT0 on R-Car V3H
-@@ -89,6 +90,7 @@ properties:
-               - renesas,r8a774e1-cmt1     # 48-bit CMT on RZ/G2H
-               - renesas,r8a7795-cmt1      # 48-bit CMT on R-Car H3
-               - renesas,r8a7796-cmt1      # 48-bit CMT on R-Car M3-W
-+              - renesas,r8a77961-cmt1     # 48-bit CMT on R-Car M3-W+
-               - renesas,r8a77965-cmt1     # 48-bit CMT on R-Car M3-N
-               - renesas,r8a77970-cmt1     # 48-bit CMT on R-Car V3M
-               - renesas,r8a77980-cmt1     # 48-bit CMT on R-Car V3H
+    - clocksource-switch.c
+    - inconsistency-check.c
+    - nanosleep.c
+
+And if the fix for a deadlock race when switching clocksource [1] also 
+is present the test pass on all SoCs mentioned above that I have access 
+to. I have no reason to believe it would not also work on D3.
+
+1. [PATCH 0/2] timekeeping: Fix change_clocksource() for PM and sh_cmt
+
+Niklas Söderlund (2):
+  arm64: dts: renesas: r8a77961: Add CMT nodes
+  arm64: dts: renesas: r8a77995: Add CMT nodes
+
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 70 +++++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 70 +++++++++++++++++++++++
+ 2 files changed, 140 insertions(+)
+
 -- 
 2.29.2
 
