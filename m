@@ -2,87 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55C752D4BE9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Dec 2020 21:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9012D5110
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 03:55:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728968AbgLIUbM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Dec 2020 15:31:12 -0500
-Received: from www.zeus03.de ([194.117.254.33]:58644 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387663AbgLIUaz (ORCPT
+        id S1728055AbgLJCxE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Dec 2020 21:53:04 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44717 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727885AbgLJCxA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Dec 2020 15:30:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=u2z400R8pY1xQzqzu92xvySPGOnt
-        0dmG3UM3Eb+6PwM=; b=0fhxmhYERCqNfXWJ8p+6pj7rnsYve1u4dWllef6XQZjc
-        ZElHuaR3UD22fnxzDpapaV6JG/cH+Xb/4bbANIYULv9roZQKjGedtP5qRtNtg2ih
-        ytiKLTX+298l0MdypjHRBODwsignQRXNXAfNm9ZawJJWm0Za9oKGAfKDg0ITGPQ=
-Received: (qmail 784576 invoked from network); 9 Dec 2020 21:30:12 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Dec 2020 21:30:12 +0100
-X-UD-Smtp-Session: l3s3148p1@Stca7Q222OcgAwDPXwVOALKD11jTFrpG
-Date:   Wed, 9 Dec 2020 21:30:11 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: sh_mobile: Mark adapter suspended during suspend
-Message-ID: <20201209203011.GE3499@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Wed, 9 Dec 2020 21:53:00 -0500
+Received: by mail-oi1-f193.google.com with SMTP id d189so4132825oig.11;
+        Wed, 09 Dec 2020 18:52:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xhxG/mo7q9opoMwDswdlM9NEH3tPDtUI59Wb0QTSbXk=;
+        b=PQDQrG7Zck5Jq3B2LT3WrbfbnZZLDNXTCuRi59w9c1etPVhst2BHqi2LkziljiGn1y
+         3oPxCtSIILTWVTesE5ORAKPF5np/HEZ3o7RC5ISXZBQbmWah4bDj5uhrJtCxCTEQ9jV1
+         XtsiVZwS1G+8CJoK1Bt5psSKz0g2cdy99b2HbPxxb0dmRfqfMcECsFK+DIhW//AQXBjK
+         nv7EdX3lu1zu+JC4qosCdEZe5HxraCs4MWX6S7zUWOYXtR6wo1RQe5isdINfxKr/VHYm
+         aVCYK1qsE13cTmFgO5/oCA1LVuscqRPPJ4k3LACe44eI6zNBqUIYYQoy2qCzK8PUxJN7
+         99RA==
+X-Gm-Message-State: AOAM530b9QxqYWak0/K54dgMQ+bRgB0RJu7HIFqOO2sSexaUYEtohTVx
+        2nzMYj19dldS0BvHE52SveJIvFce8Q==
+X-Google-Smtp-Source: ABdhPJwXEDSfvURjSfDEoy/luTtCiE7hawE1c2TMbcQaA8POKJ0MQjESHqQr5ymXNUaJ4h8SD4MfgQ==
+X-Received: by 2002:aca:518c:: with SMTP id f134mr4243675oib.108.1607568739441;
+        Wed, 09 Dec 2020 18:52:19 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id q184sm713648oic.41.2020.12.09.18.52.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Dec 2020 18:52:18 -0800 (PST)
+Received: (nullmailer pid 1547048 invoked by uid 1000);
+        Thu, 10 Dec 2020 02:52:17 -0000
+Date:   Wed, 9 Dec 2020 20:52:17 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20201013141201.28338-1-geert+renesas@glider.be>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document missing Gen3
+ SoCs
+Message-ID: <20201210025217.GA1546993@robh.at.kernel.org>
+References: <20201209195624.804759-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ep0oHQY+/Gbo/zt0"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20201013141201.28338-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201209195624.804759-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, 09 Dec 2020 20:56:24 +0100, Niklas Söderlund wrote:
+> Add missing bindings for Gen3 SoCs.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
---ep0oHQY+/Gbo/zt0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 13, 2020 at 04:12:01PM +0200, Geert Uytterhoeven wrote:
-> When a driver tries to send an I2C message while the adapter is
-> suspended, this typically fails with:
->=20
->     i2c-sh_mobile e60b0000.i2c: Transfer request timed out
->=20
-> Avoid accessing the adapter while it is suspended by marking it
-> suspended during suspend.  This allows the I2C core to catch this, and
-> print a warning:
->=20
->     WARNING: CPU: 1 PID: 13 at drivers/i2c/i2c-core.h:54
-> __i2c_transfer+0x4a4/0x4e4
->     i2c i2c-6: Transfer while suspended
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Applied to for-next, thanks!
-
-
---ep0oHQY+/Gbo/zt0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/RM9MACgkQFA3kzBSg
-KbbOeQ//bUZtTqP1JwWvpwoy2UafHD5+g3obxDMjJM0Icc323RrvV9FjLneGYG0d
-mP0aO9KEEFARLnnWPXfweo1+TOstoKrL9CThHWNIACLe4TnpAekBb1anR2NVzAtR
-sLy1IaAtrPvf3uR1eHS6bxHX7FP0MtFKuCdaWEewPyXzDofDfIxF59epWvloiLVr
-k6ZHmDGYUsCHLtP5Nw7jcPawwAVF91drWzBXjLZq3+gg755iPYEkyHqZGfCdZEdD
-1VXUSUwzv+l4Z1pcmJwD1EuC3Wuwwc7VN4NabNjtl3EIewHFIL4BnGdGEAv2HF7E
-e5gPOgzN/Oh4HeV2qnBrCw9QRxh0u53sd2Ejx1Ew331hTJEF1Se/J7kjo30ALuWp
-Bn2bfJtYG2AUaOP1dcbnlLMyTJFCt5VaMb/n0YfjAxHmd6ceMJh5vNnXj6Ah/4bT
-WPmf/pK5NTkAkEkWkSUPENYc0QATwSwj6a8J8FGv5EwqyN53J6gCpYE5cDLBk2in
-lrvyOTz8Xvs1AI97X6qihct2JR8BeRaDigDqT4CS1/fFCQiMvu4rMP9UK9oZf9/S
-NmIUuW1IRjiX3MD2G6p+ClcwTuTaUB9McxgGmTXRSw10P69zSIMhbtjFgFNVuNXj
-9QmNibY6MpvK9U2yRYzgIxi5xU5HcbFZfMIM2gd7C2hl5o1OrA8=
-=aFWS
------END PGP SIGNATURE-----
-
---ep0oHQY+/Gbo/zt0--
+Reviewed-by: Rob Herring <robh@kernel.org>
