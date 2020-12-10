@@ -2,71 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8BC12D5B14
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 14:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A59162D5B6C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 14:17:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388352AbgLJM7T convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 07:59:19 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40066 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732831AbgLJM7L (ORCPT
+        id S1732028AbgLJNPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Dec 2020 08:15:55 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:10647 "EHLO mail.iot.bzh"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728462AbgLJNPz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 07:59:11 -0500
-Received: by mail-ot1-f66.google.com with SMTP id j12so4734124ota.7;
-        Thu, 10 Dec 2020 04:58:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Ghg05MC4S/bnxJ+svvza6c5G2cbCYHhUIsHHq9OSvdo=;
-        b=gRQZwwbloiTG/1/JLuFvo1TxmVjrg7tKNowt0Vqp2gkl1oj14XyxqHL0xhDF0WbDKF
-         /rdWueAslneQEYudN4ddowrBCnUux7gdX2eWYrP+KkVdK9+40af2Xni/PSEDa6Pxd4X9
-         D/913MPXW7s/hko3+QQ2hgEfxKZSIha2mbn2H/7o3fayGmJBGY8KzEV0fur/J9IkxlWn
-         Lq3SWCVKJBWdhEecUoLJN0ysOtRFKSNFXAF3ALV6EGvY7JfPSBOIIuqVAQPUy5ezx1R6
-         S0CNMK22eBmvBgq7wN9k/PTIRZjkbpDyBmNreo7OTzgcmddBnYtbAoqdaAA9qCqx0/iY
-         lN4Q==
-X-Gm-Message-State: AOAM531fSyszoPCEhyPdLS6oYD0pDfkAPOMVRnSZRZB24+FYFWFzd1vw
-        YwlCLQiJg8o9PqiaqbjrCNLFln3SOZ6+hfvBgg4=
-X-Google-Smtp-Source: ABdhPJz+wWfprNtfHT6L45mOHHUI/7Z0cwBmP+dw0Cf78cI82UDAN6HunCM9ykSP+kBa+dN/Rpr6lMAzEoguNcr0/Qg=
-X-Received: by 2002:a9d:2203:: with SMTP id o3mr5666650ota.107.1607605110474;
- Thu, 10 Dec 2020 04:58:30 -0800 (PST)
+        Thu, 10 Dec 2020 08:15:55 -0500
+X-Greylist: delayed 461 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Dec 2020 08:15:54 EST
+Received: from [192.168.1.26] (lfbn-ren-1-2120-93.w92-167.abo.wanadoo.fr [92.167.199.93])
+        by mail.iot.bzh (Postfix) with ESMTPSA id E907940098
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Dec 2020 14:07:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
+        t=1607605638; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:in-reply-to:
+         references; bh=+xLiN/dLpZsFuk28BSbcl2EEGcyZ0pfxMJhvLUOGsh0=;
+        b=CTOt1KsAJ9qZbOO4Z7PvvqQN/2yRoBxzasNs+CpVRtuVUQ3PKi8obIglY9DZS15qHniyFe
+        6sYi1+DlHkgwCG4jipuwCgf/I+ygKqq/D0PyJAU06N6LtIIziK8eE6wzNt9PQRjSTp2T8/
+        zcwllqP/OdXssMLm+sSpYYQqdtmUZM4nafnpr1iDkY3qHrmZbMYGtAu+VZQmjei3jWcChs
+        k6Ib9964SkxYzkI4Td6MaBGtle48YMIKAdMIV/Qr9YdAM6yGphoUK4SJ6aKXIgw3j1V6wy
+        g+qsEPeBF3D/OfYeHhgJHdYqeXVEVXwqqfTE9LF6RkURCxULneew8vw6zNLugQ==
+To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+From:   Julien Massot <julien.massot@iot.bzh>
+Subject: Parent clock for MFIS module
+Message-ID: <c84c0d96-b768-600a-e412-f25d5ae299e5@iot.bzh>
+Date:   Thu, 10 Dec 2020 14:07:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20201209200738.811173-1-niklas.soderlund+renesas@ragnatech.se> <20201209200738.811173-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20201209200738.811173-3-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Dec 2020 13:58:19 +0100
-Message-ID: <CAMuHMdVxEvZ=oN5qCOKjFPCE=+EXxMuHP5djHp5eYw-QK4d3dw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a77995: Add CMT nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 9:08 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add device nodes for the Compare Match Timer (CMT) on the Renesas R-Car
-> D3 (r8a77995) SoC.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Hi,
+I did a linux driver which makes use of the MFIS module, and so my first 
+step would be to send a patch to add the MFIS module clock, which will 
+basically do that:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.12.
+--- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+@@ -137,6 +137,7 @@ static struct mssr_mod_clk r8a7795_mod_clks[] 
+__initdata = {
+  	DEF_MOD("msiof2",		 209,	R8A7795_CLK_MSO),
+  	DEF_MOD("msiof1",		 210,	R8A7795_CLK_MSO),
+  	DEF_MOD("msiof0",		 211,	R8A7795_CLK_MSO),
++	DEF_MOD("mfis",		         213,	R8A7795_CLK_MSO),
+  	DEF_MOD("sys-dmac2",		 217,	R8A7795_CLK_S3D1),
 
-Gr{oetje,eeting}s,
+But the third parameter of DEF_MOD is definitely wrong and despite 
+having read the hardware manual I can't figure out where this 
+information is. Does someone have any hint on where to find the parent 
+clock for the mfis mod clock ?
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Julien
