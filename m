@@ -2,65 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1342D5D63
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 15:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C70682D5D69
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 15:24:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733200AbgLJOUx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 09:20:53 -0500
-Received: from mail.iot.bzh ([51.75.236.24]:6079 "EHLO mail.iot.bzh"
+        id S2388187AbgLJOVM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Dec 2020 09:21:12 -0500
+Received: from mail.iot.bzh ([51.75.236.24]:60213 "EHLO mail.iot.bzh"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726431AbgLJOUx (ORCPT
+        id S1725947AbgLJOVL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 09:20:53 -0500
-Received: from [192.168.1.26] (lfbn-ren-1-2120-93.w92-167.abo.wanadoo.fr [92.167.199.93])
-        by mail.iot.bzh (Postfix) with ESMTPSA id DECE140099;
-        Thu, 10 Dec 2020 15:19:57 +0100 (CET)
+        Thu, 10 Dec 2020 09:21:11 -0500
+Received: from localhost.localdomain (lfbn-ren-1-2120-93.w92-167.abo.wanadoo.fr [92.167.199.93])
+        by mail.iot.bzh (Postfix) with ESMTPSA id 122104009A;
+        Thu, 10 Dec 2020 15:20:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iot.bzh; s=20180822;
-        t=1607609998; h=from:from:sender:reply-to:subject:subject:date:date:
+        t=1607610030; h=from:from:sender:reply-to:subject:subject:date:date:
          message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=70hxPkDUVIiaz6ACOvkGa7SkqtbitdPOLVlC8OMHLx4=;
-        b=n37xAUeGZWXmB67EQTqIudGC7w0pcHK7mW9YsWXUz0tksXF7V3FHGCZCgMOX7AYB55nu2C
-        Ic26az+UtTUlTRrZpuw7Nznu7Ui1k2Nsm0UWV0alnf9unnw9s1wCvyoO8fzGW4BLNWkieg
-        6hNzhjVxhOJC7v4gvdsBLshHk/xP4qyUyVc6bAjhCSJYnDlb+Fe8QDJNtTX9uFz7niPMHm
-        hbqVYMQz0KJwh1aD+gIjuTbUg1J8Tu6DYJlqpGpS+NPodMk/yHqYYhMaEa09SDY1qm3zzF
-        oVV8TNxWdrDIHxD8OqwaVL1C7FntOzr/RFEFujjTgc6a55uXLpHIAzzHK7KaIQ==
-Subject: Re: Parent clock for MFIS module
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <c84c0d96-b768-600a-e412-f25d5ae299e5@iot.bzh>
- <CAMuHMdWQomuhL71F9c9n1M=rUaAAnV9oPvN_mRQBK8vrLG8-Hw@mail.gmail.com>
+         content-type:content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:references; bh=chnL/ruqvm825+be/IcC17WsGiLu5ArAFnvu83FNCm4=;
+        b=s/q21vbdXhW1O73i7I9EkENru+2mk5+2L/lAzRJwX0xDT2jcNfjULJLB6yayn7+9js2tJU
+        VcJBQfS6zFkdz2BSDSXStIbARez1I0inBMVeVOoHWsu/9qlV0+zvMgxY4cm2eZZ9CQIjvR
+        RaJFJWh7r+zdzO5Hh1eEu0l+yJxyrYY/I6Pz+H/pZvjkV4Zy+/5rjlH99XYrFbRWXCjTTH
+        t4W8cz6yg1HXJQkOSFvBFJOuMc4xG/MBCTqzOQRkP2GS+t08Bc3Dlg7jIHrcLag+fCyam6
+        b8fw56tGdWnevWkReXhFuFqzNN3IDEBXly+hSlLAr7vL39wwqI1ErgztN6pG+A==
 From:   Julien Massot <julien.massot@iot.bzh>
-Message-ID: <d8ad91a8-f8f9-4d3e-bbdd-9dddb41d40db@iot.bzh>
-Date:   Thu, 10 Dec 2020 15:19:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Julien Massot <julien.massot@iot.bzh>
+Subject: [PATCH 0/5] clk: renesas: Add MFIS clock
+Date:   Thu, 10 Dec 2020 15:20:16 +0100
+Message-Id: <20201210142021.163182-1-julien.massot@iot.bzh>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWQomuhL71F9c9n1M=rUaAAnV9oPvN_mRQBK8vrLG8-Hw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+This series adds the missing MFIS clocks for most Reneas R-Car Gen3
+SoCs. I have tested this series on E3, M3, and H3 based boards,
+I don't have access to D3 nor V3 boards.
 
-> Unfortunately this information isn't always properly documented in the
-> Hardware User's Manual.  Based on the MFIS Block Diagram, I would
-> say it must be one of the APB bus clocks.
-> 
-> The BSP uses R8A77970_CLK_S2D2 for R-Car V3M, which sounds
-> reasonable. Reading the PCIe chapter, it could also be S3D1 or S3D3.
-> However, in this case, the driver wouldn't care about the clock rate,
-> so the actual parent clock used doesn't matter much.
-> Hence S2D2 sounds acceptable to me.
+Julien Massot (5):
+  clk: renesas: r8a7795: Add MFIS clock
+  clk: renesas: r8a7796: Add MFIS clock
+  clk: renesas: r8a77965: Add MFIS clock
+  clk: renesas: r8a77990: Add MFIS clock
+  clk: renesas: r8a77995: Add MFIS clock
 
-Many thanks, let's put S2D2 then, patches are in flight !
-
-Regards,
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 1 +
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77990-cpg-mssr.c | 1 +
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 1 +
+ 5 files changed, 5 insertions(+)
 
 -- 
-Julien Massot [IoT.bzh]
+2.29.2
+
