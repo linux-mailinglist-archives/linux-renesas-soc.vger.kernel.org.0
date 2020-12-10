@@ -2,86 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A9072D649C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 19:14:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32FA82D6596
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 19:55:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389622AbgLJSNi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 13:13:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:57106 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390778AbgLJSMb (ORCPT
+        id S2390654AbgLJSxg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Dec 2020 13:53:36 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46226 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbgLJSxY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 13:12:31 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC5F130E;
-        Thu, 10 Dec 2020 10:11:40 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90F8C3F718;
-        Thu, 10 Dec 2020 10:11:39 -0800 (PST)
-Date:   Thu, 10 Dec 2020 18:11:33 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
-Message-ID: <20201210181133.GA3766@e121166-lin.cambridge.arm.com>
-References: <20201016120431.7062-1-marek.vasut@gmail.com>
+        Thu, 10 Dec 2020 13:53:24 -0500
+Received: by mail-oi1-f193.google.com with SMTP id k2so6846899oic.13;
+        Thu, 10 Dec 2020 10:53:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X+VtpZS1e75YA7Ec0/B1orp2GIzvdOi0H1A+93dXCqY=;
+        b=tRr8WrvVVvuL6YzhO305G5qrOTb6CBRKZJI36qTRxcycgWF9IQeSsJoUEuda1LlxZT
+         Du8diJ48SPmvgLE2EvFE+id3btQ/VTL8LDbYhy1bHfRuRpvJC3yeS+sx+NO8XoOHJRoj
+         fTl3HC6nJ51tqPeStkCOMvr5bB3vsoZ5biBJcQyX1zTMo7PDsCMY5GSDhbEEUZ5HOpqZ
+         OWJLVn+Afc55lkQQBDR6Etp5EnKMiw8Ps4RyRQPjhpBfz23J7c//Qq5/ftywVCiV8/ej
+         1Ig5BCYB6j36WcEw8bUpWcIsTqv7zBhL++93BvAk+Zd+hI7bhakjbjCTT6ejrADR+Ihn
+         5xHw==
+X-Gm-Message-State: AOAM532/Udu5lohHw3Oj8Vzv6rYWESylKQ/EhSoAF29iMIHo2+rUFttu
+        Z8HnoDQivdByd4XOsYEr6KNgcZ4AL8fxfJW8wC5xRV37
+X-Google-Smtp-Source: ABdhPJwwCUyiGYofyWRLE6tTBc1GNLHpjFHWlhRODc6u/IqEwfkcbl7SVMuOUg/07s5pM138CMDNPZtLNeeOhfSnlic=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr6398880oia.148.1607626363574;
+ Thu, 10 Dec 2020 10:52:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201016120431.7062-1-marek.vasut@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <X9JcUZCLh3WjV7Bw@manjaro>
+In-Reply-To: <X9JcUZCLh3WjV7Bw@manjaro>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Dec 2020 19:52:32 +0100
+Message-ID: <CAMuHMdXbF_AVhx86xO9DJy1+MGwAHSJ3OpCn-DErj=+xAyxJUQ@mail.gmail.com>
+Subject: Re: [PATCH v2] pinctrl: remove empty lines in pinctrl subsystem
+To:     Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Patrice Chotard <patrice.chotard@st.com>,
+        Andy Gross <agross@kernel.org>,
+        =?UTF-8?Q?Bj=C3=B6rn_Andersson?= <bjorn.andersson@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 02:04:31PM +0200, marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> This fixes MSI operation on legacy PCI cards, which cannot issue 64bit MSIs.
-> The R-Car controller only has one MSI trigger address instead of two, one
-> for 64bit and one for 32bit MSI, set the address to 32bit PCIe space so that
-> legacy PCI cards can also trigger MSIs.
-> 
-> Fixes: 290c1fb35860 ("PCI: rcar: Add MSI support for PCIe")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> ---
->  drivers/pci/controller/pcie-rcar-host.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-> index 1194d5f3341b..ac5c7d7573a6 100644
-> --- a/drivers/pci/controller/pcie-rcar-host.c
-> +++ b/drivers/pci/controller/pcie-rcar-host.c
-> @@ -753,7 +753,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
->  	}
->  
->  	/* setup MSI data target */
-> -	msi->pages = __get_free_pages(GFP_KERNEL, 0);
-> +	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
+On Thu, Dec 10, 2020 at 6:35 PM Zhaoyu Liu <zackary.liu.pro@gmail.com> wrote:
+> Remove all empty lines at the end of functions in pinctrl subsystem,
+> make the code neat.
+> Target files: grep -nwR -B1 ^} drivers/pinctrl/* | grep '[0-9]-$' | less
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
 
-This does not do what you want on !CONFIG_ZONE_DMA32 (ie arm LPAE).
+Thanks for your patch!
 
-Can't you just pick up a non-DMA-able address < 4GB (ie outside the host
-controller inbound window range) and use it as doorbell address instead ?
+>  drivers/pinctrl/renesas/pfc-r8a77950.c        | 1 -
+>  drivers/pinctrl/renesas/pfc-r8a77951.c        | 3 ---
+>  drivers/pinctrl/renesas/pfc-r8a7796.c         | 1 -
+>  drivers/pinctrl/renesas/pfc-r8a77965.c        | 1 -
 
-Thanks,
-Lorenzo
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
->  	rcar_pcie_hw_enable_msi(host);
->  
->  	return 0;
-> -- 
-> 2.28.0
-> 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
