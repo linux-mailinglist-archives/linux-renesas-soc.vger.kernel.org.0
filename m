@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29EE22D5A9D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 13:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB5512D5AA5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 13:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727647AbgLJMfZ convert rfc822-to-8bit (ORCPT
+        id S1728013AbgLJMgk convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 07:35:25 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:34528 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728925AbgLJMfR (ORCPT
+        Thu, 10 Dec 2020 07:36:40 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38891 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbgLJMgc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 07:35:17 -0500
-Received: by mail-oi1-f194.google.com with SMTP id s75so5560505oih.1;
-        Thu, 10 Dec 2020 04:35:02 -0800 (PST)
+        Thu, 10 Dec 2020 07:36:32 -0500
+Received: by mail-ot1-f66.google.com with SMTP id j20so203208otq.5;
+        Thu, 10 Dec 2020 04:36:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
         bh=SbywUHfxiOfCKevo8kgPT+2gmwbtXlw9HIdds9wF3Wg=;
-        b=M4S0R9xiZ0aluQOYxv3QKwAjGjmL0iFXe6903GLLtAe9KNAygoV2/RnEM45lUz9k5a
-         wpZjKvPzgCgEjJn7ar9peEJ+HoVuvbDy/iseg8hz4kWN7iyQLhT0pJ9q8urlEq58YD78
-         sgXy5CCHedNdP+djcDiiBMNf6RAmbNAS2E1updpfpYokpLFxMifAUqvmn0zEiB03sm2N
-         MEiyRlSCj5jhawdSlYWmtHus8Hc4rvTKz6MsQ2lWCBQ5K46CquVYGBZVv8YKm06rrV/X
-         RFhWQTE66IKpHfnJnPTIytwpX40hBK9x53MRbFZPBrkVuBkG9uww+PIjptGYYVBzc1h/
-         lWjg==
-X-Gm-Message-State: AOAM530me3AJQ/X5mrHK8wISzm5S3vdOfkmZLCPeuIqgvgN90MWrD/tv
-        DIUMJGKjYM6GbWRiVFaSylNT83jkibXoLTC8zt8=
-X-Google-Smtp-Source: ABdhPJzRH3PbL9eLmMkNuizUAgXfdwLcoyUTPylrvU0JooERkKjWQIcZE/fkb7GF8FUbWZOg5ZwIehjPy6+b6Zdxdo8=
-X-Received: by 2002:aca:4b16:: with SMTP id y22mr5146305oia.148.1607603676957;
- Thu, 10 Dec 2020 04:34:36 -0800 (PST)
+        b=dsHjSais8143LLZNY/ibLw87m0x2wi0GJYfaphdM7iHRz5CSP42VtjyoRlG3TQ4yos
+         dDGjT3I9eVBsK2xDZJDu8pj2ZmXFKA1VlbDnY7DnfM63qq/NYmtWhChAAThGg0iYWDvJ
+         CtB1PnxvfHgeNhgApfvBwWS8mhagzmxpMgS1j8DAFz9WnSqH8kPQDDLbhF6cg4O0JNC/
+         Bm8Tx+b1el51q/Td0d0/mv4ND5iVaDU//MKCd02LBj5kxXOtAWIQGIRGvDnB3XrGNp1r
+         fnySp63Gu8c9ocDvdat69elfHlShSvcLVJ6s0oWkcRVJnKOPt0kFNMioeMWfxI8j8bVo
+         XWPg==
+X-Gm-Message-State: AOAM530XFf8I+aYgsqPOTugMZ2/PWRPI9M1a9g5RfavedspMMCL3pKXN
+        X6lRre/oa2p4xMynJbwMo4NVvP31hEuqS+Dq4NlObcN4++c=
+X-Google-Smtp-Source: ABdhPJxlve+3esP6xVlAXlMohU2fZdITHJsKExxiSclE09Oxa/rS5zVcXYgainTa8FzhHGHAT9T8FpJ7O7D4I87G/PA=
+X-Received: by 2002:a9d:2203:: with SMTP id o3mr5613985ota.107.1607603751413;
+ Thu, 10 Dec 2020 04:35:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201209195343.803120-1-niklas.soderlund+renesas@ragnatech.se> <20201209195343.803120-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20201209195343.803120-3-niklas.soderlund+renesas@ragnatech.se>
+References: <20201209195343.803120-1-niklas.soderlund+renesas@ragnatech.se> <20201209195343.803120-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201209195343.803120-4-niklas.soderlund+renesas@ragnatech.se>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Dec 2020 13:34:26 +0100
-Message-ID: <CAMuHMdV=8a=yJeVRorrmiPQrYj7JRN26uJnxL3SanbQoi5-wnQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] clk: renesas: r8a7796: Add TMU clocks
+Date:   Thu, 10 Dec 2020 13:35:40 +0100
+Message-ID: <CAMuHMdWBK=wP=kVfvMJq7khQq_1-u=J4cdi2A9__Ts8P5z0BUw@mail.gmail.com>
+Subject: Re: [PATCH 3/5] clk: renesas: r8a77965: Add TMU clocks
 To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     linux-clk <linux-clk@vger.kernel.org>,
