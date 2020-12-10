@@ -2,289 +2,256 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07A362D66BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 20:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAF202D6747
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 20:50:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390251AbgLJTjP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 14:39:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390302AbgLJTjL (ORCPT
+        id S2390251AbgLJTok (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Dec 2020 14:44:40 -0500
+Received: from mga02.intel.com ([134.134.136.20]:36136 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393566AbgLJToi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 14:39:11 -0500
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 883A2C061793
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Dec 2020 11:38:31 -0800 (PST)
-Received: by mail-ot1-x342.google.com with SMTP id a109so6035848otc.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Dec 2020 11:38:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=itNVUe4nGhfaxDAAXMUA2TabJXDE3vbfjIiEoiVPXxw=;
-        b=vpR6XPSqBdyBfXiAaSrqxp+Tk+SAKz0wwetdlF2d5h9jkwKvaE2+sOKvL1IaxiNZDf
-         Rs5NdbT/Gmrsy52K0wO2qWnsphoESL5QwqxkhjlG6WKu+I3J0ELgZBpk4HQKsPTJ0dIa
-         ycQLbjOM1qclObmIAlQDjSbo5kptFGIRxkDlyXmmImSsAEXylGWs4bbiCII33gaJZT43
-         T/0gRfS379Hf9+OkcswkRqzwnDzQeFez6BimVUgrUvTipis+wZV5EGecaL+sCS4Rvvxq
-         +4b8JPuWbfwVSGok0fYqaeq9JqDcO+RcHdhBfk2YNeykBwaJRFXlInm/CPmOxp8ZfHO0
-         h1Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=itNVUe4nGhfaxDAAXMUA2TabJXDE3vbfjIiEoiVPXxw=;
-        b=BuOMn8q8GakItwDQBPEvGxrIuC9SFcgvPAt0MBhXJTRHQCLIkQbFTvnvDn44hUnR+J
-         709nQv01wz0kKLrDD6bm57oHZ0DV2ma5YQhQwESNkW9NoGW3F/h8+iRpdvyuWWefu5En
-         AZPVPhvwOfwUclXlFJbPpGGVYTbePc/cKoFHy8Vrmt99r2UmAerW6//ymW9LHtMsYiuY
-         bB37Jd8+K3s3dxUKgdNEmB+QS37rBesilffXxHXwNySx5Kw2mDDDGqN2obtp8m+hOkhs
-         NNkRfAEzVFD4AOOPdboFyESy3LzaZ4RgceOXpjaoJS8uLZott+Yk/6tJL0EEuJkEmMzj
-         TE2g==
-X-Gm-Message-State: AOAM531KDdys2TOs0d+5lGZtMnQFdf3XqfBtrBbJOjBRoVnyX+5m8hVy
-        624sk7XcxfWF9HIBRFwJSu/sCw==
-X-Google-Smtp-Source: ABdhPJx/+oZpq0qsI+U7TCEox81OmhGbzuOMUFhf/Vw4FviGqxKeQuW5Pjtk5L/wK2MxTcOaFl2zmg==
-X-Received: by 2002:a05:6830:1ac3:: with SMTP id r3mr1532705otc.363.1607629110781;
-        Thu, 10 Dec 2020 11:38:30 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id t72sm1204141oie.47.2020.12.10.11.38.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 11:38:30 -0800 (PST)
-Date:   Thu, 10 Dec 2020 13:38:28 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Zhaoyu Liu <zackary.liu.pro@gmail.com>
-Cc:     linus.walleij@linaro.org, afaerber@suse.de,
-        manivannan.sadhasivam@linaro.org, aisheng.dong@nxp.com,
-        festevam@gmail.com, shawnguo@kernel.org, stefan@agner.ch,
-        kernel@pengutronix.de, s.hauer@pengutronix.de, linux-imx@nxp.com,
-        andrew@lunn.ch, gregory.clement@bootlin.com,
-        sebastian.hesselbarth@gmail.com, ludovic.desroches@microchip.com,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        patrice.chotard@st.com, agross@kernel.org, geert+renesas@glider.be,
-        linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] pinctrl: remove empty lines in pinctrl subsystem
-Message-ID: <X9J5NAv/sPVQrE62@builder.lan>
-References: <X9JcUZCLh3WjV7Bw@manjaro>
+        Thu, 10 Dec 2020 14:44:38 -0500
+IronPort-SDR: NN6OyX1B7WVoqTBH/Ypy6KvK8aqH90BcSskeIja1SwGvrXO9QHvAQj8OYfBnwZ2FmBlvZjBjZK
+ AClG8enDz9iA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="161372335"
+X-IronPort-AV: E=Sophos;i="5.78,409,1599548400"; 
+   d="scan'208";a="161372335"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 11:43:52 -0800
+IronPort-SDR: +ZP5v8Rf68OxUp3J2dToVXTQ1G21pL4SnwUlqfIEqiSZjaA8Cid3G3eoXPWw6oN/jDJK6T7R6r
+ DCXn4ET9Rj2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,409,1599548400"; 
+   d="scan'208";a="364897427"
+Received: from lkp-server01.sh.intel.com (HELO ecc0cebe68d1) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 10 Dec 2020 11:43:51 -0800
+Received: from kbuild by ecc0cebe68d1 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1knRqw-0000RC-LQ; Thu, 10 Dec 2020 19:43:50 +0000
+Date:   Fri, 11 Dec 2020 03:43:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-clk] BUILD SUCCESS
+ f5c50b1fed55332beb88e81e9e17c49673b77344
+Message-ID: <5fd27a46.uKnouPxF84GHiMsl%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X9JcUZCLh3WjV7Bw@manjaro>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu 10 Dec 11:35 CST 2020, Zhaoyu Liu wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-clk
+branch HEAD: f5c50b1fed55332beb88e81e9e17c49673b77344  dt-bindings: clock: renesas: rcar-usb2-clock-sel: Convert bindings to json-schema
 
-> Remove all empty lines at the end of functions in pinctrl subsystem,
-> make the code neat.
-> Target files: grep -nwR -B1 ^} drivers/pinctrl/* | grep '[0-9]-$' | less
+elapsed time: 720m
 
-Wouldn't this be a reasonable thing to teach checkpatch about?
+configs tested: 193
+configs skipped: 3
 
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                        workpad_defconfig
+arm                        shmobile_defconfig
+powerpc                     ep8248e_defconfig
+arm                          pcm027_defconfig
+mips                         bigsur_defconfig
+powerpc                 canyonlands_defconfig
+mips                           ci20_defconfig
+m68k                                defconfig
+xtensa                  nommu_kc705_defconfig
+arc                         haps_hs_defconfig
+sh                             shx3_defconfig
+arm                          ixp4xx_defconfig
+arm                          simpad_defconfig
+sh                           se7722_defconfig
+riscv                    nommu_virt_defconfig
+arm                          ep93xx_defconfig
+powerpc                         wii_defconfig
+xtensa                  cadence_csp_defconfig
+powerpc                    ge_imp3a_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                 mpc832x_mds_defconfig
+mips                          malta_defconfig
+powerpc                       eiger_defconfig
+m68k                        mvme147_defconfig
+powerpc                      tqm8xx_defconfig
+arc                        vdk_hs38_defconfig
+powerpc                      walnut_defconfig
+ia64                         bigsur_defconfig
+arm                            zeus_defconfig
+sh                           se7343_defconfig
+sh                            migor_defconfig
+mips                        vocore2_defconfig
+arm                         orion5x_defconfig
+powerpc                 mpc836x_mds_defconfig
+m68k                         apollo_defconfig
+powerpc                     tqm8555_defconfig
+riscv                            allmodconfig
+m68k                        mvme16x_defconfig
+mips                        omega2p_defconfig
+ia64                        generic_defconfig
+um                             i386_defconfig
+arm                           corgi_defconfig
+m68k                        m5307c3_defconfig
+powerpc                     ppa8548_defconfig
+powerpc                     kilauea_defconfig
+powerpc                      makalu_defconfig
+powerpc                  iss476-smp_defconfig
+arm                         socfpga_defconfig
+alpha                            alldefconfig
+arm                        vexpress_defconfig
+powerpc                         ps3_defconfig
+sh                           se7705_defconfig
+sh                        sh7763rdp_defconfig
+sparc64                          alldefconfig
+h8300                               defconfig
+sh                          rsk7201_defconfig
+powerpc                 mpc836x_rdk_defconfig
+sh                          rsk7264_defconfig
+sh                             sh03_defconfig
+arm                    vt8500_v6_v7_defconfig
+sh                        edosk7760_defconfig
+arm                       imx_v6_v7_defconfig
+powerpc                 mpc85xx_cds_defconfig
+mips                         tb0219_defconfig
+mips                  maltasmvp_eva_defconfig
+mips                     cu1000-neo_defconfig
+powerpc                     rainier_defconfig
+arm                           viper_defconfig
+arc                            hsdk_defconfig
+mips                           rs90_defconfig
+arm                          collie_defconfig
+openrisc                    or1ksim_defconfig
+mips                        bcm63xx_defconfig
+mips                          ath25_defconfig
+powerpc                 mpc834x_mds_defconfig
+arm                        oxnas_v6_defconfig
+s390                                defconfig
+arm                        spear6xx_defconfig
+arm                         s3c6400_defconfig
+mips                         db1xxx_defconfig
+mips                            ar7_defconfig
+arm                       versatile_defconfig
+powerpc                        icon_defconfig
+arc                              allyesconfig
+arm                           tegra_defconfig
+arm                        multi_v5_defconfig
+mips                          ath79_defconfig
+powerpc                     tqm8541_defconfig
+m68k                             alldefconfig
+arm                        cerfcube_defconfig
+arm                       multi_v4t_defconfig
+riscv                    nommu_k210_defconfig
+powerpc                 mpc8540_ads_defconfig
+powerpc                      pmac32_defconfig
+openrisc                            defconfig
+m68k                           sun3_defconfig
+arm                        multi_v7_defconfig
+powerpc                 mpc834x_itx_defconfig
+sh                               alldefconfig
+m68k                          amiga_defconfig
+powerpc                      cm5200_defconfig
+powerpc                      ppc40x_defconfig
+sh                      rts7751r2d1_defconfig
+mips                           xway_defconfig
+mips                         cobalt_defconfig
+mips                        nlm_xlp_defconfig
+mips                          rm200_defconfig
+arm                             mxs_defconfig
+riscv                            alldefconfig
+powerpc                      arches_defconfig
+m68k                        m5272c3_defconfig
+powerpc                 mpc837x_rdb_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20201209
+i386                 randconfig-a005-20201209
+i386                 randconfig-a001-20201209
+i386                 randconfig-a002-20201209
+i386                 randconfig-a006-20201209
+i386                 randconfig-a003-20201209
+i386                 randconfig-a001-20201210
+i386                 randconfig-a004-20201210
+i386                 randconfig-a003-20201210
+i386                 randconfig-a002-20201210
+i386                 randconfig-a005-20201210
+i386                 randconfig-a006-20201210
+x86_64               randconfig-a016-20201209
+x86_64               randconfig-a012-20201209
+x86_64               randconfig-a013-20201209
+x86_64               randconfig-a014-20201209
+x86_64               randconfig-a015-20201209
+x86_64               randconfig-a011-20201209
+i386                 randconfig-a013-20201209
+i386                 randconfig-a014-20201209
+i386                 randconfig-a011-20201209
+i386                 randconfig-a015-20201209
+i386                 randconfig-a012-20201209
+i386                 randconfig-a016-20201209
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Regards,
-Bjorn
+clang tested configs:
+x86_64               randconfig-a004-20201209
+x86_64               randconfig-a006-20201209
+x86_64               randconfig-a005-20201209
+x86_64               randconfig-a001-20201209
+x86_64               randconfig-a002-20201209
+x86_64               randconfig-a003-20201209
+x86_64               randconfig-a003-20201210
+x86_64               randconfig-a006-20201210
+x86_64               randconfig-a002-20201210
+x86_64               randconfig-a005-20201210
+x86_64               randconfig-a004-20201210
+x86_64               randconfig-a001-20201210
 
-> Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
-> ---
-> Changelog:
-> v2:
-> - Fixed the same problem in all files in pinctrl subsystem.
-> v1:
-> - Remove the blank line in pinctrl_register().
-> ---
->  drivers/pinctrl/actions/pinctrl-owl.c         | 1 -
->  drivers/pinctrl/core.c                        | 1 -
->  drivers/pinctrl/freescale/pinctrl-imx1-core.c | 1 -
->  drivers/pinctrl/mvebu/pinctrl-armada-37xx.c   | 1 -
->  drivers/pinctrl/pinctrl-at91.c                | 1 -
->  drivers/pinctrl/pinctrl-st.c                  | 1 -
->  drivers/pinctrl/pinctrl-sx150x.c              | 1 -
->  drivers/pinctrl/qcom/pinctrl-sdm845.c         | 1 -
->  drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c       | 1 -
->  drivers/pinctrl/renesas/pfc-r8a77950.c        | 1 -
->  drivers/pinctrl/renesas/pfc-r8a77951.c        | 3 ---
->  drivers/pinctrl/renesas/pfc-r8a7796.c         | 1 -
->  drivers/pinctrl/renesas/pfc-r8a77965.c        | 1 -
->  13 files changed, 15 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/actions/pinctrl-owl.c b/drivers/pinctrl/actions/pinctrl-owl.c
-> index 903a4baf3846..c8b3e396ea27 100644
-> --- a/drivers/pinctrl/actions/pinctrl-owl.c
-> +++ b/drivers/pinctrl/actions/pinctrl-owl.c
-> @@ -444,7 +444,6 @@ static int owl_group_config_get(struct pinctrl_dev *pctrldev,
->  	*config = pinconf_to_config_packed(param, arg);
->  
->  	return ret;
-> -
->  }
->  
->  static int owl_group_config_set(struct pinctrl_dev *pctrldev,
-> diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-> index 3663d87f51a0..1f944685047b 100644
-> --- a/drivers/pinctrl/core.c
-> +++ b/drivers/pinctrl/core.c
-> @@ -2115,7 +2115,6 @@ struct pinctrl_dev *pinctrl_register(struct pinctrl_desc *pctldesc,
->  		return ERR_PTR(error);
->  
->  	return pctldev;
-> -
->  }
->  EXPORT_SYMBOL_GPL(pinctrl_register);
->  
-> diff --git a/drivers/pinctrl/freescale/pinctrl-imx1-core.c b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
-> index 08d110078c43..70186448d2f4 100644
-> --- a/drivers/pinctrl/freescale/pinctrl-imx1-core.c
-> +++ b/drivers/pinctrl/freescale/pinctrl-imx1-core.c
-> @@ -290,7 +290,6 @@ static const struct pinctrl_ops imx1_pctrl_ops = {
->  	.pin_dbg_show = imx1_pin_dbg_show,
->  	.dt_node_to_map = imx1_dt_node_to_map,
->  	.dt_free_map = imx1_dt_free_map,
-> -
->  };
->  
->  static int imx1_pmx_set(struct pinctrl_dev *pctldev, unsigned selector,
-> diff --git a/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c b/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
-> index 68894e9e05d2..5a68e242f6b3 100644
-> --- a/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
-> +++ b/drivers/pinctrl/mvebu/pinctrl-armada-37xx.c
-> @@ -188,7 +188,6 @@ static struct armada_37xx_pin_group armada_37xx_nb_groups[] = {
->  	PIN_GRP_GPIO_2("led1_od", 12, 1, BIT(21), BIT(21), 0, "led"),
->  	PIN_GRP_GPIO_2("led2_od", 13, 1, BIT(22), BIT(22), 0, "led"),
->  	PIN_GRP_GPIO_2("led3_od", 14, 1, BIT(23), BIT(23), 0, "led"),
-> -
->  };
->  
->  static struct armada_37xx_pin_group armada_37xx_sb_groups[] = {
-> diff --git a/drivers/pinctrl/pinctrl-at91.c b/drivers/pinctrl/pinctrl-at91.c
-> index 72edc675431c..9015486e38c1 100644
-> --- a/drivers/pinctrl/pinctrl-at91.c
-> +++ b/drivers/pinctrl/pinctrl-at91.c
-> @@ -733,7 +733,6 @@ static const struct at91_pinctrl_mux_ops sam9x60_ops = {
->  	.get_slewrate   = at91_mux_sam9x60_get_slewrate,
->  	.set_slewrate   = at91_mux_sam9x60_set_slewrate,
->  	.irq_type	= alt_gpio_irq_type,
-> -
->  };
->  
->  static struct at91_pinctrl_mux_ops sama5d3_ops = {
-> diff --git a/drivers/pinctrl/pinctrl-st.c b/drivers/pinctrl/pinctrl-st.c
-> index 7b8c7a0b13de..43d9e6c7fd81 100644
-> --- a/drivers/pinctrl/pinctrl-st.c
-> +++ b/drivers/pinctrl/pinctrl-st.c
-> @@ -541,7 +541,6 @@ static void st_pinconf_set_retime_packed(struct st_pinctrl *info,
->  	st_regmap_field_bit_set_clear_pin(rt_p->delay_0, delay & 0x1, pin);
->  	/* 2 bit delay, msb */
->  	st_regmap_field_bit_set_clear_pin(rt_p->delay_1, delay & 0x2, pin);
-> -
->  }
->  
->  static void st_pinconf_set_retime_dedicated(struct st_pinctrl *info,
-> diff --git a/drivers/pinctrl/pinctrl-sx150x.c b/drivers/pinctrl/pinctrl-sx150x.c
-> index c110f780407b..484a3b9e875c 100644
-> --- a/drivers/pinctrl/pinctrl-sx150x.c
-> +++ b/drivers/pinctrl/pinctrl-sx150x.c
-> @@ -443,7 +443,6 @@ static void sx150x_gpio_set(struct gpio_chip *chip, unsigned int offset,
->  		sx150x_gpio_oscio_set(pctl, value);
->  	else
->  		__sx150x_gpio_set(pctl, offset, value);
-> -
->  }
->  
->  static void sx150x_gpio_set_multiple(struct gpio_chip *chip,
-> diff --git a/drivers/pinctrl/qcom/pinctrl-sdm845.c b/drivers/pinctrl/qcom/pinctrl-sdm845.c
-> index 2834d2c1338c..c51793f6546f 100644
-> --- a/drivers/pinctrl/qcom/pinctrl-sdm845.c
-> +++ b/drivers/pinctrl/qcom/pinctrl-sdm845.c
-> @@ -1310,7 +1310,6 @@ static const struct msm_pinctrl_soc_data sdm845_pinctrl = {
->  	.ngpios = 151,
->  	.wakeirq_map = sdm845_pdc_map,
->  	.nwakeirq_map = ARRAY_SIZE(sdm845_pdc_map),
-> -
->  };
->  
->  static const struct msm_pinctrl_soc_data sdm845_acpi_pinctrl = {
-> diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
-> index 681d8dcf37e3..92e7f2602847 100644
-> --- a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
-> +++ b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
-> @@ -617,7 +617,6 @@ static void pm8xxx_mpp_dbg_show_one(struct seq_file *s,
->  		}
->  		break;
->  	}
-> -
->  }
->  
->  static void pm8xxx_mpp_dbg_show(struct seq_file *s, struct gpio_chip *chip)
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a77950.c b/drivers/pinctrl/renesas/pfc-r8a77950.c
-> index 04812e62f3a4..9d89da2319e5 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a77950.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a77950.c
-> @@ -1668,7 +1668,6 @@ static const unsigned int avb_mii_pins[] = {
->  	PIN_AVB_RX_CTL, PIN_AVB_RXC, PIN_AVB_RD0,
->  	PIN_AVB_RD1, PIN_AVB_RD2, PIN_AVB_RD3,
->  	PIN_AVB_TXCREFCLK,
-> -
->  };
->  static const unsigned int avb_mii_mux[] = {
->  	AVB_TX_CTL_MARK, AVB_TXC_MARK, AVB_TD0_MARK,
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a77951.c b/drivers/pinctrl/renesas/pfc-r8a77951.c
-> index a94ebe0bf5d0..919120b4adf3 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a77951.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a77951.c
-> @@ -1727,7 +1727,6 @@ static const unsigned int avb_mii_pins[] = {
->  	PIN_AVB_RX_CTL, PIN_AVB_RXC, PIN_AVB_RD0,
->  	PIN_AVB_RD1, PIN_AVB_RD2, PIN_AVB_RD3,
->  	PIN_AVB_TXCREFCLK,
-> -
->  };
->  static const unsigned int avb_mii_mux[] = {
->  	AVB_TX_CTL_MARK, AVB_TXC_MARK, AVB_TD0_MARK,
-> @@ -4515,7 +4514,6 @@ static const struct {
->  		SH_PFC_PIN_GROUP(drif3_data0_b),
->  		SH_PFC_PIN_GROUP(drif3_data1_b),
->  	}
-> -
->  };
->  
->  static const char * const audio_clk_groups[] = {
-> @@ -5104,7 +5102,6 @@ static const struct {
->  		SH_PFC_FUNCTION(drif2),
->  		SH_PFC_FUNCTION(drif3),
->  	}
-> -
->  };
->  
->  static const struct pinmux_cfg_reg pinmux_config_regs[] = {
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a7796.c b/drivers/pinctrl/renesas/pfc-r8a7796.c
-> index 55f0344a3d3e..904c78c6c638 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a7796.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a7796.c
-> @@ -1731,7 +1731,6 @@ static const unsigned int avb_mii_pins[] = {
->  	PIN_AVB_RX_CTL, PIN_AVB_RXC, PIN_AVB_RD0,
->  	PIN_AVB_RD1, PIN_AVB_RD2, PIN_AVB_RD3,
->  	PIN_AVB_TXCREFCLK,
-> -
->  };
->  static const unsigned int avb_mii_mux[] = {
->  	AVB_TX_CTL_MARK, AVB_TXC_MARK, AVB_TD0_MARK,
-> diff --git a/drivers/pinctrl/renesas/pfc-r8a77965.c b/drivers/pinctrl/renesas/pfc-r8a77965.c
-> index 7a50b9b69a7d..7db2b7f2ff67 100644
-> --- a/drivers/pinctrl/renesas/pfc-r8a77965.c
-> +++ b/drivers/pinctrl/renesas/pfc-r8a77965.c
-> @@ -1736,7 +1736,6 @@ static const unsigned int avb_mii_pins[] = {
->  	PIN_AVB_RX_CTL, PIN_AVB_RXC, PIN_AVB_RD0,
->  	PIN_AVB_RD1, PIN_AVB_RD2, PIN_AVB_RD3,
->  	PIN_AVB_TXCREFCLK,
-> -
->  };
->  static const unsigned int avb_mii_mux[] = {
->  	AVB_TX_CTL_MARK, AVB_TXC_MARK, AVB_TD0_MARK,
-> -- 
-> 2.29.2
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
