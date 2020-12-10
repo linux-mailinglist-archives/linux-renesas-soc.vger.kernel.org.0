@@ -2,78 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEEBE2D5B5E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 14:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F55E2D5C5B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Dec 2020 14:53:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389187AbgLJNLJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 08:11:09 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43191 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389179AbgLJNLG (ORCPT
+        id S2389432AbgLJNwG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Dec 2020 08:52:06 -0500
+Received: from mail-oi1-f170.google.com ([209.85.167.170]:40124 "EHLO
+        mail-oi1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388970AbgLJNv6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 08:11:06 -0500
-Received: by mail-oi1-f196.google.com with SMTP id q25so5622185oij.10;
-        Thu, 10 Dec 2020 05:10:50 -0800 (PST)
+        Thu, 10 Dec 2020 08:51:58 -0500
+Received: by mail-oi1-f170.google.com with SMTP id p126so5758764oif.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 10 Dec 2020 05:51:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AfjfEOiPwgm0cBi/nPKDivwriG4JoNrRdEPSRrhwuxM=;
-        b=ABmtcUTW2WZqZ58lM/El7YRJK3KHnGu8iCOQf2yFx66N0C8Lp0eVKOLSchp017R4Le
-         oDGPelgZxqeW/98WoqREjzJOmqGwswYQ5p9IVGspeG0hprwJsLuFTezi55rHeNDIkOr6
-         b5YzeuSXP/1kl36pc06eKN96vNgjQmhNlmc2BZ6BX9dtptL+TqyhYwpD60ZJ6+oopOhX
-         Xpe7YYq2vLq/eg8b/RI2qU3aibpnHp/KbOIC7oilnZpcLuSvQtXwyYU6wWwT/RyX0nWd
-         q1qaqnCpDyyDSfghcfJF9voBs1rqCZdboaBsp3MQol4Beb8MFCcZF6/osbw8fJzHtG3d
-         GTOA==
-X-Gm-Message-State: AOAM530HIz22DhY+MY2+P+wDI2cJFPtIztpgpG3L805lGDOS6ahmXk/x
-        TJrAd+DKHZCtpteeuTmRxJ2yIzJfEhxoxM/ceQ0=
-X-Google-Smtp-Source: ABdhPJzG5fM7j0DQ7gKLs8uvyKscZ7/6LsSwAsCrjkF+XbSlB2LeBBB/tJ3CPcKTV6vm+0nItqMbJ7SvnhzRA8+Hrvs=
-X-Received: by 2002:aca:5c08:: with SMTP id q8mr5379645oib.54.1607605825185;
- Thu, 10 Dec 2020 05:10:25 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=tQPjUP08guN/Xac18MNxsDEyikXIfL+2A1nA0E8sr+s=;
+        b=ExRzdfCfClbdJf79+ug8aeNDKKHVEp87RLTy3ncU/0k+Eg00h5FzlbzwKnrKG8Ez7L
+         hVsWurJGbqxL1DTN+vJy9woYDc3p5j9JXjD8PlTYcAy4+F59xKxbvWf2FdgUY42u8Tjt
+         W76Q2zid/P9LpML8KXE4aHVof9z7y43U+nGPXXNRaa1izQh7Sa/vqWv9s4QKRZyl2/aL
+         9CwJF0Kd+mNioDi4PSO2LYkt0ocfH+nxfZzYAFMS89wU2wy2gMpKxYRdFWh4fdc/uyYM
+         hLwzD7PRn2ckUUg7dIfYAD6cfbK8/VD2lSvtlybSNL0jG7OOUwyl4KcL+sPWqB9EQpBe
+         LhTg==
+X-Gm-Message-State: AOAM530Wb7VaPjO45idbuFU6M91DNuojoFAX5VVvMt6vBb6gpEgfgfoZ
+        TLm1C7sT7UobDEJL+U4w4AOYJXD7xvAyW9q69vxXabbPXao=
+X-Google-Smtp-Source: ABdhPJwpfWzgB+FjqBOdJK1xXuW0wsQgoog3Pm+xd6s8gw54tSvtY5ROJ2MtIMn6HZWQNDqFniAVGkhwFtMQmPhrOOY=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr5374614oia.148.1607608277772;
+ Thu, 10 Dec 2020 05:51:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20201209201950.817566-1-niklas.soderlund+renesas@ragnatech.se> <20201209201950.817566-2-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20201209201950.817566-2-niklas.soderlund+renesas@ragnatech.se>
+References: <c84c0d96-b768-600a-e412-f25d5ae299e5@iot.bzh>
+In-Reply-To: <c84c0d96-b768-600a-e412-f25d5ae299e5@iot.bzh>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Dec 2020 14:10:14 +0100
-Message-ID: <CAMuHMdVHUqSjnVp8fTve1BB=ui5ay=nqNRtnmNKPPbmnN6VBdw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] arm64: dts: renesas: r8a77951: Add TMU nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Thu, 10 Dec 2020 14:51:06 +0100
+Message-ID: <CAMuHMdWQomuhL71F9c9n1M=rUaAAnV9oPvN_mRQBK8vrLG8-Hw@mail.gmail.com>
+Subject: Re: Parent clock for MFIS module
+To:     Julien Massot <julien.massot@iot.bzh>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Julien,
 
-On Wed, Dec 9, 2020 at 9:20 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add device nodes for the Timer Unit (TMU) on the Renesas R-Car H3
-> (r8a77951) SoC.
+On Thu, Dec 10, 2020 at 2:17 PM Julien Massot <julien.massot@iot.bzh> wrote:
+> I did a linux driver which makes use of the MFIS module, and so my first
+> step would be to send a patch to add the MFIS module clock, which will
+> basically do that:
 >
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> @@ -137,6 +137,7 @@ static struct mssr_mod_clk r8a7795_mod_clks[]
+> __initdata = {
+>         DEF_MOD("msiof2",                209,   R8A7795_CLK_MSO),
+>         DEF_MOD("msiof1",                210,   R8A7795_CLK_MSO),
+>         DEF_MOD("msiof0",                211,   R8A7795_CLK_MSO),
+> +       DEF_MOD("mfis",                  213,   R8A7795_CLK_MSO),
+>         DEF_MOD("sys-dmac2",             217,   R8A7795_CLK_S3D1),
+>
+> But the third parameter of DEF_MOD is definitely wrong and despite
+> having read the hardware manual I can't figure out where this
+> information is. Does someone have any hint on where to find the parent
+> clock for the mfis mod clock ?
 
-Thanks for your patch!
+Unfortunately this information isn't always properly documented in the
+Hardware User's Manual.  Based on the MFIS Block Diagram, I would
+say it must be one of the APB bus clocks.
 
-> --- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-
-> +               tmu4: timer@ffc00000 {
-> +                       compatible = "renesas,tmu-r8a7795", "renesas,tmu";
-> +                       reg = <0 0xffc00000 0 0x30>;
-> +                       interrupts = <GIC_SPI 438 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 439 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>;
-
-These interrupt numbers are wrong: they should be 406, 407, and 408.
-The rest looks good to me.
-Same comment for the other 5 patches.
+The BSP uses R8A77970_CLK_S2D2 for R-Car V3M, which sounds
+reasonable. Reading the PCIe chapter, it could also be S3D1 or S3D3.
+However, in this case, the driver wouldn't care about the clock rate,
+so the actual parent clock used doesn't matter much.
+Hence S2D2 sounds acceptable to me.
 
 Gr{oetje,eeting}s,
 
