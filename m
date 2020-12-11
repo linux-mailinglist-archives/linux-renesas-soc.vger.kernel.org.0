@@ -2,76 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0613F2D7605
+	by mail.lfdr.de (Postfix) with ESMTP id 733142D7606
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Dec 2020 13:50:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405963AbgLKMtl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Dec 2020 07:49:41 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37431 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405906AbgLKMtK (ORCPT
+        id S2405906AbgLKMto (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Dec 2020 07:49:44 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41263 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436548AbgLKMtd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Dec 2020 07:49:10 -0500
-Received: by mail-oi1-f194.google.com with SMTP id l207so9688029oib.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Dec 2020 04:48:54 -0800 (PST)
+        Fri, 11 Dec 2020 07:49:33 -0500
+Received: by mail-ot1-f65.google.com with SMTP id x13so8077793oto.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Dec 2020 04:49:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3edo3wYvo1elTS9VIuefEp8wqi9aXedoG1JbKWXMpHg=;
-        b=tI3fDJKYVy4CwVheNyvlKfklGeHGU9HPgZd0Vs9q1Wwcc31evBJoc3ND2vpGgziqF/
-         X0JDgRlA7QXYSslKhzFA/Ld7bzTa0M5jOECuKGA1mD4prRiVSJwbg2ZpwNfNADW3o2j/
-         0VEa+cH9kaVRTevU1Dm9T1bfhusgH7N3GTUH/KsltubqFfMCNG3Ob9kNl429uNRYo3m4
-         Oy2wZkyebU7h70TlAb8mcgvsOpSC02pGmZRsJl6Jz3/YPKwplyURL6SGZJPGIJlkdNdf
-         cwMnTJ1cUWtGjoLxKp8tUAvrxCACgljOdT6/qjkMNkv496/1XYQNmDJGzF89edcUQGav
-         wEAQ==
-X-Gm-Message-State: AOAM5321AKK4K8kN0ZrU6bX4JBcTpZfINI5o3iJXa2fPUEjdAq6zcClH
-        v0ZQ8BlH1PazHOToJaUmM0v89ptA/GLG2FO2lOH7zXeO
-X-Google-Smtp-Source: ABdhPJzO//IdVV4UTFTUYIXXppZB3ZCnKdtVETR6EuRLZf43Jxs5m+Eqcu0kLh3PiiIxuSsz9/zRWLuQ8O/JUiV/RtI=
-X-Received: by 2002:aca:ec09:: with SMTP id k9mr9032297oih.153.1607690909525;
- Fri, 11 Dec 2020 04:48:29 -0800 (PST)
+        bh=XODk7vx/kezVA+uqz3mqm8tv6+XzVcvTimopyR1Prng=;
+        b=UqPm+4Hj2Tzp7VKpznbQQOyrSAjR5xoAK0bcV9vSshvWvyJkpOzcr70Gm++qYv5QsD
+         Qp6Zzi6hrFkdHiLmMiWdWvFXYuwqBNwageXMXKIE6dT4VhWnHxuL6a3T6D9h2n47lBBn
+         8UIlfOkfzTUQTTz2zt8sUnX2pChESOrQZHH+XctdM54n1eKSzHHdXvSuwB8KZid2ep3u
+         3FW1TAfY359xszN/nYb6aEmwXweR1lmAPTYK9bTog/DIn/yvEstOcl8Atx0eE6En21Ms
+         3w30AfGLBElHAye8eEpMEDfNzfM0ScDx7eSUTRBT5cO/oMWoblX7AQwvoxIfNrTXB505
+         1MbQ==
+X-Gm-Message-State: AOAM532QXVwfWm6YCkw8GX+4tJUhY1sI6yzwY2o+/UqvPm0hMBQT+a1t
+        JgJUsCO54CQ86LEfmA2Q6oy73EuAWApzVxtYoBnta99W8Ns=
+X-Google-Smtp-Source: ABdhPJwBBlfTZ1UEbXzXQ+72kaFaol+fBwUuLj1Xxgx8PA1n8l7ykFJccTpeBEyFl6u3EWkptYxxcfIBYIvgyjKw0O4=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr9686705oth.250.1607690931393;
+ Fri, 11 Dec 2020 04:48:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210142021.163182-1-julien.massot@iot.bzh>
- <TYBPR01MB53098A6476F176914F71239886CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
- <5526f9b5-59b2-492b-f541-8381894a005f@iot.bzh> <TYBPR01MB53090FC98C72A3DA466C064786CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB53090FC98C72A3DA466C064786CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <20201210142021.163182-1-julien.massot@iot.bzh> <20201210142021.163182-2-julien.massot@iot.bzh>
+In-Reply-To: <20201210142021.163182-2-julien.massot@iot.bzh>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Dec 2020 13:48:18 +0100
-Message-ID: <CAMuHMdUZOv=Or5JJZmAVwn2fjA=fP_texF9ZttKaHVY-YLjRCg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] clk: renesas: Add MFIS clock
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Julien Massot <julien.massot@iot.bzh>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 11 Dec 2020 13:48:40 +0100
+Message-ID: <CAMuHMdWM6MzmOaS-VAmzgsFwOTrtePDLJ_NK0JL=_snVjQxvdg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] clk: renesas: r8a7795: Add MFIS clock
+To:     Julien Massot <julien.massot@iot.bzh>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Thu, Dec 10, 2020 at 3:55 PM Julien Massot <julien.massot@iot.bzh> wrote:
+> Signed-off-by: Julien Massot <julien.massot@iot.bzh>
 
-On Thu, Dec 10, 2020 at 4:47 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH 0/5] clk: renesas: Add MFIS clock
-> > On 12/10/20 3:57 PM, Biju Das wrote:
-> > >> Subject: [PATCH 0/5] clk: renesas: Add MFIS clock
-> > >>
-> > >> This series adds the missing MFIS clocks for most Reneas R-Car Gen3
-> > SoCs.
-> > >> I have tested this series on E3, M3, and H3 based boards, I don't
-> > >> have access to D3 nor V3 boards.
-> > >
-> > > Just a question, Can you explain what test have you done with MFIS
-> > module?
-> > A basic usage I did is to store and read a byte into one of the
-> > communication register MFISARIICR / MFISAREMBR, a more complex usage is to
-> > trigger interrupts between Linux and the realtime processor, using a
-> > mailbox driver, that I didn't post yet.
->
-> Thanks for the explanation.
->
-> FYI, As per R-Car Gen3 HW manual RCar-D3 doesn't have RT Core.
-
-But R-Car D3 still has (a subset of) the MFIS.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
