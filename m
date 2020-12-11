@@ -2,88 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A8582D75E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Dec 2020 13:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0613F2D7605
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Dec 2020 13:50:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392611AbgLKMox convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Dec 2020 07:44:53 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41392 "EHLO
+        id S2405963AbgLKMtl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Dec 2020 07:49:41 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:37431 "EHLO
         mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395257AbgLKMo0 (ORCPT
+        with ESMTP id S2405906AbgLKMtK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Dec 2020 07:44:26 -0500
-Received: by mail-oi1-f194.google.com with SMTP id 15so9652881oix.8;
-        Fri, 11 Dec 2020 04:44:10 -0800 (PST)
+        Fri, 11 Dec 2020 07:49:10 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l207so9688029oib.4
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Dec 2020 04:48:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yZreOTwg6dsmLfVxAEOXqo1YmvQP5rW8eCkNMKbZir0=;
-        b=Skob6VntJsYS+KtnHGUiouzopQrnAdvtbWrWRmOi/+oeYTxSS68axVNP/xZ9OHpxmg
-         RAF55SNL/ddYGKY7OQYZPDh+9/HQrYpFLfCA2+zsTsKGglbaDyawyugYv21vUbwjaZk1
-         WLlBOnHs7bkCc0SgAOc5fjZZ7Aq5YKFq3z58dF1+S94E+XqNqq2RmduiZSGfVama6MBX
-         iwxdCTfUEckZSoBZDI2PMDum8fyuHGjCwQS8Dnu3n4nHUlA/QF7zp8LlEykbqSYaTinX
-         PyW/md4QHORRa3xWzkl7lXogxz+wjo8VHiHp9nAHGJS5D+AnksMgW2Qx9o26pS9D0ggw
-         g7xQ==
-X-Gm-Message-State: AOAM530QV3xWWnh1Y/L6/kYEZS2EMPbpLUFZtsApIYA4yz/4XEYQXcYz
-        Oq1hM62oU3sq98NAat01X/uZU9u0KYACtlCJ7KU=
-X-Google-Smtp-Source: ABdhPJyu2A0+qWYVZDkaAE819PxEmiP2rZaP8bOwmMyyGGemORdPLEYfdZwxwP/TiMznQFTgi+hTuMqZxYTX5OsIvik=
-X-Received: by 2002:aca:5c08:: with SMTP id q8mr9201854oib.54.1607690625460;
- Fri, 11 Dec 2020 04:43:45 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=3edo3wYvo1elTS9VIuefEp8wqi9aXedoG1JbKWXMpHg=;
+        b=tI3fDJKYVy4CwVheNyvlKfklGeHGU9HPgZd0Vs9q1Wwcc31evBJoc3ND2vpGgziqF/
+         X0JDgRlA7QXYSslKhzFA/Ld7bzTa0M5jOECuKGA1mD4prRiVSJwbg2ZpwNfNADW3o2j/
+         0VEa+cH9kaVRTevU1Dm9T1bfhusgH7N3GTUH/KsltubqFfMCNG3Ob9kNl429uNRYo3m4
+         Oy2wZkyebU7h70TlAb8mcgvsOpSC02pGmZRsJl6Jz3/YPKwplyURL6SGZJPGIJlkdNdf
+         cwMnTJ1cUWtGjoLxKp8tUAvrxCACgljOdT6/qjkMNkv496/1XYQNmDJGzF89edcUQGav
+         wEAQ==
+X-Gm-Message-State: AOAM5321AKK4K8kN0ZrU6bX4JBcTpZfINI5o3iJXa2fPUEjdAq6zcClH
+        v0ZQ8BlH1PazHOToJaUmM0v89ptA/GLG2FO2lOH7zXeO
+X-Google-Smtp-Source: ABdhPJzO//IdVV4UTFTUYIXXppZB3ZCnKdtVETR6EuRLZf43Jxs5m+Eqcu0kLh3PiiIxuSsz9/zRWLuQ8O/JUiV/RtI=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr9032297oih.153.1607690909525;
+ Fri, 11 Dec 2020 04:48:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210152705.1535156-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20201210152705.1535156-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20201210142021.163182-1-julien.massot@iot.bzh>
+ <TYBPR01MB53098A6476F176914F71239886CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+ <5526f9b5-59b2-492b-f541-8381894a005f@iot.bzh> <TYBPR01MB53090FC98C72A3DA466C064786CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYBPR01MB53090FC98C72A3DA466C064786CB0@TYBPR01MB5309.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Dec 2020 13:43:34 +0100
-Message-ID: <CAMuHMdWPFDLKh_10_D+yfPAoDgLTgR5nKCxy2Qnh23UDbSFKbg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] [PATCH 0/6] arm64: dts: renesas: Add TMU nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 11 Dec 2020 13:48:18 +0100
+Message-ID: <CAMuHMdUZOv=Or5JJZmAVwn2fjA=fP_texF9ZttKaHVY-YLjRCg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] clk: renesas: Add MFIS clock
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Julien Massot <julien.massot@iot.bzh>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Biju,
 
-On Thu, Dec 10, 2020 at 4:27 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add TMU nodes to Renesas R-Car H3, M3-W, M3-W+, D3, M3-N and E3. I have
-> tested this on all but D3 and E3 SoCs which I do not have access to. I
-> tested by enabling all TMU nodes in DT and then used the kernel timer
-> selftests located in tools/testing/selftests/timers/
+On Thu, Dec 10, 2020 at 4:47 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH 0/5] clk: renesas: Add MFIS clock
+> > On 12/10/20 3:57 PM, Biju Das wrote:
+> > >> Subject: [PATCH 0/5] clk: renesas: Add MFIS clock
+> > >>
+> > >> This series adds the missing MFIS clocks for most Reneas R-Car Gen3
+> > SoCs.
+> > >> I have tested this series on E3, M3, and H3 based boards, I don't
+> > >> have access to D3 nor V3 boards.
+> > >
+> > > Just a question, Can you explain what test have you done with MFIS
+> > module?
+> > A basic usage I did is to store and read a byte into one of the
+> > communication register MFISARIICR / MFISAREMBR, a more complex usage is to
+> > trigger interrupts between Linux and the realtime processor, using a
+> > mailbox driver, that I didn't post yet.
 >
->     - clocksource-switch.c
->     - inconsistency-check.c
->     - nanosleep.c
+> Thanks for the explanation.
 >
-> The test passes for all SoCs I have access to and I no reason to believe
-> it would not also work on D3 and E3.
->
-> Niklas Söderlund (6):
->   arm64: dts: renesas: r8a77951: Add TMU nodes
->   arm64: dts: renesas: r8a77960: Add TMU nodes
->   arm64: dts: renesas: r8a77961: Add TMU nodes
->   arm64: dts: renesas: r8a77965: Add TMU nodes
->   arm64: dts: renesas: r8a77990: Add TMU nodes
->   arm64: dts: renesas: r8a77995: Add TMU nodes
->
->  arch/arm64/boot/dts/renesas/r8a77951.dtsi | 65 +++++++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 65 +++++++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 65 +++++++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 65 +++++++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 65 +++++++++++++++++++++++
->  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 65 +++++++++++++++++++++++
->  6 files changed, 390 insertions(+)
+> FYI, As per R-Car Gen3 HW manual RCar-D3 doesn't have RT Core.
 
-Would you mind if I would squash these into a single commit while applying?
-Thanks!
+But R-Car D3 still has (a subset of) the MFIS.
 
 Gr{oetje,eeting}s,
 
