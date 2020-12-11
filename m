@@ -2,82 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1744A2D6E98
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Dec 2020 04:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3EA12D7492
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Dec 2020 12:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390392AbgLKD2k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Dec 2020 22:28:40 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:45623 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405216AbgLKD2Q (ORCPT
+        id S2394475AbgLKL2e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Dec 2020 06:28:34 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:41506 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2391604AbgLKL21 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Dec 2020 22:28:16 -0500
-Received: by mail-oi1-f195.google.com with SMTP id f132so8323047oib.12;
-        Thu, 10 Dec 2020 19:28:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eJ9AhbR7dNhyrIAYTLNaexWFEr8PcE/a+4lZQcMflOY=;
-        b=hVC9gQu1KWqRmG8bM0/Aah2H0goaQhCqtY58abnMqAYxfiacGT1KDJ5nQirbk7JURt
-         fN7d6yl7TM5Sfmk4Zd8x3ZFZuwWqRfNF55JrNZ2ZJTB2gyDpUhtZPlH3muphOKK7IOgn
-         0tXdBw6FxFNv5Y3XX8UCE4/Y3G13zeOgW1DheX4UZvt7y0sTNeVHOKgfmF1pvHgCZFyO
-         leK31/8AnHndCWLJAXvIFpTy4PPIdkmSlaEVbKx+29KDWTe3pZUxFsraFbkIKyt1qiUk
-         obKsXj4kVJ0+/F+Mwe/NRrhRpzkFU9BPgemeIbkpKCHNq0JOT8co3UaRQdppKgfpH5th
-         H9VQ==
-X-Gm-Message-State: AOAM531pJQfKmYbnAI6nYlu6RAkT1MzMANOsuQLsF9LwIo5aFDdxH/a/
-        MAAA0LMrqomS/MRucGE74WCKGWCKgg==
-X-Google-Smtp-Source: ABdhPJw0lGiB1h/FpZokQM3xt/Q9C5srIa56/s86Ohke5ZYCBQy8qi0mlicAN7fw4oZPzQuostgzeQ==
-X-Received: by 2002:aca:3c3:: with SMTP id 186mr7739011oid.22.1607657255601;
-        Thu, 10 Dec 2020 19:27:35 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d62sm1500475oia.6.2020.12.10.19.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 19:27:34 -0800 (PST)
-Received: (nullmailer pid 3576272 invoked by uid 1000);
-        Fri, 11 Dec 2020 03:27:34 -0000
-Date:   Thu, 10 Dec 2020 21:27:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: pci: rcar-pci-ep: Document missing
- interrupts property
-Message-ID: <20201211032734.GA3576224@robh.at.kernel.org>
-References: <20201209101231.2206479-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201209101231.2206479-1-geert+renesas@glider.be>
+        Fri, 11 Dec 2020 06:28:27 -0500
+X-IronPort-AV: E=Sophos;i="5.78,411,1599490800"; 
+   d="scan'208";a="65637569"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 11 Dec 2020 20:27:55 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7EA7942D7EA1;
+        Fri, 11 Dec 2020 20:27:55 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
+        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
+        broonie@kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com
+Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2 00/10] treewide: bd9571mwv: Add support for BD9574MWF
+Date:   Fri, 11 Dec 2020 20:27:30 +0900
+Message-Id: <1607686060-17448-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 09 Dec 2020 11:12:31 +0100, Geert Uytterhoeven wrote:
-> The R-Car PCIe controller does not use interrupts when configured
-> for endpoint mode, hence the bindings do not document the interrupts
-> property.  However, all DTS files provide interrupts properties, and
-> thus fail to validate.
-> 
-> Fix this by documenting the interrupts property.
-> 
-> Fixes: 4c0f80920923f103 ("dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint controller")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2:
->   - Fix authorship,
->   - Add Reviewed-by,
->   - Drop RFC state,
->   - Fix name of interrupts property in patch description,
->   - Drop inappropriate Fixes tag,
-> ---
->  Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+Add BD9574MWF support into bd9571mwv gpio, mfd and regulator drivers.
+Latest Ebisu-4D boards has this chip instead of BD9571MWV so that
+we need this patch series.
 
-Applied, thanks!
+Changes from v1:
+ - Document BD9574MWF on the dt-binding.
+ - Add ROHM_CHIP_TYPE_BD957[14] into rohm-generic.h.
+ - To simplify gpio and regulator drivers, using regmap instead of
+   using struct bd9571mwv.
+ - Remove BD9574MWF definitions to make gpio and regulator driver
+   simple to support for BD9574MWF.
+ - Add BD9574MWF support for gpio and regulator drivers.
+ - Add missing regmap ranges for BD9574MWF.
+ - Rename "part_number" with "part_name".
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=398059
+
+Khiem Nguyen (2):
+  mfd: bd9571mwv: Make the driver more generic
+  mfd: bd9571mwv: Add support for BD9574MWF
+
+Yoshihiro Shimoda (8):
+  dt-bindings: mfd: bd9571mwv: Document BD9574MWF
+  mfd: rohm-generic: Add BD9571 and BD9574
+  regulator: bd9571mwv: rid of using struct bd9571mwv
+  regulator: bd9571mwv: Add BD9574MWF support
+  gpio: bd9571mwv: Use the SPDX license identifier
+  gpio: bd9571mwv: rid of using struct bd9571mwv
+  gpio: bd9571mwv: Add BD9574MWF support
+  mfd: bd9571mwv: Use the SPDX license identifier
+
+ .../devicetree/bindings/mfd/bd9571mwv.txt          |   4 +-
+ drivers/gpio/gpio-bd9571mwv.c                      |  35 ++---
+ drivers/mfd/bd9571mwv.c                            | 167 ++++++++++++++++++---
+ drivers/regulator/bd9571mwv-regulator.c            |  59 +++++---
+ include/linux/mfd/bd9571mwv.h                      |  46 +++---
+ include/linux/mfd/rohm-generic.h                   |   2 +
+ 6 files changed, 215 insertions(+), 98 deletions(-)
+
+-- 
+2.7.4
+
