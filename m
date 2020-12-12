@@ -2,100 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2882D8392
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Dec 2020 01:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A89B2D887B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Dec 2020 18:01:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437890AbgLLApV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Dec 2020 19:45:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54976 "EHLO
+        id S2407590AbgLLQ5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 12 Dec 2020 11:57:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437887AbgLLApP (ORCPT
+        with ESMTP id S2406671AbgLLQ5u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Dec 2020 19:45:15 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC13FC061794
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Dec 2020 16:44:34 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id w13so15879478lfd.5
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Dec 2020 16:44:34 -0800 (PST)
+        Sat, 12 Dec 2020 11:57:50 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A1BCC0613CF;
+        Sat, 12 Dec 2020 08:57:10 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id k8so11825395ilr.4;
+        Sat, 12 Dec 2020 08:57:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ojiwrY+ZigW4MbMKaM3cKtAMFmnYZW97rMZ5rGCM3S4=;
-        b=uIKntd+/bJYBnWVBDeH+N1U01OpBjcuanNPf6R2BA0MGhZuAb/cIpFUP/Wro0xUl5/
-         80niKGlnLsnbxhltlRfEMxKdkHdKbvXZy9sLY9d/WplFBJb1/IhIU4bAwUetqMpg2uNq
-         ld5Hp1mdFw8xV+/MkMXL+lUnYRP/w6ewSUgY/nFN2WdlEp4Sekl7uoUn5HxuKfNt9JQH
-         FBvP4w6cOlKr7datxX8fv6Qi6z1rrMqgpfayxexEdXSIPXJ0uunQu7iUWwqhi5XMRF5+
-         FpgQDr4OcRSu7dqQzQ+j1C2/B3Wp5ieprhEJnRfc4SiZ57iZRd0rN05wknfIeO1CK4Wb
-         V3tg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jxm7FjWLOK0LeZ5TONPRUQR10b19NPzc0gXLsmUtSk8=;
+        b=L7SXmM5aaaq0mgJ+7/5AxBNsryueM9Onmbq14mL+cpuuNK6Fa4QlEwqesRlTLT6yAJ
+         EHKJxfyOQlOFd27qg1+iZavvGPBnc8HkgIGVygzZKR3HLa8blBwnFEam7dXdPMtHVlN7
+         5GaIAuW1W1njao8C5AMNNW0IisvO3oZtE7xZnRhUZzS0j0qwF57ZYPRQEBXYqcAvKXdL
+         y3ZyuuCTCQ+hhiyVwcgWBSjbJEfQZoIod+ffxsXRgDtHSvIbBxQwT6bne26WGbgiIK4N
+         dYY8dSHCLDfvXtaFfBuzSbzMeAao9sZqkiafR3FTqVZxjh91ufk2meZWopScwERPQFas
+         f4XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ojiwrY+ZigW4MbMKaM3cKtAMFmnYZW97rMZ5rGCM3S4=;
-        b=JVIxDbo9h1Oc4BHTDLA89kCm1sPJV72IiUOefZo86vCoVj+mH9X9u8dyZM0+oUtb5Y
-         p/njXTtfA7L5IAvGwu0BE3qxv13qJLW7EmtY7J7ilhAbSdWpSDCMWeeDR+OinIbY/tC/
-         JK5hnRwXrzZhJHBlbt83zfHTsxpFht43KCtzailYMfuIh1+xOktDJpgCQ2enVcAVOEEC
-         Jnd2wzXD6JJhgDRna+OFb2Z8lf7xlUoChD3jWLiuzEF2btuNoFJjze3YwSKKWl4YdG7O
-         z7lKE2H70dE1dsDdL6madjoVW+gjbMaH4G0vsFpM4ovpTRiopg1LwfGvaqgVwPC0zTHQ
-         BIhQ==
-X-Gm-Message-State: AOAM532aSFUSrH2JfqrGJMPO7LzK6H0zsWph4FUKx/OcSI2juhWv5C5O
-        lXJeAr1fz2lyagt1hZSyKOEafgWjmgOdFrTnAWNVzw==
-X-Google-Smtp-Source: ABdhPJz/kCgDaOeM+wc7R8xbfzQ2o0mJro/QZuzOBa2e6AnI1Q4zmUmmhZD4CMDcg5BOlWEVEpPBe1xFM9AK7/V2OYw=
-X-Received: by 2002:a2e:586:: with SMTP id 128mr6291814ljf.273.1607733873395;
- Fri, 11 Dec 2020 16:44:33 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Jxm7FjWLOK0LeZ5TONPRUQR10b19NPzc0gXLsmUtSk8=;
+        b=iOsIkCz25W7BA0w4WunfIgRfZ4IE2/+vNTkPSY00eo6ZaGqH855Gap8PeaxsUdDXqk
+         P0vCpOrlTBhfMHjUIlG8SztXPRN2gi7GEagzoVDeoNist4ld5PrUcOyQ1bDT6ebgqG2l
+         n5K/nqz4VNJV/r2CIxQHIyLj5HGG2Rp1tdqbx8ybcboBLV2onYuls6uhhy1emBCAOkRz
+         CU9IASy8qQ25dPx/rplsVV6+p+OjUXSGxS8OzHpKFhbqx2bznI3Nq5DHkV28afUjvjmS
+         /rk4qxdvOvJ/3v4tDZy7Z5ICLGdB4Q2TZ5zjwMPQP+ZnJYIOuZ5VJntJDeZZfpcHe1rQ
+         P//Q==
+X-Gm-Message-State: AOAM533prmRAkKl/DB474ODx0JjnPp1QPWtDD20QX7yrk/xmtxCN6PwE
+        MY08Ez7O652ii/xy+bv0fY7oT6qFVW7IOw==
+X-Google-Smtp-Source: ABdhPJweNag0z8jUNTEBJfXTNWkbk9ca2ae0Kr7sLruYFI4q5hfR1er9PyJpV9gjnX8VUspYK0ghNw==
+X-Received: by 2002:a92:495b:: with SMTP id w88mr22754631ila.196.1607792229218;
+        Sat, 12 Dec 2020 08:57:09 -0800 (PST)
+Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:f45d:df49:9a4c:4914])
+        by smtp.gmail.com with ESMTPSA id p18sm7733201ile.27.2020.12.12.08.57.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Dec 2020 08:57:08 -0800 (PST)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     aford@beaconembedded.com, charles.stevens@logicpd.com,
+        Adam Ford <aford173@gmail.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC] ravb: Add support for optional txc_refclk
+Date:   Sat, 12 Dec 2020 10:56:48 -0600
+Message-Id: <20201212165648.166220-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <X9JcUZCLh3WjV7Bw@manjaro>
-In-Reply-To: <X9JcUZCLh3WjV7Bw@manjaro>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 12 Dec 2020 01:44:22 +0100
-Message-ID: <CACRpkdaim0XNnNxNm8d=Sg0ThMbgN0HirQBsKs+i9Z10_=3Dng@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: remove empty lines in pinctrl subsystem
-To:     Zhaoyu Liu <zackary.liu.pro@gmail.com>
-Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Dong Aisheng <aisheng.dong@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stefan Agner <stefan@agner.ch>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Patrice CHOTARD <patrice.chotard@st.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        MSM <linux-arm-msm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 6:35 PM Zhaoyu Liu <zackary.liu.pro@gmail.com> wrote:
+The SoC expects the txv_refclk is provided, but if it is provided
+by a programmable clock, there needs to be a way to get and enable
+this clock to operate.  It needs to be optional since it's only
+necessary for those with programmable clocks.
 
-> Remove all empty lines at the end of functions in pinctrl subsystem,
-> make the code neat.
-> Target files: grep -nwR -B1 ^} drivers/pinctrl/* | grep '[0-9]-$' | less
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Nice!
-But this doesn't apply to the current "devel" branch in my tree.
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/log/?h=devel
+diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+index 7453b17a37a2..ddf3bc5164d2 100644
+--- a/drivers/net/ethernet/renesas/ravb.h
++++ b/drivers/net/ethernet/renesas/ravb.h
+@@ -994,6 +994,7 @@ struct ravb_private {
+ 	struct platform_device *pdev;
+ 	void __iomem *addr;
+ 	struct clk *clk;
++	struct clk *ref_clk;
+ 	struct mdiobb_ctrl mdiobb;
+ 	u32 num_rx_ring[NUM_RX_QUEUE];
+ 	u32 num_tx_ring[NUM_TX_QUEUE];
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index bd30505fbc57..4c3f95923ef2 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -2148,6 +2148,18 @@ static int ravb_probe(struct platform_device *pdev)
+ 		goto out_release;
+ 	}
+ 
++	priv->ref_clk = devm_clk_get(&pdev->dev, "txc_refclk");
++	if (IS_ERR(priv->ref_clk)) {
++		if (PTR_ERR(priv->ref_clk) == -EPROBE_DEFER) {
++			/* for Probe defer return error */
++			error = PTR_ERR(priv->ref_clk);
++			goto out_release;
++		}
++		/* Ignore other errors since it's optional */
++	} else {
++		(void)clk_prepare_enable(priv->ref_clk);
++	}
++
+ 	ndev->max_mtu = 2048 - (ETH_HLEN + VLAN_HLEN + ETH_FCS_LEN);
+ 	ndev->min_mtu = ETH_MIN_MTU;
+ 
+-- 
+2.25.1
 
-Please rebase and resend!
-
-Yours,
-Linus Walleij
