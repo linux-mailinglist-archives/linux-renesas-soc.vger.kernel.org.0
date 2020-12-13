@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 336322D8F76
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Dec 2020 19:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 289F82D8F7C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 13 Dec 2020 19:46:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729216AbgLMSpm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Dec 2020 13:45:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60182 "EHLO
+        id S2404092AbgLMSpo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Dec 2020 13:45:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732005AbgLMSjg (ORCPT
+        with ESMTP id S1732425AbgLMSjg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Sun, 13 Dec 2020 13:39:36 -0500
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7017C06179C;
-        Sun, 13 Dec 2020 10:38:22 -0800 (PST)
-Received: by mail-io1-xd44.google.com with SMTP id z5so14759848iob.11;
-        Sun, 13 Dec 2020 10:38:22 -0800 (PST)
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD676C0617A6;
+        Sun, 13 Dec 2020 10:38:24 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id n9so2821260ili.0;
+        Sun, 13 Dec 2020 10:38:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=IaTw/CoXTEDe2jdjMYJgtS7muhBT7sMsP2gQ28UOtHY=;
-        b=l+VEMmGMLuuv9oP3vzKGKPva9hQYPU0U363al+8kPVaiSmIBpKER6ssi/aAKUQ2GdR
-         pPD3mUo4+JJu1tqOLCyPOgE/CFpri/StpoG+8fEG2v7ippmhQQRCYSmukTzNgoMXjxAO
-         ZwtuHV2sNFt+QCLnBQXgSmzD5eXIAqbRMa9oCA7dl2PHLUSEXXbK9oaNzEM+036U37h6
-         d4Npp9xAEJeSLpVCAOOzDCtaaxKRNz38l/rr8PfRqtNnbGMT26TI0xO5+p51Ob5AQOsH
-         MfwI6OXFRpKXDjA71BRq9L4Zl85LaxGJx1+2h3j3yrR3Uoa/HponG6PEuX7hYRcps5GV
-         l2Pw==
+        bh=jcDVGybb7Pc9GBcQHLaSWMHVNO9chVKX8Fz4lnmvy7U=;
+        b=W+/NhBJJJGlftGfFsiQvAaV/iErFEK2vIB3Rqu0NxfujXPIfZjXgUr+ulMNatUeU7P
+         Xb/nyFrD5uK+hlIdLrNeHZBaS+2aJt4IFc5XUJR+WviUGezvbCDF0E0zHIWqyCmNl1gk
+         fYUFQD1OsYhaBcSZ8EODCjWiVFUqOYOBbkSXYUOeseK06DCqmvO5PjuPtds7G+Qna10O
+         z7wcRj1ERMvo8/WtWVw7C1we07XTbJpizDE9Aq3wDlgrBZtb+EpstESgN0fkgT3MVcC3
+         0/TyiDnwyJPLg9wykRob2UJ4IqvymLikZwLvUUHtc7YHIRmQG3s+uhhMgzismqu08fJw
+         JArA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=IaTw/CoXTEDe2jdjMYJgtS7muhBT7sMsP2gQ28UOtHY=;
-        b=HWeWgBIMcfeEDgkYei7sAZcrmdALECZO8oC0c4FNI7dHuLZ3mca6GvQ7QLpjKVSI11
-         jKJiJrnrJmvNXZq7YDhT/de/1U+V8uQIAI2w0Vlm2i/zE+zswvHWulJdcKigCdbxvXED
-         n/m0JZas2psT/LozbhdQLWxp3EbH47bJOkc90Hho66SdP4Vyh7VrZ5WPuii4J5aSUa2w
-         3s0QoWim3Jnp7NQ0dPohVdUd2594Qbk+6mDYgTMm31SUM4rntnEfZZ3Nq3+sPtvfOnb0
-         dJoaaL4LR6AF1QlAA9rjMAPBmPVFbax3ztk2zrsfKDnjqmXUnqWXSkqSjtymSWj6GfYx
-         bFOA==
-X-Gm-Message-State: AOAM533byFaLV/Dx17St5ALVpdsMWFKCL12n+6hXHv6iTM4xbobF52Ha
-        m0sCfNKoryqw5cCemNYwBPUvwrbL6L1CfA==
-X-Google-Smtp-Source: ABdhPJwUSNR4r6DcUg1Hysup9rEq6RnKVxA7vVIr/U1JzElcqjxx9gkrUCKcxnLTDJdCWcoqznJSBg==
-X-Received: by 2002:a5e:8d13:: with SMTP id m19mr26302068ioj.169.1607884701976;
-        Sun, 13 Dec 2020 10:38:21 -0800 (PST)
+        bh=jcDVGybb7Pc9GBcQHLaSWMHVNO9chVKX8Fz4lnmvy7U=;
+        b=lG3wIw35HQLXh6uD/z1rgd5So5DJIXWFKNShFlxhQdI3ccl4FLb9I8rCHdRoV7PrfI
+         KauTnngrmQVH9CMfZsWIrwsEbqsuXqXEGjc5eq+wvWxgUBl+uS2FUh+QouTIj7vn/Wrb
+         Fqirhfca97yDpiYBXNEq3T5Ap21g1/v+FdukUIPYMkTKhYJfR7VMl4nZa7s8bz9eGKVd
+         TvMHt5/jNGmpn4fE0GT81hGoFbS0Gp79T5dXM8KX/JoILlJlbGtv+s024eHXcvzqNVlh
+         I10RWg1k/FY18BuAK9Z91MLtEUMN9yPbvI0eVysCIDstzb8ZwByD5Zj1Cn5vkw/zZAQj
+         QYYg==
+X-Gm-Message-State: AOAM532gKPFt0n4OxX6Lu5+NW8ZneEp+F7Txr6rtvc2LsSTbAIICfLrg
+        WosIuyJiLRKv2h3nT1Qi3igEMVfIdlqCIg==
+X-Google-Smtp-Source: ABdhPJxXVbsEgXPKkFbcR+uSRGecZRKtw8R/+4vZ1REypgoPxMMsXD1hm1QTstg55lTxGFWGOoqC+Q==
+X-Received: by 2002:a92:cb52:: with SMTP id f18mr29745435ilq.41.1607884703989;
+        Sun, 13 Dec 2020 10:38:23 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:f45d:df49:9a4c:4914])
-        by smtp.gmail.com with ESMTPSA id o11sm7804532ioa.37.2020.12.13.10.38.21
+        by smtp.gmail.com with ESMTPSA id o11sm7804532ioa.37.2020.12.13.10.38.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Dec 2020 10:38:21 -0800 (PST)
+        Sun, 13 Dec 2020 10:38:23 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
@@ -55,9 +55,9 @@ Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 05/18] arm64: dts: renesas: beacon: Fix audio-1.8V pin enable
-Date:   Sun, 13 Dec 2020 12:37:45 -0600
-Message-Id: <20201213183759.223246-6-aford173@gmail.com>
+Subject: [PATCH 06/18] arm64: dts: renesas: beacon: Configure Audio CODEC clocks
+Date:   Sun, 13 Dec 2020 12:37:46 -0600
+Message-Id: <20201213183759.223246-7-aford173@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201213183759.223246-1-aford173@gmail.com>
 References: <20201213183759.223246-1-aford173@gmail.com>
@@ -67,28 +67,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The fact the audio worked at all was a coindicence because the wrong
-gpio enable was used.  Use the correct GPIO pin to ensure its operation.
+With the newly added configurable clock options, the audio CODEC can
+configure the mclk automatically.  Add the reference to the versaclock.
+Since the devices on I2C5 can communicate at 400KHz, let's also increase
+that too
 
-Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
 Signed-off-by: Adam Ford <aford173@gmail.com>
 ---
- arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 5c09e64001cc..ee7809e8db07 100644
+index ee7809e8db07..130993b1b20a 100644
 --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
 +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -151,7 +151,7 @@ reg_audio: regulator_audio {
- 		regulator-name = "audio-1.8V";
- 		regulator-min-microvolt = <1800000>;
- 		regulator-max-microvolt = <1800000>;
--		gpio = <&gpio_exp2 7 GPIO_ACTIVE_HIGH>;
-+		gpio = <&gpio_exp4 1 GPIO_ACTIVE_HIGH>;
- 		enable-active-high;
- 	};
+@@ -424,13 +424,15 @@ &i2c0 {
  
+ &i2c5 {
+ 	status = "okay";
+-	clock-frequency = <100000>;
++	clock-frequency = <400000>;
+ 	pinctrl-0 = <&i2c5_pins>;
+ 	pinctrl-names = "default";
+ 
+ 	codec: wm8962@1a {
+ 		compatible = "wlf,wm8962";
+ 		reg = <0x1a>;
++		clocks = <&versaclock6_bb 3>;
++		clock-names = "mclk";
+ 		DCVDD-supply = <&reg_audio>;
+ 		DBVDD-supply = <&reg_audio>;
+ 		AVDD-supply = <&reg_audio>;
 -- 
 2.25.1
 
