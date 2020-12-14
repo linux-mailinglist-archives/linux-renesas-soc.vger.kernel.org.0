@@ -2,108 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 238112D96FB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 12:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 732B32D97E5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 13:14:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407556AbgLNLGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Dec 2020 06:06:22 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52515 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407150AbgLNLGQ (ORCPT
+        id S2407612AbgLNMNm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Dec 2020 07:13:42 -0500
+Received: from mail-eopbgr1300115.outbound.protection.outlook.com ([40.107.130.115]:22112
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731411AbgLNMNl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 06:06:16 -0500
-X-Originating-IP: 95.245.192.76
-Received: from uno.localdomain (host-95-245-192-76.retail.telecomitalia.it [95.245.192.76])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 59DCD1C0026;
-        Mon, 14 Dec 2020 11:05:33 +0000 (UTC)
-Date:   Mon, 14 Dec 2020 12:05:43 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 9/9] drm: rcar-du: Drop local encoder variable
-Message-ID: <20201214110543.v3bt3ckz3bsen6c2@uno.localdomain>
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-10-laurent.pinchart+renesas@ideasonboard.com>
+        Mon, 14 Dec 2020 07:13:41 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N12tinANFwssjb5sRTAjKlISa8ewCv1DK/7CvKONFmM+VIz60QVH4Qh3eJSB8OE36keS6eIE/0CXOoAMpe6VHOEBGwlTr6sIQAG3XsUhrYwBVmGrAB1H8nnp5TZVBSOOstgKJLYetR5mijB2MApQ7SIouIsgxe0aJ+q9dmWaZ/3lFh9Rr8Pa0I+l+3VzxB7uBdudLk+vi/rHODeqt+NP0D+K5gkJ1UuuZQmw5YIaRud6j4VYE/uOSuxyxqbEQbYh3Yg5wYyEw0WE6J/NwXy1RM1RgnABsGq4DU1nmP4jZMFVYKt6MKS675LZ/ZQ2EyHd8iMBFsUfoQVqPeCGlslQrg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TUj1nZhhnUNtG73fRQ79Gmz1HHBVieRY366xBxwmKrI=;
+ b=Z2xs6DqVWV7BWPJcDHc7zAot4qVcoHDPN35mb3uDy+fPMozcDyeFclhBtFN9HC7MmqX6H6RyAMA9kl1djaL35z2CRMI+5YyrK0DXNfQOc1z4cknyU41n51DwPUzWu+Mgjyg4m2LYc3MPbNCSIwrfqRG7d3etzmj8923TRcqJl/VoXMdWWpuZlAseS6vQBiRbknsla1RwLXKgt/53ldkd0+KM4pYJfh5Z4zuxwbBVJTkQIm0FZgSz3/iwFQqU0U+W5hosRUIRCqWX9hcQFjA0A8IEhFEzjLajtGXdgEzUb9Cy5IGFQGVmdq1rOsTD/BQqHmZc1S0JgrvRXs7DBNLXbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TUj1nZhhnUNtG73fRQ79Gmz1HHBVieRY366xBxwmKrI=;
+ b=iZZv17Hsi4Z85Pnup6F98rNfTaJuigE7Jwn5PwhVzlfkkY61f9Cn4WoRGeyZhm7I+3iKmeKCscRegILSLAHLWRz7HZAWuflqBa1LWjvBe0XmX7Tje2eaB5vYb1vVJBhJ1LVXAn2rK0l7+oVh/m0LxJ1+md0Hxf7/tC8QZ4dJ9MM=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TY2PR01MB4507.jpnprd01.prod.outlook.com (2603:1096:404:10f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.18; Mon, 14 Dec
+ 2020 12:12:06 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3654.025; Mon, 14 Dec 2020
+ 12:12:06 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "matti.vaittinen@fi.rohmeurope.com" 
+        <matti.vaittinen@fi.rohmeurope.com>,
+        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+        "broonie@kernel.org" <broonie@kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>
+CC:     Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
+        "linux-power@fi.rohmeurope.com" <linux-power@fi.rohmeurope.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 08/10] mfd: bd9571mwv: Use the SPDX license identifier
+Thread-Topic: [PATCH v2 08/10] mfd: bd9571mwv: Use the SPDX license identifier
+Thread-Index: AQHWz7CtFkd987I01keBlE++ccgF9an2hOYw
+Date:   Mon, 14 Dec 2020 12:12:06 +0000
+Message-ID: <TY2PR01MB369272E63DA6E4E62A64B585D8C70@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1607686060-17448-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1607686060-17448-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1607686060-17448-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: renesas.com; dkim=none (message not signed)
+ header.d=none;renesas.com; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:1453:ff:c191:5a7a]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8c594d3d-f6ce-4d83-dcce-08d8a0297977
+x-ms-traffictypediagnostic: TY2PR01MB4507:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY2PR01MB45073028A025FD0D022FD89DD8C70@TY2PR01MB4507.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:983;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rvJzMF6HHnjw/Sp+ZnGrWEP6urckpeBPtyxhwyGCf3QrE6AGYCG3o+aplk6X71wK5WGBLtGJENuscoKfRcqgQOl7hKlLxKzPQPXpxoHQnTOTuxmWgahmUOjdX+bBfXHJg604hOmk5JdsE2H7BEasla9u205g6cjSIOlzn/9OnPZwDFf4bPmHkKs+EISFROh+AUYea2zQ2AQTyg7iqAX3/d9gtTUDIzH/W/cWf1ZXTFTn7WOkGMxvJB4deXtVZoMxvH9itrF1vZ+4m4SuUMgjM1Gbx9nktEX8v7yR8+ArA+RwcLLFlaQMh98Pe/NhoN2aeeHxaNFDFM0w5K+Op/EbvnVM2Lzj9oUJr1aDixm0oXJc1X3aCL/YMW85FX6rSYwp8DLXBMyKGuCLgF92tSCyUw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(366004)(376002)(346002)(136003)(8936002)(186003)(316002)(71200400001)(33656002)(9686003)(7416002)(76116006)(66946007)(4744005)(66446008)(4326008)(66556008)(86362001)(55016002)(6506007)(5660300002)(966005)(478600001)(110136005)(54906003)(7696005)(2906002)(8676002)(66476007)(64756008)(52536014);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?iqRdvWnojaOu4UcicG2QaXdZ5wqIkGUbs2NEBw5eIFqyHj2GqnK9DnR/q1pq?=
+ =?us-ascii?Q?b6coMcH25seAmPsUWNdjHlz3XwsUhWYZZWn+q7SiqJqVQZhYJICuLdoSnifj?=
+ =?us-ascii?Q?HP99O4cdQ0xpKbyi9NtnzXEl7y9ruFWW1GMYZ/KGy1lVj+IXKDpaM8+QzxMI?=
+ =?us-ascii?Q?ecazyiQscAPDa5L+km3+kiMyHToKRGd7sV3lWv/rQUi0x76N3h0hWC5s8+oU?=
+ =?us-ascii?Q?8dtr27CQgLMgtqEQ/anBqykXBA0LCQ5yLLZlARnpr360SPLjqkoJp7oudYEu?=
+ =?us-ascii?Q?zpr2JJL1b9t8FHlkmCAxWTLH3op2lYueT6g3iWrlrSyvKenSSy5e9u3u/VTi?=
+ =?us-ascii?Q?sFVdEe011QdBJNI+9wf7jeaOS6BcFPqMZK7SqyiE20W9D2oZUx1FH3oMYDIn?=
+ =?us-ascii?Q?S8BtlxIRRbmVn3R6RkmsmTkQjrXVsomttpdVO/JVnqmAICeshDh6M0k6W0yX?=
+ =?us-ascii?Q?NDWpT2rBcgBLQy3Bx5fjdSfcAyhsTg1AWOO/S8BdtPzkfGAKhItWVTWC6jM7?=
+ =?us-ascii?Q?40LCUFaIBGuRBcccftdzYQw9wujp93Pf0tauJ2Lxe2/nC5WOoyOEBmQevvFz?=
+ =?us-ascii?Q?dH9AWK6n3HvjnCGXME7GkNwovubg6ljW7UP4dFbBI+ERmwvfREJ6lYNInFCk?=
+ =?us-ascii?Q?DbqexSdjR+bbFOdt8oNpVm5tkpLpI/6RjrGXNX4TDtM8+n5uzh6jmnUhTJkQ?=
+ =?us-ascii?Q?oGznfyDhF3I8ZIbn8R/CijYf6ak8Dn6RPmWboou6qz4e0/YhbCYbNdsPYENm?=
+ =?us-ascii?Q?jjRRf81e9NcKzwXOHUc2HpwRFTcjhfIWtawKiLbFxR/0sf++3T0cCrsUFByD?=
+ =?us-ascii?Q?quXUXZIQQgEHqeauVF6vLRim6kF2y1LT/tv/04ZNt+P5FgyrZdG3P0QqU0tT?=
+ =?us-ascii?Q?wlifLMbRUl7vUHkF+myXMsZlcpxWA90GYagruAsxZP/6OHrudMRjPMjJ4Vd8?=
+ =?us-ascii?Q?99d3gKAS7WDzd5jtjNrsc86FVry8lbVM4489NYW9GjjS86hP2Lo1lUWEzERf?=
+ =?us-ascii?Q?5s3oZNAWVWRcYpbw55U5deb+U9qD1txHwibDjb/WjDaVf1I=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201204220139.15272-10-laurent.pinchart+renesas@ideasonboard.com>
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c594d3d-f6ce-4d83-dcce-08d8a0297977
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Dec 2020 12:12:06.3857
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lXTajflMB9X4IhMrQhT+OUPY/MHzQOUZefhi6vJsNSLHtjmZE0JEHLnwgOYRnjmKtyGg63n8uG+g4tSiIiQdb5Y2C0Yye5XsbfmVtdu5TYWYQQh+R7IAfCAgXCuweOn3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4507
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-On Sat, Dec 05, 2020 at 12:01:39AM +0200, Laurent Pinchart wrote:
+> From: Yoshihiro Shimoda, Sent: Friday, December 11, 2020 8:28 PM
+>=20
+> Use the SPDX license identifier instead of a local description.
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-> The local encoder variable is an alias for &renc->base, and is only use
-> twice. It doesn't help much, drop it, along with the
-> rcar_encoder_to_drm_encoder() macro that is then unused.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+I forgot to add Geert-san's Reviewed-by here. So, I'll submit v3 patch seri=
+es later.
 
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/1607414643-254=
+98-2-git-send-email-yoshihiro.shimoda.uh@renesas.com/#23832735
 
-Thanks
-   j
+Best regards,
+Yoshihiro Shimoda
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 6 ++----
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.h | 2 --
->  2 files changed, 2 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> index 49c0b27e2f5a..9a565bd3380d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -61,7 +61,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  			 struct device_node *enc_node)
->  {
->  	struct rcar_du_encoder *renc;
-> -	struct drm_encoder *encoder;
->  	struct drm_bridge *bridge;
->  	int ret;
->
-> @@ -108,12 +107,11 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->
->  	rcdu->encoders[output] = renc;
->  	renc->output = output;
-> -	encoder = rcar_encoder_to_drm_encoder(renc);
->
->  	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
->  		enc_node, output);
->
-> -	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
-> +	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
->  			       DRM_MODE_ENCODER_NONE, NULL);
->  	if (ret < 0)
->  		goto error;
-> @@ -127,7 +125,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  	 * Attach the bridge to the encoder. The bridge will create the
->  	 * connector.
->  	 */
-> -	return drm_bridge_attach(encoder, bridge, NULL, 0);
-> +	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
->
->  error:
->  	kfree(renc);
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> index df9be4524301..73560563fb31 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
-> @@ -22,8 +22,6 @@ struct rcar_du_encoder {
->  #define to_rcar_encoder(e) \
->  	container_of(e, struct rcar_du_encoder, base)
->
-> -#define rcar_encoder_to_drm_encoder(e)	(&(e)->base)
-> -
->  int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  			 enum rcar_du_output output,
->  			 struct device_node *enc_node);
-> --
-> Regards,
->
-> Laurent Pinchart
->
