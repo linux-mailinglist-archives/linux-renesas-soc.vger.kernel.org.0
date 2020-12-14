@@ -2,64 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA3C2DA1C3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 21:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7D0E2DA209
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 21:55:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503363AbgLNUiz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Dec 2020 15:38:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60964 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2503362AbgLNUir (ORCPT
+        id S1726227AbgLNUxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Dec 2020 15:53:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387825AbgLNUxB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 15:38:47 -0500
-Date:   Mon, 14 Dec 2020 14:38:05 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607978286;
-        bh=VxyJ4UtDTcxBmyqCR8InRULR9CxYNwYmHeq59aIftvc=;
-        h=From:To:Cc:Subject:In-Reply-To:From;
-        b=cKy1dubN6kvHJ5aGU5z4TmQdbYiGgWsiu6RJQfRNYxdRBoPmUlJTTkzpHBpZDsGlD
-         XZ1z8MVdAi2F6WTaPCPhYM8WAB3emjFlZo5qqt5h8c7PkonL2R19yYSy3qJTH30/XK
-         Jdl/Pi/yd4kmOUnvyKi/7jop3AorriUizetsJ3XRzIq4D7+9fPtOdxqSE4PS9Y0vAX
-         RtMm8Cnft5ngmHXBDHSF1w3hM3gqcysi5NEOaloWNtpJq4SJSZAUaR3qak6FL2/xDs
-         R9vs6er+VfwYJG52bjccwMjbEDg/fMkRfTOoqtlq/77W7NdpxoYq7EyxZTyz1M8qon
-         rz2wQegQQuE7Q==
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
-Message-ID: <20201214203805.GA250639@bjorn-Precision-5520>
+        Mon, 14 Dec 2020 15:53:01 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4DD0C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 12:52:19 -0800 (PST)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65ED696;
+        Mon, 14 Dec 2020 21:52:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1607979137;
+        bh=Pn5LY0V1czTKjaPJi9y6Kzz85SlKDjRDanKEjhfTuwU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=vMmauDCiRqYDe9jzxzpEotJmqHlip6S1U+wkEOokk23w0bkjExzSYslTXUp0izkkW
+         kV0ie7zpHj3TWPNx1V6PvKa0v9kgXR4zHnG0yH35BafKEBwchSMVKijPkdztMPf3gp
+         FhF6/QLBos25WI9dIzJOBIoQFo5yi1k9IOx0m/lI=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/9] drm: rcar-du: Fix LVDS-related crash
+Date:   Mon, 14 Dec 2020 22:51:59 +0200
+Message-Id: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a65139b9-3b06-0562-7b6e-9a438aecff66@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 07:05:09PM +0100, Marek Vasut wrote:
-> On 12/8/20 5:40 PM, Bjorn Helgaas wrote:
+Hello,
 
-> > Does this problem occur in both these cases?
-> > 
-> >    1) When ASPM enters L1, and
-> > 
-> >    2) When software writes PCI_PM_CTRL to put the device in D3hot?
-> > 
-> > IIUC both cases require the link to go to L1.  I guess the same
-> > software workaround applies to both cases?
-> 
-> Yes
+This patch series fixes a crash in the LVDS encoder on D3 and E3 SoCs.
+See patch 1/9 for details. The next patches are additional cleanups.
 
-If ASPM puts the Link in L1 and the device needs to DMA, how does the
-Link get back to L0?  Do we use the same data abort hook?  If getting
-back to L0 requires help from software, it seems like that would
-invalidate the L1 exit latency advertised by the devices.  Wouldn't
-that mean we couldn't safely enable L1 at all unless the endpoint
-could tolerate unlimited exit latency?
+Patches 4/9 to 6/9 fix incorrect usage of the devm_* API. They could be
+made simpler by using the proposed drmm_* allocators for encoders and
+planes ([1]), but those haven't landed yet. Not depending on them also
+helps backporting those fixes to stable kernels. I will switch to the
+new helpers when they will be available.
 
-Bjorn
+[1] https://lore.kernel.org/dri-devel/20200911135724.25833-1-p.zabel@pengutronix.de/
+
+Laurent Pinchart (9):
+  drm: rcar-du: Fix crash when using LVDS1 clock for CRTC
+  drm: rcar-du: Release vsp device reference in all error paths
+  drm: rcar-du: Drop unneeded encoder cleanup in error path
+  drm: rcar-du: Use DRM-managed allocation for VSP planes
+  drm: rcar-du: Use DRM-managed allocation for encoders
+  drm: rcar-du: Embed drm_device in rcar_du_device
+  drm: rcar-du: Replace dev_private with container_of
+  drm: rcar-du: Skip encoder allocation for LVDS1 in dual-link mode
+  drm: rcar-du: Drop local encoder variable
+
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c      | 12 +--
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c       | 33 +++----
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h       | 16 ++--
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c   | 98 ++++++++++-----------
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.h   |  2 -
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c       | 12 +--
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c     |  8 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c       | 28 ++++--
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c |  2 +-
+ 9 files changed, 107 insertions(+), 104 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
