@@ -2,224 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C282D9D53
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 18:12:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A8392D9D65
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 18:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408360AbgLNRMn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Dec 2020 12:12:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408403AbgLNRMP (ORCPT
+        id S2408369AbgLNRPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Dec 2020 12:15:35 -0500
+Received: from foss.arm.com ([217.140.110.172]:50070 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729635AbgLNROr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 12:12:15 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BD9C0613D6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 09:11:35 -0800 (PST)
-Received: from [192.168.0.217] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 871BD96;
-        Mon, 14 Dec 2020 18:11:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607965891;
-        bh=Hf6z4hWwA/0AGyH0jp0Wr9gbs26isy6v3beUyLaRklM=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=TzT5Q4bsUiLLf11JO+4D5XuAK+DJH/LVfhCbo+33hksuLmFiq5DCPshgFmF7/gI75
-         uQi6MwMpefewNfGgB2yNo7sMBRDcAcXiO6g17WZa5BvVNQMQKQDqV6CyeYbuj2F5LF
-         yr6ZIrJ4D9esKibqiDpbKQ8dJmSQLoSV8zyYChIU=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 7/9] drm: rcar-du: Replace dev_private with container_of
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-8-laurent.pinchart+renesas@ideasonboard.com>
- <20201214105808.xrjyul6hrjsremli@uno.localdomain>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <c7e2b82f-2cd6-6495-bbd8-2eb9731f7f20@ideasonboard.com>
-Date:   Mon, 14 Dec 2020 17:11:29 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 14 Dec 2020 12:14:47 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 067901FB;
+        Mon, 14 Dec 2020 09:13:56 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0ABF3F66E;
+        Mon, 14 Dec 2020 09:13:54 -0800 (PST)
+Date:   Mon, 14 Dec 2020 17:13:14 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20201214171314.GA4278@e121166-lin.cambridge.arm.com>
+References: <a65139b9-3b06-0562-7b6e-9a438aecff66@gmail.com>
+ <20201208184627.GA2393103@bjorn-Precision-5520>
+ <20201210121250.GA31998@e121166-lin.cambridge.arm.com>
+ <b569d614-2548-5ce1-32f0-dc923a508710@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201214105808.xrjyul6hrjsremli@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b569d614-2548-5ce1-32f0-dc923a508710@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-On 14/12/2020 10:58, Jacopo Mondi wrote:
-> Hi Laurent,
+On Sat, Dec 12, 2020 at 08:12:16PM +0100, Marek Vasut wrote:
+> On 12/10/20 1:12 PM, Lorenzo Pieralisi wrote:
 > 
-> On Sat, Dec 05, 2020 at 12:01:37AM +0200, Laurent Pinchart wrote:
->> Now that drm_device is embedded in rcar_du_device, we can use
->> container_of to get the rcar_du_device pointer from the drm_device,
->> instead of using the drm_device.dev_private field.
->>
->> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> [...]
 > 
-> De gustibus non est disputandum
-
-
-Err ... um ... what he said - whatever that is ... maybe ...
-
-/me checks if google is still working to translate ...
-
-Oh ok ;-)
-
-Well - Yes, I like to_*(from) conversion macros ... so
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
+> > > > > > +static int __init rcar_pcie_init(void)
+> > > > > > +{
+> > > > > > +	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+> > > > > > +#ifdef CONFIG_ARM_LPAE
+> > > > > > +		hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> > > > > > +				"asynchronous external abort");
+> > > > > > +#else
+> > > > > > +		hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+> > > > > > +				"imprecise external abort");
+> > > > > > +#endif
+> > > > > > +	}
+> > > > > > +
+> > > > > > +	return platform_driver_register(&rcar_pcie_driver);
+> > > > > > +}
+> > > > > > +device_initcall(rcar_pcie_init);
+> > > > > > +#else
+> > > > > >    builtin_platform_driver(rcar_pcie_driver);
+> > > > > > +#endif
+> > > > > 
+> > > > > Is the device_initcall() vs builtin_platform_driver() something
+> > > > > related to the hook_fault_code()?  What would break if this were
+> > > > > always builtin_platform_driver()?
+> > > > 
+> > > > rcar_pcie_init() would not be called before probe.
+> > > 
+> > > Sorry to be slow, but why does it need to be called before probe?
+> > > Obviously software isn't putting the controller in D3 or enabling ASPM
+> > > before probe.
+> > 
+> > I don't understand it either so it would be good to clarify.
 > 
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> Thanks
->   j
-> 
->> ---
->>  drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 2 --
->>  drivers/gpu/drm/rcar-du/rcar_du_drv.h   | 5 +++++
->>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 8 ++++----
->>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 2 +-
->>  4 files changed, 10 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->> index 4ab99ac49891..d6a8b7899952 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->> @@ -587,8 +587,6 @@ static int rcar_du_probe(struct platform_device *pdev)
->>  		return PTR_ERR(rcdu->mmio);
->>
->>  	/* DRM/KMS objects */
->> -	rcdu->ddev.dev_private = rcdu;
->> -
->>  	ret = rcar_du_modeset_init(rcdu);
->>  	if (ret < 0) {
->>  		if (ret != -EPROBE_DEFER)
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> index e5b6f456357e..98d6bac3f2fa 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
->> @@ -102,6 +102,11 @@ struct rcar_du_device {
->>  	unsigned int vspd1_sink;
->>  };
->>
->> +static inline struct rcar_du_device *to_rcar_du_device(struct drm_device *dev)
->> +{
->> +	return container_of(dev, struct rcar_du_device, ddev);
->> +}
->> +
->>  static inline bool rcar_du_has(struct rcar_du_device *rcdu,
->>  			       unsigned int feature)
->>  {
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> index 57bb0dc22807..d6b71a9361ca 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
->> @@ -327,7 +327,7 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
->>  int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
->>  			struct drm_mode_create_dumb *args)
->>  {
->> -	struct rcar_du_device *rcdu = dev->dev_private;
->> +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
->>  	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
->>  	unsigned int align;
->>
->> @@ -349,7 +349,7 @@ static struct drm_framebuffer *
->>  rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->>  		  const struct drm_mode_fb_cmd2 *mode_cmd)
->>  {
->> -	struct rcar_du_device *rcdu = dev->dev_private;
->> +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
->>  	const struct rcar_du_format_info *format;
->>  	unsigned int chroma_pitch;
->>  	unsigned int max_pitch;
->> @@ -421,7 +421,7 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->>  static int rcar_du_atomic_check(struct drm_device *dev,
->>  				struct drm_atomic_state *state)
->>  {
->> -	struct rcar_du_device *rcdu = dev->dev_private;
->> +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
->>  	int ret;
->>
->>  	ret = drm_atomic_helper_check(dev, state);
->> @@ -437,7 +437,7 @@ static int rcar_du_atomic_check(struct drm_device *dev,
->>  static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
->>  {
->>  	struct drm_device *dev = old_state->dev;
->> -	struct rcar_du_device *rcdu = dev->dev_private;
->> +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
->>  	struct drm_crtc_state *crtc_state;
->>  	struct drm_crtc *crtc;
->>  	unsigned int i;
->> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> index 5f69ff4502c1..02e5f11f38eb 100644
->> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
->> @@ -128,7 +128,7 @@ static int rcar_du_plane_hwalloc(struct rcar_du_plane *plane,
->>  int rcar_du_atomic_check_planes(struct drm_device *dev,
->>  				struct drm_atomic_state *state)
->>  {
->> -	struct rcar_du_device *rcdu = dev->dev_private;
->> +	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
->>  	unsigned int group_freed_planes[RCAR_DU_MAX_GROUPS] = { 0, };
->>  	unsigned int group_free_planes[RCAR_DU_MAX_GROUPS] = { 0, };
->>  	bool needs_realloc = false;
->> --
->> Regards,
->>
->> Laurent Pinchart
->>
+> The hook_fault_code() is marked __init, so if probe() was deferred and the
+> kernel __init memory was free'd, attempt to call hook_fault_code() from
+> probe would lead to a crash.
 
--- 
-Regards
---
-Kieran
+Understood - I don't think there is a point though in keeping
+the builtin_platform_driver() call then, something like:
+
+#ifdef CONFIG_ARM
+...
+static __init void init_platform_hook_fault(void) {
+	if (of_find_matching_node(NULL, rcar_pcie_abort_handler_of_match)) {
+		#ifdef CONFIG_ARM_LPAE
+			hook_fault_code(17, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+					"asynchronous external abort");
+		#else
+			hook_fault_code(22, rcar_pcie_aarch32_abort_handler, SIGBUS, 0,
+					"imprecise external abort");
+		#endif
+	}
+}
+#else
+static inline void init_platform_hook_fault(void)
+{}
+#endif
+
+static int __init rcar_pcie_init(void)
+{
+	init_platform_hook_fault();
+	return platform_driver_register(&rcar_pcie_driver);
+}
+device_initcall(rcar_pcie_init);
+
+Or we remove the __init marker from hook_fault_code().
+
+> > Also, some of these platforms are SMP systems, I don't understand
+> > what prevents multiple cores to fault at once given that the faults
+> > can happen for config/io/mem accesses alike.
+> > 
+> > I understand that the immediate fix is for S2R, that is single
+> > threaded but I would like to understand how comprehensive this fix
+> > is.
+> 
+> Are you suggesting to add some sort of locking ?
+
+If we merge a fix the fix has to work, by reading the code if multiple
+cores fault at once this fix seems to have an issue that's why I asked,
+you may still end up with an unhandled fault by reading the code.
+
+Lorenzo
