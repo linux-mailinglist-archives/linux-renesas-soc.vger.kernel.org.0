@@ -2,165 +2,305 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA3DD2D98ED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 14:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9F82D99C7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 15:24:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439514AbgLNNdh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Dec 2020 08:33:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36328 "EHLO
+        id S2440157AbgLNOXX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Dec 2020 09:23:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407989AbgLNNdg (ORCPT
+        with ESMTP id S2440163AbgLNOXR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 08:33:36 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4948AC0611CC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 05:32:20 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BC6396;
-        Mon, 14 Dec 2020 14:32:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607952738;
-        bh=7uPN78gUBN976E36K1+ZwSOH/i/5MHty604a4tvSbH4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EYhrqNBhMDEWrT3PtskjQS/V6p2ZkI10V8XhISkgDWwE34l6oTWA4A5g4L7ls2D6G
-         oTKObytOhgSzgMP2/pNa/eYvVubhh0N9kAf+FiwIbbGqYZtzqJkDg3Zl3Vn+fGBXWZ
-         gxbCSTkp+ibG2RizUbLPRjRha98DZAZlU/1BTeDI=
-Date:   Mon, 14 Dec 2020 15:32:12 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 8/9] drm: rcar-du: Skip encoder allocation for LVDS1 in
- dual-link mode
-Message-ID: <X9dpXD89dWa0tDVZ@pendragon.ideasonboard.com>
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-9-laurent.pinchart+renesas@ideasonboard.com>
- <20201214110449.sjeixugm2ap2wfsj@uno.localdomain>
+        Mon, 14 Dec 2020 09:23:17 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E46C0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 06:22:37 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id w5so11767185pgj.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 06:22:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=DnJgM4u1s1Tu1LJlAwB2Mtp3xdKVq/7OCKyStWN3ke0=;
+        b=Q3TKi7xjE29p9ynjXzPgwabNxZnCkqtbBo8RGUHCd1YKswpl6X3MYDVMuyHLuF2aXQ
+         L7E6AdlTHWDbEYjrSj7NFQYCtuYfoqxnlOMsQP0VdpwoRfIUU+xP/0yLIE4pWvA9dXHx
+         ljVuNfvKwjzxb8b3N2Wray7hK/HnICjRLiitOqCz9uHknQFNBb/qKtZcWlsQRtI9TVaE
+         ZjrYSSpM5NdLGUlpN0IsoJemR7Zb1BP3D0dOqCoBm59mkCZWs0c9+3ZUTDDAbByC/i+8
+         lEVW4EnWACXXqmI0FxLep/jLKEM23BWfyxddUo7I2sS7xBVW6szntnYUbK56Af5czmae
+         RCyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=DnJgM4u1s1Tu1LJlAwB2Mtp3xdKVq/7OCKyStWN3ke0=;
+        b=IoSk06wA2uE18TVRCDZp9p1RI5BHaIKPBUV3Pqb19/zQUxr43O0j4t2Kl+SWMZKBuD
+         0PPIfDFX731FYHBjeh6Y8gcS1n3Rz8aII1wLH5QGS3y/oDC170qi1aDOz2wYR00SCrgD
+         vX8EKv3RpwBDM/T4S2+ooWJj/sK0SAEVtrsJSyF43vc08bF//SI4du3PW9O9f7AjMUtI
+         3LGgt20v5YeLm7/nCWKjN4CzxXGCHdLGfQHSMQ2/yBfH10FdoA9EaJf/GGEjhDdD3uP8
+         R7H7RmCiGDNWjFTEORCPvxe6ieVelWCWDFKZWEUW74isiziKfQK7bsXtsZW9SRxxMRQ9
+         o0sA==
+X-Gm-Message-State: AOAM530lC9sNmUtzA6RmVlRPP/Cf5fjDAHOUpnFkiC1/DlvOEBHTp9H6
+        k/TrXIk4aHWWWNnTN7wH7bUydFscLBAvWQ==
+X-Google-Smtp-Source: ABdhPJzKYCiAk35PdDelHTDwnSXxcM8/K4LndcE2Ey+cvdhh11xjP/nLXvaDZQoxtAlvvBJSlXP5ww==
+X-Received: by 2002:a63:62c3:: with SMTP id w186mr4759925pgb.83.1607955756597;
+        Mon, 14 Dec 2020 06:22:36 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id f64sm20531191pfb.146.2020.12.14.06.22.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Dec 2020 06:22:35 -0800 (PST)
+Message-ID: <5fd7752b.1c69fb81.94a32.93ce@mx.google.com>
+Date:   Mon, 14 Dec 2020 06:22:35 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201214110449.sjeixugm2ap2wfsj@uno.localdomain>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2020-12-14-v5.10
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline: 226 runs,
+ 6 regressions (renesas-devel-2020-12-14-v5.10)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+renesas/master baseline: 226 runs, 6 regressions (renesas-devel-2020-12-14-=
+v5.10)
 
-On Mon, Dec 14, 2020 at 12:04:49PM +0100, Jacopo Mondi wrote:
-> On Sat, Dec 05, 2020 at 12:01:38AM +0200, Laurent Pinchart wrote:
-> > The rcar-du driver skips registration of the encoder for the LVDS1
-> > output when LVDS is used in dual-link mode, as the LVDS0 and LVDS1 links
-> > are bundled and handled through the LVDS0 output. It however still
-> > allocates the encoder and immediately destroys it, which is pointless.
-> > Skip allocation of the encoder altogether in that case.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 51 ++++++++++-------------
-> >  1 file changed, 22 insertions(+), 29 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > index e4f35a88d00f..49c0b27e2f5a 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > @@ -65,17 +65,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
-> >  	struct drm_bridge *bridge;
-> >  	int ret;
-> >
-> > -	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
-> > -	if (renc == NULL)
-> > -		return -ENOMEM;
-> > -
-> > -	rcdu->encoders[output] = renc;
-> > -	renc->output = output;
-> > -	encoder = rcar_encoder_to_drm_encoder(renc);
-> > -
-> > -	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
-> > -		enc_node, output);
-> > -
-> >  	/*
-> >  	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
-> >  	 * DT node has a single port, assume that it describes a panel and
-> > @@ -86,23 +75,17 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
-> >  	    rcar_du_encoder_count_ports(enc_node) == 1) {
-> >  		struct drm_panel *panel = of_drm_find_panel(enc_node);
-> >
-> > -		if (IS_ERR(panel)) {
-> > -			ret = PTR_ERR(panel);
-> > -			goto error;
-> > -		}
-> > +		if (IS_ERR(panel))
-> > +			return PTR_ERR(panel);
-> >
-> >  		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
-> >  							 DRM_MODE_CONNECTOR_DPI);
-> > -		if (IS_ERR(bridge)) {
-> > -			ret = PTR_ERR(bridge);
-> > -			goto error;
-> > -		}
-> > +		if (IS_ERR(bridge))
-> > +			return PTR_ERR(bridge);
-> >  	} else {
-> >  		bridge = of_drm_find_bridge(enc_node);
-> > -		if (!bridge) {
-> > -			ret = -EPROBE_DEFER;
-> > -			goto error;
-> > -		}
-> > +		if (!bridge)
-> > +			return -EPROBE_DEFER;
-> >
-> >  		if (output == RCAR_DU_OUTPUT_LVDS0 ||
-> >  		    output == RCAR_DU_OUTPUT_LVDS1)
-> > @@ -110,16 +93,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
-> >  	}
-> >
-> >  	/*
-> > -	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
-> > -	 * companion for LVDS0 in dual-link mode.
-> > +	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
-> > +	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
-> > +	 * mode.
-> 
-> Oh, here's the answer to my question on 1/9, I should have not looked
-> at DTS but to the driver
-> 
-> >  	 */
-> >  	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
-> > -		if (rcar_lvds_dual_link(bridge)) {
-> > -			ret = -ENOLINK;
-> > -			goto error;
-> > -		}
-> > +		if (rcar_lvds_dual_link(bridge))
-> > +			return -ENOLINK;
-> >  	}
-> >
-> > +	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
-> > +	if (renc == NULL)
-> > +		return -ENOMEM;
-> > +
-> > +	rcdu->encoders[output] = renc;
-> > +	renc->output = output;
-> > +	encoder = rcar_encoder_to_drm_encoder(renc);
-> > +
-> > +	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
-> > +		enc_node, output);
-> > +
-> >  	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
-> >  			       DRM_MODE_ENCODER_NONE, NULL);
-> >  	if (ret < 0)
-> 
-> Do you have any other caller of the 'done:' label left apart from the
-> one after this last line ? In case you don't you can call devm_kfree()
-> here
+Regressions Summary
+-------------------
 
-That would be kfree(), not devm_kfree(). I'll do so.
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+imx6q-sabresd            | arm  | lab-nxp      | gcc-8    | imx_v6_v7_defco=
+nfig          | 1          =
 
-> With or without this addressed:
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+imx6q-var-dt6customboard | arm  | lab-baylibre | gcc-8    | multi_v7_defc..=
+.CONFIG_SMP=3Dn | 1          =
 
--- 
-Regards,
+imx6q-var-dt6customboard | arm  | lab-baylibre | gcc-8    | multi_v7_defcon=
+fig           | 2          =
 
-Laurent Pinchart
+qemu_arm-versatilepb     | arm  | lab-baylibre | gcc-8    | versatile_defco=
+nfig          | 1          =
+
+qemu_arm-versatilepb     | arm  | lab-cip      | gcc-8    | versatile_defco=
+nfig          | 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2020-12-14-v5.10/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2020-12-14-v5.10
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      c308f63de590dadc2c668e9d347da00b0fa76ade =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+imx6q-sabresd            | arm  | lab-nxp      | gcc-8    | imx_v6_v7_defco=
+nfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/5fd73ebdfe323873e0c94cc2
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: imx_v6_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-nxp/baseline-imx6q-sabres=
+d.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-nxp/baseline-imx6q-sabres=
+d.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/5fd73ebdfe323873e0c94=
+cc3
+        failing since 41 days (last pass: renesas-devel-2020-10-30-v5.10-rc=
+1, first fail: renesas-devel-2020-11-02-v5.10-rc2) =
+
+ =
+
+
+
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+imx6q-var-dt6customboard | arm  | lab-baylibre | gcc-8    | multi_v7_defc..=
+.CONFIG_SMP=3Dn | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/5fd73d395b20d7e931c94ccc
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-8/lab-baylibre/ba=
+seline-imx6q-var-dt6customboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-8/lab-baylibre/ba=
+seline-imx6q-var-dt6customboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/5fd73d395b20d7e931c94=
+ccd
+        failing since 41 days (last pass: renesas-devel-2020-10-30-v5.10-rc=
+1, first fail: renesas-devel-2020-11-02-v5.10-rc2) =
+
+ =
+
+
+
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+imx6q-var-dt6customboard | arm  | lab-baylibre | gcc-8    | multi_v7_defcon=
+fig           | 2          =
+
+
+  Details:     https://kernelci.org/test/plan/id/5fd7416804df15c839c94cb9
+
+  Results:     3 PASS, 2 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-va=
+r-dt6customboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/multi_v7_defconfig/gcc-8/lab-baylibre/baseline-imx6q-va=
+r-dt6customboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.dmesg.alert: https://kernelci.org/test/case/id/5fd7416804df15c=
+839c94cbd
+        new failure (last pass: renesas-devel-2020-12-07-v5.10-rc7)
+        4 lines
+
+    2020-12-14 10:41:21.561000+00:00  kern  :alert : pgd =3D (ptrval)
+    2020-12-14 10:41:21.561000+00:00  kern  :alert : [cec60217] *pgd=3D1ec1=
+141e(bad)   =
+
+
+  * baseline.dmesg.emerg: https://kernelci.org/test/case/id/5fd7416804df15c=
+839c94cbe
+        new failure (last pass: renesas-devel-2020-12-07-v5.10-rc7)
+        26 lines
+
+    2020-12-14 10:41:21.604000+00:00  kern  :emerg : Process kworker/1:1 (p=
+id: 53, stack limit =3D 0x(ptrval))
+    2020-12-14 10:41:21.604000+00:00  kern  :emerg : Stack: (0xc244feb0 to =
+0xc2450000)
+    2020-12-14 10:41:21.605000+00:00  kern  :emerg : fea0:                 =
+                    1e9b10fe 35365bc8 c3975480 cec60217
+    2020-12-14 10:41:21.605000+00:00  kern  :emerg : fec0: 00000000 0000000=
+0 00000003 00000000 00000000 35365bc8 c3909840 cec6008f
+    2020-12-14 10:41:21.605000+00:00  kern  :emerg : fee0: cec6020f ef7ad40=
+0 00000000 c09b43f0 fffffc84 fffffc84 c3a37c00 ef7ad400
+    2020-12-14 10:41:21.646000+00:00  kern  :emerg : ff00: 00000000 c1a1ec6=
+0 00000000 c09b48d8 c3a37da0 c2338000 ef7aa1c0 c0360764
+    2020-12-14 10:41:21.647000+00:00  kern  :emerg : ff20: c2147800 ef7aa1c=
+0 00000008 c2338000 c2338014 ef7aa1c0 00000008 c1803d00
+    2020-12-14 10:41:21.647000+00:00  kern  :emerg : ff40: ef7aa1d8 ef7aa1c=
+0 ffffe000 c0360d50 c2147800 c1a1e357 c137fcb8 c0360aa8
+    2020-12-14 10:41:21.648000+00:00  kern  :emerg : ff60: c2338000 c23f258=
+0 c2331040 00000000 c244e000 c0360aa8 c2338000 c2137ea4
+    2020-12-14 10:41:21.648000+00:00  kern  :emerg : ff80: c23f25a4 c0366ed=
+0 00000001 c2331040 c0366d80 00000000 00000000 00000000 =
+
+    ... (15 line(s) more)  =
+
+ =
+
+
+
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+qemu_arm-versatilepb     | arm  | lab-baylibre | gcc-8    | versatile_defco=
+nfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/5fd73ccf0a4ddb3f9bc94ccd
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: versatile_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_ar=
+m-versatilepb.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_ar=
+m-versatilepb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/5fd73ccf0a4ddb3f9bc94=
+cce
+        failing since 26 days (last pass: renesas-devel-2020-11-10-v5.10-rc=
+3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
+
+ =
+
+
+
+platform                 | arch | lab          | compiler | defconfig      =
+              | regressions
+-------------------------+------+--------------+----------+----------------=
+--------------+------------
+qemu_arm-versatilepb     | arm  | lab-cip      | gcc-8    | versatile_defco=
+nfig          | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/5fd73ce40a4ddb3f9bc94cdc
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: versatile_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ver=
+satilepb.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+020-12-14-v5.10/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ver=
+satilepb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
+.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/5fd73ce40a4ddb3f9bc94=
+cdd
+        failing since 26 days (last pass: renesas-devel-2020-11-10-v5.10-rc=
+3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
+
+ =20
