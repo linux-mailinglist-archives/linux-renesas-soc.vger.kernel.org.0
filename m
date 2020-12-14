@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 699C72DA20A
+	by mail.lfdr.de (Postfix) with ESMTP id DFF2A2DA20B
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Dec 2020 21:55:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502900AbgLNUxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S2503422AbgLNUxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 14 Dec 2020 15:53:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48656 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgLNUxB (ORCPT
+        with ESMTP id S2502972AbgLNUxD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 15:53:01 -0500
+        Mon, 14 Dec 2020 15:53:03 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B348C0613D6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 12:52:21 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8F4C061793
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Dec 2020 12:52:22 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C21D2CF;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B94F75B0;
         Mon, 14 Dec 2020 21:52:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607979138;
-        bh=YjL6GJirk1uFpKmT55hnAK9VmSpAtw6Wc2p19daOYwo=;
+        s=mail; t=1607979139;
+        bh=ujCcvKlCpMqXC8K7Q3mgZMbr2E0FMgilxJpQEi2J9hE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pt82U642FU7l4aPZ1l3tLfx9gJ+yZemjS8sKdlGUXtc0rcSWFtUpEaQmmLkTYOZUp
-         33a71B8s59kgeC2HWGSF25j1SW1FqXJw0R1N0ytBBJjL9BSyoiCf/cxGYNpTjU6G2E
-         ZdecE7iKcMdlbMgz4nMAdDvhssjcu3xXdsg44Q4c=
+        b=vyiHBhjg8++K/OqC/D6F9AsjFP/YMeAF7SD7KtkN18uiH9Fq5TUST5flIVEcPY0TC
+         PCUzHd+q3rr1p/VhIT7ZVCoU9pmNKubuLMChm3gvhurQn//0Nldz1JWiNN0xqz9LR1
+         54CTDBxbx08EUHb84sz414xvy36IBCnl1ql8n18k=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v2 2/9] drm: rcar-du: Release vsp device reference in all error paths
-Date:   Mon, 14 Dec 2020 22:52:01 +0200
-Message-Id: <20201214205208.10248-3-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error path
+Date:   Mon, 14 Dec 2020 22:52:02 +0200
+Message-Id: <20201214205208.10248-4-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -41,29 +41,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use drmm_add_action_or_reset() instead of drmm_add_action() to ensure
-the vsp device reference is released in case the function call fails.
+The encoder->name field can never be non-null in the error path, as that
+can only be possible after a successful call to
+drm_simple_encoder_init(). Drop the cleanup.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f6a69aa116e6..4dcb1bfbe201 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -364,7 +364,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index 50fc14534fa4..e4bac47caf16 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -123,11 +123,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	}
  
- 	vsp->vsp = &pdev->dev;
+ done:
+-	if (ret < 0) {
+-		if (encoder->name)
+-			encoder->funcs->destroy(encoder);
++	if (ret < 0)
+ 		devm_kfree(rcdu->dev, renc);
+-	}
  
--	ret = drmm_add_action(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
-+	ret = drmm_add_action_or_reset(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
- 	if (ret < 0)
- 		return ret;
- 
+ 	return ret;
+ }
 -- 
 Regards,
 
