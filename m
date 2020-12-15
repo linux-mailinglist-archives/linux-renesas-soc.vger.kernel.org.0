@@ -2,157 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC74F2DA750
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 06:05:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E6182DA987
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 09:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725780AbgLOFEq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 00:04:46 -0500
-Received: from mail-eopbgr1320133.outbound.protection.outlook.com ([40.107.132.133]:18882
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725535AbgLOFEq (ORCPT
+        id S1726945AbgLOI4S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 03:56:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726921AbgLOI4J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 00:04:46 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a00ZgkwizTlvuColDpBnuE7wzeaGO8KTvs2sXIVwwqm132wo0kSLqJ4JMoPdnYVi/LJqSxa9gFmO5WtTrA3cSPJxbEULgkfyJlybdu9PJMY0btpOZjTR8bZUQ+nofQrhdbrBlHkkBKRl5uIpY4PNtLX6JKLoDPRCoO21C0FWHpJbhqDEkhxdzd0zUnbfML8rAJnk0fua6sVdKnMrFiKNeGdG+KYZGT3iao5LqcwxTRMJ4vWPBcY8SR3yw3mVeSVa6Tfh8qPcWMr7H3JjIvSifua16WKSAenc5ND3AEe7bKRLVviwlw1m2VhKsHrHP4AyEbwCe7fBAx4o8GWAxs3qXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uTD++MXhLCmeRp97a1hMyJ2281rb7rUGWEyD/Z45RyI=;
- b=N0kt+Negb/NrY6wUyXT1UsACNrFBEk2BoHlStzfRdffT3ZXAj1KVjSBBmwmYv9NnE3Qx3YQX4l+UliYgqxT+bZHd5GVrBbMJhkBFd9CZUHN24VMBUOlQvzLTHCkOsvMaLEke6HAUdnN1fpYfRhO0JITSurGqIZLWhvaiszT+cxFyka0IF6sSwIQbc4WCld7L83sEMDrz3ocgm6J2e4fyGjr5/rxXmpI4ccCzqMS+BcwVvdbeyaaBzzIaXFs30DYQAC1T4aL7v8kRxYMQpEDPa//UGGOaUcHd5JShBPCSbajnwSDNeZvh0+teiu2mZUf7lcLffq5n+3gbuYidewOxbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Tue, 15 Dec 2020 03:56:09 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C56F5C0617A6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 00:55:23 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id u18so37309806lfd.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 00:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uTD++MXhLCmeRp97a1hMyJ2281rb7rUGWEyD/Z45RyI=;
- b=rqEF7jBG6+35L6q7vQe4bSab3bM9FPoK8oeZgzLi29wj856Rtbu4jlYZiar88dxR4QN2gnf+X18sSVDKBCg/6GxYvn3j8GfmlLFuuLMUechfHSfPN2aUrdeYAj7vIjrsPGxeniYu+8xwxG99dDdPo161RG85oycXxcqX41tMTWA=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (20.178.142.214) by
- TY2PR01MB4220.jpnprd01.prod.outlook.com (20.178.142.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12; Tue, 15 Dec 2020 05:03:09 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3654.025; Tue, 15 Dec 2020
- 05:03:09 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
- post_req support
-Thread-Topic: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
- post_req support
-Thread-Index: AQHWyj/XFRA8x/qYgketk3GLo6qcL6n2zRCAgACZ/JCAAB6QIIAAJDvw
-Date:   Tue, 15 Dec 2020 05:03:09 +0000
-Message-ID: <TY2PR01MB369240E88E0629EDC140D0A1D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <1607087853-6570-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20201214155001.GA950@ninjato>
- <TY2PR01MB369299EDBA25C39E5B4FFBD4D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
- <TY2PR01MB3692AEAA842555886E0517B5D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY2PR01MB3692AEAA842555886E0517B5D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: sang-engineering.com; dkim=none (message not signed)
- header.d=none;sang-engineering.com; dmarc=none action=none
- header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:d95c:2734:f16c:3219]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 95c45c7a-35f2-4e10-ea6c-08d8a0b6b798
-x-ms-traffictypediagnostic: TY2PR01MB4220:
-x-microsoft-antispam-prvs: <TY2PR01MB422069E38E53A5A08D89EDD3D8C60@TY2PR01MB4220.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J97TO/WaIqZ0vGYuOlZ/PbOz5Nx3x9PWpjghZkqyS8978RXwJ12mJe2N6Jd8tgA/odvQm8NAHD52l0AYihQAkyE+T+in+1TgqOvQHOWmsgxBWCTAyVuJzhHC8UgTsAkqJ83lYjXVdTREymYHWZLuVZVBPnoUeZ6XCSV95mrRRF43DTxC4oWimXIsbRToinBj+09ooZNqm1GiTZwIrvRsjQ9Lx07VU7uciW/oFglKL5cjqS40iAgWlp/MSCv1k9B9I9CkIEs3uKrE297uELiRoWEPTRDrZNEnj9vqj7LZls0KO4fI0UV3Pb6pny5rcLAMb7c08jj1CLryB64G0dQBiw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(52536014)(66446008)(66476007)(64756008)(2906002)(186003)(4326008)(66946007)(5660300002)(478600001)(33656002)(66556008)(316002)(7696005)(8676002)(54906003)(2940100002)(8936002)(55016002)(9686003)(6506007)(71200400001)(83380400001)(76116006)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?fz0SkDgQ+IvvIEOPwRmx92qpt1A9fL2QKTsCTbkss2fh1KsLC8dZezYSuPUi?=
- =?us-ascii?Q?hDVgjqX7ZyIQgnySlMekLhNxmAckKC7I/9IwPASrf49i7RA9rpbybcqKDuFH?=
- =?us-ascii?Q?8UaZViNCiQerS9nAAz5/IXozf77ZmlHvXRu5wvEFfCEDuC9kL1qYodBEtJYQ?=
- =?us-ascii?Q?VCvstgiLiTCSsBVi7dwBDPPokgVHRobQwLckAxnsxFxvrUkqIxrHI4NC7oEn?=
- =?us-ascii?Q?c2qzDoby7k/eiyG2NZ+QVF42HzJyhhNl+yJUxYrchagfKXlMJUuQ1KEt9sEr?=
- =?us-ascii?Q?itYFsdWb8TjDb//Zvnz+3af3+VKWvOoP57qZRUK7Vw1am7Gv7lXb6MK3cGpR?=
- =?us-ascii?Q?rQ5VAjYenWJf8msKZkx4VS7hs9T9UPF7ltIl/NKBFj6FMq5IRXcOe33ckLq2?=
- =?us-ascii?Q?uBdudW0Drl19rCOdeYsjko0hz3DHhWcRlKk3/Cc2iMlrZ/QB5qSbrxrIobFo?=
- =?us-ascii?Q?YPO3PXDvW0+dp/3tvXa4BtG58yUR00M/UNIYqm09R3hHPwxeTrxcbvAxV0AF?=
- =?us-ascii?Q?q3Ow7mTJINgAXt4kyLlObbA/lZffRNh+3CSGUNq/B/8R205dMKZGwV8weur9?=
- =?us-ascii?Q?vs+r35YgDlGcYvGhIEgFpRVN3Gk3+2B0hcD0HUmKOHtpOr1ETqgx4BRECysr?=
- =?us-ascii?Q?MrrIoAnJVutT355pqKHBW5ntksZucj5jKFEZWbrjdX72D8/J1O+pjfWLQyFN?=
- =?us-ascii?Q?7cXkDB6/DalOPGnCrrZn+cW/xdqmF87F2gI36RF4USGL/kYMUbGHg5MtAeH9?=
- =?us-ascii?Q?/Fd4Yyg/1nXNtdcNmNUfY/USUPnGmx6cKN8imwWt2nS0F/ebn22uQL7x5ioI?=
- =?us-ascii?Q?7h3a3pQe+pDUvXUsC9gzgULcxNhuyDMFmcf+/oWrIDckmXnX0qgwKTyCxn/a?=
- =?us-ascii?Q?0B46slJiO4JusdxX8n1lR9UXXYdfg87UfQ9eG4VV9udmjNm1En8gUSGojL0f?=
- =?us-ascii?Q?pX3nGzXjZ9ahDBNLJQceQuWWhjcu6ziSgpkAM6OlsW2TXulVR35CnfM2Lnj9?=
- =?us-ascii?Q?UesH3VBn4IrSoRZCEXoLvjl7MvMTZsE8mh/y0F2p2thj/Z4=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=jkI7wzHUxhcji19Pf6MI76MMjESQ6xmrUpkZOt0jNs4=;
+        b=GFcJIVuEKBbI8nBa2MR5kNJB8kWgNkfZ5nIr6N6mQ6D5TZqOy7l9bGVMXiWspOZ4++
+         ZROI1tW0uMhQzyf7XQl1zf3oAwEefw2frN//V3+RgfJMa+8ZtXk9iP+F4Rrci3qPviw7
+         wH8AN5JJdWXtJ2nNAfx41vYtcEmBoD4JRMHEeA4WeXeQj+V+zBNQ2cuPjY2r1x2FrQKL
+         cpiEaLeJhJ42zsH4reuqPew0qk9KZnZmiX2oLTFSwidJp3uGh1Qon/fqzc2uqZ2H0w2f
+         vWLYArcuLnDb7oSAL7ciuJ1YmvU1pjc3D2jkIDtGx8hvdYCGsZj/U/RtBWZC/eRAw4Ep
+         k6RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=jkI7wzHUxhcji19Pf6MI76MMjESQ6xmrUpkZOt0jNs4=;
+        b=DhudSJdlrDj1U7iWp6IWiOOwCN66K2JX+NeefZ5vt10eMWGZF5SpFN6je6TwSRXlPe
+         Dmau44mO45LaPu6bxyYUTsDGxjRfklZl9SJEDORvsLNhvXqYtxx9SR7beld1AYAk+Qd+
+         E2Pv7Va2qh5h3qo4NqQzKt4jiWu1Hpisnnj30L2rMyVnjqN0oeHjQT70nBYk+5K1nKvS
+         1EFK+h5uCFTXX+9DdaHAgg/NCrdjzcQc7BAn5DBPOIDHPIa+BLuGC5CN8TM51Sh1eoV1
+         Yr5tI5gx06mOkcJgZjJx97+VZ2DjQKKXVGXalQT23KuBdM9tn6adAe3hV34x/z8x3d0r
+         7c8A==
+X-Gm-Message-State: AOAM531uHQ7SkBAZnz1ARrSQS+MBoHFXD52YwsDZxmkN2qewVTcNiXzw
+        Pkp4+9mf1TBQkrrifPEIO3d2MA==
+X-Google-Smtp-Source: ABdhPJxb59ESR+mnYpIzLXVVmeChAnAY0MP5KLvIkdDHCAkXBgrJmvau0XrDCoSMY5YUlJMtBAl9jw==
+X-Received: by 2002:a2e:720f:: with SMTP id n15mr11834153ljc.405.1608022522255;
+        Tue, 15 Dec 2020 00:55:22 -0800 (PST)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id l17sm133602lfg.205.2020.12.15.00.55.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 00:55:21 -0800 (PST)
+Date:   Tue, 15 Dec 2020 09:55:20 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 0/6] [PATCH 0/6] arm64: dts: renesas: Add TMU nodes
+Message-ID: <20201215085520.GA2051479@oden.dyn.berto.se>
+References: <20201210152705.1535156-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWPFDLKh_10_D+yfPAoDgLTgR5nKCxy2Qnh23UDbSFKbg@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95c45c7a-35f2-4e10-ea6c-08d8a0b6b798
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 05:03:09.7059
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1PUhKHTzOLKOGoVRUYhJ+ED4kPg7EI95+aUhkq9mv5/t7en5J/rmlNFJOTvbqJ5y1sECMmWFmbd7xCT88LUCs0xT/AGLGaRBNdZt7bvicNHFn50I773yAHUXtBU5GFkh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4220
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWPFDLKh_10_D+yfPAoDgLTgR5nKCxy2Qnh23UDbSFKbg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san again,
+Hi Geert,
 
-> From: Yoshihiro Shimoda, Sent: Tuesday, December 15, 2020 12:00 PM
-> > From: Yoshihiro Shimoda, Sent: Tuesday, December 15, 2020 10:32 AM
-> > > From: Wolfram Sang, Sent: Tuesday, December 15, 2020 12:50 AM
-> > > On Fri, Dec 04, 2020 at 10:17:33PM +0900, Yoshihiro Shimoda wrote:
-> > > >  /*
-> > > >   * Specification of this driver:
-> > > >   * - host->chan_{rx,tx} will be used as a flag of enabling/disabli=
-ng the dma
-> > > > @@ -172,6 +178,47 @@ renesas_sdhi_internal_dmac_dataend_dma(struct =
-tmio_mmc_host *host) {
-> > > >  	tasklet_schedule(&priv->dma_priv.dma_complete);
-> > > >  }
-> > > >
-> > > > +/* Should not use host->sg_ptr/sg_len in the following function */
-> > >
-> > > Maybe a short explanation why we shouldn't use the functions?
+On 2020-12-11 13:43:34 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Thu, Dec 10, 2020 at 4:27 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Add TMU nodes to Renesas R-Car H3, M3-W, M3-W+, D3, M3-N and E3. I have
+> > tested this on all but D3 and E3 SoCs which I do not have access to. I
+> > tested by enabling all TMU nodes in DT and then used the kernel timer
+> > selftests located in tools/testing/selftests/timers/
 > >
-> > I tried to update the comment as below:
-> > /*
-> >  * tmio_mmc_request() only sets host->sg_{ptr,len} and
-> >  * renesas_sdhi_internal_dmac_pre_req() doesn't set host->sg_{ptr,len} =
-so that
-> >  * we should not use the values in the following function.
-> >  */
+> >     - clocksource-switch.c
+> >     - inconsistency-check.c
+> >     - nanosleep.c
 > >
-> > Hmm... Perhaps, I should modify the code to use host->sg_{ptr,len}
-> > in both paths (.request() and .pre_req()) and remove this comments.
-> > So, I'll try to modify. I guess tmio_mmc_init_sg() is called in pre_req=
-(),
-> > we can use host->sg_{ptr,len}.
->=20
-> I'm sorry. I was completely wrong. If we use {pre,post}_req,
-> the MMC core will call pre_req() twice with each mmc_data before
-> pre_req() is called. So that, second pre_req() will overwrite
-> the host->sg_ptr. So, we should not use host->sg_ptr here.
-> So, I'll update the comments like below.
+> > The test passes for all SoCs I have access to and I no reason to believe
+> > it would not also work on D3 and E3.
+> >
+> > Niklas Söderlund (6):
+> >   arm64: dts: renesas: r8a77951: Add TMU nodes
+> >   arm64: dts: renesas: r8a77960: Add TMU nodes
+> >   arm64: dts: renesas: r8a77961: Add TMU nodes
+> >   arm64: dts: renesas: r8a77965: Add TMU nodes
+> >   arm64: dts: renesas: r8a77990: Add TMU nodes
+> >   arm64: dts: renesas: r8a77995: Add TMU nodes
+> >
+> >  arch/arm64/boot/dts/renesas/r8a77951.dtsi | 65 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 65 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77961.dtsi | 65 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 65 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 65 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 65 +++++++++++++++++++++++
+> >  6 files changed, 390 insertions(+)
+> 
+> Would you mind if I would squash these into a single commit while applying?
+> Thanks!
 
-I'm sorry again and again. But, I realized the current patch breaks
-"force_pio" mode because tmio_mmc_pio_irq() doesn't take care of {pre,post}=
-_req.
-So, I'll try to refactor tmio core to support {pre,post}_req().
+Not at all, please squash them if you think it makes more sens.
 
-Best regards,
-Yoshihiro Shimoda
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
+-- 
+Regards,
+Niklas Söderlund
