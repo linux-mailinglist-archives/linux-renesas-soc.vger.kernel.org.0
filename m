@@ -2,115 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E71632DAF5A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 15:49:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F302DAF71
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 15:53:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729961AbgLOOsl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 09:48:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729938AbgLOOsb (ORCPT
+        id S1730107AbgLOOvj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 09:51:39 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37634 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730086AbgLOOvg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 09:48:31 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABBBFC0617A7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 06:47:50 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id 4enn2400H4C55Sk01enn6M; Tue, 15 Dec 2020 15:47:47 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kpBcB-00AtFw-4b
-        for linux-renesas-soc@vger.kernel.org; Tue, 15 Dec 2020 15:47:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kpBcA-00EU0w-MM
-        for linux-renesas-soc@vger.kernel.org; Tue, 15 Dec 2020 15:47:46 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2020-12-15-v5.10
-Date:   Tue, 15 Dec 2020 15:47:46 +0100
-Message-Id: <20201215144746.3451922-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Tue, 15 Dec 2020 09:51:36 -0500
+Received: by mail-oi1-f193.google.com with SMTP id l207so23594696oib.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 06:51:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Fr1RXEENBXmloTxPCCmEENufAgrOJXMXh7xD4Llq9k=;
+        b=tLZxUeWwhuPoTwISDf/SE8VpTSv6vCZrfSxRYa9r5V2bNUDQN8UF5AXgcWFjaSloI/
+         Yj7eTigE1Q2HPORVyxklBHfDXX3bzikGNPLRtjD8dk2LvmB6p74pqL7gRpC6vOVUOK4e
+         irWkQ+mR2J5ga3FEj2w8P23KlURyTekJyoJdIf+L6gDDIAKnJxheyCHJgGAti5zIRBkg
+         8fkUTmvFWH8sEshV9bjcm7wIGAMVaNsWhlqod4AjlwxaPXEfj1xWPxtTH+MEkh9eToVZ
+         I/kOwcakfWPBNSqscwa0GXEhKLsOSb5nN+p01WMNsJ6ZXNpg1H+poxAwy7Jc4pTIhfxo
+         eIZA==
+X-Gm-Message-State: AOAM530rWBV4Ljnxfn93UpmFuGMJQV1jLEDV9AFpijqnjTriZyTzHjEf
+        5vfB6i5gBW7xg2hAAzGu5XXKJtK3kHTLo5TuZGA=
+X-Google-Smtp-Source: ABdhPJyAoGZvTKFQNdwkt2a8Nald5iIQlTH36q6kMZIjhd5Xxy0UdgAkH6Xt8z8Z2eC1If/OVgWsJo+D200Lr0ItDss=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr21526892oia.148.1608043854951;
+ Tue, 15 Dec 2020 06:50:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAMuHMdWvB+p=2JqTsO7bR8uJqKqO5A2XgXFXsVAjHk3hcxgcTw@mail.gmail.com>
+ <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 15 Dec 2020 15:50:43 +0100
+Message-ID: <CAMuHMdVMcjJempYDUA+AJiXWe=OgKAkGAyZDOS6R2Xp8_Xum2Q@mail.gmail.com>
+Subject: Re: [PATCH][RFC] ASoC: rsnd: don't call clk_disable_unprepare() if
+ can't use
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2020-12-15-v5.10 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi Morimoto-san,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+On Tue, Dec 15, 2020 at 1:06 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> We need to care clock accessibility,
+> because we might can't use clock for some reasons.
+>
+> It sets clk_rate for each clocks when enabled.
+> This means it doesn't have clk_rate if we can't use.
+> We can avoid to call clk_disable_unprepare() in such case.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-Today's version is based on renesas-devel-2020-12-14-v5.10.
+Feel free to use geert+renesas@glider.be instead ;-)
 
-Included branches with driver code:
-  - renesas-clk-for-v5.12
-  - renesas-pinctrl-for-v5.11
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>
+> Hi Geert.
+>
+> Thank you for your reporting.
+> I have never seen this kind of error, but it possible to happen.
+> Unfortunately, I can't reproduce this but I hope this patch can solve it.
+> Could you please check this ?
+> I added [RFC] on this patch Subject.
 
-Included fixes:
-  - fixup for "net: Remove the err argument from sock_from_file"
-  - fixup for "block: remove the request_queue argument to the block_bio_remap tracepoint"
-  - arm64/smp: Remove unused irq variable in arch_show_interrupts()
-  - Revert "spi: Limit the spi device max speed to controller's max speed"
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+The patch looks good to me, but I also cannot trigger the issue at will.
+I went through my old boot logs, and found 2 other occurrences, also
+on Ebisu.  In all cases, it happened while a lot of output was printed to
+the serial console (either a WARN() splat, or DEBUG_PINCTRL output).
+My guess is that console output or disabling interrupts too long is
+triggering a race condition or other issue in the i2c driver (clk 1 is the
+cs2000 clock generator, controlled through i2c).
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+> --- a/sound/soc/sh/rcar/adg.c
+> +++ b/sound/soc/sh/rcar/adg.c
+> @@ -366,25 +366,25 @@ void rsnd_adg_clk_control(struct rsnd_priv *priv, int enable)
+>         struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
+>         struct device *dev = rsnd_priv_to_dev(priv);
+>         struct clk *clk;
+> -       int i, ret;
+> +       int i;
+>
+>         for_each_rsnd_clk(clk, adg, i) {
+> -               ret = 0;
+>                 if (enable) {
+> -                       ret = clk_prepare_enable(clk);
+> +                       int ret = clk_prepare_enable(clk);
+>
+>                         /*
+>                          * We shouldn't use clk_get_rate() under
+>                          * atomic context. Let's keep it when
+>                          * rsnd_adg_clk_enable() was called
+>                          */
+> -                       adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
+> +                       if (ret < 0)
+> +                               dev_warn(dev, "can't use clk %d\n", i);
+> +                       else
+> +                               adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
+>                 } else {
+> -                       clk_disable_unprepare(clk);
+> +                       if (adg->clk_rate[i])
+> +                               clk_disable_unprepare(clk);
+
+As pointed out by Mark, you may want to clear adg->clk_rate[i] here?
+
+>                 }
+> -
+> -               if (ret < 0)
+> -                       dev_warn(dev, "can't use clk %d\n", i);
+>         }
+>  }
+
+With the above sorted out:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+                                -- Linus Torvalds
