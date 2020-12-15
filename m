@@ -2,128 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31F302DAF71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 15:53:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C282DB054
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 16:45:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730107AbgLOOvj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 09:51:39 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37634 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730086AbgLOOvg (ORCPT
+        id S1730304AbgLOPnZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 10:43:25 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:32978 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728359AbgLOPnS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 09:51:36 -0500
-Received: by mail-oi1-f193.google.com with SMTP id l207so23594696oib.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 06:51:20 -0800 (PST)
+        Tue, 15 Dec 2020 10:43:18 -0500
+Received: by mail-oi1-f196.google.com with SMTP id d203so2598417oia.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 07:43:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3Fr1RXEENBXmloTxPCCmEENufAgrOJXMXh7xD4Llq9k=;
-        b=tLZxUeWwhuPoTwISDf/SE8VpTSv6vCZrfSxRYa9r5V2bNUDQN8UF5AXgcWFjaSloI/
-         Yj7eTigE1Q2HPORVyxklBHfDXX3bzikGNPLRtjD8dk2LvmB6p74pqL7gRpC6vOVUOK4e
-         irWkQ+mR2J5ga3FEj2w8P23KlURyTekJyoJdIf+L6gDDIAKnJxheyCHJgGAti5zIRBkg
-         8fkUTmvFWH8sEshV9bjcm7wIGAMVaNsWhlqod4AjlwxaPXEfj1xWPxtTH+MEkh9eToVZ
-         I/kOwcakfWPBNSqscwa0GXEhKLsOSb5nN+p01WMNsJ6ZXNpg1H+poxAwy7Jc4pTIhfxo
-         eIZA==
-X-Gm-Message-State: AOAM530rWBV4Ljnxfn93UpmFuGMJQV1jLEDV9AFpijqnjTriZyTzHjEf
-        5vfB6i5gBW7xg2hAAzGu5XXKJtK3kHTLo5TuZGA=
-X-Google-Smtp-Source: ABdhPJyAoGZvTKFQNdwkt2a8Nald5iIQlTH36q6kMZIjhd5Xxy0UdgAkH6Xt8z8Z2eC1If/OVgWsJo+D200Lr0ItDss=
-X-Received: by 2002:aca:4b16:: with SMTP id y22mr21526892oia.148.1608043854951;
- Tue, 15 Dec 2020 06:50:54 -0800 (PST)
+        bh=gIZO24TPPjWTsJsVecEgyMhh7DdXvaXL1GWXuFZpwE4=;
+        b=QMuDqx0TlJHohK1nZdcqQrNj7lDJSA5o1cPw8ZAv8F8M/dKTOtj9jcsjmdmp0Wjcz3
+         5NfBk5+N7OnODw2N5gyjnlGUzx+kCX5r5EszrQAJVN99MFl0epp4bZVUhX2s8W9YA4Iy
+         Uv/x2oJFrB+Hs4G2rK4c7pu5mJn7W6KAnmw61kGER2p+4UANqtbjE6qyAy2M+8WajbRz
+         0anytC4pxvzTwW/dXDmWrf+ug8HGxx8Sis5flD7qj7t7G3xwANMBrhn7FUG7l7cJLn0i
+         6JEHGzqZsaMQNFDnz1XCXQRuIhDs+/WlxRA4bD9A+akWQb8dq+JqKA7z7hGJWt/+i2/b
+         lm3Q==
+X-Gm-Message-State: AOAM530lGce0ZXnO04WqHUwOuWnm+zmuxYkWq/5I1jiyz5rIGsHVoaBb
+        JGZjwdCMBg7IB/yCGs7mPhJoZavstOwiKnlmFaaS8ue4vIU=
+X-Google-Smtp-Source: ABdhPJxo5bSpyE8abkGY7WpMfJeGK+a181TSZyiJmBo9NazEbTJJ1d7roy/aDMEWefttB9RvuShC1QqvAoo5BGzS0Sk=
+X-Received: by 2002:aca:5c08:: with SMTP id q8mr21993784oib.54.1608046957754;
+ Tue, 15 Dec 2020 07:42:37 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMuHMdWvB+p=2JqTsO7bR8uJqKqO5A2XgXFXsVAjHk3hcxgcTw@mail.gmail.com>
- <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-5-laurent.pinchart+renesas@ideasonboard.com>
+ <d1113ad9-ff19-884d-90c4-0074c983f193@ideasonboard.com> <X9eSKM7KXms/4hoU@pendragon.ideasonboard.com>
+In-Reply-To: <X9eSKM7KXms/4hoU@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Dec 2020 15:50:43 +0100
-Message-ID: <CAMuHMdVMcjJempYDUA+AJiXWe=OgKAkGAyZDOS6R2Xp8_Xum2Q@mail.gmail.com>
-Subject: Re: [PATCH][RFC] ASoC: rsnd: don't call clk_disable_unprepare() if
- can't use
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
+Date:   Tue, 15 Dec 2020 16:42:26 +0100
+Message-ID: <CAMuHMdVZELrczzVJwt6SRLu4YDJYyR6kWK26aG9NZHWM8bPRAQ@mail.gmail.com>
+Subject: Re: [PATCH 4/9] drm: rcar-du: Use DRM-managed allocation for VSP planes
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Laurent,
 
-On Tue, Dec 15, 2020 at 1:06 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> We need to care clock accessibility,
-> because we might can't use clock for some reasons.
+On Mon, Dec 14, 2020 at 5:28 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Dec 14, 2020 at 04:20:17PM +0000, Kieran Bingham wrote:
+> > On 04/12/2020 22:01, Laurent Pinchart wrote:
+> > > devm_kcalloc() is the wrong API to allocate planes, as the lifetime of
+> > > the planes is tied to the DRM device, not the device to driver
+> > > binding. drmm_kcalloc() isn't a good option either, as it would result
+> > > in the planes being freed before being unregistered during the managed
+> > > cleanup of the DRM objects. Use a plain kcalloc(), and cleanup the
+> > > planes and free the memory in the existing rcar_du_vsp_cleanup()
+> > > handler.
+> >
+> > Managed memory always seems to hurt - which is a shame, because it
+> > should be better throughout.
+> >
+> > It's like we need a way to arbitrarily specify the lifetimes of objects
+> > correctly against another object... without being tied to a dev ...
 >
-> It sets clk_rate for each clocks when enabled.
-> This means it doesn't have clk_rate if we can't use.
-> We can avoid to call clk_disable_unprepare() in such case.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> I've been saying for years that devm_kzalloc() is a major regression.
+> We've traded a memory leak for a use-after-free. The function has its
+> use cases, there are objects that need to match the lifetime of the
+> binding between a device and its driver, but that's a small minority.
 
-Feel free to use geert+renesas@glider.be instead ;-)
-
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->
-> Hi Geert.
->
-> Thank you for your reporting.
-> I have never seen this kind of error, but it possible to happen.
-> Unfortunately, I can't reproduce this but I hope this patch can solve it.
-> Could you please check this ?
-> I added [RFC] on this patch Subject.
-
-The patch looks good to me, but I also cannot trigger the issue at will.
-I went through my old boot logs, and found 2 other occurrences, also
-on Ebisu.  In all cases, it happened while a lot of output was printed to
-the serial console (either a WARN() splat, or DEBUG_PINCTRL output).
-My guess is that console output or disabling interrupts too long is
-triggering a race condition or other issue in the i2c driver (clk 1 is the
-cs2000 clock generator, controlled through i2c).
-
-> --- a/sound/soc/sh/rcar/adg.c
-> +++ b/sound/soc/sh/rcar/adg.c
-> @@ -366,25 +366,25 @@ void rsnd_adg_clk_control(struct rsnd_priv *priv, int enable)
->         struct rsnd_adg *adg = rsnd_priv_to_adg(priv);
->         struct device *dev = rsnd_priv_to_dev(priv);
->         struct clk *clk;
-> -       int i, ret;
-> +       int i;
->
->         for_each_rsnd_clk(clk, adg, i) {
-> -               ret = 0;
->                 if (enable) {
-> -                       ret = clk_prepare_enable(clk);
-> +                       int ret = clk_prepare_enable(clk);
->
->                         /*
->                          * We shouldn't use clk_get_rate() under
->                          * atomic context. Let's keep it when
->                          * rsnd_adg_clk_enable() was called
->                          */
-> -                       adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
-> +                       if (ret < 0)
-> +                               dev_warn(dev, "can't use clk %d\n", i);
-> +                       else
-> +                               adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
->                 } else {
-> -                       clk_disable_unprepare(clk);
-> +                       if (adg->clk_rate[i])
-> +                               clk_disable_unprepare(clk);
-
-As pointed out by Mark, you may want to clear adg->clk_rate[i] here?
-
->                 }
-> -
-> -               if (ret < 0)
-> -                       dev_warn(dev, "can't use clk %d\n", i);
->         }
->  }
-
-With the above sorted out:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+https://en.wikipedia.org/wiki/The_law_of_conservation_of_misery
 
 Gr{oetje,eeting}s,
 
