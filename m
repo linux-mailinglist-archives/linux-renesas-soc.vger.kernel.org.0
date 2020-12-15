@@ -2,110 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A1E2DB10E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 17:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6812DB16E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 17:30:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730813AbgLOQOC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 11:14:02 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44058 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730836AbgLOQN5 (ORCPT
+        id S1730921AbgLOQ2Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 11:28:24 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:53229 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729543AbgLOQ2X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 11:13:57 -0500
-Received: by mail-ot1-f68.google.com with SMTP id f16so19853623otl.11;
-        Tue, 15 Dec 2020 08:13:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9dZX+PfojFjy0yr/TmFs/HzJ4t9P2vdOR9k+xSuXgLY=;
-        b=N/1h9mtEJK6vrFkHLzMjWqj8F0f4bkNbZBEBG6jUqOCV8UVKn1TGhEtohC/KXVtp+D
-         4jYg1RqzIcXEuCf7i4Cuj6nAWTrtSs1cwv4leJ90gUpWlaXhz+bqoFikDgVDqVboTYpq
-         FudRYnFUcF1P4qGiiBhg3aSGbFR6W/xR38g5HITGWH9PMwv5y+74KxniNcTwYTjSOSwn
-         T3lX3aKX0i2RGgnxk06J+rY5ho+a5dx5Ur/HmlNq30L4dCdixwN3t1LULhKC6HHVJBlW
-         4JxurqUIAK2JxqH+gi/fOIPNWtYTQrCgeJAksYc7ouOcmD3+G7VCULY56VizEvQLyR+L
-         bERg==
-X-Gm-Message-State: AOAM533tjXeDjGEwOHmnTQ9I+eVf1oP8ZzsMDcAvjsRcs+rGknOEu2EL
-        v5sxPuvwbVR2nbagK+XhPk1ZPuVF4j6n+9d33EQ=
-X-Google-Smtp-Source: ABdhPJyC2szoZZ+v8jYR7I278WqnNNwChldmp+LkfpuiP5UwaBBNwF+INcv0fWL6Lqi8IvXQS8/A5cHxtcYWfik1H0M=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr23721855oth.250.1608048796742;
- Tue, 15 Dec 2020 08:13:16 -0800 (PST)
+        Tue, 15 Dec 2020 11:28:23 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 8F5011BF204;
+        Tue, 15 Dec 2020 16:27:37 +0000 (UTC)
+Date:   Tue, 15 Dec 2020 17:27:48 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add support
+ for 8-bit ov7725 sensors
+Message-ID: <20201215162748.2pz6ujwwwdgkyoyv@uno.localdomain>
+References: <20201126103053.29881-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201126103053.29881-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201215114949.teyhlmyhejck7jw2@uno.localdomain>
+ <CA+V-a8sTXULENp+prOd10vEwYz9wiKkAhyaEPf79QGGvtLc2hQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <1607686060-17448-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1607686060-17448-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <cbb8c9b1884ea5e535bcafda1218b941bd665c21.camel@fi.rohmeurope.com> <CAMuHMdVgo1fuY9jPpxUJiCOmN4Ahs7YXddzUfKH+4106i1xiuA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVgo1fuY9jPpxUJiCOmN4Ahs7YXddzUfKH+4106i1xiuA@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Dec 2020 17:13:05 +0100
-Message-ID: <CAMuHMdWuoRMsNMPKgni3HENRT7RnCTyEjs5Zy2r4gw9f2B0Cng@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] regulator: bd9571mwv: rid of using struct bd9571mwv
-To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
-Cc:     "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "yoshihiro.shimoda.uh@renesas.com" <yoshihiro.shimoda.uh@renesas.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-        linux-power <linux-power@fi.rohmeurope.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "khiem.nguyen.xt@renesas.com" <khiem.nguyen.xt@renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8sTXULENp+prOd10vEwYz9wiKkAhyaEPf79QGGvtLc2hQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Dec 15, 2020 at 5:02 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Dec 11, 2020 at 3:03 PM Vaittinen, Matti
-> <Matti.Vaittinen@fi.rohmeurope.com> wrote:
-> > On Fri, 2020-12-11 at 20:27 +0900, Yoshihiro Shimoda wrote:
-> > > To simplify this driver, use dev_get_regmap() and
-> > > rid of using struct bd9571mwv.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > ---
-> > >  drivers/regulator/bd9571mwv-regulator.c | 49 +++++++++++++++++----
-> > > ------------
-> > >  1 file changed, 26 insertions(+), 23 deletions(-)
-> > >
-> > > diff --git a/drivers/regulator/bd9571mwv-regulator.c
-> > > b/drivers/regulator/bd9571mwv-regulator.c
-> > > index e690c2c..02120b0 100644
-> > > --- a/drivers/regulator/bd9571mwv-regulator.c
-> > > +++ b/drivers/regulator/bd9571mwv-regulator.c
-> > > @@ -17,7 +17,7 @@
-> > >  #include <linux/mfd/bd9571mwv.h>
-> > >
-> > >  struct bd9571mwv_reg {
-> > > -     struct bd9571mwv *bd;
-> > > +     struct regmap *regmap;
+Hi Prabhakar,
+
+On Tue, Dec 15, 2020 at 03:57:32PM +0000, Lad, Prabhakar wrote:
+> Hi Jacopo,
+>
+> Thank you for the review.
+>
+> On Tue, Dec 15, 2020 at 11:49 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
 > >
-> > As a 'nit':
-> > I might consider adding the dev pointer here to avoid extra argument
-> > with all the bkup_mode functions below. (just pass this struct and
-> > mode). But that's only my preference - feel free to ignore this comment
-> > if patch is Ok to Mark, Marek & Others :)
+> > Hello,
+> >
+> > On Thu, Nov 26, 2020 at 10:30:53AM +0000, Lad Prabhakar wrote:
+> > > The 8-bit ov7725 sensors can also be connected to the camera daughter
+> > > board.
+> > >
+> > > This patch creates a separate dtsi file for ov7725 sensors and is included
+> > > in r8a7742-iwg21d-q7-dbcm-ca.dts. The user can set VINx_SENSOR depending
+> > > on the cameras connected.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > ---
+> > >  .../boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts    |   7 ++
+> > >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725.dtsi    | 112 ++++++++++++++++++
+> > >  2 files changed, 119 insertions(+)
+> > >  create mode 100644 arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725.dtsi
+> > >
+> > > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > index 1ab4f9771a34..915ff5fd437c 100644
+> > > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > > @@ -11,6 +11,7 @@
+> > >
+> > >  #define SENSOR_NONE          1
+> > >  #define SENSOR_OV5640                2
+> > > +#define SENSOR_OV7725                3
+> > >
+> > >  /* 8bit CMOS Camera 1 (J13) */
+> > >  #define CAM1_PARENT_I2C              i2c0
+> > > @@ -40,6 +41,11 @@
+> > >   * VIN2 interface and also the ov5640 node connected to it)
+> > >   *      #define VIN2_SENSOR          SENSOR_NONE
+> > >   *
+> > > + * To tie VINx endpoints to ov7725_x endpoints set VINx_SENSOR to
+> > > + * SENSOR_OV7725 for example if ov7725_3 is connected to the VIN3
+> > > + * interface set the below (this disables the ov5640_3)
+> > > + *      #define VIN3_SENSOR          SENSOR_OV7725
+> > > + *
+> > >   */
+> > >  #define VIN0_SENSOR          SENSOR_OV5640
+> > >  #define VIN1_SENSOR          SENSOR_OV5640
+> > > @@ -47,6 +53,7 @@
+> > >  #define VIN3_SENSOR          SENSOR_OV5640
+> > >
+> > >  #include "r8a7742-iwg21d-q7-dbcm-ov5640.dtsi"
+> > > +#include "r8a7742-iwg21d-q7-dbcm-ov7725.dtsi"
+> >
+> > Mmm, can't we alternatively include one .dtsi or the other depending
+> > on a define symbol ? The .dtsi describe pluggable expansion boards,
+> > they cannot be mixed, right ?
+> >
+> Since the cameras on the daughter can be mixed and matched a much
+> better version of the patches [1] which handle this case elegantly has
+> been posted by Geert.
 >
-> Struct regmap already contains a struct device pointer, but that's internal
-> to regmap.
+> [1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20201126134031.4115211-1-geert@linux-m68k.org/
+
+Oh, I see the discussion know, sorry for the noise.
+
 >
-> Perhaps adding a regmap_device() helper to retrieve the device pointer
-> might be worthwhile?
-
--EEXISTS ;-)
-
-struct device *regmap_get_device(struct regmap *map)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Cheers,
+> Prabhakar
