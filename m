@@ -2,118 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B832DACBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 13:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A93EA2DAD9D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 14:01:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728775AbgLOMJH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 07:09:07 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:45609 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728706AbgLOMJA (ORCPT
+        id S1729213AbgLONBV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 08:01:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46248 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729156AbgLONBN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 07:09:00 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 89A95FF80E;
-        Tue, 15 Dec 2020 12:07:58 +0000 (UTC)
-Date:   Tue, 15 Dec 2020 13:08:09 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tue, 15 Dec 2020 08:01:13 -0500
+Date:   Tue, 15 Dec 2020 13:00:21 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608037233;
+        bh=fDiP7ilApLHaKkbPhxkJs3BwaJy+ICOzNNwrseuWDDQ=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=igylZFgutp+6ZB0uy7rkm5KPCGAKGCZ3mZ7wmryn8yElieFXFV6sfnel/Cz2/SXqb
+         wVQLyLa5IxVG5Y1PuFhaH9N543ogMHakK69qg9PQ+PeykMYouz5iCpi+gD/w/Fk1Po
+         IKjH40Ne5hYN0an/elbKmglXRdAddDvi4CYsJM8cLnOoZg56Ap0HTe0oHa55pGFYvu
+         sKwEMVM52gRNnoc8m85BwOiTpJnxYjPrc8Fd0LBqAq0k609+tCZSJsVb44grJZeO4u
+         gjiE2QIjDnaU2K2pjlAfuu1w3/3WeA5tp665NLBMS8DDdrypBh3+CLDLCjTSUpA8xh
+         niVQhMC+fXB/g==
+From:   Mark Brown <broonie@kernel.org>
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: Re: [PATCH v5 2/8] dt-bindings: media: max9286: Document
- 'maxim,initial-reverse-channel-mV'
-Message-ID: <20201215120809.l4qrwdfoq5jpsfi5@uno.localdomain>
-References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
- <20201116135305.81319-3-jacopo+renesas@jmondi.org>
- <20201130220048.GA3104550@robh.at.kernel.org>
- <20201215111420.zpc67jkary3l5j4z@uno.localdomain>
- <CAMuHMdX1bzRqZEvXod3QNx+SNybP85wpQ66=bxyQJ4kAoo6X1g@mail.gmail.com>
+        Linux-ALSA <alsa-devel@alsa-project.org>
+Subject: Re: [PATCH][RFC] ASoC: rsnd: don't call clk_disable_unprepare() if
+ can't use
+Message-ID: <20201215130021.GC4738@sirena.org.uk>
+References: <CAMuHMdWvB+p=2JqTsO7bR8uJqKqO5A2XgXFXsVAjHk3hcxgcTw@mail.gmail.com>
+ <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="V88s5gaDVPzZ0KCq"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdX1bzRqZEvXod3QNx+SNybP85wpQ66=bxyQJ4kAoo6X1g@mail.gmail.com>
+In-Reply-To: <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: In specially marked packages only.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
 
-On Tue, Dec 15, 2020 at 12:44:17PM +0100, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Tue, Dec 15, 2020 at 12:14 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > On Mon, Nov 30, 2020 at 03:00:48PM -0700, Rob Herring wrote:
-> > > On Mon, Nov 16, 2020 at 02:52:59PM +0100, Jacopo Mondi wrote:
-> > > > Document the 'initial-reverse-channel-mV' vendor property in the
-> > > > bindings document of the max9286 driver.
-> > > >
-> > > > The newly introduced property allows to specifying the initial
-> > > > configuration of the GMSL reverse control channel to accommodate
-> > > > remote serializers pre-programmed with the high threshold power
-> > > > supply noise immunity enabled.
-> > > >
-> > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
-> > > >  1 file changed, 23 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > > index 9ea827092fdd..f61234d204fa 100644
-> > > > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > > @@ -51,6 +51,26 @@ properties:
-> > > >    '#gpio-cells':
-> > > >      const: 2
-> > > >
-> > > > +  maxim,initial-reverse-channel-mV:
-> > >
-> > > Use standard unit suffix.
-> > >
-> >
-> > Which one ? :)
->
-> Documentation/devicetree/bindings/property-units.txt
->
+--V88s5gaDVPzZ0KCq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Oh, I had no idea we have this.
-It's been here since a long time it seems, my bad
-        Date:   Mon Feb 8 10:55:55 2016
+On Tue, Dec 15, 2020 at 09:06:05AM +0900, Kuninori Morimoto wrote:
 
-> > I see in v5.10 one 'mV', three 'mv', one 'millivolts', several
-> > 'microvolts'.
-> >
-> > I'll go with the majority and make this
-> > 'maxim,initial-reverse-channel-mv'
->
-> Wrong guess ;-)
->
+> -			adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
+> +			if (ret < 0)
+> +				dev_warn(dev, "can't use clk %d\n", i);
+> +			else
+> +				adg->clk_rate[i] = clk_get_rate(adg->clk[i]);
 
-Maybe a stupid question, but the fact only 'microvolts' is listed, is
-an implied suggestion to use 'millivolts' for simmetry or to express
-the value in micro volts ?
+We never reset adg->clk_rate[i] so if we use the clock once then get an
+error attempting to use it again...
 
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+>  		} else {
+> -			clk_disable_unprepare(clk);
+> +			if (adg->clk_rate[i])
+> +				clk_disable_unprepare(clk);
+
+...we'll try to disable twice.  This was already an issue of course, not
+something introduced in this patch.
+
+--V88s5gaDVPzZ0KCq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/Ys2QACgkQJNaLcl1U
+h9DL3gf+LbNAoq+ie6MXE724oAYdw14gdhZfxkEnqHxElgGxZvKK4DzEZl6tGfvw
+pfaEOw057v0Jd+6M7/EgbVW+FEMMHkyrb9HJrsAaQJyBnKE8KreAqVCcsHuCIqGA
+z5qEphd6k9vzNByer4Rs+Lo8AAnNSLvEgKDfPjAVyJNOTJjR+C6JbCf/LrXU5u+s
+tuar+WbDmCTjX5mRPOqE2jyWt85IL5TFNnEegN80uYwXgpdBoIq25oFOgbzqP9Pg
+rW/6/xhRsUQ+WeyBfZrNCxpg0kgQt69OmqfG8uVniwUF0W2BAiYlG8jq46n6CAIB
+bzkkTuu/1Sh9yjRVkt9OIcQCjYvt6w==
+=B+vF
+-----END PGP SIGNATURE-----
+
+--V88s5gaDVPzZ0KCq--
