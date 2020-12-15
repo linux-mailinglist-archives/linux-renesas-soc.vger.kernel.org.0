@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 327672DA598
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 02:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADE72DA699
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 04:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729987AbgLOBdS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Dec 2020 20:33:18 -0500
-Received: from mail-eopbgr1410113.outbound.protection.outlook.com ([40.107.141.113]:32997
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        id S1726572AbgLODBu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Dec 2020 22:01:50 -0500
+Received: from mail-eopbgr1320124.outbound.protection.outlook.com ([40.107.132.124]:6172
+        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729980AbgLOBdS (ORCPT
+        id S1725871AbgLODBi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Dec 2020 20:33:18 -0500
+        Mon, 14 Dec 2020 22:01:38 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DqJwmXjGNnuZ+/z9IeUElscw1Niwd95aCS8h6XTIXQnTnxE+xfaqhr+S+JiYmji+Frl1V6qF8xGh3kXNYLFP1VHfiqCd47kzrMAln6r1qX82vqh56VX1fNHeP93c12wg4rpV37LGTz/AJPt0Ie5KH4QZRvQOB4yoveYZp+5Wrqj8LPlw5+TBP6LQPptZbq4bJ4VZW1+N6jPp4xI4P/y4Ai7fLwxOUjkXeTRgNjqY7mJ3VVXwXW2FTfOaggQWw5+Op5kgVHqmtErVOM+Xn9M0lRCQFD2+bw+bWXdyJb/nxKWkjCFHOZyF0wW4bVdFcQO13kf67PzdwW+2G82t+h314w==
+ b=V65dwTdhuVzs7w3GyNbvkbufHQ0TkxFcK8l5YqXCg8zw1x8IgIr0xW5FPyYrmA942ynzuX0T4J/q7Upqh/0MePWKsdhEVyurVr2MWou7JTajteDnqC2ibDUoSwQGCgVOAFtaC7mSMhuSEi72Tne1bp24xH7LZg1/9/fsP3lRo4XDItHp2YF2TjUY12BISNum5JMwkRIA8BM20n5qxdg56RoYgwhggz7CvCVpXRB9QvfdYo7R1AeP+Hr2HpRZK1B/52Ow3y50l7Pc7fT+y2/esSjg6eI/LuWklxy0Pn16M+XGM7mdDQDUvXywrc6SenlMoCJAib2YRDwsQeb9gHmgow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qcuwLeXzTwMh3k8XkVnmPxzScRueCwOCRqENIMY5k88=;
- b=coc9QFiluSg2dk8nkN5YYZNCLfMNriqrLjqnMOgfDT3TRJbx4mPzqrb//GP38W0mOhqUHPLVIWUxpxYe1rDhoA7FqDRvm8W5LVKyCW2dBpW3DhCVJ19GhYZ4ZhDYssfmUAY7k1ZCzkWKpaPdxE9AWLRh0NlKs8gEc9aa+UTxz9+KkjLvzPao+1t37Mgj36BuhWYRSv8tXBS8sXTlK5LqNHbS1Kr/EbE5hyLzJ0DJMQlhZEMVotNMOAdXHOsr162EEwjXZ7MONklXRpKDRS5LsTqEEeexd2Emorr62v5v5AMDVegYkt/v6U4SOKD1k1vnfxuuQMxYmMi7I5t57arT5w==
+ bh=jWBHWsg6sDU0FoC2k1puQigsee/gANKanrbOHGtplaE=;
+ b=DYQKdkSYLR7M0c1xI/Tdo490NY5SLb0+xeUtHnJKunN/TKCZsXXlqrGYfpIL2yh9ryUui0+uov/M/lI8FQvrKDul+vMZqZlFdMPJ9fEp0GcPIKlQ9rVpcWEZXup1B5BK07tC4Pag143QuCqTVIIKnFjVy+L6ZJXQy4hIhU744ZSbgIqr/VJUAC+rbhKhJpVtdmIdpWjdUts3wChi4m8s3kkPf4bubqrqdbXLTNoiOdBS3E1/xFViR57ly8JGErgInTNoGVmklt9khKcGY+qhcZ6qSx+ZR6IIH17lAIPmCG3rxCn+US61bTTz1/zLHdL0g62XeuE4mK7ZmPoHe4wWeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qcuwLeXzTwMh3k8XkVnmPxzScRueCwOCRqENIMY5k88=;
- b=gKss/t5D6wE8zaW1Cs3dNMpPfZdLSJKboCU0JBgnIZcgXn7/1JAWau5rZRd1dMcw0IiUVw4p/7n9JED33ZDy93nff3dP4m0VRe2JaU1C84cqP8JiW6usyNOuWmDcK5z7JrErDSSXKd/PQMBQ7ZEea9Wlu7t0o/tHpdaV1ljAyAg=
+ bh=jWBHWsg6sDU0FoC2k1puQigsee/gANKanrbOHGtplaE=;
+ b=kJRgGvAuNYgDWboW17LlekGfRxyxxBRNV4xu0kn4028pRKvckHef0Hmar4tacLMpHhE0C6wYk0+yeFFXZnlCDT/HSOoEpD/c0qFhQ40RIMhhG6mK9sJoNFMtyGAHV5quRv8jN0zS2Z3ER9WALSX5ugljzw4/TO+I2nzyfsYPuZM=
 Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TYAPR01MB2223.jpnprd01.prod.outlook.com (2603:1096:404:6::18) with
+ by TY2PR01MB4300.jpnprd01.prod.outlook.com (2603:1096:404:10b::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 15 Dec
- 2020 01:32:29 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.19; Tue, 15 Dec
+ 2020 03:00:03 +0000
 Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
  ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
  ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3654.025; Tue, 15 Dec 2020
- 01:32:29 +0000
+ 03:00:03 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
@@ -47,12 +47,13 @@ Subject: RE: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
  post_req support
 Thread-Topic: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
  post_req support
-Thread-Index: AQHWyj/XFRA8x/qYgketk3GLo6qcL6n2zRCAgACZ/JA=
-Date:   Tue, 15 Dec 2020 01:32:29 +0000
-Message-ID: <TY2PR01MB369299EDBA25C39E5B4FFBD4D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Thread-Index: AQHWyj/XFRA8x/qYgketk3GLo6qcL6n2zRCAgACZ/JCAAB6QIA==
+Date:   Tue, 15 Dec 2020 03:00:03 +0000
+Message-ID: <TY2PR01MB3692AEAA842555886E0517B5D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 References: <1607087853-6570-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
  <20201214155001.GA950@ninjato>
-In-Reply-To: <20201214155001.GA950@ninjato>
+ <TY2PR01MB369299EDBA25C39E5B4FFBD4D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB369299EDBA25C39E5B4FFBD4D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -63,32 +64,32 @@ authentication-results: sang-engineering.com; dkim=none (message not signed)
 x-originating-ip: [240f:60:5f3e:1:d95c:2734:f16c:3219]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: fc3c683c-a5b6-4236-6523-08d8a0994937
-x-ms-traffictypediagnostic: TYAPR01MB2223:
-x-microsoft-antispam-prvs: <TYAPR01MB222321FD2089DE64997D806FD8C60@TYAPR01MB2223.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-office365-filtering-correlation-id: 9501b197-323d-4aeb-0ac0-08d8a0a584d6
+x-ms-traffictypediagnostic: TY2PR01MB4300:
+x-microsoft-antispam-prvs: <TY2PR01MB430023100F30ED95681FC6F2D8C60@TY2PR01MB4300.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KoEOfgQ3uDQ+jJXwVzDA0VbMdWSoVao3rXdFIYZZtl1hkYWhSW0HiVH8PA3YEMe0fr+qZgKsHjmEzyc9zS6c0KXEYZyriYt0obMDQNpsr1KKpoyvnZsxTAaP9ZA9rX8JETfUpB6ciPO5Aq17n8GOYW9c1NV3S3SP5ZpuMIGkXxsBblFa8x4RuIpvgEch8M1kPl+p69JFXNBnzaBJktMgTMUHIfK9TJDx5ug+5+YXfI0H3gj6t+eP3rAgLEfDKQ5WGn/cvADCBoxCvXpyr1KI792v2mbgTKz9rHdAhQg7FYWEhJB0rqc+bRby6Lwu8x1niV6R33KRakc1W662Wj0Z1Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(136003)(39860400002)(346002)(396003)(186003)(4326008)(71200400001)(8676002)(5660300002)(33656002)(478600001)(52536014)(66476007)(7696005)(2906002)(64756008)(66556008)(9686003)(316002)(76116006)(55016002)(83380400001)(6506007)(54906003)(8936002)(86362001)(66946007)(66446008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Gaatl3vfusAmxxeTPVqPgz3D/FOQdAjewIrxO7Fnl0IS0OHaaZ7FxTr3c61R?=
- =?us-ascii?Q?CGi97SnauYSfpDgR2UHCEjNl1mCOEL0m+dC4hFm/29bPafZWLSYqLAeQ5W4L?=
- =?us-ascii?Q?eBPc1IT7tKF0Zw/sO5qhyiIoGH99D9JMsTQgtCjgjGV9xgSMUBLVdhWaYHcV?=
- =?us-ascii?Q?YKXJOJCidwZ5A2W6+iZYfK41yqIvoHhIDMaBQ360R1FTrjXJvOVxbbLbFm5k?=
- =?us-ascii?Q?rpyEuL1gDzCEwLoMIRXF8fyPyJfYtA0lWJVTuslfeghD57sWzP2BA0gAsH45?=
- =?us-ascii?Q?72VgW70XNnN/2ymBCTCP9klGTMMCAbwRyfq+YNlMTHuoC8I+dHzKWnn9/oRc?=
- =?us-ascii?Q?J4kfPnrrTg6gjSIQ0+Ol3QoKXqzOEtKGXlPIelkBlNjjVVPyt/L27tEyxHEj?=
- =?us-ascii?Q?4ZfWBzuXaklMx+O1z7n4VVWPmHQ/LTQZuD4YLr7ld7Le3QoxaHcDbr1mUh3s?=
- =?us-ascii?Q?MtV43CUouy7msELzJ+6l5ozbGHALOAyxPYrvm1iObAxv6PMAUCTqUck+2L9n?=
- =?us-ascii?Q?4L2KT97RPb/C3xGM+5LoZkew/g4XuVWquUkpdMSQiAIIhvvgpLnIfbg0/1zL?=
- =?us-ascii?Q?FVWVGf9Pef83oqvmzjKyguIVYnz8R3A41uOyVzwSXfeIwuifWf5mUWmeI7cc?=
- =?us-ascii?Q?3FOA3yRM9Up5nAO/DHAbJ1skg9wWUBWA4TPQkHLB2nePbR2XEWjEHC682Wgp?=
- =?us-ascii?Q?Qsj1ky3oyqh3VK407En+TAadKUnSDRr25YjNA1zJ2jRoqSRRyFUpoUQFO+c9?=
- =?us-ascii?Q?uwmAqwbOFGwCq88E9ByMEmilKjRNglWZJ1ndyZJ+5bNo7tn+OXMNKvBC6lD/?=
- =?us-ascii?Q?XKRbLXog2sJQvZ/i479Ftts1B5TVsnGnzINE4Mk+wU0z0q1Ep72IwbYqZZJu?=
- =?us-ascii?Q?xHvMuIqppuTeaICnrcZGnSWPyVZsF9bE9PFZ6ICVqoW/Cl9i8JxtnxcKKEE0?=
- =?us-ascii?Q?+Qu8fWb39LwFuU5dlv3Fpr0atVlIqF5yk1T3SgVPtXo/6PheIXSHKwTvyhxs?=
- =?us-ascii?Q?CJqrOe68HYMPawGA/5H7MnPm062n7R9SAZnC+iToWTwOTHk=3D?=
+x-microsoft-antispam-message-info: bJwWB7/FX65efz+sqt2P7bytR4nFTQGwpLFHp2GxSPndWxv6DOguh2VP3qy3FWkGMc7rsBeFlokmhGIcUqjI2/t1H2Ck6TN/HFqJNLGUQwEMvfxunX5pPG1Ip4gRVDIJc+9jnE2qXw56Sfxg63h8DkQ2zhu3hloWB+WAskW7nuD/yKUXMDaGOkeCmqBfyDw7wkExEMndpkVllE3DJD5cqqN4mko/SyUfFR7jsIuiliF0bNxlHhxOc+NXUHuK+Ghtpbe/O66E7Omts/RCGN1eCLjHH/YletpI1KDdUnNByANCUiteENTEgyt2q2FtVWZpwJBiT92kU5EsBtoLc2fAhQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(376002)(136003)(39860400002)(346002)(6506007)(86362001)(54906003)(5660300002)(2940100002)(316002)(71200400001)(186003)(52536014)(7696005)(2906002)(8676002)(64756008)(4326008)(33656002)(83380400001)(76116006)(66476007)(66946007)(9686003)(55016002)(8936002)(66556008)(66446008)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?fLnMrAhtXjbTa6dZvsi7rAPHEM7jAaD49gWABsuW0Kh2nND8Av9uPtYsDZur?=
+ =?us-ascii?Q?yPKRJ7TwfZt38VWk6w8RPu0TnRG+Qxm9LAKhBQFf4M6HmznBdjAT/XwoD5sU?=
+ =?us-ascii?Q?j5HoIB6s2zFRDU9TjZGp/yGB4T5IQevxrzxcsOZHxXEiC0/y1XcEqWGI2uXP?=
+ =?us-ascii?Q?7OJzIw4XfC/YbGUB0tk/T5qmcjt4DWeP2QVGP6VVzXSoAdQgmKHtJMd94sob?=
+ =?us-ascii?Q?3skZfEgue6dSQGV4eVZtClyLuDXv5wiBQB2ctvm9WgDl6J4pF3QiSTCUZ8ZG?=
+ =?us-ascii?Q?NexlCNpKeQhVsNjYXojlZ57ldoNMcxh3ueHDOott9pHev4RiDwDBywN0TMsB?=
+ =?us-ascii?Q?21cxwe2EAwiXlgMj3fhwParjY0Ul7P+cdvQZoqw/xTutTPRORs6s3A0KuTvh?=
+ =?us-ascii?Q?vCMsaHkS0p2uRkOEX+KRP+kaaOPE5UH9cAruTYJMwtgLdSHD3YxH5OO4h7T2?=
+ =?us-ascii?Q?4WWOu1Puw8rNWpcLHyKjsaZeKgJbEKG1yvJjHj05lJW+p69kaci8yizphdrD?=
+ =?us-ascii?Q?XSiwVVC+4AeF6Pjo8niQy0VQplhsl6NCXHfp7n/LzaqxJKtobiEHG9HFkqPl?=
+ =?us-ascii?Q?j+XituXstD0RTcNJ5rWY8tgsuXO9ALYk1msU1C+Otdt5njMlue/7PO1ZNJYB?=
+ =?us-ascii?Q?OcBhfDvFbrSxDjGN14aQAjsJF/hUPoTFsmmRMUkkoWOEOL6v2CnTLfCZeesb?=
+ =?us-ascii?Q?v3x0RQcfWAUydPKJAMBonN403NkaumlBz8eIneE184Ua4TvjOHy8AnlSlvCc?=
+ =?us-ascii?Q?mz4qSHixylhGsoZjQzi9EBUGPRu1tqCVfatPv5gGljFgCwT6LWNlFy3KlCUF?=
+ =?us-ascii?Q?c0jf7Pdm1oz4mbAJHiEDhJ5VBM0Jp+9AcOOf6djBZVnlSRd2ZkmpKFEa/W02?=
+ =?us-ascii?Q?24BYck2lyO+ciX6QKhw5I2ypm1jmnlaTcGC8W/W5mBMynCIGOjvLyRccIDQb?=
+ =?us-ascii?Q?vHjQuo3DdLjmRXlli93JDrfSGaoN+4vQdoRP9SI/xTUvbRxD/Uwwy0PDMKHs?=
+ =?us-ascii?Q?8FfT2pLzeqFP9/yuKyy89/TbR7qLr5N6jezh0moFelJMIfc=3D?=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -96,105 +97,62 @@ MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc3c683c-a5b6-4236-6523-08d8a0994937
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 01:32:29.1023
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9501b197-323d-4aeb-0ac0-08d8a0a584d6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 03:00:03.0693
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: daR7JyjdTdy6IB7FDHJ1OEy05Y1Wvj1vZ2B/9afckhWNM3JLHB3PXKVzcRcYAQ4+1W/NwbS1ExCQMMRSSMyV7ExrZP3mank31GZGQS3DIRObh1/HLVPpKirUwVosMEti
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2223
+X-MS-Exchange-CrossTenant-userprincipalname: wF0O1zH4Nkmje5KPLP1epoWkFAsuehmcbFuzUP7Dr7/CB8H3D9pVeWKnRY7V0wW/UDeyYy7pNYTlguKpPtL8bP1rAAW/p1KaVnFmp8Sh5XnQsTtcEz340s+/Y/ZTq00Q
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB4300
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+Hi Wolfram-san again,
 
-Thank you for your review!
-
-> From: Wolfram Sang, Sent: Tuesday, December 15, 2020 12:50 AM
->=20
-> Hi Shimoda-san,
->=20
-> On Fri, Dec 04, 2020 at 10:17:33PM +0900, Yoshihiro Shimoda wrote:
-> > Add pre_req and post_req support to improve performance.
+> From: Yoshihiro Shimoda, Sent: Tuesday, December 15, 2020 10:32 AM
+> > From: Wolfram Sang, Sent: Tuesday, December 15, 2020 12:50 AM
+> > On Fri, Dec 04, 2020 at 10:17:33PM +0900, Yoshihiro Shimoda wrote:
+> > >  /*
+> > >   * Specification of this driver:
+> > >   * - host->chan_{rx,tx} will be used as a flag of enabling/disabling=
+ the dma
+> > > @@ -172,6 +178,47 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tm=
+io_mmc_host *host) {
+> > >  	tasklet_schedule(&priv->dma_priv.dma_complete);
+> > >  }
+> > >
+> > > +/* Should not use host->sg_ptr/sg_len in the following function */
 > >
-> > Inspired by a patch in the BSP by Masaharu Hayakawa.
+> > Maybe a short explanation why we shouldn't use the functions?
 >=20
-> Thank you for upporting this!
+> I tried to update the comment as below:
+> /*
+>  * tmio_mmc_request() only sets host->sg_{ptr,len} and
+>  * renesas_sdhi_internal_dmac_pre_req() doesn't set host->sg_{ptr,len} so=
+ that
+>  * we should not use the values in the following function.
+>  */
 >=20
-> >  /*
-> >   * Specification of this driver:
-> >   * - host->chan_{rx,tx} will be used as a flag of enabling/disabling t=
-he dma
-> > @@ -172,6 +178,47 @@ renesas_sdhi_internal_dmac_dataend_dma(struct tmio=
-_mmc_host *host) {
-> >  	tasklet_schedule(&priv->dma_priv.dma_complete);
-> >  }
-> >
-> > +/* Should not use host->sg_ptr/sg_len in the following function */
->=20
-> Maybe a short explanation why we shouldn't use the functions?
+> Hmm... Perhaps, I should modify the code to use host->sg_{ptr,len}
+> in both paths (.request() and .pre_req()) and remove this comments.
+> So, I'll try to modify. I guess tmio_mmc_init_sg() is called in pre_req()=
+,
+> we can use host->sg_{ptr,len}.
 
-I tried to update the comment as below:
+I'm sorry. I was completely wrong. If we use {pre,post}_req,
+the MMC core will call pre_req() twice with each mmc_data before
+pre_req() is called. So that, second pre_req() will overwrite
+the host->sg_ptr. So, we should not use host->sg_ptr here.
+So, I'll update the comments like below.
+
 /*
- * tmio_mmc_request() only sets host->sg_{ptr,len} and
- * renesas_sdhi_internal_dmac_pre_req() doesn't set host->sg_{ptr,len} so t=
-hat
- * we should not use the values in the following function.
+ * Since pre_req() will be called twice before post_req() is called,
+ * host->sg_ptr will be overwritten by second pre_req(). So, to use
+ * suitable sg pointer, should use data->sg/sg_len instead of
+ * host->sg_ptr/sg_len.
  */
-
-Hmm... Perhaps, I should modify the code to use host->sg_{ptr,len}
-in both paths (.request() and .pre_req()) and remove this comments.
-So, I'll try to modify. I guess tmio_mmc_init_sg() is called in pre_req(),
-we can use host->sg_{ptr,len}.
-
-> > +static void
-> > +renesas_sdhi_internal_dmac_unmap(struct tmio_mmc_host *host,
-> > +				 struct mmc_data *data,
-> > +				 enum renesas_sdhi_dma_cookie cookie,
-> > +				 bool expected_unmatch)
->=20
-> Can we maybe skip "expected_unmatch"? It is always true for
-> COOKIE_UNMAPPED and always false for the COOKIE_*MAPPED values, or?
->=20
-> > +{
-> > +	bool unmap =3D expected_unmatch ? (data->host_cookie !=3D cookie) :
-> > +					(data->host_cookie =3D=3D cookie);
->=20
-> Then, we could do:
->  +	bool unmap =3D cookie =3D=3D COOKIE_UNMAPPED ? (data->host_cookie !=3D=
- cookie) :
->  +					(data->host_cookie =3D=3D cookie);
-
-Thank you for your suggestion! You're correct. I'll fix this.
-
-> > +
-> > +	if (unmap) {
-> > +		dma_unmap_sg(&host->pdev->dev, data->sg, data->sg_len,
-> > +			     mmc_get_dma_dir(data));
-> > +		data->host_cookie =3D COOKIE_UNMAPPED;
-> > +	}
->=20
-> Is it maybe worth a warning if the expected condition was not found?
-
-If we could add such a warning, it's helpful. However,
-I have no idea how to implement a condition for it because
-we cannot use "else" here. For example, when this driver mapped
-as PRE_MAPPED and then renesas_sdhi_internal_dmac_complete() is called,
-the "unmap" value of renesas_sdhi_internal_dmac_unmap()
-from renesas_sdhi_internal_dmac_complete() is false:
-
-	data->host_cookie =3D PRE_MAPPED,
-  and
-	cookie =3D MAPPED
-
-This is because this driver should unmap in .post_req() so that
-this is the expected condition in such a case. But, what do you think?
-
-> Rest looks good!
-
-Thanks!
 
 Best regards,
 Yoshihiro Shimoda
