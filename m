@@ -2,88 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61C282DB054
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 16:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D40482DB0B2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Dec 2020 17:00:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730304AbgLOPnZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Dec 2020 10:43:25 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:32978 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728359AbgLOPnS (ORCPT
+        id S1730552AbgLOP6r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Dec 2020 10:58:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56180 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730274AbgLOP6j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Dec 2020 10:43:18 -0500
-Received: by mail-oi1-f196.google.com with SMTP id d203so2598417oia.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 15 Dec 2020 07:43:03 -0800 (PST)
+        Tue, 15 Dec 2020 10:58:39 -0500
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD074C0617A6;
+        Tue, 15 Dec 2020 07:57:58 -0800 (PST)
+Received: by mail-yb1-xb42.google.com with SMTP id w127so19396604ybw.8;
+        Tue, 15 Dec 2020 07:57:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C5gWEJwzHXn1ShMFhu2t6H+9GWvdz1kML7Fx1lY6PKE=;
+        b=Ld4HmbckjgNstSvqbLYzX5xzjzj7U3E+UXqv2D9TmeEn96ssBFVZn2OJUipNkuy38c
+         tJjAG60RBXgCz+fYDbWEyoIupDAfPkKMDrZWnsi9Ydsc/iwhJlcoBSk8jWNxC5nGvsHD
+         +0i2YKg+OdbDvw/Z1/iq6v2qMsCuSAztHoYzvTeIq71apOCH6tNoXdV9S/stASGk4Txo
+         03VuNcKN+n0nBTwBqoBuuTLmy3Se5ISU1xeGsqbFThtOSzcIyiIw55SSG4NiXQFBxWQr
+         90WGlX/rycXGm6K9w6T+84oFYUGkB2jHettCzWoFsFuN/dJapAccbbEv3MTGz9OF19vh
+         o0IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gIZO24TPPjWTsJsVecEgyMhh7DdXvaXL1GWXuFZpwE4=;
-        b=QMuDqx0TlJHohK1nZdcqQrNj7lDJSA5o1cPw8ZAv8F8M/dKTOtj9jcsjmdmp0Wjcz3
-         5NfBk5+N7OnODw2N5gyjnlGUzx+kCX5r5EszrQAJVN99MFl0epp4bZVUhX2s8W9YA4Iy
-         Uv/x2oJFrB+Hs4G2rK4c7pu5mJn7W6KAnmw61kGER2p+4UANqtbjE6qyAy2M+8WajbRz
-         0anytC4pxvzTwW/dXDmWrf+ug8HGxx8Sis5flD7qj7t7G3xwANMBrhn7FUG7l7cJLn0i
-         6JEHGzqZsaMQNFDnz1XCXQRuIhDs+/WlxRA4bD9A+akWQb8dq+JqKA7z7hGJWt/+i2/b
-         lm3Q==
-X-Gm-Message-State: AOAM530lGce0ZXnO04WqHUwOuWnm+zmuxYkWq/5I1jiyz5rIGsHVoaBb
-        JGZjwdCMBg7IB/yCGs7mPhJoZavstOwiKnlmFaaS8ue4vIU=
-X-Google-Smtp-Source: ABdhPJxo5bSpyE8abkGY7WpMfJeGK+a181TSZyiJmBo9NazEbTJJ1d7roy/aDMEWefttB9RvuShC1QqvAoo5BGzS0Sk=
-X-Received: by 2002:aca:5c08:: with SMTP id q8mr21993784oib.54.1608046957754;
- Tue, 15 Dec 2020 07:42:37 -0800 (PST)
+        bh=C5gWEJwzHXn1ShMFhu2t6H+9GWvdz1kML7Fx1lY6PKE=;
+        b=hijOGpIqmvk3qSpSLpz6FAyskFaw4mbToWh2BsExjbrc4/2HiUdeM7P6vJXzFFXm4D
+         CN/hYbSUeWA88oM/kmQL2hyTd7Yb+RgA4ubaGYXh6hJxsr+u3gpZJhBqF83m/pCZPt6H
+         OiBS1eJxotxqvLhRtRbLShLRCMoa1Je1fUgp3V4aLFdrfVn18zrQAzHRaj6gPrmsWL0N
+         wyEf/9ZNkxB/us11xFxGSB5tNr1uaYZtUK8SFuid7tlBdj8O6O8JiToWLcwaK2H2m/Ic
+         9dB22nOYU9LE8FKl3QWcStOHl3OTxcxAFJ1IcHGtZrO5xH6+JNASceNrMPNpZXVdhW6/
+         IGzA==
+X-Gm-Message-State: AOAM533TGWfrH47/2Y1osMcCYtS7p2b7TAFx7+/TfdjtjxyBaPVl/+je
+        RLrVdkuLcbjfi02Wxf936/MqaYCAGU3ASkdebWk=
+X-Google-Smtp-Source: ABdhPJyfclnkTaENRLirConWIoOx+piMmLPYv6J/hmXVCzXRS6L+s5el1GwyYb9LXWOsq8WxGKWm4C8wY+86Y9SzZe0=
+X-Received: by 2002:a25:3a86:: with SMTP id h128mr42666689yba.401.1608047878198;
+ Tue, 15 Dec 2020 07:57:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-5-laurent.pinchart+renesas@ideasonboard.com>
- <d1113ad9-ff19-884d-90c4-0074c983f193@ideasonboard.com> <X9eSKM7KXms/4hoU@pendragon.ideasonboard.com>
-In-Reply-To: <X9eSKM7KXms/4hoU@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Dec 2020 16:42:26 +0100
-Message-ID: <CAMuHMdVZELrczzVJwt6SRLu4YDJYyR6kWK26aG9NZHWM8bPRAQ@mail.gmail.com>
-Subject: Re: [PATCH 4/9] drm: rcar-du: Use DRM-managed allocation for VSP planes
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+References: <20201126103053.29881-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201126103053.29881-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201215114949.teyhlmyhejck7jw2@uno.localdomain>
+In-Reply-To: <20201215114949.teyhlmyhejck7jw2@uno.localdomain>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Tue, 15 Dec 2020 15:57:32 +0000
+Message-ID: <CA+V-a8sTXULENp+prOd10vEwYz9wiKkAhyaEPf79QGGvtLc2hQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] ARM: dts: r8a7742-iwg21d-q7-dbcm-ca: Add support
+ for 8-bit ov7725 sensors
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Jacopo,
 
-On Mon, Dec 14, 2020 at 5:28 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Mon, Dec 14, 2020 at 04:20:17PM +0000, Kieran Bingham wrote:
-> > On 04/12/2020 22:01, Laurent Pinchart wrote:
-> > > devm_kcalloc() is the wrong API to allocate planes, as the lifetime of
-> > > the planes is tied to the DRM device, not the device to driver
-> > > binding. drmm_kcalloc() isn't a good option either, as it would result
-> > > in the planes being freed before being unregistered during the managed
-> > > cleanup of the DRM objects. Use a plain kcalloc(), and cleanup the
-> > > planes and free the memory in the existing rcar_du_vsp_cleanup()
-> > > handler.
-> >
-> > Managed memory always seems to hurt - which is a shame, because it
-> > should be better throughout.
-> >
-> > It's like we need a way to arbitrarily specify the lifetimes of objects
-> > correctly against another object... without being tied to a dev ...
+Thank you for the review.
+
+On Tue, Dec 15, 2020 at 11:49 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
 >
-> I've been saying for years that devm_kzalloc() is a major regression.
-> We've traded a memory leak for a use-after-free. The function has its
-> use cases, there are objects that need to match the lifetime of the
-> binding between a device and its driver, but that's a small minority.
+> Hello,
+>
+> On Thu, Nov 26, 2020 at 10:30:53AM +0000, Lad Prabhakar wrote:
+> > The 8-bit ov7725 sensors can also be connected to the camera daughter
+> > board.
+> >
+> > This patch creates a separate dtsi file for ov7725 sensors and is included
+> > in r8a7742-iwg21d-q7-dbcm-ca.dts. The user can set VINx_SENSOR depending
+> > on the cameras connected.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> >  .../boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts    |   7 ++
+> >  .../dts/r8a7742-iwg21d-q7-dbcm-ov7725.dtsi    | 112 ++++++++++++++++++
+> >  2 files changed, 119 insertions(+)
+> >  create mode 100644 arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ov7725.dtsi
+> >
+> > diff --git a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > index 1ab4f9771a34..915ff5fd437c 100644
+> > --- a/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > +++ b/arch/arm/boot/dts/r8a7742-iwg21d-q7-dbcm-ca.dts
+> > @@ -11,6 +11,7 @@
+> >
+> >  #define SENSOR_NONE          1
+> >  #define SENSOR_OV5640                2
+> > +#define SENSOR_OV7725                3
+> >
+> >  /* 8bit CMOS Camera 1 (J13) */
+> >  #define CAM1_PARENT_I2C              i2c0
+> > @@ -40,6 +41,11 @@
+> >   * VIN2 interface and also the ov5640 node connected to it)
+> >   *      #define VIN2_SENSOR          SENSOR_NONE
+> >   *
+> > + * To tie VINx endpoints to ov7725_x endpoints set VINx_SENSOR to
+> > + * SENSOR_OV7725 for example if ov7725_3 is connected to the VIN3
+> > + * interface set the below (this disables the ov5640_3)
+> > + *      #define VIN3_SENSOR          SENSOR_OV7725
+> > + *
+> >   */
+> >  #define VIN0_SENSOR          SENSOR_OV5640
+> >  #define VIN1_SENSOR          SENSOR_OV5640
+> > @@ -47,6 +53,7 @@
+> >  #define VIN3_SENSOR          SENSOR_OV5640
+> >
+> >  #include "r8a7742-iwg21d-q7-dbcm-ov5640.dtsi"
+> > +#include "r8a7742-iwg21d-q7-dbcm-ov7725.dtsi"
+>
+> Mmm, can't we alternatively include one .dtsi or the other depending
+> on a define symbol ? The .dtsi describe pluggable expansion boards,
+> they cannot be mixed, right ?
+>
+Since the cameras on the daughter can be mixed and matched a much
+better version of the patches [1] which handle this case elegantly has
+been posted by Geert.
 
-https://en.wikipedia.org/wiki/The_law_of_conservation_of_misery
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/cover/20201126134031.4115211-1-geert@linux-m68k.org/
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
