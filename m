@@ -2,268 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE7992DBC0E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 08:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 901C22DBC63
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 09:01:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726111AbgLPHjA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Dec 2020 02:39:00 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:48579 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726066AbgLPHi5 (ORCPT
+        id S1725806AbgLPIB1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Dec 2020 03:01:27 -0500
+Received: from mail-eopbgr1410120.outbound.protection.outlook.com ([40.107.141.120]:52192
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725766AbgLPIB1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Dec 2020 02:38:57 -0500
-X-IronPort-AV: E=Sophos;i="5.78,423,1599490800"; 
-   d="scan'208";a="65934731"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Dec 2020 16:38:21 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1BFB641EE371;
-        Wed, 16 Dec 2020 16:38:21 +0900 (JST)
+        Wed, 16 Dec 2020 03:01:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UcDiKbwdoZ7/Lx596E21YPdu8pM5gou49Y8ZKdJdWv+5oMKa3i1xMfO69ct8+UfIrFF1cJzI4Qegg+Tz+XdLiEfPfXTfBdQ9jgaQsS/vihbYVZJD0E8ltOWjap3Gbgv+Rz/aROrWniseY4EpohLCGBGmloWYsCOCND7eeCRntiKlHPOeUPd0CTWQeVv8A4h29Hr1+nHwqofjxalgkbl/J/hzlnRiK7IId4lrEgwhIONOQpuuBeYylDaj0GgglcIBK4qKePRvZIMZBWA75vm0VhvR3sui1Fea3+40m5lx0o/mT60OLH8pAeOPX1WgLxcxayvW5T7VL0fIVMNLEOxvsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8jR2XgcD7DflSf1va5Q+zmfnoz4h8mmpAl8/2YAUqgs=;
+ b=DVnQiPERWHcLoI/r2KtjAVyKZ8mkxJ9D9ZeWKoUbaBaUUZM4ZBbMDZVIWeZGLsyhSZTrRKUbGqx10d/Mo+DMxtDdCYHpeHK2fjxHkpFYqhZD/frJ4dJFhDci46hS3bTbYo2lBRgl/BN3LULNNYEDDZLdkwoRsx64kWU5zssJ3GdsKcn52sVW9kEbTH4UNXiTiZ8M9cpZDOyfYTC0GB7z89Sk88OfN7Z2wx7vskuTuhsdYPfWNfXj+weUU2o4goO0QR6CVCS0G1eWsYaeaBOrx9Hq9Fo4gMtbXzj9lYAi6bmMtvywNCbcc4vX25z8YUxCBtjP4CRvGGavjEnnC34Baw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8jR2XgcD7DflSf1va5Q+zmfnoz4h8mmpAl8/2YAUqgs=;
+ b=HvO8/oKsLaobtbIZ7cals+85iID7hR6BQv6Wgg3//ooYznMEBG02um/lrDb6rLJjLDdBT29ZziXvPuMWb31wG6UfQ7f335TZz5wSBaPxcPRbGNb3kW0jyxG+VsjdRwzlI4KTHxnd5n1q/JxTsV87qsC8wBWpAPYXYnjl0Xfav2o=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TYAPR01MB5340.jpnprd01.prod.outlook.com (2603:1096:404:803b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Wed, 16 Dec
+ 2020 08:00:39 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3654.025; Wed, 16 Dec 2020
+ 08:00:39 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
-        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
-        broonie@kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com
-Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3 12/12] mfd: bd9571mwv: Add support for BD9574MWF
-Date:   Wed, 16 Dec 2020 16:37:55 +0900
-Message-Id: <1608104275-13174-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1608104275-13174-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1608104275-13174-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
+ post_req support
+Thread-Topic: [PATCH] mmc: host: renesas_internal_dmac: add pre_req and
+ post_req support
+Thread-Index: AQHWyj/XFRA8x/qYgketk3GLo6qcL6n2zRCAgACZ/JCAAB6QIIAAJDvwgAHC8lA=
+Date:   Wed, 16 Dec 2020 08:00:39 +0000
+Message-ID: <TY2PR01MB3692DA2619361C6A23838259D8C50@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <1607087853-6570-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20201214155001.GA950@ninjato>
+ <TY2PR01MB369299EDBA25C39E5B4FFBD4D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <TY2PR01MB3692AEAA842555886E0517B5D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+ <TY2PR01MB369240E88E0629EDC140D0A1D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY2PR01MB369240E88E0629EDC140D0A1D8C60@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: sang-engineering.com; dkim=none (message not signed)
+ header.d=none;sang-engineering.com; dmarc=none action=none
+ header.from=renesas.com;
+x-originating-ip: [240f:60:5f3e:1:68c8:85be:c13a:922b]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: af81a110-1c44-4311-2554-08d8a198ad97
+x-ms-traffictypediagnostic: TYAPR01MB5340:
+x-microsoft-antispam-prvs: <TYAPR01MB5340C67766FB0459E74AA15AD8C50@TYAPR01MB5340.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OSagkkbxicCP36Df1eoNEwTUDDYY7SVHFC6Muaiy/Bzx4dzaextY4raTX3nFAHtBZFCwNrijL+HNVmm1MGmmrnajQHKntQQBz8x8tGaTui8GCBoI8i4Exbcw/NyYaHRmGC0Y/ss00lme+DwKUvbdd0YWyb9DUOGH19f3nj5Vj8FjqHiD58vY8qJ++qXJA4FJaOvaLEtLQzhm6pxgHn4J153K9eArWT9fcNUyrvswJs+t7uZmZ3bCgXkUf0M5Js82Ow+eE/U6pd43GbVSbplqm8NaVjs57098GMVSer9VAmRoafE4M47FN0ntMwTMNvoqAA6dBF2dUxT5TCtA27k5lw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(39860400002)(376002)(346002)(396003)(7696005)(9686003)(478600001)(8936002)(55016002)(8676002)(66446008)(316002)(4744005)(66476007)(4326008)(86362001)(6506007)(5660300002)(66946007)(2906002)(76116006)(54906003)(33656002)(52536014)(66556008)(83380400001)(71200400001)(186003)(64756008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?XTOUYD/DL+UzgTv3wJ8z2xgKS/doVXCfALRhBHPC+5j/jsyFRyDaC4jx+bNZ?=
+ =?us-ascii?Q?FvLbJsYpdhPQ+aYUzFq80XOSZPk98kB96y9AV8jtJ027ujZCEgzHvJW5Zvli?=
+ =?us-ascii?Q?w3ZOaQ0qYCRUiQsQBTXgcwqYXbTXWw1jUI8zgXvumu8hjHaoQ+brrv/nzti7?=
+ =?us-ascii?Q?AByaqZb0ZvSYFcSSbkFrIS2GmNy3xAnDr6ml9iIpBsgjvR7DT30gS1fBjctD?=
+ =?us-ascii?Q?AMIN/OJnkbvknKZjLkkMCfnt8L3wmfORyyAhnormpTVmlholjRN7PnLImEsw?=
+ =?us-ascii?Q?/E4QZAtGYh9F62OKMjU+D2hi6zbAVeqXNsX15zR8FxGjV9GvWq0taRa9IH8J?=
+ =?us-ascii?Q?adV1acFl2WNVluB3935BlHG1FRsiivEwfRckdDf7e5rQxVm89QHMcX4EJ18J?=
+ =?us-ascii?Q?ttuFUgcc6nWWI7ikRyG+8Ef7C/ThiMdxMKM0u6ZyGbOgwH2lo2iyTIirr4Z9?=
+ =?us-ascii?Q?+fFUaiffuBDEEcU55OYHFo0T59kqcFmuxXM9RW9H4VL34/5P1F8cQZyS6Cmb?=
+ =?us-ascii?Q?+9t+jWFDRlYvo1b3VlEeTQ2XrcsAbiV2K8LiomZeHG4YDEfSc/fp7yHYnuow?=
+ =?us-ascii?Q?Ly/p5q9HJdlz5oXBmMiJq4O0svWeCzkBptocMLFqkGk867xou2p7snZ5R96a?=
+ =?us-ascii?Q?5xE+vR6VwUO7WHxwMi/ZbxagCMkhDvx/jEx7crR9QaJv8Vl/O9JrnPXAfCR6?=
+ =?us-ascii?Q?6vLYC5c7We6s+2No5O/FUOB3+LK0LAEukqldcYe0woZ3tRQFFoKcK6I+9fG7?=
+ =?us-ascii?Q?Zgwi3+ZdBJ4xu5M4f99y8saLS0OW85sq7Uan3shvwtFU0QfgMih+jD+CUk6e?=
+ =?us-ascii?Q?EvfQXf3i79g3qgIzCCmZIJO6mwrlCGTbx42hKj3fkVPjVWJPqLJEHayoqVY5?=
+ =?us-ascii?Q?a+MEHbbo8keXLfRCLb4vGW9i5CsqElErYOy8gd9c/mtH77WlZ35wHlipqjR0?=
+ =?us-ascii?Q?Q2ZNdEulMmrXH59IPaVFJdDUsxzZ9nAcBORftqz1uxvo6jHBzqiSNd0OfSdr?=
+ =?us-ascii?Q?7G3JO/kuthcU0ofADQUKAgHzus/BVF3pyjkZjJIJWuj0KDM=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: af81a110-1c44-4311-2554-08d8a198ad97
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2020 08:00:39.1490
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tJyP5cXzX/D/9IE/GYZ2JhRq5FONOY6YJuYMLAL+vf2NPdAVBhQ7zE2wwhO8LR3sur7fD9XtpjSElAytn8ZoPJax9r7PqRF7Ys9aQcLULE087dg8zJMyM9Rb8hVV5L4U
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5340
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+Hi Wolfram-san,
 
-The new PMIC BD9574MWF inherits features from BD9571MWV.
-Add the support of new PMIC to existing bd9571mwv driver.
+> From: Yoshihiro Shimoda, Sent: Tuesday, December 15, 2020 2:03 PM
+<snip>
+> I'm sorry again and again. But, I realized the current patch breaks
+> "force_pio" mode because tmio_mmc_pio_irq() doesn't take care of {pre,pos=
+t}_req.
+> So, I'll try to refactor tmio core to support {pre,post}_req().
 
-Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
-[shimoda: rebase and refactor]
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/mfd/bd9571mwv.c       | 86 ++++++++++++++++++++++++++++++++++++++++++-
- include/linux/mfd/bd9571mwv.h | 18 +++++++--
- 2 files changed, 99 insertions(+), 5 deletions(-)
+I'm sorry. My fault injection code is bad. In other words, we don't need
+to refactor tmio core.
 
-diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-index ccf1a60..f660de6 100644
---- a/drivers/mfd/bd9571mwv.c
-+++ b/drivers/mfd/bd9571mwv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * ROHM BD9571MWV-M MFD driver
-+ * ROHM BD9571MWV-M and BD9574MVF-M MFD driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -11,6 +11,7 @@
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/mfd/core.h>
-+#include <linux/mfd/rohm-generic.h>
- #include <linux/module.h>
- 
- #include <linux/mfd/bd9571mwv.h>
-@@ -28,6 +29,7 @@ struct bd957x_data {
- 	int num_cells;
- };
- 
-+/* For BD9571MWV */
- static const struct mfd_cell bd9571mwv_cells[] = {
- 	{ .name = "bd9571mwv-regulator", },
- 	{ .name = "bd9571mwv-gpio", },
-@@ -124,6 +126,81 @@ static const struct bd957x_data bd9571mwv_data = {
- 	.num_cells = ARRAY_SIZE(bd9571mwv_cells),
- };
- 
-+/* For BD9574MWF */
-+static const struct mfd_cell bd9574mwf_cells[] = {
-+	{ .name = "bd9574mwf-regulator", },
-+	{ .name = "bd9574mwf-gpio", },
-+};
-+
-+static const struct regmap_range bd9574mwf_readable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_VENDOR_CODE, BD9571MWV_PRODUCT_REVISION),
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_VINIT, BD9571MWV_DVFS_SETVMAX),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_readable_table = {
-+	.yes_ranges	= bd9574mwf_readable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_readable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_writable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_SETVID),
-+	regmap_reg_range(BD9571MWV_GPIO_DIR, BD9571MWV_GPIO_OUT),
-+	regmap_reg_range(BD9571MWV_GPIO_INT_SET, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_writable_table = {
-+	.yes_ranges	= bd9574mwf_writable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_writable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_volatile_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_DVFS_MONIVDAC, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INT),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTREQ),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_volatile_table = {
-+	.yes_ranges	= bd9574mwf_volatile_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_volatile_yes_ranges),
-+};
-+
-+static const struct regmap_config bd9574mwf_regmap_config = {
-+	.reg_bits	= 8,
-+	.val_bits	= 8,
-+	.cache_type	= REGCACHE_RBTREE,
-+	.rd_table	= &bd9574mwf_readable_table,
-+	.wr_table	= &bd9574mwf_writable_table,
-+	.volatile_table	= &bd9574mwf_volatile_table,
-+	.max_register	= 0xff,
-+};
-+
-+static struct regmap_irq_chip bd9574mwf_irq_chip = {
-+	.name		= "bd9574mwf",
-+	.status_base	= BD9571MWV_INT_INTREQ,
-+	.mask_base	= BD9571MWV_INT_INTMASK,
-+	.ack_base	= BD9571MWV_INT_INTREQ,
-+	.init_ack_masked = true,
-+	.num_regs	= 1,
-+	.irqs		= bd9571mwv_irqs,
-+	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
-+};
-+
-+static const struct bd957x_data bd9574mwf_data = {
-+	.part_name = BD9574MWF_PART_NAME,
-+	.regmap_config = &bd9574mwf_regmap_config,
-+	.irq_chip = &bd9574mwf_irq_chip,
-+	.cells = bd9574mwf_cells,
-+	.num_cells = ARRAY_SIZE(bd9574mwf_cells),
-+};
-+
- static int bd9571mwv_identify(struct device *dev, struct regmap *regmap,
- 			      const char *part_name)
- {
-@@ -181,6 +258,9 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 	case BD9571MWV_PRODUCT_CODE_VAL:
- 		data = &bd9571mwv_data;
- 		break;
-+	case BD9574MWF_PRODUCT_CODE_VAL:
-+		data = &bd9574mwf_data;
-+		break;
- 	default:
- 		dev_err(dev, "Unsupported device 0x%x\n", ret);
- 		return -ENOENT;
-@@ -210,12 +290,14 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 
- static const struct of_device_id bd9571mwv_of_match_table[] = {
- 	{ .compatible = "rohm,bd9571mwv", },
-+	{ .compatible = "rohm,bd9574mwf", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, bd9571mwv_of_match_table);
- 
- static const struct i2c_device_id bd9571mwv_id_table[] = {
--	{ "bd9571mwv", 0 },
-+	{ "bd9571mwv", ROHM_CHIP_TYPE_BD9571 },
-+	{ "bd9574mwf", ROHM_CHIP_TYPE_BD9574 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, bd9571mwv_id_table);
-diff --git a/include/linux/mfd/bd9571mwv.h b/include/linux/mfd/bd9571mwv.h
-index 5ab976a..0fc7789 100644
---- a/include/linux/mfd/bd9571mwv.h
-+++ b/include/linux/mfd/bd9571mwv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * ROHM BD9571MWV-M driver
-+ * ROHM BD9571MWV-M and BD9574MWF-M driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -14,11 +14,12 @@
- #include <linux/device.h>
- #include <linux/regmap.h>
- 
--/* List of registers for BD9571MWV */
-+/* List of registers for BD9571MWV and BD9574MWF */
- #define BD9571MWV_VENDOR_CODE			0x00
- #define BD9571MWV_VENDOR_CODE_VAL		0xdb
- #define BD9571MWV_PRODUCT_CODE			0x01
- #define BD9571MWV_PRODUCT_CODE_VAL		0x60
-+#define BD9574MWF_PRODUCT_CODE_VAL		0x74
- #define BD9571MWV_PRODUCT_REVISION		0x02
- 
- #define BD9571MWV_I2C_FUSA_MODE			0x10
-@@ -48,6 +49,7 @@
- #define BD9571MWV_VD33_VID			0x44
- 
- #define BD9571MWV_DVFS_VINIT			0x50
-+#define BD9574MWF_VD09_VINIT			0x51
- #define BD9571MWV_DVFS_SETVMAX			0x52
- #define BD9571MWV_DVFS_BOOSTVID			0x53
- #define BD9571MWV_DVFS_SETVID			0x54
-@@ -61,6 +63,7 @@
- #define BD9571MWV_GPIO_INT_SET			0x64
- #define BD9571MWV_GPIO_INT			0x65
- #define BD9571MWV_GPIO_INTMASK			0x66
-+#define BD9574MWF_GPIO_MUX			0x67
- 
- #define BD9571MWV_REG_KEEP(n)			(0x70 + (n))
- 
-@@ -70,6 +73,8 @@
- #define BD9571MWV_PROT_ERROR_STATUS2		0x83
- #define BD9571MWV_PROT_ERROR_STATUS3		0x84
- #define BD9571MWV_PROT_ERROR_STATUS4		0x85
-+#define BD9574MWF_PROT_ERROR_STATUS5		0x86
-+#define BD9574MWF_SYSTEM_ERROR_STATUS		0x87
- 
- #define BD9571MWV_INT_INTREQ			0x90
- #define BD9571MWV_INT_INTREQ_MD1_INT		BIT(0)
-@@ -82,9 +87,16 @@
- #define BD9571MWV_INT_INTREQ_BKUP_TRG_INT	BIT(7)
- #define BD9571MWV_INT_INTMASK			0x91
- 
-+#define BD9574MWF_SSCG_CNT			0xA0
-+#define BD9574MWF_POFFB_MRB			0xA1
-+#define BD9574MWF_SMRB_WR_PROT			0xA2
-+#define BD9574MWF_SMRB_ASSERT			0xA3
-+#define BD9574MWF_SMRB_STATUS			0xA4
-+
- #define BD9571MWV_ACCESS_KEY			0xff
- 
- #define BD9571MWV_PART_NAME			"BD9571MWV"
-+#define BD9574MWF_PART_NAME			"BD9574MWF"
- 
- /* Define the BD9571MWV IRQ numbers */
- enum bd9571mwv_irqs {
-@@ -93,7 +105,7 @@ enum bd9571mwv_irqs {
- 	BD9571MWV_IRQ_MD2_E2,
- 	BD9571MWV_IRQ_PROT_ERR,
- 	BD9571MWV_IRQ_GP,
--	BD9571MWV_IRQ_128H_OF,
-+	BD9571MWV_IRQ_128H_OF,	/* BKUP_HOLD on BD9574MWF */
- 	BD9571MWV_IRQ_WDT_OF,
- 	BD9571MWV_IRQ_BKUP_TRG,
- };
--- 
-2.7.4
+I had added "goto force_pio;" in renesas_sdhi_internal_dmac_start_dma() yes=
+terday.
+However, I should have added "goto force_pio_with_unmap;" instead.
+Otherwise, the driver unmaps the buffer after pio finished so that reading =
+data
+by pio was invalidated by dma_unmap_sg().
+
+So, I'll submit v2 patch later.
+
+Best regards,
+Yoshihiro Shimoda
 
