@@ -2,149 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C1B2DC53A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 18:23:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B12B2DC57D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 18:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726951AbgLPRXH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Dec 2020 12:23:07 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42928 "EHLO
+        id S1727449AbgLPRl4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Dec 2020 12:41:56 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43028 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726837AbgLPRXH (ORCPT
+        with ESMTP id S1727444AbgLPRlz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Dec 2020 12:23:07 -0500
+        Wed, 16 Dec 2020 12:41:55 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 561CB2CF;
-        Wed, 16 Dec 2020 18:22:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D1BC02CF;
+        Wed, 16 Dec 2020 18:41:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608139344;
-        bh=+Vts7F/npTpqt8B0ttMWAaU+iOYW1Jwk+4duOpA5KX0=;
+        s=mail; t=1608140474;
+        bh=aOJsCU7xbWDjHaoMAighgp9XhXEnmkY/CAzNpq6x3rk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qmwy+BAu1SU4I3GEBtlfsTnay4t3By7RNhmgWWpZQPYK/3edpi7r39ohXaEDFrxen
-         RFEmm9/c1FjYVK/IAi0NVW0qacqwi2qEGOa6VgkMS1IvncGl99ajrXg6+8kTea9xqy
-         WIrJH/S836LZu1hFdqtyldqVknS4KrWH6wd4hDJI=
-Date:   Wed, 16 Dec 2020 19:22:17 +0200
+        b=arauI8BpRdPdeeCEY5lJTmgvX4CkZxN75ZmB4XgSO+TN3RhCLQNa8pYUsbOjxrlui
+         SQHTIp4S2AgPUQctVs1cmidkF5rSEnBhUYuovR9dwRdL3UHNf4QGBmNfZUtWaPBHzh
+         aApovK9sk+L8MFOEvOlXn4hVv/+BJkRo8VEbHm0A=
+Date:   Wed, 16 Dec 2020 19:41:07 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
- amplitude
-Message-ID: <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@glider.be>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: r8a779a0: Add FCPVD support
+Message-ID: <X9pGs3NwNQcmzu1f@pendragon.ideasonboard.com>
+References: <20201216170018.861710-1-kieran.bingham+renesas@ideasonboard.com>
+ <20201216170018.861710-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201216170018.861710-2-kieran.bingham+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hi Kieran,
 
 Thank you for the patch.
 
-On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
-> Adjust the initial reverse channel amplitude parsing from
-> firmware interface the 'maxim,reverse-channel-microvolt'
-> property.
+On Wed, Dec 16, 2020 at 05:00:16PM +0000, Kieran Bingham wrote:
+> Provide FCPVD support for the V3U.
 > 
-> This change is required for both rdacm20 and rdacm21 camera
-> modules to be correctly probed when used in combination with
-> the max9286 deserializer.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
->  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
->  1 file changed, 22 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 021309c6dd6f..9b40a4890c4d 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -163,6 +163,8 @@ struct max9286_priv {
->  	unsigned int mux_channel;
->  	bool mux_open;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> index 6cf77ce9aa93..ba6fbbd8710e 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> @@ -117,6 +117,22 @@ gic: interrupt-controller@f1000000 {
+>  			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+>  		};
 >  
-> +	u32 reverse_channel_mv;
+> +		fcpvd0: fcp@fea10000 {
+> +			compatible = "renesas,fcpv";
+> +			reg = <0 0xfea10000 0 0x200>;
+> +			clocks = <&cpg CPG_MOD 508>;
+> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +			resets = <&cpg 508>;
+> +		};
 > +
->  	struct v4l2_ctrl_handler ctrls;
->  	struct v4l2_ctrl *pixelrate;
->  
-> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
->  	 * All enabled sources have probed and enabled their reverse control
->  	 * channels:
->  	 *
-> +	 * - Increase the reverse channel amplitude to compensate for the
-> +	 *   remote ends high threshold, if not done already
->  	 * - Verify all configuration links are properly detected
->  	 * - Disable auto-ack as communication on the control channel are now
->  	 *   stable.
->  	 */
-> +	if (priv->reverse_channel_mv < 170)
-> +		max9286_reverse_channel_setup(priv, 170);
+> +		fcpvd1: fcp@fea11000 {
+> +			compatible = "renesas,fcpv";
+> +			reg = <0 0xfea2f000 0 0x200>;
 
-I'm beginning to wonder if there will be a need in the future to not
-increase the reverse channel amplitude (keeping the threshold low on the
-remote side). An increased amplitude increases power consumption, and if
-the environment isn't noisy, a low amplitude would work. The device tree
-would then need to specify both the initial amplitude required by the
-remote side, and the desired amplitude after initialization. What do you
-think ? Is it overkill ? We don't have to implement this now, so
+This doesn't match the node address (the former being correct I
+believe). With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-but if this feature could be required later, we may want to take into
-account in the naming of the new DT property to reflect the fact that it
-is the initial value.
-
->  	max9286_check_config_link(priv, priv->source_mask);
->  
->  	/*
-> @@ -967,7 +973,7 @@ static int max9286_setup(struct max9286_priv *priv)
->  	 * only. This should be disabled after the mux is initialised.
->  	 */
->  	max9286_configure_i2c(priv, true);
-> -	max9286_reverse_channel_setup(priv, 170);
-> +	max9286_reverse_channel_setup(priv, priv->reverse_channel_mv);
->  
->  	/*
->  	 * Enable GMSL links, mask unused ones and autodetect link
-> @@ -1131,6 +1137,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	struct device_node *i2c_mux;
->  	struct device_node *node = NULL;
->  	unsigned int i2c_mux_mask = 0;
-> +	u32 reverse_channel_microvolt;
->  
->  	/* Balance the of_node_put() performed by of_find_node_by_name(). */
->  	of_node_get(dev->of_node);
-> @@ -1221,6 +1228,20 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	}
->  	of_node_put(node);
->  
-> +	/*
-> +	 * Parse the initial value of the reverse channel amplitude from
-> +	 * the firmware interface and convert it to millivolts.
-> +	 *
-> +	 * Default it to 170mV for backward compatibility with DTBs that do not
-> +	 * provide the property.
-> +	 */
-> +	if (of_property_read_u32(dev->of_node,
-> +				 "maxim,reverse-channel-microvolt",
-> +				 &reverse_channel_microvolt))
-> +		priv->reverse_channel_mv = 170;
-> +	else
-> +		priv->reverse_channel_mv = reverse_channel_microvolt / 1000U;
+> +			clocks = <&cpg CPG_MOD 509>;
+> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+> +			resets = <&cpg 509>;
+> +		};
 > +
->  	priv->route_mask = priv->source_mask;
->  
->  	return 0;
+>  		prr: chipid@fff00044 {
+>  			compatible = "renesas,prr";
+>  			reg = <0 0xfff00044 0 4>;
 
 -- 
 Regards,
