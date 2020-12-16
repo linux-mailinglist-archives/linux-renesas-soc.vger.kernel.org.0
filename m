@@ -2,127 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E00622DC602
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 19:16:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 853FA2DC6EA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 20:14:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729859AbgLPSQD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Dec 2020 13:16:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729855AbgLPSQD (ORCPT
+        id S2387604AbgLPTOG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Dec 2020 14:14:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52852 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726732AbgLPTOF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Dec 2020 13:16:03 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11ACDC061794;
-        Wed, 16 Dec 2020 10:15:23 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C04FC2CF;
-        Wed, 16 Dec 2020 19:15:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608142521;
-        bh=Zod74+lU0JtBwqEtrDwHbiwjFkzk6Uqdpwthggmdb3M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rZQwj8j282864o40wilarrhFB/Nlh+GMEJBcz8GWkgcrxVebbb3y3iK2PNvfyzA5I
-         Z+oGfOPvsUl3ESP2nS4Dd/yocRzK7CR3C2VEMt/KyzPYCilFn7TmrXqXbtcajN149u
-         HyMvCY1WG/R4bEBf9AfcWZ6FYxDW5rTd1NNgzXGY=
-Date:   Wed, 16 Dec 2020 20:15:14 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: r8a779a0: Add VSPX support
-Message-ID: <X9pOshuRzdT6cs1Z@pendragon.ideasonboard.com>
-References: <20201216170018.861710-1-kieran.bingham+renesas@ideasonboard.com>
- <20201216170018.861710-4-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 16 Dec 2020 14:14:05 -0500
+Date:   Wed, 16 Dec 2020 12:20:22 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608142823;
+        bh=G5QC+s8/mxid++XQG3CrjKnyrmLeds62x+7OAGC/H/g=;
+        h=From:To:Cc:Subject:In-Reply-To:From;
+        b=dDTPlDNZqteJl/dqyYpOI4vcRI0MmAF8mBCVJSpBvjFuSrak1u6cJwSAK1jt0QnMw
+         NtB75OgBPP6qHN7LfrCzAaXXV4m3WufvdEqV1gP2Hj5tL5qjuq6oMxI3kvCRCOGTTA
+         nmoTgRCFQgrBMfES8LPXGRvtImXMZ5nUyZUzylb5VNPkuLPzxlPzpUn51HuQAXI9T0
+         1OK/5ve86Eo5C/lg9xxiVQ6id9hJS6Nh2nUofRPEeuEZncG/wP6fZ6MaBLMf3qFz2I
+         5ehUzMHbZ29aVGmM6MaiLwnxcIV3LgUWI1JxT7J4fGmhYSoquRiDFVIXt0VYhS1sDi
+         pJMjpe/oSR3yA==
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V4] PCI: rcar: Add L1 link state fix into data abort hook
+Message-ID: <20201216182022.GA356517@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201216170018.861710-4-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <87361bf6-0fef-3641-1dcb-21c56a2cf0b0@gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
-
-Thank you for the patch.
-
-On Wed, Dec 16, 2020 at 05:00:18PM +0000, Kieran Bingham wrote:
-> Provide VSP-X support on the V3U.
+On Wed, Dec 16, 2020 at 06:56:11PM +0100, Marek Vasut wrote:
+> On 12/14/20 9:38 PM, Bjorn Helgaas wrote:
+> > On Tue, Dec 08, 2020 at 07:05:09PM +0100, Marek Vasut wrote:
+> > > On 12/8/20 5:40 PM, Bjorn Helgaas wrote:
+> > 
+> > > > Does this problem occur in both these cases?
+> > > > 
+> > > >     1) When ASPM enters L1, and
+> > > > 
+> > > >     2) When software writes PCI_PM_CTRL to put the device in D3hot?
+> > > > 
+> > > > IIUC both cases require the link to go to L1.  I guess the same
+> > > > software workaround applies to both cases?
+> > > 
+> > > Yes
+> > 
+> > If ASPM puts the Link in L1 and the device needs to DMA, how does the
+> > Link get back to L0?
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
-> The FCPvX is not yet connected here, as the clock domains are unclear
-> for that.
+> It cannot, so I would expect the DMA access would fail.
+
+I think that means we cannot enable ASPM L1 at all on this device.  I
+don't think devices or drivers are prepared to deal with this sort of
+DMA failure.  At least, if there is a mechanism for dealing with it, I
+don't know what it is.
+
+Preventing use of ASPM L1 probably means some sort of quirk to
+override whatever the controller advertises in its Link Capabilities
+register.
+
+The software-controlled PCI-PM model (where software writes to the
+PCI_PM_CTRL register) is different, and it may still be possible to
+use L1 then.  If software puts the device in D1, D2, or D3hot, the
+device cannot initiate DMA.  If it needs to return to D0, it would
+have to use the PME mechanism, so there is an opportunity for the
+software workaround.
+
+> > Do we use the same data abort hook?  If getting
+> > back to L0 requires help from software, it seems like that would
+> > invalidate the L1 exit latency advertised by the devices.  Wouldn't
+> > that mean we couldn't safely enable L1 at all unless the endpoint
+> > could tolerate unlimited exit latency?
 > 
-> The register mapping space is kept at 0x8000 for now as this is a bit of
-> an unknown entity (with the IIF) so playing it safe and keeping the same
-> value as the BSP (0x8000) - however with no CLU on these nodes, I expect
-> the register space to be suitable to be mapped at length 0x4000.
+> Possibly, there could be limitations to the L1 support in some corner cases.
+> Does that mean the L1 support should be disabled completely ?
 
-I think so too.
+The L1 exit latency only applies to the ASPM case.  It sounds like we
+will have to disable L1 for ASPM.  But the exit latency doesn't apply
+to the PCI-PM model where software will explicitly return the device
+to D0, and the device should not initiate a transaction until it sees
+the link back in L0.
 
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 36 +++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> index a23b4ce2e5f4..4fb28df5cd6b 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -155,6 +155,42 @@ vspd1: vsp@fea28000 {
->  			renesas,fcp = <&fcpvd1>;
->  		};
->  
-> +		vspx0: vsp@fedd0000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfedd0000 0 0x8000>;
-> +			interrupts = <GIC_SPI 600 IRQ_TYPE_LEVEL_HIGH>;
-
-I'm not entirely sure about the interrupt number, as there are other
-VSP-related interrupts listed in the datasheet that don't seem to
-correspond to any IP core. I suppose there will be a documentation
-update at some point. For now I have no reason to believe the interrupts
-here are incorrect.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +			clocks = <&cpg CPG_MOD 1028>;
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 1028>;
-> +		};
-> +
-> +		vspx1: vsp@fedd8000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfedd8000 0 0x8000>;
-> +			interrupts = <GIC_SPI 601 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1029>;
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 1029>;
-> +		};
-> +
-> +		vspx2: vsp@fede0000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfede0000 0 0x8000>;
-> +			interrupts = <GIC_SPI 602 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1030>;
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 1030>;
-> +		};
-> +
-> +		vspx3: vsp@fede8000 {
-> +			compatible = "renesas,vsp2";
-> +			reg = <0 0xfede8000 0 0x8000>;
-> +			interrupts = <GIC_SPI 603 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&cpg CPG_MOD 1031>;
-> +			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 1031>;
-> +		};
-> +
->  		prr: chipid@fff00044 {
->  			compatible = "renesas,prr";
->  			reg = <0 0xfff00044 0 4>;
-
--- 
-Regards,
-
-Laurent Pinchart
+Bjorn
