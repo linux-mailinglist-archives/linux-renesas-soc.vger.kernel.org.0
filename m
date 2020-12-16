@@ -2,160 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 577D92DC28C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 15:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 190432DC2C1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 16:09:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725878AbgLPO4N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Dec 2020 09:56:13 -0500
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:40311 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbgLPO4N (ORCPT
+        id S1726249AbgLPPJd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Dec 2020 10:09:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46326 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725905AbgLPPJd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Dec 2020 09:56:13 -0500
-Received: by mail-oi1-f180.google.com with SMTP id p126so27736046oif.7;
-        Wed, 16 Dec 2020 06:55:57 -0800 (PST)
+        Wed, 16 Dec 2020 10:09:33 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 113A2C061794
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Dec 2020 07:08:53 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id d13so5256681wrc.13
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Dec 2020 07:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=x22bCBMzRAxFz6sSBgolhRVuawQUHRVdIXtYqh/jdUI=;
+        b=XXoR12nJ/51Cdim76vK0ddjmXjI2P2QPShPNZJAD1L68GyLqMQ+x5KY7Z4ZiUGR4Eh
+         63fwF6dD1wegZWqANU6Q4TY36xZPy/+NsCxL99Wwj9TmX+W9HuK1eLXMQUBp8QsSj3Z5
+         mmBKV2NdOQ4ODcsojdjTNR+GmuJARx3mWE6r42cO/+aC9KK14D7Hlr4IN5LnALmkqmjP
+         6wuvgC+dzwzxjcll5T8pYAZRaEhnq4LOxr6snOHVzfRGFhPOmGuJCCtH7F8NNRE4J+Eo
+         rxd9Vb33IxAcqrTroVKqzpNN9Cpmel7w4fRS+42axL58mjVr3yinPEP9J9JhmvyZ2a2I
+         GuLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NuuUILIjqf4jXXDvuraBvyzbhvdHEw0NL80ZDXkR7Pw=;
-        b=ninp0vum0kB/q+MJNd++B2uvp/fQYKaIrSuSx+/CrgB9nisWfbGCVtHIASGG+zsqrG
-         +xd0KPbHqCZRtmpQqdaJAC7s7dTNHLa3/8PSQY4HVgORtZ39BbAr1gGavFvpIezCh/KE
-         Qjo8/gkkKfSqqdeEqu+hk0gOxoNQvbtdSk5ad9ulWH8m2GcGgN+lAO8aw5/dJcH25WHe
-         DmOmplPzO4D5NGBs8Zrpekz/PBuetlVpKnphdgXRTy36riJ3rzlfaFNdzUG4ZERMfkBN
-         nNToqbiDD0GmQMNOeJ5XrgM39VuSms7UYHTT6iVCYEvaHbnQ126eHdrQQ4gHN62omA0l
-         AbUw==
-X-Gm-Message-State: AOAM531UacRbonoDeULa7QTqXsL12bAuikuncULhzFyhgzW2rRlJBJyC
-        byJVw0hmskoz16NuUO7QjfMnwm09TDxxk7fE2pwOh0rrGZY=
-X-Google-Smtp-Source: ABdhPJzQxcr5S7g7YISnHBy+Q+paemHV5EnttosXC/8Oi+Zp/Fki3TATE302aVDEznsN1lI64i9rFIwmHNIXNwJ9OIA=
-X-Received: by 2002:aca:ec09:: with SMTP id k9mr2131977oih.153.1608130531691;
- Wed, 16 Dec 2020 06:55:31 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=x22bCBMzRAxFz6sSBgolhRVuawQUHRVdIXtYqh/jdUI=;
+        b=qQOLnf4/tvvSWkRlLshd9r6wEwpWi2+AcoU3ntzW5kmma8Dzz0WMq29HomKrDx+Hqi
+         AIlcJ6iY7gwKUQIk948UxKyaPUDMoqzWEnDXi03zBYDj92z+hkZs0dflBBA/oY4c570/
+         Za39rEjljyowCYW3qGCZrL9MEkheoOqcOUjqcOSTetvDyGlyPW0r2HIp/IYGxPFckVHU
+         PgxsSjU4mkLwLjReef7wE2Hj+nyG5d6OMTZuQUFjq9SCGioFtZFOGAeNgvnsBciB4SnK
+         2ZfhvA72LDw9HAoLFEeIia1qkH7IiJMKw+WGMxhoaGw2qICISnIKz7aH0u8i2ovNX5Ad
+         IWjQ==
+X-Gm-Message-State: AOAM530mpAi5MQiVCSfFYOtl0BRo6fmVUKJYyurqFidcV3sCAo3MaMCG
+        4ZdqxBVHkQdSRzrR1A99vjCs6w==
+X-Google-Smtp-Source: ABdhPJyiTo068uJu57j2aTnPUqS3Rd6f/mMiS8boAbDC3unxQbp0sz3qKJbUoHZr6Tip0sLgPwYC8w==
+X-Received: by 2002:a5d:6a4f:: with SMTP id t15mr7763158wrw.62.1608131331785;
+        Wed, 16 Dec 2020 07:08:51 -0800 (PST)
+Received: from dell ([91.110.221.200])
+        by smtp.gmail.com with ESMTPSA id u7sm1846111wmu.47.2020.12.16.07.08.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 07:08:50 -0800 (PST)
+Date:   Wed, 16 Dec 2020 15:08:49 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, matti.vaittinen@fi.rohmeurope.com,
+        lgirdwood@gmail.com, broonie@kernel.org, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, khiem.nguyen.xt@renesas.com,
+        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/12] mfd: bd9571mwv: Use devm_mfd_add_devices()
+Message-ID: <20201216150849.GI207743@dell>
+References: <1608104275-13174-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608104275-13174-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
-In-Reply-To: <20201213183759.223246-2-aford173@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Dec 2020 15:55:20 +0100
-Message-ID: <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com>
-Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
- programmable clocks
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1608104275-13174-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
+On Wed, 16 Dec 2020, Yoshihiro Shimoda wrote:
 
-On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> When the board was added, clock drivers were being updated done at
-> the same time to allow the versaclock driver to properly configure
-> the modes.  Unforutnately, the updates were not applied to the board
+> To remove mfd devices when unload this driver, should use
+> devm_mfd_add_devices() instead.
+> 
+> Fixes: d3ea21272094 ("mfd: Add ROHM BD9571MWV-M MFD PMIC driver")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/mfd/bd9571mwv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Unfortunately
+For my own reference (apply this as-is to your sign-off block):
 
-> files at the time they should have been, so do it now.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> @@ -5,6 +5,7 @@
->
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
-> +#include <dt-bindings/clk/versaclock.h>
->
->  / {
->         backlight_lvds: backlight-lvds {
-> @@ -294,12 +295,12 @@ &du_out_rgb {
->  &ehci0 {
->         dr_mode = "otg";
->         status = "okay";
-> -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
-
-Why this change? You said before you don't need this
-https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
-
-BTW, something I missed in the earlier review: is there an override
-needed at all?
-
->  };
->
->  &ehci1 {
->         status = "okay";
-> -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
-
-Same here.
-
-BTW, something I missed in the earlier review: why did you override
-
-    clocks = <&cpg CPG_MOD 702>;
-
-by
-
-    clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-
-?
-
->  };
->
->  &hdmi0 {
-> @@ -373,12 +374,40 @@ versaclock6_bb: clock-controller@6a {
->                 #clock-cells = <1>;
->                 clocks = <&x304_clk>;
->                 clock-names = "xin";
-> -               /* CSI0_MCLK, CSI1_MCLK, AUDIO_CLKIN, USB_HUB_MCLK_BB */
-> +               clock-output-names = "versaclock6_bb.out0_sel_i2cb",
-> +                                     "versaclock6_bb.out1",
-> +                                     "versaclock6_bb.out2",
-> +                                     "versaclock6_bb.out3",
-> +                                     "versaclock6_bb.out4";
-
-Why? IIUIC, the driver doesn't parse clock-output-names
-(and it shouldn't).
-
->                 assigned-clocks = <&versaclock6_bb 1>,
->                                    <&versaclock6_bb 2>,
->                                    <&versaclock6_bb 3>,
->                                    <&versaclock6_bb 4>;
->                 assigned-clock-rates =  <24000000>, <24000000>, <24000000>, <24576000>;
-> +
-> +               OUT1 {
-> +                       idt,mode = <VC5_CMOS>;
-> +                       idt,voltage-microvolts = <1800000>;
-
-Oops. The DT bindings say "idt,voltage-microvolt", the example in the DT
-bindings says "idt,voltage-microvolts", and the driver parses
-"idt,voltage-microvolts".
-
-According to Documentation/devicetree/bindings/property-units.txt, the
-property name should end in "microvolt".
-
-Patch sent.
-https://lore.kernel.org/linux-clk/20201216145231.1344317-1-geert+renesas@glider.be/
-
-> +                       idt,slew-percent = <100>;
-> +               };
-
-Gr{oetje,eeting}s,
-
-                        Geert
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
