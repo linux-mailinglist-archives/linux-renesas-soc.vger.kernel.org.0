@@ -2,312 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F14EE2DC4F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 18:04:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D172DC504
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Dec 2020 18:06:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726954AbgLPREW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Dec 2020 12:04:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36006 "EHLO
+        id S1726960AbgLPRGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Dec 2020 12:06:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726929AbgLPREW (ORCPT
+        with ESMTP id S1726721AbgLPRGW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Dec 2020 12:04:22 -0500
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com [IPv6:2607:f8b0:4864:20::d33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299DFC061794;
-        Wed, 16 Dec 2020 09:03:42 -0800 (PST)
-Received: by mail-io1-xd33.google.com with SMTP id i18so24642699ioa.1;
-        Wed, 16 Dec 2020 09:03:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=slSGdYmXUgGlq/xnGsALH/7Dx/FOPfEqovdaJQnn86c=;
-        b=CQotzpA8rQq41ruL+Y2oUGVXQxlADv/e/Uj1it5NGKowJztw4mOn7zGxnmvKd1KQRZ
-         c55Vz9wN/pTcjiZp58vDBo4uEaeZ9Vr6STS8PdB2FK18Z8Oj1BYJXkkf3sDD/R7VR/Mh
-         QmSWaanW3lJTP/d4Z+h413XU+s9bEws6bUaz1GXh4wJNtwD3U9ARZMSJVkhR7hxpyhLN
-         ELz6fImBF3DNyKZjYCJhjZ30U2Cti2iGcKdJXw4JahbKWMOSN2pyzj/bLNj4Zik87EzI
-         1OtjoH9c54ZybuwzpOSfF6Jq6Bhx76+qBuFyivFqrxnaGftZMBSfxEdJsAypOVqNfmOe
-         HeIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=slSGdYmXUgGlq/xnGsALH/7Dx/FOPfEqovdaJQnn86c=;
-        b=ebQV42TZT/Hpd+uEvhPoJXX93O3Ohu/9sPd9Mn4COcQyRMNVdtyUdcstVSrt26o3FP
-         uIZgBLd+/pG/mZZqe6BZDOGpcdu3RTKOeE/Rn3UWTzALzj8sqE3C10qrku7ko0T/Fo8R
-         phaUtf78OQLGwvfvkhYLn1uCbe6GEFfkdgyPQKrXLI+2avGttl7FPIE+CQ5vWnmMoP7h
-         u1HVGbOCV7+1qVj0DWbd31f+ZHdwvDPmR5ZK3yIrB05DwjcgtYo/7ZG/grLKeniiDfjN
-         CM5R7KtOGIPB3WlwiRsoVem+UWeDMAzgFkwtdfV1Db5vqItjJXkVM+ou+q5BVuv8uJyJ
-         dwyg==
-X-Gm-Message-State: AOAM530hed/iDXkgjc7kQeMCRqrMWuOyChkFqL420fWNr6Q6o1rRfBij
-        zqt1oXRPKT6HgVlqX+y369GgVOr/NqZwR9SWX1toeN4t4PA=
-X-Google-Smtp-Source: ABdhPJxL+pO9xhdy6BhHGPrJffsHm0uIgUX0pyjeeohZSUXkXIADTZI7I8KJ2KprQ70nXRVclRXGFlkQu5ZOqLGg35I=
-X-Received: by 2002:a02:caac:: with SMTP id e12mr43571914jap.45.1608138221095;
- Wed, 16 Dec 2020 09:03:41 -0800 (PST)
+        Wed, 16 Dec 2020 12:06:22 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14554C0617A6;
+        Wed, 16 Dec 2020 09:05:42 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 55FC52CF;
+        Wed, 16 Dec 2020 18:05:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608138340;
+        bh=7Kbhbc6LLsysR09wKZ7TiX9EmHciC3YGlcZ73Fe8b2g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q5ElNipunoohytckshzRQv7fHTTg3y5ypV203wXraeujEA1LmiR3SYRX3QgpzyDTt
+         56aHrh7WuR64nNgZuNSLtbd4K3Btis6lufuQgztsu3qQpZMDKcXDXs6SMElUTwve1O
+         jyZGyg32NNk6zqJxa/SWFYEbPGASLcbd36JRV5JY=
+Date:   Wed, 16 Dec 2020 19:05:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        robh@kernel.org, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: max9286: Document
+ 'maxim,reverse-channel-microvolt'
+Message-ID: <X9o+XT3z1sVlh73x@pendragon.ideasonboard.com>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
- <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com>
-In-Reply-To: <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 16 Dec 2020 11:03:29 -0600
-Message-ID: <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
-Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
- programmable clocks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201215170957.92761-3-jacopo+renesas@jmondi.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Adam,
->
-> On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> > When the board was added, clock drivers were being updated done at
-> > the same time to allow the versaclock driver to properly configure
-> > the modes.  Unforutnately, the updates were not applied to the board
->
-> Unfortunately
+Hi Jacopo,
 
-Sorry, I can fix that.
+Thank you for the patch.
 
->
-> > files at the time they should have been, so do it now.
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > @@ -5,6 +5,7 @@
-> >
-> >  #include <dt-bindings/gpio/gpio.h>
-> >  #include <dt-bindings/input/input.h>
-> > +#include <dt-bindings/clk/versaclock.h>
-> >
-> >  / {
-> >         backlight_lvds: backlight-lvds {
-> > @@ -294,12 +295,12 @@ &du_out_rgb {
-> >  &ehci0 {
-> >         dr_mode = "otg";
-> >         status = "okay";
-> > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
->
-> Why this change? You said before you don't need this
-> https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
->
+On Tue, Dec 15, 2020 at 06:09:54PM +0100, Jacopo Mondi wrote:
+> Document the 'reverse-channel-microvolt' vendor property in the
+> bindings document of the max9286 driver.
+> 
+> The newly introduced property allows to specifying the initial
+> configuration of the GMSL reverse control channel to accommodate
+> remote serializers pre-programmed with the high threshold power
+> supply noise immunity enabled.
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-I had talked with the hardware guys about buy pre-programmed
-versaclock chips which would have been pre-configured and pre-enabled.
-I thought it was going to happen, but it didn't, so we need the
-versaclock driver to enable the reference clock for the USB
-controllers, ethernet controller and audio clocks.  Previously we were
-manually configuring it or it was coincidentally working. Ideally,
-we'd have the clock system intentionally enable/disable the clocks
-when drivers are loaded/unloaded for for power management reasons.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> BTW, something I missed in the earlier review: is there an override
-> needed at all?
+> ---
+> v5->v6:
+> - Use standard unit suffix 'microvolt' for the custom property
+> - Drop '$ref' as according to 'example-schema.yaml':
+>   "Vendor specific properties having a standard unit suffix don't need a type."
+> ---
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 9ea827092fdd..b22ba3e0db4a 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -51,6 +51,26 @@ properties:
+>    '#gpio-cells':
+>      const: 2
+> 
+> +  maxim,reverse-channel-microvolt:
+> +    minimum: 30000
+> +    maximum: 200000
+> +    default: 170000
+> +    description: |
+> +      Initial amplitude of the reverse control channel, in micro volts.
+> +
+> +      The initial amplitude shall be adjusted to a value compatible with the
+> +      configuration of the connected remote serializer.
+> +
+> +      Some camera modules (for example RDACM20) include an on-board MCU that
+> +      pre-programs the embedded serializer with power supply noise immunity
+> +      (high-threshold) enabled. A typical value of the deserializer's reverse
+> +      channel amplitude to communicate with pre-programmed serializers is
+> +      170000 micro volts.
+> +
+> +      A typical value for the reverse channel amplitude to communicate with
+> +      a remote serializer whose high-threshold noise immunity is not enabled
+> +      is 100000 micro volts
+> +
+>    ports:
+>      type: object
+>      description: |
+> @@ -221,6 +241,7 @@ required:
+>    - ports
+>    - i2c-mux
+>    - gpio-controller
+> +  - maxim,reverse-channel-microvolt
+> 
+>  additionalProperties: false
+> 
+> @@ -243,6 +264,8 @@ examples:
+>          gpio-controller;
+>          #gpio-cells = <2>;
+> 
+> +        maxim,reverse-channel-microvolt = <170000>;
+> +
+>          ports {
+>            #address-cells = <1>;
+>            #size-cells = <0>;
 
-We need the versaclock for sure.  I'll do some more testing and try to
-clean this up in the next revision.
+-- 
+Regards,
 
->
-> >  };
-> >
-> >  &ehci1 {
-> >         status = "okay";
-> > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
->
-> Same here.
->
-> BTW, something I missed in the earlier review: why did you override
->
->     clocks = <&cpg CPG_MOD 702>;
->
-> by
->
->     clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-
-Might be an accidental copy-paste error.  I need to review all three
-SoC's and adjust the device trees accordingly.
-
->
-> ?
->
-> >  };
-> >
-> >  &hdmi0 {
-> > @@ -373,12 +374,40 @@ versaclock6_bb: clock-controller@6a {
-> >                 #clock-cells = <1>;
-> >                 clocks = <&x304_clk>;
-> >                 clock-names = "xin";
-> > -               /* CSI0_MCLK, CSI1_MCLK, AUDIO_CLKIN, USB_HUB_MCLK_BB */
-> > +               clock-output-names = "versaclock6_bb.out0_sel_i2cb",
-> > +                                     "versaclock6_bb.out1",
-> > +                                     "versaclock6_bb.out2",
-> > +                                     "versaclock6_bb.out3",
-> > +                                     "versaclock6_bb.out4";
->
-> Why? IIUIC, the driver doesn't parse clock-output-names
-> (and it shouldn't).
-
-This was probably copy-paste from an internal repo we have using an
-older, customized kernel due to clashing of names with more than one
-versaclock was available.  I'll remove it during the next revision.
-
->
-> >                 assigned-clocks = <&versaclock6_bb 1>,
-> >                                    <&versaclock6_bb 2>,
-> >                                    <&versaclock6_bb 3>,
-> >                                    <&versaclock6_bb 4>;
-> >                 assigned-clock-rates =  <24000000>, <24000000>, <24000000>, <24576000>;
-> > +
-> > +               OUT1 {
-> > +                       idt,mode = <VC5_CMOS>;
-> > +                       idt,voltage-microvolts = <1800000>;
->
-> Oops. The DT bindings say "idt,voltage-microvolt", the example in the DT
-> bindings says "idt,voltage-microvolts", and the driver parses
-> "idt,voltage-microvolts".
->
-> According to Documentation/devicetree/bindings/property-units.txt, the
-> property name should end in "microvolt".
->
-> Patch sent.
-> https://lore.kernel.org/linux-clk/20201216145231.1344317-1-geert+renesas@glider.be/
->
-
-Thanks for that.  I'll submit an update based on the patch you sent.
-
-adam
-> > +                       idt,slew-percent = <100>;
-> > +               };
->
-
-Thank you for the review.  Is that the only patch in the series with
-concerns?  I probably won't get to V2 until this weekend.
-
-adam
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
->
-> > files at the time they should have been, so do it now.
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> Thanks for your patch!
->
-> > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > @@ -5,6 +5,7 @@
-> >
-> >  #include <dt-bindings/gpio/gpio.h>
-> >  #include <dt-bindings/input/input.h>
-> > +#include <dt-bindings/clk/versaclock.h>
-> >
-> >  / {
-> >         backlight_lvds: backlight-lvds {
-> > @@ -294,12 +295,12 @@ &du_out_rgb {
-> >  &ehci0 {
-> >         dr_mode = "otg";
-> >         status = "okay";
-> > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
->
-> Why this change? You said before you don't need this
-> https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
->
-> BTW, something I missed in the earlier review: is there an override
-> needed at all?
->
-> >  };
-> >
-> >  &ehci1 {
-> >         status = "okay";
-> > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
->
-> Same here.
->
-> BTW, something I missed in the earlier review: why did you override
->
->     clocks = <&cpg CPG_MOD 702>;
->
-> by
->
->     clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
->
-> ?
->
-> >  };
-> >
-> >  &hdmi0 {
-> > @@ -373,12 +374,40 @@ versaclock6_bb: clock-controller@6a {
-> >                 #clock-cells = <1>;
-> >                 clocks = <&x304_clk>;
-> >                 clock-names = "xin";
-> > -               /* CSI0_MCLK, CSI1_MCLK, AUDIO_CLKIN, USB_HUB_MCLK_BB */
-> > +               clock-output-names = "versaclock6_bb.out0_sel_i2cb",
-> > +                                     "versaclock6_bb.out1",
-> > +                                     "versaclock6_bb.out2",
-> > +                                     "versaclock6_bb.out3",
-> > +                                     "versaclock6_bb.out4";
->
-> Why? IIUIC, the driver doesn't parse clock-output-names
-> (and it shouldn't).
->
-> >                 assigned-clocks = <&versaclock6_bb 1>,
-> >                                    <&versaclock6_bb 2>,
-> >                                    <&versaclock6_bb 3>,
-> >                                    <&versaclock6_bb 4>;
-> >                 assigned-clock-rates =  <24000000>, <24000000>, <24000000>, <24576000>;
-> > +
-> > +               OUT1 {
-> > +                       idt,mode = <VC5_CMOS>;
-> > +                       idt,voltage-microvolts = <1800000>;
->
-> Oops. The DT bindings say "idt,voltage-microvolt", the example in the DT
-> bindings says "idt,voltage-microvolts", and the driver parses
-> "idt,voltage-microvolts".
->
-> According to Documentation/devicetree/bindings/property-units.txt, the
-> property name should end in "microvolt".
->
-> Patch sent.
-> https://lore.kernel.org/linux-clk/20201216145231.1344317-1-geert+renesas@glider.be/
->
-> > +                       idt,slew-percent = <100>;
-> > +               };
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+Laurent Pinchart
