@@ -2,87 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B84B2DCD52
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 09:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3B5E2DCD80
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 09:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbgLQID7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 03:03:59 -0500
-Received: from mail-ot1-f54.google.com ([209.85.210.54]:44998 "EHLO
-        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726488AbgLQID7 (ORCPT
+        id S1726533AbgLQIRh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 03:17:37 -0500
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:47067 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726488AbgLQIRg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 03:03:59 -0500
-Received: by mail-ot1-f54.google.com with SMTP id f16so26411099otl.11
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Dec 2020 00:03:43 -0800 (PST)
+        Thu, 17 Dec 2020 03:17:36 -0500
+Received: by mail-ot1-f53.google.com with SMTP id w3so26451059otp.13;
+        Thu, 17 Dec 2020 00:17:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NSD2wclYK59UiaUMg6aUSWKdSnGArdnajTQMeFkHmOQ=;
-        b=jWdrMBAM5YPPUwhjnS3FUW96XVTayGkDOQS7H6oJMoS6jxiKeOaEFOEbExh8rEbPtp
-         vMtr6c3Z5RtkiBMHujwb397n4NWhw6vQe9LkrFShQzt9TJuE1aAAaiRgvye/pceKxYkK
-         vQ67uZWNvtK0mQiH53q1U8gWH6aFoGvxdOtyvzOtaeforUIkstTIs9eFaKuEyr8P6b4A
-         +lyJlI6CXTq/ghcua5CSW23EwxAFyHmkE2vsqHfv/ANGq+BohX6dxSXOuhH6OuqHFk+e
-         9ZCqzheBAjrLQWkk0vYEMR5Dphy5xdprlnYNLy37YD7XI0/P0OqQbFpQig9VnO/21rw+
-         qIzA==
-X-Gm-Message-State: AOAM533KVExw1roMpSpg3WZHw/XHTdKSdwtoyLO7phuPpuNPXxp3fWks
-        UqZVZi4SRAu7QYJyly/b53jzPreOA47Kxh53nLM=
-X-Google-Smtp-Source: ABdhPJyUmv8MBXZ3pYhMBC2xoc5NVrlM1tV/Ibx4/KOXseNwQqtQrFBEK6pFb7qhl/Qxa6ADgieRe+uz2JSOPIWTR90=
-X-Received: by 2002:a9d:2203:: with SMTP id o3mr28594510ota.107.1608192198387;
- Thu, 17 Dec 2020 00:03:18 -0800 (PST)
+        bh=DRkib19GY9SGtyX+MPcBbrQbFZN6frBiaalsVVLI5vo=;
+        b=q35hq5avdC8Exn+RRSiE2edQcOWGgN8FPaY5FwP3958lL3vbVxBG3xr1gJyXjOfYq2
+         OvwhmgiWQC35unNpXEtv755CuMbU6VqCdA7YzXvToTBCTtwibSwBEZlVDQpWn/W/dzXu
+         aj0JbVxfziQWZDfWR1HXxbU1QQFSyTW2/F3aDGosrRxDqKFhhUHAWF8HkSMlCw6KLDoT
+         GEhye42yggNadSjuI0EGeKD2j2B0U1d5KaDRORVbNZMtAjRupfsOyaszA9hE/ePIpW+2
+         sJBNBRAOvXGAOSsRPsSvTA/Hbrw59BDwQ9AXqnzllpZxRjesMYs5xnkx9LSrp9u80dk+
+         HVnA==
+X-Gm-Message-State: AOAM531IywWsCT935pl/UMjASZnHaCNr/moHFcT8YX75SpmkciumIjRv
+        nZtqaKCLU+XiD+08lUM/v8vu+NieKNK+Qzy01H8=
+X-Google-Smtp-Source: ABdhPJwfT2lJ9VDkqEO0SRMPijbldtGsHGs7WTBRJYQFWgl2gfK+oQjlXl/eq2Cro6PKOLjPr//z4bwA4GwNs1WiyNk=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr28626570otc.145.1608193015622;
+ Thu, 17 Dec 2020 00:16:55 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMuHMdWvB+p=2JqTsO7bR8uJqKqO5A2XgXFXsVAjHk3hcxgcTw@mail.gmail.com>
- <87v9d4gcqt.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdVMcjJempYDUA+AJiXWe=OgKAkGAyZDOS6R2Xp8_Xum2Q@mail.gmail.com>
- <87ft45gug9.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ft45gug9.wl-kuninori.morimoto.gx@renesas.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
+ <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com> <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
+In-Reply-To: <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Dec 2020 09:03:07 +0100
-Message-ID: <CAMuHMdUETVb2Dk4vmTu4T=QdnMkiBXJpfPKXuZuU2qs6_tBNjg@mail.gmail.com>
-Subject: Re: [PATCH][RFC] ASoC: rsnd: don't call clk_disable_unprepare() if
- can't use
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>
+Date:   Thu, 17 Dec 2020 09:16:44 +0100
+Message-ID: <CAMuHMdWc=qD=Oqa-7o9K1bd_OM0L7Br8BVAbDvYNraO0wAX2jw@mail.gmail.com>
+Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
+ programmable clocks
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Morimoto-san,
+Hi Adam,
 
-On Thu, Dec 17, 2020 at 1:20 AM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >
-> > Feel free to use geert+renesas@glider.be instead ;-)
->
-> OK, will do
->
-> > The patch looks good to me, but I also cannot trigger the issue at will.
-> > I went through my old boot logs, and found 2 other occurrences, also
-> > on Ebisu.  In all cases, it happened while a lot of output was printed to
-> > the serial console (either a WARN() splat, or DEBUG_PINCTRL output).
-> > My guess is that console output or disabling interrupts too long is
-> > triggering a race condition or other issue in the i2c driver (clk 1 is the
-> > cs2000 clock generator, controlled through i2c).
->
-> OK, Thanks, nice to know.
-> It was rare case issue, difficult to find :)
->
-> > >                 } else {
-> > > -                       clk_disable_unprepare(clk);
-> > > +                       if (adg->clk_rate[i])
-> > > +                               clk_disable_unprepare(clk);
-> >
-> > As pointed out by Mark, you may want to clear adg->clk_rate[i] here?
->
-> I thought we can re-get clock if we could get clock once.
+On Wed, Dec 16, 2020 at 6:03 PM Adam Ford <aford173@gmail.com> wrote:
+> On Wed, Dec 16, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
+> > > When the board was added, clock drivers were being updated done at
+> > > the same time to allow the versaclock driver to properly configure
+> > > the modes.  Unforutnately, the updates were not applied to the board
 
-Indeed. If a clock worked before, it should keep on working.
-However, the failing clock was the cs2000 clock, which can fail to enable
-if something goes wrong with i2c.
+> > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > @@ -5,6 +5,7 @@
+> > >
+> > >  #include <dt-bindings/gpio/gpio.h>
+> > >  #include <dt-bindings/input/input.h>
+> > > +#include <dt-bindings/clk/versaclock.h>
+> > >
+> > >  / {
+> > >         backlight_lvds: backlight-lvds {
+> > > @@ -294,12 +295,12 @@ &du_out_rgb {
+> > >  &ehci0 {
+> > >         dr_mode = "otg";
+> > >         status = "okay";
+> > > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
+> > > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
+> >
+> > Why this change? You said before you don't need this
+> > https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
+> >
+>
+> I had talked with the hardware guys about buy pre-programmed
+> versaclock chips which would have been pre-configured and pre-enabled.
+> I thought it was going to happen, but it didn't, so we need the
+> versaclock driver to enable the reference clock for the USB
+> controllers, ethernet controller and audio clocks.  Previously we were
+> manually configuring it or it was coincidentally working. Ideally,
+> we'd have the clock system intentionally enable/disable the clocks
+> when drivers are loaded/unloaded for for power management reasons.
+
+Can you tell me how exactly the Versaclock outputs are wired?
+E.g. for USB, the bindings don't say anything about a third clock input,
+so I'd like to know where that clock is fed into USB.
+
+> Thank you for the review.  Is that the only patch in the series with
+> concerns?  I probably won't get to V2 until this weekend.
+
+Sorry, I still have to review the other patches in your series.
+Anyway, we have time until the end of January to queue DT patches for
+v5.12...
 
 Gr{oetje,eeting}s,
 
