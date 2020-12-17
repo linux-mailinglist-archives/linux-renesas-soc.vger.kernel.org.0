@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A322DCFD8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 11:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FB7E2DCFE6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 11:58:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727935AbgLQKzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 05:55:20 -0500
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:37277 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725871AbgLQKzT (ORCPT
+        id S1727160AbgLQK6M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 05:58:12 -0500
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:45346 "EHLO
+        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726631AbgLQK6L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 05:55:19 -0500
-Received: by mail-ot1-f53.google.com with SMTP id o11so26811943ote.4;
-        Thu, 17 Dec 2020 02:55:04 -0800 (PST)
+        Thu, 17 Dec 2020 05:58:11 -0500
+Received: by mail-oi1-f173.google.com with SMTP id f132so31702477oib.12;
+        Thu, 17 Dec 2020 02:57:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NqI46iUkm3kdRiZJylFMY4ESM/tT8MWZRvq/LXdmcj8=;
-        b=UDHVMsjFrmxKxeIPxRdz6tMZdhCm3OW5MlawLThIAPEcPujR79PXOdqzf3IaKLnHgs
-         RL0m7RJdAVlcKrYDPLs4RUPxiXDiXa9v+CgSFAVfyRUf/C4Un6Qfq2Nf5dskiVvAJ/B2
-         s3THeHGkYYQMemePttanqlBoUWyR+J8/suFIc2JIEVKYj/yExbD7okP0jVvXVf2vIX5b
-         +zuFBem8L0AXgc1MicYCmp4PmME0G4yHoEc4KLRjVHBhYbj6vIFNnuc+2KW5df5RFqab
-         azP5eBfKuamOdIIYf7i7BfZCuZd6AdeaNMgnyBIO9B0Uesy3LTCuzoccv5g+7xnunh4H
-         W88g==
-X-Gm-Message-State: AOAM531H3rVvKR2ACzJBRFdNHbsvTR6rUXqCHpCRWsVpzEJaHEpnsUvY
-        pevbdyZQX6L36/66wkqIroY2gb7vYMtIF4OeY2M=
-X-Google-Smtp-Source: ABdhPJxa8h30ez71n05knntqGE9YvDSdn/c2GQBkf7p9Folc+Th5qeNdgj3pT70UVBs1WaQhLEXip9F23z7VsGSry0E=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr28946942otc.145.1608202478826;
- Thu, 17 Dec 2020 02:54:38 -0800 (PST)
+        bh=eQkdrhIP2aiUl23qHVM2K9iKhvGt/fv8jJNeYO3M4qE=;
+        b=aHSYoafmU/AOQagCXs+PDzr8toav6V0V+m8aswfgOcRoZfS/tetAoDIjPUe1Xg9DV3
+         kzKQnn0PKszQRSW8lIUSuliArwetH2NiSznMCZQR90WqtGxGPVaOY3HzF8dVXjp+Ci8C
+         lw9ch0zrP0j3zUKw9S/7czpcMn9GkQEQ+0ADBM108HenuqfCYXUynI3tHCyrOtHjiX+L
+         OIqB7PYmumd5ZYR7fIQ2grnXbpXOg/qViei0WDdlIsNhfxsbSMkViA41Yrf55TAc34M/
+         JeiR4CQRCKzkXXjLKm+bytitrvQqXQL++2ZvXy5SxMBYy27+kiCYP2TAA+p+mr/9DAa9
+         silQ==
+X-Gm-Message-State: AOAM533yWHMKSMnj2zCoR/UmGWWS9831/v4zjQzlUqF6p+CSVJ3gjmLo
+        X80qDJzUiX628QORflExMSZnANxxWQfD3Ie9szIAtyBq
+X-Google-Smtp-Source: ABdhPJzOMTnOTCRYICkLN7OS/o/ANuqEzeLRQJO8fpTyKNl56t9KCsHZSgQN8r1qicwnbLK1oEsfJstpjqQEWdpfZ9Y=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr4417118oia.148.1608202650746;
+ Thu, 17 Dec 2020 02:57:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-5-aford173@gmail.com>
-In-Reply-To: <20201213183759.223246-5-aford173@gmail.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-6-aford173@gmail.com>
+In-Reply-To: <20201213183759.223246-6-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Dec 2020 11:54:27 +0100
-Message-ID: <CAMuHMdWAQ9j1b=b7CFcjg97N7YW+7Dj14TB-MGogJGK7kFkdhg@mail.gmail.com>
-Subject: Re: [PATCH 04/18] arm64: dts: renesas: beacon kit: Fix Audio Clock sources
+Date:   Thu, 17 Dec 2020 11:57:19 +0100
+Message-ID: <CAMuHMdUXQ5wAFiqkTVJ8Cm6AC53hLRFL4mbqNrQw20yXiSaPog@mail.gmail.com>
+Subject: Re: [PATCH 05/18] arm64: dts: renesas: beacon: Fix audio-1.8V pin enable
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
@@ -50,54 +50,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
-
 On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> The SoC was expecting two clock sources with different frequencies.
-> One to support 44.1KHz and one to support 48KHz.  With the newly added
-> ability to configure the programmably clock, configure both clocks.
+> The fact the audio worked at all was a coindicence because the wrong
+
+coincidence.
+
+> gpio enable was used.  Use the correct GPIO pin to ensure its operation.
 >
-> Beacause the SoC is expecting a fixed clock/oscillator, it doesn't
-> attempt to get and enable the clock for audio_clk_a. The choice to
-> use a fixed-factor-clock was due to the fact that it will automatically
-> enable the programmable clock frequency without change any code.
->
+> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> @@ -250,9 +250,12 @@ ss_ep: endpoint {
->  };
->
->  &audio_clk_a {
-> -       clock-frequency = <24576000>;
-> -       assigned-clocks = <&versaclock6_bb 4>;
-> -       assigned-clock-rates = <24576000>;
-> +       /delete-property/ clock-frequency;
-> +       #clock-cells = <0>;
-> +       compatible = "fixed-factor-clock";
-> +       clock-mult = <1>;
-> +       clock-div = <1>;
-> +       clocks = <&versaclock6_bb 4>;
->  };
-
-Shouldn't you override the clocks property in the rcar_sound node
-instead, like is done in several other board DTS files (with cs2000)?
-
->
->  &audio_clk_b {
-> @@ -591,7 +594,7 @@ sound_pins: sound {
->         };
->
->         sound_clk_pins: sound_clk {
-> -               groups = "audio_clk_a_a";
-> +               groups = "audio_clk_a_a", "audio_clk_b_a";
->                 function = "audio_clk";
->         };
-
-Yes, this part was definitely missing.
+Thanks, I have to trust you on this one, i.e. will queue in
+renesas-devel for v5.12
+(with the above fixed).
 
 Gr{oetje,eeting}s,
 
