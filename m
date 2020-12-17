@@ -2,44 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 620572DD039
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 12:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF8F2DD047
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 12:25:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbgLQLU7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 06:20:59 -0500
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:34163 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbgLQLU6 (ORCPT
+        id S1726601AbgLQLZ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 06:25:26 -0500
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:42690 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725930AbgLQLZ0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 06:20:58 -0500
-Received: by mail-ot1-f53.google.com with SMTP id a109so26866728otc.1;
-        Thu, 17 Dec 2020 03:20:42 -0800 (PST)
+        Thu, 17 Dec 2020 06:25:26 -0500
+Received: by mail-oi1-f178.google.com with SMTP id l200so31749465oig.9;
+        Thu, 17 Dec 2020 03:25:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3aG+zZacCyTHkuCFY85iJfsHw0IvphhRw57kiuJQp3A=;
-        b=OcmORqe6iGrW5275NDDaLHn8Vy52dN/AyN+IG2HSkUYF65OFFrx/gxA+rNYcvrb4ke
-         BcgdjtL2hg/ygEZ8aWb/rLvdVs3itlFStaQCC1XsXn7DlzywjYDtFr/dUOYZrWcux1yT
-         1whpUeMaABAr31EIPl8ENUD7A77BPwB3KMgseH60MxN+nDvI4k6twpoYvNn1xGYJlJCm
-         eE1E9hbkFGaghQd/+4MBb2hKVGBWrGPYU19JNxWvHf6Y7v0DMFfedAaoDbDFTydvMe6K
-         TU502lMzQuVW54PNTTdf6FUoFEl/hpKqMiE/99KOcSAM/HzFMRnzLhnHZmrWdjNpiZOa
-         Wknw==
-X-Gm-Message-State: AOAM5303dOFWP+fhe9/wh2/LFOBGBmlMma4B5JamQ5bSbZKGjauuIKxM
-        LYL6/oujwzeahmU6tUWhaZiSdrQiFjRlYaNS+uXmQFl1jv0=
-X-Google-Smtp-Source: ABdhPJzddLh+CDz2C1zxSNJsuDnuFwf9AAblNKeFPiJmD+qBoXhDMTc6Wx7avxWQAfmLwX78QVQskUms6enUlc6wPJU=
-X-Received: by 2002:a9d:2203:: with SMTP id o3mr28997908ota.107.1608204016933;
- Thu, 17 Dec 2020 03:20:16 -0800 (PST)
+        bh=ye23hBbfnHcKQODG9BbEdQi+7RSpwQlYeXWySCGHRoA=;
+        b=K4WNYthey8FCkQr0GPnCoKT2/v9V5kemnMtZfMV7PVVlES29LN/Rs2HkjtdZ2v2RBP
+         urR5+HvDHJaycsIIebYGEBnuw+79n2ZgpkoBjPW35PfcDzrwuAvFIYfW7NABlgl5w2Nr
+         SlE3VNUbfUXJf+rFbi2fNhbCh1Dg9UqjyUkfGRYIi9O68v0FA2S4B8EeEX1LBUHniDtq
+         rruTGXVnsOFAzhfxM18Ehizc+L2clcGPczJYKCMRSCC/hJc8BvcopEoyJ9A4CIhn4aMK
+         8ljhHUBp7VQbrODFPyyNiC1yZNU1zMJJRRXZu4bpoi8VkEchmLaOMckLfEZsoe74Nw4V
+         WY6A==
+X-Gm-Message-State: AOAM532Tgs1ycR/C2BaR3b/U8v61XIoLFPEaBUeP1HlXYXNwnLfhBYfZ
+        LFCf7BhtuGlhb+013EzxMwM/lQvSpjAuSd5jBeJuyQfa
+X-Google-Smtp-Source: ABdhPJzgIN2bVZaY3oKtlIdAPDr+0ZVUWELQPcGC1FhKksYVNZHJ7McWrhS4NTz0PS+86hOn3kkX81LmTzT91lEJQTk=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr4381743oih.153.1608204285143;
+ Thu, 17 Dec 2020 03:24:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-9-aford173@gmail.com>
-In-Reply-To: <20201213183759.223246-9-aford173@gmail.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-11-aford173@gmail.com>
+In-Reply-To: <20201213183759.223246-11-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Dec 2020 12:20:05 +0100
-Message-ID: <CAMuHMdX+9AGxa8i_tUcZ+81YhrWJc=R9b7wAmt54Q-eEF6qPHQ@mail.gmail.com>
-Subject: Re: [PATCH 08/18] arm64: dts: renesas: beacon: Enable SCIF4
+Date:   Thu, 17 Dec 2020 12:24:34 +0100
+Message-ID: <CAMuHMdU8FrUDNs5y2cqdTPom0YC1O3HihTO1Lz_mASoB2WfdHw@mail.gmail.com>
+Subject: Re: [PATCH 10/18] arm64: dts: renesas: Don't make vccq_sdhi0 always on
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -50,47 +51,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
-
 On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> The baseboard supports SCIF4, enable the pins and the node for it.
+> vccq_sdhi0 is referenced from sdhi0, so there is no need to force
+> this regualtor to be always-on.  In theory it could help with
+
+regulator
+
+> low power modes in the future.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> @@ -578,6 +578,11 @@ pwm2_pins: pwm2 {
->                 function = "pwm2";
->         };
->
-> +       scif4_pins: scif4 {
-> +               groups = "scif4_data_c";
-> +               function = "scif4";
-> +       };
-> +
->         sdhi0_pins: sd0 {
->                 groups = "sdhi0_data4", "sdhi0_ctrl";
->                 function = "sdhi0";
-> @@ -706,6 +711,12 @@ &scif0 {
->         status = "okay";
->  };
->
-> +&scif4 {
-> +       pinctrl-0 = <&scif4_pins>;
-> +       pinctrl-names = "default";
-> +       status = "okay";
-> +};
-> +
->  &scif5 {
->         pinctrl-0 = <&scif5_pins>;
->         pinctrl-names = "default";
-
-As mixing SCIF ports with and without aliases may lead to failures,
-depending on probe order, you want to add an aliases for scif4 to
-arch/arm64/boot/dts/renesas/r8a774a1-beacon-rzg2m-kit.dts.
-I see you did that for the rzg2h and rzg2n kits, but rzh2m lacks it.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.12 (with the typo fixed, and "beacon"
+added to the one-line summary).
 
 Gr{oetje,eeting}s,
 
