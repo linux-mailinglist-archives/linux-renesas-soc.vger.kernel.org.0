@@ -2,43 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3B5E2DCD80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 09:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 066622DCF9F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 11:41:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgLQIRh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 03:17:37 -0500
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:47067 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726488AbgLQIRg (ORCPT
+        id S1726012AbgLQKl4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 05:41:56 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:34842 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725950AbgLQKl4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 03:17:36 -0500
-Received: by mail-ot1-f53.google.com with SMTP id w3so26451059otp.13;
-        Thu, 17 Dec 2020 00:17:21 -0800 (PST)
+        Thu, 17 Dec 2020 05:41:56 -0500
+Received: by mail-ot1-f50.google.com with SMTP id i6so26822264otr.2;
+        Thu, 17 Dec 2020 02:41:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DRkib19GY9SGtyX+MPcBbrQbFZN6frBiaalsVVLI5vo=;
-        b=q35hq5avdC8Exn+RRSiE2edQcOWGgN8FPaY5FwP3958lL3vbVxBG3xr1gJyXjOfYq2
-         OvwhmgiWQC35unNpXEtv755CuMbU6VqCdA7YzXvToTBCTtwibSwBEZlVDQpWn/W/dzXu
-         aj0JbVxfziQWZDfWR1HXxbU1QQFSyTW2/F3aDGosrRxDqKFhhUHAWF8HkSMlCw6KLDoT
-         GEhye42yggNadSjuI0EGeKD2j2B0U1d5KaDRORVbNZMtAjRupfsOyaszA9hE/ePIpW+2
-         sJBNBRAOvXGAOSsRPsSvTA/Hbrw59BDwQ9AXqnzllpZxRjesMYs5xnkx9LSrp9u80dk+
-         HVnA==
-X-Gm-Message-State: AOAM531IywWsCT935pl/UMjASZnHaCNr/moHFcT8YX75SpmkciumIjRv
-        nZtqaKCLU+XiD+08lUM/v8vu+NieKNK+Qzy01H8=
-X-Google-Smtp-Source: ABdhPJwfT2lJ9VDkqEO0SRMPijbldtGsHGs7WTBRJYQFWgl2gfK+oQjlXl/eq2Cro6PKOLjPr//z4bwA4GwNs1WiyNk=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr28626570otc.145.1608193015622;
- Thu, 17 Dec 2020 00:16:55 -0800 (PST)
+        bh=jZq72uh5drDq+vH9HNncqoGluBOo86keamsd9/IIxuo=;
+        b=IirwPUrWSaNiSV988M8pc9139G4DHCVjKu5Pw09zjFOygAQMzs7qA6v+976RLcPArk
+         EhaFgD3zpTP4w00cemYngR27LJ9E5y3bqUdpmyV7SPlSNyfC0C9xjh+mAolpESogqaSk
+         464OlTsyTnHTaEHvadq2lHlNtAL8ECUEkFcXio5/Yjm5JKKJtCHS27b1Mvr1ohLLjQb3
+         6JpCchFp2Xn8jMPCJXQRJlvwuwBNZLPpaTKKUTEkaTbplNQvFP3yg7BH4D+DhWhOIC16
+         K5vJ36xVe169ndlRmKeOa/v6HnOf8O72PV084Bazfuh5OMKVfL7lNKQJFrj9kJPTxZfF
+         /rzw==
+X-Gm-Message-State: AOAM531Qv1q11uGUJdXHl5n2hDEfGf1DKe/MHhsdJ7VavsIvy5CpqGje
+        ovykpquLIteMlJu+5cTHr3xxi0sYEN+KIAboXYU=
+X-Google-Smtp-Source: ABdhPJx9/mrnyQV28izVCd8+tQdBcbMYWFHxro0JPWzgWg1hB/ptH7C+XMsePpAGUbfAC0eKmh4O/gKTVvbOrpAEiog=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr28890907oth.250.1608201675171;
+ Thu, 17 Dec 2020 02:41:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
- <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com> <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
-In-Reply-To: <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-3-aford173@gmail.com>
+In-Reply-To: <20201213183759.223246-3-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Dec 2020 09:16:44 +0100
-Message-ID: <CAMuHMdWc=qD=Oqa-7o9K1bd_OM0L7Br8BVAbDvYNraO0wAX2jw@mail.gmail.com>
-Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
- programmable clocks
+Date:   Thu, 17 Dec 2020 11:41:03 +0100
+Message-ID: <CAMuHMdW8w-J445DRNH8Ykx7Sp2KGCCVibE5uvccmoD=iZSM-zQ@mail.gmail.com>
+Subject: Re: [PATCH 02/18] arm64: dts: renesas: beacon kit: Fix choppy
+ Bluetooth Audio
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
@@ -46,62 +45,24 @@ Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
-
-On Wed, Dec 16, 2020 at 6:03 PM Adam Ford <aford173@gmail.com> wrote:
-> On Wed, Dec 16, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> > > When the board was added, clock drivers were being updated done at
-> > > the same time to allow the versaclock driver to properly configure
-> > > the modes.  Unforutnately, the updates were not applied to the board
-
-> > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > > @@ -5,6 +5,7 @@
-> > >
-> > >  #include <dt-bindings/gpio/gpio.h>
-> > >  #include <dt-bindings/input/input.h>
-> > > +#include <dt-bindings/clk/versaclock.h>
-> > >
-> > >  / {
-> > >         backlight_lvds: backlight-lvds {
-> > > @@ -294,12 +295,12 @@ &du_out_rgb {
-> > >  &ehci0 {
-> > >         dr_mode = "otg";
-> > >         status = "okay";
-> > > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
-> > > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
-> >
-> > Why this change? You said before you don't need this
-> > https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
-> >
+On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
+> The Bluetooth chip is capable of operating at 4Mbps, but the
+> max-speed setting was on the UART node instead of the Bluetooth
+> node, so the chip didn't operate at the correct speed resulting
+> in choppy audio.  Fix this by setting the max-speed in the proper
+> node.
 >
-> I had talked with the hardware guys about buy pre-programmed
-> versaclock chips which would have been pre-configured and pre-enabled.
-> I thought it was going to happen, but it didn't, so we need the
-> versaclock driver to enable the reference clock for the USB
-> controllers, ethernet controller and audio clocks.  Previously we were
-> manually configuring it or it was coincidentally working. Ideally,
-> we'd have the clock system intentionally enable/disable the clocks
-> when drivers are loaded/unloaded for for power management reasons.
+> Fixes: a1d8a344f1ca ("arm64: dts: renesas: Introduce r8a774a1-beacon-rzg2m-kit")
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Can you tell me how exactly the Versaclock outputs are wired?
-E.g. for USB, the bindings don't say anything about a third clock input,
-so I'd like to know where that clock is fed into USB.
-
-> Thank you for the review.  Is that the only patch in the series with
-> concerns?  I probably won't get to V2 until this weekend.
-
-Sorry, I still have to review the other patches in your series.
-Anyway, we have time until the end of January to queue DT patches for
-v5.12...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.12.
 
 Gr{oetje,eeting}s,
 
