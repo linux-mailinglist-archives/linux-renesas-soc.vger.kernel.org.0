@@ -2,144 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C3902DD6A7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 18:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 453A52DDBE3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 00:33:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728080AbgLQR7E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 12:59:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727253AbgLQR7E (ORCPT
+        id S1727137AbgLQXdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 18:33:35 -0500
+Received: from mail-oo1-f49.google.com ([209.85.161.49]:45020 "EHLO
+        mail-oo1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgLQXdf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 12:59:04 -0500
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B614CC0617A7;
-        Thu, 17 Dec 2020 09:58:23 -0800 (PST)
-Received: by mail-io1-xd30.google.com with SMTP id 81so28306095ioc.13;
-        Thu, 17 Dec 2020 09:58:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Jy9Wo6K2J/ZSSCkdeQ2xq3mmopXJVycRBgl/dvb3y3M=;
-        b=ZWHmreiH5rqp0TCgo6Tc0AUX6gwk++F5zyVRI2cszk+zlJBORCLTYuPAP1EaF5Ws+J
-         t1/87AfU+EwrH7w2NFaRQMGrNTmzc1GBXhOFzSCU1SzTUd/H7qJEEZPicbDYG+FE1BiB
-         rfCUhlHFH9+cTlKreuUCB9pzkCIcOyUAHoINRYsEmWSuoNh2XLnz0yOKgXGinmEbjFHw
-         6nz38TBwwuhGK2H9ueOUyJsWIWRR1gDwsiP8SYZcLDR/rD+LQXGtYfezzSqfwqPovsL2
-         2LPXLq7Spblx2sCfdJaJqwCKSicmgi/wbkYDY50dO8WsF8pC+h6oTcE9UVeMJt2jz2Q8
-         BWdQ==
+        Thu, 17 Dec 2020 18:33:35 -0500
+Received: by mail-oo1-f49.google.com with SMTP id j21so138561oou.11;
+        Thu, 17 Dec 2020 15:33:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Jy9Wo6K2J/ZSSCkdeQ2xq3mmopXJVycRBgl/dvb3y3M=;
-        b=on685f5O7eDYJjWX/wGY4zp3qXcUxBzvidCsZPGwIDJx7CsfqxrSs4qym57d+X3Lxr
-         QwxC/DuANKWDG67LFJVZLgJTZPWWrPbc//c3t18g/t5O6L2apRkrcbbF659rvHkLMO6q
-         ExPkml++uvs9jvtUz/mK2Jodymn/SK/kI28hMgnPiuP6xQpNeJlRP8Z6RhnGlkWImixO
-         UbP9THgtBi+913StxVH+uUH53bd2M03WxsaHHeVvf084ktaap1UTWGwjB26To6Bk5clM
-         XXunDIDB02YQ7+8YmWYKF4uVq1QUizTApQdBfPun46GZMOKo655KGubIa/im0Lv1PYHt
-         /fhA==
-X-Gm-Message-State: AOAM531ZgC5/2LwxOehExM1lE7NqxKRDMyWM6ooIvUugN7KoCq2DdUbX
-        1KY2np+M0rky9fPvDY7RcuMaI5UBxBIFbyilIG4=
-X-Google-Smtp-Source: ABdhPJxdAlerYP+JuD9biEEY39A4kN8rW0oldiaXIBGS0l5gLJQZoPQTKREgpdu4SWSftFhfVFo5D82LYpvmLPxAnkE=
-X-Received: by 2002:a6b:f401:: with SMTP id i1mr261498iog.142.1608227903009;
- Thu, 17 Dec 2020 09:58:23 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=o4L0zUoStNxiDtZzdNvMrXS5I8joaFoyrOYrSbDzU7Y=;
+        b=dRqczhwHeN7Zhw0/lBaZiLC1Z6tPmTKFXTagyXQ4Y1FGTOCaVBOwsztU0d0pF/wqDx
+         KpbiiItHfLjt4yN+zU+tQumA9+SxuaViGXBprzw6v9NDlZiy3TfvmhDB+17+uvhcQESp
+         t3dOEG5zfS+aMAEra3uf8JPZchk14wuLWZ0XBeE64+7n0xphF6hlQAWzGBQpYq0RXJcT
+         15NzAPJkCUlsUOa2fQwm6KLP8Ayauj0CSIbJin25WoE8wBjP19CASTyjZVYk5ciKTDlA
+         gzAq4BDAeG+inzH4yg4LYsMwlJ2J34TGebNPurzc0UIAZSo2sVGDujAv4WTqMQjV2YIW
+         E89g==
+X-Gm-Message-State: AOAM530fLVzi2zHWKwsmXd1/8vhT6Cwo7cf6MKZQwhuhngIwhcvVvg+p
+        Yjf4ZxYd39JUFgZNunh2JxVOXjLYXw==
+X-Google-Smtp-Source: ABdhPJzaBWJNWUTtE+/q4T84oos6G4Nn+YvDFEQnYXoZcyVBoreAhzuzCgsUr1Co/9gdgApUzXk1mQ==
+X-Received: by 2002:a4a:a289:: with SMTP id h9mr1050535ool.86.1608247974608;
+        Thu, 17 Dec 2020 15:32:54 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id q18sm1562806ood.35.2020.12.17.15.32.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 15:32:53 -0800 (PST)
+Received: (nullmailer pid 431228 invoked by uid 1000);
+        Thu, 17 Dec 2020 23:32:52 -0000
+Date:   Thu, 17 Dec 2020 17:32:52 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] dt-bindings: display: bridge: renesas, lvds: RZ/G2E
+ needs renesas, companion too
+Message-ID: <20201217233252.GA431179@robh.at.kernel.org>
+References: <20201215225927.6552-1-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-7-aford173@gmail.com>
- <CAMuHMdU+d7SZc9gh_3WS+bqd4EhXYh=kv0XvYrgUUckdQ7o5jw@mail.gmail.com> <CAHCN7xJf2T3uFLDtJxvjFYzCksWq02+CUY51_WmnU44YDJKy9Q@mail.gmail.com>
-In-Reply-To: <CAHCN7xJf2T3uFLDtJxvjFYzCksWq02+CUY51_WmnU44YDJKy9Q@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 17 Dec 2020 11:58:11 -0600
-Message-ID: <CAHCN7xKdVv==YLtSa3n2hQk2T+f+FkLqKDNTYkP_3ynnY+xRCg@mail.gmail.com>
-Subject: Re: [PATCH 06/18] arm64: dts: renesas: beacon: Configure Audio CODEC clocks
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201215225927.6552-1-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 17, 2020 at 7:33 AM Adam Ford <aford173@gmail.com> wrote:
->
-> On Thu, Dec 17, 2020 at 5:12 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >
-> > Hi Adam,
-> >
-> > CC alsa-devel
-> >
-> > On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> > > With the newly added configurable clock options, the audio CODEC can
-> > > configure the mclk automatically.  Add the reference to the versaclock.
-> > > Since the devices on I2C5 can communicate at 400KHz, let's also increase
-> > > that too
-> > >
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-> > > @@ -424,13 +424,15 @@ &i2c0 {
-> > >
-> > >  &i2c5 {
-> > >         status = "okay";
-> > > -       clock-frequency = <100000>;
-> > > +       clock-frequency = <400000>;
-> > >         pinctrl-0 = <&i2c5_pins>;
-> > >         pinctrl-names = "default";
-> > >
-> > >         codec: wm8962@1a {
-> > >                 compatible = "wlf,wm8962";
-> > >                 reg = <0x1a>;
-> > > +               clocks = <&versaclock6_bb 3>;
-> > > +               clock-names = "mclk";
-> >
-> > While the driver does get the (nameless) clock, the DT bindings lack any
-> > mention of a clocks property.  It would be good to update the bindings.
->
-> Agreed.  I'll push an update to add the clocks property.
->
+On Wed, 16 Dec 2020 00:59:27 +0200, Laurent Pinchart wrote:
+> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> Document RZ/G2E support for property renesas,companion.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Slight reword of SoC list in description
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,lvds.yaml    | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-I pushed a change to add the optional clock information to the
-bindings txt file [1].
-> >
-> > Note that arch/arm/boot/dts/imx6-logicpd-baseboard.dtsi and
-> > arch/arm64/boot/dts/freescale/imx8mm-beacon-baseboard.dtsi (both by your
-> > hand) use "xclk" instead of "mclk"?
->
-> On the schematics for the two imx boards, it's labeled as xclk, so it
-> was named as such.  For this board, the schematic names it mclk. The
-> driver doesn't care about the clock-names property, so I'll just
-> remove them.
-
-I pushed patches to remove these nodes from the other boards [2].
-I'll remove them if V2 of the patch series for the Renesas board.
-
-adam
-[1] - https://patchwork.kernel.org/project/alsa-devel/patch/20201217162740.1452000-1-aford173@gmail.com/
-[2] - https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=403739
-
->
-> adam
-> >
-> > >                 DCVDD-supply = <&reg_audio>;
-> > >                 DBVDD-supply = <&reg_audio>;
-> > >                 AVDD-supply = <&reg_audio>;
-> >
-> > Gr{oetje,eeting}s,
-> >
-> >                         Geert
-> >
-> > --
-> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> >
-> > In personal conversations with technical people, I call myself a hacker. But
-> > when I'm talking to journalists I just say "programmer" or something like that.
-> >                                 -- Linus Torvalds
+Reviewed-by: Rob Herring <robh@kernel.org>
