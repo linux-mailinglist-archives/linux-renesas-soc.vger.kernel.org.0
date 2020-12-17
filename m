@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 133062DD085
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 12:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E868A2DD098
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Dec 2020 12:42:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgLQLj3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Dec 2020 06:39:29 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:36760 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbgLQLj2 (ORCPT
+        id S1726488AbgLQLl5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Dec 2020 06:41:57 -0500
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:40740 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726626AbgLQLl5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Dec 2020 06:39:28 -0500
-Received: by mail-ot1-f50.google.com with SMTP id d20so8961090otl.3;
-        Thu, 17 Dec 2020 03:39:13 -0800 (PST)
+        Thu, 17 Dec 2020 06:41:57 -0500
+Received: by mail-oi1-f179.google.com with SMTP id p126so31802237oif.7;
+        Thu, 17 Dec 2020 03:41:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4rzjlxV9vhJAasfHC4LoFtj8pos6DRPYtY+eyV1dre0=;
-        b=CIMTdcU6XoV1KQXq22lo4SVNDtBlGWm5i6jxzHSEe5VklP9iLYcEemATFgqhHQ23v9
-         ouNyRZssQUrit4bwDFhN+PuSNNPBNf7Ge0iSfWDrTMZs2IYCd5VpOqmVaefY1y1Xv5hb
-         rxXgiUZMbnS1TsK5JQKUL0u46UAxOLo3BeYCf2yGnq9UWgP9uIls2UdeSw8qU18WGGyS
-         tmm95HnD3LXUx36VHFXBV5DDvhYa7i+5OlNI4+MFiO2Hoa9oQ+8HfaGqVpmkZDApOtAS
-         CDcMiCRW8+p+dYo3F6suHs7D5fdRgQD/ydN1Nv3UDEae42QCwfd7HE5JsRm5HDO6knd7
-         iECg==
-X-Gm-Message-State: AOAM533D79265SAL0azNp+SHsBe0tMH+wfky00PSse5RX8AdgTbiG8jg
-        SVu0IqTpQT+/rVccH+ugWqgqCbSpfVQzKCx10pg=
-X-Google-Smtp-Source: ABdhPJzINpx1LO+l730+jdwp721xmGrVtfezvHfs0k0ylTYKUYzbIvs1LNcYm6WhcKMBYKWvcxN/bbDMBRNcPUNgDMc=
-X-Received: by 2002:a9d:2203:: with SMTP id o3mr29040751ota.107.1608205127895;
- Thu, 17 Dec 2020 03:38:47 -0800 (PST)
+        bh=WRI/yodUSsUQE0QeZgWG+nQyttn6Dry6H11MB1crvno=;
+        b=b9Le1k3rqRioaMz+cljBnrh23piaOxqwctkPeN1TxzH59AQBLIoJ5i4ybP2B7JqtL1
+         GGL/8Mq+7S4VyCvunkWwoSzwrGlYGMHilFh3pwKulEME2P4XytpMGzOyLuQ87dUmEM3n
+         IrnxgTF4tQsBJd+QXjJDAj0V694Yes5iXQw545PcJm4QRKPizmguOKhpzBpWRTOc3Egp
+         vx3jsCJ3cSAMWocEmgIT7v+qzIiyKTufEjMItJWkKNhto6+UZp+SrZFQZwOWSRMbu6BP
+         agNzlquL473Y8poQDgZFswpXG9gRUIj9VGkwlOerNsQs6ASU/aQOVlyvXyKIILiNLm1q
+         D5QQ==
+X-Gm-Message-State: AOAM532qTuKSNfXVzwiIf1nMoNcYmjO77t80DEEkoK0vCSUrf7kxMg4n
+        /teqLv0MdNsk11Skx/+5s8aHhtW2l1EjDAtN0PA=
+X-Google-Smtp-Source: ABdhPJzBTXakQNjeeS0ubjK1cVKWQKmOyHKOENP9yHHfNIQ/MmLX7f9IBS3QYPPM7mYlwGlK1u/pZtrU+XMTaELbjM8=
+X-Received: by 2002:aca:5c08:: with SMTP id q8mr4530352oib.54.1608205276390;
+ Thu, 17 Dec 2020 03:41:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-15-aford173@gmail.com>
-In-Reply-To: <20201213183759.223246-15-aford173@gmail.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-16-aford173@gmail.com>
+In-Reply-To: <20201213183759.223246-16-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Dec 2020 12:38:36 +0100
-Message-ID: <CAMuHMdWyZTDzm2_yZEbgkZo=5fW1Py9EnS04KkgwBX+Rng_s0g@mail.gmail.com>
-Subject: Re: [PATCH 14/18] arm64: dts: renesas: beacon: Correct I2C bus speeds
+Date:   Thu, 17 Dec 2020 12:41:05 +0100
+Message-ID: <CAMuHMdUjaqWE9GmW+JuxHjUJe4XvB=AtgBv_kFtDomHTwF7J-w@mail.gmail.com>
+Subject: Re: [PATCH 15/18] arm64: dts: renesas: beacon-rzg2m-kit: Rearange SoC
+ unique functions
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
@@ -51,13 +52,13 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
-> For greater compatibility with upcoming kits that will reuse the baseboard
-> and SOM-level files, adjust the I2C speeds to make it the most compatible
-> with all devices.
+> In preparation for adding new dev kits, move anything specific to the
+> RZ/G2M from the SOM-level and baseboard-levels and move them to the
+> kit-level.  This allows the SOM and baseboard to be reused with
+> other SoC's.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Thanks, all i2c devices on the bus support 400 kHz.
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.12.
 
