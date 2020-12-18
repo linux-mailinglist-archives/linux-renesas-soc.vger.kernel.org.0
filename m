@@ -2,60 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 180432DDF64
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 09:09:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF7A2DE0B2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 11:02:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728219AbgLRIJA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Dec 2020 03:09:00 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:20861 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728212AbgLRIJA (ORCPT
+        id S1733155AbgLRKAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Dec 2020 05:00:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48314 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733012AbgLRKAn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Dec 2020 03:09:00 -0500
-X-IronPort-AV: E=Sophos;i="5.78,429,1599490800"; 
-   d="scan'208";a="66411787"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Dec 2020 17:02:56 +0900
-Received: from localhost.localdomain (unknown [10.166.15.86])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A5C3D4010717;
-        Fri, 18 Dec 2020 17:02:56 +0900 (JST)
-From:   Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-To:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: pci: rcar-pci-ep: Document r8a7795
-Date:   Fri, 18 Dec 2020 17:02:49 +0900
-Message-Id: <20201218080249.7918-1-yuya.hamamachi.sx@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 18 Dec 2020 05:00:43 -0500
+X-Gm-Message-State: AOAM533Q3QTHEi11MgQAX1dLn/tzkyMxR41ESdvSQuXvU3X4ejE84WF5
+        pX3qWyGsiGHKWdLDZagQijVL4q4EBGJcI6oyuEk=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608285602;
+        bh=Yv4ehNWrxhpZcvfC+h8QoKTm11DudEJN27fvhSVn57o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WurfVnPrYSZY5vv4EOmWqSNbyP47kxGrj380USxOOKWsCaoN83IVMuNssozp3DWY4
+         H7hN79TZaEdh4qpW4k/VZAHAJ54sHE/FGB5f+zfuyf7zY8ekCyH6rd0z6tfmc4L5KH
+         RfF3SPasU0TItrvRRm1NqbuFofsUU/z+kqHdjgnZESpIHj+MMHjM/mmzwdGyv84Nqm
+         tubA4kz/uxZDfiVB29bSrOcCjO+ITTnCWNglyfw9ZZJcRVkuHdcv7SVAUoK0039Uad
+         QJaH8niuZUyG+RU0jgftC7AdCPgZp1tjAgDngMgeYz+N9cTW7qocxoxitWYbaTjMug
+         qY6g0peszyqTQ==
+X-Google-Smtp-Source: ABdhPJxkDlRRJAF7ZQwc5naGuJKcxES24HLh+ph9YFONqtW/bBULM8erNl5wUccYIOpBpFSPBFu+cizSLRfJRbHTIZs=
+X-Received: by 2002:a17:906:9588:: with SMTP id r8mr3170102ejx.148.1608285600737;
+ Fri, 18 Dec 2020 02:00:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201206172720.9406-1-michael.srba@seznam.cz> <20201207055952.GB14307@pengutronix.de>
+ <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
+In-Reply-To: <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Fri, 18 Dec 2020 10:59:48 +0100
+X-Gmail-Original-Message-ID: <CAJKOXPeBtCZ35uThAr1=fmK3km_fJNYBDrah-fNapV_E3HDaxg@mail.gmail.com>
+Message-ID: <CAJKOXPeBtCZ35uThAr1=fmK3km_fJNYBDrah-fNapV_E3HDaxg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying clock-frequencies
+To:     Michael Srba <Michael.Srba@seznam.cz>
+Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the support for R-Car PCIe EP on R8A7795 SoC device.
+On Thu, 10 Dec 2020 at 21:56, Michael Srba <Michael.Srba@seznam.cz> wrote:
+>
+> Hi,
+>
+> sorry for late reply.
+>
+> I copied this approach from looking at other camera sensor drivers,
+> and it seemed less "ugly" to me than using assigned-rates (I will be
+> upstreaming required dts changes for Samsung Galaxy A3 (2015), so the
+> dts feeling "proper" is important to me).
 
-Signed-off-by: Yuya Hamamachi <yuya.hamamachi.sx@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes from v1:
-- Add Geert-san's Reviewed-by.
-- https://patchwork.kernel.org/project/linux-renesas-soc/patch/20201125073303.19057-2-yuya.hamamachi.sx@renesas.com/
+The clean solution is the assigned-clock properties. It's handled by
+the core. Duplicating the same feature to every driver is not
+"cleaner", but the opposite - ugly one.
 
- Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml | 1 +
- 1 file changed, 1 insertion(+)
+> I however am not qualified to make that decision, so if you believe
+> that the assigned-rates approach is cleaner and more suitable for mainline,
+> I will try to adjust my internal filter for what is "more proper" :)
 
-diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-index 84eeb7fe6e01..fb97f4ea0e63 100644
---- a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-+++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
-@@ -19,6 +19,7 @@ properties:
-           - renesas,r8a774b1-pcie-ep     # RZ/G2N
-           - renesas,r8a774c0-pcie-ep     # RZ/G2E
-           - renesas,r8a774e1-pcie-ep     # RZ/G2H
-+          - renesas,r8a7795-pcie-ep      # R-Car H3
-       - const: renesas,rcar-gen3-pcie-ep # R-Car Gen3 and RZ/G2
- 
-   reg:
--- 
-2.25.1
+More proper is handling stuff in the core, not implementing the same
+thing in every driver, one more time. Therefore, the assigned-clock
+properties.
 
+Best regards,
+Krzysztof
+Best regards,
+Krzysztof
