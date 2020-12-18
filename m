@@ -2,83 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AF7A2DE0B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 11:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E7F92DE17E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 11:50:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733155AbgLRKAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Dec 2020 05:00:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48314 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733012AbgLRKAn (ORCPT
+        id S2389230AbgLRKt1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Dec 2020 05:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389222AbgLRKt0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Dec 2020 05:00:43 -0500
-X-Gm-Message-State: AOAM533Q3QTHEi11MgQAX1dLn/tzkyMxR41ESdvSQuXvU3X4ejE84WF5
-        pX3qWyGsiGHKWdLDZagQijVL4q4EBGJcI6oyuEk=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608285602;
-        bh=Yv4ehNWrxhpZcvfC+h8QoKTm11DudEJN27fvhSVn57o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WurfVnPrYSZY5vv4EOmWqSNbyP47kxGrj380USxOOKWsCaoN83IVMuNssozp3DWY4
-         H7hN79TZaEdh4qpW4k/VZAHAJ54sHE/FGB5f+zfuyf7zY8ekCyH6rd0z6tfmc4L5KH
-         RfF3SPasU0TItrvRRm1NqbuFofsUU/z+kqHdjgnZESpIHj+MMHjM/mmzwdGyv84Nqm
-         tubA4kz/uxZDfiVB29bSrOcCjO+ITTnCWNglyfw9ZZJcRVkuHdcv7SVAUoK0039Uad
-         QJaH8niuZUyG+RU0jgftC7AdCPgZp1tjAgDngMgeYz+N9cTW7qocxoxitWYbaTjMug
-         qY6g0peszyqTQ==
-X-Google-Smtp-Source: ABdhPJxkDlRRJAF7ZQwc5naGuJKcxES24HLh+ph9YFONqtW/bBULM8erNl5wUccYIOpBpFSPBFu+cizSLRfJRbHTIZs=
-X-Received: by 2002:a17:906:9588:: with SMTP id r8mr3170102ejx.148.1608285600737;
- Fri, 18 Dec 2020 02:00:00 -0800 (PST)
+        Fri, 18 Dec 2020 05:49:26 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6207DC06138C
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id a12so1629577wrv.8
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Dec 2020 02:48:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
+        b=QISrBGDGFjCaWRQGhGA/GugdDLg+ehTDRBxqjxDRfp6+PRSkSkIIsl/aqU4mLa3D9V
+         1lhDchOMA5XYtDnwV2u9uTHEqTWspfzU1EQ82GjaAChd4hNnHi18144RGGTUGesp4Psf
+         ervrjKImhl07N4OZ3AFBu40EgX2q3R00hjw1y9cWWg07qgqEt61Dwx6UsiFSHcSwWgVc
+         ST4ndcClAToTdY2ClU7Szp0a3g0+kfAlnqOCWLvjMqvT7Fr4BICv4gnZ5pTm39L9ZD16
+         UbjRemFDIB7SgiMlE9szbx5eAH3wqyEc2v73UegEM9nWVycg15DN1igYaZNtBHKi5gOC
+         e6vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fLzY/djypMs81T+aO2pNTod0N4stmZ6pMUg865xqIcc=;
+        b=csjez0g6Gj9mx4ZTtqWEEe3n/UMZoRCkgNYKlAXKREHrPs0m7N9wH448dgcFZGlp20
+         Jzxcg3h0Yms0qHaEL55fjXGTGOr0pDHPw0BWkyPOiK0UfhBeiNgJO16DQ/6qpm59E3s4
+         RUO0iBvwyA3KvAVNeM/ntuCqxknlaILqm1NA1qHzdtQ1w2VQQBlvjAwHiRX0XUdL756Y
+         kxWxJ1S4yp/gyKchKK/qi69LGz79DsxAr6eQL5eG0RTJUWfKAd/IdBHNCBIV8WqAPKJ0
+         84LkHFhdZwI9sezfyiZLN/BB6qRG3OpgxCRrn3HVpP4HgSubQ+sbwU+MofQ/glu+MlFA
+         1sPQ==
+X-Gm-Message-State: AOAM531XvPKavfeqfBtTSNZiXeCEAy1++k/wMIZcAGzOfAjVX8wltGgv
+        5RT1JUEJxbvLvEtzMXPxZtXDN6AXWAzHjjQ7Xk3pGg==
+X-Google-Smtp-Source: ABdhPJw44cawfORTxLkciS4IgdazVtUtDppSQQMxvbWbSTGYtlJ7nqwnlTGvwVMaZCumr1XM4pzvsXEYRyLQwkEHCYc=
+X-Received: by 2002:a5d:65ca:: with SMTP id e10mr3783824wrw.42.1608288525010;
+ Fri, 18 Dec 2020 02:48:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201206172720.9406-1-michael.srba@seznam.cz> <20201207055952.GB14307@pengutronix.de>
- <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
-In-Reply-To: <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Fri, 18 Dec 2020 10:59:48 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPeBtCZ35uThAr1=fmK3km_fJNYBDrah-fNapV_E3HDaxg@mail.gmail.com>
-Message-ID: <CAJKOXPeBtCZ35uThAr1=fmK3km_fJNYBDrah-fNapV_E3HDaxg@mail.gmail.com>
+References: <20201206172720.9406-1-michael.srba@seznam.cz>
+In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 18 Dec 2020 10:48:28 +0000
+Message-ID: <CAPY8ntB0g21HMkYoXzk6zRMHN6wzK7GrY-nHuiwrLtPzCcdMiQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying clock-frequencies
-To:     Michael Srba <Michael.Srba@seznam.cz>
-Cc:     Sascha Hauer <s.hauer@pengutronix.de>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     michael.srba@seznam.cz
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 10 Dec 2020 at 21:56, Michael Srba <Michael.Srba@seznam.cz> wrote:
+Hi Michael
+
+On Sun, 6 Dec 2020 at 17:29, <michael.srba@seznam.cz> wrote:
 >
-> Hi,
+> From: Michael Srba <Michael.Srba@seznam.cz>
 >
-> sorry for late reply.
+> This patch adds 1% tolerance on input clock, similar to other camera sensor
+> drivers. It also allows for specifying the actual clock in the device tree,
+> instead of relying on it being already set to the right frequency (which is
+> often not the case).
 >
-> I copied this approach from looking at other camera sensor drivers,
-> and it seemed less "ugly" to me than using assigned-rates (I will be
-> upstreaming required dts changes for Samsung Galaxy A3 (2015), so the
-> dts feeling "proper" is important to me).
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
 
-The clean solution is the assigned-clock properties. It's handled by
-the core. Duplicating the same feature to every driver is not
-"cleaner", but the opposite - ugly one.
+As the listed maintainer of this driver I'll say that I don't have any
+objections to the aim of this patch.
+Those who know the clock infrastructure far better than me are
+recommending alternative methods of implementing this, so I'll leave
+it up to them to give a Reviewed-by. When that's happened I'll add an
+ack.
 
-> I however am not qualified to make that decision, so if you believe
-> that the assigned-rates approach is cleaner and more suitable for mainline,
-> I will try to adjust my internal filter for what is "more proper" :)
+  Dave
 
-More proper is handling stuff in the core, not implementing the same
-thing in every driver, one more time. Therefore, the assigned-clock
-properties.
-
-Best regards,
-Krzysztof
-Best regards,
-Krzysztof
+> ---
+>
+> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
+>
+> ---
+>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..b6500e2ab19e 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
+>                 return PTR_ERR(imx219->xclk);
+>         }
+>
+> -       imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -       if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+> +       if (ret) {
+> +               dev_warn(dev, "could not get xclk frequency\n");
+> +
+> +               /* default to 24MHz */
+> +               imx219->xclk_freq = 24000000;
+> +       }
+> +
+> +       /* this driver currently expects 24MHz; allow 1% tolerance */
+> +       if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>                 dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>                         imx219->xclk_freq);
+>                 return -EINVAL;
+>         }
+>
+> +       ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+> +       if (ret) {
+> +               dev_err(dev, "could not set xclk frequency\n");
+> +               return ret;
+> +       }
+> +
+> +
+>         ret = imx219_get_regulators(imx219);
+>         if (ret) {
+>                 dev_err(dev, "failed to get regulators\n");
+> --
+> 2.29.2
+>
