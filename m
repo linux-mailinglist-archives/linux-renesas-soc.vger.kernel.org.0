@@ -2,38 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28E632DE847
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 18:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D2AF2DE84B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Dec 2020 18:38:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730808AbgLRRiT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Dec 2020 12:38:19 -0500
-Received: from www.zeus03.de ([194.117.254.33]:35644 "EHLO mail.zeus03.de"
+        id S1728118AbgLRRiU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Dec 2020 12:38:20 -0500
+Received: from www.zeus03.de ([194.117.254.33]:35660 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728088AbgLRRiT (ORCPT
+        id S1728098AbgLRRiT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 18 Dec 2020 12:38:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=kk4glNSs1SM1Gf
-        XglI+JXECfzcYWZ8e1yzurd6rIGbo=; b=unMH8bNVe1M+SVyvga9p7RbIF81Z1j
-        7Vr2bhIV+UgFcQRzDh0OtmvEmwqvcJsgSP9OjeNJRDFC3VBmsxa/QuPTrlbsXogN
-        zsbsvaH/DN2ZctrO5Dav6rRyVVRRtJbevG37H/rRfvtUrXlj1NZNf/flEVrc7kwY
-        8hG4JAzXx38zE=
-Received: (qmail 3906687 invoked from network); 18 Dec 2020 18:37:36 +0100
+        :mime-version:content-transfer-encoding; s=k1; bh=MYzs9HdZf1z8X0
+        +WtacPHW/SiQSQbqLwBKoeknbWpHI=; b=hykiViAxqC2NNKDPZ6Tc6ZN276SUww
+        u4MdqPAzQsNJysHHEWG5l2RZbgp/GxlRg4nvX1p3jOp8RrHkTlYWg2jbzQvG6Ker
+        M6TQgdPs8YdZeHi7W7RPuVyD1sfPp93ARunCplVJM5l1n1uX+FMLMM5pNL5U/4S3
+        Yx5sLbUQ7hcqE=
+Received: (qmail 3906722 invoked from network); 18 Dec 2020 18:37:36 +0100
 Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Dec 2020 18:37:36 +0100
-X-UD-Smtp-Session: l3s3148p1@sDVhkMC2ZpggAwDPXwIpAOUwDQytQs2L
+X-UD-Smtp-Session: l3s3148p1@0t1skMC2aJggAwDPXwIpAOUwDQytQs2L
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] dt-bindings: watchdog: renesas,wdt: add r8a779a0 (V3U) support
-Date:   Fri, 18 Dec 2020 18:37:26 +0100
-Message-Id: <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 2/5] clk: renesas: r8a779a0: Add RWDT clocks
+Date:   Fri, 18 Dec 2020 18:37:27 +0100
+Message-Id: <20201218173731.12839-3-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
 References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
@@ -43,26 +41,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+And introduce critical clocks, too, because RWDT is one.
+
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Please apply it to the watchdog-tree.
-
- Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-index 6933005b52bd..ab66d3f0c476 100644
---- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-@@ -50,6 +50,7 @@ properties:
-               - renesas,r8a77980-wdt     # R-Car V3H
-               - renesas,r8a77990-wdt     # R-Car E3
-               - renesas,r8a77995-wdt     # R-Car D3
-+              - renesas,r8a779a0-wdt     # R-Car V3U
-           - const: renesas,rcar-gen3-wdt # R-Car Gen3 and RZ/G2
+diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+index aa5389b04d74..bf9fdcdd7d85 100644
+--- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+@@ -188,6 +188,7 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
+ 	DEF_MOD("vin35",	827,	R8A779A0_CLK_S1D1),
+ 	DEF_MOD("vin36",	828,	R8A779A0_CLK_S1D1),
+ 	DEF_MOD("vin37",	829,	R8A779A0_CLK_S1D1),
++	DEF_MOD("rwdt",		907,	R8A779A0_CLK_R),
+ };
  
-   reg:
+ static spinlock_t cpg_lock;
+@@ -261,6 +262,10 @@ static struct clk * __init rcar_r8a779a0_cpg_clk_register(struct device *dev,
+ 					 __clk_get_name(parent), 0, mult, div);
+ }
+ 
++static const unsigned int r8a779a0_crit_mod_clks[] __initconst = {
++	MOD_CLK_ID(907),	/* RWDT */
++};
++
+ /*
+  * CPG Clock Data
+  */
+@@ -311,6 +316,10 @@ const struct cpg_mssr_info r8a779a0_cpg_mssr_info __initconst = {
+ 	.num_mod_clks = ARRAY_SIZE(r8a779a0_mod_clks),
+ 	.num_hw_mod_clks = 15 * 32,
+ 
++	/* Critical Module Clocks */
++	.crit_mod_clks		= r8a779a0_crit_mod_clks,
++	.num_crit_mod_clks	= ARRAY_SIZE(r8a779a0_crit_mod_clks),
++
+ 	/* Callbacks */
+ 	.init = r8a779a0_cpg_mssr_init,
+ 	.cpg_clk_register = rcar_r8a779a0_cpg_clk_register,
 -- 
 2.29.2
 
