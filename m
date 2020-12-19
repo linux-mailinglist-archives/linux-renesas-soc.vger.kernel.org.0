@@ -2,67 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B2CF2DF00A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Dec 2020 15:38:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 635062DF0B1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 19 Dec 2020 18:30:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726564AbgLSOhr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 19 Dec 2020 09:37:47 -0500
-Received: from www.zeus03.de ([194.117.254.33]:43602 "EHLO mail.zeus03.de"
+        id S1726786AbgLSRai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 19 Dec 2020 12:30:38 -0500
+Received: from www.zeus03.de ([194.117.254.33]:37502 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726624AbgLSOho (ORCPT
+        id S1726578AbgLSRai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 19 Dec 2020 09:37:44 -0500
+        Sat, 19 Dec 2020 12:30:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=dCM+zFfix8PFto
-        Sl76aTetpgNSznWtT79zg/CaTf1sQ=; b=S0looXZYWihUnpLtKddOm2v18vLRQF
-        RMgHGeXZKGwexRk+i76xR6kSET/uraUGOHprPNZ+pEp12YnBP3KfTzsA3S4A+GH5
-        z6vowOaCfRDualCJVDaywtcJqAjgUlebSOL3KpE6ljUne2mDPpauSf2WyAOpFb50
-        4fpOg72UCVIXo=
-Received: (qmail 4149879 invoked from network); 19 Dec 2020 15:37:02 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Dec 2020 15:37:02 +0100
-X-UD-Smtp-Session: l3s3148p1@0el9KNK2fLYgAwDPXwIpAOUwDQytQs2L
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Z6tZtYOMIO68S2OacNmHAMoRGJaF
+        hZxDM1z+iFO6qyE=; b=z7zBnZnOmr+AaUfoxTK+//d+hT4qZC+wzYoOjzG8Sjc2
+        qURr3fhsFPwM7wltbbIHvsOLtO47hQyqMeHRbqEK0xAcQLtwji0lpkjr0ovST+7u
+        GVoYEvfAvbEtCXH4CtwNcqA+qZ/UGtwUXXGOJv8nYdPO+Eaw0y94y6UspWEL9aI=
+Received: (qmail 4184351 invoked from network); 19 Dec 2020 18:29:56 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Dec 2020 18:29:56 +0100
+X-UD-Smtp-Session: l3s3148p1@zdObktS2EKEgAwDPXyWnAP8QpIJSuVO+
+Date:   Sat, 19 Dec 2020 18:29:52 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] arm64: proper comment formatting in reboot handler
-Date:   Sat, 19 Dec 2020 15:36:47 +0100
-Message-Id: <20201219143648.56217-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201219143648.56217-1-wsa+renesas@sang-engineering.com>
-References: <20201219143648.56217-1-wsa+renesas@sang-engineering.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [RFC PATCH] watchdog: renesas_wdt: don't sleep in atomic context
+Message-ID: <20201219172952.GA15530@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20201002150944.9696-1-wsa+renesas@sang-engineering.com>
+ <20201002164722.GA46009@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
+In-Reply-To: <20201002164722.GA46009@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This comment was probably copied from arm32 and then shortened. It fits
-to single line now.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- arch/arm64/kernel/process.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
-index 3c770329364f..e68dacbc6204 100644
---- a/arch/arm64/kernel/process.c
-+++ b/arch/arm64/kernel/process.c
-@@ -207,9 +207,7 @@ void machine_restart(char *cmd)
- 	/* Give a grace period for failure to restart of 1s */
- 	mdelay(1000);
- 
--	/*
--	 * Whoops - the architecture was unable to reboot.
--	 */
-+	/* Whoops - the architecture was unable to reboot */
- 	printk("Reboot failed -- System halted\n");
- 	while (1);
- }
--- 
-2.29.2
 
+> > Convert usleep_range() to udelay() to avoid the bug. The downside is
+> > busy looping when the watchdog is started or stopped (64us or 96us in my
+> > case). However, this happens rarely enough, so it seems acceptable.
+> >=20
+> > Fixes: b836005b4f95 ("watchdog: renesas_wdt: Add a few cycles delay")
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > ---
+> >=20
+> > We could also add a new flag in the watchdog core "IS_RESTARTING" or
+> > similar and check that in the driver. Depending on the flag, we use
+> > udelay() or usleep_range(). Not sure, if this is feasible or
+> > over-engineered, though. Looking forward for comments.
+>=20
+> Seems to be neither to me. I don't know if there are many drivers who sle=
+ep
+> in the stop function, but even if there are none (today) it would be a
+> generic problem.
+>=20
+> On a side note, I am quite sure there is a system wide flag indicating
+> that the system is rebooting. Maybe we can just use that ?
+
+So, it took me a while to get back to this. Yes, we can use system_state
+to determine which udelay to use. I am working on a helper for that.
+However, as it turned out, this driver needs a different approach
+because there were multiple issues with reusing the generic wdt-start
+routine. Proper patch will come in some minutes.
+
+Thanks for your input!
+
+
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/eOIwACgkQFA3kzBSg
+KbZhNQ//WVwjSDlA1PwTCJMyaGYmhncv0Tg42W8a1GOMmf53SIb4Vh9Bu+K4DGOh
+2UKN2+CBZiDcJ1DwC+rVBHnYm9b/PCL7cmefkpyzZ0A+S/s8XRRrCGEJoGADwN2/
+gQs1025OvyjDd4eh53vCA37YM+MByLYXYjj3lPXPoV8IJmcgTrbf3jcMXTN0IHsq
+LSwZgs1Vk31S7njNWJUwMHgBrD9/nSRfTKhZRI4mlMty0ZKjLtURFzxjQgm18l4n
++b+tHZ9jVf3LkEboYWljP9R8JZFKVeCEuGk4ubXtDykOWvgwXksoylcwfX0XR3cL
+EZU5h25kdhZqrbFkldEymes99hXoXr10XDPiJ/f31EAb2/BnK85smYoAi112qjpi
+B15elmHt8aM+DVIUA1mBF9+g+pXg+RPdKgORUDEopbhZmXF7z882ALd2l+BbzqK9
+wCFDhthz/hIS6rsGSXHZ8b9SjpcLOH3MD7B1s1SxZxTR9Q1XvsswRSl/soaLmB6L
+qHOqLhatk5gutrgqwS2r067tJSoUmgU86fh655QBEQ78Tjy651R7bQROhlrbr2pQ
+tL35yURnGpkfu57kWmctclYxPxKxrje0V9+KBIPzLaQm84LSc/LNes++e47tqu0X
+0gQtcYG8lT6Zua3TCrS9KT3HeWPI1PpwkLW/EEFd0xduoS9es70=
+=E9E2
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
