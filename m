@@ -2,149 +2,338 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 229322DF500
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Dec 2020 11:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E65A22DF5B9
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Dec 2020 15:49:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbgLTKZB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Dec 2020 05:25:01 -0500
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:45588 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbgLTKZB (ORCPT
+        id S1727251AbgLTOtj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Dec 2020 09:49:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726950AbgLTOti (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Dec 2020 05:25:01 -0500
-Received: by mail-ot1-f51.google.com with SMTP id n42so351729ota.12;
-        Sun, 20 Dec 2020 02:24:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p6eJ7M6+DgSPuaY8dPwpUBQ01OeOw+6vtTkrgGAnxVQ=;
-        b=orY4IuBnBI6HAMYkE2qzVQKmez4eLTC/1DuRQmkZ8McBRKI7+oAklchogo92ObRdH2
-         dL+C+W9vcVCjnHfXikxOmx2/2CXAiAWT8+p9roGdZu1y+HTqllX+bDlNrPtaLMBhevyG
-         ZlE1nmSTsg5g/0mNX0rZVo/aBP5KrEtjCaAYSHgDIDFUVf0QSyDBgorFeiYS1dsjXkKh
-         YLDPt3KaNjt9//4wxlm9taU5yAX+zYlQ19WTwiWuTFHW6wM7r6GRSwh8b0CinaDy09NE
-         NvQjj3G1zNdS/nRkVjHnIs98EBd2bq0cpgNk6LeZNvnU/J9OuwGkPGQnIfgv1NmQAIbr
-         Ua/Q==
-X-Gm-Message-State: AOAM532GFg46gertZ1iEVbaH4Siqk6hFfOwAjdFuOKN/pTdcRcfz/7hc
-        C9d0uvP2DVfKOzfcEs5FK6IMxvEblr2b2k4ntH4=
-X-Google-Smtp-Source: ABdhPJx+D+n1DhtltwSt2EvZ4jH5IiWww/7AaN7ZepCvZFfANG/t+CGjCPWLbIuvBWyl3ZMRXEFWkcFd/jv1x5mGU4Q=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr8547368otc.145.1608459860225;
- Sun, 20 Dec 2020 02:24:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20201216145231.1344317-1-geert+renesas@glider.be>
- <20201217235919.GA456454@robh.at.kernel.org> <CAMuHMdVO29He-KHDLp3S=2JyGwOT=tLcDCOw6MPqBvcBLdUCOw@mail.gmail.com>
- <CAL_JsqLcjhRgkTh=SNEpbq-uuv3LixJ3ivSw+TQvPdCCEtFYNw@mail.gmail.com>
-In-Reply-To: <CAL_JsqLcjhRgkTh=SNEpbq-uuv3LixJ3ivSw+TQvPdCCEtFYNw@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 20 Dec 2020 11:24:08 +0100
-Message-ID: <CAMuHMdUqB9+3kKHe42nMHAzp5qrJbv2DbKh7fcPPw07R1yhcMA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: clk: versaclock5: Miscellaneous fixes and improvements:
+        Sun, 20 Dec 2020 09:49:38 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFD0C0613CF;
+        Sun, 20 Dec 2020 06:48:55 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2879F593;
+        Sun, 20 Dec 2020 15:48:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608475732;
+        bh=9C1hkK/yRHoiFu609iNhOmuxuwqztWPNjHBCuap35uY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GxVPEBRAy6Vx1A9YykF1sc1+6Eg9X1Z3fFaMbwYQ5m5pf3er6eiWIuHox4rEqBwpi
+         DArz10qSy6I3SRteaN1Qz/8N3VD+OOyt0aKQOxiitFmX/IkIRkGRHW/L10CyMDFyqb
+         r9q50JSQHk4E5kWuWaJr7zPYf/1cQzGcEv6WF4Rw=
+Date:   Sun, 20 Dec 2020 16:48:44 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Rob Herring <robh@kernel.org>
-Cc:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Adam Ford <aford173@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: display: renesas,du: Convert binding to YAML
+Message-ID: <X99kTE1Ag30f0Vl/@pendragon.ideasonboard.com>
+References: <20201215230603.7796-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201217234822.GA431595@robh.at.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201217234822.GA431595@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Rob,
 
-On Fri, Dec 18, 2020 at 11:32 PM Rob Herring <robh@kernel.org> wrote:
-> On Fri, Dec 18, 2020 at 5:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Fri, Dec 18, 2020 at 12:59 AM Rob Herring <robh@kernel.org> wrote:
-> > > On Wed, Dec 16, 2020 at 03:52:31PM +0100, Geert Uytterhoeven wrote:
-> > > >   - Add reference to clock.yaml, and switch to unevaluatedProperties, to
-> > > >     stop complaining about the presence of "assigned-clock-rates" and
-> > > >     "assigned-clocks" in board DTS files,
+On Thu, Dec 17, 2020 at 05:48:22PM -0600, Rob Herring wrote:
+> On Wed, Dec 16, 2020 at 01:06:03AM +0200, Laurent Pinchart wrote:
+> > Convert the Renesas R-Car DU text binding to YAML.
+> 
+> I tend to think this should be split up, but up to you.
 
-> > > > Fixes: 45c940184b501fc6 ("dt-bindings: clk: versaclock5: convert to yaml")
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > Notes:
-> > > >   1. The use of "idt,voltage-microvolts" (with trailing S) is a bit
-> > > >      unfortunate, as Documentation/devicetree/bindings/property-units.txt
-> > > >      suggests to not have the trailing edge.
-> > > >      Can we still fix the driver and bindings?  While this entered
-> > > >      uptstream in v5.9, there are no users in next-20201216.
-> > > >
-> > > >   2. Due to "clock-output-names" being part of
-> > > >      dt-schema/schemas/clock/clock.yaml, the presence of this property
-> > > >      does not trigger an error.  Adding "clock-output-names: false"
-> > > >      can fix that.  But given this property is deprecated, except for
-> > > >      very specific use cases, explicitly allowing it for those few use
-> > > >      cases would be better.
-> > > > ---
-> > > >  .../bindings/clock/idt,versaclock5.yaml       | 53 ++++++++++---------
-> > > >  1 file changed, 29 insertions(+), 24 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > > > index 2ac1131fd9222a86..14851e76f6342095 100644
-> > > > --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > > > +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> > > > @@ -33,6 +33,9 @@ description: |
-> > > >  maintainers:
-> > > >    - Luca Ceresoli <luca@lucaceresoli.net>
-> > > >
-> > > > +allOf:
-> > > > +  - $ref: clock.yaml#
-> > >
-> > > No, that's not right. clock.yaml is already applied unconditionally.
-> >
-> > But without that, it complains about unevaluatedProperties?
->
-> By design. You can't have other properties outside your binding unless
-> you have a $ref to other schemas. Also, note that there's not a single
-> other ref to clock.yaml.
->
-> > > You need to define assigned-clocks, etc. here just like 'clocks' and
-> > > define how many entries. Or convince me they should be allowed on any
-> > > node.
-> >
-> > They are handled by of_clk_set_defaults(), which is applied to all
-> > clock providers.
->
-> What does that Linux implementation detail have to do with the bindings?
+I wouldn't mind, but I'm not sure how to do so in a meaningful way that
+wouldn't result in, for instance, a file name renesas,du-r8a7791.yaml
+that would contain bindings for all of
 
-I consider Linux the reference implementation.
-Is there any other real reference implementation? ;-)
+- renesas,du-r8a7743
+- renesas,du-r8a7744
+- renesas,du-r8a7791
+- renesas,du-r8a7793
 
-> The only other exception we have is pinctrl properties. They often
-> aren't that interesting unless you have more than one (maybe we should
-> only automatically allow the single case). That's maybe true in the
-> assigned-clocks case too. However the big difference I see is pinctrl
-> properties are almost always present whereas assign-clocks is more the
-> exception. So I think it's good to be explicit where they are used.
+which I think would be quite confusing, or one file per SoC with lots of
+duplications, which doesn't sound great either :-S If there's a better
+split, I'd be happy to implement it.
 
-The problem with the assigned-clock* properties is that the DT binding
-writer has no idea if they will be ever used or not.  These properties
-come into play at an even higher level than the pinctrl properties.
-While the DT binding writer usually[1] knows if there can be pinctrl
-properties or not, this is not the case for the assigned-clock*
-properties.  The former are expected and mandatory, the latter are
-optional, and are added only during the system integration phase, and
-may appear everywhere.
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Use pattern instead of enum for dclkin
+> > - Update MAINTAINERS
+> > ---
+> >  .../bindings/display/renesas,du.txt           | 145 ---
+> >  .../bindings/display/renesas,du.yaml          | 854 ++++++++++++++++++
+> >  MAINTAINERS                                   |   2 +-
+> >  3 files changed, 855 insertions(+), 146 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/display/renesas,du.txt
+> >  create mode 100644 Documentation/devicetree/bindings/display/renesas,du.yaml
+> 
+> 
+> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > new file mode 100644
+> > index 000000000000..f56ef3eed742
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > @@ -0,0 +1,854 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/renesas,du.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car Display Unit (DU)
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +
+> > +description: |
+> > +  These DT bindings describe the Display Unit embedded in the Renesas R-Car
+> > +  Gen1, R-Car Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - renesas,du-r8a7742 # for RZ/G1H compatible DU
+> > +      - renesas,du-r8a7743 # for RZ/G1M compatible DU
+> > +      - renesas,du-r8a7744 # for RZ/G1N compatible DU
+> > +      - renesas,du-r8a7745 # for RZ/G1E compatible DU
+> > +      - renesas,du-r8a77470 # for RZ/G1C compatible DU
+> > +      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
+> > +      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
+> > +      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
+> > +      - renesas,du-r8a774e1 # for RZ/G2H compatible DU
+> > +      - renesas,du-r8a7779 # for R-Car H1 compatible DU
+> > +      - renesas,du-r8a7790 # for R-Car H2 compatible DU
+> > +      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
+> > +      - renesas,du-r8a7792 # for R-Car V2H compatible DU
+> > +      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
+> > +      - renesas,du-r8a7794 # for R-Car E2 compatible DU
+> > +      - renesas,du-r8a7795 # for R-Car H3 compatible DU
+> > +      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
+> > +      - renesas,du-r8a77961 # for R-Car M3-W+ compatible DU
+> > +      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
+> > +      - renesas,du-r8a77970 # for R-Car V3M compatible DU
+> > +      - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> > +      - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> > +      - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  # See compatible-specific constraints below.
+> > +  clocks: true
+> > +  clock-names: true
+> > +  interrupts: true
+> > +  resets: true
+> > +  reset-names: true
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      The connections to the DU output video ports are modeled using the OF
+> > +      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> > +      The number of ports and their assignment are model-dependent. Each port
+> > +      shall have a single endpoint.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^port@[0-3]$":
+> > +        type: object
+> > +
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              remote-endpoint:
+> > +                $ref: /schemas/types.yaml#/definitions/phandle
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> 
+> No need to document more than 'port' nodes if no extra endpoint 
+> properties.
 
-So I think they should be allowed on any node.  Unless we decide
-assigned-clock* properties are a bad idea in general.
+I'll fix that.
 
-[1] Unless the bindings are written initially for an IP core in an SoC
-    that doesn't have pinctrl for the related pins, and the IP core is
-    reused later in an SoC that does have pinctrl.
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +    additionalProperties: false
+> > +
+> > +  renesas,cmms:
+> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> > +    description:
+> > +      A list of phandles to the CMM instances present in the SoC, one for each
+> > +      available DU channel.
+> > +
+> > +  renesas,vsps:
+> > +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> > +    description:
+> > +      A list of phandle and channel index tuples to the VSPs that handle the
+> > +      memory interfaces for the DU channels. The phandle identifies the VSP
+> > +      instance that serves the DU channel, and the channel index identifies
+> > +      the LIF instance in that VSP.
+> 
+> These 2 properties are about the only thing shared.
+> 
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - interrupts
+> > +  - resets
+> > +  - ports
+> > +
+> > +allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,du-r8a7779
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 1
+> > +          maxItems: 3
+> > +          items:
+> > +            - description: Functional clock
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 1
+> > +          maxItems: 3
+> > +          items:
+> > +            - const: du.0
+> > +            - pattern: "^dclkin\\.[01]$"
+> > +            - pattern: "^dclkin\\.[01]$"
+> 
+> IIRC, with single quotes you just need '\.' instead of '\\.'
 
-Gr{oetje,eeting}s,
+Thanks for the tip, fixed.
 
-                        Geert
+> > +
+> > +        interrupts:
+> > +          maxItems: 1
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: DPAD 1
+> > +            # port@2 is TCON, not supported yet
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - interrupts
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,du-r8a7743
+> > +              - renesas,du-r8a7744
+> > +              - renesas,du-r8a7791
+> > +              - renesas,du-r8a7793
+> > +    then:
+> > +      properties:
+> > +        clocks:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - description: Functional clock for DU0
+> > +            - description: Functional clock for DU1
+> > +            - description: DU_DOTCLKIN0 input clock
+> > +            - description: DU_DOTCLKIN1 input clock
+> > +
+> > +        clock-names:
+> > +          minItems: 2
+> > +          maxItems: 4
+> > +          items:
+> > +            - const: du.0
+> > +            - const: du.1
+> > +            - pattern: "^dclkin\\.[01]$"
+> > +            - pattern: "^dclkin\\.[01]$"
+> > +
+> > +        interrupts:
+> > +          maxItems: 2
+> 
+> What are they?
+
+I've modified the common section at the top to include
+
+  interrupts:
+    description: Interrupt specifiers, one per DU channel
+
+> > +
+> > +        resets:
+> > +          maxItems: 1
+> > +
+> > +        reset-names:
+> > +          items:
+> > +            - const: du.0
+> > +
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DPAD 0
+> > +            port@1:
+> > +              description: LVDS 0
+> > +            # port@2 is TCON, not supported yet
+> > +            port@2: false
+> > +            port@3: false
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> > +
+> > +      required:
+> > +        - clock-names
+> > +        - interrupts
+> > +        - resets
+> > +        - reset-names
+
+[snip]
+
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
