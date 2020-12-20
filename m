@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4659C2DF6B6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Dec 2020 20:54:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B38C2DF6B7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 20 Dec 2020 20:55:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgLTTy0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Dec 2020 14:54:26 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53110 "EHLO
+        id S1726623AbgLTTzG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Dec 2020 14:55:06 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53112 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726584AbgLTTy0 (ORCPT
+        with ESMTP id S1726584AbgLTTzG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Dec 2020 14:54:26 -0500
+        Sun, 20 Dec 2020 14:55:06 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7D8045E;
-        Sun, 20 Dec 2020 20:50:18 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B41B8593;
+        Sun, 20 Dec 2020 20:50:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608493819;
-        bh=r500VogUG2STcIuAc/UQqHpr6ZmYpBHy/1ydmJVZ+iE=;
+        s=mail; t=1608493820;
+        bh=JsxbkkWKe7BruBY+YPjY/YvDcD50JT8oxET1iy4246Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aDLO70XhaTfutHDLgfyVxG0/2ew1kZyGDSvijuVuts5lf4D/LIzKnagsDOBb838Uf
-         jPrS2o1qkz/YHbEsLNAQv2wLpzHYG8ckmph0Z862k12knCNkUJNf/UKKX65t+whUdC
-         nuWtLGbHKgxtAvBzqBtETBQfNZWNJHc72AczDodU=
+        b=Pqhc+ulYanwhfwI4Z7bvscfnoSyYqCkndsUxgbMTiLV2zniXPLSJd4B6xWDzgBb6m
+         dJOqcIOix3ZmMGAyftM1GHBBCN8E5bcd/HN1UbTtojyztEEbbvlJC3SHQnvG1j9TLn
+         2uLxnTfWZ4ohWqSkv0u766drlvhTayCqyT5lbToo=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     Rob Herring <robh+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
@@ -29,9 +29,9 @@ Cc:     Rob Herring <robh+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
         Maxime Ripard <maxime@cerno.tech>,
         Mark Yao <mark.yao@rock-chips.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v2 1/6] dt-bindings: display: bridge: Add YAML schema for Synopsys DW-HDMI
-Date:   Sun, 20 Dec 2020 21:50:00 +0200
-Message-Id: <20201220195005.26438-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 2/6] dt-bindings: display: bridge: renesas,dw-hdmi: Convert binding to YAML
+Date:   Sun, 20 Dec 2020 21:50:01 +0200
+Message-Id: <20201220195005.26438-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -41,87 +41,253 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a .yaml schema containing the common properties for the Synopsys
-DesignWare HDMI TX controller. This isn't a full device tree binding
-specification, but is meant to be referenced by platform-specific
-bindings for the IP core.
+Convert the Renesas R-Car DWC HDMI TX text binding to YAML.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
 Changes since v1:
 
-- Add default to reg-io-width property
-- Add additionalProperties
+- Drop the part numbers in comments, only keep the SoC names
+- Use unevaluatedProperties instead of additionalProperties
+- Only specify maxItems for clocks and clock-names
+- Drop reg, interrupts, #address-cells and #size-cells as they're
+  checked in the base schema
+- Use one size and address cell in example
 - Rebase on top of OF graph schema, dropped redundant properties
-- Drop cec clock as it's device-specific
-- Increase max clocks to 5 to accommodate the Rockchip DW-HDMI
+- Fix identation for enum entries
 ---
- .../display/bridge/synopsys,dw-hdmi.yaml      | 58 +++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+ .../display/bridge/renesas,dw-hdmi.txt        |  88 ------------
+ .../display/bridge/renesas,dw-hdmi.yaml       | 128 ++++++++++++++++++
+ 2 files changed, 128 insertions(+), 88 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+deleted file mode 100644
+index 3f6072651182..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
++++ /dev/null
+@@ -1,88 +0,0 @@
+-Renesas Gen3 DWC HDMI TX Encoder
+-================================
+-
+-The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+-with a companion PHY IP.
+-
+-These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
+-Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
+-following device-specific properties.
+-
+-
+-Required properties:
+-
+-- compatible : Shall contain one or more of
+-  - "renesas,r8a774a1-hdmi" for R8A774A1 (RZ/G2M) compatible HDMI TX
+-  - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
+-  - "renesas,r8a774e1-hdmi" for R8A774E1 (RZ/G2H) compatible HDMI TX
+-  - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
+-  - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
+-  - "renesas,r8a77961-hdmi" for R8A77961 (R-Car M3-W+) compatible HDMI TX
+-  - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
+-  - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
+-			     HDMI TX
+-
+-    When compatible with generic versions, nodes must list the SoC-specific
+-    version corresponding to the platform first, followed by the
+-    family-specific version.
+-
+-- reg: See dw_hdmi.txt.
+-- interrupts: HDMI interrupt number
+-- clocks: See dw_hdmi.txt.
+-- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
+-- ports: See dw_hdmi.txt. The DWC HDMI shall have one port numbered 0
+-  corresponding to the video input of the controller and one port numbered 1
+-  corresponding to its HDMI output, and one port numbered 2 corresponding to
+-  sound input of the controller. Each port shall have a single endpoint.
+-
+-Optional properties:
+-
+-- power-domains: Shall reference the power domain that contains the DWC HDMI,
+-  if any.
+-
+-
+-Example:
+-
+-	hdmi0: hdmi@fead0000 {
+-		compatible = "renesas,r8a7795-hdmi", "renesas,rcar-gen3-hdmi";
+-		reg = <0 0xfead0000 0 0x10000>;
+-		interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
+-		clock-names = "iahb", "isfr";
+-		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-			port@0 {
+-				reg = <0>;
+-				dw_hdmi0_in: endpoint {
+-					remote-endpoint = <&du_out_hdmi0>;
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				rcar_dw_hdmi0_out: endpoint {
+-					remote-endpoint = <&hdmi0_con>;
+-				};
+-			};
+-			port@2 {
+-				reg = <2>;
+-				rcar_dw_hdmi0_sound_in: endpoint {
+-					remote-endpoint = <&hdmi_sound_out>;
+-				};
+-			};
+-		};
+-	};
+-
+-	hdmi0-out {
+-		compatible = "hdmi-connector";
+-		label = "HDMI0 OUT";
+-		type = "a";
+-
+-		port {
+-			hdmi0_con: endpoint {
+-				remote-endpoint = <&rcar_dw_hdmi0_out>;
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
 new file mode 100644
-index 000000000000..96c4bc06dbe7
+index 000000000000..23b940c3aff6
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-@@ -0,0 +1,58 @@
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+@@ -0,0 +1,128 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/bridge/synopsys,dw-hdmi.yaml#
++$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Common Properties for Synopsys DesignWare HDMI TX Controller
++title: Renesas R-Car DWC HDMI TX Encoder
 +
 +maintainers:
 +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 +
 +description: |
-+  This document defines device tree properties for the Synopsys DesignWare HDMI
-+  TX controller (DWC HDMI TX) IP core. It doesn't constitute a full device tree
-+  binding specification by itself but is meant to be referenced by device tree
-+  bindings for the platform-specific integrations of the DWC HDMI TX.
++  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
++  with a companion PHY IP.
 +
-+  When referenced from platform device tree bindings the properties defined in
-+  this document are defined as follows. The platform device tree bindings are
-+  responsible for defining whether each property is required or optional.
++allOf:
++  - $ref: synopsys,dw-hdmi.yaml#
 +
 +properties:
-+  reg:
-+    maxItems: 1
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a774a1-hdmi # for RZ/G2M compatible HDMI TX
++          - renesas,r8a774b1-hdmi # for RZ/G2N compatible HDMI TX
++          - renesas,r8a774e1-hdmi # for RZ/G2H compatible HDMI TX
++          - renesas,r8a7795-hdmi # for R-Car H3 compatible HDMI TX
++          - renesas,r8a7796-hdmi # for R-Car M3-W compatible HDMI TX
++          - renesas,r8a77961-hdmi # for R-Car M3-W+ compatible HDMI TX
++          - renesas,r8a77965-hdmi # for R-Car M3-N compatible HDMI TX
++      - const: renesas,rcar-gen3-hdmi
 +
 +  reg-io-width:
-+    description:
-+      Width (in bytes) of the registers specified by the reg property.
-+    allOf:
-+      - $ref: /schemas/types.yaml#/definitions/uint32
-+      - enum: [1, 4]
-+    default: 1
++    const: 1
 +
 +  clocks:
-+    minItems: 2
-+    maxItems: 5
-+    items:
-+      - description: The bus clock for either AHB and APB
-+      - description: The internal register configuration clock
-+    additionalItems: true
++    maxItems: 2
 +
 +  clock-names:
-+    minItems: 2
-+    maxItems: 5
-+    items:
-+      - const: iahb
-+      - const: isfr
-+    additionalItems: true
-+
-+  interrupts:
-+    maxItems: 1
++    maxItems: 2
 +
 +  ports:
 +    $ref: /schemas/graph.yaml#/properties/ports
 +
-+additionalProperties: true
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: Parallel RGB input port
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: HDMI output port
++
++      port@2:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: Sound input port
++
++    required:
++      - port@0
++      - port@1
++      - port@2
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/power/r8a7795-sysc.h>
++
++    hdmi@fead0000 {
++        compatible = "renesas,r8a7795-hdmi", "renesas,rcar-gen3-hdmi";
++        reg = <0xfead0000 0x10000>;
++        interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
++        clock-names = "iahb", "isfr";
++        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            port@0 {
++                reg = <0>;
++                dw_hdmi0_in: endpoint {
++                    remote-endpoint = <&du_out_hdmi0>;
++                };
++            };
++            port@1 {
++                reg = <1>;
++                rcar_dw_hdmi0_out: endpoint {
++                    remote-endpoint = <&hdmi0_con>;
++                };
++            };
++            port@2 {
++                reg = <2>;
++                rcar_dw_hdmi0_sound_in: endpoint {
++                    remote-endpoint = <&hdmi_sound_out>;
++                };
++            };
++        };
++    };
++
++    hdmi0-out {
++        compatible = "hdmi-connector";
++        label = "HDMI0 OUT";
++        type = "a";
++
++        port {
++            hdmi0_con: endpoint {
++                remote-endpoint = <&rcar_dw_hdmi0_out>;
++            };
++        };
++    };
 +
 +...
 -- 
