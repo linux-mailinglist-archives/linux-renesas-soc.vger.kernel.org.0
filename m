@@ -2,108 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F9762DF797
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 02:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9712DF7BD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 03:54:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgLUB7Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Dec 2020 20:59:24 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55578 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725497AbgLUB7Y (ORCPT
+        id S1725935AbgLUCxy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Dec 2020 21:53:54 -0500
+Received: from mail-lf1-f52.google.com ([209.85.167.52]:42674 "EHLO
+        mail-lf1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725902AbgLUCxy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Dec 2020 20:59:24 -0500
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A3FA14D9;
-        Mon, 21 Dec 2020 02:57:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608515864;
-        bh=5+RS6cOm3Iu6Jt/Zjsv5wFxyRLQB3lly6l2CYs0IKLc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HrW7I0w6o8+UgPk5N9pURo1PjjxRXG+p1VuC7zOcfXWsVnvY92fKPZJgMJVZzaZ6x
-         TykdBLW5dQm8mE63Md/NFmFgd6FDKicW1sk0XElNtCZYgrogaci4wIIzIhiII89Q2V
-         uhEPw3i+RvZfBF6v6wne73w8wyRPxjdPsNITRzY0=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH 4/4] drm: rcar-du: kms: Configure the CLU
-Date:   Mon, 21 Dec 2020 03:57:30 +0200
-Message-Id: <20201221015730.28333-5-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+        Sun, 20 Dec 2020 21:53:54 -0500
+Received: by mail-lf1-f52.google.com with SMTP id b26so10626796lff.9
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Dec 2020 18:53:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xCNFr4f3wVLInkwunk0vPKzuNbBepmIVeNw0P+U3M9A=;
+        b=mPx4N1r3hH6RPSlBIymxtBc0cHodMt5J/O4pw9gxVOYbywIsGh7M+dE0zb4HPQ+lmC
+         vT/BJ+R2M/uwUAUYBHPg4hxYeMKAF5o3B7GKXJFvfTqsYtSSB7bNbPv8ajFpymMbjC7P
+         VhEc40OCd97uZb/bppQ/3Dg2NwQ6aYVkeURsdGZuezalJwPWdPw6JmMd2r40TWKowwWq
+         nJL+9rAP4KWNTHx1qQ+LkGfbnM7HRuAUsB33+sMTHZS7Xow6rflcXc67/gTHEZ+GFqp+
+         Yr7yM445Bt8UZrushISPdaRlGVPE73dhM+gjY3bKA7HxZLGSbSzT1ySP+3XJMjksDCnY
+         kFKQ==
+X-Gm-Message-State: AOAM530Ku/Xx4htdei13lD93cul+1QzpR9/1KY/nLyzCQPun6FvlbRHV
+        7weBb5x64aVyKErihaE1FPicBI4uTFU/wA==
+X-Google-Smtp-Source: ABdhPJxCgWALvl0dmCVJFXZIIp6LZuK1nbtklJixIHb6BZVnNtXB+i+Q4KrEaZJo4/zbwvxv+it7yQ==
+X-Received: by 2002:a19:7f46:: with SMTP id a67mr6025797lfd.514.1608519191443;
+        Sun, 20 Dec 2020 18:53:11 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id q21sm1884560lfc.290.2020.12.20.18.53.10
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Dec 2020 18:53:10 -0800 (PST)
+Received: by mail-lf1-f50.google.com with SMTP id o19so20223590lfo.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Dec 2020 18:53:10 -0800 (PST)
+X-Received: by 2002:a2e:8e62:: with SMTP id t2mr6426100ljk.463.1608519190106;
+ Sun, 20 Dec 2020 18:53:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com> <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201220195005.26438-6-laurent.pinchart+renesas@ideasonboard.com>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Mon, 21 Dec 2020 10:52:58 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
+Message-ID: <CAGb2v65F+g7YZE5rbOJK2eNztu_EvhO2V3Vz-nUA+AxT55qsRA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] dt-bindings: display: sun8i-a83t-dw-hdmi:
+ Reference dw-hdmi YAML schema
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        "open list:ARM/SHMOBILE ARM..." <linux-renesas-soc@vger.kernel.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Mark Yao <mark.yao@rock-chips.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Mon, Dec 21, 2020 at 4:03 AM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+>
+> Replace the reference to the DWC HDMI text DT binding with a reference
+> to the YAML equivalent.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Link the DRM 3D-CLU configuration to the CMM setup configuration.
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 426b1870b3cb..5c77017084ed 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -484,19 +484,23 @@ static int rcar_du_cmm_check(struct drm_crtc *crtc,
- 			     struct drm_crtc_state *state)
- {
- 	struct drm_property_blob *drm_lut = state->gamma_lut;
-+	struct drm_property_blob *drm_clu = state->cubic_lut;
- 	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
- 	struct device *dev = rcrtc->dev->dev;
- 
--	if (!drm_lut)
--		return 0;
--
--	/* We only accept fully populated LUT tables. */
--	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
-+	/* We only accept fully populated LUTs. */
-+	if (drm_lut && drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
- 		dev_err(dev, "invalid gamma lut size: %zu bytes\n",
- 			drm_lut->length);
- 		return -EINVAL;
- 	}
- 
-+	if (drm_clu && drm_color_lut_size(drm_clu) != CM2_CLU_SIZE) {
-+		dev_err(dev, "invalid cubic lut size: %zu bytes\n",
-+			drm_clu->length);
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
-@@ -518,6 +522,15 @@ static void rcar_du_cmm_setup(struct rcar_du_crtc *rcrtc,
- 				     ? new_state->gamma_lut->data : NULL;
- 	}
- 
-+	if (!old_state ||
-+	    !old_state->cubic_lut != !new_state->cubic_lut ||
-+	    (old_state->cubic_lut && new_state->cubic_lut &&
-+	     old_state->cubic_lut->base.id != new_state->cubic_lut->base.id)) {
-+		cmm_config.clu.update = true;
-+		cmm_config.clu.table = new_state->cubic_lut
-+				     ? new_state->cubic_lut->data : NULL;
-+	}
-+
- 	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
- }
- 
--- 
-Regards,
-
-Laurent Pinchart
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
