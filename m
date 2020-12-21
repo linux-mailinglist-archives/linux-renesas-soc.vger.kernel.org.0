@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E6F62E0307
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 00:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E8732E0308
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 00:51:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbgLUXu4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1726016AbgLUXu4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 21 Dec 2020 18:50:56 -0500
-Received: from mga01.intel.com ([192.55.52.88]:29954 "EHLO mga01.intel.com"
+Received: from mga05.intel.com ([192.55.52.43]:18898 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726016AbgLUXu4 (ORCPT
+        id S1725782AbgLUXu4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 21 Dec 2020 18:50:56 -0500
-IronPort-SDR: oQCRsGzkdPFWW7i8m2yAsg+V/SOpTqGdqGqWUO3IF5k1ACjLjbmNH5KFWQhqT6zy9lzMMZu0e6
- yY/QJuJVpRkw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="194230466"
+IronPort-SDR: mbV7dZe13Ctk2rAF9NDmk/0FuEj0tMUezVq/TeSd6wnb2T5uZ/Zgt6SjWANz5B+7xOsfvqKt9q
+ I6293YGvkbtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="260529557"
 X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="194230466"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 15:50:14 -0800
-IronPort-SDR: trs8rEqN5yzIVpQeiTu8jOMxVrPpEaeg3t9ffjjDiqo0gSAijujM8OBNcDdI60ZCc/YXZ9CDf+
- xUQaN937DTDQ==
+   d="scan'208";a="260529557"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 15:50:13 -0800
+IronPort-SDR: E6r0supMpoxMJ/QUk9eXJabR+QSNx5wyR700wRs1L7JssF/b6XCSxXH6TaBGfjcsoas1v/5nJT
+ dhtDN7I0dbmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
-   d="scan'208";a="560543880"
+   d="scan'208";a="491925844"
 Received: from lkp-server01.sh.intel.com (HELO 65587561063d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 21 Dec 2020 15:50:12 -0800
+  by orsmga004.jf.intel.com with ESMTP; 21 Dec 2020 15:50:12 -0800
 Received: from kbuild by 65587561063d with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1krUwN-0001AV-MS; Mon, 21 Dec 2020 23:50:11 +0000
-Date:   Tue, 22 Dec 2020 07:49:14 +0800
+        id 1krUwN-0001AS-Jn; Mon, 21 Dec 2020 23:50:11 +0000
+Date:   Tue, 22 Dec 2020 07:49:18 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.12] BUILD SUCCESS
- a979b5e3e587ee26db64eeda644febe7544b0d1f
-Message-ID: <5fe1347a.yU5GH7xOz+xMOKa0%lkp@intel.com>
+Subject: [renesas-devel:renesas-dt-bindings-for-v5.12] BUILD SUCCESS
+ a7d4d13e3169384c15d338eb4b1e556a206454b5
+Message-ID: <5fe1347e.VEtNFrIF21F2qEdP%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -44,13 +44,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.12
-branch HEAD: a979b5e3e587ee26db64eeda644febe7544b0d1f  arm64: dts: renesas: beacon: Correct I2C bus speeds
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-dt-bindings-for-v5.12
+branch HEAD: a7d4d13e3169384c15d338eb4b1e556a206454b5  dt-bindings: arm: renesas: Add Beacon RZ/G2N and RZ/G2H boards
 
 elapsed time: 724m
 
 configs tested: 104
-configs skipped: 56
+configs skipped: 2
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
