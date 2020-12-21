@@ -2,32 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5173F2DFE4B
+	by mail.lfdr.de (Postfix) with ESMTP id BDA0D2DFE4C
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 17:58:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725865AbgLUQ5w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 11:57:52 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:36395 "EHLO
+        id S1725807AbgLUQ5x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 11:57:53 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:34540 "EHLO
         mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725807AbgLUQ5w (ORCPT
+        with ESMTP id S1725785AbgLUQ5w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 21 Dec 2020 11:57:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1608569700;
         s=strato-dkim-0002; d=fpond.eu;
         h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:From:
         Subject:Sender;
-        bh=E8fODucT7NMP07QcLt5hFnI6M+SMTjHLe6E7Qar+0HM=;
-        b=LDezslk98ws+03ZU4X0xPA6uIdlcgsxLKxLR+P4mUcvLKho2FULhEfuuy6si85RcgI
-        DTz+rsq1tyxOqqAYlkquQEsP/4tY0rJexARh+N+KgnmHOK3CQ3W5bSs7kH46iFFnjhTh
-        Y0pPQsuWz0cXGMD3jV4j7QWCpc5WnMs71QU4RYzNQzE19emtEGatfvpnu9pphvHicuj1
-        EwZ4NoY8sQy2eCYxcaWa50CQpQV+7pDoEM3U3Ofs49xFYaZ1/toJQIBPYixtjTjebosX
-        vPiX4Pw2H2H5DNpn5AnVdxhPx6MUlHn8qkaNy51VeJ67+sPSo/1N610bQRVlBUvJUWAh
-        xKAQ==
+        bh=VC12K20oCPtboVN3UULo2HLq1MZksh+JC7dhaOZoi+U=;
+        b=nIyNAp/VGKJ0zrvLrmR5CSaa77OKIjvt6aEChtIOacrbVHYFmCG+iQtEEZLmhYCEpR
+        0OrwceLyTmdQHEFkjNMLsMbm021HhH0yeGsYw2/nrLpL7HaGJD56ecHvzWR9Bx0KnJG3
+        WGMHaWF3tYKZPaEBLm2p7fd2VzSYSNSa3/Jyn0tPII1S5JQGiXls4aOjLK64NMXQDUkB
+        N0MczhlhT73HH0y6Z4c//IoDdRGhq5ygdX/pBcA2xxKy9Wi41bGfvDDnZLlVXobyzS3D
+        SkaAiq0hrAOyd9ZD04Khk9ubs7qrwUdx6TG9ZQXs7Ckt0FED4E0nmRS+rQsF4Wq364wb
+        +GMQ==
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR8GJSdzTYQw=="
 X-RZG-CLASS-ID: mo00
 Received: from groucho.site
         by smtp.strato.de (RZmta 47.10.2 DYNA|AUTH)
-        with ESMTPSA id j05b20wBLGss0K9
+        with ESMTPSA id j05b20wBLGss0KA
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
         (Client did not present a certificate);
         Mon, 21 Dec 2020 17:54:54 +0100 (CET)
@@ -35,9 +35,9 @@ From:   Ulrich Hecht <uli+renesas@fpond.eu>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     wsa@the-dreams.de, geert@linux-m68k.org, hoai.luu.ub@renesas.com,
         Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH v2 1/5] pinctrl: renesas: implement unlock register masks
-Date:   Mon, 21 Dec 2020 17:54:44 +0100
-Message-Id: <20201221165448.27312-2-uli+renesas@fpond.eu>
+Subject: [PATCH v2 2/5] pinctrl: renesas: add I/O voltage level flag
+Date:   Mon, 21 Dec 2020 17:54:45 +0100
+Message-Id: <20201221165448.27312-3-uli+renesas@fpond.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201221165448.27312-1-uli+renesas@fpond.eu>
 References: <20201221165448.27312-1-uli+renesas@fpond.eu>
@@ -47,66 +47,84 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The V3U SoC has several unlock registers, one per register group. They
-reside at offset zero in each 0x200 bytes-sized block.
-
-To avoid adding yet another table to the PFC implementation, this
-patch adds the option to specify an address mask instead of the fixed
-address in sh_pfc_soc_info::unlock_reg.
+This patch adds config macros describing the voltage levels available on
+a pin. The current default (3.3V/1.8V) maps to zero to avoid having to
+change existing PFC implementations.
 
 Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 ---
- drivers/pinctrl/renesas/core.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+ drivers/pinctrl/renesas/pinctrl.c | 16 ++++++++++++++--
+ drivers/pinctrl/renesas/sh_pfc.h  |  9 +++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-index 2cc457279345..4cd95e220900 100644
---- a/drivers/pinctrl/renesas/core.c
-+++ b/drivers/pinctrl/renesas/core.c
-@@ -175,13 +175,25 @@ u32 sh_pfc_read(struct sh_pfc *pfc, u32 reg)
- 	return sh_pfc_read_raw_reg(sh_pfc_phys_to_virt(pfc, reg), 32);
- }
+diff --git a/drivers/pinctrl/renesas/pinctrl.c b/drivers/pinctrl/renesas/pinctrl.c
+index ac542d278a38..85a182191d7d 100644
+--- a/drivers/pinctrl/renesas/pinctrl.c
++++ b/drivers/pinctrl/renesas/pinctrl.c
+@@ -634,6 +634,9 @@ static int sh_pfc_pinconf_get(struct pinctrl_dev *pctldev, unsigned _pin,
+ 	}
  
--void sh_pfc_write(struct sh_pfc *pfc, u32 reg, u32 data)
-+static void sh_pfc_unlock_reg(struct sh_pfc *pfc, u32 reg, u32 data)
- {
--	if (pfc->info->unlock_reg)
--		sh_pfc_write_raw_reg(
--			sh_pfc_phys_to_virt(pfc, pfc->info->unlock_reg), 32,
--			~data);
-+	u32 unlock;
+ 	case PIN_CONFIG_POWER_SOURCE: {
++		int idx = sh_pfc_get_pin_index(pfc, _pin);
++		const struct sh_pfc_pin *pin = &pfc->info->pins[idx];
++		int lower_voltage;
+ 		u32 pocctrl, val;
+ 		int bit;
+ 
+@@ -648,7 +651,10 @@ static int sh_pfc_pinconf_get(struct pinctrl_dev *pctldev, unsigned _pin,
+ 		val = sh_pfc_read(pfc, pocctrl);
+ 		spin_unlock_irqrestore(&pfc->lock, flags);
+ 
+-		arg = (val & BIT(bit)) ? 3300 : 1800;
++		lower_voltage = (pin->configs & SH_PFC_PIN_VOLTAGE_25_33) ?
++			2500 : 1800;
 +
-+	if (!pfc->info->unlock_reg)
-+		return;
++		arg = (val & BIT(bit)) ? 3300 : lower_voltage;
+ 		break;
+ 	}
  
-+	if (pfc->info->unlock_reg >= 0x80000000UL)
-+		unlock = pfc->info->unlock_reg;
-+	else
-+		/* unlock_reg is a mask */
-+		unlock = reg & ~pfc->info->unlock_reg;
+@@ -702,6 +708,9 @@ static int sh_pfc_pinconf_set(struct pinctrl_dev *pctldev, unsigned _pin,
+ 
+ 		case PIN_CONFIG_POWER_SOURCE: {
+ 			unsigned int mV = pinconf_to_config_argument(configs[i]);
++			int idx = sh_pfc_get_pin_index(pfc, _pin);
++			const struct sh_pfc_pin *pin = &pfc->info->pins[idx];
++			int lower_voltage;
+ 			u32 pocctrl, val;
+ 			int bit;
+ 
+@@ -712,7 +721,10 @@ static int sh_pfc_pinconf_set(struct pinctrl_dev *pctldev, unsigned _pin,
+ 			if (WARN(bit < 0, "invalid pin %#x", _pin))
+ 				return bit;
+ 
+-			if (mV != 1800 && mV != 3300)
++			lower_voltage = (pin->configs & SH_PFC_PIN_VOLTAGE_25_33) ?
++				2500 : 1800;
 +
-+	sh_pfc_write_raw_reg(sh_pfc_phys_to_virt(pfc, unlock), 32, ~data);
-+}
++			if (mV != lower_voltage && mV != 3300)
+ 				return -EINVAL;
+ 
+ 			spin_lock_irqsave(&pfc->lock, flags);
+diff --git a/drivers/pinctrl/renesas/sh_pfc.h b/drivers/pinctrl/renesas/sh_pfc.h
+index dc484c13f59c..00bfda90a7b7 100644
+--- a/drivers/pinctrl/renesas/sh_pfc.h
++++ b/drivers/pinctrl/renesas/sh_pfc.h
+@@ -31,6 +31,15 @@ enum {
+ 					 SH_PFC_PIN_CFG_PULL_DOWN)
+ #define SH_PFC_PIN_CFG_IO_VOLTAGE	(1 << 4)
+ #define SH_PFC_PIN_CFG_DRIVE_STRENGTH	(1 << 5)
 +
-+void sh_pfc_write(struct sh_pfc *pfc, u32 reg, u32 data)
-+{
-+	sh_pfc_unlock_reg(pfc, reg, data);
- 	sh_pfc_write_raw_reg(sh_pfc_phys_to_virt(pfc, reg), 32, data);
- }
++#define SH_PFC_PIN_VOLTAGE_18_33	(0 << 6)
++#define SH_PFC_PIN_VOLTAGE_25_33	(1 << 6)
++
++#define SH_PFC_PIN_CFG_IO_VOLTAGE_18_33	(SH_PFC_PIN_CFG_IO_VOLTAGE | \
++					 SH_PFC_PIN_VOLTAGE_18_33)
++#define SH_PFC_PIN_CFG_IO_VOLTAGE_25_33	(SH_PFC_PIN_CFG_IO_VOLTAGE | \
++					 SH_PFC_PIN_VOLTAGE_25_33)
++
+ #define SH_PFC_PIN_CFG_NO_GPIO		(1 << 31)
  
-@@ -227,11 +239,7 @@ static void sh_pfc_write_config_reg(struct sh_pfc *pfc,
- 	data &= mask;
- 	data |= value;
- 
--	if (pfc->info->unlock_reg)
--		sh_pfc_write_raw_reg(
--			sh_pfc_phys_to_virt(pfc, pfc->info->unlock_reg), 32,
--			~data);
--
-+	sh_pfc_unlock_reg(pfc, crp->reg, data);
- 	sh_pfc_write_raw_reg(mapped_reg, crp->reg_width, data);
- }
- 
+ struct sh_pfc_pin {
 -- 
 2.20.1
 
