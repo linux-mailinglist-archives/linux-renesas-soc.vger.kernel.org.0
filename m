@@ -2,254 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1099A2DF7C3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 03:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9A4B2DF9FB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 09:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728394AbgLUCzY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Dec 2020 21:55:24 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:9923 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728376AbgLUCzV (ORCPT
+        id S1727051AbgLUIhK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 03:37:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726303AbgLUIhJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Dec 2020 21:55:21 -0500
-X-IronPort-AV: E=Sophos;i="5.78,436,1599490800"; 
-   d="scan'208";a="66411311"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 21 Dec 2020 11:54:45 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1729741BA036;
-        Mon, 21 Dec 2020 11:54:45 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
-        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
-        broonie@kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com
-Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v4 12/12] mfd: bd9571mwv: Add support for BD9574MWF
-Date:   Mon, 21 Dec 2020 11:54:39 +0900
-Message-Id: <1608519279-13341-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1608519279-13341-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1608519279-13341-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Mon, 21 Dec 2020 03:37:09 -0500
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5935DC0613D3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Dec 2020 00:36:29 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by xavier.telenet-ops.be with bizsmtp
+        id 6wcS2400P4C55Sk01wcSgC; Mon, 21 Dec 2020 09:36:27 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1krGg6-00CgLK-CT; Mon, 21 Dec 2020 09:36:26 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1krGg5-00HRPh-2E; Mon, 21 Dec 2020 09:36:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH LOCAL] arm64: renesas: defconfig: Enable Transparent Hugepage madvise
+Date:   Mon, 21 Dec 2020 09:36:23 +0100
+Message-Id: <20201221083623.4156421-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+Enabling Transparent Hugepage always can increase the memory footprint
+of applications without a guaranteed benefit.
 
-The new PMIC BD9574MWF inherits features from BD9571MWV.
-Add the support of new PMIC to existing bd9571mwv driver.
+Documentation/admin-guide/mm/transhuge.rst says:
 
-Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
-Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+    Embedded systems should enable hugepages only inside madvise regions
+    to eliminate any risk of wasting any precious byte of memory and to
+    only run faster.
+
+Hence enable Transparent Hugepage madvise instead, which will only
+provide a performance improvement benefit to the applications using
+madvise(MADV_HUGEPAGE), but it won't risk to increase the memory
+footprint of applications without a guaranteed benefit.
+
+Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/mfd/bd9571mwv.c       | 83 +++++++++++++++++++++++++++++++++++++++++--
- include/linux/mfd/bd9571mwv.h | 17 +++++++--
- 2 files changed, 95 insertions(+), 5 deletions(-)
+Not intended for upstream merge; to be applied to the
+topic/renesas-defconfig only.
 
-diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-index c905ab4..ab753a9 100644
---- a/drivers/mfd/bd9571mwv.c
-+++ b/drivers/mfd/bd9571mwv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * ROHM BD9571MWV-M MFD driver
-+ * ROHM BD9571MWV-M and BD9574MVF-M core driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -11,6 +11,7 @@
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/mfd/core.h>
-+#include <linux/mfd/rohm-generic.h>
- #include <linux/module.h>
- 
- #include <linux/mfd/bd9571mwv.h>
-@@ -118,6 +119,79 @@ static const struct bd957x_ddata bd9571mwv_ddata = {
- 	.num_cells = ARRAY_SIZE(bd9571mwv_cells),
- };
- 
-+static const struct mfd_cell bd9574mwf_cells[] = {
-+	{ .name = "bd9574mwf-regulator", },
-+	{ .name = "bd9574mwf-gpio", },
-+};
-+
-+static const struct regmap_range bd9574mwf_readable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_VENDOR_CODE, BD9571MWV_PRODUCT_REVISION),
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_VINIT, BD9571MWV_DVFS_SETVMAX),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_readable_table = {
-+	.yes_ranges	= bd9574mwf_readable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_readable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_writable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_SETVID),
-+	regmap_reg_range(BD9571MWV_GPIO_DIR, BD9571MWV_GPIO_OUT),
-+	regmap_reg_range(BD9571MWV_GPIO_INT_SET, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_writable_table = {
-+	.yes_ranges	= bd9574mwf_writable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_writable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_volatile_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_DVFS_MONIVDAC, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INT),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTREQ),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_volatile_table = {
-+	.yes_ranges	= bd9574mwf_volatile_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_volatile_yes_ranges),
-+};
-+
-+static const struct regmap_config bd9574mwf_regmap_config = {
-+	.reg_bits	= 8,
-+	.val_bits	= 8,
-+	.cache_type	= REGCACHE_RBTREE,
-+	.rd_table	= &bd9574mwf_readable_table,
-+	.wr_table	= &bd9574mwf_writable_table,
-+	.volatile_table	= &bd9574mwf_volatile_table,
-+	.max_register	= 0xff,
-+};
-+
-+static struct regmap_irq_chip bd9574mwf_irq_chip = {
-+	.name		= "bd9574mwf",
-+	.status_base	= BD9571MWV_INT_INTREQ,
-+	.mask_base	= BD9571MWV_INT_INTMASK,
-+	.ack_base	= BD9571MWV_INT_INTREQ,
-+	.init_ack_masked = true,
-+	.num_regs	= 1,
-+	.irqs		= bd9571mwv_irqs,
-+	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
-+};
-+
-+static const struct bd957x_ddata bd9574mwf_ddata = {
-+	.regmap_config = &bd9574mwf_regmap_config,
-+	.irq_chip = &bd9574mwf_irq_chip,
-+	.cells = bd9574mwf_cells,
-+	.num_cells = ARRAY_SIZE(bd9574mwf_cells),
-+};
-+
- static int bd957x_identify(struct device *dev, struct regmap *regmap)
- {
- 	unsigned int value;
-@@ -171,6 +245,9 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 	case BD9571MWV_PRODUCT_CODE_BD9571MWV:
- 		ddata = &bd9571mwv_ddata;
- 		break;
-+	case BD9571MWV_PRODUCT_CODE_BD9574MWF:
-+		ddata = &bd9574mwf_ddata;
-+		break;
- 	default:
- 		dev_err(dev, "Unsupported device 0x%x\n", ret);
- 		return -ENODEV;
-@@ -200,12 +277,14 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 
- static const struct of_device_id bd9571mwv_of_match_table[] = {
- 	{ .compatible = "rohm,bd9571mwv", },
-+	{ .compatible = "rohm,bd9574mwf", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, bd9571mwv_of_match_table);
- 
- static const struct i2c_device_id bd9571mwv_id_table[] = {
--	{ "bd9571mwv", 0 },
-+	{ "bd9571mwv", ROHM_CHIP_TYPE_BD9571 },
-+	{ "bd9574mwf", ROHM_CHIP_TYPE_BD9574 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, bd9571mwv_id_table);
-diff --git a/include/linux/mfd/bd9571mwv.h b/include/linux/mfd/bd9571mwv.h
-index e1716ec..8efd99d 100644
---- a/include/linux/mfd/bd9571mwv.h
-+++ b/include/linux/mfd/bd9571mwv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * ROHM BD9571MWV-M driver
-+ * ROHM BD9571MWV-M and BD9574MWF-M driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -14,11 +14,12 @@
- #include <linux/device.h>
- #include <linux/regmap.h>
- 
--/* List of registers for BD9571MWV */
-+/* List of registers for BD9571MWV and BD9574MWF */
- #define BD9571MWV_VENDOR_CODE			0x00
- #define BD9571MWV_VENDOR_CODE_VAL		0xdb
- #define BD9571MWV_PRODUCT_CODE			0x01
- #define BD9571MWV_PRODUCT_CODE_BD9571MWV	0x60
-+#define BD9571MWV_PRODUCT_CODE_BD9574MWF	0x74
- #define BD9571MWV_PRODUCT_REVISION		0x02
- 
- #define BD9571MWV_I2C_FUSA_MODE			0x10
-@@ -48,6 +49,7 @@
- #define BD9571MWV_VD33_VID			0x44
- 
- #define BD9571MWV_DVFS_VINIT			0x50
-+#define BD9574MWF_VD09_VINIT			0x51
- #define BD9571MWV_DVFS_SETVMAX			0x52
- #define BD9571MWV_DVFS_BOOSTVID			0x53
- #define BD9571MWV_DVFS_SETVID			0x54
-@@ -61,6 +63,7 @@
- #define BD9571MWV_GPIO_INT_SET			0x64
- #define BD9571MWV_GPIO_INT			0x65
- #define BD9571MWV_GPIO_INTMASK			0x66
-+#define BD9574MWF_GPIO_MUX			0x67
- 
- #define BD9571MWV_REG_KEEP(n)			(0x70 + (n))
- 
-@@ -70,6 +73,8 @@
- #define BD9571MWV_PROT_ERROR_STATUS2		0x83
- #define BD9571MWV_PROT_ERROR_STATUS3		0x84
- #define BD9571MWV_PROT_ERROR_STATUS4		0x85
-+#define BD9574MWF_PROT_ERROR_STATUS5		0x86
-+#define BD9574MWF_SYSTEM_ERROR_STATUS		0x87
- 
- #define BD9571MWV_INT_INTREQ			0x90
- #define BD9571MWV_INT_INTREQ_MD1_INT		BIT(0)
-@@ -82,6 +87,12 @@
- #define BD9571MWV_INT_INTREQ_BKUP_TRG_INT	BIT(7)
- #define BD9571MWV_INT_INTMASK			0x91
- 
-+#define BD9574MWF_SSCG_CNT			0xA0
-+#define BD9574MWF_POFFB_MRB			0xA1
-+#define BD9574MWF_SMRB_WR_PROT			0xA2
-+#define BD9574MWF_SMRB_ASSERT			0xA3
-+#define BD9574MWF_SMRB_STATUS			0xA4
-+
- #define BD9571MWV_ACCESS_KEY			0xff
- 
- /* Define the BD9571MWV IRQ numbers */
-@@ -91,7 +102,7 @@ enum bd9571mwv_irqs {
- 	BD9571MWV_IRQ_MD2_E2,
- 	BD9571MWV_IRQ_PROT_ERR,
- 	BD9571MWV_IRQ_GP,
--	BD9571MWV_IRQ_128H_OF,
-+	BD9571MWV_IRQ_128H_OF,	/* BKUP_HOLD on BD9574MWF */
- 	BD9571MWV_IRQ_WDT_OF,
- 	BD9571MWV_IRQ_BKUP_TRG,
- };
+Perhaps this should be changed in arch/arm64/configs/defconfig, too?
+Perhaps the default should be changed in mm/Kconfig instead?
+---
+ arch/arm64/configs/renesas_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index 71a6cb34ca89229c..f641a2675d0a425b 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -75,6 +75,7 @@ CONFIG_BLK_DEV_INTEGRITY=y
+ # CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS is not set
+ CONFIG_KSM=y
+ CONFIG_TRANSPARENT_HUGEPAGE=y
++CONFIG_TRANSPARENT_HUGEPAGE_MADVISE=y
+ CONFIG_CMA=y
+ CONFIG_NET=y
+ CONFIG_PACKET=y
 -- 
-2.7.4
+2.25.1
 
