@@ -2,400 +2,262 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2755F2DFF53
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 19:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D518B2DFC87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 15:03:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbgLUSIW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 13:08:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49298 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726107AbgLUSIV (ORCPT
+        id S1726746AbgLUODS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 09:03:18 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34360 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726548AbgLUODS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Dec 2020 13:08:21 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A293C0613D3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Dec 2020 10:07:41 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id v2so6890198pfm.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Dec 2020 10:07:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
-        h=message-id:date:mime-version:content-transfer-encoding:subject:to
-         :from;
-        bh=XzvMh5tfRy0HIGfFH/GovknnlbuLVZpo/zLn1QWOG6s=;
-        b=M1/tGCk6uoA72HoCfY/nDSpkeSqUtJdgNZiBkHrS9OzG3PxNAX2M8axSKo+wXWCuYl
-         /srM78KXPxq7FyRF6GMcsAN8BIBtI6FVi1pXzQvr5CdIgqSFCRcMhlDfbSBZeSN/WZyP
-         4dUb5ddmrfT5rXIlLbPY+ZxXlL2GL7bSW5OJlLcsbnxLsA3ceXrJJ8fTXx/XtX34PsmY
-         CqAXDzBCKQ1qqKiQi2zRJmoWlczfQEFDNRlR1Ld3w9/fiP8/Tbme/+985pQUuN8SZymX
-         QP8ydmUQmmfW8tPm9SA/bH7HW8G8YbZhiL5BANxTPOQbcirnCa2hd2O0uQuMdkEhu2nk
-         iOuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:mime-version
-         :content-transfer-encoding:subject:to:from;
-        bh=XzvMh5tfRy0HIGfFH/GovknnlbuLVZpo/zLn1QWOG6s=;
-        b=XnKCyUf5w0Xgv5mO//P0opvEDWDZT8SGqU3feeXNydhrHvlHTPKx2F1y8pP6yQ/Vf5
-         XYq17TyCRFF4dPZJzjkBGNGi+hcYplIH6+LaTea2qoatSKAXFgdVEpAukf0avxz4aABr
-         M5yjV9H+syf0vRQkclCv7+3pwL1zj7h2j64cXkY4OXFOH1GVKFXee7UhLqYyigOYv1fG
-         gcK5fpnFwcit0gQYebcVaIB2bK2DfK7atTR8bQyGUj4weyzCOXXvQnzHWp7j6/q8tj0p
-         /JxI86SFA96paGyFyX7ipp11Rcku8E4LeM2TcbtGU9SC2hX7PJVlBUr5of7+hVzGAkj1
-         NNeA==
-X-Gm-Message-State: AOAM532n9WCL4XE4SJsocbKhjYm7Gfl/cBsSh+NQBq21ugpsWgGpBjsY
-        8rxNEDad51sn9Xh7fwaQsmPZk+pJJ+0UzQ==
-X-Google-Smtp-Source: ABdhPJwjGrZjOV9J+5OKanqFs3BH38OHV77YwoVMuNPkZsh/trZht01TTVHoCYqM6MjDIhQ5pGhHow==
-X-Received: by 2002:a62:1b16:0:b029:19e:238:8627 with SMTP id b22-20020a621b160000b029019e02388627mr15345003pfb.52.1608559164868;
-        Mon, 21 Dec 2020 05:59:24 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
-        by smtp.gmail.com with ESMTPSA id 19sm16412945pfn.133.2020.12.21.05.59.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 05:59:23 -0800 (PST)
-Message-ID: <5fe0aa3b.1c69fb81.20f90.fd4d@mx.google.com>
-Date:   Mon, 21 Dec 2020 05:59:23 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 21 Dec 2020 09:03:18 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51AE72CF;
+        Mon, 21 Dec 2020 15:00:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1608559251;
+        bh=fqkzhgsYvpmZM/4e1LXwV9L0/SihWrx8GpMzedHtcsU=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Uuz2PD7D9BfFZ4lvo8KdXWikyQcnBeS51nB9ScQm+hor89Zg3jh6D3ivD2s3S3emO
+         3WKEXJYrpeHebYDrEDjsTUH+AnIKfiNuSFOnLPCgGWhbKnvZ3BLEJNmRfOLVuKXSXB
+         /Kmq9d7njt3Ny4UJ58Neg4KrD3iOVgQOiDu4qEpo=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH 2/4] drm: rcar-du: cmm: Provide 3D-CLU support
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201221015730.28333-3-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <476c461a-b675-67ab-fb22-264eb1e7338d@ideasonboard.com>
+Date:   Mon, 21 Dec 2020 14:00:48 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2020-12-21-v5.10
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline: 295 runs,
- 9 regressions (renesas-devel-2020-12-21-v5.10)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
+In-Reply-To: <20201221015730.28333-3-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline: 295 runs, 9 regressions (renesas-devel-2020-12-21-=
-v5.10)
-
-Regressions Summary
--------------------
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-imx6q-sabresd            | arm   | lab-nxp         | gcc-8    | imx_v6_v7_d=
-efconfig          | 1          =
-
-imx6q-var-dt6customboard | arm   | lab-baylibre    | gcc-8    | multi_v7_de=
-fc...CONFIG_SMP=3Dn | 1          =
-
-imx6ul-pico-hobbit       | arm   | lab-pengutronix | gcc-8    | imx_v6_v7_d=
-efconfig          | 1          =
-
-imx8mp-evk               | arm64 | lab-nxp         | gcc-8    | defconfig  =
-                  | 1          =
-
-meson-gxm-q200           | arm64 | lab-baylibre    | gcc-8    | defconfig  =
-                  | 2          =
-
-qemu_arm-versatilepb     | arm   | lab-baylibre    | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-cip         | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-qemu_arm-versatilepb     | arm   | lab-collabora   | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2020-12-21-v5.10/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2020-12-21-v5.10
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a0d9f5cfe680c9afb8a9bb2d57b6a1c707da9c3a =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-imx6q-sabresd            | arm   | lab-nxp         | gcc-8    | imx_v6_v7_d=
-efconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe074834fb002747fc94cd7
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-nxp/baseline-imx6q-sabres=
-d.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-nxp/baseline-imx6q-sabres=
-d.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe074834fb002747fc94=
-cd8
-        failing since 48 days (last pass: renesas-devel-2020-10-30-v5.10-rc=
-1, first fail: renesas-devel-2020-11-02-v5.10-rc2) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-imx6q-var-dt6customboard | arm   | lab-baylibre    | gcc-8    | multi_v7_de=
-fc...CONFIG_SMP=3Dn | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe07600ddf9c865d7c94cc6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig+CONFIG_SMP=3Dn
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-8/lab-baylibre/ba=
-seline-imx6q-var-dt6customboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/multi_v7_defconfig+CONFIG_SMP=3Dn/gcc-8/lab-baylibre/ba=
-seline-imx6q-var-dt6customboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe07600ddf9c865d7c94=
-cc7
-        failing since 48 days (last pass: renesas-devel-2020-10-30-v5.10-rc=
-1, first fail: renesas-devel-2020-11-02-v5.10-rc2) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-imx6ul-pico-hobbit       | arm   | lab-pengutronix | gcc-8    | imx_v6_v7_d=
-efconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe073e12c4b4545eac94cb9
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: imx_v6_v7_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-pengutronix/baseline-imx6=
-ul-pico-hobbit.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/imx_v6_v7_defconfig/gcc-8/lab-pengutronix/baseline-imx6=
-ul-pico-hobbit.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe073e12c4b4545eac94=
-cba
-        new failure (last pass: renesas-devel-2020-12-14-v5.10) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-imx8mp-evk               | arm64 | lab-nxp         | gcc-8    | defconfig  =
-                  | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe070ea45f4e1e9c1c94cd2
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm64/defconfig/gcc-8/lab-nxp/baseline-imx8mp-evk.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm64/defconfig/gcc-8/lab-nxp/baseline-imx8mp-evk.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe070ea45f4e1e9c1c94=
-cd3
-        new failure (last pass: renesas-devel-2020-12-14-v5.10) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-meson-gxm-q200           | arm64 | lab-baylibre    | gcc-8    | defconfig  =
-                  | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe06f6c14c3df7188c94ccd
-
-  Results:     3 PASS, 2 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-8 (aarch64-linux-gnu-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm64/defconfig/gcc-8/lab-baylibre/baseline-meson-gxm-q200.=
-txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm64/defconfig/gcc-8/lab-baylibre/baseline-meson-gxm-q200.=
-html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/arm64/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.dmesg.alert: https://kernelci.org/test/case/id/5fe06f6c14c3df7=
-188c94cd1
-        new failure (last pass: renesas-devel-2020-12-14-v5.10)
-        10 lines
-
-    2020-12-21 09:48:23.130000+00:00  kern  :alert : Mem abort info:
-    2020-12-21 09:48:23.130000+00:00  kern  :alert :   ESR =3D 0x96000004
-    2020-12-21 09:48:23.171000+00:00  kern  :alert :   EC =3D 0x25: DABT (c=
-urrent EL), IL =3D 32 bits
-    2020-12-21 09:48:23.171000+00:00  kern  :alert :   SET =3D 0, FnV =3D 0
-    2020-12-21 09:48:23.172000+00:00  kern  :alert :   EA =3D 0, S1PTW =3D 0
-    2020-12-21 09:48:23.172000+00:00  kern  :alert : Data abort info:
-    2020-12-21 09:48:23.172000+00:00  kern  :alert :   ISV =3D 0, ISS =3D 0=
-x00000004
-    2020-12-21 09:48:23.172000+00:00  kern  :alert :   CM =3D 0, WnR =3D 0
-    2020-12-21 09:48:23.172000+00:00  kern  :alert : [00020000400400a0] add=
-ress between user and kernel address ranges   =
-
-
-  * baseline.dmesg.emerg: https://kernelci.org/test/case/id/5fe06f6c14c3df7=
-188c94cd2
-        new failure (last pass: renesas-devel-2020-12-14-v5.10)
-        2 lines
-
-    2020-12-21 09:48:23.173000+00:00  kern  :emerg : Code: 97f4c44b 9100e3e=
-0 97f4c59d b4000280 (f9403000) =
-
-    2020-12-21 09:48:23.198000+00:00  + set +x   =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-qemu_arm-versatilepb     | arm   | lab-baylibre    | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe06fa62db02fdc10c94cda
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_ar=
-m-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-baylibre/baseline-qemu_ar=
-m-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe06fa62db02fdc10c94=
-cdb
-        failing since 33 days (last pass: renesas-devel-2020-11-10-v5.10-rc=
-3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-qemu_arm-versatilepb     | arm   | lab-cip         | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe06f970cb3f09033c94cea
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ver=
-satilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-cip/baseline-qemu_arm-ver=
-satilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe06f970cb3f09033c94=
-ceb
-        failing since 33 days (last pass: renesas-devel-2020-11-10-v5.10-rc=
-3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =
-
-
-
-platform                 | arch  | lab             | compiler | defconfig  =
-                  | regressions
--------------------------+-------+-----------------+----------+------------=
-------------------+------------
-qemu_arm-versatilepb     | arm   | lab-collabora   | gcc-8    | versatile_d=
-efconfig          | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/5fe06f635f7827092ac94cf6
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: versatile_defconfig
-  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_a=
-rm-versatilepb.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-020-12-21-v5.10/arm/versatile_defconfig/gcc-8/lab-collabora/baseline-qemu_a=
-rm-versatilepb.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/kci-2020=
-.05-4-g97706c5d9567/armel/baseline/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/5fe06f635f7827092ac94=
-cf7
-        failing since 33 days (last pass: renesas-devel-2020-11-10-v5.10-rc=
-3, first fail: renesas-devel-2020-11-16-v5.10-rc4) =
-
- =20
+Hi Laurent,
+
+On 21/12/2020 01:57, Laurent Pinchart wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> The CMM module provides a three-dimensional cubic look up table that
+> converts three-color-component data into desired three color components
+> by use of a lookup table.
+> 
+> While the 1D-LUT can only control each of three color components
+> separately, the 3D-CLU can be used for specific color adjustment.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+For the updates since I wrote the patch:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c | 52 ++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/rcar-du/rcar_cmm.h | 11 ++++---
+>  2 files changed, 57 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> index ccc8c8b03bac..9a20728a3534 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> @@ -17,9 +17,18 @@
+>  
+>  #define CM2_LUT_CTRL		0x0000
+>  #define CM2_LUT_CTRL_LUT_EN	BIT(0)
+> +
+> +#define CM2_CLU_CTRL		0x0100
+> +#define CM2_CLU_CTRL_CLU_EN	BIT(1)
+> +#define CM2_CLU_CTRL_MVS	BIT(24)
+> +#define CM2_CLU_CTRL_AAI	BIT(28)
+> +
+>  #define CM2_LUT_TBL_BASE	0x0600
+>  #define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+>  
+> +#define CM2_CLU_ADDR		0x0a00
+> +#define CM2_CLU_DATA		0x0a04
+> +
+>  struct rcar_cmm {
+>  	void __iomem *base;
+>  
+> @@ -30,6 +39,10 @@ struct rcar_cmm {
+>  	struct {
+>  		bool enabled;
+>  	} lut;
+> +
+> +	struct {
+> +		bool enabled;
+> +	} clu;
+>  };
+>  
+>  static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> @@ -72,13 +85,44 @@ static void rcar_cmm_lut_configure(struct rcar_cmm *rcmm,
+>  	}
+>  }
+>  
+> +static void rcar_cmm_clu_configure(struct rcar_cmm *rcmm,
+> +				   const struct drm_color_lut *table)
+> +{
+> +	static const u32 cfg = CM2_CLU_CTRL_AAI
+> +			     | CM2_CLU_CTRL_MVS
+> +			     | CM2_CLU_CTRL_CLU_EN;
+> +	bool enable = !!table;
+
+Good, not sure why I was calculating this outside of the call.
+
+
+> +
+> +	if (rcmm->clu.enabled != enable) {
+> +		rcar_cmm_write(rcmm, CM2_CLU_CTRL, enable ? cfg : 0);
+> +		rcmm->clu.enabled = enable;
+> +	}
+> +
+> +	if (table) {
+> +		unsigned int i;
+> +
+> +		/* Utilise CM2_CLU_CTRL_AAI (auto-increment). */
+> +		rcar_cmm_write(rcmm, CM2_CLU_ADDR, 0);
+> +
+> +		for (i = 0; i < CM2_CLU_SIZE; ++i) {
+> +			const struct drm_color_lut *lut = &table[i];
+> +
+> +			u32 entry = drm_color_lut_extract(lut->red, 8) << 16
+> +				  | drm_color_lut_extract(lut->green, 8) << 8
+> +				  | drm_color_lut_extract(lut->blue, 8);
+> +
+> +			rcar_cmm_write(rcmm, CM2_CLU_DATA, entry);
+> +		}
+> +	}
+> +}
+> +
+>  /*
+>   * rcar_cmm_setup() - Configure the CMM unit
+>   * @pdev: The platform device associated with the CMM instance
+>   * @config: The CMM unit configuration
+>   *
+> - * Configure the CMM unit with the given configuration. Currently enabling,
+> - * disabling and programming of the 1-D LUT unit is supported.
+> + * Configure the CMM unit with the given configuration, handling both the
+> + * 1-D LUT and the 3-D CLU.
+>   *
+>   * As rcar_cmm_setup() accesses the CMM registers the unit should be powered
+>   * and its functional clock enabled. To guarantee this, before any call to
+> @@ -96,6 +140,9 @@ int rcar_cmm_setup(struct platform_device *pdev,
+>  	if (config->lut.update)
+>  		rcar_cmm_lut_configure(rcmm, config->lut.table);
+>  
+> +	if (config->clu.update)
+> +		rcar_cmm_clu_configure(rcmm, config->clu.table);
+> +
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> @@ -140,6 +187,7 @@ void rcar_cmm_disable(struct platform_device *pdev)
+>  	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+>  
+>  	rcar_cmm_lut_configure(rcmm, NULL);
+> +	rcar_cmm_clu_configure(rcmm, NULL);
+>  
+>  	pm_runtime_put(&pdev->dev);
+>  }
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> index f4b16535ec16..35f901158cec 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> @@ -9,14 +9,15 @@
+>  #define __RCAR_CMM_H__
+>  
+>  #define CM2_LUT_SIZE		256
+> +#define CM2_CLU_SIZE		(17 * 17 * 17)
+>  
+>  struct drm_color_lut;
+>  struct platform_device;
+>  
+>  /**
+> - * struct rcar_cmm_table_config - CMM LUT configuration
+> - * @update: When true, update the LUT configuration.
+> - * @table: Table data. The LUT is enabled if non-NULL, and disabled
+> + * struct rcar_cmm_table_config - CMM LUT and CLU configuration
+> + * @update: When true, update the LUT or CLU configuration.
+> + * @table: Table data. The LUT or CLU is enabled if non-NULL, and disabled
+>   *	otherwise. The value is ignored if @update is false.
+>   */
+>  struct rcar_cmm_table_config {
+> @@ -26,10 +27,12 @@ struct rcar_cmm_table_config {
+>  
+>  /**
+>   * struct rcar_cmm_config - CMM configuration
+> - * @lut: 1D-LUT configuration
+> + * @lut: 1D LUT configuration
+> + * @clu: 3D (cubic) LUT configuration
+>   */
+>  struct rcar_cmm_config {
+>  	struct rcar_cmm_table_config lut;
+> +	struct rcar_cmm_table_config clu;
+>  };
+>  
+>  #if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
+> 
+
+-- 
+Regards
+--
+Kieran
