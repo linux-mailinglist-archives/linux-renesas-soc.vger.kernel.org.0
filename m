@@ -2,142 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 764E32E0092
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 19:59:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A69922E01CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 22:09:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgLUS7O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 13:59:14 -0500
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:39077 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726643AbgLUS7N (ORCPT
+        id S1725791AbgLUVJH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 16:09:07 -0500
+Received: from mga01.intel.com ([192.55.52.88]:20535 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725782AbgLUVJG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Dec 2020 13:59:13 -0500
-Received: by mail-ot1-f49.google.com with SMTP id d8so9740639otq.6;
-        Mon, 21 Dec 2020 10:58:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qIeLBUGIHIVA57iaE4/h+UuAVW+FB7xmHcMIvg2bi8k=;
-        b=DkHDi1AIPXS/+2opwCxwKfI5g5bAGXp3KnaxhHgA9l+2UK3R0OUmaDaP81G1XLVof0
-         iBSgj6iE/Frv8OXCea2GE6HZlJyDfxrnPYZS6gXkDuzcGQDffXUJYTRIndhLJwfl6ZS7
-         XMOdixzUx9lDGU+lIalX1WI1KrcKwtBtXmHkyP2Jh7zDYWz+F+2oQ07gMwRhP2cejxLD
-         15WoAs9/tD39Xy/9Mh4ImReqYGXw6BNUy7Y7+cVYs6mLT/w8aETfLSqbt+ZOKkyTy2o4
-         uRGD1fzA2lnbiJSVg4ouOgrPhN3HQdUUfQC2uoxnJ7zXbb1hqfhbltVfgOnS5RcU/Xus
-         bJKA==
-X-Gm-Message-State: AOAM532A7iKbPrL+UycOzBwD0tKB8f9NXS5MrQt28hqFBqg7YM2dwmX0
-        CwA41rOGNXUo95czh421gQ==
-X-Google-Smtp-Source: ABdhPJwD6AgUBfnRrtkPZhJwXnbbQX7IFHvj0ACy/iIxKTkOzDprZfz0x+WImXb0Pb9UOM6ek74Aog==
-X-Received: by 2002:a9d:2287:: with SMTP id y7mr12675380ota.137.1608577112654;
-        Mon, 21 Dec 2020 10:58:32 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id v4sm3966365otk.50.2020.12.21.10.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 10:58:31 -0800 (PST)
-Received: (nullmailer pid 362405 invoked by uid 1000);
-        Mon, 21 Dec 2020 18:58:27 -0000
-Date:   Mon, 21 Dec 2020 11:58:27 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-Subject: Re: [PATCH v6 2/5] dt-bindings: media: max9286: Document
- 'maxim,reverse-channel-microvolt'
-Message-ID: <20201221185827.GA359098@robh.at.kernel.org>
-References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
- <20201215170957.92761-3-jacopo+renesas@jmondi.org>
- <X9o+XT3z1sVlh73x@pendragon.ideasonboard.com>
- <X9pBEe+da/8Y34Qv@pendragon.ideasonboard.com>
+        Mon, 21 Dec 2020 16:09:06 -0500
+IronPort-SDR: aD/uKQEyfviTP5iRXVdN9Uyr5dYozwmpDXxCt2Q17a4XJcSm39IkuUmWqdTtewF09aPMaEwOYL
+ a6d1/3jvygYA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9842"; a="194214624"
+X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
+   d="scan'208";a="194214624"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2020 13:08:26 -0800
+IronPort-SDR: QSxuhTwxv0u5pI5JBlszl+wOur7lol5mL+yRlbVet2bwUBQYYteADd5VCdPJUTPOLYZfXxwR11
+ /uemOis5RZbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,437,1599548400"; 
+   d="scan'208";a="391837046"
+Received: from lkp-server01.sh.intel.com (HELO 65587561063d) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 21 Dec 2020 13:08:25 -0800
+Received: from kbuild by 65587561063d with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1krSPo-00015r-DU; Mon, 21 Dec 2020 21:08:24 +0000
+Date:   Tue, 22 Dec 2020 05:07:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-clk-for-v5.12] BUILD SUCCESS
+ 874b9d7808273e7eaf626c7e7f562d9afb8946d0
+Message-ID: <5fe10ea9.4CsGVn8v3W0FoAGy%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X9pBEe+da/8Y34Qv@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 16, 2020 at 07:17:05PM +0200, Laurent Pinchart wrote:
-> On Wed, Dec 16, 2020 at 07:05:34PM +0200, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Dec 15, 2020 at 06:09:54PM +0100, Jacopo Mondi wrote:
-> > > Document the 'reverse-channel-microvolt' vendor property in the
-> > > bindings document of the max9286 driver.
-> > > 
-> > > The newly introduced property allows to specifying the initial
-> > > configuration of the GMSL reverse control channel to accommodate
-> > > remote serializers pre-programmed with the high threshold power
-> > > supply noise immunity enabled.
-> > > 
-> > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > > ---
-> > > v5->v6:
-> > > - Use standard unit suffix 'microvolt' for the custom property
-> > > - Drop '$ref' as according to 'example-schema.yaml':
-> > >   "Vendor specific properties having a standard unit suffix don't need a type."
-> > > ---
-> > >  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
-> > >  1 file changed, 23 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > index 9ea827092fdd..b22ba3e0db4a 100644
-> > > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > > @@ -51,6 +51,26 @@ properties:
-> > >    '#gpio-cells':
-> > >      const: 2
-> > > 
-> > > +  maxim,reverse-channel-microvolt:
-> > > +    minimum: 30000
-> > > +    maximum: 200000
-> > > +    default: 170000
-> > > +    description: |
-> > > +      Initial amplitude of the reverse control channel, in micro volts.
-> > > +
-> > > +      The initial amplitude shall be adjusted to a value compatible with the
-> > > +      configuration of the connected remote serializer.
-> > > +
-> > > +      Some camera modules (for example RDACM20) include an on-board MCU that
-> > > +      pre-programs the embedded serializer with power supply noise immunity
-> > > +      (high-threshold) enabled. A typical value of the deserializer's reverse
-> > > +      channel amplitude to communicate with pre-programmed serializers is
-> > > +      170000 micro volts.
-> > > +
-> > > +      A typical value for the reverse channel amplitude to communicate with
-> > > +      a remote serializer whose high-threshold noise immunity is not enabled
-> > > +      is 100000 micro volts
-> > > +
-> > >    ports:
-> > >      type: object
-> > >      description: |
-> > > @@ -221,6 +241,7 @@ required:
-> > >    - ports
-> > >    - i2c-mux
-> > >    - gpio-controller
-> > > +  - maxim,reverse-channel-microvolt
-> 
-> One comment though: You specify a default value above, which isn't very
-> useful when the property is required. Should we either drop the default
-> value, or make the property optional ?
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-clk-for-v5.12
+branch HEAD: 874b9d7808273e7eaf626c7e7f562d9afb8946d0  clk: renesas: r8a779a0: Add VSPX clock support
 
-And generally added properties can't be required unless for some reason 
-DT's without the property are broken.
+elapsed time: 722m
 
-With required dropped,
+configs tested: 122
+configs skipped: 2
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Rob
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                       imx_v4_v5_defconfig
+nios2                         3c120_defconfig
+sh                   sh7724_generic_defconfig
+sparc64                             defconfig
+powerpc                  storcenter_defconfig
+arm                     am200epdkit_defconfig
+m68k                             alldefconfig
+powerpc                     tqm5200_defconfig
+sh                             espt_defconfig
+powerpc                     rainier_defconfig
+riscv                    nommu_virt_defconfig
+arm                        magician_defconfig
+powerpc                  mpc866_ads_defconfig
+i386                             alldefconfig
+parisc                generic-32bit_defconfig
+powerpc                     sequoia_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                           u8500_defconfig
+mips                       capcella_defconfig
+mips                            e55_defconfig
+sh                        sh7757lcr_defconfig
+arc                          axs103_defconfig
+powerpc                    mvme5100_defconfig
+arm                           omap1_defconfig
+s390                             alldefconfig
+c6x                        evmc6474_defconfig
+sh                               j2_defconfig
+powerpc                       holly_defconfig
+arm                        mini2440_defconfig
+sh                  sh7785lcr_32bit_defconfig
+nds32                             allnoconfig
+x86_64                           alldefconfig
+sparc                       sparc64_defconfig
+m68k                       bvme6000_defconfig
+h8300                     edosk2674_defconfig
+mips                      malta_kvm_defconfig
+sh                          sdk7780_defconfig
+xtensa                              defconfig
+h8300                            alldefconfig
+mips                      maltasmvp_defconfig
+mips                         tb0287_defconfig
+openrisc                            defconfig
+arm                          ep93xx_defconfig
+c6x                              alldefconfig
+powerpc                    klondike_defconfig
+powerpc                      cm5200_defconfig
+arm                  colibri_pxa270_defconfig
+xtensa                           alldefconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a001-20201221
+x86_64               randconfig-a002-20201221
+x86_64               randconfig-a003-20201221
+i386                 randconfig-a002-20201221
+i386                 randconfig-a005-20201221
+i386                 randconfig-a006-20201221
+i386                 randconfig-a004-20201221
+i386                 randconfig-a003-20201221
+i386                 randconfig-a001-20201221
+i386                 randconfig-a011-20201221
+i386                 randconfig-a016-20201221
+i386                 randconfig-a014-20201221
+i386                 randconfig-a012-20201221
+i386                 randconfig-a015-20201221
+i386                 randconfig-a013-20201221
+x86_64               randconfig-a006-20201221
+x86_64               randconfig-a004-20201221
+x86_64               randconfig-a005-20201221
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a015-20201221
+x86_64               randconfig-a014-20201221
+x86_64               randconfig-a016-20201221
+x86_64               randconfig-a012-20201221
+x86_64               randconfig-a013-20201221
+x86_64               randconfig-a011-20201221
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
