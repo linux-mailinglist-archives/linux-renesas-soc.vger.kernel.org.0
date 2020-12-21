@@ -2,92 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 886B52DFA31
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 09:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 785952DFAB3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 11:02:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727284AbgLUIyp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 03:54:45 -0500
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:63984 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727150AbgLUIyp (ORCPT
+        id S1726242AbgLUKCX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 05:02:23 -0500
+Received: from foss.arm.com ([217.140.110.172]:48292 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725854AbgLUKCX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Dec 2020 03:54:45 -0500
-Date:   Mon, 21 Dec 2020 08:53:59 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
-        s=protonmail2; t=1608540842;
-        bh=VVBq5kEMeWXSfE2fNOxez/ovFm1GKzPzNKtAMGYpYn0=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=WdyCTV/95g6te02oIf8Uq6IP0olpfGsj78DsjpCpOh+NZ0yulqoAFBiikwfckDFwP
-         kpt9OfvJ7KA9ru5mMKl85EudU4R9NSrWxXCAMZKrMfEnSW3//WFxf1iBH9qMxk/Jgl
-         AWpLs34AKTppCHJYaJjhxxmRuDuF33gotAhjXHy6cMscknvu9e4oRNR03HiJ/Sqttm
-         6SAZgbSSXYpFssnlA6yzeOqsdx8067j7OqelVJAyuDaX6xq5OWWg1EhMG4phPnRlgD
-         a0KuUmPVEgKoFAk1DKLjeNKVrOKBkhmByGOCyboUnFfFVd6Wk7Mn1g0hIe/1/bKmQ0
-         8czccoVVrotqQ==
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-From:   Simon Ser <contact@emersion.fr>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Reply-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/4] drm: rcar-du: Add cubic LUT support
-Message-ID: <jcjTLLVHB6YkIMnDrAcghTdaSTrg30wbACbWLZXS50UBUzb5_X0o7dAlR-KzGhVkxfPyW4AuRm05z8miKa6V6gzToI9BYxWpDp1RKb7ZXnk=@emersion.fr>
-In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
+        Mon, 21 Dec 2020 05:02:23 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 01EE91FB;
+        Mon, 21 Dec 2020 02:01:37 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01B2A3F718;
+        Mon, 21 Dec 2020 02:01:35 -0800 (PST)
+Date:   Mon, 21 Dec 2020 10:01:29 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
+Message-ID: <20201221100129.GA15846@e121166-lin.cambridge.arm.com>
+References: <20201016120431.7062-1-marek.vasut@gmail.com>
+ <20201210181133.GA3766@e121166-lin.cambridge.arm.com>
+ <83135f6f-8a98-4537-0df5-91a06af07955@gmail.com>
+ <20201214160829.GA3623@e121166-lin.cambridge.arm.com>
+ <d7279eff-2129-f58c-baed-aa805f26429d@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d7279eff-2129-f58c-baed-aa805f26429d@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+On Wed, Dec 16, 2020 at 06:49:54PM +0100, Marek Vasut wrote:
+> On 12/14/20 5:08 PM, Lorenzo Pieralisi wrote:
+> > On Sat, Dec 12, 2020 at 08:13:54PM +0100, Marek Vasut wrote:
+> > > On 12/10/20 7:11 PM, Lorenzo Pieralisi wrote:
+> > > 
+> > > [...]
+> > > 
+> > > > > diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+> > > > > index 1194d5f3341b..ac5c7d7573a6 100644
+> > > > > --- a/drivers/pci/controller/pcie-rcar-host.c
+> > > > > +++ b/drivers/pci/controller/pcie-rcar-host.c
+> > > > > @@ -753,7 +753,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
+> > > > >    	}
+> > > > >    	/* setup MSI data target */
+> > > > > -	msi->pages = __get_free_pages(GFP_KERNEL, 0);
+> > > > > +	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
+> > > > 
+> > > > This does not do what you want on !CONFIG_ZONE_DMA32 (ie arm LPAE).
+> > > 
+> > > How come? I would expect GFP_DMA32 allocates a buffer below 4 GiB in any
+> > > case.
+> > 
+> > For ARM LPAE allocation falls back to ZONE_NORMAL that happens to work
+> > because if there is memory > 4GB it ends up in ZONE_HIGHMEM, so this
+> > patch should still work on ARM LPAE too.
+> > 
+> > Regardless, thoughts above the alternative approach (that saves you
+> > a page allocation) ?
+> 
+> Since this is a bugfix, I would prefer it to be minimal.
 
-On Monday, December 21st, 2020 at 2:57 AM, Laurent Pinchart <laurent.pincha=
-rt+renesas@ideasonboard.com> wrote:
+Yes, I agree with you on that.
 
-> I started having a look at userspace to see how this could be handled,
-> searching for color management support in weston, kwin and wlroots/sway.
-> All three support setting the gamma table when using the DRM/KMS
-> backend, weston and kwin through the legacy API, and wlroots through the
-> atomic API. Weston reads an ICC profile using Little CMS and applies the
-> gamma table. kwin is a bit more elaborate, it also uses Little CMS to
-> read an ICC profile, but additionally supports setting the brightness
-> and color temperature. It however only sets a gamma table in the end.
-> Wlroots seems to have an API to set the gamma table, but I haven't seen
-> where sway uses it (I may have missed that though)
+> Also, in case there was some yet undiscovered hardware bug which would
+> let the MSI write through, having unused memory as the MSI destination
+> address would only lead to write into that memory -- instead of a
+> write into some other address.
+> 
+> Changing this to some hard-coded address (any suggestions?) can be a
+> subsequent patch.
 
-wlroots delegates setting the gamma table to a privileged client, to allow
-users to set it to whatever they want. Use-cases include setting the color
-temperature and setting the brightness. wlroots doesn't support ICC profile=
-s
-(and I don't know of a client setting the gamma LUT from an ICC profile).
+The idea was taking the address from the host controller inbound window
+(ie an address outside the dma-ranges ~(dma-ranges) and < 4GB), it
+should not matter which one. I agree though that this can be a
+subsequent patch even though usually we send for -rc* only fixes for
+patches that hit the previous merge window - this seems a quite
+longstanding (I traced it back to v3.16) one so it would wait till
+v5.12, there is time to refactor it.
 
-> In any case, there's limited support there for color management.
-
-That's correct.
-
-> Inputs would be appreciated on this, for instance with feedback on how
-> X.org and Android handle color management, on how 3D LUTs are
-> implemented on other platforms, or in general on how we would like to
-> use them. I don't mind doing some work in userspace to prototype this,
-> but I won't have the bandwidth to design a completely new framework.
-
-Weston is working on improving color management support [1] [2]. I think it=
-'s
-still a little early, but maybe see with Pekka if something can be worked o=
-ut?
-
-Other than that, maybe some media players have support for some color
-management and would need to blend in multiple buffers and standardize
-protocols. Maybe look into Kodi or mpv?
-
-Simon
-
-[1]: https://www.collabora.com/news-and-blog/blog/2020/11/19/developing-way=
-land-color-management-and-high-dynamic-range/
-[2]: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_reque=
-sts/14
+Thanks,
+Lorenzo
