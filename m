@@ -2,82 +2,210 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 881A42DFD0B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 15:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38E0D2DFD95
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 16:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbgLUOwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 09:52:32 -0500
-Received: from www.zeus03.de ([194.117.254.33]:56342 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726848AbgLUOwc (ORCPT
+        id S1725777AbgLUPbA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 10:31:00 -0500
+Received: from lists.levonline.com ([217.70.33.37]:48935 "EHLO
+        lists.levonline.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgLUPbA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Dec 2020 09:52:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=vJdxuZga1Antqxavromd5prZHeSB
-        Nup8FYJ2dVFwB9E=; b=FUltQ97tb2G9LffXGwsaxjArZQPENGj2MOguniUtH+5Q
-        Oxvq9AlC5+WF0TiQbKu0J7OhZqtNB+KpgLUA+skCgYBgouqTBLvF0mtlLt87OCEk
-        PvHsdpjqRsRVQWpV4LAVjmUWIOtb0wLxc9jZSMLPizeWjk4QYxky9Xie1x5Td9A=
-Received: (qmail 537972 invoked from network); 21 Dec 2020 15:51:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Dec 2020 15:51:49 +0100
-X-UD-Smtp-Session: l3s3148p1@KWcAmfq2tskgAwDPXwIpAOUwDQytQs2L
-Date:   Mon, 21 Dec 2020 15:51:48 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Mon, 21 Dec 2020 10:31:00 -0500
+X-Greylist: delayed 367 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Dec 2020 10:30:59 EST
+Received: from exc-halon1.levonline.com (exc-halon1.levonline.com [217.70.32.123])
+        by lists.levonline.com (Postfix) with ESMTP id 028733A0E02
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 21 Dec 2020 16:19:07 +0100 (CET)
+X-SA-score: -1
+X-Halon-ID: 8fdbd16c-43a0-11eb-821e-0050568168d4
+Received: from ormen1.djurnet.levonline.com (ormen1.djurnet.levonline.com [192.168.17.31])
+        by exc-halon1.levonline.com (Halon) with ESMTPS
+        id 8fdbd16c-43a0-11eb-821e-0050568168d4;
+        Mon, 21 Dec 2020 16:24:05 +0100 (CET)
+Received: from [127.0.0.1] (s214090.ppp.asahi-net.or.jp [220.157.214.90])
+        (authenticated bits=0)
+        by ormen1.djurnet.levonline.com (8.13.8/8.13.8) with ESMTP id 0BLFO2Rd027361;
+        Mon, 21 Dec 2020 16:24:03 +0100
+X-Origin-Levonline: b0359001
+From:   Magnus Damm <damm@opensource.se>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] arm64: dts: renesas: r8a779a0: Add RWDT node
-Message-ID: <20201221145148.GA2585@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
- <20201218173731.12839-4-wsa+renesas@sang-engineering.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
-Content-Disposition: inline
-In-Reply-To: <20201218173731.12839-4-wsa+renesas@sang-engineering.com>
+Cc:     Magnus Damm <damm@opensource.se>
+Date:   Mon, 21 Dec 2020 23:56:49 +0900
+Message-Id: <160856260968.18420.18181463640865928753.sendpatchset@octo>
+Subject: [PATCH] r8a77965 CMT test setup using UIO
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Magnus Damm <damm+renesas@opensource.se>
 
---FCuugMFkClbJLl1L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch contains kernel modificatons to allow some basic testing from
+user space of the CMT0 device included on the r8a77965 SoC.
 
+Not suitable for upstream merge. No attempt has been made to turn this into
+somewhat clean code, so consider this a rough hack. The patch is a combination
+of the following:
+ - Device Tree modifications to expose CMT0 via UIO
+ - code to add UIO driver debug code
+ - adjustment for the compat string matching in MODULE_DEVICE_TABLE()
 
-> +			reg = <0 0xe6020000 0 0x0c>;
+As Geert kindly pointed out there might be better ways to do this.
 
-I just understood that we sort by reg value and not by name. So, this
-needs to be moved to another place then.
+For the kernel, simply apply the kernel patch (including a few debug printouts)
+and make sure to extend your kernel config with CONFIG_UIO_PDRV_GENIRQ=y.
 
+The code in this patch is similar to earlier posted series but has been
+ported from r8a77965 to r8a77961.
 
+[PATCH 0/2] r8a77961 CMT test setup using UIO
+[PATCH 1/2] r8a77961 CMT0 device exposed via UIO
+[PATCH 2/2] UIO CMT test program
 
---FCuugMFkClbJLl1L
-Content-Type: application/pgp-signature; name="signature.asc"
+The most tricky challenge was to trim down the kernel size to be able to
+boot with the old boot loader. The user space UIO test app remains the same
+as for r8a77961 and can be located in the mailing list archives.
 
------BEGIN PGP SIGNATURE-----
+The following log shows how to execute the test program once on the target:
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/gtoAACgkQFA3kzBSg
-KbYzkQ//XyZ5EqE1iTWBixhRqcLIJc451x45aLhPSeuRU5+fp3sDUkHcRf9xsXmz
-jxCzxyz0+ZEKVDeSX28Ye8CTYmlXf5XtMRLlGJ7RTsgAUudycijKWfgBhF3kOB8f
-c1UftJyyovz6XCTyeoRxSnSDL2jpFG+kUX0l3ELfaLOqyw8n2SRezOmszq6fU4W+
-3kCpZrnfVi4IuDTpsAlYIY4O0wjDpiIa+yt0Hf3jbKYxM0bnkXMgFsvZLYDqtRQh
-axiXpj0YDSJa6e03RVDCKXBeRxcn+v0Tjbw2LSkKPySZ8hQ++c9p2vCyUdE9n2mJ
-Oqbx3up5kwoROyukMx8agMTzhd/meLRNCplIWcTs6yfAnd8S/YilqhdaVsUrruGG
-T9s/W3y4W6RzAq3xLhngxOtzpYW5d2VhKflo9rPHVXkph5MPi7OMu0+v7vtda+rc
-tN1wtQynAPHxleI8X2xFGu5Xbsh2QKvct82MoLMPdP2OY+DgrUfXsYmBZWF2KetT
-DWRkceD0G0sYHUrZDGl6i460hDZxH75D2HbEyAV18/JhgMotQWzcSwdhHs993qTw
-n0NyB8obOoD/81jCCWZkrboLocV22/ohpgArCQFwJt6ote/MTR+wndDLrvnqIzoR
-qg+JCXDw8++VNYSI46VwSzL7jMg07CQy9nN27UN5yGSQn2xqZnw=
-=sReO
------END PGP SIGNATURE-----
+# ./uio-cmt-test
+found matching UIO device at /sys/class/uio/uio0/
+CLKE
+CMCSR
+CMCOR
+[  227.228333] irqhandler 24
+waiting 10sUIO write
+CLKE
+UIO read
+got CMT IRQ
+CLKE
 
---FCuugMFkClbJLl1L--
+Please note that only a few registers of a single channel of the CMT0 device
+has been exercised. The kernel debug printout and /proc/interrupts may be
+used to verify that at least one interrupt has been delivered.
+
+One limitation with the current setup is that the UIO kernel driver only
+supports a single interrupt however the CMT devices come with one interrupt
+per channel on R-Car Gen3. Currently the code only uses a single IRQ.
+
+If it turns out that the current test coverage should be extended then perhaps
+it would be wise to also extend the UIO kernel driver with support for multiple
+interrupts as well. To maintain the same user space interface the UIO driver
+can simply have a list of interrupts associated with each device and then
+enable/disable all of them on each IRQ. Not fast but good enough for testing.
+
+Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+---
+
+ Built on top of renesas-drivers-2020-12-15-v5.10
+ Testing has been performed remotely on r8a77965 Salvator-X.
+
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi |   23 ++++++++++-------------
+ drivers/uio/uio.c                         |    3 ++-
+ drivers/uio/uio_pdrv_genirq.c             |   10 ++++++++--
+ 3 files changed, 20 insertions(+), 16 deletions(-)
+
+--- 0001/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ work/arch/arm64/boot/dts/renesas/r8a77965.dtsi	2020-12-21 22:20:47.036998593 +0900
+@@ -334,19 +334,6 @@
+ 			reg = <0 0xe6060000 0 0x50c>;
+ 		};
+ 
+-		cmt0: timer@e60f0000 {
+-			compatible = "renesas,r8a77965-cmt0",
+-				     "renesas,rcar-gen3-cmt0";
+-			reg = <0 0xe60f0000 0 0x1004>;
+-			interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
+-				     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 303>;
+-			clock-names = "fck";
+-			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+-			resets = <&cpg 303>;
+-			status = "disabled";
+-		};
+-
+ 		cmt1: timer@e6130000 {
+ 			compatible = "renesas,r8a77965-cmt1",
+ 				     "renesas,rcar-gen3-cmt1";
+@@ -414,6 +401,16 @@
+ 			#reset-cells = <1>;
+ 		};
+ 
++		cmt0: timer@e60f0000 {
++			compatible = "uio_pdrv_genirq";
++			reg = <0 0xe60f0000 0 0x1004>;
++			interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 303>;
++			clock-names = "fck";
++			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
++			resets = <&cpg 303>;
++		};
++
+ 		rst: reset-controller@e6160000 {
+ 			compatible = "renesas,r8a77965-rst";
+ 			reg = <0 0xe6160000 0 0x0200>;
+--- 0001/drivers/uio/uio.c
++++ work/drivers/uio/uio.c	2020-12-21 22:16:51.680983772 +0900
+@@ -11,7 +11,7 @@
+  *
+  * Base Functions
+  */
+-
++#define DEBUG
+ #include <linux/module.h>
+ #include <linux/init.h>
+ #include <linux/poll.h>
+@@ -975,6 +975,7 @@ int __uio_register_device(struct module
+ 		 * FDs at the time of unregister and therefore may not be
+ 		 * freed until they are released.
+ 		 */
++		pr_debug("uio request_irq %lu\n", info->irq);
+ 		ret = request_irq(info->irq, uio_interrupt,
+ 				  info->irq_flags, info->name, idev);
+ 		if (ret) {
+--- 0001/drivers/uio/uio_pdrv_genirq.c
++++ work/drivers/uio/uio_pdrv_genirq.c	2020-12-21 22:16:51.680983772 +0900
+@@ -10,7 +10,7 @@
+  * Copyright (C) 2008 by Digi International Inc.
+  * All rights reserved.
+  */
+-
++#define DEBUG
+ #include <linux/platform_device.h>
+ #include <linux/uio_driver.h>
+ #include <linux/spinlock.h>
+@@ -66,6 +66,8 @@ static irqreturn_t uio_pdrv_genirq_handl
+ 	 * remember the state so we can allow user space to enable it later.
+ 	 */
+ 
++	pr_debug("irqhandler %d\n", irq);
++
+ 	spin_lock(&priv->lock);
+ 	if (!__test_and_set_bit(UIO_IRQ_DISABLED, &priv->flags))
+ 		disable_irq_nosync(irq);
+@@ -87,6 +89,8 @@ static int uio_pdrv_genirq_irqcontrol(st
+ 	 * with irq handler on SMP systems.
+ 	 */
+ 
++	pr_debug("irqcontrol %d\n", irq_on);
++	
+ 	spin_lock_irqsave(&priv->lock, flags);
+ 	if (irq_on) {
+ 		if (__test_and_clear_bit(UIO_IRQ_DISABLED, &priv->flags))
+@@ -172,6 +176,8 @@ static int uio_pdrv_genirq_probe(struct
+ 		}
+ 	}
+ 
++	pr_debug("uio irq %lu\n", uioinfo->irq);
++	
+ 	if (uioinfo->irq) {
+ 		struct irq_data *irq_data = irq_get_irq_data(uioinfo->irq);
+ 
+@@ -276,7 +282,7 @@ static const struct dev_pm_ops uio_pdrv_
+ 
+ #ifdef CONFIG_OF
+ static struct of_device_id uio_of_genirq_match[] = {
+-	{ /* This is filled with module_parm */ },
++	{ .compatible = "uio_pdrv_genirq", },
+ 	{ /* Sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, uio_of_genirq_match);
