@@ -2,167 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 336042DFC9E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 15:14:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 881A42DFD0B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Dec 2020 15:52:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbgLUOOo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 21 Dec 2020 09:14:44 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34452 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726746AbgLUOOo (ORCPT
+        id S1726949AbgLUOwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 21 Dec 2020 09:52:32 -0500
+Received: from www.zeus03.de ([194.117.254.33]:56342 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726848AbgLUOwc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 21 Dec 2020 09:14:44 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D55E32CF;
-        Mon, 21 Dec 2020 15:14:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608560041;
-        bh=TbFQUxaND4DuQPEAu5NwsHmGCkeKDusSnY7GvmZqCv4=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=JlDi3IcS4ztbOVcsSE2jI/OSpvQCxRRh8WqHcsaebKrJdzOo92VEnKng/7F5kY18f
-         /F3Uyv0HEyk+0PR1PE7Uy5kioiVBxDPTMeaivtoZcwGnbW3kkC4qgZw6pmXVo/PubA
-         22wyFlHM0cU196r8IJnkcGyQ+5MvPjrotkiU37r4=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 4/4] drm: rcar-du: kms: Configure the CLU
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201221015730.28333-5-laurent.pinchart+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
- V/zwz6hiDrZuHUACDB7X8OaQcwhLaVlq6byfoBr25+hbZG7G3+5EUl9cQ7dQEdvNj6V6y/SC
- rRanWfelwQThCHckbobWiQJfK9n7rYNcPMq9B8e9F020LFH7Kj6YmO95ewJGgLm+idg1Kb3C
- potzWkXc1xmPzcQ1fvQMOfMwdS+4SNw4rY9f07Xb2K99rjMwZVDgESKIzhsDB5GY465sCsiQ
- cSAZRxqE49RTBq2+EQsbrQpIc8XiffAB8qexh5/QPzCmR4kJgCGeHIXBtgRj+nIkCJPZvZtf
- Kr2EAbc6tgg6DkAEHJb+1okosV09+0+TXywYvtEop/WUOWQ+zo+Y/OBd+8Ptgt1pDRyOBzL8
- RXa8ZqRf0Mwg75D+dKntZeJHzPRJyrlfQokngAAs4PaFt6UfS+ypMAF37T6CeDArQC41V3ko
- lPn1yMsVD0p+6i3DPvA/GPIksDC4owjnzVX9kM8Zc5Cx+XoAN0w5Eqo4t6qEVbuettxx55gq
- 8K8FieAjgjMSxngo/HST8TpFeqI5nVeq0/lqtBRQKumuIqDg+Bkr4L1V/PSB6XgQcOdhtd36
- Oe9X9dXB8YSNt7VjOcO7BTmFn/Z8r92mSAfHXpb07YJWJosQOQARAQABtDBLaWVyYW4gQmlu
- Z2hhbSA8a2llcmFuLmJpbmdoYW1AaWRlYXNvbmJvYXJkLmNvbT6JAlcEEwEKAEECGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4ACGQEWIQSQLdeYP70o/eNy1HqhHkZyEKRh/QUCXWTtygUJ
- CyJXZAAKCRChHkZyEKRh/f8dEACTDsbLN2nioNZMwyLuQRUAFcXNolDX48xcUXsWS2QjxaPm
- VsJx8Uy8aYkS85mdPBh0C83OovQR/OVbr8AxhGvYqBs3nQvbWuTl/+4od7DfK2VZOoKBAu5S
- QK2FYuUcikDqYcFWJ8DQnubxfE8dvzojHEkXw0sA4igINHDDFX3HJGZtLio+WpEFQtCbfTAG
- YZslasz1YZRbwEdSsmO3/kqy5eMnczlm8a21A3fKUo3g8oAZEFM+f4DUNzqIltg31OAB/kZS
- enKZQ/SWC8PmLg/ZXBrReYakxXtkP6w3FwMlzOlhGxqhIRNiAJfXJBaRhuUWzPOpEDE9q5YJ
- BmqQL2WJm1VSNNVxbXJHpaWMH1sA2R00vmvRrPXGwyIO0IPYeUYQa3gsy6k+En/aMQJd27dp
- aScf9am9PFICPY5T4ppneeJLif2lyLojo0mcHOV+uyrds9XkLpp14GfTkeKPdPMrLLTsHRfH
- fA4I4OBpRrEPiGIZB/0im98MkGY/Mu6qxeZmYLCcgD6qz4idOvfgVOrNh+aA8HzIVR+RMW8H
- QGBN9f0E3kfwxuhl3omo6V7lDw8XOdmuWZNC9zPq1UfryVHANYbLGz9KJ4Aw6M+OgBC2JpkD
- hXMdHUkC+d20dwXrwHTlrJi1YNp6rBc+xald3wsUPOZ5z8moTHUX/uPA/qhGsbkCDQRWBP1m
- ARAAzijkb+Sau4hAncr1JjOY+KyFEdUNxRy+hqTJdJfaYihxyaj0Ee0P0zEi35CbE6lgU0Uz
- tih9fiUbSV3wfsWqg1Ut3/5rTKu7kLFp15kF7eqvV4uezXRD3Qu4yjv/rMmEJbbD4cTvGCYI
- d6MDC417f7vK3hCbCVIZSp3GXxyC1LU+UQr3fFcOyCwmP9vDUR9JV0BSqHHxRDdpUXE26Dk6
- mhf0V1YkspE5St814ETXpEus2urZE5yJIUROlWPIL+hm3NEWfAP06vsQUyLvr/GtbOT79vXl
- En1aulcYyu20dRRxhkQ6iILaURcxIAVJJKPi8dsoMnS8pB0QW12AHWuirPF0g6DiuUfPmrA5
- PKe56IGlpkjc8cO51lIxHkWTpCMWigRdPDexKX+Sb+W9QWK/0JjIc4t3KBaiG8O4yRX8ml2R
- +rxfAVKM6V769P/hWoRGdgUMgYHFpHGSgEt80OKK5HeUPy2cngDUXzwrqiM5Sz6Od0qw5pCk
- NlXqI0W/who0iSVM+8+RmyY0OEkxEcci7rRLsGnM15B5PjLJjh1f2ULYkv8s4SnDwMZ/kE04
- /UqCMK/KnX8pwXEMCjz0h6qWNpGwJ0/tYIgQJZh6bqkvBrDogAvuhf60Sogw+mH8b+PBlx1L
- oeTK396wc+4c3BfiC6pNtUS5GpsPMMjYMk7kVvEAEQEAAYkCPAQYAQoAJgIbDBYhBJAt15g/
- vSj943LUeqEeRnIQpGH9BQJdizzIBQkLSKZiAAoJEKEeRnIQpGH9eYgQAJpjaWNgqNOnMTmD
- MJggbwjIotypzIXfhHNCeTkG7+qCDlSaBPclcPGYrTwCt0YWPU2TgGgJrVhYT20ierN8LUvj
- 6qOPTd+Uk7NFzL65qkh80ZKNBFddx1AabQpSVQKbdcLb8OFs85kuSvFdgqZwgxA1vl4TFhNz
- PZ79NAmXLackAx3sOVFhk4WQaKRshCB7cSl+RIng5S/ThOBlwNlcKG7j7W2MC06BlTbdEkUp
- ECzuuRBv8wX4OQl+hbWbB/VKIx5HKlLu1eypen/5lNVzSqMMIYkkZcjV2SWQyUGxSwq0O/sx
- S0A8/atCHUXOboUsn54qdxrVDaK+6jIAuo8JiRWctP16KjzUM7MO0/+4zllM8EY57rXrj48j
- sbEYX0YQnzaj+jO6kJtoZsIaYR7rMMq9aUAjyiaEZpmP1qF/2sYenDx0Fg2BSlLvLvXM0vU8
- pQk3kgDu7kb/7PRYrZvBsr21EIQoIjXbZxDz/o7z95frkP71EaICttZ6k9q5oxxA5WC6sTXc
- MW8zs8avFNuA9VpXt0YupJd2ijtZy2mpZNG02fFVXhIn4G807G7+9mhuC4XG5rKlBBUXTvPU
- AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <6da58b9e-02e8-b77d-deff-8257924604fb@ideasonboard.com>
-Date:   Mon, 21 Dec 2020 14:13:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 21 Dec 2020 09:52:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=vJdxuZga1Antqxavromd5prZHeSB
+        Nup8FYJ2dVFwB9E=; b=FUltQ97tb2G9LffXGwsaxjArZQPENGj2MOguniUtH+5Q
+        Oxvq9AlC5+WF0TiQbKu0J7OhZqtNB+KpgLUA+skCgYBgouqTBLvF0mtlLt87OCEk
+        PvHsdpjqRsRVQWpV4LAVjmUWIOtb0wLxc9jZSMLPizeWjk4QYxky9Xie1x5Td9A=
+Received: (qmail 537972 invoked from network); 21 Dec 2020 15:51:49 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Dec 2020 15:51:49 +0100
+X-UD-Smtp-Session: l3s3148p1@KWcAmfq2tskgAwDPXwIpAOUwDQytQs2L
+Date:   Mon, 21 Dec 2020 15:51:48 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] arm64: dts: renesas: r8a779a0: Add RWDT node
+Message-ID: <20201221145148.GA2585@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
+ <20201218173731.12839-4-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-In-Reply-To: <20201221015730.28333-5-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
+In-Reply-To: <20201218173731.12839-4-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
 
-On 21/12/2020 01:57, Laurent Pinchart wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Link the DRM 3D-CLU configuration to the CMM setup configuration.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-And for the updates from my original patch (variable rename, and
-property blob rework, and that ... obvious bug ... from my patch that's
-now obviously gone :-D ...)
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> +			reg = <0 0xe6020000 0 0x0c>;
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 23 ++++++++++++++++++-----
->  1 file changed, 18 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 426b1870b3cb..5c77017084ed 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -484,19 +484,23 @@ static int rcar_du_cmm_check(struct drm_crtc *crtc,
->  			     struct drm_crtc_state *state)
->  {
->  	struct drm_property_blob *drm_lut = state->gamma_lut;
-> +	struct drm_property_blob *drm_clu = state->cubic_lut;
->  	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
->  	struct device *dev = rcrtc->dev->dev;
->  
-> -	if (!drm_lut)
-> -		return 0;
-> -
-> -	/* We only accept fully populated LUT tables. */
-> -	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
-> +	/* We only accept fully populated LUTs. */
-> +	if (drm_lut && drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
->  		dev_err(dev, "invalid gamma lut size: %zu bytes\n",
->  			drm_lut->length);
->  		return -EINVAL;
->  	}
->  
-> +	if (drm_clu && drm_color_lut_size(drm_clu) != CM2_CLU_SIZE) {
-> +		dev_err(dev, "invalid cubic lut size: %zu bytes\n",
-> +			drm_clu->length);
-> +		return -EINVAL;
-> +	}
-> +
->  	return 0;
->  }
->  
-> @@ -518,6 +522,15 @@ static void rcar_du_cmm_setup(struct rcar_du_crtc *rcrtc,
->  				     ? new_state->gamma_lut->data : NULL;
->  	}
->  
-> +	if (!old_state ||
-> +	    !old_state->cubic_lut != !new_state->cubic_lut ||
-> +	    (old_state->cubic_lut && new_state->cubic_lut &&
-> +	     old_state->cubic_lut->base.id != new_state->cubic_lut->base.id)) {
-> +		cmm_config.clu.update = true;
-> +		cmm_config.clu.table = new_state->cubic_lut
-> +				     ? new_state->cubic_lut->data : NULL;
-> +	}
-> +
->  	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
->  }
->  
-> 
+I just understood that we sort by reg value and not by name. So, this
+needs to be moved to another place then.
 
--- 
-Regards
---
-Kieran
+
+
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/gtoAACgkQFA3kzBSg
+KbYzkQ//XyZ5EqE1iTWBixhRqcLIJc451x45aLhPSeuRU5+fp3sDUkHcRf9xsXmz
+jxCzxyz0+ZEKVDeSX28Ye8CTYmlXf5XtMRLlGJ7RTsgAUudycijKWfgBhF3kOB8f
+c1UftJyyovz6XCTyeoRxSnSDL2jpFG+kUX0l3ELfaLOqyw8n2SRezOmszq6fU4W+
+3kCpZrnfVi4IuDTpsAlYIY4O0wjDpiIa+yt0Hf3jbKYxM0bnkXMgFsvZLYDqtRQh
+axiXpj0YDSJa6e03RVDCKXBeRxcn+v0Tjbw2LSkKPySZ8hQ++c9p2vCyUdE9n2mJ
+Oqbx3up5kwoROyukMx8agMTzhd/meLRNCplIWcTs6yfAnd8S/YilqhdaVsUrruGG
+T9s/W3y4W6RzAq3xLhngxOtzpYW5d2VhKflo9rPHVXkph5MPi7OMu0+v7vtda+rc
+tN1wtQynAPHxleI8X2xFGu5Xbsh2QKvct82MoLMPdP2OY+DgrUfXsYmBZWF2KetT
+DWRkceD0G0sYHUrZDGl6i460hDZxH75D2HbEyAV18/JhgMotQWzcSwdhHs993qTw
+n0NyB8obOoD/81jCCWZkrboLocV22/ohpgArCQFwJt6ote/MTR+wndDLrvnqIzoR
+qg+JCXDw8++VNYSI46VwSzL7jMg07CQy9nN27UN5yGSQn2xqZnw=
+=sReO
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
