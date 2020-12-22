@@ -2,122 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 565842E0739
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 09:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CE22E075E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 09:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725783AbgLVIch (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Dec 2020 03:32:37 -0500
-Received: from mail-oo1-f41.google.com ([209.85.161.41]:45398 "EHLO
-        mail-oo1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbgLVIch (ORCPT
+        id S1725865AbgLVImb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Dec 2020 03:42:31 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:35420 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbgLVIma (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Dec 2020 03:32:37 -0500
-Received: by mail-oo1-f41.google.com with SMTP id o5so2783333oop.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Dec 2020 00:32:21 -0800 (PST)
+        Tue, 22 Dec 2020 03:42:30 -0500
+Received: by mail-ot1-f43.google.com with SMTP id i6so11318408otr.2;
+        Tue, 22 Dec 2020 00:42:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oGMcArsZy5KaSvWQoTWjJD5CpvFTEbbVMky0I6E13Os=;
-        b=Fg3Ov0YmSre6me23d2uroOCgHADGJJQTBNPUfKa9LxNnS1c4F7h2zPlyuFA+5Jz/qI
-         uWuEk6hLkWU9X7Ybz49nwoaqpUnmL9PTkFY1RmHBe3JCTyGaib5/DXxKop3SYISFJ0zU
-         C3ViaSSj86V0r58pptOQ5JIQ4zYJXQ5HLXezeOY2pw8xQ0bdX3kSyopuwVA+j9y7EwAY
-         G4emNmpjScJ38YxWf/LaqMTJ+S/LRPfDycxQDKjI5Wkin0DP+hPVpMng4iDWX1hsllzC
-         LL8JyTGue9dKr0SRoUtHKZppf8zp5wL+CMMz2ySlE6VKDRRMMH8STqOh1xWxsoAXI5cj
-         655g==
-X-Gm-Message-State: AOAM532scme0BPmIsG1p/s9J68U0KBrcT3wfmdHOtMmBLiXv1cQK/v+4
-        tb/LIgQ50vVjSr7elhYu5sTqWBBLRsawP/FU+KHPV7vYGIA=
-X-Google-Smtp-Source: ABdhPJw2dkGszXolXBXNKiVWLms6lI1wM4lmyhYIOdB13oE4ufFRNOvnmN4019I9uuSJ29OJLSMSORnSCTewDNR7EeQ=
-X-Received: by 2002:a4a:c191:: with SMTP id w17mr14315187oop.1.1608625916491;
- Tue, 22 Dec 2020 00:31:56 -0800 (PST)
+        bh=1XpA44/7GWmNDj0l2VSHEVXeX5TKQoGtwuhl2k5PB7A=;
+        b=pjSlf/wF57sd9J74qbgnYSqrktOranfqT2GyBqh6GbZfrVw64hq89W5IGJQr4NPqst
+         X2t93fgKP2LdUx84fxCRjTRXEp5xT/Q1yIGa5nDmhEBy1FN1Omd3HEwDvOejbtAWMP3R
+         fh9ZOOCM9BIgeSkvzs2K1sdj7H6TokNcIh/bU42UWIxyEV24kago/xl4IhjAl9RB8SIm
+         COid/OyiDz3DkuNS9hs7yiKi3HzoVGF9YTDFpNqG+migsZr2lvy3VskP7iE0gxA1tbli
+         /hNYI4RRFDe7d9LMO6Nhs+fCtXqgPbPNW0XZEE/bBwkZ8JQoNeJjRadhWh6ltUfocE8M
+         0rag==
+X-Gm-Message-State: AOAM533WPH23wjyNzuPyuB5RC3b7o3YBNZGl1+5mC9fu5y/LaNOk+C+a
+        oLhmG2e6oxex/qx3D5Wlh/FJXf/G3wxeDk4Nv18=
+X-Google-Smtp-Source: ABdhPJwfiqOFSMZaFM8xBA2rS/jPzI8V4/5BltfMeSJZ46PzfvHc0PCC/KyWC/Rc5mvl6W7Bv/Ym6GJXKZG8z/nVquk=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr14987627oth.250.1608626509823;
+ Tue, 22 Dec 2020 00:41:49 -0800 (PST)
 MIME-Version: 1.0
-References: <160856260968.18420.18181463640865928753.sendpatchset@octo>
-In-Reply-To: <160856260968.18420.18181463640865928753.sendpatchset@octo>
+References: <1608519279-13341-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608519279-13341-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608519279-13341-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 22 Dec 2020 09:31:45 +0100
-Message-ID: <CAMuHMdXitUvZXgfensfWo0BnFZ681MTcRRm3kvrEoOKStdt6JQ@mail.gmail.com>
-Subject: Re: [PATCH] r8a77965 CMT test setup using UIO
-To:     Magnus Damm <damm@opensource.se>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 22 Dec 2020 09:41:38 +0100
+Message-ID: <CAMuHMdXp8cuO8ppNbDTmt4aovDCvC9EG23NHoZNAZK5Y0eD4Ww@mail.gmail.com>
+Subject: Re: [PATCH v4 01/12] mfd: bd9571mwv: Use devm_mfd_add_devices()
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
+        linux-power <linux-power@fi.rohmeurope.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Magnus,
+On Mon, Dec 21, 2020 at 3:57 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> To remove mfd devices when unload this driver, should use
+> devm_mfd_add_devices() instead.
+>
+> Fixes: d3ea21272094 ("mfd: Add ROHM BD9571MWV-M MFD PMIC driver")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
-Thanks for your patch!
-
-On Mon, Dec 21, 2020 at 4:31 PM Magnus Damm <damm@opensource.se> wrote:
-> From: Magnus Damm <damm+renesas@opensource.se>
->
-> This patch contains kernel modificatons to allow some basic testing from
-> user space of the CMT0 device included on the r8a77965 SoC.
->
-> Not suitable for upstream merge. No attempt has been made to turn this into
-> somewhat clean code, so consider this a rough hack. The patch is a combination
-> of the following:
->  - Device Tree modifications to expose CMT0 via UIO
->  - code to add UIO driver debug code
->  - adjustment for the compat string matching in MODULE_DEVICE_TABLE()
->
-> As Geert kindly pointed out there might be better ways to do this.
->
-> For the kernel, simply apply the kernel patch (including a few debug printouts)
-> and make sure to extend your kernel config with CONFIG_UIO_PDRV_GENIRQ=y.
->
-> The code in this patch is similar to earlier posted series but has been
-> ported from r8a77965 to r8a77961.
->
-> [PATCH 0/2] r8a77961 CMT test setup using UIO
-> [PATCH 1/2] r8a77961 CMT0 device exposed via UIO
-> [PATCH 2/2] UIO CMT test program
->
-> The most tricky challenge was to trim down the kernel size to be able to
-> boot with the old boot loader. The user space UIO test app remains the same
-> as for r8a77961 and can be located in the mailing list archives.
-
-Does the size issue go away if you load the Image at 0x60000000 and the
-DTB at 0x68000000? That works for me on R-Car H3 ES1.0.
-
-> --- 0001/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> +++ work/arch/arm64/boot/dts/renesas/r8a77965.dtsi      2020-12-21 22:20:47.036998593 +0900
-> @@ -334,19 +334,6 @@
->                         reg = <0 0xe6060000 0 0x50c>;
->                 };
->
-> -               cmt0: timer@e60f0000 {
-> -                       compatible = "renesas,r8a77965-cmt0",
-> -                                    "renesas,rcar-gen3-cmt0";
-> -                       reg = <0 0xe60f0000 0 0x1004>;
-> -                       interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
-> -                                    <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>;
-> -                       clocks = <&cpg CPG_MOD 303>;
-> -                       clock-names = "fck";
-> -                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> -                       resets = <&cpg 303>;
-> -                       status = "disabled";
-> -               };
-> -
->                 cmt1: timer@e6130000 {
->                         compatible = "renesas,r8a77965-cmt1",
->                                      "renesas,rcar-gen3-cmt1";
-> @@ -414,6 +401,16 @@
->                         #reset-cells = <1>;
->                 };
->
-> +               cmt0: timer@e60f0000 {
-> +                       compatible = "uio_pdrv_genirq";
-> +                       reg = <0 0xe60f0000 0 0x1004>;
-> +                       interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 303>;
-> +                       clock-names = "fck";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 303>;
-> +               };
-
-Why move the node?
-This would be easier to review if you wouldn't move the node.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
