@@ -2,293 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23CE32E0703
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 09:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBB7F2E0707
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 22 Dec 2020 09:04:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726032AbgLVIBe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Dec 2020 03:01:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36488 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgLVIBe (ORCPT
+        id S1725913AbgLVIEH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Dec 2020 03:04:07 -0500
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:37985 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725807AbgLVIEH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Dec 2020 03:01:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D594BC0613D3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 22 Dec 2020 00:00:53 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 126CD9E6;
-        Tue, 22 Dec 2020 09:00:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608624049;
-        bh=f4p1sTgTeSn5RUZSdIdiOkY5TNMxG220XY3YDtPDBgA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vETe9187zY4wCofRJJjRC6VGyLRwf5h1biR+3ngYzgsXlEsWAUUVwbHVcE3MWzqRU
-         ThEZ5X8EnfYpcNLFlfOeBiOpgy/PHmfDrLiODJKFThixIoXGYZlWbNKcmOyYkvyLQk
-         y1KZjN8l4QtF7VTwd5rmRgqnd6tUTKYZelekiIcs=
-Date:   Tue, 22 Dec 2020 10:00:41 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH 3/4] drm: Extend color correction to support 3D-CLU
-Message-ID: <X+GnqZFEXFiBLoGM@pendragon.ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201221015730.28333-4-laurent.pinchart+renesas@ideasonboard.com>
- <313e23d9-ef9e-794c-0be5-f92ec94c9139@ideasonboard.com>
+        Tue, 22 Dec 2020 03:04:07 -0500
+Received: by mail-oi1-f178.google.com with SMTP id x13so13981630oic.5;
+        Tue, 22 Dec 2020 00:03:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TU6Z+p8rj7hNy0WqWgXcrf5QYAgxuq/VfyW2F/dym7w=;
+        b=Hhzq+EZqd216/xREV5Hvt18pANFBNDVE9bAd4IcAWzwD5ZklTyShx6DFhrwK0WxRSz
+         Nv74pR3TMO26d9d+fi3ru9SC/EAMzxcwHYVNbt9uWr/c8MkrALmst5G3uiYqkLs+9R8s
+         MsHl7JpeoI/x2Kf8P/Ldx6H1kKohz6SJkWM7A3c4SZbaNAFdYEZzHIBGr4wgE+hcuAmz
+         gt8k9FE0eJ5E54AXIDZ7qy6M2dbZ0F5zAQEyKk6S41NGRYXlGj8tzhVEFnfefYMWDDqj
+         TNiWrQd70ImF+5ykIK1wbCwK8LFUSM6JwUN6MHqxzPCiwJRLfc6qeWXnZW29tubgqvVW
+         t/ww==
+X-Gm-Message-State: AOAM531rBYTEMS9dF5PQabmonsJAF2M8gYFkjt1Dd4nvDQfILKaXvAc4
+        KeybH5ZFsASgPS/clHothdpPmW+FJyJbKTC4w0s=
+X-Google-Smtp-Source: ABdhPJy8kwkFwEN0N8CEZzEhFn3lX9B9xGYYPTYwNy/KlTmu9ei9Wndk6t/Jx+35ngXCas3lYyW9leNojEeKzYk5UP0=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr13485908oih.153.1608624205483;
+ Tue, 22 Dec 2020 00:03:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <313e23d9-ef9e-794c-0be5-f92ec94c9139@ideasonboard.com>
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
+ <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com>
+ <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
+ <CAMuHMdWc=qD=Oqa-7o9K1bd_OM0L7Br8BVAbDvYNraO0wAX2jw@mail.gmail.com>
+ <CAHCN7xKsSgM+=MFOKpNZTsJJiNyx6_mqZL2g_PKhN5fWyE6y7Q@mail.gmail.com>
+ <CAMuHMdVxzcyVuK06BqE4GQPLE8J7V5Jc-W_RSENNxEQG68krCw@mail.gmail.com> <CAHCN7xJVn7gbCX8ibSFbyjA4HqyxPR9_vXvJQQSbJRKoaF_51Q@mail.gmail.com>
+In-Reply-To: <CAHCN7xJVn7gbCX8ibSFbyjA4HqyxPR9_vXvJQQSbJRKoaF_51Q@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 22 Dec 2020 09:03:14 +0100
+Message-ID: <CAMuHMdV0djkKTSHbCuv0d2sh+rGs1=WNNEcCNXE3daM8uAcRxw@mail.gmail.com>
+Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
+ programmable clocks
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Adam,
 
-On Mon, Dec 21, 2020 at 02:09:09PM +0000, Kieran Bingham wrote:
-> On 21/12/2020 01:57, Laurent Pinchart wrote:
-> > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > Extend the existing color management properties to support provision
-> > of a 3D cubic look up table, allowing for color specific adjustments.
-> > 
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Again, for the updates since I created the patch:
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> A bit of a question on clarifying the added documentation but I don't
-> think it's major.
-> 
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c       |  1 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c |  3 ++
-> >  drivers/gpu/drm/drm_atomic_uapi.c         | 10 ++++++
-> >  drivers/gpu/drm/drm_color_mgmt.c          | 41 +++++++++++++++++++----
-> >  drivers/gpu/drm/drm_mode_config.c         | 14 ++++++++
-> >  include/drm/drm_crtc.h                    |  9 +++++
-> >  include/drm/drm_mode_config.h             | 11 ++++++
-> >  7 files changed, 82 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index ba1507036f26..0f54897d3c8d 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -3558,6 +3558,7 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
-> >  	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
-> >  	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
-> >  	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
-> > +	replaced |= drm_property_replace_blob(&crtc_state->cubic_lut, NULL);
-> >  	crtc_state->color_mgmt_changed |= replaced;
-> >  
-> >  	ret = drm_atomic_commit(state);
-> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > index ddcf5c2c8e6a..61c685b50677 100644
-> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -141,6 +141,8 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
-> >  		drm_property_blob_get(state->ctm);
-> >  	if (state->gamma_lut)
-> >  		drm_property_blob_get(state->gamma_lut);
-> > +	if (state->cubic_lut)
-> > +		drm_property_blob_get(state->cubic_lut);
-> >  	state->mode_changed = false;
-> >  	state->active_changed = false;
-> >  	state->planes_changed = false;
-> > @@ -213,6 +215,7 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state)
-> >  	drm_property_blob_put(state->degamma_lut);
-> >  	drm_property_blob_put(state->ctm);
-> >  	drm_property_blob_put(state->gamma_lut);
-> > +	drm_property_blob_put(state->cubic_lut);
-> >  }
-> >  EXPORT_SYMBOL(__drm_atomic_helper_crtc_destroy_state);
-> >  
-> > diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> > index 268bb69c2e2f..07229acab71c 100644
-> > --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> > +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> > @@ -471,6 +471,14 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
-> >  					&replaced);
-> >  		state->color_mgmt_changed |= replaced;
-> >  		return ret;
-> > +	} else if (property == config->cubic_lut_property) {
-> > +		ret = drm_atomic_replace_property_blob_from_id(dev,
-> > +					&state->cubic_lut,
-> > +					val,
-> > +					-1, sizeof(struct drm_color_lut),
-> > +					&replaced);
-> > +		state->color_mgmt_changed |= replaced;
-> > +		return ret;
-> >  	} else if (property == config->prop_out_fence_ptr) {
-> >  		s32 __user *fence_ptr = u64_to_user_ptr(val);
-> >  
-> > @@ -516,6 +524,8 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
-> >  		*val = (state->ctm) ? state->ctm->base.id : 0;
-> >  	else if (property == config->gamma_lut_property)
-> >  		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
-> > +	else if (property == config->cubic_lut_property)
-> > +		*val = (state->cubic_lut) ? state->cubic_lut->base.id : 0;
-> >  	else if (property == config->prop_out_fence_ptr)
-> >  		*val = 0;
-> >  	else if (property == crtc->scaling_filter_property)
-> > diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> > index 3bcabc2f6e0e..85bbbc8ce8e5 100644
-> > --- a/drivers/gpu/drm/drm_color_mgmt.c
-> > +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> > @@ -33,7 +33,7 @@
-> >  /**
-> >   * DOC: overview
-> >   *
-> > - * Color management or color space adjustments is supported through a set of 5
-> > + * Color management or color space adjustments is supported through a set of 7
-> >   * properties on the &drm_crtc object. They are set up by calling
-> >   * drm_crtc_enable_color_mgmt().
-> >   *
-> > @@ -60,7 +60,7 @@
-> >   * “CTM”:
-> >   *	Blob property to set the current transformation matrix (CTM) apply to
-> >   *	pixel data after the lookup through the degamma LUT and before the
-> > - *	lookup through the gamma LUT. The data is interpreted as a struct
-> > + *	lookup through the cubic LUT. The data is interpreted as a struct
-> >   *	&drm_color_ctm.
-> >   *
-> >   *	Setting this to NULL (blob property value set to 0) means a
-> > @@ -68,13 +68,40 @@
-> >   *	boot-up state too. Drivers can access the blob for the color conversion
-> >   *	matrix through &drm_crtc_state.ctm.
-> >   *
-> > + * ”CUBIC_LUT”:
-> > + *	Blob property to set the cubic (3D) lookup table performing color
-> > + *	mapping after the transformation matrix and before the lookup through
-> > + *	the gamma LUT. Unlike the degamma and gamma LUTs that map color
-> > + *	components independently, the 3D LUT converts an input color to an
-> > + *	output color by indexing into the 3D table using the color components
-> > + *	as a 3D coordinate. The LUT is subsampled as 8-bit (or more) precision
-> > + *	would require too much storage space in the hardware, so the precision
-> 
-> This sentence is a bit confusing. What bit depth is actually used, is it
-> mandated to a specific subsampling? Or restricted to 8-bit....
+On Tue, Dec 22, 2020 at 2:39 AM Adam Ford <aford173@gmail.com> wrote:
+> On Fri, Dec 18, 2020 at 7:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Dec 17, 2020 at 12:52 PM Adam Ford <aford173@gmail.com> wrote:
+> > > On Thu, Dec 17, 2020 at 2:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Wed, Dec 16, 2020 at 6:03 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > > On Wed, Dec 16, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > > > > When the board was added, clock drivers were being updated done at
+> > > > > > > the same time to allow the versaclock driver to properly configure
+> > > > > > > the modes.  Unforutnately, the updates were not applied to the board
+> > > >
+> > > > > > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > > > > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > > > > > @@ -5,6 +5,7 @@
+> > > > > > >
+> > > > > > >  #include <dt-bindings/gpio/gpio.h>
+> > > > > > >  #include <dt-bindings/input/input.h>
+> > > > > > > +#include <dt-bindings/clk/versaclock.h>
+> > > > > > >
+> > > > > > >  / {
+> > > > > > >         backlight_lvds: backlight-lvds {
+> > > > > > > @@ -294,12 +295,12 @@ &du_out_rgb {
+> > > > > > >  &ehci0 {
+> > > > > > >         dr_mode = "otg";
+> > > > > > >         status = "okay";
+> > > > > > > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
+> > > > > > > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
+> > > > > >
+> > > > > > Why this change? You said before you don't need this
+> > > > > > https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
+> > > > > >
+> > > > >
+> > > > > I had talked with the hardware guys about buy pre-programmed
+> > > > > versaclock chips which would have been pre-configured and pre-enabled.
+> > > > > I thought it was going to happen, but it didn't, so we need the
+> > > > > versaclock driver to enable the reference clock for the USB
+> > > > > controllers, ethernet controller and audio clocks.  Previously we were
+> > > > > manually configuring it or it was coincidentally working. Ideally,
+> > > > > we'd have the clock system intentionally enable/disable the clocks
+> > > > > when drivers are loaded/unloaded for for power management reasons.
+> > > >
+> > > > Can you tell me how exactly the Versaclock outputs are wired?
+> > >
+> > > The SoC is expecting a fixed external 50 MHz clock connected to
+> > > USB_EXTAL.  Instead of a fixed clock, we're using the Versaclock.
+> > > We're also using the Versaclock to drive the AVB TXCRefClk,
+> > > du_dotclkiun0 and du_dotclkin2 (also also called du_dotclkin3 on
+> > > RZ/G2N) instead of fixed clocks.
+> > >
+> > > > E.g. for USB, the bindings don't say anything about a third clock input,
+> > > > so I'd like to know where that clock is fed into USB.
+> > >
+> > > The way the driver is crafted, it can take in multiple clocks and it
+> > > goes through a list to enable them all, so I added the versaclock to
+> > > the array.  Without the versaclock reference, the clock doesn't get
+> > > turned on and the USB fails to operate.
+> >
+> > According to the Hardware User's Manual, USBL_EXTAL is used for USB3.0,
+> > while you added the clock references to the EHCI nodes.
+> > Are you sure EHCI is failing without this?
+> >
+> > Still, it means we need to extend the bindings/driver for
+> > renesas,rcar-gen3-xhci to handle USB_EXTAL.
+>
+> After investigating this, it looks like the USB_EXTAL is already
+> referenced from the device tree and it's referenced by the USB3 Phy.
+> The SoC calls it usb_extal_clk.  Since the phy driver is calling
+> devm_clk_get() it looks like i could just redefine the clocks of
+> usb3_phy0 to point to the versaclock instead of usb_extal_clk.
+>
+> The other option is to use a similar method I proposed for the audio
+> reference clock and redefine the usb_extal_clk as a fixed
+> fixed-factor-clock.
+>
+> Do you have a preference as to which direction I go?
 
-We're both confused then, because I don't think I understand the
-question :-)
+I'd go for the classical solution: override the clocks property of the
+usb3_phy0 node.
 
-> > + *	of the color components is reduced before the look up, and the low
-> > + *	order bits may be used to interpolate between the nearest points in 3D
-> > + *	space.
-> > + *
-> > + *	The data is interpreted as an array of &struct drm_color_lut elements.
-> > + *	Hardware might choose not to use the full precision of the LUT
-> > + *	elements.
-> 
-> Is the table already reduced precision though ?
+Thanks!
 
-drm_color_lut has 16-bit precision. The precision of the table on the
-hardware side varies.
+Gr{oetje,eeting}s,
 
-> > + *
-> > + *	Setting this to NULL (blob property value set to 0) means the output
-> > + *	color is identical to the input color. This is generally the driver
-> > + *	boot-up state too. Drivers can access this blob through
-> > + *	&drm_crtc_state.cubic_lut.
-> > + *
-> > + * ”CUBIC_LUT_SIZE”:
-> > + *	Unsigned range property to give the size of the lookup table to be set
-> > + *	on the CUBIC_LUT property (the size depends on the underlying hardware).
-> > + *	If drivers support multiple LUT sizes then they should publish the
-> > + *	largest size, and sub-sample smaller sized LUTs appropriately.
-> > + *
-> >   * “GAMMA_LUT”:
-> >   *	Blob property to set the gamma lookup table (LUT) mapping pixel data
-> > - *	after the transformation matrix to data sent to the connector. The
-> > - *	data is interpreted as an array of &struct drm_color_lut elements.
-> > - *	Hardware might choose not to use the full precision of the LUT elements
-> > - *	nor use all the elements of the LUT (for example the hardware might
-> > - *	choose to interpolate between LUT[0] and LUT[4]).
-> > + *	after the cubic LUT to data sent to the connector. The data is
-> > + *	interpreted as an array of &struct drm_color_lut elements. Hardware
-> > + *	might choose not to use the full precision of the LUT elements nor use
-> > + *	all the elements of the LUT (for example the hardware might choose to
-> > + *	interpolate between LUT[0] and LUT[4]).
-> >   *
-> >   *	Setting this to NULL (blob property value set to 0) means a
-> >   *	linear/pass-thru gamma table should be used. This is generally the
-> > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> > index f1affc1bb679..6c3324f60e7d 100644
-> > --- a/drivers/gpu/drm/drm_mode_config.c
-> > +++ b/drivers/gpu/drm/drm_mode_config.c
-> > @@ -364,6 +364,20 @@ static int drm_mode_create_standard_properties(struct drm_device *dev)
-> >  		return -ENOMEM;
-> >  	dev->mode_config.gamma_lut_size_property = prop;
-> >  
-> > +	prop = drm_property_create(dev,
-> > +			DRM_MODE_PROP_BLOB,
-> > +			"CUBIC_LUT", 0);
-> > +	if (!prop)
-> > +		return -ENOMEM;
-> > +	dev->mode_config.cubic_lut_property = prop;
-> > +
-> > +	prop = drm_property_create_range(dev,
-> > +			DRM_MODE_PROP_IMMUTABLE,
-> > +			"CUBIC_LUT_SIZE", 0, UINT_MAX);
-> > +	if (!prop)
-> > +		return -ENOMEM;
-> > +	dev->mode_config.cubic_lut_size_property = prop;
-> > +
-> >  	prop = drm_property_create(dev,
-> >  				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-> >  				   "IN_FORMATS", 0);
-> > diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> > index 5f43d64d2a07..df5cc2239adb 100644
-> > --- a/include/drm/drm_crtc.h
-> > +++ b/include/drm/drm_crtc.h
-> > @@ -288,6 +288,15 @@ struct drm_crtc_state {
-> >  	 */
-> >  	struct drm_property_blob *gamma_lut;
-> >  
-> > +	/**
-> > +	 * @cubic_lut:
-> > +	 *
-> > +	 * Cubic Lookup table for converting pixel data. See
-> > +	 * drm_crtc_enable_color_mgmt(). The blob (if not NULL) is a 3D array
-> > +	 * of &struct drm_color_lut.
-> > +	 */
-> > +	struct drm_property_blob *cubic_lut;
-> > +
-> >  	/**
-> >  	 * @target_vblank:
-> >  	 *
-> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> > index ab424ddd7665..8edb0094e5a7 100644
-> > --- a/include/drm/drm_mode_config.h
-> > +++ b/include/drm/drm_mode_config.h
-> > @@ -800,6 +800,17 @@ struct drm_mode_config {
-> >  	 */
-> >  	struct drm_property *gamma_lut_size_property;
-> >  
-> > +	/**
-> > +	 * @cubic_lut_property: Optional CRTC property to set the 3D LUT used to
-> > +	 * convert color spaces.
-> > +	 */
-> > +	struct drm_property *cubic_lut_property;
-> > +	/**
-> > +	 * @cubic_lut_size_property: Optional CRTC property for the size of the
-> > +	 * 3D LUT as supported by the driver (read-only).
-> > +	 */
-> > +	struct drm_property *cubic_lut_size_property;
-> > +
-> >  	/**
-> >  	 * @suggested_x_property: Optional connector property with a hint for
-> >  	 * the position of the output on the host's screen.
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
