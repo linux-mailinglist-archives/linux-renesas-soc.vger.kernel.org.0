@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 804A32E1E56
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 16:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5622E1ED3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 16:50:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727800AbgLWPkN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Dec 2020 10:40:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45770 "EHLO
+        id S1729095AbgLWPlY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Dec 2020 10:41:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727360AbgLWPkM (ORCPT
+        with ESMTP id S1729094AbgLWPlY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Dec 2020 10:40:12 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0587AC0617A6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Dec 2020 07:39:31 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id 3so6497602wmg.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Dec 2020 07:39:31 -0800 (PST)
+        Wed, 23 Dec 2020 10:41:24 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4113C061282
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Dec 2020 07:40:43 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id 91so19023410wrj.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 23 Dec 2020 07:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/G4fSaigUz7IpFOG/AKovDnFvrqG5J/wVP194Wd2vO4=;
-        b=aQbEQnbeClWHygIAJkldGf0Rlnw6BWGSaJfFbfZNdsd+p5+I/0tfSKc0o/Xi0sVAZH
-         U58+ta1f7ma4vF6fnbLP/BKTm112tpPTN2w178cg1Qp2VIjyry+X7gDR1Bn8teVVr49D
-         hO3I9CNN3mrGHZxHs0LyOmOQncgZQOr70hPy5lCAHEBmlFbbdjJLOk+5GV2+Ym5OFEL0
-         zIZsYnTuWKe7oYoWvmKWz77kClGOsAJLuli5xg5ssDAXpMoW2Auj5tbtGHRra7K7sWXw
-         OfU4vMmFMs6jAVsuLcBsejhIV3CquDImRiwE10gqigudnEf5qgo3XuUVgY8LCipZkG01
-         Onhg==
+        bh=MaasKCRffzpgJIsv9ZS58ZVtANtZw9D3YuGI24EnoRk=;
+        b=V4DhD7ksO0QmeHWhje0vJbqSgsaBE4IhbygRi9luIJBHokyot5N2VmQi5Tc43w9uNA
+         IJmoxooqSOcd0aFDIaConksC2vlk+4PLBUHe+isdf6JU+CGRPx4tSbPHznz8BtWOfU34
+         DOT4xUR4oA+GswKFNRiThEGGmtuS2uO6gulRgHCY7GKtbmhCtNjgUI5O8ZbVn77toyB4
+         IlqBAAuDB5kA232Fn7/8+paQFvYBxuIfbj4w3GSDNB5DLNcnzR9dRo4UNNhgRNR3KQzn
+         FuX4QvgBmrGC53bsuegWuHf6VBll/faVjgY5vdU0gTYrmAZOpAHvY45rrx5FXH6RgLEb
+         4W+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=/G4fSaigUz7IpFOG/AKovDnFvrqG5J/wVP194Wd2vO4=;
-        b=f91x4j0CthSsR+xB96gdp6zlqursXigDXe2yORtfYWIi9IAXMk2rkbUx+4sDa8Szen
-         qbMShQsN9qmRhjuViUO0uOg4SKQLYZN8s4G9khQI0se2jV5MUKOsW8skh7msyM242oQ4
-         lZfzT2wRdhWBJlGq6d7Y3WMzFZFHVM0sW6mrLVQDfWNWngMr4EOfJfCItc22ZWiLYojK
-         p7JQhufVVQ8LBenDE8NU/s7wQCQpLrtH/0bSUcNe4QkKtfpDQIY3KLlh+v7RTISZ7ls0
-         hVdMwIDd1zaw6/N5mzdJTKthVPU5GTcRtBSPsBPfd4yXtPAyhjhPPMjiCn8lSzHF2gVo
-         R1Rw==
-X-Gm-Message-State: AOAM530JOlh0OW33Wk7CNAQ/hvBYUPN2mer1vuUexGUMS5fomz1X24MD
-        FZfbORa6fGTIizAOWOb8JU0Vlw==
-X-Google-Smtp-Source: ABdhPJyJD+8Vn4ATXGuuAUHW+x0rIx2/uGTiuWW2HCUMmgIT+SSJ3ONqzXLFGPO3S2zZtuiEY03mmg==
-X-Received: by 2002:a1c:2188:: with SMTP id h130mr294918wmh.176.1608737970639;
-        Wed, 23 Dec 2020 07:39:30 -0800 (PST)
+        bh=MaasKCRffzpgJIsv9ZS58ZVtANtZw9D3YuGI24EnoRk=;
+        b=OGvhibFqA6v2X+WAVDYU0R5QkyXI5EHmiWjLgvbzWXDpf+OLDMrLjkiN0mZE35/6Fw
+         Tj8BDZIhvO3vdOC6XN64mDm9rolHKoBPykVmPQaUEgSdtdgxbxpcOGewA3eiZSkBA5Oh
+         X3YCWXBGI0ulQA1zitxz91IC/6Wnx+PEpo88I3+ToOMEhcHJL8QaTPYXsDMdCMxeEIZf
+         j8jt+yU3+pgC69494cqtwcpv9VhMLKweVs/g7gwA3H81WyN++ImEufwazuCowEmWwbHj
+         SRNr6TMJQWJSoqT0AB4fmzmaW7kt51Ai3hFjk9KnRSBkwa99YF0Nl65yM+hailS4QPWP
+         SzuQ==
+X-Gm-Message-State: AOAM532M7EHz+n3CLMs9pWx2vxa73SrJfXnsY4n1i6dwH2r2CAU94zKH
+        t1LALCKnZBRk9bHufSQdNgcqdA==
+X-Google-Smtp-Source: ABdhPJwsm6rpQpwFXUJAOgKiT+pcDnsVjvWAL78BjVFBjIMwy7/Ip7nETfrrRZCiR1ZdKZWaHCzbFw==
+X-Received: by 2002:adf:e452:: with SMTP id t18mr28767589wrm.177.1608738042440;
+        Wed, 23 Dec 2020 07:40:42 -0800 (PST)
 Received: from dell ([91.110.221.175])
-        by smtp.gmail.com with ESMTPSA id w17sm202319wmk.12.2020.12.23.07.39.29
+        by smtp.gmail.com with ESMTPSA id f9sm39630956wrw.81.2020.12.23.07.40.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 07:39:29 -0800 (PST)
-Date:   Wed, 23 Dec 2020 15:39:28 +0000
+        Wed, 23 Dec 2020 07:40:41 -0800 (PST)
+Date:   Wed, 23 Dec 2020 15:40:39 +0000
 From:   Lee Jones <lee.jones@linaro.org>
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     marek.vasut+renesas@gmail.com, matti.vaittinen@fi.rohmeurope.com,
@@ -57,15 +57,15 @@ Cc:     marek.vasut+renesas@gmail.com, matti.vaittinen@fi.rohmeurope.com,
         bgolaszewski@baylibre.com, khiem.nguyen.xt@renesas.com,
         linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 11/12] mfd: bd9571mwv: Make the driver more generic
-Message-ID: <20201223153928.GA681741@dell>
+Subject: Re: [PATCH v6 12/12] mfd: bd9571mwv: Add support for BD9574MWF
+Message-ID: <20201223154039.GB681741@dell>
 References: <1608718963-21818-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1608718963-21818-12-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608718963-21818-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1608718963-21818-12-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608718963-21818-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -74,107 +74,23 @@ On Wed, 23 Dec 2020, Yoshihiro Shimoda wrote:
 
 > From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
 > 
-> Since the driver supports BD9571MWV PMIC only, this patch makes
-> the functions and data structure become more generic so that
-> it can support other PMIC variants as well. Also remove printing
-> part name which Lee Jones suggested.
+> The new PMIC BD9574MWF inherits features from BD9571MWV.
+> Add the support of new PMIC to existing bd9571mwv driver.
 > 
 > Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
 > Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 > ---
->  drivers/mfd/bd9571mwv.c       | 89 +++++++++++++++++++++++++------------------
->  include/linux/mfd/bd9571mwv.h | 18 +--------
->  2 files changed, 54 insertions(+), 53 deletions(-)
+>  drivers/mfd/bd9571mwv.c       | 80 ++++++++++++++++++++++++++++++++++++++++++-
+>  include/linux/mfd/bd9571mwv.h | 17 +++++++--
+>  2 files changed, 93 insertions(+), 4 deletions(-)
 
-Couple of small points.
+Once you've taking mfd_cells out of ddata:
 
-Remainder looks good.
+For my own reference (apply this as-is to your sign-off block):
 
-> diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-> index 49e968e..c905ab4 100644
-> --- a/drivers/mfd/bd9571mwv.c
-> +++ b/drivers/mfd/bd9571mwv.c
-> @@ -3,6 +3,7 @@
->   * ROHM BD9571MWV-M MFD driver
->   *
->   * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-> + * Copyright (C) 2020 Renesas Electronics Corporation
->   *
->   * Based on the TPS65086 driver
->   */
-> @@ -14,6 +15,14 @@
->  
->  #include <linux/mfd/bd9571mwv.h>
->  
-> +/* Driver data to distinguish bd957x variants */
-> +struct bd957x_ddata {
-> +	const struct regmap_config *regmap_config;
-> +	const struct regmap_irq_chip *irq_chip;
-
-> +	const struct mfd_cell *cells;
-> +	int num_cells;
-
-Are you using these post-probe?
-
-If not, they're not ddata.
-
-> +};
-
-[...]
-
->  static int bd9571mwv_probe(struct i2c_client *client,
-> -			  const struct i2c_device_id *ids)
-> +			   const struct i2c_device_id *ids)
->  {
-> -	struct bd9571mwv *bd;
-> -	int ret;
-> -
-> -	bd = devm_kzalloc(&client->dev, sizeof(*bd), GFP_KERNEL);
-> -	if (!bd)
-> -		return -ENOMEM;
-> -
-> -	i2c_set_clientdata(client, bd);
-> -	bd->dev = &client->dev;
-> -	bd->irq = client->irq;
-> +	const struct bd957x_ddata *ddata;
-> +	struct device *dev = &client->dev;
-> +	struct regmap *regmap;
-> +	struct regmap_irq_chip_data *irq_data;
-> +	int ret, irq = client->irq;
-> +
-> +	/* Read the PMIC product code */
-> +	ret = i2c_smbus_read_byte_data(client, BD9571MWV_PRODUCT_CODE);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to read product code\n");
-> +		return ret;
-> +	}
-
-Nit: '\n' here.
-
-> +	switch (ret) {
-> +	case BD9571MWV_PRODUCT_CODE_BD9571MWV:
-> +		ddata = &bd9571mwv_ddata;
-
-Simply declare 'const struct mfd_cell *cells' locally in probe and
-assign it here instead.
-
-> +		break;
-> +	default:
-> +		dev_err(dev, "Unsupported device 0x%x\n", ret);
-> +		return -ENODEV;
-> +	}
->  
-> -	bd->regmap = devm_regmap_init_i2c(client, &bd9571mwv_regmap_config);
-> -	if (IS_ERR(bd->regmap)) {
-> -		dev_err(bd->dev, "Failed to initialize register map\n");
-> -		return PTR_ERR(bd->regmap);
-> +	regmap = devm_regmap_init_i2c(client, ddata->regmap_config);
-> +	if (IS_ERR(regmap)) {
-> +		dev_err(dev, "Failed to initialize register map\n");
-> +		return PTR_ERR(regmap);
->  	}
+  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
 
 -- 
 Lee Jones [李琼斯]
