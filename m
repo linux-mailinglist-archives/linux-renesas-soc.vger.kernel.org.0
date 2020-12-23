@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84ABA2E162E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 03:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFF802E14C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 03:48:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728965AbgLWC6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Dec 2020 21:58:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46354 "EHLO mail.kernel.org"
+        id S1729839AbgLWCnb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 22 Dec 2020 21:43:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52452 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728974AbgLWCU1 (ORCPT
+        id S1729873AbgLWCXE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:20:27 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EE58225AB;
-        Wed, 23 Dec 2020 02:20:10 +0000 (UTC)
+        Tue, 22 Dec 2020 21:23:04 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F14F22248;
+        Wed, 23 Dec 2020 02:22:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690011;
-        bh=E8mFVU7w5RNrXHNOs3bJSWp9hetRUAOYVpOx4Qu6e6k=;
+        s=k20201202; t=1608690143;
+        bh=qF9l755odwp307/T/N4iq49b/ec7+MuRGg7fKtWJgkU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bUExjZym2hl+zBGtXwuBrjRno5n4M3E22ZZBkntvgUw5LKXpvRTKEoRdhJQZzd4ap
-         untBKRrxYKbkhs0QeeRklmmd+RVCSrrAxnwQ0eL+6AKVMgnVVhrICXTsD6c2xbZd2v
-         jcelZQIuRKpurVmjK7HhxVaKWSiA+blAFLsQiK7dXz5irNJcUWS38eJn3URMQOB4re
-         ikueRLzHHw3icSOicqfXAFpM/9Mj35AWCz94iN1aCvnKQjrsHiEXbbNjlCMakzref5
-         2Ca8ToaPK1KQZaCnT4sgcXvKuIed/oOeVL3yiWWpmayLpL0ZyS9mr17dg2WMDCBnZZ
-         y9vcbNm4R6JfQ==
+        b=GG3fI/0uKfXHDg7UO1rqpzI3WHly6c8nyu0srm88rM2uu4/lBxP5v3dOonIWMRRYu
+         EwZwLtMN0j4LXXR2F6Npfi3uRvq3RPWkWSPK3SgRUiWqrxG68CDPwAjxog9aaJ7nNP
+         ZR0lQaxXHOU55mj41ukWT9GbtDA0lJ4e0WRmddIocmeOZyjDh5KvUsmYY0+zOF+sZV
+         l2Pr+x+3vpYtouj7KsCnwCAy5AXcZZnTh7JheUX49J6f06RtlXUnku+u3aA3iBuT47
+         CUmJtQvLygv4+OlJGseV+KazpZdpU+ZJKKFMMcLAoP7Ct5hFOF6n0JBhVNx4KKj/Xr
+         9BxTLNRoQ1WNA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -33,12 +33,12 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 091/130] media: rcar-vin: Mask VNCSI_IFMD register
-Date:   Tue, 22 Dec 2020 21:17:34 -0500
-Message-Id: <20201223021813.2791612-91-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 64/87] media: rcar-vin: Mask VNCSI_IFMD register
+Date:   Tue, 22 Dec 2020 21:20:40 -0500
+Message-Id: <20201223022103.2792705-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
-References: <20201223021813.2791612-1-sashal@kernel.org>
+In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
+References: <20201223022103.2792705-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -83,10 +83,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 22 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index e5f6360801082..5605a42f6de54 100644
+index 70a8cc433a03f..4fee9132472bb 100644
 --- a/drivers/media/platform/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1330,7 +1330,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+@@ -1319,7 +1319,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
   */
  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
  {
@@ -97,7 +97,7 @@ index e5f6360801082..5605a42f6de54 100644
  	int ret;
  
  	ret = pm_runtime_get_sync(vin->dev);
-@@ -1343,9 +1345,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+@@ -1332,9 +1334,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
  	vnmc = rvin_read(vin, VNMC_REG);
  	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
  
