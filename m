@@ -2,130 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF802E14C6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 03:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D602E1960
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Dec 2020 08:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729839AbgLWCnb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 22 Dec 2020 21:43:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52452 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729873AbgLWCXE (ORCPT
+        id S1727441AbgLWHbP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Dec 2020 02:31:15 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:2516 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726463AbgLWHbP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:23:04 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F14F22248;
-        Wed, 23 Dec 2020 02:22:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608690143;
-        bh=qF9l755odwp307/T/N4iq49b/ec7+MuRGg7fKtWJgkU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GG3fI/0uKfXHDg7UO1rqpzI3WHly6c8nyu0srm88rM2uu4/lBxP5v3dOonIWMRRYu
-         EwZwLtMN0j4LXXR2F6Npfi3uRvq3RPWkWSPK3SgRUiWqrxG68CDPwAjxog9aaJ7nNP
-         ZR0lQaxXHOU55mj41ukWT9GbtDA0lJ4e0WRmddIocmeOZyjDh5KvUsmYY0+zOF+sZV
-         l2Pr+x+3vpYtouj7KsCnwCAy5AXcZZnTh7JheUX49J6f06RtlXUnku+u3aA3iBuT47
-         CUmJtQvLygv4+OlJGseV+KazpZdpU+ZJKKFMMcLAoP7Ct5hFOF6n0JBhVNx4KKj/Xr
-         9BxTLNRoQ1WNA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 64/87] media: rcar-vin: Mask VNCSI_IFMD register
-Date:   Tue, 22 Dec 2020 21:20:40 -0500
-Message-Id: <20201223022103.2792705-64-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223022103.2792705-1-sashal@kernel.org>
-References: <20201223022103.2792705-1-sashal@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        Wed, 23 Dec 2020 02:31:15 -0500
+X-IronPort-AV: E=Sophos;i="5.78,441,1599490800"; 
+   d="scan'208";a="66692938"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Dec 2020 16:30:43 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BE2B1400F2B5;
+        Wed, 23 Dec 2020 16:30:43 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/2] mmc: host: tmio/renesas_sdhi: Add data timeout error detection
+Date:   Wed, 23 Dec 2020 16:30:20 +0900
+Message-Id: <1608708622-29668-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+This patch series is based on the mmc.git / next branch. The patch 1/2
+is a updated patch from Wolfram-san submitted [1]. And, I talked
+him locally, I can write this Reviewed-by and Tested-by instead of
+SoB. The patch 2/2 is a new patch for retuning a card when
+the host controller detects cmd/data timeout. And, I got Wolfram-san's
+Reviewed-by locally.
 
-[ Upstream commit fb25ca37317200fa97ea6b8952e07958f06da7a6 ]
+Note that I don't include Hayakawa-san's email account which is
+the author of the patch 1/2 in To/CC because he left from Renesas
+now.
 
-The VNCSI_IFMD register controls the data expansion mode and the
-channel routing between the CSI-2 receivers and VIN instances.
+[1]
+https://lore.kernel.org/linux-mmc/20201120150647.123237-3-wsa+renesas@sang-engineering.com/
 
-According to the chip manual revision 2.20 not all fields are available
-for all the SoCs:
-- V3M, V3H and E3 do not support the DES1 field has they do not feature
-  a CSI20 receiver.
-- D3 only supports parallel input, and the whole register shall always
-  be written as 0.
+Masaharu Hayakawa (1):
+  mmc: tmio: Add data timeout error detection
 
-Inspect the per-SoC channel routing table where the available CSI-2
-instances are reported and configure VNCSI_IFMD accordingly.
+Yoshihiro Shimoda (1):
+  mmc: host: renesas_sdhi: Add a condition of cmd/data timeout for
+    retune
 
-This patch supports this BSP change commit:
+ drivers/mmc/host/renesas_sdhi_core.c | 16 +++++++++++++---
+ drivers/mmc/host/tmio_mmc.h          |  2 +-
+ drivers/mmc/host/tmio_mmc_core.c     |  8 +++++---
+ 3 files changed, 19 insertions(+), 7 deletions(-)
 
-https://github.com/renesas-rcar/linux-bsp/commit/f54697394457
-("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
-
-[hverkuil: replace BSP commit ID with BSP URL]
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/rcar-vin/rcar-dma.c | 25 +++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 70a8cc433a03f..4fee9132472bb 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1319,7 +1319,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
-  */
- int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- {
--	u32 ifmd, vnmc;
-+	const struct rvin_group_route *route;
-+	u32 ifmd = 0;
-+	u32 vnmc;
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(vin->dev);
-@@ -1332,9 +1334,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	vnmc = rvin_read(vin, VNMC_REG);
- 	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
- 
--	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
-+	/*
-+	 * Set data expansion mode to "pad with 0s" by inspecting the routes
-+	 * table to find out which bit fields are available in the IFMD
-+	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
-+	 * IFMD_DES0 controls data expansion mode for CSI40/41.
-+	 */
-+	for (route = vin->info->routes; route->mask; route++) {
-+		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
-+			ifmd |= VNCSI_IFMD_DES1;
-+		else
-+			ifmd |= VNCSI_IFMD_DES0;
- 
--	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-+		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
-+			break;
-+	}
-+
-+	if (ifmd) {
-+		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
-+		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-+	}
- 
- 	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
- 
 -- 
-2.27.0
+2.7.4
 
