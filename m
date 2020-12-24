@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AC042E2835
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Dec 2020 18:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4DF02E2833
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Dec 2020 18:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbgLXRGM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Dec 2020 12:06:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53460 "EHLO
+        id S1728901AbgLXRGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Dec 2020 12:06:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728817AbgLXRGL (ORCPT
+        with ESMTP id S1728891AbgLXRGM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Dec 2020 12:06:11 -0500
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95B9C061757;
-        Thu, 24 Dec 2020 09:05:30 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id q5so2420143ilc.10;
-        Thu, 24 Dec 2020 09:05:30 -0800 (PST)
+        Thu, 24 Dec 2020 12:06:12 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32D3C0613C1;
+        Thu, 24 Dec 2020 09:05:32 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id i18so2493653ioa.1;
+        Thu, 24 Dec 2020 09:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kMu0V0XfARwBi9aJHQmsTWP3xxgAO07/j8cH5gKT7As=;
-        b=CfJRRBpqMzgTU1oPORrpjPnbsZyj5NvD+X1KhT/2T2hhh7p3UfVouKH+Zyvg6KTNUj
-         zaHPbAyzql8AUSf6pEkNOpB3iLhNz52jUD46fn474ALPLTmYBiOmPH8Tt1F0upklDRhr
-         ZyamkFnTA6DL4eTh8Lj8kExW0IuZKLEr/Aoy39+d3NO6T1GJIYtjnzmJH9F7fgKdy7Qw
-         7UnC70PkpyWMmdygjaPdL2pUbf0UcmzOkobOKjIwrVd4rra6b4AD7azBX9lzNCoZWFja
-         AMuWEQdNnm9AULSFQQvC8iHqjrjFCfdl4UtAjO8qLYwKxF7PXBK0iR/SzDCnxMFWXR4m
-         mZfA==
+        bh=1TmoWv7xD1jRspjs+2ARKsLutJXEqRLYfp6/Y4HPquQ=;
+        b=H6WXRTdELBeLeFkSqi616GkML1oc9hRYi3OQGOZIzjU7EXPBTya8+UaDb/vz+P9/uG
+         jpz5DtDRzIdMkW9NaMnSyCL9DojeOPvp6p8irKRvaDsyj10l6ZtdtFe4pILulcJS7EdZ
+         KJoVXkSPsWreZw3vNhivZzuxyGgTfsXNTwgBCSU4FiAIOPqvA+evtabCqoNmRJMTyxOj
+         eXsIpyV/BGSm4siykghhLIq3KqVEfS2ZGl+f0jW/MRoIgGJqNBFaj1RH7sOwx7g4gbF2
+         jYCB/qMg4G3IIPF4e/OSLcI3g1m2COY4WLabbJmtaBLmzHnO2JrWRtOV3/B3Hp7/nhwQ
+         g8uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kMu0V0XfARwBi9aJHQmsTWP3xxgAO07/j8cH5gKT7As=;
-        b=otnsJqYNzRglY7OjckmVXsR900K0ClC8dF8YAo2I/48935+/DP9ItfbotpVwryDWdy
-         KWrv21U4reFIWOaECdqOBgMNurcy36tGF0ot/+jaYnnxMLHJ/+uLkAvvaJn0rfUrS7AI
-         aQ/bpcK+tDXGZ5KkGND7J24P7jAqxA/TaX2smrdDNhCtZC7moCrUdcwfTgI53WyvrnOt
-         t7Uo2XntIIxW72xV3oxRhRkFkfej0aKVu2Q1Q73i8ZpS7CW13spL+ULGs67pMGF2OBlL
-         CD1HKfQJ1ztr8w6mvCpNO5UpDfWDV1aqDy9eTn8yVR4nLbeGVUDtRXPzIH1qZkJiQNKt
-         3jSA==
-X-Gm-Message-State: AOAM533+lY8MsPrBAJN19qQCuP1JWWeetGZJJRRQ7/ofc6IEFRyfEGfy
-        Uhpp97/zUqudsx0o6G3o+Ipi59NlnjQ=
-X-Google-Smtp-Source: ABdhPJwHvXS1PiJasUu21iUGHH88seD2pI6GNjQmXzcQVU9jn6XU+VFJuIJsPls35lmQils/+doZfw==
-X-Received: by 2002:a92:9153:: with SMTP id t80mr30232754ild.216.1608829530000;
-        Thu, 24 Dec 2020 09:05:30 -0800 (PST)
+        bh=1TmoWv7xD1jRspjs+2ARKsLutJXEqRLYfp6/Y4HPquQ=;
+        b=cHU4ZIZg4k9NqaEAlIZr7/Om+t0jCneINRJRA+vg2fVIeENPxAdl5r/GKaun89/Dan
+         CltkwDpr1/EYWST4+5gFU5tOV5P0VJiWOMGMNJChKFuYmBUikJiUu+2mLjuiSLKNfJn+
+         MFLSNszuGW3Kj3llJ7r+P3zaQwR0TMBxgNvSTVCs1/x4rIFMW0BwqQN8nSwfML6JvHSg
+         UIe3oJufnJhoqi3Isg1wxztkxia7ojUaCeMfDawQbxgf2uA4Re9JHhuesDxq7nUWSe7q
+         0sKfSi1k6eY55F7R8L7baGGq1CVw3GJ17T4fe8XO3g19CnPsUzwvZijbjX8YoAldszNz
+         yCcg==
+X-Gm-Message-State: AOAM533pnlbnG9pAkHh0RZls4Rr0OKhHP6zdPk0szMZMstLZUEDex0Rl
+        DHj3zoj2OL5/yEOtdO1Na4gtpBpos58=
+X-Google-Smtp-Source: ABdhPJwRO4LdZ7sLyo1lqzETNpZw16iwUzwMt3nX310N4/gLff+4tR0MkbIhSXj0iXI4jydYoUEtsA==
+X-Received: by 2002:a05:6602:3154:: with SMTP id m20mr26128758ioy.188.1608829531703;
+        Thu, 24 Dec 2020 09:05:31 -0800 (PST)
 Received: from aford-IdeaCentre-A730.lan ([2601:448:8400:9e8:f45d:df49:9a4c:4914])
-        by smtp.gmail.com with ESMTPSA id f20sm9732965ilr.85.2020.12.24.09.05.28
+        by smtp.gmail.com with ESMTPSA id f20sm9732965ilr.85.2020.12.24.09.05.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Dec 2020 09:05:29 -0800 (PST)
+        Thu, 24 Dec 2020 09:05:31 -0800 (PST)
 From:   Adam Ford <aford173@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
@@ -55,9 +55,9 @@ Cc:     aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH V2 3/9] arm64: dts: renesas: beacon: Configure Audio CODEC clocks
-Date:   Thu, 24 Dec 2020 11:04:56 -0600
-Message-Id: <20201224170502.2254683-3-aford173@gmail.com>
+Subject: [PATCH V2 4/9] arm64: dts: renesas: beacon: Better describe keys
+Date:   Thu, 24 Dec 2020 11:04:57 -0600
+Message-Id: <20201224170502.2254683-4-aford173@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201224170502.2254683-1-aford173@gmail.com>
 References: <20201224170502.2254683-1-aford173@gmail.com>
@@ -67,36 +67,72 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With the newly added configurable clock options, the audio CODEC can
-configure the mclk automatically.  Add the reference to the versaclock.
-Since the devices on I2C5 can communicate at 400KHz, let's also increase
-that too
+The keys on the baseboard are laid out in an diamond pattern, up, down,
+left, right and center.  Update the descriptions to make it easier to
+read.
 
 Signed-off-by: Adam Ford <aford173@gmail.com>
 ---
-V2:  Remove the un-used clock-names reference.
-     Base on: https://patchwork.kernel.org/project/alsa-devel/patch/20201217162740.1452000-1-aford173@gmail.com/
+V2:  Make keycode match the key name.
 
 diff --git a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-index 4e86d308d07e..dc5e05d7a792 100644
+index dc5e05d7a792..a54ec36c69e4 100644
 --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
 +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
-@@ -385,13 +385,14 @@ &i2c0 {
+@@ -40,38 +40,38 @@ hdmi0_con: endpoint {
+ 	keys {
+ 		compatible = "gpio-keys";
  
- &i2c5 {
- 	status = "okay";
--	clock-frequency = <100000>;
-+	clock-frequency = <400000>;
- 	pinctrl-0 = <&i2c5_pins>;
- 	pinctrl-names = "default";
- 
- 	codec: wm8962@1a {
- 		compatible = "wlf,wm8962";
- 		reg = <0x1a>;
-+		clocks = <&versaclock6_bb 3>;
- 		DCVDD-supply = <&reg_audio>;
- 		DBVDD-supply = <&reg_audio>;
- 		AVDD-supply = <&reg_audio>;
+-		key-1 {
++		key-1 { /* S19 */
+ 			gpios = <&gpio4 6 GPIO_ACTIVE_LOW>;
+-			linux,code = <KEY_1>;
+-			label = "Switch-1";
++			linux,code = <KEY_UP>;
++			label = "Up";
+ 			wakeup-source;
+ 			debounce-interval = <20>;
+ 		};
+-		key-2 {
++		key-2 { /*S20 */
+ 			gpios = <&gpio3 13 GPIO_ACTIVE_LOW>;
+-			linux,code = <KEY_2>;
+-			label = "Switch-2";
++			linux,code = <KEY_LEFT>;
++			label = "Left";
+ 			wakeup-source;
+ 			debounce-interval = <20>;
+ 		};
+-		key-3 {
++		key-3 { /* S21 */
+ 			gpios = <&gpio5 17 GPIO_ACTIVE_LOW>;
+-			linux,code = <KEY_3>;
+-			label = "Switch-3";
++			linux,code = <KEY_DOWN>;
++			label = "Down";
+ 			wakeup-source;
+ 			debounce-interval = <20>;
+ 		};
+-		key-4 {
++		key-4 { /* S22 */
+ 			gpios = <&gpio5 20 GPIO_ACTIVE_LOW>;
+-			linux,code = <KEY_4>;
+-			label = "Switch-4";
++			linux,code = <KEY_RIGHT>;
++			label = "Right";
+ 			wakeup-source;
+ 			debounce-interval = <20>;
+ 		};
+-		key-5 {
++		key-5 { /* S23 */
+ 			gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+-			linux,code = <KEY_5>;
+-			label = "Switch-4";
++			linux,code = <KEY_ENTER>;
++			label = "Center";
+ 			wakeup-source;
+ 			debounce-interval = <20>;
+ 		};
 -- 
 2.25.1
 
