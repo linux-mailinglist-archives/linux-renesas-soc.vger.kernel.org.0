@@ -2,113 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF61E2E32B1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Dec 2020 21:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A36F82E32D3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Dec 2020 22:15:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgL0U2M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Dec 2020 15:28:12 -0500
-Received: from sauhun.de ([88.99.104.3]:32886 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbgL0U2M (ORCPT
+        id S1726198AbgL0VOx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Dec 2020 16:14:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44220 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726694AbgL0VOp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Dec 2020 15:28:12 -0500
-Received: from localhost (p5486cb89.dip0.t-ipconnect.de [84.134.203.137])
-        by pokefinder.org (Postfix) with ESMTPSA id 876472C04B3;
-        Sun, 27 Dec 2020 21:27:30 +0100 (CET)
-Date:   Sun, 27 Dec 2020 21:27:30 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
-        hoai.luu.ub@renesas.com
-Subject: Re: [PATCH v2 4/5] pinctrl: renesas: Initial R8A779A0 (V3U) PFC
- support
-Message-ID: <20201227202730.GB48782@ninjato>
-References: <20201221165448.27312-1-uli+renesas@fpond.eu>
- <20201221165448.27312-5-uli+renesas@fpond.eu>
+        Sun, 27 Dec 2020 16:14:45 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE1CC061795
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 27 Dec 2020 13:14:04 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id o19so20104467lfo.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 27 Dec 2020 13:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CS/Q9kpBmX1TyOKsWp6MAco5gWy7Zdx8vvkGEX7VhaI=;
+        b=tXDWl7CArrfizWGfB1RyiWkwOB9TZr8TOahiIN8uiKetWXcoRoXcaKGalN5dTGZMLo
+         9SMPGojDRx3vvd/z7FEovDvb7J4KTKBkunAy6lna5qKjIZR7tItMz+o3jEG7grBMbrh7
+         U4lSq7VS+plvjrNHl1y4HCWvIWYftke6BB3OXvXqRiAR0i0rd1br/uDKznCyGe4KuJxS
+         e2RKQIxd9O7pnbeysrVxTDF67hWbfOhAIgU6K37HGLeRLNFVIyjN1DCocwgM2SaQMxcV
+         u90J1z36xlkPS9Yg5XLsuIrdF6R87LKHFqYIfPxbIAjawHyvn9ljxkmeD4rTUgzWAxT2
+         V6XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CS/Q9kpBmX1TyOKsWp6MAco5gWy7Zdx8vvkGEX7VhaI=;
+        b=WsSDIDS5Jf1Imjd46K/ASuqJAcZozyxuRyWW0fby9Ey28dhbq2LMfvkwpPKqq0DP2g
+         p9fUIo1mNj8jItZAn6Vf5+p/xundyLZk4hbqzNymeyI6n747fOz/YTWfl5op7hLEUL7J
+         0hQ3GWRPAICG74TPP8vMfDvny8Iksyfk2J0BSlBN67fFcl8dbXkuURttle2os/x/s+Kr
+         26u2O8xJ4+dR5A7YvquQdgn4HUgPq+sTjmCt0IO62Zi8OwVWvM7H/LkpMxMvfhYHmtK8
+         hQcY9RgYLxPskwEc6JxXPFzNMApHrogm22v+38MYB9ImOfOvO9EGpyv+z9O6J7i9ohDs
+         PSug==
+X-Gm-Message-State: AOAM5318iw5Qg3k6vszZ8xTnzGJOcP75skKuUxG0biPwvtWZcRWYLlah
+        5zI0lwR+Cfzn/z3DvxEA3O7198CF/icAOnYZy4KTsQ==
+X-Google-Smtp-Source: ABdhPJwCUilce0/8tW0c9ohPwemzY1n+IrEtWSAWJFZIem+2Gjv+uXnjnEeTIYA0WLTfWRH5AtIxG3VbeXWGCv29y0I=
+X-Received: by 2002:a05:651c:1312:: with SMTP id u18mr20452891lja.200.1609103642973;
+ Sun, 27 Dec 2020 13:14:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1UWUbFP1cBYEclgG"
-Content-Disposition: inline
-In-Reply-To: <20201221165448.27312-5-uli+renesas@fpond.eu>
+References: <1608718963-21818-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608718963-21818-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608718963-21818-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 27 Dec 2020 22:13:51 +0100
+Message-ID: <CACRpkdbR_caacfiKs4yxwSsdJgtw2AHXrTNeKPVW5EN--yMfVQ@mail.gmail.com>
+Subject: Re: [PATCH v6 06/12] gpio: bd9571mwv: Use the SPDX license identifier
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, khiem.nguyen.xt@renesas.com,
+        linux-power@fi.rohmeurope.com,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, Dec 23, 2020 at 11:22 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
 
---1UWUbFP1cBYEclgG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> Use the SPDX license identifier instead of a local description.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I got a correct report from a build bot:
-
-> +	{ PINMUX_BIAS_REG("PUEN9", 0xe60698c0, "PUD9", 0xe60698e0) {
-> +		[ 0] = RCAR_GP_PIN(9,  0),	/* AVB5_RX_CTL */
-> +		[ 1] = RCAR_GP_PIN(9,  1),	/* AVB5_RXC */
-> +		[ 2] = RCAR_GP_PIN(9,  2),	/* AVB5_RD0 */
-> +		[ 3] = RCAR_GP_PIN(9,  3),	/* AVB5_RD1 */
-> +		[ 4] = RCAR_GP_PIN(9,  4),	/* AVB5_RD2 */
-> +		[ 5] = RCAR_GP_PIN(9,  5),	/* AVB5_RD3 */
-> +		[ 6] = RCAR_GP_PIN(9,  6),	/* AVB5_TX_CTL */
-> +		[ 7] = RCAR_GP_PIN(9,  7),	/* AVB5_TXC */
-> +		[ 8] = RCAR_GP_PIN(9,  8),	/* AVB5_TD0 */
-> +		[ 9] = RCAR_GP_PIN(9,  9),	/* AVB5_TD1 */
-> +		[10] = RCAR_GP_PIN(9, 10),	/* AVB5_TD2 */
-> +		[11] = RCAR_GP_PIN(9, 11),	/* AVB5_TD3 */
-> +		[12] = RCAR_GP_PIN(9, 12),	/* AVB5_TXCREFCLK */
-> +		[13] = RCAR_GP_PIN(9, 13),	/* AVB5_MDIO */
-> +		[14] = RCAR_GP_PIN(9, 14),	/* AVB5_MDC */
-> +		[15] = RCAR_GP_PIN(9, 15),	/* AVB5_MAGIC */
-> +		[16] = RCAR_GP_PIN(9, 16),	/* AVB5_PHY_INT */
-> +		[17] = RCAR_GP_PIN(9, 17),	/* AVB5_LINK */
-> +		[18] = RCAR_GP_PIN(9, 18),	/* AVB5_AVTP_MATCH */
-> +		[19] = RCAR_GP_PIN(9, 19),	/* AVB5_AVTP_CAPTURE */
-> +		[20] = RCAR_GP_PIN(9, 20),	/* AVB5_AVTP_PPS */
-> +		[21] = SH_PFC_PIN_NONE,
-> +		[22] = SH_PFC_PIN_NONE,
-> +		[23] = SH_PFC_PIN_NONE,
-> +		[24] = SH_PFC_PIN_NONE,
-> +		[25] = SH_PFC_PIN_NONE,
-> +		[26] = SH_PFC_PIN_NONE,
-> +		[27] = SH_PFC_PIN_NONE,
-> +		[28] = SH_PFC_PIN_NONE,
-> +		[29] = SH_PFC_PIN_NONE,
-> +		[30] = SH_PFC_PIN_NONE,
-> +		[31] = SH_PFC_PIN_NONE,
-> +		[21] = SH_PFC_PIN_NONE,
-> +		[22] = SH_PFC_PIN_NONE,
-> +		[23] = SH_PFC_PIN_NONE,
-> +		[24] = SH_PFC_PIN_NONE,
-> +		[25] = SH_PFC_PIN_NONE,
-> +		[26] = SH_PFC_PIN_NONE,
-> +		[27] = SH_PFC_PIN_NONE,
-> +		[28] = SH_PFC_PIN_NONE,
-> +		[29] = SH_PFC_PIN_NONE,
-> +		[30] = SH_PFC_PIN_NONE,
-> +		[31] = SH_PFC_PIN_NONE,
-> +	} },
-
-Pins 21-31 are set to none twice.
-
-
---1UWUbFP1cBYEclgG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/o7isACgkQFA3kzBSg
-Kbbzww/+Pjm+iyYmp3ijVoIXiGNyQ4QUvBcXYGi3G9chDucRuQ6o/ricrX5CVgZI
-+uMxP19YeCdLcpsd4/T2AhE4hL6iWzj0rnH3Lzjy1Kewg9Ex5jzaz6AyBUIYWoXd
-4MRdCQ8AOkZMPQYInTw+fOjT63r4y4sNfxVhsjre9Cm+5Jc1ci0rYxAlvjLslBYL
-YUIKDxLRftKQkecTJagH00Fl4n9O+V7X1WPH3E9Yk04JhHbMk01fp42uHLbE2RVf
-k6jLNSuUdyKzzrHvTbI+hD3UuhDV1LlwUU7IZn8ZaRn5ketBv47LF4NugxBhXXHa
-6yjpqdZixNWCu5BKQwv3PiExg5ZPJ3EkBHjixrgdL5RPojGMJKfwHZHxlQEW+u1X
-0XzVfslakQjjYILKb16kyvzwS2yvqHyy4vTPB4GqlrqiCVw/acVp1DhAaSl/r1nn
-Ft2VjPgUX3jyHeTo9pAS4pPQajwd7+QKk1DyDDXSHPMMqYLDGtG9SgfVfMyE90rx
-dVOEuOA2/pFXz4XIg0K8xfa/yH/trulICQNfmlekbsylC1mr7NX9EjxqI8VwAF2K
-VkdZmzP53HuuL07IWpwWiQYOLnuJ0J5ta2tK+hL8Nj83WXqjmeTHoYr0i/IkLZiO
-AIx1vozrEVAGW3UgcaHBZtVQnwJjJvqR+xHeh4CBeia63jDYDVQ=
-=pvjK
------END PGP SIGNATURE-----
-
---1UWUbFP1cBYEclgG--
+Yours,
+Linus Walleij
