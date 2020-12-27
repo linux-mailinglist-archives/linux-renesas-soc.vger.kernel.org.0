@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68A022E323E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Dec 2020 18:43:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE4F42E324D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Dec 2020 18:44:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgL0RnA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 27 Dec 2020 12:43:00 -0500
-Received: from www.zeus03.de ([194.117.254.33]:46844 "EHLO mail.zeus03.de"
+        id S1726523AbgL0Rne (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Dec 2020 12:43:34 -0500
+Received: from www.zeus03.de ([194.117.254.33]:47032 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726391AbgL0Rm7 (ORCPT
+        id S1726518AbgL0Rne (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 27 Dec 2020 12:42:59 -0500
+        Sun, 27 Dec 2020 12:43:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
         from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=2Dhy5zPo9lBjN3
-        eqY3HnEvfo/6Vkx/DX480dSimr12E=; b=ibEetUp+GkaETZjy8F0X69794nSy+z
-        y9VGgdnNScTYFq+dYXCsiIqPEsiy06Gzs95Gp4hSTOA6Jfa3Tan7PNDhTqf6UjRJ
-        biBAA82G89vLs3S1EhZk41u8Jj8i81GqBr0tOIm7e5RFqZzB2F+gpvGWLQlp5Rw9
-        nC2Rp80+zFC1I=
-Received: (qmail 1557148 invoked from network); 27 Dec 2020 18:42:16 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Dec 2020 18:42:16 +0100
-X-UD-Smtp-Session: l3s3148p1@ZPSgrXW3WJ5UhsuJ
+        :mime-version:content-transfer-encoding; s=k1; bh=z6uoKLkV9T1nr0
+        YH7Ec4kiIrykJl+cn+QHsvaT3QsEM=; b=eXiizXUnq7B+x1xBSiirL2jm25WjX6
+        Vqavnhy7i8MYOx+LibOxEUvQB5v5tfPAynRiIyUxMZtVjBTYOkA78CBFvFsRgf8+
+        pyV5NR6kfpvZ1ByrYDYmdedN/YQbMD2Ck/UewfgtOiLIqrytqEaZ6xNwpY5iOUle
+        lIW0KfsVC8//8=
+Received: (qmail 1557178 invoked from network); 27 Dec 2020 18:42:17 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Dec 2020 18:42:17 +0100
+X-UD-Smtp-Session: l3s3148p1@VYmvrXW3Wp5UhsuJ
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Takeshi Saito <takeshi.saito.xv@renesas.com>,
@@ -31,9 +31,9 @@ Cc:     Takeshi Saito <takeshi.saito.xv@renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] arm64: dts: renesas: r8a779a0: Add MMC node
-Date:   Sun, 27 Dec 2020 18:41:59 +0100
-Message-Id: <20201227174202.40834-6-wsa+renesas@sang-engineering.com>
+Subject: [PATCH 6/6] arm64: dts: renesas: falcon: Enable MMC
+Date:   Sun, 27 Dec 2020 18:42:00 +0100
+Message-Id: <20201227174202.40834-7-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201227174202.40834-1-wsa+renesas@sang-engineering.com>
 References: <20201227174202.40834-1-wsa+renesas@sang-engineering.com>
@@ -45,38 +45,81 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 
-Add a device node for MMC.
+Enable MMC on the Falcon board.
 
 Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
 [wsa: double checked & rebased]
 Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../boot/dts/renesas/r8a779a0-falcon.dts      | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 324deeed9078..68aaa49c3540 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -667,6 +667,18 @@ dmac1: dma-controller@e7350000 {
- 			/* placeholder */
- 		};
- 
-+		mmc0: mmc@ee140000 {
-+			compatible = "renesas,sdhi-r8a779a0",
-+				     "renesas,rcar-gen3-sdhi";
-+			reg = <0 0xee140000 0 0x2000>;
-+			interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 706>;
-+			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-+			resets = <&cpg 706>;
-+			max-frequency = <200000000>;
-+			status = "disabled";
-+		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+index 48801f2bdbe5..0c44466d398f 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
+@@ -20,6 +20,24 @@ aliases {
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
 +
- 		gic: interrupt-controller@f1000000 {
- 			compatible = "arm,gic-v3";
- 			#interrupt-cells = <3>;
++	reg_1p8v: regulator0 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator1 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
+ };
+ 
+ &avb0 {
+@@ -169,6 +187,23 @@ &i2c6 {
+ 	clock-frequency = <100000>;
+ };
+ 
++&mmc0 {
++	pinctrl-0 = <&mmc_pins>;
++	pinctrl-1 = <&mmc_pins>;
++	pinctrl-names = "default", "state_uhs";
++
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&reg_1p8v>;
++	mmc-hs200-1_8v;
++	mmc-hs400-1_8v;
++	bus-width = <8>;
++	no-sd;
++	no-sdio;
++	non-removable;
++	full-pwr-cycle-in-suspend;
++	status = "okay";
++};
++
+ &pfc {
+ 	avb0_pins: avb0 {
+ 		mux {
+@@ -307,6 +342,12 @@ i2c6_pins: i2c6 {
+ 		groups = "i2c6";
+ 		function = "i2c6";
+ 	};
++
++	mmc_pins: mmc {
++		groups = "mmc_data8", "mmc_ctrl", "mmc_ds";
++		function = "mmc";
++		power-source = <1800>;
++	};
+ };
+ 
+ &rwdt {
 -- 
 2.28.0
 
