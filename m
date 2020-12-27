@@ -2,244 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CF912E2AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Dec 2020 10:34:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E153C2E310E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Dec 2020 13:20:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729310AbgLYJeQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Dec 2020 04:34:16 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:32384 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729292AbgLYJeO (ORCPT
+        id S1726158AbgL0MUM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Dec 2020 07:20:12 -0500
+Received: from www.zeus03.de ([194.117.254.33]:56012 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726039AbgL0MUL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Dec 2020 04:34:14 -0500
-X-IronPort-AV: E=Sophos;i="5.78,447,1599490800"; 
-   d="scan'208";a="67150509"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Dec 2020 18:33:36 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A9A8C40178D8;
-        Fri, 25 Dec 2020 18:33:36 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
-        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
-        broonie@kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com
-Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v8 12/12] mfd: bd9571mwv: Add support for BD9574MWF
-Date:   Fri, 25 Dec 2020 18:33:27 +0900
-Message-Id: <1608888807-3117-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Sun, 27 Dec 2020 07:20:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=OLBuIGepKlSVnmvGOJPcnqAaTs1
+        pHZHKKgWY6yobjxk=; b=GS0VMtTRA8/I2eTF11iid3gIysSzmWR/b2aebbKSsy3
+        E3TL08YATnimvmjP9dZPBu5Duoq5thZ93eAMh5xJHfGP5zpwvgDnwcvDVBlxVyyN
+        ufGnRrY0fvjwYjutOdG7kA2Gn3klkxE17ky/t8Vp8ThfXo2fDZgEUBq5AEn2kbkA
+        =
+Received: (qmail 1494280 invoked from network); 27 Dec 2020 13:19:28 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Dec 2020 13:19:28 +0100
+X-UD-Smtp-Session: l3s3148p1@LAhEK3G3SsEgAwDPXwIpAOUwDQytQs2L
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH] arm64: dts: r8a779a0: correct reset values for GPIO
+Date:   Sun, 27 Dec 2020 13:19:25 +0100
+Message-Id: <20201227121925.8431-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+Because the datasheet is ambigious, copy over the reset values from the
+latest BSP.
 
-The new PMIC BD9574MWF inherits features from BD9571MWV.
-Add the support of new PMIC to existing bd9571mwv driver.
-
-Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
-Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/mfd/bd9571mwv.c       | 76 ++++++++++++++++++++++++++++++++++++++++++-
- include/linux/mfd/bd9571mwv.h | 17 ++++++++--
- 2 files changed, 89 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-index 2c1fcbb..e15b1ac 100644
---- a/drivers/mfd/bd9571mwv.c
-+++ b/drivers/mfd/bd9571mwv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * ROHM BD9571MWV-M MFD driver
-+ * ROHM BD9571MWV-M and BD9574MVF-M core driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -11,6 +11,7 @@
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/mfd/core.h>
-+#include <linux/mfd/rohm-generic.h>
- #include <linux/module.h>
- 
- #include <linux/mfd/bd9571mwv.h>
-@@ -103,6 +104,72 @@ static struct regmap_irq_chip bd9571mwv_irq_chip = {
- 	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
- };
- 
-+static const struct mfd_cell bd9574mwf_cells[] = {
-+	{ .name = "bd9574mwf-regulator", },
-+	{ .name = "bd9574mwf-gpio", },
-+};
-+
-+static const struct regmap_range bd9574mwf_readable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_VENDOR_CODE, BD9571MWV_PRODUCT_REVISION),
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_VINIT, BD9571MWV_DVFS_SETVMAX),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_readable_table = {
-+	.yes_ranges	= bd9574mwf_readable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_readable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_writable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_SETVID),
-+	regmap_reg_range(BD9571MWV_GPIO_DIR, BD9571MWV_GPIO_OUT),
-+	regmap_reg_range(BD9571MWV_GPIO_INT_SET, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_writable_table = {
-+	.yes_ranges	= bd9574mwf_writable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_writable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_volatile_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_DVFS_MONIVDAC, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INT),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTREQ),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_volatile_table = {
-+	.yes_ranges	= bd9574mwf_volatile_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_volatile_yes_ranges),
-+};
-+
-+static const struct regmap_config bd9574mwf_regmap_config = {
-+	.reg_bits	= 8,
-+	.val_bits	= 8,
-+	.cache_type	= REGCACHE_RBTREE,
-+	.rd_table	= &bd9574mwf_readable_table,
-+	.wr_table	= &bd9574mwf_writable_table,
-+	.volatile_table	= &bd9574mwf_volatile_table,
-+	.max_register	= 0xff,
-+};
-+
-+static struct regmap_irq_chip bd9574mwf_irq_chip = {
-+	.name		= "bd9574mwf",
-+	.status_base	= BD9571MWV_INT_INTREQ,
-+	.mask_base	= BD9571MWV_INT_INTMASK,
-+	.ack_base	= BD9571MWV_INT_INTREQ,
-+	.init_ack_masked = true,
-+	.num_regs	= 1,
-+	.irqs		= bd9571mwv_irqs,
-+	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
-+};
-+
- static int bd957x_identify(struct device *dev, struct regmap *regmap)
- {
- 	unsigned int value;
-@@ -162,6 +229,12 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 		cells = bd9571mwv_cells;
- 		num_cells = ARRAY_SIZE(bd9571mwv_cells);
- 		break;
-+	case BD9571MWV_PRODUCT_CODE_BD9574MWF:
-+		regmap_config = &bd9574mwf_regmap_config;
-+		irq_chip = &bd9574mwf_irq_chip;
-+		cells = bd9574mwf_cells;
-+		num_cells = ARRAY_SIZE(bd9574mwf_cells);
-+		break;
- 	default:
- 		dev_err(dev, "Unsupported device 0x%x\n", ret);
- 		return -ENODEV;
-@@ -190,6 +263,7 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 
- static const struct of_device_id bd9571mwv_of_match_table[] = {
- 	{ .compatible = "rohm,bd9571mwv", },
-+	{ .compatible = "rohm,bd9574mwf", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, bd9571mwv_of_match_table);
-diff --git a/include/linux/mfd/bd9571mwv.h b/include/linux/mfd/bd9571mwv.h
-index e1716ec..8efd99d 100644
---- a/include/linux/mfd/bd9571mwv.h
-+++ b/include/linux/mfd/bd9571mwv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * ROHM BD9571MWV-M driver
-+ * ROHM BD9571MWV-M and BD9574MWF-M driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -14,11 +14,12 @@
- #include <linux/device.h>
- #include <linux/regmap.h>
- 
--/* List of registers for BD9571MWV */
-+/* List of registers for BD9571MWV and BD9574MWF */
- #define BD9571MWV_VENDOR_CODE			0x00
- #define BD9571MWV_VENDOR_CODE_VAL		0xdb
- #define BD9571MWV_PRODUCT_CODE			0x01
- #define BD9571MWV_PRODUCT_CODE_BD9571MWV	0x60
-+#define BD9571MWV_PRODUCT_CODE_BD9574MWF	0x74
- #define BD9571MWV_PRODUCT_REVISION		0x02
- 
- #define BD9571MWV_I2C_FUSA_MODE			0x10
-@@ -48,6 +49,7 @@
- #define BD9571MWV_VD33_VID			0x44
- 
- #define BD9571MWV_DVFS_VINIT			0x50
-+#define BD9574MWF_VD09_VINIT			0x51
- #define BD9571MWV_DVFS_SETVMAX			0x52
- #define BD9571MWV_DVFS_BOOSTVID			0x53
- #define BD9571MWV_DVFS_SETVID			0x54
-@@ -61,6 +63,7 @@
- #define BD9571MWV_GPIO_INT_SET			0x64
- #define BD9571MWV_GPIO_INT			0x65
- #define BD9571MWV_GPIO_INTMASK			0x66
-+#define BD9574MWF_GPIO_MUX			0x67
- 
- #define BD9571MWV_REG_KEEP(n)			(0x70 + (n))
- 
-@@ -70,6 +73,8 @@
- #define BD9571MWV_PROT_ERROR_STATUS2		0x83
- #define BD9571MWV_PROT_ERROR_STATUS3		0x84
- #define BD9571MWV_PROT_ERROR_STATUS4		0x85
-+#define BD9574MWF_PROT_ERROR_STATUS5		0x86
-+#define BD9574MWF_SYSTEM_ERROR_STATUS		0x87
- 
- #define BD9571MWV_INT_INTREQ			0x90
- #define BD9571MWV_INT_INTREQ_MD1_INT		BIT(0)
-@@ -82,6 +87,12 @@
- #define BD9571MWV_INT_INTREQ_BKUP_TRG_INT	BIT(7)
- #define BD9571MWV_INT_INTMASK			0x91
- 
-+#define BD9574MWF_SSCG_CNT			0xA0
-+#define BD9574MWF_POFFB_MRB			0xA1
-+#define BD9574MWF_SMRB_WR_PROT			0xA2
-+#define BD9574MWF_SMRB_ASSERT			0xA3
-+#define BD9574MWF_SMRB_STATUS			0xA4
-+
- #define BD9571MWV_ACCESS_KEY			0xff
- 
- /* Define the BD9571MWV IRQ numbers */
-@@ -91,7 +102,7 @@ enum bd9571mwv_irqs {
- 	BD9571MWV_IRQ_MD2_E2,
- 	BD9571MWV_IRQ_PROT_ERR,
- 	BD9571MWV_IRQ_GP,
--	BD9571MWV_IRQ_128H_OF,
-+	BD9571MWV_IRQ_128H_OF,	/* BKUP_HOLD on BD9574MWF */
- 	BD9571MWV_IRQ_WDT_OF,
- 	BD9571MWV_IRQ_BKUP_TRG,
- };
+While looking for a problem when obtaining the reset GPIO for RAVB, I
+noticed this difference and so send this patch as a notification. It
+sadly did not fix my RAVB problem, so I'll report it with the RAVB
+patches there. I didn't find a map from "pfc-clocks" to "GPIO block"
+yet, so this is all very confusing without it.
+
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 2c7bb1503cda..16c64ec548df 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -110,7 +110,7 @@ gpio0: gpio@e6058180 {
+ 			interrupts = <GIC_SPI 832 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 916>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 916>;
++			resets =  <&cpg 1331>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 0 28>;
+@@ -124,7 +124,7 @@ gpio1: gpio@e6050180 {
+ 			interrupts = <GIC_SPI 836 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 915>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 915>;
++			resets =  <&cpg 1330>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 32 31>;
+@@ -138,7 +138,7 @@ gpio2: gpio@e6050980 {
+ 			interrupts = <GIC_SPI 840 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 915>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 915>;
++			resets =  <&cpg 1330>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 64 25>;
+@@ -152,7 +152,7 @@ gpio3: gpio@e6058980 {
+ 			interrupts = <GIC_SPI 844 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 916>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 916>;
++			resets =  <&cpg 1331>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 96 17>;
+@@ -166,7 +166,7 @@ gpio4: gpio@e6060180 {
+ 			interrupts = <GIC_SPI 848 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 917>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 917>;
++			resets =  <&cpg 1400>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 128 27>;
+@@ -180,7 +180,7 @@ gpio5: gpio@e6060980 {
+ 			interrupts = <GIC_SPI 852 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 917>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 917>;
++			resets =  <&cpg 1400>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 160 21>;
+@@ -194,7 +194,7 @@ gpio6: gpio@e6068180 {
+ 			interrupts = <GIC_SPI 856 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 918>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 918>;
++			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 192 21>;
+@@ -208,7 +208,7 @@ gpio7: gpio@e6068980 {
+ 			interrupts = <GIC_SPI 860 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 918>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 918>;
++			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 224 21>;
+@@ -222,7 +222,7 @@ gpio8: gpio@e6069180 {
+ 			interrupts = <GIC_SPI 864 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 918>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 918>;
++			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 256 21>;
+@@ -236,7 +236,7 @@ gpio9: gpio@e6069980 {
+ 			interrupts = <GIC_SPI 868 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 918>;
+ 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
+-			resets =  <&cpg 918>;
++			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+ 			// gpio-ranges = <&pfc 0 288 21>;
 -- 
-2.7.4
+2.29.2
 
