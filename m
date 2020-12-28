@@ -2,84 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 907322E361F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 11:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CC552E3661
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 12:28:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgL1K7R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Dec 2020 05:59:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49902 "EHLO mail.kernel.org"
+        id S1727085AbgL1L2U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Dec 2020 06:28:20 -0500
+Received: from www.zeus03.de ([194.117.254.33]:37426 "EHLO mail.zeus03.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727019AbgL1K7R (ORCPT
+        id S1727019AbgL1L16 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Dec 2020 05:59:17 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id EDB862084D
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Dec 2020 10:58:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609153117;
-        bh=8t34yV6JuabaCWsqflZlqF8dF8B6+wtLvEx69/aG/8A=;
-        h=Subject:From:Date:To:From;
-        b=k3S22zeM7kRvbPc65iOvlYoGFrDIssgX9fz1scVgQeWrIE9nkefHrYqlgGrXbU+WP
-         fsJFT4BpKm4LNnxjZRLwZXfvckSyS4MR+1FoTN4gdXKK2lGjAIMeRr0IE/F8Imkt5m
-         Pa7reL0izq+ryfEEOvPIukUPSwlD+RbMqnIGLNb2WxuafMCUEV590VL76+nId4HDKN
-         CbERiJvTg6Xz1FDBpfJmsZCPKw/SUT+OHTRlpGbio1gC2BMxIcX6COyp2ZEWoCIaPI
-         G1d5SzH9Xrdd352kDiFmeQmG8GyvPYer4lXztVqvyFyPhGVzHHcbfyBWlaM3qWP26Z
-         nNxicYLx/XzRw==
-Received: from pdx-korg-docbuild-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-1.ci.codeaurora.org (Postfix) with ESMTP id CF49560504
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 28 Dec 2020 10:58:36 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 28 Dec 2020 06:27:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=GVxhTXLPfgHw1CkQt9T4NPJKwc9
+        uEgyIGg6fuAWxXH8=; b=0uz2JgKdg1DMm2gfKLOFm56B0CWCUIgmGbqN4sQpGBK
+        bu+SorzTfcR3mrCX9cdo/y7dApOVvi7Fc86XaFhYWY4lz7aR4oN0tFj55ldR2vSj
+        J9khEDn1QT0Ht7s7PmmGEk3tKKAqlZag0C4P66Xvc46Q1R2DU6/UPfwftMqpk9fE
+        =
+Received: (qmail 1738945 invoked from network); 28 Dec 2020 12:27:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Dec 2020 12:27:15 +0100
+X-UD-Smtp-Session: l3s3148p1@s1dYjoS3xJQgAwDPXwIpAOUwDQytQs2L
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-serial@vger.kernel.org
+Subject: [PATCH 0/6] v3u: add & update (H)SCIF nodes
+Date:   Mon, 28 Dec 2020 12:27:07 +0100
+Message-Id: <20201228112715.14947-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <160915311678.31533.17337011338198718909.git-patchwork-summary@kernel.org>
-Date:   Mon, 28 Dec 2020 10:58:36 +0000
-To:     linux-renesas-soc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+SCIF0 already worked because of firmware settings, but let's have a
+proper node for it. Also add HSCIF0 because the last patch shows that it
+also works. Because these blocks work in general, let's add the other
+instances to the DTSI, too.
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel.git (refs/heads/next):
+These additions make me a bit wonder about the 'reg'-based sorting in
+our DTSI files. It looks a bit messy to me, but I kept it for
+consistency. Same with the (H)SCIF reg sizes which are a tad too large
+but in sync with our other DTSI files.
 
-Patch: [GIT,PULL] pinctrl: sh-pfc: Updates for v5.11 (take two)
-  Submitter: Geert Uytterhoeven <geert@linux-m68k.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=392231
-  Lore link: https://lore.kernel.org/r/20201127134304.79252-1-geert@linux-m68k.org
-Series: tmio/sdhi: fix workaround for a regression
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=378775
-  Lore link: https://lore.kernel.org/r/20201106072549.1495-1-wsa+renesas@sang-engineering.com
-    Patches: [1/3] mmc: tmio: when resetting, reset DMA controller, too
-             [2/3] mmc: tmio: bring tuning HW to a sane state with MMC_POWER_OFF
-             [3/3] Revert "mmc: renesas_sdhi: workaround a regression when reinserting SD cards"
-Patch: [GIT,PULL] clk: renesas: Updates for v5.11 (take three)
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=399583
-  Lore link: https://lore.kernel.org/r/20201210075018.2407915-1-geert+renesas@glider.be
-Patch: dma-mapping: Fix 32-bit overflow with CONFIG_ARM_LPAE=n
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=370571
-  Lore link: https://lore.kernel.org/r/20201026152755.3738293-1-geert+renesas@glider.be
-Patch: [net,v2] ravb: Fix bit fields checking in ravb_hwtstamp_get()
-  Submitter: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=370279
-  Lore link: https://lore.kernel.org/r/20201026102130.29368-1-andrew_gabbasov@mentor.com
-Patch: mmc: host: renesas_sdhi_core: Missing tmio_mmc_host_free() in renesas_sdhi_remove()
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=378887
-  Lore link: https://lore.kernel.org/r/1604654730-29914-1-git-send-email-yoshihiro.shimoda.uh@renesas.com
-Patch: irqchip/renesas-intc-irqpin: Merge irlm_bit and needs_irlm
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=372207
-  Lore link: https://lore.kernel.org/r/20201028153955.1736767-1-geert+renesas@glider.be
+Looking forward to comments!
 
-Total patches: 9
+All the best,
 
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+   Wolfram
 
+
+Linh Phung (1):
+  arm64: dts: renesas: r8a779a0: Add HSCIF support
+
+Wolfram Sang (5):
+  arm64: dts: renesas: r8a779a0: add & update SCIF nodes
+  arm64: dts: renesas: falcon: add SCIF0 nodes
+  dt-bindings: serial: renesas,hscif: Add r8a779a0 support
+  clk: renesas: r8a779a0: add HSCIF support
+  WIP: arm64: dts: renesas: falcon: switch to from SCIF0 to HSCIF0
+
+ .../bindings/serial/renesas,hscif.yaml        |   1 +
+ .../boot/dts/renesas/r8a779a0-falcon.dts      |  31 ++++-
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 114 ++++++++++++++++++
+ drivers/clk/renesas/r8a779a0-cpg-mssr.c       |   4 +
+ 4 files changed, 149 insertions(+), 1 deletion(-)
+
+-- 
+2.29.2
 
