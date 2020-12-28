@@ -2,158 +2,146 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D812E4375
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 16:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F37EC2E3B79
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 14:51:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393003AbgL1PiP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Dec 2020 10:38:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55222 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406339AbgL1Nub (ORCPT
-        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        id S2406345AbgL1Nub (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 28 Dec 2020 08:50:31 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44017C061794;
-        Mon, 28 Dec 2020 05:49:51 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id y5so9421719iow.5;
-        Mon, 28 Dec 2020 05:49:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aY3+fF6ahur6BRAAf5s0alh02lNeUKehSGviAXjROSI=;
-        b=p2R639eutLj/ekQRl7oLIRUzjKG8W3xHyJI3x6H4EjLeKBgR9oxl5pUNxkRkTkg7LS
-         9ySap+Nwztuphg0TUJeraGRHJHhF7jBPjGODY2EDuwShgHADXKHY19YqM2fKfiMXjB47
-         veQE9NSLh8yB7IH1FcriExXeL1NgEYjd8JPcT94hg/hNeXFWlQgfC9/BCFynQ7Ka3Dfr
-         0fNBNQgoU2iZPY3dilnC7f71CfYucqG1eRakyCbvdYACUMsueoawnGyQYneBC6l6+elg
-         GDHeG3UavN/0JOgL0AtiuTFkL7JC54/BQbB4xO3zrG31oMqHPisfcXEfbgLJ3yo0ubnW
-         Yt3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aY3+fF6ahur6BRAAf5s0alh02lNeUKehSGviAXjROSI=;
-        b=UcdGPiCZiwb2uM9bHuhSaxh8Of4JmjpTkB7AgFnUn51x19HTFSGFiKYwLycXBP3/Eh
-         Lv9KLrsR8JWBoTyxof4jpFGpR4yuBVwX3UWv8HgAFHcSHJi35lPUHd+YPLs/OuhtRgG4
-         MYv/ziKiLF85lv/VjiMbQcFJ3UMtiOuClQ2OWdX3Pq/ui4QWiO8HeW9qtZsfGvcSRqjE
-         XmMxMmdvKcdsCf7OkNe6La/mLz0imecSPGWRji3uEdWXrJIAByBIsh+5nJNdoPYLUApK
-         9cGGdZzguWrvfuJKIr4/nTpo4zPg1b8mYHvrDZDWdCIWAWc1ACBpoSt2Uf8NrCdTc1Od
-         9JMQ==
-X-Gm-Message-State: AOAM533fgv4qWcQ06dbTKBaqGnKFs/rhv7sO4HRgbhIJZgA2b58UBOZu
-        urnALx4lQes8WUNKZGQzfbm5u1nXLhq7l9vHpqY=
-X-Google-Smtp-Source: ABdhPJxV3MQQijnCDs5PRer+8kGiEbxEcyeundH6v2iVn++5qu0ItwUnDD9NekDaNisM0C92aCYmrw189ktK0gzp1z4=
-X-Received: by 2002:a05:6638:296:: with SMTP id c22mr39135330jaq.65.1609163390490;
- Mon, 28 Dec 2020 05:49:50 -0800 (PST)
+Received: from www.zeus03.de ([194.117.254.33]:56064 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2406339AbgL1Nua (ORCPT
+        <rfc822;linux-renesas-soc@vger.kernel.org>);
+        Mon, 28 Dec 2020 08:50:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=6f/McbvImz/4E7rQoIsCp+Rkhnw
+        pE6JVfs+Wsicf3Nk=; b=ymaDkTWRA/M8Cf6BIvtwAT3S8ixK1GagPdrdrxKvD0h
+        6ZyNb/4wP9pEgbpVtk3/LNm1Tg1INbtGQzJlXjWskSAQO/Sy5KM6hWMYOHyLto+1
+        S2F7m+GPgpBk4wGJYgoz+HzQaD0mFM451NQnyL0cCaDLV4npznlMyYUrBciw6dsk
+        =
+Received: (qmail 1771730 invoked from network); 28 Dec 2020 14:49:47 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Dec 2020 14:49:47 +0100
+X-UD-Smtp-Session: l3s3148p1@WtUSjIa3/pUgAwDPXwIpAOUwDQytQs2L
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] arm64: dts: r8a779a0: enable gpio-ranges
+Date:   Mon, 28 Dec 2020 14:49:41 +0100
+Message-Id: <20201228134941.70965-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201212165648.166220-1-aford173@gmail.com> <CAMuHMdUr5MWpa5fhpKgAm7zRgzzJga=pjNSVG3aoTvCmuq5poQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUr5MWpa5fhpKgAm7zRgzzJga=pjNSVG3aoTvCmuq5poQ@mail.gmail.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Mon, 28 Dec 2020 07:49:39 -0600
-Message-ID: <CAHCN7x+jm8agBzqDqnkmW1Obtd0zL6EA_xbicvkroZ+kmgEqiA@mail.gmail.com>
-Subject: Re: [RFC] ravb: Add support for optional txc_refclk
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Charles Stevens <charles.stevens@logicpd.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 14, 2020 at 4:05 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Adam,
->
-> On Sun, Dec 13, 2020 at 5:18 PM Adam Ford <aford173@gmail.com> wrote:
-> > The SoC expects the txv_refclk is provided, but if it is provided
-> > by a programmable clock, there needs to be a way to get and enable
-> > this clock to operate.  It needs to be optional since it's only
-> > necessary for those with programmable clocks.
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/net/ethernet/renesas/ravb.h
-> > +++ b/drivers/net/ethernet/renesas/ravb.h
-> > @@ -994,6 +994,7 @@ struct ravb_private {
-> >         struct platform_device *pdev;
-> >         void __iomem *addr;
-> >         struct clk *clk;
-> > +       struct clk *ref_clk;
-> >         struct mdiobb_ctrl mdiobb;
-> >         u32 num_rx_ring[NUM_RX_QUEUE];
-> >         u32 num_tx_ring[NUM_TX_QUEUE];
-> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> > index bd30505fbc57..4c3f95923ef2 100644
-> > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > @@ -2148,6 +2148,18 @@ static int ravb_probe(struct platform_device *pdev)
-> >                 goto out_release;
-> >         }
-> >
-> > +       priv->ref_clk = devm_clk_get(&pdev->dev, "txc_refclk");
->
-> Please also update the DT bindings[1], to document the optional
-> presence of the clock.
+Now that we have PFC support, we can also enable gpio-ranges. This
+enables requesting GPIOs.
 
-I am not all that familiar with the YAML syntax, but right now, the
-clock-names property isn't in the binding, and the driver doesn't use
-a name when requesting the single clock it's expecting.
-Since the txc_refclk is optional, can the clock-names property allow
-for 0-2 names while the number of clocks be 1-2?
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-clocks:
-    minItems: 1
-    maxItems: 2
+This is now part of my renesas/v3u/gpio branch. Geert, feel free to
+squash it into your GPIO series.
 
-  clock-names:
-    minItems: 0
-    maxItems: 2
-    items:
-      enum:
-        - fck # AVB functional clock (optional if it is the only clock)
-        - txc_refclk # TXC reference clock
+ arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-With the above proposal, the clock-names would only be necessary when
-using the txc_refclk.
+diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+index 16c64ec548df..cd2d65c6c865 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+@@ -113,7 +113,7 @@ gpio0: gpio@e6058180 {
+ 			resets =  <&cpg 1331>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 0 28>;
++			gpio-ranges = <&pfc 0 0 28>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -127,7 +127,7 @@ gpio1: gpio@e6050180 {
+ 			resets =  <&cpg 1330>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 32 31>;
++			gpio-ranges = <&pfc 0 32 31>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -141,7 +141,7 @@ gpio2: gpio@e6050980 {
+ 			resets =  <&cpg 1330>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 64 25>;
++			gpio-ranges = <&pfc 0 64 25>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -155,7 +155,7 @@ gpio3: gpio@e6058980 {
+ 			resets =  <&cpg 1331>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 96 17>;
++			gpio-ranges = <&pfc 0 96 17>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -169,7 +169,7 @@ gpio4: gpio@e6060180 {
+ 			resets =  <&cpg 1400>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 128 27>;
++			gpio-ranges = <&pfc 0 128 27>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -183,7 +183,7 @@ gpio5: gpio@e6060980 {
+ 			resets =  <&cpg 1400>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 160 21>;
++			gpio-ranges = <&pfc 0 160 21>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -197,7 +197,7 @@ gpio6: gpio@e6068180 {
+ 			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 192 21>;
++			gpio-ranges = <&pfc 0 192 21>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -211,7 +211,7 @@ gpio7: gpio@e6068980 {
+ 			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 224 21>;
++			gpio-ranges = <&pfc 0 224 21>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -225,7 +225,7 @@ gpio8: gpio@e6069180 {
+ 			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 256 21>;
++			gpio-ranges = <&pfc 0 256 21>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+@@ -239,7 +239,7 @@ gpio9: gpio@e6069980 {
+ 			resets =  <&cpg 1401>;
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+-			// gpio-ranges = <&pfc 0 288 21>;
++			gpio-ranges = <&pfc 0 288 21>;
+ 			interrupt-controller;
+ 			#interrupt-cells = <2>;
+ 		};
+-- 
+2.29.2
 
->
-> > +       if (IS_ERR(priv->ref_clk)) {
-> > +               if (PTR_ERR(priv->ref_clk) == -EPROBE_DEFER) {
-> > +                       /* for Probe defer return error */
-> > +                       error = PTR_ERR(priv->ref_clk);
-> > +                       goto out_release;
-> > +               }
-> > +               /* Ignore other errors since it's optional */
-> > +       } else {
-> > +               (void)clk_prepare_enable(priv->ref_clk);
->
-> This can fail.
-> Does this clock need to be enabled all the time?
-> At least it should be disabled in the probe failure path, and in
-> ravb_remove().
-
-I'll do that for the next rev.
-
-thanks,
-
-adam
->
-> [1] Documentation/devicetree/bindings/net/renesas,etheravb.yaml
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
