@@ -2,232 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 700D32E3F77
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 15:42:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A9622E3F66
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 28 Dec 2020 15:40:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502283AbgL1O2I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Dec 2020 09:28:08 -0500
-Received: from www.zeus03.de ([194.117.254.33]:37208 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437885AbgL1O2H (ORCPT
+        id S2505760AbgL1Ojx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Dec 2020 09:39:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2505756AbgL1Ojw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Dec 2020 09:28:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:mime-version:content-type; s=
-        k1; bh=7CNRNQciaUeAwYNFKSiOrL1eScoKBv5nsfZqOxbk8mY=; b=nrxQD8wJU
-        mQlup+21gOqgeaHqwIQWKQFxsYWizfpJA84c8yv2TDj2OWe29qkE1A/i4UOqTJIR
-        Xkqeg45zoBBnllIlJV4v/hEEZsFIxNexQIHcsMH+IFuHU9X5E/qGG3LSMrY+RrAq
-        BvAUad2x+i7bQdJ/iXp4S+WrnXPPn7I8nE=
-Received: (qmail 1780583 invoked from network); 28 Dec 2020 15:27:24 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Dec 2020 15:27:24 +0100
-X-UD-Smtp-Session: l3s3148p1@DbGhEoe3XJYgAwDPXwIpAOUwDQytQs2L
-Date:   Mon, 28 Dec 2020 15:27:24 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wolfram Sang <wsa@the-dreams.de>
-Subject: [PULL REQUEST v2] renesas/v3u/scif for renesas drivers
-Message-ID: <20201228142724.GA93214@kunai>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
+        Mon, 28 Dec 2020 09:39:52 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69DEC061795;
+        Mon, 28 Dec 2020 06:39:11 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id 2so9602720ilg.9;
+        Mon, 28 Dec 2020 06:39:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aURPYtA3lpG+7e0e4HidMNiG4zYD+7X05J1ucN2OsKw=;
+        b=OmS8mazgyq9xAou1z6fMdsjY0v6XDZy2umiTInuR2Ze8Ys7UuVNx2R23Oxes1GD5xH
+         6nNECex5i0YMeQl6l8AeIPDrPruXfP+ljmChEmEwmdvJgCW1KolwovNATZszPggB6GRW
+         rw9svx/RDLrcT9tLWD6TXQ7Y3RXVODXwW9ZfKkMOM8HmgPGq2tb5WSe2JH0wwtVS+B40
+         klCMmV8pxFCiL9D5+xn/f96/YmEAbE1Z7/t6huI5aLe7S3fgimTAYxFR40AE4EYLqnVI
+         RyXCy7z3Q0UtZSfLSRAHAR9PNKWxK2C9gMNrnY76Q5A94dOEehhY/B2TDm2TWrhQzahg
+         GrTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aURPYtA3lpG+7e0e4HidMNiG4zYD+7X05J1ucN2OsKw=;
+        b=JF6CPFU0H3ywZM3gWLwAUQAMb2F5L2Xu6BcA/knAoRXNJmdTctDEpNwLQ7BRuglRD1
+         oYUSLJZa54VK7j1oOLrTFS5d2K33lgrDjCgD8hnRApkDt1AnKbvcXiZ57hK+Cw4v30zc
+         iCuoaCihGw7hCP9x+d86kz8ICtKQrOGplYT5esnPYM10FM47BA86X2DMcpBJq7/tfH6T
+         qQSJlIYwNgkEQsI+q9GBsiyRZOeGykI2gf7tIz/nbkNHWnROYZ4QjI0U9pfu6kWQ68Nu
+         W3T/m1U/cnT9NrttK7l3nm0Wb9ezdS3yz3fqWz0XhGMp5yPuXwXei/6KeFofR63y6nnd
+         putw==
+X-Gm-Message-State: AOAM532pRxl0qHv/tAWasqyBw6MqvAfW3UBWbpjmS9gMBWrRg9Me7jLz
+        B5KhpSPLbR54SdxOC3FEIvh7gAlqZpq2ah5nN0ZglSRBZCo=
+X-Google-Smtp-Source: ABdhPJyyLG1CQMwGZMhr267avKgtnbF7s0e0qmOVefJDnEfAi/7J/KcqMmqfK44TjwuWk0auViYbpqe58aUo+M7mf3k=
+X-Received: by 2002:a92:d2cf:: with SMTP id w15mr44414352ilg.214.1609166349557;
+ Mon, 28 Dec 2020 06:39:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20201213183759.223246-1-aford173@gmail.com> <20201213183759.223246-2-aford173@gmail.com>
+ <CAMuHMdWRieM1H5WLySVDVQds-xKgsqo-OibegJrXgonfqbAL8g@mail.gmail.com>
+ <CAHCN7xL3KU4dA=0-S7J5AEPmjAtpz4j-frEUqBD=JU7BV7g1WA@mail.gmail.com>
+ <CAMuHMdWc=qD=Oqa-7o9K1bd_OM0L7Br8BVAbDvYNraO0wAX2jw@mail.gmail.com>
+ <CAHCN7xKsSgM+=MFOKpNZTsJJiNyx6_mqZL2g_PKhN5fWyE6y7Q@mail.gmail.com>
+ <CAMuHMdVxzcyVuK06BqE4GQPLE8J7V5Jc-W_RSENNxEQG68krCw@mail.gmail.com>
+ <CAHCN7xJVn7gbCX8ibSFbyjA4HqyxPR9_vXvJQQSbJRKoaF_51Q@mail.gmail.com>
+ <CAMuHMdV0djkKTSHbCuv0d2sh+rGs1=WNNEcCNXE3daM8uAcRxw@mail.gmail.com>
+ <CAHCN7x+re5Qswbw=n8Gq0newXW0WoO7=ZseD3YZWMvD_nmBq3w@mail.gmail.com> <CAMuHMdUDb8e3Vv3C3N74D2-VYgsyVEHG9iVcnuNESTX6NArkFA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUDb8e3Vv3C3N74D2-VYgsyVEHG9iVcnuNESTX6NArkFA@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Mon, 28 Dec 2020 08:38:58 -0600
+Message-ID: <CAHCN7xJdR13sqX0H_WTx795P8D1mcNQo65XwrvWYF6k0pUGEAg@mail.gmail.com>
+Subject: Re: [PATCH 01/18] arm64: dts: renesas: beacon kit: Configure
+ programmable clocks
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Mon, Dec 28, 2020 at 6:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Adam,
+>
+> On Thu, Dec 24, 2020 at 2:53 PM Adam Ford <aford173@gmail.com> wrote:
+> > On Tue, Dec 22, 2020 at 2:03 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > On Tue, Dec 22, 2020 at 2:39 AM Adam Ford <aford173@gmail.com> wrote:
+> > > > On Fri, Dec 18, 2020 at 7:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > On Thu, Dec 17, 2020 at 12:52 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > > > On Thu, Dec 17, 2020 at 2:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > > On Wed, Dec 16, 2020 at 6:03 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > > > > > On Wed, Dec 16, 2020 at 8:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > > > > > > On Sun, Dec 13, 2020 at 7:38 PM Adam Ford <aford173@gmail.com> wrote:
+> > > > > > > > > > When the board was added, clock drivers were being updated done at
+> > > > > > > > > > the same time to allow the versaclock driver to properly configure
+> > > > > > > > > > the modes.  Unforutnately, the updates were not applied to the board
+> > > > > > >
+> > > > > > > > > > --- a/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > > > > > > > > +++ b/arch/arm64/boot/dts/renesas/beacon-renesom-baseboard.dtsi
+> > > > > > > > > > @@ -5,6 +5,7 @@
+> > > > > > > > > >
+> > > > > > > > > >  #include <dt-bindings/gpio/gpio.h>
+> > > > > > > > > >  #include <dt-bindings/input/input.h>
+> > > > > > > > > > +#include <dt-bindings/clk/versaclock.h>
+> > > > > > > > > >
+> > > > > > > > > >  / {
+> > > > > > > > > >         backlight_lvds: backlight-lvds {
+> > > > > > > > > > @@ -294,12 +295,12 @@ &du_out_rgb {
+> > > > > > > > > >  &ehci0 {
+> > > > > > > > > >         dr_mode = "otg";
+> > > > > > > > > >         status = "okay";
+> > > > > > > > > > -       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
+> > > > > > > > > > +       clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3>;
+> > > > > > > > >
+> > > > > > > > > Why this change? You said before you don't need this
+> > > > > > > > > https://lore.kernel.org/linux-renesas-soc/CAHCN7xJWbP16SA-Ok-5syNnqOZAt8OFJo2_rtg5VrNVsN2-eiQ@mail.gmail.com/
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > I had talked with the hardware guys about buy pre-programmed
+> > > > > > > > versaclock chips which would have been pre-configured and pre-enabled.
+> > > > > > > > I thought it was going to happen, but it didn't, so we need the
+> > > > > > > > versaclock driver to enable the reference clock for the USB
+> > > > > > > > controllers, ethernet controller and audio clocks.  Previously we were
+> > > > > > > > manually configuring it or it was coincidentally working. Ideally,
+> > > > > > > > we'd have the clock system intentionally enable/disable the clocks
+> > > > > > > > when drivers are loaded/unloaded for for power management reasons.
+> > > > > > >
+> > > > > > > Can you tell me how exactly the Versaclock outputs are wired?
+> > > > > >
+> > > > > > The SoC is expecting a fixed external 50 MHz clock connected to
+> > > > > > USB_EXTAL.  Instead of a fixed clock, we're using the Versaclock.
+> > > > > > We're also using the Versaclock to drive the AVB TXCRefClk,
+> > > > > > du_dotclkiun0 and du_dotclkin2 (also also called du_dotclkin3 on
+> > > > > > RZ/G2N) instead of fixed clocks.
+> > > > > >
+> > > > > > > E.g. for USB, the bindings don't say anything about a third clock input,
+> > > > > > > so I'd like to know where that clock is fed into USB.
+> > > > > >
+> > > > > > The way the driver is crafted, it can take in multiple clocks and it
+> > > > > > goes through a list to enable them all, so I added the versaclock to
+> > > > > > the array.  Without the versaclock reference, the clock doesn't get
+> > > > > > turned on and the USB fails to operate.
+> > > > >
+> > > > > According to the Hardware User's Manual, USBL_EXTAL is used for USB3.0,
+> > > > > while you added the clock references to the EHCI nodes.
+> > > > > Are you sure EHCI is failing without this?
+> >
+> > I talked to a colleague about the USB_EXTAL.  He pointed me to table
+> > 60.1 of the RZ/2 Series, 2nd Generate reference manual
+> > (R01UH0808EJ0100 Rev.1.00),  which shows the USB EHCI needing the
+> > 50MHz.  When I clear out the references from ehci0 and echi1, the USB
+> > stops working, so it does appear that using the versaclock as the 3rd
+> > clock is needed for operating.  The device tree bindings for the
+> > generic-ehci provide for up to 4 clocks, so it seems like referencing
+> > clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>, <&versaclock5 3> are
+> > not a violation of the bindings.
+>
+> Perhaps you need to use renesas,rcar-usb2-clock-sel?
+> Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.yaml
 
---SUOF0GtieIMvvwua
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for the pointer. I didn't know this existed.  It looks like the
+right thing to do.  With that node, it appears to enable the
+versaclock and USB works.
+I'll submit a V3 at some point with this node added to each of the
+kit-level files since they use slightly different power-domains.
 
-Hi Geert,
+Do I need to add updates to the bindings for
+renesas,r8a774a1-rcar-usb2-clock-sel; r8a774b1-rcar-usb2-clock-sel;
+and renesas,r8a774e1-rcar-usb2-clock-sel; or I can I just use the
+generic reference to renesas,rcar-gen3-usb2-clock-sel?
 
-here is v2 of my v3u branch for renesas-drivers. It includes all the IO
-enablement which I did for V3U and it is based on v5.11-rc1. If you want
-a finer granulation, you can find per-IO-device based branches in my git
-tree, now all also based on v5.11-rc1:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/v3u/*
-
-Other changes:
-	* removed the 'unused variable' patches for SMP because they are
-	  already in renesas drivers
-	* added a patch to enable 'gpio-ranges' and removed a patch to
-	  disable 'reset-gpios' for AVB. reset-gpios work now
-	* removed the patch to move from SCIF0 to HSCIF0. HSCIF0 has
-	  been tested now, but we still want SCIF0 as the debug console
-
-Please pull.
-
-All the best,
-
-   Wolfram
-
-
-The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
-
-  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/v3u/scif
-
-for you to fetch changes up to 4dc3446a23362f840418d32c39626439bdd119fe:
-
-  arm64: dts: renesas: r8a779a0: Add HSCIF support (2020-12-28 15:07:12 +0100)
-
-----------------------------------------------------------------
-Geert Uytterhoeven (8):
-      arm64: dts: renesas: r8a779a0: Add dmac1 placeholder node
-      clk: renesas: r8a779a0: Remove non-existent S2 clock
-      clk: renesas: r8a779a0: Fix parent of CBFUSA clock
-      clk: renesas: r8a779a0: Add PFC/GPIO clocks
-      dt-bindings: gpio: rcar: Add r8a779a0 support
-      gpio: rcar: Optimize GPIO pin state read on R-Car Gen3
-      gpio: rcar: Add R-Car V3U (R8A7799A) support
-      arm64: dts: r8a779a0: Add GPIO nodes
-
-Hoang Vo (2):
-      arm64: dts: renesas: r8a779a0: Add RWDT node
-      arm64: dts: renesas: falcon: Enable watchdog timer
-
-Koji Matsuoka (3):
-      arm64: dts: renesas: Add PFC driver to R8A779A0
-      arm64: dts: renesas: Add I2C to R8A779A0
-      arm64: dts: renesas: Add I2C support for falcon board
-
-Linh Phung (1):
-      arm64: dts: renesas: r8a779a0: Add HSCIF support
-
-Takeshi Saito (2):
-      arm64: dts: renesas: r8a779a0: Add MMC node
-      arm64: dts: renesas: falcon: Enable MMC
-
-Tho Vu (2):
-      arm64: dts: renesas: r8a779a0: Add Ethernet-AVB support
-      arm64: dts: renesas: falcon: Add Ethernet-AVB support
-
-Ulrich Hecht (17):
-      pinctrl: renesas: implement unlock register masks
-      pinctrl: renesas: add I/O voltage level flag
-      pinctrl: renesas: add PORT_GP_CFG_{2,31} macros
-      pinctrl: renesas: Initial R8A779A0 (V3U) PFC support
-      pinctrl: renesas: r8a779a0: Add SCIF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add I2C pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add CANFD pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add DU pins, groups and function
-      pinctrl: renesas: r8a779a0: Add HSCIF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add INTC-EX pins, groups and function
-      pinctrl: renesas: r8a779a0: Add MMC pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add MSIOF pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add PWM pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add QSPI pins, groups, and functions
-      pinctrl: renesas: r8a779a0: Add TMU pins, groups and functions
-      pinctrl: renesas: r8a779a0: Add TPU pins, groups and functions
-
-Wolfram Sang (25):
-      dt-bindings: watchdog: renesas,wdt: add r8a779a0 (V3U) support
-      clk: renesas: r8a779a0: Add RWDT clocks
-      WIP soc: v3u: allow WDT reset
-      arm64: add grace period when rebooting
-      arm64: proper comment formatting in reboot handler
-      watchdog: renesas_wdt: don't sleep in atomic context
-      dt-bindings: i2c: renesas,i2c: add r8a779a0 (V3U) support
-      clk: renesas: r8a779a0: add clocks for I2C
-      v3u: enable other I2C busses for testing
-      i2c: rcar: faster irq code to minimize HW race condition
-      i2c: rcar: optimize cacheline to minimize HW race condition
-      i2c: rcar: make sure irq is not threaded on Gen2 and earlier
-      i2c: rcar: protect against supurious interrupts on V3U
-      arm64: dts: r8a779a0: correct reset values for GPIO
-      arm64: dts: r8a779a0: enable gpio-ranges
-      dt-bindings: net: renesas,etheravb: Add r8a779a0 support
-      clk: renesas: r8a779a0: add clocks for RAVB
-      dt-bindings: mmc: renesas,sdhi: Add r8a779a0 support
-      clk: renesas: rcar-gen3: remove cpg_quirks access when registering SD clock
-      clk: renesas: rcar-gen3: factor out CPG library
-      clk: renesas: r8a779a0: add SDHI support
-      arm64: dts: renesas: r8a779a0: add & update SCIF nodes
-      arm64: dts: renesas: falcon: add SCIF0 nodes
-      dt-bindings: serial: renesas,hscif: Add r8a779a0 support
-      clk: renesas: r8a779a0: add HSCIF support
-
-
-with much appreciated quality assurance from
-----------------------------------------------------------------
-Geert Uytterhoeven (10):
-      (Rev.) pinctrl: renesas: r8a779a0: Add TPU pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add QSPI pins, groups, and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add PWM pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add MSIOF pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add MMC pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add INTC-EX pins, groups and function
-      (Rev.) pinctrl: renesas: r8a779a0: Add HSCIF pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add DU pins, groups and function
-      (Rev.) pinctrl: renesas: r8a779a0: Add EtherAVB pins, groups and functions
-      (Rev.) pinctrl: renesas: r8a779a0: Add I2C pins, groups and functions
-
-Yoshihiro Shimoda (5):
-      (Rev.) gpio: rcar: Add R-Car V3U (R8A7799A) support
-      (Rev.) gpio: rcar: Optimize GPIO pin state read on R-Car Gen3
-      (Rev.) clk: renesas: r8a779a0: Add PFC/GPIO clocks
-      (Rev.) clk: renesas: r8a779a0: Fix parent of CBFUSA clock
-      (Rev.) clk: renesas: r8a779a0: Remove non-existent S2 clock
-
- .../bindings/gpio/renesas,rcar-gpio.yaml           |    3 +
- .../devicetree/bindings/i2c/renesas,i2c.txt        |    1 +
- .../devicetree/bindings/mmc/renesas,sdhi.yaml      |    1 +
- .../devicetree/bindings/net/renesas,etheravb.yaml  |    1 +
- .../devicetree/bindings/serial/renesas,hscif.yaml  |    1 +
- .../devicetree/bindings/watchdog/renesas,wdt.yaml  |    1 +
- arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts    |  359 ++
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi          |  688 +++
- arch/arm64/kernel/process.c                        |    7 +-
- drivers/clk/renesas/Kconfig                        |    5 +
- drivers/clk/renesas/Makefile                       |    1 +
- drivers/clk/renesas/r8a779a0-cpg-mssr.c            |   51 +-
- drivers/clk/renesas/rcar-cpg-lib.c                 |  270 ++
- drivers/clk/renesas/rcar-cpg-lib.h                 |   33 +
- drivers/clk/renesas/rcar-gen3-cpg.c                |  267 +-
- drivers/gpio/gpio-rcar.c                           |   64 +-
- drivers/i2c/busses/i2c-rcar.c                      |   66 +-
- drivers/pinctrl/renesas/Kconfig                    |    5 +
- drivers/pinctrl/renesas/Makefile                   |    1 +
- drivers/pinctrl/renesas/core.c                     |   34 +-
- drivers/pinctrl/renesas/pfc-r8a779a0.c             | 4471 ++++++++++++++++++++
- drivers/pinctrl/renesas/pinctrl.c                  |   16 +-
- drivers/pinctrl/renesas/sh_pfc.h                   |   23 +-
- drivers/soc/renesas/rcar-rst.c                     |    8 +
- drivers/watchdog/renesas_wdt.c                     |   30 +-
- 25 files changed, 6095 insertions(+), 312 deletions(-)
- create mode 100644 drivers/clk/renesas/rcar-cpg-lib.c
- create mode 100644 drivers/clk/renesas/rcar-cpg-lib.h
- create mode 100644 drivers/pinctrl/renesas/pfc-r8a779a0.c
-
---SUOF0GtieIMvvwua
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/p60gACgkQFA3kzBSg
-Kbbshg/8DF/d5FVNKweZTP4+tjlyLw2PYT7NIhXcVNv5VvhvomaekzS2mPz5S8qU
-LG33JTovqkMQb6mYdWlXR6n+S7pY5M+GncOnmh/AQbuBhsVfAH1yDsfk+K7Q+Ycm
-SxsJ/qvbdfxWeVdK4FANSPkEuGxopnntl+TyxlyrOY6t2C/31ZdntSTg4qZb3T10
-IBnMKVua+1ZtaiyDPrrwdTRLNZC+UkdMn9wjJO0MoL/JcEPjHDN2uEIyCoULWgAJ
-/jB2YHGercqn3IDR7Bg4lQctVD6NlVEqHymAgHo6c9XO9E+jzY4zkWzjiDE/Skgj
-sEbj7ckBjZ7D/XV5v0qcT5EaJjC5oE6GAZR/uafRFJVXdaZ/GTbyoUbGIlwn9TUY
-XqE4uM0Ek4asQGoCehbohAqsSHeNwsFHX/fq7AGp4MRQu89/Gw6jBAilymacCzun
-9tpxVWoF0ns5zDjpEQWqJRPzbkBqumkevF05NJVGX2+kojzXY0DZuR3svUGm03TJ
-iI3OPSZGEeVI3HxSytShSoEp3jpMfQyD6ZbqnKsdzwkqX5vBTw7+cv8L1tSaA8x5
-3lD1bJeG9cVh2EhaHkHf5Ov7e3rxhKmmQjvS6m8B/BrBD7UHL+YxZYr0ZnFWn0ax
-szf9MVNrLY2bCIo+QyWgDixtwPSlvrch0F9vOsDqXoMyPWk77L8=
-=EcRN
------END PGP SIGNATURE-----
-
---SUOF0GtieIMvvwua--
+adam
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
