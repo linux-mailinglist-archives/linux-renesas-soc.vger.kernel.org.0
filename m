@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA2CF2E6EE9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 09:23:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E23572E6F01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 09:37:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbgL2IXR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Dec 2020 03:23:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
+        id S1726114AbgL2IhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Dec 2020 03:37:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgL2IXQ (ORCPT
+        with ESMTP id S1726138AbgL2IhH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Dec 2020 03:23:16 -0500
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51C48C0613D6;
-        Tue, 29 Dec 2020 00:22:36 -0800 (PST)
-Received: by mail-lf1-x130.google.com with SMTP id 23so29112608lfg.10;
-        Tue, 29 Dec 2020 00:22:36 -0800 (PST)
+        Tue, 29 Dec 2020 03:37:07 -0500
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216AAC061793;
+        Tue, 29 Dec 2020 00:36:27 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id m12so29228642lfo.7;
+        Tue, 29 Dec 2020 00:36:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=OheNXD0wgSbqafLbNMTZFOg48uYf1GKU5jktV12cxNs=;
-        b=ot6ULxg5Zdhx3YVdR8VT0mECT8K8Qyuef1L2VQolfxpzBteg6Bh8D5t2jpZIxacxOe
-         H6MV+2N0sMrn46ik3kwceKd+2XjO7tO836EBq1eAnOVK7iPj2ZUxRRkdb9jC2uynn5pQ
-         xA7rfVxVYiQ5fHgkjxNRQrAKFq7P2x2Jq8v65xXHVrSiGkMkFRfJPQOgfVBo86fmsqhn
-         cknvF/y9miYT6lDm/xCkAJd5GKoc9MCwRoiEGT+8ZuRTOSg2w+qgfj5aDoADA9NvcGKE
-         dqcyT0PqnBIRmzaM/gOlN8shegqXIK6hAcfjCFTuc/HAiBqTWF2LOW7BdGVxnfOj9RE9
-         RU2g==
+        bh=/rmiM7MYrMcNAwLIDIn8mjB1jSx3iRPbbD5GnB3O6jQ=;
+        b=JfkeTGYijSD7wJXsTKZHD1NrqetEqdXi3Yv3vzUaESFYp3laxoHS31BcMVLn8vdqC7
+         fwHXYDGfVjNtFTq9nt9hs9RhtxA3qh1MyTdH6eNZnvh8RmhuRKE+t8f9gxPmQFXTWsIv
+         b0qbpkAHoM3nuE8zfO9txizUr6GZ/57rXlCpCasaMWY57iTPQsRGoEw0VRaOvo0Gj6sL
+         oJsqKufqZtJoAoEn83xzzLUb1nNKMsuWRyMNIFXhHc+2JAOVs7DSrGYUGruqTKHr+B1p
+         Mo0EQTEN5PD/ZV6eYXi+ajac11hQ0M81Ee/9zsxFROtTXroIJLl2RPFIqOXHhM8urjBr
+         RbjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=OheNXD0wgSbqafLbNMTZFOg48uYf1GKU5jktV12cxNs=;
-        b=beLkYVTPzyI74w6uzlkoUsmHudKC6ZN9jl6JlIoVhz9zV8oa/+geeWX8rONGY0aL+C
-         aCwhQMA0AXWOs+LNhbjBPt1c/qefknLDnp5vgy2liVVoBCTES2eYqozEK2LR7hy8NEYr
-         xYJgCRTkoHjZRs/qDfkQzCaJWn8utJW6SScbvSV6gECdnT93e+k4p21MajhEamKJH5o/
-         ltjy9fIvlkY0qpPPbkLztO+h18iWGUFgBrEo6awsNsHnDmb+2Qsojt/8AYONqIzJwjBX
-         kcqM92bOhywsp++2K+/rSCvA/59GntUYkhEpCalOlc6wouKhYt354LqF02TG+Wm4zUMc
-         gUxA==
-X-Gm-Message-State: AOAM530j27zUCJfBOrsM1tPGERnKyHOGocrRtMjaoMzzpMfvfrCerpIH
-        Wybj8pUbBGvwp0w2xO43KwTL54ZmtyI=
-X-Google-Smtp-Source: ABdhPJxfob/vyRWa1EHOk0zaw3j92ax5KEHgynTtQ1/LWvCvASh4UHxvTfq3IQbn3sedT8Zat8xbGQ==
-X-Received: by 2002:a19:675d:: with SMTP id e29mr19342796lfj.491.1609230154337;
-        Tue, 29 Dec 2020 00:22:34 -0800 (PST)
+        bh=/rmiM7MYrMcNAwLIDIn8mjB1jSx3iRPbbD5GnB3O6jQ=;
+        b=Etz/kWbbgdHJ+z3eT6MMSUFcaefxiDOX5KIkxAN6riqn88lWBnOMT24XEb1EMWclLZ
+         BhoSFe1YtDvwht+FabO2ebj8Ov07x5ycMeihm+lTetZXC9rsy86eyuZSWYQO4lwjLQof
+         +pSMvsgljRydcwX9Bd1WlQd1HW6V7VoVw5QQ5fX+XpvMGnyqC11U5+FtaQYL3tUMlxGn
+         LSAjqTdVUakPIuaaApJ9CfCVMTG3O/fBZQHVQuA1zJhXIIJiI29Dbj/i2blACBu9/FVi
+         mDcPdYlwjd2w4zJBhAH9chmIJ84vK/h5KmM8O4Z9nHArS+s27ed0MeSNOYtO3UC6OYaT
+         i5jw==
+X-Gm-Message-State: AOAM532nkvHgBJ2XCcEBBrZNosdBX/wFgdMoMuRY8p7IB4QZCG58Ucyk
+        VzWeIDg/N4un5pQ0lTGlnwQVHc44usE=
+X-Google-Smtp-Source: ABdhPJzN0soALZsRsiKsJwr3KCiTu/b4elClyWK87yklLk4lJwt8eY7K0SK4oZvLw0/8vdlOe0AvXw==
+X-Received: by 2002:ac2:46cd:: with SMTP id p13mr21672374lfo.86.1609230983702;
+        Tue, 29 Dec 2020 00:36:23 -0800 (PST)
 Received: from [192.168.1.100] ([178.176.78.246])
-        by smtp.gmail.com with ESMTPSA id d12sm6744083ljl.111.2020.12.29.00.22.33
+        by smtp.gmail.com with ESMTPSA id a22sm6565446ljq.109.2020.12.29.00.36.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Dec 2020 00:22:34 -0800 (PST)
-Subject: Re: [PATCH 4/4] net: ethernet: ravb: Name the AVB functional clock
- fck
+        Tue, 29 Dec 2020 00:36:23 -0800 (PST)
+Subject: Re: [PATCH 2/4] ARM: dts: renesas: Add fck to etheravb-rcar-gen2
+ clock-names list
 To:     Adam Ford <aford173@gmail.com>, linux-renesas-soc@vger.kernel.org
 Cc:     aford@beaconembedded.com, "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -60,15 +60,15 @@ Cc:     aford@beaconembedded.com, "David S. Miller" <davem@davemloft.net>,
         Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20201228213121.2331449-1-aford173@gmail.com>
- <20201228213121.2331449-4-aford173@gmail.com>
+ <20201228213121.2331449-2-aford173@gmail.com>
 From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
 Organization: Brain-dead Software
-Message-ID: <06bd46f2-d57a-a1f8-95e8-d8942fced217@gmail.com>
-Date:   Tue, 29 Dec 2020 11:22:27 +0300
+Message-ID: <f86ae91b-badc-5042-066b-fbfe14925cd0@gmail.com>
+Date:   Tue, 29 Dec 2020 11:36:16 +0300
 User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201228213121.2331449-4-aford173@gmail.com>
+In-Reply-To: <20201228213121.2331449-2-aford173@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -79,11 +79,12 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On 29.12.2020 0:31, Adam Ford wrote:
 
 > The bindings have been updated to support two clocks, but the
-> original clock now requires the name fck to distinguish it
-> from the other.
-> 
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> original clock now requires the name fck.  Add a clock-names
+> list in the device tree with fck in it.
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+    Hopefully this won't break RPM...
+
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+[...]
 
 MBR, Sergei
