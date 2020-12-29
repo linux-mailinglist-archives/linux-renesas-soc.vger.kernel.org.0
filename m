@@ -2,136 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0253C2E6F0E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 09:43:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 146582E70F3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 14:41:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbgL2Ilp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Dec 2020 03:41:45 -0500
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:38713 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725979AbgL2Ilo (ORCPT
+        id S1726509AbgL2Nlf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Dec 2020 08:41:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50946 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726507AbgL2Nlf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Dec 2020 03:41:44 -0500
-Received: by mail-oi1-f169.google.com with SMTP id x13so14012274oic.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Dec 2020 00:41:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P462S5sZaKx9gGBdw19dEJFQZ8muxQ1430ty6gy0yZ4=;
-        b=oyDCpN+ylp2HmRA0Zc7nyaDHtd4Z4cO+JbjmKii27WlfXsuf1yi5Dx3MZDM01rsOEt
-         80jrLgF6/cdF4EK2RdOw8ngyxO32VYP4BzpmIg1clcOhJsbJQy/VOnCfu1Qwq8cLOzaa
-         XCLoXpRvmdlhvA+XAsGjYAMQgnd+dTG2T1j1Leq2UGc/qcnxUCVFCPzrVO53Qnno29l5
-         y/4PIr35Ju74cq+DgGw2dRpxFs8/x9EewoRqAXoDGsdsPj32W5pYeRrBX3llhmQnL+jN
-         0ERIArtFMj6K8OT7/ZSfIht3zgKNpfWPYjsd/boROVqVSd9ooElOzykY2ovfWRPmM3NA
-         EEhQ==
-X-Gm-Message-State: AOAM531ADkq3lk4sd8F5IJ304QZMo5uwQ25cwcd4nxIoAQYfl2tIu7Qk
-        hTssOOzHE3pjLxpmxeCiSpJRoGfS701sNvw7julgHYqr8pY=
-X-Google-Smtp-Source: ABdhPJylJ/bx7QiqzOwa4yiaASMidj9YzxT+KqHsRlSUhVfKe/aiUmqkaaPwbgeLATOh8TuvHK28OcE76rY+3aL/aYg=
-X-Received: by 2002:aca:4b16:: with SMTP id y22mr1704458oia.148.1609231263799;
- Tue, 29 Dec 2020 00:41:03 -0800 (PST)
+        Tue, 29 Dec 2020 08:41:35 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C41C0613D6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Dec 2020 05:40:54 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by laurent.telenet-ops.be with bizsmtp
+        id ADgq2400Y4C55Sk01DgqWH; Tue, 29 Dec 2020 14:40:50 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kuFF4-0011aL-Ft
+        for linux-renesas-soc@vger.kernel.org; Tue, 29 Dec 2020 14:40:50 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kuFF4-008WCz-34
+        for linux-renesas-soc@vger.kernel.org; Tue, 29 Dec 2020 14:40:50 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-12-29-v5.11-rc1
+Date:   Tue, 29 Dec 2020 14:40:50 +0100
+Message-Id: <20201229134050.2030390-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201223185304.GA75038@ninjato>
-In-Reply-To: <20201223185304.GA75038@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 29 Dec 2020 09:40:52 +0100
-Message-ID: <CAMuHMdU+MZO16TQcDN8zgJNXjWqhgcBLSYedkVoCSH4sOgi-Pg@mail.gmail.com>
-Subject: Re: Reboot regression on Lager
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+I have pushed renesas-drivers-2020-12-29-v5.11-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Wed, Dec 23, 2020 at 7:55 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> I just discovered that my Lager can't reboot anymore. 5.10 is good,
-> current Linus' tree [1] is bad. I don't have time to debug this on my
-> own right now, so this is a reminder and notification for now.
->
-> [1] (614cb5894306 ("Merge tag 'acpi-5.11-rc1-2' of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm")
->
-> Happy hacking,
->
->    Wolfram
->
-> ===
->
-> [    8.280735] Unhandled fault: imprecise external abort (0x1406) at 0x00000000
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-That usually indicates that a module's registers are accessed,
-while the module clock is disabled.
+Today's version is based on renesas-devel-2020-12-28-v5.11-rc1.
 
-> [    8.287793] pgd = (ptrval)
-> [    8.290504] [00000000] *pgd=41d85835, *pte=00000000, *ppte=00000000
-> [    8.296794] Internal error: : 1406 [#1] ARM
-> [    8.300983] Modules linked in:
-> [    8.304044] CPU: 0 PID: 1173 Comm: init Tainted: G        W         5.10.0-12913-g614cb5894306 #1092
-> [    8.313187] Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-> [    8.319632] PC is at sh_mdio_ctrl+0x44/0x60
-> [    8.323831] LR is at sh_mmd_ctrl+0x20/0x24
+Included branches with driver code:
+  - renesas-clk-for-v5.12
+  - renesas-pinctrl-for-v5.11
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/v3u/devel
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-So sh_eth is already suspended at this point.
+Included fixes:
+  - arm64/smp: Remove unused irq variable in arch_show_interrupts()
+  - arm: smp: remove unused variable
+  - spi: Fix the clamping of spi->max_speed_hz
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Can you reproduce it at will? Koelsch is still rebooting fine.
-But I caught the following during s2ram once, which might be related:
-
- Disabling non-boot CPUs ...
- Enabling non-boot CPUs ...
-+------------[ cut here ]------------
-+WARNING: CPU: 0 PID: 21 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0x464/0x4a0
-+i2c i2c-6: Transfer while suspended
-+CPU: 0 PID: 21 Comm: kworker/0:1 Not tainted
-5.11.0-rc1-shmobile-00107-gcf9760aa181f #829
-+Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-+Workqueue: events_power_efficient sync_hw_clock
-+[<c010dba4>] (unwind_backtrace) from [<c0109b28>] (show_stack+0x10/0x14)
-+[<c0109b28>] (show_stack) from [<c07a120c>] (dump_stack+0x8c/0xa8)
-+[<c07a120c>] (dump_stack) from [<c011c538>] (__warn+0xc0/0xec)
-+[<c011c538>] (__warn) from [<c079a7bc>] (warn_slowpath_fmt+0x78/0xb0)
-+[<c079a7bc>] (warn_slowpath_fmt) from [<c0566574>] (__i2c_transfer+0x464/0x4a0)
-+[<c0566574>] (__i2c_transfer) from [<c0566608>] (i2c_transfer+0x58/0xf8)
-+[<c0566608>] (i2c_transfer) from [<c0489f80>] (regmap_i2c_read+0x58/0x94)
-+[<c0489f80>] (regmap_i2c_read) from [<c0485e00>] (_regmap_raw_read+0x108/0x1bc)
-+[<c0485e00>] (_regmap_raw_read) from [<c0485ef8>] (_regmap_bus_read+0x44/0x68)
-+[<c0485ef8>] (_regmap_bus_read) from [<c0484018>] (_regmap_read+0x84/0x100)
-+[<c0484018>] (_regmap_read) from [<c0485444>] (_regmap_update_bits+0xa8/0xf4)
-+[<c0485444>] (_regmap_update_bits) from [<c0485574>]
-(_regmap_select_page+0xe4/0x100)
-+[<c0485574>] (_regmap_select_page) from [<c0485664>]
-(_regmap_raw_write_impl+0xd4/0x608)
-+[<c0485664>] (_regmap_raw_write_impl) from [<c04863f4>]
-(_regmap_raw_write+0xd8/0x114)
-+[<c04863f4>] (_regmap_raw_write) from [<c0486488>] (regmap_raw_write+0x58/0x7c)
-+[<c0486488>] (regmap_raw_write) from [<c04866cc>]
-(regmap_bulk_write+0x118/0x13c)
-+[<c04866cc>] (regmap_bulk_write) from [<c05605b4>]
-(da9063_rtc_set_time+0x44/0x8c)
-+[<c05605b4>] (da9063_rtc_set_time) from [<c055e428>] (rtc_set_time+0x8c/0x15c)
-+[<c055e428>] (rtc_set_time) from [<c01872cc>] (sync_hw_clock+0x12c/0x210)
-+[<c01872cc>] (sync_hw_clock) from [<c01337d0>] (process_one_work+0x1bc/0x2ac)
-+[<c01337d0>] (process_one_work) from [<c0133b18>] (worker_thread+0x22c/0x2d0)
-+[<c0133b18>] (worker_thread) from [<c01388a8>] (kthread+0x100/0x10c)
-+[<c01388a8>] (kthread) from [<c0100150>] (ret_from_fork+0x14/0x24)
-+Exception stack(0xc1195fb0 to 0xc1195ff8)
-+5fa0:                                     00000000 00000000 00000000 00000000
-+5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-+5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-+---[ end trace 5d3a7a10ee0cec3d ]---
-+da9063-rtc da9063-rtc: Failed to set RTC time data: -108
-+da9063-rtc da9063-rtc: Failed to read RTC time data: -108
- CPU1 is up
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
