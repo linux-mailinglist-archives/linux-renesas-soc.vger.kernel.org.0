@@ -2,174 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 261752E6CE4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 01:54:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E2A02E6EDC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Dec 2020 09:18:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729812AbgL2AyO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Dec 2020 19:54:14 -0500
-Received: from mga02.intel.com ([134.134.136.20]:13517 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730191AbgL2AyN (ORCPT
+        id S1726008AbgL2IRw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Dec 2020 03:17:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725979AbgL2IRv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Dec 2020 19:54:13 -0500
-IronPort-SDR: av3Uva/xyvthpl2n9mEq0CE0JUF9yq89EyXNOmmEnhJ5ltneaI5hMLBP2COMzdSWL2QU/+2sEl
- E99cB7X1HaXA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="163503489"
-X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; 
-   d="scan'208";a="163503489"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2020 16:53:31 -0800
-IronPort-SDR: rmMJIUNe5efVCQAfChhRyHxZPgbupHc6HhfESBdKh1OmoQ/5mB5dMJO4ZH3ZFqBl6DrQa07Zs4
- 9stWUcoClSRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; 
-   d="scan'208";a="384720350"
-Received: from lkp-server02.sh.intel.com (HELO 4242b19f17ef) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 28 Dec 2020 16:53:30 -0800
-Received: from kbuild by 4242b19f17ef with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1ku3GT-0003CV-FJ; Tue, 29 Dec 2020 00:53:29 +0000
-Date:   Tue, 29 Dec 2020 08:52:55 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:topic/renesas-defconfig] BUILD SUCCESS
- 42d146227cd58aa996eefa88aa2bb36c3ef36e4e
-Message-ID: <5fea7de7.OZ5l4sbAmfMAw4dD%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 29 Dec 2020 03:17:51 -0500
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49A0AC0613D6;
+        Tue, 29 Dec 2020 00:17:11 -0800 (PST)
+Received: by mail-lf1-x130.google.com with SMTP id 23so29087878lfg.10;
+        Tue, 29 Dec 2020 00:17:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8yoRVgdzslZ2s5VNKQ7c0EICKigH3eQ9ghrStUXwk4g=;
+        b=NAXzB5SEXKT2bdZhaJkeCOkkfpKiPGJBBASxeYQOSpuat0xf42fmQCDnSwxSBPCWrh
+         2jFqaAMVDjwhpqvLkqvaAHUjh1AKm0Y6j3+PWZMuoVRtshT8nnuNM3EVkQCFTdQbo5/k
+         k2TkqTCZfQfb0nVfkP+r0Tbq2K9Wzc0l+NdO9x1GS+HfUFW/WCJzSSG/5cm51cubJrak
+         jwLpgut8CURr+wpKmoAOwYaNa1KDQ7fMv4GFHmkkW3d5tgRL0jER429lsliDYUG7B9Fh
+         A3lTxYrbbrA8C7qGq4PAZ3U3PrvXW4K4dIdS6wCCXu1Tndl3KPSpMIjumF+l6pGv3Ahc
+         hYzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=8yoRVgdzslZ2s5VNKQ7c0EICKigH3eQ9ghrStUXwk4g=;
+        b=a4x0iYhvLQWm1PU2aF69o4K94pxIEP8xueIeUQ94i4F1HJO1ZTFDklUfYc1GGDaR9a
+         z5vQmCWgSZ4EgqmkwTx3+JGStLYshKQKYkMY6heAScwXR5v2mC1lM7myPZ91SJLF2EVu
+         KAEFtiKAiMrYmZXVgvGVz1CGyZ8ppi+MPbcPMvok6ZTs3A/dhjLQ1UUoyK0496RiMmiL
+         nq32WXaP3bjIMiPTQfmwLN1nd3MMPUQFgD6k05DNrurzS7fEQq6VImmOaGhFvgrgdnGM
+         65rrXY8fPlLtelwg8DwHdvFpMT7cEw3sl5AP2tjcY3ti7QZl6ubMT+EPaiu0mimOyZ7G
+         Fbkw==
+X-Gm-Message-State: AOAM53272ZsMdStBke1kNsJ/FN0oRYdPKD7heOpyPWIS6doni/GLszF/
+        60reyDokhxp1NTCZjF3pVedE4ujv+I4=
+X-Google-Smtp-Source: ABdhPJwI4Qk5tmYMi5kKb5Z0GK99s9dL1UCkByjF5rAXM5cHmVOfPpXmRZYHrusB374Mi/s3hM8iwQ==
+X-Received: by 2002:a19:9d8:: with SMTP id 207mr20532632lfj.581.1609229829361;
+        Tue, 29 Dec 2020 00:17:09 -0800 (PST)
+Received: from [192.168.1.100] ([178.176.78.246])
+        by smtp.gmail.com with ESMTPSA id u14sm6875979ljo.72.2020.12.29.00.17.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Dec 2020 00:17:08 -0800 (PST)
+Subject: Re: [PATCH 1/4] dt-bindings: net: renesas,etheravb: Add additional
+ clocks
+To:     Adam Ford <aford173@gmail.com>, linux-renesas-soc@vger.kernel.org
+Cc:     aford@beaconembedded.com, "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201228213121.2331449-1-aford173@gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <7b271d36-3178-0338-7bfb-558115cb2516@gmail.com>
+Date:   Tue, 29 Dec 2020 11:17:01 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20201228213121.2331449-1-aford173@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  topic/renesas-defconfig
-branch HEAD: 42d146227cd58aa996eefa88aa2bb36c3ef36e4e  arm64: renesas: defconfig: Enable Transparent Hugepage madvise
+Hello!
 
-elapsed time: 722m
+On 29.12.2020 0:31, Adam Ford wrote:
 
-configs tested: 111
-configs skipped: 3
+> The AVB driver assumes there is an external clock, but it could
+> be driven by an external clock.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+     Driver can be driven by external clock? :-)
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-m68k                          hp300_defconfig
-powerpc                   lite5200b_defconfig
-mips                          rb532_defconfig
-powerpc                     tqm8548_defconfig
-powerpc                     tqm8560_defconfig
-sh                        sh7757lcr_defconfig
-c6x                        evmc6678_defconfig
-arm                         s3c6400_defconfig
-powerpc                        warp_defconfig
-arm                         s3c2410_defconfig
-sh                         apsh4a3a_defconfig
-arc                         haps_hs_defconfig
-powerpc                  storcenter_defconfig
-powerpc                 mpc8540_ads_defconfig
-um                           x86_64_defconfig
-powerpc                     taishan_defconfig
-mips                          ath25_defconfig
-mips                            e55_defconfig
-arm                          lpd270_defconfig
-arm                         shannon_defconfig
-powerpc                      walnut_defconfig
-sh                        sh7763rdp_defconfig
-mips                             allmodconfig
-m68k                        stmark2_defconfig
-arm                           sunxi_defconfig
-mips                malta_kvm_guest_defconfig
-arc                     haps_hs_smp_defconfig
-powerpc                     powernv_defconfig
-mips                      fuloong2e_defconfig
-mips                  maltasmvp_eva_defconfig
-arm                      jornada720_defconfig
-arm                     eseries_pxa_defconfig
-sh                           se7751_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc                 mpc8313_rdb_defconfig
-parisc                generic-64bit_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20201228
-i386                 randconfig-a002-20201228
-i386                 randconfig-a004-20201228
-i386                 randconfig-a006-20201228
-i386                 randconfig-a003-20201228
-i386                 randconfig-a001-20201228
-x86_64               randconfig-a014-20201228
-x86_64               randconfig-a015-20201228
-x86_64               randconfig-a016-20201228
-x86_64               randconfig-a012-20201228
-x86_64               randconfig-a011-20201228
-x86_64               randconfig-a013-20201228
-i386                 randconfig-a014-20201228
-i386                 randconfig-a012-20201228
-i386                 randconfig-a016-20201228
-i386                 randconfig-a011-20201228
-i386                 randconfig-a015-20201228
-i386                 randconfig-a013-20201228
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+> In order to enable a programmable
+> clock, it needs to be added to the clocks list and enabled in the
+> driver.  Since there currently only one clock, there is no
+                       ^ is
+> clock-names list either.
+> 
+> Update bindings to add the additional optional clock, and explicitly
+> name both of them.
+> 
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+[...]
 
-clang tested configs:
-x86_64               randconfig-a001-20201228
-x86_64               randconfig-a006-20201228
-x86_64               randconfig-a002-20201228
-x86_64               randconfig-a004-20201228
-x86_64               randconfig-a003-20201228
-x86_64               randconfig-a005-20201228
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+MBR, Sergei
