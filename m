@@ -2,158 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA1512E7595
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Dec 2020 02:47:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 084A12E770F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Dec 2020 09:37:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbgL3Brn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Dec 2020 20:47:43 -0500
-Received: from mga14.intel.com ([192.55.52.115]:10261 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726161AbgL3Brm (ORCPT
+        id S1726190AbgL3IfT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Dec 2020 03:35:19 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:41086 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726161AbgL3IfT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Dec 2020 20:47:42 -0500
-IronPort-SDR: 32q+7xqGD5DixjcMmcY2EF7Qwxa696k9+X2v63Dy/4I5qJ0UVjJ0UMakAEB4CUGzYe2RT0m0uS
- zRoSt1LAtVvA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="175782470"
-X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="175782470"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2020 17:47:02 -0800
-IronPort-SDR: o5TXuzUDfHexO0/nQosQfywdew8UxQxKTdwgLnBW3fOFVSBLvabeBAzBTqNwJww4ITC3vBFSA4
- HOZKCyFidhQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,459,1599548400"; 
-   d="scan'208";a="376253075"
-Received: from lkp-server02.sh.intel.com (HELO 4242b19f17ef) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 29 Dec 2020 17:47:00 -0800
-Received: from kbuild by 4242b19f17ef with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kuQZn-0003v1-Dm; Wed, 30 Dec 2020 01:46:59 +0000
-Date:   Wed, 30 Dec 2020 09:46:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- 458a1ec920ab378a4a9996a2ad639239eefa7a7e
-Message-ID: <5febdbe2.Yg07zc74DKwIBe4+%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Wed, 30 Dec 2020 03:35:19 -0500
+Received: by mail-oi1-f180.google.com with SMTP id 15so18054746oix.8;
+        Wed, 30 Dec 2020 00:35:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=z1iQbzuKLwpLBU+2lS/Y5rQU9Azo11dSvRoqmQzzyCY=;
+        b=HEjaIQW87dYHmJ/+oRkwjpcziYdlUYgZEftt9S8dRQ/A0Pcw5uktuk+qZNBPJvPORp
+         c3UyiNs9hCd2ijr+xtFibHOple4wthyxICI2OtMq6LzE13Hg0l0LyaALy2RHAvyCcsJf
+         Cisdx+1j06cCPf5zCPuom/aqTVgIfPV57d6viXRSSi48awBbLBU8fU52czwMxiKNl4E2
+         Y1552GEV93+P88ZH/RsqQroFq0dTSDM6K3eeSQ9PA/tH/Rn+egb6tJKQi6GNjCGalERP
+         kj7jgnhoKiKhz8mWWNGSRQTJoRLUsMT7jAZCI8Tb56wuVEYIa1YrLbV4KgUzkSeE+Yxy
+         QoCQ==
+X-Gm-Message-State: AOAM531vy5R8+q5E4yR+HLkBbcWvwoCYJr/vm35y1S2yMuAWq1xxb6yA
+        BS3Yp/5FKL1gPusP6My52gNaxSKdwk0LgA8rwHx77rt3EaM=
+X-Google-Smtp-Source: ABdhPJziLAtMMd1xAk/x2HeOkbfzMp78tJaD1UWG/xGDsAlfXQahkJDB/nkE3kb5qavHITasgTt1BQxGnZUTa+H27Zo=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr4690899oih.153.1609317277661;
+ Wed, 30 Dec 2020 00:34:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 30 Dec 2020 09:34:26 +0100
+Message-ID: <CAMuHMdX_ksY_AnaGyL0Z4HjUv72ndRM7XsRHkSKaBP7J-xmN1A@mail.gmail.com>
+Subject: pcie-rcar: rcu stall during s2ram
+To:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  master
-branch HEAD: 458a1ec920ab378a4a9996a2ad639239eefa7a7e  [LOCAL] arm64: defconfig: Update renesas_defconfig
+Hi Marek, Shimoda-san,
 
-elapsed time: 724m
+I got the following rcu stall on Salvator-X with R-Car M3-W ES1.0 during
+resume from s2idle:
 
-configs tested: 95
-configs skipped: 2
+    rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+    rcu:     1-....: (524 ticks this GP) idle=ffa/1/0x4000000000000000
+softirq=23053/23053 fqs=2437
+     (detected by 3, t=6505 jiffies, g=39321, q=46)
+    Task dump for CPU 1:
+    task:kworker/u12:0   state:R  running task     stack:    0 pid:
+943 ppid:     2 flags:0x0000000a
+    Workqueue: events_unbound async_run_entry_fn
+    Call trace:
+     __switch_to+0xa8/0x10c
+     0x0
+    watchdog: BUG: soft lockup - CPU#1 stuck for 23s! [kworker/u12:0:943]
+    Modules linked in:
+    irq event stamp: 0
+    hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+    hardirqs last disabled at (0): [<ffffffc010074960>]
+copy_process+0x54c/0x12b8
+    softirqs last  enabled at (0): [<ffffffc010074960>]
+copy_process+0x54c/0x12b8
+    softirqs last disabled at (0): [<0000000000000000>] 0x0
+    CPU: 1 PID: 943 Comm: kworker/u12:0 Not tainted
+5.11.0-rc1-salvator-x-00727-g2e798beeefcc #877
+    Hardware name: Renesas Salvator-X board based on r8a77960 (DT)
+    Workqueue: events_unbound async_run_entry_fn
+    pstate: 60400005 (nZCv daif +PAN -UAO -TCO BTYPE=--)
+    pc : arch_local_irq_restore+0x4/0x8
+    lr : _raw_spin_unlock_irqrestore+0x58/0x80
+    sp : ffffffc013963b10
+    x29: ffffffc013963b10 x28: 0000000000000000
+    x27: ffffffc010f3f938 x26: 0000000000000000
+    x25: 0000000000000000 x24: 0000000000000000
+    x23: ffffffc013963bd4 x22: 0000000000000000
+    x21: 0000000000000ffc x20: ffffffc0110da208
+    x19: 0000000000000000 x18: 0000000000000000
+    x17: 0000000000000000 x16: 0000000000000000
+    x15: 000000000000000a x14: 7265776f70206567
+    x13: 6e6168632074276e x12: 6f683344206d6f72
+    x11: 6620657461747320 x10: 206769666e6f6328
+    x9 : 203044206f742074 x8 : 0000000000000000
+    x7 : 0000000000000001 x6 : 0000000000000000
+    x5 : ffffffc013963b30 x4 : 0000000000000001
+    x3 : ffffffc013bf7fb0 x2 : 0000000000000000
+    x1 : 0000000000000027 x0 : 0000000000000000
+    Call trace:
+     arch_local_irq_restore+0x4/0x8
+     pci_bus_read_config_dword+0x8c/0xc8
+     pci_read_config_dword+0x38/0x40
+     pci_find_next_ext_capability+0xc0/0xe0
+     pci_find_ext_capability+0x14/0x1c
+     pci_restore_aspm_l1ss_state+0x24/0x74
+     pci_restore_state+0x80/0x2dc
+     pci_pm_resume_noirq+0x8c/0xf8
+     dpm_run_callback+0x64/0xd4
+     device_resume_noirq+0xc8/0x174
+     async_resume_noirq+0x24/0x54
+     async_run_entry_fn+0x4c/0x124
+     process_one_work+0x2f8/0x490
+     worker_thread+0x1d0/0x274
+     kthread+0xfc/0x10c
+     ret_from_fork+0x10/0x18
+    rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
+    rcu:     1-....: (2094 ticks this GP)
+idle=ffa/1/0x4000000000000000 softirq=23053/23053 fqs=9936
+     (detected by 5, t=26010 jiffies, g=39321, q=90)
+    Task dump for CPU 1:
+    task:kworker/u12:0   state:R  running task     stack:    0 pid:
+943 ppid:     2 flags:0x0000000a
+    Workqueue: events_unbound async_run_entry_fn
+    Call trace:
+     __switch_to+0xa8/0x10c
+     0x0
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This is a board with an Intel E1000 Ethernet card installed, and
+firmware including the L1 link state fix (else s2idle would crash
+always).
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                           se7722_defconfig
-sh                          polaris_defconfig
-powerpc                        fsp2_defconfig
-arm                           omap1_defconfig
-powerpc                 mpc837x_mds_defconfig
-openrisc                    or1ksim_defconfig
-arm                         cm_x300_defconfig
-arc                          axs101_defconfig
-arm                          gemini_defconfig
-powerpc                      katmai_defconfig
-nios2                         3c120_defconfig
-arm                            pleb_defconfig
-powerpc                     sbc8548_defconfig
-arm                        multi_v5_defconfig
-arm                        oxnas_v6_defconfig
-arm                         lubbock_defconfig
-mips                           ip32_defconfig
-arm                          imote2_defconfig
-mips                   sb1250_swarm_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20201229
-i386                 randconfig-a005-20201229
-i386                 randconfig-a004-20201229
-i386                 randconfig-a006-20201229
-i386                 randconfig-a003-20201229
-i386                 randconfig-a001-20201229
-i386                 randconfig-a014-20201229
-i386                 randconfig-a012-20201229
-i386                 randconfig-a011-20201229
-i386                 randconfig-a016-20201229
-i386                 randconfig-a015-20201229
-i386                 randconfig-a013-20201229
-x86_64               randconfig-a001-20201229
-x86_64               randconfig-a006-20201229
-x86_64               randconfig-a002-20201229
-x86_64               randconfig-a004-20201229
-x86_64               randconfig-a003-20201229
-x86_64               randconfig-a005-20201229
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+Tree is based on renesas-drivers-2020-12-29-v5.11-rc1 with the following
+patches applied:
 
-clang tested configs:
-x86_64               randconfig-a014-20201229
-x86_64               randconfig-a015-20201229
-x86_64               randconfig-a016-20201229
-x86_64               randconfig-a012-20201229
-x86_64               randconfig-a011-20201229
-x86_64               randconfig-a013-20201229
+    PCI: rcar: Always allocate MSI addresses in 32bit space
+    PCI: rcar: Add L1 link state fix into data abort hook (shouldn't matter as
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Compared with v5.11-rc1, above are the only changes to drivers/pci.
+The second one shouldn't matter, as all code changes are protected by
+#ifdef CONFIG_ARM, while this report is on arm64, which handles that
+inside ATF.
+
+This happened once, I couldn't reproduce it.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
