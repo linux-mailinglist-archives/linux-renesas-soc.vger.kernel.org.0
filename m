@@ -2,95 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D115C2E7AEB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Dec 2020 17:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7524C2E7B0A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Dec 2020 17:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726247AbgL3QHL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Dec 2020 11:07:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50922 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbgL3QHK (ORCPT
+        id S1726289AbgL3Q1y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Dec 2020 11:27:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbgL3Q1y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Dec 2020 11:07:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BF7622209;
-        Wed, 30 Dec 2020 16:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609344390;
-        bh=I4tfRKit1PL7y46nyJZKEZ5kkb43YJ9BVJDfODwLLkQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rJxjSFUATK2ZCXtogJHydUBYSRjzWOj9cIIPH0iEWZyZZqGkuctTc07GF2WiRiLZv
-         /ou5iiqkOefb2stLtR6MZ+ky1CloOyvOylOlrLsX1RBQmIIh7UywDOXl3Z2welx6si
-         9MuLs78iIAqijXdPIO8ACnqNQAr5neWjnR4/cYuLq85nPJ5cOij5rJDM4/CLVNB/Yh
-         spXt/ufMgR1GTDbz2xwQcqTUugbnTtGemzfGTmLa5fYq6rJtZK5lRfB8tw2IHV7RnF
-         BwRj/9xlAAsvGQDaSo5M25ndSj0+nHZXcFhUbV54/ng7vtPULA5AYdKZji1MNuWSgn
-         /tQYKcm6kpTog==
-Date:   Wed, 30 Dec 2020 17:06:28 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-Subject: Re: [PATCH/RFC v2 2/2] gpio: rcar: Add R-Car V3U (R8A7799A) support
-Message-ID: <20201230160628.GG23641@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wed, 30 Dec 2020 11:27:54 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBFBBC061799;
+        Wed, 30 Dec 2020 08:27:13 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id y19so38567123lfa.13;
+        Wed, 30 Dec 2020 08:27:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=z3CMC4S6zouZK2bW4zp1AT+fLNFLc4xczBndFR7DfQ0=;
+        b=FzF+sK6d78ycBKK0/CuHD5ceS/Rz40J6w9iiKpTR4Vkgpex6vbdNv/Y4VjBn6VL+h0
+         MrXbUhEPq4zuVSJFrPMOME66XiRjaqqbqgrAchUnv6c3dv+pWGh6aQdMLEGBF5Ox1zKg
+         jIMWPurES/x2Lhck8vh7HR5jdvfgQbUwgD8EpepT//sDAm+2AhSv6DTC4a8+CdV7luvQ
+         r9jvfobnpGH3V5tHzfc6dSWXwJr6m1FMhM4UJV9LAyCwyr0n+x5Dm1LDbvpUiR/AXnPw
+         D55Lj1hd28apRYhlJ3vlKLxdIf+vsCzMZcBBJ72Ln8ovNEysNiUYWSSIIKc8XHJ4FvTB
+         3/SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=z3CMC4S6zouZK2bW4zp1AT+fLNFLc4xczBndFR7DfQ0=;
+        b=ms2Rzu3UEry1kPF94g0BB0le4BrdkbsVtKzbRbUMzN3GJGGhgSY09RvNtq72RUNhBQ
+         uojfaqjfqK8biuh1AvinMLL03bRnkGJ9A7E2uBTAZJfEgWTt3RYt2jtJvl+VVdyhp7eQ
+         1mids//CFoluQIObhUYasQoChNKWx6l9ZHeOvLc5Cb2fzxDFeOL9Cr4thiuN1PNS9Sq3
+         W/gKRiaEyV7IJEoQes9lF+SaeLEHxccBRocZy49++qJSfnrcNPI1Cm6GEPUGHPG0nky4
+         647bVdZaNc3mgv0/ZxBct8RJNQwKm/49WBLU9iIhd22wFpG513Pj8Bqv6smJn7D6AoKA
+         txug==
+X-Gm-Message-State: AOAM530VcKlda7V4JWofzlmzYGMzbcV2Rlrdi+10HEGLbJvOx8tLpnPd
+        kG8qjL1cgX8uy4QANFsXVDmMf8oRQmo=
+X-Google-Smtp-Source: ABdhPJzL9YkvGGLfSeQrfH5XfwB2TarbjvGCUL6Rb7LLV7Qy406cvj9HlXr8cyf4SA98Vuxtif1Vvw==
+X-Received: by 2002:a05:6512:110a:: with SMTP id l10mr22912107lfg.167.1609345632340;
+        Wed, 30 Dec 2020 08:27:12 -0800 (PST)
+Received: from [192.168.1.101] ([178.176.77.165])
+        by smtp.gmail.com with ESMTPSA id e6sm5954885lfc.23.2020.12.30.08.27.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Dec 2020 08:27:11 -0800 (PST)
+Subject: Re: [PATCH 1/2] spi: rpc-if: Avoid use of C++ style comments
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jiri Kosina <trivial@kernel.org>, Pavel Machek <pavel@denx.de>
+Cc:     linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Phong Hoang <phong.hoang.wz@renesas.com>
-References: <20201030081522.2297074-1-geert+renesas@glider.be>
- <20201030081522.2297074-3-geert+renesas@glider.be>
+        Prabhakar <prabhakar.csengg@gmail.com>
+References: <20201230145708.28544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201230145708.28544-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <822dc356-4416-23a4-a460-90055dfd627a@gmail.com>
+Date:   Wed, 30 Dec 2020 19:27:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hTiIB9CRvBOLTyqY"
-Content-Disposition: inline
-In-Reply-To: <20201030081522.2297074-3-geert+renesas@glider.be>
+In-Reply-To: <20201230145708.28544-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 12/30/20 5:57 PM, Lad Prabhakar wrote:
 
---hTiIB9CRvBOLTyqY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Replace C++ style comment with C style.
 
-On Fri, Oct 30, 2020 at 09:15:22AM +0100, Geert Uytterhoeven wrote:
-> Add support for the GPIO controller block in the R-Car V3U (R8A779A0)
-> SoC, which is very similar to the block found on other R-Car Gen3 SoCs.
-> However, this block has a new General Input Enable Register (INEN),
-> whose reset state is to have all inputs disabled.
->=20
-> Enable input for all available pins in probe and resume, to support the
-> use of the General Input Register (INDT) for reading pin state at all
-> times.  This preserves backwards compatibility with other R-Car Gen3
-> SoCs, as recommended by the Hardware Manual.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+   Note that the switch to // was made following the SPI maintainer's request...
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+[...]
 
-
---hTiIB9CRvBOLTyqY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/spYQACgkQFA3kzBSg
-KbZzMxAAoxbmH2qTZsY2jwmEHRhSvdjuikPZytwiI/gw2adtAPIKR/mdUNcK60x2
-uUGif0QMIWbaFXoNvnHZzc/9nJq876XQM6Si82RstXK9wkvpHvEBa4N9/VkDgai7
-hy8hYi155GJ9sgBnnzgUKJvKWoeZFEJsYRw/4239sxgtO4XL6WkBoekP3gE9zWBP
-ruwHwnJhwWmzSWGzOM91XI1cw4mdw/7G0njU/DJCmyZh4mPnXxfy+2zX6PDMjsNU
-Xiz05wZNqxeIO6ELcNs5dn0Ksy1renotGGLPju0g1if4sIykGk1Awl1jJXBBOnd1
-lOPBtTsnjHnE11UL9B9RcuH4sSZo23wlVpeJzrgC8mWt2o0paI2BWWLjz/Bb6wwA
-IIQ1RSwV944lJ/z0Ke9GJxWO1z2mfFlu/fIJ7DRkYl7tUhVPikI1yDc2mlVmNJJA
-tGP1TKYmoctctkk070DuP+s2tHY6P82AIkh6vQIY10Yfr7PyTEKaGU7ns79cxKMG
-quuzjPTCG65O8CHGhLhTKNe10XLZhxtnfS03XiubTYWf0pDU4kKeheM5Sqe5jHrz
-XuyqjsObsM/FsIftIK9gDcxADADQ5jpX/Xq/5S1eq3W+sH0zBcG1h5PrOJbxRbKc
-yqwy/gHMGSzvHia8uUj3JrUBO9Am0ld9Yzb4aP0WGyF3KhwxiKI=
-=qPE4
------END PGP SIGNATURE-----
-
---hTiIB9CRvBOLTyqY--
+MBR, Sergei
