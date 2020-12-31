@@ -2,82 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 383B72E8031
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Dec 2020 14:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C4F42E80F1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Dec 2020 16:33:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgLaNa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Dec 2020 08:30:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40872 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726686AbgLaNa4 (ORCPT
+        id S1726847AbgLaPco (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Dec 2020 10:32:44 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:26523 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726830AbgLaPcn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Dec 2020 08:30:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BD49223E0;
-        Thu, 31 Dec 2020 13:30:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609421416;
-        bh=NbAgO49jiVJRCpSElG9g19rRkpcoecdZcoOnFPf54sU=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=gL5vIoNWZ8srvUPM8fz94f8ZbjH4pGDpTcsQSsBY1UXb6soi8ra3582cP4c3QlNFG
-         FFBg3pJN5QjXL1MgoLKzJ2RQ7PpGOj75QXTLBzk+jbSn8qasCslBZCgb0b4n5cuyim
-         /HsUaLelb1slifzdjI0pcMxHeuUQ/aRKVODA9J9qhrAYQ7O4qFprxphYJlwO8nJFPN
-         0VkquKx/TJlPpMAJJkoQJem1RtQtf+fUICO4cnwwWDpiB5K11kglO+VZUMP+HO0UT0
-         DU6h2/KEoZouP7fMNRJkE7kj6YzYLGiG3HLF5fr2ok6UQwKs77jby3NXk5KO4/1g5Z
-         KD3nP2EScdcWA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Pavel Machek <pavel@denx.de>, Jiri Kosina <trivial@kernel.org>
-Cc:     linux-spi@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <20201230145708.28544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201230145708.28544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: (subset) [PATCH 0/2] spi: rpc-if: Trivial fixes
-Message-Id: <160942139228.56552.16978804371025808850.b4-ty@kernel.org>
-Date:   Thu, 31 Dec 2020 13:29:52 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Thu, 31 Dec 2020 10:32:43 -0500
+X-IronPort-AV: E=Sophos;i="5.78,464,1599490800"; 
+   d="scan'208";a="67552553"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Jan 2021 00:31:52 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5995F4009866;
+        Fri,  1 Jan 2021 00:31:50 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] gpio: rcar: Remove redundant compatible values
+Date:   Thu, 31 Dec 2020 15:31:41 +0000
+Message-Id: <20201231153141.25525-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 30 Dec 2020 14:57:06 +0000, Lad Prabhakar wrote:
-> These patches are trivial fixes for rpc-if SPI driver.
-> 
-> Cheers,
-> Prabhakar
-> 
-> Lad Prabhakar (2):
->   spi: rpc-if: Avoid use of C++ style comments
->   spi: rpc-if: Remove CONFIG_PM_SLEEP ifdefery
-> 
-> [...]
+The mandatory compatible values 'renesas,rcar-gen{1,2,3}-gpio' have been
+already added to all the respective R-Car Gen{1,2,3} SoC DTSI files,
+remove the redundant device specific values from the driver.
 
-Applied to
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/gpio/gpio-rcar.c | 27 ---------------------------
+ 1 file changed, 27 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+diff --git a/drivers/gpio/gpio-rcar.c b/drivers/gpio/gpio-rcar.c
+index 0b572dbc4a36..f3b8c4b44cab 100644
+--- a/drivers/gpio/gpio-rcar.c
++++ b/drivers/gpio/gpio-rcar.c
+@@ -392,33 +392,6 @@ static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
+ 
+ static const struct of_device_id gpio_rcar_of_table[] = {
+ 	{
+-		.compatible = "renesas,gpio-r8a7743",
+-		/* RZ/G1 GPIO is identical to R-Car Gen2. */
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7790",
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7791",
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7792",
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7793",
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7794",
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7795",
+-		/* Gen3 GPIO is identical to Gen2. */
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+-		.compatible = "renesas,gpio-r8a7796",
+-		/* Gen3 GPIO is identical to Gen2. */
+-		.data = &gpio_rcar_info_gen2,
+-	}, {
+ 		.compatible = "renesas,rcar-gen1-gpio",
+ 		.data = &gpio_rcar_info_gen1,
+ 	}, {
+-- 
+2.17.1
 
-Thanks!
-
-[2/2] spi: rpc-if: Remove CONFIG_PM_SLEEP ifdefery
-      commit: 9584fc95cadc0b86e5e01cefcff0ab2b31ee3a5b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
