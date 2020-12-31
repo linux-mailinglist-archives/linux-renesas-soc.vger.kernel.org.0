@@ -2,69 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF162E8129
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Dec 2020 17:02:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37AAB2E81F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 31 Dec 2020 21:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbgLaQBG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 31 Dec 2020 11:01:06 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:50233 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727254AbgLaQBF (ORCPT
+        id S1726738AbgLaUgy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 31 Dec 2020 15:36:54 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:43626 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726210AbgLaUgy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 31 Dec 2020 11:01:05 -0500
-X-IronPort-AV: E=Sophos;i="5.78,464,1599490800"; 
-   d="scan'208";a="67335976"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Jan 2021 01:00:13 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8029340127B5;
-        Fri,  1 Jan 2021 01:00:11 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] can: rcar: Update help description for CAN_RCAR config
-Date:   Thu, 31 Dec 2020 15:59:57 +0000
-Message-Id: <20201231155957.31165-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201231155957.31165-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201231155957.31165-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 31 Dec 2020 15:36:54 -0500
+Received: by mail-ot1-f52.google.com with SMTP id q25so18804367otn.10;
+        Thu, 31 Dec 2020 12:36:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=El9jN+B2DnGg68lutX6X8y8b1CIqQUFCD41TY/yj8qM=;
+        b=jWUbINZrYRjdbfk35nNDAmRAX+ziLxsrEypOchPt5Cfy80LHNnUKGYCAgZARITIxwB
+         XbswWz8YI7EpMCuNWhOiZy/B/r6d4BT5Of/2uxrdscLEPI94UleChOItLNhVt2dB88A1
+         UuN2Z/8Kz23Cn5/ieDQkM9CXId13lgN7zQnWFU56v+EpNexSh1grIvJbDG8LqIp/gKTz
+         afeHhsmspvO7yMIl54ZM+H2LKgI+aSPAsv9oHW23IQHkbBIDJ2JEOIZs6QN2pH7RzrnS
+         Y+v9giknn5kItyGnuPXT/fdp/Nw6F93K+znkzJESXMhwTyw/M+zOJQjdcFfMLFkNGNSc
+         IgrQ==
+X-Gm-Message-State: AOAM531T3z4kl/HhWHSZamyALXBaNWUYi2ThigLejddsA6XAuBsFlW0C
+        46Hmqwy1PHvFrH5fS6oUIQ==
+X-Google-Smtp-Source: ABdhPJxb8syKkAcw58esapwheI2GQUJaWMhd4v6Prb2eaY3LkYdbu78AzmP2IQdSzyIK2hsntmxxzw==
+X-Received: by 2002:a9d:3d64:: with SMTP id a91mr41900681otc.144.1609446973293;
+        Thu, 31 Dec 2020 12:36:13 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id t13sm11182940oih.26.2020.12.31.12.36.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Dec 2020 12:36:12 -0800 (PST)
+Received: (nullmailer pid 2318640 invoked by uid 1000);
+        Thu, 31 Dec 2020 20:36:09 -0000
+Date:   Thu, 31 Dec 2020 13:36:09 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-watchdog@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH 1/5] dt-bindings: watchdog: renesas,wdt: add r8a779a0
+ (V3U) support
+Message-ID: <20201231203609.GA2318586@robh.at.kernel.org>
+References: <20201218173731.12839-1-wsa+renesas@sang-engineering.com>
+ <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201218173731.12839-2-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The rcar_can driver supports R-Car Gen{1,2,3} and RZ/G{1,2} SoC's, update
-the description to reflect this.
+On Fri, 18 Dec 2020 18:37:26 +0100, Wolfram Sang wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> Please apply it to the watchdog-tree.
+> 
+>  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/net/can/rcar/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/can/rcar/Kconfig b/drivers/net/can/rcar/Kconfig
-index 8d36101b78e3..6bb0e7c052ad 100644
---- a/drivers/net/can/rcar/Kconfig
-+++ b/drivers/net/can/rcar/Kconfig
-@@ -1,10 +1,10 @@
- # SPDX-License-Identifier: GPL-2.0
- config CAN_RCAR
--	tristate "Renesas R-Car CAN controller"
-+	tristate "Renesas R-Car Gen{1,2,3} and RZ/G{1,2} CAN controller"
- 	depends on ARCH_RENESAS || ARM
- 	help
- 	  Say Y here if you want to use CAN controller found on Renesas R-Car
--	  SoCs.
-+	  Gen{1,2,3} and RZ/G{1,2} SoCs.
- 
- 	  To compile this driver as a module, choose M here: the module will
- 	  be called rcar_can.
--- 
-2.17.1
-
+Acked-by: Rob Herring <robh@kernel.org>
