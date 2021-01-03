@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73A502E8CEF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jan 2021 16:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 468252E8CF1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jan 2021 16:37:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727213AbhACPgY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jan 2021 10:36:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45912 "EHLO
+        id S1726360AbhACPhk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jan 2021 10:37:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726773AbhACPgX (ORCPT
+        with ESMTP id S1726176AbhACPhj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jan 2021 10:36:23 -0500
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F28AC0613ED
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jan 2021 07:35:43 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id y24so24626322edt.10
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jan 2021 07:35:43 -0800 (PST)
+        Sun, 3 Jan 2021 10:37:39 -0500
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0AEC0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jan 2021 07:36:59 -0800 (PST)
+Received: by mail-ej1-x62c.google.com with SMTP id qw4so33590554ejb.12
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jan 2021 07:36:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=FAsNHJ04qXj7NOFemNU/AVYo7sQyesbZ2/ZS+gTz3yY=;
-        b=JYStzbrcOZUug6PTnGMSalnVKB1OTR2Wn9Fk4lykj36+spy/fvNmamuH0Qp7qr5v26
-         sWOVY/wrLndB6durZ3aP1Cr1CwKksyviRJZFbBatqyxBxje1As3qeBB0OOqX6dPGetIY
-         xoCF6ZPGFGCM9aEcmtoKUisOuSU5vqkhwAxQhNmlMv6BCzRnEV3gXlH/Lazo4T8x6uc4
-         vudyTLLvpYMHqqveOQDukY3FI8/L+B8Od4+LNHVOrmVCNJsv+oV9HGmhhlHh1ldsairv
-         Fy5jpMRJJNlyeSrpwGJCyUI79AYxtQEPeYAYd/bBDp4RTtpuiQU1/46TnkGpW59jGwKV
-         TN3g==
+        bh=+uAg5iN1da+3ePWPpyFcYcwdlbVryPlTlINq004in4o=;
+        b=JwvSuHeRlwlrwB7WNCbvDhoF9WAMsvQqnDdg1JlgaEBAtl523jcA9w4JLwOFzwHjmi
+         J5aAdvP/cfMK69HOOWVaUBb3vb5UX63No14nzEv8CtO/T4JHXy3wYgJt6I6zAjl4BBV0
+         dcXZIgLshs19tWbZgY8Dn1mZBLD0t5/8Ma4eM5EGJdcRIKG47CCywlKDgzHnHAr2l/BE
+         +1rwAX6+ci/Met6Xd65/LU7jI+7FQX0yphF6vvViKI3Xk/zQ0hpeXEpJBmtp0+4jaxy4
+         TFBsPl8wIqu3HZTYFf6Cth7xrBDz5MGz/QHrFyd6ZcE9okI8AQeOCdyDsooNE4ZkwWIE
+         PUYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FAsNHJ04qXj7NOFemNU/AVYo7sQyesbZ2/ZS+gTz3yY=;
-        b=pj5sRiApR6JQYpmoZVX+zxw7Prdq1NQ1BDmOLuSO88UdSZ/iRIUJDU7GM4a4nGD8fc
-         coL7iL+RaPhJMDn+izj2qGogWwZaNUU7spSNzsM8D0FQdtu6kBH7f1eLWLcUtUMVHOt3
-         8FW4xeF4hTx6laWpHa69WBFo8PSGe6yVKNer6wuNqV4U+atiOfFzwbvsDGydL5Y+WDVO
-         aCSu5gox5uNIuCmR7TQtDRFK7Yn81m++PPdltblrsMMOwVAd4vTf+eKOxHpvXf5Z95gT
-         C0jCmaq0Un2j3GA/INIG9CPgeXxh+rGI+55FBlBD6dOmt3QfPqWcnCG5doM3S94pUyPY
-         akQg==
-X-Gm-Message-State: AOAM530vMBheuMc6aRlXgC0bs87dGvifLJr1XsTqQ6Dh8gskyuq45RYU
-        dDS+pj9AoawmRcV6xxTE3wBCAubakFesxVBISH1GrQ==
-X-Google-Smtp-Source: ABdhPJwMxYwOmRsYhEgHHAaq5bYOroyFT1dvvvSwJvL5M5H2WicUW0Grw8JRya7+wEu/oYgstGvX/9+D0eKgQk01NFg=
-X-Received: by 2002:aa7:cc15:: with SMTP id q21mr67477267edt.213.1609688142047;
- Sun, 03 Jan 2021 07:35:42 -0800 (PST)
+        bh=+uAg5iN1da+3ePWPpyFcYcwdlbVryPlTlINq004in4o=;
+        b=sxuWNYuBqAfpMqciFBIBIlOf5OF8YFI0nlczOH+Qtm3QA1LIlW3UUAvhg/pM7TKB8A
+         thwbKDoShykXTK0INND6dg8ag8rCvO9iRGKEF3VVOl64TbFrgWxNdjo8puws+iilwaKk
+         HDb623TknV25yw8crAyRPmHrLvokbvMGlqjTvTfEQ+1foqeR0ZIWbOm2sb7Y+72nUD9T
+         h+0O8aKQ4DqYU0H+IEtD+wTCSR3hsQ9+gkOHuoMzj6/HNQOkhI6cSAtGp6tVQLOYevI1
+         8DWtuw/hk/iGbyw+ISRCfrqZOupaZ+13mekiee5Ep8ysP3Zr/sZeEwElqOkuKp0KmuD6
+         9XsA==
+X-Gm-Message-State: AOAM5334YNbWCBPComanejd7lC2KEjLCAKy6PCDcSVBFzA6pR0kro25T
+        g1D8fPlCvZQS7QWJvFVSVuUazyIUOAv+UQ/UBDDbYw==
+X-Google-Smtp-Source: ABdhPJwBQG9ecDxJyqQA1xRpLqJK9vZ/W4Bcv9YIaAwkAwRD6aujNX2wjRNwAWN4ssMWVgLFjvu+azT/F2OFkwetnMY=
+X-Received: by 2002:a17:906:3513:: with SMTP id r19mr62745809eja.445.1609688218007;
+ Sun, 03 Jan 2021 07:36:58 -0800 (PST)
 MIME-Version: 1.0
 References: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1608888807-3117-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1608888807-3117-9-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608888807-3117-8-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608888807-3117-8-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Sun, 3 Jan 2021 16:35:31 +0100
-Message-ID: <CAMpxmJUYqprKrihc=0=MRbYh-nV+QS16jWxK95sxUPzt9Y6_tA@mail.gmail.com>
-Subject: Re: [PATCH v8 08/12] gpio: bd9571mwv: Add BD9574MWF support
+Date:   Sun, 3 Jan 2021 16:36:47 +0100
+Message-ID: <CAMpxmJVEMgF+GS4ssG6X6qZ4yaBTicw-acGARbshjuqv1kEZOQ@mail.gmail.com>
+Subject: Re: [PATCH v8 07/12] gpio: bd9571mwv: rid of using struct bd9571mwv
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     marek.vasut+renesas@gmail.com, Lee Jones <lee.jones@linaro.org>,
         Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
@@ -70,48 +70,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Fri, Dec 25, 2020 at 10:33 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
 >
-> Add support for BD9574MWF which is similar chip with BD9571MWV.
-> Note that BD9574MWF has additional features "RECOV_GPOUT",
-> "FREQSEL" and "RTC_IN", but supports GPIO function only.
+> To simplify this driver, use dev_get_regmap() and
+> rid of using struct bd9571mwv.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 > ---
->  drivers/gpio/gpio-bd9571mwv.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-bd9571mwv.c b/drivers/gpio/gpio-bd9571mwv.c
-> index 0e5395f..df6102b 100644
-> --- a/drivers/gpio/gpio-bd9571mwv.c
-> +++ b/drivers/gpio/gpio-bd9571mwv.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * ROHM BD9571MWV-M GPIO driver
-> + * ROHM BD9571MWV-M and BD9574MWF-M GPIO driver
->   *
->   * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
->   *
-> @@ -10,6 +10,7 @@
->   */
->
->  #include <linux/gpio/driver.h>
-> +#include <linux/mfd/rohm-generic.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->
-> @@ -118,7 +119,8 @@ static int bd9571mwv_gpio_probe(struct platform_device *pdev)
->  }
->
->  static const struct platform_device_id bd9571mwv_gpio_id_table[] = {
-> -       { "bd9571mwv-gpio", },
-> +       { "bd9571mwv-gpio", ROHM_CHIP_TYPE_BD9571 },
-> +       { "bd9574mwf-gpio", ROHM_CHIP_TYPE_BD9574 },
->         { /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(platform, bd9571mwv_gpio_id_table);
-> --
-> 2.7.4
->
 
 Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
