@@ -2,121 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A971E2E8CE3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jan 2021 16:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E0E2E8CEC
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jan 2021 16:36:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbhACPa0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jan 2021 10:30:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44994 "EHLO
+        id S1726505AbhACPgH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jan 2021 10:36:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727156AbhACPa0 (ORCPT
+        with ESMTP id S1727207AbhACPgG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jan 2021 10:30:26 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E104BC061573
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jan 2021 07:29:45 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id x16so33612730ejj.7
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jan 2021 07:29:45 -0800 (PST)
+        Sun, 3 Jan 2021 10:36:06 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E45DEC0613CF
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jan 2021 07:35:25 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id b73so24640419edf.13
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jan 2021 07:35:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QVR3QQVTATVRnPc00Pw9QhaKce8QLhd0JoT9CxmbxsM=;
-        b=HjhkAN35KRKoGFBhwvriiUGjdFo7LS0iI/HPw1kkLUmdTbsiaMoWYCGZPVcfqb/MbQ
-         0F2la0TeOtNMygS5AGmfq8BFOAVrTSG1SFG8Cvzo0bXm+rLImUsH746SmEtOMuqVkOTY
-         8J7FdgY/KWynSrQwthSA3hdeLUA5h3C1nVk3fO+Rtqz3V/brlr+I2D7XqoMF1o08jD3Q
-         xQUR9ncKWpLOeBkQC0iA+c+c5lrf7tiNzEM0jTmy7FQaCfUz4AbqagUx+gdZkVTHQTSg
-         YkBOGUuM8LjbG8we9ZMcYWGxjS0v5a/GK49CEKd3vNpj6rm/tIDr6sbcMC5T1yern3ni
-         5+yA==
+        bh=M8EUldjyvk2v6GO3easV/bDTItJ4f4U6mdfimtYJN0A=;
+        b=q2bVdZYxjyewijLVutaGwahEKegFtWwpymOP0F5g/i8xSQ0JiaL/ZF4wv+B/pS11uK
+         HvLyXrsT2pry1T6a6JH+hDV3gLfwy7Nis7v9HuqtANuRfi9xoygFJN7OQgh/OH+fL3sz
+         tL793KWxUj3my5HtSRDrhGBwwf/mS3kT3PRathvluF0LZBaLnWujU8qEbPJTibHYzsXP
+         G2YO3mbzAWLnFyK0sf648uvhmD08m3CRgrDOWuXVWe3EpSnt+pjVtQRB+8ZwRfPYO8Hq
+         PTCJ3xO0TaZANWPpKuX6tFsfYMKwm3uV9B4Rlkl71ujSFgy+/7mfN+ksoefrKbRJS0lu
+         B1GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QVR3QQVTATVRnPc00Pw9QhaKce8QLhd0JoT9CxmbxsM=;
-        b=UX8sI7mz4af7Eip9Nji6BdlLhMgMAHpoxdcwSkhbQzScMNMHzImybQVb2QkAlSzWDu
-         87QVPxPWI4OvsdAyab64l0+QgF8uAllEeSxDC+vA7wfy/gFnwNcHrSDKvcLLqHbwwd+V
-         Pz2bzbIIualFReNJURepmkq6Ufkd4HsNa/JOKuKzSQgsShYGmbrMcErmHBtq5yD3BU1G
-         pciz3Ftj3VqrLXKNWyrr3sJMQCMXRlXWL72GNm2kx6Xs/qUFxNR4Sr7cT6Hsn5wZIdaR
-         X8wT7AjnHLAcNFtPCa8szd9GlCiSm14yoYZEKXy52xT3tXrHYOCc6s8fGRkUSMUKcbSc
-         KAbA==
-X-Gm-Message-State: AOAM5332z1MlLgDMjiByiO8Q1qO1bxij2+5wGvMrUlqMRVzyzP/VXQEc
-        2dZ3z1siIRczN2VdSPIXhXD/mqwJs8ZKsQ6UKJcHZw==
-X-Google-Smtp-Source: ABdhPJyl0A7ZV4rGfkHC/DymAFo+BP1JJQaYfvVG7751yWsFsqOmVR7dK7EkNEmOsd2jjtqTz0M4NPz824sMjzwLroM=
-X-Received: by 2002:a17:906:3513:: with SMTP id r19mr62727164eja.445.1609687784668;
- Sun, 03 Jan 2021 07:29:44 -0800 (PST)
+        bh=M8EUldjyvk2v6GO3easV/bDTItJ4f4U6mdfimtYJN0A=;
+        b=eAMHYhpXs0udtQW2f6znlkziCmK3sAcu4++7lfvQJGijGjnF/kK+x8m3XS3UBSLfaJ
+         GvEgd0a00fZGYPtpL5fGwT0uaX71QtZ6o9Xnke83OsZ+fikBWHVlUMQom7PphCgrhLIb
+         AxuxCsgrFamNxZI4modBtLzsyjU6x76h1WadvNwiBXHw5OWAEqqEQvfQrq8CH+R/p+JW
+         EaraSIEQG1y22Ew3SuCXZn5VnMaZGGaWE0FnCEHTz5mKqHC7UbzkecmhmdiPSiVdY8JI
+         crFXL4LScrMLnSRRX2/WN5oaI2YgMrTUNEErC8ph976Fc9UgGWRdpMVKH8DtaoH5IovS
+         R2sA==
+X-Gm-Message-State: AOAM531gXLOLuO6fyDyf755+VrhZB59CPMzrw8bMzKxEMq6ndF1Rwt1X
+        8OVGIO2/PQptRSHDw6Eyp/XWyO8olIwIHiod5ekWTw==
+X-Google-Smtp-Source: ABdhPJzb4qlEP8bfOaM0fyTZxQzF/OvPUzBT2H3LyWrVjHiIFgsjX7PH+TJnpC5tCIRreernulsyYuhCUhVSMQ75rDg=
+X-Received: by 2002:a05:6402:14c5:: with SMTP id f5mr66332936edx.232.1609688123457;
+ Sun, 03 Jan 2021 07:35:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201231153842.25782-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <TYBPR01MB53095D8BBF8E17AB824243F786D50@TYBPR01MB5309.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYBPR01MB53095D8BBF8E17AB824243F786D50@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+References: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608888807-3117-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1608888807-3117-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Sun, 3 Jan 2021 16:29:33 +0100
-Message-ID: <CAMpxmJVBAE=mh+ZapJ430sYjnwNh-kyMt0P=FjQ=vqjozb7zVA@mail.gmail.com>
-Subject: Re: [PATCH] gpio: Kconfig: Update help description for GPIO_RCAR
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+Date:   Sun, 3 Jan 2021 16:35:12 +0100
+Message-ID: <CAMpxmJWsipPumbROrfas+Ldwh47wnZxORUWr0RjY-=0-B2pELA@mail.gmail.com>
+Subject: Re: [PATCH v8 06/12] gpio: bd9571mwv: Use the SPDX license identifier
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, Lee Jones <lee.jones@linaro.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 1, 2021 at 6:07 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+On Fri, Dec 25, 2020 at 10:33 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
 >
-> Hi Prabhakar,
+> Use the SPDX license identifier instead of a local description.
 >
-> > -----Original Message-----
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Sent: 31 December 2020 15:39
-> > To: Linus Walleij <linus.walleij@linaro.org>; Bartosz Golaszewski
-> > <bgolaszewski@baylibre.com>; Geert Uytterhoeven <geert+renesas@glider.be>
-> > Cc: linux-gpio@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> > renesas-soc@vger.kernel.org; Prabhakar <prabhakar.csengg@gmail.com>;
-> > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Subject: [PATCH] gpio: Kconfig: Update help description for GPIO_RCAR
-> >
-> > The gpio-rcar driver supports R-Car Gen{1,2,3} and RZ/G{1,2} SoC's, update
-> > the description to reflect this.
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/gpio/gpio-bd9571mwv.c | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
 >
-> Not sure we need to make this generic by  dropping {1,2,3}/{1,2} and use R-Car and RZ/G SoC's instead ???
+> diff --git a/drivers/gpio/gpio-bd9571mwv.c b/drivers/gpio/gpio-bd9571mwv.c
+> index c0abc9c..abb622c 100644
+> --- a/drivers/gpio/gpio-bd9571mwv.c
+> +++ b/drivers/gpio/gpio-bd9571mwv.c
+> @@ -1,17 +1,9 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+>  /*
+>   * ROHM BD9571MWV-M GPIO driver
+>   *
+>   * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
+>   *
+> - * This program is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU General Public License version 2 as
+> - * published by the Free Software Foundation.
+> - *
+> - * This program is distributed "as is" WITHOUT ANY WARRANTY of any
+> - * kind, whether expressed or implied; without even the implied warranty
+> - * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> - * GNU General Public License version 2 for more details.
+> - *
+>   * Based on the TPS65086 driver
+>   *
+>   * NOTE: Interrupts are not supported yet.
+> --
+> 2.7.4
 >
 
-This looks better IMO - if Geert is OK with that, then let's change it.
-
-Bart
-
-> Regards,
-> Biju
->
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/gpio/Kconfig | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig index
-> > c70f46e80a3b..47e545d71df1 100644
-> > --- a/drivers/gpio/Kconfig
-> > +++ b/drivers/gpio/Kconfig
-> > @@ -486,11 +486,12 @@ config GPIO_PXA
-> >         Say yes here to support the PXA GPIO device
-> >
-> >  config GPIO_RCAR
-> > -     tristate "Renesas R-Car GPIO"
-> > +     tristate "Renesas R-Car Gen{1,2,3} and RZ/G{1,2} GPIO support"
-> >       depends on ARCH_RENESAS || COMPILE_TEST
-> >       select GPIOLIB_IRQCHIP
-> >       help
-> > -       Say yes here to support GPIO on Renesas R-Car SoCs.
-> > +       Say yes here to support GPIO on Renesas R-Car Gen{1,2,3} and
-> > +       RZ/G{1,2} SoCs.
-> >
-> >  config GPIO_RDA
-> >       bool "RDA Micro GPIO controller support"
-> > --
-> > 2.17.1
->
+Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
