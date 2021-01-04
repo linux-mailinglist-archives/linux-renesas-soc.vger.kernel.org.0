@@ -2,79 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 468252E8CF1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Jan 2021 16:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F4452E8F3F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 02:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbhACPhk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 3 Jan 2021 10:37:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46114 "EHLO
+        id S1727706AbhADBpg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 3 Jan 2021 20:45:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726176AbhACPhj (ORCPT
+        with ESMTP id S1726026AbhADBpg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 3 Jan 2021 10:37:39 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0AEC0613CF
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Jan 2021 07:36:59 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id qw4so33590554ejb.12
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 03 Jan 2021 07:36:59 -0800 (PST)
+        Sun, 3 Jan 2021 20:45:36 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCA98C061574;
+        Sun,  3 Jan 2021 17:44:55 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id q22so15382376pfk.12;
+        Sun, 03 Jan 2021 17:44:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+uAg5iN1da+3ePWPpyFcYcwdlbVryPlTlINq004in4o=;
-        b=JwvSuHeRlwlrwB7WNCbvDhoF9WAMsvQqnDdg1JlgaEBAtl523jcA9w4JLwOFzwHjmi
-         J5aAdvP/cfMK69HOOWVaUBb3vb5UX63No14nzEv8CtO/T4JHXy3wYgJt6I6zAjl4BBV0
-         dcXZIgLshs19tWbZgY8Dn1mZBLD0t5/8Ma4eM5EGJdcRIKG47CCywlKDgzHnHAr2l/BE
-         +1rwAX6+ci/Met6Xd65/LU7jI+7FQX0yphF6vvViKI3Xk/zQ0hpeXEpJBmtp0+4jaxy4
-         TFBsPl8wIqu3HZTYFf6Cth7xrBDz5MGz/QHrFyd6ZcE9okI8AQeOCdyDsooNE4ZkwWIE
-         PUYg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=X6YpyZpRmubo1ACvagSXHSQh8cS9M0st8O4oooQ8FUU=;
+        b=CJ54pe2BNKkIPTjcA6uJ850e4wl7yJzS3TgYIanYc/vKIhzgi91m/Nvb9hLdWi7Y33
+         se6k2SwADn96wTgjWpxaY+Sfh+RWpvmf1dXuveKW6ACuBa3vm1XVfKi6Qsb0jtQlZ68I
+         iV7mP4C9iimXrvEYa5ImvEU0slgrmPNVcB8SKscxtUd9OB4Yu1y8DScxEv6QKFky1Xq8
+         TEqML6S9ke7+qiws3Pk5bJH5UuBA/Ee2Kk02WKN1MdKTmZmvChkp2B6TyGEYyC5pO3X/
+         O57cei3c3yCMz8cQ1clUwFuoe8jAlcHzX56I55sRKzx0oZ/4xU9ekmB4klQFxwIQT42c
+         mEkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+uAg5iN1da+3ePWPpyFcYcwdlbVryPlTlINq004in4o=;
-        b=sxuWNYuBqAfpMqciFBIBIlOf5OF8YFI0nlczOH+Qtm3QA1LIlW3UUAvhg/pM7TKB8A
-         thwbKDoShykXTK0INND6dg8ag8rCvO9iRGKEF3VVOl64TbFrgWxNdjo8puws+iilwaKk
-         HDb623TknV25yw8crAyRPmHrLvokbvMGlqjTvTfEQ+1foqeR0ZIWbOm2sb7Y+72nUD9T
-         h+0O8aKQ4DqYU0H+IEtD+wTCSR3hsQ9+gkOHuoMzj6/HNQOkhI6cSAtGp6tVQLOYevI1
-         8DWtuw/hk/iGbyw+ISRCfrqZOupaZ+13mekiee5Ep8ysP3Zr/sZeEwElqOkuKp0KmuD6
-         9XsA==
-X-Gm-Message-State: AOAM5334YNbWCBPComanejd7lC2KEjLCAKy6PCDcSVBFzA6pR0kro25T
-        g1D8fPlCvZQS7QWJvFVSVuUazyIUOAv+UQ/UBDDbYw==
-X-Google-Smtp-Source: ABdhPJwBQG9ecDxJyqQA1xRpLqJK9vZ/W4Bcv9YIaAwkAwRD6aujNX2wjRNwAWN4ssMWVgLFjvu+azT/F2OFkwetnMY=
-X-Received: by 2002:a17:906:3513:: with SMTP id r19mr62745809eja.445.1609688218007;
- Sun, 03 Jan 2021 07:36:58 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=X6YpyZpRmubo1ACvagSXHSQh8cS9M0st8O4oooQ8FUU=;
+        b=BQdEs/bFN9b8cIuzm8TnFpBidELgpMxu1ebKL9j/4DJ3zzZA4jt996cud8r8+dZl21
+         Hs/Nr21BGZ7lo7anPZS8sSvHFRvbtrAOLUs7fw9OHGnQpirXASX+xkftYL+GA/fFOsHN
+         /fxS8IZgQlwWWBtQXc3PgXfLxctSxIsr/lJG+usvcaLWXfNJ4dflMXtWKBBj7AKat4gs
+         b21iLiZFs0VvCDJnQKXgDO3xxMkmDRShGL9jmZclLtjS9pD1V9Zy6xS1LJavvDJ1Etsp
+         nDGA5PWnoIhHDZMMdbcvC3XlqxxWo27RzvbuWwnFfYaB1ZA6X5y+JH3/xUgLvYnvaAXZ
+         cEuQ==
+X-Gm-Message-State: AOAM532+Wyij9NliCIN051EnOfWdeDCX+QltdGwJP7CwiAASxDNgTGVd
+        53tlIODfFW2v+AKsSNQVjkU=
+X-Google-Smtp-Source: ABdhPJz2VEauCHifBmjfek65hGMhBojfA3byMyH2JKsrYkqWiNjLHxSXqKrB382QnNU4rIaK5q/EXw==
+X-Received: by 2002:aa7:82cc:0:b029:19e:1328:d039 with SMTP id f12-20020aa782cc0000b029019e1328d039mr64980452pfn.70.1609724695402;
+        Sun, 03 Jan 2021 17:44:55 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id bf3sm18807499pjb.45.2021.01.03.17.44.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Jan 2021 17:44:54 -0800 (PST)
+Date:   Sun, 3 Jan 2021 17:44:52 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Andrej Valek <andrej.valek@siemens.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-input@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: st1232 - fix off-by-one error in resolution
+ handling
+Message-ID: <X/JzFFbQKUgSHP2z@google.com>
+References: <20201229162601.2154566-1-geert+renesas@glider.be>
+ <20201229162601.2154566-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1608888807-3117-8-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1608888807-3117-8-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Sun, 3 Jan 2021 16:36:47 +0100
-Message-ID: <CAMpxmJVEMgF+GS4ssG6X6qZ4yaBTicw-acGARbshjuqv1kEZOQ@mail.gmail.com>
-Subject: Re: [PATCH v8 07/12] gpio: bd9571mwv: rid of using struct bd9571mwv
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     marek.vasut+renesas@gmail.com, Lee Jones <lee.jones@linaro.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201229162601.2154566-2-geert+renesas@glider.be>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 25, 2020 at 10:33 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> To simplify this driver, use dev_get_regmap() and
-> rid of using struct bd9571mwv.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
+On Tue, Dec 29, 2020 at 05:25:59PM +0100, Geert Uytterhoeven wrote:
+> Before, the maximum coordinates were fixed to (799, 479) or (319, 479),
+> depending on touchscreen controller type.  The driver was changed to
+> read the actual values from the touchscreen controller, but did not take
+> into account the returned values are not the maximum coordinates, but
+> the touchscreen resolution (e.g. 800 and 480).
+> 
+> Fix this by subtracting 1.
+> 
+> Fixes: 3a54a215410b1650 ("Input: st1232 - add support resolution reading")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Applied, thank you.
+
+-- 
+Dmitry
