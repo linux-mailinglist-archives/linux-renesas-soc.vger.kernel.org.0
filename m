@@ -2,113 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3AC2E94BA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 13:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E9D12E94CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 13:26:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726308AbhADMWl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 07:22:41 -0500
-Received: from foss.arm.com ([217.140.110.172]:32972 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725921AbhADMWl (ORCPT
+        id S1726509AbhADMZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 07:25:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbhADMZC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 07:22:41 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18A601FB;
-        Mon,  4 Jan 2021 04:21:55 -0800 (PST)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18CA03F70D;
-        Mon,  4 Jan 2021 04:21:53 -0800 (PST)
-Date:   Mon, 4 Jan 2021 12:21:47 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar: Always allocate MSI addresses in 32bit space
-Message-ID: <20210104122147.GA9976@e121166-lin.cambridge.arm.com>
-References: <20201016120431.7062-1-marek.vasut@gmail.com>
- <20201210181133.GA3766@e121166-lin.cambridge.arm.com>
- <83135f6f-8a98-4537-0df5-91a06af07955@gmail.com>
- <20201214160829.GA3623@e121166-lin.cambridge.arm.com>
- <d7279eff-2129-f58c-baed-aa805f26429d@gmail.com>
- <20201221100129.GA15846@e121166-lin.cambridge.arm.com>
- <b72d6558-64a5-6936-d46d-fddc0aa49b8a@gmail.com>
+        Mon, 4 Jan 2021 07:25:02 -0500
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A646BC061794
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jan 2021 04:24:21 -0800 (PST)
+Received: from ramsan.of.borg ([84.195.186.194])
+        by laurent.telenet-ops.be with bizsmtp
+        id CcQG2400w4C55Sk01cQGKE; Mon, 04 Jan 2021 13:24:18 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kwOuG-00169y-EN; Mon, 04 Jan 2021 13:24:16 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1kwOuF-005IiT-Vv; Mon, 04 Jan 2021 13:24:15 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is not set
+Date:   Mon,  4 Jan 2021 13:24:15 +0100
+Message-Id: <20210104122415.1263541-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b72d6558-64a5-6936-d46d-fddc0aa49b8a@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 30, 2020 at 01:47:25PM +0100, Marek Vasut wrote:
-> On 12/21/20 11:01 AM, Lorenzo Pieralisi wrote:
-> 
-> [...]
-> 
-> > > > > > > --- a/drivers/pci/controller/pcie-rcar-host.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-rcar-host.c
-> > > > > > > @@ -753,7 +753,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie_host *host)
-> > > > > > >     	}
-> > > > > > >     	/* setup MSI data target */
-> > > > > > > -	msi->pages = __get_free_pages(GFP_KERNEL, 0);
-> > > > > > > +	msi->pages = __get_free_pages(GFP_KERNEL | GFP_DMA32, 0);
-> > > > > > 
-> > > > > > This does not do what you want on !CONFIG_ZONE_DMA32 (ie arm LPAE).
-> > > > > 
-> > > > > How come? I would expect GFP_DMA32 allocates a buffer below 4 GiB in any
-> > > > > case.
-> > > > 
-> > > > For ARM LPAE allocation falls back to ZONE_NORMAL that happens to work
-> > > > because if there is memory > 4GB it ends up in ZONE_HIGHMEM, so this
-> > > > patch should still work on ARM LPAE too.
-> > > > 
-> > > > Regardless, thoughts above the alternative approach (that saves you
-> > > > a page allocation) ?
-> > > 
-> > > Since this is a bugfix, I would prefer it to be minimal.
-> > 
-> > Yes, I agree with you on that.
-> 
-> Then maybe it makes sense to apply this bugfix so others can benefit from it
-> too ?
+Wolfram reports that his R-Car H2-based Lager board can no longer be
+rebooted in v5.11-rc1, as it crashes with an imprecise external abort.
+The issue can be reproduced on other boards (e.g. Koelsch with R-Car
+M2-W) too, if CONFIG_IP_PNP is disabled:
 
-I will apply it shortly, thanks.
+    Unhandled fault: imprecise external abort (0x1406) at 0x00000000
+    pgd = (ptrval)
+    [00000000] *pgd=422b6835, *pte=00000000, *ppte=00000000
+    Internal error: : 1406 [#1] ARM
+    Modules linked in:
+    CPU: 0 PID: 1105 Comm: init Tainted: G        W         5.10.0-rc1-00402-ge2f016cf7751 #1048
+    Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+    PC is at sh_mdio_ctrl+0x44/0x60
+    LR is at sh_mmd_ctrl+0x20/0x24
+    ...
+    Backtrace:
+    [<c0451f30>] (sh_mdio_ctrl) from [<c0451fd4>] (sh_mmd_ctrl+0x20/0x24)
+     r7:0000001f r6:00000020 r5:00000002 r4:c22a1dc4
+    [<c0451fb4>] (sh_mmd_ctrl) from [<c044fc18>] (mdiobb_cmd+0x38/0xa8)
+    [<c044fbe0>] (mdiobb_cmd) from [<c044feb8>] (mdiobb_read+0x58/0xdc)
+     r9:c229f844 r8:c0c329dc r7:c221e000 r6:00000001 r5:c22a1dc4 r4:00000001
+    [<c044fe60>] (mdiobb_read) from [<c044c854>] (__mdiobus_read+0x74/0xe0)
+     r7:0000001f r6:00000001 r5:c221e000 r4:c221e000
+    [<c044c7e0>] (__mdiobus_read) from [<c044c9d8>] (mdiobus_read+0x40/0x54)
+     r7:0000001f r6:00000001 r5:c221e000 r4:c221e458
+    [<c044c998>] (mdiobus_read) from [<c044d678>] (phy_read+0x1c/0x20)
+     r7:ffffe000 r6:c221e470 r5:00000200 r4:c229f800
+    [<c044d65c>] (phy_read) from [<c044d94c>] (kszphy_config_intr+0x44/0x80)
+    [<c044d908>] (kszphy_config_intr) from [<c044694c>] (phy_disable_interrupts+0x44/0x50)
+     r5:c229f800 r4:c229f800
+    [<c0446908>] (phy_disable_interrupts) from [<c0449370>] (phy_shutdown+0x18/0x1c)
+     r5:c229f800 r4:c229f804
+    [<c0449358>] (phy_shutdown) from [<c040066c>] (device_shutdown+0x168/0x1f8)
+    [<c0400504>] (device_shutdown) from [<c013de44>] (kernel_restart_prepare+0x3c/0x48)
+     r9:c22d2000 r8:c0100264 r7:c0b0d034 r6:00000000 r5:4321fedc r4:00000000
+    [<c013de08>] (kernel_restart_prepare) from [<c013dee0>] (kernel_restart+0x1c/0x60)
+    [<c013dec4>] (kernel_restart) from [<c013e1d8>] (__do_sys_reboot+0x168/0x208)
+     r5:4321fedc r4:01234567
+    [<c013e070>] (__do_sys_reboot) from [<c013e2e8>] (sys_reboot+0x18/0x1c)
+     r7:00000058 r6:00000000 r5:00000000 r4:00000000
+    [<c013e2d0>] (sys_reboot) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
 
-> > > Also, in case there was some yet undiscovered hardware bug which would
-> > > let the MSI write through, having unused memory as the MSI destination
-> > > address would only lead to write into that memory -- instead of a
-> > > write into some other address.
-> > > 
-> > > Changing this to some hard-coded address (any suggestions?) can be a
-> > > subsequent patch.
-> > 
-> > The idea was taking the address from the host controller inbound window
-> > (ie an address outside the dma-ranges ~(dma-ranges) and < 4GB), it
-> > should not matter which one.
-> 
-> Wouldn't that make the code quite unnecessarily complex for no gain ?
+Calling phy_disable_interrupts() unconditionally means that the PHY
+registers may be accessed while the device is suspended, causing
+undefined behavior, which may crash the system.
 
-Well, there is a gain, current code is allocating a page of memory -
-there is no need to do that and I don't think that what I am asking is
-complex.
+Fix this by calling phy_disable_interrupts() only when the PHY has been
+started.
 
-Again, I will merge this patch but please have a look to check if what I
-ask above is a possibility.
+Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: e2f016cf775129c0 ("net: phy: add a shutdown procedure")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Marked RFC as I do not know if this change breaks the use case fixed by
+the faulty commit.  Alternatively, the device may have to be started
+explicitly first.
+---
+ drivers/net/phy/phy_device.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks,
-Lorenzo
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 80c2e646c0934311..5985061b00128f8a 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -2962,7 +2962,8 @@ static void phy_shutdown(struct device *dev)
+ {
+ 	struct phy_device *phydev = to_phy_device(dev);
+ 
+-	phy_disable_interrupts(phydev);
++	if (phy_is_started(phydev))
++		phy_disable_interrupts(phydev);
+ }
+ 
+ /**
+-- 
+2.25.1
 
-> The above fix does just that in one line, unless there is some code in the
-> PCI subsystem to select such an address already ?
-> 
-> > I agree though that this can be a
-> > subsequent patch even though usually we send for -rc* only fixes for
-> > patches that hit the previous merge window - this seems a quite
-> > longstanding (I traced it back to v3.16) one so it would wait till
-> > v5.12, there is time to refactor it.
-> 
-> I see, I was not aware of this policy toward bugfixes.
