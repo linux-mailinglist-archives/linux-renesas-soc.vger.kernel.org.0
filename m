@@ -2,110 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 815C72E9376
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 11:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D10322E9382
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 11:43:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726234AbhADKhR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 05:37:17 -0500
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:41025 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbhADKhR (ORCPT
+        id S1726603AbhADKm2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 05:42:28 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:43825 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726599AbhADKm2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 05:37:17 -0500
-Received: by mail-ot1-f48.google.com with SMTP id x13so25548008oto.8;
-        Mon, 04 Jan 2021 02:37:01 -0800 (PST)
+        Mon, 4 Jan 2021 05:42:28 -0500
+Received: by mail-ot1-f46.google.com with SMTP id q25so25563716otn.10;
+        Mon, 04 Jan 2021 02:42:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FQobp1YZSgBfFcc2U/JI4fMyV/LH2Dew/2DTROwwSdI=;
-        b=FpiXyOelkJpPhnNCLa5Fpz7on54yuTGWMV1DYjCVhKAl3O1rTQpEzJ7/7uMZotrbsY
-         AJVD7APBshQCjE3YXrFyo9fZREMjkCr+0tItrJhlMNXIzcmkfbIBK1Zp3ioWuC8imDTN
-         RecttCWE2VINnO6bnGbIupgRPRKCKzKrWuP0DYyewIIPhXcPM92PxeNcoeh/hhb8now/
-         K+1BkLqhdJe84+gGi/ssnc5Y0q2dxn1+vNsB/tGnpHv+5PHG9eZxv2X3+5GdZ3Sx5Zza
-         Zmpht+NPTg5gPeQO2g6glPVUMDKrpdFvKkyDrNY3ANJPJSdLON+MBEz6phhCo7l5ag+m
-         o3GQ==
-X-Gm-Message-State: AOAM533rLDqOfPji6KJl2xjHecNhs36a41e2nXqzpFnGGCMjJubQF93k
-        rZ+6qv7gFfbJRquqbTGMt6LfkIghNjpyjv4DcgU=
-X-Google-Smtp-Source: ABdhPJyNChEcpd/4Th2nJuUwm0YBaNjtSXdkDzVV3UFJNxT0D3F7zukRzsHMwDkLRI09DZNHpizafws2GzEViQibBe8=
-X-Received: by 2002:a9d:c01:: with SMTP id 1mr37111244otr.107.1609756596601;
- Mon, 04 Jan 2021 02:36:36 -0800 (PST)
+        bh=S4IVbE7LzJfQ0v8UqgW0RPFmuPLfdoUzAgSWkg+Ttc8=;
+        b=Udy122TOZsFa9aMxoS0cL6qJe/LofBB9z9trxJNRsd5TjlXzQQtwwL1n+BQFb1+Riy
+         k4Y4Plb2YZ4THD7u/0wP9WSIBiwU+M60hjAAvC8+Lsi7f1000LzG1w+CBshtxjqOgaVe
+         rCdgzWSDE55yycLQ+nfnF68Qs5r6Lsvv7DOBgfxCHsLJDwzwqCEk5ZCWFAgwMvGv2K97
+         ZSBkiuHag9ftj1BSmB0lEhbbDD0LPw/p7sqW+NOyN8zealQ7y84e5CM384lHeOsCg5qn
+         hv9+C53OO8QKEjKS5ViFJuXm9bdB/XxPubtxljmJf3ckhNeXpCGUkRJHCDh3zYnfUCHt
+         kSyw==
+X-Gm-Message-State: AOAM5322hQv4PeabErA6jNdGRCcw6jiUH/YJBlk5LI2ibMsngkn0kY7U
+        PP49m8ge+oCLjWrQw6kEKd5Eco+dr5gqCT9nmg4=
+X-Google-Smtp-Source: ABdhPJzpTyOsYqkffItlUkWN/wndvtYGxzzu7wXZ1SHmN7oyEIsTQAbA7mSKZymIYePJf+62beQfMfvBDnjDxkPFQjM=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr52172686otc.145.1609756907197;
+ Mon, 04 Jan 2021 02:41:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20201231153141.25525-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20201231153141.25525-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201228213121.2331449-1-aford173@gmail.com> <20201228213121.2331449-4-aford173@gmail.com>
+In-Reply-To: <20201228213121.2331449-4-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Jan 2021 11:36:25 +0100
-Message-ID: <CAMuHMdWs2sy9kwbyvw=Xe9rT9vynKb+hzzSSdniosfsiMEpFhA@mail.gmail.com>
-Subject: Re: [PATCH] gpio: rcar: Remove redundant compatible values
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+Date:   Mon, 4 Jan 2021 11:41:36 +0100
+Message-ID: <CAMuHMdUCsAGYGS8oygT2xySRSm3Op4cJJmcnEK9BC732ZvN6JA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] net: ethernet: ravb: Name the AVB functional clock fck
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Adam,
 
-On Thu, Dec 31, 2020 at 4:31 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The mandatory compatible values 'renesas,rcar-gen{1,2,3}-gpio' have been
-> already added to all the respective R-Car Gen{1,2,3} SoC DTSI files,
-> remove the redundant device specific values from the driver.
+On Mon, Dec 28, 2020 at 10:32 PM Adam Ford <aford173@gmail.com> wrote:
+> The bindings have been updated to support two clocks, but the
+> original clock now requires the name fck to distinguish it
+> from the other.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Thanks for your patch!
 
-> --- a/drivers/gpio/gpio-rcar.c
-> +++ b/drivers/gpio/gpio-rcar.c
-> @@ -392,33 +392,6 @@ static const struct gpio_rcar_info gpio_rcar_info_gen2 = {
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2142,7 +2142,7 @@ static int ravb_probe(struct platform_device *pdev)
 >
->  static const struct of_device_id gpio_rcar_of_table[] = {
->         {
-> -               .compatible = "renesas,gpio-r8a7743",
-> -               /* RZ/G1 GPIO is identical to R-Car Gen2. */
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7790",
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7791",
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7792",
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7793",
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7794",
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7795",
-> -               /* Gen3 GPIO is identical to Gen2. */
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
-> -               .compatible = "renesas,gpio-r8a7796",
-> -               /* Gen3 GPIO is identical to Gen2. */
-> -               .data = &gpio_rcar_info_gen2,
-> -       }, {
->                 .compatible = "renesas,rcar-gen1-gpio",
->                 .data = &gpio_rcar_info_gen1,
->         }, {
+>         priv->chip_id = chip_id;
+>
+> -       priv->clk = devm_clk_get(&pdev->dev, NULL);
+> +       priv->clk = devm_clk_get(&pdev->dev, "fck");
 
-The reason the driver matches on these SoC-specific compatible values is
-that originally the family-specific compatible values did not exist, and
-the device nodes in the initial DTS files thus did not use them.  The
-family-specific compatible values were added to the DTS files in v4.15.
-However, as this was backported to all v4.14-based R-Car BSP releases
-(3.6.0 and later), I think it is safe to apply this.
+This change is not backwards compatible, as existing DTB files do not
+have the "fck" clock.  So the driver has to keep on assuming the first
+clock is the functional clock, and this patch is thus not needed nor
+desired.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>         if (IS_ERR(priv->clk)) {
+>                 error = PTR_ERR(priv->clk);
+>                 goto out_release;
 
 Gr{oetje,eeting}s,
 
