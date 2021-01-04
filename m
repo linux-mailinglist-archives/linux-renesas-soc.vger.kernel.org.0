@@ -2,86 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D10322E9382
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 11:43:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 999B02E938D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 11:46:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbhADKm2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 05:42:28 -0500
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:43825 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726599AbhADKm2 (ORCPT
+        id S1726176AbhADKpC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 05:45:02 -0500
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:33391 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbhADKpC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 05:42:28 -0500
-Received: by mail-ot1-f46.google.com with SMTP id q25so25563716otn.10;
-        Mon, 04 Jan 2021 02:42:12 -0800 (PST)
+        Mon, 4 Jan 2021 05:45:02 -0500
+Received: by mail-ot1-f48.google.com with SMTP id b24so25625951otj.0;
+        Mon, 04 Jan 2021 02:44:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=S4IVbE7LzJfQ0v8UqgW0RPFmuPLfdoUzAgSWkg+Ttc8=;
-        b=Udy122TOZsFa9aMxoS0cL6qJe/LofBB9z9trxJNRsd5TjlXzQQtwwL1n+BQFb1+Riy
-         k4Y4Plb2YZ4THD7u/0wP9WSIBiwU+M60hjAAvC8+Lsi7f1000LzG1w+CBshtxjqOgaVe
-         rCdgzWSDE55yycLQ+nfnF68Qs5r6Lsvv7DOBgfxCHsLJDwzwqCEk5ZCWFAgwMvGv2K97
-         ZSBkiuHag9ftj1BSmB0lEhbbDD0LPw/p7sqW+NOyN8zealQ7y84e5CM384lHeOsCg5qn
-         hv9+C53OO8QKEjKS5ViFJuXm9bdB/XxPubtxljmJf3ckhNeXpCGUkRJHCDh3zYnfUCHt
-         kSyw==
-X-Gm-Message-State: AOAM5322hQv4PeabErA6jNdGRCcw6jiUH/YJBlk5LI2ibMsngkn0kY7U
-        PP49m8ge+oCLjWrQw6kEKd5Eco+dr5gqCT9nmg4=
-X-Google-Smtp-Source: ABdhPJzpTyOsYqkffItlUkWN/wndvtYGxzzu7wXZ1SHmN7oyEIsTQAbA7mSKZymIYePJf+62beQfMfvBDnjDxkPFQjM=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr52172686otc.145.1609756907197;
- Mon, 04 Jan 2021 02:41:47 -0800 (PST)
+        bh=JWBFzdltaHB2LmhJPr+3aAFk0bHyrG7NJiFKo6m3amQ=;
+        b=ODKXDySaK2XmdM22/lB0TxClTZMONoqzf1ndHeNap2odpyH4iFZjuPZdCl6Nk6d7OO
+         2Q0Kngc74MYNYMBdOv4rruGg4o5fxqrz6rq/rMAcEFdPYTuZsGbZBwqJGVWa+4KDG6g/
+         XEW9PqfEH5JPz/Wzkuvk6C1l+xzi01+Og04TMzYH3eX4quNWDGcxVYmx4GKjWSRM0AtW
+         nvPmLd07pMeutHatC0loRc7OBsBAb7aUi1grp+5HCUsphilhHCPXWWWSW4infQ9aI+Bi
+         YYmzeiRE7fGlJOsCP6sQ6g1clh9BZOEKx8LJW5WrD9xAD2y8WIfmQULjFb7Si5sferjO
+         fHug==
+X-Gm-Message-State: AOAM533pxxGpcp/2ta+ICqw829FxZlC+ZjB8fW1Oty4z1p8z2ydz9jqx
+        42oWoclHa4ermysmtBMchkb7uPcETvxJBDduK8U=
+X-Google-Smtp-Source: ABdhPJxpg8oSaA/PXZWgJ5sADKEXP+Zc/bvWcki5ZqDJMFgEPzbsdusImgckqNgKqbm0G/lCHkPu7UXFhv5w1Uci7+E=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr52177425otc.145.1609757061486;
+ Mon, 04 Jan 2021 02:44:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20201228213121.2331449-1-aford173@gmail.com> <20201228213121.2331449-4-aford173@gmail.com>
-In-Reply-To: <20201228213121.2331449-4-aford173@gmail.com>
+References: <20201229170848.18482-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20201229170848.18482-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Jan 2021 11:41:36 +0100
-Message-ID: <CAMuHMdUCsAGYGS8oygT2xySRSm3Op4cJJmcnEK9BC732ZvN6JA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] net: ethernet: ravb: Name the AVB functional clock fck
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 4 Jan 2021 11:44:10 +0100
+Message-ID: <CAMuHMdWkZWRo7S_HYTS-vWBR7gVv5Q+h+kO6LH8re7f74igdXg@mail.gmail.com>
+Subject: Re: [PATCH] PCI: Drop PCIE_RCAR config option
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Adam,
-
-On Mon, Dec 28, 2020 at 10:32 PM Adam Ford <aford173@gmail.com> wrote:
-> The bindings have been updated to support two clocks, but the
-> original clock now requires the name fck to distinguish it
-> from the other.
+On Tue, Dec 29, 2020 at 6:09 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> All the defconfig files have replaced PCIE_RCAR config option with
+> PCIE_RCAR_HOST config option which built the same driver, so we can
+> now safely drop PCIE_RCAR config option.
 >
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2142,7 +2142,7 @@ static int ravb_probe(struct platform_device *pdev)
->
->         priv->chip_id = chip_id;
->
-> -       priv->clk = devm_clk_get(&pdev->dev, NULL);
-> +       priv->clk = devm_clk_get(&pdev->dev, "fck");
-
-This change is not backwards compatible, as existing DTB files do not
-have the "fck" clock.  So the driver has to keep on assuming the first
-clock is the functional clock, and this patch is thus not needed nor
-desired.
-
->         if (IS_ERR(priv->clk)) {
->                 error = PTR_ERR(priv->clk);
->                 goto out_release;
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
