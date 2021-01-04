@@ -2,70 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D0B2E93E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 12:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C8B2E93EB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 12:06:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbhADLEY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 06:04:24 -0500
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:32818 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbhADLEY (ORCPT
+        id S1726303AbhADLGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 06:06:13 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:46683 "EHLO
+        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726256AbhADLGN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 06:04:24 -0500
-Received: by mail-oi1-f175.google.com with SMTP id d203so31732114oia.0;
-        Mon, 04 Jan 2021 03:04:08 -0800 (PST)
+        Mon, 4 Jan 2021 06:06:13 -0500
+Received: by mail-ot1-f46.google.com with SMTP id w3so25626794otp.13;
+        Mon, 04 Jan 2021 03:05:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=H4g2ziabIiExWAC+uPZxI4bCHUzg0yvflC/2YZUTTYw=;
-        b=HyMgdvwxOciMkX4wU4fARIAyZoePZlquLhp4yP1mdce947Qb0csrIa9xw4VVE2qVR1
-         lcavWAcWCw+1jw4d2svtLXd85/OHXXBU+KaleL+Q1wLhfRBPGN65DA5dsipLldvCySiM
-         2Q2RktH7+fY8TmTFU9ley1VBcvmA8n+R47SSvK4Rfl7T/b0kDnGZ8AqbA1RQtTDri6yr
-         yCDunc/l2nBMswOQ22c+/nFsZNBf6WMpaqUxfcN2Z70d5UAmy64+RnjeM6gMvH9KfLAn
-         VygylsoZleZCorAbMQu8q99IFNI9jCBOuSSHO+Qsn22ZZW4VSs4eOWYM1Y28YC9FuWNf
-         cIvA==
-X-Gm-Message-State: AOAM532jYz3TAwNoyAtBAg/6qjWpa1miT8aOJ5TMZtCqJ33X47n4vtGx
-        2r087tc6f96/3+icwVcvGLZkgVEmjRx18rd4Wig=
-X-Google-Smtp-Source: ABdhPJzQr50t0WHB88K558MBAbgwFJoNsl8lbYFg8e/pADpO56kYAHzxhvPPsT4G5DDEC+RJARzSFgyPj/Wb7/hBB+w=
-X-Received: by 2002:aca:3cc5:: with SMTP id j188mr17555957oia.54.1609758223078;
- Mon, 04 Jan 2021 03:03:43 -0800 (PST)
+        bh=LIpUYrX61nfFsDoXO/L4lmaf9qz5QXsNQIcHRlMJgwY=;
+        b=Qze3xvn8y3473oauRuzsSddQu7VL+jdR0WXDRp8lsTWvJc0XHfSxuGjEER5q9OeBct
+         u2sOZVsc6O9FCXYbSXFJuPWoQMNbKts+KEdoXfpkR+mg3lhkSKJrhQELp3XnlCFZAbeg
+         lsZZgpMcl0Uo2gb2tsOvtOrebop+5d1iMDks3eOGDXha0imAmBxjnh1YPSmE4SgTeWQ7
+         aHJElZ8w+Iq/G7wiWuyNBt4llSEP0a7EwIBkl8qV2joomgEWX25yhvvn56qOqYmkxc8Z
+         uHnbEMFnEr38t0g6j8ARzr/RyuSdXp3rz3Au5pvPDrYj3GFvI6mgc3SnKTup6PhI5kYS
+         8wbg==
+X-Gm-Message-State: AOAM533feV4hojqVmOJlnqn0wYoGHTG+qs01wdi4eCI3F5KWnThku0Z1
+        dX0hAA/hVKRtiLwZCJ9psZEb0ScckqCwvHtaEKJFz7mudas=
+X-Google-Smtp-Source: ABdhPJyX3fUxxR29uM9FkfmYEjAWFurR6x4X2ZT1ujGcW3N/3qakSojQiH6oqMJHjTcpo9rVpuk8vKKxah9Bz9tugkU=
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr52447483oth.250.1609758332259;
+ Mon, 04 Jan 2021 03:05:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20210102115412.3402059-1-aford173@gmail.com> <20210102115412.3402059-3-aford173@gmail.com>
-In-Reply-To: <20210102115412.3402059-3-aford173@gmail.com>
+References: <20201231153842.25782-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TYBPR01MB53095D8BBF8E17AB824243F786D50@TYBPR01MB5309.jpnprd01.prod.outlook.com>
+ <CAMpxmJVBAE=mh+ZapJ430sYjnwNh-kyMt0P=FjQ=vqjozb7zVA@mail.gmail.com>
+In-Reply-To: <CAMpxmJVBAE=mh+ZapJ430sYjnwNh-kyMt0P=FjQ=vqjozb7zVA@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Jan 2021 12:03:32 +0100
-Message-ID: <CAMuHMdU5tYFisn-vco=ML2aoOaL7JcVn7_Rma4GU9RTnwVFKwA@mail.gmail.com>
-Subject: Re: [PATCH V2 3/4] spi: renesas rpc-if: Update Add RZ/G2 to Kconfig description
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+Date:   Mon, 4 Jan 2021 12:05:21 +0100
+Message-ID: <CAMuHMdXWCdKu4HwzyCta4fO0+kbG2HmuZ826DiNsMn5M6+2Ojg@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Kconfig: Update help description for GPIO_RCAR
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-spi <linux-spi@vger.kernel.org>
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jan 2, 2021 at 12:54 PM Adam Ford <aford173@gmail.com> wrote:
-> The SPI driver for the Renesas RPC-IF is present on the RZ/G2
+Hi Bartosz et al,
 
-s/is/as/
-
-> Series.  Add that to the description.
+On Sun, Jan 3, 2021 at 4:29 PM Bartosz Golaszewski
+<bgolaszewski@baylibre.com> wrote:
+> On Fri, Jan 1, 2021 at 6:07 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> > > -----Original Message-----
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Sent: 31 December 2020 15:39
+> > > To: Linus Walleij <linus.walleij@linaro.org>; Bartosz Golaszewski
+> > > <bgolaszewski@baylibre.com>; Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Cc: linux-gpio@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > > renesas-soc@vger.kernel.org; Prabhakar <prabhakar.csengg@gmail.com>;
+> > > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > Subject: [PATCH] gpio: Kconfig: Update help description for GPIO_RCAR
+> > >
+> > > The gpio-rcar driver supports R-Car Gen{1,2,3} and RZ/G{1,2} SoC's, update
+> > > the description to reflect this.
+> >
+> > Not sure we need to make this generic by  dropping {1,2,3}/{1,2} and use R-Car and RZ/G SoC's instead ???
+> >
 >
-> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+> This looks better IMO - if Geert is OK with that, then let's change it.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+"R-Car and RZ/G" sounds better to me, as it is present on all known
+R-Car and RZ/G SoCs. We can change the help text if that ever changes.
+
+> > > --- a/drivers/gpio/Kconfig
+> > > +++ b/drivers/gpio/Kconfig
+> > > @@ -486,11 +486,12 @@ config GPIO_PXA
+> > >         Say yes here to support the PXA GPIO device
+> > >
+> > >  config GPIO_RCAR
+> > > -     tristate "Renesas R-Car GPIO"
+> > > +     tristate "Renesas R-Car Gen{1,2,3} and RZ/G{1,2} GPIO support"
+> > >       depends on ARCH_RENESAS || COMPILE_TEST
+> > >       select GPIOLIB_IRQCHIP
+> > >       help
+> > > -       Say yes here to support GPIO on Renesas R-Car SoCs.
+> > > +       Say yes here to support GPIO on Renesas R-Car Gen{1,2,3} and
+> > > +       RZ/G{1,2} SoCs.
+> > >
+> > >  config GPIO_RDA
+> > >       bool "RDA Micro GPIO controller support"
 
 Gr{oetje,eeting}s,
 
