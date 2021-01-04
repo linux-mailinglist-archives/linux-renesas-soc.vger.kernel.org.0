@@ -2,101 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7AD2E93B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 11:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5145D2E93DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 12:04:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726306AbhADKwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 05:52:23 -0500
-Received: from mail-oo1-f45.google.com ([209.85.161.45]:34674 "EHLO
-        mail-oo1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726129AbhADKwX (ORCPT
+        id S1726657AbhADLDc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 06:03:32 -0500
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:33913 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726176AbhADLDc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 05:52:23 -0500
-Received: by mail-oo1-f45.google.com with SMTP id x23so6181519oop.1;
-        Mon, 04 Jan 2021 02:52:07 -0800 (PST)
+        Mon, 4 Jan 2021 06:03:32 -0500
+Received: by mail-oo1-f46.google.com with SMTP id x23so6187376oop.1;
+        Mon, 04 Jan 2021 03:03:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Q0c1Y3LPa+ARd4G//BxkyHoz21dY5cJnRVsgk53Tbn0=;
-        b=W2qolnfRpSNOO2OPET4j501GZ6Fbc3ix9/s35u7f2ncBvczG8Kuep0IsneSeOvRgbM
-         LHJe1xNLSIF+3rPwk37OCQKnanEsCckhOJHRdFhCPgrOLruGpfZRBK9+GvxM/hkdmCfz
-         DkiIM1qGywXwkhOxgUzQgNZGJDHyoHsdlLjq4UYUNEcTmQCODczWIus72CpYNdOOO7vu
-         zFMEp0Juq80U/0fdPv7qtEN8yBLuRt0HlcDc6h8u5KiAtctNbqsQ9+3YEE6Ny/v/sSWt
-         uX8TC+ZW0nwJOVOrDkYKw5MT5mDYa7+aLW5O+JZX7cX7RrsisHeZhIzytloZvyaL8pj4
-         EPfw==
-X-Gm-Message-State: AOAM530a99uL6vF7UTuXVr4D0qYlWN2ocgbfSUT97D54nKcDX4MJ+C3k
-        aGzFRMG5vMAFmevVG2picUnPZR5K6MT+iXsLQkk=
-X-Google-Smtp-Source: ABdhPJzvxPnIglxjOoytlJMwE5oDPJlVBKkIU/bFGP9uDfDV7fCPuik4jToHwv9sqFHZKPyvpQob0nH+8q9/7XJ4cV4=
-X-Received: by 2002:a4a:ca14:: with SMTP id w20mr48712009ooq.11.1609757502401;
- Mon, 04 Jan 2021 02:51:42 -0800 (PST)
+        bh=vgz855DfWv71v/NUg42dMP6FV3P5LJ1Dp9oOf7gYED8=;
+        b=lsYYKFRMSBmXyUBKFBWQPzTxJXcIVtxTp2zZBcZ7SB5XQJOwr6WTRcgZ9r8iJ+JQfS
+         0EepbijIYcrRnk0xlBGH6jUJDKLdGHwd60eiOiEEltU7EQfhUIBCkSIfWzGHDaE13r2I
+         wfMj617x9d+269frPev3Ref27HZ9GTCXnDhOGH4eEJvPycTmVQQm4EvKA+aE4sLv/Kuq
+         7AIH40YwUKHy2KmmNlt1+nnX/3W7QBw1QZwQrVmMKivFl4esMxVm92Luy/CtMlLAb+2X
+         1cbLHnKauYtwmyP48P8pDx3jL7HEw//mX0OTx7g2glndDZe82I9KBm+ykrw5elbYIvyy
+         2dGg==
+X-Gm-Message-State: AOAM531BN/uflnC9zut7HkNhjStOnlXQuBhH2//jjB0TGoDEiWkBqjEI
+        puav115/wS3cuavg5LH6Rv+WbArM2YWCIbmjpEkcU5dU
+X-Google-Smtp-Source: ABdhPJzr1K2Am+N2Q/mJdEccKDCfyY216KRTVXuy/doErF2NeQJAnzf4Bso+QzcOdpp3/DpfE19LAUmx1c+nIkV1eh0=
+X-Received: by 2002:a4a:ca14:: with SMTP id w20mr48734783ooq.11.1609758171783;
+ Mon, 04 Jan 2021 03:02:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201231155957.31165-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20201231155957.31165-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20210102115412.3402059-1-aford173@gmail.com> <20210102115412.3402059-2-aford173@gmail.com>
+In-Reply-To: <20210102115412.3402059-2-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 4 Jan 2021 11:51:31 +0100
-Message-ID: <CAMuHMdX2ruikh4voRrHPmi=ti+eHVxXh6N05s1XH6+r5MeeqQw@mail.gmail.com>
-Subject: Re: [PATCH] can: rcar: Update help description for CAN_RCAR_CANFD config
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-can@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+Date:   Mon, 4 Jan 2021 12:02:40 +0100
+Message-ID: <CAMuHMdXzK=d30RuWSDofR5uB2SmF5eiHMpQ0xakvUqDA7bWhOQ@mail.gmail.com>
+Subject: Re: [PATCH V2 2/4] memory: renesas rpc-if: Update Add RZ/G2 to
+ Kconfig description
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-spi <linux-spi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Thu, Dec 31, 2020 at 5:00 PM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> The rcar_canfd driver supports R-Car Gen3 and RZ/G2 SoC's, update the
-> description to reflect this.
+On Sat, Jan 2, 2021 at 12:54 PM Adam Ford <aford173@gmail.com> wrote:
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/drivers/net/can/rcar/Kconfig
-> +++ b/drivers/net/can/rcar/Kconfig
-> @@ -10,13 +10,13 @@ config CAN_RCAR
->           be called rcar_can.
+> The Renesas RPC-IF is present on the RZ/G2 Series.  Add that to
+> the description.
 >
->  config CAN_RCAR_CANFD
-> -       tristate "Renesas R-Car CAN FD controller"
-> +       tristate "Renesas R-Car Gen3 and RZ/G2 CAN FD controller"
->         depends on ARCH_RENESAS || ARM
+> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Not introduced by this patch, but the "|| ARM" looks strange to me.
-Is this meant for compile-testing? Doesn't the driver compile on all
-platforms (it does on m68k), so "|| COMPILE_TEST" is not appropriate?
-Is the CAN FD controller present on some Renesas arm32 SoCs (but
-not yet supported by this driver)?
+Thanks for your patch!
 
+> --- a/drivers/memory/Kconfig
+> +++ b/drivers/memory/Kconfig
+> @@ -202,9 +202,9 @@ config RENESAS_RPCIF
+>         depends on ARCH_RENESAS || COMPILE_TEST
+>         select REGMAP_MMIO
 >         help
->           Say Y here if you want to use CAN FD controller found on
-> -         Renesas R-Car SoCs. The driver puts the controller in CAN FD only
-> -         mode, which can interoperate with CAN2.0 nodes but does not support
-> -         dedicated CAN 2.0 mode.
-> +         Renesas R-Car Gen3 and RZ/G2 SoCs. The driver puts the
-> +         controller in CAN FD only mode, which can interoperate with
-> +         CAN2.0 nodes but does not support dedicated CAN 2.0 mode.
+> -         This supports Renesas R-Car Gen3 RPC-IF which provides either SPI
+> -         host or HyperFlash. You'll have to select individual components
+> -         under the corresponding menu.
+> +         This supports Renesas R-Car Gen3 of RZ/G2 RPC-IF which provides
+
+s/of/or/
+
+> +         either SPI host or HyperFlash. You'll have to select individual
+> +         components under the corresponding menu.
 >
->           To compile this driver as a module, choose M here: the module will
->           be called rcar_canfd.
+>  config STM32_FMC2_EBI
+>         tristate "Support for FMC2 External Bus Interface on STM32MP SoCs"
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
