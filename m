@@ -2,125 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E9D12E94CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 13:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC8232E94D5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 13:27:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726509AbhADMZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 07:25:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726129AbhADMZC (ORCPT
+        id S1726558AbhADM1V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 07:27:21 -0500
+Received: from mail-oi1-f182.google.com ([209.85.167.182]:46985 "EHLO
+        mail-oi1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726303AbhADM1V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 07:25:02 -0500
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A646BC061794
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jan 2021 04:24:21 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by laurent.telenet-ops.be with bizsmtp
-        id CcQG2400w4C55Sk01cQGKE; Mon, 04 Jan 2021 13:24:18 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kwOuG-00169y-EN; Mon, 04 Jan 2021 13:24:16 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kwOuF-005IiT-Vv; Mon, 04 Jan 2021 13:24:15 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is not set
-Date:   Mon,  4 Jan 2021 13:24:15 +0100
-Message-Id: <20210104122415.1263541-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Mon, 4 Jan 2021 07:27:21 -0500
+Received: by mail-oi1-f182.google.com with SMTP id q205so31877917oig.13;
+        Mon, 04 Jan 2021 04:27:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KGqjjOBqYkUhZO5NUTLsMInYidsYOh5Z+GKhoyq8Vl8=;
+        b=BiIj7lltPSK2nTHV/0LdHPoFG+e5tGWgWuVP30BROHkmAU56s9GehQZt96oZ7Lgz5r
+         coixlelRuPNfLHe56MuaKiHff/wd4jDRC4o/j2qSF01DMG+qcso25PyVB+9sAAowFZEW
+         vLgXLODfsWxYuMd5XNR4b0SS48LXxzFR/f5B9EVG3H+ThQUgaYuviNNXgheXkaNY1vgQ
+         XLm0ut1opPPKdownrdht58qxvcL0cIdoFQUobci8xdML6yStE2bV1mt85eHt/X9SaD12
+         n1BDlkDEvhK8qP6OPou+oWG1Bb31y5FkBw0L9SbQ9y7N75o9yISwXtvBXNAygfHGUSPn
+         Ks4A==
+X-Gm-Message-State: AOAM5308dZjb1SfYlzf5ZtKb4y1y2sxwpDFS+7NjvWupKJnT50vwaCGW
+        JGS9vHYtmzFYhj2tKu3vdBMPkM34pz63rVG6t+g=
+X-Google-Smtp-Source: ABdhPJyy8WVYk74ifItC5ErpbK7ek7hVhTRudnGii5zDueFRpPPk79DIwtxgynDczsXHbEH5UrN6FUVKZN+T6uykMVA=
+X-Received: by 2002:aca:3cc5:: with SMTP id j188mr17764299oia.54.1609763200164;
+ Mon, 04 Jan 2021 04:26:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210104113744.10681-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20210104113744.10681-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 4 Jan 2021 13:26:29 +0100
+Message-ID: <CAMuHMdVFZsKb7=z4NJAbgHY9fEL-cNQqahEpoynjeMG7-wAuiQ@mail.gmail.com>
+Subject: Re: [PATCH v2] gpio: Kconfig: Update help description for GPIO_RCAR config
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Wolfram reports that his R-Car H2-based Lager board can no longer be
-rebooted in v5.11-rc1, as it crashes with an imprecise external abort.
-The issue can be reproduced on other boards (e.g. Koelsch with R-Car
-M2-W) too, if CONFIG_IP_PNP is disabled:
+On Mon, Jan 4, 2021 at 12:37 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> The gpio-rcar driver also supports RZ/G SoC's, update the description to
+> reflect this.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-    Unhandled fault: imprecise external abort (0x1406) at 0x00000000
-    pgd = (ptrval)
-    [00000000] *pgd=422b6835, *pte=00000000, *ppte=00000000
-    Internal error: : 1406 [#1] ARM
-    Modules linked in:
-    CPU: 0 PID: 1105 Comm: init Tainted: G        W         5.10.0-rc1-00402-ge2f016cf7751 #1048
-    Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-    PC is at sh_mdio_ctrl+0x44/0x60
-    LR is at sh_mmd_ctrl+0x20/0x24
-    ...
-    Backtrace:
-    [<c0451f30>] (sh_mdio_ctrl) from [<c0451fd4>] (sh_mmd_ctrl+0x20/0x24)
-     r7:0000001f r6:00000020 r5:00000002 r4:c22a1dc4
-    [<c0451fb4>] (sh_mmd_ctrl) from [<c044fc18>] (mdiobb_cmd+0x38/0xa8)
-    [<c044fbe0>] (mdiobb_cmd) from [<c044feb8>] (mdiobb_read+0x58/0xdc)
-     r9:c229f844 r8:c0c329dc r7:c221e000 r6:00000001 r5:c22a1dc4 r4:00000001
-    [<c044fe60>] (mdiobb_read) from [<c044c854>] (__mdiobus_read+0x74/0xe0)
-     r7:0000001f r6:00000001 r5:c221e000 r4:c221e000
-    [<c044c7e0>] (__mdiobus_read) from [<c044c9d8>] (mdiobus_read+0x40/0x54)
-     r7:0000001f r6:00000001 r5:c221e000 r4:c221e458
-    [<c044c998>] (mdiobus_read) from [<c044d678>] (phy_read+0x1c/0x20)
-     r7:ffffe000 r6:c221e470 r5:00000200 r4:c229f800
-    [<c044d65c>] (phy_read) from [<c044d94c>] (kszphy_config_intr+0x44/0x80)
-    [<c044d908>] (kszphy_config_intr) from [<c044694c>] (phy_disable_interrupts+0x44/0x50)
-     r5:c229f800 r4:c229f800
-    [<c0446908>] (phy_disable_interrupts) from [<c0449370>] (phy_shutdown+0x18/0x1c)
-     r5:c229f800 r4:c229f804
-    [<c0449358>] (phy_shutdown) from [<c040066c>] (device_shutdown+0x168/0x1f8)
-    [<c0400504>] (device_shutdown) from [<c013de44>] (kernel_restart_prepare+0x3c/0x48)
-     r9:c22d2000 r8:c0100264 r7:c0b0d034 r6:00000000 r5:4321fedc r4:00000000
-    [<c013de08>] (kernel_restart_prepare) from [<c013dee0>] (kernel_restart+0x1c/0x60)
-    [<c013dec4>] (kernel_restart) from [<c013e1d8>] (__do_sys_reboot+0x168/0x208)
-     r5:4321fedc r4:01234567
-    [<c013e070>] (__do_sys_reboot) from [<c013e2e8>] (sys_reboot+0x18/0x1c)
-     r7:00000058 r6:00000000 r5:00000000 r4:00000000
-    [<c013e2d0>] (sys_reboot) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Calling phy_disable_interrupts() unconditionally means that the PHY
-registers may be accessed while the device is suspended, causing
-undefined behavior, which may crash the system.
+Gr{oetje,eeting}s,
 
-Fix this by calling phy_disable_interrupts() only when the PHY has been
-started.
+                        Geert
 
-Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Fixes: e2f016cf775129c0 ("net: phy: add a shutdown procedure")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Marked RFC as I do not know if this change breaks the use case fixed by
-the faulty commit.  Alternatively, the device may have to be started
-explicitly first.
----
- drivers/net/phy/phy_device.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 80c2e646c0934311..5985061b00128f8a 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -2962,7 +2962,8 @@ static void phy_shutdown(struct device *dev)
- {
- 	struct phy_device *phydev = to_phy_device(dev);
- 
--	phy_disable_interrupts(phydev);
-+	if (phy_is_started(phydev))
-+		phy_disable_interrupts(phydev);
- }
- 
- /**
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
