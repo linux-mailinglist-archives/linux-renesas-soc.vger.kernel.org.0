@@ -2,67 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44D612E9C0D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 18:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6222E9C44
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 18:42:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbhADRbw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 12:31:52 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:48892 "EHLO vps0.lunn.ch"
+        id S1726246AbhADRmY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 12:42:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36904 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726345AbhADRbw (ORCPT
+        id S1727377AbhADRmX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 12:31:52 -0500
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kwThB-00FzuS-9r; Mon, 04 Jan 2021 18:31:05 +0100
-Date:   Mon, 4 Jan 2021 18:31:05 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is not
- set
-Message-ID: <X/NQ2fYdBygm3CYc@lunn.ch>
-References: <20210104122415.1263541-1-geert+renesas@glider.be>
- <20210104145331.tlwjwbzey5i4vgvp@skbuf>
- <CAMuHMdUVsSuAur1wWkjs7FW5N-36XV9iXA6wmvst59eKoUFDHQ@mail.gmail.com>
- <20210104170112.hn6t3kojhifyuaf6@skbuf>
- <X/NNS3FUeSNxbqwo@lunn.ch>
+        Mon, 4 Jan 2021 12:42:23 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E66102250E;
+        Mon,  4 Jan 2021 17:41:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609782103;
+        bh=BPnOnznoiq/XSjggH+RhjSgHG7IZo/HAB190GGe8BNA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=E9ebn3aaDsyTlV1sgH+066O2byDbBpr7WQHuTRleZn4w86BdM2QLxtROk9THLw0L7
+         usZrstEtoc7TpqGMb4MsfcGU4nyPMCZNkus7/JA5xyL2Kln7k7N+5ixAP8XmiqD2FW
+         iH0rPAoX4nb8Bl+MPX4NOqOiIiVSThzFsjzXaI1bP1JG+/NmqDeY1DGHLPUihqMNGK
+         0vbmrHAUmYqR8VoZD9Aq3GTB8TFKTia6qw2re7QF4NCF3LcWK1BlvoCaFEhGVoLGrN
+         jTcvSPJm6lMyz9c0hEM0MfPeL1SkXymY/2/TWJzvl7f56U+GJvgRsTUY0oSWrRPEF6
+         aePWRdTjRrS8w==
+From:   Mark Brown <broonie@kernel.org>
+To:     linux-renesas-soc@vger.kernel.org, Adam Ford <aford173@gmail.com>
+Cc:     aford@beaconembedded.com,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
+        biju.das.jz@bp.renesas.com, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>
+In-Reply-To: <20210102115412.3402059-1-aford173@gmail.com>
+References: <20210102115412.3402059-1-aford173@gmail.com>
+Subject: Re: (subset) [PATCH V2 1/4] dt-bindings: memory: Renesas RPC-IF: Add support for RZ/G2 Series
+Message-Id: <160978207205.14552.17083840940357811641.b4-ty@kernel.org>
+Date:   Mon, 04 Jan 2021 17:41:12 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/NNS3FUeSNxbqwo@lunn.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> The basic rules here should be, if the MDIO bus is registered, it is
-> usable. There are things like PHY statistics, HWMON temperature
-> sensors, etc, DSA switches, all which have a life cycle separate to
-> the interface being up.
+On Sat, 2 Jan 2021 05:54:09 -0600, Adam Ford wrote:
+> The RZ/G2 Series has the RPC-IF interface.
+> Update bindings to support: r8a774a1, r8a774b1, r8a774c0, and r8a774e1
 
-[Goes and looks at the code]
+Applied to
 
-Yes, this is runtime PM which is broken.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-sh_mdio_init() needs to wrap the mdp->mii_bus->read and
-mdp->mii_bus->write calls with calls to
+Thanks!
 
-pm_runtime_get_sync(&mdp->pdev->dev);
+[3/4] spi: renesas rpc-if: Update Add RZ/G2 to Kconfig description
+      commit: f4a10fc4225155ae4d2fcb411be9f24245bb5cf8
 
-and
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-pm_runtime_put_sync(&mdp->pdev->dev);
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-The KSZ8041RNLI supports statistics, which ethtool --phy-stats can
-read, and these will also going to cause problems.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-      Andrew
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
