@@ -2,78 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B6222E9C44
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 18:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 731202E9D23
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Jan 2021 19:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbhADRmY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Jan 2021 12:42:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36904 "EHLO mail.kernel.org"
+        id S1725840AbhADSgR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Jan 2021 13:36:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45894 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727377AbhADRmX (ORCPT
+        id S1725889AbhADSgR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Jan 2021 12:42:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E66102250E;
-        Mon,  4 Jan 2021 17:41:42 +0000 (UTC)
+        Mon, 4 Jan 2021 13:36:17 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DEC3422273
+        for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Jan 2021 18:35:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609782103;
-        bh=BPnOnznoiq/XSjggH+RhjSgHG7IZo/HAB190GGe8BNA=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=E9ebn3aaDsyTlV1sgH+066O2byDbBpr7WQHuTRleZn4w86BdM2QLxtROk9THLw0L7
-         usZrstEtoc7TpqGMb4MsfcGU4nyPMCZNkus7/JA5xyL2Kln7k7N+5ixAP8XmiqD2FW
-         iH0rPAoX4nb8Bl+MPX4NOqOiIiVSThzFsjzXaI1bP1JG+/NmqDeY1DGHLPUihqMNGK
-         0vbmrHAUmYqR8VoZD9Aq3GTB8TFKTia6qw2re7QF4NCF3LcWK1BlvoCaFEhGVoLGrN
-         jTcvSPJm6lMyz9c0hEM0MfPeL1SkXymY/2/TWJzvl7f56U+GJvgRsTUY0oSWrRPEF6
-         aePWRdTjRrS8w==
-From:   Mark Brown <broonie@kernel.org>
-To:     linux-renesas-soc@vger.kernel.org, Adam Ford <aford173@gmail.com>
-Cc:     aford@beaconembedded.com,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        devicetree@vger.kernel.org, linux-spi@vger.kernel.org,
-        biju.das.jz@bp.renesas.com, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-In-Reply-To: <20210102115412.3402059-1-aford173@gmail.com>
-References: <20210102115412.3402059-1-aford173@gmail.com>
-Subject: Re: (subset) [PATCH V2 1/4] dt-bindings: memory: Renesas RPC-IF: Add support for RZ/G2 Series
-Message-Id: <160978207205.14552.17083840940357811641.b4-ty@kernel.org>
-Date:   Mon, 04 Jan 2021 17:41:12 +0000
+        s=k20201202; t=1609785337;
+        bh=NsMJtfyjfFf8t2oznLe+xlCtgVKH4JII+ZGGiF/eUAs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Jx9+X96vVmKXaqSBc2oxgtzghxgaFNfS3Qolqj5t8mlSDUGCAXnZqrVsrc7/+ostI
+         oG58JfhVwZH97yVM1RrEDZ4bMmS1mD1x2Br/INKB+lVJVY1oaA4yFZmmUHKNU2wX/i
+         ZSBb7kNrI5EoWocmAEaNBrRJjzMUJvhM4IzCbGh7o4YCg4vzuo7SmiLLvH5dd0KkE6
+         meT1f4iCcbouzk5wDfgvHKtw8BfQ2zD2kfjIalzZA9Q9kZKaF0MGsQirzw5fpsIB0P
+         8IQvhMfqFgzIwz9YtzU4TphN4wCUGl3fgyMVOOcBkvH7dX3qO0+G/x4+OiJjHWdfGt
+         NFf6gz5U+dWng==
+Received: by mail-ed1-f47.google.com with SMTP id b2so28428348edm.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Jan 2021 10:35:36 -0800 (PST)
+X-Gm-Message-State: AOAM5305ghr1X7xEiaSenZYhfEdTFL8AaWf/p0kafExEBumFnnkhc2F2
+        ssU+ZqluPgp7aYwl8m59reWHPFpEY5kBxZ395g==
+X-Google-Smtp-Source: ABdhPJyiAwX81V587mWQ6K37emEHsZmIP2mZ1ElHpEbVNqSfWDy89pwPgcfB7Gw6Ob3+wbTWAnPOaoXFgm7R6EQBXNI=
+X-Received: by 2002:a05:6402:ca2:: with SMTP id cn2mr71984086edb.137.1609785335489;
+ Mon, 04 Jan 2021 10:35:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 4 Jan 2021 11:35:23 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqJ6bL3rnTO+gMDdbuceikv4X9J=mAEGXAQs+riWj3XV2g@mail.gmail.com>
+Message-ID: <CAL_JsqJ6bL3rnTO+gMDdbuceikv4X9J=mAEGXAQs+riWj3XV2g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] dt-bindings: display: Convert DWC HDMI TX bindings
+ to YAML
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Mark Yao <mark.yao@rock-chips.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 2 Jan 2021 05:54:09 -0600, Adam Ford wrote:
-> The RZ/G2 Series has the RPC-IF interface.
-> Update bindings to support: r8a774a1, r8a774b1, r8a774c0, and r8a774e1
+On Sun, Dec 20, 2020 at 12:50 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+>
+> Hello,
+>
+> This patch series attempts a conversion of the DWC HDMI TX DT bindings
+> to YAML.
 
-Applied to
+Please resend to DT list.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[3/4] spi: renesas rpc-if: Update Add RZ/G2 to Kconfig description
-      commit: f4a10fc4225155ae4d2fcb411be9f24245bb5cf8
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Rob
