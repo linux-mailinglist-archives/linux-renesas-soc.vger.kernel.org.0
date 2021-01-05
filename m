@@ -2,79 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 041422EAA8C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 13:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C07092EAAF3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 13:32:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbhAEMUI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 07:20:08 -0500
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:38816 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727285AbhAEMUI (ORCPT
+        id S1728373AbhAEMbd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 07:31:33 -0500
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:40268 "EHLO
+        mail-oi1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727725AbhAEMbc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 07:20:08 -0500
-Received: by mail-ot1-f42.google.com with SMTP id j20so29068320otq.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jan 2021 04:19:52 -0800 (PST)
+        Tue, 5 Jan 2021 07:31:32 -0500
+Received: by mail-oi1-f172.google.com with SMTP id p5so35776748oif.7;
+        Tue, 05 Jan 2021 04:31:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EbQ9N195JLIVLqKBqaRVei1gavIVpzUZAcIfWXqbYuw=;
-        b=PhkcDVKWKmIreVHHY/aqdmGY70LeamXlNvA0v38b1Y0IrC5O0cALYnFiTsvpa1oIAL
-         YJQD/5Ks0LhEmR9RqGI1ocvzbhlSiQV4rhANfjXyMgy9FDWAWyw10wMVXbtWbz2yWoPE
-         vJq4AR5nn8WtuIj+21TqfOBUyax8IQK2QDnAuEFRxOmFQPbZj3GtteQJFe+DcIVFW+Pq
-         5QaTwKTPgtW614byqncRpSwYJFy/xkR9e7vPJgxs2Y4z+rd31JzLkNk0nsBsk6GemuDe
-         Ez2UhyfZuuXo2nOcNkZJ2jllAFDDEItDkxMzBzgYPLJ3mvcRwQeYoeFjYAnWNo326GzK
-         gLEg==
-X-Gm-Message-State: AOAM532N8QHrt6DpHWDbXNNPPe7RBGU74tJxByhnwWriANrC6jJnY3Ku
-        +IZCSwykp/L+VqlA1wnMBAQfGMNdXxcN/D7tnkyW05HGg/Y=
-X-Google-Smtp-Source: ABdhPJyFIu0O2BeAD1i0AGLtPOY+e66BQY6IrNKyKG4m4bCZekY+xL19hkBB2dl2jC3pqwcxVXzY8RMN4ZzaeWPb1jY=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr55925559otc.145.1609849167219;
- Tue, 05 Jan 2021 04:19:27 -0800 (PST)
+        bh=12r0Bw4nS6BbOFWAUi5UOySbS/NhH/yJzSZDxReb0mc=;
+        b=YGRRjcWTRcrLlo7fzVd4yx/Rp3pF59DdlemgZMj15fHVt+bOyZAlVZbnb+yKjWmTCs
+         SFxcR87PA7pHplh+4zAAm0D9uf3nkpIsJqbUlCoaUqiHquF0w6g1ExAb6zS8D6ozXX4K
+         knRLXYODaD7xNm2527PaqdUICFOBGB9puifeKdTz9UPwcdWOA0vpkMRa5R2bQDLK21eV
+         y19iVqSBAzBwcrmKaB53PhOcHj0xobmN5Ke438MUbmGIp/mIUOXSAuVghfhZyevWZw2i
+         OaxHBeP16BOcI3WGOFsgPfSCE+AhKo8ww+Ph+rCwKA6z2SFoGjByIY3dUvv9UOM2Twva
+         uVyQ==
+X-Gm-Message-State: AOAM531jXh8hHj8D0Wo2Nj8lT9qSy6dXRmGiBNSWJz8hOorKFH7guOGc
+        H2PEIidZOXdy0jqtbjlIHYq9taYbKiVUW7kw+JI=
+X-Google-Smtp-Source: ABdhPJxhfYcB3nGeskK2H/0rnXAFgFKmRJsoddbw4QCk8GH9dI0Itm4pwCPMMe046eNRfR7hZ/AgHUvnwrFtDA9WrG4=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr2403452oia.148.1609849851249;
+ Tue, 05 Jan 2021 04:30:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201227121925.8431-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201227121925.8431-1-wsa+renesas@sang-engineering.com>
+References: <20201223172505.34736-1-wsa+renesas@sang-engineering.com> <20201223172505.34736-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201223172505.34736-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jan 2021 13:19:16 +0100
-Message-ID: <CAMuHMdWVtACtyoQgxKTWpw_4xS-B1knkGOVU-7DpNzG3uoG-RQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] arm64: dts: r8a779a0: correct reset values for GPIO
+Date:   Tue, 5 Jan 2021 13:30:40 +0100
+Message-ID: <CAMuHMdVKmb8tCGQUQtCOfkjB3VxbVtwuA3u9kh2XuxQumKhekg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: i2c: renesas,i2c: add r8a779a0 (V3U) support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-On Sun, Dec 27, 2020 at 1:19 PM Wolfram Sang
+On Wed, Dec 23, 2020 at 6:27 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Because the datasheet is ambigious, copy over the reset values from the
-> latest BSP.
->
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->
-> While looking for a problem when obtaining the reset GPIO for RAVB, I
-> noticed this difference and so send this patch as a notification. It
-> sadly did not fix my RAVB problem, so I'll report it with the RAVB
-> patches there. I didn't find a map from "pfc-clocks" to "GPIO block"
-> yet, so this is all very confusing without it.
 
-AFAIUI, Table 6.2 ("Configuration of Registers in PFC") shows the
-grouping of the PFC/GPIO blocks, revealing the mapping from 4 module
-clocks to 4 groups of 2 or 4 GPIO blocks.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -110,7 +110,7 @@ gpio0: gpio@e6058180 {
->                         interrupts = <GIC_SPI 832 IRQ_TYPE_LEVEL_HIGH>;
->                         clocks = <&cpg CPG_MOD 916>;
->                         power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> -                       resets =  <&cpg 916>;
-> +                       resets =  <&cpg 1331>;
+> --- a/Documentation/devicetree/bindings/i2c/renesas,i2c.txt
+> +++ b/Documentation/devicetree/bindings/i2c/renesas,i2c.txt
+> @@ -26,6 +26,7 @@ Required properties:
+>         "renesas,i2c-r8a77980" if the device is a part of a R8A77980 SoC.
+>         "renesas,i2c-r8a77990" if the device is a part of a R8A77990 SoC.
+>         "renesas,i2c-r8a77995" if the device is a part of a R8A77995 SoC.
+> +       "renesas,i2c-r8a779a0" if the device is a part of a R8A779A0 SoC.
+>         "renesas,rcar-gen1-i2c" for a generic R-Car Gen1 compatible device.
+>         "renesas,rcar-gen2-i2c" for a generic R-Car Gen2 or RZ/G1 compatible
+>                                 device.
 
-I doubt the reset topology differs from the clock topology...
-Let's hope this will be clarified in a datasheet update soon.
+Note that this doesn't say anything about (in)compatibility with generic
+R-Car Gen3 compatible devices (hint: yaml conversion?).
+
+New features:
+  - Slave Clock Stretch Select,
+  - Fast Mode+ Enable,
+  - Enhanced First Bit Setup Cycle configuration.
+
+Looks like the R-Car V3U variant can be treated as a generic R-Car Gen3
+variant (lacking the new features, of course).
 
 Gr{oetje,eeting}s,
 
