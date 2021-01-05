@@ -2,151 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 295072EAA2B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 12:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1915F2EAA35
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 12:52:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbhAELtj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 06:49:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59956 "EHLO
+        id S1727063AbhAELvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 06:51:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbhAELti (ORCPT
+        with ESMTP id S1725948AbhAELvY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 06:49:38 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 425BAC061574;
-        Tue,  5 Jan 2021 03:48:58 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id a6so2766011wmc.2;
-        Tue, 05 Jan 2021 03:48:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Twge5+L7oDbBtb/CTAgj15ANAWokc/RBpA9QwsjgCLc=;
-        b=md9SdpZcgVgmxOSVEUW+e111U5KMAb4o3553WNqmiUjxmVxGdkabEiZRP4O1oA4ozM
-         WLc8ASxn+1qISaf3Y8ZbudHm00AQyYYQxADE3pGS//AMKc93nhsuS28Duj+kMtF4WnRh
-         xh5AhKpJhz5olszd+7eb8BCSL1kHpz8rJ1a6zu0BthIdvdFbQL//W7aynEx1F9dHZ/Ll
-         k8piotF7WFDi6o2J1dq8hWzhk5eYRUqzpT/+edW4sDFiYrbkUhIlO+Raqq2380oOcsjr
-         5BIC3+/gF7yusjubUtGTt18qc2hBxrkGw0pugCs0nV2Gd13LQ4UEyNMXRW1XJ52EoG4Y
-         ac/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Twge5+L7oDbBtb/CTAgj15ANAWokc/RBpA9QwsjgCLc=;
-        b=Y1VTwBqUA7ifqmqUyMOImcC3ILRR9vs3vj7orUqdy/E37HYAjG9qtm0umF/q2g0CeP
-         yT1JJFR5RLAlNL3I2LYidCljOaKLScWpe4/cpZBz9kzALuvxuod010UWbwfZ+hYTvkuO
-         caqrOSgnG0LkHYHNKyeVnRCorubT96PD89AJTxPeNuuzAI5JsmUvEJT9hEgvKyZrzMVL
-         8FstnDR1tgINn58aV/2sQ7yUGIE42njipOPm4vGwxt74HuIuWJUY86m48RipGb5UG6zj
-         QrjFWBYvOuQYhT6IPeLV5xeRCnjbqqvTOF4vQIFLYiKJynOydHq1h1exhw4UqldC7JGU
-         LJYw==
-X-Gm-Message-State: AOAM531+lLfVxc97ktt4iAgc1qBVV1gWrOhrrUUI0A4RTqS8tOJuJ9VG
-        Wi4INkqn5lORg+3ygMm8ZfU=
-X-Google-Smtp-Source: ABdhPJxYxonwl7qIDdZ68yBBV0q/kPGICeSwLZseiszx1m6zzch8Q7iM+c/lTnazkDwfAgbDllfCYA==
-X-Received: by 2002:a7b:cbd0:: with SMTP id n16mr3174095wmi.162.1609847336485;
-        Tue, 05 Jan 2021 03:48:56 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id b7sm89464727wrv.47.2021.01.05.03.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 03:48:55 -0800 (PST)
-Date:   Tue, 5 Jan 2021 12:48:54 +0100
-From:   Corentin Labbe <clabbe.montjoie@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: r8a77950-salvator-x does nto boot since
- cfa7ede20f133cc81cef01dc3a516dda3a9721ee arm64: set TEXT_OFFSET to 0x0 in
- preparation for removing it entirely
-Message-ID: <X/RSJvFAAbGWOuK4@Red>
-References: <X/Q21vZcui0RlYWK@Red>
- <CAMuHMdUW+Z4YOVnob38BV8de4S9=bP7rekNWbaT0jaH1=Ru4yw@mail.gmail.com>
+        Tue, 5 Jan 2021 06:51:24 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E8B4C061574
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jan 2021 03:50:44 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B7BC3D7;
+        Tue,  5 Jan 2021 12:50:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1609847441;
+        bh=ph+ntUQslgZgfCQn7KLpCZ9tMXibgkmX/XQNPt8IkdQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fibL4FKo/BgTObsMoqNaDZ0dNeNhfHcLATRU2HiwtuiHHS9pmIG1k2wy8u7Gkla5J
+         A7oWwxcyWm27II1bZm1o7q7E01pNTGxgnxAO+Xqa6Xd056JsxCRZrEw/lObwzndWhu
+         2XkrBfdm53u2hBDePpctpSTrHolMVyrAoiVw5OYg=
+Date:   Tue, 5 Jan 2021 13:50:29 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+        Sandy Huang <hjc@rock-chips.com>,
+        linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Mark Yao <mark.yao@rock-chips.com>
+Subject: Re: [PATCH v2 3/6] dt-bindings: display: imx: hdmi: Convert binding
+ to YAML
+Message-ID: <X/RShZkMICSW7Jnn@pendragon.ideasonboard.com>
+References: <20201220195005.26438-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201220195005.26438-4-laurent.pinchart+renesas@ideasonboard.com>
+ <810947ea1a18e06db1f36a4a8013fbca17e0ea89.camel@pengutronix.de>
+ <X/P94CIrNtGkoZ4k@pendragon.ideasonboard.com>
+ <dc0a8b0568c2b3f550a3069e4a34dd5e90079c8f.camel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdUW+Z4YOVnob38BV8de4S9=bP7rekNWbaT0jaH1=Ru4yw@mail.gmail.com>
+In-Reply-To: <dc0a8b0568c2b3f550a3069e4a34dd5e90079c8f.camel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Le Tue, Jan 05, 2021 at 11:13:03AM +0100, Geert Uytterhoeven a écrit :
-> Hi Corentin,
-> 
-> On Tue, Jan 5, 2021 at 10:52 AM Corentin Labbe
-> <clabbe.montjoie@gmail.com> wrote:
-> > Due to DTB renaming, salvatorX was not booted since a long time in kernelCI.
-> > Now the rename is handled, the board fail to boot.
-> >
-> > I have bisected the problem:
-> 
-> > # first bad commit: [cfa7ede20f133cc81cef01dc3a516dda3a9721ee] arm64: set TEXT_OFFSET to 0x0 in preparation for removing it entirely
-> >
-> > This is the interesting part of uboot log:
-> > [    0.000292] NOTI[    0.000292] NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.1.0.16
-> > [    0.005855] NOTICE:  BL2: PRR is R-Car H3 Ver1.1
-> > [    0.010437] NOTICE:  BL2: Board is Salvator-X Rev1.0
-> > [    0.015379] NOTICE:  BL2: Boot device is HyperFlash(80MHz)
-> > [    0.020804] NOTICE:  BL2: LCM state is CM
-> > [    0.024847] NOTICE:  BL2: AVS setting succeeded. DVFS_SetVID=0x53
-> > [    0.030891] NOTICE:  BL2: DDR1600(rev.0.27)NOTICE:  [COLD_BOOT]NOTICE:  ..0
-> > [    0.066311] NOTICE:  BL2: DRAM Split is 4ch
-> > [    0.070195] NOTICE:  BL2: QoS is default setting(rev.0.37)
-> > [    0.075697] NOTICE:  BL2: Lossy Decomp areas
-> > [    0.079872] NOTICE:       Entry 0: DCMPAREACRAx:0x80000540 DCMPAREACRBx:0x570
-> > [    0.086957] NOTICE:       Entry 1: DCMPAREACRAx:0x40000000 DCMPAREACRBx:0x0
-> > [    0.093869] NOTICE:       Entry 2: DCMPAREACRAx:0x20000000 DCMPAREACRBx:0x0
-> > [    0.100785] NOTICE:  BL2: v1.3(release):b330e0e
-> > [    0.105274] NOTICE:  BL2: Built : 15:26:51, Dec  6 2017
-> > [    0.110462] NOTICE:  BL2: Normal boot
-> > [    0.114103] NOTICE:  BL2: dst=0xe6320208 src=0x8180000 len=512(0x200)
-> > [    0.120652] NOTICE:  BL2: dst=0x43f00000 src=0x8180400 len=6144(0x1800)
-> > [    0.127110] NOTICE:  BL2: dst=0x44000000 src=0x81c0000 len=65536(0x10000)
-> > [    0.134336] NOTICE:  BL2: dst=0x44100000 src=0x8200000 len=524288(0x80000)
-> > [    0.144816] NOTICE:  BL2: dst=0x50000000 src=0x8640000 len=1048576(0x100000)
-> > U-Boot 2015.04 (Dec 06 2017 - 15:26:59)
-> > CPU: Renesas Electronics R8A7795 rev 1.1
-> > Board: Salvator-X
-> > I2C:   ready
-> > DRAM:  3.9 GiB
-> > MMC:   sh-sdhi: 0, sh-sdhi: 1, sh-sdhi: 2
-> > In:    serial
-> > Out:   serial
-> > Err:   serial
-> > Net:   ravb
-> >
-> > [...]
-> >
-> > booti 0x48080000 0x4a000000 0x48000000
->              ^^^^^
-> I take it this is the problem?
-> 
-> For R-Car H3 ES1.0, I currently use the addresses below:
-> 
->     tftpboot 0x60000000 h3-salvator-x/Image
->     tftpboot 0x68000000 h3-salvator-x/r8a77950-salvator-x.dtb
->     booti 0x60000000 - 0x68000000
-> 
-> For R-Car H3 ES2.0 (and other R-Car Gen3 SoCs), I use other addresses:
-> 
->     tftpboot 0x50000000 h3-salvator-xs/Image
->     tftpboot 0x58000000 h3-salvator-xs/r8a77951-salvator-xs.dtb
->     booti 0x50000000 - 0x58000000
-> 
-> The firmware on your H3 ES1.1 board (Rev.1.0.16) is newer than on my
-> ES1.0 board (Rev.1.0.12), so it's possible the second version works on
-> your board, too.
-> 
-> If these work for you, I'll update https://elinux.org/R-Car/Boards/Salvator-X[S]
-> 
+Hi Philipp,
 
-Hello
+On Tue, Jan 05, 2021 at 10:32:01AM +0100, Philipp Zabel wrote:
+> On Tue, 2021-01-05 at 07:49 +0200, Laurent Pinchart wrote:
+> > On Mon, Jan 04, 2021 at 04:30:36PM +0100, Philipp Zabel wrote:
+> > > On Sun, 2020-12-20 at 21:50 +0200, Laurent Pinchart wrote:
+> > > > Convert the i.MX6 HDMI TX text binding to YAML.
+> > > > 
+> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > ---
+> > > > Changes since v1:
+> > > > 
+> > > > - Only specify maxItems for clocks
+> > > > - Drop reg and interrupts as they're checked in the base schema
+> > > > - Rebase on top of OF graph schema, dropped redundant properties
+> > > > - Fix identation for enum entries
+> > > > - Drop clock-names items, use maxItems only
+> > > > ---
+> > > >  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 130 ++++++++++++++++++
+> > > >  .../devicetree/bindings/display/imx/hdmi.txt  |  65 ---------
+> > > >  2 files changed, 130 insertions(+), 65 deletions(-)
+> > > >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> > > >  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..f9b131bb3339
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> > > > @@ -0,0 +1,130 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Freescale i.MX6 DWC HDMI TX Encoder
+> > > > +
+> > > > +maintainers:
+> > > > +  - Philipp Zabel <p.zabel@pengutronix.de>
+> > > > +
+> > > > +description: |
+> > > > +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> > > > +  with a companion PHY IP.
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    enum:
+> > > > +      - fsl,imx6dl-hdmi
+> > > > +      - fsl,imx6q-hdmi
+> > > > +
+> > > > +  reg-io-width:
+> > > > +    const: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    maxItems: 2
+> > > > +
+> > > > +  clock-names:
+> > > > +    maxItems: 2
+> > > > +
+> > > > +  ddc-i2c-bus:
+> > > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > > +    description:
+> > > > +      The HDMI DDC bus can be connected to either a system I2C master or the
+> > > > +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> > > > +      to a system I2C master this property contains a phandle to that I2C
+> > > > +      master controller.
+> > > > +
+> > > > +  gpr:
+> > > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > > +    description:
+> > > > +      phandle to the iomuxc-gpr region containing the HDMI multiplexer control
+> > > > +      register.
+> > > > +
+> > > > +  ports:
+> > > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > > +    description: |
+> > > > +      This device has four video ports, corresponding to the four inputs of the
+> > > > +      HDMI multiplexer. Each port shall have a single endpoint.
+> > > > +
+> > > > +    properties:
+> > > > +      port@0:
+> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > +        unevaluatedProperties: false
+> > > > +        description: First input of the HDMI multiplexer
+> > > > +
+> > > > +      port@1:
+> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > +        unevaluatedProperties: false
+> > > > +        description: Second input of the HDMI multiplexer
+> > > > +
+> > > > +      port@2:
+> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > +        unevaluatedProperties: false
+> > > > +        description: Third input of the HDMI multiplexer
+> > > > +
+> > > > +      port@3:
+> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > > +        unevaluatedProperties: false
+> > > > +        description: Fourth input of the HDMI multiplexer
+> > > > +
+> > > > +    anyOf:
+> > > > +      - required:
+> > > > +          - port@0
+> > > > +      - required:
+> > > > +          - port@1
+> > > > +      - required:
+> > > > +          - port@2
+> > > > +      - required:
+> > > > +          - port@3
+> > > > +
+> > > > +required:
+> > > > +  - compatible
+> > > > +  - reg
+> > > > +  - clocks
+> > > > +  - clock-names
+> > > > +  - gpr
+> > > > +  - interrupts
+> > > > +  - ports
+> 
+> The binding marks the "ports" container node as required.
+> 
+> > > Won't this break validation of current i.MX6 DTs, which don't use the
+> > > ports node (in imx6q(dl).dtsi)?
+> > 
+> > I may be missing something, but in imx6qdl.dtsi, we have
+>
+> [...]
+>
+> > and in imx6q.dtsi,
+> > 
+> > &hdmi {
+> > 	compatible = "fsl,imx6q-hdmi";
+> > 
+> > 	port@2 {
+> > 		reg = <2>;
+> > 
+> > 		hdmi_mux_2: endpoint {
+> > 			remote-endpoint = <&ipu2_di0_hdmi>;
+> > 		};
+> > 	};
+> > 
+> > 	port@3 {
+> > 		reg = <3>;
+> > 
+> > 		hdmi_mux_3: endpoint {
+> > 			remote-endpoint = <&ipu2_di1_hdmi>;
+> > 		};
+> > 	};
+> > };
+> > 
+> > There are no other occurrences of "fsl,imx6q-hdmi" than in imx6q.dtsi
+> > (and no occurrences of "fsl,imx6qdl-hdmi" at all).
+> 
+> The port@[0-3] nodes are currently direct children of the &hdmi node,
+> without the "ports" container node.
 
-Thanks, changing kernel/dtb address made it boot.
-when testing, I have also discovered that r8a7796-m3ulcb hit the same issue than the salvatorX and that thoses address made it boot.
+Of course. Sorry, I've missed that that was the point.
 
-Regards
+I can include a patch to update imx6q(dl).dtsi in the series. Would that
+work for you ?
+
+-- 
+Regards,
+
+Laurent Pinchart
