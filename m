@@ -2,89 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CE92EAD28
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 15:12:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35AC92EADF6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 16:13:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727289AbhAEOLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 09:11:08 -0500
-Received: from vps0.lunn.ch ([185.16.172.187]:50172 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726961AbhAEOLI (ORCPT
+        id S1726525AbhAEPKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 10:10:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbhAEPKj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 09:11:08 -0500
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kwn2L-00GAxa-O1; Tue, 05 Jan 2021 15:10:13 +0100
-Date:   Tue, 5 Jan 2021 15:10:13 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is not
- set
-Message-ID: <X/RzRd0zXHzAqLDl@lunn.ch>
-References: <20210104122415.1263541-1-geert+renesas@glider.be>
- <20210104145331.tlwjwbzey5i4vgvp@skbuf>
- <CAMuHMdUVsSuAur1wWkjs7FW5N-36XV9iXA6wmvst59eKoUFDHQ@mail.gmail.com>
- <20210104170112.hn6t3kojhifyuaf6@skbuf>
- <X/NNS3FUeSNxbqwo@lunn.ch>
- <X/NQ2fYdBygm3CYc@lunn.ch>
- <20210104184341.szvnl24wnfnxg4k7@skbuf>
- <alpine.DEB.2.22.394.2101051038550.302140@ramsan.of.borg>
+        Tue, 5 Jan 2021 10:10:39 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 013A2C061798
+        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jan 2021 07:09:58 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id o17so73329700lfg.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Jan 2021 07:09:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hpiie2eScIu2s/uuXEyv9UhVbNMVnQLt+9qP9Zzdslg=;
+        b=SNXGbPp2no06aMPooUZfjhBv2yx8ZCRuuzOVgMeXO747C//2P3yIp3cZGMWM+h340l
+         7V+UCfmLDjwfv/uPVx1mloSd6IjRQf1kwRE3dEImVTGiDO8aiAAtV6zxa75B5k6rp2Wo
+         tGq3SchCZJ4KkTLse10V+yp6Sv/I0aO/iLhSiiNGC2HzUq9PALGqJK9/w0g39IdstPw/
+         KvWbVRujx/bbX6a7yC6bmNE5cKgbS16lH+F9vv72taKgtvHbXpSSwrGyDf1F/Vf2kT10
+         eyv/DElect6IgOyBhwK989ccFDKsFR519M8b0qk58ZEBZmZ3M2Vz6DwvsI0u5dndwWYb
+         ieBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hpiie2eScIu2s/uuXEyv9UhVbNMVnQLt+9qP9Zzdslg=;
+        b=iSvo/PuFibQxYJ3N+ztjrG0JtSp3wwccxiFc84grHF/8JOMDCkOt87L1LWGKpIFn8u
+         vvO2JULN8DWUv5BjtagFzbkN0Z1hpwH9vNaSAhAaR4xSMj1eQKnaYN92OuI1TvelMLjx
+         6WExjwDSxSl8sI+aZNVRbJi87JqZKR/SqVHNt2WUPCqumclEBgY0Zbp0vhun18ZufefQ
+         Ft2qabM7h6SpdoNlff8jnI4dvNm19j6f1lhPmZgSAnxZZuyaV6VQGdRSY0rmecRDuw7q
+         Z//E3zyTgtsJlH8xj+dlNo8oQJWwP1OXr6eJ21lelyI05SiIftAhXY5x9y+6LJw0hnYm
+         Gyhg==
+X-Gm-Message-State: AOAM533DuaqmOKafW1/yyyRSZvM7BquAGe4HNF9C1VeOvOYy85xuRTrR
+        rPR95ypMHWTLLzh7C4R/tC6CB0GXuczml2jZrNWEXQ==
+X-Google-Smtp-Source: ABdhPJyGva5zXeaOmIEQqoYoJer37k5jmHl9i/j6Dhp6JIYx4Yofcosj36VXFcf+6bmITwznEOHzyR4VGrfsU18QvDc=
+X-Received: by 2002:a19:495d:: with SMTP id l29mr33226699lfj.465.1609859397331;
+ Tue, 05 Jan 2021 07:09:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2101051038550.302140@ramsan.of.borg>
+References: <X98NP6NFK1Afzrgd@manjaro>
+In-Reply-To: <X98NP6NFK1Afzrgd@manjaro>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 5 Jan 2021 16:09:46 +0100
+Message-ID: <CACRpkdbLtcPY++DZv2LLkGrW=T83ByqeB+fx3Li0E=TJMYfLCA@mail.gmail.com>
+Subject: Re: [PATCH v3] pinctrl: remove empty lines in pinctrl subsystem
+To:     Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Dong Aisheng <aisheng.dong@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Stefan Agner <stefan@agner.ch>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Patrice CHOTARD <patrice.chotard@st.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> I added a statically-linked ethtool binary to my initramfs, and can
-> confirm that retrieving the PHY statistics does not access the PHY
-> registers when the device is suspended:
-> 
->     # ethtool --phy-statistics eth0
->     no stats available
->     # ifconfig eth0 up
->     # ethtool --phy-statistics eth0
->     PHY statistics:
-> 	 phy_receive_errors: 0
-> 	 phy_idle_errors: 0
->     #
-> 
-> In the past, we've gone to great lengths to avoid accessing the PHY
-> registers when the device is suspended, usually in the statistics
-> handling (see e.g. [1][2]).
+On Sun, Dec 20, 2020 at 9:37 AM Zhaoyu Liu <zackary.liu.pro@gmail.com> wrote:
 
-I would argue that is the wrong approach. The PHY device is a
-device. It has its own lifetime. You would not suspend a PCI bus
-controller without first suspending all PCI devices on the bus etc.
+> Remove all empty lines at the end of functions in pinctrl subsystem,
+> and make the code neat.
+>
+> Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Zhaoyu Liu <zackaryliu@yeah.net>
 
-> +static int sh_mdiobb_read(struct mii_bus *bus, int phy, int reg)
-> +{
-> +	struct bb_info *bb = container_of(bus->priv, struct bb_info, ctrl);
+Patch applied.
 
-mii_bus->parent should give you dev, so there is no need to add it to
-bb_info.
-
-> +	/* Wrap accessors with Runtime PM-aware ops */
-> +	bitbang->read = mdp->mii_bus->read;
-> +	bitbang->write = mdp->mii_bus->write;
-> +	mdp->mii_bus->read = sh_mdiobb_read;
-> +	mdp->mii_bus->write = sh_mdiobb_write;
-
-I did wonder about just exporting the two functions so you can
-directly call them.
-
-Otherwise, this looks good.
-
-	   Andrew
+Yours,
+Linus Walleij
