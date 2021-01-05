@@ -2,91 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E58D12EA998
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 12:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F4B62EA9A2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 12:15:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729038AbhAELMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 06:12:23 -0500
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:40108 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728507AbhAELMX (ORCPT
+        id S1728006AbhAELP0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 06:15:26 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:37225 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727764AbhAELP0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 06:12:23 -0500
-Received: by mail-ot1-f41.google.com with SMTP id j12so28886796ota.7;
-        Tue, 05 Jan 2021 03:12:07 -0800 (PST)
+        Tue, 5 Jan 2021 06:15:26 -0500
+Received: by mail-ot1-f52.google.com with SMTP id o11so28934489ote.4;
+        Tue, 05 Jan 2021 03:15:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PKWuouXVT2LKCbTQ8qdZ/IxRDTAiC46jRA6EblweW7E=;
-        b=q0DXnjkKqc/ALGgGgLFgD/TFl9zSNWTaxeHXjXD8ksmj9Yd+bPJnjQ06xWkGyGa49R
-         Esv/1d7zRcojU1ko44iFi0EXjdtJRFOt0U2aHPrphhCKxCTbD56whgYJJjTZr6NUigi8
-         CyRu6GyZd47R2iZrkC0WHr+qjixmBIHS9KB/0vqsoT+QRkDiQwPTc8z7y2xWtudUpKUM
-         +ByoizcLZMVye4TNh7HL0elx+WM4R3Gm3T/DZqlYr7spzJD8DV779RQH0pg4ldlbCNP7
-         poZqOzPTZiM3xkpBr96DIR3V4mFAIGaWqa2PXsfv2l+Y3aEF9mAW29xCvOYRbYZuezym
-         ttLQ==
-X-Gm-Message-State: AOAM530qwMk9AB3Y74i4ameIP47EN/FOmRTVCKXlh7bbXlUSEpxLoix/
-        TKHuLq7OtipCRoeUeMyxUbWQJBkJCJ1qTvZLyWw=
-X-Google-Smtp-Source: ABdhPJwqiF4TOjyNjS4UTgBi+PQO+Lj6UEIAVNM8s91rL9edm4U7cXsMKxI3ldJ446P32/sYpurXE8MLAH+F2BbBcuY=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr55990412oth.250.1609845102054;
- Tue, 05 Jan 2021 03:11:42 -0800 (PST)
+        bh=o94+ZFhbY84q1cXhg7/Y6rDSY5ckUTUmt9EX4aDq07Q=;
+        b=P6PTcv2dSWpDtRBwiC2q6Lckk+nw8XfTEbxSZR9QBKFbuDs82QxYRnO0EuhrqVsv4o
+         s5jKmJ8c0QR7LyeWzNTM6V19sB1+aK3BE/Mf0Rospxwplicg9autVrZS42vGSWfHRZn+
+         J4la4eYMrl2MbLpgu6dazsBeM+4AviGXnoIRaj4fpKAeSPfR9LACZCp29zNSp1arPi4Q
+         g0ym7EVlK20iiPVtSgne7P6VxoP6B0f6Q71CjQodtNycSp62Un947sdLfqgqjL9ElHVT
+         EhxrNz2yTjkQvmo3ZP9d6SIuNIYLteh2VsDrsdTd0VVlg/y+5R6A1yrfGK9RqNyIcINl
+         uaeA==
+X-Gm-Message-State: AOAM532B0yJ1swoDl8NEKWOd/r1pUgyLyjLfthxoM3FVf5clKl5YfI7b
+        Z3XKD+OU30cQxRMgbk8zoSm5K/kkGJOQJnq/J7o=
+X-Google-Smtp-Source: ABdhPJzMABKFdhG1HCUeBn/TBQBtiSq0l2ujXehxbzg8hR7fjDLY7hs/FLTcY900AR41WST7mcBNJFfHTBA3gex9Cic=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr40653891otr.107.1609845285464;
+ Tue, 05 Jan 2021 03:14:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201230145708.28544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20201230145708.28544-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVCD52-eTnEwftGz8ExMkZkJRyM=3M8zU11yhn1UNPxxA@mail.gmail.com>
- <CA+V-a8tHVkGxCECspfcV9c1UW81bod4N4YzRLJwU8zJ0+awJUw@mail.gmail.com>
- <20210104213005.GK5645@sirena.org.uk> <20210104234018.GA19909@amd>
- <CAMuHMdUjevJ+DgJGnPUN0+ctxm2ML1NYSTgYsjC4c8tDqjUkxQ@mail.gmail.com> <20210105104234.GA29908@amd>
-In-Reply-To: <20210105104234.GA29908@amd>
+References: <20210105105914.13172-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210105105914.13172-1-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jan 2021 12:11:31 +0100
-Message-ID: <CAMuHMdXOD_vGOYKHS+gVP+RBf_R3tmN2y0SvnphO56kvAiyM-Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] spi: rpc-if: Remove CONFIG_PM_SLEEP ifdefery
-To:     Pavel Machek <pavel@denx.de>
-Cc:     Mark Brown <broonie@kernel.org>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jiri Kosina <trivial@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>
+Date:   Tue, 5 Jan 2021 12:14:34 +0100
+Message-ID: <CAMuHMdUT8CEyJ1ERmLr443SuZgemFF40cDviSGwhYM7ZnN_b_g@mail.gmail.com>
+Subject: Re: [PATCH] gpio: gpiolib: remove shadowed variable
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pavel,
-
-On Tue, Jan 5, 2021 at 11:42 AM Pavel Machek <pavel@denx.de> wrote:
-> > On Tue, Jan 5, 2021 at 12:40 AM Pavel Machek <pavel@denx.de> wrote:
-> > > > > > >                 .name   = "rpc-if-spi",
-> > > > > > > -               .pm     = DEV_PM_OPS,
-> > > > > > > +               .pm     = &rpcif_spi_pm_ops,
-> > > >
-> > > > > > You're aware rpcif_spi_pm_ops is now always referenced and thus emitted,
-> > > > > > increasing kernel size by 92 bytes if CONFIG_PM_SLEEP=n?
-> > > > > > This may matter for RZ/A SoCs running from internal SRAM.
-> > > >
-> > > > > Hmm didn't realise this would be an issue on RZ/A.
-> > > >
-> > > > > Mark, could you please drop this patch from your branch.
-> > > >
-> > > > Please send an incremental patch with an appropriate changelog.
-> > >
-> > > Let's fix this properly. I'm pretty sure we have some macros that can
-> > > solve this without re-introducing the ifdefs...
-> >
-> > There's pm_ptr(), but it uses CONFIG_PM as a selector, not CONFIG_PM_SLEEP.
+On Tue, Jan 5, 2021 at 12:00 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> After refactoring, we had two variables for the same thing. Remove the
+> second declaration, one is enough here. Found by cppcheck.
 >
-> Okay; so we could introduce pm_sleep_ptr().
+> drivers/gpio/gpiolib.c:2551:17: warning: Local variable 'ret' shadows outer variable [shadowVariable]
 >
-> Or we could just put single #ifdef CONFIG_PM_SLEEP around the .pm
-> assignment? That would be improvement on the original, and still
-> result in the same binary, right?
+> Fixes: d377f56f34f5 ("gpio: gpiolib: Normalize return code variable name")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Indeed.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
