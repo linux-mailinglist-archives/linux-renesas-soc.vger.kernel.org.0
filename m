@@ -2,102 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B26042EAB83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 14:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37CE92EAD28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 15:12:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729683AbhAENHI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 08:07:08 -0500
-Received: from mail-oo1-f41.google.com ([209.85.161.41]:44451 "EHLO
-        mail-oo1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729620AbhAENHH (ORCPT
+        id S1727289AbhAEOLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 09:11:08 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:50172 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726961AbhAEOLI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 08:07:07 -0500
-Received: by mail-oo1-f41.google.com with SMTP id j21so7047536oou.11;
-        Tue, 05 Jan 2021 05:06:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dT9NJPB47K2vdQIzb8wF435sR/DGiQQ5DKYTXkvvtR8=;
-        b=GKN7JTAsnZ9fl034iGENAg6+byW68dkRbBOOVlAxKVtD87RWPUn9YanDBRfTivy764
-         F65uJI19MGWYLEhbtpbY5v/BJg4qzZUvJluurJm+nTfCxkXqP3HeH4mtt7OuCSaxEYO9
-         jISEPZ9tmGLRZEoKQwAJM8VPmjlq+WDdlIzC5wcupxandyYCjh7SyemXEfpcX9Kditow
-         oifGAnaPO+tZ13Y89syX5eQgbM4tO0vD6JvZ7IlzXyp+sejbwPxP20e/Ez4RFafYZovF
-         0jwS86LhT3EGqT+eBLG/KfkSyQkt6laf34UqlcpJnrYmy6MMhT9RXoZR+SGj3BaT5iT3
-         npdw==
-X-Gm-Message-State: AOAM530tAx5jMYau3k6apoVL4UFb3gwXJfXxOnyiAQ8ez08noVzkMf0x
-        Tyrt69/zy2LR4RXesGoWSOmWG2n+l6Z/Cyk7T7Q=
-X-Google-Smtp-Source: ABdhPJw6Jr+xDiE7gT045dIEp0A/HetgqtB4/A7vUAniSvrWqo1EZbaLC2kASXOTywmacMmlxtehR7NU7EALegUrog4=
-X-Received: by 2002:a4a:c191:: with SMTP id w17mr53201745oop.1.1609851986553;
- Tue, 05 Jan 2021 05:06:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20201227130407.10991-1-wsa+renesas@sang-engineering.com> <20201227130407.10991-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201227130407.10991-2-wsa+renesas@sang-engineering.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jan 2021 14:06:15 +0100
-Message-ID: <CAMuHMdXOQTXfZE1YOWiVdmtwO0ohtS4gkZsxh-+=euJCq=ZCdQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] dt-bindings: net: renesas,etheravb: Add r8a779a0 support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Tue, 5 Jan 2021 09:11:08 -0500
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1kwn2L-00GAxa-O1; Tue, 05 Jan 2021 15:10:13 +0100
+Date:   Tue, 5 Jan 2021 15:10:13 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Russell King <linux@armlinux.org.uk>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is not
+ set
+Message-ID: <X/RzRd0zXHzAqLDl@lunn.ch>
+References: <20210104122415.1263541-1-geert+renesas@glider.be>
+ <20210104145331.tlwjwbzey5i4vgvp@skbuf>
+ <CAMuHMdUVsSuAur1wWkjs7FW5N-36XV9iXA6wmvst59eKoUFDHQ@mail.gmail.com>
+ <20210104170112.hn6t3kojhifyuaf6@skbuf>
+ <X/NNS3FUeSNxbqwo@lunn.ch>
+ <X/NQ2fYdBygm3CYc@lunn.ch>
+ <20210104184341.szvnl24wnfnxg4k7@skbuf>
+ <alpine.DEB.2.22.394.2101051038550.302140@ramsan.of.borg>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2101051038550.302140@ramsan.of.borg>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+> I added a statically-linked ethtool binary to my initramfs, and can
+> confirm that retrieving the PHY statistics does not access the PHY
+> registers when the device is suspended:
+> 
+>     # ethtool --phy-statistics eth0
+>     no stats available
+>     # ifconfig eth0 up
+>     # ethtool --phy-statistics eth0
+>     PHY statistics:
+> 	 phy_receive_errors: 0
+> 	 phy_idle_errors: 0
+>     #
+> 
+> In the past, we've gone to great lengths to avoid accessing the PHY
+> registers when the device is suspended, usually in the statistics
+> handling (see e.g. [1][2]).
 
-On Sun, Dec 27, 2020 at 2:06 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Document the compatible value for the RAVB block in the Renesas R-Car
-> V3U (R8A779A0) SoC. This variant has no stream buffer, so we only need
-> to add the new compatible.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I would argue that is the wrong approach. The PHY device is a
+device. It has its own lifetime. You would not suspend a PCI bus
+controller without first suspending all PCI devices on the bus etc.
 
-Thanks for your patch!
+> +static int sh_mdiobb_read(struct mii_bus *bus, int phy, int reg)
+> +{
+> +	struct bb_info *bb = container_of(bus->priv, struct bb_info, ctrl);
 
-> --- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-> +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
-> @@ -40,6 +40,7 @@ properties:
->                - renesas,etheravb-r8a77980     # R-Car V3H
->                - renesas,etheravb-r8a77990     # R-Car E3
->                - renesas,etheravb-r8a77995     # R-Car D3
-> +              - renesas,etheravb-r8a779a0     # R-Car V3U
->            - const: renesas,etheravb-rcar-gen3 # R-Car Gen3 and RZ/G2
->
->    reg: true
+mii_bus->parent should give you dev, so there is no need to add it to
+bb_info.
 
-EtherAVB on R-Car V3U does have the Tx clock internal Delay Mode
-bit in the APSR register, so its compatible value should be added to
-the list of SoCs where tx-internal-delay-ps is required.
+> +	/* Wrap accessors with Runtime PM-aware ops */
+> +	bitbang->read = mdp->mii_bus->read;
+> +	bitbang->write = mdp->mii_bus->write;
+> +	mdp->mii_bus->read = sh_mdiobb_read;
+> +	mdp->mii_bus->write = sh_mdiobb_write;
 
-With that fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I did wonder about just exporting the two functions so you can
+directly call them.
 
-The various Counter Registers starting at offset 0x700 are limited to
-16-bit values, like on R-Car Gen2, while they support 32-bit values on
-other R-Car Gen3 variants. The driver uses only the Transmit Retry Over
-Counter Register (TROCR), for statistics, so we can just ignore that
-difference.
+Otherwise, this looks good.
 
-V3U also has a new block of registers related to UDP/IP support (offset
-0x800 and up).  I guess we can just ignore them too, for now.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+	   Andrew
