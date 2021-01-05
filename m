@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8D562EAFE8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 17:21:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 123452EAFFE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 17:26:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727497AbhAEQVl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 11:21:41 -0500
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:37588 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbhAEQVl (ORCPT
+        id S1726655AbhAEQZY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 11:25:24 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:45073 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726151AbhAEQZY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 11:21:41 -0500
-Received: by mail-oi1-f179.google.com with SMTP id l207so107294oib.4;
-        Tue, 05 Jan 2021 08:21:25 -0800 (PST)
+        Tue, 5 Jan 2021 11:25:24 -0500
+Received: by mail-ot1-f50.google.com with SMTP id n42so145883ota.12;
+        Tue, 05 Jan 2021 08:25:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qPiqP3Lv6c+AAT30BoSKGDWtBOYr0gNlxMkgG1vPS+g=;
-        b=SWKo0Vn5MI7SKAbLx3Egxb82sH9oBjWxlNr0FLF4fYrbmSQ+yy5j3HK4yRWu2uGtbe
-         t37k/sv0CN8OTpBKdrA8ycy+MO9jNwvsHN++qN7IpzWeLt0i+XEshLtibLPkwBr4v94y
-         kHtW1Xr4D001ykEuEpbJHaGGgiBws8mwizRS5Q+djShmhJzKNq9QUGbuYo6mRmk1095x
-         ESc6L5TqBrCIAJNNquRgTIErISiGEJ9vhzMwrTh5h1hhd4Sx4/oWJqeYxR9+wpsYSCQN
-         /Mbbb+vJrlLWPOk4EU8PLy6E/PzoqzbIaTIRydzsA+rh9eePV0MUyzI4Ip4HP2h8tvhD
-         UMvQ==
-X-Gm-Message-State: AOAM532L9jBfym6wDjnj4IkbRe7SvnPRV23+CUlI+DzUYu76SfGYbL0l
-        CAgCtuVnwUtGA/eaQ7TMw4DhhLIO83UomB/J14k=
-X-Google-Smtp-Source: ABdhPJzKeiHygcjJT1k7Mhyr7MP4DEtsx88pBRnKEvamWmZWxnefwC1XNDpcOKWAcmdRFmo6BO3+CfONu3n+fqNcogU=
-X-Received: by 2002:aca:ec09:: with SMTP id k9mr178613oih.153.1609863660062;
- Tue, 05 Jan 2021 08:21:00 -0800 (PST)
+        bh=pabrFAOrfyjBDuaXLbxg74Eu7UTVIQDOTfs8dfkksOk=;
+        b=mZZRo/i9nujmK0iwjvdBU2i6wNC2oMjc4wbXH0bj6kdnst0UNpozz0cCQ3Vs5Rj8Zi
+         epUZFbp+ALRJsgGmLUpBGyDhKaNW3BxDc5yYNydlq3CcYoKQjksn37II6P1lPl9G+WhF
+         SnbLFHX9ZoBlcWsxpnWSHjGGQSpJrOtsWH2TOpOyrVCwdwP4Hpy0pexzuTff/mBW0Ury
+         2yC9V1MQ2n36wLDNGsU35ZRT7ud4EMe21Vl0IwtIhteSNECfyzCc1VYRs5QfaUd428uP
+         saRAHdg/yEv8s5uVeT/ZI8u+6q2n56bZ5tjT+lcib65pFTTw4YPIR7ebeAimRxu1uZyy
+         m2sQ==
+X-Gm-Message-State: AOAM533P3UHrAk/HAXZBaMovJl2nncEpxMps2zdD4NyTlJxYJreN/fpA
+        54sI5a9y7uQSQAHhbLF7/WO/2wTsbH7/Ul7aVyU=
+X-Google-Smtp-Source: ABdhPJxg7Sj7je9fzBZZG3rqx2gyPNs5HI+dc5+sCbU6bcEv1Hyldl6PDnY4Rv7mhtvf4jmakg7M0kuRVbxlYD2LJ2M=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr124613otr.107.1609863883827;
+ Tue, 05 Jan 2021 08:24:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20201227130407.10991-1-wsa+renesas@sang-engineering.com> <20201227130407.10991-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201227130407.10991-5-wsa+renesas@sang-engineering.com>
+References: <20201228112715.14947-1-wsa+renesas@sang-engineering.com> <20201228112715.14947-7-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201228112715.14947-7-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jan 2021 17:20:49 +0100
-Message-ID: <CAMuHMdWSZ7Fw2fX6aYhqavDDV01qkYJmXrAUWv8Rud9hKVEBZQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] arm64: dts: renesas: falcon: Add Ethernet-AVB support
+Date:   Tue, 5 Jan 2021 17:24:32 +0100
+Message-ID: <CAMuHMdXZmhTovjjopm01E4X2a4QoE-p0QU+vXdB4H_CFKKB06w@mail.gmail.com>
+Subject: Re: [PATCH 6/6] WIP: arm64: dts: renesas: falcon: switch to from
+ SCIF0 to HSCIF0
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Tho Vu <tho.vu.wh@renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -52,124 +52,34 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Wolfram,
 
-Thanks for your patch!
-
-On Sun, Dec 27, 2020 at 2:04 PM Wolfram Sang
+On Mon, Dec 28, 2020 at 12:28 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> From: Tho Vu <tho.vu.wh@renesas.com>
->
-> Define the Falcon board dependent part of the Ethernet-AVB device nodes.
-> Only AVB0 was tested because it was the only port with a PHY on current
-> hardware.
+> Mainly for testing the HSCIF0 node. We could make this switch permanent,
+> but we never did for any other SoC. So, I think this is not to be
+> applied.
 
-I'm a bit confused: according to the schematics, AVB0 is wired by
-default to a KSZ9031 PHY connected to an RJ45 connector on the
-breakout-board, while AVB1-5 are wired to 88Q2110 PHYs connected to a
-5port MATEnet connector on the Ethernet sub board.  So all PHYs are
-present?
-
-(The alternative wiring for AVB0 is to a 88Q2110 PHY connected to a
-1000Base-T1/TE MATEnet connector on the Ethernet sub board)
+The choice of serial console has to match the bootloader.
+That's why we didn't do it for other SoCs where the serial console can be
+muxed to different serial instances.
 
 >
-> Signed-off-by: Tho Vu <tho.vu.wh@renesas.com>
-> [wsa: rebased]
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 > --- a/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
 > +++ b/arch/arm64/boot/dts/renesas/r8a779a0-falcon.dts
-> @@ -7,6 +7,7 @@
+> @@ -14,7 +14,7 @@ / {
+>         compatible = "renesas,falcon-breakout", "renesas,falcon-cpu", "renesas,r8a779a0";
 >
->  /dts-v1/;
->  #include "r8a779a0-falcon-cpu.dtsi"
-> +#include <dt-bindings/gpio/gpio.h>
->
->  / {
->         model = "Renesas Falcon CPU and Breakout boards based on r8a779a0";
-
-Missing ethernet0 alias, preventing U-Boot from finding the device-node
-and adding an appropriate "local-mac-address" property.
-
-> @@ -21,6 +22,97 @@ chosen {
+>         aliases {
+> -               serial0 = &scif0;
+> +               serial0 = &hscif0;
 >         };
->  };
->
-> +&avb0 {
-> +       pinctrl-0 = <&avb0_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&phy0>;
-> +       phy-mode = "rgmii-txid";
-
-As the default wiring of AVB0 is similar to Salvator-XS, I think the
-default phy-mode of "rgmii" in the base .dtsi should be fine, but
-"tx-internal-delay-ps" should be overridden to <2000>.
-
-> +       status = "okay";
-> +
-> +       phy0: ethernet-phy@0 {
-> +               rxc-skew-ps = <1500>;
-> +               reg = <0>;
-> +               interrupt-parent = <&gpio4>;
-> +               interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-> +               reset-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;
-> +       };
-> +};
-> +
-> +&avb1 {
-> +       pinctrl-0 = <&avb1_pins>;
-> +       pinctrl-names = "default";
-> +       phy-handle = <&phy1>;
-> +       phy-mode = "rgmii-txid";
-> +
-> +       phy1: ethernet-phy@1 {
-
-Why not @0?
-As the PHYs are present, why not set "status" to "okay"?
-
-> +               rxc-skew-ps = <1500>;
-
-This property is only supported by the Micrel PHY driver, not by
-the Marvell PHY driver.
-
-> +               reg = <0>;
-> +               interrupt-parent = <&gpio5>;
-> +               interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
-> +               reset-gpios = <&gpio5 15 GPIO_ACTIVE_LOW>;
-> +       };
-> +};
-
-Same questions and comments for all instances below.
-Perhaps we should postpone adding avb1-5 until they can be tested?
-
-> @@ -78,6 +170,109 @@ &i2c6 {
->  };
->
->  &pfc {
-> +       avb0_pins: avb0 {
-> +               mux {
-> +                       groups = "avb0_link", "avb0_mdio", "avb0_rgmii", "avb0_txcrefclk";
-> +                       function = "avb0";
-> +               };
-> +
-> +               pins_mdio {
-> +                       groups = "avb0_mdio";
-> +                       drive-strength = <21>;
-> +               };
-> +
-> +               pins_mii_tx {
-
-Strange node name, as the "avb0_rgmii" group includes rx pins.
-
-> +                       groups = "avb0_rgmii";
-> +                       drive-strength = <21>;
-
-I can't comment on the drive-strength values.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
