@@ -2,76 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBF52EB10C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 18:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 446962EB1E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 18:59:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730639AbhAERIO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 12:08:14 -0500
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:33423 "EHLO
-        mail-wm1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730430AbhAERIN (ORCPT
+        id S1730375AbhAER7C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 12:59:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53866 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726132AbhAER7C (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 12:08:13 -0500
-Received: by mail-wm1-f46.google.com with SMTP id n16so1796008wmc.0;
-        Tue, 05 Jan 2021 09:07:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8PYxaFWJILkA0uxuXAUf3F8/Qw1AAhsYzrjrCjqXI7k=;
-        b=qGEELhKWQeJW+KUFF5yZntH8F8B9EbAFXoAfONfAF7Sqjck9HvVy+zniRZDSGEiy/u
-         SnvFM2chszpYmUhdPoitqjTb3Ag7i3xe/OVpqt0Y4cTDL9RVfdcDXswG1P4FEjZhDuJl
-         uSNn+kiAIa7zyblT5w5K868qB9oCS1fllCq/YDd9nQZm/EZH3/EIX+AR49cREHWQ53i1
-         b7tNNVU9iSBciLf59R7MI78Ial1DmFcrQecQTyTD2+rtxGhiczk3pBGgDyqWan9d1wVK
-         yuMh4OBBvW1G7cBd6+Xm0webuYlWOllrG6thR76ZLQ+c5ytQ8hN/F9bdddauh12zN0x8
-         sEyg==
-X-Gm-Message-State: AOAM532pOYORbJE2IEMCGG0WeejxnGPbHDsO6W2BMhSrb4BUOgeKlr2W
-        2lKc5YmO6omHgOa7VssCjTM=
-X-Google-Smtp-Source: ABdhPJxole5Jba/g/S9ffjnINCy2WoPPG8JGvO/6WzDtgMTesiKUa/VhOrUaZ26zbSIRvODyIXpagg==
-X-Received: by 2002:a7b:c212:: with SMTP id x18mr86991wmi.113.1609866451239;
-        Tue, 05 Jan 2021 09:07:31 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id n11sm587517wra.9.2021.01.05.09.07.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 09:07:30 -0800 (PST)
-Date:   Tue, 5 Jan 2021 18:07:28 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org, aford@beaconembedded.com,
-        biju.das.jz@bp.renesas.com, Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-spi@vger.kernel.org
-Subject: Re: [PATCH V2 2/4] memory: renesas rpc-if: Update Add RZ/G2 to
- Kconfig description
-Message-ID: <20210105170728.GB26301@kozik-lap>
-References: <20210102115412.3402059-1-aford173@gmail.com>
- <20210102115412.3402059-2-aford173@gmail.com>
+        Tue, 5 Jan 2021 12:59:02 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1718F224F4;
+        Tue,  5 Jan 2021 17:58:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609869501;
+        bh=59oP12n/BNrHO8k+nxHOMSQJXJo1QRsvZOX/099OoKk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JcJ3Vm/43JFcgJQhr9VIaoOqvzeiCWYCHpNXn4KJKqmdpufTzOOnPQotoxk+frLV/
+         NXo2K97opSJFdpxxEaMgv6G8rPMEiC51HCBS5i5C3Ow5GsHcCvazMFcALhzayUZmJk
+         cXgfRG1wlvlQ/UewtyzeQUlJs0OFHEoq53wtnM3yUW/MU6f658rEWln1lSkuuo6w1y
+         fCifCJoQRnrM/cFNZsvXPqMSnHH1OZrHF9KcvKyyo1AwXACHZFcxb/8GY5BrK7WgTm
+         ZWz6Dqx/ZuhYRlMyaW3cShJjdl/wer++ZorvBdPbkVPICOvMEiBaAZYqraGTSAZS/v
+         IwESTUfZn5kDA==
+Date:   Tue, 5 Jan 2021 17:57:53 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
+        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 04/12] regulator: bd9571mwv: rid of using struct
+ bd9571mwv
+Message-ID: <20210105175753.GH4487@sirena.org.uk>
+References: <1608888807-3117-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1608888807-3117-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="a8sldprk+5E/pDEv"
 Content-Disposition: inline
-In-Reply-To: <20210102115412.3402059-2-aford173@gmail.com>
+In-Reply-To: <1608888807-3117-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Cookie: I'm ANN LANDERS!!  I can SHOPLIFT!!
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jan 02, 2021 at 05:54:10AM -0600, Adam Ford wrote:
-> The Renesas RPC-IF is present on the RZ/G2 Series.  Add that to
-> the description.
-> 
-> Suggested-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Signed-off-by: Adam Ford <aford173@gmail.com>
-> ---
->  drivers/memory/Kconfig | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
 
-Thanks, applied with commit title change (renesas-rpc-if:) and fix
-pointed out by Geert.
+--a8sldprk+5E/pDEv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
-Krzysztof
+On Fri, Dec 25, 2020 at 06:33:19PM +0900, Yoshihiro Shimoda wrote:
+> To simplify this driver, use dev_get_regmap() and
+> rid of using struct bd9571mwv.
 
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--a8sldprk+5E/pDEv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl/0qKEACgkQJNaLcl1U
+h9C1BggAg3Jsv5HvsvqISeSDxNyzIZTxbwLMD2dW11mMR7Sn0j3okz7htm09g9jr
+Lkj8eukDgKq/8G8vRpsawksxgL92EL4XMbKrms3zC3Zu2GMvx3EpWC8Fx+murKW5
+Xyxqb/cIJ5dH8wjlM1Cy+BCgRXfyPQPk4LDuCalx+JB7wtw8b4xR0gfCm+X9ci+T
+KkOtWODsnU1bcf/M/qDibj81xkbFRHkQeptS6RApE9hS1W2nK3c/QfueM9NNhsT6
+YGt2G+aD9IoqiwNyLP4Hs/4gEQ5BWO8GGwdDWa/JxtviAKiHwn+uRCFKQDjh/HTu
+dnIS+BOQ+IGV/X1IZVNai2SOaUSXCw==
+=HBGd
+-----END PGP SIGNATURE-----
+
+--a8sldprk+5E/pDEv--
