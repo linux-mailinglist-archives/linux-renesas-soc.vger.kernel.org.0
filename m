@@ -2,86 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D60C2EA8B4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 11:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98B982EA904
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 11:43:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729025AbhAEKaV convert rfc822-to-8bit (ORCPT
+        id S1729212AbhAEKl1 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 05:30:21 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:46181 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729133AbhAEKaU (ORCPT
+        Tue, 5 Jan 2021 05:41:27 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:36779 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729193AbhAEKl1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 05:30:20 -0500
-Received: by mail-ot1-f50.google.com with SMTP id w3so28826156otp.13;
-        Tue, 05 Jan 2021 02:30:04 -0800 (PST)
+        Tue, 5 Jan 2021 05:41:27 -0500
+Received: by mail-oi1-f169.google.com with SMTP id 9so35523518oiq.3;
+        Tue, 05 Jan 2021 02:41:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TDV5ld2/gAWUMe2e3Urs0OVOKaSoQnRn0I/4UgQMJgM=;
-        b=kJXXWY9xHnbjkA1R3T8m+le/OFWnOoCfWn9a68vHYI4ZZS2PT6fjUpLIw1xBbrxCGE
-         PqX4QtlTztB5ewMYCqlNXpE7xiWkcnNHUPZcxpgikUV7d2eThBKqYnTfHCQYAs3H0aEi
-         tu+iajzxtA5MW/vJS7212k1HEvoZKXIcIe4H0HddUu62Wjx4wtOYj5gVLv7E3oXU0qU7
-         Vp7ajp9CRK7ItYcw3giPpKMI6FlTgYrG4puRROZt9HjEtvenX5KRA20BbMZU1z9Poo83
-         YZ3dgrbiyl9j8ceXmP6ISculcpf4+jSy0EXhFWYHMymNoAZOmd4iFYqvuDF8tjd5NN/B
-         0GCg==
-X-Gm-Message-State: AOAM532UEBl0CDFE6Jvy848UOKVxXAuZFj5rsQmUQQvsPZbt7QAJ7hZJ
-        4W/pswmayxXn4wfBogz+Lxr3/ZE68Avn7kZ2Z3c=
-X-Google-Smtp-Source: ABdhPJwNA6QGouDzm+wcuKIn/tlwSG85mL6qx+xf5/iIHI5prpE/grOjRPnL80sz12/MCWPpayowKKXHWLBMGrKTw5g=
-X-Received: by 2002:a9d:c01:: with SMTP id 1mr40558293otr.107.1609842579594;
- Tue, 05 Jan 2021 02:29:39 -0800 (PST)
+        bh=BhNvTa8G3ACpSXzNTr2YPqZ77khq1SLnQS1+ZvTkWb4=;
+        b=BtX1VM99o9XrYAIvGglxQAyxb39XUr1aE+Nev0MMUMpeR5EpQM0mtMUimGE84AX8Q7
+         kD/6KxG8zNDi3pEeHaYiOv6A3TfkyRb53fErK+sww2kWJ26kVhCoXyi6BtuogC9Ywiv+
+         hKqhh3XZfUw+MoGBPrMzbc/iqzMJvgOcPQD92JAhhs/d8z3IXN/D4beU+f12wtuKjC4h
+         Ml74AddofYmKTOhJYe0nenPeC8uoabe5ofJ0a9aImjqmm5Y9Bezf3Id4PewjVOwgn9T/
+         AjaR42ogrAEzOIcYWNG7nhJeyHgxF4OX56sPH19P69NfqT4x1MDRoLRO4iYFLIDAabRt
+         J4mg==
+X-Gm-Message-State: AOAM531Gr69IFK8FgWCFXd7bveD9Ggs7gnnw5C/vJ/Hopo2C4FiYH6eP
+        tK8oZkbr/LYPsNQs92a18edHd81vlT+RVPA5thI=
+X-Google-Smtp-Source: ABdhPJy8Upntzome+hHCzHzvupD1kjZGJllVBhKX3LHK5qrxPAZyZK23MdohxEU+SzXTcGO4EDSsgs+XEqxRl4mKu1o=
+X-Received: by 2002:aca:3cc5:: with SMTP id j188mr2176737oia.54.1609843246147;
+ Tue, 05 Jan 2021 02:40:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126223028.3119044-1-niklas.soderlund+renesas@ragnatech.se> <20201126223028.3119044-4-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20201126223028.3119044-4-niklas.soderlund+renesas@ragnatech.se>
+References: <20201223172505.34736-1-wsa+renesas@sang-engineering.com> <20201223172505.34736-3-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20201223172505.34736-3-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Jan 2021 11:29:28 +0100
-Message-ID: <CAMuHMdUm-1Tv11z_--+h+LiU=0OggpYfK=oTsDwx6dT=KmuBKQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] thermal: rcar_gen3_thermal: Add r8a779a0 support
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 5 Jan 2021 11:40:35 +0100
+Message-ID: <CAMuHMdUkWoFzK6vdNSW2c21P01ee_HOtsmHG9sv7g9ogZrsm9g@mail.gmail.com>
+Subject: Re: [PATCH 2/5] clk: renesas: r8a779a0: add clocks for I2C
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Wolfram,
 
-On Thu, Nov 26, 2020 at 11:30 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Add support for R-Car V3U. The new THCODE values are taken from the
-> example in the datasheet.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Wed, Dec 23, 2020 at 6:25 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 Thanks for your patch!
 
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -60,13 +60,14 @@
->  #define MCELSIUS(temp) ((temp) * 1000)
->  #define GEN3_FUSE_MASK 0xFFF
->
-> -#define TSC_MAX_NUM    3
-> +#define TSC_MAX_NUM    4
+> --- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
+> @@ -152,6 +152,13 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
+>         DEF_MOD("csi41",        400,    R8A779A0_CLK_CSI0),
+>         DEF_MOD("csi42",        401,    R8A779A0_CLK_CSI0),
+>         DEF_MOD("csi43",        402,    R8A779A0_CLK_CSI0),
+> +       DEF_MOD("i2c0",         518,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c1",         519,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c2",         520,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c3",         521,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c4",         522,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c5",         523,    R8A779A0_CLK_S3D2),
+> +       DEF_MOD("i2c6",         524,    R8A779A0_CLK_S3D2),
 
-As pointed out by Shimoda-san in response to the DT binding update,
-R-Car V3U has 5 sensors.
+The R-Car V3U Series User’s Manual Rev.0.5 says the parent clock is S1D4
+for all instances?
 
->
->  /* default THCODE values if FUSEs are missing */
->  static const int thcodes[TSC_MAX_NUM][3] = {
->         { 3397, 2800, 2221 },
->         { 3393, 2795, 2216 },
->         { 3389, 2805, 2237 },
-> +       { 3415, 2694, 2195 },
-
-No idea what the missing fifth entry should be...
+>         DEF_MOD("scif0",        702,    R8A779A0_CLK_S1D8),
+>         DEF_MOD("scif1",        703,    R8A779A0_CLK_S1D8),
+>         DEF_MOD("scif3",        704,    R8A779A0_CLK_S1D8),
 
 Gr{oetje,eeting}s,
 
