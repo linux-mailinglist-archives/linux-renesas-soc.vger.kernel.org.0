@@ -2,255 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C799C2EA824
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 11:02:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 629812EA85B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 11:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbhAEKCi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 05:02:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728493AbhAEKCh (ORCPT
+        id S1728869AbhAEKNz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 05:13:55 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:37188 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726545AbhAEKNz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 05:02:37 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9334C061793
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Jan 2021 02:01:56 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by andre.telenet-ops.be with bizsmtp
-        id Cy1s240064C55Sk01y1scu; Tue, 05 Jan 2021 11:01:53 +0100
-Received: from geert (helo=localhost)
-        by ramsan.of.borg with local-esmtp (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kwj9z-001GzC-V7; Tue, 05 Jan 2021 11:01:51 +0100
-Date:   Tue, 5 Jan 2021 11:01:51 +0100 (CET)
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Ioana Ciornei <ioana.ciornei@nxp.com>, Andrew Lunn <andrew@lunn.ch>
-cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] [RFC] net: phy: Fix reboot crash if CONFIG_IP_PNP is
- not set
-In-Reply-To: <20210104184341.szvnl24wnfnxg4k7@skbuf>
-Message-ID: <alpine.DEB.2.22.394.2101051038550.302140@ramsan.of.borg>
-References: <20210104122415.1263541-1-geert+renesas@glider.be> <20210104145331.tlwjwbzey5i4vgvp@skbuf> <CAMuHMdUVsSuAur1wWkjs7FW5N-36XV9iXA6wmvst59eKoUFDHQ@mail.gmail.com> <20210104170112.hn6t3kojhifyuaf6@skbuf> <X/NNS3FUeSNxbqwo@lunn.ch> <X/NQ2fYdBygm3CYc@lunn.ch>
- <20210104184341.szvnl24wnfnxg4k7@skbuf>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Tue, 5 Jan 2021 05:13:55 -0500
+Received: by mail-ot1-f50.google.com with SMTP id o11so28806594ote.4;
+        Tue, 05 Jan 2021 02:13:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p7FxRYCV6zhKVl3Kp0lQUCMBSku8Ltx03LRKAXodcDA=;
+        b=qmQ4H+kK2qCapORlb65rFf7n1L01/wB4UEhGAdxPWut5hcHjJwG/zHWuUDxn0nuM9u
+         tqXBXVe88cTFVvb8BMaGXYFCsYZBmXl/sLHOZ5ai7Wj7SBzxAZTBATc0BeTZM33ml1Zi
+         TOyPjQ4Pn/hUI90hBiSBZaquwyxn+HhihXlNQWAB7KpUvmGi64qYD7BYdgxgYiLAOfUO
+         T8ySDy1y6BYGEs3J9ypeaEnJ1GwbIYowb7tA6ozLpGnAJOG43hJISQDNzzKLzmgLtM1p
+         5BfWplJ+aOdN46mSWbPb9PLZNCm+TCawcPz85DlcGo/euFDkqrZR2aY5BjDkMiEySfWP
+         HSTw==
+X-Gm-Message-State: AOAM533C7x7u6oxWSd2cXMjyQcScu0M6W6lZtytFlTxpDWH8+mXxd1aN
+        RKtJVRBZyVgBLwjsw9YCPw0Dc4wws6i/Qvo31r0=
+X-Google-Smtp-Source: ABdhPJy+v/Q7If7wxhRZw96mVc65hdXc9fOIYrfUx0uwntPd54m2+l7rXEh+5QNR3abn82y4wqRT5o7A8YiIs56v668=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr55627773otc.145.1609841594206;
+ Tue, 05 Jan 2021 02:13:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+References: <X/Q21vZcui0RlYWK@Red>
+In-Reply-To: <X/Q21vZcui0RlYWK@Red>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Jan 2021 11:13:03 +0100
+Message-ID: <CAMuHMdUW+Z4YOVnob38BV8de4S9=bP7rekNWbaT0jaH1=Ru4yw@mail.gmail.com>
+Subject: Re: r8a77950-salvator-x does nto boot since cfa7ede20f133cc81cef01dc3a516dda3a9721ee
+ arm64: set TEXT_OFFSET to 0x0 in preparation for removing it entirely
+To:     Corentin Labbe <clabbe.montjoie@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- 	Hi Ioana, Andrew,
+Hi Corentin,
 
-On Mon, 4 Jan 2021, Ioana Ciornei wrote:
-> On Mon, Jan 04, 2021 at 06:31:05PM +0100, Andrew Lunn wrote:
->>> The basic rules here should be, if the MDIO bus is registered, it is
->>> usable. There are things like PHY statistics, HWMON temperature
->>> sensors, etc, DSA switches, all which have a life cycle separate to
->>> the interface being up.
->>
->> [Goes and looks at the code]
->>
->> Yes, this is runtime PM which is broken.
->>
->> sh_mdio_init() needs to wrap the mdp->mii_bus->read and
->> mdp->mii_bus->write calls with calls to
->>
->> pm_runtime_get_sync(&mdp->pdev->dev);
->>
->> and
->>
->> pm_runtime_put_sync(&mdp->pdev->dev);
-
-pm_runtime_put().
-
-Thanks, that works (see patch below), but I'm still wondering if that is
-the right fix...
-
-> Agree. Thanks for actually looking into it.. I'm not really well versed
-> in runtime PM.
+On Tue, Jan 5, 2021 at 10:52 AM Corentin Labbe
+<clabbe.montjoie@gmail.com> wrote:
+> Due to DTB renaming, salvatorX was not booted since a long time in kernelCI.
+> Now the rename is handled, the board fail to boot.
 >
->> The KSZ8041RNLI supports statistics, which ethtool --phy-stats can
->> read, and these will also going to cause problems.
->>
+> I have bisected the problem:
+
+> # first bad commit: [cfa7ede20f133cc81cef01dc3a516dda3a9721ee] arm64: set TEXT_OFFSET to 0x0 in preparation for removing it entirely
 >
-> Not really, this driver connects to the PHY on .ndo_open(), thus any
-> try to actually dump the PHY statistics before an ifconfig up would get
-> an -EOPNOTSUPP since the dev->phydev is not yet populated.
+> This is the interesting part of uboot log:
+> [    0.000292] NOTI[    0.000292] NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.1.0.16
+> [    0.005855] NOTICE:  BL2: PRR is R-Car H3 Ver1.1
+> [    0.010437] NOTICE:  BL2: Board is Salvator-X Rev1.0
+> [    0.015379] NOTICE:  BL2: Boot device is HyperFlash(80MHz)
+> [    0.020804] NOTICE:  BL2: LCM state is CM
+> [    0.024847] NOTICE:  BL2: AVS setting succeeded. DVFS_SetVID=0x53
+> [    0.030891] NOTICE:  BL2: DDR1600(rev.0.27)NOTICE:  [COLD_BOOT]NOTICE:  ..0
+> [    0.066311] NOTICE:  BL2: DRAM Split is 4ch
+> [    0.070195] NOTICE:  BL2: QoS is default setting(rev.0.37)
+> [    0.075697] NOTICE:  BL2: Lossy Decomp areas
+> [    0.079872] NOTICE:       Entry 0: DCMPAREACRAx:0x80000540 DCMPAREACRBx:0x570
+> [    0.086957] NOTICE:       Entry 1: DCMPAREACRAx:0x40000000 DCMPAREACRBx:0x0
+> [    0.093869] NOTICE:       Entry 2: DCMPAREACRAx:0x20000000 DCMPAREACRBx:0x0
+> [    0.100785] NOTICE:  BL2: v1.3(release):b330e0e
+> [    0.105274] NOTICE:  BL2: Built : 15:26:51, Dec  6 2017
+> [    0.110462] NOTICE:  BL2: Normal boot
+> [    0.114103] NOTICE:  BL2: dst=0xe6320208 src=0x8180000 len=512(0x200)
+> [    0.120652] NOTICE:  BL2: dst=0x43f00000 src=0x8180400 len=6144(0x1800)
+> [    0.127110] NOTICE:  BL2: dst=0x44000000 src=0x81c0000 len=65536(0x10000)
+> [    0.134336] NOTICE:  BL2: dst=0x44100000 src=0x8200000 len=524288(0x80000)
+> [    0.144816] NOTICE:  BL2: dst=0x50000000 src=0x8640000 len=1048576(0x100000)
+> U-Boot 2015.04 (Dec 06 2017 - 15:26:59)
+> CPU: Renesas Electronics R8A7795 rev 1.1
+> Board: Salvator-X
+> I2C:   ready
+> DRAM:  3.9 GiB
+> MMC:   sh-sdhi: 0, sh-sdhi: 1, sh-sdhi: 2
+> In:    serial
+> Out:   serial
+> Err:   serial
+> Net:   ravb
+>
+> [...]
+>
+> booti 0x48080000 0x4a000000 0x48000000
+             ^^^^^
+I take it this is the problem?
 
-I added a statically-linked ethtool binary to my initramfs, and can
-confirm that retrieving the PHY statistics does not access the PHY
-registers when the device is suspended:
+For R-Car H3 ES1.0, I currently use the addresses below:
 
-     # ethtool --phy-statistics eth0
-     no stats available
-     # ifconfig eth0 up
-     # ethtool --phy-statistics eth0
-     PHY statistics:
- 	 phy_receive_errors: 0
- 	 phy_idle_errors: 0
-     #
+    tftpboot 0x60000000 h3-salvator-x/Image
+    tftpboot 0x68000000 h3-salvator-x/r8a77950-salvator-x.dtb
+    booti 0x60000000 - 0x68000000
 
-In the past, we've gone to great lengths to avoid accessing the PHY
-registers when the device is suspended, usually in the statistics
-handling (see e.g. [1][2]).  Hence I'm wondering if we should do the
-same here, and handle this at a higher layer than the individual network
-device driver (other drivers than sh_eth may be affected, too)?
+For R-Car H3 ES2.0 (and other R-Car Gen3 SoCs), I use other addresses:
 
-Thanks!
+    tftpboot 0x50000000 h3-salvator-xs/Image
+    tftpboot 0x58000000 h3-salvator-xs/r8a77951-salvator-xs.dtb
+    booti 0x50000000 - 0x58000000
 
-[1] 124eee3f6955f7aa ("net: linkwatch: add check for netdevice being present to linkwatch_do_dev")
-[2] https://lore.kernel.org/netdev/11beeaa9-57d5-e641-9486-f2ba202d0998@gmail.com/
+The firmware on your H3 ES1.1 board (Rev.1.0.16) is newer than on my
+ES1.0 board (Rev.1.0.12), so it's possible the second version works on
+your board, too.
 
-From b3cc15e56bddbe65e0196ce04604e5e6c78abd7a Mon Sep 17 00:00:00 2001
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-Date: Tue, 5 Jan 2021 10:29:22 +0100
-Subject: [PATCH] [RFC] sh_eth: Make PHY access aware of Runtime PM to fix
-  reboot crash
+If these work for you, I'll update https://elinux.org/R-Car/Boards/Salvator-X[S]
 
-Wolfram reports that his R-Car H2-based Lager board can no longer be
-rebooted in v5.11-rc1, as it crashes with an imprecise external abort.
-The issue can be reproduced on other boards (e.g. Koelsch with R-Car
-M2-W) too, if CONFIG_IP_PNP is disabled, and the Ethernet interface is
-down at reboot time:
-
-     Unhandled fault: imprecise external abort (0x1406) at 0x00000000
-     pgd = (ptrval)
-     [00000000] *pgd=422b6835, *pte=00000000, *ppte=00000000
-     Internal error: : 1406 [#1] ARM
-     Modules linked in:
-     CPU: 0 PID: 1105 Comm: init Tainted: G        W         5.10.0-rc1-00402-ge2f016cf7751 #1048
-     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-     PC is at sh_mdio_ctrl+0x44/0x60
-     LR is at sh_mmd_ctrl+0x20/0x24
-     ...
-     Backtrace:
-     [<c0451f30>] (sh_mdio_ctrl) from [<c0451fd4>] (sh_mmd_ctrl+0x20/0x24)
-      r7:0000001f r6:00000020 r5:00000002 r4:c22a1dc4
-     [<c0451fb4>] (sh_mmd_ctrl) from [<c044fc18>] (mdiobb_cmd+0x38/0xa8)
-     [<c044fbe0>] (mdiobb_cmd) from [<c044feb8>] (mdiobb_read+0x58/0xdc)
-      r9:c229f844 r8:c0c329dc r7:c221e000 r6:00000001 r5:c22a1dc4 r4:00000001
-     [<c044fe60>] (mdiobb_read) from [<c044c854>] (__mdiobus_read+0x74/0xe0)
-      r7:0000001f r6:00000001 r5:c221e000 r4:c221e000
-     [<c044c7e0>] (__mdiobus_read) from [<c044c9d8>] (mdiobus_read+0x40/0x54)
-      r7:0000001f r6:00000001 r5:c221e000 r4:c221e458
-     [<c044c998>] (mdiobus_read) from [<c044d678>] (phy_read+0x1c/0x20)
-      r7:ffffe000 r6:c221e470 r5:00000200 r4:c229f800
-     [<c044d65c>] (phy_read) from [<c044d94c>] (kszphy_config_intr+0x44/0x80)
-     [<c044d908>] (kszphy_config_intr) from [<c044694c>] (phy_disable_interrupts+0x44/0x50)
-      r5:c229f800 r4:c229f800
-     [<c0446908>] (phy_disable_interrupts) from [<c0449370>] (phy_shutdown+0x18/0x1c)
-      r5:c229f800 r4:c229f804
-     [<c0449358>] (phy_shutdown) from [<c040066c>] (device_shutdown+0x168/0x1f8)
-     [<c0400504>] (device_shutdown) from [<c013de44>] (kernel_restart_prepare+0x3c/0x48)
-      r9:c22d2000 r8:c0100264 r7:c0b0d034 r6:00000000 r5:4321fedc r4:00000000
-     [<c013de08>] (kernel_restart_prepare) from [<c013dee0>] (kernel_restart+0x1c/0x60)
-     [<c013dec4>] (kernel_restart) from [<c013e1d8>] (__do_sys_reboot+0x168/0x208)
-      r5:4321fedc r4:01234567
-     [<c013e070>] (__do_sys_reboot) from [<c013e2e8>] (sys_reboot+0x18/0x1c)
-      r7:00000058 r6:00000000 r5:00000000 r4:00000000
-     [<c013e2d0>] (sys_reboot) from [<c0100060>] (ret_fast_syscall+0x0/0x54)
-
-As of commit e2f016cf775129c0 ("net: phy: add a shutdown procedure"),
-system reboot calls phy_disable_interrupts() during shutdown.  As this
-happens unconditionally, the PHY registers may be accessed while the
-device is suspended, causing undefined behavior, which may crash the
-system.
-
-Fix this by wrapping the PHY bitbang accessors in the sh_eth driver by
-wrappers that take care of Runtime PM, to resume the device when needed.
-
-Reported-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Suggested-by: Andrew Lunn <andrew@lunn.ch>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-  drivers/net/ethernet/renesas/sh_eth.c | 34 +++++++++++++++++++++++++++
-  1 file changed, 34 insertions(+)
-
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index c633046329352601..f8b306fa61bc25ca 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -1162,7 +1162,10 @@ static void read_mac_address(struct net_device *ndev, unsigned char *mac)
-
-  struct bb_info {
-  	void (*set_gate)(void *addr);
-+	int (*read)(struct mii_bus *bus, int addr, int regnum);
-+	int (*write)(struct mii_bus *bus, int addr, int regnum, u16 val);
-  	struct mdiobb_ctrl ctrl;
-+	struct device *dev;
-  	void *addr;
-  };
-
-@@ -3034,6 +3037,30 @@ static int sh_mdio_release(struct sh_eth_private *mdp)
-  	return 0;
-  }
-
-+static int sh_mdiobb_read(struct mii_bus *bus, int phy, int reg)
-+{
-+	struct bb_info *bb = container_of(bus->priv, struct bb_info, ctrl);
-+	int res;
-+
-+	pm_runtime_get_sync(bb->dev);
-+	res = bb->read(bus, phy, reg);
-+	pm_runtime_put(bb->dev);
-+
-+	return res;
-+}
-+
-+static int sh_mdiobb_write(struct mii_bus *bus, int phy, int reg, u16 val)
-+{
-+	struct bb_info *bb = container_of(bus->priv, struct bb_info, ctrl);
-+	int res;
-+
-+	pm_runtime_get_sync(bb->dev);
-+	res = bb->write(bus, phy, reg, val);
-+	pm_runtime_put(bb->dev);
-+
-+	return res;
-+}
-+
-  /* MDIO bus init function */
-  static int sh_mdio_init(struct sh_eth_private *mdp,
-  			struct sh_eth_plat_data *pd)
-@@ -3052,12 +3079,19 @@ static int sh_mdio_init(struct sh_eth_private *mdp,
-  	bitbang->addr = mdp->addr + mdp->reg_offset[PIR];
-  	bitbang->set_gate = pd->set_mdio_gate;
-  	bitbang->ctrl.ops = &bb_ops;
-+	bitbang->dev = dev;
-
-  	/* MII controller setting */
-  	mdp->mii_bus = alloc_mdio_bitbang(&bitbang->ctrl);
-  	if (!mdp->mii_bus)
-  		return -ENOMEM;
-
-+	/* Wrap accessors with Runtime PM-aware ops */
-+	bitbang->read = mdp->mii_bus->read;
-+	bitbang->write = mdp->mii_bus->write;
-+	mdp->mii_bus->read = sh_mdiobb_read;
-+	mdp->mii_bus->write = sh_mdiobb_write;
-+
-  	/* Hook up MII support for ethtool */
-  	mdp->mii_bus->name = "sh_mii";
-  	mdp->mii_bus->parent = dev;
--- 
-2.25.1
+> ## Loading init Ramdisk from Legacy Image at 4a000000 ...
+>    Image Name:
+>    Image Type:   AArch64 Linux RAMDisk Image (uncompressed)
+>    Data Size:    15809011 Bytes = 15.1 MiB
+>    Load Address: 00000000
+>    Entry Point:  00000000
+> ERROR: Did not find a cmdline Flattened Device Tree
 
 Gr{oetje,eeting}s,
 
- 						Geert
+                        Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+                                -- Linus Torvalds
