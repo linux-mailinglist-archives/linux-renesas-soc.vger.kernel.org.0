@@ -2,144 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FDF42EA54D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 07:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C44A2EA613
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Jan 2021 08:38:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726391AbhAEGLo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Jan 2021 01:11:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35884 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbhAEGLo (ORCPT
+        id S1725778AbhAEHiu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Jan 2021 02:38:50 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:43218 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbhAEHiu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Jan 2021 01:11:44 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA035C061793;
-        Mon,  4 Jan 2021 22:11:03 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C6BF3D7;
-        Tue,  5 Jan 2021 07:11:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1609827062;
-        bh=jFIsfetD8l3F4pytl6HUgLmgy0NU9fZ8ccxj4ssDQH8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=THzi7Yy2Njtx32SkB8TlL3SeYhATtuLXYK4CtlVqkN1Xu4Yrb77FUWX7zIukd6jld
-         iQBPx/MNncJIrMKdnON1iSXnnHYAUKU8qfGFzRWZYoesxh0J8JdEcY5Cn/VpnkM27Y
-         5u+bseUNRg4WzmPkIlXW8naG4IO2uPBtgCHebgrg=
-Date:   Tue, 5 Jan 2021 08:10:50 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        Sandy Huang <hjc@rock-chips.com>,
-        linux-renesas-soc@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Mark Yao <markyao0591@gmail.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: display: bridge: Add YAML schema for
- Synopsys DW-HDMI
-Message-ID: <X/QC6lz9Rzar0kry@pendragon.ideasonboard.com>
-References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
+        Tue, 5 Jan 2021 02:38:50 -0500
+Received: by mail-ot1-f43.google.com with SMTP id q25so28462174otn.10;
+        Mon, 04 Jan 2021 23:38:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GsNvvjXAbzsv+FuZnPwVumTRC/6Ac/joNVlKb3haP0E=;
+        b=LdcHuWYc10jHSdiL2MPZmUXrqLBpNkZuoTEsENhRUO5xVeFunO2uD2u9gd43vaF6EQ
+         A2xCtzzaZTddw5za8nvy0dk3z6VzkHX08BXIAaPs+UIAh+w30+aF/39iONssZHQ4KeHR
+         WM8/2r2DNEgZwsK5kPkp6bYn/7i/XW/ZJYFl6uay9pUll3ruRfQ3sUTrjnsqxOdk20L2
+         6VAkGtSMJN1NLFSSHCWGOAIb8X3Q49vJ0puVk5UG69B6pU5glBWqi5LDF2Zm8JWpGEfT
+         7SvNyGOmuYoi91QRoQ3RMFD2EEWRuIrdZZ/BvX3YsUPyXdsD7MRoAyMZleLwbCn46cwb
+         wTgQ==
+X-Gm-Message-State: AOAM5335JzJ3ur4OpCawZQ8RU+rUNjlOCTEHBa1KKAZhV2rLgb3L18ZG
+        sZZOSXbqVQHFCX9kAlwYoXrjKo1KmDbJbCxjqkUUJJ52
+X-Google-Smtp-Source: ABdhPJwB+S8gEdiHn6ODfi9YxxQh9Cv4/z6wLqvckXr6+hvgNE+BXWFVrjwOj1L9L0d/aO9eztlGefYOck6oZBpJRno=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr40244802otr.107.1609832289668;
+ Mon, 04 Jan 2021 23:38:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210105060818.24158-2-laurent.pinchart+renesas@ideasonboard.com>
+References: <20201230145708.28544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20201230145708.28544-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVCD52-eTnEwftGz8ExMkZkJRyM=3M8zU11yhn1UNPxxA@mail.gmail.com>
+ <CA+V-a8tHVkGxCECspfcV9c1UW81bod4N4YzRLJwU8zJ0+awJUw@mail.gmail.com>
+ <20210104213005.GK5645@sirena.org.uk> <20210104234018.GA19909@amd>
+In-Reply-To: <20210104234018.GA19909@amd>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 Jan 2021 08:37:58 +0100
+Message-ID: <CAMuHMdUjevJ+DgJGnPUN0+ctxm2ML1NYSTgYsjC4c8tDqjUkxQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] spi: rpc-if: Remove CONFIG_PM_SLEEP ifdefery
+To:     Pavel Machek <pavel@denx.de>
+Cc:     Mark Brown <broonie@kernel.org>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jiri Kosina <trivial@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 08:08:13AM +0200, Laurent Pinchart wrote:
-> Add a .yaml schema containing the common properties for the Synopsys
-> DesignWare HDMI TX controller. This isn't a full device tree binding
-> specification, but is meant to be referenced by platform-specific
-> bindings for the IP core.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Hi Pavel,
 
-I forgot to add
+On Tue, Jan 5, 2021 at 12:40 AM Pavel Machek <pavel@denx.de> wrote:
+> > > > >                 .name   = "rpc-if-spi",
+> > > > > -               .pm     = DEV_PM_OPS,
+> > > > > +               .pm     = &rpcif_spi_pm_ops,
+> >
+> > > > You're aware rpcif_spi_pm_ops is now always referenced and thus emitted,
+> > > > increasing kernel size by 92 bytes if CONFIG_PM_SLEEP=n?
+> > > > This may matter for RZ/A SoCs running from internal SRAM.
+> >
+> > > Hmm didn't realise this would be an issue on RZ/A.
+> >
+> > > Mark, could you please drop this patch from your branch.
+> >
+> > Please send an incremental patch with an appropriate changelog.
+>
+> Let's fix this properly. I'm pretty sure we have some macros that can
+> solve this without re-introducing the ifdefs...
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+There's pm_ptr(), but it uses CONFIG_PM as a selector, not CONFIG_PM_SLEEP.
 
-here.
+> (Besides... 92 bytes. How big is kernel these days? 4MB? More? How
+> much SRAM do you have?)
 
-> ---
-> Changes since v1:
-> 
-> - Add default to reg-io-width property
-> - Add additionalProperties
-> - Rebase on top of OF graph schema, dropped redundant properties
-> - Drop cec clock as it's device-specific
-> - Increase max clocks to 5 to accommodate the Rockchip DW-HDMI
-> ---
->  .../display/bridge/synopsys,dw-hdmi.yaml      | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..96c4bc06dbe7
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/synopsys,dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Common Properties for Synopsys DesignWare HDMI TX Controller
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> +
-> +description: |
-> +  This document defines device tree properties for the Synopsys DesignWare HDMI
-> +  TX controller (DWC HDMI TX) IP core. It doesn't constitute a full device tree
-> +  binding specification by itself but is meant to be referenced by device tree
-> +  bindings for the platform-specific integrations of the DWC HDMI TX.
-> +
-> +  When referenced from platform device tree bindings the properties defined in
-> +  this document are defined as follows. The platform device tree bindings are
-> +  responsible for defining whether each property is required or optional.
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reg-io-width:
-> +    description:
-> +      Width (in bytes) of the registers specified by the reg property.
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [1, 4]
-> +    default: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - description: The bus clock for either AHB and APB
-> +      - description: The internal register configuration clock
-> +    additionalItems: true
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - const: iahb
-> +      - const: isfr
-> +    additionalItems: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +additionalProperties: true
-> +
-> +...
+92 bytes is indeed not much (on 64-bit it would be doubled).
+Still, it's good to make people think about innocent looking changes,
+once in a while.
+
+RZ/A1H and RZ/A1M have 10 resp. 5 MiB of SRAM.
+RZ/A2 has 4 MiB SRAM, which is sufficient to run Linux when used with
+XIP (requires a one-line Kconfig change rmk has been vetoing for years).
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
