@@ -2,85 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A65A12EEF1C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 10:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E52BA2EEFCE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 10:43:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbhAHJHo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 04:07:44 -0500
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:36050 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727897AbhAHJHn (ORCPT
+        id S1727569AbhAHJnA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 04:43:00 -0500
+Received: from www.zeus03.de ([194.117.254.33]:48852 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725791AbhAHJm7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 04:07:43 -0500
-Received: by mail-ot1-f42.google.com with SMTP id d20so9086493otl.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Jan 2021 01:07:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AQJnYqfHQDSkWh7R1VxOUZVE6Es7Gkoa0MRhajtaiPU=;
-        b=PTAIF/7ieHe3IU7PfBJOHvXocR7yfY7BH2YJfrVrHwuEjEyvDck9yz3ZUVVIIe1z4Z
-         hSPiCLVvG7M0Hwb0HZxJP9Spbt+wlizGThQ7g2pYlXjPHurev34FV0bl5CDSAxgMcFGO
-         /yEMdhA5G67FCw+0hMoDIx9WywBpCTZi8bA6nrI7+Cgx/6ud2YpZ3bs/c1yw4K+ytpmM
-         NKAvGF7ShmFWR5UUBi/L9D5/pDFfRwljXBcLZpj8lhOBS67qu4TyJn6V9l05+i1lKw9N
-         gPJUVDp3uf67PyOnwz2XrTZqZltG4L/tI861F6XQrXr87VA0z75mO3YrG6S/UKDb4a/y
-         u1pQ==
-X-Gm-Message-State: AOAM531Q212mdPFBXRRgkpD9fTLCUf4LgMXQqFIfwflv+nA0eu1isL2p
-        w78qdUWDljkEElXZkqYubNGIzATO6DfsPMvRb7kfZ0/ZRaE=
-X-Google-Smtp-Source: ABdhPJw8DmxcG4LNZx17jo9TIk4OpFqV5Yp2qrP5Nb2rWRaG6qSE7b6iar6Cm3JCJsYWJwQsXkjC26oIGCojtBU6eW4=
-X-Received: by 2002:a9d:c01:: with SMTP id 1mr1887610otr.107.1610096822578;
- Fri, 08 Jan 2021 01:07:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20201227121925.8431-1-wsa+renesas@sang-engineering.com> <CAMuHMdWVtACtyoQgxKTWpw_4xS-B1knkGOVU-7DpNzG3uoG-RQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWVtACtyoQgxKTWpw_4xS-B1knkGOVU-7DpNzG3uoG-RQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Jan 2021 10:06:51 +0100
-Message-ID: <CAMuHMdU0rxV5cBLvMJp_8i6kkyL3mTdQU-uXny-eN3CcBFxeiQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] arm64: dts: r8a779a0: correct reset values for GPIO
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+        Fri, 8 Jan 2021 04:42:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=gOYwXo14+tF/t3ehP5YDEMSGmk4v
+        LbbhZ+rjFrNvn1I=; b=R0gwzNtmzgomN4u/AojQmokheDR3NPeGUpmGQ3l/xU/D
+        sFv+Sy2v6e1Ncfib0bLoJq/I1VcreUVmxU6iM5Fkg2oMOeN+VqteBhpirSV15DI+
+        AA42fjtVhi0gJ0AtbGlci3dtUO6WPu9zfbznqPkph/gTjpM1ZYULs5uZwxorTXs=
+Received: (qmail 1048817 invoked from network); 8 Jan 2021 10:42:17 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Jan 2021 10:42:17 +0100
+X-UD-Smtp-Session: l3s3148p1@kks5X2C46MAgAwDPXyX1ACWcscxtZ2TX
+Date:   Fri, 8 Jan 2021 10:42:17 +0100
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Phong Hoang <phong.hoang.wz@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC PATCH] arm64: dts: r8a779a0: correct reset values for GPIO
+Message-ID: <20210108094217.GB1223@kunai>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Phong Hoang <phong.hoang.wz@renesas.com>
+References: <20201227121925.8431-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWVtACtyoQgxKTWpw_4xS-B1knkGOVU-7DpNzG3uoG-RQ@mail.gmail.com>
+ <CAMuHMdU0rxV5cBLvMJp_8i6kkyL3mTdQU-uXny-eN3CcBFxeiQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdU0rxV5cBLvMJp_8i6kkyL3mTdQU-uXny-eN3CcBFxeiQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-On Tue, Jan 5, 2021 at 1:19 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Sun, Dec 27, 2020 at 1:19 PM Wolfram Sang
-> <wsa+renesas@sang-engineering.com> wrote:
-> > Because the datasheet is ambigious, copy over the reset values from the
-> > latest BSP.
+--Fba/0zbH8Xs+Fj9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jan 08, 2021 at 10:06:51AM +0100, Geert Uytterhoeven wrote:
+> Hi Wolfram,
+>=20
+> On Tue, Jan 5, 2021 at 1:19 PM Geert Uytterhoeven <geert@linux-m68k.org> =
+wrote:
+> > On Sun, Dec 27, 2020 at 1:19 PM Wolfram Sang
+> > <wsa+renesas@sang-engineering.com> wrote:
+> > > Because the datasheet is ambigious, copy over the reset values from t=
+he
+> > > latest BSP.
+> > >
+> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>=20
+> > > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > > @@ -110,7 +110,7 @@ gpio0: gpio@e6058180 {
+> > >                         interrupts =3D <GIC_SPI 832 IRQ_TYPE_LEVEL_HI=
+GH>;
+> > >                         clocks =3D <&cpg CPG_MOD 916>;
+> > >                         power-domains =3D <&sysc R8A779A0_PD_ALWAYS_O=
+N>;
+> > > -                       resets =3D  <&cpg 916>;
+> > > +                       resets =3D  <&cpg 1331>;
 > >
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > I doubt the reset topology differs from the clock topology...
+> > Let's hope this will be clarified in a datasheet update soon.
+>=20
+> I wrote a small test to check which reset bits reset the GPIO blocks.
+> I can confirm the original resets values are correct, and using the bits
+> marked PFCx in the Software Reset Registers 12/13/14 do not have any
+> impact on the GPIO registers.
+>=20
+> So the BSP is wrong, and this patch should be dropped.
 
-> > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> > @@ -110,7 +110,7 @@ gpio0: gpio@e6058180 {
-> >                         interrupts = <GIC_SPI 832 IRQ_TYPE_LEVEL_HIGH>;
-> >                         clocks = <&cpg CPG_MOD 916>;
-> >                         power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-> > -                       resets =  <&cpg 916>;
-> > +                       resets =  <&cpg 1331>;
->
-> I doubt the reset topology differs from the clock topology...
-> Let's hope this will be clarified in a datasheet update soon.
+Thanks for checking!
 
-I wrote a small test to check which reset bits reset the GPIO blocks.
-I can confirm the original resets values are correct, and using the bits
-marked PFCx in the Software Reset Registers 12/13/14 do not have any
-impact on the GPIO registers.
 
-So the BSP is wrong, and this patch should be dropped.
+--Fba/0zbH8Xs+Fj9o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Gr{oetje,eeting}s,
+-----BEGIN PGP SIGNATURE-----
 
-                        Geert
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/4KPUACgkQFA3kzBSg
+KbZQ3BAAnfZEQDvWpX2UZKyL9NnOcPUvB/dDi64us7a7OleRvm+35pX6F/pvAMey
+5mh+S4Rh5yQ4o+BCXKJhAnX2D+1F2eSS5cd00/Vm7XMh9u4fxipmd2gANgeXokcO
+47dpcBdjDrknii6eZz8/2cIcD5po0TM0M9/Kd2WROu/KcjcIYG+JP9CUTnaAYVwh
+bvoOUaXUZGHh52MjuZfc+9xRR0iN/cOBOWasoEMoKOzMxDS9y1qDoQDIgSSOCC4a
+Hxzv8qlw9F8CM4cOMT65PpRCWdSAVHo07cJUJhC3DLN/WcZkD1dTvwsoLar2FBdX
+XH2qMpUrnn4pe8Am9pwAVtXUBHKCcwyOzrnSvy6GCNwBsBYG1Zz2T0MYQ8/0vNQS
+IyOm95/1jxX/gngSwM5faxIxZ6sZ/vH40mYe1i7lWK3nByffkhrNk26X9a2jvzRT
+ypXTAgdRrcCxLiOKHp56KDZglV9oB5dMmlF3FtjwJv1kjkY3gh9jbxWu3BDMkBd/
+pOKK4jBcXEQIB19HiWliovzHKebNS3lYJRcifHYUEmIQghCy3OzRoMrsq4It3Bjx
+fm4dBEAhY6wu5HMwa4BMYGfT2G4tddzh21PFQtRwUMvqGrtEJP3S92qvTBjBxCZn
++8L+nczXWq27qr3ZGiFae88jCQRsICuSlV8fDXydGNc9Vup5+oU=
+=Z7dl
+-----END PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--Fba/0zbH8Xs+Fj9o--
