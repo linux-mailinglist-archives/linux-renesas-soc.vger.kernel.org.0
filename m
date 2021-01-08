@@ -2,72 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A2BD2EF40B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 15:40:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD9552EF5C4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 17:32:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbhAHOjW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 09:39:22 -0500
-Received: from mail-oi1-f182.google.com ([209.85.167.182]:36189 "EHLO
-        mail-oi1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726477AbhAHOjW (ORCPT
+        id S1727369AbhAHQcG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 11:32:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726133AbhAHQcG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 09:39:22 -0500
-Received: by mail-oi1-f182.google.com with SMTP id 9so11537617oiq.3;
-        Fri, 08 Jan 2021 06:39:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Bpz/5v07gepyVfANz4PHoldK3BSK7NdMRxF7EjVhv08=;
-        b=dOLXIqWzD+ge304B6Md9quqLZL1zJaYKZ3UDtfFJV8cOvK7uqVH5Ey9cZkMbR3o7Wu
-         upC+Tt10HklHwK7bP9prGtz4jkJy6CLJj8PbwJaOMHyfXop1rTt0CzmT++1n0JUlHqe8
-         hXz5oMMReWzVCzGu/H59VoakOLFyGyDkoZO1PKLmwizpITx1gLNiIkxppYK+d5v9HbZe
-         KGO3DtihEmlDQMECCIzweJK95r0o7il09e3g4+EKXMjz1W7fxCeY4Pdy9zlLGD4/w6N8
-         NAeeHOIb0gSuW1ePTPmZzYvCS157ujNM1Gz5nuCD1tbuaxAcfDueVyGQYnDEoVTP/4Cm
-         JaAw==
-X-Gm-Message-State: AOAM532AxXE1VbjMAl1LOXvK/v5Zg/93REc+BP58sCh3DdtBkQTHufoe
-        dm95eIYzoJVPmmDhaRF9t9cMdrpf/dk/YlbbgZuiX9P9
-X-Google-Smtp-Source: ABdhPJxjMf+9C+EF8dUxgu7Tavnto7pQJVJ461iqrdIAtKk6OChC+mvsNbbEaY4kbEm6ylgPsl45SND4WORr5TJWvd0=
-X-Received: by 2002:aca:3cc5:: with SMTP id j188mr2542466oia.54.1610116721500;
- Fri, 08 Jan 2021 06:38:41 -0800 (PST)
+        Fri, 8 Jan 2021 11:32:06 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9010C23A03;
+        Fri,  8 Jan 2021 16:31:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610123486;
+        bh=UZHtqX2avN1aYbZ2VEwMU1ZtcqGgOsud+qpCubDtJrI=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=SSj8041J6nOOMC6EeP34iQ8/arvh4DhlH4WnEpoCviJR2KtMp8uJ+ypDBZLlAJdus
+         RBpLVoG9AvqHQg/W+MRSg8sa1iX+OnwZwQXCh4+TcYsdbKcV1YIq0VUeiiGGW5rpE+
+         KHibd+6Xe1wLG3tOWLcHek7f917kINOcHA3/V0uZG4fPUKt4hI2JpSczF/A/ElCuhU
+         lYnnRlP1D9sBJtxU0pLlxygZ1I/GZ6Tgz5xmgoHDx52CqggxEPnf+NhWSpmUh0YEWg
+         bVWSZE5TSlGldF7wRZpUkPs/HO55ZC2APtj6UOGeFnHBeIPLpP/AKxXCRjHw3gJKSC
+         ike1M/tsYK16g==
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        devicetree@vger.kernel.org
+In-Reply-To: <20210108103522.2025880-1-geert+renesas@glider.be>
+References: <20210108103522.2025880-1-geert+renesas@glider.be>
+Subject: Re: [PATCH v2] spi: renesas,sh-msiof: Add r8a779a0 support
+Message-Id: <161012344969.41129.2926375483711684581.b4-ty@kernel.org>
+Date:   Fri, 08 Jan 2021 16:30:49 +0000
 MIME-Version: 1.0
-References: <20210101113927.3252309-1-aford173@gmail.com> <20210101113927.3252309-2-aford173@gmail.com>
-In-Reply-To: <20210101113927.3252309-2-aford173@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Jan 2021 15:38:30 +0100
-Message-ID: <CAMuHMdW5v3URiike=RDsAC8heRRUzYtt_Cjru_2H20ERDJ7Ymw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: rzg2: Add RPC-IF Support
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 1, 2021 at 12:39 PM Adam Ford <aford173@gmail.com> wrote:
-> The RZ/G2 series contain the SPI Multi I/O Bus Controller (RPC-IF).
-> Add the nodes, but make them disabled by default.
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+On Fri, 8 Jan 2021 11:35:22 +0100, Geert Uytterhoeven wrote:
+> Document R-Car V3U (R8A779A0) SoC bindings.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.12.
+Applied to
 
-Gr{oetje,eeting}s,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-                        Geert
+Thanks!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+[1/1] spi: renesas,sh-msiof: Add r8a779a0 support
+      commit: 6be69293196c1700de2df3b32417c6eda2b12009
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
