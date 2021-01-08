@@ -2,67 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AFD42EF2D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 14:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B442E2EF30F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 14:33:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbhAHNAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 08:00:37 -0500
-Received: from mail-oi1-f180.google.com ([209.85.167.180]:39053 "EHLO
-        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727226AbhAHNAg (ORCPT
+        id S1726060AbhAHNdJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 08:33:09 -0500
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:46402 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbhAHNdI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 08:00:36 -0500
-Received: by mail-oi1-f180.google.com with SMTP id w124so11240994oia.6;
-        Fri, 08 Jan 2021 05:00:20 -0800 (PST)
+        Fri, 8 Jan 2021 08:33:08 -0500
+Received: by mail-oi1-f181.google.com with SMTP id q205so11274168oig.13;
+        Fri, 08 Jan 2021 05:32:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=O3IR7iq4eo3wda6A5dtI0hW3IkSRK0oNkzH9O22jj6E=;
-        b=ppLmuuWGhsO+bQESDPHyDGddclcqz1COhn+1y93vDcnAMq6VQdYdGvbMq3LZbwo5xN
-         0Yr1k+FiGaMqe7EmJdeHQMWgiETboqtYV5waD1JluCsjxoyn3wm7W1357wlJTjrB71U9
-         yVvkA0R+HrYJONi/Sxz9/Kr1wKTkQDgvSDLJhbH8J60C+myTArnR4DmgOPx8wrLtEDXz
-         rTyeUL0hECuEUQcjVbnT10bKDSPt5vzZhxND7T3Z7GljLLujiv78VFJh4E2JPhZnBqpf
-         IOd2f9z+MVWo2trqR1yFoyafq0eLuFeGiqtX04XtUE5rXCy4+RTKPBVUqQs5XghvFF6x
-         Pt8w==
-X-Gm-Message-State: AOAM533cCVweJnAgEw+KXmVfewN7yvCTIz/1t5Cg8MyzKLwae+I4PR9A
-        vpFDVUq/6F0nd3fh6RMMLNdCZsVDQ3e0isQEE/I=
-X-Google-Smtp-Source: ABdhPJwuJMp7mU+ha1XsYXrf9H43msqffFgUOpFoQK6aCpTTkb1K/oFpkIZmYSr/YLjZEythcim+psnkXcVKqzLgPlg=
-X-Received: by 2002:aca:3cc5:: with SMTP id j188mr2234490oia.54.1610110795372;
- Fri, 08 Jan 2021 04:59:55 -0800 (PST)
+        bh=jIc5HQYZP0D1yiv2pxYG9auu4IigSo+Oa/oIpIOuZyQ=;
+        b=WasDwmSXdFqpEaKkZM63Y857N1955dvmSqt3UbuLCbN7PHLzSXDlzRtXnsL4wmILyw
+         JP8ArKcsLtjfsu7Md7/x2bd+h2QXtCNPUHM97ht7ZUim+hbUFPOoL4Qf9CzPe3PBrKDF
+         LbHDQ/N7cnKyBR6SxCk+S4f8oQ9Dp0yIsMpRX8bNd73uKK/ZZ6F39EiBcEQnVd+spj4K
+         ZNCvLNpsnrJdUa1It1p2BLyOgsU1Wp78WiENkwhpyvdpfuJJi6v/qFU5IQvVQ+tGCmEF
+         7ElrlujY8GryDuOp/EyLvP4lqNBym8VRtdGXgO+DBwxR3gCoMBQZboGsRZ3UtugqRpMI
+         31lw==
+X-Gm-Message-State: AOAM530tmwO3/8QK25/QcNxalDnIy2NJ2Djv6uhFhlARCJX6x46Mxwcc
+        cjLppu+SBrxyYcic2uYPq8fw2yoSxhw8nvE3Gu0=
+X-Google-Smtp-Source: ABdhPJyaLxa54Jkbz99WXb6rd12UOsCflopAn20JykdbzdzlkRwm1cDPKUpL41nIIpomZMXmmMhWrp78aqfv/O/zZWg=
+X-Received: by 2002:aca:4b16:: with SMTP id y22mr2290800oia.148.1610112747824;
+ Fri, 08 Jan 2021 05:32:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20201227174202.40834-1-wsa+renesas@sang-engineering.com> <20201227174202.40834-5-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20201227174202.40834-5-wsa+renesas@sang-engineering.com>
+References: <20201224170502.2254683-1-aford173@gmail.com>
+In-Reply-To: <20201224170502.2254683-1-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Jan 2021 13:59:43 +0100
-Message-ID: <CAMuHMdWt-s==dwMefvZXPvSEV76mZDU1KsZguE+jbVoe9QwD+w@mail.gmail.com>
-Subject: Re: [PATCH 4/6] clk: renesas: r8a779a0: add SDHI support
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date:   Fri, 8 Jan 2021 14:32:16 +0100
+Message-ID: <CAMuHMdV7zA+dWm+AY6VdOzUPd=7c=M0iDE2gXJsKuBoZCPK_bQ@mail.gmail.com>
+Subject: Re: [PATCH V2 1/9] arm64: dts: renesas: beacon kit: Configure
+ programmable clocks
+To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        Adam Ford-BE <aford@beaconembedded.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Dec 27, 2020 at 6:42 PM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> We use the shiny new CPG library for that.
+On Thu, Dec 24, 2020 at 6:05 PM Adam Ford <aford173@gmail.com> wrote:
+> When the board was added, clock drivers were being updated done at
+> the same time to allow the versaclock driver to properly configure
+> the modes.  Unfortunately, the updates were not applied to the board
+> files at the time they should have been, so do it now.
 >
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk-for-v5.12.
+i.e. will queue in renesas-devel for v5.12.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
