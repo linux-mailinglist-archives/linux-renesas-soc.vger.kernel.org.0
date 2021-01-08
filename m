@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B442E2EF30F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 14:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCF1E2EF33C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 14:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726060AbhAHNdJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 08:33:09 -0500
-Received: from mail-oi1-f181.google.com ([209.85.167.181]:46402 "EHLO
-        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726215AbhAHNdI (ORCPT
+        id S1726754AbhAHNkB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 08:40:01 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:34616 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726220AbhAHNkA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 08:33:08 -0500
-Received: by mail-oi1-f181.google.com with SMTP id q205so11274168oig.13;
-        Fri, 08 Jan 2021 05:32:53 -0800 (PST)
+        Fri, 8 Jan 2021 08:40:00 -0500
+Received: by mail-ot1-f52.google.com with SMTP id a109so9678764otc.1;
+        Fri, 08 Jan 2021 05:39:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jIc5HQYZP0D1yiv2pxYG9auu4IigSo+Oa/oIpIOuZyQ=;
-        b=WasDwmSXdFqpEaKkZM63Y857N1955dvmSqt3UbuLCbN7PHLzSXDlzRtXnsL4wmILyw
-         JP8ArKcsLtjfsu7Md7/x2bd+h2QXtCNPUHM97ht7ZUim+hbUFPOoL4Qf9CzPe3PBrKDF
-         LbHDQ/N7cnKyBR6SxCk+S4f8oQ9Dp0yIsMpRX8bNd73uKK/ZZ6F39EiBcEQnVd+spj4K
-         ZNCvLNpsnrJdUa1It1p2BLyOgsU1Wp78WiENkwhpyvdpfuJJi6v/qFU5IQvVQ+tGCmEF
-         7ElrlujY8GryDuOp/EyLvP4lqNBym8VRtdGXgO+DBwxR3gCoMBQZboGsRZ3UtugqRpMI
-         31lw==
-X-Gm-Message-State: AOAM530tmwO3/8QK25/QcNxalDnIy2NJ2Djv6uhFhlARCJX6x46Mxwcc
-        cjLppu+SBrxyYcic2uYPq8fw2yoSxhw8nvE3Gu0=
-X-Google-Smtp-Source: ABdhPJyaLxa54Jkbz99WXb6rd12UOsCflopAn20JykdbzdzlkRwm1cDPKUpL41nIIpomZMXmmMhWrp78aqfv/O/zZWg=
-X-Received: by 2002:aca:4b16:: with SMTP id y22mr2290800oia.148.1610112747824;
- Fri, 08 Jan 2021 05:32:27 -0800 (PST)
+        bh=sStwu2hjVKoyJXOenHvxaoZq+Azf62d7qUTCj+UG9k0=;
+        b=Glwdmn9Ze90UPlR/J5HbgYK7hQPagKfseofXvm7rvb2h9aRZhJHcTqr5H3D/XQ87+n
+         HmV7Ww11AL67zRAUJFw+PjioSn07pkLrc58CceV0ndnCCVzbqgFkDmTdnP5WHqWrBI2z
+         my852JuOXTNRC4POxYTEQM1D4KpB658FiHuqrc5e3hCLyovAXCTTbG43/IKNNyzO55Xo
+         BgW85PI1zrElNNZvrO2NISOEPnto71gbZrQXQFqeQo4MTWcPcx/mYOUCTXDcqPD4zyZj
+         NfllUTACwzxkUaMBoXR9payMOMdLLNMU3Ic4LJ8AFUZzdXezETjXWkppNfLbfyfNYG+U
+         dhEw==
+X-Gm-Message-State: AOAM532fcTQ69/darhMmXZ09semzAJwdwAhUwH/fEWijjXt1UInC5GeK
+        hDFFoTMAEo5NVzgpZMaDg2pU5UrBuYuScoBo68w=
+X-Google-Smtp-Source: ABdhPJycB+74hc70XgOW2dEACvtzzYxt/lDkIhfuvZKF+7i6EDp6dCeBfgMhDYPj/n7RvS0+kzkx+pV1EbyuufK0gDU=
+X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr2593437otc.145.1610113159552;
+ Fri, 08 Jan 2021 05:39:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201224170502.2254683-1-aford173@gmail.com>
-In-Reply-To: <20201224170502.2254683-1-aford173@gmail.com>
+References: <20201224170502.2254683-1-aford173@gmail.com> <20201224170502.2254683-2-aford173@gmail.com>
+In-Reply-To: <20201224170502.2254683-2-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Jan 2021 14:32:16 +0100
-Message-ID: <CAMuHMdV7zA+dWm+AY6VdOzUPd=7c=M0iDE2gXJsKuBoZCPK_bQ@mail.gmail.com>
-Subject: Re: [PATCH V2 1/9] arm64: dts: renesas: beacon kit: Configure
- programmable clocks
+Date:   Fri, 8 Jan 2021 14:39:07 +0100
+Message-ID: <CAMuHMdUuuvyQ-Ck8BTW-Ym04RpO=0Fp30orUw5K+U0f+5Ne8BA@mail.gmail.com>
+Subject: Re: [PATCH V2 2/9] arm64: dts: renesas: beacon kit: Fix Audio Clock sources
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
@@ -52,15 +51,18 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Dec 24, 2020 at 6:05 PM Adam Ford <aford173@gmail.com> wrote:
-> When the board was added, clock drivers were being updated done at
-> the same time to allow the versaclock driver to properly configure
-> the modes.  Unfortunately, the updates were not applied to the board
-> files at the time they should have been, so do it now.
+> The SoC was expecting two clock sources with different frequencies.
+> One to support 44.1KHz and one to support 48KHz.  With the newly added
+> ability to configure the programmably clock, configure both clocks.
+>
+> Assign the rcar-sound clocks to reference the versaclock instead of
+> the fixed clock.
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.12.
+i.e. will queue in renesas-devel for v5.12 (with the "programmably"
+typo fixed).
 
 Gr{oetje,eeting}s,
 
