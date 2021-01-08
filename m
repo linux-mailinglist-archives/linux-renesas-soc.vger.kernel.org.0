@@ -2,68 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28AAC2EF3E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 15:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0C42EF3ED
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 15:30:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbhAHO0w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 09:26:52 -0500
-Received: from mail-ot1-f44.google.com ([209.85.210.44]:44453 "EHLO
-        mail-ot1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725942AbhAHO0w (ORCPT
+        id S1726429AbhAHOai (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 09:30:38 -0500
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:39893 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725942AbhAHOai (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 09:26:52 -0500
-Received: by mail-ot1-f44.google.com with SMTP id r9so9731777otk.11;
-        Fri, 08 Jan 2021 06:26:36 -0800 (PST)
+        Fri, 8 Jan 2021 09:30:38 -0500
+Received: by mail-ot1-f54.google.com with SMTP id d8so9796406otq.6;
+        Fri, 08 Jan 2021 06:30:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ck+PkyxpVc679nAlJE4ATOc3uxubhhqpwkHVwNf7E5s=;
-        b=skuaLrKgPHiOywiDUGWVHDWbKUl/+1a62E7n2eqiWo/0enJvydU7nIE018FuRY/4Z+
-         SJMGVHgNhi59tH+zBWnpAtU6rnzdp5jS3wp+9DXo4kEEg+3LLjdu8BxRit0aCoXq4jEN
-         eb+h+OZTFaRZkODcU+wVpN5upwDHMnyROH6uguKWTOEYLXtpvS4UmeF8J/bEulkMYzUs
-         rALMm2i6Qo97htrZzrrVS+U5L3yOHhGsvhV3Q6v6JTYWaZbuW3cVZqqyVOS0OP+tbjP9
-         hOZ6RY5EMVNriDYP0ieARcVinQ48odhDhh4djC+g9JQTxfpUGY4t8vwlzQDP1YZKIH42
-         Lr/g==
-X-Gm-Message-State: AOAM531zxmL8GA3y8Vs1OcOYomhckkK31ZgbbyF++58S52nQFV+TBfn6
-        UZNY/pRNquweoINhnik1G+vLwxQc2YhxR3sKjwc=
-X-Google-Smtp-Source: ABdhPJz5JHAfsxibVjT+oM8MWaLyRUS9HcK7lHJppKG9TqVJuJee5oTH5qD3EjKPGgBPw/oWteJ+VycrdZmptKHtaTM=
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr2746312oth.250.1610115971373;
- Fri, 08 Jan 2021 06:26:11 -0800 (PST)
+        bh=4+8po3MCNGHszVSg7voDdKPux+Z5VkFbpMmCVTH4PIw=;
+        b=N2E64KmI3ZVYD9zR/L/dRafhmxt/woeFP1NNDqIxXZziD2nWgXvlGNONlFYuEdB+gP
+         uibxq6RlFo7JxVnEbxYBo7TRnfJbpHJarZSjVY/FxxrounKmXfaCbsFMX2Vj6k6dKsp9
+         /cfnfPA2X0ry4yk+jvwHnnPaKZHRFZabXkWwvQoWdFjo96i01SgD88Yo7jeVuivh2kqh
+         HRJRYUJ5DR5gbSx1Gt3qSzd6kMMu7IVvnQ0UzSGk+cy+6HnMjMWZvNhbkc0coRGTiGkB
+         gRbh4WhT1cT7CHYclcSilRsC8Ot1OSpkUpONdRnMEQttn6EG69e+mambVSjueFbwBI+e
+         FYiw==
+X-Gm-Message-State: AOAM530amwhiQgjiC5Qh7C67Ggm+yUwoZxpi0u1HqsjzFAbePwFeDc8S
+        N358Mxkg2tWjhHGONphzvMpsCECv2ivzRnuujwf5PwQS
+X-Google-Smtp-Source: ABdhPJwl+BqdH2H2/ssNozGMysossAqp9Zm0Bcs23QBTmbqRiqYazzPRJN3JyfLywvVHhIrmUCdcdtVXFMwgHFhqR+A=
+X-Received: by 2002:a9d:c01:: with SMTP id 1mr2731695otr.107.1610116197434;
+ Fri, 08 Jan 2021 06:29:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201228213121.2331449-1-aford173@gmail.com> <20201228213121.2331449-3-aford173@gmail.com>
-In-Reply-To: <20201228213121.2331449-3-aford173@gmail.com>
+References: <20210102115412.3402059-1-aford173@gmail.com>
+In-Reply-To: <20210102115412.3402059-1-aford173@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Jan 2021 15:26:00 +0100
-Message-ID: <CAMuHMdWt2NxWEVeE9GkkqYUVTxTxN6yQzpOeJ5YWg4nBU5384g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] arm64: dts: renesas: Add fck to etheravb-rcar-gen3
- clock-names list
+Date:   Fri, 8 Jan 2021 15:29:45 +0100
+Message-ID: <CAMuHMdVdzngBwzh7-HVyCOmqsf8wna3ysGbAzPo1UEDG6RL1kQ@mail.gmail.com>
+Subject: Re: [PATCH V2 1/4] dt-bindings: memory: Renesas RPC-IF: Add support
+ for RZ/G2 Series
 To:     Adam Ford <aford173@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Adam Ford-BE <aford@beaconembedded.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        netdev <netdev@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        <devicetree@vger.kernel.org>, linux-spi <linux-spi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 28, 2020 at 10:32 PM Adam Ford <aford173@gmail.com> wrote:
-> The bindings have been updated to support two clocks, but the
-> original clock now requires the name fck.  Add a clock-names
-> list in the device tree with fck in it.
+On Sat, Jan 2, 2021 at 12:54 PM Adam Ford <aford173@gmail.com> wrote:
+> The RZ/G2 Series has the RPC-IF interface.
+> Update bindings to support: r8a774a1, r8a774b1, r8a774c0, and r8a774e1
 >
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel once PATCH 1/4 has been accepted.
 
 Gr{oetje,eeting}s,
 
