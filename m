@@ -2,71 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE2B2EF0BE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 11:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB13A2EF0CA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Jan 2021 11:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbhAHKgI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Jan 2021 05:36:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726875AbhAHKgI (ORCPT
+        id S1727378AbhAHKlu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Jan 2021 05:41:50 -0500
+Received: from mail-qk1-f174.google.com ([209.85.222.174]:36204 "EHLO
+        mail-qk1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727363AbhAHKlu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Jan 2021 05:36:08 -0500
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E67C0612F6
-        for <linux-renesas-soc@vger.kernel.org>; Fri,  8 Jan 2021 02:35:27 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by michel.telenet-ops.be with bizsmtp
-        id EAbR2400c4C55Sk06AbR1R; Fri, 08 Jan 2021 11:35:26 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kxp77-001zoy-FQ; Fri, 08 Jan 2021 11:35:25 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kxp77-008V2G-0f; Fri, 08 Jan 2021 11:35:25 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>
-Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] spi: renesas,sh-msiof: Add r8a779a0 support
-Date:   Fri,  8 Jan 2021 11:35:22 +0100
-Message-Id: <20210108103522.2025880-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        Fri, 8 Jan 2021 05:41:50 -0500
+Received: by mail-qk1-f174.google.com with SMTP id 186so8072311qkj.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 08 Jan 2021 02:41:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=cXRX3IBhGp8gRku2dI6tZRey/IDIJSohdlea9sAMurg=;
+        b=OP/WeI3Yo43wlo6LmjEE/1VH4DYAsP//fvkYrYmpG0VtVxsWtsZ8VIoY6HN6Toj6sa
+         eXAX9CGLDM/FezGW1hnW53aBA6MrrDW9X5kosuvZp0i672gX6gT6HVFjQdwrHATteD8i
+         1WDPlmbR2PXanfU+0foMkolLA+TUW+yIZvW9oDaOM25DgI3bhllPu+OqJbLV+7sJ67lV
+         IP6BNskwSCdIuqoUvz8NDKHvSrCjak61vLhqd9iao60W8ZWmHaIlfnFvY4evzaXpOkeR
+         f67Y5uiRxyXsw2RhCpGwNVyWGf7Nr8c16J6MSD7ETNWHhp3rOmGUH5Y4BbXUiM/3NzIU
+         P4IA==
+X-Gm-Message-State: AOAM530K9EWlutgyYsz1rSFDnfSbhlDXcjq/TJntIWOa+xWEDIWKtN1Y
+        j1UI2CoXrwXHM3572nfNa4o6p+27LS+RD+Zb4Z0=
+X-Google-Smtp-Source: ABdhPJxKt9sazjRGWyN520/0q12G5I1XClPh1aTgEacuxT9yjDDgwP2BzxSOLNsKeYwtSEjv0oLg3TmilJgMZvnzuq0=
+X-Received: by 2002:a37:6c06:: with SMTP id h6mr3191227qkc.115.1610102469356;
+ Fri, 08 Jan 2021 02:41:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210108102854.2025261-1-geert+renesas@glider.be>
+ <20210108102854.2025261-3-geert+renesas@glider.be> <20210108103047.GD1223@kunai>
+In-Reply-To: <20210108103047.GD1223@kunai>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 8 Jan 2021 11:40:56 +0100
+Message-ID: <CAMuHMdUKOZ5aHjKf9Ar68=9UBZpy5PfhC=YNuvJL5D6gnHFWbA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: r8a779a0: Add GPIO nodes
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hi Wolfram,
 
-Document R-Car V3U (R8A779A0) SoC bindings.
+On Fri, Jan 8, 2021 at 11:30 AM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> On Fri, Jan 08, 2021 at 11:28:54AM +0100, Geert Uytterhoeven wrote:
+> > Add device nodes for the General Purpose Input/Output (GPIO) block on
+> > the Renesas R-Car V3U (r8a779a0) SoC.
+> >
+> > As there is no node for the PFC yet, all "gpio-ranges" properties are
+> > commented out.
+>
+> This paragraph is obsolete by now.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Improve patch description.
----
- Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Oops, thanks, will remove in v3.
 
-diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-index 44c7ddb4b1098e15..b104899205f6d2da 100644
---- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-@@ -47,6 +47,7 @@ properties:
-               - renesas,msiof-r8a77980      # R-Car V3H
-               - renesas,msiof-r8a77990      # R-Car E3
-               - renesas,msiof-r8a77995      # R-Car D3
-+              - renesas,msiof-r8a779a0      # R-Car V3U
-           - const: renesas,rcar-gen3-msiof  # generic R-Car Gen3 and RZ/G2
-                                             # compatible device
-       - items:
+> > v2:
+> >   - Add Tested-by,
+> >   - Fix "V3u" typo in patch description,
+> >   - Uncomment "gpio-ranges" properties,
+> >   - Verified resets values.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.25.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
