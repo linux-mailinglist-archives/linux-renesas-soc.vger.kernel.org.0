@@ -2,89 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B3322EFEC7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jan 2021 10:32:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF9F2EFF8C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Jan 2021 13:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbhAIJbr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Jan 2021 04:31:47 -0500
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:41582 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726527AbhAIJbo (ORCPT
+        id S1726426AbhAIMoL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Jan 2021 07:44:11 -0500
+Received: from www.zeus03.de ([194.117.254.33]:50284 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726380AbhAIMoL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Jan 2021 04:31:44 -0500
-Received: by mail-ot1-f41.google.com with SMTP id x13so12209544oto.8;
-        Sat, 09 Jan 2021 01:31:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l9wA+u75jNmhZ8Fs8U5vaLvombreF+5bTtz+sh9jqKs=;
-        b=mvf4ScK35g3ir67QOcIiORun/xAz9TODdH3V1G5JodA9e6J9F3lT8wz4+g0EMLPyI0
-         LmIqOADTOXdcOisZMRNxnvZZ/LRmngB8yHljhA51kBhKtNNu2TrC1pCXTjU9viaL24Ho
-         SryLRI23HZu7F52NnFXAVF9aTwd2cdA4yDuwJ8RwcthQAGb4uU5BJpxzmj2t5liHgi0Z
-         KvBdEHS5mRc3Zj8UdTxvPpWpAO/hz14zHSIeeowcD7E2pEsf0wwfhsGwjzSLP6biV3ti
-         Em40jS+9TGmokHSIW/dnK2qZOaljlP31iYD4w6uWZgyiDyCawJJs1fQ6XhdnutXCufsC
-         MQRQ==
-X-Gm-Message-State: AOAM531IEzYSTLLkZVR23QiWGBfilGvTzStf8NdVBX7mLigyqDz5S26I
-        gfIeq/CFyU3T+A0ZjMMHV87c/IVaB4F7ASvWwH8=
-X-Google-Smtp-Source: ABdhPJwwQmJE6ksxj3H2WRrBV7bac5sDKcbCbvEtw2ci3bkjtMlTI7ZkbyEYqIjEDZK0INaGkRbiLsCMMwP9DSkRtF0=
-X-Received: by 2002:a05:6830:210a:: with SMTP id i10mr5369916otc.145.1610184663581;
- Sat, 09 Jan 2021 01:31:03 -0800 (PST)
+        Sat, 9 Jan 2021 07:44:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=k1; bh=zD9cPRZyEaGEmq3k0za/7gpfIJU
+        vc5uCoXoOde/5/F4=; b=e2VeYFuS0iXUn9uQpg26v+5ScyE7HsCtvjVv2rqjCgc
+        ERgSCZBLj9PGIPt2NLFgBvaLT9c9oxpYpr60CVtZWmbwalZU2I+8TpwvoDJ0lsFS
+        pPWdjHtjX8BVKLgcb9opPYW+hBdgfmWUnnVROyb20JiqL5r3qmldnPyrZNyB7aT0
+        =
+Received: (qmail 1724998 invoked from network); 9 Jan 2021 13:43:28 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jan 2021 13:43:28 +0100
+X-UD-Smtp-Session: l3s3148p1@EOH5BHe4RpYgAwDPXyBeAD+yeC5KBZLe
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 0/8] i2c: improve RECV_LEN documentation & usage
+Date:   Sat,  9 Jan 2021 13:43:04 +0100
+Message-Id: <20210109124314.27466-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201228202221.2327468-1-aford173@gmail.com> <20201228202221.2327468-2-aford173@gmail.com>
- <CAMuHMdUz_Vi7AoM-3co3BvYW6ojEx5=1vg4X-=JGMpHkDFzocg@mail.gmail.com> <CAMuHMdWYcSBDTvW-Pm=0V9Q9JsbPLOXtbYKL-whaAHKwUPuT3A@mail.gmail.com>
-In-Reply-To: <CAMuHMdWYcSBDTvW-Pm=0V9Q9JsbPLOXtbYKL-whaAHKwUPuT3A@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 9 Jan 2021 10:30:52 +0100
-Message-ID: <CAMuHMdV+=WYfx2jQ-TVJqNW7csPf3Wi=pfs-Tt7JjrRCSHPFHg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: Add usb2_clksel to RZ/G2 M/N/H
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Adam Ford-BE <aford@beaconembedded.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jan 9, 2021 at 10:29 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Fri, Jan 8, 2021 at 3:10 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Mon, Dec 28, 2020 at 9:22 PM Adam Ford <aford173@gmail.com> wrote:
-> > > Per the reference manal for the RZ/G Series, 2nd Generation,
-> >
-> > manual
-> >
-> > > the RZ/G2M, RZ/G2N, and RZ/G2H have a bit that can be set to
-> > > choose between a crystal oscillator and an external oscillator.
-> > >
-> > > Because only boards that need this should enable it, it's marked
-> > > as disabled by default for backwards compatibility with existing
-> > > boards.
-> > >
-> > > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > i.e. will queue in renesas-devel for v5.12 (with the typo fixed).
->
-> (and the unneeded 'status = "disabled"' dropped).
+Because I want to clarify I2C_M_RECV len usage, this series updates the
+documentation and some of its users. Patch 1 refactors the whole
+documentation of 'i2c_msg', so all usage of I2C_M_* flags and their
+conditions hopefully become clearer. Patch 2+3 remove some obvious
+boilerplate in the UAPI headers while here. Patch 4 is a driver fix I
+found while working on this series. Patch 5 introduces a new convenience
+macro to enable SMBus transfers which need I2C_M_RECV_LEN. Then, some
+drivers use the new macro, sometimes to remove boilerplate, sometimes
+because these SMBus transfers have been forgotten before.
 
-Please disregard that. Lazy Saturday morning...
+This series is the first part of a larger work to extend I2C_M_RECV_LEN
+to allow larger transfer sizes (as specified in the SMBus 3.0 standard)
+and to enable this on Renesas R-Car hardware.
 
-Gr{oetje,eeting}s,
+Looking forward to comments and/or reviews; the driver patches are only
+build-tested.
 
-                        Geert
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (8):
+  i2c: refactor documentation of struct i2c_msg
+  i2c: remove licence boilerplate from main UAPI header
+  i2c: remove licence boilerplate from i2c-dev UAPI header
+  i2c: octeon: check correct size of maximum RECV_LEN packet
+  i2c: uapi: add macro to describe support for all SMBus transfers
+  i2c: algo: bit: use new macro to specifiy capabilities
+  i2c: qup: advertise SMBus transfers using RECV_LEN
+  i2c: s3c2410: advertise SMBus transfers using RECV_LEN
+
+ drivers/i2c/algos/i2c-algo-bit.c     |   4 +-
+ drivers/i2c/busses/i2c-octeon-core.c |   2 +-
+ drivers/i2c/busses/i2c-qup.c         |   2 +-
+ drivers/i2c/busses/i2c-s3c2410.c     |   2 +-
+ include/uapi/linux/i2c-dev.h         |  25 ++----
+ include/uapi/linux/i2c.h             | 128 ++++++++++++++-------------
+ 6 files changed, 76 insertions(+), 87 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.29.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
