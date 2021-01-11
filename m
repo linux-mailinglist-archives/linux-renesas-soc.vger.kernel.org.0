@@ -2,96 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E3B02F1861
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Jan 2021 15:37:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF4A2F18E2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Jan 2021 15:56:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728354AbhAKOhe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Jan 2021 09:37:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41622 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727984AbhAKOhe (ORCPT
+        id S1732824AbhAKO4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Jan 2021 09:56:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730941AbhAKO4J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Jan 2021 09:37:34 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4EE802255F;
-        Mon, 11 Jan 2021 14:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610375813;
-        bh=81urg8WvYrutCyXl0bTokA9JAILTKEBab8PEhSmZGwI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=WGGCA0J9s1wnSlpP9cI7t8SFc9LfkKbaUOQ8DdSj1jKmKhlFhcfMOhPYdK5eC9SZ5
-         3sazpJ5oDc/loqV8RzoieZ/EvukzfDnNHiyYlx2xeYckxD+kIOsYGe/B4R2QzlyEwb
-         riggzqVQkl/TNfFKSdCdPIBfQ4V5YZj8uV0sATp0CL7CJqaDZzTXqlIt6gz6C1NxwX
-         dX0reE8p/5BtM2pJ/NVXkFnCYWVEQkmvN8tkAOWzkTqpSg4OyeDQWIS++zMn7JIStO
-         iNflpR1KG3iNdJXWC7Pw1Cb7AWjImPXTk7NAa1sdWKdSNYgJp0g6hST3tbnO2neYkJ
-         QwyCGzyltZnyw==
-Received: by mail-oi1-f169.google.com with SMTP id p5so20286762oif.7;
-        Mon, 11 Jan 2021 06:36:53 -0800 (PST)
-X-Gm-Message-State: AOAM531tQyu7TlLHcCERfwRgE0yJa9SnGPxWCSrjZ5nteO7/3FJFIQAc
-        QdgZEazjlmTqWzhlTPTwOBhEoQf1YNXUjbiJZ/c=
-X-Google-Smtp-Source: ABdhPJx65VYXrHcfN7+annxCIoyQy5/0dn6Z2AUd7HcLfmH7JizKjYwCAaAIGmvXbLyUBBdkHBGZgmEKsgXqb126jso=
-X-Received: by 2002:aca:fd91:: with SMTP id b139mr9880628oii.67.1610375812696;
- Mon, 11 Jan 2021 06:36:52 -0800 (PST)
+        Mon, 11 Jan 2021 09:56:09 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B5BC0617A6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Jan 2021 06:54:51 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id 3so118350wmg.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Jan 2021 06:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UWRvQWUwrPFkkVqrFhhi1pQBAFyO41MacdjI236ZA30=;
+        b=OTgGzZIicbYeBkzWjZCwM3d578bQk3fsxekMNukcoFlVgUkoDrnf4nL9eHp/WaDVnv
+         X1PCE72h78cVbouMZF7wC21HOukqg9pvdDR9lUDXoR+nvux+9C8BgDF1yfMDUBj+RIzG
+         91FjnZkMHOdMlsOHiBidyoDvjJNiRwIII9UXA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UWRvQWUwrPFkkVqrFhhi1pQBAFyO41MacdjI236ZA30=;
+        b=PGj55i1eDyuj/kka2Acs5ucjK4r18LE5TlWDvPym756V+T+2YuHQD4ZLX+k654f+dS
+         9WJQWpjCCdOiZAFGtLqj8/Hd2k922F462MBEeDC/89HW3bsrlpenu9bl6pLjSIoym603
+         WHamJInwYwVRCpAF249XMOUVN3xGx0wWM0O4viCYJoZyVzml3gwq3Az31WEJhjgogToU
+         Fw44UcW3cn/tDYUJury0O1aK/oTKyaiaAUBtadaNIorUAk34zmbntoTkGz1DdK0ma33O
+         UEufhMhw0jPSKWtg4n1UP7Jns6GJnFO7mA9kKL5eLxqLoT+nI1DATBMHmylf+LyOfGDc
+         6G8Q==
+X-Gm-Message-State: AOAM530bjRJYovJmfCu3i2X+flFuxwJ6DR6Dyz1ry12iM4giIEMo/atX
+        Mb6G5okS1YrjkZQZijPysxy25g==
+X-Google-Smtp-Source: ABdhPJwE2ruvXuJCF4cZk406wM4rQwSTfy3+m5nY6ft6trpPAMaR6TDPibnZpXYKE3gt83lwxA+HsA==
+X-Received: by 2002:a1c:dd07:: with SMTP id u7mr77572wmg.51.1610376890632;
+        Mon, 11 Jan 2021 06:54:50 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id s133sm17780wmf.38.2021.01.11.06.54.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jan 2021 06:54:50 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 4/9] media: fdp1: Do not zero reserved fields
+Date:   Mon, 11 Jan 2021 15:54:40 +0100
+Message-Id: <20210111145445.28854-5-ribalda@chromium.org>
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+In-Reply-To: <20210111145445.28854-1-ribalda@chromium.org>
+References: <20210111145445.28854-1-ribalda@chromium.org>
 MIME-Version: 1.0
-References: <20210111140633.422726-1-geert+renesas@glider.be>
-In-Reply-To: <20210111140633.422726-1-geert+renesas@glider.be>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Mon, 11 Jan 2021 15:36:36 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3=bMob8C3jPJ7jcvq0iJkoe7SOou03bKTu4jNeE9SimA@mail.gmail.com>
-Message-ID: <CAK8P3a3=bMob8C3jPJ7jcvq0iJkoe7SOou03bKTu4jNeE9SimA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: checker: Restrict checks to Renesas platforms
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 3:06 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> When DEBUG is defined (e.g. if CONFIG_DEBUG_PINCTRL=y), the Renesas pin
-> control driver runs sanity checks against the pin control tables.  This
-> may cause lots of output on the console, and can be annoying in ARM
-> multi-platform kernels.  Fix this by only running the checks when
-> running on SuperH, or on a DT platform supported by the Renesas pin
-> controller driver.
->
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Core code already clears reserved fields of struct
+v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
+v4l2_plane_pix_format reserved fields").
 
-Thank you for addressing it,
+Cc: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+ drivers/media/platform/rcar_fdp1.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
+index c9448de885b6..01c1fbb97bf6 100644
+--- a/drivers/media/platform/rcar_fdp1.c
++++ b/drivers/media/platform/rcar_fdp1.c
+@@ -1439,8 +1439,6 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
+ 		pix->plane_fmt[i].sizeimage = pix->plane_fmt[i].bytesperline
+ 					    * pix->height / vsub;
+ 
+-		memset(pix->plane_fmt[i].reserved, 0,
+-		       sizeof(pix->plane_fmt[i].reserved));
+ 	}
+ 
+ 	if (fmt->num_planes == 3) {
+@@ -1448,8 +1446,6 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
+ 		pix->plane_fmt[2].bytesperline = pix->plane_fmt[1].bytesperline;
+ 		pix->plane_fmt[2].sizeimage = pix->plane_fmt[1].sizeimage;
+ 
+-		memset(pix->plane_fmt[2].reserved, 0,
+-		       sizeof(pix->plane_fmt[2].reserved));
+ 	}
+ }
+ 
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
-> ---
-> To be queued in renesas-pinctrl-for-v5.12.
->
->  drivers/pinctrl/renesas/core.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-> index b9f80833f532e7b7..56cb8e1d8384b39c 100644
-> --- a/drivers/pinctrl/renesas/core.c
-> +++ b/drivers/pinctrl/renesas/core.c
-> @@ -1146,6 +1146,11 @@ static void __init sh_pfc_check_driver(const struct platform_driver *pdrv)
->  {
->         unsigned int i;
->
-> +#ifndef CONFIG_SUPERH
-> +       if (!of_find_matching_node(NULL, pdrv->driver.of_match_table))
-> +               return;
-> +#endif
-
-I usually prefer writing this as
-
-       if (!IS_ENABLED(CONFIG_SUPERH) &&
-           !of_find_matching_node(NULL, pdrv->driver.of_match_table))
-
-but I don't care enough to ask you to resend ;-)
-
-       Arnd
