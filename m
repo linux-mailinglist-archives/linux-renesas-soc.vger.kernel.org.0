@@ -2,342 +2,210 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86D822F2383
+	by mail.lfdr.de (Postfix) with ESMTP id 18DB42F2382
 	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 01:33:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404122AbhALAZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S2404133AbhALAZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 11 Jan 2021 19:25:52 -0500
-Received: from mail-ot1-f50.google.com ([209.85.210.50]:44351 "EHLO
-        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403907AbhAKXNl (ORCPT
+Received: from mga02.intel.com ([134.134.136.20]:63091 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403945AbhAKXP5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Jan 2021 18:13:41 -0500
-Received: by mail-ot1-f50.google.com with SMTP id r9so504434otk.11;
-        Mon, 11 Jan 2021 15:13:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lfN+qTKskmJPjXOJA0FotReLErhTl35ZsEZRKlKmdZg=;
-        b=ccatR43iO8us0M2N0Rr21szj7J6MA42HZmaCZwFSxTTY0EtoRaM3JBYEfJd73UeJ0X
-         fCEE6Cb9GPtfCwOLp/ZU2orMZIHhksowUd34xMz4C+ZamRcFHso1/eQm0sVxggBVXjxs
-         rpnI3CHFtQ0IBcVbh5DMGM0bYm7lo5P+jng3HHHtc3bmMmGPx3Hgjj7di/tokcGElr25
-         2VoxV56vuuutUF8vqdq6QhtWMfL45dIgDOOMRNC6xzHJTmNJwUDd36vQT2APIUDxsaZE
-         iPzmKkTuCllkXGtDG9JRFU60XT9+K1uNsu6CHcV2dZ3nje45VHnGkzRH6Yz9vaBdpSPy
-         i2cg==
-X-Gm-Message-State: AOAM531zi23gbFHGAED8q0X2qmCZCB4pRbpDROGSBF+doa8pduTXCsU4
-        A18t2tg1K7PkVn9O/Es6ZA==
-X-Google-Smtp-Source: ABdhPJx5s5VGLmfbOd9eVkXM2Fgx6gEjOf+uPBnlXObWQUf814wMfJ6+mWznJ50kdDRmFAjBJ7pIPw==
-X-Received: by 2002:a05:6830:1517:: with SMTP id k23mr966793otp.348.1610406780006;
-        Mon, 11 Jan 2021 15:13:00 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w9sm267684otq.44.2021.01.11.15.12.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 15:12:59 -0800 (PST)
-Received: (nullmailer pid 3233598 invoked by uid 1000);
-        Mon, 11 Jan 2021 23:12:58 -0000
-Date:   Mon, 11 Jan 2021 17:12:58 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mark Yao <markyao0591@gmail.com>
-Subject: Re: [PATCH v3 4/6] dt-bindings: display: rockchip: dw-hdmi: Convert
- binding to YAML
-Message-ID: <20210111231258.GB3214205@robh.at.kernel.org>
-References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
+        Mon, 11 Jan 2021 18:15:57 -0500
+IronPort-SDR: XUMd6PiE6gzODlUZsu+fvcZip0bscr3dOltXpLkf+kf8h3rWsLJ3rHCfJApHogjRyAnpSfqcp0
+ 5IwdMQn17kVg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="165033930"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="165033930"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 15:15:16 -0800
+IronPort-SDR: 1jrakM6zAW2qLA8DUiv9jqNKusLTkFypTfvAE0IHlylOpe7/mtygVuerbWSZbtpgcsqGAzgqw+
+ NZGiq3unxZqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="363303099"
+Received: from lkp-server01.sh.intel.com (HELO 3cff8e4c45aa) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 11 Jan 2021 15:15:15 -0800
+Received: from kbuild by 3cff8e4c45aa with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kz6P4-0000OA-KU; Mon, 11 Jan 2021 23:15:14 +0000
+Date:   Tue, 12 Jan 2021 07:14:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:renesas-clk] BUILD SUCCESS
+ e8f19b97c0a6fb88f1ea5e13cfb8fe0d1314827e
+Message-ID: <5ffcdbe6.v5Kuj38I1AGtj7rW%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210105060818.24158-5-laurent.pinchart+renesas@ideasonboard.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 08:08:16AM +0200, Laurent Pinchart wrote:
-> Convert the Rockchip HDMI TX text binding to YAML.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v2:
-> 
-> - Use Mark's @gmail.com e-mail address as the @rock-chips.com address
->   bounces
-> 
-> Changes since v1:
-> 
-> - Drop pinctrl-0 and pinctrl-1
-> - Use unevaluatedProperties instead of additionalProperties
-> - Drop reg and interrupts as they're checked in the base schema
-> - Rebase on top of OF graph schema, dropped redundant properties
-> - Fix identation for enum entries
-> - Tidy up clock names
-> ---
->  .../display/rockchip/dw_hdmi-rockchip.txt     |  74 --------
->  .../display/rockchip/rockchip,dw-hdmi.yaml    | 158 ++++++++++++++++++
->  2 files changed, 158 insertions(+), 74 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
->  create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt b/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> deleted file mode 100644
-> index 3d32ce137e7f..000000000000
-> --- a/Documentation/devicetree/bindings/display/rockchip/dw_hdmi-rockchip.txt
-> +++ /dev/null
-> @@ -1,74 +0,0 @@
-> -Rockchip DWC HDMI TX Encoder
-> -============================
-> -
-> -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> -with a companion PHY IP.
-> -
-> -These DT bindings follow the Synopsys DWC HDMI TX bindings defined in
-> -Documentation/devicetree/bindings/display/bridge/dw_hdmi.txt with the
-> -following device-specific properties.
-> -
-> -
-> -Required properties:
-> -
-> -- compatible: should be one of the following:
-> -		"rockchip,rk3228-dw-hdmi"
-> -		"rockchip,rk3288-dw-hdmi"
-> -		"rockchip,rk3328-dw-hdmi"
-> -		"rockchip,rk3399-dw-hdmi"
-> -- reg: See dw_hdmi.txt.
-> -- reg-io-width: See dw_hdmi.txt. Shall be 4.
-> -- interrupts: HDMI interrupt number
-> -- clocks: See dw_hdmi.txt.
-> -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> -- ports: See dw_hdmi.txt. The DWC HDMI shall have a single port numbered 0
-> -  corresponding to the video input of the controller. The port shall have two
-> -  endpoints, numbered 0 and 1, connected respectively to the vopb and vopl.
-> -- rockchip,grf: Shall reference the GRF to mux vopl/vopb.
-> -
-> -Optional properties
-> -
-> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
-> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
-> -  connected to a system I2C master this property contains a phandle to that
-> -  I2C master controller.
-> -- clock-names: See dw_hdmi.txt. The "cec" clock is optional.
-> -- clock-names: May contain "cec" as defined in dw_hdmi.txt.
-> -- clock-names: May contain "grf", power for grf io.
-> -- clock-names: May contain "vpll", external clock for some hdmi phy.
-> -- phys: from general PHY binding: the phandle for the PHY device.
-> -- phy-names: Should be "hdmi" if phys references an external phy.
-> -
-> -Optional pinctrl entry:
-> -- If you have both a "unwedge" and "default" pinctrl entry, dw_hdmi
-> -  will switch to the unwedge pinctrl state for 10ms if it ever gets an
-> -  i2c timeout.  It's intended that this unwedge pinctrl entry will
-> -  cause the SDA line to be driven low to work around a hardware
-> -  errata.
-> -
-> -Example:
-> -
-> -hdmi: hdmi@ff980000 {
-> -	compatible = "rockchip,rk3288-dw-hdmi";
-> -	reg = <0xff980000 0x20000>;
-> -	reg-io-width = <4>;
-> -	ddc-i2c-bus = <&i2c5>;
-> -	rockchip,grf = <&grf>;
-> -	interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> -	clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> -	clock-names = "iahb", "isfr";
-> -	ports {
-> -		hdmi_in: port {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -			hdmi_in_vopb: endpoint@0 {
-> -				reg = <0>;
-> -				remote-endpoint = <&vopb_out_hdmi>;
-> -			};
-> -			hdmi_in_vopl: endpoint@1 {
-> -				reg = <1>;
-> -				remote-endpoint = <&vopl_out_hdmi>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..d3b2f87f152a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip DWC HDMI TX Encoder
-> +
-> +maintainers:
-> +  - Mark Yao <markyao0591@gmail.com>
-> +
-> +description: |
-> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> +  with a companion PHY IP.
-> +
-> +allOf:
-> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - rockchip,rk3228-dw-hdmi
-> +      - rockchip,rk3288-dw-hdmi
-> +      - rockchip,rk3328-dw-hdmi
-> +      - rockchip,rk3399-dw-hdmi
-> +
-> +  reg-io-width:
-> +    const: 4
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - {}
-> +      - {}
-> +      # The next three clocks are all optional, but shall be specified in this
-> +      # order when present.
-> +      - description: The HDMI CEC controller main clock
-> +      - description: Power for GRF IO
-> +      - description: External clock for some HDMI PHY
-> +
-> +  clock-names:
-> +    minItems: 2
-> +    maxItems: 5
-> +    items:
-> +      - {}
-> +      - {}
-> +      - enum:
-> +          - cec
-> +          - grf
-> +          - vpll
-> +      - enum:
-> +          - grf
-> +          - vpll
-> +      - const: vpll
-> +
-> +  ddc-i2c-bus:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      The HDMI DDC bus can be connected to either a system I2C master or the
-> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
-> +      to a system I2C master this property contains a phandle to that I2C
-> +      master controller.
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: The HDMI PHY
-> +
-> +  phy-names:
-> +    const: hdmi
-> +
-> +  pinctrl-names:
-> +    description:
-> +      The unwedge pinctrl entry shall drive the DDC SDA line low. This is
-> +      intended to work around a hardware errata that can cause the DDC I2C
-> +      bus to be wedged.
-> +    items:
-> +      - const: default
-> +      - const: unwedge
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  renesas-clk
+branch HEAD: e8f19b97c0a6fb88f1ea5e13cfb8fe0d1314827e  clk: renesas: r8a779a0: Add SYS-DMAC clocks
 
-In this case, this is correct since you have endpoint definitions.
+elapsed time: 725m
 
-> +        unevaluatedProperties: false
-> +        description: Input of the DWC HDMI TX
-> +
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+configs tested: 147
+configs skipped: 2
 
-#/properties/endpoint
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +            unevaluatedProperties: false
-> +            description: Connection to the VOPB
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+nios2                            allyesconfig
+mips                           jazz_defconfig
+powerpc                 mpc8560_ads_defconfig
+sh                        dreamcast_defconfig
+powerpc                      makalu_defconfig
+powerpc                           allnoconfig
+arm                     eseries_pxa_defconfig
+nds32                             allnoconfig
+sh                          sdk7780_defconfig
+riscv                            alldefconfig
+mips                       rbtx49xx_defconfig
+sh                             shx3_defconfig
+mips                  cavium_octeon_defconfig
+sh                           se7206_defconfig
+powerpc                  storcenter_defconfig
+arm                          ep93xx_defconfig
+mips                        bcm63xx_defconfig
+powerpc                  iss476-smp_defconfig
+i386                             alldefconfig
+sh                          rsk7269_defconfig
+sparc                               defconfig
+sparc                       sparc64_defconfig
+arm                          pxa168_defconfig
+riscv                    nommu_k210_defconfig
+nios2                         3c120_defconfig
+mips                         tb0219_defconfig
+sh                          urquell_defconfig
+powerpc                      acadia_defconfig
+arm                           h5000_defconfig
+powerpc                 mpc8315_rdb_defconfig
+ia64                          tiger_defconfig
+arm                        cerfcube_defconfig
+mips                          ath79_defconfig
+h8300                     edosk2674_defconfig
+powerpc                      ep88xc_defconfig
+arc                      axs103_smp_defconfig
+arm                       multi_v4t_defconfig
+s390                             allyesconfig
+powerpc                       maple_defconfig
+sh                          polaris_defconfig
+arc                     haps_hs_smp_defconfig
+arm                             mxs_defconfig
+parisc                generic-32bit_defconfig
+xtensa                       common_defconfig
+mips                         bigsur_defconfig
+arc                 nsimosci_hs_smp_defconfig
+arm                          pcm027_defconfig
+mips                          ath25_defconfig
+mips                         cobalt_defconfig
+arm                          gemini_defconfig
+powerpc                     tqm5200_defconfig
+um                             i386_defconfig
+powerpc                      bamboo_defconfig
+arm                          badge4_defconfig
+sh                          lboxre2_defconfig
+sh                          sdk7786_defconfig
+arc                           tb10x_defconfig
+arm                         assabet_defconfig
+xtensa                           alldefconfig
+sh                  sh7785lcr_32bit_defconfig
+arc                     nsimosci_hs_defconfig
+parisc                           alldefconfig
+powerpc                    mvme5100_defconfig
+powerpc                     pseries_defconfig
+powerpc                     tqm8540_defconfig
+powerpc                      chrp32_defconfig
+m68k                          sun3x_defconfig
+m68k                       m5275evb_defconfig
+arm                       spear13xx_defconfig
+arm                        oxnas_v6_defconfig
+c6x                        evmc6474_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a004-20210111
+x86_64               randconfig-a006-20210111
+x86_64               randconfig-a001-20210111
+x86_64               randconfig-a003-20210111
+x86_64               randconfig-a005-20210111
+x86_64               randconfig-a002-20210111
+i386                 randconfig-a002-20210111
+i386                 randconfig-a005-20210111
+i386                 randconfig-a006-20210111
+i386                 randconfig-a001-20210111
+i386                 randconfig-a003-20210111
+i386                 randconfig-a004-20210111
+x86_64               randconfig-a015-20210110
+x86_64               randconfig-a012-20210110
+x86_64               randconfig-a013-20210110
+x86_64               randconfig-a016-20210110
+x86_64               randconfig-a014-20210110
+x86_64               randconfig-a011-20210110
+i386                 randconfig-a012-20210111
+i386                 randconfig-a011-20210111
+i386                 randconfig-a016-20210111
+i386                 randconfig-a015-20210111
+i386                 randconfig-a013-20210111
+i386                 randconfig-a014-20210111
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Oh good, we've done muxing both ways...
+clang tested configs:
+x86_64               randconfig-a016-20210111
+x86_64               randconfig-a015-20210111
+x86_64               randconfig-a012-20210111
+x86_64               randconfig-a013-20210111
+x86_64               randconfig-a014-20210111
+x86_64               randconfig-a011-20210111
 
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> +            unevaluatedProperties: false
-> +            description: Connection to the VOPL
-> +
-> +        required:
-> +          - endpoint@0
-> +          - endpoint@1
-> +
-> +    required:
-> +      - port
-> +
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to the GRF to mux vopl/vopb.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-io-width
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - ports
-> +  - rockchip,grf
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rk3288-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    hdmi: hdmi@ff980000 {
-> +        compatible = "rockchip,rk3288-dw-hdmi";
-> +        reg = <0xff980000 0x20000>;
-> +        reg-io-width = <4>;
-> +        ddc-i2c-bus = <&i2c5>;
-> +        rockchip,grf = <&grf>;
-> +        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cru  PCLK_HDMI_CTRL>, <&cru SCLK_HDMI_HDCP>;
-> +        clock-names = "iahb", "isfr";
-> +
-> +        ports {
-> +            port {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                hdmi_in_vopb: endpoint@0 {
-> +                    reg = <0>;
-> +                    remote-endpoint = <&vopb_out_hdmi>;
-> +                };
-> +                hdmi_in_vopl: endpoint@1 {
-> +                    reg = <1>;
-> +                    remote-endpoint = <&vopl_out_hdmi>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
