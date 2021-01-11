@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 091B62F2378
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 01:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FDAD2F2376
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 01:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391769AbhALAZv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S2391770AbhALAZv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 11 Jan 2021 19:25:51 -0500
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:41283 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390770AbhAKWuE (ORCPT
+Received: from mail-oi1-f179.google.com ([209.85.167.179]:39656 "EHLO
+        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390858AbhAKW6n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Jan 2021 17:50:04 -0500
-Received: by mail-ot1-f46.google.com with SMTP id x13so468858oto.8;
-        Mon, 11 Jan 2021 14:49:48 -0800 (PST)
+        Mon, 11 Jan 2021 17:58:43 -0500
+Received: by mail-oi1-f179.google.com with SMTP id w124so362938oia.6;
+        Mon, 11 Jan 2021 14:58:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wz2MH7ykMU5ONDsoSmTo3zznpsQj7T/MGyT3Jo+3L1Y=;
-        b=MWHq+/9bNcMBcMpx5l0Qu7fzEKYIWW5YCz32y33ZGyI9rXghAH2vMh6+c/VRg4WpRd
-         ZJv3d3o8js0kGvCy3RRZGrWkXutHcBlH0FQ05RMzeArcCim7NNDbc7iZu9pdG6AeIkB0
-         VmYDR7xWZiqiWmIvDU6YUEEXNg62CN97lu99ZsNgslGLDyS2eiCqmlz03cHqGTTZei4o
-         kUXJLrMGEtVzehcbCArj7ArPrqKPYT1NGVfLrP3QVM9QDtMLqO7/y03gB8uxaKRqS+QQ
-         V+l/sBMs7RHObU5ezI1BABtvkFN6KhXsbCU9GAYK0PgMayCFFCPDGrgTB+CQKZg6hhwI
-         ZXQg==
-X-Gm-Message-State: AOAM532IGo4oM09y5Ljf46rd9YO9yy+iKIEqFx/cMgxalNzo87QR85vD
-        5xdgGIWrZrQ4jHB7RlC0G9LPkRnfIA==
-X-Google-Smtp-Source: ABdhPJyBD7ogYMfPGa69CMq4BaPiZMdTamezawFqriooXplzKySGfkAeETHZrifDjiKlF3HVyY9mfw==
-X-Received: by 2002:a05:6830:1d58:: with SMTP id p24mr941223oth.286.1610405362536;
-        Mon, 11 Jan 2021 14:49:22 -0800 (PST)
+        bh=h99tgpjO+Fur4D6aDCs45LdGnZbg0FYuLTMw0nRoTag=;
+        b=haRM50pX2OvTE+UvKXu0/Q/VQZdtRNmUidyxf5MoOfCPJNB4orNlSbOvTVK6BsYAIb
+         4w5NsENCGyTrpzWIPtQOIaEk5d0WmJKvfq/BproVgZRhbt2DIgiGrU9/yCzzYRZhgsW7
+         HDtuixgu4aNXUxE6IdFmDs28gUrh3N+EUwIRFXCBpHYg1rk6EUCqjYdC8F1OcVv3oBHV
+         5beCJ44qBw/x/MrmRPzrS8xlJzE5xeNSXRHPPzm+CtUPBKY52yV5EGYpT9UlEfilgEcD
+         v4Y80Nxs4DCkMY8QU8xA2qEbaNB4S08D1O13da7P+Sxd25C6Qf3EzYGnBGLjJgPIyCuK
+         8GDw==
+X-Gm-Message-State: AOAM531zCpujJJVm+Hbx2xwQSe6akwQ84fv4lwlsP8Hq1otAT1KlHcaD
+        znoTsm92Wo6tFmsEVXUIig==
+X-Google-Smtp-Source: ABdhPJzd5KCXjk/WFQSJuFjKzPEwE7xBtIUQ5JCqULsw5oRqhu1vmf0h7DWbazrQ1J+2CGa0QBlZLg==
+X-Received: by 2002:aca:ec43:: with SMTP id k64mr649295oih.43.1610405881350;
+        Mon, 11 Jan 2021 14:58:01 -0800 (PST)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id k3sm200383oor.19.2021.01.11.14.49.20
+        by smtp.gmail.com with ESMTPSA id w9sm259493otq.44.2021.01.11.14.57.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 14:49:21 -0800 (PST)
-Received: (nullmailer pid 3202128 invoked by uid 1000);
-        Mon, 11 Jan 2021 22:49:20 -0000
-Date:   Mon, 11 Jan 2021 16:49:20 -0600
+        Mon, 11 Jan 2021 14:58:00 -0800 (PST)
+Received: (nullmailer pid 3213802 invoked by uid 1000);
+        Mon, 11 Jan 2021 22:57:59 -0000
+Date:   Mon, 11 Jan 2021 16:57:59 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
@@ -45,54 +45,193 @@ Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Maxime Ripard <maxime@cerno.tech>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mark Yao <markyao0591@gmail.com>
-Subject: Re: [PATCH v3 2/6] dt-bindings: display: bridge: renesas,dw-hdmi:
- Convert binding to YAML
-Message-ID: <20210111224920.GA3197768@robh.at.kernel.org>
+Subject: Re: [PATCH v3 3/6] dt-bindings: display: imx: hdmi: Convert binding
+ to YAML
+Message-ID: <20210111225759.GA3202374@robh.at.kernel.org>
 References: <20210105060818.24158-1-laurent.pinchart+renesas@ideasonboard.com>
- <20210105060818.24158-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20210105060818.24158-4-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210105060818.24158-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20210105060818.24158-4-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 05, 2021 at 08:08:14AM +0200, Laurent Pinchart wrote:
-> Convert the Renesas R-Car DWC HDMI TX text binding to YAML.
+On Tue, Jan 05, 2021 at 08:08:15AM +0200, Laurent Pinchart wrote:
+> Convert the i.MX6 HDMI TX text binding to YAML.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
-> Changes since v2:
-> 
-> - Update MAINTAINERS
-> 
 > Changes since v1:
 > 
-> - Drop the part numbers in comments, only keep the SoC names
-> - Use unevaluatedProperties instead of additionalProperties
-> - Only specify maxItems for clocks and clock-names
-> - Drop reg, interrupts, #address-cells and #size-cells as they're
->   checked in the base schema
-> - Use one size and address cell in example
+> - Only specify maxItems for clocks
+> - Drop reg and interrupts as they're checked in the base schema
 > - Rebase on top of OF graph schema, dropped redundant properties
 > - Fix identation for enum entries
+> - Drop clock-names items, use maxItems only
 > ---
->  .../display/bridge/renesas,dw-hdmi.txt        |  88 ------------
->  .../display/bridge/renesas,dw-hdmi.yaml       | 128 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 129 insertions(+), 89 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
+>  .../bindings/display/imx/fsl,imx6-hdmi.yaml   | 130 ++++++++++++++++++
+>  .../devicetree/bindings/display/imx/hdmi.txt  |  65 ---------
+>  2 files changed, 130 insertions(+), 65 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/imx/hdmi.txt
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> new file mode 100644
+> index 000000000000..f9b131bb3339
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+> @@ -0,0 +1,130 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx6-hdmi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX6 DWC HDMI TX Encoder
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description: |
+> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
+> +  with a companion PHY IP.
+> +
+> +allOf:
+> +  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - fsl,imx6dl-hdmi
+> +      - fsl,imx6q-hdmi
+> +
+> +  reg-io-width:
+> +    const: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    maxItems: 2
+> +
+> +  ddc-i2c-bus:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The HDMI DDC bus can be connected to either a system I2C master or the
+> +      functionally-reduced I2C master contained in the DWC HDMI. When connected
+> +      to a system I2C master this property contains a phandle to that I2C
+> +      master controller.
+
+This should be deprecated as it should be in the connector node. But 
+that's a separate issue.
+
+> +
+> +  gpr:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      phandle to the iomuxc-gpr region containing the HDMI multiplexer control
+> +      register.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    description: |
+> +      This device has four video ports, corresponding to the four inputs of the
+> +      HDMI multiplexer. Each port shall have a single endpoint.
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: First input of the HDMI multiplexer
+
+muxing should have been endpoints rather than ports...
+
+Anyways, same 'port' issues here. With those fixes:
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Second input of the HDMI multiplexer
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Third input of the HDMI multiplexer
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: Fourth input of the HDMI multiplexer
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +      - required:
+> +          - port@2
+> +      - required:
+> +          - port@3
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - gpr
+> +  - interrupts
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx6qdl-clock.h>
+> +
+> +    hdmi: hdmi@120000 {
+> +        reg = <0x00120000 0x9000>;
+> +        interrupts = <0 115 0x04>;
+> +        gpr = <&gpr>;
+> +        clocks = <&clks IMX6QDL_CLK_HDMI_IAHB>,
+> +                 <&clks IMX6QDL_CLK_HDMI_ISFR>;
+> +        clock-names = "iahb", "isfr";
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                hdmi_mux_0: endpoint {
+> +                    remote-endpoint = <&ipu1_di0_hdmi>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                hdmi_mux_1: endpoint {
+> +                    remote-endpoint = <&ipu1_di1_hdmi>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/display/imx/hdmi.txt b/Documentation/devicetree/bindings/display/imx/hdmi.txt
 > deleted file mode 100644
-> index 3f6072651182..000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> index 6d021e71c9cf..000000000000
+> --- a/Documentation/devicetree/bindings/display/imx/hdmi.txt
 > +++ /dev/null
-> @@ -1,88 +0,0 @@
-> -Renesas Gen3 DWC HDMI TX Encoder
-> -================================
+> @@ -1,65 +0,0 @@
+> -Freescale i.MX6 DWC HDMI TX Encoder
+> -===================================
 > -
 > -The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
 > -with a companion PHY IP.
@@ -104,239 +243,58 @@ On Tue, Jan 05, 2021 at 08:08:14AM +0200, Laurent Pinchart wrote:
 > -
 > -Required properties:
 > -
-> -- compatible : Shall contain one or more of
-> -  - "renesas,r8a774a1-hdmi" for R8A774A1 (RZ/G2M) compatible HDMI TX
-> -  - "renesas,r8a774b1-hdmi" for R8A774B1 (RZ/G2N) compatible HDMI TX
-> -  - "renesas,r8a774e1-hdmi" for R8A774E1 (RZ/G2H) compatible HDMI TX
-> -  - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
-> -  - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
-> -  - "renesas,r8a77961-hdmi" for R8A77961 (R-Car M3-W+) compatible HDMI TX
-> -  - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
-> -  - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
-> -			     HDMI TX
-> -
-> -    When compatible with generic versions, nodes must list the SoC-specific
-> -    version corresponding to the platform first, followed by the
-> -    family-specific version.
-> -
+> -- compatible : Shall be one of "fsl,imx6q-hdmi" or "fsl,imx6dl-hdmi".
 > -- reg: See dw_hdmi.txt.
 > -- interrupts: HDMI interrupt number
 > -- clocks: See dw_hdmi.txt.
 > -- clock-names: Shall contain "iahb" and "isfr" as defined in dw_hdmi.txt.
-> -- ports: See dw_hdmi.txt. The DWC HDMI shall have one port numbered 0
-> -  corresponding to the video input of the controller and one port numbered 1
-> -  corresponding to its HDMI output, and one port numbered 2 corresponding to
-> -  sound input of the controller. Each port shall have a single endpoint.
+> -- ports: See dw_hdmi.txt. The DWC HDMI shall have between one and four ports,
+> -  numbered 0 to 3, corresponding to the four inputs of the HDMI multiplexer.
+> -  Each port shall have a single endpoint.
+> -- gpr : Shall contain a phandle to the iomuxc-gpr region containing the HDMI
+> -  multiplexer control register.
 > -
-> -Optional properties:
+> -Optional properties
 > -
-> -- power-domains: Shall reference the power domain that contains the DWC HDMI,
-> -  if any.
+> -- ddc-i2c-bus: The HDMI DDC bus can be connected to either a system I2C master
+> -  or the functionally-reduced I2C master contained in the DWC HDMI. When
+> -  connected to a system I2C master this property contains a phandle to that
+> -  I2C master controller.
 > -
 > -
 > -Example:
 > -
-> -	hdmi0: hdmi@fead0000 {
-> -		compatible = "renesas,r8a7795-hdmi", "renesas,rcar-gen3-hdmi";
-> -		reg = <0 0xfead0000 0 0x10000>;
-> -		interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
-> -		clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
-> -		clock-names = "iahb", "isfr";
-> -		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> -
-> -		ports {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -			port@0 {
-> -				reg = <0>;
-> -				dw_hdmi0_in: endpoint {
-> -					remote-endpoint = <&du_out_hdmi0>;
-> -				};
-> -			};
-> -			port@1 {
-> -				reg = <1>;
-> -				rcar_dw_hdmi0_out: endpoint {
-> -					remote-endpoint = <&hdmi0_con>;
-> -				};
-> -			};
-> -			port@2 {
-> -				reg = <2>;
-> -				rcar_dw_hdmi0_sound_in: endpoint {
-> -					remote-endpoint = <&hdmi_sound_out>;
-> -				};
-> -			};
-> -		};
+> -	gpr: iomuxc-gpr@20e0000 {
+> -		/* ... */
 > -	};
 > -
-> -	hdmi0-out {
-> -		compatible = "hdmi-connector";
-> -		label = "HDMI0 OUT";
-> -		type = "a";
+> -        hdmi: hdmi@120000 {
+> -                #address-cells = <1>;
+> -                #size-cells = <0>;
+> -                compatible = "fsl,imx6q-hdmi";
+> -                reg = <0x00120000 0x9000>;
+> -                interrupts = <0 115 0x04>;
+> -                gpr = <&gpr>;
+> -                clocks = <&clks 123>, <&clks 124>;
+> -                clock-names = "iahb", "isfr";
+> -                ddc-i2c-bus = <&i2c2>;
 > -
-> -		port {
-> -			hdmi0_con: endpoint {
-> -				remote-endpoint = <&rcar_dw_hdmi0_out>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> new file mode 100644
-> index 000000000000..23b940c3aff6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
-> @@ -0,0 +1,128 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/renesas,dw-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas R-Car DWC HDMI TX Encoder
-> +
-> +maintainers:
-> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> +
-> +description: |
-> +  The HDMI transmitter is a Synopsys DesignWare HDMI 1.4 TX controller IP
-> +  with a companion PHY IP.
-> +
-> +allOf:
-> +  - $ref: synopsys,dw-hdmi.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - renesas,r8a774a1-hdmi # for RZ/G2M compatible HDMI TX
-> +          - renesas,r8a774b1-hdmi # for RZ/G2N compatible HDMI TX
-> +          - renesas,r8a774e1-hdmi # for RZ/G2H compatible HDMI TX
-> +          - renesas,r8a7795-hdmi # for R-Car H3 compatible HDMI TX
-> +          - renesas,r8a7796-hdmi # for R-Car M3-W compatible HDMI TX
-> +          - renesas,r8a77961-hdmi # for R-Car M3-W+ compatible HDMI TX
-> +          - renesas,r8a77965-hdmi # for R-Car M3-N compatible HDMI TX
-> +      - const: renesas,rcar-gen3-hdmi
-> +
-> +  reg-io-width:
-> +    const: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    maxItems: 2
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-
-This should be '#/properties/port' instead. '#/$defs/port-base' is if 
-you have additional port or endpoint properties.
-
-> +        unevaluatedProperties: false
-
-And you can then drop this.
-
-With those fixes,
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-> +        description: Parallel RGB input port
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: HDMI output port
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: Sound input port
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +      - port@2
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - ports
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    hdmi@fead0000 {
-> +        compatible = "renesas,r8a7795-hdmi", "renesas,rcar-gen3-hdmi";
-> +        reg = <0xfead0000 0x10000>;
-> +        interrupts = <0 389 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&cpg CPG_CORE R8A7795_CLK_S0D4>, <&cpg CPG_MOD 729>;
-> +        clock-names = "iahb", "isfr";
-> +        power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            port@0 {
-> +                reg = <0>;
-> +                dw_hdmi0_in: endpoint {
-> +                    remote-endpoint = <&du_out_hdmi0>;
-> +                };
-> +            };
-> +            port@1 {
-> +                reg = <1>;
-> +                rcar_dw_hdmi0_out: endpoint {
-> +                    remote-endpoint = <&hdmi0_con>;
-> +                };
-> +            };
-> +            port@2 {
-> +                reg = <2>;
-> +                rcar_dw_hdmi0_sound_in: endpoint {
-> +                    remote-endpoint = <&hdmi_sound_out>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +    hdmi0-out {
-> +        compatible = "hdmi-connector";
-> +        label = "HDMI0 OUT";
-> +        type = "a";
-> +
-> +        port {
-> +            hdmi0_con: endpoint {
-> +                remote-endpoint = <&rcar_dw_hdmi0_out>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 22663c2cb3a8..e83a867d96d8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5903,7 +5903,7 @@ L:	dri-devel@lists.freedesktop.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Supported
->  T:	git git://linuxtv.org/pinchartl/media drm/du/next
-> -F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
-> +F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
->  F:	Documentation/devicetree/bindings/display/renesas,du.yaml
->  F:	drivers/gpu/drm/rcar-du/
+> -                port@0 {
+> -                        reg = <0>;
+> -
+> -                        hdmi_mux_0: endpoint {
+> -                                remote-endpoint = <&ipu1_di0_hdmi>;
+> -                        };
+> -                };
+> -
+> -                port@1 {
+> -                        reg = <1>;
+> -
+> -                        hdmi_mux_1: endpoint {
+> -                                remote-endpoint = <&ipu1_di1_hdmi>;
+> -                        };
+> -                };
+> -        };
 > -- 
 > Regards,
 > 
