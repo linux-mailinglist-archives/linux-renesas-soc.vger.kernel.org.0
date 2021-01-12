@@ -2,270 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BBEA2F2E68
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 12:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C3202F2F6A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 13:55:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731162AbhALLv4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 06:51:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
+        id S2388301AbhALMzB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 07:55:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731141AbhALLv4 (ORCPT
+        with ESMTP id S1732025AbhALMzA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 06:51:56 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75277C061786
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Jan 2021 03:51:15 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id e7so2491174ljg.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Jan 2021 03:51:15 -0800 (PST)
+        Tue, 12 Jan 2021 07:55:00 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A9CC061575
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Jan 2021 04:54:20 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id iq13so1536823pjb.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Jan 2021 04:54:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version;
-        bh=6moJeJqDS+Hx6MR6GidrbRrCLfXvlKb00iIvNI6nvMg=;
-        b=Jwbbrx2oUjhmRVD4fy0c1aB9LjXb0CRyb5TODeRCH1tWz+EzorwfM784/L2scTOKue
-         q7rmyJNxcxiZWIMDomCeXedUtR3OKzmGVQQuVezBjlbT+ydycEHX/MNXLEdFI98oTLk/
-         uhIzet/V4YjoSP3hnjOHCmo6Movu4AgEi0dmVeyM2i5ZvgE9GACRcCb4R4ZkkzzhWvMh
-         EJTR2uqFLQuJf3yXiiRI8Pc18QF+8jeOpc77uhZBffLweDK2hugAFk0AzqEG3GhrMqo+
-         nHbVRzhC1ZobT53qdzbHFjPjh8D22sQFHuzie+wpGkZDR9o3AKIMS8AOn0DBD7Y5Jhri
-         u7/w==
+        d=kernelci-org.20150623.gappssmtp.com; s=20150623;
+        h=message-id:date:mime-version:content-transfer-encoding:subject:to
+         :from;
+        bh=egj4r9ZSUtdbM5jq2/rSJkt07r9u8Ewdj58C6W7/OHA=;
+        b=nzy8XkK4+j4yLhGCOtKRi1PFzzTJ/0+TPNMRkkEtPTYHeNY4YIclkTvx32PZE6cXhz
+         TCK99HnObOy54q4kDIDunEOF57K27K8n/U12YyvQ7OG1KQUg/2ggt3FDySK3bwwLQV5e
+         JI/sQSnRWjJMRYNVJYmcZ7TQ6EUjYi1yOtYaVRg5mFYZP9un+jvJNKHlGHNd8mCRFcLz
+         BNYrc9gN3k1l8ucBFWfoZChwoR15lX6f1lovW7U2itZSKNIwnUMa4X30TKAm5ILP3qBc
+         xQ3x8RYuzpJADLGJ/KmBhI0/gj73pGuehiA6t9nt2nOUWjuLJe2Vufr4JXKl/pEEqY7V
+         520g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version;
-        bh=6moJeJqDS+Hx6MR6GidrbRrCLfXvlKb00iIvNI6nvMg=;
-        b=cs9GqbX0l9103XNxayy2PHzLOPIFNBDvRJuWk0yZ5czeonrQpYO6955hvtCN0KNtfA
-         Xbe62pH02qVs7WSNIGmPCSDFAu+iBoui9H2OasL4jpecnlLR+e7uE2d/mS5h+XyAmGOD
-         w5H1FOwv7PwdQ+WRNqbW9vJIkFlnWmClcpxLdGOgZNtugGDfoX9JWhtLzVw3jtulz9Hs
-         LWyQ8rZ0nxfCHOhTWyr33l31ScyNFyvNy54vYKbLw7ei16vQ44U9f7+FeEmBPdO4xWNy
-         iPla6PsfeNxc/sUWNBT5xY3Q0Jx3kjHuzNbkW905+NGFRCZwKq+nJB9GbXT4iAgStwrS
-         TZew==
-X-Gm-Message-State: AOAM532gjOyeCxjbWe8oHdabJhOprJzV9FbB1is7o2PSeJ83+uKx2UpE
-        pyaWuvliLugKtZShMmmvjvM=
-X-Google-Smtp-Source: ABdhPJzvQido0cBG24fXNTB1p5H2se27B8OBucCbXY2pdePrpd5FjbwPhXpSN2aD9AzfPcBk+OJXBQ==
-X-Received: by 2002:a2e:914d:: with SMTP id q13mr1818124ljg.205.1610452273856;
-        Tue, 12 Jan 2021 03:51:13 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id u12sm280110lff.250.2021.01.12.03.51.13
+        h=x-gm-message-state:message-id:date:mime-version
+         :content-transfer-encoding:subject:to:from;
+        bh=egj4r9ZSUtdbM5jq2/rSJkt07r9u8Ewdj58C6W7/OHA=;
+        b=Uc5WrJZAjWTeWZK0s/bO/HYkaxu+9foS+HuiqF508VNUl6T4NgW4IhKBx9f6n9+vQe
+         ZmuWx6+Zt6ew0NsldAd1EHUTa0f7i2/TgdN/hYwIsDYF7qsX2xlKI4j/9MvO2S+LIL0Q
+         r6C4+/r+hCIS51uxwnw9IHF0h3QI+jRvvKflC72qNa8LUhSNm4TZs4d6NQfUzmnrruv5
+         Zj3L8RmrxcM05paHU6GmtBrJ/2GNOdEz8gU46anxrwPdJUjEQTmQA0n+E2vjIHW7fzZS
+         JVsPTKL6xXaoZwnzFHcjbWqGnqtjAcw2jAKHuFC+WAzBZWePGFMyl4mT2+j1euVJSjeo
+         YCxw==
+X-Gm-Message-State: AOAM530s8q3yyxaFQUvIDjyTTtITdvFO5Rr9hBoRQrTnj3+z5fXVx8xC
+        oiod2QFVwI4eLwNpKxk2MSpYY1bA2aiDKQ==
+X-Google-Smtp-Source: ABdhPJy+ltbY6ckcnExKDdSnwDKxvMTO2ScCOeXVzT8Z3nau8Dv9CnBwM3KETtb2xROiQwxgybMFIQ==
+X-Received: by 2002:a17:902:7d94:b029:da:f673:18b9 with SMTP id a20-20020a1709027d94b02900daf67318b9mr4981246plm.37.1610456056108;
+        Tue, 12 Jan 2021 04:54:16 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([52.250.1.28])
+        by smtp.gmail.com with ESMTPSA id v125sm3508565pgv.6.2021.01.12.04.54.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 03:51:13 -0800 (PST)
-Date:   Tue, 12 Jan 2021 13:50:43 +0200
-From:   Pekka Paalanen <ppaalanen@gmail.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH 0/4] drm: rcar-du: Add cubic LUT support
-Message-ID: <20210112135043.30388d3d@eldfell>
-In-Reply-To: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20201221015730.28333-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Tue, 12 Jan 2021 04:54:15 -0800 (PST)
+Message-ID: <5ffd9bf7.1c69fb81.b8a4f.6a3d@mx.google.com>
+Date:   Tue, 12 Jan 2021 04:54:15 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/YTIKGpk2iLi69YChR+ELP9e"; protocol="application/pgp-signature"
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2021-01-11-v5.11-rc3
+X-Kernelci-Report-Type: test
+Subject: renesas/master ltp-ipc: 18 runs,
+ 1 regressions (renesas-devel-2021-01-11-v5.11-rc3)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---Sig_/YTIKGpk2iLi69YChR+ELP9e
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+renesas/master ltp-ipc: 18 runs, 1 regressions (renesas-devel-2021-01-11-v5=
+.11-rc3)
 
-On Mon, 21 Dec 2020 03:57:26 +0200
-Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+Regressions Summary
+-------------------
 
-> Hello,
->=20
-> This patch series adds cubic (3D) look up table support to the CMM and
-> DU drivers, and extend the KMS userspace API to expose the cubic LUT to
-> userspace.
-
-Hi,
-
-when you say "cubic" I immediately think "polynomial of third degree",
-and got really curious how that works. But it seems that is not at all
-what you have here, instead you have a 3D LUT with probably
-trilinear(?) interpolation.
-
-I would suggest to stop using the misleading term "cubic" (e.g. cubic
-interpolation is a thing).
-
-Where does the abbreviation CLU come from? If that refers to cubic as
-well, it would be best to change that too to avoid misleading.
-
-Unless your hardware actually does cubic interpolation in the 3D LUT?
-
-> The code is fairly straightforward. Patch 1/4 refactors the CMM (color
-> management module, the Renesas R-Car IP core that handles 1D and 3D
-> lookup tables for the display) driver, which currently supports the 1D
-> (a.k.a. gamma) table only, to prepare for 3D LUT support (including a
-> modification to the API between the CMM and DU drivers). The CMM driver
-> is then extended in patch 2/4 to support the 3D LUT.
->=20
-> Patch 3/4 adds support for the 3D LUT in the KMS core and the KMS
-> userspace API, in the form of two new properties. I expect this to be
-> the most controversial part of the series, not so much for the feature
-> itself, but for when it is inserted in the color management pipeline.
->=20
-> Finally, patch 4/4 wires the KMS extension to the DU driver.
->=20
-> The R-Car CMM applies the 3D LUT at the output of the display, where
-> data is transmitted in RGB space (when outputting YUV data to the
-> display the CMM can't be used according to the documentation, but I
-> wouldn't be entirely surprised if this limitation could be worked
-> around), before the 1D LUT. I've located the 3D LUT between the CTM and
-> the gamma LUT, but it could equally be placed before the degamma LUT or
-> between the degamma LUT and the CTM in my case, as the R-Car color
-> management pipeline has no CTM and has a single 1D LUT on the output
-> side (there's provision for 1D LUT on the input side for some of the
-> planes, but that's a separate topic).
->=20
-> I however don't expect this to necessarily match all hardware though,
-> and this feature may require us to give up on a fixed, one size fits
-> them all, color management pipeline exposed to userspace. Whether this
-> would mean device-specific APIs (not necessarily in the form of
-> device-specific properties, but in how they map to hardware features, as
-> I think helpers to handle a 3D LUT property in the KMS core can save
-> code duplication in drivers), or the need for a new property to expose
-> the order in which color management operations are implemented, I don't
-> know.
-
-That is a difficult problem indeed. Userspace must know everything what
-happens to the pixel values exactly, beyond that I have no suggestions
-there.
-
-> I started having a look at userspace to see how this could be handled,
-> searching for color management support in weston, kwin and wlroots/sway.
-> All three support setting the gamma table when using the DRM/KMS
-> backend, weston and kwin through the legacy API, and wlroots through the
-> atomic API. Weston reads an ICC profile using Little CMS and applies the
-> gamma table. kwin is a bit more elaborate, it also uses Little CMS to
-> read an ICC profile, but additionally supports setting the brightness
-> and color temperature. It however only sets a gamma table in the end.
-> Wlroots seems to have an API to set the gamma table, but I haven't seen
-> where sway uses it (I may have missed that though). In any case, there's
-> limited support there for color management.
->=20
-> Inputs would be appreciated on this, for instance with feedback on how
-> X.org and Android handle color management, on how 3D LUTs are
-> implemented on other platforms, or in general on how we would like to
-> use them. I don't mind doing some work in userspace to prototype this,
-> but I won't have the bandwidth to design a completely new framework.
-
-The idea for Weston (and Wayland in general) is that the display server
-uses a CMM to compute a transformation it needs to apply, based on the
-display and content color properties (e.g. ICC profiles) and more. What
-that transformation exactly is depends on the CMM, and it may further
-depend on what kind of ICC profiles are being used (an ICC file may
-contain different kinds of transformation definitions, from
-parameterised standard formulas to 1D and 3D LUTs and chains of those).
-So a display server gets a more or less opaque transformation object
-from a CMM and needs to implement what it describes somehow.
-
-Implementing the transformation depends on what kind of API the CMM
-offers. The good thing with a 3D LUT is that, AFAIU, no matter what the
-actual transformation is, it can always be represented as a 3D LUT. The
-only open question then is the size and precision of the 3D LUT, and
-how it is interpolated. If the precision is sufficient, a display
-server may choose to use the hardware 3D LUT.
-
-All this I believe should be internal to a Wayland display server.
-
-Mind, that everything I talk about in the above is done in *addition*
-to "the LUT" (VCGT tag in ICC files). In the X11 model of color
-management, "the LUT" is considered calibration and is 3 x 1D. If some
-LUT was in place when profiling a monitor, the same LUT must also be in
-place when using that monitor color profile. Confusingly, calibration
-values like "the LUT" are not considered as part of the color profile,
-even though technically "the LUT" can be saved in an ICC file. For more
-information, see:
-https://ninedegreesbelow.com/photography/monitor-profile-calibrate-confuse.=
-html
-https://gitlab.freedesktop.org/swick/wayland-protocols/-/blob/color/unstabl=
-e/color-management/color.rst
-
-The code you saw in Weston loading a LUT from an ICC profile does the
-VCGT tag part and nothing else. IOW, it loads a calibration, not a
-monitor color profile. A 3D LUT could be regarded as calibration as it
-is in the old-school model, or it could be actively computed and used
-like the Wayland model being designed.
-
-Loading a LUT from the VCGT tag is not really color management. It's
-just calibration, like tuning the monitor brightness knob.
-
-Simon already pointed you to
-https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requests/14
-and Weston work is underway as well, but it may be quite some time
-before Weston could actually take advantage of a KMS 3D LUT. In Weston
-we consider hardware features like the 3D LUT as optional optimisations
-that can be used if the circumstances are right. This means that we
-want the "software path", that is, GL shaders, to work first. Shaders
-we can run and test everywhere, but the 3D LUT is not always available
-and requires a writeback connector to test in an automated test suite..
-
-As a summary, I could say that X.org does not do color management. Period.
-X.org does allow loading "the LUT" (VCGT), but it does nothing with
-color profiles. Applying color profiles is left for each X11 app to do
-on their own to their own pixels. If X11 protocol extensions do not
-already support setting a 3D LUT, then you have to add that to the
-protocol.
-
-Wayland is being designed differently: the display server is
-responsible for color management, unless Wayland applications
-explicitly ask to do it themselves. Wayland protocol is intended to
-not allow free-to-all access to hardware LUTs like X11 does.
-
-Therefore, I would say that while adding X11 protocol to set a 3D LUT
-in hardware does mechanically exercise the UAPI, it does not in my
-opinion prove anything about the usability of the UAPI, because it
-lacks an actual use case. You would need something to meaningfully and
-purposefully to set the 3D LUT to some particular values to reach some
-specific effect or goal for a real world use case. This may be an
-unpopular opinion, but IMO X11 RandR is little more than a library ABI
-exposing KMS UAPI as is, similar to libdrm: an interface, not a full
-application alone.
-
-CrOS and Kodi mentioned by danvet sound like much better proving
-vehicles than X.org, Weston I'm afraid might be quite some months away
-still.
+platform        | arch | lab           | compiler | defconfig          | re=
+gressions
+----------------+------+---------------+----------+--------------------+---=
+---------
+bcm2836-rpi-2-b | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | 1 =
+         =
 
 
-A consideration from KMS UAPI point of view: for the 3D LUT to be
-usable for Wayland compositors, setting the 3D LUT must be either
-glitch-free, or if it can cause a hickup, glitch, stall, or anything
-else not observed during a normal pageflip, it must require
-ALLOW_MODESET.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2021-01-11-v5.11-rc3/plan/ltp-ipc/
 
-If setting any KMS property is possible without ALLOW_MODESET but it
-may cause a visible glitch, pageflip timings included, then that KMS
-property is much less useful to a Wayland display server as it can only
-be used as if it always required ALLOW_MODESET, even with drivers where
-it is glitch-free.
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2021-01-11-v5.11-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      c3703437e37f2e38e831c893dda362271f836100
+
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  b7ca00a6faa75fee42cb63d40f709cbfe65ec378 =
 
 
-Thanks,
-pq
 
---Sig_/YTIKGpk2iLi69YChR+ELP9e
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Test Regressions
+---------------- =
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/9jRMACgkQI1/ltBGq
-qqfUPRAAmZLOyByACirPhYAtpQYbx3v5CZdlNEf9MJn4bj4gTvTHi72FZRPBgRH3
-oqqeAIdX00mo9pvs/Z9etC7A1OJDD/kmYt0pFqThwZ+FE/Qd5zmVGkt/uKsIGVN9
-Qn7UdOl0n3DdOFTAjt36FB2vuJ1vOB8RDdEqcgknO9a5ezms9jpxLCuOwqqTaptW
-TnN0LFR7KlulSNDNjsBx5IZ5rI+ey4AzZ+QCkZsalb1m4CVqPsJF0JAx/MFJZyO+
-0sQeVUHptpdhR7ntgepOdagqLsVRbk9rv3MImdNTlUlhaEhO4Lqxkno+saPOtdG9
-TD2giG7aDmQ0x97PL4bFIc9NRMi4gqBwAeXQ6tNK1QXU2SLflIUyey2XYDLHsYnv
-YKFWvUoozUqB6zOs8D5/xLQ2kPfePywQTosgtmQMTnMcrNKqEZHVDhMjLdPSAFMV
-7OHxkmCyEdgNvTBaMiACyS7XQyeXgiZt5YVyiuSnG7xPYEX0GnGEKouRMjiqQlIA
-tM5orFzbdC2UCpTEX4Aa+sE0P0aRNXEgkEBYeZ+z2wA4TPEUghKBlVQXfQw9DrAQ
-7s9vw2rOYUespNx9k9Q7h9l1FI44rYwgYYyKMVkoS3PlPgOIP1f/bHs2nUoGK9Op
-6hMKhfytDHJjs33dRCH3My1lJF13px+TNKdJ9uM3oMIsddTXKuc=
-=7fOl
------END PGP SIGNATURE-----
 
---Sig_/YTIKGpk2iLi69YChR+ELP9e--
+platform        | arch | lab           | compiler | defconfig          | re=
+gressions
+----------------+------+---------------+----------+--------------------+---=
+---------
+bcm2836-rpi-2-b | arm  | lab-collabora | gcc-8    | multi_v7_defconfig | 1 =
+         =
+
+
+  Details:     https://kernelci.org/test/plan/id/5ffd93d0ae994c87f1c94dea
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-8 (arm-linux-gnueabihf-gcc (Debian 8.3.0-2) 8.3.0)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-11-v5.11-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-bcm2=
+836-rpi-2-b.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+021-01-11-v5.11-rc3/arm/multi_v7_defconfig/gcc-8/lab-collabora/ltp-ipc-bcm2=
+836-rpi-2-b.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/buster-ltp/=
+20201221.0/armhf/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/5ffd93d0ae994c87f1c94d=
+eb
+        failing since 7 days (last pass: renesas-devel-2020-12-21-v5.10, fi=
+rst fail: renesas-devel-2021-01-04-v5.11-rc2) =
+
+ =20
