@@ -2,244 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 478F82F2A83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 10:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB4062F2ACC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 10:09:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405771AbhALJBz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 04:01:55 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:18782 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2405767AbhALJBz (ORCPT
+        id S2389557AbhALJIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 04:08:35 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:33117 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389634AbhALJIe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 04:01:55 -0500
-X-IronPort-AV: E=Sophos;i="5.79,340,1602514800"; 
-   d="scan'208";a="68514083"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 12 Jan 2021 18:01:19 +0900
-Received: from localhost.localdomain (unknown [10.166.252.89])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 99B6B40062D6;
-        Tue, 12 Jan 2021 18:01:19 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     marek.vasut+renesas@gmail.com, lee.jones@linaro.org,
-        matti.vaittinen@fi.rohmeurope.com, lgirdwood@gmail.com,
-        broonie@kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com
-Cc:     khiem.nguyen.xt@renesas.com, linux-power@fi.rohmeurope.com,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v9 12/12] mfd: bd9571mwv: Add support for BD9574MWF
-Date:   Tue, 12 Jan 2021 18:01:07 +0900
-Message-Id: <1610442067-7446-13-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610442067-7446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1610442067-7446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 12 Jan 2021 04:08:34 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BD52520016;
+        Tue, 12 Jan 2021 09:07:48 +0000 (UTC)
+Date:   Tue, 12 Jan 2021 10:08:05 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v6 5/5] media: i2c: max9286: Configure reverse channel
+ amplitude
+Message-ID: <20210112090805.myglp2lpozo3blq5@uno.localdomain>
+References: <20201215170957.92761-1-jacopo+renesas@jmondi.org>
+ <20201215170957.92761-6-jacopo+renesas@jmondi.org>
+ <X9pCSfxE722rnPHE@pendragon.ideasonboard.com>
+ <20210111104311.e6nyxhzhvlyjjxxw@uno.localdomain>
+ <X/wvc26LXz2VsCkp@pendragon.ideasonboard.com>
+ <20210111112023.brrhxgfedo5fer53@uno.localdomain>
+ <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <X/0triYZZJiXaf07@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+Hi Laurent,
 
-The new PMIC BD9574MWF inherits features from BD9571MWV.
-Add the support of new PMIC to existing bd9571mwv driver.
+On Tue, Jan 12, 2021 at 07:03:42AM +0200, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Mon, Jan 11, 2021 at 12:20:23PM +0100, Jacopo Mondi wrote:
+> > On Mon, Jan 11, 2021 at 12:58:59PM +0200, Laurent Pinchart wrote:
+> > > On Mon, Jan 11, 2021 at 11:43:11AM +0100, Jacopo Mondi wrote:
+> > >> On Wed, Dec 16, 2020 at 07:22:17PM +0200, Laurent Pinchart wrote:
+> > >>> On Tue, Dec 15, 2020 at 06:09:57PM +0100, Jacopo Mondi wrote:
+> > >>>> Adjust the initial reverse channel amplitude parsing from
+> > >>>> firmware interface the 'maxim,reverse-channel-microvolt'
+> > >>>> property.
+> > >>>>
+> > >>>> This change is required for both rdacm20 and rdacm21 camera
+> > >>>> modules to be correctly probed when used in combination with
+> > >>>> the max9286 deserializer.
+> > >>>>
+> > >>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > >>>> ---
+> > >>>>  drivers/media/i2c/max9286.c | 23 ++++++++++++++++++++++-
+> > >>>>  1 file changed, 22 insertions(+), 1 deletion(-)
+> > >>>>
+> > >>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> > >>>> index 021309c6dd6f..9b40a4890c4d 100644
+> > >>>> --- a/drivers/media/i2c/max9286.c
+> > >>>> +++ b/drivers/media/i2c/max9286.c
+> > >>>> @@ -163,6 +163,8 @@ struct max9286_priv {
+> > >>>>  	unsigned int mux_channel;
+> > >>>>  	bool mux_open;
+> > >>>>
+> > >>>> +	u32 reverse_channel_mv;
+> > >>>> +
+> > >>>>  	struct v4l2_ctrl_handler ctrls;
+> > >>>>  	struct v4l2_ctrl *pixelrate;
+> > >>>>
+> > >>>> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
+> > >>>>  	 * All enabled sources have probed and enabled their reverse control
+> > >>>>  	 * channels:
+> > >>>>  	 *
+> > >>>> +	 * - Increase the reverse channel amplitude to compensate for the
+> > >>>> +	 *   remote ends high threshold, if not done already
+> > >>>>  	 * - Verify all configuration links are properly detected
+> > >>>>  	 * - Disable auto-ack as communication on the control channel are now
+> > >>>>  	 *   stable.
+> > >>>>  	 */
+> > >>>> +	if (priv->reverse_channel_mv < 170)
+> > >>>> +		max9286_reverse_channel_setup(priv, 170);
+> > >>>
+> > >>> I'm beginning to wonder if there will be a need in the future to not
+> > >>> increase the reverse channel amplitude (keeping the threshold low on the
+> > >>> remote side). An increased amplitude increases power consumption, and if
+> > >>> the environment isn't noisy, a low amplitude would work. The device tree
+> > >>> would then need to specify both the initial amplitude required by the
+> > >>> remote side, and the desired amplitude after initialization. What do you
+> > >>> think ? Is it overkill ? We don't have to implement this now, so
+> > >>>
+> > >>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >>>
+> > >>> but if this feature could be required later, we may want to take into
+> > >>> account in the naming of the new DT property to reflect the fact that it
+> > >>> is the initial value.
+> > >>
+> > >> I had the same thought when I initially proposed
+> > >> "maxim,initial-reverse-channel-mV"
+> > >>
+> > >> Having to use the standard unit suffix that would have become
+> > >> "maxim,initial-reverse-channel-microvolt"
+> > >> which is extremely long.
+> > >>
+> > >> I can't tell if there will be any need to adjust the amplitude later.
+> > >> In any case, I would not rely on a DTS property to do so, as once we
+> > >> have probed the remote we have a subdev where to call
+> > >> 'get_mbus_config()' on, and from there we can report the high threshold
+> > >> status of the serializer and adjust the deser amplitude accordingly.
+> > >
+> > > I don't think that's the point. The threshold of the serializer is
+> > > something we can configure at runtime. What voltage level to use after
+> >
+> > How so ? I mean, we can add an API for this, but currently it's
+> > configured at probe time and that's it. Its configuration might as
+> > well come from a DT property like we do on the deserializer here but I
+> > fail to see why it's different. Both settings depends on the required
+> > noise immunity of th system.
+>
+> The voltage level configuration need to match between the tserializer
+> (transmitter) and the deserializer (receiver). The serializer is
+> configured with a voltage level, and the deserializer needs to be
+> configured with a corresponding threshold.
+>
 
-Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
-Co-developed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/mfd/bd9571mwv.c       | 76 ++++++++++++++++++++++++++++++++++++++++++-
- include/linux/mfd/bd9571mwv.h | 17 ++++++++--
- 2 files changed, 89 insertions(+), 4 deletions(-)
+If I'm not mistaken it's actually the other way around, at least for
+the chips we're dealing with.
 
-diff --git a/drivers/mfd/bd9571mwv.c b/drivers/mfd/bd9571mwv.c
-index 2c1fcbb..e15b1ac 100644
---- a/drivers/mfd/bd9571mwv.c
-+++ b/drivers/mfd/bd9571mwv.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * ROHM BD9571MWV-M MFD driver
-+ * ROHM BD9571MWV-M and BD9574MVF-M core driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -11,6 +11,7 @@
- #include <linux/i2c.h>
- #include <linux/interrupt.h>
- #include <linux/mfd/core.h>
-+#include <linux/mfd/rohm-generic.h>
- #include <linux/module.h>
- 
- #include <linux/mfd/bd9571mwv.h>
-@@ -103,6 +104,72 @@ static struct regmap_irq_chip bd9571mwv_irq_chip = {
- 	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
- };
- 
-+static const struct mfd_cell bd9574mwf_cells[] = {
-+	{ .name = "bd9574mwf-regulator", },
-+	{ .name = "bd9574mwf-gpio", },
-+};
-+
-+static const struct regmap_range bd9574mwf_readable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_VENDOR_CODE, BD9571MWV_PRODUCT_REVISION),
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_VINIT, BD9571MWV_DVFS_SETVMAX),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_readable_table = {
-+	.yes_ranges	= bd9574mwf_readable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_readable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_writable_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_BKUP_MODE_CNT, BD9571MWV_BKUP_MODE_CNT),
-+	regmap_reg_range(BD9571MWV_DVFS_SETVID, BD9571MWV_DVFS_SETVID),
-+	regmap_reg_range(BD9571MWV_GPIO_DIR, BD9571MWV_GPIO_OUT),
-+	regmap_reg_range(BD9571MWV_GPIO_INT_SET, BD9571MWV_GPIO_INTMASK),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTMASK),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_writable_table = {
-+	.yes_ranges	= bd9574mwf_writable_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_writable_yes_ranges),
-+};
-+
-+static const struct regmap_range bd9574mwf_volatile_yes_ranges[] = {
-+	regmap_reg_range(BD9571MWV_DVFS_MONIVDAC, BD9571MWV_DVFS_MONIVDAC),
-+	regmap_reg_range(BD9571MWV_GPIO_IN, BD9571MWV_GPIO_IN),
-+	regmap_reg_range(BD9571MWV_GPIO_INT, BD9571MWV_GPIO_INT),
-+	regmap_reg_range(BD9571MWV_INT_INTREQ, BD9571MWV_INT_INTREQ),
-+};
-+
-+static const struct regmap_access_table bd9574mwf_volatile_table = {
-+	.yes_ranges	= bd9574mwf_volatile_yes_ranges,
-+	.n_yes_ranges	= ARRAY_SIZE(bd9574mwf_volatile_yes_ranges),
-+};
-+
-+static const struct regmap_config bd9574mwf_regmap_config = {
-+	.reg_bits	= 8,
-+	.val_bits	= 8,
-+	.cache_type	= REGCACHE_RBTREE,
-+	.rd_table	= &bd9574mwf_readable_table,
-+	.wr_table	= &bd9574mwf_writable_table,
-+	.volatile_table	= &bd9574mwf_volatile_table,
-+	.max_register	= 0xff,
-+};
-+
-+static struct regmap_irq_chip bd9574mwf_irq_chip = {
-+	.name		= "bd9574mwf",
-+	.status_base	= BD9571MWV_INT_INTREQ,
-+	.mask_base	= BD9571MWV_INT_INTMASK,
-+	.ack_base	= BD9571MWV_INT_INTREQ,
-+	.init_ack_masked = true,
-+	.num_regs	= 1,
-+	.irqs		= bd9571mwv_irqs,
-+	.num_irqs	= ARRAY_SIZE(bd9571mwv_irqs),
-+};
-+
- static int bd957x_identify(struct device *dev, struct regmap *regmap)
- {
- 	unsigned int value;
-@@ -162,6 +229,12 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 		cells = bd9571mwv_cells;
- 		num_cells = ARRAY_SIZE(bd9571mwv_cells);
- 		break;
-+	case BD9571MWV_PRODUCT_CODE_BD9574MWF:
-+		regmap_config = &bd9574mwf_regmap_config;
-+		irq_chip = &bd9574mwf_irq_chip;
-+		cells = bd9574mwf_cells;
-+		num_cells = ARRAY_SIZE(bd9574mwf_cells);
-+		break;
- 	default:
- 		dev_err(dev, "Unsupported device 0x%x\n", ret);
- 		return -ENODEV;
-@@ -190,6 +263,7 @@ static int bd9571mwv_probe(struct i2c_client *client,
- 
- static const struct of_device_id bd9571mwv_of_match_table[] = {
- 	{ .compatible = "rohm,bd9571mwv", },
-+	{ .compatible = "rohm,bd9574mwf", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, bd9571mwv_of_match_table);
-diff --git a/include/linux/mfd/bd9571mwv.h b/include/linux/mfd/bd9571mwv.h
-index e1716ec..8efd99d 100644
---- a/include/linux/mfd/bd9571mwv.h
-+++ b/include/linux/mfd/bd9571mwv.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- * ROHM BD9571MWV-M driver
-+ * ROHM BD9571MWV-M and BD9574MWF-M driver
-  *
-  * Copyright (C) 2017 Marek Vasut <marek.vasut+renesas@gmail.com>
-  * Copyright (C) 2020 Renesas Electronics Corporation
-@@ -14,11 +14,12 @@
- #include <linux/device.h>
- #include <linux/regmap.h>
- 
--/* List of registers for BD9571MWV */
-+/* List of registers for BD9571MWV and BD9574MWF */
- #define BD9571MWV_VENDOR_CODE			0x00
- #define BD9571MWV_VENDOR_CODE_VAL		0xdb
- #define BD9571MWV_PRODUCT_CODE			0x01
- #define BD9571MWV_PRODUCT_CODE_BD9571MWV	0x60
-+#define BD9571MWV_PRODUCT_CODE_BD9574MWF	0x74
- #define BD9571MWV_PRODUCT_REVISION		0x02
- 
- #define BD9571MWV_I2C_FUSA_MODE			0x10
-@@ -48,6 +49,7 @@
- #define BD9571MWV_VD33_VID			0x44
- 
- #define BD9571MWV_DVFS_VINIT			0x50
-+#define BD9574MWF_VD09_VINIT			0x51
- #define BD9571MWV_DVFS_SETVMAX			0x52
- #define BD9571MWV_DVFS_BOOSTVID			0x53
- #define BD9571MWV_DVFS_SETVID			0x54
-@@ -61,6 +63,7 @@
- #define BD9571MWV_GPIO_INT_SET			0x64
- #define BD9571MWV_GPIO_INT			0x65
- #define BD9571MWV_GPIO_INTMASK			0x66
-+#define BD9574MWF_GPIO_MUX			0x67
- 
- #define BD9571MWV_REG_KEEP(n)			(0x70 + (n))
- 
-@@ -70,6 +73,8 @@
- #define BD9571MWV_PROT_ERROR_STATUS2		0x83
- #define BD9571MWV_PROT_ERROR_STATUS3		0x84
- #define BD9571MWV_PROT_ERROR_STATUS4		0x85
-+#define BD9574MWF_PROT_ERROR_STATUS5		0x86
-+#define BD9574MWF_SYSTEM_ERROR_STATUS		0x87
- 
- #define BD9571MWV_INT_INTREQ			0x90
- #define BD9571MWV_INT_INTREQ_MD1_INT		BIT(0)
-@@ -82,6 +87,12 @@
- #define BD9571MWV_INT_INTREQ_BKUP_TRG_INT	BIT(7)
- #define BD9571MWV_INT_INTMASK			0x91
- 
-+#define BD9574MWF_SSCG_CNT			0xA0
-+#define BD9574MWF_POFFB_MRB			0xA1
-+#define BD9574MWF_SMRB_WR_PROT			0xA2
-+#define BD9574MWF_SMRB_ASSERT			0xA3
-+#define BD9574MWF_SMRB_STATUS			0xA4
-+
- #define BD9571MWV_ACCESS_KEY			0xff
- 
- /* Define the BD9571MWV IRQ numbers */
-@@ -91,7 +102,7 @@ enum bd9571mwv_irqs {
- 	BD9571MWV_IRQ_MD2_E2,
- 	BD9571MWV_IRQ_PROT_ERR,
- 	BD9571MWV_IRQ_GP,
--	BD9571MWV_IRQ_128H_OF,
-+	BD9571MWV_IRQ_128H_OF,	/* BKUP_HOLD on BD9574MWF */
- 	BD9571MWV_IRQ_WDT_OF,
- 	BD9571MWV_IRQ_BKUP_TRG,
- };
--- 
-2.7.4
+The serializer (MAX9271) has an "Reverse Channel Receiver High
+Threshold Enable" bit (register 0x08[0]) undocumented in the chip
+manual but described in the "MAX9286 Programming Guide 2 10.pdf"
+document in the "Important Registers" section.
 
+The deserializer (MAX9286) has instead a configurable setting for the reverse
+channel signal amplitude, which is what we are controlling in this
+series.
+
+The deserializer reverse channel amplitude has to match the remote
+side 'high threshold enable' setting. If it is enabled the amplitude
+has to be increased to be able to probe the remote side. If it's not
+a lower amplitude has to be used to make comunication reliable.
+
+As you said, some models (RDACM20) might be pre-programmed with the
+'high threshold enable' bit set, and so the deserializer reverse
+channel amplitude has to be adjusted accordingly to be able to
+comunicate on the reverse channel.
+
+> The voltage level of the serializer is configurable on the camera side
+> when the system is powered up. The RDACM20 has a microcontroller which
+> can configure the serializer, and other cameras may have similar
+> mechanisms. As the deserializer can't query the information from the
+> serializer (communication is unreliable if the threshold has an
+> incorrect value), we need a DT property to tell the deserializer what
+> threshold is initially used by the camera when it gets powered up.
+>
+
+That's what this series does, yes.
+
+> This only covers initialization. A camera could boot up with a low
+> voltage level, but we may want to increase the voltage level (and thus
+> the threshold on the deserializer side) to increase noise immunity. Or,
+> if the system environment isn't noisy, we may want to keep a low voltage
+> level, or even decrease it if the camera boots up with a high voltage
+> level. This runtime voltage level depends on the system design and its
+> susceptibility to noise, and is thus a system property. Should we want
+> to make it configurable, it should be specified in DT, and it's separate
+> from the initial voltage level that is used to establish communication.
+>
+
+And that's what I meant. Assuming we handle initialization correctly
+with this series, the serializers 'high threshold' configuration
+-after- initialization can be specified with a DT property on the
+-serializer- side. Then, to adjust the deserializer reverse channel
+amplitude, once we the remote has probed and we have a subdevice
+registered for it, we can query the 'high threshold' configuration
+using get_mbus_config() (or another API if we think it's better) and
+adjust the deserializer accordingly.
+
+All in all:
+- yes, I think there might be a need to control the noise immunity
+  settings after initialization
+- I think it should be done on the serializer side, possibly with a DT
+  property, possibly something like a boolean 'maxim,high-threshold-enable'
+- the deserializer can query that information with a kAPI like
+  get_mbus_config() after the remote has probed
+- Because of that there is no need for an additional deserializer property
+
+Hope this makes sense
