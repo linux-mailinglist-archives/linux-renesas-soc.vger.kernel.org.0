@@ -2,79 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A83632F360B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 17:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 518572F367C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 18:05:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404403AbhALQog (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 11:44:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38684 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728901AbhALQog (ORCPT
+        id S2391730AbhALRCz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 12:02:55 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:27664 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391729AbhALRCz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 11:44:36 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D39223107;
-        Tue, 12 Jan 2021 16:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610469836;
-        bh=g4E+bclw7/LIvnoXNckYeAd/7C3OTd2i42XOkzm/MVY=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=iHs07gX/5trwO15bYCQc1FYHvfza0jIyYDTz+nivAmXoEEfsyJGm00YW9QID6Rn7/
-         ic1zxpx9Txg8qjN/1Rz+rEKO4pCyhrZStQR9/THYbi/6aBLYFBKycRrt6s1jfTq8yV
-         OP2eJS9yUYkaOtRv3qlTp5aFEAv4ReGkz5T0Tne3AiYykWon1bNP/jMUZFnEcKj8yK
-         DNa/yaJBcfdsJQUagvAnpqDC+KV08LYqdlXBYRn/ZB/0tp783Mkp7O6Ecot35/bSrf
-         Bkv4Am3JXCCnV6SWJMrtIGV5LbXSNBz+N1XttBki7YlDJxEZSD9+b4TMB8WUR0VJ8U
-         6vdBRl7jz5gQg==
-From:   Mark Brown <broonie@kernel.org>
-To:     Pavel Machek <pavel@denx.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     linux-spi@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-In-Reply-To: <20210107145329.27966-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20210107145329.27966-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] spi: rpc-if: Gaurd .pm assignment with CONFIG_PM_SLEEP #ifdef check
-Message-Id: <161046980299.975.8508169983614840511.b4-ty@kernel.org>
-Date:   Tue, 12 Jan 2021 16:43:22 +0000
+        Tue, 12 Jan 2021 12:02:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610470744;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:From:
+        Subject:Sender;
+        bh=m14IsCtAslBc9rv+b0TjI56mJvkvnWhVfFXBLhQziVc=;
+        b=VAhQ6JytjMbdbfQm0CMJQHgn+z3Af/eopprHEVfXFRm511TZ6JhY80aZZQnI0JXjgu
+        JyfGxQCuukqMNvs2Bn5Wd2teJMRkocAAR5HYxPmr9iIqDGPyCB8zwDC1MponTlb0kHIa
+        Xn+K2sHGn6rJvHtuY/5YGGWuG11/FN2vPrOHVUUZl2hpIlEH8zqMyBWZ+/Q3xtvwUNZM
+        oO9Nq5ipZrGT9L31tahjz8QXcXWdFGF6STLCYjIkAlzIj/wyhYf6V7z70jl71i6TpGWI
+        DLZsJo7Uh0/igx9qBFv9lFKQFltCqEdUAmb+QsO5zSz9nobblEwWglmTkUJuI6REwSzC
+        Sapw==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fGl/wuMlg=="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp01-01.back.ox.d0m.de
+        by smtp-ox.front (RZmta 47.12.1 AUTH)
+        with ESMTPSA id z08ea3x0CGwwNTy
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 12 Jan 2021 17:58:58 +0100 (CET)
+Date:   Tue, 12 Jan 2021 17:58:58 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>, hoai.luu.ub@renesas.com
+Message-ID: <466563365.401585.1610470738787@webmail.strato.com>
+In-Reply-To: <CAMuHMdWVC-E-=r2yGDNpXRbothAML6jvMozm9k=4PgDrDrcFqg@mail.gmail.com>
+References: <20201221165448.27312-1-uli+renesas@fpond.eu>
+ <20201221165448.27312-5-uli+renesas@fpond.eu>
+ <CAMuHMdWVC-E-=r2yGDNpXRbothAML6jvMozm9k=4PgDrDrcFqg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] pinctrl: renesas: Initial R8A779A0 (V3U) PFC
+ support
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.3-Rev29
+X-Originating-Client: open-xchange-appsuite
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 7 Jan 2021 14:53:29 +0000, Lad Prabhakar wrote:
-> With CONFIG_PM_SLEEP disabled the rpcif_spi_pm_ops variable is still
-> referenced and thus increasing the size of kernel.
+
+> On 12/22/2020 12:42 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > --- /dev/null
+> > +++ b/drivers/pinctrl/renesas/pfc-r8a779a0.c
+> > @@ -0,0 +1,2527 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * R8A779A0 processor support - PFC hardware block.
+> > + *
+> > + * Copyright (C) 2020 Renesas Electronics Corp.
+> > + *
+> > + * This file is based on the drivers/pinctrl/renesas/pfc-r8a7795.c
 > 
-> Fix this issue by adding CONFIG_PM_SLEEP #ifdef check around the .pm
-> assignment (image size is critical on RZ/A SoC's where the SRAM sizes
-> range 4~5 MiB).
+> based on drivers/pinctrl/renesas/pfc-r8a77951.c?
 
-Applied to
+I'm inclined to leave that as it is because that's what the file was called when the original patch was created.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[1/1] spi: rpc-if: Gaurd .pm assignment with CONFIG_PM_SLEEP #ifdef check
-      commit: bfeccc6a18de52529ada66ea3afe934004b4b36e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+CU
+Uli
