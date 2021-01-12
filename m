@@ -2,87 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FF132F2D4E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 12:00:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A48922F2E38
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Jan 2021 12:44:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbhALK7X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 12 Jan 2021 05:59:23 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43652 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728408AbhALK7X (ORCPT
+        id S1730322AbhALLnU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 12 Jan 2021 06:43:20 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:33617 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730081AbhALLnU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 12 Jan 2021 05:59:23 -0500
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A64FB3E;
-        Tue, 12 Jan 2021 11:58:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1610449121;
-        bh=CCfbuA+r2tIMrlA1E/LBA6v26EJY+NUVPeqpdub5tew=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=mavKWEhJ2IgFbc6cgxi6IW7rJdGPqpQzSOn8vvw+f3sJ5UB4qe7vTGdz4ucMBoRac
-         2yZ0kIwHBe9pbWk5PflCHkxeqDvPC2o3iyxwuw7lAppW8avA5jx4Mgo7mYph4ifocM
-         3Xtzz5jV4u1tQ1o7pF5Jixy51hIk5rpL0+ucbxxU=
-Subject: Re: [PATCH 4/9] media: fdp1: Do not zero reserved fields
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20210111145445.28854-1-ribalda@chromium.org>
- <20210111145445.28854-5-ribalda@chromium.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <c0f4e1ad-ffb9-5d0c-dfed-4c0772b2097b@ideasonboard.com>
-Date:   Tue, 12 Jan 2021 10:58:38 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 12 Jan 2021 06:43:20 -0500
+Received: by mail-oi1-f169.google.com with SMTP id d203so2040613oia.0;
+        Tue, 12 Jan 2021 03:43:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gvSXzvnGVXDaviH1zuRAMAGJuMaNfjyn5ekNZGjpQ50=;
+        b=tUl+664ChepvxMaoy81l8P/DDMc8C6lg081orKo75qi9pToDOZXopVfPtIOw9ug5lJ
+         2DYSN9+3whqA9WSCIBefP4I8CfZx18l4T9HU/RjOrq0kxBv2yN8TMcJBrw7l+n8tiBBU
+         PT1RbagQUkSxYagicKlnqk9Im6/T3eSa2xiX3s5R/RGAMhj6hyzW6HOKap+f8F5trFOS
+         tUmjVOSZ0nxOeeVs271XJNxLOpb1k1EjdQ4UIQQA5sqjY91z7W3SU6OPRgK93x/gmgFI
+         xvKoftIT3hcOSP66w/gaTHSTuhxjP+zPcYDyDVSbl72vm2MTbZqRgNfhpIfeT9Y3DFO9
+         4AsQ==
+X-Gm-Message-State: AOAM531YoivvXOeg/CIn8NBh8O+BnDAen2TmxoQNeez+w90izg40uxi3
+        AVem5Ua11qW/7W7YpFiQrymeQXScgsKepJcMKIA=
+X-Google-Smtp-Source: ABdhPJzGBEZ0VKoVq2/frzInDE9dRaRt+nGC6OvXRLt05DwD5bHCz9xBQJCBK9c/MB63RSKJoCPjhtWJVNIWpP/+Trw=
+X-Received: by 2002:aca:3cc5:: with SMTP id j188mr2054826oia.54.1610451759483;
+ Tue, 12 Jan 2021 03:42:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210111145445.28854-5-ribalda@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20201228112715.14947-1-wsa+renesas@sang-engineering.com>
+ <20201228112715.14947-3-wsa+renesas@sang-engineering.com> <CAMuHMdVzQVBvsUhpZF5A9qoijA=thVPq4tBiRnAVyFrX2aD+5w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVzQVBvsUhpZF5A9qoijA=thVPq4tBiRnAVyFrX2aD+5w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 12 Jan 2021 12:42:28 +0100
+Message-ID: <CAMuHMdUg44u_Tpg-4sVwTkOXVWQWBWrm08Vg__=u8-xBFnK9-g@mail.gmail.com>
+Subject: Re: [PATCH 2/6] arm64: dts: renesas: falcon: add SCIF0 nodes
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ricardo,
+Hi Wolfram,
 
-On 11/01/2021 14:54, Ricardo Ribalda wrote:
-> Core code already clears reserved fields of struct
-> v4l2_pix_format_mplane, check: 4e1e0eb0e074 ("media: v4l2-ioctl: Zero
-> v4l2_plane_pix_format reserved fields").
-> 
-> Cc: linux-renesas-soc@vger.kernel.org
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+On Tue, Jan 5, 2021 at 7:12 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Mon, Dec 28, 2020 at 12:27 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+> > SCIF0 has been enabled by the firmware, so it worked already. Still, add
+> > the proper nodes to make it work in any case.
+> >
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I love a good cleanup series.
+Upon second look, this should be added to r8a779a0-falcon-cpu.dtsi,
+which already extends the scif0 node.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Gr{oetje,eeting}s,
 
-> ---
->  drivers/media/platform/rcar_fdp1.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-> index c9448de885b6..01c1fbb97bf6 100644
-> --- a/drivers/media/platform/rcar_fdp1.c
-> +++ b/drivers/media/platform/rcar_fdp1.c
-> @@ -1439,8 +1439,6 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
->  		pix->plane_fmt[i].sizeimage = pix->plane_fmt[i].bytesperline
->  					    * pix->height / vsub;
->  
-> -		memset(pix->plane_fmt[i].reserved, 0,
-> -		       sizeof(pix->plane_fmt[i].reserved));
->  	}
->  
->  	if (fmt->num_planes == 3) {
-> @@ -1448,8 +1446,6 @@ static void fdp1_compute_stride(struct v4l2_pix_format_mplane *pix,
->  		pix->plane_fmt[2].bytesperline = pix->plane_fmt[1].bytesperline;
->  		pix->plane_fmt[2].sizeimage = pix->plane_fmt[1].sizeimage;
->  
-> -		memset(pix->plane_fmt[2].reserved, 0,
-> -		       sizeof(pix->plane_fmt[2].reserved));
->  	}
->  }
->  
-> 
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
